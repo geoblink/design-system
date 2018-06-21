@@ -21,26 +21,8 @@ aliases:
   white:
     value: "#FFFFFF"
 
-
-
-  vermilion:
-    value: "#FF594F"
-  ucla_gold:
-    value: "43, 100%"
-  bleu_de_france:
-    value: "210, 86%"
-  oxford_blue:
-    value: "210, 100%"
-  rich_black:
-    value: "#001123"
 props:
 
-  color_blue_lighter:
-    value: "{!blue}"
-    category: color_group_1
-  color_blue_light:
-    value: "{!blue}"
-    category: color_group_1
   color_blue:
     value: "{!blue}"
     category: color_group_1
@@ -51,12 +33,6 @@ props:
     value: "brightness({!blue}, -40)"
     category: color_group_1
 
-  color_cyan_lighter:
-    value: "{!cyan}"
-    category: color_group_2
-  color_cyan_light:
-    value: "{!cyan}"
-    category: color_group_2
   color_cyan:
     value: "{!cyan}"
     category: color_group_2
@@ -67,12 +43,6 @@ props:
     value: "brightness({!cyan}, -40)"
     category: color_group_2
 
-  color_red_lighter:
-    value: "{!red}"
-    category: color_group_3
-  color_red_light:
-    value: "{!red}"
-    category: color_group_3
   color_red:
     value: "{!red}"
     category: color_group_3
@@ -83,12 +53,6 @@ props:
     value: "brightness({!red}, -40)"
     category: color_group_3
 
-  color_yellow_lighter:
-    value: "{!yellow}"
-    category: color_group_4
-  color_yellow_light:
-    value: "{!yellow}"
-    category: color_group_4
   color_yellow:
     value: "{!yellow}"
     category: color_group_4
@@ -99,12 +63,6 @@ props:
     value: "brightness({!yellow}, -40)"
     category: color_group_4
 
-  color_green_lighter:
-    value: "{!green}"
-    category: color_group_5
-  color_green_light:
-    value: "{!green}"
-    category: color_group_5
   color_green:
     value: "{!green}"
     category: color_group_5
@@ -115,53 +73,10 @@ props:
     value: "brightness({!green}, -40)"
     category: color_group_5
 
-  color_ucla_gold_darker:
-    value: "hsla({!ucla_gold}, 35%, 1)"
-    category: color_group_2
-  color_ucla_gold_dark:
-    value: "hsla({!ucla_gold}, 45%, 1)"
-    category: color_group_2
-  color_ucla_gold:
-    value: "hsla({!ucla_gold}, 52%, 1)"
-    category: color_group_2
-  color_ucla_gold_light:
-    value: "hsla({!ucla_gold}, 65%, 1)"
-    category: color_group_2
-  color_ucla_gold_lighter:
-    value: "hsla({!ucla_gold}, 75%, 1)"
-    category: color_group_2
-
-  color_bleu_de_france_darker:
-    value: "hsla({!bleu_de_france}, 34%, 1)"
-    category: color_group_3
-  color_bleu_de_france_dark:
-    value: "hsla({!bleu_de_france}, 44%, 1)"
-    category: color_group_3
-  color_bleu_de_france:
-    value: "hsla({!bleu_de_france}, 54%, 1)"
-    category: color_group_3
-  color_bleu_de_france_light:
-    value: "hsla({!bleu_de_france}, 64%, 1)"
-    category: color_group_3
-  color_bleu_de_france_lighter:
-    value: "hsla({!bleu_de_france}, 74%, 1)"
-    category: color_group_3
-
-  color_oxford_blue:
-    value: "hsla({!oxford_blue}, 15%, 1)"
-    category: color_group_4
-  color_rich_black:
-    value: "{!rich_black}"
-    category: color_group_4
   color_white:
     value: "{!white}"
     category: color_group_4
-  color_silver:
-    value: "#7F8891"
-    category: color_group_4
-  color_cloud:
-    value: "#E9F3FD"
-    category: color_group_4
+
 global:
   type: color
   category: color
