@@ -1,0 +1,11 @@
+#
+# EASING TOKENS
+# Use these tokens for animation ease functions.
+#
+
+props:
+  easing_base:
+    value: "ease-in-out"
+global:
+  type: easing
+  category: easing
