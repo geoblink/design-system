@@ -2,6 +2,7 @@
 const utils = require("./utils")
 const webpack = require("webpack")
 const path = require("path")
+const fs = require("fs")
 const config = require("../config")
 const merge = require("webpack-merge")
 const baseWebpackConfig = require("./webpack.base.conf")
@@ -16,6 +17,12 @@ const env = require("../config/prod.env")
 baseWebpackConfig.entry = {
   system: ["./src/system.js"],
 }
+
+const componentsSCSSRelativePathFromRoot = './src/styles/components'
+const componentsSCSS = fs
+  .readdirSync(path.resolve(__dirname, '..', componentsSCSSRelativePathFromRoot))
+  .filter(name => name.indexOf('.') !== 0)
+  .map(name => path.resolve(componentsSCSSRelativePathFromRoot, name))
 
 const webpackConfig = merge(baseWebpackConfig, {
   module: {
@@ -68,6 +75,7 @@ const webpackConfig = merge(baseWebpackConfig, {
           "./src/styles/_spacing.scss",
           "./src/styles/_mixins.scss",
           "./src/styles/_functions.scss",
+          ...componentsSCSS
         ],
       },
     }),
