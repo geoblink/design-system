@@ -1,0 +1,21 @@
+.element-demo {
+
+}
+
+.element-demo__header {
+  font-family: $font_family_heading;
+}
+
+.element-demo__block {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+}
+
+.element-demo__block > * {
+  margin-right: $space-base;
+
+  &:last-child {
+    margin-right: 0;
+  }
+}
