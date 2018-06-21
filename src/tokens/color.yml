@@ -8,8 +8,23 @@
 #
 
 aliases:
+  blue:
+    value: "#1464A5"
+  cyan:
+    value: "#6FA1D4"
+  red:
+    value: "#FF594F"
+  green:
+    value: "#3FAD4D"
+  yellow:
+    value: "#EFAE00"
+  white:
+    value: "#FFFFFF"
+
+
+
   vermilion:
-    value: "7, 83%"
+    value: "#FF594F"
   ucla_gold:
     value: "43, 100%"
   bleu_de_france:
@@ -18,24 +33,87 @@ aliases:
     value: "210, 100%"
   rich_black:
     value: "#001123"
-  white:
-    value: "#fff"
 props:
-  color_vermilion_darker:
-    value: "hsla({!vermilion}, 33%, 1)"
+
+  color_blue_lighter:
+    value: "{!blue}"
     category: color_group_1
-  color_vermilion_dark:
-    value: "hsla({!vermilion}, 43%, 1)"
+  color_blue_light:
+    value: "{!blue}"
     category: color_group_1
-  color_vermilion:
-    value: "hsla({!vermilion}, 53%, 1)"
+  color_blue:
+    value: "{!blue}"
     category: color_group_1
-  color_vermilion_light:
-    value: "hsla({!vermilion}, 63%, 1)"
+  color_blue_dark:
+    value: "brightness({!blue}, -10)"
     category: color_group_1
-  color_vermilion_lighter:
-    value: "hsla({!vermilion}, 75%, 1)"
+  color_blue_darker:
+    value: "brightness({!blue}, -40)"
     category: color_group_1
+
+  color_cyan_lighter:
+    value: "{!cyan}"
+    category: color_group_2
+  color_cyan_light:
+    value: "{!cyan}"
+    category: color_group_2
+  color_cyan:
+    value: "{!cyan}"
+    category: color_group_2
+  color_cyan_dark:
+    value: "brightness({!cyan}, -10)"
+    category: color_group_2
+  color_cyan_darker:
+    value: "brightness({!cyan}, -40)"
+    category: color_group_2
+
+  color_red_lighter:
+    value: "{!red}"
+    category: color_group_3
+  color_red_light:
+    value: "{!red}"
+    category: color_group_3
+  color_red:
+    value: "{!red}"
+    category: color_group_3
+  color_red_dark:
+    value: "brightness({!red}, -10)"
+    category: color_group_3
+  color_red_darker:
+    value: "brightness({!red}, -40)"
+    category: color_group_3
+
+  color_yellow_lighter:
+    value: "{!yellow}"
+    category: color_group_4
+  color_yellow_light:
+    value: "{!yellow}"
+    category: color_group_4
+  color_yellow:
+    value: "{!yellow}"
+    category: color_group_4
+  color_yellow_dark:
+    value: "brightness({!yellow}, -10)"
+    category: color_group_4
+  color_yellow_darker:
+    value: "brightness({!yellow}, -40)"
+    category: color_group_4
+
+  color_green_lighter:
+    value: "{!green}"
+    category: color_group_5
+  color_green_light:
+    value: "{!green}"
+    category: color_group_5
+  color_green:
+    value: "{!green}"
+    category: color_group_5
+  color_green_dark:
+    value: "brightness({!green}, -10)"
+    category: color_group_5
+  color_green_darker:
+    value: "brightness({!green}, -40)"
+    category: color_group_5
 
   color_ucla_gold_darker:
     value: "hsla({!ucla_gold}, 35%, 1)"

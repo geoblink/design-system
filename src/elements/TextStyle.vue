@@ -63,7 +63,7 @@ $positive-text: #7cb518;
     color: shade($positive-text, 20%);
   }
   &.negative {
-    color: $color-vermilion;
+    color: $color-red;
   }
 }
 </style>
