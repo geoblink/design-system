@@ -5,21 +5,21 @@
 
 export default {
   methods: {
-    clearActiveLinks() {
-      const activeLinks = document.querySelectorAll(".vueds-active")
-      activeLinks.forEach(function(element) {
-        element.classList.remove("vueds-active")
+    clearActiveLinks () {
+      const activeLinks = document.querySelectorAll('.vueds-active')
+      activeLinks.forEach(function (element) {
+        element.classList.remove('vueds-active')
       })
-    },
+    }
   },
-  mounted() {
-    let currentURL = ""
+  mounted () {
+    let currentURL = ''
     const sidebar = document.querySelector("div[class^='rsg--sidebar']")
 
-    if (process && process.env && process.env.NODE_ENV === "test") {
-      currentURL = "/example/"
+    if (process && process.env && process.env.NODE_ENV === 'test') {
+      currentURL = '/example/'
     } else {
-      currentURL = window.location.pathname + window.location.hash.split("?")[0].replace("%20", " ")
+      currentURL = window.location.pathname + window.location.hash.split('?')[0].replace('%20', ' ')
     }
 
     if (sidebar) {
@@ -30,30 +30,30 @@ export default {
       const self = this
 
       if (currentURL && currentPage) {
-        currentPage.parentNode.classList.add("vueds-active")
+        currentPage.parentNode.classList.add('vueds-active')
       }
 
-      if (search && !search.classList.contains("set")) {
-        search.setAttribute("placeholder", "Type to filter")
+      if (search && !search.classList.contains('set')) {
+        search.setAttribute('placeholder', 'Type to filter')
       }
 
       if (navLinks) {
-        navLinks.forEach(function(element) {
-          element.addEventListener("click", function() {
+        navLinks.forEach(function (element) {
+          element.addEventListener('click', function () {
             self.clearActiveLinks()
-            this.parentNode.classList.add("vueds-active")
+            this.parentNode.classList.add('vueds-active')
           })
         })
       }
 
       if (subNavLinks) {
-        subNavLinks.forEach(function(element) {
-          element.addEventListener("click", function() {
+        subNavLinks.forEach(function (element) {
+          element.addEventListener('click', function () {
             self.clearActiveLinks()
-            this.parentNode.parentNode.parentNode.classList.add("vueds-active")
+            this.parentNode.parentNode.parentNode.classList.add('vueds-active')
           })
         })
       }
     }
-  },
+  }
 }
