@@ -18,11 +18,11 @@ baseWebpackConfig.entry = {
   system: ['./src/system.js']
 }
 
-const componentsSCSSRelativePathFromRoot = './src/styles/components'
-const componentsSCSS = fs
-  .readdirSync(path.resolve(__dirname, '..', componentsSCSSRelativePathFromRoot))
+const elementsSCSSRelativePathFromRoot = './src/styles/elements'
+const elementsSCSS = fs
+  .readdirSync(path.resolve(__dirname, '..', elementsSCSSRelativePathFromRoot))
   .filter(name => name.indexOf('.') !== 0)
-  .map(name => path.resolve(componentsSCSSRelativePathFromRoot, name))
+  .map(name => path.resolve(elementsSCSSRelativePathFromRoot, name))
 
 const webpackConfig = merge(baseWebpackConfig, {
   module: {
@@ -75,7 +75,7 @@ const webpackConfig = merge(baseWebpackConfig, {
           './src/styles/_spacing.scss',
           './src/styles/_mixins.scss',
           './src/styles/_functions.scss',
-          ...componentsSCSS
+          ...elementsSCSS
         ]
       }
     }),
