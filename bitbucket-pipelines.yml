@@ -1,0 +1,10 @@
+image: node:8
+
+pipelines:
+  default:
+    - step:
+        caches:
+          - node
+        script:
+          - yarn
+          - yarn test
