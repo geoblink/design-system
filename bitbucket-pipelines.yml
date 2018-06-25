@@ -3,10 +3,13 @@ image: node:8
 pipelines:
   default:
     - step:
-        max-time: 10
+        max-time: 3
         caches:
           - node
         script:
           - yarn
-          - yarn build
-          - yarn test
+    - parallel:
+        - step:
+            max-time: 1
+            script:
+              - TEST_REPORT_PATH=./test-reports/test-report.xml yarn test
