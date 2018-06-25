@@ -7,7 +7,7 @@
  * Used to trigger “mounted” inside empty docs sections.
  */
 export default {
-  name: "VuedsSection",
+  name: 'VuedsSection'
 }
 </script>
 

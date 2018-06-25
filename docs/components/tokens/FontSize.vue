@@ -2,18 +2,18 @@
   <div class="font-sizes">
     <div
       v-for="(prop, index) in tokens"
-      :key="index"
-      class="font"
       v-if="prop.category === 'font-size'"
-      :style="{ fontSize: prop.value }">
-        ${{prop.name.replace(/_/g, "-")}} <span>({{prop.value}})</span>
+      :key="index"
+      :style="{ fontSize: prop.value }"
+      class="font">
+      ${{ prop.name.replace(/_/g, "-") }} <span>({{ prop.value }})</span>
     </div>
   </div>
 </template>
 
 <script>
-import designTokens from "@/assets/tokens/tokens.raw.json"
-import orderBy from "lodash/orderBy"
+import designTokens from '@/assets/tokens/tokens.raw.json'
+import orderBy from 'lodash/orderBy'
 
 /**
  * This typographic scale makes it easier to achieve visual harmony in the
@@ -22,18 +22,18 @@ import orderBy from "lodash/orderBy"
  * [/src/tokens/font-size.yml](https://github.com/viljamis/vue-design-system/blob/master/src/tokens/font-size.yml).
  */
 export default {
-  name: "FontSize",
-  methods: {
-    orderData: function(data) {
-      let order = orderBy(data, "value", "desc")
-      return order
-    },
-  },
-  data() {
+  name: 'FontSize',
+  data () {
     return {
-      tokens: this.orderData(designTokens.props),
+      tokens: this.orderData(designTokens.props)
     }
   },
+  methods: {
+    orderData: function (data) {
+      let order = orderBy(data, 'value', 'desc')
+      return order
+    }
+  }
 }
 </script>
 

@@ -1,5 +1,7 @@
 <template>
-  <component :is="type" :class="['example', variation]">
+  <component
+    :is="type"
+    :class="['example', variation]">
     <div id="example-container">
       <slot/>
     </div>
@@ -17,7 +19,7 @@ export default {
    * This prevents conflicts with existing and future HTML elements, since all
    * HTML elements are a single word. See example below:
    */
-  name: "example",
+  name: 'Example',
   /**
    * Components in the system are labelled with status labels that reflect their
    * state of completion. See example below. All available statuses are:
@@ -29,8 +31,8 @@ export default {
    * under-review   Yellow     Component is currently being reviewed
    * ready          Green      Ready to be used
    */
-  status: "prototype",
-  release: "1.0.0",
+  status: 'prototype',
+  release: '1.0.0',
   /**
    * Prop definitions should be as detailed as possible, specifying at least
    * type(s). See examples below:
@@ -41,7 +43,7 @@ export default {
      */
     type: {
       type: String,
-      default: "div",
+      default: 'div'
     },
     /**
      * Style variation to give additional meaning.
@@ -49,12 +51,12 @@ export default {
      */
     variation: {
       type: String,
-      default: "default",
+      default: 'default',
       validator: value => {
         return value.match(/(default|strong|positive|negative)/)
-      },
-    },
-  },
+      }
+    }
+  }
 }
 </script>
 

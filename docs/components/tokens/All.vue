@@ -9,23 +9,35 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(token, index) in tokens" :key="index" class="token">
+        <tr
+          v-for="(token, index) in tokens"
+          :key="index"
+          class="token">
           <td v-if="token.name">
             <code class="name">
-              ${{token.name.replace(/_/g, "-")}}
+              ${{ token.name.replace(/_/g, "-") }}
             </code>
           </td>
           <td v-else>N/A</td>
           <td v-if="token.value">
-            <div v-if="token.type === 'color'" class="example color" :style="{ backgroundColor: token.value }" />
-            <div v-if="token.category === 'border-radius'" class="example border-radius" :style="{ borderRadius: token.value }" />
-            <div v-if="token.category === 'box-shadow'" class="example box-shadow" :style="{ boxShadow: token.value }" />
+            <div
+              v-if="token.type === 'color'"
+              :style="{ backgroundColor: token.value }"
+              class="example color" />
+            <div
+              v-if="token.category === 'border-radius'"
+              :style="{ borderRadius: token.value }"
+              class="example border-radius" />
+            <div
+              v-if="token.category === 'box-shadow'"
+              :style="{ boxShadow: token.value }"
+              class="example box-shadow" />
             <code class="type">
-              {{token.value}}
+              {{ token.value }}
             </code>
           </td>
           <td v-else>N/A</td>
-          <td v-if="token.category">{{token.category}}</td>
+          <td v-if="token.category">{{ token.category }}</td>
           <td v-else>N/A</td>
         </tr>
       </tbody>
@@ -34,8 +46,8 @@
 </template>
 
 <script>
-import designTokens from "@/assets/tokens/tokens.raw.json"
-import orderBy from "lodash/orderBy"
+import designTokens from '@/assets/tokens/tokens.raw.json'
+import orderBy from 'lodash/orderBy'
 
 /**
  * A list of available tokens in Vue Design System. Use these tokens in place
@@ -44,19 +56,19 @@ import orderBy from "lodash/orderBy"
  * [/src/tokens/](https://github.com/viljamis/vue-design-system/blob/master/src/tokens).
  */
 export default {
-  name: "All",
-  methods: {
-    orderData: function(data) {
-      let byName = orderBy(data, "name", "asc")
-      let byCategoryAndName = orderBy(byName, "category")
-      return byCategoryAndName
-    },
-  },
-  data() {
+  name: 'All',
+  data () {
     return {
-      tokens: this.orderData(designTokens.props),
+      tokens: this.orderData(designTokens.props)
     }
   },
+  methods: {
+    orderData: function (data) {
+      let byName = orderBy(data, 'name', 'asc')
+      let byCategoryAndName = orderBy(byName, 'category')
+      return byCategoryAndName
+    }
+  }
 }
 </script>
 
