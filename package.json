@@ -19,6 +19,7 @@
     "build:system": "npm-run-all theo node:build:system",
     "build:docs": "npm-run-all theo styleguide:build",
     "lint": "eslint '**/*.{js,vue}' --cache",
+    "lint:fix": "eslint '**/*.{js,vue}' --cache --fix",
     "node:build": "node ./build/build.js",
     "node:build:system": "node ./build/build-system.js",
     "styleguide": "vue-styleguidist server --config ./config/docs.config.js",
