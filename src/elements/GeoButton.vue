@@ -1,11 +1,11 @@
 <template>
   <div
     :class="{
-      [`geo-button--${type}`]: true,
-      [`geo-button--${type}--disabled`]: disabled,
-      [`geo-button--disabled`]: disabled
+      [`geo-button${cssSuffix}`]: true,
+      [`geo-button--${type}${cssSuffix}`]: true,
+      [`geo-button--${type}--disabled${cssSuffix}`]: disabled,
+      [`geo-button--disabled${cssSuffix}`]: disabled
     }"
-    class="geo-button"
     @click="onGeoButtonClick($event)"
   >
     <slot />
