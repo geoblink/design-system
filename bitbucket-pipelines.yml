@@ -8,4 +8,6 @@ pipelines:
           - node
         script:
           - yarn
+          - yarn lint
+          - mkdir test-reports
           - TEST_REPORT_PATH=test-reports yarn test

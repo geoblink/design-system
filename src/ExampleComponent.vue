@@ -19,7 +19,7 @@ export default {
    * This prevents conflicts with existing and future HTML elements, since all
    * HTML elements are a single word. See example below:
    */
-  name: 'Example',
+  name: 'example', // eslint-disable-line vue/name-property-casing
   /**
    * Components in the system are labelled with status labels that reflect their
    * state of completion. See example below. All available statuses are:
