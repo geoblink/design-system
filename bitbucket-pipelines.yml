@@ -8,4 +8,4 @@ pipelines:
           - node
         script:
           - yarn
-          - TEST_REPORT_PATH=./test-reports/test-report.xml yarn test
+          - TEST_REPORT_PATH=test-reports yarn test
