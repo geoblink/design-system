@@ -3,8 +3,10 @@ image: node:8
 pipelines:
   default:
     - step:
+        max-time: 10
         caches:
           - node
         script:
           - yarn
+          - yarn build
           - yarn test
