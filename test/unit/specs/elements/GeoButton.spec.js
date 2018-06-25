@@ -6,7 +6,7 @@ const localVue = createLocalVue()
 localVue.component('geo-button', GeoButton)
 
 describe('GeoButton', () => {
-  it('should render button\'s content', () => {
+  it('should render button\'s content', function () {
     const wrapper = mount(GeoButton, {
       slots: {
         default: '<span>Button title</span>'
@@ -20,7 +20,7 @@ describe('GeoButton', () => {
     expect(button.find('span').exists()).toBe(true)
   })
 
-  it('should emit an event on click', (done) => {
+  it('should emit an event on click', function (done) {
     const wrapper = mount(GeoButton, {
       propsData: {
         type: 'primary'
@@ -39,7 +39,7 @@ describe('GeoButton', () => {
     })
   })
 
-  it('should not emit an event when it\'s disabled', () => {
+  it('should not emit an event when it\'s disabled', function () {
     const wrapper = mount(GeoButton, {
       propsData: {
         type: 'primary',
@@ -50,5 +50,16 @@ describe('GeoButton', () => {
     const button = wrapper.find('.geo-button')
     button.trigger('click')
     expect(wrapper.emitted()['click']).toBeFalsy()
+  })
+
+  it('should add CSS Suffix when given', function () {
+    const wrapper = mount(GeoButton, {
+      propsData: {
+        type: 'primary',
+        cssModifier: 'custom'
+      }
+    })
+
+    expect(wrapper.find('.geo-button--custom').exists()).toBe(true)
   })
 })
