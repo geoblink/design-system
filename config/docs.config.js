@@ -6,7 +6,7 @@ module.exports = {
   /**
    * Name of your design system. Changes both page title and sidebar logo.
    */
-  title: 'Vue Design System',
+  title: 'Geoblink Design System',
   /**
    * Enabling the following option splits sections into separate views.
    */
@@ -16,7 +16,7 @@ module.exports = {
    */
   theme: {
     maxWidth: '100%',
-    sidebarWidth: 240,
+    sidebarWidth: 300,
     fontFamily: {
       base: ["'Fira Sans'", 'Helvetica', 'Arial', 'sans-serif'],
       monospace: ['Consolas', "'Liberation Mono'", 'Menlo', 'monospace']
