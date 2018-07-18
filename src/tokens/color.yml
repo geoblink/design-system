@@ -10,8 +10,12 @@
 aliases:
   blue:
     value: "#1464A5"
-  cyan:
+  blue_dark:
+    value: "#17293D"
+  blue_light:
     value: "#6FA1D4"
+  link:
+    value: "#4A90E2"
   red:
     value: "#FF594F"
   green:
@@ -20,6 +24,8 @@ aliases:
     value: "#EFAE00"
   white:
     value: "#FFFFFF"
+  dark:
+    value: "#17293D"
 
 props:
 
@@ -27,21 +33,15 @@ props:
     value: "{!blue}"
     category: color_group_1
   color_blue_dark:
-    value: "brightness({!blue}, -10)"
+    value: "{!blue_dark}"
     category: color_group_1
-  color_blue_darker:
-    value: "brightness({!blue}, -40)"
+  color_blue_light:
+    value: "{!blue_light}"
     category: color_group_1
 
-  color_cyan:
-    value: "{!cyan}"
-    category: color_group_2
-  color_cyan_dark:
-    value: "brightness({!cyan}, -10)"
-    category: color_group_2
-  color_cyan_darker:
-    value: "brightness({!cyan}, -40)"
-    category: color_group_2
+  color_link:
+    value: "{!link}"
+    category: color_group_1
 
   color_red:
     value: "{!red}"
@@ -75,7 +75,7 @@ props:
 
   color_white:
     value: "{!white}"
-    category: color_group_4
+    category: color_group_6
 
 global:
   type: color
