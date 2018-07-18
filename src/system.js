@@ -11,17 +11,30 @@ const contexts = [
   require.context('@/templates/', true, /\.vue$/)
 ]
 
-const components = []
+const componentsList = []
+const componentsByName = {}
+const constantsByComponentName = {}
 contexts.forEach(context => {
-  context.keys().forEach(key => components.push(context(key).default))
+  context.keys().forEach(key => {
+    const definition = context(key).default
+    const { name, constants } = definition
+
+    componentsList.push(definition)
+    componentsByName[name] = definition
+
+    if (constants) {
+      constantsByComponentName[name] = constants
+    }
+  })
 })
 
 export default {
   install (Vue) {
-    components.forEach(c => Vue.component(c.name, c))
+    componentsList.forEach(c => Vue.component(c.name, c))
   }
 }
 
-export { components }
+export { componentsByName as components }
+export { constantsByComponentName as constants }
 
 export { instance }
