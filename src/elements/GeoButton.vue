@@ -8,6 +8,7 @@
     }"
     @click="onGeoButtonClick($event)"
   >
+    <!-- @slot Use this slot for button's label -->
     <slot />
   </div>
 </template>
