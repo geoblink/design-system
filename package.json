@@ -114,7 +114,16 @@
     "vuex": "^3.0.1",
     "webfontloader": "^1.6.28"
   },
+  "peerDependencies": {
+    "@fortawesome/fontawesome": "^1.1.8",
+    "@fortawesome/vue-fontawesome": "^0.0.23"
+  },
   "devDependencies": {
+    "@fortawesome/fontawesome": "^1.1.8",
+    "@fortawesome/fontawesome-free-brands": "^5.0.13",
+    "@fortawesome/fontawesome-free-regular": "^5.0.13",
+    "@fortawesome/fontawesome-free-solid": "^5.0.13",
+    "@fortawesome/vue-fontawesome": "^0.0.23",
     "@vue/test-utils": "^1.0.0-beta.16",
     "autoprefixer": "^8.5.1",
     "babel-core": "^6.26.3",
