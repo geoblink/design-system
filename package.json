@@ -1,13 +1,13 @@
 {
-  "name": "geoblink-design-system",
-  "version": "2.1.4",
-  "description": "Vue Design System is an open-source tool for building Design Systems with Vue.js",
-  "author": "viljamis <me@viljamis.com>",
+  "name": "@geoblink/design-system",
+  "version": "0.0.1",
+  "description": "Geoblink Design System for Vue.js",
+  "author": "Geoblink <contact@geoblink.com>",
   "main": "dist/system/system.js",
   "files": [
     "dist/system"
   ],
-  "homepage": "https://vueds.com",
+  "homepage": "https://geoblink.com",
   "private": true,
   "license": "MIT",
   "scripts": {
