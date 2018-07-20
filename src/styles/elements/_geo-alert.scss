@@ -51,7 +51,7 @@
 @mixin geo-alert__content--info($modifier-name-with-prefix) {
   @include _geo-alert__content--variant(
     $color_white,
-    $color_cyan,
+    $color_blue_light,
     $modifier-name-with-prefix
   );
 }
@@ -81,19 +81,19 @@
 }
 
 @mixin geo-alert__content--progress($modifier-name-with-prefix) {
-  background: $color_dark;
+  background: $color_blue_dark;
   color: $color_white;
 
   .geo-alert__content__icon#{$modifier-name-with-prefix},
   .geo-alert__content__close-icon#{$modifier-name-with-prefix}:hover {
-    color: $color_dark_lighter;
+    color: $color_link;
   }
 
   a {
-    color: $color_cyan;
+    color: $color_blue_light;
 
     &:hover {
-      background: $color_dark_light;
+      background: brighten($color_blue_dark, -10);
     }
   }
 }
