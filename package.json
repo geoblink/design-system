@@ -26,7 +26,7 @@
     "theo": "theo ./src/tokens/tokens.yml --setup .theo.setup.js --transform web --format map.scss,scss,raw.json,json --dest ./src/assets/tokens",
     "theo:onchange": "onchange \"./src/tokens/*.yml\" -- npm run theo",
     "test": "npm-run-all theo unit",
-    "prepublishOnly": "yarn build"
+    "prepublishOnly": "yarn build --unsafe-perm"
   },
   "repository": {
     "type": "git",
