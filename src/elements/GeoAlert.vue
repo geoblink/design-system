@@ -52,14 +52,15 @@ var VARIANTS = {
   progress: 'progress'
 }
 
-export { VARIANTS }
-
 export default {
   name: 'GeoAlert',
   status: 'ready',
   release: '1.0.0',
   components: {
     FontAwesomeIcon
+  },
+  constants: {
+    VARIANTS
   },
   props: {
     /**
