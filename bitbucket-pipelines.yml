@@ -12,12 +12,12 @@ pipelines:
           - yarn lint
           - mkdir test-reports
           - TEST_REPORT_PATH=test-reports yarn test
-    - step:
-        name: Publish
-        trigger: manual
-        max-time: 5
-        caches:
-          - node
-        script:
-          - yarn
-          - npm publish
+    # - step:
+    #     name: Publish
+    #     trigger: manual
+    #     max-time: 5
+    #     caches:
+    #       - node
+    #     script:
+    #       - yarn
+    #       - npm publish
