@@ -1,14 +1,13 @@
 {
-  "name": "geoblink-design-system",
-  "version": "2.1.4",
-  "description": "Vue Design System is an open-source tool for building Design Systems with Vue.js",
-  "author": "viljamis <me@viljamis.com>",
+  "name": "@geoblink/design-system",
+  "version": "0.0.9",
+  "description": "Geoblink Design System for Vue.js",
+  "author": "Geoblink <contact@geoblink.com>",
   "main": "dist/system/system.js",
   "files": [
     "dist/system"
   ],
-  "homepage": "https://vueds.com",
-  "private": true,
+  "homepage": "https://geoblink.com",
   "license": "MIT",
   "scripts": {
     "dev": "webpack-dev-server --inline --config ./build/webpack.dev.conf.js",
@@ -27,7 +26,7 @@
     "theo": "theo ./src/tokens/tokens.yml --setup .theo.setup.js --transform web --format map.scss,scss,raw.json,json --dest ./src/assets/tokens",
     "theo:onchange": "onchange \"./src/tokens/*.yml\" -- npm run theo",
     "test": "npm-run-all theo unit",
-    "prepublish": "yarn build"
+    "prepublishOnly": "yarn build:system"
   },
   "repository": {
     "type": "git",
