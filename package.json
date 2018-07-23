@@ -189,7 +189,7 @@
     "webpack-merge-and-include-globally": "^1.0.1"
   },
   "engines": {
-    "node": ">= 8.6.0",
+    "node": ">= 7.0.0",
     "npm": ">= 3.0.0"
   },
   "browserslist": [
