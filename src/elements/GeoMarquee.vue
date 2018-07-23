@@ -1,13 +1,13 @@
 <template>
   <div
-    :class="`marquee__container${cssSuffix}`"
+    :class="`geo-marquee${cssSuffix}`"
     @mouseenter="isHovering = true"
     @mouseleave="isHovering = false"
   >
     <div
       v-for="i in [0, 1]"
       :key="i"
-      :class="`marquee__text-content${cssSuffix}`"
+      :class="`geo-marquee__text-content${cssSuffix}`"
       :style="{
         animationPlayState: animationStatus,
         animationDuration: `${speed}s` }">
@@ -48,14 +48,14 @@ export default {
 </script>
 
 <style lang="scss">
-  .marquee__container {
+  .geo-marquee {
     cursor: pointer;
     display: flex;
     overflow: hidden;
     width: 100%;
   }
 
-  .marquee__text-content {
+  .geo-marquee__text-content {
     animation-name: marquee-animation;
     animation-iteration-count: infinite;
     animation-timing-function: linear;
