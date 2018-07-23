@@ -5,12 +5,11 @@
     @mouseleave="isHovering = false"
   >
     <div
-      v-for="i in [0, 1]"
+      v-for="i in slotsNeeded"
+      ref="marquee-content"
       :key="i"
       :class="`geo-marquee__text-content${cssSuffix}`"
-      :style="{
-        animationPlayState: animationStatus,
-        animationDuration: `${speed}s` }">
+      :style="animationParams">
       <slot/>
     </div>
   </div>
@@ -33,7 +32,9 @@ export default {
   },
   data () {
     return {
-      isHovering: false
+      isHovering: false,
+      containerWidth: null,
+      contentWidth: null
     }
   },
   computed: {
@@ -42,7 +43,30 @@ export default {
     },
     animationStatus () {
       return this.isHovering ? 'running' : 'paused'
+    },
+    slotsNeeded () {
+      if (!this.contentWidth || !this.containerWidth) return [0]
+      return this.contentWidth > this.containerWidth ? [0, 1] : [0]
+    },
+    animationParams () {
+      if (this.slotsNeeded.length > 1) {
+        return {
+          animationPlayState: this.animationStatus,
+          animationDuration: `${this.speed}s`,
+          animationName: 'marquee-animation',
+          animationIterationCount: 'infinite',
+          animationTimingFunction: 'linear'
+        }
+      }
     }
+  },
+  mounted () {
+    this.contentWidth = this.$refs['marquee-content'][0].getBoundingClientRect().width
+    this.containerWidth = this.$el.getBoundingClientRect().width
+  },
+  updated () {
+    this.contentWidth = this.$refs['marquee-content'][0].getBoundingClientRect().width
+    this.containerWidth = this.$el.getBoundingClientRect().width
   }
 }
 </script>
