@@ -21,7 +21,7 @@ export default {
   status: 'ready',
   version: '1.0.0',
   props: {
-    speed: {
+    marqueeDuration: {
       type: Number,
       default: 3
     },
@@ -52,7 +52,7 @@ export default {
       if (this.slotsNeeded.length > 1) {
         return {
           animationPlayState: this.animationStatus,
-          animationDuration: `${this.speed}s`,
+          animationDuration: `${this.marqueeDuration}s`,
           animationName: 'marquee-animation',
           animationIterationCount: 'infinite',
           animationTimingFunction: 'linear'
