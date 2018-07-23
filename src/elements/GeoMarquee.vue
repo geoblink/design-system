@@ -46,30 +46,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss">
-  .geo-marquee {
-    cursor: pointer;
-    display: flex;
-    overflow: hidden;
-    width: 100%;
-  }
-
-  .geo-marquee__text-content {
-    animation-name: marquee-animation;
-    animation-iteration-count: infinite;
-    animation-timing-function: linear;
-    padding-right: 10px;
-    white-space: nowrap;
-  }
-
-  @keyframes marquee-animation {
-    0% {
-      transform: translateX(0);
-    }
-
-    100% {
-      transform: translateX(-100%);
-    }
-  }
-</style>
