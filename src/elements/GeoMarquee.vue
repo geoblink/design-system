@@ -22,8 +22,8 @@ export default {
   version: '1.0.0',
   props: {
     speed: {
-      type: String,
-      default: '3'
+      type: Number,
+      default: 3
     },
     cssModifier: {
       type: String,
