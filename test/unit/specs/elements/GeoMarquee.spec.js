@@ -5,7 +5,7 @@ import GeoMarquee from '@/elements/GeoMarquee'
 const localVue = createLocalVue()
 localVue.component('geo-marquee', GeoMarquee)
 
-describe.only('GeoMarquee', () => {
+describe('GeoMarquee', () => {
   it('should render marquee\'s content', function () {
     const wrapper = mount(GeoMarquee, {
       scopedSlots: {

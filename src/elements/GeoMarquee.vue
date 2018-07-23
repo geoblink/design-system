@@ -21,10 +21,25 @@ export default {
   status: 'ready',
   version: '1.0.0',
   props: {
+    /**
+     * Duration of the animation.
+     * The bigger the number, the slower the marquee transition
+     */
     marqueeDuration: {
       type: Number,
       default: 3
     },
+    /**
+     * An optional suffix to be appended as BEM modifier.
+     *
+     * Can be used to customize the look & feel of the component by changing all
+     * the CSS classes by different ones so no CSS loaded by default affects
+     * them.
+     *
+     * To generate default styles for a modifier named `modifier-name`, you just
+     * have to add `@include geo-button-make('modifier-name');` to your SCSS
+     * styles.
+     */
     cssModifier: {
       type: String,
       default: ''
@@ -49,14 +64,14 @@ export default {
       return this.contentWidth > this.containerWidth ? [0, 1] : [0]
     },
     animationParams () {
-      if (this.slotsNeeded.length > 1) {
-        return {
-          animationPlayState: this.animationStatus,
-          animationDuration: `${this.marqueeDuration}s`,
-          animationName: 'marquee-animation',
-          animationIterationCount: 'infinite',
-          animationTimingFunction: 'linear'
-        }
+      // We only want the animation if the content is wider than the container
+      if (this.slotsNeeded.length === 1) return {}
+      return {
+        animationPlayState: this.animationStatus,
+        animationDuration: `${this.marqueeDuration}s`,
+        animationName: 'marquee-animation',
+        animationIterationCount: 'infinite',
+        animationTimingFunction: 'linear'
       }
     }
   },
