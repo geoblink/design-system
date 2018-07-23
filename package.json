@@ -1,6 +1,6 @@
 {
   "name": "@geoblink/design-system",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "Geoblink Design System for Vue.js",
   "author": "Geoblink <contact@geoblink.com>",
   "main": "dist/system/system.js",
@@ -189,7 +189,7 @@
     "webpack-merge-and-include-globally": "^1.0.1"
   },
   "engines": {
-    "node": ">= 8.6.0",
+    "node": ">= 7.0.0",
     "npm": ">= 3.0.0"
   },
   "browserslist": [
