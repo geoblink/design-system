@@ -17,15 +17,15 @@ describe('GeoMarquee', () => {
     expect(marquee.find('div').exists()).toBe(true)
   })
 
-  it('Should have moved when hovering on the marquee', function () {
+  it('should have moved when hovering on the marquee', function () {
     const wrapper = mount(GeoMarquee, {
       scopedSlots: {
         default: '<div slot-scope="{}">Marquee content</div>'
       }
     })
     wrapper.trigger('mouseenter')
-    expect(wrapper.vm.animationStatus).toBe('running')
+    expect(wrapper.vm.animationPlayState).toBe('running')
     wrapper.trigger('mouseleave')
-    expect(wrapper.vm.animationStatus).toBe('paused')
+    expect(wrapper.vm.animationPlayState).toBe('paused')
   })
 })

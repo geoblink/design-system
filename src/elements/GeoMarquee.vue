@@ -10,6 +10,7 @@
       :key="i"
       :class="`geo-marquee__text-content${cssSuffix}`"
       :style="animationParams">
+      <!-- @slot Use this slot to store the marquee content -->
       <slot/>
     </div>
   </div>
@@ -22,7 +23,7 @@ export default {
   version: '1.0.0',
   props: {
     /**
-     * Duration of the animation.
+     * Duration of the animation (seconds).
      * The bigger the number, the slower the marquee transition
      */
     marqueeDuration: {
@@ -56,18 +57,19 @@ export default {
     cssSuffix () {
       return this.cssModifier ? `--${this.cssModifier}` : ''
     },
-    animationStatus () {
+    animationPlayState () {
       return this.isHovering ? 'running' : 'paused'
     },
     slotsNeeded () {
-      if (!this.contentWidth || !this.containerWidth) return [0]
-      return this.contentWidth > this.containerWidth ? [0, 1] : [0]
+      var contentWidth = this.contentWidth || 0
+      var containerWidth = this.containerWidth || 0
+      return contentWidth > containerWidth ? [0, 1] : [0]
     },
     animationParams () {
       // We only want the animation if the content is wider than the container
       if (this.slotsNeeded.length === 1) return {}
       return {
-        animationPlayState: this.animationStatus,
+        animationPlayState: this.animationPlayState,
         animationDuration: `${this.marqueeDuration}s`,
         animationName: 'marquee-animation',
         animationIterationCount: 'infinite',
