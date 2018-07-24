@@ -27,8 +27,6 @@ describe('GeoButton', () => {
       }
     })
     wrapper.find('.geo-button').trigger('click')
-    // console.log(button)
-    // console.log(wrapper)
     setTimeout(function () {
       try {
         expect(wrapper.emitted()['click']).toBeTruthy()

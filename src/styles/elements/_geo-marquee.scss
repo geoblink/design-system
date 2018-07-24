@@ -1,0 +1,44 @@
+@mixin geo-marquee-make ($modifier-name) {
+  $modifier-name-with-prefix: '';
+
+  @if $modifier-name != '' {
+    // sass-lint:disable space-around-operator
+    $modifier-name-with-prefix: --#{$modifier-name};
+  }
+
+  .geo-marquee#{$modifier-name-with-prefix} {
+    @include geo-marquee;
+  }
+
+  .geo-marquee__text-content#{$modifier-name-with-prefix} {
+    @include geo-marquee__text-content;
+  }
+}
+
+@mixin geo-marquee () {
+  cursor: pointer;
+  display: flex;
+  overflow: hidden;
+  width: 100%;
+}
+
+@mixin geo-marquee__text-content {
+  padding-right: 10px;
+  white-space: nowrap;
+}
+
+@keyframes marquee-animation {
+  0% {
+    transform: translateX(0);
+  }
+
+  65% {
+    transform: translateX(-100%);
+  }
+
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+@include geo-marquee-make('');
