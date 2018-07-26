@@ -1,0 +1,62 @@
+@keyframes geoActivityIndicatorSpin {
+  100% {
+    transform:rotate(360deg);
+  }
+}
+
+@mixin geo-activity-indicator () {
+  animation: geoActivityIndicatorSpin 4s linear infinite;
+  animation-play-state: paused;
+}
+
+@mixin geo-activity-indicator--animated () {
+  animation-play-state: running;
+}
+
+@mixin geo-activity-indicator-make (
+  $modifier-name,
+  $base-color-or-completed-percentage-background: null,
+  $nothing-or-background: null
+) {
+  $modifier-name-with-prefix: '';
+
+  @if $modifier-name != '' {
+    // sass-lint:disable space-around-operator
+    $modifier-name-with-prefix: --#{$modifier-name};
+  }
+
+  $completed-percentage-background: $color-blue;
+  $background: $color-default-spinner-background;
+
+  @if $nothing-or-background {
+    $completed-percentage-background: $base-color-or-completed-percentage-background;
+    $background: $nothing-or-background;
+  } @else if $base-color-or-completed-percentage-background {
+    $completed-percentage-background: brighten($base-color-or-completed-percentage-background, -40);
+    $background: brighten($base-color-or-completed-percentage-background, -20);
+  }
+
+  .geo-activity-indicator#{$modifier-name-with-prefix} {
+    @include geo-activity-indicator;
+  }
+
+  .geo-activity-indicator--animated#{$modifier-name-with-prefix} {
+    @include geo-activity-indicator--animated;
+  }
+
+  .geo-activity-indicator__total-progress#{$modifier-name-with-prefix} {
+    fill: $background;
+  }
+
+  .geo-activity-indicator__completed-progress#{$modifier-name-with-prefix} {
+    fill: $completed-percentage-background;
+  }
+}
+
+@include geo-activity-indicator-make('');
+@include geo-activity-indicator-make('primary', $color_primary_spinner_completed_background, $color_primary_spinner_background);
+@include geo-activity-indicator-make('info', $color_blue_light);
+@include geo-activity-indicator-make('success', $color_green);
+@include geo-activity-indicator-make('error', $color_red);
+@include geo-activity-indicator-make('warn', $color_yellow);
+@include geo-activity-indicator-make('progress', brighten($color_link, -40), $color_link);

@@ -3,7 +3,10 @@
 }
 
 .element-demo__header {
+  align-items: center;
+  display: flex;
   font-family: $font_family_heading;
+  justify-content: space-between;
 }
 
 .element-demo__block {
@@ -17,5 +20,26 @@
 
   &:last-child {
     margin-right: 0;
+  }
+}
+
+.element-demo__inline-input-group {
+  margin-left: auto;
+
+  .element-demo__inline-input-group__field {
+    margin-left: $space-x-small;
+  }
+}
+
+.element-demo__inline-input-group__field {
+  cursor: pointer;
+  font-size: $font-size-small;
+  margin-left: auto;
+
+  input {
+    border-radius: $border-radius-default;
+    border: 1px solid $color-silver;
+    margin-left: $space-x-small;
+    padding: $space-x-small;
   }
 }
