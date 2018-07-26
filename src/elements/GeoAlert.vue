@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import FontAwesomeIcon from '@fortawesome/vue-fontawesome'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 var VARIANTS = {
   success: 'success',
