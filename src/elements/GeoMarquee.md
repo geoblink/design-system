@@ -8,13 +8,13 @@
   </div>
   <h3 class="element-demo__header">With scroll and slow custom duration</h3>
   <div class="element-demo__block" style="width: 120px;">
-    <geo-marquee marquee-duration="6">
+    <geo-marquee :marquee-duration="6">
       <template slot-scope="{}">Some text for the marquee</template>
     </geo-marquee>
   </div>
   <h3 class="element-demo__header">With scroll and fast custom duration</h3>
   <div class="element-demo__block" style="width: 120px;">
-    <geo-marquee marquee-duration="1">
+    <geo-marquee :marquee-duration="1">
       <template slot-scope="{}">Some text for the marquee</template>
     </geo-marquee>
   </div>
