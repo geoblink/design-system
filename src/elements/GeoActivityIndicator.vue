@@ -169,12 +169,8 @@ export default {
       return `geo-activity-indicator__circle-mask--${getNextCounterValue()}`
     },
 
-    hasPercentage () {
-      return this.percentage !== undefined
-    },
-
     isIndeterminate () {
-      return this.indeterminate || !this.hasPercentage
+      return this.indeterminate || this.percentage === undefined
     },
 
     isAnimated () {
@@ -184,9 +180,9 @@ export default {
     },
 
     completedPercentage () {
-      return this.hasPercentage
-        ? clamp(parseFloat(this.percentage), 0, 1)
-        : 1.0 / 3.0
+      return this.isIndeterminate
+        ? 1.0 / 3.0
+        : clamp(parseFloat(this.percentage), 0, 1)
     },
 
     completedPercentagePathData () {
