@@ -6,6 +6,8 @@
 props:
   duration_quickly:
     value: "0.08s"
+  duration_noticeable:
+    value: "0.2s"
   duration_slowly:
     value: "0.5s"
 global:

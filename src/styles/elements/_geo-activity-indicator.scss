@@ -5,7 +5,7 @@
 }
 
 @mixin geo-activity-indicator () {
-  animation: geoActivityIndicatorSpin 4s linear infinite;
+  animation: geoActivityIndicatorSpin 1s linear infinite;
   animation-play-state: paused;
 }
 
