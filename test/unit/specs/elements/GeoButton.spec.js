@@ -1,8 +1,10 @@
 import { createLocalVue, mount } from '@vue/test-utils'
+import GeoActivityIndicator from '@/elements/GeoActivityIndicator.vue'
 import GeoButton from '@/elements/GeoButton.vue'
 
 // create an extended `Vue` constructor
 const localVue = createLocalVue()
+localVue.component('geo-activity-indicator', GeoActivityIndicator)
 localVue.component('geo-button', GeoButton)
 
 describe('GeoButton', () => {
@@ -59,5 +61,59 @@ describe('GeoButton', () => {
     })
 
     expect(wrapper.find('.geo-button--custom').exists()).toBe(true)
+  })
+
+  it('should show activity indicator when loading', function () {
+    const wrapper = mount(GeoButton, {
+      propsData: {
+        type: 'primary',
+        loading: true
+      },
+      stubs: { GeoActivityIndicator }
+    })
+
+    expect(wrapper.find('.geo-button__activity-indicator').exists()).toBe(true)
+  })
+
+  it('should provide matching activity indicator variant by default', function () {
+    const primaryWrapper = mount(GeoButton, {
+      propsData: {
+        type: 'primary',
+        loading: true
+      },
+      stubs: { GeoActivityIndicator }
+    })
+    expect(primaryWrapper.vm.activityIndicatorVariant).toBe('primary')
+    expect(primaryWrapper.find('.geo-activity-indicator--primary').exists()).toBe(true)
+
+    const secondaryWrapper = mount(GeoButton, {
+      propsData: {
+        type: 'secondary',
+        loading: true
+      },
+      stubs: { GeoActivityIndicator }
+    })
+    expect(secondaryWrapper.vm.activityIndicatorVariant).toBe(undefined)
+    expect(secondaryWrapper.find('.geo-activity-indicator').exists()).toBe(true)
+
+    const tertiaryWrapper = mount(GeoButton, {
+      propsData: {
+        type: 'tertiary',
+        loading: true
+      },
+      stubs: { GeoActivityIndicator }
+    })
+    expect(tertiaryWrapper.vm.activityIndicatorVariant).toBe(undefined)
+    expect(tertiaryWrapper.find('.geo-activity-indicator').exists()).toBe(true)
+
+    const destructiveWrapper = mount(GeoButton, {
+      propsData: {
+        type: 'destructive',
+        loading: true
+      },
+      stubs: { GeoActivityIndicator }
+    })
+    expect(destructiveWrapper.vm.activityIndicatorVariant).toBe('error')
+    expect(destructiveWrapper.find('.geo-activity-indicator--error').exists()).toBe(true)
   })
 })
