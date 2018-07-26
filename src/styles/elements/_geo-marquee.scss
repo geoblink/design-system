@@ -1,15 +1,3 @@
-@mixin geo-marquee () {
-  cursor: pointer;
-  display: flex;
-  overflow: hidden;
-  width: 100%;
-}
-
-@mixin geo-marquee__text-content {
-  padding-right: 10px;
-  white-space: nowrap;
-}
-
 @keyframes marquee-animation {
   0% {
     transform: translateX(0);
@@ -33,11 +21,15 @@
   }
 
   .geo-marquee#{$modifier-name-with-prefix} {
-    @include geo-marquee;
+    cursor: pointer;
+    display: flex;
+    overflow: hidden;
+    width: 100%;
   }
 
   .geo-marquee__text-content#{$modifier-name-with-prefix} {
-    @include geo-marquee__text-content;
+    padding-right: $space_x_small;
+    white-space: nowrap;
   }
 }
 
