@@ -94,6 +94,8 @@ const VARIANTS = {
   progress: 'progress'
 }
 
+export { VARIANTS }
+
 export default {
   name: 'GeoActivityIndicator',
   status: 'ready',
