@@ -44,7 +44,7 @@
 <script>
 import FontAwesomeIcon from '@fortawesome/vue-fontawesome'
 
-var VARIANTS = {
+const VARIANTS = {
   success: 'success',
   info: 'info',
   warn: 'warn',
