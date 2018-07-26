@@ -11,12 +11,12 @@
   "license": "MIT",
   "scripts": {
     "dev": "webpack-dev-server --inline --config ./build/webpack.dev.conf.js",
-    "start": "npm-run-all --parallel styleguide theo:onchange theo dev",
+    "start": "run-p styleguide theo:onchange theo dev",
     "unit": "jest --config ./test/unit/jest.conf.js --coverage",
-    "build": "npm-run-all theo node:build",
+    "build": "run-s theo node:build",
     "build:app": "npm run build",
-    "build:system": "npm-run-all theo node:build:system",
-    "build:docs": "npm-run-all theo styleguide:build",
+    "build:system": "run-s theo node:build:system",
+    "build:docs": "run-s theo styleguide:build",
     "lint": "eslint '**/*.{js,vue}' --cache",
     "lint:fix": "eslint '**/*.{js,vue}' --cache --fix",
     "node:build": "node ./build/build.js",
@@ -25,7 +25,7 @@
     "styleguide:build": "vue-styleguidist build --config ./config/docs.config.js",
     "theo": "theo ./src/tokens/tokens.yml --setup .theo.setup.js --transform web --format map.scss,scss,raw.json,json --dest ./src/assets/tokens",
     "theo:onchange": "onchange \"./src/tokens/*.yml\" -- npm run theo",
-    "test": "npm-run-all theo unit",
+    "test": "run-s theo unit",
     "prepublishOnly": "yarn build:system"
   },
   "repository": {
