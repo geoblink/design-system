@@ -77,6 +77,16 @@ props:
     value: "{!white}"
     category: color_group_6
 
+  color_primary_spinner_completed_background:
+    value: "#0E4573"
+    category: color_group_TEMPORAL
+  color_primary_spinner_background:
+    value: "#1A83D9"
+    category: color_group_TEMPORAL
+  color_default_spinner_background:
+    value: "rgba(26,131,217,0.2)"
+    category: color_group_TEMPORAL
+
 global:
   type: color
   category: color
