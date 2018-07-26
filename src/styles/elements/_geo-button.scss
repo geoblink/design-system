@@ -79,13 +79,37 @@
   font-size: $font_size_small;
   font-weight: font_weight_bold;
   line-height: 1.25em;
-  padding: .58em .83em .67em .83em;
+  overflow: hidden;
+  position: relative;
   text-transform: uppercase;
   user-select: none;
 
+  $this: &;
+
   &--disabled#{$css-suffix} {
-    opacity: .3;
     cursor: not-allowed;
+
+    &:not(#{$this}--loading#{$css-suffix}) {
+      opacity: .3;
+    }
+  }
+
+  .geo-button__label#{$css-suffix} {
+    padding: .58em .83em .67em .83em;
+    // transition: all $duration_noticeable $easing_base;
+    // transition-property: transform, opacity;
+  }
+
+  .geo-button__label--loading#{$css-suffix} {
+    // transform: translateX(-100%);
+    // transform: scale(0);
+    opacity: 0;
+  }
+
+  .geo-button__activity-indicator#{$css-suffix} {
+    height: 1em;
+    position: absolute;
+    width: 1em;
   }
 }
 
@@ -99,7 +123,7 @@
   ), $css-suffix);
 
   transition: all $duration_quickly $easing_base;
-  transition: background-color $duration_quickly $easing_base;
+  transition-property: background-color;
 }
 
 @mixin geo-button--secondary($css-suffix) {
