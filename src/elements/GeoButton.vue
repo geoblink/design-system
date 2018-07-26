@@ -4,24 +4,42 @@
       [`geo-button${cssSuffix}`]: true,
       [`geo-button--${type}${cssSuffix}`]: true,
       [`geo-button--${type}--disabled${cssSuffix}`]: disabled,
-      [`geo-button--disabled${cssSuffix}`]: disabled
+      [`geo-button--disabled${cssSuffix}`]: disabled,
+      [`geo-button--loading${cssSuffix}`]: loading
     }"
     @click="onGeoButtonClick($event)"
   >
-    <!-- @slot Use this slot for button's label -->
-    <slot />
+    <div
+      :class="{
+        [`geo-button__label${cssSuffix}`]: true,
+        [`geo-button__label--loading${cssSuffix}`]: loading
+      }"
+    >
+      <!-- @slot Use this slot for button's label -->
+      <slot />
+    </div>
+    <template v-if="loading">
+      <!-- @slot Use this slot to customize what's displayed when the button is in loading state -->
+      <slot name="loading">
+        <div :class="`geo-button__activity-indicator${cssSuffix}`">
+          <geo-activity-indicator :css-modifier="activityIndicatorVariant" />
+        </div>
+      </slot>
+    </template>
   </div>
 </template>
 
 <script>
-var AVAILABLE_TYPES = {
+import { VARIANTS as GeoAlertVariants } from './GeoActivityIndicator'
+
+const TYPES = {
   primary: 'primary',
   secondary: 'secondary',
   tertiary: 'tertiary',
   destructive: 'destructive'
 }
 
-export { AVAILABLE_TYPES }
+export { TYPES }
 
 export default {
   name: 'GeoButton',
@@ -36,12 +54,12 @@ export default {
      * - `tertiary`
      * - `destructive`
      *
-     * Those values are exported under `AVAILABLE_TYPES` name.
+     * Those values are exported under `TYPES` name.
      */
     type: {
       type: String,
       validator: function (value) {
-        return value in AVAILABLE_TYPES
+        return value in TYPES
       },
       required: true
     },
@@ -51,6 +69,17 @@ export default {
      * When disabled the button won't allow any mouse event.
      */
     disabled: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
+    /**
+     * Whether the button is in loading state or not.
+     *
+     * When button is in loading state it will show the `loading` slot (by
+     * default an indeterminate activity indicator) instead of the label slot.
+     */
+    loading: {
       type: Boolean,
       required: false,
       default: false
@@ -74,6 +103,19 @@ export default {
   computed: {
     cssSuffix () {
       return this.cssModifier ? `--${this.cssModifier}` : ''
+    },
+
+    activityIndicatorVariant () {
+      switch (this.type) {
+        case TYPES.primary:
+          return GeoAlertVariants.primary
+        case TYPES.secondary:
+          return undefined
+        case TYPES.tertiary:
+          return undefined
+        case TYPES.destructive:
+          return GeoAlertVariants.error
+      }
     }
   },
   methods: {
