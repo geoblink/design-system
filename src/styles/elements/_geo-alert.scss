@@ -13,6 +13,7 @@
   left: 50%;
   position: fixed;
   transform: translateX(-50%);
+  z-index: $z_index_sticky;
 }
 
 @mixin geo-alert__content {
