@@ -96,13 +96,12 @@
 
   .geo-button__label#{$css-suffix} {
     padding: .58em .83em .67em .83em;
-    // transition: all $duration_noticeable $easing_base;
-    // transition-property: transform, opacity;
+    transition: all $duration_noticeable $easing_base;
+    transition-property: transform, opacity;
   }
 
   .geo-button__label--loading#{$css-suffix} {
-    // transform: translateX(-100%);
-    // transform: scale(0);
+    transform: scale(0);
     opacity: 0;
   }
 

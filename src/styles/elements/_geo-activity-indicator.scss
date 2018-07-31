@@ -26,14 +26,14 @@
   }
 
   $completed-percentage-background: $color-blue;
-  $background: $color-default-spinner-background;
+  $background: null;
 
   @if $nothing-or-background {
     $completed-percentage-background: $base-color-or-completed-percentage-background;
     $background: $nothing-or-background;
   } @else if $base-color-or-completed-percentage-background {
-    $completed-percentage-background: brighten($base-color-or-completed-percentage-background, -40);
-    $background: brighten($base-color-or-completed-percentage-background, -20);
+    $completed-percentage-background: $base-color-or-completed-percentage-background;
+    $background: rgba($completed-percentage-background, 0.3);
   }
 
   .geo-activity-indicator#{$modifier-name-with-prefix} {
@@ -54,9 +54,10 @@
 }
 
 @include geo-activity-indicator-make('');
-@include geo-activity-indicator-make('primary', $color_primary_spinner_completed_background, $color_primary_spinner_background);
-@include geo-activity-indicator-make('info', $color_blue_light);
-@include geo-activity-indicator-make('success', $color_green);
-@include geo-activity-indicator-make('error', $color_red);
-@include geo-activity-indicator-make('warn', $color_yellow);
-@include geo-activity-indicator-make('progress', brighten($color_link, -40), $color_link);
+@include geo-activity-indicator-make('primary', $color_link);
+@include geo-activity-indicator-make('info', $color_blue);
+
+@include geo-activity-indicator-make('success', $color_green_darker);
+@include geo-activity-indicator-make('error', $color_red_darker);
+@include geo-activity-indicator-make('warn', $color_yellow_light);
+@include geo-activity-indicator-make('progress', $color_link);
