@@ -20,6 +20,8 @@ aliases:
     value: "#FF594F"
   green:
     value: "#3FAD4D"
+  yellow_light:
+    value: "#FFDB7C"
   yellow:
     value: "#EFAE00"
   white:
@@ -53,6 +55,9 @@ props:
     value: "brightness({!red}, -40)"
     category: color_group_3
 
+  color_yellow_light:
+    value: "{!yellow_light}"
+    category: color_group_4
   color_yellow:
     value: "{!yellow}"
     category: color_group_4
@@ -76,16 +81,6 @@ props:
   color_white:
     value: "{!white}"
     category: color_group_6
-
-  color_primary_spinner_completed_background:
-    value: "#0E4573"
-    category: color_group_TEMPORAL
-  color_primary_spinner_background:
-    value: "#1A83D9"
-    category: color_group_TEMPORAL
-  color_default_spinner_background:
-    value: "rgba(26,131,217,0.2)"
-    category: color_group_TEMPORAL
 
 global:
   type: color
