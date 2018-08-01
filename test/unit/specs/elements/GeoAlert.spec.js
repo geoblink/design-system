@@ -11,7 +11,7 @@ const localVue = createLocalVue()
 localVue.component('geo-alert', GeoAlert)
 
 describe('GeoAlert', () => {
-  it('should render activity indicator', function () {
+  it('should render alert component', function () {
     const wrapper = mount(GeoAlert, {
       propsData: {
         variant: 'success'
@@ -61,7 +61,7 @@ describe('GeoAlert', () => {
     expect(wrapper.emitted().close).toBeTruthy()
   })
 
-  it('Should apply a CSS suffix when the modifier is provided', function () {
+  it('should apply a CSS suffix when the modifier is provided', function () {
     const wrapper = mount(GeoAlert, {
       propsData: {
         variant: 'success',

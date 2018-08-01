@@ -29,7 +29,7 @@ describe('GeoMarquee', () => {
     expect(wrapper.vm.animationPlayState).toBe('paused')
   })
 
-  it('shouldn`t have animation params when the content is smaller than the container', function () {
+  it('shouldn\'t have animation params when the content is smaller than the container', function () {
     const wrapper = mount(GeoMarquee, {
       scopedSlots: {
         default: '<div slot-scope="{}">Marquee content</div>'
