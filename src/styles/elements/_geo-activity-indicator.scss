@@ -31,8 +31,11 @@
   @if $nothing-or-background {
     $completed-percentage-background: $base-color-or-completed-percentage-background;
     $background: $nothing-or-background;
-  } @else if $base-color-or-completed-percentage-background {
-    $completed-percentage-background: $base-color-or-completed-percentage-background;
+  } @else {
+    @if $base-color-or-completed-percentage-background {
+      $completed-percentage-background: $base-color-or-completed-percentage-background;
+    }
+
     $background: rgba($completed-percentage-background, 0.3);
   }
 
