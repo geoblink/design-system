@@ -1,0 +1,40 @@
+@mixin geo-more-options-menu-make($modifier-name) {
+
+  $modifier-name-with-prefix: '';
+
+  @if $modifier-name != '' {
+    // sass-lint:disable space-around-operator
+    $modifier-name-with-prefix: --#{$modifier-name};
+  }
+
+  .geo-more-options-menu#{$modifier-name-with-prefix} {
+    display: flex;
+    font-family: $font_family_text;
+    font-size: $font_size_small;
+    user-select: none;
+  }
+
+  .geo-more-options-menu__popup#{$modifier-name-with-prefix} {
+    // Use this variable to customize the space between toggle button popup
+    --spacing-to-toggle-button: 5;
+
+    background: $color_white;
+    border: 1px solid $color_grey;
+    border-radius: $border-radius-default;
+    box-shadow: $box-shadow-regular;
+    display: none;
+    left: 0;
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    user-select: none;
+    z-index: $z-index-sticky;
+  }
+
+  .geo-more-options-menu__popup--is-open#{$modifier-name-with-prefix} {
+    display: block;
+  }
+
+}
+
+@include geo-more-options-menu-make('');

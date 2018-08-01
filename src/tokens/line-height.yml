@@ -5,7 +5,7 @@
 
 props:
   line_height_base:
-    value: "1.6"
+    value: "1.5"
   line_height_small:
     value: "1.3"
   line_height_heading:
