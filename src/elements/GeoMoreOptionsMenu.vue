@@ -138,7 +138,7 @@ export default {
       // if not supported (aka, IE11) we'll use 0
       const spacingToToggleButton = parseInt(popupComputedStyle.getPropertyValue('--spacing-to-toggle-button') || 0, 10)
 
-      // Translation required in the x-axis to position the popup so it's
+      // Translation required in the x-axis to position the popup so its
       // content is displayed towards right/left, assuming popup is properly
       // positioned in top left corner anchor of the container
       const towardsRightTranslationX = 0
