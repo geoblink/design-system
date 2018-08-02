@@ -25,6 +25,10 @@ const elementsSCSS = fs
   .map(name => path.resolve(elementsSCSSRelativePathFromRoot, name))
 
 const webpackConfig = merge(baseWebpackConfig, {
+  externals: {
+    lodash: 'lodash',
+    vue: 'vue'
+  },
   module: {
     rules: utils.styleLoaders({
       sourceMap: config.system.productionSourceMap,

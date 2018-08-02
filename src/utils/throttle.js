@@ -1,4 +1,4 @@
-import throttle from 'lodash/throttle'
+import _ from 'lodash'
 
 /**
  * Returns a throttled version of given function, using a proper delay so the UI
@@ -11,7 +11,7 @@ import throttle from 'lodash/throttle'
  * @returns Function Throttled function.
  */
 export default function (callback) {
-  return throttle(callback, 10, {
+  return _.throttle(callback, 10, {
     leading: true,
     trailing: true
   })

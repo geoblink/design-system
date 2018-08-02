@@ -1,7 +1,6 @@
+import _ from 'lodash'
 import throttle from '../utils/throttle'
 import isServer from '../utils/isServer'
-import isObjectEmpty from '../utils/isObjectEmpty'
-import getObjectWithoutKey from '../utils/getObjectWithoutKey'
 import counterFactory from '../utils/counterFactory'
 const getNextCallbackId = counterFactory()
 
@@ -19,7 +18,7 @@ module.exports = {
       return
     }
 
-    if (isObjectEmpty(callbacks)) {
+    if (_.isEmpty(callbacks)) {
       window.addEventListener('click', runCallbacks, true)
     }
 
@@ -33,8 +32,8 @@ module.exports = {
   },
 
   unbind: function (el) {
-    callbacks = getObjectWithoutKey(callbacks, el.__geoOnClickOutsideCallbackId__)
-    if (isObjectEmpty(callbacks)) {
+    callbacks = _.omit(callbacks, el.__geoOnClickOutsideCallbackId__)
+    if (_.isEmpty(callbacks)) {
       window.removeEventListener('click', runCallbacks)
     }
   }
