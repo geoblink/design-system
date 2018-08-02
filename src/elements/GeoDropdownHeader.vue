@@ -115,7 +115,7 @@ export default {
       /**
        * User clicked close button.
        *
-       * @event click
+       * @event close
        * @type {MouseEvent}
        */
       this.$emit('close', $event)
