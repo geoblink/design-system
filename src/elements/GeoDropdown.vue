@@ -97,21 +97,30 @@ export default {
   watch: {
     isOpened () {
       this.repositionPopup()
+      this.$nextTick(this.repositionPopup.bind(this))
     }
   },
   mounted () {
     this.reattachPopupToDocumentBody()
   },
+  updated () {
+    this.repositionPopup()
+  },
+  beforeDestroy () {
+    this.removePopupFromDOM()
+  },
   methods: {
-    reattachPopupToDocumentBody () {
+    removePopupFromDOM () {
       const popupElement = this.$refs.popup
-
       if (popupElement.parentNode) {
         popupElement.parentNode.removeChild(popupElement)
       }
+    },
 
+    reattachPopupToDocumentBody () {
+      const popupElement = this.$refs.popup
+      this.removePopupFromDOM()
       document.body.appendChild(popupElement)
-
       this.repositionPopup()
     },
 
