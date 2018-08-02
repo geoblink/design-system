@@ -119,4 +119,14 @@ describe('GeoAlert', () => {
 
     expect(wrapper.find('.geo-alert--floating').exists()).toBe(true)
   })
+
+  it('shouldn\'t add extra class if floating is not passed', function () {
+    const wrapper = mount(GeoAlert, {
+      propsData: {
+        variant: 'success'
+      }
+    })
+
+    expect(wrapper.find('.geo-alert--floating').exists()).toBe(false)
+  })
 })
