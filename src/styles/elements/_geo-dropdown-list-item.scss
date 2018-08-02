@@ -20,16 +20,12 @@
     height: 30px;
     justify-content: space-between;
     line-height: $line_height_base;
-    margin: 0 5px 5px 5px;
+    margin: 5px;
     padding: 0 7px 0 5px;
     white-space: nowrap;
 
     &:hover {
       background: $color_white_dark;
-    }
-
-    &:first-child {
-      margin-top: 5px;
     }
   }
 
