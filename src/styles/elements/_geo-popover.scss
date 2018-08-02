@@ -1,4 +1,4 @@
-@mixin geo-more-options-menu-make($modifier-name) {
+@mixin geo-popover-make($modifier-name) {
 
   $modifier-name-with-prefix: '';
 
@@ -7,14 +7,14 @@
     $modifier-name-with-prefix: --#{$modifier-name};
   }
 
-  .geo-more-options-menu#{$modifier-name-with-prefix} {
+  .geo-popover#{$modifier-name-with-prefix} {
     display: flex;
     font-family: $font_family_text;
     font-size: $font_size_small;
     user-select: none;
   }
 
-  .geo-more-options-menu__popup#{$modifier-name-with-prefix} {
+  .geo-popover__popup#{$modifier-name-with-prefix} {
     // Use this variable to customize the space between toggle button popup
     --spacing-to-toggle-button: 5;
 
@@ -31,10 +31,10 @@
     z-index: $z-index-sticky;
   }
 
-  .geo-more-options-menu__popup--is-open#{$modifier-name-with-prefix} {
+  .geo-popover__popup--is-open#{$modifier-name-with-prefix} {
     display: block;
   }
 
 }
 
-@include geo-more-options-menu-make('');
+@include geo-popover-make('');

@@ -1,31 +1,31 @@
 <template>
   <div
-    :class="`geo-more-options-menu__entry${cssSuffix}`"
+    :class="`geo-popover__list-item${cssSuffix}`"
     @click="emitClick($event)"
   >
-    <div :class="`geo-more-options-menu__entry__icon-and-label${cssSuffix}`">
+    <div :class="`geo-popover__list-item__icon-and-label${cssSuffix}`">
       <div
         v-if="icon"
-        :class="`geo-more-options-menu__entry__icon-and-label__icon-container${cssSuffix}`"
+        :class="`geo-popover__list-item__icon-and-label__icon-container${cssSuffix}`"
       >
         <font-awesome-icon
           :icon="icon"
-          :class="`geo-more-options-menu__entry__icon-and-label__icon-container__icon${cssSuffix}`"
+          :class="`geo-popover__list-item__icon-and-label__icon-container__icon${cssSuffix}`"
           aria-hidden
           fixed-width
         />
       </div>
-      <div :class="`geo-more-options-menu__entry__icon-and-label__label${cssSuffix}`">
-        <!-- @slot Use this slot to customize entry's label -->
+      <div :class="`geo-popover__list-item__icon-and-label__label${cssSuffix}`">
+        <!-- @slot Use this slot to customize items's label -->
         <slot name="label" />
       </div>
     </div>
     <div
-      v-if="hasRightAccessoryItems"
-      :class="`geo-more-options-menu__entry__right-accessory-items${cssSuffix}`"
+      v-if="hasTrailingAccessoryItems"
+      :class="`geo-popover__list-item__trailing-accessory-items${cssSuffix}`"
     >
-      <!-- @slot Use this slot to add more items at the right end of the entry -->
-      <slot name="rightAccessoryItem" />
+      <!-- @slot Use this slot to add more items to the trailing edge of this row -->
+      <slot name="trailingAccessoryItem" />
     </div>
   </div>
 </template>
@@ -34,7 +34,7 @@
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 export default {
-  name: 'GeoMoreOptionsMenuEntry',
+  name: 'GeoPopoverListItem',
   status: 'ready',
   version: '1.0.0',
   components: {
@@ -73,14 +73,14 @@ export default {
       return this.cssModifier ? `--${this.cssModifier}` : ''
     },
 
-    hasRightAccessoryItems () {
-      return this.$slots.rightAccessoryItem && this.$slots.rightAccessoryItem.length
+    hasTrailingAccessoryItems () {
+      return this.$slots.trailingAccessoryItem && this.$slots.trailingAccessoryItem.length
     }
   },
   methods: {
     emitClick ($event) {
       /**
-       * User clicked this menu entry.
+       * User clicked this item.
        *
        * @event click
        * @type {MouseEvent}

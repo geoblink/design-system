@@ -3,8 +3,8 @@
     v-any-scroll="repositionPopup"
     v-click-outside="checkClickCoordinatesAndEmitClickOutside"
     :class="{
-      [`geo-more-options-menu${cssSuffix}`]: true,
-      [`geo-more-options-menu--is-open${cssSuffix}`]: isOpened
+      [`geo-popover${cssSuffix}`]: true,
+      [`geo-popover--is-open${cssSuffix}`]: isOpened
     }"
   >
     <!-- @slot Use this slot to customize the button used to toggle the popup -->
@@ -13,8 +13,8 @@
     <div
       ref="popup"
       :class="{
-        [`geo-more-options-menu__popup${cssSuffix}`]: true,
-        [`geo-more-options-menu__popup--is-open${cssSuffix}`]: isOpened,
+        [`geo-popover__popup${cssSuffix}`]: true,
+        [`geo-popover__popup--is-open${cssSuffix}`]: isOpened,
       }"
       :style="popupStyle"
     >
@@ -30,7 +30,7 @@ import AnyScroll from '../directives/GeoAnyScroll'
 import getDOMElementOffset from '../utils/getDOMElementOffset'
 
 export default {
-  name: 'GeoMoreOptionsMenu',
+  name: 'GeoPopover',
   status: 'ready',
   version: '1.0.0',
   directives: {

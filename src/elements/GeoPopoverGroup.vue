@@ -1,36 +1,36 @@
 <template>
-  <div :class="`geo-more-options-menu__options-group${cssSuffix}`">
+  <div :class="`geo-popover__group${cssSuffix}`">
     <div
-      :class="`geo-more-options-menu__options-group__entry${cssSuffix}`"
+      :class="`geo-popover__group__header${cssSuffix}`"
       @click="emitClick($event)"
     >
-      <div :class="`geo-more-options-menu__options-group__entry__icon-and-label${cssSuffix}`">
+      <div :class="`geo-popover__group__header__icon-and-label${cssSuffix}`">
         <div
           v-if="icon"
-          :class="`geo-more-options-menu__options-group__entry__icon-and-label__icon-container${cssSuffix}`"
+          :class="`geo-popover__group__header__icon-and-label__icon-container${cssSuffix}`"
         >
           <font-awesome-icon
             :icon="icon"
-            :class="`geo-more-options-menu__options-group__entry__icon-and-label__icon-container__icon${cssSuffix}`"
+            :class="`geo-popover__group__header__icon-and-label__icon-container__icon${cssSuffix}`"
             aria-hidden
             fixed-width
           />
         </div>
-        <div :class="`geo-more-options-menu__options-group__entry__icon-and-label__label${cssSuffix}`">
-          <!-- @slot Use this slot to customize options group title -->
+        <div :class="`geo-popover__group__header__icon-and-label__label${cssSuffix}`">
+          <!-- @slot Use this slot to customize group's title -->
           <slot name="title" />
         </div>
       </div>
       <div
-        v-if="hasRightAccessoryItems"
-        :class="`geo-more-options-menu__options-group__entry__right-accessory-items${cssSuffix}`"
+        v-if="hasTrailingAccessoryItems"
+        :class="`geo-popover__group__header__right-accessory-items${cssSuffix}`"
       >
-        <!-- @slot Use this slot to add more items at the right end of the group title -->
-        <slot name="rightAccessoryItem" />
+        <!-- @slot Use this slot to add more items to the trailing edge of this group's header -->
+        <slot name="trailingAccessoryItem" />
       </div>
     </div>
-    <div :class="`geo-more-options-menu__options-group__entries${cssSuffix}`">
-      <!-- @slot Use this slot to customize the items of the options group -->
+    <div :class="`geo-popover__group__content${cssSuffix}`">
+      <!-- @slot Use this slot to customize the items of this group -->
       <slot name="item" />
     </div>
   </div>
@@ -40,7 +40,7 @@
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 export default {
-  name: 'GeoMoreOptionsMenuOptionsGroup',
+  name: 'GeoPopoverGroup',
   status: 'ready',
   version: '1.0.0',
   components: {
@@ -79,8 +79,8 @@ export default {
       return this.cssModifier ? `--${this.cssModifier}` : ''
     },
 
-    hasRightAccessoryItems () {
-      return this.$slots.rightAccessoryItem && this.$slots.rightAccessoryItem.length
+    hasTrailingAccessoryItems () {
+      return this.$slots.trailingAccessoryItem && this.$slots.trailingAccessoryItem.length
     }
   },
   methods: {

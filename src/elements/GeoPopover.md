@@ -1,195 +1,199 @@
+`GeoPopover` is a combination of a button and a popup which is toggled in and
+out using that button. It's suitable for dropdown menus and actions which
+require additional or complex user input like handling filters.
+
 ```vue
 <template>
   <div class="element-demo">
     <h3 class="element-demo__header">Simple menu</h3>
     <div class="element-demo__block" style="justify-content: space-around;">
-      <geo-more-options-menu
+      <geo-popover
         :opened="isOpened[0]"
         @click-outside="closeMenu(0)"
       >
-        <geo-more-options-menu-regular-button
+        <geo-popover-regular-button
           slot="toggleButton"
           :icon="['fas', 'user']"
           @click="toggleMenu(0)"
         >
           People: <strong>Residents</strong>, <strong>Visitors</strong>, <strong>Workers</strong>
-        </geo-more-options-menu-regular-button>
+        </geo-popover-regular-button>
         <template
           slot="popupContent"
-          v-for="(entry, index) in menuItems[0]"
+          v-for="(item, index) in menuItems[0]"
         >
-          <geo-more-options-menu-header
-            v-if="entry.back"
+          <geo-popover-header
+            v-if="item.back"
             :icon="['fas', 'chevron-left']"
             :key="index"
-            @click-icon="handleMenuEntryClick(0, index)"
+            @click-icon="handleListItemClick(0, index)"
           >
-            {{ entry.label }}
-          </geo-more-options-menu-header>
-          <geo-more-options-menu-options-group
-            v-else-if="entry.groupedItems"
+            {{ item.label }}
+          </geo-popover-header>
+          <geo-popover-group
+            v-else-if="item.groupedItems"
             :key="index"
           >
-            <template slot="title">{{ entry.label }}</template>
-            <geo-more-options-menu-entry
-              v-for="(item, index) in entry.groupedItems"
+            <template slot="title">{{ item.label }}</template>
+            <geo-popover-list-item
+              v-for="(item, index) in item.groupedItems"
               :key="index"
               :icon="item.icon"
               slot="item"
             >
               <template slot="label">{{ item.label }}</template>
-            </geo-more-options-menu-entry>
-          </geo-more-options-menu-options-group>
-          <geo-more-options-menu-entry
+            </geo-popover-list-item>
+          </geo-popover-group>
+          <geo-popover-list-item
             v-else
             :key="index"
-            :icon="entry.icon"
-            @click="handleMenuEntryClick(0, index)"
+            :icon="item.icon"
+            @click="handleListItemClick(0, index)"
           >
-            <template slot="label">{{ entry.label }}</template>
-            <template slot="rightAccessoryItem">
+            <template slot="label">{{ item.label }}</template>
+            <template slot="trailingAccessoryItem">
               <font-awesome-icon
-                v-if="entry.submenu"
+                v-if="item.submenu"
                 :icon="['fas', 'chevron-right']"
                 aria-hidden
                 fixed-width
               />
               <input
-                v-else-if="entry.checkbox"
+                v-else-if="item.checkbox"
                 type="checkbox"
               >
             </template>
-          </geo-more-options-menu-entry>
+          </geo-popover-list-item>
         </template>
-      </geo-more-options-menu>
+      </geo-popover>
     </div>
     <h3 class="element-demo__header">Menu inside container</h3>
     <div class="element-demo__block" style="justify-content: space-around;">
       <div class="element-demo__bordered-box container-with-hidden-overflow">
-      <geo-more-options-menu
+      <geo-popover
         :opened="isOpened[1]"
         @click-outside="closeMenu(1)"
       >
-        <geo-more-options-menu-regular-button
+        <geo-popover-regular-button
           slot="toggleButton"
           :icon="['fas', 'user']"
           @click="toggleMenu(1)"
         >
           People: <strong>Residents</strong>, <strong>Visitors</strong>, <strong>Workers</strong>
-        </geo-more-options-menu-regular-button>
+        </geo-popover-regular-button>
         <template
           slot="popupContent"
-          v-for="(entry, index) in menuItems[1]"
+          v-for="(item, index) in menuItems[1]"
         >
-          <geo-more-options-menu-header
-            v-if="entry.back"
+          <geo-popover-header
+            v-if="item.back"
             :icon="['fas', 'chevron-left']"
             :key="index"
-            @click-icon="handleMenuEntryClick(1, index)"
+            @click-icon="handleListItemClick(1, index)"
           >
-            {{ entry.label }}
-          </geo-more-options-menu-header>
-          <geo-more-options-menu-options-group
-            v-else-if="entry.groupedItems"
+            {{ item.label }}
+          </geo-popover-header>
+          <geo-popover-group
+            v-else-if="item.groupedItems"
             :key="index"
           >
-            <template slot="title">{{ entry.label }}</template>
-            <geo-more-options-menu-entry
-              v-for="(item, index) in entry.groupedItems"
+            <template slot="title">{{ item.label }}</template>
+            <geo-popover-list-item
+              v-for="(item, index) in item.groupedItems"
               :key="index"
               :icon="item.icon"
               slot="item"
             >
               <template slot="label">{{ item.label }}</template>
-            </geo-more-options-menu-entry>
-          </geo-more-options-menu-options-group>
-          <geo-more-options-menu-entry
+            </geo-popover-list-item>
+          </geo-popover-group>
+          <geo-popover-list-item
             v-else
             :key="index"
-            :icon="entry.icon"
-            @click="handleMenuEntryClick(1, index)"
+            :icon="item.icon"
+            @click="handleListItemClick(1, index)"
           >
-            <template slot="label">{{ entry.label }}</template>
-            <template slot="rightAccessoryItem">
+            <template slot="label">{{ item.label }}</template>
+            <template slot="trailingAccessoryItem">
               <font-awesome-icon
-                v-if="entry.submenu"
+                v-if="item.submenu"
                 :icon="['fas', 'chevron-right']"
                 aria-hidden
                 fixed-width
               />
               <input
-                v-else-if="entry.checkbox"
+                v-else-if="item.checkbox"
                 type="checkbox"
               >
             </template>
-          </geo-more-options-menu-entry>
+          </geo-popover-list-item>
         </template>
-      </geo-more-options-menu>
+      </geo-popover>
       </div>
     </div>
     <h3 class="element-demo__header">Menu inside scrollable container</h3>
     <div class="element-demo__block" style="justify-content: space-around;">
       <div class="element-demo__bordered-box container-with-scroll-overflow">
         <div style="margin-bottom: 300px;">
-          <geo-more-options-menu
+          <geo-popover
             :opened="isOpened[2]"
             @click-outside="closeMenu(2)"
           >
-            <geo-more-options-menu-regular-button
+            <geo-popover-regular-button
               slot="toggleButton"
               :icon="['fas', 'user']"
               @click="toggleMenu(2)"
             >
               People: <strong>Residents</strong>, <strong>Visitors</strong>, <strong>Workers</strong>
-            </geo-more-options-menu-regular-button>
+            </geo-popover-regular-button>
             <template
               slot="popupContent"
-              v-for="(entry, index) in menuItems[2]"
+              v-for="(item, index) in menuItems[2]"
             >
-              <geo-more-options-menu-header
-                v-if="entry.back"
+              <geo-popover-header
+                v-if="item.back"
                 :icon="['fas', 'chevron-left']"
                 :key="index"
-                @click-icon="handleMenuEntryClick(2, index)"
+                @click-icon="handleListItemClick(2, index)"
               >
-                {{ entry.label }}
-              </geo-more-options-menu-header>
-              <geo-more-options-menu-options-group
-                v-else-if="entry.groupedItems"
+                {{ item.label }}
+              </geo-popover-header>
+              <geo-popover-group
+                v-else-if="item.groupedItems"
                 :key="index"
               >
-                <template slot="title">{{ entry.label }}</template>
-                <geo-more-options-menu-entry
-                  v-for="(item, index) in entry.groupedItems"
+                <template slot="title">{{ item.label }}</template>
+                <geo-popover-list-item
+                  v-for="(item, index) in item.groupedItems"
                   :key="index"
                   :icon="item.icon"
                   slot="item"
                 >
                   <template slot="label">{{ item.label }}</template>
-                </geo-more-options-menu-entry>
-              </geo-more-options-menu-options-group>
-              <geo-more-options-menu-entry
+                </geo-popover-list-item>
+              </geo-popover-group>
+              <geo-popover-list-item
                 v-else
                 :key="index"
-                :icon="entry.icon"
-                @click="handleMenuEntryClick(2, index)"
+                :icon="item.icon"
+                @click="handleListItemClick(2, index)"
               >
-                <template slot="label">{{ entry.label }}</template>
-                <template slot="rightAccessoryItem">
+                <template slot="label">{{ item.label }}</template>
+                <template slot="trailingAccessoryItem">
                   <font-awesome-icon
-                    v-if="entry.submenu"
+                    v-if="item.submenu"
                     :icon="['fas', 'chevron-right']"
                     aria-hidden
                     fixed-width
                   />
                   <input
-                    v-else-if="entry.checkbox"
+                    v-else-if="item.checkbox"
                     type="checkbox"
                   >
                 </template>
-              </geo-more-options-menu-entry>
+              </geo-popover-list-item>
             </template>
-          </geo-more-options-menu>
+          </geo-popover>
         </div>
       </div>
     </div>
@@ -304,7 +308,7 @@ export default {
       this.$set(this.isOpened, idMenu, !this.isOpened[idMenu])
     },
 
-    handleMenuEntryClick (idMenu, idEntry) {
+    handleListItemClick (idMenu, idEntry) {
       const entry = this.menuItems[idMenu][idEntry]
       if (entry.back) {
         this.currentPath[idMenu].pop()

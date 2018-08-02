@@ -1,12 +1,12 @@
 <template>
   <div
-    :class="`geo-more-options-menu__compact-button-container${cssSuffix}`"
+    :class="`geo-popover__compact-button-container${cssSuffix}`"
     @click="emitClick($event)"
   >
     <font-awesome-icon
       v-if="icon"
       :icon="icon"
-      :class="`geo-more-options-menu__compact-button-container__icon${cssSuffix}`"
+      :class="`geo-popover__compact-button-container__icon${cssSuffix}`"
       aria-hidden
       fixed-width
     />
@@ -17,7 +17,7 @@
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 export default {
-  name: 'GeoMoreOptionsMenuCompactButton',
+  name: 'GeoPopoverCompactButton',
   status: 'ready',
   version: '1.0.0',
   components: {

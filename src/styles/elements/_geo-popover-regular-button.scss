@@ -1,4 +1,4 @@
-@mixin geo-more-options-menu-regular-button-make($modifier-name) {
+@mixin geo-popover-regular-button-make($modifier-name) {
 
   $modifier-name-with-prefix: '';
 
@@ -7,7 +7,7 @@
     $modifier-name-with-prefix: --#{$modifier-name};
   }
 
-  .geo-more-options-menu__regular-button-container#{$modifier-name-with-prefix} {
+  .geo-popover__regular-button-container#{$modifier-name-with-prefix} {
     align-items: center;
     background-color: $color_white;
     border: 1px solid $color_grey;
@@ -25,7 +25,7 @@
     &:hover {
       border-color: $color_blue;
 
-      .geo-more-options-menu__regular-button-container__icon#{$modifier-name-with-prefix} {
+      .geo-popover__regular-button-container__icon#{$modifier-name-with-prefix} {
         color: $color_blue;
       }
     }
@@ -36,9 +36,9 @@
     }
   }
 
-  .geo-more-options-menu__regular-button-container__icon#{$modifier-name-with-prefix}:not(:last-child) {
+  .geo-popover__regular-button-container__icon#{$modifier-name-with-prefix}:not(:last-child) {
     margin-right: 5px;
   }
 }
 
-@include geo-more-options-menu-regular-button-make('');
+@include geo-popover-regular-button-make('');
