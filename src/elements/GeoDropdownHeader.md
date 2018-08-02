@@ -14,7 +14,7 @@ clickable icon in the leading edge of the header.
       Results based on
     </geo-dropdown-header>
 
-    <geo-dropdown-header :icon="['fas', 'chevron-left']" @close="">
+    <geo-dropdown-header :icon="['fas', 'chevron-left']" :close-icon="['fas', 'times']" @close="">
       Closable
     </geo-dropdown-header>
   </div>

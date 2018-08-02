@@ -26,7 +26,7 @@
       :class="`geo-dropdown__header__close-button${cssSuffix}`"
     >
       <font-awesome-icon
-        :icon="['fas', 'times']"
+        :icon="closeIcon"
         :class="`geo-dropdown__header__close-button__icon${cssSuffix}`"
         aria-hidden
         fixed-width
@@ -59,7 +59,7 @@ export default {
     },
     /**
      * Optional Font Awesome 5 icon to be displayed next to the entry's label,
-     * on the left.
+     * on the leading edge.
      *
      * See [vue-fontawesome](https://www.npmjs.com/package/@fortawesome/vue-fontawesome#explicit-prefix-note-the-vue-bind-shorthand-because-this-uses-an-array)
      * for more info about this.
@@ -67,6 +67,18 @@ export default {
     icon: {
       type: Array,
       required: false
+    },
+    /**
+     * Font Awesome 5 icon to be displayed as close button.
+     *
+     * See [vue-fontawesome](https://www.npmjs.com/package/@fortawesome/vue-fontawesome#explicit-prefix-note-the-vue-bind-shorthand-because-this-uses-an-array)
+     * for more info about this.
+     */
+    closeIcon: {
+      type: Array,
+      default () {
+        return ['fal', 'times']
+      }
     }
   },
   computed: {
