@@ -1,33 +1,33 @@
 <template>
   <div
-    :class="`geo-popover__header${cssSuffix}`"
+    :class="`geo-dropdown__header${cssSuffix}`"
     @click="emitClick($event)"
   >
-    <div :class="`geo-popover__header__icon-and-label${cssSuffix}`">
+    <div :class="`geo-dropdown__header__icon-and-label${cssSuffix}`">
       <div
         v-if="icon"
-        :class="`geo-popover__header__icon-and-label__icon-container${cssSuffix}`"
+        :class="`geo-dropdown__header__icon-and-label__icon-container${cssSuffix}`"
       >
         <font-awesome-icon
           :icon="icon"
-          :class="`geo-popover__header__icon-and-label__icon-container__icon${cssSuffix}`"
+          :class="`geo-dropdown__header__icon-and-label__icon-container__icon${cssSuffix}`"
           aria-hidden
           fixed-width
           @click="emitIconClick($event)"
         />
       </div>
-      <div :class="`geo-popover__header__icon-and-label__label${cssSuffix}`">
+      <div :class="`geo-dropdown__header__icon-and-label__label${cssSuffix}`">
         <!-- @slot Use this slot to customize header's content -->
         <slot />
       </div>
     </div>
     <div
       v-if="shouldShowCloseButton"
-      :class="`geo-popover__header__close-button${cssSuffix}`"
+      :class="`geo-dropdown__header__close-button${cssSuffix}`"
     >
       <font-awesome-icon
         :icon="['fas', 'times']"
-        :class="`geo-popover__header__close-button__icon${cssSuffix}`"
+        :class="`geo-dropdown__header__close-button__icon${cssSuffix}`"
         aria-hidden
         fixed-width
         @click="emitClose($event)"
@@ -38,7 +38,7 @@
 
 <script>
 export default {
-  name: 'GeoPopoverHeader',
+  name: 'GeoDropdownHeader',
   status: 'ready',
   version: '1.0.0',
   props: {

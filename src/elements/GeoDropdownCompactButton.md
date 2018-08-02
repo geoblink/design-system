@@ -1,4 +1,4 @@
-`GeoPopoverCompactButton` is a button designed to display a single icon which
+`GeoDropdownCompactButton` is a button designed to display a single icon which
 is surrounded by a bordered box on hover or when the linked popup is displayed.
 
 It's suitable to display additional actions in lists that show evident changes
@@ -8,8 +8,8 @@ state changes other than linked popup being displayed or not.
 ```jsx
 <div class="element-demo">
   <div class="element-demo__block" style="justify-content: space-around;">
-    <geo-popover-compact-button :icon="['fas', 'ellipsis-v']" />
-    <geo-popover-compact-button :icon="['far', 'bell']" />
+    <geo-dropdown-compact-button :icon="['fas', 'ellipsis-v']" />
+    <geo-dropdown-compact-button :icon="['far', 'bell']" />
   </div>
 </div>
 ```

@@ -1,12 +1,12 @@
 <template>
   <div
-    :class="`geo-popover__compact-button-container${cssSuffix}`"
+    :class="`geo-dropdown__compact-button-container${cssSuffix}`"
     @click="emitClick($event)"
   >
     <font-awesome-icon
       v-if="icon"
       :icon="icon"
-      :class="`geo-popover__compact-button-container__icon${cssSuffix}`"
+      :class="`geo-dropdown__compact-button-container__icon${cssSuffix}`"
       aria-hidden
       fixed-width
     />
@@ -15,7 +15,7 @@
 
 <script>
 export default {
-  name: 'GeoPopoverCompactButton',
+  name: 'GeoDropdownCompactButton',
   status: 'ready',
   version: '1.0.0',
   props: {

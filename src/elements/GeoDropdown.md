@@ -1,4 +1,4 @@
-`GeoPopover` is a combination of a button and a popup which is toggled in and
+`GeoDropdown` is a combination of a button and a popup which is toggled in and
 out using that button. It's suitable for dropdown menus and actions which
 require additional or complex user input like handling filters.
 
@@ -7,44 +7,44 @@ require additional or complex user input like handling filters.
   <div class="element-demo">
     <h3 class="element-demo__header">Simple menu</h3>
     <div class="element-demo__block" style="justify-content: space-around;">
-      <geo-popover
+      <geo-dropdown
         :opened="isOpened[0]"
         @click-outside="closeMenu(0)"
       >
-        <geo-popover-regular-button
+        <geo-dropdown-regular-button
           slot="toggleButton"
           :icon="['fas', 'user']"
           @click="toggleMenu(0)"
         >
           People: <strong>Residents</strong>, <strong>Visitors</strong>, <strong>Workers</strong>
-        </geo-popover-regular-button>
+        </geo-dropdown-regular-button>
         <template
           slot="popupContent"
           v-for="(item, index) in menuItems[0]"
         >
-          <geo-popover-header
+          <geo-dropdown-header
             v-if="item.back"
             :icon="['fas', 'chevron-left']"
             :key="index"
             @click-icon="handleListItemClick(0, index)"
           >
             {{ item.label }}
-          </geo-popover-header>
-          <geo-popover-group
+          </geo-dropdown-header>
+          <geo-dropdown-group
             v-else-if="item.groupedItems"
             :key="index"
           >
             <template slot="title">{{ item.label }}</template>
-            <geo-popover-list-item
+            <geo-dropdown-list-item
               v-for="(item, index) in item.groupedItems"
               :key="index"
               :icon="item.icon"
               slot="item"
             >
               <template slot="label">{{ item.label }}</template>
-            </geo-popover-list-item>
-          </geo-popover-group>
-          <geo-popover-list-item
+            </geo-dropdown-list-item>
+          </geo-dropdown-group>
+          <geo-dropdown-list-item
             v-else
             :key="index"
             :icon="item.icon"
@@ -63,51 +63,51 @@ require additional or complex user input like handling filters.
                 type="checkbox"
               >
             </template>
-          </geo-popover-list-item>
+          </geo-dropdown-list-item>
         </template>
-      </geo-popover>
+      </geo-dropdown>
     </div>
     <h3 class="element-demo__header">Menu inside container</h3>
     <div class="element-demo__block" style="justify-content: space-around;">
       <div class="element-demo__bordered-box container-with-hidden-overflow">
-      <geo-popover
+      <geo-dropdown
         :opened="isOpened[1]"
         @click-outside="closeMenu(1)"
       >
-        <geo-popover-regular-button
+        <geo-dropdown-regular-button
           slot="toggleButton"
           :icon="['fas', 'user']"
           @click="toggleMenu(1)"
         >
           People: <strong>Residents</strong>, <strong>Visitors</strong>, <strong>Workers</strong>
-        </geo-popover-regular-button>
+        </geo-dropdown-regular-button>
         <template
           slot="popupContent"
           v-for="(item, index) in menuItems[1]"
         >
-          <geo-popover-header
+          <geo-dropdown-header
             v-if="item.back"
             :icon="['fas', 'chevron-left']"
             :key="index"
             @click-icon="handleListItemClick(1, index)"
           >
             {{ item.label }}
-          </geo-popover-header>
-          <geo-popover-group
+          </geo-dropdown-header>
+          <geo-dropdown-group
             v-else-if="item.groupedItems"
             :key="index"
           >
             <template slot="title">{{ item.label }}</template>
-            <geo-popover-list-item
+            <geo-dropdown-list-item
               v-for="(item, index) in item.groupedItems"
               :key="index"
               :icon="item.icon"
               slot="item"
             >
               <template slot="label">{{ item.label }}</template>
-            </geo-popover-list-item>
-          </geo-popover-group>
-          <geo-popover-list-item
+            </geo-dropdown-list-item>
+          </geo-dropdown-group>
+          <geo-dropdown-list-item
             v-else
             :key="index"
             :icon="item.icon"
@@ -126,53 +126,53 @@ require additional or complex user input like handling filters.
                 type="checkbox"
               >
             </template>
-          </geo-popover-list-item>
+          </geo-dropdown-list-item>
         </template>
-      </geo-popover>
+      </geo-dropdown>
       </div>
     </div>
     <h3 class="element-demo__header">Menu inside scrollable container</h3>
     <div class="element-demo__block" style="justify-content: space-around;">
       <div class="element-demo__bordered-box container-with-scroll-overflow">
         <div style="margin-bottom: 300px;">
-          <geo-popover
+          <geo-dropdown
             :opened="isOpened[2]"
             @click-outside="closeMenu(2)"
           >
-            <geo-popover-regular-button
+            <geo-dropdown-regular-button
               slot="toggleButton"
               :icon="['fas', 'user']"
               @click="toggleMenu(2)"
             >
               People: <strong>Residents</strong>, <strong>Visitors</strong>, <strong>Workers</strong>
-            </geo-popover-regular-button>
+            </geo-dropdown-regular-button>
             <template
               slot="popupContent"
               v-for="(item, index) in menuItems[2]"
             >
-              <geo-popover-header
+              <geo-dropdown-header
                 v-if="item.back"
                 :icon="['fas', 'chevron-left']"
                 :key="index"
                 @click-icon="handleListItemClick(2, index)"
               >
                 {{ item.label }}
-              </geo-popover-header>
-              <geo-popover-group
+              </geo-dropdown-header>
+              <geo-dropdown-group
                 v-else-if="item.groupedItems"
                 :key="index"
               >
                 <template slot="title">{{ item.label }}</template>
-                <geo-popover-list-item
+                <geo-dropdown-list-item
                   v-for="(item, index) in item.groupedItems"
                   :key="index"
                   :icon="item.icon"
                   slot="item"
                 >
                   <template slot="label">{{ item.label }}</template>
-                </geo-popover-list-item>
-              </geo-popover-group>
-              <geo-popover-list-item
+                </geo-dropdown-list-item>
+              </geo-dropdown-group>
+              <geo-dropdown-list-item
                 v-else
                 :key="index"
                 :icon="item.icon"
@@ -191,9 +191,9 @@ require additional or complex user input like handling filters.
                     type="checkbox"
                   >
                 </template>
-              </geo-popover-list-item>
+              </geo-dropdown-list-item>
             </template>
-          </geo-popover>
+          </geo-dropdown>
         </div>
       </div>
     </div>

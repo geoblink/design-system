@@ -1,4 +1,4 @@
-@mixin geo-popover-compact-button-make($modifier-name) {
+@mixin geo-dropdown-compact-button-make($modifier-name) {
 
   $modifier-name-with-prefix: '';
 
@@ -7,7 +7,7 @@
     $modifier-name-with-prefix: --#{$modifier-name};
   }
 
-  .geo-popover__compact-button-container#{$modifier-name-with-prefix} {
+  .geo-dropdown__compact-button-container#{$modifier-name-with-prefix} {
     align-items: center;
 
     background-color: transparent;
@@ -30,4 +30,4 @@
   }
 }
 
-@include geo-popover-compact-button-make('');
+@include geo-dropdown-compact-button-make('');

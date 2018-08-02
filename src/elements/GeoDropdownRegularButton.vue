@@ -1,18 +1,18 @@
 <template>
   <div
-    :class="`geo-popover__regular-button-container${cssSuffix}`"
+    :class="`geo-dropdown__regular-button-container${cssSuffix}`"
     @click="emitClick($event)"
   >
     <font-awesome-icon
       v-if="icon"
       :icon="icon"
-      :class="`geo-popover__regular-button-container__icon${cssSuffix}`"
+      :class="`geo-dropdown__regular-button-container__icon${cssSuffix}`"
       aria-hidden
       fixed-width
     />
     <div
       v-if="hasContent"
-      :class="`geo-popover__regular-button-container__string${cssSuffix}`"
+      :class="`geo-dropdown__regular-button-container__string${cssSuffix}`"
     >
       <!-- @slot Use this slot to customize button's content -->
       <slot />
@@ -22,7 +22,7 @@
 
 <script>
 export default {
-  name: 'GeoPopoverRegularButton',
+  name: 'GeoDropdownRegularButton',
   status: 'ready',
   version: '1.0.0',
   props: {

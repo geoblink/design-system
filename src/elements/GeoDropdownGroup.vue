@@ -1,35 +1,35 @@
 <template>
-  <div :class="`geo-popover__group${cssSuffix}`">
+  <div :class="`geo-dropdown__group${cssSuffix}`">
     <div
-      :class="`geo-popover__group__header${cssSuffix}`"
+      :class="`geo-dropdown__group__header${cssSuffix}`"
       @click="emitClick($event)"
     >
-      <div :class="`geo-popover__group__header__icon-and-label${cssSuffix}`">
+      <div :class="`geo-dropdown__group__header__icon-and-label${cssSuffix}`">
         <div
           v-if="icon"
-          :class="`geo-popover__group__header__icon-and-label__icon-container${cssSuffix}`"
+          :class="`geo-dropdown__group__header__icon-and-label__icon-container${cssSuffix}`"
         >
           <font-awesome-icon
             :icon="icon"
-            :class="`geo-popover__group__header__icon-and-label__icon-container__icon${cssSuffix}`"
+            :class="`geo-dropdown__group__header__icon-and-label__icon-container__icon${cssSuffix}`"
             aria-hidden
             fixed-width
           />
         </div>
-        <div :class="`geo-popover__group__header__icon-and-label__label${cssSuffix}`">
+        <div :class="`geo-dropdown__group__header__icon-and-label__label${cssSuffix}`">
           <!-- @slot Use this slot to customize group's title -->
           <slot name="title" />
         </div>
       </div>
       <div
         v-if="hasTrailingAccessoryItems"
-        :class="`geo-popover__group__header__right-accessory-items${cssSuffix}`"
+        :class="`geo-dropdown__group__header__right-accessory-items${cssSuffix}`"
       >
         <!-- @slot Use this slot to add more items to the trailing edge of this group's header -->
         <slot name="trailingAccessoryItem" />
       </div>
     </div>
-    <div :class="`geo-popover__group__content${cssSuffix}`">
+    <div :class="`geo-dropdown__group__content${cssSuffix}`">
       <!-- @slot Use this slot to customize the items of this group -->
       <slot name="item" />
     </div>
@@ -38,7 +38,7 @@
 
 <script>
 export default {
-  name: 'GeoPopoverGroup',
+  name: 'GeoDropdownGroup',
   status: 'ready',
   version: '1.0.0',
   props: {
