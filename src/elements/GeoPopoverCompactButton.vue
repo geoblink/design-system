@@ -14,15 +14,10 @@
 </template>
 
 <script>
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-
 export default {
   name: 'GeoPopoverCompactButton',
   status: 'ready',
   version: '1.0.0',
-  components: {
-    FontAwesomeIcon
-  },
   props: {
     /**
      * Font Awesome 5 icon to be displayed.

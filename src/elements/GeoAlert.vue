@@ -42,8 +42,6 @@
 </template>
 
 <script>
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-
 const VARIANTS = {
   success: 'success',
   info: 'info',
@@ -56,9 +54,6 @@ export default {
   name: 'GeoAlert',
   status: 'ready',
   release: '1.0.0',
-  components: {
-    FontAwesomeIcon
-  },
   constants: {
     VARIANTS
   },

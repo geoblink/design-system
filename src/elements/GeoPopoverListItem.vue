@@ -31,15 +31,10 @@
 </template>
 
 <script>
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-
 export default {
   name: 'GeoPopoverListItem',
   status: 'ready',
   version: '1.0.0',
-  components: {
-    FontAwesomeIcon
-  },
   props: {
     /**
      * An optional suffix to be appended as BEM modifier.
