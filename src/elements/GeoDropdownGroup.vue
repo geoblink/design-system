@@ -1,6 +1,7 @@
 <template>
   <div :class="`geo-dropdown__group${cssSuffix}`">
     <div
+      v-if="hasTitle"
       :class="`geo-dropdown__group__header${cssSuffix}`"
       @click="emitClick($event)"
     >
@@ -74,8 +75,12 @@ export default {
       return this.cssModifier ? `--${this.cssModifier}` : ''
     },
 
+    hasTitle () {
+      return !!(this.$slots.title && this.$slots.title.length)
+    },
+
     hasTrailingAccessoryItems () {
-      return this.$slots.trailingAccessoryItem && this.$slots.trailingAccessoryItem.length
+      return !!(this.$slots.trailingAccessoryItem && this.$slots.trailingAccessoryItem.length)
     }
   },
   methods: {
