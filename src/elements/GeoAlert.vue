@@ -131,7 +131,7 @@ export default {
     },
 
     shouldShowCloseButton () {
-      return this.$listeners.close
+      return !!this.$listeners.close
     }
   },
   methods: {
