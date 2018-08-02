@@ -69,7 +69,7 @@ export default {
     },
 
     hasTrailingAccessoryItems () {
-      return this.$slots.trailingAccessoryItem && this.$slots.trailingAccessoryItem.length
+      return !!(this.$slots.trailingAccessoryItem && this.$slots.trailingAccessoryItem.length)
     }
   },
   methods: {
