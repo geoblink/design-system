@@ -27,6 +27,14 @@
     align-items: center;
     display: flex;
     flex-direction: row;
+
+    &:first-child:last-child {
+      margin-right: 10px;
+    }
+  }
+
+  .geo-dropdown__header__icon-and-label__label#{$modifier-name-with-prefix}:first-child:last-child {
+    margin-left: 10px;
   }
 
   .geo-dropdown__header__icon-and-label__icon-container#{$modifier-name-with-prefix} {
