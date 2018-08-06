@@ -44,6 +44,9 @@ require additional or complex user input like handling filters.
               <template slot="label">{{ item.label }}</template>
             </geo-dropdown-list-item>
           </geo-dropdown-group>
+          <geo-dropdown-footer v-else-if="item.footer" :key="index">
+            <geo-button type="primary">{{ item.label }}</geo-button>
+          </geo-dropdown-footer>
           <geo-dropdown-list-item
             v-else
             :key="index"
@@ -107,6 +110,9 @@ require additional or complex user input like handling filters.
               <template slot="label">{{ item.label }}</template>
             </geo-dropdown-list-item>
           </geo-dropdown-group>
+          <geo-dropdown-footer v-else-if="item.footer" :key="index">
+            <geo-button type="primary">{{ item.label }}</geo-button>
+          </geo-dropdown-footer>
           <geo-dropdown-list-item
             v-else
             :key="index"
@@ -172,6 +178,9 @@ require additional or complex user input like handling filters.
                   <template slot="label">{{ item.label }}</template>
                 </geo-dropdown-list-item>
               </geo-dropdown-group>
+              <geo-dropdown-footer v-else-if="item.footer" :key="index">
+                <geo-button type="primary">{{ item.label }}</geo-button>
+              </geo-dropdown-footer>
               <geo-dropdown-list-item
                 v-else
                 :key="index"
@@ -219,6 +228,10 @@ export default {
             {
               label: 'Enable feature',
               checkbox: true
+            },
+            {
+              label: 'Apply changes',
+              footer: true
             }
           ]
         }, {
