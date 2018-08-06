@@ -41,7 +41,7 @@ module.exports = {
 
 function isValidBinding (binding) {
   if (typeof binding.value !== 'function') {
-    console.warn(`[geo-click-outside:] provided expression ${binding.expression} is not a function`)
+    console.error(`[geo-click-outside:] provided expression ${binding.expression} is not a function`)
     return false
   }
 
