@@ -38,7 +38,7 @@ module.exports = {
 
 function isValidBinding (binding) {
   if (typeof binding.value !== 'function') {
-    console.warn(`[geo-any-scroll:] provided expression ${binding.expression} is not a function`)
+    console.error(`[geo-scroll-anywhere:] provided expression ${binding.expression} is not a function`)
     return false
   }
 

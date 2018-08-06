@@ -1,6 +1,6 @@
 <template>
   <div
-    v-any-scroll="repositionPopup"
+    v-scroll-anywhere="repositionPopup"
     v-click-outside="checkClickCoordinatesAndEmitClickOutside"
     :class="{
       [`geo-dropdown${cssSuffix}`]: true,
@@ -26,7 +26,7 @@
 
 <script>
 import ClickOutside from '../directives/GeoClickOutside'
-import AnyScroll from '../directives/GeoAnyScroll'
+import ScrollAnywhere from '../directives/GeoScrollAnywhere'
 import getDOMElementOffset from '../utils/getDOMElementOffset'
 
 export default {
@@ -34,7 +34,7 @@ export default {
   status: 'ready',
   version: '1.0.0',
   directives: {
-    AnyScroll,
+    ScrollAnywhere,
     ClickOutside
   },
   props: {
