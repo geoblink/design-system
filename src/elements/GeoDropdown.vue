@@ -32,7 +32,7 @@ import getDOMElementOffset from '../utils/getDOMElementOffset'
 export default {
   name: 'GeoDropdown',
   status: 'ready',
-  version: '1.0.0',
+  version: '1.0.1',
   directives: {
     ScrollAnywhere,
     ClickOutside
@@ -169,8 +169,9 @@ export default {
         : towardsLeftTranslationX
 
       const fitsBelow = containerRect.top + belowTranslationY + popupRect.height < viewport.height
+      const fitsAbove = containerRect.top + aboveTranslationY >= 0
 
-      const translationY = fitsBelow
+      const translationY = (fitsBelow || !fitsAbove)
         ? belowTranslationY
         : aboveTranslationY
 
