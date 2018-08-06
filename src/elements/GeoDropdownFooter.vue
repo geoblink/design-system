@@ -1,8 +1,5 @@
 <template>
-  <div
-    :class="`geo-dropdown__footer${cssSuffix}`"
-    @click="emitClick($event)"
-  >
+  <div :class="`geo-dropdown__footer${cssSuffix}`">
     <!-- @slot Use this slot to customize footer's content -->
     <slot />
   </div>
