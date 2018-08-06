@@ -24,7 +24,7 @@
       </div>
       <div
         v-if="hasTrailingAccessoryItems"
-        :class="`geo-dropdown__group__header__right-accessory-items${cssSuffix}`"
+        :class="`geo-dropdown__group__header__trailing-accessory-items${cssSuffix}`"
       >
         <!-- @slot Use this slot to add more items to the trailing edge of this group's header -->
         <slot name="trailingAccessoryItem" />
@@ -41,7 +41,7 @@
 export default {
   name: 'GeoDropdownGroup',
   status: 'ready',
-  version: '1.0.0',
+  version: '1.0.1',
   props: {
     /**
      * An optional suffix to be appended as BEM modifier.
