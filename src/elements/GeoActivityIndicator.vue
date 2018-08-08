@@ -100,7 +100,7 @@ export { VARIANTS }
 export default {
   name: 'GeoActivityIndicator',
   status: 'ready',
-  release: '1.0.0',
+  release: '1.1.0',
   constants: {
     VARIANTS
   },
