@@ -15,7 +15,7 @@ props:
   font_size_base:
     value: "16px"
   font_size_small:
-    value: "13px"
+    value: "14px"
   font_size_x_small:
     value: "11px"
 global:

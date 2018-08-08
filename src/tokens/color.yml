@@ -26,6 +26,16 @@ aliases:
     value: "#EFAE00"
   white:
     value: "#FFFFFF"
+  white_dark:
+    value: "#F4F4F4"
+  grey_light:
+    value: "#9B9B9B"
+  grey:
+    value: "#D8D8D8"
+  grey_dark:
+    value: "#4F4F4F"
+  grey_darker:
+    value: "#4A4A4A"
   dark:
     value: "#17293D"
 
@@ -80,6 +90,21 @@ props:
 
   color_white:
     value: "{!white}"
+    category: color_group_6
+  color_white__dark:
+    value: "{!white_dark}"
+    category: color_group_6
+  color_grey_light:
+    value: "{!grey_light}"
+    category: color_group_6
+  color_grey:
+    value: "{!grey}"
+    category: color_group_6
+  color_grey_dark:
+    value: "{!grey_dark}"
+    category: color_group_6
+  color_grey_darker:
+    value: "{!grey_darker}"
     category: color_group_6
 
 global:

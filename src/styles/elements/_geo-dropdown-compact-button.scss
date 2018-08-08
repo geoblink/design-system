@@ -1,0 +1,34 @@
+@mixin geo-dropdown-compact-button-make($modifier-name) {
+
+  $modifier-name-with-prefix: '';
+
+  @if $modifier-name != '' {
+    // sass-lint:disable space-around-operator
+    $modifier-name-with-prefix: --#{$modifier-name};
+  }
+
+  .geo-dropdown__compact-button-container#{$modifier-name-with-prefix} {
+    align-items: center;
+
+    background-color: transparent;
+    border: 1px solid transparent;
+    border-radius: 3px;
+    color: $color_grey_darker;
+
+    cursor: pointer;
+    display: flex;
+    font-size: $font_size_small;
+    height: 2em;
+    justify-content: center;
+    padding: 0.35em;
+    width: 1.2em;
+
+    &:hover {
+      background-color: $color_white;
+      border-color: $color_blue;
+      color: $color_blue;
+    }
+  }
+}
+
+@include geo-dropdown-compact-button-make('');

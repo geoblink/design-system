@@ -1,0 +1,44 @@
+@mixin geo-dropdown-regular-button-make($modifier-name) {
+
+  $modifier-name-with-prefix: '';
+
+  @if $modifier-name != '' {
+    // sass-lint:disable space-around-operator
+    $modifier-name-with-prefix: --#{$modifier-name};
+  }
+
+  .geo-dropdown__regular-button-container#{$modifier-name-with-prefix} {
+    align-items: center;
+    background-color: $color_white;
+    border: 1px solid $color_grey;
+    border-radius: $border_radius_default;
+    color: $color_grey_darker;
+    cursor: pointer;
+    display: flex;
+    font-family: $font_family_text;
+    font-size: $font_size_small;
+    height: 40px;
+    justify-content: center;
+    line-height: $line_height_base;
+    padding: 0 10px;
+
+    &:hover {
+      border-color: $color_blue;
+
+      .geo-dropdown__regular-button-container__icon#{$modifier-name-with-prefix} {
+        color: $color_blue;
+      }
+    }
+
+    strong {
+      color: $color_blue;
+      font-weight: $font_weight_bold;
+    }
+  }
+
+  .geo-dropdown__regular-button-container__icon#{$modifier-name-with-prefix}:not(:last-child) {
+    margin-right: 5px;
+  }
+}
+
+@include geo-dropdown-regular-button-make('');

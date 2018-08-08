@@ -3,25 +3,25 @@
   <div class="element-demo">
     <h3 class="element-demo__header">Simple</h3>
     <div class="element-demo__block" style="justify-content: space-around;">
-      <div class="geo-activity-indicator-demo-box">
+      <div class="element-demo__bordered-box geo-activity-indicator-demo-box">
         <geo-activity-indicator />
       </div>
-      <div class="geo-activity-indicator-demo-box geo-activity-indicator-demo-box--primary">
+      <div class="element-demo__bordered-box geo-activity-indicator-demo-box geo-activity-indicator-demo-box--primary">
         <geo-activity-indicator css-modifier="primary" />
       </div>
-      <div class="geo-activity-indicator-demo-box geo-activity-indicator-demo-box--info">
+      <div class="element-demo__bordered-box geo-activity-indicator-demo-box geo-activity-indicator-demo-box--info">
         <geo-activity-indicator css-modifier="info" />
       </div>
-      <div class="geo-activity-indicator-demo-box geo-activity-indicator-demo-box--success">
+      <div class="element-demo__bordered-box geo-activity-indicator-demo-box geo-activity-indicator-demo-box--success">
         <geo-activity-indicator css-modifier="success" />
       </div>
-      <div class="geo-activity-indicator-demo-box geo-activity-indicator-demo-box--error">
+      <div class="element-demo__bordered-box geo-activity-indicator-demo-box geo-activity-indicator-demo-box--error">
         <geo-activity-indicator css-modifier="error" />
       </div>
-      <div class="geo-activity-indicator-demo-box geo-activity-indicator-demo-box--warn">
+      <div class="element-demo__bordered-box geo-activity-indicator-demo-box geo-activity-indicator-demo-box--warn">
         <geo-activity-indicator css-modifier="warn" />
       </div>
-      <div class="geo-activity-indicator-demo-box geo-activity-indicator-demo-box--progress">
+      <div class="element-demo__bordered-box geo-activity-indicator-demo-box geo-activity-indicator-demo-box--progress">
         <geo-activity-indicator css-modifier="progress" />
       </div>
     </div>
@@ -116,16 +116,9 @@ export default {
 </script>
 
 <style>
-/* @include geo-activity-indicator-make('green', $color-green); */
-/* @include geo-activity-indicator-make('red', $color-red); */
-
 .geo-activity-indicator-demo-box {
-  border: 1px solid #e2e6ea;
-  border-radius: 3px;
-  box-shadow: inset 0 0 8px rgba(0, 17, 35, 0.05);
   display: block;
   height: 100px;
-  padding: 16px;
   width: 100px;
 }
 
