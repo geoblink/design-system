@@ -63,3 +63,4 @@
 @include geo-activity-indicator-make('error', $color_red_darker);
 @include geo-activity-indicator-make('warn', $color_yellow_light);
 @include geo-activity-indicator-make('progress', $color_link);
+@include geo-activity-indicator-make('dark-transparent', $color_white);

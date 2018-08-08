@@ -91,7 +91,8 @@ const VARIANTS = {
   info: 'info',
   warn: 'warn',
   error: 'error',
-  progress: 'progress'
+  progress: 'progress',
+  darkTransparent: 'dark-transparent'
 }
 
 export { VARIANTS }

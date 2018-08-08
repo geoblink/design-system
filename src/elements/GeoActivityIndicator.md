@@ -24,6 +24,9 @@
       <div class="element-demo__bordered-box geo-activity-indicator-demo-box geo-activity-indicator-demo-box--progress">
         <geo-activity-indicator css-modifier="progress" />
       </div>
+      <div class="element-demo__bordered-box geo-activity-indicator-demo-box geo-activity-indicator-demo-box--dark-transparent">
+        <geo-activity-indicator css-modifier="dark-transparent" />
+      </div>
     </div>
     <h3 class="element-demo__header">
       Customizable
@@ -39,6 +42,7 @@
             <option value="error">Error</option>
             <option value="warn">Warn</option>
             <option value="progress">Progress</option>
+            <option value="dark-transparent">Dark + Transparent</option>
           </select>
         </label>
         <label class="element-demo__inline-input-group__field">
@@ -144,6 +148,10 @@ export default {
 
 .geo-activity-indicator-demo-box--progress {
   background: #17293D;
+}
+
+.geo-activity-indicator-demo-box--dark-transparent {
+  background: rgba(0, 0, 0, .8);
 }
 </style>
 ```
