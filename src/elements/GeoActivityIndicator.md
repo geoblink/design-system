@@ -7,22 +7,25 @@
         <geo-activity-indicator />
       </div>
       <div class="element-demo__bordered-box geo-activity-indicator-demo-box geo-activity-indicator-demo-box--primary">
-        <geo-activity-indicator css-modifier="primary" />
+        <geo-activity-indicator variant="primary" />
       </div>
       <div class="element-demo__bordered-box geo-activity-indicator-demo-box geo-activity-indicator-demo-box--info">
-        <geo-activity-indicator css-modifier="info" />
+        <geo-activity-indicator variant="info" />
       </div>
       <div class="element-demo__bordered-box geo-activity-indicator-demo-box geo-activity-indicator-demo-box--success">
-        <geo-activity-indicator css-modifier="success" />
+        <geo-activity-indicator variant="success" />
       </div>
       <div class="element-demo__bordered-box geo-activity-indicator-demo-box geo-activity-indicator-demo-box--error">
-        <geo-activity-indicator css-modifier="error" />
+        <geo-activity-indicator variant="error" />
       </div>
       <div class="element-demo__bordered-box geo-activity-indicator-demo-box geo-activity-indicator-demo-box--warn">
-        <geo-activity-indicator css-modifier="warn" />
+        <geo-activity-indicator variant="warn" />
       </div>
       <div class="element-demo__bordered-box geo-activity-indicator-demo-box geo-activity-indicator-demo-box--progress">
-        <geo-activity-indicator css-modifier="progress" />
+        <geo-activity-indicator variant="progress" />
+      </div>
+      <div class="element-demo__bordered-box geo-activity-indicator-demo-box geo-activity-indicator-demo-box--dark-transparent">
+        <geo-activity-indicator variant="dark-transparent" />
       </div>
     </div>
     <h3 class="element-demo__header">
@@ -32,13 +35,14 @@
           Variant: <select
             v-model="variant"
           >
-            <option :value="undefined">None</option>
+            <option value="default">Default</option>
             <option value="primary">Primary</option>
             <option value="info">Info</option>
             <option value="success">Success</option>
             <option value="error">Error</option>
             <option value="warn">Warn</option>
             <option value="progress">Progress</option>
+            <option value="dark-transparent">Dark + Transparent</option>
           </select>
         </label>
         <label class="element-demo__inline-input-group__field">
@@ -77,12 +81,12 @@
           height: customSizePxString,
           width: customSizePxString
         }"
-        class="geo-activity-indicator-demo-box"
+        class="element-demo__bordered-box geo-activity-indicator-demo-box"
       >
         <geo-activity-indicator
           :percentage="completedPercentage"
           :animated="animated"
-          :css-modifier="variant"
+          :variant="variant"
         />
       </div>
     </div>
@@ -93,7 +97,7 @@
 export default {
   data () {
     return {
-      variant: undefined,
+      variant: 'default',
       customSize: 30,
       completedPercentage: 0.33,
       animated: true
@@ -144,6 +148,10 @@ export default {
 
 .geo-activity-indicator-demo-box--progress {
   background: #17293D;
+}
+
+.geo-activity-indicator-demo-box--dark-transparent {
+  background: rgba(0, 0, 0, .8);
 }
 </style>
 ```
