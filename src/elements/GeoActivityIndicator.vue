@@ -2,6 +2,8 @@
   <svg
     :class="{
       [`geo-activity-indicator${cssSuffix}`]: true,
+      [`geo-activity-indicator--${variant}${cssSuffix}`]: true,
+      [`geo-activity-indicator--${variant}--animated${cssSuffix}`]: isAnimated,
       [`geo-activity-indicator--animated${cssSuffix}`]: isAnimated
     }"
     width="100%"
@@ -60,7 +62,10 @@
     </defs>
     <g :mask="`url(#${idCircleMask})`">
       <circle
-        :class="`geo-activity-indicator__total-progress${cssSuffix}`"
+        :class="{
+          [`geo-activity-indicator__total-progress${cssSuffix}`]: true,
+          [`geo-activity-indicator__total-progress--${variant}${cssSuffix}`]: true
+        }"
         cx="50"
         cy="50"
         r="50"
@@ -69,7 +74,10 @@
       />
       <path
         :d="completedPercentagePathData"
-        :class="`geo-activity-indicator__completed-progress${cssSuffix}`"
+        :class="{
+          [`geo-activity-indicator__completed-progress${cssSuffix}`]: true,
+          [`geo-activity-indicator__completed-progress--${variant}${cssSuffix}`]: true
+        }"
         transform="translate(50, 50)"
       />
     </g>
@@ -86,13 +94,14 @@ import counterFactory from '../utils/counterFactory'
 const getNextCounterValue = counterFactory()
 
 const VARIANTS = {
+  default: 'default',
   primary: 'primary',
   success: 'success',
   info: 'info',
   warn: 'warn',
   error: 'error',
   progress: 'progress',
-  darkTransparent: 'dark-transparent'
+  'dark-transparent': 'dark-transparent'
 }
 
 export { VARIANTS }
@@ -100,7 +109,7 @@ export { VARIANTS }
 export default {
   name: 'GeoActivityIndicator',
   status: 'ready',
-  release: '1.1.0',
+  release: '2.0.0',
   constants: {
     VARIANTS
   },
@@ -146,6 +155,17 @@ export default {
       default: undefined
     },
     /**
+     * Variant of this activity indicator, used to change the color scheme of
+     * the indicator to adapt to any kind of background.
+     */
+    variant: {
+      type: String,
+      default: VARIANTS.default,
+      validator (value) {
+        return value in VARIANTS
+      }
+    },
+    /**
      * An optional suffix to be appended as BEM modifier.
      *
      * Can be used to customize the look & feel of the component by changing all
@@ -153,8 +173,8 @@ export default {
      * them.
      *
      * To generate default styles for a modifier named `modifier-name`, you just
-     * have to add `@include geo-button-make('modifier-name');` to your SCSS
-     * styles.
+     * have to add `@include geo-activity-indicator-make('modifier-name');` to
+     * your SCSS styles.
      */
     cssModifier: {
       type: String,
@@ -164,6 +184,10 @@ export default {
   computed: {
     cssSuffix () {
       return this.cssModifier ? `--${this.cssModifier}` : ''
+    },
+
+    variantSuffix () {
+      return this.variant ? `--${this.variant}` : ''
     },
 
     idCircleMask () {
