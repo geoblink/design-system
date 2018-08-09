@@ -4,6 +4,7 @@
       [`geo-button${cssSuffix}`]: true,
       [`geo-button--${type}${cssSuffix}`]: true,
       [`geo-button--${type}--disabled${cssSuffix}`]: disabled,
+      [`geo-button--${type}--loading${cssSuffix}`]: loading,
       [`geo-button--disabled${cssSuffix}`]: disabled,
       [`geo-button--loading${cssSuffix}`]: loading
     }"
@@ -44,7 +45,7 @@ export { TYPES }
 export default {
   name: 'GeoButton',
   status: 'ready',
-  release: '1.0.0',
+  release: '1.1.0',
   props: {
     /**
      * Variation of button, supporting:
