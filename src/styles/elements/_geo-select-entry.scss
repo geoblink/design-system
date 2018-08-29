@@ -1,0 +1,19 @@
+@mixin geo-select-entry-make($modifier-name) {
+
+  $modifier-name-with-prefix: '';
+
+  @if $modifier-name != '' {
+    // sass-lint:disable space-around-operator
+    $modifier-name-with-prefix: --#{$modifier-name};
+  }
+
+  .geo-select-entry__container#{$modifier-name-with-prefix} {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+}
+
+@include geo-select-entry-make('');
