@@ -2,12 +2,20 @@
   <geo-dropdown
     :opened="isDropdownOpen"
     @click-outside="closeGeoSelect">
-    <input
-      id="geo-select-main"
+    <div
       slot="toggleButton"
-      type="text"
-      name="geo-select-main"
+      @click="toggleOptions"
     >
+      <input
+        id="geo-select-main"
+        type="text"
+        name="geo-select-main"
+      >
+      <font-awesome-icon :icon="['fas', 'chevron-down']"/>
+    </div>
+    <template slot="popupContent">
+      <p>Hola Dropdown</p>
+    </template>
   </geo-dropdown>
 </template>
 
@@ -20,14 +28,25 @@ export default {
     /**
      * An array of items that will be displayed as the select options
      */
-    itemsList: {
+    options: {
       type: Array,
       required: true
     }
   },
-  data () {},
+  data () {
+    return {
+      isDropdownOpen: false
+    }
+  },
   computed: {},
-  methods: {}
+  methods: {
+    closeGeoSelect () {
+      this.isDropdownOpen = false
+    },
+    toggleOptions () {
+      this.isDropdownOpen = !this.isDropdownOpen
+    }
+  }
 }
 </script>
 

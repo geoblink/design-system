@@ -7,7 +7,11 @@ require additional or complex user input like handling filters.
   <div class="element-demo">
     <h3 class="element-demo__header">Simple select</h3>
     <div class="element-demo__block" style="justify-content: space-around;">
-      <geo-select :items-list="itemsList"/>
+      <geo-select :options="itemsList">
+        <geo-select-entry slot-scope="option">
+          <p>{{option.name}}</p>
+        </geo-select-entry>
+      </geo-select>
     </div>
   </div>
 </template>
