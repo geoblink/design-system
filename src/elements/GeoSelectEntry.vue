@@ -1,9 +1,20 @@
 <template>
   <div
-    :class="`geo-select-entry__container${cssSuffix}`"
+    :class="{
+      [`geo-select-entry__container${cssSuffix}`]: true,
+      [`geo-select-entry__container--opt-group${cssSuffix}`]: isOptGroupEntry
+    }"
     @click="changeCurrentSelection">
     <slot name="leftAccessoryItem" />
-    <slot name="content" />
+    <div
+      :class="{
+        [`geo-select-entry__content${cssSuffix}`]: true,
+        [`geo-select-entry__content--opt-group${cssSuffix}`]: isOptGroupEntry
+    }">
+      <slot
+        name="content"
+      />
+    </div>
     <slot name="rightAccessoryItem" />
   </div>
 </template>
@@ -14,6 +25,13 @@ export default {
   status: 'ready',
   version: '1.0.1',
   props: {
+    /**
+     * Optional param to check opt groups
+     */
+    option: {
+      type: Object,
+      required: false
+    },
     /**
      * An optional suffix to be appended as BEM modifier.
      *
@@ -33,6 +51,9 @@ export default {
   computed: {
     cssSuffix () {
       return this.cssModifier ? `--${this.cssModifier}` : ''
+    },
+    isOptGroupEntry () {
+      return this.option ? this.option.isOptGroup : false
     }
   },
   methods: {

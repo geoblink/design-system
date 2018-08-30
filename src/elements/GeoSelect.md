@@ -20,6 +20,31 @@ require additional or complex user input like handling filters.
         </geo-select-entry>
       </geo-select>
     </div>
+    <h3 class="element-demo__header">Select with opt-groups</h3>
+    <div class="element-demo__block" style="justify-content: space-around;">
+      <geo-select
+        :value="currentOptGroupsSelection"
+        :options="optGroupsList"
+        :constant-width="200"
+        :dropdown-icon="['fas', 'chevron-down']"
+        :has-opt-groups="true"
+        placeholder="Select option">
+        <template slot-scope="{option}">
+          <geo-select-entry
+            v-if="option.isOptGroup"
+            :option="option">
+            <span slot="content">{{option.name}}</span>
+          </geo-select-entry>
+          <geo-select-entry
+            v-else
+            :option="option"
+            :has-opt-groups="true"
+            @change-current-selection="changeOptGroupSelection(option)">
+            <span slot="content">{{option.name}}</span>
+          </geo-select-entry>
+        </template>
+      </geo-select>
+    </div>
   </div>
 </template>
 
@@ -28,6 +53,7 @@ export default {
   data () {
     return {
       currentSelection: null,
+      currentOptGroupsSelection: null,
       itemsList: [
         {
           name: 'item 1'
@@ -41,14 +67,51 @@ export default {
         {
           name: 'item 4'
         }
-      ]
+      ],
+      optGroupsList: [
+        {
+          isOptGroup: true,
+          name: 'First Group'
+        },
+        {
+          name: 'item 1'
+        },
+        {
+          name: 'item 2'
+        },
+        {
+          name: 'item 3'
+        },
+        {
+          name: 'item 4'
+        },
+        {
+          isOptGroup: true,
+          name: 'Second Group'
+        },
+        {
+          name: 'item 5'
+        },
+        {
+          name: 'item 6'
+        },
+        {
+          name: 'item 7'
+        },
+        {
+          name: 'item 8'
+        }
+      ],
     }
   },
   methods: {
     changeCurrentSelection (selection) {
       this.currentSelection = selection
+    },
+    changeOptGroupSelection (selection) {
+      this.currentOptGroupsSelection = selection
     }
-  }
+  } 
 }
 </script>
 

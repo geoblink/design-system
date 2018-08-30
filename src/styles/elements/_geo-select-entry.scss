@@ -12,6 +12,7 @@
     border-radius: $border_radius_default;
     cursor: pointer;
     display: flex;
+    font-family: $font_family_text;
     justify-content: space-between;
     margin: 5px;
     min-height: 30px;
@@ -20,7 +21,18 @@
       background: $color_white_dark;
     }
   }
+  .geo-select-entry__container--opt-group#{$modifier-name-with-prefix} {
+    user-select: none;
+    padding-left: 0;
+    &:hover {
+      background: inherit;
+    }
+  }
 
+  .geo-select-entry__content--opt-group#{$modifier-name-with-prefix} {
+    color: $color_grey_darker;
+    font-weight: $font_weight_semi_bold;
+  }
 }
 
 @include geo-select-entry-make('');

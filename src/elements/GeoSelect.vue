@@ -27,7 +27,11 @@
       :style="{
         width: dropdownContentWidth
       }"
-      :class="`geo-select__options-container${cssSuffix}`">
+      :class="{
+        [`geo-select__options-container${cssSuffix}`]: true,
+        [`geo-select__options-container--has-opt-groups${cssSuffix}`]: hasOptGroups
+      }"
+    >
       <slot
         v-for="option in options"
         :option="option"
@@ -95,6 +99,13 @@ export default {
      */
     placeholder: {
       type: String,
+      required: false
+    },
+    /**
+     * Whether the select has opt-group entries or not
+     */
+    hasOptGroups: {
+      type: Boolean,
       required: false
     }
   },
