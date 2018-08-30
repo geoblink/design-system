@@ -4,20 +4,20 @@
 <template>
   <div class="element-demo">
     <h3 class="element-demo__header">Simple select entry (Only content)</h3>
-    <div class="element-demo__block" style="width: 200px; justify-content: space-around;">
+    <div class="element-demo__block" style="justify-content: space-around;">
       <geo-select-entry>
         <p slot="content"> Content of the Select entry</p>
       </geo-select-entry>
     </div>
     <h3 class="element-demo__header">Select entry with left accessory item</h3>
-    <div class="element-demo__block" style="width: 200px; justify-content: space-around;">
+    <div class="element-demo__block" style="justify-content: space-around;">
       <geo-select-entry>
         <font-awesome-icon slot="leftAccessoryItem" :icon="['fas', 'flag']"/>
         <p slot="content"> Content of the Select entry</p>
       </geo-select-entry>
     </div>
     <h3 class="element-demo__header">Select entry with right accessory item</h3>
-    <div class="element-demo__block" style="width: 200px; justify-content: space-around;">
+    <div class="element-demo__block" style="justify-content: space-around;">
       <geo-select-entry>
         <p slot="content"> Content of the Select entry</p>
         <input type="checkbox" slot="rightAccessoryItem"/>

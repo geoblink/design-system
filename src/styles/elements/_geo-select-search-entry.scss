@@ -1,0 +1,31 @@
+@mixin geo-select-search-entry-make($modifier-name) {
+
+  $modifier-name-with-prefix: '';
+
+  @if $modifier-name != '' {
+    // sass-lint:disable space-around-operator
+    $modifier-name-with-prefix: --#{$modifier-name};
+  }
+
+  .geo-select-search-entry__container#{$modifier-name-with-prefix} {
+    align-items: center;
+    background: $color_white_dark;
+    display: flex;
+    height: 40px;
+    padding: 0 10px;
+  }
+
+  .geo-select-search-entry__search-icon#{$modifier-name-with-prefix} {
+    color: $color_grey_light;
+    padding-right: 5px;
+  }
+
+  .geo-select-search-entry__search-input#{$modifier-name-with-prefix} {
+    background: none;
+    border: 0;
+    color: $color_grey_light;
+    outline: 0;
+  }
+}
+
+@include geo-select-search-entry-make('');
