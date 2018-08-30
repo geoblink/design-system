@@ -1,5 +1,7 @@
 <template>
-  <div :class="`geo-select-entry__container${cssSuffix}`">
+  <div
+    :class="`geo-select-entry__container${cssSuffix}`"
+    @click="changeCurrentSelection">
     <slot name="leftAccessoryItem" />
     <slot name="content" />
     <slot name="rightAccessoryItem" />
@@ -31,6 +33,11 @@ export default {
   computed: {
     cssSuffix () {
       return this.cssModifier ? `--${this.cssModifier}` : ''
+    }
+  },
+  methods: {
+    changeCurrentSelection () {
+      this.$emit('change-current-selection')
     }
   }
 }

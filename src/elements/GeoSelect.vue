@@ -12,6 +12,7 @@
       <input
         id="geo-select-main"
         :class="`geo-select__input-box${cssSuffix}`"
+        :value="computedCurrentSelection"
         type="text"
         name="geo-select-main"
       >
@@ -52,6 +53,13 @@ export default {
       required: true
     },
     /**
+     * Current selected value from options array
+     */
+    value: {
+      type: Object,
+      required: false
+    },
+    /**
      * An optional suffix to be appended as BEM modifier.
      *
      * Can be used to customize the look & feel of the component by changing all
@@ -75,6 +83,14 @@ export default {
   computed: {
     cssSuffix () {
       return this.cssModifier ? `--${this.cssModifier}` : ''
+    },
+    computedCurrentSelection () {
+      return this.value.name
+    }
+  },
+  watch: {
+    value (newValue, oldValue) {
+      this.isDropdownOpen = false
     }
   },
   methods: {
@@ -87,4 +103,3 @@ export default {
   }
 }
 </script>
-

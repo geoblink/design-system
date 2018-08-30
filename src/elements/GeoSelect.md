@@ -8,9 +8,12 @@ require additional or complex user input like handling filters.
     <h3 class="element-demo__header">Simple select</h3>
     <div class="element-demo__block" style="justify-content: space-around;">
       <geo-select
+        :value="currentSelection"
         :options="itemsList"
         :constant-width="200">
-        <geo-select-entry slot-scope="{option}">
+        <geo-select-entry
+          slot-scope="{option}"
+          @change-current-selection="changeCurrentSelection(option)">
           <p slot="content">{{option.name}}</p>
         </geo-select-entry>
       </geo-select>
@@ -22,6 +25,7 @@ require additional or complex user input like handling filters.
 export default {
   data () {
     return {
+      currentSelection: {},
       itemsList: [
         {
           name: 'item 1'
@@ -36,6 +40,11 @@ export default {
           name: 'item 4'
         }
       ]
+    }
+  },
+  methods: {
+    changeCurrentSelection (selection) {
+      this.currentSelection = selection
     }
   }
 }
