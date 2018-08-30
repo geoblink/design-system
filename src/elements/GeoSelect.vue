@@ -4,24 +4,28 @@
     @click-outside="closeGeoSelect">
     <div
       slot="toggleButton"
+      :class="`geo-select__input-box__container${cssSuffix}`"
       :style="{
-        width: constantWidth
+        width: `${constantWidth}px`
       }"
       @click="toggleOptions"
     >
       <input
         id="geo-select-main"
-        :class="`geo-select__input-box${cssSuffix}`"
+        :class="{
+          [`geo-select__input-box${cssSuffix}`]: true,
+          [`geo-select__input-box--empty${cssSuffix}`]: !value
+        }"
         :value="computedCurrentSelection"
         type="text"
         name="geo-select-main"
       >
-      <font-awesome-icon :icon="['fas', 'chevron-down']"/>
+      <font-awesome-icon :icon="dropdownIcon"/>
     </div>
     <div
       slot="popupContent"
       :style="{
-        width: constantWidth
+        width: dropdownContentWidth
       }"
       :class="`geo-select__options-container${cssSuffix}`">
       <slot
@@ -73,6 +77,25 @@ export default {
     cssModifier: {
       type: String,
       default: ''
+    },
+    /**
+     * Font Awesome 5 icon to be displayed as close button.
+     *
+     * See [vue-fontawesome](https://www.npmjs.com/package/@fortawesome/vue-fontawesome#explicit-prefix-note-the-vue-bind-shorthand-because-this-uses-an-array)
+     * for more info about this.
+     */
+    dropdownIcon: {
+      type: Array,
+      default () {
+        return ['fal', 'chevron-down']
+      }
+    },
+    /**
+     * Default text to be displayed when no option is selected
+     */
+    placeholder: {
+      type: String,
+      required: false
     }
   },
   data () {
@@ -85,7 +108,11 @@ export default {
       return this.cssModifier ? `--${this.cssModifier}` : ''
     },
     computedCurrentSelection () {
-      return this.value.name
+      return this.value ? this.value.name : this.placeholder
+    },
+    dropdownContentWidth () {
+      // TODO: Find better way to compute this. 20 is the padding of the input
+      return `${this.constantWidth + 20}px`
     }
   },
   watch: {

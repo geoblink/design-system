@@ -1,0 +1,37 @@
+@mixin geo-select-make($modifier-name) {
+
+  $modifier-name-with-prefix: '';
+
+  @if $modifier-name != '' {
+    // sass-lint:disable space-around-operator
+    $modifier-name-with-prefix: --#{$modifier-name};
+  }
+
+  .geo-select__input-box__container#{$modifier-name-with-prefix} {
+    align-items: center;
+    background: $color_white;
+    border: 1px solid $color_grey;
+    border-radius: $border_radius_default;
+    display: flex;
+    height: 40px;
+    padding: 0 10px;
+    width: 200px;
+  }
+
+  .geo-select__input-box#{$modifier-name-with-prefix} {
+    border: 0;
+    font-family: $font_family_text;
+    font-size: $font_size_base;
+    outline: 0;
+    width: 100%;
+  }
+
+  .geo-select__input-box--empty#{$modifier-name-with-prefix} {
+    font-size: 14px;
+    color: #9b9b9b;
+    font-style: italic;
+  }
+
+}
+
+@include geo-select-make('');

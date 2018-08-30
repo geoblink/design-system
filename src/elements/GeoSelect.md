@@ -10,11 +10,13 @@ require additional or complex user input like handling filters.
       <geo-select
         :value="currentSelection"
         :options="itemsList"
-        :constant-width="200">
+        :constant-width="200"
+        :dropdown-icon="['fas', 'chevron-down']"
+        placeholder="Select option">
         <geo-select-entry
           slot-scope="{option}"
           @change-current-selection="changeCurrentSelection(option)">
-          <p slot="content">{{option.name}}</p>
+          <span slot="content">{{option.name}}</span>
         </geo-select-entry>
       </geo-select>
     </div>
@@ -25,7 +27,7 @@ require additional or complex user input like handling filters.
 export default {
   data () {
     return {
-      currentSelection: {},
+      currentSelection: null,
       itemsList: [
         {
           name: 'item 1'

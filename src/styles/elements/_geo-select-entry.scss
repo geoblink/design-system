@@ -9,9 +9,16 @@
 
   .geo-select-entry__container#{$modifier-name-with-prefix} {
     align-items: center;
+    border-radius: $border_radius_default;
+    cursor: pointer;
     display: flex;
     justify-content: space-between;
-    width: 100%;
+    margin: 5px;
+    min-height: 30px;
+    padding-left: 10px;
+    &:hover {
+      background: $color_white_dark;
+    }
   }
 
 }
