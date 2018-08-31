@@ -5,9 +5,14 @@
       :class="`geo-select-search-entry__search-icon${cssSuffix}`"
     />
     <input
-      :class="`geo-select-search-entry__search-input${cssSuffix}`"
+      v-model="searchValue"
+      :class="{
+        [`geo-select-search-entry__search-input${cssSuffix}`]: true,
+        [`geo-select-search-entry__search-input--empty${cssSuffix}`]: !searchValue
+      }"
       :placeholder="placeholder"
       type="text"
+      @keyup="searchPattern()"
     >
   </div>
 </template>
@@ -48,11 +53,20 @@ export default {
       default: ''
     }
   },
+  data () {
+    return {
+      searchValue: ''
+    }
+  },
   computed: {
     cssSuffix () {
       return this.cssModifier ? `--${this.cssModifier}` : ''
     }
   },
+  methods: {
+    searchPattern () {
+      this.$emit('search-pattern', this.searchValue)
+    }
+  }
 }
 </script>
-

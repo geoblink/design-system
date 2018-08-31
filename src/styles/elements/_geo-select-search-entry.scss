@@ -26,6 +26,14 @@
     color: $color_grey_light;
     outline: 0;
   }
+  
+  .geo-select-search-entry__search-input#{$modifier-name-with-prefix}::placeholder {
+    color: $color_grey_light;
+  }
+
+  .geo-select-search-entry__search-input--empty#{$modifier-name-with-prefix} {
+    font-style: italic;
+  }
 }
 
 @include geo-select-search-entry-make('');

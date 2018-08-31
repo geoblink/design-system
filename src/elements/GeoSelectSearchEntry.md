@@ -3,7 +3,7 @@
 ```vue
 <template>
   <div class="element-demo">
-    <h3 class="element-demo__header">Simple select entry (Only content)</h3>
+    <h3 class="element-demo__header">Simple search box</h3>
     <div class="element-demo__block" style="justify-content: space-around;">
       <geo-select-search-entry
         :search-icon="['fas', 'search']"
