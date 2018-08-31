@@ -1,19 +1,24 @@
 <template>
   <div :class="`geo-select-search-entry__container${cssSuffix}`">
-    <font-awesome-icon
-      :icon="searchIcon"
-      :class="`geo-select-search-entry__search-icon${cssSuffix}`"
-    />
-    <input
-      v-model="searchValue"
-      :class="{
-        [`geo-select-search-entry__search-input${cssSuffix}`]: true,
-        [`geo-select-search-entry__search-input--empty${cssSuffix}`]: !searchValue
-      }"
-      :placeholder="placeholder"
-      type="text"
-      @keyup="searchPattern()"
-    >
+    <div :class="`geo-select-search-entry__search-input__container${cssSuffix}`">
+      <font-awesome-icon
+        :icon="searchIcon"
+        :class="`geo-select-search-entry__search-icon${cssSuffix}`"
+      />
+      <input
+        v-model="searchValue"
+        :class="{
+          [`geo-select-search-entry__search-input${cssSuffix}`]: true,
+          [`geo-select-search-entry__search-input--empty${cssSuffix}`]: !searchValue
+        }"
+        :placeholder="placeholder"
+        type="text"
+        @keyup="searchPattern()"
+      >
+    </div>
+    <div :class="`geo-select-search-entry__empty-state${cssSuffix}`">
+      <slot />
+    </div>
   </div>
 </template>
 

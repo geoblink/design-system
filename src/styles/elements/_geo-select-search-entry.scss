@@ -7,9 +7,10 @@
     $modifier-name-with-prefix: --#{$modifier-name};
   }
 
-  .geo-select-search-entry__container#{$modifier-name-with-prefix} {
+  .geo-select-search-entry__search-input__container#{$modifier-name-with-prefix} {
     align-items: center;
     background: $color_white_dark;
+    border-bottom: 1px solid $color_grey;
     display: flex;
     height: 40px;
     padding: 0 10px;
@@ -33,6 +34,16 @@
 
   .geo-select-search-entry__search-input--empty#{$modifier-name-with-prefix} {
     font-style: italic;
+  }
+
+  .geo-select-search-entry__empty-state#{$modifier-name-with-prefix} {
+    align-items: center;
+    border-radius: $border_radius_default;
+    cursor: pointer;
+    display: flex;
+    font-family: $font_family_text;
+    justify-content: space-between;
+    padding: 5px 10px;
   }
 }
 

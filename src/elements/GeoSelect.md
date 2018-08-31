@@ -45,6 +45,30 @@ require additional or complex user input like handling filters.
         </template>
       </geo-select>
     </div>
+    <h3 class="element-demo__header">Select with search option</h3>
+    <div class="element-demo__block" style="justify-content: space-around;">
+      <geo-select
+        :value="currentSearchSelection"
+        :options="filteredItemsList"
+        :constant-width="200"
+        :dropdown-icon="['fas', 'chevron-down']"
+        placeholder="Select option">
+        <geo-select-search-entry
+          slot="search-entry"
+          :search-icon="['fas', 'search']"
+          @search-pattern="filterList"
+          placeholder="Search...">
+          <span
+            v-if="!filteredItemsList.length">No options found</span>
+        </geo-select-search-entry>
+        <geo-select-entry
+          slot-scope="{option}"
+          :option="option"
+          @change-current-selection="changeSearchSelection(option)">
+          <span slot="content">{{option.name}}</span>
+        </geo-select-entry>
+      </geo-select>
+    </div>
   </div>
 </template>
 
@@ -54,7 +78,22 @@ export default {
     return {
       currentSelection: null,
       currentOptGroupsSelection: null,
+      currentSearchSelection: null,
       itemsList: [
+        {
+          name: 'item 1'
+        },
+        {
+          name: 'item 2'
+        },
+        {
+          name: 'item 3'
+        },
+        {
+          name: 'item 4'
+        }
+      ],
+      filteredItemsList: [
         {
           name: 'item 1'
         },
@@ -110,6 +149,14 @@ export default {
     },
     changeOptGroupSelection (selection) {
       this.currentOptGroupsSelection = selection
+    },
+    changeSearchSelection (selection) {
+      this.currentSearchSelection = selection
+    },
+    filterList (pattern) {
+      this.filteredItemsList = _.filter(this.itemsList, function (item) {
+        return item.name.indexOf(pattern) !== -1
+      })
     }
   } 
 }

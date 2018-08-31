@@ -22,6 +22,9 @@
       >
       <font-awesome-icon :icon="dropdownIcon"/>
     </div>
+    <div slot="popupContent">
+      <slot name="search-entry" />
+    </div>
     <div
       slot="popupContent"
       :style="{
