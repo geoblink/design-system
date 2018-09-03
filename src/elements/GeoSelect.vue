@@ -4,22 +4,18 @@
     @click-outside="closeGeoSelect">
     <div
       slot="toggleButton"
-      :class="`geo-select__input-box__container${cssSuffix}`"
+      :class="`geo-select__placeholder-box__container${cssSuffix}`"
       :style="{
         width: `${constantWidth}px`
       }"
       @click="toggleOptions"
     >
-      <input
-        id="geo-select-main"
+      <label
         :class="{
-          [`geo-select__input-box${cssSuffix}`]: true,
-          [`geo-select__input-box--empty${cssSuffix}`]: !value
+          [`geo-select__placeholder-box${cssSuffix}`]: true,
+          [`geo-select__placeholder-box--empty${cssSuffix}`]: !value
         }"
-        :value="selectPlaceholder"
-        type="text"
-        name="geo-select-main"
-      >
+      > {{ selectPlaceholder }} </label>
       <font-awesome-icon :icon="dropdownIcon"/>
     </div>
     <div slot="popupContent">

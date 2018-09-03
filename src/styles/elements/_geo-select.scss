@@ -7,7 +7,7 @@
     $modifier-name-with-prefix: --#{$modifier-name};
   }
 
-  .geo-select__input-box__container#{$modifier-name-with-prefix} {
+  .geo-select__placeholder-box__container#{$modifier-name-with-prefix} {
     align-items: center;
     background: $color_white;
     border: 1px solid $color_grey;
@@ -18,7 +18,7 @@
     width: 200px;
   }
 
-  .geo-select__input-box#{$modifier-name-with-prefix} {
+  .geo-select__placeholder-box#{$modifier-name-with-prefix} {
     border: 0;
     font-family: $font_family_text;
     font-size: $font_size_base;
@@ -26,7 +26,7 @@
     width: 100%;
   }
 
-  .geo-select__input-box--empty#{$modifier-name-with-prefix} {
+  .geo-select__placeholder-box--empty#{$modifier-name-with-prefix} {
     font-size: $font_size_small;
     color: color_grey_light;
     font-style: italic;
