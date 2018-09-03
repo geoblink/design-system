@@ -24,7 +24,7 @@ require additional or complex user input like handling filters.
     <div class="element-demo__block" style="justify-content: space-around;">
       <geo-select
         :value="currentOptGroupsSelection"
-        :options="optGroupsList"
+        :options="optGroupsFlattenList"
         :constant-width="200"
         :dropdown-icon="['fas', 'chevron-down']"
         :has-opt-groups="true"
