@@ -165,7 +165,7 @@ export default {
     },
     loadNextPage () {
       this.$emit('load-more-results', {
-        lastVisibleEntry: _.last(this.$refs.entries)
+        lastVisibleEntry: _.last(this.$refs.entries) // eslint-disable-line
       })
     }
   }
