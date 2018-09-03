@@ -24,11 +24,19 @@ require additional or complex user input like handling filters.
     <div class="element-demo__block" style="justify-content: space-around;">
       <geo-select
         :value="currentOptGroupsSelection"
-        :options="optGroupsFlattenList"
+        :options="filteredOptGroupsItems"
         :constant-width="200"
         :dropdown-icon="['fas', 'chevron-down']"
         :has-opt-groups="true"
         placeholder="Select option">
+        <geo-select-search-entry
+          slot="searchEntry"
+          :search-icon="['fas', 'search']"
+          @search-pattern="setOptGroupsPattern"
+          placeholder="Search...">
+          <span
+            v-if="!filteredOptGroupsItems.length">No options found</span>
+        </geo-select-search-entry>
         <template slot-scope="{option}">
           <geo-select-entry
             v-if="option.isOptGroup"
@@ -101,6 +109,7 @@ export default {
       currentLongListSelection: null,
       currentLongListPage: 1,
       maxItemsPerPage: 20,
+      optGroupsPattern: '',
       itemsList: [
         {
           name: 'item 1'
@@ -178,10 +187,15 @@ export default {
     chunkedLongList () {
       return this.longList.slice(0, this.currentLongListPage * this.maxItemsPerPage)
     },
-    optGroupsFlattenList () {
-      return _.flatMap(this.optGroupsList, function (group) {
-        return [group, ...group.items]
-      })
+    filteredOptGroupsItems () {
+      var self = this
+      return _.filter(_.flatMap(self.optGroupsList, function (group) {
+        if (group.name.indexOf(self.optGroupsPattern) !== -1) return [group, ...group.items]
+        var foundItems = _.filter(group.items, function (item) {
+          return item.name.indexOf(self.optGroupsPattern) !== -1
+        })
+        if (foundItems.length) return [group, ...foundItems]
+      }))
     }
   },
   methods: {
@@ -201,6 +215,9 @@ export default {
       this.filteredItemsList = _.filter(this.itemsList, function (item) {
         return item.name.indexOf(pattern) !== -1
       })
+    },
+    setOptGroupsPattern (pattern) {
+      this.optGroupsPattern = pattern
     },
     loadNextPage (payload) {
       var lastVisibleEntry = payload.lastVisibleEntry
