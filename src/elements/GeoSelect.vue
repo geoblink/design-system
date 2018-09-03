@@ -16,7 +16,7 @@
           [`geo-select__input-box${cssSuffix}`]: true,
           [`geo-select__input-box--empty${cssSuffix}`]: !value
         }"
-        :value="computedCurrentSelection"
+        :value="selectPlaceholder"
         type="text"
         name="geo-select-main"
       >
@@ -121,7 +121,7 @@ export default {
     cssSuffix () {
       return this.cssModifier ? `--${this.cssModifier}` : ''
     },
-    computedCurrentSelection () {
+    selectPlaceholder () {
       return this.value ? this.value.name : this.placeholder
     },
     dropdownContentWidth () {
@@ -131,7 +131,7 @@ export default {
   },
   watch: {
     value (newValue, oldValue) {
-      this.isDropdownOpen = false
+      this.closeGeoSelect()
     }
   },
   methods: {

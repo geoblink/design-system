@@ -27,8 +27,8 @@
   }
 
   .geo-select__input-box--empty#{$modifier-name-with-prefix} {
-    font-size: 14px;
-    color: #9b9b9b;
+    font-size: $font_size_small;
+    color: color_grey_light;
     font-style: italic;
   }
 

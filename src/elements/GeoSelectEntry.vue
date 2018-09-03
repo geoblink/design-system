@@ -11,9 +11,7 @@
         [`geo-select-entry__content${cssSuffix}`]: true,
         [`geo-select-entry__content--opt-group${cssSuffix}`]: isOptGroupEntry
     }">
-      <slot
-        name="content"
-      />
+      <slot name="content" />
     </div>
     <slot name="rightAccessoryItem" />
   </div>
@@ -30,7 +28,10 @@ export default {
      */
     option: {
       type: Object,
-      required: false
+      required: false,
+      validator: function (value) {
+        return 'name' in value
+      }
     },
     /**
      * An optional suffix to be appended as BEM modifier.
