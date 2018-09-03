@@ -54,7 +54,7 @@ require additional or complex user input like handling filters.
         :dropdown-icon="['fas', 'chevron-down']"
         placeholder="Select option">
         <geo-select-search-entry
-          slot="search-entry"
+          slot="searchEntry"
           :search-icon="['fas', 'search']"
           @search-pattern="filterList"
           placeholder="Search...">
@@ -69,6 +69,25 @@ require additional or complex user input like handling filters.
         </geo-select-entry>
       </geo-select>
     </div>
+    <h3 class="element-demo__header">Select with pagination</h3>
+    <div class="element-demo__block" style="justify-content: space-around;">
+      <geo-select
+        :value="currentLongListSelection"
+        :options="chunkedLongList"
+        :constant-width="200"
+        :dropdown-icon="['fas', 'chevron-down']"
+        :has-more-results="true"
+        placeholder="Select option"
+        @load-more-results="loadNextPage($event)">
+        <geo-select-entry
+          slot-scope="{option}"
+          :option="option"
+          @change-current-selection="changeLongListSelection(option)">
+          <span slot="content">{{option.name}}</span>
+        </geo-select-entry>
+        <template slot="moreResultsTextContent">Load more results</template>
+      </geo-select>
+    </div>
   </div>
 </template>
 
@@ -79,6 +98,9 @@ export default {
       currentSelection: null,
       currentOptGroupsSelection: null,
       currentSearchSelection: null,
+      currentLongListSelection: null,
+      currentLongListPage: 1,
+      maxItemsPerPage: 20,
       itemsList: [
         {
           name: 'item 1'
@@ -110,37 +132,56 @@ export default {
       optGroupsList: [
         {
           isOptGroup: true,
-          name: 'First Group'
-        },
-        {
-          name: 'item 1'
-        },
-        {
-          name: 'item 2'
-        },
-        {
-          name: 'item 3'
-        },
-        {
-          name: 'item 4'
+          name: 'First Group',
+          items: [
+            {
+              name: 'item 1'
+            },
+            {
+              name: 'item 2'
+            },
+            {
+              name: 'item 3'
+            },
+            {
+              name: 'item 4'
+            }
+          ]
         },
         {
           isOptGroup: true,
-          name: 'Second Group'
+          name: 'Second Group',
+          items: [
+            {
+              name: 'item 5'
+            },
+            {
+              name: 'item 6'
+            },
+            {
+              name: 'item 7'
+            },
+            {
+              name: 'item 8'
+            }
+          ]
         },
-        {
-          name: 'item 5'
-        },
-        {
-          name: 'item 6'
-        },
-        {
-          name: 'item 7'
-        },
-        {
-          name: 'item 8'
-        }
       ],
+      longList: _.times(500, function (i) {
+        return {
+          name: 'item ' + i
+        }
+      })
+    }
+  },
+  computed: {
+    chunkedLongList () {
+      return this.longList.slice(0, this.currentLongListPage * this.maxItemsPerPage)
+    },
+    optGroupsFlattenList () {
+      return _.flatMap(this.optGroupsList, function (group) {
+        return [group, ...group.items]
+      })
     }
   },
   methods: {
@@ -153,9 +194,19 @@ export default {
     changeSearchSelection (selection) {
       this.currentSearchSelection = selection
     },
+    changeLongListSelection (selection) {
+      this.currentLongListSelection = selection
+    },
     filterList (pattern) {
       this.filteredItemsList = _.filter(this.itemsList, function (item) {
         return item.name.indexOf(pattern) !== -1
+      })
+    },
+    loadNextPage (payload) {
+      var lastVisibleEntry = payload.lastVisibleEntry
+      this.currentLongListPage++
+      this.$nextTick(function () {
+        lastVisibleEntry.parentNode.scrollTop = lastVisibleEntry.offsetTop - lastVisibleEntry.parentNode.offsetTop
       })
     }
   } 

@@ -6,9 +6,6 @@
       <span :class="`geo-select-more-results__text-content--more-results${cssSuffix}`">
         <slot name="moreResultsContent"/>
       </span>
-      <span :class="`geo-select-more-results__text-content--no-results${cssSuffix}`">
-        <slot name="noResultsContent"/>
-      </span>
     </div>
   </div>
 </template>

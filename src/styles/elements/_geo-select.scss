@@ -32,6 +32,11 @@
     font-style: italic;
   }
 
+  .geo-select__options-container#{$modifier-name-with-prefix} {
+    max-height: 300px;
+    overflow-y: auto;
+  }
+
   .geo-select__options-container--has-opt-groups#{$modifier-name-with-prefix} {
     padding-left: 10px;
   }

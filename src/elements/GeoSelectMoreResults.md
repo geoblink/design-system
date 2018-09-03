@@ -14,7 +14,7 @@ a specific number of more options
     <h3 class="element-demo__header">More results button with no more results to show</h3>
     <div class="element-demo__block" style="justify-content: space-around;">
       <geo-select-more-results>
-        <template slot="noResultsContent">No More results</template>
+        <template slot="noResultsContent">No more results</template>
       </geo-select-more-results>
     </div>
   </div>

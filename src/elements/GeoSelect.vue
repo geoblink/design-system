@@ -19,7 +19,7 @@
       <font-awesome-icon :icon="dropdownIcon"/>
     </div>
     <div slot="popupContent">
-      <slot name="search-entry" />
+      <slot name="searchEntry" />
     </div>
     <div
       slot="popupContent"
@@ -31,10 +31,28 @@
         [`geo-select__options-container--has-opt-groups${cssSuffix}`]: hasOptGroups
       }"
     >
-      <slot
-        v-for="option in options"
-        :option="option"
-      />
+      <template
+        v-for="(option, index) in options"
+      >
+        <slot :option="option" />
+        <a
+          ref="entries"
+          :key="index"
+          class="geo-select__hidden-anchor"
+        />
+      </template>
+    </div>
+    <div
+      v-if="hasMoreResults"
+      slot="popupContent"
+    >
+      <geo-select-more-results
+        slot="moreResults"
+        @load-more-results="loadNextPage">
+        <template
+          slot="moreResultsContent"> <slot name="moreResultsTextContent" />
+        </template>
+      </geo-select-more-results>
     </div>
   </geo-dropdown>
 </template>
@@ -103,9 +121,17 @@ export default {
     /**
      * Whether the select has opt-group entries or not
      */
+    // TODO move to computed property
     hasOptGroups: {
       type: Boolean,
-      required: false
+      default: false
+    },
+    /**
+     * Whether the select has more results to load or not
+     */
+    hasMoreResults: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
@@ -136,6 +162,11 @@ export default {
     },
     toggleOptions () {
       this.isDropdownOpen = !this.isDropdownOpen
+    },
+    loadNextPage () {
+      this.$emit('load-more-results', {
+        lastVisibleEntry: _.last(this.$refs.entries)
+      })
     }
   }
 }
