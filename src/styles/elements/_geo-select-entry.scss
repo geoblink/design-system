@@ -17,6 +17,7 @@
     margin: 5px;
     min-height: 30px;
     padding-left: 10px;
+
     &:hover {
       background: $color_white_dark;
     }
@@ -24,6 +25,7 @@
   .geo-select-entry__container--opt-group#{$modifier-name-with-prefix} {
     user-select: none;
     padding-left: 0;
+
     &:hover {
       background: inherit;
     }

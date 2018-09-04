@@ -28,14 +28,14 @@ require additional or complex user input like handling filters.
         :dropdown-icon="['fas', 'chevron-down']"
         css-modifier="select-demo__opt-groups"
         placeholder="Select option">
-        <geo-select-search-entry
+        <geo-select-search-entry-form
           slot="searchEntry"
           :search-icon="['fas', 'search']"
           @search-pattern="setOptGroupsPattern"
           placeholder="Search...">
           <span
             v-if="!filteredOptGroupsItems.length">No options found</span>
-        </geo-select-search-entry>
+        </geo-select-search-entry-form>
         <template slot-scope="{option}">
           <geo-select-entry
             v-if="option.isOptGroup"
@@ -72,14 +72,14 @@ require additional or complex user input like handling filters.
         :dropdown-icon="['fas', 'chevron-down']"
         css-modifier="select-demo"
         placeholder="Select option">
-        <geo-select-search-entry
+        <geo-select-search-entry-form
           slot="searchEntry"
           :search-icon="['fas', 'search']"
           @search-pattern="setListSearchPattern"
           placeholder="Search...">
           <span
             v-if="!filteredItemsList.length">No options found</span>
-        </geo-select-search-entry>
+        </geo-select-search-entry-form>
         <geo-select-entry
           slot-scope="{option}"
           :option="option"

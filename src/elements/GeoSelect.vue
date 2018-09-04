@@ -1,7 +1,8 @@
 <template>
   <geo-dropdown
     :opened="isDropdownOpen"
-    @click-outside="closeGeoSelect">
+    @click-outside="closeGeoSelect"
+  >
     <div
       slot="toggleButton"
       :class="`geo-select__placeholder-box__container${cssSuffix}`"
@@ -12,39 +13,38 @@
           [`geo-select__placeholder-box${cssSuffix}`]: true,
           [`geo-select__placeholder-box--empty${cssSuffix}`]: !value
         }"
-      > {{ selectPlaceholder }} </label>
+      >{{ selectPlaceholder }}</label>
       <font-awesome-icon :icon="dropdownIcon"/>
     </div>
-    <div slot="popupContent">
+    <template slot="popupContent">
       <slot name="searchEntry" />
-    </div>
+    </template>
     <div
       slot="popupContent"
       :class="`geo-select__options-container${cssSuffix}`"
     >
-      <template
-        v-for="(option, index) in options"
-      >
+      <template v-for="(option, index) in options">
         <slot :option="option" />
         <a
           ref="entries"
           :key="index"
-          class="geo-select__hidden-anchor"
+          :class="`geo-select__hidden-anchor${cssSuffix}`"
         />
       </template>
     </div>
-    <div
+    <template
       v-if="hasMoreResults"
       slot="popupContent"
     >
-      <geo-select-more-results
+      <geo-select-more-results-footer-button
         slot="moreResults"
-        @load-more-results="loadNextPage">
+        @load-more-results="loadNextPage"
+      >
         <template
           slot="moreResultsContent"> <slot name="moreResultsTextContent" />
         </template>
-      </geo-select-more-results>
-    </div>
+      </geo-select-more-results-footer-button>
+    </template>
   </geo-dropdown>
 </template>
 

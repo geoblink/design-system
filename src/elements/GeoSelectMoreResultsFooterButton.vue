@@ -12,7 +12,7 @@
 
 <script>
 export default {
-  name: 'GeoSelectMoreResults',
+  name: 'GeoSelectMoreResultsFooterButton',
   status: 'ready',
   version: '1.0.1',
   props: {

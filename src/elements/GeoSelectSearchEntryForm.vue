@@ -1,6 +1,6 @@
 <template>
   <div :class="`geo-select-search-entry__container${cssSuffix}`">
-    <div :class="`geo-select-search-entry__search-input__container${cssSuffix}`">
+    <form :class="`geo-select-search-entry__search-input__container${cssSuffix}`">
       <font-awesome-icon
         :icon="searchIcon"
         :class="`geo-select-search-entry__search-icon${cssSuffix}`"
@@ -15,7 +15,7 @@
         type="text"
         @keyup="searchPattern()"
       >
-    </div>
+    </form>
     <div :class="`geo-select-search-entry__empty-state${cssSuffix}`">
       <slot />
     </div>
