@@ -41,14 +41,26 @@ require additional or complex user input like handling filters.
           <geo-select-entry
             v-if="option.isOptGroup"
             :option="option">
-            <span slot="content">{{option.name}}</span>
+            <span v-if="!isSearchingOptGroups" slot="content">{{option.name}}</span>
+            <geo-highlighted-string
+              v-else
+              slot="content"
+              css-modifier="opt-groups"
+              :matched-chars-position="option.matches"
+              :reference-string="option.name"/>
           </geo-select-entry>
           <geo-select-entry
             v-else
             :option="option"
             :has-opt-groups="true"
             @change-current-selection="changeOptGroupSelection(option)">
-            <span slot="content">{{option.name}}</span>
+            <span v-if="!isSearchingOptGroups" slot="content">{{option.name}}</span>
+            <geo-highlighted-string
+              v-else
+              slot="content"
+              css-modifier="opt-groups"
+              :matched-chars-position="option.matches"
+              :reference-string="option.name"/>
           </geo-select-entry>
         </template>
       </geo-select>
@@ -64,7 +76,7 @@ require additional or complex user input like handling filters.
         <geo-select-search-entry
           slot="searchEntry"
           :search-icon="['fas', 'search']"
-          @search-pattern="filterList"
+          @search-pattern="setListSearchPattern"
           placeholder="Search...">
           <span
             v-if="!filteredItemsList.length">No options found</span>
@@ -73,7 +85,12 @@ require additional or complex user input like handling filters.
           slot-scope="{option}"
           :option="option"
           @change-current-selection="changeSearchSelection(option)">
-          <span slot="content">{{option.name}}</span>
+          <span v-if="!isSearchingFromList" slot="content">{{option.name}}</span>
+          <geo-highlighted-string
+            v-else
+            slot="content"
+            :matched-chars-position="option.matches"
+            :reference-string="option.name"/>
         </geo-select-entry>
       </geo-select>
     </div>
@@ -110,21 +127,10 @@ export default {
       currentLongListPage: 1,
       maxItemsPerPage: 20,
       optGroupsPattern: '',
+      listSearchPattern: '',
+      isSearchingFromList: null,
+      isSearchingOptGroups: null,
       itemsList: [
-        {
-          name: 'item 1'
-        },
-        {
-          name: 'item 2'
-        },
-        {
-          name: 'item 3'
-        },
-        {
-          name: 'item 4'
-        }
-      ],
-      filteredItemsList: [
         {
           name: 'item 1'
         },
@@ -190,13 +196,48 @@ export default {
     filteredOptGroupsItems () {
       var self = this
       return _.filter(_.flatMap(self.optGroupsList, function (group) {
-        if (group.name.indexOf(self.optGroupsPattern) !== -1) return [group, ...group.items]
+        debugger
+        if (group.name.indexOf(self.optGroupsPattern) !== -1) {
+          var matches = group.name.match(self.optGroupsPattern)
+          if (matches) {
+            group.matches = _.map(matches[0].split(''), function (char, i) {
+              return i + matches.index
+            })
+          }
+          _.forEach(group.items, function (item) {
+            var matches = item.name.match(self.optGroupsPattern)
+            if (matches) {
+              item.matches = _.map(matches[0].split(''), function (char, i) {
+                return i + matches.index
+              })
+            }
+          })
+          return [group, ...group.items]
+        }
         var foundItems = _.filter(group.items, function (item) {
+          var matches = item.name.match(self.optGroupsPattern)
+          if (matches) {
+            item.matches = _.map(matches[0].split(''), function (char, i) {
+              return i + matches.index
+            })
+          }
           return item.name.indexOf(self.optGroupsPattern) !== -1
         })
         if (foundItems.length) return [group, ...foundItems]
       }))
-    }
+    },
+    filteredItemsList () {
+      var self = this
+      return _.filter(self.itemsList, function (item) {
+        var matches = item.name.match(self.optGroupsPattern)
+        if (matches) {
+          item.matches = _.map(matches[0].split(''), function (char, i) {
+            return i + matches.index
+          })
+        }
+        return item.name.indexOf(self.listSearchPattern) !== -1
+      })
+    },
   },
   methods: {
     changeCurrentSelection (selection) {
@@ -211,12 +252,12 @@ export default {
     changeLongListSelection (selection) {
       this.currentLongListSelection = selection
     },
-    filterList (pattern) {
-      this.filteredItemsList = _.filter(this.itemsList, function (item) {
-        return item.name.indexOf(pattern) !== -1
-      })
+    setListSearchPattern (pattern) {
+      this.isSearchingFromList = !!pattern
+      this.listSearchPattern = pattern
     },
     setOptGroupsPattern (pattern) {
+      this.isSearchingOptGroups = !!pattern
       this.optGroupsPattern = pattern
     },
     loadNextPage (payload) {
@@ -229,7 +270,4 @@ export default {
   } 
 }
 </script>
-
-<style lang="scss" scoped>
-</style>
 ```
