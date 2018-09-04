@@ -52,6 +52,17 @@
   padding: 16px;
 }
 
+@include geo-select-make('select-demo');
+@include geo-select-make('select-demo__opt-groups');
+
+.geo-select__options-container--select-demo {
+  width: 220px;
+}
+
+.geo-select__options-container--select-demo__opt-groups {
+  width: 210px;
+}
+
 .highlighted-string--highlighted--opt-groups {
   background: yellow;
 }

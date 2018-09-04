@@ -10,8 +10,8 @@ require additional or complex user input like handling filters.
       <geo-select
         :value="currentSelection"
         :options="itemsList"
-        :constant-width="200"
         :dropdown-icon="['fas', 'chevron-down']"
+        css-modifier="select-demo"
         placeholder="Select option">
         <geo-select-entry
           slot-scope="{option}"
@@ -25,9 +25,9 @@ require additional or complex user input like handling filters.
       <geo-select
         :value="currentOptGroupsSelection"
         :options="filteredOptGroupsItems"
-        :constant-width="200"
         :dropdown-icon="['fas', 'chevron-down']"
         :has-opt-groups="true"
+        css-modifier="select-demo__opt-groups"
         placeholder="Select option">
         <geo-select-search-entry
           slot="searchEntry"
@@ -70,8 +70,8 @@ require additional or complex user input like handling filters.
       <geo-select
         :value="currentSearchSelection"
         :options="filteredItemsList"
-        :constant-width="200"
         :dropdown-icon="['fas', 'chevron-down']"
+        css-modifier="select-demo"
         placeholder="Select option">
         <geo-select-search-entry
           slot="searchEntry"
@@ -99,9 +99,9 @@ require additional or complex user input like handling filters.
       <geo-select
         :value="currentLongListSelection"
         :options="chunkedLongList"
-        :constant-width="200"
         :dropdown-icon="['fas', 'chevron-down']"
         :has-more-results="true"
+        css-modifier="select-demo"
         placeholder="Select option"
         @load-more-results="loadNextPage($event)">
         <geo-select-entry
@@ -196,7 +196,6 @@ export default {
     filteredOptGroupsItems () {
       var self = this
       return _.filter(_.flatMap(self.optGroupsList, function (group) {
-        debugger
         if (group.name.indexOf(self.optGroupsPattern) !== -1) {
           var matches = group.name.match(self.optGroupsPattern)
           if (matches) {

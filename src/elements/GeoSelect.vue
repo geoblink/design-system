@@ -5,9 +5,6 @@
     <div
       slot="toggleButton"
       :class="`geo-select__placeholder-box__container${cssSuffix}`"
-      :style="{
-        width: `${constantWidth}px`
-      }"
       @click="toggleOptions"
     >
       <label
@@ -23,9 +20,6 @@
     </div>
     <div
       slot="popupContent"
-      :style="{
-        width: dropdownContentWidth
-      }"
       :class="{
         [`geo-select__options-container${cssSuffix}`]: true,
         [`geo-select__options-container--has-opt-groups${cssSuffix}`]: hasOptGroups
@@ -63,13 +57,6 @@ export default {
   status: 'ready',
   version: '1.0.1',
   props: {
-    /**
-     * Allows to specify the width of the containers
-     */
-    constantWidth: {
-      type: Number,
-      required: false
-    },
     /**
      * An array of items that will be displayed as the select options
      */
@@ -145,10 +132,6 @@ export default {
     },
     selectPlaceholder () {
       return this.value ? this.value.name : this.placeholder
-    },
-    dropdownContentWidth () {
-      // TODO: Find better way to compute this. 20 is the padding of the input
-      return `${this.constantWidth + 20}px`
     }
   },
   watch: {
