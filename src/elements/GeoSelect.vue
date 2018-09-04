@@ -20,10 +20,7 @@
     </div>
     <div
       slot="popupContent"
-      :class="{
-        [`geo-select__options-container${cssSuffix}`]: true,
-        [`geo-select__options-container--has-opt-groups${cssSuffix}`]: hasOptGroups
-      }"
+      :class="`geo-select__options-container${cssSuffix}`"
     >
       <template
         v-for="(option, index) in options"
@@ -104,14 +101,6 @@ export default {
     placeholder: {
       type: String,
       required: false
-    },
-    /**
-     * Whether the select has opt-group entries or not
-     */
-    // TODO move to computed property
-    hasOptGroups: {
-      type: Boolean,
-      default: false
     },
     /**
      * Whether the select has more results to load or not

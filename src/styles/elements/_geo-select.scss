@@ -36,11 +36,6 @@
     max-height: 300px;
     overflow-y: auto;
   }
-
-  .geo-select__options-container--has-opt-groups#{$modifier-name-with-prefix} {
-    padding-left: 10px;
-  }
-
 }
 
 @include geo-select-make('');

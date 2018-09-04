@@ -26,7 +26,6 @@ require additional or complex user input like handling filters.
         :value="currentOptGroupsSelection"
         :options="filteredOptGroupsItems"
         :dropdown-icon="['fas', 'chevron-down']"
-        :has-opt-groups="true"
         css-modifier="select-demo__opt-groups"
         placeholder="Select option">
         <geo-select-search-entry
