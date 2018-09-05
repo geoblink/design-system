@@ -52,7 +52,7 @@
 export default {
   name: 'GeoSelect',
   status: 'ready',
-  version: '1.0.1',
+  version: '1.0.0',
   props: {
     /**
      * An array of items that will be displayed as the select options

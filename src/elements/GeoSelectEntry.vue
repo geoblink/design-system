@@ -21,7 +21,7 @@
 export default {
   name: 'GeoSelectEntry',
   status: 'ready',
-  version: '1.0.1',
+  version: '1.0.0',
   props: {
     /**
      * Optional param to check opt groups

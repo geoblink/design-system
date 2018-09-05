@@ -1,6 +1,7 @@
 `GeoSelectEntry` is each one of the options that will be used in the GeoSelect.
 They can have a left accessory item, the content itself and another item that will be placed 
 on the right side of the container.
+
 ```jsx
 <div class="element-demo">
   <h3 class="element-demo__header">Simple select entry (Only content)</h3>

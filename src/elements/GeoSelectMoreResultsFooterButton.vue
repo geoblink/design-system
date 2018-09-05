@@ -14,7 +14,7 @@
 export default {
   name: 'GeoSelectMoreResultsFooterButton',
   status: 'ready',
-  version: '1.0.1',
+  version: '1.0.0',
   props: {
     /**
      * An optional suffix to be appended as BEM modifier.
