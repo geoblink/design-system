@@ -24,7 +24,9 @@
 
 <script>
 export default {
-  name: 'GeoSelectSearchEntry',
+  name: 'GeoSelectSearchEntryForm',
+  status: 'ready',
+  version: '1.0.1',
   props: {
     /**
      * Icon used for the searchbox

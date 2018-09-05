@@ -44,7 +44,6 @@ require additional or complex user input like handling filters.
             <geo-highlighted-string
               v-else
               slot="content"
-              css-modifier="opt-groups"
               :matched-chars-position="option.matches"
               :reference-string="option.name"/>
           </geo-select-entry>
@@ -57,7 +56,6 @@ require additional or complex user input like handling filters.
             <geo-highlighted-string
               v-else
               slot="content"
-              css-modifier="opt-groups"
               :matched-chars-position="option.matches"
               :reference-string="option.name"/>
           </geo-select-entry>
@@ -99,7 +97,7 @@ require additional or complex user input like handling filters.
         :value="currentLongListSelection"
         :options="chunkedLongList"
         :dropdown-icon="['fas', 'chevron-down']"
-        :has-more-results="true"
+        :has-more-results="hasMoreResultsToLoad"
         css-modifier="select-demo"
         placeholder="Select option"
         @load-more-results="loadNextPage($event)">
@@ -189,6 +187,9 @@ export default {
     }
   },
   computed: {
+    hasMoreResultsToLoad () {
+      return this.currentLongListPage * this.maxItemsPerPage < this.longList.length
+    },
     chunkedLongList () {
       return this.longList.slice(0, this.currentLongListPage * this.maxItemsPerPage)
     },
