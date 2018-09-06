@@ -49,6 +49,8 @@
 </template>
 
 <script>
+import _ from 'lodash'
+
 export default {
   name: 'GeoSelect',
   status: 'ready',
@@ -66,7 +68,10 @@ export default {
      */
     value: {
       type: Object,
-      required: false
+      required: false,
+      validator: function (value) {
+        return 'name' in value
+      }
     },
     /**
      * An optional suffix to be appended as BEM modifier.
@@ -137,7 +142,7 @@ export default {
     },
     loadNextPage () {
       this.$emit('load-more-results', {
-        lastVisibleEntry: _.last(this.$refs.entries) // eslint-disable-line
+        lastVisibleEntry: _.last(this.$refs.entries)
       })
     }
   }

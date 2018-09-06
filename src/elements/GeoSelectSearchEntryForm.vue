@@ -23,6 +23,8 @@
 </template>
 
 <script>
+import _ from 'lodash'
+
 export default {
   name: 'GeoSelectSearchEntryForm',
   status: 'ready',
@@ -68,11 +70,11 @@ export default {
   computed: {
     cssSuffix () {
       return this.cssModifier ? `--${this.cssModifier}` : ''
-    }
-  },
-  methods: {
+    },
     searchPattern () {
-      this.$emit('search-pattern', this.searchValue)
+      return _.debounce(function () {
+        this.$emit('search-pattern', _.deburr(this.searchValue))
+      })
     }
   }
 }

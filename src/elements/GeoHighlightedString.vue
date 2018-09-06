@@ -15,6 +15,7 @@
 </template>
 
 <script>
+import _ from 'lodash'
 export default {
   name: 'GeoHighlightedString',
   status: 'ready',
@@ -25,7 +26,16 @@ export default {
      */
     matchedCharsPosition: {
       type: Array,
-      required: true
+      required: true,
+      validator (matchedChars) {
+        var copyMatchedChars = _.clone(matchedChars)
+        var currentValue
+        while (copyMatchedChars.length) {
+          currentValue = copyMatchedChars.shift()
+          if (currentValue > copyMatchedChars[0]) return false
+        }
+        return true
+      }
     },
     /**
      * String that is being checked for matches
