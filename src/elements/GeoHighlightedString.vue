@@ -3,10 +3,10 @@
     <span
       v-for="(entry, index) in groupsFromMatches"
       :key="index"
-    ><strong
+    ><span
       v-if="entry.isHighlighted"
       :class="`highlighted-string--highlighted${cssSuffix}`"
-    >{{ entry.substring }}</strong><span
+    >{{ entry.substring }}</span><span
       v-else
       :class="`highlighted-string--normal${cssSuffix}`"
     >{{ entry.substring }}</span>

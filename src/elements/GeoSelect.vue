@@ -1,36 +1,19 @@
 <template>
   <geo-dropdown
-    :opened="isDropdownOpen"
-    @click-outside="closeGeoSelect"
+    :opened="opened"
+    @click-outside="handleClickOutside($event)"
   >
-    <div
+    <slot
       slot="toggleButton"
-      :class="`geo-select__placeholder-box__container${cssSuffix}`"
-      @click="toggleOptions"
-    >
-      <label
-        :class="{
-          [`geo-select__placeholder-box${cssSuffix}`]: true,
-          [`geo-select__placeholder-box--empty${cssSuffix}`]: !value
-        }"
-      >{{ selectPlaceholder }}</label>
-      <font-awesome-icon :icon="dropdownIcon"/>
-    </div>
-    <template slot="popupContent">
-      <slot name="searchEntry" />
-    </template>
+      name="toggleButton"
+    />
     <div
       slot="popupContent"
+      ref="popup"
       :class="`geo-select__options-container${cssSuffix}`"
     >
-      <template v-for="(option, index) in options">
-        <slot :option="option" />
-        <a
-          ref="entries"
-          :key="index"
-          :class="`geo-select__hidden-anchor${cssSuffix}`"
-        />
-      </template>
+      <!-- TODO: Document slot -->
+      <slot />
     </div>
     <template
       v-if="hasMoreResults"
@@ -57,21 +40,11 @@ export default {
   version: '1.0.0',
   props: {
     /**
-     * An array of items that will be displayed as the select options
+     * Whether the dropdown is opened or not.
      */
-    options: {
-      type: Array,
+    opened: {
+      type: Boolean,
       required: true
-    },
-    /**
-     * Current selected value from options array
-     */
-    value: {
-      type: Object,
-      required: false,
-      validator: function (value) {
-        return 'name' in value
-      }
     },
     /**
      * An optional suffix to be appended as BEM modifier.
@@ -89,25 +62,6 @@ export default {
       default: ''
     },
     /**
-     * Font Awesome 5 icon to be displayed as close button.
-     *
-     * See [vue-fontawesome](https://www.npmjs.com/package/@fortawesome/vue-fontawesome#explicit-prefix-note-the-vue-bind-shorthand-because-this-uses-an-array)
-     * for more info about this.
-     */
-    dropdownIcon: {
-      type: Array,
-      default () {
-        return ['fal', 'chevron-down']
-      }
-    },
-    /**
-     * Default text to be displayed when no option is selected
-     */
-    placeholder: {
-      type: String,
-      required: false
-    },
-    /**
      * Whether the select has more results to load or not
      */
     hasMoreResults: {
@@ -115,34 +69,26 @@ export default {
       default: false
     }
   },
-  data () {
-    return {
-      isDropdownOpen: false
-    }
-  },
   computed: {
     cssSuffix () {
       return this.cssModifier ? `--${this.cssModifier}` : ''
-    },
-    selectPlaceholder () {
-      return this.value ? this.value.name : this.placeholder
-    }
-  },
-  watch: {
-    value (newValue, oldValue) {
-      this.closeGeoSelect()
     }
   },
   methods: {
-    closeGeoSelect () {
-      this.isDropdownOpen = false
+    handleClickOutside ($event) {
+      this.$emit('click-outside', $event)
     },
     toggleOptions () {
       this.isDropdownOpen = !this.isDropdownOpen
     },
     loadNextPage () {
+      const popup = this.$refs.popup
+      const currentVerticalOffset = popup.scrollTop
+      const nextPageVerticalOffset = currentVerticalOffset + popup.scrollHeight
       this.$emit('load-more-results', {
-        lastVisibleEntry: _.last(this.$refs.entries)
+        scrollToLastEntry () {
+          popup.scrollTop = nextPageVerticalOffset
+        }
       })
     }
   }

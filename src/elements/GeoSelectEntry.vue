@@ -11,7 +11,7 @@
         [`geo-select-entry__content${cssSuffix}`]: true,
         [`geo-select-entry__content--opt-group${cssSuffix}`]: isOptGroupEntry
     }">
-      <slot name="content" />
+      <slot />
     </div>
     <slot name="rightAccessoryItem" />
   </div>

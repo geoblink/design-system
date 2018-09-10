@@ -8,104 +8,124 @@ require additional or complex user input like handling filters.
     <h3 class="element-demo__header">Simple select</h3>
     <div class="element-demo__block" style="justify-content: space-around;">
       <geo-select
-        :value="currentSelection"
-        :options="itemsList"
-        :dropdown-icon="['fas', 'chevron-down']"
+        :opened="isOpened[0]"
         css-modifier="select-demo"
-        placeholder="Select option">
+        @click-outside="closeSelect(0)">
+        <geo-select-toggle-button
+          slot="toggleButton"
+          :dropdown-icon="['fas', 'chevron-down']"
+          :is-empty="!this.currentSelection[0]"
+          @click="toggleSelect(0)">
+          {{selectLabels[0]}}
+        </geo-select-toggle-button>
         <geo-select-entry
-          slot-scope="{option}"
-          @change-current-selection="changeCurrentSelection(option)">
-          <span slot="content">{{option.name}}</span>
+          v-for="(option, index) in itemsList"
+          :key="index"
+          @change-current-selection="changeCurrentSelection(0, option)">
+          {{option.name}}
+        </geo-select-entry>
+      </geo-select>
+    </div>
+    <h3 class="element-demo__header">Select with search option</h3>
+    <div class="element-demo__block" style="justify-content: space-around;">
+      <geo-select
+        :opened="isOpened[1]"
+        css-modifier="select-demo"
+        @click-outside="closeSelect(1)">
+        <geo-select-toggle-button
+          slot="toggleButton"
+          :dropdown-icon="['fas', 'chevron-down']"
+          :is-empty="!this.currentSelection[1]"
+          @click="toggleSelect(1)">
+          {{selectLabels[1]}}
+        </geo-select-toggle-button>
+        <geo-select-search-entry-form
+          :search-icon="['fas', 'search']"
+          @search-pattern="setSearchPattern(1, $event)"
+          placeholder="Search...">
+          <template
+            v-if="!filteredItemsList.length">No options found</template>
+        </geo-select-search-entry-form>
+        <geo-select-entry
+          v-for="(option, index) in filteredItemsList"
+          :key="index"
+          @change-current-selection="changeCurrentSelection(1, option)">
+          <template v-if="!isSearching[1]">{{option.name}}</template>
+          <geo-highlighted-string
+            v-else
+            :matched-chars-position="option.matches"
+            :reference-string="option.name"/>
         </geo-select-entry>
       </geo-select>
     </div>
     <h3 class="element-demo__header">Select with opt-groups</h3>
     <div class="element-demo__block" style="justify-content: space-around;">
       <geo-select
-        :value="currentOptGroupsSelection"
-        :options="filteredOptGroupsItems"
-        :dropdown-icon="['fas', 'chevron-down']"
-        css-modifier="select-demo__opt-groups"
-        placeholder="Select option">
+        :opened="isOpened[2]"
+        css-modifier="select-demo"
+        @click-outside="closeSelect(2)">
+        <geo-select-toggle-button
+          slot="toggleButton"
+          :dropdown-icon="['fas', 'chevron-down']"
+          :is-empty="!this.currentSelection[2]"
+          @click="toggleSelect(2)">
+          {{selectLabels[2]}}
+        </geo-select-toggle-button>
         <geo-select-search-entry-form
-          slot="searchEntry"
           :search-icon="['fas', 'search']"
-          @search-pattern="setOptGroupsPattern"
+          @search-pattern="setSearchPattern(2, $event)"
           placeholder="Search...">
-          <span
-            v-if="!filteredOptGroupsItems.length">No options found</span>
+          <template
+            v-if="!filteredOptGroupsItems.length">No options found</template>
         </geo-select-search-entry-form>
-        <template slot-scope="{option}">
+        <template v-for="(option, index) in filteredOptGroupsItems">
           <geo-select-entry
             v-if="option.isOptGroup"
-            :option="option">
-            <span v-if="!isSearchingOptGroups" slot="content">{{option.name}}</span>
+            :key="index"
+            :option="option"
+            :css-modifier="`is-opt-group`">
+            <template v-if="!isSearching[2]">{{option.name}}</template>
             <geo-highlighted-string
               v-else
-              slot="content"
               :matched-chars-position="option.matches"
               :reference-string="option.name"/>
           </geo-select-entry>
           <geo-select-entry
             v-else
+            :key="index"
             :option="option"
-            :has-opt-groups="true"
-            @change-current-selection="changeOptGroupSelection(option)">
-            <span v-if="!isSearchingOptGroups" slot="content">{{option.name}}</span>
+            :css-modifier="`has-opt-group`"
+            @change-current-selection="changeCurrentSelection(2, option)">
+            <template v-if="!isSearching[2]">{{option.name}}</template>
             <geo-highlighted-string
               v-else
-              slot="content"
               :matched-chars-position="option.matches"
               :reference-string="option.name"/>
           </geo-select-entry>
         </template>
       </geo-select>
     </div>
-    <h3 class="element-demo__header">Select with search option</h3>
-    <div class="element-demo__block" style="justify-content: space-around;">
-      <geo-select
-        :value="currentSearchSelection"
-        :options="filteredItemsList"
-        :dropdown-icon="['fas', 'chevron-down']"
-        css-modifier="select-demo"
-        placeholder="Select option">
-        <geo-select-search-entry-form
-          slot="searchEntry"
-          :search-icon="['fas', 'search']"
-          @search-pattern="setListSearchPattern"
-          placeholder="Search...">
-          <span
-            v-if="!filteredItemsList.length">No options found</span>
-        </geo-select-search-entry-form>
-        <geo-select-entry
-          slot-scope="{option}"
-          :option="option"
-          @change-current-selection="changeSearchSelection(option)">
-          <span v-if="!isSearchingFromList" slot="content">{{option.name}}</span>
-          <geo-highlighted-string
-            v-else
-            slot="content"
-            :matched-chars-position="option.matches"
-            :reference-string="option.name"/>
-        </geo-select-entry>
-      </geo-select>
-    </div>
     <h3 class="element-demo__header">Select with pagination</h3>
     <div class="element-demo__block" style="justify-content: space-around;">
       <geo-select
-        :value="currentLongListSelection"
-        :options="chunkedLongList"
-        :dropdown-icon="['fas', 'chevron-down']"
+        :opened="isOpened[3]"
         :has-more-results="hasMoreResultsToLoad"
         css-modifier="select-demo"
-        placeholder="Select option"
+        @click-outside="closeSelect(3)"
         @load-more-results="loadNextPage($event)">
+        <geo-select-toggle-button
+          slot="toggleButton"
+          :dropdown-icon="['fas', 'chevron-down']"
+          :is-empty="!this.currentSelection[3]"
+          @click="toggleSelect(3)">
+          {{selectLabels[3]}}
+        </geo-select-toggle-button>
         <geo-select-entry
-          slot-scope="{option}"
+          v-for="(option, index) in chunkedLongList"
+          :key="index"
           :option="option"
-          @change-current-selection="changeLongListSelection(option)">
-          <span slot="content">{{option.name}}</span>
+          @change-current-selection="changeCurrentSelection(3, option)">
+          {{option.name}}
         </geo-select-entry>
         <template slot="moreResultsTextContent">Load more results</template>
       </geo-select>
@@ -117,16 +137,12 @@ require additional or complex user input like handling filters.
 export default {
   data () {
     return {
-      currentSelection: null,
-      currentOptGroupsSelection: null,
-      currentSearchSelection: null,
-      currentLongListSelection: null,
+      isOpened: [false, false, false, false],
+      currentSelection: [null, null, null, null],
       currentLongListPage: 1,
       maxItemsPerPage: 20,
-      optGroupsPattern: '',
-      listSearchPattern: '',
-      isSearchingFromList: null,
-      isSearchingOptGroups: null,
+      searchPatterns: ['', '', '', ''],
+      isSearching: [null, null, null, null],
       itemsList: [
         {
           name: 'item 1'
@@ -187,6 +203,15 @@ export default {
     }
   },
   computed: {
+    selectLabels () {
+      const PLACEHOLDER = 'Choose an option'
+      return [
+        this.currentSelection[0] ? this.currentSelection[0].name : PLACEHOLDER,
+        this.currentSelection[1] ? this.currentSelection[1].name : PLACEHOLDER,
+        this.currentSelection[2] ? this.currentSelection[2].name : PLACEHOLDER,
+        this.currentSelection[3] ? this.currentSelection[3].name : PLACEHOLDER
+      ]
+    },
     hasMoreResultsToLoad () {
       return this.currentLongListPage * this.maxItemsPerPage < this.longList.length
     },
@@ -196,15 +221,15 @@ export default {
     filteredOptGroupsItems () {
       var self = this
       return _.filter(_.flatMap(self.optGroupsList, function (group) {
-        if (group.name.indexOf(self.optGroupsPattern) !== -1) {
-          var matches = group.name.match(self.optGroupsPattern)
+        if (group.name.indexOf(self.searchPatterns[2]) !== -1) {
+          var matches = group.name.match(self.searchPatterns[2])
           if (matches) {
             group.matches = _.map(matches[0].split(''), function (char, i) {
               return i + matches.index
             })
           }
           _.forEach(group.items, function (item) {
-            var matches = item.name.match(self.optGroupsPattern)
+            var matches = item.name.match(self.searchPatterns[2])
             if (matches) {
               item.matches = _.map(matches[0].split(''), function (char, i) {
                 return i + matches.index
@@ -214,13 +239,13 @@ export default {
           return [group, ...group.items]
         }
         var foundItems = _.filter(group.items, function (item) {
-          var matches = item.name.match(self.optGroupsPattern)
+          var matches = item.name.match(self.searchPatterns[2])
           if (matches) {
             item.matches = _.map(matches[0].split(''), function (char, i) {
               return i + matches.index
             })
           }
-          return item.name.indexOf(self.optGroupsPattern) !== -1
+          return item.name.indexOf(self.searchPatterns[2]) !== -1
         })
         if (foundItems.length) return [group, ...foundItems]
       }))
@@ -228,42 +253,36 @@ export default {
     filteredItemsList () {
       var self = this
       return _.filter(self.itemsList, function (item) {
-        var matches = item.name.match(self.optGroupsPattern)
+        var matches = item.name.match(self.searchPatterns[1])
         if (matches) {
           item.matches = _.map(matches[0].split(''), function (char, i) {
             return i + matches.index
           })
         }
-        return item.name.indexOf(self.listSearchPattern) !== -1
+        return item.name.indexOf(self.searchPatterns[1]) !== -1
       })
     },
   },
   methods: {
-    changeCurrentSelection (selection) {
-      this.currentSelection = selection
+    closeSelect (selectId) {
+      this.$set(this.isOpened, selectId, false)
     },
-    changeOptGroupSelection (selection) {
-      this.currentOptGroupsSelection = selection
+    toggleSelect (selectId) {
+      this.$set(this.isOpened, selectId, !this.isOpened[selectId])
     },
-    changeSearchSelection (selection) {
-      this.currentSearchSelection = selection
+    changeCurrentSelection (selectId, selection) {
+      this.closeSelect(selectId)
+      this.$set(this.currentSelection, selectId, selection)
     },
-    changeLongListSelection (selection) {
-      this.currentLongListSelection = selection
-    },
-    setListSearchPattern (pattern) {
-      this.isSearchingFromList = !!pattern
-      this.listSearchPattern = pattern
-    },
-    setOptGroupsPattern (pattern) {
-      this.isSearchingOptGroups = !!pattern
-      this.optGroupsPattern = pattern
+    setSearchPattern (selectId, pattern) {
+      this.$set(this.isSearching, selectId, !!pattern)
+      this.$set(this.searchPatterns, selectId, pattern)
     },
     loadNextPage (payload) {
       var lastVisibleEntry = payload.lastVisibleEntry
       this.currentLongListPage++
       this.$nextTick(function () {
-        lastVisibleEntry.parentNode.scrollTop = lastVisibleEntry.offsetTop - lastVisibleEntry.parentNode.offsetTop
+        payload.scrollToLastEntry()
       })
     }
   } 
