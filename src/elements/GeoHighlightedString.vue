@@ -22,7 +22,8 @@ export default {
   version: '1.0.0',
   props: {
     /**
-     * Array with the position of each of the matched chars in the provided string
+     * Array with the position of each of the chars that match
+     * in the provided string and need to be highlighted
      */
     matchedCharsPosition: {
       type: Array,

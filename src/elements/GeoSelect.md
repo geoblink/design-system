@@ -1,6 +1,5 @@
-`GeoSelect` is a combination of a button and a popup which is toggled in and
-out using that button. It's suitable for dropdown menus and actions which
-require additional or complex user input like handling filters.
+`GeoSelect` is a replacement for plain HTML `<select>` tag aimed to offer
+a better UX including chunked load and search capabilities.
 
 ```vue
 <template>
@@ -62,38 +61,12 @@ export default {
         {
           isOptGroup: true,
           label: 'First Group',
-          items: [
-            {
-              label: 'item 1'
-            },
-            {
-              label: 'item 2'
-            },
-            {
-              label: 'item 3'
-            },
-            {
-              label: 'item 4'
-            }
-          ]
+          items: _.times(4, idx => { return {label: `Item ${idx}`} }),
         },
         {
           isOptGroup: true,
           label: 'Second Group',
-          items: [
-            {
-              label: 'item 5'
-            },
-            {
-              label: 'item 6'
-            },
-            {
-              label: 'item 7'
-            },
-            {
-              label: 'item 8'
-            }
-          ]
+          items: _.times(4, idx => { return {label: `Item ${idx}`} }),
         },
       ],
       longList: _.times(500, idx => { return {label: `Item ${idx}`} }),

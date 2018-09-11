@@ -45,7 +45,7 @@
         {{ noResultsPlaceholder }}
       </geo-select-read-only-entry>
     </div>
-    <!-- @slot This slot will display the text for loading more results when there are too many options -->
+    <!-- @slot Use this slot to customize the label of the button allowing to display additional options when there are too many to be displayed at once -->
     <slot
       slot="moreResultsTextContent"
       name="moreResultsTextContent"
@@ -123,7 +123,7 @@ export default {
       }
     },
     /**
-     * Current selected option that is displayed as the select placeholder.
+     * Current selected option. It is displayed as the select placeholder.
      */
     value: {
       type: Object,
@@ -133,7 +133,7 @@ export default {
       }
     },
     /**
-     * Default text that will be displayed when no option is selected.
+     * Text that will be displayed as placeholder.
      */
     placeholder: {
       type: String,
@@ -141,13 +141,15 @@ export default {
     },
     /**
      * Whether the `GeoSelect` should show a search form or not.
+     * If set to true then you must provide a searchInputPlaceholder and a noResultsPlaceholder.
+     * You might also want to pass a getMatchesForItem to customize the search algorithm used.
      */
     searchable: {
       type: Boolean,
       default: false
     },
     /**
-     * Default text that will be displayed in the search form when no input is provided.
+     * Placeholder text that will be displayed in the search form when no input is provided.
      */
     searchInputPlaceholder: {
       type: String,
@@ -161,7 +163,11 @@ export default {
       required: false
     },
     /**
-     * Search algorithm that will be used to look for matches between the provided options and the search pattern.
+     * Search algorithm used to filter items when user provides a search query.
+     * Will receive a single item as first parameter and the search query (plain string) as second one.
+     * It should return an array containing the indexes of the label characters matching the search query.
+     * If there’s no match an empty array should be returned.
+     * To provide fuzzy search you might want to use https://www.npmjs.com/package/fuzzaldrin-plus.
      */
     getMatchesForItem: {
       type: Function,
@@ -176,7 +182,10 @@ export default {
       }
     },
     /**
-     * Max number of items per click that will be displayed when a long list is provided.
+     * Maximum amount of items to be displayed in a single chunk.
+     * When there are more items than this value a “Load more” button will appear to offer pagination.
+     * This is especially important when the dataset is really large and the DOM tree too much complex.
+     * New elements will be added in chunks of up to this amount of elements.
      */
     pageSize: {
       type: Number,
