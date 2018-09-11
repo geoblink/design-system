@@ -1,22 +1,19 @@
 <template>
-  <div
-    :class="`geo-select-entry__container${cssSuffix}`"
-    @click="changeCurrentSelection"
-  >
-    <!-- @slot Use this slot to add elements to the entry label's left side (icons, radio buttons, etc) -->
+  <div :class="`geo-select-read-only-entry__container${cssSuffix}`">
+    <!-- @slot Use this slot to add elements to the read only entry label's left side (icons, radio buttons, etc) -->
     <slot name="leftAccessoryItem" />
-    <div :class="`geo-select-entry__content${cssSuffix}`">
-      <!-- @slot This slot will display the option label -->
+    <div :class="`geo-select-read-only-entry__content${cssSuffix}`">
+      <!-- @slot This slot will display the read only entry label -->
       <slot />
     </div>
-    <!-- @slot Use this slot to add elements to the entry label's right side (icons, radio buttons, etc) -->
+    <!-- @slot Use this slot to add elements to the read only entry label's right side (icons, radio buttons, etc) -->
     <slot name="rightAccessoryItem" />
   </div>
 </template>
 
 <script>
 export default {
-  name: 'GeoSelectEntry',
+  name: 'GeoSelectReadOnlyEntry',
   status: 'ready',
   version: '1.0.0',
   props: {
@@ -39,11 +36,6 @@ export default {
   computed: {
     cssSuffix () {
       return this.cssModifier ? `--${this.cssModifier}` : ''
-    }
-  },
-  methods: {
-    changeCurrentSelection () {
-      this.$emit('change-current-selection')
     }
   }
 }

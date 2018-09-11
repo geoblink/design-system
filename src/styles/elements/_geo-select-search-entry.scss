@@ -35,16 +35,6 @@
   .geo-select-search-entry__search-input--empty#{$modifier-name-with-prefix} {
     font-style: italic;
   }
-
-  .geo-select-search-entry__empty-state#{$modifier-name-with-prefix} {
-    align-items: center;
-    border-radius: $border_radius_default;
-    cursor: pointer;
-    display: flex;
-    font-family: $font_family_text;
-    justify-content: space-between;
-    padding: 5px 10px;
-  }
 }
 
 @include geo-select-search-entry-make('');

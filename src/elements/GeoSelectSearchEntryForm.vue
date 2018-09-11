@@ -16,9 +16,6 @@
         @keyup="searchPattern()"
       >
     </form>
-    <div :class="`geo-select-search-entry__empty-state${cssSuffix}`">
-      <slot />
-    </div>
   </div>
 </template>
 
@@ -54,7 +51,7 @@ export default {
      * them.
      *
      * To generate default styles for a modifier named `modifier-name`, you just
-     * have to add `@include geo-activity-indicator-make('modifier-name');` to
+     * have to add `@include geo-select-search-entry-form-make('modifier-name');` to
      * your SCSS styles.
      */
     cssModifier: {

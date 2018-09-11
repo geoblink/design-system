@@ -1,19 +1,23 @@
 <template>
-  <div :class="`geo-select-more-results__container${cssSuffix}`">
+  <div
+    :class="{
+      [`geo-select-opt-group-header__container${cssSuffix}`]: true,
+      [`geo-select-opt-group-header__container--opt-group${cssSuffix}`]: true
+  }">
     <div
-      :class="`geo-select-more-results__text-content${cssSuffix}`"
-      @click="loadMoreResults">
-      <span :class="`geo-select-more-results__text-content--more-results${cssSuffix}`">
-        <!-- @slot This slot will display the message when there are more results to load -->
-        <slot name="moreResultsContent"/>
-      </span>
+      :class="{
+        [`geo-select-opt-group-header__content${cssSuffix}`]: true,
+        [`geo-select-opt-group-header__content--opt-group${cssSuffix}`]: true
+    }">
+      <!-- @slot This slot will display the opt header label -->
+      <slot />
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'GeoSelectMoreResultsFooterButton',
+  name: 'GeoSelectOptGroupHeader',
   status: 'ready',
   version: '1.0.0',
   props: {
@@ -25,7 +29,7 @@ export default {
      * them.
      *
      * To generate default styles for a modifier named `modifier-name`, you just
-     * have to add `@include geo-select-more-results-footer-button-make('modifier-name');` to
+     * have to add `@include geo-select-opt-group-header-make('modifier-name');` to
      * your SCSS styles.
      */
     cssModifier: {
@@ -36,11 +40,6 @@ export default {
   computed: {
     cssSuffix () {
       return this.cssModifier ? `--${this.cssModifier}` : ''
-    }
-  },
-  methods: {
-    loadMoreResults () {
-      this.$emit('load-more-results')
     }
   }
 }

@@ -1,4 +1,4 @@
-@mixin geo-select-entry-make($modifier-name) {
+@mixin geo-select-opt-group-entry-make($modifier-name) {
 
   $modifier-name-with-prefix: '';
 
@@ -7,14 +7,14 @@
     $modifier-name-with-prefix: --#{$modifier-name};
   }
 
-  .geo-select-entry__container#{$modifier-name-with-prefix} {
+  .geo-select-opt-group-entry__container#{$modifier-name-with-prefix} {
     align-items: center;
     border-radius: $border_radius_default;
     cursor: pointer;
     display: flex;
     font-family: $font_family_text;
     justify-content: space-between;
-    margin: 5px;
+    margin: 5px 5px 5px 15px;
     min-height: 30px;
     padding-left: 10px;
 
@@ -23,13 +23,13 @@
     }
   }
 
-  .geo-select-entry__content#{$modifier-name-with-prefix}:not(:first-child) {
+  .geo-select-opt-group-entry__content#{$modifier-name-with-prefix}:not(:first-child) {
     padding-left: 8px;
   }
 
-  .geo-select-entry__content#{$modifier-name-with-prefix}:not(:last-child) {
+  .geo-select-opt-group-entry__content#{$modifier-name-with-prefix}:not(:last-child) {
     padding-right: 8px;
   }
 }
 
-@include geo-select-entry-make('');
+@include geo-select-opt-group-entry-make('');

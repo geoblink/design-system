@@ -53,7 +53,9 @@
 }
 
 @include geo-select-make('select-demo');
-@include geo-select-make('select-demo__opt-groups');
+
+@include geo-select-base-make('select-demo');
+@include geo-select-base-make('select-demo__opt-groups');
 @include geo-select-entry-make('has-opt-group');
 @include geo-select-entry-make('is-opt-group');
 

@@ -1,22 +1,22 @@
 <template>
   <div
-    :class="`geo-select-entry__container${cssSuffix}`"
-    @click="changeCurrentSelection"
-  >
-    <!-- @slot Use this slot to add elements to the entry label's left side (icons, radio buttons, etc) -->
+    :class="`geo-select-opt-group-entry__container${cssSuffix}`"
+    @click="changeCurrentSelection">
+    <!-- @slot Use this slot to add elements to the opt group entry label's left side (icons, radio buttons, etc) -->
     <slot name="leftAccessoryItem" />
-    <div :class="`geo-select-entry__content${cssSuffix}`">
+    <div
+      :class="`geo-select-opt-group-entry__content${cssSuffix}`">
       <!-- @slot This slot will display the option label -->
       <slot />
     </div>
-    <!-- @slot Use this slot to add elements to the entry label's right side (icons, radio buttons, etc) -->
+    <!-- @slot Use this slot to add elements to the opt group entry label's right side (icons, radio buttons, etc) -->
     <slot name="rightAccessoryItem" />
   </div>
 </template>
 
 <script>
 export default {
-  name: 'GeoSelectEntry',
+  name: 'GeoSelectOptGroupEntry',
   status: 'ready',
   version: '1.0.0',
   props: {
@@ -28,7 +28,7 @@ export default {
      * them.
      *
      * To generate default styles for a modifier named `modifier-name`, you just
-     * have to add `@include geo-select-entry-make('modifier-name');` to
+     * have to add `@include geo-select-opt-group-entry-make('modifier-name');` to
      * your SCSS styles.
      */
     cssModifier: {

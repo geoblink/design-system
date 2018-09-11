@@ -6,6 +6,7 @@
     }"
     @click="handleClick($event)"
   >
+    <!-- @slot This slot will display the `GeoSelect` placeholder or the current selected option -->
     <slot />
     <font-awesome-icon
       :icon="dropdownIcon"
@@ -68,4 +69,3 @@ export default {
   }
 }
 </script>
-
