@@ -29,12 +29,10 @@ export default {
       required: true,
       validator (matchedChars) {
         const isMatchedCharsOrdered = matchedChars.every((val, i, array) => !i || (val > array[i - 1]))
-        if (isMatchedCharsOrdered) {
-          return true
-        } else {
+        if (!isMatchedCharsOrdered) {
           console.warn(`Values of «matchedCharsPosition» must be sorted ascendently`)
-          return false
         }
+        return isMatchedCharsOrdered
       }
     },
     /**
