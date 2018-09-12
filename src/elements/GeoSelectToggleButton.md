@@ -1,4 +1,4 @@
-`GeoSelectToggleButton` is used to toggle the select content popup
+`GeoSelectToggleButton` is a button designed to look like a modern HTML `<select>` input, displaying a placeholder content when no value is chosen and featuring a trailing chevron.
 
 ```jsx
 <div class="element-demo">

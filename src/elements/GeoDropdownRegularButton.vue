@@ -24,7 +24,7 @@
 export default {
   name: 'GeoDropdownRegularButton',
   status: 'ready',
-  version: '1.0.0',
+  release: '1.0.0',
   props: {
     /**
      * Optional Font Awesome 5 icon to be displayed next to the button's label,

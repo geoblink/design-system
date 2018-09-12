@@ -41,7 +41,7 @@
 export default {
   name: 'GeoDropdownGroup',
   status: 'ready',
-  version: '1.0.1',
+  release: '1.0.1',
   props: {
     /**
      * An optional suffix to be appended as BEM modifier.

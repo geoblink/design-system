@@ -6,7 +6,8 @@
     }"
     @click="handleClick($event)"
   >
-    <!-- @slot This slot will display the `GeoSelect` placeholder or the current selected option -->
+    <!-- @slot Use this slot to customize what is displayed in the button.
+         Note that that this will be styled differently when isEmpty prop is true. -->
     <slot />
     <font-awesome-icon
       :icon="dropdownIcon"
@@ -20,6 +21,8 @@
 <script>
 export default {
   name: 'GeoSelectToggleButton',
+  status: 'ready',
+  release: '1.0.0',
   props: {
     /**
      * Font Awesome 5 icon to be displayed as close button.
@@ -64,6 +67,11 @@ export default {
   },
   methods: {
     handleClick ($event) {
+      /**
+       * Click on select event
+       * @event click
+       * @type {object}
+       */
       this.$emit('click', $event)
     }
   }

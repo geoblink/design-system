@@ -2,15 +2,15 @@
   <div
     :class="`geo-select-opt-group-entry__container${cssSuffix}`"
     @click="changeCurrentSelection">
-    <!-- @slot Use this slot to add elements to the opt group entry label's left side (icons, radio buttons, etc) -->
-    <slot name="leftAccessoryItem" />
+    <!-- @slot Use this slot to add elements to the opt group entry label's leading side (icons, radio buttons, etc) -->
+    <slot name="leadingAccessoryItem" />
     <div
       :class="`geo-select-opt-group-entry__content${cssSuffix}`">
-      <!-- @slot This slot will display the option label -->
+      <!-- @slot Use this slot to customize this entry’s content. -->
       <slot />
     </div>
-    <!-- @slot Use this slot to add elements to the opt group entry label's right side (icons, radio buttons, etc) -->
-    <slot name="rightAccessoryItem" />
+    <!-- @slot Use this slot to add elements to the opt group entry label's trailing side (icons, radio buttons, etc) -->
+    <slot name="trailingAccessoryItem" />
   </div>
 </template>
 
@@ -18,7 +18,7 @@
 export default {
   name: 'GeoSelectOptGroupEntry',
   status: 'ready',
-  version: '1.0.0',
+  release: '1.0.0',
   props: {
     /**
      * An optional suffix to be appended as BEM modifier.
@@ -43,6 +43,10 @@ export default {
   },
   methods: {
     changeCurrentSelection () {
+      /**
+       * Change GeoSelect selection event
+       * @event change-current-selection
+       */
       this.$emit('change-current-selection')
     }
   }

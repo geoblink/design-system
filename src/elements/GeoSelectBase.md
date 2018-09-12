@@ -1,6 +1,6 @@
-`GeoSelectBase` is a combination of a button and a popup which is toggled in and
-out using that button. It's suitable for dropdown menus and actions which
-require additional or complex user input like handling filters.
+`GeoSelectBase` is an advance component to build select-like flows. It offers the minimum boilerplate to create a popup-driven single-element picker.
+
+Use this component if you want to build a custom experience. If you just need a drop-in replacement for HTML `<select>` tag take a look at `GeoSelect` component.
 
 ```vue
 <template>
@@ -143,63 +143,20 @@ export default {
       maxItemsPerPage: 20,
       searchPatterns: ['', '', '', ''],
       isSearching: [null, null, null, null],
-      itemsList: [
-        {
-          label: 'item 1'
-        },
-        {
-          label: 'item 2'
-        },
-        {
-          label: 'item 3'
-        },
-        {
-          label: 'item 4'
-        }
-      ],
+      itemsList: _.times(4, idx => { return {label: `Item ${idx}`} }),
       optGroupsList: [
         {
           isOptGroup: true,
           label: 'First Group',
-          items: [
-            {
-              label: 'item 1'
-            },
-            {
-              label: 'item 2'
-            },
-            {
-              label: 'item 3'
-            },
-            {
-              label: 'item 4'
-            }
-          ]
+          items: _.times(4, idx => { return {label: `Item ${idx}`} }),
         },
         {
           isOptGroup: true,
           label: 'Second Group',
-          items: [
-            {
-              label: 'item 5'
-            },
-            {
-              label: 'item 6'
-            },
-            {
-              label: 'item 7'
-            },
-            {
-              label: 'item 8'
-            }
-          ]
+          items: _.times(4, idx => { return {label: `Item ${idx}`} }),
         },
       ],
-      longList: _.times(500, function (i) {
-        return {
-          label: 'item ' + i
-        }
-      })
+      longList: _.times(500, idx => { return {label: `Item ${idx}`} }),
     }
   },
   computed: {
@@ -219,7 +176,7 @@ export default {
       return this.longList.slice(0, this.currentLongListPage * this.maxItemsPerPage)
     },
     filteredOptGroupsItems () {
-      var self = this
+      const self = this
       return _.filter(_.flatMap(self.optGroupsList, function (group) {
         if (group.label.indexOf(self.searchPatterns[2]) !== -1) {
           var matches = group.label.match(self.searchPatterns[2])
@@ -238,7 +195,7 @@ export default {
           })
           return [group, ...group.items]
         }
-        var foundItems = _.filter(group.items, function (item) {
+        const foundItems = _.filter(group.items, function (item) {
           var matches = item.label.match(self.searchPatterns[2])
           if (matches) {
             item.matches = _.map(matches[0].split(''), function (char, i) {
@@ -251,9 +208,9 @@ export default {
       }))
     },
     filteredItemsList () {
-      var self = this
+      const self = this
       return _.filter(self.itemsList, function (item) {
-        var matches = item.label.match(self.searchPatterns[1])
+        const matches = item.label.match(self.searchPatterns[1])
         if (matches) {
           item.matches = _.map(matches[0].split(''), function (char, i) {
             return i + matches.index

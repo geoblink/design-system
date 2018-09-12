@@ -13,7 +13,7 @@ special messages like `No results found`.
   <h3 class="element-demo__header">Read only entry with left accessory item</h3>
   <div class="element-demo__block" style="justify-content: space-around;">
     <geo-select-read-only-entry>
-      <font-awesome-icon slot="leftAccessoryItem" :icon="['fas', 'flag']" />
+      <font-awesome-icon slot="leadingAccessoryItem" :icon="['fas', 'flag']" />
       No results found
     </geo-select-read-only-entry>
   </div>
@@ -21,7 +21,7 @@ special messages like `No results found`.
   <div class="element-demo__block" style="justify-content: space-around;">
     <geo-select-read-only-entry>
       No results found
-      <input type="checkbox" slot="rightAccessoryItem"/>
+      <input type="checkbox" slot="trailingAccessoryItem"/>
     </geo-select-read-only-entry>
   </div>
 </div>

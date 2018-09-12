@@ -25,7 +25,7 @@ import _ from 'lodash'
 export default {
   name: 'GeoSelectSearchEntryForm',
   status: 'ready',
-  version: '1.0.0',
+  release: '1.0.0',
   props: {
     /**
      * Icon used for the searchbox
@@ -70,6 +70,11 @@ export default {
     },
     searchPattern () {
       return _.debounce(function () {
+        /**
+         * Search pattern in options list event
+         * @event search-pattern
+         * @type {string}
+         */
         this.$emit('search-pattern', _.deburr(this.searchValue))
       })
     }

@@ -1,6 +1,4 @@
-`GeoSelectMoreResults` is used as a footer for the Geo Select when it has
-too many options to show. It works similar to a paginator, showing for each click
-a specific number of more options
+`GeoSelectMoreResultsFooterButton` is a button designed to be displayed as footer of a `GeoSelect` when there are too many options to display all of them at once. When clicking the button an event will be emitted to allow parent component to feed in more data.
 
 ```jsx
 <div class="element-demo">

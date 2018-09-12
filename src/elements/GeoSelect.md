@@ -23,7 +23,9 @@ a better UX including chunked load and search capabilities.
         no-results-placeholder="No results found"
         search-input-placeholder="Search for an option"
         v-model="currentSelection[1]"
-      />
+      >
+        <template slot="noResults">No Results found</template>
+      </geo-select>
     </div>
     <h3 class="element-demo__header">Select with opt-groups</h3>
     <div class="element-demo__block" style="justify-content: space-around;">
@@ -35,7 +37,9 @@ a better UX including chunked load and search capabilities.
         no-results-placeholder="No results found"
         search-input-placeholder="Search for an option"
         v-model="currentSelection[2]"
-      />
+      >
+        <template slot="noResults">No Results found</template>
+      </geo-select>
     </div>
     <h3 class="element-demo__header">Select with pagination</h3>
     <div class="element-demo__block" style="justify-content: space-around;">

@@ -15,36 +15,33 @@
     </geo-select-toggle-button>
     <geo-select-search-entry-form
       v-if="searchable"
+      slot="header"
       :search-icon="['fas', 'search']"
       :css-modifier="cssModifier"
       :placeholder="searchInputPlaceholder"
       @search-pattern="setSearchPattern($event)"
     />
-    <div
-      ref="content"
-      :class="`geo-select__options-list-container${cssSuffix}`"
-    >
-      <template v-if="visibleOptions.length">
-        <component
-          v-for="(option, index) in visibleOptions"
-          :is="option.component"
+    <template v-if="visibleOptions.length">
+      <component
+        v-for="(option, index) in visibleOptions"
+        :is="option.component"
+        :css-modifier="cssModifier"
+        :key="index"
+        :option="option"
+        @change-current-selection="changeCurrentSelection(option)">
+        <geo-highlighted-string
+          v-if="isSearching"
           :css-modifier="cssModifier"
-          :key="index"
-          :option="option"
-          @change-current-selection="changeCurrentSelection(option)">
-          <geo-highlighted-string
-            v-if="isSearching"
-            :css-modifier="cssModifier"
-            :matched-chars-position="option.matches"
-            :reference-string="option.label"
-          />
-          <template v-else>{{ option.label }}</template>
-        </component>
-      </template>
-      <geo-select-read-only-entry v-else>
-        {{ noResultsPlaceholder }}
-      </geo-select-read-only-entry>
-    </div>
+          :matched-chars-position="option.matches"
+          :reference-string="option.label"
+        />
+        <template v-else>{{ option.label }}</template>
+      </component>
+    </template>
+    <geo-select-read-only-entry v-else>
+      <!-- @slot Use this slot to customize the structure of the label that will be displayed when no results are found after searching for an option -->
+      <slot name="noResults" />
+    </geo-select-read-only-entry>
     <!-- @slot Use this slot to customize the label of the button allowing to display additional options when there are too many to be displayed at once -->
     <slot
       slot="moreResultsTextContent"
@@ -59,10 +56,13 @@ import _ from 'lodash'
 export default {
   name: 'GeoSelect',
   status: 'ready',
-  version: '1.0.0',
+  release: '1.0.0',
   props: {
     /**
      * Array of options that will be displayed in the select component.
+     * Note that in order for the options to be displayed properly, a property label
+     * must exist in every object of the array. If you want the `GeoSelect` options
+     * to be displayed as optGroups, a flag isOptGroup must be provided in every group header.
      */
     options: {
       type: Array,
@@ -123,7 +123,10 @@ export default {
       }
     },
     /**
+     * @model
      * Current selected option. It is displayed as the select placeholder.
+     * A label property must be present in the prop in order to be displayed properly
+     * by the `GeoSelectToggleButton` placeholder.
      */
     value: {
       type: Object,
@@ -152,13 +155,6 @@ export default {
      * Placeholder text that will be displayed in the search form when no input is provided.
      */
     searchInputPlaceholder: {
-      type: String,
-      required: false
-    },
-    /**
-     * Text that will be displayed when no option is found after having provided an input.
-     */
-    noResultsPlaceholder: {
       type: String,
       required: false
     },
@@ -314,6 +310,11 @@ export default {
     },
 
     changeCurrentSelection (option) {
+      /**
+       * Change GeoSelect selection event
+       * @event input
+       * @type {object}
+       */
       this.$emit('input', option.item)
       this.closeSelect()
     },
@@ -322,13 +323,10 @@ export default {
       this.searchPattern = pattern
     },
 
-    loadNextPage () {
+    loadNextPage (payload) {
       this.lastVisiblePage++
-      const popup = this.$refs.content
-      const currentVerticalOffset = popup.scrollTop
-      const nextPageVerticalOffset = currentVerticalOffset + popup.scrollHeight
       this.$nextTick(function () {
-        popup.scrollTop = nextPageVerticalOffset
+        payload.scrollToLastEntry()
       })
     }
   }

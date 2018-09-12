@@ -9,7 +9,7 @@
         [`geo-select-opt-group-header__content${cssSuffix}`]: true,
         [`geo-select-opt-group-header__content--opt-group${cssSuffix}`]: true
     }">
-      <!-- @slot This slot will display the opt header label -->
+      <!-- @slot Use this slot to customize header content -->
       <slot />
     </div>
   </div>
@@ -19,7 +19,7 @@
 export default {
   name: 'GeoSelectOptGroupHeader',
   status: 'ready',
-  version: '1.0.0',
+  release: '1.0.0',
   props: {
     /**
      * An optional suffix to be appended as BEM modifier.

@@ -1,13 +1,13 @@
 <template>
   <div :class="`geo-select-read-only-entry__container${cssSuffix}`">
-    <!-- @slot Use this slot to add elements to the read only entry label's left side (icons, radio buttons, etc) -->
-    <slot name="leftAccessoryItem" />
+    <!-- @slot Use this slot to add elements to the read only entry label's leading side (icons, radio buttons, etc) -->
+    <slot name="leadingAccessoryItem" />
     <div :class="`geo-select-read-only-entry__content${cssSuffix}`">
-      <!-- @slot This slot will display the read only entry label -->
+      <!-- @slot Use this slot to customize content displayed in this entry. -->
       <slot />
     </div>
-    <!-- @slot Use this slot to add elements to the read only entry label's right side (icons, radio buttons, etc) -->
-    <slot name="rightAccessoryItem" />
+    <!-- @slot Use this slot to add elements to the read only entry label's trailing side (icons, radio buttons, etc) -->
+    <slot name="trailingAccessoryItem" />
   </div>
 </template>
 
@@ -15,7 +15,7 @@
 export default {
   name: 'GeoSelectReadOnlyEntry',
   status: 'ready',
-  version: '1.0.0',
+  release: '1.0.0',
   props: {
     /**
      * An optional suffix to be appended as BEM modifier.

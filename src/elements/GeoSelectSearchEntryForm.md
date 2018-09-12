@@ -1,4 +1,5 @@
-`GeoSelectSearchEntry` is used to search for option items inside a select
+`GeoSelectSearchEntry` is a search form designed to fit nicely in a `GeoSelect` header.
+Note that filtering logic is not part of this component but of `GeoSelect`.
 
 ```jsx
 <div class="element-demo">
@@ -7,9 +8,7 @@
     <geo-select-search-entry-form
       :search-icon="['fas', 'search']"
       placeholder="Search..."
-    >
-      <span v-if="false">No options found</span>
-    </geo-select-search-entry-form>
+    />
   </div>
 </div>
 ```

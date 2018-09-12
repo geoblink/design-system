@@ -1,5 +1,5 @@
-`GeoSelectOptGroupHeader` is the header for opt groups in `GeoSelect`.
-It can't be selected and it's used to group its children options.
+Use `GeoSelectOptGroupHeader` to display an OptGroup header-like entry.
+It's designed to pair nicely with `GeoSelectOptGroupEntry`.
 
 ```jsx
 <div class="element-demo">

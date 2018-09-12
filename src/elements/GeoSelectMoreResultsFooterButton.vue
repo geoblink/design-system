@@ -4,7 +4,7 @@
       :class="`geo-select-more-results__text-content${cssSuffix}`"
       @click="loadMoreResults">
       <span :class="`geo-select-more-results__text-content--more-results${cssSuffix}`">
-        <!-- @slot This slot will display the message when there are more results to load -->
+        <!-- @slot Use this slot to customize the label of the button. -->
         <slot name="moreResultsContent"/>
       </span>
     </div>
@@ -15,7 +15,7 @@
 export default {
   name: 'GeoSelectMoreResultsFooterButton',
   status: 'ready',
-  version: '1.0.0',
+  release: '1.0.0',
   props: {
     /**
      * An optional suffix to be appended as BEM modifier.
@@ -40,6 +40,10 @@ export default {
   },
   methods: {
     loadMoreResults () {
+      /**
+       * Load more results in GeoSelect options
+       * @event load-more-results
+       */
       this.$emit('load-more-results')
     }
   }

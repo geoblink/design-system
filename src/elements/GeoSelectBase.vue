@@ -13,7 +13,7 @@
       ref="popup"
       :class="`geo-select__options-container${cssSuffix}`"
     >
-      <!-- @slot This slot will display the list of options available in the `GeoSelect` -->
+      <!-- @slot Use this slot to display options available in the `GeoSelect` -->
       <slot />
     </div>
     <template
@@ -24,7 +24,7 @@
         slot="moreResults"
         @load-more-results="loadNextPage"
       >
-        <!-- @slot This slot will display the text for loading more results when there are too many options -->
+        <!-- @slot Use this slot to customize the label of the button allowing the user to load more data when there are too much elements to be displayed at once -->
         <slot
           slot="moreResultsContent"
           name="moreResultsTextContent"
@@ -38,7 +38,7 @@
 export default {
   name: 'GeoSelectBase',
   status: 'ready',
-  version: '1.0.0',
+  release: '1.0.0',
   props: {
     /**
      * Whether the dropdown is opened or not.
@@ -77,6 +77,11 @@ export default {
   },
   methods: {
     handleClickOutside ($event) {
+      /**
+       * Click outside GeoSelect event
+       * @event click-outside
+       * @type {object}
+       */
       this.$emit('click-outside', $event)
     },
     toggleOptions () {
@@ -86,6 +91,11 @@ export default {
       const popup = this.$refs.popup
       const currentVerticalOffset = popup.scrollTop
       const nextPageVerticalOffset = currentVerticalOffset + popup.scrollHeight
+      /**
+       * Load more results in GeoSelect options
+       * @event load-more-results
+       * @type {object}
+       */
       this.$emit('load-more-results', {
         scrollToLastEntry () {
           popup.scrollTop = nextPageVerticalOffset

@@ -24,6 +24,8 @@ aliases:
     value: "#FFDB7C"
   yellow:
     value: "#EFAE00"
+  yellow_highlight:
+    value: "yellow"
   white:
     value: "#FFFFFF"
   white_dark:
@@ -76,6 +78,9 @@ props:
     category: color_group_4
   color_yellow_darker:
     value: "brightness({!yellow}, -40)"
+    category: color_group_4
+  color_yellow_highlight:
+    value: "{!yellow_highlight}"
     category: color_group_4
 
   color_green:

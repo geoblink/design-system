@@ -1,6 +1,6 @@
-`GeoSelectOptGroupEntry` is each one of the options that will be used in the GeoSelect inside an opt-group.
-They can have a left accessory item, the content itself and another item that will be placed 
-on the right side of the container.
+Use `GeoSelectOptGroupEntry` to display elements of an OptGroup.
+These elements will be padded so they look like they are part of an OptGroup.
+Take a look at `GeoSelectEntry` for a non-OptGroup equivalent of this component.
 
 ```jsx
 <div class="element-demo">
@@ -13,7 +13,7 @@ on the right side of the container.
   <h3 class="element-demo__header">Opt group entry with left accessory item</h3>
   <div class="element-demo__block" style="justify-content: space-around;">
     <geo-select-opt-group-entry>
-      <font-awesome-icon slot="leftAccessoryItem" :icon="['fas', 'flag']" />
+      <font-awesome-icon slot="leadingAccessoryItem" :icon="['fas', 'flag']" />
       Content of the Select entry
     </geo-select-opt-group-entry>
   </div>
@@ -21,7 +21,7 @@ on the right side of the container.
   <div class="element-demo__block" style="justify-content: space-around;">
     <geo-select-opt-group-entry>
       Content of the Select entry
-      <input type="checkbox" slot="rightAccessoryItem"/>
+      <input type="checkbox" slot="trailingAccessoryItem"/>
     </geo-select-opt-group-entry>
   </div>
 </div>

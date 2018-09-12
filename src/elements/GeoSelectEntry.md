@@ -1,6 +1,5 @@
-`GeoSelectEntry` is each one of the options that will be used in the GeoSelect.
-They can have a left accessory item, the content itself and another item that will be placed 
-on the right side of the container.
+`GeoSelectEntry` provides a common styling suitable for the entries of a `GeoSelect`,
+including hover style, proper cursor and click events.
 
 ```jsx
 <div class="element-demo">
@@ -13,7 +12,7 @@ on the right side of the container.
   <h3 class="element-demo__header">Select entry with left accessory item</h3>
   <div class="element-demo__block" style="justify-content: space-around;">
     <geo-select-entry>
-      <font-awesome-icon slot="leftAccessoryItem" :icon="['fas', 'flag']" />
+      <font-awesome-icon slot="leadingAccessoryItem" :icon="['fas', 'flag']" />
       Content of the Select entry
     </geo-select-entry>
   </div>
@@ -21,7 +20,7 @@ on the right side of the container.
   <div class="element-demo__block" style="justify-content: space-around;">
     <geo-select-entry>
       Content of the Select entry
-      <input type="checkbox" slot="rightAccessoryItem"/>
+      <input type="checkbox" slot="trailingAccessoryItem"/>
     </geo-select-entry>
   </div>
 </div>
