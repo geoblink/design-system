@@ -20,7 +20,7 @@
 export default {
   name: 'GeoMarquee',
   status: 'ready',
-  release: '8.1.0',
+  release: '8.0.0',
   props: {
     /**
      * Duration of the animation (seconds).
