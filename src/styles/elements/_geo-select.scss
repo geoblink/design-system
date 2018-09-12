@@ -7,11 +7,6 @@
     $modifier-name-with-prefix: --#{$modifier-name};
   }
 
-  .geo-select__options-list-container#{$modifier-name-with-prefix} {
-    max-height: 250px;
-    overflow-y: auto;
-  }
-
   @include geo-select-base-make($modifier-name);
   @include geo-select-entry-make($modifier-name);
   @include geo-select-opt-group-header-make($modifier-name);

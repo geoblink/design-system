@@ -8,6 +8,10 @@
       slot="toggleButton"
       name="toggleButton"
     />
+    <slot
+      slot="popupContent"
+      name="header"
+    />
     <div
       slot="popupContent"
       ref="popup"
@@ -16,6 +20,10 @@
       <!-- @slot Use this slot to display options available in the `GeoSelect` -->
       <slot />
     </div>
+    <slot
+      slot="popupContent"
+      name="footer"
+    />
     <template
       v-if="hasMoreResults"
       slot="popupContent"

@@ -6,6 +6,11 @@
     // sass-lint:disable space-around-operator
     $modifier-name-with-prefix: --#{$modifier-name};
   }
+
+  .geo-select__options-container#{$modifier-name-with-prefix} {
+    max-height: 250px;
+    overflow-y: auto;
+  }
 }
 
 @include geo-select-base-make('');

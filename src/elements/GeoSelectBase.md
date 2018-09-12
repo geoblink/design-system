@@ -40,6 +40,7 @@ Use this component if you want to build a custom experience. If you just need a 
           {{selectLabels[1]}}
         </geo-select-toggle-button>
         <geo-select-search-entry-form
+          slot="header"
           :search-icon="['fas', 'search']"
           @search-pattern="setSearchPattern(1, $event)"
           placeholder="Search..." />
@@ -74,6 +75,7 @@ Use this component if you want to build a custom experience. If you just need a 
           {{selectLabels[2]}}
         </geo-select-toggle-button>
         <geo-select-search-entry-form
+          slot="header"
           :search-icon="['fas', 'search']"
           @search-pattern="setSearchPattern(2, $event)"
           placeholder="Search..." />
