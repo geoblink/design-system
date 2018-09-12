@@ -187,7 +187,7 @@ export default {
       type: Number,
       required: false,
       validator (value) {
-        if (!_.isNil(value)) return value > 0
+        if (!_.isFinite(value)) return value > 0
         return true
       }
     },

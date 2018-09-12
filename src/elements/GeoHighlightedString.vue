@@ -15,7 +15,6 @@
 </template>
 
 <script>
-import _ from 'lodash'
 export default {
   name: 'GeoHighlightedString',
   status: 'ready',
@@ -29,13 +28,13 @@ export default {
       type: Array,
       required: true,
       validator (matchedChars) {
-        var copyMatchedChars = _.clone(matchedChars)
-        var currentValue
-        while (copyMatchedChars.length) {
-          currentValue = copyMatchedChars.shift()
-          if (currentValue > copyMatchedChars[0]) return false
+        const isMatchedCharsOrdered = matchedChars.every((val, i, array) => !i || (val > array[i - 1]))
+        if (isMatchedCharsOrdered) {
+          return true
+        } else {
+          console.warn(`Values of «matchedCharsPosition» must be sorted ascendently`)
+          return false
         }
-        return true
       }
     },
     /**

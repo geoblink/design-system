@@ -20,7 +20,6 @@ a better UX including chunked load and search capabilities.
         :searchable="true"
         css-modifier="select-demo"
         placeholder="Choose an option"
-        no-results-placeholder="No results found"
         search-input-placeholder="Search for an option"
         v-model="currentSelection[1]"
       >
@@ -34,7 +33,6 @@ a better UX including chunked load and search capabilities.
         :searchable="true"
         css-modifier="select-demo"
         placeholder="Choose an option"
-        no-results-placeholder="No results found"
         search-input-placeholder="Search for an option"
         v-model="currentSelection[2]"
       >
