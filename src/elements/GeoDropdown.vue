@@ -32,7 +32,7 @@ import getDOMElementOffset from '../utils/getDOMElementOffset'
 export default {
   name: 'GeoDropdown',
   status: 'ready',
-  release: '1.0.1',
+  release: '8.1.0',
   directives: {
     ScrollAnywhere,
     ClickOutside

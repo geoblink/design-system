@@ -56,7 +56,7 @@ import _ from 'lodash'
 export default {
   name: 'GeoSelect',
   status: 'ready',
-  release: '1.0.0',
+  release: '8.1.0',
   props: {
     /**
      * Array of options that will be displayed in the select component.

@@ -19,7 +19,7 @@
 export default {
   name: 'GeoSelectOptGroupHeader',
   status: 'ready',
-  release: '1.0.0',
+  release: '8.1.0',
   props: {
     /**
      * An optional suffix to be appended as BEM modifier.

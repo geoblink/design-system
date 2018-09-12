@@ -17,7 +17,7 @@
 export default {
   name: 'GeoDropdownCompactButton',
   status: 'ready',
-  release: '1.0.0',
+  release: '8.1.0',
   props: {
     /**
      * Font Awesome 5 icon to be displayed.

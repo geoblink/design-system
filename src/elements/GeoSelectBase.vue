@@ -46,7 +46,7 @@
 export default {
   name: 'GeoSelectBase',
   status: 'ready',
-  release: '1.0.0',
+  release: '8.1.0',
   props: {
     /**
      * Whether the dropdown is opened or not.
