@@ -4,20 +4,95 @@
 #
 
 props:
-  font_size_xxx_large:
-    value: "64px"
-  font_size_xx_large:
-    value: "48px"
-  font_size_x_large:
-    value: "36px"
-  font_size_large:
-    value: "24px"
-  font_size_base:
-    value: "16px"
-  font_size_small:
+
+  display_x_large:
+    weight: "600"
+    value: "28px"
+    font_family: "Montserrat"
+    font_style: "Semibold"
+    color: "#4a4a4a"
+  display_large:
+    weight: "600"
+    value: "26px"
+    font_family: "Montserrat"
+    font_style: "Semibold"
+    color: "#4a4a4a"
+  display_medium:
+    weight: "500"
+    value: "18px"
+    font_family: "Montserrat"
+    font_style: "Medium"
+    color: "#4a4a4a"
+  display_small:
+    weight: "500"
     value: "14px"
-  font_size_x_small:
-    value: "11px"
+    font_family: "Montserrat"
+    font_style: "Medium"
+    color: "#4a4a4a"
+  display_x_small:
+    weight: "700"
+    value: "12px"
+    font_family: "Montserrat"
+    letter_spacing: "3px"
+    text_transform: "uppercase"
+    font_style: "Bold"
+    color: "#1464A5"
+  display_x_small_elegant:
+    weight: "600"
+    value: "10px"
+    font_family: "Montserrat"
+    letter_spacing: "1px"
+    text_transform: "uppercase"
+    font_style: "Semibold"
+    color: "#D8D8D8"
+
+  body:
+    weight: "400"
+    value: "14px"
+    line_height: "21px"
+    font_family: "Lato"
+    font_style: "Regular"
+    color: "#4a4a4a"
+  small:
+    weight: "400"
+    value: "14px"
+    line_height: "18px"
+    font_family: "Lato"
+    font_style: "Regular"
+    color: "#4a4a4a"
+  caption:
+    weight: "400"
+    value: "14px"
+    line_height: "16px"
+    font_family: "Lato"
+    font_style: "italic"
+    color: "#4a4a4a"
+  link_normal:
+    weight: "400"
+    value: "14px"
+    line_height: "21px"
+    font_family: "Lato"
+    font_style: "italic"
+    color: "#6FA1D4"
+  link_danger:
+    weight: "400"
+    value: "14px"
+    line_height: "21px"
+    font_family: "Lato"
+    font_style: "italic"
+    color: "#FF594F"
+  # font_size_xx_large:
+  #   value: "48px"
+  # font_size_x_large:
+  #   value: "36px"
+  # font_size_large:
+  #   value: "24px"
+  # font_size_base:
+  #   value: "16px"
+  # font_size_small:
+  #   value: "14px"
+  # font_size_x_small:
+  #   value: "11px"
 global:
   type: number
   category: font-size
