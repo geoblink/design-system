@@ -1,7 +1,7 @@
-[GeoButton](./#/Elements/GeoButton/GeoButton) using predefined `destructive`
+[GeoButton](./#/Elements/GeoButton/GeoButton) using predefined `danger`
 variant.
 
-Destructive buttons are normally used to trigger dangerous actions that cannot
+Danger buttons are normally used to trigger dangerous actions that cannot
 be reverted like deleting data.
 
 See [GeoButton](./#/Elements/GeoButton/GeoButton) for a complete list of
@@ -12,33 +12,33 @@ supported properties and features.
   <div class="element-demo">
     <h3 class="element-demo__header">Complete flow</h3>
     <div class="element-demo__block">
-      <geo-destructive-button
+      <geo-danger-button
         :disabled="isDisabled"
         :loading="isLoading"
         @click="startLoading()"
       >
         Full flow
-      </geo-destructive-button>
+      </geo-danger-button>
     </div>
     <h3 class="element-demo__header">Regular</h3>
     <div class="element-demo__block">
-      <geo-destructive-button>Regular</geo-destructive-button>
-      <geo-destructive-button hover>Hover / Focus</geo-destructive-button>
+      <geo-danger-button>Regular</geo-danger-button>
+      <geo-danger-button hover>Hover / Focus</geo-danger-button>
     </div>
     <h3 class="element-demo__header">Disabled</h3>
     <div class="element-demo__block">
-      <geo-destructive-button disabled>Disabled</geo-destructive-button>
-      <geo-destructive-button disabled hover>Disabled &amp; Hover / Focus</geo-destructive-button>
+      <geo-danger-button disabled>Disabled</geo-danger-button>
+      <geo-danger-button disabled hover>Disabled &amp; Hover / Focus</geo-danger-button>
     </div>
     <h3 class="element-demo__header">Loading</h3>
     <div class="element-demo__block">
-      <geo-destructive-button loading>Loading</geo-destructive-button>
-      <geo-destructive-button loading hover>Loading &amp; Hover / Focus</geo-destructive-button>
+      <geo-danger-button loading>Loading</geo-danger-button>
+      <geo-danger-button loading hover>Loading &amp; Hover / Focus</geo-danger-button>
     </div>
     <h3 class="element-demo__header">Loading &amp; Disabled</h3>
     <div class="element-demo__block">
-      <geo-destructive-button loading disabled>Loading &amp; Disabled</geo-destructive-button>
-      <geo-destructive-button loading disabled hover>Loading &amp; Disabled</geo-destructive-button>
+      <geo-danger-button loading disabled>Loading &amp; Disabled</geo-danger-button>
+      <geo-danger-button loading disabled hover>Loading &amp; Disabled</geo-danger-button>
     </div>
   </div>
 </template>

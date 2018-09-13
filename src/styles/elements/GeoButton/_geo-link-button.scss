@@ -1,0 +1,15 @@
+@mixin geo-button--link($css-suffix) {
+  @include geo-button-make-scheme((
+    normal-background-color: transparent,
+    normal-text-color: $color_blue,
+    normal-border-color: transparent,
+    hover-text-color: $color_blue_dark,
+    disabled-text-color: $color_blue,
+  ), $css-suffix);
+
+  font-style: italic;
+  font-weight: $font_weight_light;
+  text-transform: initial;
+
+  transition: color $duration_quickly $easing_base;
+}

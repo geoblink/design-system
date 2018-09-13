@@ -18,12 +18,12 @@
 import { TYPES } from './GeoButton.vue'
 
 export default {
-  name: 'GeoTertiaryButton',
+  name: 'GeoLinkButton',
   status: 'ready',
   release: '4.2.0',
   computed: {
     type () {
-      return TYPES.tertiary
+      return TYPES.link
     }
   }
 }

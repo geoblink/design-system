@@ -18,12 +18,12 @@
 import { TYPES } from './GeoButton.vue'
 
 export default {
-  name: 'GeoDestructiveButton',
+  name: 'GeoDangerButton',
   status: 'ready',
   release: '4.2.0',
   computed: {
     type () {
-      return TYPES.destructive
+      return TYPES.danger
     }
   }
 }

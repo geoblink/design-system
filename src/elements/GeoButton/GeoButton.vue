@@ -37,8 +37,8 @@ import cssSuffix from '../../mixins/cssModifierMixin'
 const TYPES = {
   primary: 'primary',
   secondary: 'secondary',
-  tertiary: 'tertiary',
-  destructive: 'destructive'
+  link: 'link',
+  danger: 'danger'
 }
 
 export { TYPES }
@@ -55,12 +55,12 @@ export default {
      *
      * > **Note:** There are specific components to avoid explicitly writing this value.
      *
-     * | type        | Specific component | Proposed usage (example) |
-     * |-------------|--------------------|--------------------------|
-     * | primary     | [GeoPrimaryButton](./#/Elements/GeoButton/GeoPrimaryButton)         | Main action (saving changes) |
-     * | secondary   | [GeoSecondaryButton](./#/Elements/GeoButton/GeoSecondaryButton)     | Auxiliar action (showing an options menu) |
-     * | tertiary    | [GeoTertiaryButton](./#/Elements/GeoButton/GeoTertiaryButton)       | Performing an alternative action to the main one (dismissing a form without saving changes) |
-     * | destructive | [GeoDestructiveButton](./#/Elements/GeoButton/GeoDestructiveButton) | Dangerous actions (deleting data) |
+     * | type      | Specific component | Proposed usage (example) |
+     * |-----------|--------------------|--------------------------|
+     * | primary   | [GeoPrimaryButton](./#/Elements/GeoButton/GeoPrimaryButton)     | Main action (saving changes) |
+     * | secondary | [GeoSecondaryButton](./#/Elements/GeoButton/GeoSecondaryButton) | Auxiliar action (showing an options menu) |
+     * | link      | [GeoLinkButton](./#/Elements/GeoButton/GeoLinkButton)           | Alternative action to the main one (dismissing a form without saving changes) |
+     * | danger    | [GeoDangerButton](./#/Elements/GeoButton/GeoDangerButton)       | Dangerous actions (deleting data) |
      *
      * Supported `type` values are exported under `TYPES` name.
      *
@@ -110,7 +110,7 @@ export default {
           return undefined
         case TYPES.tertiary:
           return undefined
-        case TYPES.destructive:
+        case TYPES.danger:
           return GeoAlertVariants.error
       }
     }
