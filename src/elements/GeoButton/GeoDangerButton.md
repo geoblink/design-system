@@ -1,10 +1,10 @@
-[GeoButton](./#/Elements/GeoButton/GeoButton) using predefined `danger`
+[GeoButton](./#/Elements/GeoButton) using predefined `danger`
 variant.
 
 Danger buttons are normally used to trigger dangerous actions that cannot
 be reverted like deleting data.
 
-See [GeoButton](./#/Elements/GeoButton/GeoButton) for a complete list of
+See [GeoButton](./#/Elements/GeoButton) for a complete list of
 supported properties and features.
 
 ```vue

@@ -1,8 +1,8 @@
-[GeoButton](./#/Elements/GeoButton/GeoButton) using predefined `primary` variant.
+[GeoButton](./#/Elements/GeoButton) using predefined `primary` variant.
 
 Primary buttons are normally used to trigger main actions like saving changes.
 
-See [GeoButton](./#/Elements/GeoButton/GeoButton) for a complete list of
+See [GeoButton](./#/Elements/GeoButton) for a complete list of
 supported properties and features.
 
 ```vue

@@ -1,9 +1,9 @@
-[GeoButton](./#/Elements/GeoButton/GeoButton) using predefined `link` variant.
+[GeoButton](./#/Elements/GeoButton) using predefined `link` variant.
 
 Link buttons are normally used to trigger an alternative action to the main
 one like dismissing a form without saving changes.
 
-See [GeoButton](./#/Elements/GeoButton/GeoButton) for a complete list of
+See [GeoButton](./#/Elements/GeoButton) for a complete list of
 supported properties and features.
 
 ```vue

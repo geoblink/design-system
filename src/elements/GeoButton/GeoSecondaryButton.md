@@ -1,8 +1,8 @@
-[GeoButton](./#/Elements/GeoButton/GeoButton) using predefined `secondary` variant.
+[GeoButton](./#/Elements/GeoButton) using predefined `secondary` variant.
 
 Secondary buttons are normally used to show additional menus or hidden options.
 
-See [GeoButton](./#/Elements/GeoButton/GeoButton) for a complete list of
+See [GeoButton](./#/Elements/GeoButton) for a complete list of
 supported properties and features.
 
 ```vue
