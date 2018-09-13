@@ -1,6 +1,7 @@
-Use the `GeoAlert` component to give visual feedback to your users about the result of a given action.
-You can customize the color to change the intention of the feedback and add icons or buttons to
-allow the user to perform actions on the alerts.
+Use `GeoAlert` component to give visual feedback to your users about the result
+of an action or insights to help them properly finish a task. You can customize
+the color to change the intention of the feedback and add icons or buttons to
+allow the user to perform actions right on the alerts.
 
 ```
 <div class="element-demo">
