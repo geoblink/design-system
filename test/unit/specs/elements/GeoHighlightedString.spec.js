@@ -1,5 +1,5 @@
 import { createLocalVue, mount } from '@vue/test-utils'
-import GeoHighlightedString from '@/elements/GeoHighlightedString.vue'
+import GeoHighlightedString from '@/elements/GeoHighlightedString/GeoHighlightedString.vue'
 
 import chai from 'chai'
 import chaiThings from 'chai-things'

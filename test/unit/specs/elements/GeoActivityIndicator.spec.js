@@ -1,5 +1,5 @@
 import { createLocalVue, mount } from '@vue/test-utils'
-import GeoActivityIndicator from '@/elements/GeoActivityIndicator.vue'
+import GeoActivityIndicator from '@/elements/GeoActivityIndicator/GeoActivityIndicator.vue'
 
 // create an extended `Vue` constructor
 const localVue = createLocalVue()

@@ -40,8 +40,8 @@
           textTransform: font.text_transform,
           color: font.color
         }"
-        class="font-sizes__table__row-cell font-sizes__table__row-cell--big">
-        ${{ font.name.replace(/_/g, " ") }}
+        class="font font-sizes__table__row-cell font-sizes__table__row-cell--big">
+        <span>${{ font.name.replace(/_/g, " ") }}</span>
       </div>
       <div class="font-sizes__table__row-cell font-sizes__table__row-cell--big">
         {{ font.font_style }} ({{ font.weight }})

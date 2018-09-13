@@ -1,5 +1,5 @@
 import { createLocalVue, mount } from '@vue/test-utils'
-import GeoAlert from '@/elements/GeoAlert.vue'
+import GeoAlert from '@/elements/GeoAlert/GeoAlert.vue'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fab } from '@fortawesome/free-brands-svg-icons'
@@ -16,6 +16,9 @@ describe('GeoAlert', () => {
     const wrapper = mount(GeoAlert, {
       propsData: {
         variant: 'success'
+      },
+      stubs: {
+        'font-awesome-icon': FontAwesomeIcon
       }
     })
 
@@ -27,6 +30,9 @@ describe('GeoAlert', () => {
       propsData: {
         variant: 'success',
         closeIcon: ['fas', 'times']
+      },
+      stubs: {
+        'font-awesome-icon': FontAwesomeIcon
       },
       listeners: {
         close: function () {}
@@ -41,6 +47,9 @@ describe('GeoAlert', () => {
     const wrapper = mount(GeoAlert, {
       propsData: {
         variant: 'success'
+      },
+      stubs: {
+        'font-awesome-icon': FontAwesomeIcon
       }
     })
     expect(wrapper.find('.geo-alert').exists()).toBe(true)
@@ -54,6 +63,9 @@ describe('GeoAlert', () => {
         variant: 'success',
         closeIcon: ['fas', 'times']
       },
+      stubs: {
+        'font-awesome-icon': FontAwesomeIcon
+      },
       listeners: {
         close: function () {}
       }
@@ -66,6 +78,9 @@ describe('GeoAlert', () => {
     const wrapper = mount(GeoAlert, {
       propsData: {
         variant: 'success'
+      },
+      stubs: {
+        'font-awesome-icon': FontAwesomeIcon
       },
       slots: {
         actions: '<a slot="actions">Run test action</a>'
@@ -83,7 +98,7 @@ describe('GeoAlert', () => {
         'font-awesome-icon': FontAwesomeIcon
       },
       slots: {
-        icon: `<font-awesome-icon
+        leadingAccessoryItem: `<font-awesome-icon
                 :icon="['fas', 'circle-notch']"
                 slot="icon"
                 aria-hidden
@@ -102,6 +117,9 @@ describe('GeoAlert', () => {
         closeIcon: ['fas', 'times'],
         cssModifier: 'test-alert'
       },
+      stubs: {
+        'font-awesome-icon': FontAwesomeIcon
+      },
       listeners: {
         close: function () {}
       }
@@ -114,6 +132,9 @@ describe('GeoAlert', () => {
       propsData: {
         variant: 'success',
         floating: true
+      },
+      stubs: {
+        'font-awesome-icon': FontAwesomeIcon
       }
     })
 
@@ -124,6 +145,9 @@ describe('GeoAlert', () => {
     const wrapper = mount(GeoAlert, {
       propsData: {
         variant: 'success'
+      },
+      stubs: {
+        'font-awesome-icon': FontAwesomeIcon
       }
     })
 

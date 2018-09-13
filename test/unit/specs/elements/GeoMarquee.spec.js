@@ -1,5 +1,5 @@
 import { createLocalVue, mount } from '@vue/test-utils'
-import GeoMarquee from '@/elements/GeoMarquee'
+import GeoMarquee from '@/elements/GeoMarquee/GeoMarquee'
 
 // create an extended `Vue` constructor
 const localVue = createLocalVue()
