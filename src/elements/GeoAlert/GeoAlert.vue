@@ -96,7 +96,10 @@ export default {
       type: String,
       required: true,
       validator (value) {
-        return value in VARIANTS
+        if (value in VARIANTS) return true
+        const supportedValues = Object.values(VARIANTS).map(i => `«${i}»`).join(', ')
+        console.warn(`GeoAlert [component] :: Unsupported value («${value}») for «variant» property. Use one of ${supportedValues}`)
+        return false
       }
     }
   },

@@ -72,7 +72,7 @@ export default {
       validator: function (value) {
         if (value in TYPES) return true
         const supportedValues = Object.values(TYPES).map(i => `«${i}»`).join(', ')
-        console.warn(`geo-button :: Unsupported value («${value}») for «type» property. Use one of ${supportedValues}`)
+        console.warn(`GeoButton [component] :: Unsupported value («${value}») for «type» property. Use one of ${supportedValues}`)
         return false
       },
       required: true
