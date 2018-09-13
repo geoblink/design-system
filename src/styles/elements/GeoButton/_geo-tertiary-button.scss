@@ -1,4 +1,4 @@
-@mixin geo-button--link($css-suffix) {
+@mixin geo-button--tertiary($css-suffix) {
   @include geo-button-make-scheme((
     normal-background-color: transparent,
     normal-text-color: $color_blue,

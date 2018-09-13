@@ -1,6 +1,6 @@
-[GeoButton](./#/Elements/GeoButton) using predefined `link` variant.
+[GeoButton](./#/Elements/GeoButton) using predefined `tertiary` variant.
 
-Link buttons are normally used to trigger an alternative action to the main
+tertiary buttons are normally used to trigger an alternative action to the main
 one like dismissing a form without saving changes.
 
 See [GeoButton](./#/Elements/GeoButton) for a complete list of
@@ -11,33 +11,33 @@ supported properties and features.
   <div class="element-demo">
     <h3 class="element-demo__header">Complete flow</h3>
     <div class="element-demo__block">
-      <geo-link-button
+      <geo-tertiary-button
         :disabled="isDisabled"
         :loading="isLoading"
         @click="startLoading()"
       >
         Full flow
-      </geo-link-button>
+      </geo-tertiary-button>
     </div>
     <h3 class="element-demo__header">Regular</h3>
     <div class="element-demo__block">
-      <geo-link-button>Regular</geo-link-button>
-      <geo-link-button hover>Hover / Focus</geo-link-button>
+      <geo-tertiary-button>Regular</geo-tertiary-button>
+      <geo-tertiary-button hover>Hover / Focus</geo-tertiary-button>
     </div>
     <h3 class="element-demo__header">Disabled</h3>
     <div class="element-demo__block">
-      <geo-link-button disabled>Disabled</geo-link-button>
-      <geo-link-button disabled hover>Disabled &amp; Hover / Focus</geo-link-button>
+      <geo-tertiary-button disabled>Disabled</geo-tertiary-button>
+      <geo-tertiary-button disabled hover>Disabled &amp; Hover / Focus</geo-tertiary-button>
     </div>
     <h3 class="element-demo__header">Loading</h3>
     <div class="element-demo__block">
-      <geo-link-button loading>Loading</geo-link-button>
-      <geo-link-button loading hover>Loading &amp; Hover / Focus</geo-link-button>
+      <geo-tertiary-button loading>Loading</geo-tertiary-button>
+      <geo-tertiary-button loading hover>Loading &amp; Hover / Focus</geo-tertiary-button>
     </div>
     <h3 class="element-demo__header">Loading &amp; Disabled</h3>
     <div class="element-demo__block">
-      <geo-link-button loading disabled>Loading &amp; Disabled</geo-link-button>
-      <geo-link-button loading disabled hover>Loading &amp; Disabled</geo-link-button>
+      <geo-tertiary-button loading disabled>Loading &amp; Disabled</geo-tertiary-button>
+      <geo-tertiary-button loading disabled hover>Loading &amp; Disabled</geo-tertiary-button>
     </div>
   </div>
 </template>
