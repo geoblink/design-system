@@ -1,26 +1,13 @@
-<template>
-  <geo-button
-    v-bind="$props"
-    :type="type"
-    @click="$emit('click', $event)"
-  >
-    <!-- @slot Use this slot to customize what's displayed in button's label -->
-    <slot />
-    <!-- @slot Use this slot to customize what's displayed when the button is in loading state -->
-    <slot
-      slot="loading"
-      name="loading"
-    />
-  </geo-button>
-</template>
+<template src="./GeoButton.template.html" />
 
 <script>
-import { TYPES } from './GeoButton.vue'
+import mixin, { TYPES } from './GeoButton.mixin'
 
 export default {
   name: 'GeoSecondaryButton',
   status: 'ready',
   release: '4.2.0',
+  mixins: [mixin],
   computed: {
     type () {
       return TYPES.secondary

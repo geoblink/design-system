@@ -1,8 +1,9 @@
 @import 'geo-button.utils';
 @import 'geo-primary-button';
 @import 'geo-secondary-button';
-@import 'geo-link-button';
+@import 'geo-tertiary-button';
 @import 'geo-danger-button';
+@import 'geo-destructive-button';
 
 @mixin geo-button($css-suffix) {
   align-items: center;
@@ -71,12 +72,16 @@
     @include geo-button--secondary($modifier-name-with-prefix);
   }
 
-  .geo-button--link#{$modifier-name-with-prefix} {
-    @include geo-button--link($modifier-name-with-prefix);
+  .geo-button--tertiary#{$modifier-name-with-prefix} {
+    @include geo-button--tertiary($modifier-name-with-prefix);
   }
 
   .geo-button--danger#{$modifier-name-with-prefix} {
     @include geo-button--danger($modifier-name-with-prefix);
+  }
+
+  .geo-button--destructive#{$modifier-name-with-prefix} {
+    @include geo-button--destructive($modifier-name-with-prefix);
   }
 }
 
