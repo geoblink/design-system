@@ -75,22 +75,21 @@ module.exports = {
     {
       name: 'Elements',
       content: '../docs/elements.md',
-      // components: '../src/elements/**/[A-Z]*.vue',
       exampleMode: 'expand',
       usageMode: 'expand',
       sectionDepth: 2,
       sections: [
         {
           name: 'GeoActivityIndicator',
-          components: '../src/elements/GeoActivityIndicator/GeoActivityIndicator.vue'
+          components: '../src/elements/GeoActivityIndicator/GeoActivityIndicator*.vue'
         },
         {
           name: 'GeoAlert',
-          components: '../src/elements/GeoAlert/GeoAlert.vue'
+          components: '../src/elements/GeoAlert/GeoAlert*.vue'
         },
         {
           name: 'GeoButton',
-          components: '../src/elements/GeoButton/GeoButton.vue'
+          components: '../src/elements/GeoButton/GeoButton*.vue'
         },
         {
           name: 'GeoDropdownComponent',
@@ -98,11 +97,11 @@ module.exports = {
         },
         {
           name: 'GeoHighlightedString',
-          components: '../src/elements/GeoHighlightedString/GeoHighlightedString.vue'
+          components: '../src/elements/GeoHighlightedString/GeoHighlightedString*.vue'
         },
         {
           name: 'GeoMarquee',
-          components: '../src/elements/GeoMarquee/GeoMarquee.vue'
+          components: '../src/elements/GeoMarquee/GeoMarquee*.vue'
         },
         {
           name: 'GeoSelectComponent',
