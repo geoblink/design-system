@@ -70,7 +70,36 @@ module.exports = {
     {
       name: 'Elements',
       content: '../docs/elements.md',
-      components: '../src/elements/**/[A-Z]*.vue'
+      sections: [
+        {
+          name: 'GeoActivityIndicator',
+          components: '../src/elements/GeoActivityIndicator.vue'
+        },
+        {
+          name: 'GeoAlert',
+          components: '../src/elements/GeoAlert.vue'
+        },
+        {
+          name: 'GeoButton',
+          components: '../src/elements/GeoButton.vue'
+        },
+        {
+          name: 'GeoDropdownComponent',
+          components: '../src/elements/GeoDropdown*.vue'
+        },
+        {
+          name: 'GeoHighlightedString',
+          components: '../src/elements/GeoHighlightedString.vue'
+        },
+        {
+          name: 'GeoMarquee',
+          components: '../src/elements/GeoMarquee.vue'
+        },
+        {
+          name: 'GeoSelectComponent',
+          components: '../src/elements/GeoSelect*.vue'
+        }
+      ]
     },
     {
       name: 'Patterns',

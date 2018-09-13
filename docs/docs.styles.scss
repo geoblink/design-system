@@ -256,6 +256,10 @@ div[class^="rsg--sidebar"] {
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
+    //Hide first level links that are only childs
+    &:only-child {
+      display: none;
+    }
   }
 }
 
