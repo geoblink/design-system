@@ -107,6 +107,7 @@ export default {
     -moz-osx-font-smoothing: grayscale;
     text-align: left;
     // Chrome has a bug related to thead, this only works on th:
+    position: -webkit-sticky;
     position: sticky;
     top: -1px;
     &:first-child {
@@ -133,17 +134,19 @@ export default {
     }
   }
   .type {
-    line-height: $line-height-base;
+    line-height: $line-height-small;
+    max-width: calc(100% - #{$space-base});
+    float: left;
   }
   .example {
     @include inline-space($space-x-small);
     border-radius: $border-radius-default;
     background: $color-white;
     box-shadow: $box-shadow-small-inset, $box-shadow-small-inset, $box-shadow-small-inset;
-    vertical-align: middle;
+    margin-top: $space-xx-small;
     width: $space-small;
     height: $space-small;
-    display: inline-block;
+    float: left;
   }
 }
 </style>
