@@ -22,7 +22,7 @@ import cssSuffix from '../../mixins/cssModifierMixin'
 export default {
   name: 'GeoMarquee',
   status: 'ready',
-  release: '8.0.0',
+  release: '4.0.0',
   mixins: [cssSuffix],
   props: {
     /**

@@ -1,7 +1,7 @@
 /**
  * @mixin
  */
-module.exports = {
+export default {
   props: {
     /**
      * An optional suffix to be appended as BEM modifier.

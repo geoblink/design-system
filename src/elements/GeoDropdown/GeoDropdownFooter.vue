@@ -11,7 +11,7 @@ import cssSuffix from '../../mixins/cssModifierMixin'
 export default {
   name: 'GeoDropdownFooter',
   status: 'missing-tests',
-  release: '8.0.0',
+  release: '4.0.0',
   mixins: [cssSuffix]
 }
 </script>
