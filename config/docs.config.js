@@ -91,7 +91,7 @@ module.exports = {
         },
         {
           name: 'GeoButton',
-          components: '../src/elements/GeoButton/GeoButton*.vue',
+          components: '../src/elements/GeoButton/Geo*Button.vue',
           sectionDepth: 0
         },
         {

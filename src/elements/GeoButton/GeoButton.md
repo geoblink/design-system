@@ -1,4 +1,6 @@
-Use `GeoButton` to add button like components to your app with a single tag, being able to customize the color to show the user the intention of said button.
+Use `GeoButton` to add button like elements to your app with a single tag,
+being able to customize the color scheme to show the user the intention of said
+button.
 
 ```vue
 <template>

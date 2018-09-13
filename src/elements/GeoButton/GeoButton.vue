@@ -16,7 +16,7 @@
         [`geo-button__label--loading${cssSuffix}`]: loading
       }"
     >
-      <!-- @slot Use this slot for button's label -->
+      <!-- @slot Use this slot to customize what's displayed in button's label -->
       <slot />
     </div>
     <template v-if="loading">
@@ -50,26 +50,39 @@ export default {
   mixins: [cssSuffix],
   props: {
     /**
-     * Variation of button, supporting:
+     * Predefined color scheme of the button, allowing several common
+     * out-of-the-box customizations.
      *
-     * - `primary`
-     * - `secondary`
-     * - `tertiary`
-     * - `destructive`
+     * > **Note:** There are specific components to avoid explicitly writing this value.
      *
-     * Those values are exported under `TYPES` name.
+     * | type        | Specific component | Proposed usage (example) |
+     * |-------------|--------------------|--------------------------|
+     * | primary     | [GeoPrimaryButton](./#/Elements/GeoButton/GeoPrimaryButton)         | Main action (saving changes) |
+     * | secondary   | [GeoSecondaryButton](./#/Elements/GeoButton/GeoSecondaryButton)     | Auxiliar action (showing an options menu) |
+     * | tertiary    | [GeoTertiaryButton](./#/Elements/GeoButton/GeoTertiaryButton)       | Performing an alternative action to the main one (dismissing a form without saving changes) |
+     * | destructive | [GeoDestructiveButton](./#/Elements/GeoButton/GeoDestructiveButton) | Dangerous actions (deleting data) |
+     *
+     * Supported `type` values are exported under `TYPES` name.
+     *
+     * > **Note:** You can always override the color scheme of any `GeoButton`
+     * > using `cssModifier` prop.
      */
     type: {
       type: String,
       validator: function (value) {
-        return value in TYPES
+        if (value in TYPES) return true
+        const supportedValues = Object.values(TYPES).map(i => `«${i}»`).join(', ')
+        console.warn(`geo-button :: Unsupported value («${value}») for «type» property. Use one of ${supportedValues}`)
+        return false
       },
       required: true
     },
     /**
-     * Whether the button is disabled (and can't be interacted with) or not.
+     * Whether the button is disabled (and can't be interacted with - `true`) or
+     * not.
      *
-     * When disabled the button won't allow any mouse event.
+     * When disabled the button won't emit `click` events but will allow other
+     * mouse events like hover.
      */
     disabled: {
       type: Boolean,
@@ -107,6 +120,12 @@ export default {
       if (this.disabled) {
         $event.stopPropagation()
       } else {
+        /**
+         * User clicked on the button.
+         *
+         * @event click
+         * @type {MouseEvent}
+         */
         this.$emit('click', $event)
       }
     }
