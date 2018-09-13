@@ -84,7 +84,7 @@
             <font-awesome-icon
               v-if="component.status === 'missing-tests' || component.status === 'review'"
               :style="{
-                color: tokens.color_ucla_gold.value,
+                color: tokens.color_yellow.value,
                 fontSize: '16px'
               }"
               :icon="['fas', 'exclamation-triangle']"
@@ -140,7 +140,6 @@ export default {
 
       if (this.show === 'all') {
         contexts = [
-          require.context('@/elements/', true, /\.vue$/),
           require.context('@/elements/', true, /\.vue$/),
           require.context('@/patterns/', true, /\.vue$/),
           require.context('@/templates/', true, /\.vue$/)
