@@ -1,0 +1,20 @@
+<geo-alert
+  v-bind="$props"
+  :variant="variant"
+  @close="$emit('close', $event)"
+>
+  <font-awesome-icon
+    slot="leadingAccessoryItem"
+    :icon="icon"
+    aria-hidden
+    fixed-width
+  />
+  <slot
+    slot="content"
+    name="content"
+  />
+  <slot
+    slot="actions"
+    name="actions"
+  />
+</geo-alert>

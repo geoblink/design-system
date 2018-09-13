@@ -86,7 +86,7 @@ module.exports = {
         },
         {
           name: 'GeoAlert',
-          components: '../src/elements/GeoAlert/GeoAlert*.vue',
+          components: '../src/elements/GeoAlert/Geo*Alert.vue',
           sectionDepth: 0
         },
         {
@@ -136,6 +136,10 @@ module.exports = {
       name: 'Downloads',
       content: '../docs/downloads.md',
       sectionDepth: 1
+    },
+    {
+      name: 'Components Constants',
+      content: '../docs/components-constants.md'
     },
     {
       name: 'FAQ',
