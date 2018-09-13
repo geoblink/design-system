@@ -133,6 +133,7 @@ export default {
       type: Boolean,
       default: undefined
     },
+
     /**
      * Completion percentage.
      *
@@ -147,6 +148,7 @@ export default {
         return true
       }
     },
+
     /**
      * Whether this activity indicator should be animating the currently
      * completed percentage (`true`) or not.
@@ -157,6 +159,7 @@ export default {
       type: Boolean,
       default: undefined
     },
+
     /**
      * Variant of this activity indicator, used to change the color scheme of
      * the indicator to adapt to any kind of background.
