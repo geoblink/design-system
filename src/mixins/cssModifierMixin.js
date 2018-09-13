@@ -11,8 +11,10 @@ module.exports = {
      * them.
      *
      * To generate default styles for a modifier named `modifier-name`, you just
-     * have to add `@include geo-#{$component_name}('modifier-name');` to
-     * your SCSS styles.
+     * have to add `@include geo-COMPONENT_NAME('modifier-name');` to your SCSS
+     * styles.
+     *
+     * There's a detailed introduction to CSS Modifiers on the [FAQ](./#/FAQ).
      */
     cssModifier: {
       type: String,
