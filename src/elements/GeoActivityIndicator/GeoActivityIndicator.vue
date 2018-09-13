@@ -124,10 +124,10 @@ export default {
      * Indeterminate activity indicators are continuously animating an arbitrary
      * percentage as no real data about the completion percetage is available.
      *
-     * This option takes precedence over `percentage`.
+     * > **Note:** This option **takes precedence** over `percentage`.
      *
-     * > `animated` takes precedence over this options with respect to completed
-     * > percentage animation.
+     * > **Note:** `animated` **takes precedence** over this options with respect to
+     * > completed percentage animation.
      */
     indeterminate: {
       type: Boolean,
@@ -136,7 +136,7 @@ export default {
     /**
      * Completion percentage.
      *
-     * > `indeterminate` takes precedence over this option.
+     * > **Note:** `indeterminate` takes precedence over this option.
      */
     percentage: {
       type: Number,
@@ -149,9 +149,9 @@ export default {
     },
     /**
      * Whether this activity indicator should be animating the currently
-     * completed percentage or not.
+     * completed percentage (`true`) or not.
      *
-     * This option takes precedence over `indeterminate`.
+     * > **Note:** This option **takes precedence** over `indeterminate`.
      */
     animated: {
       type: Boolean,
@@ -160,6 +160,19 @@ export default {
     /**
      * Variant of this activity indicator, used to change the color scheme of
      * the indicator to adapt to any kind of background.
+     *
+     * Supported `variant` values are exported under `VARIANTS` named export.
+     *
+     * Supported values:
+     *
+     * - `default`
+     * - `primary`
+     * - `success`
+     * - `info`
+     * - `warn`
+     * - `error`
+     * - `progress`
+     * - `dark-transparent`
      */
     variant: {
       type: String,
