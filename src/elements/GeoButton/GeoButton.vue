@@ -62,7 +62,7 @@ export default {
      * | link      | [GeoLinkButton](./#/Elements/GeoButton?id=geolinkbutton)           | Alternative action to the main one (dismissing a form without saving changes) |
      * | danger    | [GeoDangerButton](./#/Elements/GeoButton?id=geodabgerbutton)       | Dangerous actions (deleting data) |
      *
-     * Supported `type` values are exported under `TYPES` name.
+     * Supported `type` values are exported under `TYPES` named export.
      *
      * > **Note:** You can always override the color scheme of any `GeoButton`
      * > using `cssModifier` prop.
