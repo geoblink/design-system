@@ -1,15 +1,25 @@
 <template>
-  <div :class="`geo-dropdown__footer${cssSuffix}`">
-    <!-- @slot Use this slot to customize footer's content -->
-    <slot />
+  <div
+    :class="{
+      [`geo-select-opt-group-header__container${cssSuffix}`]: true,
+      [`geo-select-opt-group-header__container--opt-group${cssSuffix}`]: true
+  }">
+    <div
+      :class="{
+        [`geo-select-opt-group-header__content${cssSuffix}`]: true,
+        [`geo-select-opt-group-header__content--opt-group${cssSuffix}`]: true
+    }">
+      <!-- @slot Use this slot to customize header content -->
+      <slot />
+    </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'GeoDropdownFooter',
+  name: 'GeoSelectOptGroupHeader',
   status: 'ready',
-  release: '8.0.0',
+  release: '8.1.0',
   props: {
     /**
      * An optional suffix to be appended as BEM modifier.
@@ -19,8 +29,8 @@ export default {
      * them.
      *
      * To generate default styles for a modifier named `modifier-name`, you just
-     * have to add `@include geo-button-make('modifier-name');` to your SCSS
-     * styles.
+     * have to add `@include geo-select-opt-group-header-make('modifier-name');` to
+     * your SCSS styles.
      */
     cssModifier: {
       type: String,

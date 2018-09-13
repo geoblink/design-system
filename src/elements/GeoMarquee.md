@@ -1,3 +1,7 @@
+`GeoMarquee` is a component used to display long strings in a carrousel style.
+You can choose the duration of the animation. The speed of it will vary accordingly to the
+length of the text.
+
 ```jsx
 <div class="element-demo">
   <h3 class="element-demo__header">With scroll</h3>

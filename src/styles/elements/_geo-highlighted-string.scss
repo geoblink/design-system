@@ -1,0 +1,16 @@
+@mixin geo-highlighted-string-make($modifier-name) {
+
+  $modifier-name-with-prefix: '';
+
+  @if $modifier-name != '' {
+    // sass-lint:disable space-around-operator
+    $modifier-name-with-prefix: --#{$modifier-name};
+  }
+
+  .highlighted-string--highlighted#{$modifier-name-with-prefix} {
+    background: $color_yellow_highlight;
+    font-weight: $font_weight_bold;
+  }
+}
+
+@include geo-highlighted-string-make('');

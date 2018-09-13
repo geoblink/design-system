@@ -1,0 +1,20 @@
+@mixin geo-select-make($modifier-name) {
+
+  $modifier-name-with-prefix: '';
+
+  @if $modifier-name != '' {
+    // sass-lint:disable space-around-operator
+    $modifier-name-with-prefix: --#{$modifier-name};
+  }
+
+  @include geo-select-base-make($modifier-name);
+  @include geo-select-entry-make($modifier-name);
+  @include geo-select-opt-group-header-make($modifier-name);
+  @include geo-select-opt-group-entry-make($modifier-name);
+  @include geo-select-search-entry-make($modifier-name);
+  @include geo-select-more-results-make($modifier-name);
+  @include geo-select-toggle-button-make($modifier-name);
+  @include geo-highlighted-string-make($modifier-name);
+}
+
+@include geo-select-make('');

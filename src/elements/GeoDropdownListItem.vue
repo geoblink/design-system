@@ -34,7 +34,7 @@
 export default {
   name: 'GeoDropdownListItem',
   status: 'ready',
-  version: '1.0.0',
+  release: '8.0.0',
   props: {
     /**
      * An optional suffix to be appended as BEM modifier.

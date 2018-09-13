@@ -2,31 +2,43 @@
   <div class="component-status">
     <ul class="status-list">
       <li>
-        <svg-icon
-          name="ready"
-          fill="#7cb518"
-          size="16px" />
+        <font-awesome-icon
+          :icon="['fas', 'check-circle']"
+          :style="{
+            color: '#7cb518',
+            fontSize: '16px'
+          }"
+        />
         <p>Ready</p>
       </li>
       <li>
-        <svg-icon
-          :fill="tokens.color_ucla_gold.value"
-          name="review"
-          size="16px" />
+        <font-awesome-icon
+          :style="{
+            color: tokens.color_yellow.value,
+            fontSize: '16px'
+          }"
+          :icon="['fas', 'exclamation-triangle']"
+        />
         <p>Under review</p>
       </li>
       <li>
-        <svg-icon
-          :fill="tokens.color_vermilion.value"
-          name="deprecated"
-          size="16px" />
+        <font-awesome-icon
+          :style="{
+            color: tokens.color_red_darker.value,
+            fontSize: '16px'
+          }"
+          :icon="['fas', 'times-circle']"
+        />
         <p>Deprecated</p>
       </li>
       <li>
-        <svg-icon
-          :fill="tokens.color_bleu_de_france.value"
-          name="prototype"
-          size="16px" />
+        <font-awesome-icon
+          :style="{
+            color: tokens.color_blue_dark.value,
+            fontSize: '16px'
+          }"
+          :icon="['fas', 'pen-square']"
+        />
         <p>Prototype</p>
       </li>
       <li>
@@ -58,29 +70,37 @@
           </td>
           <td v-else>N/A</td>
           <td v-if="component.status">
-            <svg-icon
+            <font-awesome-icon
               v-if="component.status === 'ready'"
-              name="ready"
-              fill="#7cb518"
-              size="16px"
+              :style="{
+                color: '#7cb518',
+                fontSize: '16px'
+              }"
+              :icon="['fas', 'check-circle']"
             />
-            <svg-icon
+            <font-awesome-icon
               v-if="component.status === 'under-review' || component.status === 'review'"
-              :fill="tokens.color_ucla_gold.value"
-              name="review"
-              size="16px"
+              :style="{
+                color: tokens.color_ucla_gold.value,
+                fontSize: '16px'
+              }"
+              :icon="['fas', 'exclamation-triangle']"
             />
-            <svg-icon
+            <font-awesome-icon
               v-if="component.status === 'prototype'"
-              :fill="tokens.color_bleu_de_france.value"
-              name="prototype"
-              size="16px"
+              :style="{
+                color: tokens.color_bleu_de_france.value,
+                fontSize: '16px'
+              }"
+              :icon="['fas', 'pen-square']"
             />
-            <svg-icon
+            <font-awesome-icon
               v-if="component.status === 'deprecated'"
-              :fill="tokens.color_vermilion.value"
-              name="deprecated"
-              size="16px"
+              :style="{
+                color: tokens.color_vermilion.value,
+                fontSize: '16px'
+              }"
+              :icon="['fas', 'times-circle']"
             />
           </td>
           <td v-else>—</td>

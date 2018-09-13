@@ -32,7 +32,7 @@ import getDOMElementOffset from '../utils/getDOMElementOffset'
 export default {
   name: 'GeoDropdown',
   status: 'ready',
-  version: '1.0.1',
+  release: '8.0.0',
   directives: {
     ScrollAnywhere,
     ClickOutside
@@ -183,7 +183,6 @@ export default {
       // click-outside might be wrongly received here if the user clicked on the
       // popup, as it's not attached in the DOM to the container element but to
       // the document body
-
       const popupElement = this.$refs.popup
 
       if (popupElement === $event.target || popupElement.contains($event.target)) {

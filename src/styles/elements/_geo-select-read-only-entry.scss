@@ -1,0 +1,31 @@
+@mixin geo-select-read-only-entry-make($modifier-name) {
+
+  $modifier-name-with-prefix: '';
+
+  @if $modifier-name != '' {
+    // sass-lint:disable space-around-operator
+    $modifier-name-with-prefix: --#{$modifier-name};
+  }
+
+  .geo-select-read-only-entry__container#{$modifier-name-with-prefix} {
+    align-items: center;
+    border-radius: $border_radius_default;
+    cursor: default;
+    display: flex;
+    font-family: $font_family_text;
+    justify-content: space-between;
+    margin: 5px;
+    min-height: 30px;
+    padding-left: 10px;
+  }
+
+  .geo-select-read-only-entry__content#{$modifier-name-with-prefix}:not(:first-child) {
+    padding-left: 8px;
+  }
+
+  .geo-select-read-only-entry__content#{$modifier-name-with-prefix}:not(:last-child) {
+    padding-right: 8px;
+  }
+}
+
+@include geo-select-read-only-entry-make('');
