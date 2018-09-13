@@ -25,9 +25,9 @@
 </template>
 
 <script>
-import ClickOutside from '../directives/GeoClickOutside'
-import ScrollAnywhere from '../directives/GeoScrollAnywhere'
-import getDOMElementOffset from '../utils/getDOMElementOffset'
+import ClickOutside from '../../directives/GeoClickOutside'
+import ScrollAnywhere from '../../directives/GeoScrollAnywhere'
+import getDOMElementOffset from '../../utils/getDOMElementOffset'
 
 export default {
   name: 'GeoDropdown',

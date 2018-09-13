@@ -75,10 +75,40 @@ module.exports = {
     {
       name: 'Elements',
       content: '../docs/elements.md',
-      components: '../src/elements/**/[A-Z]*.vue',
+      // components: '../src/elements/**/[A-Z]*.vue',
       exampleMode: 'expand',
       usageMode: 'expand',
-      sectionDepth: 2
+      sectionDepth: 2,
+      sections: [
+        {
+          name: 'GeoActivityIndicator',
+          components: '../src/elements/GeoActivityIndicator/GeoActivityIndicator.vue'
+        },
+        {
+          name: 'GeoAlert',
+          components: '../src/elements/GeoAlert/GeoAlert.vue'
+        },
+        {
+          name: 'GeoButton',
+          components: '../src/elements/GeoButton/GeoButton.vue'
+        },
+        {
+          name: 'GeoDropdownComponent',
+          components: '../src/elements/GeoDropdown/GeoDropdown*.vue'
+        },
+        {
+          name: 'GeoHighlightedString',
+          components: '../src/elements/GeoHighlightedString/GeoHighlightedString.vue'
+        },
+        {
+          name: 'GeoMarquee',
+          components: '../src/elements/GeoMarquee/GeoMarquee.vue'
+        },
+        {
+          name: 'GeoSelectComponent',
+          components: '../src/elements/GeoSelect/GeoSelect*.vue'
+        }
+      ]
     },
     {
       name: 'Patterns',

@@ -90,7 +90,7 @@
  https://codepen.io/somethingkindawierd/pen/nkEfw
  */
 
-import counterFactory from '../utils/counterFactory'
+import counterFactory from '../../utils/counterFactory'
 const getNextCounterValue = counterFactory()
 
 const VARIANTS = {
