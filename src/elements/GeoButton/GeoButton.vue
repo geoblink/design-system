@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import { VARIANTS as GeoAlertVariants } from './GeoActivityIndicator'
+import { VARIANTS as GeoAlertVariants } from '../GeoActivityIndicator/GeoActivityIndicator'
 
 const TYPES = {
   primary: 'primary',
