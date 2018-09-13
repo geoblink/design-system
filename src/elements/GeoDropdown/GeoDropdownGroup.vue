@@ -40,7 +40,7 @@
 <script>
 export default {
   name: 'GeoDropdownGroup',
-  status: 'ready',
+  status: 'missing-tests',
   release: '8.0.0',
   props: {
     /**

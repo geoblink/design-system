@@ -33,7 +33,7 @@
 <script>
 export default {
   name: 'GeoDropdownListItem',
-  status: 'ready',
+  status: 'missing-tests',
   release: '8.0.0',
   props: {
     /**

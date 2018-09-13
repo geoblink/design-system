@@ -21,7 +21,7 @@
 <script>
 export default {
   name: 'GeoSelectToggleButton',
-  status: 'ready',
+  status: 'missing-tests',
   release: '8.1.0',
   props: {
     /**

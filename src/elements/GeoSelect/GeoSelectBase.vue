@@ -45,7 +45,7 @@
 <script>
 export default {
   name: 'GeoSelectBase',
-  status: 'ready',
+  status: 'missing-tests',
   release: '8.1.0',
   props: {
     /**

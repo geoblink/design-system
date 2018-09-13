@@ -55,7 +55,7 @@ import _ from 'lodash'
 
 export default {
   name: 'GeoSelect',
-  status: 'ready',
+  status: 'missing-tests',
   release: '8.1.0',
   props: {
     /**

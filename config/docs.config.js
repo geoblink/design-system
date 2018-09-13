@@ -78,35 +78,42 @@ module.exports = {
       // components: '../src/elements/**/[A-Z]*.vue',
       exampleMode: 'expand',
       usageMode: 'expand',
-      sectionDepth: 2,
+      sectionDepth: 1,
       sections: [
         {
           name: 'GeoActivityIndicator',
-          components: '../src/elements/GeoActivityIndicator/GeoActivityIndicator.vue'
+          components: '../src/elements/GeoActivityIndicator/GeoActivityIndicator.vue',
+          sectionDepth: 0
         },
         {
           name: 'GeoAlert',
-          components: '../src/elements/GeoAlert/GeoAlert.vue'
+          components: '../src/elements/GeoAlert/GeoAlert.vue',
+          sectionDepth: 0
         },
         {
           name: 'GeoButton',
-          components: '../src/elements/GeoButton/GeoButton.vue'
+          components: '../src/elements/GeoButton/GeoButton.vue',
+          sectionDepth: 0
         },
         {
           name: 'GeoDropdownComponent',
-          components: '../src/elements/GeoDropdown/GeoDropdown*.vue'
+          components: '../src/elements/GeoDropdown/GeoDropdown*.vue',
+          sectionDepth: 1
         },
         {
           name: 'GeoHighlightedString',
-          components: '../src/elements/GeoHighlightedString/GeoHighlightedString.vue'
+          components: '../src/elements/GeoHighlightedString/GeoHighlightedString.vue',
+          sectionDepth: 0
         },
         {
           name: 'GeoMarquee',
-          components: '../src/elements/GeoMarquee/GeoMarquee.vue'
+          components: '../src/elements/GeoMarquee/GeoMarquee.vue',
+          sectionDepth: 0
         },
         {
           name: 'GeoSelectComponent',
-          components: '../src/elements/GeoSelect/GeoSelect*.vue'
+          components: '../src/elements/GeoSelect/GeoSelect*.vue',
+          sectionDepth: 1
         }
       ]
     },

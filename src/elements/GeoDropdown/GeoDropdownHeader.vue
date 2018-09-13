@@ -39,7 +39,7 @@
 <script>
 export default {
   name: 'GeoDropdownHeader',
-  status: 'ready',
+  status: 'missing-tests',
   release: '8.0.0',
   props: {
     /**

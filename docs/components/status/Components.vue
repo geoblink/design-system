@@ -19,7 +19,7 @@
           }"
           :icon="['fas', 'exclamation-triangle']"
         />
-        <p>Under review</p>
+        <p>Missing tests</p>
       </li>
       <li>
         <font-awesome-icon
@@ -82,7 +82,7 @@
               :icon="['fas', 'check-circle']"
             />
             <font-awesome-icon
-              v-if="component.status === 'under-review' || component.status === 'review'"
+              v-if="component.status === 'missing-tests' || component.status === 'review'"
               :style="{
                 color: tokens.color_ucla_gold.value,
                 fontSize: '16px'

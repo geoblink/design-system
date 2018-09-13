@@ -8,7 +8,7 @@
 <script>
 export default {
   name: 'GeoDropdownFooter',
-  status: 'ready',
+  status: 'missing-tests',
   release: '8.0.0',
   props: {
     /**

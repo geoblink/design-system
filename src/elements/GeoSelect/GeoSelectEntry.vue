@@ -17,7 +17,7 @@
 <script>
 export default {
   name: 'GeoSelectEntry',
-  status: 'ready',
+  status: 'missing-tests',
   release: '8.1.0',
   props: {
     /**

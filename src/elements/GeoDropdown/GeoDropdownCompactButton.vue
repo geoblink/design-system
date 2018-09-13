@@ -16,7 +16,7 @@
 <script>
 export default {
   name: 'GeoDropdownCompactButton',
-  status: 'ready',
+  status: 'missing-tests',
   release: '8.0.0',
   props: {
     /**

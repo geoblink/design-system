@@ -14,17 +14,25 @@ export default {
       }
     },
     click (event) {
-      if (this.clearActiveLinks) {
-        this.clearActiveLinks()
+      event.stopPropagation()
+      // if (this.clearActiveLinks) {
+      //   this.clearActiveLinks()
+      // } else {
+      //   this.methods.clearActiveLinks()
+      // }
+      if (event.target.parentNode.classList.contains('vueds-active')) {
+        event.target.parentNode.classList.remove('vueds-active')
       } else {
-        this.methods.clearActiveLinks()
+        event.target.parentNode.classList.add('vueds-active')
       }
-      event.target.parentNode.classList.add('vueds-active')
 
       // When clicking a sub link
       const parent = event.target.parentNode.parentNode.parentNode
       if (parent && parent.className.match(/(rsg--item)/)) {
         parent.classList.add('vueds-active')
+        if (event.target.classList.contains('vueds-active')) {
+          event.target.classList.remove('vueds-active')
+        }
       }
     },
     init () {
