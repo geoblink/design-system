@@ -28,6 +28,7 @@
 import ClickOutside from '../../directives/GeoClickOutside'
 import ScrollAnywhere from '../../directives/GeoScrollAnywhere'
 import getDOMElementOffset from '../../utils/getDOMElementOffset'
+import cssSuffix from '../../mixins/cssModifierMixin'
 
 export default {
   name: 'GeoDropdown',
@@ -37,6 +38,7 @@ export default {
     ScrollAnywhere,
     ClickOutside
   },
+  mixins: [cssSuffix],
   props: {
     /**
      * Whether the popup attached to this menu should be visible (`true`) or not.
@@ -44,21 +46,6 @@ export default {
     opened: {
       type: Boolean,
       required: true
-    },
-    /**
-     * An optional suffix to be appended as BEM modifier.
-     *
-     * Can be used to customize the look & feel of the component by changing all
-     * the CSS classes by different ones so no CSS loaded by default affects
-     * them.
-     *
-     * To generate default styles for a modifier named `modifier-name`, you just
-     * have to add `@include geo-button-make('modifier-name');` to your SCSS
-     * styles.
-     */
-    cssModifier: {
-      type: String,
-      default: ''
     }
   },
   data () {
@@ -77,10 +64,6 @@ export default {
     }
   },
   computed: {
-    cssSuffix () {
-      return this.cssModifier ? `--${this.cssModifier}` : ''
-    },
-
     isOpened () {
       return this.opened
     },

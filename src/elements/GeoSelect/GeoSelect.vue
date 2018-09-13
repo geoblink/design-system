@@ -52,11 +52,13 @@
 
 <script>
 import _ from 'lodash'
+import cssSuffix from '../../mixins/cssModifierMixin'
 
 export default {
   name: 'GeoSelect',
   status: 'missing-tests',
   release: '8.1.0',
+  mixins: [cssSuffix],
   props: {
     /**
      * Array of options that will be displayed in the select component.
@@ -190,21 +192,6 @@ export default {
         if (!_.isFinite(value)) return value > 0
         return true
       }
-    },
-    /**
-     * An optional suffix to be appended as BEM modifier.
-     *
-     * Can be used to customize the look & feel of the component by changing all
-     * the CSS classes by different ones so no CSS loaded by default affects
-     * them.
-     *
-     * To generate default styles for a modifier named `modifier-name`, you just
-     * have to add `@include geo-selet-make('modifier-name');` to
-     * your SCSS styles.
-     */
-    cssModifier: {
-      type: String,
-      default: ''
     }
   },
   data () {
@@ -294,10 +281,6 @@ export default {
 
     hasMoreResultsToLoad () {
       return this.lastVisiblePage * this.pageSize < this.filteredOptions.length
-    },
-
-    cssSuffix () {
-      return this.cssModifier ? `--${this.cssModifier}` : ''
     }
   },
   methods: {

@@ -14,10 +14,13 @@
 </template>
 
 <script>
+import cssSuffix from '../../mixins/cssModifierMixin'
+
 export default {
   name: 'GeoDropdownCompactButton',
   status: 'missing-tests',
   release: '8.0.0',
+  mixins: [cssSuffix],
   props: {
     /**
      * Font Awesome 5 icon to be displayed.
@@ -30,26 +33,6 @@ export default {
       default: function () {
         return ['fal', 'ellipsis-v']
       }
-    },
-    /**
-     * An optional suffix to be appended as BEM modifier.
-     *
-     * Can be used to customize the look & feel of the component by changing all
-     * the CSS classes by different ones so no CSS loaded by default affects
-     * them.
-     *
-     * To generate default styles for a modifier named `modifier-name`, you just
-     * have to add `@include geo-button-make('modifier-name');` to your SCSS
-     * styles.
-     */
-    cssModifier: {
-      type: String,
-      default: ''
-    }
-  },
-  computed: {
-    cssSuffix () {
-      return this.cssModifier ? `--${this.cssModifier}` : ''
     }
   },
   methods: {

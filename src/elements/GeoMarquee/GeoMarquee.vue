@@ -17,10 +17,13 @@
 </template>
 
 <script>
+import cssSuffix from '../../mixins/cssModifierMixin'
+
 export default {
   name: 'GeoMarquee',
   status: 'ready',
   release: '8.0.0',
+  mixins: [cssSuffix],
   props: {
     /**
      * Duration of the animation (seconds).
@@ -29,21 +32,6 @@ export default {
     marqueeDuration: {
       type: Number,
       default: 3
-    },
-    /**
-     * An optional suffix to be appended as BEM modifier.
-     *
-     * Can be used to customize the look & feel of the component by changing all
-     * the CSS classes by different ones so no CSS loaded by default affects
-     * them.
-     *
-     * To generate default styles for a modifier named `modifier-name`, you just
-     * have to add `@include geo-button-make('modifier-name');` to your SCSS
-     * styles.
-     */
-    cssModifier: {
-      type: String,
-      default: ''
     }
   },
   data () {
@@ -54,9 +42,6 @@ export default {
     }
   },
   computed: {
-    cssSuffix () {
-      return this.cssModifier ? `--${this.cssModifier}` : ''
-    },
     animationPlayState () {
       return this.isHovering ? 'running' : 'paused'
     },
