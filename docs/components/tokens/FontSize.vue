@@ -9,6 +9,7 @@
         <font-awesome-icon
           :icon="['fas', 'weight']"
         />
+        Font Weight
       </div>
       <div class="font-sizes__table__header-cell font-sizes__table__header-cell--small">
         Size
@@ -101,9 +102,7 @@ export default {
 /* STYLES
 --------------------------------------------- */
 
-.font-sizes_table {
-  display: flex;
-  overflow: hidden;
+.font-sizes__table {
   position: relative;
   width: 100%;
 }
@@ -147,7 +146,6 @@ export default {
 .font-sizes__table__row-cell__font-family {
   color: #919EAB;
   position: absolute;
-  right: 57px;
   text-transform: uppercase;
   transform: rotate(90deg);
 
@@ -157,7 +155,7 @@ export default {
   }
 
   &--lato {
-    top: 80%;
+    top: 78%;
     right: -45px;
   }
 }
