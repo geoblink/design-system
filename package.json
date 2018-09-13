@@ -102,6 +102,9 @@
       }
     }
   },
+  "resolutions": {
+    "vue-styleguidist/vue-docgen-api": "~2.3.14"
+  },
   "dependencies": {
     "webfontloader": "^1.6.28"
   },
