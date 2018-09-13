@@ -25,7 +25,7 @@ import _ from 'lodash'
 export default {
   name: 'GeoSelectSearchEntryForm',
   status: 'ready',
-  release: '8.1.0',
+  release: '4.1.0',
   props: {
     /**
      * Icon used for the searchbox

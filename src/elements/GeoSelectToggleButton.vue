@@ -22,7 +22,7 @@
 export default {
   name: 'GeoSelectToggleButton',
   status: 'ready',
-  release: '8.1.0',
+  release: '4.1.0',
   props: {
     /**
      * Font Awesome 5 icon to be displayed as close button.

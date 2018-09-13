@@ -18,7 +18,7 @@
 export default {
   name: 'GeoSelectEntry',
   status: 'ready',
-  release: '8.1.0',
+  release: '4.1.0',
   props: {
     /**
      * An optional suffix to be appended as BEM modifier.

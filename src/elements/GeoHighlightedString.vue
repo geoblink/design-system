@@ -18,7 +18,7 @@
 export default {
   name: 'GeoHighlightedString',
   status: 'ready',
-  release: '8.0.0',
+  release: '4.0.0',
   props: {
     /**
      * Array with the position of each of the chars that match
