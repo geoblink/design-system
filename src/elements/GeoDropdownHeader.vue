@@ -40,7 +40,7 @@
 export default {
   name: 'GeoDropdownHeader',
   status: 'ready',
-  release: '8.0.0',
+  release: '4.0.0',
   props: {
     /**
      * An optional suffix to be appended as BEM modifier.
