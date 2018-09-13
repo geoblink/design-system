@@ -1,3 +1,6 @@
+`GeoActivityIndicator` acts as a loading spinner to give visual feedback to your users
+on an ongoing request. You can customize the color, size and completion percentage of the spinner.
+
 ```vue
 <template>
   <div class="element-demo">

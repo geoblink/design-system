@@ -1,3 +1,7 @@
+Use the `GeoAlert` component to give visual feedback to your users about the result of a given action.
+You can customize the color to change the intention of the feedback and add icons or buttons to
+allow the user to perform actions on the alerts.
+
 ```vue
 <template>
   <div class="element-demo">
