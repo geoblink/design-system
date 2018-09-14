@@ -4,7 +4,7 @@
       :class="`geo-select-more-results__text-content${cssSuffix}`"
       @click="loadMoreResults">
       <span :class="`geo-select-more-results__text-content--more-results${cssSuffix}`">
-        <!-- @slot Use this slot to customize the label of the button. -->
+        <!-- @slot Use this slot to customize the label of the button -->
         <slot name="moreResultsContent"/>
       </span>
     </div>
@@ -23,6 +23,7 @@ export default {
     loadMoreResults () {
       /**
        * Load more results in GeoSelect options
+       *
        * @event load-more-results
        */
       this.$emit('load-more-results')

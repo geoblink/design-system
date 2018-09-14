@@ -6,7 +6,7 @@
     <slot name="leadingAccessoryItem" />
     <div
       :class="`geo-select-opt-group-entry__content${cssSuffix}`">
-      <!-- @slot Use this slot to customize this entry’s content. -->
+      <!-- @slot Use this slot to customize this entry’s content -->
       <slot />
     </div>
     <!-- @slot Use this slot to add elements to the opt group entry label's trailing side (icons, radio buttons, etc) -->

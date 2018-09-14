@@ -1,12 +1,12 @@
 <template>
   <div :class="`geo-select-read-only-entry__container${cssSuffix}`">
-    <!-- @slot Use this slot to add elements to the read only entry label's leading side (icons, radio buttons, etc) -->
+    <!-- @slot Use this slot to add elements to leading edge -->
     <slot name="leadingAccessoryItem" />
     <div :class="`geo-select-read-only-entry__content${cssSuffix}`">
-      <!-- @slot Use this slot to customize content displayed in this entry. -->
+      <!-- @slot Use this slot to customize content displayed in this entry -->
       <slot />
     </div>
-    <!-- @slot Use this slot to add elements to the read only entry label's trailing side (icons, radio buttons, etc) -->
+    <!-- @slot Use this slot to add elements to trailing edge -->
     <slot name="trailingAccessoryItem" />
   </div>
 </template>

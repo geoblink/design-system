@@ -6,8 +6,10 @@
     }"
     @click="handleClick($event)"
   >
-    <!-- @slot Use this slot to customize what is displayed in the button.
-         Note that that this will be styled differently when isEmpty prop is true. -->
+    <!--
+      @slot Use this slot to customize what is displayed in the button.
+      **Note:** This will be styled differently when `isEmpty` prop is `true`.
+    -->
     <slot />
     <font-awesome-icon
       :icon="dropdownIcon"
@@ -39,9 +41,12 @@ export default {
         return ['fal', 'chevron-down']
       }
     },
+
     /**
-     * Whether there's a selected option or just the `GeoSelect` default placeholder.
-     * It is used to toggle `geo-select__placeholder-box--empty` class.
+     * Whether there's a selected option or just the `GeoSelect` default
+     * placeholder.
+     *
+     * **Note:** It is used to toggle `geo-select__placeholder-box--empty` class.
      */
     isEmpty: {
       type: Boolean,
@@ -51,9 +56,10 @@ export default {
   methods: {
     handleClick ($event) {
       /**
-       * Click on select event
+       * Click on select event.
+       *
        * @event click
-       * @type {object}
+       * @type {MouseEvent}
        */
       this.$emit('click', $event)
     }

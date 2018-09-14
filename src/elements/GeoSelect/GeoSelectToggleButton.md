@@ -1,4 +1,6 @@
-`GeoSelectToggleButton` is a button designed to look like a modern HTML `<select>` input, displaying a placeholder content when no value is chosen and featuring a trailing chevron.
+`GeoSelectToggleButton` is a component designed to look like a modern HTML
+`<select>` input, displaying a placeholder when no value is chosen and featuring
+a trailing chevron.
 
 ```jsx
 <div class="element-demo">

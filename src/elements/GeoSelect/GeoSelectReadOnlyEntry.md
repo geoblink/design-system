@@ -1,10 +1,12 @@
-`GeoSelectReadOnlyEntry` is designed to be used as a non-interactible, read only
-row-like container for `GeoSelect`. It's specially designed to be used to display
-special messages like `No results found`.
+`GeoSelectReadOnlyEntry` is a component designed to be used as a non-interactible,
+read only row-like container for [GeoSelect](http://localhost:6060/#/Elements/GeoSelect?id=geoselect-1).
+
+It's specially designed to be used to display special messages like
+*No results found*.
 
 ```jsx
 <div class="element-demo">
-  <h3 class="element-demo__header">Simple read only entry (Only content)</h3>
+  <h3 class="element-demo__header">Read only entry with only content</h3>
   <div class="element-demo__block" style="justify-content: space-around;">
     <geo-select-read-only-entry>
       No results found

@@ -30,7 +30,10 @@ export default {
   mixins: [cssSuffix],
   props: {
     /**
-     * Icon used for the searchbox
+     * Icon used for the search box.
+     *
+     * See [vue-fontawesome](https://www.npmjs.com/package/@fortawesome/vue-fontawesome#explicit-prefix-note-the-vue-bind-shorthand-because-this-uses-an-array)
+     * for more info about this.
      */
     searchIcon: {
       type: Array,
@@ -38,8 +41,9 @@ export default {
         return ['fal', 'search']
       }
     },
+
     /**
-     * Default text to be displayed when no option is selected
+     * Text to be displayed when no option is selected.
      */
     placeholder: {
       type: String,
@@ -55,7 +59,8 @@ export default {
     searchPattern () {
       return _.debounce(function () {
         /**
-         * Search pattern in options list event
+         * User wrote something in the select search form.
+         *
          * @event search-pattern
          * @type {string}
          */

@@ -1,5 +1,6 @@
-`GeoSelectEntry` provides a common styling suitable for the entries of a `GeoSelect`,
-including hover style, proper cursor and click events.
+`GeoSelectEntry` is a component designed to fit nicely as options of a
+[GeoSelect](./#/Elements/GeoSelect?id=geoselect-1), including hover styles,
+proper cursor and click events.
 
 ```jsx
 <div class="element-demo">
