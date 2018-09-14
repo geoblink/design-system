@@ -16,7 +16,9 @@
         />
       </div>
       <div :class="`geo-dropdown__list-item__icon-and-label__label${cssSuffix}`">
-        <!-- @slot Use this slot to customize items's label -->
+        <!-- @slot Use this slot to customize rows's main content -->
+        <slot />
+        <!-- @slot **Deprecated. Use `default` slot instead** Use this slot to customize items's label -->
         <slot name="label" />
       </div>
     </div>
@@ -54,6 +56,11 @@ export default {
   computed: {
     hasTrailingAccessoryItems () {
       return !!(this.$slots.trailingAccessoryItem && this.$slots.trailingAccessoryItem.length)
+    }
+  },
+  mounted () {
+    if (this.$slots && this.$slots.label) {
+      console.warn('GeoDropdownListItem [component] :: «label» named slot is deprecated. Use default slot instead.')
     }
   },
   methods: {

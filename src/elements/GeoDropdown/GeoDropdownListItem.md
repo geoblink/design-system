@@ -1,4 +1,5 @@
-`GeoDropdownListItem` is convenient helper to build vertical lists.
+`GeoDropdownListItem` is a component designed to build vertical lists which fit
+properly in a [GeoDropdown](./#/Elements/GeoDropdown?id=geodropdown-1).
 
 It can be customized in several ways, adding icons to the leading edge of the
 row or more complex elements (like form inputs) to the trailing edge.

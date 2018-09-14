@@ -1,6 +1,10 @@
-`GeoDropdown` is a combination of a button and a popup which is toggled in and
-out using that button. It's suitable for dropdown menus and actions which
-require additional or complex user input like handling filters.
+`GeoDropdown` is a combination of a button and a popup which can be toggled in
+and out using the button. It's suitable for dropdown menus and actions which
+require additional or complex user input like handling data filters.
+
+The popup is smartly repositioned when it does not fit below the toggle button
+and is pinned to right side of the button when its content overflows viewport
+if pinned to left side.
 
 ```vue
 <template>

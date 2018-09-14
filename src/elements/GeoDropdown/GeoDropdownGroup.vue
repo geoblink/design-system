@@ -47,8 +47,8 @@ export default {
   mixins: [cssSuffix],
   props: {
     /**
-     * Optional Font Awesome 5 icon to be displayed next to the title's label,
-     * on the left.
+     * Optional Font Awesome 5 icon to be displayed next to group title's label,
+     * on the leading edge.
      *
      * See [vue-fontawesome](https://www.npmjs.com/package/@fortawesome/vue-fontawesome#explicit-prefix-note-the-vue-bind-shorthand-because-this-uses-an-array)
      * for more info about this.

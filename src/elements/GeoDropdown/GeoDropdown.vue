@@ -18,7 +18,7 @@
       }"
       :style="popupStyle"
     >
-      <!-- @slot Use this slot to customize the popup content -->
+      <!-- @slot Use this slot to customize popup's content -->
       <slot name="popupContent" />
     </div>
   </div>

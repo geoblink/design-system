@@ -1,6 +1,7 @@
-`GeoDropdownHeader` is convenient helper to build popup headers.
+`GeoDropdownHeader` is component designed to fit nicely as header of a
+[GeoDropdown](./#/Elements/GeoDropdown?id=geodropdown-1)..
 
-It supports displaying a special _close_ button and allows setting an optional
+It supports displaying a special *close* button and allows setting an optional
 clickable icon in the leading edge of the header.
 
 ```jsx
