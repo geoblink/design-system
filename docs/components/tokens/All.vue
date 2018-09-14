@@ -83,7 +83,7 @@ export default {
   font-family: $font-family-heading;
   font-weight: $font-weight-regular;
   line-height: $line-height-heading;
-  color: $color-rich-black;
+  color: $color_dark;
   margin-bottom: $space-small;
   font-style: normal;
   @media (max-width: 1000px) {

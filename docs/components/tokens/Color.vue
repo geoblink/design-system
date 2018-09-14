@@ -102,7 +102,7 @@ h3 {
   box-shadow: 0 0 0 1px rgba(63, 63, 68, 0.05), 0 1px 3px 0 rgba(63, 63, 68, 0.15);
   font-size: $font-size-small;
   font-family: $font-family-text;
-  color: $color-rich-black;
+  color: $color_dark;
   border-radius: $border-radius-default;
   overflow: hidden;
   text-align: left;
