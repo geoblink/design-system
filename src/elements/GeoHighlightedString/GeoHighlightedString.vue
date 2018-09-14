@@ -1,7 +1,7 @@
 <template>
   <div :class="`highlighted-string__container${cssSuffix}`">
     <span
-      v-for="(entry, index) in groupsFromMatches"
+      v-for="(entry, index) in groups"
       :key="index"
     ><span
       v-if="entry.isHighlighted"
@@ -73,7 +73,7 @@ export default {
     }
   },
   computed: {
-    groupsFromMatches () {
+    groups () {
       const self = this
       const groups = []
       const matchedChars = [].concat(self.highlightedChars || self.matchedCharsPosition)
