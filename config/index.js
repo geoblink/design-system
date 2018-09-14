@@ -5,7 +5,7 @@ const path = require('path')
 module.exports = {
   build: {
     // Webpack mode
-    mode: "production",
+    mode: 'production',
 
     // Template for index.html
     index: path.resolve(__dirname, '../dist/index.html'),
@@ -35,7 +35,7 @@ module.exports = {
   },
   system: {
     // Webpack mode
-    mode: "production",
+    mode: 'production',
 
     // Template for index.html
     index: path.resolve(__dirname, '../dist/index.html'),
@@ -65,7 +65,7 @@ module.exports = {
   },
   dev: {
     // Webpack mode
-    mode: "development",
+    mode: 'development',
 
     // Paths
     assetsSubDirectory: 'assets',
