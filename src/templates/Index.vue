@@ -5,52 +5,103 @@
         <img src="assets/icons/geoblink_logo_white.png">
       </div>
       <div class="index-page__above-the-fold___text-introduction">
-        <h1 class="text-introduction__header">An open source tool for building Design Systems with Vue.js</h1>
-        <h4 class="text-introduction__subheader">Vue Design System provides you and your team a set of organized tools, patterns & practices. It works as the foundation for your application development.</h4>
+        <h1 class="text-introduction__header">The Geoblink's internal Design System built on top of VueJS</h1>
+        <h4 class="text-introduction__subheader">Geoblink Design System provides you a set of components, patterns and guides to develop better, more and faster.</h4>
       </div>
       <div class="index-page__above-the-fold___buttons-container">
         <geo-danger-button
           :disabled="false"
           @click="goToDocs()"
         >
-        See the Docs
-      </geo-danger-button>
+          See the Docs
+        </geo-danger-button>
       </div>
     </div>
     <div class="index-page__features-container">
       <div class="index-page__features__text-container">
-
+        <h2 class="features__text-header">Features</h2>
       </div>
       <div class="index-page__features__feature-list">
         <div class="index-page__features__feature-list__feature-item">
-          <div class="feature-item__icon"></div>
-          <div class="feature-item__header"></div>
-          <div class="feature-item__text"></div>
+          <div class="feature-item__icon">
+            <font-awesome-icon
+              :icon="['far', 'user-circle']"
+            />
+          </div>
+          <div class="feature-item__header">Built for Your Team</div>
+          <div class="feature-item__text">A ser of interconnected patterns & practices for you and your team with comprehensive documentation.</div>
         </div>
         <div class="index-page__features__feature-list__feature-item">
-          <div class="feature-item__icon"></div>
-          <div class="feature-item__header"></div>
-          <div class="feature-item__text"></div>
+          <div class="feature-item__icon">
+            <font-awesome-icon
+              :icon="['far', 'comments']"
+            />
+          </div>
+          <div class="feature-item__header">Naming of Things</div>
+          <div class="feature-item__text">A well thought-out terminology, naming conventions, and hierarchy for the whole design system to save time.</div>
         </div>
         <div class="index-page__features__feature-list__feature-item">
-          <div class="feature-item__icon"></div>
-          <div class="feature-item__header"></div>
-          <div class="feature-item__text"></div>
+          <div class="feature-item__icon">
+            <font-awesome-icon
+              :icon="['fas', 'list-ol']"
+            />
+          </div>
+          <div class="feature-item__header">Component Status</div>
+          <div class="feature-item__text">Get an automated overview of how your design system progresses over time and what's still left to do.</div>
         </div>
         <div class="index-page__features__feature-list__feature-item">
-          <div class="feature-item__icon"></div>
-          <div class="feature-item__header"></div>
-          <div class="feature-item__text"></div>
+          <div class="feature-item__icon">
+            <font-awesome-icon
+              :icon="['fas', 'tags']"
+            />
+          </div>
+          <div class="feature-item__header">Design Tokens</div>
+          <div class="feature-item__text">Global design tokens in YAML format that you can use inside any component. In both CSS and JavaScript.</div>
         </div>
         <div class="index-page__features__feature-list__feature-item">
-          <div class="feature-item__icon"></div>
-          <div class="feature-item__header"></div>
-          <div class="feature-item__text"></div>
+          <div class="feature-item__icon">
+            <font-awesome-icon
+              :icon="['fas', 'window-maximize']"
+            />
+          </div>
+          <div class="feature-item__header">Living Docs</div>
+          <div class="feature-item__text">Automatic generation of living, user editable documentation using custom version of Vue Styleguidist.</div>
         </div>
         <div class="index-page__features__feature-list__feature-item">
-          <div class="feature-item__icon"></div>
-          <div class="feature-item__header"></div>
-          <div class="feature-item__text"></div>
+          <div class="feature-item__icon">
+            <font-awesome-icon
+              :icon="['fas', 'external-link-alt']"
+            />
+          </div>
+          <div class="feature-item__header">Publish via NPM</div>
+          <div class="feature-item__text">Easily export and use your Design System as an NPM dependency in another Vue.js project (or anywhere really).</div>
+        </div>
+        <div class="index-page__features__feature-list__feature-item">
+          <div class="feature-item__icon">
+            <font-awesome-icon
+              :icon="['far', 'clock']"
+            />
+          </div>
+          <div class="feature-item__header">Faster Workflow</div>
+          <div class="feature-item__text">Create a token, an element, or a pattern, and it's immediately available across all your Vue.js components.</div>
+        </div>
+        <div class="index-page__features__feature-list__feature-item">
+          <div class="feature-item__icon">
+            <font-awesome-icon
+              :icon="['fas', 'code']"
+            />
+          </div>
+          <div class="feature-item__header">Code Formatting</div>
+          <div class="feature-item__text">Pre-configured Pretter setup for auto-formatting code on both save and before committing changes to Git.</div>
+        </div>
+        <div class="index-page__features__feature-list__feature-item">
+          <div class="feature-item__icon">
+            <font-awesome-icon
+              :icon="['fas', 'sliders-h']"
+            />
+          </div>
+          <div class="feature-item__header">Configurable</div>
+          <div class="feature-item__text">Live Reloading, Autoprefixing, SCSS and helper function + good defaults for SVG and Webfont usage out-of-the-box.</div>
         </div>
       </div>
     </div>
@@ -80,6 +131,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
+  body {
+    margin: 0 !important;
+  }
+
   .index-page__above-the-fold {
     background: $color-blue-dark;
     height: 100vh;
@@ -96,6 +152,7 @@ export default {
     width: 700px;
     margin: 0 auto;
     text-align: center;
+    margin-top: 110px;
   }
 
   .text-introduction__header {
@@ -113,4 +170,47 @@ export default {
     width: 120px;
   }
 
+  .index-page__features-container {
+    max-width: 1300px;
+    height: 100%;
+    width: 86%;
+    margin: 0 auto;
+  }
+
+  .index-page__features__feature-list {
+    display: grid;
+    grid-template-columns: 28.666% 28.666% 28.666%;
+    grid-column-gap: 7%;
+    align-content: stretch;
+    justify-content: center;
+  }
+
+  .index-page__features__feature-list__feature-item {
+    margin-bottom: 120px;
+  }
+
+  .index-page__features__text-container {
+    text-align: center;
+    font-family: $font-family-heading;
+    font-size: 38px;
+    font-weight: 300;
+    color: $color-blue-dark;
+  }
+
+  .feature-item__icon {
+    font-size: 50px;
+    color: $color-blue-light;
+    padding-bottom: 25px;
+  }
+
+  .feature-item__header {
+    font-size: 25px;
+    font-family: $font-family-heading;
+    padding-bottom: 15px;
+  }
+
+  .feature-item__text {
+    font-size: 18px;
+    font-family: $font_family_text;
+  }
 </style>

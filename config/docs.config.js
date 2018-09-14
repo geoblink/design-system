@@ -44,7 +44,7 @@ module.exports = {
   pagePerSection: true,
   sections: [
     {
-      name: 'Getting Started',
+      name: 'Geoblink\'s Design System',
       content: '../docs/getting-started.md',
       components: '../docs/components/status/**/[A-Z]*.vue',
       sectionDepth: 1,
