@@ -126,65 +126,78 @@ describe('GeoButton', () => {
   })
 })
 
-// const taxonomyButtons = [GeoDangerButton, GeoPrimaryButton, GeoSecondaryButton, GeoTertiaryButton]
+const taxonomyButtons = [GeoDangerButton, GeoPrimaryButton, GeoSecondaryButton, GeoTertiaryButton]
 
-// describe('GeoButton Children', () => {
-//   taxonomyButtons.forEach((taxonomyButton) => {
-//     it('should render button\'s content', function () {
-//       const wrapper = mount(taxonomyButton, {
-//         slots: {
-//           default: '<span>Button title</span>'
-//         }
-//       })
-//       const button = wrapper.find('.geo-button')
-//       expect(button.exists()).toBe(true)
-//       expect(button.find('span').exists()).toBe(true)
-//     })
+fdescribe('GeoButton Children', () => {
+  taxonomyButtons.forEach((taxonomyButton) => {
+    it('should render button\'s content', function () {
+      const wrapper = mount(taxonomyButton, {
+        slots: {
+          default: '<span>Button title</span>'
+        },
+        stubs: {
+          GeoButton
+        }
+      })
+      const button = wrapper.find('.geo-button')
+      expect(button.exists()).toBe(true)
+      expect(button.find('span').exists()).toBe(true)
+    })
 
-//     it('should emit an event on click', function (done) {
-//       const wrapper = mount(taxonomyButton)
-//       wrapper.find('.geo-button').trigger('click')
-//       setTimeout(function () {
-//         try {
-//           expect(wrapper.emitted()['click']).toBeTruthy()
-//           done()
-//         } catch (error) {
-//           done(error)
-//         }
-//       })
-//     })
+    it('should emit an event on click', function (done) {
+      const wrapper = mount(taxonomyButton, {
+        stubs: {
+          GeoButton
+        }
+      })
+      wrapper.find('.geo-button').trigger('click')
+      setTimeout(function () {
+        try {
+          expect(wrapper.emitted()['click']).toBeTruthy()
+          done()
+        } catch (error) {
+          done(error)
+        }
+      })
+    })
 
-//     it('should not emit an event when it\'s disabled', function () {
-//       const wrapper = mount(taxonomyButton, {
-//         propsData: {
-//           disabled: true
-//         }
-//       })
+    it('should not emit an event when it\'s disabled', function () {
+      const wrapper = mount(taxonomyButton, {
+        propsData: {
+          disabled: true
+        },
+        stubs: {
+          GeoButton
+        }
+      })
 
-//       const button = wrapper.find('.geo-button')
-//       button.trigger('click')
-//       expect(wrapper.emitted()['click']).toBeFalsy()
-//     })
+      const button = wrapper.find('.geo-button')
+      button.trigger('click')
+      expect(wrapper.emitted()['click']).toBeFalsy()
+    })
 
-//     it('should add CSS Suffix when given', function () {
-//       const wrapper = mount(taxonomyButton, {
-//         propsData: {
-//           cssModifier: 'custom'
-//         }
-//       })
+    it('should add CSS Suffix when given', function () {
+      const wrapper = mount(taxonomyButton, {
+        propsData: {
+          cssModifier: 'custom'
+        },
+        stubs: {
+          GeoButton
+        }
+      })
 
-//       expect(wrapper.find('.geo-button--custom').exists()).toBe(true)
-//     })
+      expect(wrapper.find('.geo-button--custom').exists()).toBe(true)
+    })
 
-//     it('should show activity indicator when loading', function () {
-//       const wrapper = mount(taxonomyButton, {
-//         propsData: {
-//           loading: true
-//         },
-//         stubs: { GeoActivityIndicator }
-//       })
+    it('should show activity indicator when loading', function () {
+      const wrapper = mount(taxonomyButton, {
+        propsData: {
+          loading: true
+        },
+        stubs: { GeoActivityIndicator, GeoButton }
+      })
 
-//       expect(wrapper.find('.geo-button__activity-indicator').exists()).toBe(true)
-//     })
-//   })
-// })
+      expect(wrapper.find('.geo-button__activity-indicator').exists()).toBe(true)
+    })
+  })
+})
