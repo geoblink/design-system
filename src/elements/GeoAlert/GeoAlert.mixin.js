@@ -54,6 +54,12 @@ export default {
   },
   methods: {
     close (event) {
+      /**
+       * User clicked on the *Close* button.
+       *
+       * @event close
+       * @type {MouseEvent}
+       */
       this.$emit('close', event)
     }
   }
