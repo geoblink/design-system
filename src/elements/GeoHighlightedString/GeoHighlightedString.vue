@@ -24,16 +24,42 @@ export default {
   mixins: [cssSuffix],
   props: {
     /**
-     * Array with the position of each of the chars that match
-     * in the provided string and need to be highlighted
+     * Array with the position of each of the characters that should be
+     * highlighted.
+     */
+    higlightedChars: {
+      type: Array,
+      required: false, // TODO: Make this property required once `matchedCharsPosition` is removed
+      validator (values) {
+        if (values.length < 2) return true
+
+        for (let i = 1; i < values.length; i++) {
+          if (values[i - 1] > values[i]) {
+            console.warn(`GeoHilightedString [component] :: Values of higlightedChars must be sorted ascendently but value at index ${i - 1} (${values[i - 1]}) was greater than value at index ${i} (${values[i]})`)
+            return false
+          } else if (values[i - 1] === values[i]) {
+            console.warn(`GeoHilightedString [component] :: Values of higlightedChars can't be repeated but value at index ${i - 1} (${values[i - 1]}) was equal to value at index ${i} (${values[i]})`)
+            return false
+          }
+        }
+
+        return true
+      }
+    },
+    /**
+     * **Deprecated.** Use `higlightedChars` instead.
      */
     matchedCharsPosition: {
       type: Array,
-      required: true,
+      required: false,
       validator (matchedChars) {
+        if (matchedChars) {
+          console.warn(`GeoHilightedString [component] :: «matchedCharsPosition» is deprecated. Use «hilightedChars» instead`)
+        }
+
         const isMatchedCharsOrdered = matchedChars.every((val, i, array) => !i || (val > array[i - 1]))
         if (!isMatchedCharsOrdered) {
-          console.warn(`Values of «matchedCharsPosition» must be sorted ascendently`)
+          console.warn(`GeoHilightedString [component] :: Values of «matchedCharsPosition» must be sorted ascendently`)
         }
         return isMatchedCharsOrdered
       }
@@ -48,31 +74,37 @@ export default {
   },
   computed: {
     groupsFromMatches () {
-      var matches = []
-      var self = this
-      var groupEnd
-      var isHighlighted
-      var matchedChars = [].concat(self.matchedCharsPosition)
-      for (var i = 0; i < self.referenceString.length;) {
+      const self = this
+      const groups = []
+      const matchedChars = [].concat(self.higlightedChars || self.matchedCharsPosition)
+
+      let groupEnd
+      let isHighlighted
+      for (let i = 0; i < self.referenceString.length;) {
         if (matchedChars[0] === i) {
           matchedChars.shift()
+
           groupEnd = i + 1
           while (matchedChars[0] === groupEnd) {
             matchedChars.shift()
             groupEnd++
           }
+
           isHighlighted = true
         } else {
           groupEnd = matchedChars[0] || self.referenceString.length
           isHighlighted = false
         }
-        matches.push({
+
+        groups.push({
           isHighlighted: isHighlighted,
           substring: self.referenceString.substring(i, groupEnd)
         })
+
         i = groupEnd
       }
-      return matches
+
+      return groups
     }
   }
 }
