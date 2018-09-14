@@ -5,27 +5,27 @@
 
 export default {
   methods: {
-    showLinks() {
+    showLinks () {
       const links = document.querySelectorAll("div[class^='rsg--sidebar'] ul ul[class^='rsg--list']")
       if (links) {
-        links.forEach(function(element) {
-          element.classList.add("vueds-visible")
+        links.forEach(function (element) {
+          element.classList.add('vueds-visible')
         })
       }
     },
-    hideLinks() {
-      const activeLinks = document.querySelectorAll(".vueds-visible")
+    hideLinks () {
+      const activeLinks = document.querySelectorAll('.vueds-visible')
       if (activeLinks) {
-        activeLinks.forEach(function(element) {
-          element.classList.remove("vueds-visible")
+        activeLinks.forEach(function (element) {
+          element.classList.remove('vueds-visible')
         })
       }
     },
-    init() {
+    init () {
       const search = document.querySelector("div[class^='rsg--search'] input")
       let writing = false
       if (search) {
-        search.addEventListener("input", () => {
+        search.addEventListener('input', () => {
           if (!writing || search.value) {
             writing = true
             if (this.showLinks) {
@@ -42,8 +42,8 @@ export default {
             writing = false
           }
         })
-        search.addEventListener("blur", event => {
-          if (event.target && event.target.value === "") {
+        search.addEventListener('blur', event => {
+          if (event.target && event.target.value === '') {
             if (this.hideLinks) {
               this.hideLinks()
             } else {
@@ -52,9 +52,9 @@ export default {
           }
         })
       }
-    },
+    }
   },
-  mounted() {
+  mounted () {
     this.init()
-  },
+  }
 }
