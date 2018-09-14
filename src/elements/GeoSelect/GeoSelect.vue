@@ -39,10 +39,16 @@
       </component>
     </template>
     <geo-select-read-only-entry v-else>
-      <!-- @slot Use this slot to customize the structure of the label that will be displayed when no results are found after searching for an option -->
+      <!--
+        @slot Use this slot to customize the label that will be displayed when
+        no results are found after searching for an option
+      -->
       <slot name="noResults" />
     </geo-select-read-only-entry>
-    <!-- @slot Use this slot to customize the label of the button allowing to display additional options when there are too many to be displayed at once -->
+    <!--
+      @slot Use this slot to customize the label of the button allowing to
+      display additional options when there are too many to be displayed at once
+    -->
     <slot
       slot="moreResultsTextContent"
       name="moreResultsTextContent"
@@ -62,9 +68,14 @@ export default {
   props: {
     /**
      * Array of options that will be displayed in the select component.
-     * Note that in order for the options to be displayed properly, a property label
-     * must exist in every object of the array. If you want the `GeoSelect` options
-     * to be displayed as optGroups, a flag isOptGroup must be provided in every group header.
+     *
+     * **Note:** In order for the options to be displayed properly, a property
+     * `label` must exist in every object of the array.
+     *
+     * **Note:** If you want the `GeoSelect` options to be displayed as
+     * `optgroup`s, the property `isOptGroup` must be set to `true` in every
+     * group header and its items must be provided in the `items` property.
+     * Those items must have a `label` property, too.
      */
     options: {
       type: Array,
@@ -75,13 +86,13 @@ export default {
 
           if ('isOptGroup' in item) {
             if (!_.isBoolean(item.isOptGroup)) {
-              console.warn(`GeoSelect group[${i}].isOptGroup must be a boolean`)
+              console.warn(`GeoSelect [component] :: group[${i}].isOptGroup attribute must be boolean`)
               return false
             }
 
             if (item.isOptGroup) {
               if (!isLabelAttributeValid(item)) {
-                console.warn(`GeoSelect group[${i}] must have a «label» attribute which is a string`)
+                console.warn(`GeoSelect [component] :: group[${i}] must have a «label» attribute which is a string`)
                 return false
               }
 
@@ -91,7 +102,7 @@ export default {
             }
           } else {
             if (!isLabelAttributeValid(item)) {
-              console.warn(`GeoSelect option[${i}] must have a «label» attribute which is a string`)
+              console.warn(`GeoSelect [component] :: option[${i}] must have a «label» attribute which is a string`)
               return false
             }
           }
@@ -108,14 +119,14 @@ export default {
           const { items } = parent
 
           if (!_.isArray(items)) {
-            console.warn(`GeoSelect ${parentPath} must have a «items» attribute which is an array of items`)
+            console.warn(`GeoSelect [component] :: ${parentPath} must have a «items» attribute which is an array of items`)
             return false
           }
 
           for (let i = 0; i < items.length; i++) {
             const item = items[i]
             if (!isLabelAttributeValid(item)) {
-              console.warn(`GeoSelect ${parentPath}.items[${i}] must have a «label» attribute which is a string`)
+              console.warn(`GeoSelect [component] :: ${parentPath}.items[${i}] must have a «label» attribute which is a string`)
               return false
             }
           }
@@ -124,11 +135,13 @@ export default {
         }
       }
     },
+
     /**
      * @model
-     * Current selected option. It is displayed as the select placeholder.
-     * A label property must be present in the prop in order to be displayed properly
-     * by the `GeoSelectToggleButton` placeholder.
+     * Currently selected option. It is displayed as the select placeholder.
+     *
+     * A `label` property must be present in the prop in order to be displayed
+     * properly by `GeoSelectToggleButton` placeholder.
      */
     value: {
       type: Object,
@@ -137,35 +150,55 @@ export default {
         return _.isString(value.label)
       }
     },
+
     /**
-     * Text that will be displayed as placeholder.
+     * Text that will be displayed as placeholder when no option is selected.
      */
     placeholder: {
       type: String,
       required: true
     },
+
     /**
      * Whether the `GeoSelect` should show a search form or not.
-     * If set to true then you must provide a searchInputPlaceholder and a noResultsPlaceholder.
-     * You might also want to pass a getMatchesForItem to customize the search algorithm used.
+     *
+     * **Note:** If set to true then you must provide a `searchInputPlaceholder`
+     * and a  `noResultsPlaceholder`.
+     *
+     * **Note:** You might also want to pass a `getMatchesForItem` to customize
+     * the search algorithm used.
      */
     searchable: {
       type: Boolean,
       default: false
     },
+
     /**
-     * Placeholder text that will be displayed in the search form when no input is provided.
+     * Placeholder text that will be displayed in the search form when no input
+     * is provided.
      */
     searchInputPlaceholder: {
       type: String,
       required: false
     },
+
     /**
      * Search algorithm used to filter items when user provides a search query.
-     * Will receive a single item as first parameter and the search query (plain string) as second one.
-     * It should return an array containing the indexes of the label characters matching the search query.
+     *
+     * Will receive a single item as first parameter and the search query
+     * (plain string with [Latin-1 Supplement](https://en.wikipedia.org/wiki/Latin-1_Supplement_(Unicode_block)#Character_table)
+     * and [Latin Extended-A](https://en.wikipedia.org/wiki/Latin_Extended-A)
+     * letters converted to basic Latic letters and removing
+     * [combining diacritial marks](https://en.wikipedia.org/wiki/Combining_Diacritical_Marks))
+     * as second one.
+     *
+     * It should return an array containing the indexes of the label characters
+     * matching the search query.
+     *
      * If there’s no match an empty array should be returned.
-     * To provide fuzzy search you might want to use https://www.npmjs.com/package/fuzzaldrin-plus.
+     *
+     * To provide fuzzy search you might want to use
+     * [fuzzaldrin-plus](https://www.npmjs.com/package/fuzzaldrin-plus).
      */
     getMatchesForItem: {
       type: Function,
@@ -179,10 +212,16 @@ export default {
         return []
       }
     },
+
     /**
      * Maximum amount of items to be displayed in a single chunk.
-     * When there are more items than this value a “Load more” button will appear to offer pagination.
-     * This is especially important when the dataset is really large and the DOM tree too much complex.
+     *
+     * When there are more items than this value a *Load more* button will appear
+     * to offer loading the next chunk of data.
+     *
+     * This is especially important when the dataset is really large and the DOM
+     * tree too much complex.
+     *
      * New elements will be added in chunks of up to this amount of elements.
      */
     pageSize: {
