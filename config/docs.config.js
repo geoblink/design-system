@@ -136,6 +136,10 @@ module.exports = {
       sectionDepth: 1
     },
     {
+      name: 'Customizing Components',
+      content: '../docs/custom-styling.md'
+    },
+    {
       name: 'Components Constants',
       content: '../docs/components-constants.md'
     },

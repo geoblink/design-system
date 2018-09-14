@@ -14,7 +14,8 @@ export default {
      * have to add `@include geo-COMPONENT_NAME('modifier-name');` to your SCSS
      * styles.
      *
-     * There's a detailed introduction to CSS Modifiers on the [FAQ](./#/FAQ).
+     * There's a detailed introduction to CSS Modifiers on the
+     * [Customizing Components](./#/Customizing%20Components).
      */
     cssModifier: {
       type: String,
