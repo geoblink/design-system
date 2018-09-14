@@ -174,7 +174,8 @@ module.exports = {
           content: 'telephone=no'
         }
       ]
-    }
+    },
+    favicon: './favicon.ico'
   },
   /**
    * Ignore app.vue, tests, and example component.
