@@ -1,18 +1,60 @@
 <template>
-  <component
-    :is="type"
-    class="index">
-    <nav-bar
-      :nav-items="[
-        {name: 'Template', component: 'Index', href: '/#/'},
-        {name: 'Living Docs', href: 'http://localhost:6060/'}
-      ]"
-      active="Index"/>
-    <wrapper>
-      <heading level="h1">Vue Design System</heading>
-      <text-style><a href="https://vueds.com">Vue Design System</a> is an open-source tool for building design systems with Vue.js. It provides you and your team a set of organized tools, patterns &amp; practices. It works as the foundation for your application development.</text-style>
-    </wrapper>
-  </component>
+  <div class="index-page__container">
+    <div class="index-page__above-the-fold">
+      <div class="index-page__above-the-fold__logo-container">
+        <img src="assets/icons/geoblink_logo_white.png">
+      </div>
+      <div class="index-page__above-the-fold___text-introduction">
+        <h1 class="text-introduction__header">An open source tool for building Design Systems with Vue.js</h1>
+        <h4 class="text-introduction__subheader">Vue Design System provides you and your team a set of organized tools, patterns & practices. It works as the foundation for your application development.</h4>
+      </div>
+      <div class="index-page__above-the-fold___buttons-container">
+        <geo-danger-button
+          :disabled="false"
+          @click="goToDocs()"
+        >
+        See the Docs
+      </geo-danger-button>
+      </div>
+    </div>
+    <div class="index-page__features-container">
+      <div class="index-page__features__text-container">
+
+      </div>
+      <div class="index-page__features__feature-list">
+        <div class="index-page__features__feature-list__feature-item">
+          <div class="feature-item__icon"></div>
+          <div class="feature-item__header"></div>
+          <div class="feature-item__text"></div>
+        </div>
+        <div class="index-page__features__feature-list__feature-item">
+          <div class="feature-item__icon"></div>
+          <div class="feature-item__header"></div>
+          <div class="feature-item__text"></div>
+        </div>
+        <div class="index-page__features__feature-list__feature-item">
+          <div class="feature-item__icon"></div>
+          <div class="feature-item__header"></div>
+          <div class="feature-item__text"></div>
+        </div>
+        <div class="index-page__features__feature-list__feature-item">
+          <div class="feature-item__icon"></div>
+          <div class="feature-item__header"></div>
+          <div class="feature-item__text"></div>
+        </div>
+        <div class="index-page__features__feature-list__feature-item">
+          <div class="feature-item__icon"></div>
+          <div class="feature-item__header"></div>
+          <div class="feature-item__text"></div>
+        </div>
+        <div class="index-page__features__feature-list__feature-item">
+          <div class="feature-item__icon"></div>
+          <div class="feature-item__header"></div>
+          <div class="feature-item__text"></div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -29,65 +71,46 @@ export default {
       lang: 'en'
     }
   },
-  props: {
-    /**
-     * The html element name used for the component.
-     */
-    type: {
-      type: String,
-      default: 'div'
+  methods: {
+    goToDocs () {
+      window.location.href = 'http://localhost:6060'
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-// Design Tokens with local scope
-$color-template-background: rgb(0, 17, 35);
-$color-template-background-top: tint($color-template-background, 5%);
-$color-template-background-bottom: shade($color-template-background, 5%);
-$color-template-text: $color-white;
-$color-template-link: $color-blue-dark;
-.index {
-  @include reset;
-  @include inset-space($space-base);
-  min-height: $space-xx-large * 4;
-  background: $color-template-background;
-  background: linear-gradient(0deg, $color-template-background-bottom, $color-template-background-top 100%);
-  text-align: center;
-  position: relative;
-  float: left;
-  height: 100%;
-  width: 100%;
-  @media #{$media-query-large} {
-    // This is how you’d use design tokens with media queries
+  .index-page__above-the-fold {
+    background: $color-blue-dark;
+    height: 100vh;
   }
-  .heading {
-    color: $color-template-text;
-  }
-  .text-style {
-    color: $color-template-text;
-  }
-  .text-link {
-    color: $color-template-link;
-  }
-  .wrapper {
-    max-width: $space-xx-large * 4.5;
-    transform: translateX(-50%) translateY(-50%);
-    position: absolute;
-    left: 50%;
-    top: 50%;
-  }
-  a {
-    font-family: $font-family-text;
-    color: $color-blue-dark;
-    text-decoration: underline;
-  }
-}
-</style>
 
-<docs>
-  ```jsx
-  <index />
-  ```
-</docs>
+  .index-page__above-the-fold__logo-container {
+    text-align: center;
+    padding: 50px 0;
+  }
+
+  .index-page__above-the-fold___text-introduction {
+    color: $color-white;
+    font-family: $font-family-heading;
+    width: 700px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .text-introduction__header {
+    font-size: 45px;
+    font-weight: 500;
+  }
+
+  .text-introduction__subheader {
+    font-size: $display_medium;
+    font-weight: 300;
+  }
+
+  .index-page__above-the-fold___buttons-container {
+    margin: 0 auto;
+    width: 120px;
+  }
+
+</style>
