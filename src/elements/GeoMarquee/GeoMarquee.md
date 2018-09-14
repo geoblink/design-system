@@ -1,28 +1,30 @@
-`GeoMarquee` is a component used to display long strings in a carrousel style.
-You can choose the duration of the animation. The speed of it will vary accordingly to the
-length of the text.
+`GeoMarquee` is a component used to display long strings in a carousel style
+which is animated only when user is hovering the text.
+
+You can choose the duration of the animation and its speed will be adjusted
+depending on the length of the text.
 
 ```jsx
 <div class="element-demo">
-  <h3 class="element-demo__header">With scroll</h3>
+  <h3 class="element-demo__header">Long content</h3>
   <div class="element-demo__block" style="width: 120px;">
     <geo-marquee>
       <template slot-scope="{}">Some text for the marquee</template>
     </geo-marquee>
   </div>
-  <h3 class="element-demo__header">With scroll and slow custom duration</h3>
+  <h3 class="element-demo__header">Long content and slow custom duration</h3>
   <div class="element-demo__block" style="width: 120px;">
-    <geo-marquee :marquee-duration="6">
+    <geo-marquee :duration="6">
       <template slot-scope="{}">Some text for the marquee</template>
     </geo-marquee>
   </div>
-  <h3 class="element-demo__header">With scroll and fast custom duration</h3>
+  <h3 class="element-demo__header">Long content and fast custom duration</h3>
   <div class="element-demo__block" style="width: 120px;">
-    <geo-marquee :marquee-duration="1">
+    <geo-marquee :duration="1">
       <template slot-scope="{}">Some text for the marquee</template>
     </geo-marquee>
   </div>
-  <h3 class="element-demo__header">Without scroll</h3>
+  <h3 class="element-demo__header">Short content</h3>
   <div class="element-demo__block" style="width: 120px;">
     <geo-marquee>
       <template slot-scope="{}">Some text</template>

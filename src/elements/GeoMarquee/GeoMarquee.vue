@@ -10,7 +10,7 @@
       :key="i"
       :class="`geo-marquee__text-content${cssSuffix}`"
       :style="animationParams">
-      <!-- @slot Use this slot to store the marquee content -->
+      <!-- @slot Use this slot to store the marquee content. Include `slot-scope="{}"` to prevent Vue from wrongly thinking this content should not be repeated. -->
       <slot/>
     </div>
   </div>
@@ -26,10 +26,10 @@ export default {
   mixins: [cssSuffix],
   props: {
     /**
-     * Duration of the animation (seconds).
-     * The bigger the number, the slower the marquee transition
+     * Duration of the animation in **seconds**.
+     * The greater the number, the slower the animation.
      */
-    marqueeDuration: {
+    duration: {
       type: Number,
       default: 3
     }
@@ -55,7 +55,7 @@ export default {
       if (this.slotsNeeded.length === 1) return {}
       return {
         animationPlayState: this.animationPlayState,
-        animationDuration: `${this.marqueeDuration}s`,
+        animationDuration: `${this.duration}s`,
         animationName: 'marquee-animation',
         animationIterationCount: 'infinite',
         animationTimingFunction: 'linear'
