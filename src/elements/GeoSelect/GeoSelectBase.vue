@@ -3,11 +3,12 @@
     :opened="opened"
     @click-outside="handleClickOutside($event)"
   >
-    <!-- @slot Use this slot to compose the structure of the `GeoSelect` placeholder container -->
+    <!-- @slot Use this slot to customize the button toggling the actual selection popup -->
     <slot
       slot="toggleButton"
       name="toggleButton"
     />
+    <!-- @slot Use this slot to customize the header of the selection popup -->
     <slot
       slot="popupContent"
       name="header"
@@ -17,9 +18,10 @@
       ref="popup"
       :class="`geo-select__options-container${cssSuffix}`"
     >
-      <!-- @slot Use this slot to display options available in the `GeoSelect` -->
+      <!-- @slot Use this slot to customize the main content of the selection popup -->
       <slot />
     </div>
+    <!-- @slot Use this slot to customize the footer of the selection popup -->
     <slot
       slot="popupContent"
       name="footer"
@@ -32,7 +34,7 @@
         slot="moreResults"
         @load-more-results="loadNextPage"
       >
-        <!-- @slot Use this slot to customize the label of the button allowing the user to load more data when there are too much elements to be displayed at once -->
+        <!-- @slot Use this slot to customize the label of the button allowing user to load more data when there are too much elements to be displayed at once -->
         <slot
           slot="moreResultsContent"
           name="moreResultsTextContent"
@@ -52,14 +54,15 @@ export default {
   mixins: [cssSuffix],
   props: {
     /**
-     * Whether the dropdown is opened or not.
+     * Whether the selection popup is opened (`true`) or not.
      */
     opened: {
       type: Boolean,
       required: true
     },
+
     /**
-     * Whether the select has more results to load or not
+     * Whether the select has more results to load (`true`) or not
      */
     hasMoreResults: {
       type: Boolean,
@@ -70,22 +73,26 @@ export default {
     handleClickOutside ($event) {
       /**
        * Click outside GeoSelect event
+       *
        * @event click-outside
-       * @type {object}
+       * @type {MouseEvent}
        */
       this.$emit('click-outside', $event)
     },
+
     toggleOptions () {
       this.isDropdownOpen = !this.isDropdownOpen
     },
+
     loadNextPage () {
       const popup = this.$refs.popup
       const currentVerticalOffset = popup.scrollTop
       const nextPageVerticalOffset = currentVerticalOffset + popup.scrollHeight
       /**
        * Load more results in GeoSelect options
+       *
        * @event load-more-results
-       * @type {object}
+       * @type {{scrollToLastEntry: Function}}
        */
       this.$emit('load-more-results', {
         scrollToLastEntry () {
