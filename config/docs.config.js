@@ -100,18 +100,16 @@ module.exports = {
           sectionDepth: 1
         },
         {
-          name: 'GeoHighlightedString',
-          components: '../src/elements/GeoHighlightedString/GeoHighlightedString.vue',
-          sectionDepth: 0
-        },
-        {
-          name: 'GeoMarquee',
-          components: '../src/elements/GeoMarquee/GeoMarquee.vue',
-          sectionDepth: 0
-        },
-        {
           name: 'GeoSelect',
           components: '../src/elements/GeoSelect/GeoSelect*.vue',
+          sectionDepth: 1
+        },
+        {
+          name: 'String Utils',
+          components: () => [
+            '../src/elements/GeoHighlightedString/GeoHighlightedString.vue',
+            '../src/elements/GeoMarquee/GeoMarquee.vue'
+          ],
           sectionDepth: 1
         }
       ]
