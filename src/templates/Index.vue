@@ -90,10 +90,13 @@ export default {
   status: 'deprecated',
   release: '1.0.0',
   metaInfo: {
-    title: 'Vue Design System',
+    title: 'Geoblink Design System',
     htmlAttrs: {
       lang: 'en'
-    }
+    },
+    link: [
+      { rel: 'favicon', href: '/assets/favicon.ico' }
+    ]
   },
   methods: {
     goToDocs () {
