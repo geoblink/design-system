@@ -1,3 +1,4 @@
+import sinon from 'sinon'
 import { createLocalVue, mount } from '@vue/test-utils'
 import GeoAlert from '@/elements/GeoAlert/GeoAlert.vue'
 import GeoErrorAlert from '@/elements/GeoAlert/GeoErrorAlert.vue'
@@ -45,7 +46,7 @@ describe('GeoAlert', () => {
     })
     expect(wrapper.find('.geo-alert').exists()).toBe(true)
     expect(wrapper.find('.geo-alert__content__close-icon').exists()).toBe(true)
-    expect(wrapper.vm.shouldShowCloseButton).toBe(true)
+    expect(wrapper.vm).toHaveProperty('shouldShowCloseButton', true)
   })
 
   it('shouldn\'t show the close button if close listener is not provided', function () {
@@ -59,7 +60,7 @@ describe('GeoAlert', () => {
     })
     expect(wrapper.find('.geo-alert').exists()).toBe(true)
     expect(wrapper.find('.geo-alert__content__close-icon').exists()).toBe(false)
-    expect(wrapper.vm.shouldShowCloseButton).toBe(false)
+    expect(wrapper.vm).toHaveProperty('shouldShowCloseButton', false)
   })
 
   it('should emit a close event when clicking on the close button', function () {
@@ -167,7 +168,6 @@ describe('GeoAlert Children', () => {
     it('should render alert component', function () {
       const wrapper = mount(taxonomyAlert, {
         propsData: {
-          variant: 'success',
           icon: ['far', 'image'],
           closeIcon: ['fas', 'times']
         },
@@ -183,7 +183,6 @@ describe('GeoAlert Children', () => {
     it('should show the close button if close listener is provided', function () {
       const wrapper = mount(taxonomyAlert, {
         propsData: {
-          variant: 'success',
           icon: ['far', 'image'],
           closeIcon: ['fas', 'times']
         },
@@ -197,13 +196,12 @@ describe('GeoAlert Children', () => {
       })
       expect(wrapper.find('.geo-alert').exists()).toBe(true)
       expect(wrapper.find('.geo-alert__content__close-icon').exists()).toBe(true)
-      expect(wrapper.vm.shouldShowCloseButton).toBe(true)
+      expect(wrapper.vm).toHaveProperty('shouldShowCloseButton', true)
     })
 
     it('shouldn\'t show the close button if close listener is not provided', function () {
       const wrapper = mount(taxonomyAlert, {
         propsData: {
-          variant: 'success',
           icon: ['far', 'image'],
           closeIcon: ['fas', 'times']
         },
@@ -213,14 +211,14 @@ describe('GeoAlert Children', () => {
         }
       })
       expect(wrapper.find('.geo-alert').exists()).toBe(true)
+      expect(wrapper.vm).toHaveProperty('shouldShowCloseButton', false)
       expect(wrapper.find('.geo-alert__content__close-icon').exists()).toBe(false)
-      expect(wrapper.vm.shouldShowCloseButton).toBe(false)
     })
 
     it('should emit a close event when clicking on the close button', function () {
+      const closeStub = sinon.spy()
       const wrapper = mount(taxonomyAlert, {
         propsData: {
-          variant: 'success',
           icon: ['far', 'image'],
           closeIcon: ['fas', 'times']
         },
@@ -229,17 +227,16 @@ describe('GeoAlert Children', () => {
           GeoAlert
         },
         listeners: {
-          close: function () {}
+          close: closeStub
         }
       })
       wrapper.find('.geo-alert__content__close-icon').trigger('click')
-      expect(wrapper.emitted().close).toBeTruthy()
+      expect(closeStub).toHaveProperty('calledOnce', true)
     })
 
     it('should display actions when the slots are passed', function () {
       const wrapper = mount(taxonomyAlert, {
         propsData: {
-          variant: 'success',
           icon: ['far', 'image'],
           closeIcon: ['fas', 'times']
         },
@@ -254,34 +251,24 @@ describe('GeoAlert Children', () => {
       expect(wrapper.find('a').text()).toBe('Run test action')
     })
 
-    it('should display correct icon when passed as a slot', function () {
+    it('should display correct icon when passed as a property', function () {
       const wrapper = mount(taxonomyAlert, {
         propsData: {
-          variant: 'success',
           icon: ['far', 'image'],
           closeIcon: ['fas', 'times']
         },
         stubs: {
           'font-awesome-icon': FontAwesomeIcon,
           GeoAlert
-        },
-        slots: {
-          leadingAccessoryItem: `<font-awesome-icon
-                  :icon="['fas', 'circle-notch']"
-                  slot="icon"
-                  aria-hidden
-                  fixed-width
-                  spin
-                />`
         }
       })
-      expect(wrapper.find('.fa-circle-notch').exists()).toBe(true)
+      expect(wrapper.find('.fa-image').exists()).toBe(true)
     })
 
     it('should apply a CSS suffix when the modifier is provided', function () {
+      const closeStub = sinon.spy()
       const wrapper = mount(taxonomyAlert, {
         propsData: {
-          variant: 'success',
           icon: ['far', 'image'],
           closeIcon: ['fas', 'times'],
           cssModifier: 'test-alert'
@@ -291,7 +278,7 @@ describe('GeoAlert Children', () => {
           GeoAlert
         },
         listeners: {
-          close: function () {}
+          close: closeStub
         }
       })
       expect(wrapper.find('.geo-alert__content__close-icon--test-alert').exists()).toBe(true)
@@ -300,7 +287,6 @@ describe('GeoAlert Children', () => {
     it('should add extra class if floating is passed as true', function () {
       const wrapper = mount(taxonomyAlert, {
         propsData: {
-          variant: 'success',
           icon: ['far', 'image'],
           closeIcon: ['fas', 'times'],
           floating: true
@@ -317,7 +303,6 @@ describe('GeoAlert Children', () => {
     it('shouldn\'t add extra class if floating is not passed', function () {
       const wrapper = mount(taxonomyAlert, {
         propsData: {
-          variant: 'success',
           icon: ['far', 'image'],
           closeIcon: ['fas', 'times']
         },
