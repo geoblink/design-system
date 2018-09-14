@@ -11,26 +11,26 @@ and features.
   <div class="element-demo">
     <h3 class="element-demo__header">Simple</h3>
     <div class="element-demo__block">
-      <geo-info-alert :icon="['fas', 'lightbulb']" :close-icon="['fas', 'times']">
+      <geo-info-alert :icon="['fas', 'lightbulb']">
         <template slot="content">A simple alert</template>
       </geo-info-alert>
     </div>
     <h3 class="element-demo__header">With custom icon</h3>
     <div class="element-demo__block">
-      <geo-info-alert :icon="['far', 'image']" :close-icon="['fas', 'times']">
+      <geo-info-alert :icon="['far', 'image']">
         <template slot="content">A simple alert with an icon</template>
       </geo-info-alert>
     </div>
     <h3 class="element-demo__header">With action</h3>
     <div class="element-demo__block">
-      <geo-info-alert :icon="['fas', 'lightbulb']" :close-icon="['fas', 'times']">
+      <geo-info-alert :icon="['fas', 'lightbulb']">
         <template slot="content">Alerts can have actions</template>
         <a slot="actions">Run action</a>
       </geo-info-alert>
     </div>
     <h3 class="element-demo__header">With custom icon & action</h3>
     <div class="element-demo__block">
-      <geo-info-alert :icon="['far', 'image']" :close-icon="['fas', 'times']">
+      <geo-info-alert :icon="['far', 'image']">
         <template slot="content">Alerts can have icons & actions</template>
         <a slot="actions">Do something</a>
       </geo-info-alert>

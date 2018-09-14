@@ -12,26 +12,26 @@ and features.
   <div class="element-demo">
     <h3 class="element-demo__header">Simple</h3>
     <div class="element-demo__block">
-      <geo-warning-alert :icon="['fas', 'exclamation-triangle']" :close-icon="['fas', 'times']">
+      <geo-warning-alert :icon="['fas', 'exclamation-triangle']">
         <template slot="content">A simple alert</template>
       </geo-warning-alert>
     </div>
     <h3 class="element-demo__header">With custom icon</h3>
     <div class="element-demo__block">
-      <geo-warning-alert :icon="['far', 'image']" :close-icon="['fas', 'times']">
+      <geo-warning-alert :icon="['far', 'image']">
         <template slot="content">A simple alert with an icon</template>
       </geo-warning-alert>
     </div>
     <h3 class="element-demo__header">With action</h3>
     <div class="element-demo__block">
-      <geo-warning-alert :icon="['fas', 'exclamation-triangle']" :close-icon="['fas', 'times']">
+      <geo-warning-alert :icon="['fas', 'exclamation-triangle']">
         <template slot="content">Alerts can have actions</template>
         <a slot="actions">Run action</a>
       </geo-warning-alert>
     </div>
     <h3 class="element-demo__header">With custom icon & action</h3>
     <div class="element-demo__block">
-      <geo-warning-alert :icon="['far', 'image']" :close-icon="['fas', 'times']">
+      <geo-warning-alert :icon="['far', 'image']">
         <template slot="content">Alerts can have icons & actions</template>
         <a slot="actions">Do something</a>
       </geo-warning-alert>

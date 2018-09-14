@@ -1,7 +1,7 @@
 <geo-alert
   v-bind="$props"
+  v-on="$listeners"
   :variant="variant"
-  @close="$emit('close', $event)"
 >
   <font-awesome-icon
     slot="leadingAccessoryItem"
