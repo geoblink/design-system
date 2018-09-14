@@ -23,7 +23,7 @@
       <!-- @slot Use this slot to customize what's displayed when the button is in loading state -->
       <slot name="loading">
         <div :class="`geo-button__activity-indicator${cssSuffix}`">
-          <geo-activity-indicator :css-modifier="activityIndicatorVariant" />
+          <geo-activity-indicator :variant="activityIndicatorVariant" />
         </div>
       </slot>
     </template>
