@@ -1,66 +1,83 @@
 ## What is Geoblink Design System?
 
-**TODO:** Write this
+[Geoblink Design System](./) is an open source collection of components and utilities
+we use to build [Geoblink](https://geoblink.com) on a daily basis.
 
-Vue Design System is an open source tool for building UI Design Systems with [Vue.js](https://vuejs.org). It provides you and your team a set of organized tools, patterns & practices that work as the foundation for your application development. [Read more about it](https://viljamis.com/2018/vue-design-system/).
+They are production-ready and provide not only some common patterns expected
+from a modern high quality web application but also encourage following a
+consistent style across all the features you build.
+
+You will find not only components single-use-case-tailored components like
+[GeoPrimaryButton](./#/Elements/GeoButton?id=geoprimarybutton) but also generic
+and reusable components like [GeoSelectBase](./#/Elements/GeoSelect?id=geoselectbase)
+on top of which we build easy-to-use components which cover the 90% of the use
+cases.
+
+But [Geoblink Design System](./) is not only about components but also about
+directives like `GeoClickOutside` or brand guidelines we are proud to share
+with the community.
 
 ## What browsers are supported?
 
-**TODO:** Write this
+We aim to cover all modern browsers, the exact browsers supported can be checked
+in `package.json` and it's:
 
-The development environment supports the following browsers. To tweak browsers supported in production you will want to edit the [browsers list in package.json](https://github.com/viljamis/vue-design-system/blob/master/package.json#L172-L180). To see what browsers are selected by the browser list, run `npx browserslist --config="package.json"` in the root directory of this project.
+| BROWSER            | VERSION          |
+| ------------------ | ---------------- | ----
+| Google Chrome      | Last 2 versions  | <img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png" alt="Chrome" width="24px" height="24px" />
+| Microsoft Edge     | Last 2 versions  | <img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png" alt="IE / Edge" width="24px" height="24px" />
+| Internet Explorer  | 11               | <img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png" alt="IE / Edge" width="24px" height="24px" />
+| Mozilla Firefox    | Last 2 versions  | <img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png" alt="Firefox" width="24px" height="24px" />
+| Safari             | Last 2 versions  | <img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/safari/safari_48x48.png" alt="Safari" width="24px" height="24px" />
 
-| BROWSER         | VERSION |
-| --------------- | ------- |
-| Google Chrome   | Latest  |
-| Microsoft Edge  | Latest  |
-| Mozilla Firefox | Latest  |
-| Opera           | Latest  |
-| Safari          | Latest  |
+This leads to a global coverage of 83.98% of users.
+
+[See details on our browser support](http://browserl.ist/?q=%3E+1%25%2C+last+2+versions%2C+not+Explorer+%3E+0%2C+IE+11%2C+not+ExplorerMobile+%3E+0%2C+not+OperaMini+all%2C+not+OperaMobile+%3E+0).
+
+
+The development environment supports the following browsers. To tweak browsers
+supported in production you will want to edit the [browsers list in package.json](https://github.com/viljamis/vue-design-system/blob/master/package.json#L172-L180). To see what browsers are selected by the browser list, run `npx browserslist --config="package.json"` in the root directory of this project.
 
 ## How do I get started?
 
-**TODO:** Write this
+Add `geoblink-design-system` as a dependency:
 
-See the [Getting Started guide](https://github.com/viljamis/vue-design-system/wiki/getting-started) on GitHub.
+```bash
+yarn add @geoblink/design-system
+// or
+npm i @geoblink/design-system --save
+```
 
-## I want to use this in existing Vue project, is that possible?
+Then you can import it and install it as any other [Vue plugin](https://vuejs.org/v2/guide/plugins.html).
 
-**TODO:** Write this
-
-Definitely possible, see instructions in [Getting Started guide](https://github.com/viljamis/vue-design-system/wiki/getting-started#using-vue-design-system-in-an-existing-project).
-
-## Where are molecules and pages from Atomic Design?
-
-**TODO:** Write this
-
-Compared to Atomic Design, this setup doesn’t include molecule/page levels. They’re omitted to help reduce the complexity of the system for its end-users.
+```html
+<script>
+import Vue from 'vue'
+import geoblinkDesignSystem from '@geoblink/design-system'
+Vue.use(geoblinkDesignSystem)
+</script>
+```
 
 ## Is this tool only for Vue.js based applications?
 
-**TODO:** Write this
-
-Organizations that have more than just Vue.js based applications can benefit from Vue Design System as well. Tokens which store visual design attributes are universal and can be used on any platform.
-
-## Why aren’t there more components by default?
-
-**TODO:** Write this
-
-Vue Design System is not a front-end component library and never will be. Instead it tries to provide you and your team a set of organized tools, patterns & practices to build upon, so that you can get started with the actual design system faster.
+Projects that have more than just Vue.js based applications can benefit from
+[Geoblink Design System](/) as well. Brand style and tokens which store visual
+design attributes are universal and can be used on any platform.
 
 ## Can I convert YAML tokens to more than just SCSS and JSON?
 
-**TODO:** Write this
-
-Definitely. See [Theo’s docs](https://github.com/salesforce-ux/theo). It allows you to convert the tokens to almost any format you can think of. The formats used are being configured in [package.json](https://github.com/viljamis/vue-design-system/blob/master/package.json#L25).
+Definitely. See [Theo’s docs](https://github.com/salesforce-ux/theo). It allows
+you to convert the tokens to almost any format you can think of. The formats
+used are being configured in `package.json`.
 
 ## How do I change the default typeface/font?
 
-**TODO:** Write this
-
-Vue Design System uses Typekit’s [Web Font Loader](https://github.com/typekit/webfontloader) which is easy to configure. To load your own font files, see [Getting Started with WebFontLoader](https://github.com/typekit/webfontloader#get-started). Currently, the app is loading _Fira Sans_ and a few different weights from Google Fonts. See `src/utils/webFontLoader.js` for an example.
-
-If you want to bundle your fonts into the project itself, that’s possible as well. I’ve created a separate branch with an example of this. See the needed changes in [this commit](https://github.com/viljamis/vue-design-system/commit/a7b3badb618fb5e0e1c999940b8ea82e86aea190).
+[Geoblink Design System](/) uses Typekit’s
+[Web Font Loader](https://github.com/typekit/webfontloader) which is easy to
+configure. To load your own font files, see
+[Getting Started with WebFontLoader](https://github.com/typekit/webfontloader#get-started).
+Currently, the app is loading _Lato_ and _Montserrat_ in a few different weights
+from Google Fonts. See `src/utils/webFontLoader.js` for an example.
 
 ## How to use design tokens in JavaScript?
 
@@ -94,29 +111,22 @@ Once done, you can utilize tokens inside `<template>` like this:
 </template>
 ```
 
-## How do you use media queries defined in tokens?
+## What are CSS Modifiers?
 
-**TODO:** Write this
-
-```scss
-.wrapper {
-  padding: $space-large;
-  @media #{$media-query-large} {
-    padding: $space-x-large;
-  }
-}
-```
-
-## How do CSS Modifiers work?
-
-**TODO:** Write this
+See [Customizing Components](./#/Customizing%20Components) page.
 
 ## How to disable browser from auto opening a new window?
 
-Change the `autoOpenBrowser` [setting in config](https://github.com/geoblink/geoblink-design-system/blob/master/config/index.js#L69) to `false`.
+Change the `autoOpenBrowser` setting in config (`config/index.js#L69`) to `false`.
 
 ## How do I use static image assets?
 
-You can put your assets under `src/assets`. It’s ok to create new directories under that directory as well. Since Webpack is used to include all static assets on the Vue app side, you’ll have to define the path like this in order for it to work on both the app and the styleguide: `<img src="@/assets/img/example.jpg" />`.
+You can put your assets under `src/assets`. It’s ok to create new directories
+under that directory as well. Since Webpack is used to include all static assets
+on the Vue app side, you’ll have to define the path like this in order for it to
+work on both the app and the styleguide: `<img src="@/assets/img/example.jpg" />`.
 
-For component’s `<docs>` section things work a bit differently. Using `<img src="img/example.jpg" />` without `@/assets/` works there. This is because [Styleguidist](https://github.com/vue-styleguidist/vue-styleguidist) handles the assets directory a bit differently.
+For component’s `<docs>` section things work a bit differently. Using
+`<img src="img/example.jpg" />` without `@/assets/` works there. This is because
+[Styleguidist](https://github.com/vue-styleguidist/vue-styleguidist) handles the
+assets directory a bit differently.
