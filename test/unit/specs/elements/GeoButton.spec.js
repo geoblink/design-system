@@ -128,7 +128,7 @@ describe('GeoButton', () => {
 
 const taxonomyButtons = [GeoDangerButton, GeoPrimaryButton, GeoSecondaryButton, GeoTertiaryButton]
 
-fdescribe('GeoButton Children', () => {
+describe('GeoButton Children', () => {
   taxonomyButtons.forEach((taxonomyButton) => {
     it('should render button\'s content', function () {
       const wrapper = mount(taxonomyButton, {
