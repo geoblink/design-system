@@ -131,11 +131,6 @@ module.exports = {
       sectionDepth: 2
     },
     {
-      name: 'Downloads',
-      content: '../docs/downloads.md',
-      sectionDepth: 1
-    },
-    {
       name: 'Customizing Components',
       content: '../docs/custom-styling.md'
     },
