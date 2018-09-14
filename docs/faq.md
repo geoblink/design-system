@@ -1,22 +1,3 @@
-## What is Geoblink Design System?
-
-[Geoblink Design System](./) is an open source collection of components and utilities
-we use to build [Geoblink](https://geoblink.com) on a daily basis.
-
-They are production-ready and provide not only some common patterns expected
-from a modern high quality web application but also encourage following a
-consistent style across all the features you build.
-
-You will find not only components single-use-case-tailored components like
-[GeoPrimaryButton](./#/Elements/GeoButton?id=geoprimarybutton) but also generic
-and reusable components like [GeoSelectBase](./#/Elements/GeoSelect?id=geoselectbase)
-on top of which we build easy-to-use components which cover the 90% of the use
-cases.
-
-But [Geoblink Design System](./) is not only about components but also about
-directives like `GeoClickOutside` or brand guidelines we are proud to share
-with the community.
-
 ## What browsers are supported?
 
 We aim to cover all modern browsers, the exact browsers supported can be checked
@@ -40,7 +21,7 @@ supported in production you will want to edit the [browsers list in package.json
 
 ## How do I get started?
 
-Add `geoblink-design-system` as a dependency:
+Add `design-system` as a dependency:
 
 ```bash
 yarn add @geoblink/design-system
