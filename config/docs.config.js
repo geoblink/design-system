@@ -95,22 +95,22 @@ module.exports = {
           sectionDepth: 0
         },
         {
-          name: 'GeoDropdownComponent',
+          name: 'GeoDropdown',
           components: '../src/elements/GeoDropdown/GeoDropdown*.vue',
           sectionDepth: 1
         },
         {
           name: 'GeoHighlightedString',
-          components: '../src/elements/GeoHighlightedString/GeoHighlightedString*.vue',
+          components: '../src/elements/GeoHighlightedString/GeoHighlightedString.vue',
           sectionDepth: 0
         },
         {
           name: 'GeoMarquee',
-          components: '../src/elements/GeoMarquee/GeoMarquee*.vue',
+          components: '../src/elements/GeoMarquee/GeoMarquee.vue',
           sectionDepth: 0
         },
         {
-          name: 'GeoSelectComponent',
+          name: 'GeoSelect',
           components: '../src/elements/GeoSelect/GeoSelect*.vue',
           sectionDepth: 1
         }
