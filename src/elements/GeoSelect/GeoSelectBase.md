@@ -55,7 +55,7 @@ drop-in replacement for HTML `<select>` tag you might probably want to use
             <template v-if="!isSearching[1]">{{option.label}}</template>
             <geo-highlighted-string
               v-else
-              :matched-chars-position="option.matches"
+              :highlighted-chars="option.matches"
               :reference-string="option.label"/>
           </geo-select-entry>
         </template>
@@ -90,7 +90,7 @@ drop-in replacement for HTML `<select>` tag you might probably want to use
               <template v-if="!isSearching[2]">{{option.label}}</template>
               <geo-highlighted-string
                 v-else
-                :matched-chars-position="option.matches"
+                :highlighted-chars="option.matches"
                 :reference-string="option.label"/>
             </geo-select-opt-group-header>
             <geo-select-opt-group-entry
@@ -100,7 +100,7 @@ drop-in replacement for HTML `<select>` tag you might probably want to use
               <template v-if="!isSearching[2]">{{option.label}}</template>
               <geo-highlighted-string
                 v-else
-                :matched-chars-position="option.matches"
+                :highlighted-chars="option.matches"
                 :reference-string="option.label"/>
             </geo-select-opt-group-entry>
           </template>

@@ -27,7 +27,7 @@ export default {
      * Array with the position of each of the characters that should be
      * highlighted.
      */
-    higlightedChars: {
+    highlightedChars: {
       type: Array,
       required: false, // TODO: Make this property required once `matchedCharsPosition` is removed
       validator (values) {
@@ -35,10 +35,10 @@ export default {
 
         for (let i = 1; i < values.length; i++) {
           if (values[i - 1] > values[i]) {
-            console.warn(`GeoHilightedString [component] :: Values of higlightedChars must be sorted ascendently but value at index ${i - 1} (${values[i - 1]}) was greater than value at index ${i} (${values[i]})`)
+            console.warn(`GeoHighlightedString [component] :: Values of highlightedChars must be sorted ascendently but value at index ${i - 1} (${values[i - 1]}) was greater than value at index ${i} (${values[i]})`)
             return false
           } else if (values[i - 1] === values[i]) {
-            console.warn(`GeoHilightedString [component] :: Values of higlightedChars can't be repeated but value at index ${i - 1} (${values[i - 1]}) was equal to value at index ${i} (${values[i]})`)
+            console.warn(`GeoHighlightedString [component] :: Values of highlightedChars can't be repeated but value at index ${i - 1} (${values[i - 1]}) was equal to value at index ${i} (${values[i]})`)
             return false
           }
         }
@@ -47,19 +47,19 @@ export default {
       }
     },
     /**
-     * **Deprecated.** Use `higlightedChars` instead.
+     * **Deprecated.** Use `highlightedChars` instead.
      */
     matchedCharsPosition: {
       type: Array,
       required: false,
       validator (matchedChars) {
         if (matchedChars) {
-          console.warn(`GeoHilightedString [component] :: «matchedCharsPosition» is deprecated. Use «hilightedChars» instead`)
+          console.warn(`GeoHighlightedString [component] :: «matchedCharsPosition» is deprecated. Use «highlightedChars» instead`)
         }
 
         const isMatchedCharsOrdered = matchedChars.every((val, i, array) => !i || (val > array[i - 1]))
         if (!isMatchedCharsOrdered) {
-          console.warn(`GeoHilightedString [component] :: Values of «matchedCharsPosition» must be sorted ascendently`)
+          console.warn(`GeoHighlightedString [component] :: Values of «matchedCharsPosition» must be sorted ascendently`)
         }
         return isMatchedCharsOrdered
       }
@@ -76,7 +76,7 @@ export default {
     groupsFromMatches () {
       const self = this
       const groups = []
-      const matchedChars = [].concat(self.higlightedChars || self.matchedCharsPosition)
+      const matchedChars = [].concat(self.highlightedChars || self.matchedCharsPosition)
 
       let groupEnd
       let isHighlighted

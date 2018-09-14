@@ -32,7 +32,7 @@
         <geo-highlighted-string
           v-if="isSearching"
           :css-modifier="cssModifier"
-          :matched-chars-position="option.matches"
+          :highlighted-chars="option.matches"
           :reference-string="option.label"
         />
         <template v-else>{{ option.label }}</template>

@@ -18,7 +18,7 @@ describe('highlighted-string-component.vue', function () {
       const wrapper = mount(GeoHighlightedString, {
         propsData: {
           referenceString: 'Accommodation',
-          matchedCharsPosition: []
+          highlightedChars: []
         }
       })
 
@@ -31,7 +31,7 @@ describe('highlighted-string-component.vue', function () {
       const wrapper = mount(GeoHighlightedString, {
         propsData: {
           referenceString: 'Accommodation',
-          matchedCharsPosition: [5, 6, 7, 8] // moda :: -> accom moda tion
+          highlightedChars: [5, 6, 7, 8] // moda :: -> accom moda tion
         }
       })
 
@@ -60,7 +60,7 @@ describe('highlighted-string-component.vue', function () {
       const wrapper = mount(GeoHighlightedString, {
         propsData: {
           referenceString: 'Accommodation',
-          matchedCharsPosition: [1, 3, 7, 12] // codn :: -> a c c o mmo d atio n
+          highlightedChars: [1, 3, 7, 12] // codn :: -> a c c o mmo d atio n
         }
       })
 
@@ -105,7 +105,7 @@ describe('highlighted-string-component.vue', function () {
       const wrapper = mount(GeoHighlightedString, {
         propsData: {
           referenceString: 'Accommodation',
-          matchedCharsPosition: [0, 3, 7, 12] // aodn :: -> a cc o mmo d atio n
+          highlightedChars: [0, 3, 7, 12] // aodn :: -> a cc o mmo d atio n
         }
       })
 
@@ -146,10 +146,10 @@ describe('highlighted-string-component.vue', function () {
       const wrapper = mount(GeoHighlightedString, {
         propsData: {
           referenceString: 'Accommodation',
-          matchedCharsPosition: [0, 3, 7, 12] // aodn :: -> a cc o mmo d atio n
+          highlightedChars: [0, 3, 7, 12] // aodn :: -> a cc o mmo d atio n
         }
       })
-      chaiExpect(wrapper.vm.matchedCharsPosition).to.be.an('array').that.has.lengthOf(4)
+      chaiExpect(wrapper.vm.highlightedChars).to.be.an('array').that.has.lengthOf(4)
     })
   })
 })
