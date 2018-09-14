@@ -205,19 +205,22 @@ p[class^="rsg--para"] code {
 --------------------------------------------- */
 
 div[class^="rsg--sidebar"] {
-  background: mix($color-bleu-de-france, $color-rich-black, 5%);
+  background: url('/background-sidebar.png');
+  background-position: center;
+  background-size: cover;
+
   border: 0;
   @media (max-width: #{$docs-breakpoint}) {
     padding-bottom: $space-large;
   }
   a[class^="rsg--link"] {
     font-weight: $font-weight-semi-bold;
-    color: $color-bleu-de-france;
+    color: $color-white;
     &:hover {
-      color: $color-bleu-de-france-lighter;
+      color: $color-yellow;
     }
     &:active {
-      color: $color-bleu-de-france-dark;
+      color: $color-yellow;
     }
   }
   ul ul[class^="rsg--list"] {
@@ -232,7 +235,7 @@ div[class^="rsg--sidebar"] {
     }
     & > a,
     & > a:hover {
-      color: tint($color-bleu-de-france, 80%);
+      color: $color-yellow;
     }
   }
   ul[class^="rsg--list"] {
@@ -301,7 +304,7 @@ div[class^="rsg--search"] input {
   border: 1px solid transparent;
   background: mix($color-bleu-de-france, $color-rich-black, 20%);
   &:focus {
-    border: 1px solid $color-bleu-de-france;
+    border: 1px solid $color-yellow;
     &::-webkit-textfield-decoration-container {
       display: none !important;
     }

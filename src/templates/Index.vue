@@ -25,10 +25,10 @@
         <div class="index-page__features__feature-list__feature-item">
           <div class="feature-item__icon">
             <font-awesome-icon
-              :icon="['far', 'user-circle']"
+              :icon="['far', 'clock']"
             />
           </div>
-          <div class="feature-item__header">Built for Your Team</div>
+          <div class="feature-item__header">Faster Workflow</div>
           <div class="feature-item__text">A ser of interconnected patterns & practices for you and your team with comprehensive documentation.</div>
         </div>
         <div class="index-page__features__feature-list__feature-item">
@@ -47,7 +47,7 @@
             />
           </div>
           <div class="feature-item__header">Component Status</div>
-          <div class="feature-item__text">Get an automated overview of how your design system progresses over time and what's still left to do.</div>
+          <div class="feature-item__text">Get an automated overview of how Geoblink Design System progresses over time and what's still left to do.</div>
         </div>
         <div class="index-page__features__feature-list__feature-item">
           <div class="feature-item__icon">
@@ -65,43 +65,16 @@
             />
           </div>
           <div class="feature-item__header">Living Docs</div>
-          <div class="feature-item__text">Automatic generation of living, user editable documentation using custom version of Vue Styleguidist.</div>
+          <div class="feature-item__text">Automatic generation of living, user editable documentation you can play with.</div>
         </div>
         <div class="index-page__features__feature-list__feature-item">
           <div class="feature-item__icon">
             <font-awesome-icon
-              :icon="['fas', 'external-link-alt']"
+              :icon="['fab', 'npm']"
             />
           </div>
-          <div class="feature-item__header">Publish via NPM</div>
-          <div class="feature-item__text">Easily export and use your Design System as an NPM dependency in another Vue.js project (or anywhere really).</div>
-        </div>
-        <div class="index-page__features__feature-list__feature-item">
-          <div class="feature-item__icon">
-            <font-awesome-icon
-              :icon="['far', 'clock']"
-            />
-          </div>
-          <div class="feature-item__header">Faster Workflow</div>
-          <div class="feature-item__text">Create a token, an element, or a pattern, and it's immediately available across all your Vue.js components.</div>
-        </div>
-        <div class="index-page__features__feature-list__feature-item">
-          <div class="feature-item__icon">
-            <font-awesome-icon
-              :icon="['fas', 'code']"
-            />
-          </div>
-          <div class="feature-item__header">Code Formatting</div>
-          <div class="feature-item__text">Pre-configured Pretter setup for auto-formatting code on both save and before committing changes to Git.</div>
-        </div>
-        <div class="index-page__features__feature-list__feature-item">
-          <div class="feature-item__icon">
-            <font-awesome-icon
-              :icon="['fas', 'sliders-h']"
-            />
-          </div>
-          <div class="feature-item__header">Configurable</div>
-          <div class="feature-item__text">Live Reloading, Autoprefixing, SCSS and helper function + good defaults for SVG and Webfont usage out-of-the-box.</div>
+          <div class="feature-item__header">Use via NPM</div>
+          <div class="feature-item__text">Easily import Geoblink Design System in your projects as an NPM dependency.</div>
         </div>
       </div>
     </div>
@@ -137,8 +110,16 @@ export default {
   }
 
   .index-page__above-the-fold {
-    background: $color-blue-dark;
+    align-items: center;
+    background: url('/assets/background-landing.png');
+    background-position: center;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
     height: 100vh;
+    padding: 20vh;
+    box-sizing: border-box;
   }
 
   .index-page__above-the-fold__logo-container {
@@ -152,7 +133,6 @@ export default {
     width: 700px;
     margin: 0 auto;
     text-align: center;
-    margin-top: 110px;
   }
 
   .text-introduction__header {
