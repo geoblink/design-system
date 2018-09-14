@@ -38,4 +38,7 @@ export default {
 export { componentsByName as components }
 export { constantsByComponentName as constants }
 
+const directives = require.context('@/directives/', true, /\.js$/)
+export { directives }
+
 export { instance }
