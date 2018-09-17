@@ -29,7 +29,7 @@ export default {
      */
     highlightedChars: {
       type: Array,
-      required: false, // TODO: Make this property required once `matchedCharsPosition` is removed
+      required: true,
       validator (values) {
         if (values.length < 2) return true
 
@@ -47,24 +47,6 @@ export default {
       }
     },
     /**
-     * **Deprecated.** Use `highlightedChars` instead.
-     */
-    matchedCharsPosition: {
-      type: Array,
-      required: false,
-      validator (matchedChars) {
-        if (matchedChars) {
-          console.warn(`GeoHighlightedString [component] :: «matchedCharsPosition» is deprecated. Use «highlightedChars» instead`)
-        }
-
-        const isMatchedCharsOrdered = matchedChars.every((val, i, array) => !i || (val > array[i - 1]))
-        if (!isMatchedCharsOrdered) {
-          console.warn(`GeoHighlightedString [component] :: Values of «matchedCharsPosition» must be sorted ascendently`)
-        }
-        return isMatchedCharsOrdered
-      }
-    },
-    /**
      * String that is being checked for matches
      */
     referenceString: {
@@ -76,7 +58,7 @@ export default {
     groups () {
       const self = this
       const groups = []
-      const matchedChars = [].concat(self.highlightedChars || self.matchedCharsPosition)
+      const matchedChars = [].concat(self.highlightedChars)
 
       let groupEnd
       let isHighlighted
