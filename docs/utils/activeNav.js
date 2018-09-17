@@ -15,11 +15,7 @@ export default {
     },
     click (event) {
       event.stopPropagation()
-      // if (this.clearActiveLinks) {
-      //   this.clearActiveLinks()
-      // } else {
-      //   this.methods.clearActiveLinks()
-      // }
+
       if (event.target.parentNode.classList.contains('vueds-active')) {
         event.target.parentNode.classList.remove('vueds-active')
       } else {
