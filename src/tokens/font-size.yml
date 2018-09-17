@@ -81,18 +81,6 @@ props:
     font_family: "Lato"
     font_style: "italic"
     color: "#FF594F"
-  # font_size_xx_large:
-  #   value: "48px"
-  # font_size_x_large:
-  #   value: "36px"
-  # font_size_large:
-  #   value: "24px"
-  # font_size_base:
-  #   value: "16px"
-  # font_size_small:
-  #   value: "14px"
-  # font_size_x_small:
-  #   value: "11px"
 global:
   type: number
   category: font-size
