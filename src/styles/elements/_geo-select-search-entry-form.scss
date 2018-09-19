@@ -1,4 +1,4 @@
-@mixin geo-select-search-entry-make($modifier-name) {
+@mixin geo-select-search-entry-form-make($modifier-name) {
 
   $modifier-name-with-prefix: '';
 
@@ -7,7 +7,7 @@
     $modifier-name-with-prefix: --#{$modifier-name};
   }
 
-  .geo-select-search-entry__search-input__container#{$modifier-name-with-prefix} {
+  .geo-select-search-entry-form__search-input__container#{$modifier-name-with-prefix} {
     align-items: center;
     background: $color_white_dark;
     border-bottom: 1px solid $color_grey;
@@ -16,27 +16,28 @@
     padding: 0 10px;
   }
 
-  .geo-select-search-entry__search-icon#{$modifier-name-with-prefix} {
+  .geo-select-search-entry-form__search-icon#{$modifier-name-with-prefix} {
     color: $color_grey_light;
     font-size: 20px;
     padding-right: 5px;
   }
 
-  .geo-select-search-entry__search-input#{$modifier-name-with-prefix} {
+  .geo-select-search-entry-form__search-input#{$modifier-name-with-prefix} {
     background: none;
     border: 0;
     color: $color_grey_light;
     font-size: 14px;
     outline: 0;
+    width: 100%;
   }
   
-  .geo-select-search-entry__search-input#{$modifier-name-with-prefix}::placeholder {
+  .geo-select-search-entry-form__search-input#{$modifier-name-with-prefix}::placeholder {
     color: $color_grey_light;
   }
 
-  .geo-select-search-entry__search-input--empty#{$modifier-name-with-prefix} {
+  .geo-select-search-entry-form__search-input--empty#{$modifier-name-with-prefix} {
     font-style: italic;
   }
 }
 
-@include geo-select-search-entry-make('');
+@include geo-select-search-entry-form-make('');

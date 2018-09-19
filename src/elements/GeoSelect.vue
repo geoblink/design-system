@@ -319,10 +319,6 @@ export default {
       this.closeSelect()
     },
 
-    // setSearchPattern (pattern) {
-    //   this.searchPattern = pattern
-    // },
-
     loadNextPage (payload) {
       this.lastVisiblePage++
       this.$nextTick(function () {
