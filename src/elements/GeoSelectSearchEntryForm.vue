@@ -36,6 +36,7 @@ export default {
         return ['fal', 'search']
       }
     },
+
     /**
      * Default text to be displayed when no option is selected
      */
@@ -43,6 +44,7 @@ export default {
       type: String,
       required: false
     },
+
     /**
      * An optional suffix to be appended as BEM modifier.
      *
@@ -57,12 +59,20 @@ export default {
     cssModifier: {
       type: String,
       default: ''
+    },
+
+    /**
+     * @model
+     * Current search pattern used for filtering available options
+     */
+    value: {
+      type: String,
+      required: false,
+      validator (value) {
+        return _.isString(value)
+      }
     }
-  },
-  data () {
-    return {
-      searchValue: ''
-    }
+
   },
   computed: {
     cssSuffix () {
@@ -75,7 +85,7 @@ export default {
          * @event search-pattern
          * @type {string}
          */
-        this.$emit('search-pattern', _.deburr(this.searchValue))
+        this.$emit('input', _.deburr(this.searchValue))
       })
     }
   }
