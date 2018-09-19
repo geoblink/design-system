@@ -24,7 +24,7 @@ const elementsSCSS = fs
   .readdirSync(path.resolve(__dirname, '..', elementsSCSSRelativePathFromRoot))
   .filter(name => name.indexOf('.') !== 0)
   .map(name => path.resolve(elementsSCSSRelativePathFromRoot, name))
-  .map(absolutePath => fs.readdirSync(absolutePath))
+  .map(absolutePath => fs.readdirSync(absolutePath).map(relativePath => path.resolve(absolutePath, relativePath)))
   .reduce((collector, entry) => [...collector, ...entry], [])
 
 const webpackConfig = merge(baseWebpackConfig, {
