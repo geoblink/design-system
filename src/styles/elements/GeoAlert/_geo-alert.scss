@@ -1,11 +1,3 @@
-@import 'geo-alert.utils.scss';
-@import 'geo-alert-error';
-@import 'geo-alert-info';
-@import 'geo-alert-progress';
-@import 'geo-alert-success';
-@import 'geo-alert-warn';
-@import 'geo-alert-warning';
-
 @mixin geo-alert {
   display: flex;
   flex-direction: row;
