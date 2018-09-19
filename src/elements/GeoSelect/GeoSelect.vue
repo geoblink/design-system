@@ -19,7 +19,7 @@
       :search-icon="['fas', 'search']"
       :css-modifier="cssModifier"
       :placeholder="searchInputPlaceholder"
-      @search-pattern="setSearchPattern($event)"
+      v-model="searchPattern"
     />
     <template v-if="visibleOptions.length">
       <component
@@ -339,10 +339,6 @@ export default {
        */
       this.$emit('input', option.item)
       this.closeSelect()
-    },
-
-    setSearchPattern (pattern) {
-      this.searchPattern = pattern
     },
 
     loadNextPage (payload) {

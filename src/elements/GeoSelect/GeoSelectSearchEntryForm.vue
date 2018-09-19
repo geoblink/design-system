@@ -1,19 +1,19 @@
 <template>
-  <div :class="`geo-select-search-entry__container${cssSuffix}`">
-    <form :class="`geo-select-search-entry__search-input__container${cssSuffix}`">
+  <div :class="`geo-select-search-entry-form__container${cssSuffix}`">
+    <form :class="`geo-select-search-entry-form__search-input__container${cssSuffix}`">
       <font-awesome-icon
         :icon="searchIcon"
-        :class="`geo-select-search-entry__search-icon${cssSuffix}`"
+        :class="`geo-select-search-entry-form__search-icon${cssSuffix}`"
       />
       <input
-        v-model="searchValue"
         :class="{
-          [`geo-select-search-entry__search-input${cssSuffix}`]: true,
-          [`geo-select-search-entry__search-input--empty${cssSuffix}`]: !searchValue
+          [`geo-select-search-entry-form__search-input${cssSuffix}`]: true,
+          [`geo-select-search-entry-form__search-input--empty${cssSuffix}`]: !value
         }"
+        :value="value"
         :placeholder="placeholder"
         type="text"
-        @keyup="searchPattern()"
+        @keyup="searchPattern($event)"
       >
     </form>
   </div>
@@ -48,23 +48,30 @@ export default {
     placeholder: {
       type: String,
       required: false
+    },
+
+    /**
+     * @model
+     * Current search pattern used for filtering available options
+     */
+    value: {
+      type: String,
+      required: false,
+      validator (value) {
+        return _.isString(value)
+      }
     }
-  },
-  data () {
-    return {
-      searchValue: ''
-    }
+
   },
   computed: {
     searchPattern () {
-      return _.debounce(function () {
+      return _.debounce(function ($event) {
         /**
          * User wrote something in the select search form.
-         *
-         * @event search-pattern
+         * @event input
          * @type {string}
          */
-        this.$emit('search-pattern', _.deburr(this.searchValue))
+        this.$emit('input', _.deburr($event.target.value))
       })
     }
   }

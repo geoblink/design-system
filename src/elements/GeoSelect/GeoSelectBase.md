@@ -45,14 +45,14 @@ drop-in replacement for HTML `<select>` tag you might probably want to use
         <geo-select-search-entry-form
           slot="header"
           :search-icon="['fas', 'search']"
-          @search-pattern="setSearchPattern(1, $event)"
+          v-model="searchPatterns[1]"
           placeholder="Search..." />
         <template v-if="filteredItemsList.length">
           <geo-select-entry
             v-for="(option, index) in filteredItemsList"
             :key="index"
             @change-current-selection="changeCurrentSelection(1, option)">
-            <template v-if="!isSearching[1]">{{option.label}}</template>
+            <template v-if="!isSearchingPlainList">{{option.label}}</template>
             <geo-highlighted-string
               v-else
               :highlighted-chars="option.matches"
@@ -80,14 +80,14 @@ drop-in replacement for HTML `<select>` tag you might probably want to use
         <geo-select-search-entry-form
           slot="header"
           :search-icon="['fas', 'search']"
-          @search-pattern="setSearchPattern(2, $event)"
+          v-model="searchPatterns[2]"
           placeholder="Search..." />
         <template v-if="filteredOptGroupsItems.length">
           <template v-for="(option, index) in filteredOptGroupsItems">
             <geo-select-opt-group-header
               v-if="option.isOptGroup"
               :key="index">
-              <template v-if="!isSearching[2]">{{option.label}}</template>
+              <template v-if="!isSearchingOptGroups">{{option.label}}</template>
               <geo-highlighted-string
                 v-else
                 :highlighted-chars="option.matches"
@@ -97,7 +97,7 @@ drop-in replacement for HTML `<select>` tag you might probably want to use
               v-else
               :key="index"
               @change-current-selection="changeCurrentSelection(2, option)">
-              <template v-if="!isSearching[2]">{{option.label}}</template>
+              <template v-if="!isSearchingOptGroups">{{option.label}}</template>
               <geo-highlighted-string
                 v-else
                 :highlighted-chars="option.matches"
@@ -147,7 +147,6 @@ export default {
       currentLongListPage: 1,
       maxItemsPerPage: 20,
       searchPatterns: ['', '', '', ''],
-      isSearching: [null, null, null, null],
       itemsList: _.times(4, idx => { return {label: `Item ${idx}`} }),
       optGroupsList: [
         {
@@ -224,6 +223,12 @@ export default {
         return item.label.indexOf(self.searchPatterns[1]) !== -1
       })
     },
+    isSearchingPlainList () {
+      return !!this.searchPatterns[1]
+    },
+    isSearchingOptGroups () {
+      return !!this.searchPatterns[2]
+    }
   },
   methods: {
     closeSelect (selectId) {
@@ -235,10 +240,6 @@ export default {
     changeCurrentSelection (selectId, selection) {
       this.closeSelect(selectId)
       this.$set(this.currentSelection, selectId, selection)
-    },
-    setSearchPattern (selectId, pattern) {
-      this.$set(this.isSearching, selectId, !!pattern)
-      this.$set(this.searchPatterns, selectId, pattern)
     },
     loadNextPage (payload) {
       this.currentLongListPage++
