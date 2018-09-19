@@ -18,6 +18,7 @@
 
   .geo-select-search-entry__search-icon#{$modifier-name-with-prefix} {
     color: $color_grey_light;
+    font-size: 20px;
     padding-right: 5px;
   }
 
@@ -25,6 +26,7 @@
     background: none;
     border: 0;
     color: $color_grey_light;
+    font-size: 14px;
     outline: 0;
   }
   
