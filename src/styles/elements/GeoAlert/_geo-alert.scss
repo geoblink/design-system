@@ -1,10 +1,84 @@
-@import 'geo-alert.utils.scss';
-@import 'geo-alert-error';
-@import 'geo-alert-info';
-@import 'geo-alert-progress';
-@import 'geo-alert-success';
-@import 'geo-alert-warn';
-@import 'geo-alert-warning';
+@mixin _geo-alert__content--variant (
+  $text-color,
+  $tint-color,
+  $modifier-name-with-prefix
+) {
+  background: $tint-color;
+  color: $text-color;
+
+  .geo-alert__content__icon#{$modifier-name-with-prefix},
+  .geo-alert__content__close-icon#{$modifier-name-with-prefix}:hover {
+    color: brighten($tint-color, -40);
+  }
+
+  a {
+    color: brighten($tint-color, -40);
+
+    &:hover {
+      background: brighten($tint-color, -10);
+    }
+  }
+}
+
+@mixin geo-alert__content--info($modifier-name-with-prefix) {
+  @include _geo-alert__content--variant(
+    $color_white,
+    $color_blue_light,
+    $modifier-name-with-prefix
+  );
+}
+
+@mixin geo-alert__content--success($modifier-name-with-prefix) {
+  @include _geo-alert__content--variant(
+    $color_white,
+    $color_green,
+    $modifier-name-with-prefix
+  );
+}
+
+
+
+@mixin geo-alert__content--error($modifier-name-with-prefix) {
+  @include _geo-alert__content--variant(
+    $color_white,
+    $color_red,
+    $modifier-name-with-prefix
+  );
+}
+
+@mixin geo-alert__content--warn($modifier-name-with-prefix) {
+  @include _geo-alert__content--variant(
+    $color_white,
+    $color_yellow,
+    $modifier-name-with-prefix
+  );
+}
+
+@mixin geo-alert__content--warning($modifier-name-with-prefix) {
+  @include _geo-alert__content--variant(
+    $color_white,
+    $color_yellow,
+    $modifier-name-with-prefix
+  );
+}
+
+@mixin geo-alert__content--progress($modifier-name-with-prefix) {
+  background: $color_blue_dark;
+  color: $color_white;
+
+  .geo-alert__content__icon#{$modifier-name-with-prefix},
+  .geo-alert__content__close-icon#{$modifier-name-with-prefix}:hover {
+    color: $color_link;
+  }
+
+  a {
+    color: $color_blue_light;
+
+    &:hover {
+      background: brighten($color_blue_dark, -10);
+    }
+  }
+}
 
 @mixin geo-alert {
   display: flex;
