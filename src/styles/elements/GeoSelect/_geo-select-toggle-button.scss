@@ -1,0 +1,35 @@
+@mixin geo-select-toggle-button-make($modifier-name) {
+
+  $modifier-name-with-prefix: '';
+
+  @if $modifier-name != '' {
+    // sass-lint:disable space-around-operator
+    $modifier-name-with-prefix: --#{$modifier-name};
+  }
+
+  .geo-select-toggle-button#{$modifier-name-with-prefix} {
+    align-items: center;
+    background: $color_white;
+    border: 1px solid $color_grey;
+    border-radius: $border_radius_default;
+    cursor: pointer;
+    display: flex;
+    font-family: $font_family_text;
+    height: 40px;
+    padding: 0 10px;
+    user-select: none;
+    width: 200px;
+  }
+
+  .geo-select-toggle-button--empty#{$modifier-name-with-prefix} {
+    font-size: $small;
+    color: $color_grey_light;
+    font-style: italic;
+  }
+
+  .geo-select-toggle-button__toggle-icon#{$modifier-name-with-prefix} {
+    margin-left: auto;
+  }
+}
+
+@include geo-select-toggle-button-make('');

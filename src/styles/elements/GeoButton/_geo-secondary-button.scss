@@ -1,0 +1,15 @@
+@mixin geo-button--secondary($css-suffix) {
+  @include geo-button-make-scheme((
+    normal-background-color: $color_white,
+    normal-text-color: $color_blue_dark,
+    normal-border-color: $color_blue_dark,
+    hover-background-color: $color_blue_dark,
+    hover-text-color: $color_white,
+    disabled-background-color: $color_white,
+    disabled-text-color: $color_blue_dark,
+    disabled-border-color: $color_blue_dark,
+  ), $css-suffix);
+
+  transition: all $duration_quickly $easing_base;
+  transition-property: background-color, border-color, color;
+}

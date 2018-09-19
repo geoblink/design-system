@@ -1,0 +1,7 @@
+@mixin geo-alert__content--error($modifier-name-with-prefix) {
+  @include _geo-alert__content--variant(
+    $color_white,
+    $color_red,
+    $modifier-name-with-prefix
+  );
+}

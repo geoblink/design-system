@@ -19,7 +19,7 @@
           }"
           :icon="['fas', 'exclamation-triangle']"
         />
-        <p>Under review</p>
+        <p>Missing tests</p>
       </li>
       <li>
         <font-awesome-icon
@@ -49,7 +49,10 @@
     <table>
       <thead>
         <tr>
-          <th>Component Name</th>
+          <th v-if="show === 'all'">Component Name</th>
+          <th v-if="show === 'elements'">Element Name</th>
+          <th v-if="show === 'patterns'">Pattern Name</th>
+          <th v-if="show === 'templates'">Template Name</th>
           <th>Released in</th>
           <th>Status</th>
         </tr>
@@ -79,9 +82,9 @@
               :icon="['fas', 'check-circle']"
             />
             <font-awesome-icon
-              v-if="component.status === 'under-review' || component.status === 'review'"
+              v-if="component.status === 'missing-tests' || component.status === 'review'"
               :style="{
-                color: tokens.color_ucla_gold.value,
+                color: tokens.color_yellow.value,
                 fontSize: '16px'
               }"
               :icon="['fas', 'exclamation-triangle']"
@@ -97,7 +100,7 @@
             <font-awesome-icon
               v-if="component.status === 'deprecated'"
               :style="{
-                color: tokens.color_vermilion.value,
+                color: tokens.color_red_darker.value,
                 fontSize: '16px'
               }"
               :icon="['fas', 'times-circle']"
@@ -116,6 +119,15 @@ import orderBy from 'lodash/orderBy'
 
 export default {
   name: 'Components',
+  props: {
+    show: {
+      type: String,
+      default: 'all',
+      validator (value) {
+        return value.match(/(all|patterns|templates|elements)/)
+      }
+    }
+  },
   data () {
     return {
       components: this.orderData(this.getComponents()),
@@ -123,12 +135,22 @@ export default {
     }
   },
   methods: {
-    getComponents: function () {
-      const contexts = [
-        require.context('@/elements/', true, /\.vue$/),
-        require.context('@/patterns/', true, /\.vue$/),
-        require.context('@/templates/', true, /\.vue$/)
-      ]
+    getComponents () {
+      let contexts
+
+      if (this.show === 'all') {
+        contexts = [
+          require.context('@/elements/', true, /\.vue$/),
+          require.context('@/patterns/', true, /\.vue$/),
+          require.context('@/templates/', true, /\.vue$/)
+        ]
+      } else if (this.show === 'elements') {
+        contexts = [require.context('@/elements/', true, /\.vue$/)]
+      } else if (this.show === 'patterns') {
+        contexts = [require.context('@/patterns/', true, /\.vue$/)]
+      } else if (this.show === 'templates') {
+        contexts = [require.context('@/templates/', true, /\.vue$/)]
+      }
 
       const components = []
       contexts.forEach(context => {
@@ -137,7 +159,7 @@ export default {
 
       return components
     },
-    orderData: function (data) {
+    orderData (data) {
       return orderBy(data, 'name', 'asc')
     }
   }
@@ -155,7 +177,7 @@ export default {
   font-family: $font-family-heading;
   font-weight: $font-weight-regular;
   line-height: $line-height-heading;
-  color: $color-rich-black;
+  color: $color_dark;
   margin-bottom: $space-small;
   font-style: normal;
   @media (max-width: 1000px) {
@@ -179,6 +201,7 @@ export default {
     -moz-osx-font-smoothing: grayscale;
     text-align: left;
     // Chrome has a bug related to thead, this only works on th:
+    position: -webkit-sticky;
     position: sticky;
     top: -1px;
     &:first-child {

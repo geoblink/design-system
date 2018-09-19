@@ -66,14 +66,22 @@ main section section > div > div[class^="rsg--root"] {
 --------------------------------------------- */
 
 // Main headings
-div[class^="rsg--wrapper"] > h1[class^="rsg--heading"] {
+// (includes h2 as well since in component views that’s the first heading)
+div[class^="rsg--wrapper"] > h1[class^="rsg--heading"],
+div[class^="rsg--wrapper"] > h2[class^="rsg--heading"] {
   display: block;
   width: 100%;
+  border: 0;
+  line-height: $line-height-small;
   padding: $space-x-large $space-x-large;
   width: calc(100% + #{$space-x-large * 2});
   margin: -#{$space-small} -#{$space-x-large} $space-large -#{$space-x-large};
   background: $color-cloud;
   font-size: $font-size-xx-large;
+  a:hover {
+    text-decoration: none;
+    cursor: default;
+  }
   @media (max-width: 1300px) {
     padding: $space-large $space-x-large;
   }
@@ -84,6 +92,7 @@ div[class^="rsg--wrapper"] > h1[class^="rsg--heading"] {
     margin: -#{$space-small} -#{$space-base} $space-base;
   }
 }
+
 header[class^="rsg--header"] {
   margin: 0;
 }
@@ -102,20 +111,19 @@ h2[class^="rsg--heading"] {
   border-bottom: 1px solid $docs-grey;
   padding-bottom: $space-small;
   margin: $space-large 0 $space-base;
+  font-size: $font-size-x-large;
+  line-height: $line-height-small;
+  font-weight: $font-weight-regular;
+  letter-spacing: -0.5px;
   width: 100%;
-  &,
+  @media (max-width: #{$docs-breakpoint}) {
+    font-size: $font-size-x-large / 1.3;
+  }
+  @media (max-width: #{$docs-breakpoint-small}) {
+    font-size: $font-size-x-large / 1.6;
+  }
   a {
-    font-weight: $font-weight-regular;
-    letter-spacing: -0.5px;
-    font-size: $font-size-x-large;
-    line-height: $line-height-small;
     color: $docs-color-heading;
-    @media (max-width: #{$docs-breakpoint}) {
-      font-size: $font-size-x-large / 1.3;
-    }
-    @media (max-width: #{$docs-breakpoint-small}) {
-      font-size: $font-size-x-large / 1.6;
-    }
   }
 }
 
@@ -197,24 +205,37 @@ p[class^="rsg--para"] code {
 --------------------------------------------- */
 
 div[class^="rsg--sidebar"] {
-  background: mix($color-bleu-de-france, $color-rich-black, 5%);
+  background: url('/background-sidebar.png');
+  background-position: center;
+  background-size: cover;
+
   border: 0;
+  @media (max-width: #{$docs-breakpoint}) {
+    padding-bottom: $space-large;
+  }
   a[class^="rsg--link"] {
-    color: $color-bleu-de-france;
+    font-weight: $font-weight-semi-bold;
+    color: $color-white;
     &:hover {
-      color: $color-bleu-de-france-lighter;
+      color: $color-yellow;
     }
     &:active {
-      color: $color-bleu-de-france-dark;
+      color: $color-yellow;
+    }
+  }
+  ul ul[class^="rsg--list"] {
+    display: none;
+    &.vueds-visible {
+      display: block;
     }
   }
   .vueds-active {
-    ul[class^="rsg--list"] {
+    & > ul[class^="rsg--list"] {
       display: block;
     }
     & > a,
     & > a:hover {
-      color: tint($color-bleu-de-france, 80%);
+      color: $color-yellow;
     }
   }
   ul[class^="rsg--list"] {
@@ -232,6 +253,7 @@ div[class^="rsg--sidebar"] {
       // Second level links
       a[class*="rsg--link"] {
         font-size: $font-size-small;
+        font-weight: $font-weight-regular;
         -webkit-font-smoothing: subpixel-antialiased;
         -moz-osx-font-smoothing: auto;
         @media (max-width: #{$docs-breakpoint-small}) {
@@ -243,6 +265,7 @@ div[class^="rsg--sidebar"] {
   }
   li[class^="rsg--item"] {
     margin: 0;
+    display: block;
     a[class^="rsg--link"] {
       display: block;
       padding: $space-xx-small 0;
@@ -256,12 +279,16 @@ div[class^="rsg--sidebar"] {
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
+    //Hide first level links that are only childs
+    &:only-child {
+      display: none;
+    }
   }
 }
 
 // Sidebar logo
 div[class^="rsg--logo"] {
-  @include inset-squish-space($space-base);
+  @include inset-space($space-base);
   border-bottom: 1px solid rgba($color-white, 0.1);
   h1 {
     color: $color-white;
@@ -277,7 +304,7 @@ div[class^="rsg--search"] input {
   border: 1px solid transparent;
   background: mix($color-bleu-de-france, $color-rich-black, 20%);
   &:focus {
-    border: 1px solid $color-bleu-de-france;
+    border: 1px solid $color-yellow;
     &::-webkit-textfield-decoration-container {
       display: none !important;
     }
@@ -320,21 +347,30 @@ div[class^="rsg--preview"] {
   border-top-right-radius: $border-radius-default;
 }
 
-div[class^="rsg--preview"] {
-  float: left;
+// If you edit the section names you might have to edit
+// these to match as well.
+div[data-preview="Overview"],
+div[data-preview="Getting Started"],
+div[data-preview="Design Tokens"],
+div[data-preview="Tokens"],
+div[data-preview="Elements"],
+div[data-preview="Patterns"],
+div[data-preview="Templates"] {
+  background: transparent;
+  box-shadow: none;
+  padding: 0;
+  border: 0;
+  // This hides code previews from the above examples
+  & + div + div[class^="rsg--tab"] {
+    display: none !important;
+  }
 }
 
-#Color-container,
-#FontSize-container,
-#Spacing-container,
-#Components-container,
-#All-container {
-  div[data-preview] {
-    background: transparent;
-    box-shadow: none;
-    padding: 0;
-    border: 0;
-  }
+// Good old clearfix to take care of floated content inside previews
+div[data-preview]:after {
+  content: "";
+  display: table;
+  clear: both;
 }
 
 // Code tabs and table
@@ -345,9 +381,6 @@ table[class^="rsg--table"] {
 }
 thead[class^="rsg--tableHead"] {
   border: 0;
-}
-div[class^="rsg--toolbar"] {
-  margin-top: $space-x-small;
 }
 
 // Codemirror
@@ -398,23 +431,26 @@ code.type {
 /* COMPONENT STATUS LABELS
 --------------------------------------------- */
 
-div[class^="rsg--docs"],
-header[class^="rsg--header"],
-article[class^="rsg--root"] {
+header[class^="rsg--header"] {
   order: 2;
 }
 
-div[class^="rsg--root"] div[class^="rsg--tabs"] {
+div[class^="rsg--docs"],
+article[class^="rsg--root"],
+button[class^="rsg--button"] {
   order: 3;
 }
 
+div[class^="rsg--root"] div[class^="rsg--tabs"] {
+  order: 4;
+}
+
 .status {
-  font-family: "Fira Sans", Helvetica, Arial, sans-serif;
+  font-family: "Lato", Helvetica, Arial, sans-serif;
   font-weight: $font-weight-regular;
   order: 1;
   align-self: flex-end;
   cursor: help;
-  transform: translateY($space-x-large * 1.35);
   line-height: $line-height-heading;
   background: tint($docs-grey, 50%);
   padding: $space-x-small $space-small $space-x-small/1.2;
@@ -423,8 +459,16 @@ div[class^="rsg--root"] div[class^="rsg--tabs"] {
   font-size: $font-size-x-small;
   border-radius: $border-radius-default;
   color: $color-rich-black;
+  position: absolute;
+  right: $space-x-large;
+  top: $space-x-large * 1.2;
+  z-index: 2;
+  @media (max-width: 1300px) {
+    top: $space-x-large;
+  }
   @media (max-width: #{$docs-breakpoint}) {
-    transform: translateY($space-x-large * 1.25);
+    top: $space-large * 1.2;
+    right: $space-base;
   }
   &-ready {
     background: $docs-status-ready;
@@ -458,7 +502,6 @@ tr {
 table[class^="rsg--table"] {
   border-collapse: collapse;
   border-spacing: 0;
-  margin: 0;
   width: 100%;
   th {
     padding: $space-small $space-large $space-small $space-small;
@@ -512,49 +555,13 @@ thead[class^="rsg--thead"] {
 div[class^="rsg--tabButtons"],
 div[class^="rsg--controls"],
 div[class^="rsg--pathline"],
-footer[class^="rsg--footer"] {
+footer[class^="rsg--footer"],
+div[class^="rsg--toolbar"] {
   display: none !important;
 }
 
-#vue-design-system + div[class^="rsg--toolbar"],
-#principles + div[class^="rsg--toolbar"],
-#content + div[class^="rsg--toolbar"],
-#overview + div[class^="rsg--toolbar"],
-#components + div[class^="rsg--toolbar"],
-#tokens + div[class^="rsg--toolbar"],
-#color + div[class^="rsg--toolbar"],
-#fontsize + div[class^="rsg--toolbar"],
-#spacing + div[class^="rsg--toolbar"],
-#elements + div[class^="rsg--toolbar"],
-#patterns + div[class^="rsg--toolbar"],
-#templates + div[class^="rsg--toolbar"],
-#Components-container div[class^="rsg--tabs"],
-#Components-container .react-codemirror2,
-#Spacing-container div[class^="rsg--tabs"],
-#Spacing-container .react-codemirror2,
-#FontSize-container div[class^="rsg--tabs"],
-#FontSize-container .react-codemirror2,
-#Color-container div[class^="rsg--tabs"],
-#Color-container .react-codemirror2,
-#All-container div[class^="rsg--tabs"],
-#All-container .react-codemirror2,
-#VuedsSection-container {
-  display: none !important;
-}
-
-/* HIDDEN VUE DESIGN SYSTEM FUNCTIONALITY
+/* HIDDEN FUNCTIONALITY
 --------------------------------------------- */
-
-// Hide status labels from tokens as they don’t make much sense
-#Color-container,
-#Components-container,
-#FontSize-container,
-#Spacing-container,
-#All-container {
-  .status {
-    display: none !important;
-  }
-}
 
 // Hide private components
 .hide-private,
@@ -565,8 +572,11 @@ a[href="#private-components"] + ul {
 }
 
 // Hide Private components and placeholder sections
-ul a[href*="?id=section"],
-ul a[href*="?id=components"],
-ul a[href*="/#!/Private Components"] {
+ul a[href*="/#/Getting Started/Components"],
+ul a[href*="/#/Design Tokens/Color"],
+ul a[href*="/#/Design Tokens/Spacing"],
+ul a[href*="/#/Design Tokens/FontSize"],
+ul a[href*="/#/Design Tokens/All"],
+ul a[href*="/#/Private Components"] {
   display: none !important;
 }

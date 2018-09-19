@@ -5,6 +5,7 @@
 import instance from '@/utils/vueInstance'
 
 // Defines contexts to require
+// (you should remove templates from this if not used in production)
 const contexts = [
   require.context('@/elements/', true, /\.vue$/),
   require.context('@/patterns/', true, /\.vue$/),
@@ -36,5 +37,8 @@ export default {
 
 export { componentsByName as components }
 export { constantsByComponentName as constants }
+
+const directives = require.context('@/directives/', true, /\.js$/)
+export { directives }
 
 export { instance }

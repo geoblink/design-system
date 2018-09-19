@@ -1,12 +1,68 @@
 <template>
-  <div class="font-sizes">
+  <div class="font-sizes__table">
+    <div class="font-sizes__table__header">
+      <div
+        class="font-sizes__table__header-cell font-sizes__table__header-cell--big">
+        Typestyle
+      </div>
+      <div class="font-sizes__table__header-cell font-sizes__table__header-cell--big">
+        <font-awesome-icon
+          :icon="['fas', 'weight']"
+        />
+        Font Weight
+      </div>
+      <div class="font-sizes__table__header-cell font-sizes__table__header-cell--small">
+        Size
+      </div>
+      <div class="font-sizes__table__header-cell font-sizes__table__header-cell--small">
+        Line
+      </div>
+      <div class="font-sizes__table__header-cell font-sizes__table__header-cell--small">
+        Character
+      </div>
+    </div>
     <div
-      v-for="(prop, index) in tokens"
-      v-if="prop.category === 'font-size'"
+      v-for="(font, index) in tokens"
       :key="index"
-      :style="{ fontSize: prop.value }"
-      class="font">
-      ${{ prop.name.replace(/_/g, "-") }} <span>({{ prop.value }})</span>
+      :class="{
+        ['font-sizes__table__row']: true,
+        ['font-sizes__table__row--grey-bg']: font.font_family === 'Lato'
+      }"
+    >
+      <div
+        :style="{
+          fontFamily: font.font_family,
+          fontWeight: font.weight,
+          fontStyle: font.font_style,
+          lineHeight: font.line_height,
+          letterSpacing: font.letter_spacing,
+          fontSize: font.value,
+          textTransform: font.text_transform,
+          color: font.color
+        }"
+        class="font font-sizes__table__row-cell font-sizes__table__row-cell--big">
+        <span>${{ font.name.replace(/_/g, " ") }}</span>
+      </div>
+      <div class="font-sizes__table__row-cell font-sizes__table__row-cell--big">
+        {{ font.font_style }} ({{ font.weight }})
+      </div>
+      <div class="font-sizes__table__row-cell font-sizes__table__row-cell--small">
+        {{ font.originalValue }}
+      </div>
+      <div class="font-sizes__table__row-cell font-sizes__table__row-cell--small">
+        {{ font.line_height ? font.line_height : '?' }}
+      </div>
+      <div class="font-sizes__table__row-cell font-sizes__table__row-cell--small">
+        {{ font.letter_spacing ? font.letter_spacing : '0px' }}
+      </div>
+      <div
+        v-if="index === 0 || index === 6"
+        :class="{
+          ['font-sizes__table__row-cell__font-family']: true,
+          [`font-sizes__table__row-cell__font-family--${font.font_family.toLowerCase()}`]: true
+      }">
+        {{ font.font_family }}
+      </div>
     </div>
   </div>
 </template>
@@ -14,6 +70,7 @@
 <script>
 import designTokens from '@/assets/tokens/tokens.raw.json'
 import orderBy from 'lodash/orderBy'
+import filter from 'lodash/filter'
 
 /**
  * This typographic scale makes it easier to achieve visual harmony in the
@@ -29,8 +86,10 @@ export default {
     }
   },
   methods: {
-    orderData: function (data) {
-      let order = orderBy(data, 'value', 'desc')
+    orderData (data) {
+      let order = filter(orderBy(data, ['font_family', 'value'], ['desc', 'desc']), (d) => {
+        return d.category === 'font-size'
+      })
       return order
     }
   }
@@ -43,25 +102,64 @@ export default {
 /* STYLES
 --------------------------------------------- */
 
-.font-sizes {
-  overflow: hidden;
+.font-sizes__table {
+  position: relative;
   width: 100%;
 }
-.font {
-  @include reset;
-  font-family: $font-family-heading;
-  font-weight: $font-weight-bold;
-  line-height: $line-height-heading;
-  color: $color-rich-black;
-  margin-bottom: $space-small;
-  font-style: normal;
-  span {
-    letter-spacing: -0.02em;
-    margin-left: 10px;
-    font-weight: $font-weight-regular;
-    color: $color-silver;
+.font-sizes__table__header {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 0 30px 25px;
+}
+
+.font-sizes__table__header-cell {
+  &--big {
+    width: 35%;
+  }
+  &--small {
+    width: 10%;
   }
 }
+
+.font-sizes__table__row {
+  align-items: center;
+  border-bottom: 1px solid $color_grey;
+  display: flex;
+  justify-content: space-between;
+  padding: 35px 0 20px 25px;
+
+  &--grey-bg {
+    background: #F4F6F8;
+  }
+}
+
+.font-sizes__table__row-cell {
+  &--big {
+    width: 35%;
+  }
+
+  &--small {
+    width: 10%;
+  }
+}
+
+.font-sizes__table__row-cell__font-family {
+  color: #919EAB;
+  position: absolute;
+  text-transform: uppercase;
+  transform: rotate(90deg);
+
+  &--montserrat {
+    top: 33%;
+    right: -90px;
+  }
+
+  &--lato {
+    top: 78%;
+    right: -45px;
+  }
+}
+
 </style>
 
 <docs>
