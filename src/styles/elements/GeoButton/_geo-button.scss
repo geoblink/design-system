@@ -1,3 +1,142 @@
+// Creates a geo-button color scheme varying the background and text color based
+// on the hover/focus/disabled status.
+@mixin geo-button-make-scheme ($params, $css-suffix) {
+  @if map-has-key($params, normal-background-color) {
+    background: map-get($params, normal-background-color);
+  }
+
+  @if map-has-key($params, normal-text-color) {
+    color: map-get($params, normal-text-color);
+  }
+
+  @if map-has-key($params, normal-border-color) {
+    border-color: map-get($params, normal-border-color);
+  }
+
+  &:hover, &[hover], &:focus, &[focus] {
+    @if map-has-key($params, hover-background-color) {
+      background: map-get($params, hover-background-color);
+    }
+
+    @if map-has-key($params, hover-text-color) {
+      color: map-get($params, hover-text-color);
+    }
+
+    @if map-has-key($params, hover-border-color) {
+      border-color: map-get($params, hover-border-color);
+    }
+  }
+
+  &--disabled#{$css-suffix} {
+    @if map-has-key($params, disabled-background-color) {
+      background: map-get($params, disabled-background-color);
+    }
+
+    @if map-has-key($params, disabled-text-color) {
+      color: map-get($params, disabled-text-color);
+    }
+
+    @if map-has-key($params, disabled-border-color) {
+      border-color: map-get($params, disabled-border-color);
+    }
+
+    &:hover, &[hover], &:focus, &[focus] {
+      @if map-has-key($params, hover-and-disabled-background-color) {
+        background: map-get($params, hover-and-disabled-background-color);
+      } @else if map-has-key($params, disabled-background-color) {
+        background: map-get($params, disabled-background-color);
+      } @else if map-has-key($params, hover-background-color) {
+        background: map-get($params, hover-background-color);
+      }
+
+      @if map-has-key($params, hover-and-disabled-border-color) {
+        border-color: map-get($params, hover-and-disabled-border-color);
+      } @else if map-has-key($params, disabled-border-color) {
+        border-color: map-get($params, disabled-border-color);
+      } @else if map-has-key($params, hover-border-color) {
+        border-color: map-get($params, hover-border-color);
+      }
+
+      @if map-has-key($params, hover-and-disabled-text-color) {
+        color: map-get($params, hover-and-disabled-text-color);
+      } @else if map-has-key($params, disabled-text-color) {
+        color: map-get($params, disabled-text-color);
+      } @else if map-has-key($params, hover-text-color) {
+        color: map-get($params, hover-text-color);
+      }
+    }
+  }
+}
+
+@mixin geo-button--primary($css-suffix) {
+  @include geo-button-make-scheme((
+    normal-background-color: $color_blue,
+    normal-text-color: $color_white,
+    hover-background-color: $color_blue_dark,
+    disabled-background-color: $color_blue,
+    disabled-text-color: $color_white
+  ), $css-suffix);
+
+  transition: all $duration_quickly $easing_base;
+  transition-property: background-color;
+}
+
+@mixin geo-button--secondary($css-suffix) {
+  @include geo-button-make-scheme((
+    normal-background-color: $color_white,
+    normal-text-color: $color_blue_dark,
+    normal-border-color: $color_blue_dark,
+    hover-background-color: $color_blue_dark,
+    hover-text-color: $color_white,
+    disabled-background-color: $color_white,
+    disabled-text-color: $color_blue_dark,
+    disabled-border-color: $color_blue_dark,
+  ), $css-suffix);
+
+  transition: all $duration_quickly $easing_base;
+  transition-property: background-color, border-color, color;
+}
+
+@mixin geo-button--tertiary($css-suffix) {
+  @include geo-button-make-scheme((
+    normal-background-color: transparent,
+    normal-text-color: $color_blue,
+    normal-border-color: transparent,
+    hover-text-color: $color_blue_dark,
+    disabled-text-color: $color_blue,
+  ), $css-suffix);
+
+  font-style: italic;
+  font-weight: $font_weight_light;
+  text-transform: initial;
+
+  transition: color $duration_quickly $easing_base;
+}
+
+@mixin geo-button--destructive($css-suffix) {
+  @include geo-button-make-scheme((
+    normal-background-color: $color_red,
+    normal-text-color: $color_white,
+    hover-background-color: $color_red_dark,
+    disabled-background-color: $color_red,
+  ), $css-suffix);
+
+  transition: all $duration_quickly $easing_base;
+  transition-property: background-color, border-color, color;
+}
+
+@mixin geo-button--danger($css-suffix) {
+  @include geo-button-make-scheme((
+    normal-background-color: $color_red,
+    normal-text-color: $color_white,
+    hover-background-color: $color_red_dark,
+    disabled-background-color: $color_red,
+  ), $css-suffix);
+
+  transition: all $duration_quickly $easing_base;
+  transition-property: background-color, border-color, color;
+}
+
 @mixin geo-button($css-suffix) {
   align-items: center;
   justify-content: center;
