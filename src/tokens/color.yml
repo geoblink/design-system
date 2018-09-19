@@ -111,6 +111,9 @@ props:
   color_grey_darker:
     value: "{!grey_darker}"
     category: color_group_6
+  color_dark:
+    value: "{!dark}"
+    category: color_group_6
 
 global:
   type: color

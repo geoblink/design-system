@@ -3,9 +3,11 @@
  * You can add more things if/when needed.
  */
 import Vue from 'vue'
-import WebFontLoader from '../src/utils/webFontLoader' // eslint-disable-line no-unused-vars
+import '../src/utils/webFontLoader'
 import statusLabels from './utils/statusLabels'
 import activeNav from './utils/activeNav'
+import filterSearch from './utils/filterSearch'
+import 'codemirror/mode/jsx/jsx'
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
@@ -16,6 +18,15 @@ import { far } from '@fortawesome/free-regular-svg-icons'
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.mixin(statusLabels)
-Vue.mixin(activeNav)
+
+document.addEventListener('DOMContentLoaded', () => {
+  filterSearch.methods.init()
+  activeNav.methods.init()
+})
+
+window.addEventListener('hashchange', () => {
+  filterSearch.methods.init()
+  activeNav.methods.init()
+})
 
 library.add(fab, fas, far)

@@ -77,13 +77,16 @@ export default {
   }
 }
 .swatch {
+  @include stack-space($space-small);
   border-bottom: 1px solid rgba(0, 0, 0, 0.08);
   height: $space-xx-large;
-  margin: -#{$space-small} -#{$space-small} 0;
+  margin-left: -#{$space-small};
+  margin-top: -#{$space-small};
   width: calc(100% + #{$space-large});
   float: left;
 }
 h3 {
+  @include reset;
   @include stack-space($space-x-small);
   text-transform: capitalize;
   line-height: 1.2;
@@ -99,7 +102,7 @@ h3 {
   box-shadow: 0 0 0 1px rgba(63, 63, 68, 0.05), 0 1px 3px 0 rgba(63, 63, 68, 0.15);
   font-size: $font-size-small;
   font-family: $font-family-text;
-  color: $color-rich-black;
+  color: $color_dark;
   border-radius: $border-radius-default;
   overflow: hidden;
   text-align: left;

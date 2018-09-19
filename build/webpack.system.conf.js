@@ -2,15 +2,16 @@
 const utils = require('./utils')
 const webpack = require('webpack')
 const path = require('path')
-const fs = require('fs')
 const config = require('../config')
 const merge = require('webpack-merge')
 const baseWebpackConfig = require('./webpack.base.conf')
 const MergeWebpackPlugin = require('webpack-merge-and-include-globally')
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
+const SafeParser = require('postcss-safe-parser')
+const fs = require('fs')
 
 const env = require('../config/prod.env')
 
@@ -23,6 +24,8 @@ const elementsSCSS = fs
   .readdirSync(path.resolve(__dirname, '..', elementsSCSSRelativePathFromRoot))
   .filter(name => name.indexOf('.') !== 0)
   .map(name => path.resolve(elementsSCSSRelativePathFromRoot, name))
+  .map(absolutePath => fs.readdirSync(absolutePath))
+  .reduce((collector, entry) => [...collector, ...entry], [])
 
 const webpackConfig = merge(baseWebpackConfig, {
   externals: {
@@ -58,14 +61,13 @@ const webpackConfig = merge(baseWebpackConfig, {
       parallel: true
     }),
     // extract css into its own file
-    new ExtractTextPlugin({
-      filename: utils.assetsSystemPath('[name].css'),
-      allChunks: false
+    new MiniCssExtractPlugin({
+      filename: utils.assetsPath('[name].css')
     }),
     // Compress extracted CSS. We are using this plugin so that possible
     // duplicated CSS from different components can be deduped.
     new OptimizeCSSPlugin({
-      cssProcessorOptions: { safe: true }
+      cssProcessorOptions: { parser: SafeParser }
     }),
     // keep module.id stable when vendor modules does not change
     new webpack.HashedModuleIdsPlugin(),

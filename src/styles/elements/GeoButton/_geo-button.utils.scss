@@ -1,0 +1,69 @@
+// Creates a geo-button color scheme varying the background and text color based
+// on the hover/focus/disabled status.
+@mixin geo-button-make-scheme ($params, $css-suffix) {
+  @if map-has-key($params, normal-background-color) {
+    background: map-get($params, normal-background-color);
+  }
+
+  @if map-has-key($params, normal-text-color) {
+    color: map-get($params, normal-text-color);
+  }
+
+  @if map-has-key($params, normal-border-color) {
+    border-color: map-get($params, normal-border-color);
+  }
+
+  &:hover, &[hover], &:focus, &[focus] {
+    @if map-has-key($params, hover-background-color) {
+      background: map-get($params, hover-background-color);
+    }
+
+    @if map-has-key($params, hover-text-color) {
+      color: map-get($params, hover-text-color);
+    }
+
+    @if map-has-key($params, hover-border-color) {
+      border-color: map-get($params, hover-border-color);
+    }
+  }
+
+  &--disabled#{$css-suffix} {
+    @if map-has-key($params, disabled-background-color) {
+      background: map-get($params, disabled-background-color);
+    }
+
+    @if map-has-key($params, disabled-text-color) {
+      color: map-get($params, disabled-text-color);
+    }
+
+    @if map-has-key($params, disabled-border-color) {
+      border-color: map-get($params, disabled-border-color);
+    }
+
+    &:hover, &[hover], &:focus, &[focus] {
+      @if map-has-key($params, hover-and-disabled-background-color) {
+        background: map-get($params, hover-and-disabled-background-color);
+      } @else if map-has-key($params, disabled-background-color) {
+        background: map-get($params, disabled-background-color);
+      } @else if map-has-key($params, hover-background-color) {
+        background: map-get($params, hover-background-color);
+      }
+
+      @if map-has-key($params, hover-and-disabled-border-color) {
+        border-color: map-get($params, hover-and-disabled-border-color);
+      } @else if map-has-key($params, disabled-border-color) {
+        border-color: map-get($params, disabled-border-color);
+      } @else if map-has-key($params, hover-border-color) {
+        border-color: map-get($params, hover-border-color);
+      }
+
+      @if map-has-key($params, hover-and-disabled-text-color) {
+        color: map-get($params, hover-and-disabled-text-color);
+      } @else if map-has-key($params, disabled-text-color) {
+        color: map-get($params, disabled-text-color);
+      } @else if map-has-key($params, hover-text-color) {
+        color: map-get($params, hover-text-color);
+      }
+    }
+  }
+}

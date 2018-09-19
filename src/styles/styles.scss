@@ -10,26 +10,26 @@
 @import "../styles/mixins";
 @import "../styles/spacing";
 
-@import "../styles/elements/geo-activity-indicator";
-@import "../styles/elements/geo-alert";
-@import "../styles/elements/geo-button";
-@import "../styles/elements/geo-marquee";
-@import "../styles/elements/geo-highlighted-string";
+@import "../styles/elements/GeoActivityIndicator/geo-activity-indicator";
+@import "../styles/elements/GeoAlert/geo-alert";
+@import "../styles/elements/GeoButton/geo-button";
+@import "../styles/elements/GeoMarquee/geo-marquee";
+@import "../styles/elements/GeoHighlightedString/geo-highlighted-string";
 
-@import "../styles/elements/geo-dropdown";
-@import "../styles/elements/geo-dropdown-compact-button";
-@import "../styles/elements/geo-dropdown-footer";
-@import "../styles/elements/geo-dropdown-group";
-@import "../styles/elements/geo-dropdown-header";
-@import "../styles/elements/geo-dropdown-list-item";
-@import "../styles/elements/geo-dropdown-regular-button";
+@import "../styles/elements/GeoDropdown/geo-dropdown";
+@import "../styles/elements/GeoDropdown/geo-dropdown-compact-button";
+@import "../styles/elements/GeoDropdown/geo-dropdown-footer";
+@import "../styles/elements/GeoDropdown/geo-dropdown-group";
+@import "../styles/elements/GeoDropdown/geo-dropdown-header";
+@import "../styles/elements/GeoDropdown/geo-dropdown-list-item";
+@import "../styles/elements/GeoDropdown/geo-dropdown-regular-button";
 
-@import "../styles/elements/geo-select-toggle-button";
-@import "../styles/elements/geo-select-entry";
-@import "../styles/elements/geo-select-read-only-entry";
-@import "../styles/elements/geo-select-opt-group-header";
-@import "../styles/elements/geo-select-opt-group-entry";
-@import "../styles/elements/geo-select-search-entry-form";
-@import "../styles/elements/geo-select-more-results";
-@import "../styles/elements/geo-select-base";
-@import "../styles/elements/geo-select";
+@import "../styles/elements/GeoSelect/geo-select-toggle-button";
+@import "../styles/elements/GeoSelect/geo-select-entry";
+@import "../styles/elements/GeoSelect/geo-select-read-only-entry";
+@import "../styles/elements/GeoSelect/geo-select-opt-group-header";
+@import "../styles/elements/GeoSelect/geo-select-opt-group-entry";
+@import "../styles/elements/GeoSelect/geo-select-search-entry-form";
+@import "../styles/elements/GeoSelect/geo-select-more-results";
+@import "../styles/elements/GeoSelect/geo-select-base";
+@import "../styles/elements/GeoSelect/geo-select";

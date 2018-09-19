@@ -9,6 +9,17 @@ import Meta from 'vue-meta'
 // Vue Design System: Auto importing components globally
 import DesignSystem from '@/system'
 
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+
+import { fab } from '@fortawesome/free-brands-svg-icons'
+import { fas } from '@fortawesome/free-solid-svg-icons'
+import { far } from '@fortawesome/free-regular-svg-icons'
+
+library.add(fab, fas, far)
+
+Vue.component('font-awesome-icon', FontAwesomeIcon)
+
 Vue.use(DesignSystem)
 Vue.use(Meta)
 
@@ -18,6 +29,9 @@ Vue.config.productionTip = false
 new Vue({
   el: '#app',
   router,
-  components: { App },
+  components: {
+    App,
+    FontAwesomeIcon
+  },
   template: '<App/>'
 })
