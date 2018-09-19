@@ -6,7 +6,6 @@
         :class="`geo-select-search-entry-form__search-icon${cssSuffix}`"
       />
       <input
-        ref="search-input"
         :class="{
           [`geo-select-search-entry-form__search-input${cssSuffix}`]: true,
           [`geo-select-search-entry-form__search-input--empty${cssSuffix}`]: !value
