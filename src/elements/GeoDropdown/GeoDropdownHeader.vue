@@ -24,13 +24,13 @@
     <div
       v-if="shouldShowCloseButton"
       :class="`geo-dropdown__header__close-button${cssSuffix}`"
+      @click="emitClose($event)"
     >
       <font-awesome-icon
         :icon="closeIcon"
         :class="`geo-dropdown__header__close-button__icon${cssSuffix}`"
         aria-hidden
         fixed-width
-        @click="emitClose($event)"
       />
     </div>
   </div>
