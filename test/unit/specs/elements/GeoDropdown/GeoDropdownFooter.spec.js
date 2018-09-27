@@ -9,7 +9,7 @@ describe('GeoDropdownFooter', () => {
   it('should render default slot', function () {
     const wrapper = mount(GeoDropdownFooter, {
       slots: {
-        default: [`<h1 class="my-demo-content">Just some unique demo content</h1>`]
+        default: [`<span class="my-demo-content">Just some unique demo content</span>`]
       }
     })
 
