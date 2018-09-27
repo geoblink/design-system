@@ -13,6 +13,7 @@
     "dev": "webpack-dev-server --inline --config ./build/webpack.dev.conf.js",
     "start": "run-p styleguide theo:onchange theo dev",
     "unit": "jest --config ./test/unit/jest.conf.js --coverage",
+    "unit:watch": "jest --config ./test/unit/jest.conf.js --watch",
     "build": "run-s theo node:build",
     "build:app": "npm run build",
     "build:system": "run-s theo node:build:system",
