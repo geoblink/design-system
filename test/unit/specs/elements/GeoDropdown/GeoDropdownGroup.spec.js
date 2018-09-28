@@ -1,16 +1,10 @@
-import { createLocalVue, mount } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import GeoDropdownGroup from '@/elements/GeoDropdown/GeoDropdownGroup.vue'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { fab } from '@fortawesome/free-brands-svg-icons'
 import { fas } from '@fortawesome/free-solid-svg-icons'
-import { far } from '@fortawesome/free-regular-svg-icons'
 
-library.add(fab, fas, far)
-
-// create an extended `Vue` constructor
-const localVue = createLocalVue()
-localVue.component('geo-dropdown-header', GeoDropdownGroup)
+library.add(fas)
 
 describe('GeoDropdownGroup', () => {
   it('should render title slot in header', function () {
@@ -35,14 +29,14 @@ describe('GeoDropdownGroup', () => {
         'font-awesome-icon': FontAwesomeIcon
       },
       propsData: {
-        icon: ['far', 'user']
+        icon: ['fas', 'user']
       },
       slots: {
         title: [`<span class="my-demo-content">Just some unique demo content</span>`]
       }
     })
 
-    expect(wrapper.find('svg[data-prefix="far"][data-icon="user"]').exists()).toBe(true)
+    expect(wrapper.find('svg[data-prefix="fas"][data-icon="user"]').exists()).toBe(true)
   })
 
   it('should trigger click event when clicking on header', function () {

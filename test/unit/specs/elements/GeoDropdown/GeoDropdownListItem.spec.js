@@ -1,16 +1,10 @@
-import { createLocalVue, mount } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import GeoDropdownListItem from '@/elements/GeoDropdown/GeoDropdownListItem.vue'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { fab } from '@fortawesome/free-brands-svg-icons'
 import { fas } from '@fortawesome/free-solid-svg-icons'
-import { far } from '@fortawesome/free-regular-svg-icons'
 
-library.add(fab, fas, far)
-
-// create an extended `Vue` constructor
-const localVue = createLocalVue()
-localVue.component('geo-dropdown-list-item', GeoDropdownListItem)
+library.add(fas)
 
 describe('GeoDropdownListItem', () => {
   it('should render default slot', function () {
@@ -40,11 +34,11 @@ describe('GeoDropdownListItem', () => {
         'font-awesome-icon': FontAwesomeIcon
       },
       propsData: {
-        icon: ['far', 'user']
+        icon: ['fas', 'user']
       }
     })
 
-    expect(wrapper.find('svg[data-prefix="far"][data-icon="user"]').exists()).toBe(true)
+    expect(wrapper.find('svg[data-prefix="fas"][data-icon="user"]').exists()).toBe(true)
   })
 
   it('should emit click event', function () {

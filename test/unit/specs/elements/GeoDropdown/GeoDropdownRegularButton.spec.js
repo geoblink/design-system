@@ -1,16 +1,10 @@
-import { createLocalVue, mount } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import GeoDropdownRegularButton from '@/elements/GeoDropdown/GeoDropdownRegularButton.vue'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { fab } from '@fortawesome/free-brands-svg-icons'
 import { fas } from '@fortawesome/free-solid-svg-icons'
-import { far } from '@fortawesome/free-regular-svg-icons'
 
-library.add(fab, fas, far)
-
-// create an extended `Vue` constructor
-const localVue = createLocalVue()
-localVue.component('geo-dropdown-footer', GeoDropdownRegularButton)
+library.add(fas)
 
 describe('GeoDropdownRegularButton', () => {
   it('should render icon when given', function () {
@@ -19,7 +13,7 @@ describe('GeoDropdownRegularButton', () => {
         'font-awesome-icon': FontAwesomeIcon
       },
       propsData: {
-        icon: ['far', 'user']
+        icon: ['fas', 'user']
       }
     })
 

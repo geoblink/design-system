@@ -1,19 +1,5 @@
-import { createLocalVue, mount } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import GeoDropdown from '@/elements/GeoDropdown/GeoDropdown.vue'
-
-// create an extended `Vue` constructor
-const localVue = createLocalVue()
-localVue.component('geo-dropdown', GeoDropdown)
-
-const DemoComponent = {
-  name: 'DemoComponent',
-  template: `
-    <div class="parent-wrapper">
-      <GeoDropdown :opened="false" @click-outside="$emit('click-outside')" />
-    </div>
-  `
-}
-localVue.component('demo-component', DemoComponent)
 
 describe('GeoDropdown', () => {
   it('should render toggle button', function () {
