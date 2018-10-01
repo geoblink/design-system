@@ -8,23 +8,20 @@ row or more complex elements (like form inputs) to the trailing edge.
 <div class="element-demo">
   <div class="element-demo__block" style="justify-content: space-around;">
     <geo-dropdown-list-item>
-      <template slot="label">My button</template>
+      My button
     </geo-dropdown-list-item>
 
     <geo-dropdown-list-item>
-      <template slot="label">Enable option</template>
-      <input
-        slot="trailingAccessoryItem"
-        type="checkbox"
-      >
+      Enable option
+      <input slot="trailingAccessoryItem" type="checkbox">
     </geo-dropdown-list-item>
 
     <geo-dropdown-list-item :icon="['far', 'user']">
-      <template slot="label">My profile</template>
+      My profile
     </geo-dropdown-list-item>
 
     <geo-dropdown-list-item :icon="['far', 'bell']">
-      <template slot="label">Notifications</template>
+      Notifications
       <font-awesome-icon
         slot="trailingAccessoryItem"
         :icon="['fas', 'chevron-right']"
