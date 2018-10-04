@@ -82,9 +82,12 @@ props:
     font_style: "italic"
     color: "#FF594F"
   icon_small:
+    weight: "400"
     value: "12px"
-  icon_regular:
-    value: "14px"
+    line_height: "nomal"
+    font_family: "Lato"
+    font_style: "italic"
+    color: "#FFFFFF"
 global:
   type: number
   category: font-size
