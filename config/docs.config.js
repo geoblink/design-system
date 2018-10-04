@@ -100,6 +100,11 @@ module.exports = {
           sectionDepth: 1
         },
         {
+          name: 'GeoInput',
+          components: '../src/elements/GeoInput/GeoInput*.vue',
+          sectionDepth: 0
+        },
+        {
           name: 'GeoSelect',
           components: '../src/elements/GeoSelect/GeoSelect*.vue',
           sectionDepth: 1

@@ -1,0 +1,113 @@
+@import '../GeoDropdown/_geo-dropdown.scss';
+
+@mixin geo-input-make($modifier-name) {
+  $modifier-name-with-prefix: '';
+  
+  @if $modifier-name != '' {
+    // sass-lint:disable space-around-operator
+    $modifier-name-with-prefix: --#{$modifier-name};
+  }
+  
+  @include geo-activity-indicator-make('geo-input#{$modifier-name-with-prefix}');
+  @include geo-dropdown-make('geo-input#{$modifier-name-with-prefix}');
+
+  .geo-input__container#{$modifier-name-with-prefix} {
+    align-items: center;
+    background: $color_white;
+    border: 1px solid $color_grey;
+    box-sizing: border-box;
+    display: flex;
+    height: 40px;
+    padding: 5px;
+    width: 100%;
+
+    &:hover {
+      background-color: $color_white_dark;
+
+      .geo-input__container-input#{$modifier-name-with-prefix} {
+        border: 1px solid $color_grey;
+      }
+    }
+  }
+
+  .geo-input__container--disabled#{$modifier-name-with-prefix}:hover {
+    background-color: $color_white;
+
+    .geo-input__container-input#{$modifier-name-with-prefix} {
+      border: 1px solid transparent;
+    }
+  }
+
+  .geo-input__container--edit#{$modifier-name-with-prefix} {
+    background-color: $color_white_dark;
+
+    .geo-input__container-input#{$modifier-name-with-prefix} {
+      border: 1px solid $color_grey;
+    }
+  }
+  
+  .geo-input__container-input#{$modifier-name-with-prefix} {
+    border: 1px solid transparent;
+    border-radius: $border_radius_default;
+    box-sizing: border-box;
+    font-size: 14px;
+    height: 30px;
+    padding: 0 5px;
+    width: 100%;
+
+    &:focus {
+      outline: none;
+    }
+
+    &::placeholder {
+      color: $color_grey_light;
+    }
+  }
+
+  .geo-input__container-buttons#{$modifier-name-with-prefix} {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .geo-input__container-buttons__button#{$modifier-name-with-prefix} {
+    align-items: center;
+    border-radius: $border_radius_default;
+    box-shadow: $box_shadow_regular;
+    cursor: pointer;
+    display: flex;
+    font-size: 12px;
+    height: 20px;
+    justify-content: center;
+    outline: none;
+    padding: 0;
+    width: 20px;
+  }
+
+  .geo-input__container-buttons__button--save#{$modifier-name-with-prefix} {
+    background-color: $color_blue;
+    border: 1px solid $color_blue;
+    color: $color_white;
+    margin-left: 5px;
+  }
+
+  .geo-input__container-buttons__button--cancel#{$modifier-name-with-prefix} {
+    background-color: $color_white;
+    border: 1px solid $color_grey;
+    color: $color_grey;
+  }
+
+  .geo-dropdown--geo-input#{$modifier-name-with-prefix} {
+    width: 100%;
+  }
+
+  .geo-dropdown__popup--geo-input#{$modifier-name-with-prefix} {
+    border: none;
+    background-color: transparent;
+  }
+
+  .geo-activity-indicator--geo-input#{$modifier-name-with-prefix} {
+    height: 12px;
+  }
+}
+
+@include geo-input-make('');

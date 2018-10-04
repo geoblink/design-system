@@ -96,7 +96,7 @@ props:
   color_white:
     value: "{!white}"
     category: color_group_6
-  color_white__dark:
+  color_white_dark:
     value: "{!white_dark}"
     category: color_group_6
   color_grey_light:
