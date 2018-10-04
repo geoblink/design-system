@@ -10,7 +10,7 @@
     <geo-dropdown
       :opened="showButtons"
       :css-modifier="`geo-input${cssSuffix}`"
-      x-axis-position="right"
+      preferred-x-axis-position="right"
       @click-outside="handleClickOutside($event)"
     >
       <input

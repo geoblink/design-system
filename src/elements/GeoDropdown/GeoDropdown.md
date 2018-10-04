@@ -78,8 +78,8 @@ if pinned to left side.
     <div class="element-demo__block" style="justify-content: space-around;">
       <div class="element-demo__bordered-box container-with-hidden-overflow">
       <geo-dropdown
-        xAxisPosition="right"
-        yAxisPosition="top"
+        preferred-x-axis-position="right"
+        preferred-y-axis-position="top"
         :opened="isOpened[1]"
         @click-outside="closeMenu(1)"
       >
