@@ -70,10 +70,7 @@ export default {
      */
     value: {
       type: String,
-      required: false,
-      validator (value) {
-        return _.isString(value)
-      }
+      required: false
     },
     /**
      * Whether the action buttons are shown (`true`) or not.
@@ -94,14 +91,16 @@ export default {
      */
     disabled: {
       type: Boolean,
-      required: false
+      required: false,
+      default: false
     },
     /**
      * Whether the save button is performing any action and is busy (`true`) or not.
      */
     loading: {
       type: Boolean,
-      required: false
+      required: false,
+      default: false
     },
     /**
      * Font Awesome icon to be displayed in the save button.
