@@ -30,6 +30,13 @@ import ScrollAnywhere from '../../directives/GeoScrollAnywhere'
 import getDOMElementOffset from '../../utils/getDOMElementOffset'
 import cssSuffix from '../../mixins/cssModifierMixin'
 
+const position = {
+  RIGHT: 'right',
+  LEFT: 'left',
+  TOP: 'top',
+  BOTTOM: 'bottom'
+}
+
 export default {
   name: 'GeoDropdown',
   status: 'missing-tests',
@@ -46,6 +53,28 @@ export default {
     opened: {
       type: Boolean,
       required: true
+    },
+    /**
+     * Position of the popup relative to the container. `right` or `left`
+     */
+    xAxisPosition: {
+      type: String,
+      default: 'left',
+      validator: function (value) {
+        // The value must match one of these strings
+        return ['right', 'left'].indexOf(value) !== -1
+      }
+    },
+    /**
+     * Position of the popup relative to the container. `right` or `left`
+     */
+    yAxisPosition: {
+      type: String,
+      default: 'bottom',
+      validator: function (value) {
+        // The value must match one of these strings
+        return ['top', 'bottom'].indexOf(value) !== -1
+      }
     }
   },
   data () {
@@ -108,6 +137,9 @@ export default {
     },
 
     repositionPopup () {
+      let translationY
+      let translationX
+
       const viewport = {
         height: document.documentElement.clientHeight,
         width: document.documentElement.clientWidth
@@ -146,17 +178,32 @@ export default {
       // the screen or not.
 
       const fitsTowardsRight = containerRect.left + towardsRightTranslationX + popupRect.width < viewport.width
+      const fitsTowardsLeft = containerRect.left + towardsLeftTranslationX >= 0
 
-      const translationX = fitsTowardsRight
-        ? towardsRightTranslationX
-        : towardsLeftTranslationX
+      // We check the preferred X position and try to place it if there enough space
+      if (this.xAxisPosition === position.LEFT) {
+        translationX = fitsTowardsRight
+          ? towardsRightTranslationX
+          : towardsLeftTranslationX
+      } else {
+        translationX = fitsTowardsLeft
+          ? towardsLeftTranslationX
+          : towardsRightTranslationX
+      }
 
       const fitsBelow = containerRect.top + belowTranslationY + popupRect.height < viewport.height
       const fitsAbove = containerRect.top + aboveTranslationY >= 0
 
-      const translationY = (fitsBelow || !fitsAbove)
-        ? belowTranslationY
-        : aboveTranslationY
+      // We check the preferred Y position and try to place it if there enough space
+      if (this.yAxisPosition === position.BOTTOM) {
+        translationY = (fitsBelow || !fitsAbove)
+          ? belowTranslationY
+          : aboveTranslationY
+      } else {
+        translationY = (!fitsBelow || fitsAbove)
+          ? aboveTranslationY
+          : belowTranslationY
+      }
 
       this.popupTranslation.x = translationX
       this.popupTranslation.y = translationY

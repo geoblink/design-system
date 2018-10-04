@@ -74,10 +74,12 @@ if pinned to left side.
         </template>
       </geo-dropdown>
     </div>
-    <h3 class="element-demo__header">Menu inside container</h3>
+    <h3 class="element-demo__header">Menu inside container and placed top right</h3>
     <div class="element-demo__block" style="justify-content: space-around;">
       <div class="element-demo__bordered-box container-with-hidden-overflow">
       <geo-dropdown
+        xAxisPosition="right"
+        yAxisPosition="top"
         :opened="isOpened[1]"
         @click-outside="closeMenu(1)"
       >
