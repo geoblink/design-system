@@ -3,11 +3,11 @@ Use `GeoInput` component when you need confirmation feedback from the user on in
 ```vue
 <template>
   <div class="element-demo">
-    <h3 class="element-demo__header">Input</h3>
+    <h3 class="element-demo__header">Input table</h3>
     <div class="element-demo__block" style="justify-content: space-around;">
       <div class="input-demo__container">
         <geo-input
-          v-model="inputValue1"
+          v-model="inputValue[0]"
           :cancel-icon="['fas', 'times']"
           :save-icon="['fas', 'check']"
           :showButtons="showButtons[0]"
@@ -21,7 +21,28 @@ Use `GeoInput` component when you need confirmation feedback from the user on in
       </div>
     </div>
     <div class="element-demo__block" style="justify-content: space-around;">
-      <p>Input value: {{ inputValue1 }}</p>
+      <p>Input value: {{ inputValue[0] }}</p>
+    </div>
+    <h3 class="element-demo__header">Input normal</h3>
+    <div class="element-demo__block" style="justify-content: space-around;">
+      <div class="input-demo__container">
+        <geo-input
+          v-model="inputValue[1]"
+          :cancel-icon="['fas', 'times']"
+          :save-icon="['fas', 'check']"
+          :showButtons="showButtons[1]"
+          :loading="isLoading"
+          input-type="normal"
+          placeholder="Placeholder"
+          @save="saveData(1)"
+          @cancel="cancel(1)"
+          @click="enterEditMode(1)"
+          @click-outside="hideButtons(1)"
+        />
+      </div>
+    </div>
+    <div class="element-demo__block" style="justify-content: space-around;">
+      <p>Input value: {{ inputValue[1] }}</p>
     </div>
     <h3 class="element-demo__header">Input disabled</h3>
     <div class="element-demo__block" style="justify-content: space-around;">
@@ -29,11 +50,11 @@ Use `GeoInput` component when you need confirmation feedback from the user on in
         <geo-input
           :cancel-icon="['fas', 'times']"
           :save-icon="['fas', 'check']"
-          :showButtons="showButtons[1]"
+          :showButtons="showButtons[2]"
           :disabled="true"
           placeholder="Placeholder"
-          @click="enterEditMode(1)"
-          @click-outside="hideButtons(1)"
+          @click="enterEditMode(2)"
+          @click-outside="hideButtons(2)"
         />
       </div>
     </div>
@@ -44,9 +65,9 @@ Use `GeoInput` component when you need confirmation feedback from the user on in
 export default {
   data () {
     return {
-      showButtons: [false, false],
+      showButtons: [false, false, false],
       isLoading: false,
-      inputValue1: ''
+      inputValue: ['', '']
     }
   },
   computed: {

@@ -2,8 +2,9 @@
   <div
     :class="{
       [`geo-input__container${cssSuffix}`]: true,
+      [`geo-input__container-${inputType}${cssSuffix}`]: true,
       [`geo-input__container--disabled${cssSuffix}`]: disabled,
-      [`geo-input__container--edit${cssSuffix}`]: showButtons
+      [`geo-input__container-${inputType}--edit${cssSuffix}`]: showButtons
     }"
   >
     <geo-dropdown
@@ -74,7 +75,6 @@ export default {
         return _.isString(value)
       }
     },
-
     /**
      * Whether the action buttons are shown (`true`) or not.
      */
@@ -82,7 +82,6 @@ export default {
       type: Boolean,
       required: true
     },
-
     /**
      * Text to be displayed as placeholder.
      */
@@ -90,7 +89,6 @@ export default {
       type: String,
       required: false
     },
-
     /**
      * Whether the input is disabled (and can't be interacted with - `true`) or not.
      */
@@ -98,7 +96,6 @@ export default {
       type: Boolean,
       required: false
     },
-
     /**
      * Whether the save button is performing any action and is busy (`true`) or not.
      */
@@ -106,7 +103,6 @@ export default {
       type: Boolean,
       required: false
     },
-
     /**
      * Font Awesome icon to be displayed in the save button.
      */
@@ -116,7 +112,6 @@ export default {
         return ['fal', 'check']
       }
     },
-
     /**
      * Font Awesome icon to be displayed in the cancel button.
      */
@@ -124,6 +119,17 @@ export default {
       type: Array,
       default: function () {
         return ['fal', 'times']
+      }
+    },
+    /**
+     * Defines the style of the input depending on where is goint to be use. `table` or `normal`
+     */
+    inputType: {
+      type: String,
+      default: 'table',
+      validator: function (value) {
+        // The value must match one of these strings
+        return ['table', 'normal'].indexOf(value) !== -1
       }
     }
   },
