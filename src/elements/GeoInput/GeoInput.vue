@@ -57,6 +57,7 @@
 
 <script>
 import cssSuffix from '../../mixins/cssModifierMixin'
+import { POSSIBLE_TYPES } from './GeoInput.constants'
 
 export default {
   name: 'GeoInput',
@@ -127,15 +128,9 @@ export default {
       default: 'table',
       validator: function (value) {
         // The value must match one of these strings
-        return ['table', 'normal'].indexOf(value) !== -1
+        return value in POSSIBLE_TYPES
       }
     }
-  },
-  data () {
-    return {
-    }
-  },
-  computed: {
   },
   methods: {
     handleClickOutside ($event) {
