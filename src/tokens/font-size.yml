@@ -81,6 +81,10 @@ props:
     font_family: "Lato"
     font_style: "italic"
     color: "#FF594F"
+  icon_small:
+    value: "12px"
+  icon_regular:
+    value: "14px"
 global:
   type: number
   category: font-size

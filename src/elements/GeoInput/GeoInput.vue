@@ -56,7 +56,6 @@
 </template>
 
 <script>
-import _ from 'lodash'
 import cssSuffix from '../../mixins/cssModifierMixin'
 
 export default {

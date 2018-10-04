@@ -26,7 +26,7 @@
 
   .geo-input__container-normal--edit#{$modifier-name-with-prefix} {
     border: 1px solid $color_blue;
-    box-shadow: inset 0 0 2px 1px rgba(111,161,212,0.5);
+    box-shadow: $box_shadow_focus;
   }
 
   .geo-input__container-table#{$modifier-name-with-prefix} {
@@ -59,7 +59,7 @@
     border: 1px solid transparent;
     border-radius: $border_radius_default;
     box-sizing: border-box;
-    font-size: 14px;
+    font-size: $small;
     height: 30px;
     padding: 0 5px;
     width: 100%;
@@ -81,10 +81,10 @@
   .geo-input__container-buttons__button#{$modifier-name-with-prefix} {
     align-items: center;
     border-radius: $border_radius_default;
-    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.3);
+    box-shadow: $box_shadow_small;
     cursor: pointer;
     display: flex;
-    font-size: 12px;
+    font-size: $icon_small;
     height: 20px;
     justify-content: center;
     outline: none;
