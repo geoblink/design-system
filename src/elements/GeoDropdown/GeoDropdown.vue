@@ -173,27 +173,27 @@ export default {
       // We set the config for each possible position, if fits, preferred position
       // and fallback position
       const configTowardsLeft = {
-        fitsTowardsPreferredPosition: fitsTowardsLeft,
-        translationTowardsPreferredPosition: towardsLeftTranslationX,
-        translationTowardsFallbackPosition: towardsRightTranslationX
+        fitsTowardsPreferredXPosition: fitsTowardsLeft,
+        translationTowardsPreferredXPosition: towardsRightTranslationX,
+        translationTowardsFallbackXPosition: towardsLeftTranslationX
       }
 
       const configTowardsRight = {
-        fitsTowardsPreferredPosition: fitsTowardsRight,
-        translationTowardsPreferredPosition: towardsRightTranslationX,
-        translationTowardsFallbackPosition: towardsLeftTranslationX
+        fitsTowardsPreferredXPosition: fitsTowardsRight,
+        translationTowardsPreferredXPosition: towardsLeftTranslationX,
+        translationTowardsFallbackXPosition: towardsRightTranslationX
       }
 
       const configTowardsTop = {
-        fitsTowardsPreferredPosition: (!fitsBelow || fitsAbove),
-        translationTowardsPreferredPosition: towardsLeftTranslationX,
-        translationTowardsFallbackPosition: towardsRightTranslationX
+        fitsTowardsPreferredYPosition: (!fitsBelow || fitsAbove),
+        translationTowardsPreferredYPosition: aboveTranslationY,
+        translationTowardsFallbackYPosition: belowTranslationY
       }
 
       const configTowardsBottom = {
-        fitsTowardsPreferredPosition: (fitsBelow || !fitsAbove),
-        translationTowardsPreferredPosition: towardsRightTranslationX,
-        translationTowardsFallbackPosition: towardsLeftTranslationX
+        fitsTowardsPreferredYPosition: (fitsBelow || !fitsAbove),
+        translationTowardsPreferredYPosition: belowTranslationY,
+        translationTowardsFallbackYPosition: aboveTranslationY
       }
 
       // Assignation of the config for X and Y depending on the preferred position
