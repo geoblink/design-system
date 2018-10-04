@@ -54,6 +54,31 @@ describe('GeoInput', () => {
     })
   })
 
+  it('should not emit the event on click when disabled', function (done) {
+    const wrapper = mount(GeoInput, {
+      propsData: {
+        showButtons: false,
+        cancelIcon: ['fas', 'times'],
+        saveIcon: ['fas', 'check'],
+        disabled: true
+      },
+      stubs: {
+        'font-awesome-icon': FontAwesomeIcon,
+        GeoDropdown
+      }
+    })
+
+    wrapper.find('.geo-input__container-input').trigger('click')
+    setTimeout(function () {
+      try {
+        expect(wrapper.emitted()['click']).toBeFalsy()
+        done()
+      } catch (error) {
+        done(error)
+      }
+    })
+  })
+
   it('should emit an event on click save button', function (done) {
     const wrapper = mount(GeoInput, {
       propsData: {
