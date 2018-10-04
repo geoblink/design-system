@@ -125,4 +125,30 @@ describe('GeoInput', () => {
       }
     })
   })
+
+  it('should emit input event when added a value', function (done) {
+    const wrapper = mount(GeoInput, {
+      propsData: {
+        showButtons: false,
+        cancelIcon: ['fas', 'times'],
+        saveIcon: ['fas', 'check']
+      },
+      stubs: {
+        'font-awesome-icon': FontAwesomeIcon,
+        GeoDropdown
+      }
+    })
+
+    const textInput = wrapper.find('input[type="text"]')
+    textInput.setValue('some value')
+
+    setTimeout(function () {
+      try {
+        expect(wrapper.emitted()['input']).toBeTruthy()
+        done()
+      } catch (error) {
+        done(error)
+      }
+    })
+  })
 })
