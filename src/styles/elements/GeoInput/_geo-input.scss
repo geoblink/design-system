@@ -72,7 +72,7 @@
   .geo-input__container-buttons__button#{$modifier-name-with-prefix} {
     align-items: center;
     border-radius: $border_radius_default;
-    box-shadow: $box_shadow_regular;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.3);
     cursor: pointer;
     display: flex;
     font-size: 12px;
@@ -103,6 +103,7 @@
   .geo-dropdown__popup--geo-input#{$modifier-name-with-prefix} {
     border: none;
     background-color: transparent;
+    overflow: visible;
   }
 
   .geo-activity-indicator--geo-input#{$modifier-name-with-prefix} {
