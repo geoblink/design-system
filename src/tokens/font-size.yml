@@ -84,7 +84,7 @@ props:
   icon_small:
     weight: "400"
     value: "12px"
-    line_height: "nomal"
+    line_height: "normal"
     font_family: "Lato"
     font_style: "italic"
     color: "#FFFFFF"
