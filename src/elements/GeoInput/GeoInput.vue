@@ -40,14 +40,14 @@
           :class="`geo-input__container-buttons__button${cssSuffix} geo-input__container-buttons__button--save${cssSuffix}`"
           @click="emitSave($event)"
         >
-          <font-awesome-icon
-            v-if="!loading"
-            :icon="saveIcon"
-          />
           <geo-activity-indicator
-            v-else
+            v-if="loading"
             :css-modifier="`geo-input${cssSuffix}`"
             variant="dark-transparent"
+          />
+          <font-awesome-icon
+            v-else
+            :icon="saveIcon"
           />
         </button>
       </div>
