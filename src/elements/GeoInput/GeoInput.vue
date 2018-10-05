@@ -91,7 +91,6 @@ export default {
      */
     disabled: {
       type: Boolean,
-      required: false,
       default: false
     },
     /**
@@ -99,7 +98,6 @@ export default {
      */
     loading: {
       type: Boolean,
-      required: false,
       default: false
     },
     /**
