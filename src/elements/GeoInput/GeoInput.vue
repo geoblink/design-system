@@ -62,7 +62,7 @@ import { POSSIBLE_TYPES } from './GeoInput.constants'
 export default {
   name: 'GeoInput',
   status: 'ready',
-  release: '1.0.0',
+  release: '6.1.0',
   mixins: [cssSuffix],
   props: {
     /**
