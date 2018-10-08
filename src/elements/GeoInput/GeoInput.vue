@@ -18,9 +18,7 @@
         :value="value"
         :placeholder="placeholder"
         :disabled="disabled"
-        :class="{
-          [`geo-input__container-input${cssSuffix}`]: true,
-        }"
+        :class="`geo-input__container-input${cssSuffix}`"
         type="text"
         @click="emitClick($event)"
         @input="onInput($event)"
@@ -66,7 +64,7 @@ export default {
   mixins: [cssSuffix],
   props: {
     /**
-     * Input value
+     * Input value.
      */
     value: {
       type: String,
@@ -101,7 +99,10 @@ export default {
       default: false
     },
     /**
-     * Font Awesome icon to be displayed in the save button.
+     * Font Awesome 5 icon to be displayed.
+     *
+     * See [vue-fontawesome](https://www.npmjs.com/package/@fortawesome/vue-fontawesome#explicit-prefix-note-the-vue-bind-shorthand-because-this-uses-an-array)
+     * for more info about this.
      */
     saveIcon: {
       type: Array,
@@ -120,10 +121,15 @@ export default {
     },
     /**
      * Defines the style of the input depending on where is goint to be use. `table` or `normal`
+     * Values available in `POSSIBLE_TYPES`
+     * - `POSSIBLE_TYPES.table`
+     * - `POSSIBLE_TYPES-normal`
      */
     inputType: {
       type: String,
-      default: 'table',
+      default: function () {
+        return POSSIBLE_TYPES.table
+      },
       validator: function (value) {
         // The value must match one of these strings
         return value in POSSIBLE_TYPES
@@ -153,7 +159,7 @@ export default {
 
     emitSave ($event) {
       /**
-       * User clicked the save button.
+       * User clicked the save button. The event will be emitted even if the input is with `loading` `true`.
        *
        * @event save
        * @type {MouseEvent}
