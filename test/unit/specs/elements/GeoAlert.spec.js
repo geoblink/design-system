@@ -159,6 +159,24 @@ describe('GeoAlert', () => {
 
     expect(wrapper.find('.geo-alert--floating').exists()).toBe(false)
   })
+
+  it('Should check variant prop is valid', function () {
+    const wrapper = mount(GeoAlert, {
+      propsData: {
+        variant: 'success'
+      },
+      stubs: {
+        'font-awesome-icon': FontAwesomeIcon
+      }
+    })
+
+    const variantProp = wrapper.vm.$options.props.variant
+
+    expect(variantProp.required).toBeTruthy()
+    expect(variantProp.type).toBe(String)
+    expect(variantProp.validator && variantProp.validator('qwerty')).toBeFalsy()
+    expect(variantProp.validator && variantProp.validator('info')).toBeTruthy()
+  })
 })
 
 const taxonomyAlerts = [GeoErrorAlert, GeoInfoAlert, GeoProgressAlert, GeoSuccessAlert, GeoWarningAlert]
