@@ -29,6 +29,7 @@ import ClickOutside from '../../directives/GeoClickOutside'
 import ScrollAnywhere from '../../directives/GeoScrollAnywhere'
 import getDOMElementOffset from '../../utils/getDOMElementOffset'
 import cssSuffix from '../../mixins/cssModifierMixin'
+import { X_AXIS_POSITION, Y_AXIS_POSITION } from './GeoDropdown.constants'
 
 export default {
   name: 'GeoDropdown',
@@ -46,6 +47,36 @@ export default {
     opened: {
       type: Boolean,
       required: true
+    },
+    /**
+     * Position of the popup relative to the container. `right` or `left`
+     * Values available in `X_AXIS_POSITION`
+     * - `X_AXIS_POSITION.right`
+     * - `X_AXIS_POSITION.left`
+     */
+    preferredXAxisPosition: {
+      type: String,
+      default: function () {
+        return X_AXIS_POSITION.left
+      },
+      validator: function (value) {
+        return value in X_AXIS_POSITION
+      }
+    },
+    /**
+     * Position of the popup relative to the container. `top` or `bottom`
+     * Values available in `Y_AXIS_POSITION`
+     * - `Y_AXIS_POSITION.top`
+     * - `Y_AXIS_POSITION.bottom`
+     */
+    preferredYAxisPosition: {
+      type: String,
+      default: function () {
+        return Y_AXIS_POSITION.bottom
+      },
+      validator: function (value) {
+        return value in Y_AXIS_POSITION
+      }
     }
   },
   data () {
@@ -144,19 +175,62 @@ export default {
 
       // We'll choose proper transform based on whether the content will fit
       // the screen or not.
-
       const fitsTowardsRight = containerRect.left + towardsRightTranslationX + popupRect.width < viewport.width
-
-      const translationX = fitsTowardsRight
-        ? towardsRightTranslationX
-        : towardsLeftTranslationX
-
+      const fitsTowardsLeft = containerRect.left + towardsLeftTranslationX >= 0
       const fitsBelow = containerRect.top + belowTranslationY + popupRect.height < viewport.height
       const fitsAbove = containerRect.top + aboveTranslationY >= 0
 
-      const translationY = (fitsBelow || !fitsAbove)
-        ? belowTranslationY
-        : aboveTranslationY
+      // We set the config for each possible position, if fits, preferred position
+      // and fallback position
+      const configTowardsLeft = {
+        fitsTowardsPreferredXPosition: fitsTowardsLeft,
+        translationTowardsPreferredXPosition: towardsRightTranslationX,
+        translationTowardsFallbackXPosition: towardsLeftTranslationX
+      }
+
+      const configTowardsRight = {
+        fitsTowardsPreferredXPosition: fitsTowardsRight,
+        translationTowardsPreferredXPosition: towardsLeftTranslationX,
+        translationTowardsFallbackXPosition: towardsRightTranslationX
+      }
+
+      const configTowardsTop = {
+        fitsTowardsPreferredYPosition: (!fitsBelow || fitsAbove),
+        translationTowardsPreferredYPosition: aboveTranslationY,
+        translationTowardsFallbackYPosition: belowTranslationY
+      }
+
+      const configTowardsBottom = {
+        fitsTowardsPreferredYPosition: (fitsBelow || !fitsAbove),
+        translationTowardsPreferredYPosition: belowTranslationY,
+        translationTowardsFallbackYPosition: aboveTranslationY
+      }
+
+      // Assignation of the config for X and Y depending on the preferred position
+      const {
+        fitsTowardsPreferredXPosition,
+        translationTowardsPreferredXPosition,
+        translationTowardsFallbackXPosition
+      } = this.preferredXAxisPosition === X_AXIS_POSITION.left
+        ? configTowardsLeft
+        : configTowardsRight
+
+      const {
+        fitsTowardsPreferredYPosition,
+        translationTowardsPreferredYPosition,
+        translationTowardsFallbackYPosition
+      } = this.preferredYAxisPosition === Y_AXIS_POSITION.top
+        ? configTowardsTop
+        : configTowardsBottom
+
+      // Check if fits to assign the correct translation
+      const translationX = fitsTowardsPreferredXPosition
+        ? translationTowardsPreferredXPosition
+        : translationTowardsFallbackXPosition
+
+      const translationY = fitsTowardsPreferredYPosition
+        ? translationTowardsPreferredYPosition
+        : translationTowardsFallbackYPosition
 
       this.popupTranslation.x = translationX
       this.popupTranslation.y = translationY
