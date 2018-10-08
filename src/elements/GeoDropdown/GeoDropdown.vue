@@ -29,7 +29,7 @@ import ClickOutside from '../../directives/GeoClickOutside'
 import ScrollAnywhere from '../../directives/GeoScrollAnywhere'
 import getDOMElementOffset from '../../utils/getDOMElementOffset'
 import cssSuffix from '../../mixins/cssModifierMixin'
-import { AXIS_POSITION, POSSIBLE_X_AXIS_POSITIONS, POSSIBLE_Y_AXIS_POSITIONS } from './GeoDropdown.constants'
+import { POSSIBLE_X_AXIS_POSITIONS, POSSIBLE_Y_AXIS_POSITIONS } from './GeoDropdown.constants'
 
 export default {
   name: 'GeoDropdown',
@@ -50,20 +50,30 @@ export default {
     },
     /**
      * Position of the popup relative to the container. `right` or `left`
+     * Values available in `POSSIBLE_X_AXIS_POSITIONS`
+     * - `POSSIBLE_X_AXIS_POSITIONS.right`
+     * - `POSSIBLE_X_AXIS_POSITIONS.left`
      */
     preferredXAxisPosition: {
       type: String,
-      default: 'left',
+      default: function () {
+        return POSSIBLE_X_AXIS_POSITIONS.left
+      },
       validator: function (value) {
         return value in POSSIBLE_X_AXIS_POSITIONS
       }
     },
     /**
-     * Position of the popup relative to the container. `right` or `left`
+     * Position of the popup relative to the container. `top` or `bottom`
+     * Values available in `POSSIBLE_Y_AXIS_POSITIONS`
+     * - `POSSIBLE_Y_AXIS_POSITIONS.top`
+     * - `POSSIBLE_Y_AXIS_POSITIONS.bottom`
      */
     preferredYAxisPosition: {
       type: String,
-      default: 'bottom',
+      default: function () {
+        return POSSIBLE_Y_AXIS_POSITIONS.bottom
+      },
       validator: function (value) {
         return value in POSSIBLE_Y_AXIS_POSITIONS
       }
@@ -201,7 +211,7 @@ export default {
         fitsTowardsPreferredXPosition,
         translationTowardsPreferredXPosition,
         translationTowardsFallbackXPosition
-      } = this.preferredXAxisPosition === AXIS_POSITION.LEFT
+      } = this.preferredXAxisPosition === POSSIBLE_X_AXIS_POSITIONS.left
         ? configTowardsLeft
         : configTowardsRight
 
@@ -209,7 +219,7 @@ export default {
         fitsTowardsPreferredYPosition,
         translationTowardsPreferredYPosition,
         translationTowardsFallbackYPosition
-      } = this.preferredYAxisPosition === AXIS_POSITION.TOP
+      } = this.preferredYAxisPosition === POSSIBLE_Y_AXIS_POSITIONS.top
         ? configTowardsTop
         : configTowardsBottom
 
