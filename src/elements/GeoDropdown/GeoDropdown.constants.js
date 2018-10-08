@@ -1,11 +1,11 @@
-const POSSIBLE_X_AXIS_POSITIONS = {
+const X_AXIS_POSITION = {
   right: 'right',
   left: 'left'
 }
 
-const POSSIBLE_Y_AXIS_POSITIONS = {
+const Y_AXIS_POSITION = {
   top: 'top',
   bottom: 'bottom'
 }
 
-export { POSSIBLE_X_AXIS_POSITIONS, POSSIBLE_Y_AXIS_POSITIONS }
+export { X_AXIS_POSITION, Y_AXIS_POSITION }

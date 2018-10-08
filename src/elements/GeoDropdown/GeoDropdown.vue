@@ -29,7 +29,7 @@ import ClickOutside from '../../directives/GeoClickOutside'
 import ScrollAnywhere from '../../directives/GeoScrollAnywhere'
 import getDOMElementOffset from '../../utils/getDOMElementOffset'
 import cssSuffix from '../../mixins/cssModifierMixin'
-import { POSSIBLE_X_AXIS_POSITIONS, POSSIBLE_Y_AXIS_POSITIONS } from './GeoDropdown.constants'
+import { X_AXIS_POSITION, Y_AXIS_POSITION } from './GeoDropdown.constants'
 
 export default {
   name: 'GeoDropdown',
@@ -50,32 +50,32 @@ export default {
     },
     /**
      * Position of the popup relative to the container. `right` or `left`
-     * Values available in `POSSIBLE_X_AXIS_POSITIONS`
-     * - `POSSIBLE_X_AXIS_POSITIONS.right`
-     * - `POSSIBLE_X_AXIS_POSITIONS.left`
+     * Values available in `X_AXIS_POSITION`
+     * - `X_AXIS_POSITION.right`
+     * - `X_AXIS_POSITION.left`
      */
     preferredXAxisPosition: {
       type: String,
       default: function () {
-        return POSSIBLE_X_AXIS_POSITIONS.left
+        return X_AXIS_POSITION.left
       },
       validator: function (value) {
-        return value in POSSIBLE_X_AXIS_POSITIONS
+        return value in X_AXIS_POSITION
       }
     },
     /**
      * Position of the popup relative to the container. `top` or `bottom`
-     * Values available in `POSSIBLE_Y_AXIS_POSITIONS`
-     * - `POSSIBLE_Y_AXIS_POSITIONS.top`
-     * - `POSSIBLE_Y_AXIS_POSITIONS.bottom`
+     * Values available in `Y_AXIS_POSITION`
+     * - `Y_AXIS_POSITION.top`
+     * - `Y_AXIS_POSITION.bottom`
      */
     preferredYAxisPosition: {
       type: String,
       default: function () {
-        return POSSIBLE_Y_AXIS_POSITIONS.bottom
+        return Y_AXIS_POSITION.bottom
       },
       validator: function (value) {
-        return value in POSSIBLE_Y_AXIS_POSITIONS
+        return value in Y_AXIS_POSITION
       }
     }
   },
@@ -211,7 +211,7 @@ export default {
         fitsTowardsPreferredXPosition,
         translationTowardsPreferredXPosition,
         translationTowardsFallbackXPosition
-      } = this.preferredXAxisPosition === POSSIBLE_X_AXIS_POSITIONS.left
+      } = this.preferredXAxisPosition === X_AXIS_POSITION.left
         ? configTowardsLeft
         : configTowardsRight
 
@@ -219,7 +219,7 @@ export default {
         fitsTowardsPreferredYPosition,
         translationTowardsPreferredYPosition,
         translationTowardsFallbackYPosition
-      } = this.preferredYAxisPosition === POSSIBLE_Y_AXIS_POSITIONS.top
+      } = this.preferredYAxisPosition === Y_AXIS_POSITION.top
         ? configTowardsTop
         : configTowardsBottom
 

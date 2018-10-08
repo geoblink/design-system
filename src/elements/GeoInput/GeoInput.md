@@ -70,8 +70,6 @@ export default {
       inputValue: ['', '']
     }
   },
-  computed: {
-  },
   methods: {
     enterEditMode (index) {
       this.$set(this.showButtons, index, true)

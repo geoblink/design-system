@@ -1,6 +1,6 @@
-const POSSIBLE_TYPES = {
+const TYPE = {
   table: 'table',
   normal: 'normal'
 }
 
-export { POSSIBLE_TYPES }
+export { TYPE }
