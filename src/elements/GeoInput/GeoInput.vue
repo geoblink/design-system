@@ -22,6 +22,7 @@
         type="text"
         @click="emitClick($event)"
         @input="onInput($event)"
+        @keyup.enter="emitSave($event)"
       >
 
       <div
