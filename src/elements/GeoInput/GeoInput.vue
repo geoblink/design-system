@@ -13,17 +13,21 @@
       preferred-x-axis-position="right"
       @click-outside="handleClickOutside($event)"
     >
-      <input
+      <form
         slot="toggleButton"
-        :value="value"
-        :placeholder="placeholder"
-        :disabled="disabled"
-        :class="`geo-input__container-input${cssSuffix}`"
-        type="text"
-        @click="emitClick($event)"
-        @input="onInput($event)"
-        @keyup.enter="emitSave($event)"
+        :class="`geo-input__container-form${cssSuffix}`"
+        @submit.prevent="emitSave($event)"
       >
+        <input
+          :value="value"
+          :placeholder="placeholder"
+          :disabled="disabled"
+          :class="`geo-input__container-input${cssSuffix}`"
+          type="text"
+          @click="emitClick($event)"
+          @input="onInput($event)"
+        >
+      </form>
 
       <div
         slot="popupContent"

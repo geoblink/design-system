@@ -105,6 +105,7 @@
     color: $color_grey;
   }
 
+  .geo-input__container-form#{$modifier-name-with-prefix},
   .geo-dropdown--geo-input#{$modifier-name-with-prefix} {
     width: 100%;
   }
