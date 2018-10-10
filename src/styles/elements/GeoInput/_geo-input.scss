@@ -33,7 +33,7 @@
     &:hover {
       background-color: $color_white_dark;
 
-      .geo-input__container-input#{$modifier-name-with-prefix} {
+      .geo-input__form__input#{$modifier-name-with-prefix} {
         border: 1px solid $color_grey;
       }
     }
@@ -42,7 +42,7 @@
   .geo-input__container-table--edit#{$modifier-name-with-prefix} {
     background-color: $color_white_dark;
 
-    .geo-input__container-input#{$modifier-name-with-prefix} {
+    .geo-input__form__input#{$modifier-name-with-prefix} {
       border: 1px solid $color_grey;
     }
   }
@@ -50,12 +50,12 @@
   .geo-input__container--disabled#{$modifier-name-with-prefix}:hover {
     background-color: $color_white;
 
-    .geo-input__container-input#{$modifier-name-with-prefix} {
+    .geo-input__form__input#{$modifier-name-with-prefix} {
       border: 1px solid transparent;
     }
   }
   
-  .geo-input__container-input#{$modifier-name-with-prefix} {
+  .geo-input__form__input#{$modifier-name-with-prefix} {
     border: 1px solid transparent;
     border-radius: $border_radius_default;
     box-sizing: border-box;
@@ -73,12 +73,12 @@
     }
   }
 
-  .geo-input__container-buttons#{$modifier-name-with-prefix} {
+  .geo-input__container__buttons#{$modifier-name-with-prefix} {
     display: flex;
     justify-content: flex-end;
   }
 
-  .geo-input__container-buttons__button#{$modifier-name-with-prefix} {
+  .geo-input__container__buttons__button#{$modifier-name-with-prefix} {
     align-items: center;
     border-radius: $border_radius_default;
     box-shadow: $box_shadow_small;
@@ -92,19 +92,20 @@
     width: 20px;
   }
 
-  .geo-input__container-buttons__button--save#{$modifier-name-with-prefix} {
+  .geo-input__container__buttons__button--save#{$modifier-name-with-prefix} {
     background-color: $color_blue;
     border: 1px solid $color_blue;
     color: $color_white;
     margin-left: 5px;
   }
 
-  .geo-input__container-buttons__button--cancel#{$modifier-name-with-prefix} {
+  .geo-input__container__buttons__button--cancel#{$modifier-name-with-prefix} {
     background-color: $color_white;
     border: 1px solid $color_grey;
     color: $color_grey;
   }
 
+  .geo-input__form#{$modifier-name-with-prefix},
   .geo-dropdown--geo-input#{$modifier-name-with-prefix} {
     width: 100%;
   }
