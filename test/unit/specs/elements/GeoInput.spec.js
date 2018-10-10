@@ -27,7 +27,7 @@ describe('GeoInput', () => {
       }
     })
 
-    expect(wrapper.find('.geo-input__form-input').exists()).toBe(true)
+    expect(wrapper.find('.geo-input__form__input').exists()).toBe(true)
   })
 
   it('should emit an event on click', function (done) {
@@ -43,7 +43,7 @@ describe('GeoInput', () => {
       }
     })
 
-    wrapper.find('.geo-input__form-input').trigger('click')
+    wrapper.find('.geo-input__form__input').trigger('click')
     setTimeout(function () {
       try {
         expect(wrapper.emitted()['click']).toBeTruthy()
@@ -68,7 +68,7 @@ describe('GeoInput', () => {
       }
     })
 
-    wrapper.find('.geo-input__form-input').trigger('click')
+    wrapper.find('.geo-input__form__input').trigger('click')
     setTimeout(function () {
       try {
         expect(wrapper.emitted()['click']).toBeFalsy()
@@ -92,7 +92,7 @@ describe('GeoInput', () => {
       }
     })
 
-    wrapper.find('.geo-input__container-buttons__button--save').trigger('click')
+    wrapper.find('.geo-input__container__buttons__button--save').trigger('click')
     setTimeout(function () {
       try {
         expect(wrapper.emitted()['save']).toBeTruthy()
@@ -116,7 +116,7 @@ describe('GeoInput', () => {
       }
     })
 
-    wrapper.find('.geo-input__container-buttons__button--cancel').trigger('click')
+    wrapper.find('.geo-input__container__buttons__button--cancel').trigger('click')
     setTimeout(function () {
       try {
         expect(wrapper.emitted()['cancel']).toBeTruthy()

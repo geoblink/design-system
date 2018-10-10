@@ -22,7 +22,7 @@
           :value="value"
           :placeholder="placeholder"
           :disabled="disabled"
-          :class="`geo-input__form-input${cssSuffix}`"
+          :class="`geo-input__form__input${cssSuffix}`"
           type="text"
           @click="emitClick($event)"
           @input="onInput($event)"
@@ -31,16 +31,16 @@
 
       <div
         slot="popupContent"
-        :class="`geo-input__container-buttons${cssSuffix}`"
+        :class="`geo-input__container__buttons${cssSuffix}`"
       >
         <button
-          :class="`geo-input__container-buttons__button${cssSuffix} geo-input__container-buttons__button--cancel${cssSuffix}`"
+          :class="`geo-input__container__buttons__button${cssSuffix} geo-input__container__buttons__button--cancel${cssSuffix}`"
           @click="emitCancel($event)"
         >
           <font-awesome-icon :icon="cancelIcon"/>
         </button>
         <button
-          :class="`geo-input__container-buttons__button${cssSuffix} geo-input__container-buttons__button--save${cssSuffix}`"
+          :class="`geo-input__container__buttons__button${cssSuffix} geo-input__container__buttons__button--save${cssSuffix}`"
           @click="emitSave($event)"
         >
           <geo-activity-indicator
