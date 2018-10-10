@@ -33,7 +33,7 @@
     &:hover {
       background-color: $color_white_dark;
 
-      .geo-input__container-input#{$modifier-name-with-prefix} {
+      .geo-input__form-input#{$modifier-name-with-prefix} {
         border: 1px solid $color_grey;
       }
     }
@@ -42,7 +42,7 @@
   .geo-input__container-table--edit#{$modifier-name-with-prefix} {
     background-color: $color_white_dark;
 
-    .geo-input__container-input#{$modifier-name-with-prefix} {
+    .geo-input__form-input#{$modifier-name-with-prefix} {
       border: 1px solid $color_grey;
     }
   }
@@ -50,12 +50,12 @@
   .geo-input__container--disabled#{$modifier-name-with-prefix}:hover {
     background-color: $color_white;
 
-    .geo-input__container-input#{$modifier-name-with-prefix} {
+    .geo-input__form-input#{$modifier-name-with-prefix} {
       border: 1px solid transparent;
     }
   }
   
-  .geo-input__container-input#{$modifier-name-with-prefix} {
+  .geo-input__form-input#{$modifier-name-with-prefix} {
     border: 1px solid transparent;
     border-radius: $border_radius_default;
     box-sizing: border-box;
@@ -105,7 +105,7 @@
     color: $color_grey;
   }
 
-  .geo-input__container-form#{$modifier-name-with-prefix},
+  .geo-input__form#{$modifier-name-with-prefix},
   .geo-dropdown--geo-input#{$modifier-name-with-prefix} {
     width: 100%;
   }

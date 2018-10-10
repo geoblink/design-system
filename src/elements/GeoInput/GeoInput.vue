@@ -15,14 +15,14 @@
     >
       <form
         slot="toggleButton"
-        :class="`geo-input__container-form${cssSuffix}`"
+        :class="`geo-input__form${cssSuffix}`"
         @submit.prevent="emitSave($event)"
       >
         <input
           :value="value"
           :placeholder="placeholder"
           :disabled="disabled"
-          :class="`geo-input__container-input${cssSuffix}`"
+          :class="`geo-input__form-input${cssSuffix}`"
           type="text"
           @click="emitClick($event)"
           @input="onInput($event)"
