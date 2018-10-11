@@ -8,6 +8,7 @@
     }"
   >
     <geo-dropdown
+      ref="dropdown"
       :opened="showButtons"
       :css-modifier="`geo-input${cssSuffix}`"
       preferred-x-axis-position="right"
