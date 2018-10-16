@@ -1,0 +1,169 @@
+@mixin geo-file-upload {
+  align-items: center;
+  background: $color_white_dark;
+  border: 1px dashed $color_grey;
+  border-radius: $border-radius-default;
+  color: $color_grey_light;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  font-family: $font-family-text;
+  padding: 20px;
+  position: relative;
+}
+
+@mixin geo-file-upload--focused {
+  background: rgba($color_blue, .1);
+  border-color: $color_blue;
+}
+
+@mixin geo-file-upload--success {
+  background: rgba($color_green_light, .1);
+  border-color: $color_green_light;
+}
+
+@mixin geo-file-upload--error {
+  background: rgba($color_red, .1);
+  border-color: $color_red;
+}
+
+@mixin geo-file-upload--warning {
+  background: rgba($color_yellow, .1);
+  border-color: $color_yellow;
+}
+
+@mixin geo-file-upload__upload-icon {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+@mixin geo-file-upload__upload-icon--focused {
+  color: $color_blue;
+  display: none;
+}
+
+@mixin geo-file-upload__upload-icon--success {
+  color: $color_green_light;
+}
+
+@mixin geo-file-upload__upload-icon--error {
+  color: $color_red;
+}
+
+@mixin geo-file-upload__upload-icon--warning {
+  color: $color_yellow;
+}
+
+@mixin geo-file-upload__title {
+  color: $color_grey_darker;
+  font-size: 14px;
+}
+
+@mixin geo-file-upload__help {
+  font-size: 12px;
+  line-height: 1.3em;
+  margin-top: 10px;
+  text-align: center;
+}
+
+@mixin geo-file-upload__help--error {
+  font-style: italic;
+}
+
+@mixin geo-file-upload__help--warning {
+  font-style: italic;
+}
+
+@mixin geo-file-upload__input {
+  display: none;
+}
+
+@mixin geo-file-upload-show-focused-icon($modifier-name-with-prefix) {
+  .geo-file-upload__upload-icon#{$modifier-name-with-prefix} {
+    display: none;
+  }
+
+  .geo-file-upload__upload-icon--focused#{$modifier-name-with-prefix} {
+    display: block;
+  }
+}
+
+@mixin geo-file-upload-make($modifier-name) {
+
+  $modifier-name-with-prefix: '';
+
+  @if $modifier-name != '' {
+    // sass-lint:disable space-around-operator
+    $modifier-name-with-prefix: --#{$modifier-name};
+  }
+
+  .geo-file-upload#{$modifier-name-with-prefix} {
+    @include geo-file-upload;
+
+    &:hover {
+      @include geo-file-upload--focused;
+      @include geo-file-upload-show-focused-icon($modifier-name-with-prefix);
+    }
+  }
+
+  .geo-file-upload--focused#{$modifier-name-with-prefix} {
+    @include geo-file-upload--focused;
+    @include geo-file-upload-show-focused-icon($modifier-name-with-prefix);
+  }
+
+  .geo-file-upload--success#{$modifier-name-with-prefix} {
+    @include geo-file-upload--success;
+  }
+
+  .geo-file-upload--error#{$modifier-name-with-prefix} {
+    @include geo-file-upload--error;
+  }
+
+  .geo-file-upload--warning#{$modifier-name-with-prefix} {
+    @include geo-file-upload--warning;
+  }
+
+  .geo-file-upload__upload-icon#{$modifier-name-with-prefix} {
+    @include geo-file-upload__upload-icon;
+  }
+
+  .geo-file-upload__upload-icon--success#{$modifier-name-with-prefix} {
+    @include geo-file-upload__upload-icon--success;
+  }
+
+  .geo-file-upload__upload-icon--error#{$modifier-name-with-prefix} {
+    @include geo-file-upload__upload-icon--error;
+  }
+
+  .geo-file-upload__upload-icon--warning#{$modifier-name-with-prefix} {
+    @include geo-file-upload__upload-icon--warning;
+  }
+
+  .geo-file-upload__upload-icon--focused#{$modifier-name-with-prefix} {
+    @include geo-file-upload__upload-icon--focused;
+  }
+
+  .geo-file-upload__title#{$modifier-name-with-prefix} {
+    @include geo-file-upload__title;
+  }
+
+  .geo-file-upload__help#{$modifier-name-with-prefix} {
+    @include geo-file-upload__help;
+  }
+
+  .geo-file-upload__help--error#{$modifier-name-with-prefix} {
+    @include geo-file-upload__help--error;
+  }
+
+  .geo-file-upload__help--warning#{$modifier-name-with-prefix} {
+    @include geo-file-upload__help--warning;
+  }
+
+  .geo-file-upload__input#{$modifier-name-with-prefix} {
+    @include geo-file-upload__input;
+  }
+}
+
+// Build default file upload
+
+@include geo-file-upload-make('');
