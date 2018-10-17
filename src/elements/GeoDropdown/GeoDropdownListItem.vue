@@ -3,32 +3,38 @@
     :class="`geo-dropdown__list-item${cssSuffix}`"
     @click="emitClick($event)"
   >
-    <div :class="`geo-dropdown__list-item__icon-and-label${cssSuffix}`">
+    <!-- @slot Use this slot to customize content displayed above item content -->
+    <slot name="header" />
+    <div :class="`geo-dropdown__list-item__row${cssSuffix}`">
+      <div :class="`geo-dropdown__list-item__row__icon-and-label${cssSuffix}`">
+        <div
+          v-if="icon"
+          :class="`geo-dropdown__list-item__row__icon-and-label__icon-container${cssSuffix}`"
+        >
+          <font-awesome-icon
+            :icon="icon"
+            :class="`geo-dropdown__list-item__row__icon-and-label__icon-container__icon${cssSuffix}`"
+            aria-hidden
+            fixed-width
+          />
+        </div>
+        <div :class="`geo-dropdown__list-item__row__icon-and-label__label${cssSuffix}`">
+          <!-- @slot Use this slot to customize rows's main content -->
+          <slot />
+          <!-- @slot **Deprecated. Use `default` slot instead** Use this slot to customize items's label -->
+          <slot name="label" />
+        </div>
+      </div>
       <div
-        v-if="icon"
-        :class="`geo-dropdown__list-item__icon-and-label__icon-container${cssSuffix}`"
+        v-if="hasTrailingAccessoryItems"
+        :class="`geo-dropdown__list-item__row__trailing-accessory-items${cssSuffix}`"
       >
-        <font-awesome-icon
-          :icon="icon"
-          :class="`geo-dropdown__list-item__icon-and-label__icon-container__icon${cssSuffix}`"
-          aria-hidden
-          fixed-width
-        />
-      </div>
-      <div :class="`geo-dropdown__list-item__icon-and-label__label${cssSuffix}`">
-        <!-- @slot Use this slot to customize rows's main content -->
-        <slot />
-        <!-- @slot **Deprecated. Use `default` slot instead** Use this slot to customize items's label -->
-        <slot name="label" />
+        <!-- @slot Use this slot to add more items to the trailing edge of this row -->
+        <slot name="trailingAccessoryItem" />
       </div>
     </div>
-    <div
-      v-if="hasTrailingAccessoryItems"
-      :class="`geo-dropdown__list-item__trailing-accessory-items${cssSuffix}`"
-    >
-      <!-- @slot Use this slot to add more items to the trailing edge of this row -->
-      <slot name="trailingAccessoryItem" />
-    </div>
+    <!-- @slot Use this slot to customize content displayed below item content -->
+    <slot name="footer" />
   </div>
 </template>
 
