@@ -22,21 +22,50 @@
       v-model="searchPattern"
     />
     <template v-if="visibleOptions.length">
-      <component
+      <geo-dropdown-group
         v-for="(option, index) in visibleOptions"
-        :is="option.component"
-        :css-modifier="cssModifier"
+        v-if="option.isOptGroup"
         :key="index"
-        :option="option"
-        @change-current-selection="changeCurrentSelection(option)">
-        <geo-highlighted-string
-          v-if="isSearching"
+      >
+        <template
+          v-if="option.isOptGroupHeader"
+          slot="title"
+        >
+          {{ option.label }}
+        </template>
+        <geo-dropdown-list-item
+          v-for="(item, index) in options.items"
+          slot="item"
+          :key="index"
           :css-modifier="cssModifier"
-          :highlighted-chars="option.matches"
-          :reference-string="option.label"
-        />
-        <template v-else>{{ option.label }}</template>
-      </component>
+          :option="option"
+          @click="changeCurrentSelection(option)">
+          <geo-highlighted-string
+            v-if="isSearching"
+            :css-modifier="cssModifier"
+            :highlighted-chars="option.matches"
+            :reference-string="option.label"
+          />
+          <template v-else>{{ option.label }}</template>
+        </geo-dropdown-list-item>
+      </geo-dropdown-group>
+      <template v-else>
+        <geo-dropdown-list-item
+          v-for="(option, index) in visibleOptions"
+          slot="item"
+          :key="index"
+          :css-modifier="cssModifier"
+          :option="option"
+          @click="changeCurrentSelection(option)">
+          <geo-highlighted-string
+            v-if="isSearching"
+            :css-modifier="cssModifier"
+            :highlighted-chars="option.matches"
+            :reference-string="option.label"
+          />
+          <template v-else>{{ option.label }}</template>
+        </geo-dropdown-list-item>
+      </template>
     </template>
     <geo-select-read-only-entry v-else>
       <!--
@@ -242,14 +271,16 @@ export default {
   },
   computed: {
     filteredOptions () {
+      // debugger
       const self = this
       return _.flatMap(self.options, function (item) {
         const itemWithMatches = getOptGroupHeader(item, item.isOptGroup)
 
         if (!self.deburredSearchPattern) {
-          return itemWithMatches.isOptGroupHeader
-            ? [itemWithMatches, ..._.map(itemWithMatches.items, getOptGroupEntry)]
-            : itemWithMatches
+          return itemWithMatches
+          // return itemWithMatches.isOptGroupHeader
+          //   ? [itemWithMatches, ..._.map(itemWithMatches.items, getOptGroupEntry)]
+          //   : itemWithMatches
         }
 
         const matches = self.getMatchesForItem(itemWithMatches, self.deburredSearchPattern)
@@ -274,8 +305,6 @@ export default {
         return {
           matches: [],
           isOptGroupHeader,
-          isOptGroupEntry: false,
-          component: isOptGroupHeader ? 'geo-select-opt-group-header' : 'geo-select-entry',
           label: item.label,
           items: item.items,
           item
@@ -287,8 +316,6 @@ export default {
         return {
           matches,
           isOptGroupHeader: false,
-          isOptGroupEntry: true,
-          component: 'geo-select-opt-group-entry',
           label: item.label,
           item
         }
