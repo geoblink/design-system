@@ -21,12 +21,12 @@ drop-in replacement for HTML `<select>` tag you might probably want to use
           @click="toggleSelect(0)">
           {{selectLabels[0]}}
         </geo-select-toggle-button>
-        <geo-select-entry
+        <geo-dropdown-list-item
           v-for="(option, index) in itemsList"
           :key="index"
-          @change-current-selection="changeCurrentSelection(0, option)">
+          @click="changeCurrentSelection(0, option)">
           {{option.label}}
-        </geo-select-entry>
+        </geo-dropdown-list-item>
       </geo-select-base>
     </div>
     <h3 class="element-demo__header">Select with search option</h3>
@@ -48,16 +48,16 @@ drop-in replacement for HTML `<select>` tag you might probably want to use
           v-model="searchPatterns[1]"
           placeholder="Search..." />
         <template v-if="filteredItemsList.length">
-          <geo-select-entry
+          <geo-dropdown-list-item
             v-for="(option, index) in filteredItemsList"
             :key="index"
-            @change-current-selection="changeCurrentSelection(1, option)">
+            @click="changeCurrentSelection(1, option)">
             <template v-if="!isSearchingPlainList">{{option.label}}</template>
             <geo-highlighted-string
               v-else
               :highlighted-chars="option.matches"
               :reference-string="option.label"/>
-          </geo-select-entry>
+          </geo-dropdown-list-item>
         </template>
         <geo-select-read-only-entry v-else>
           No Results Found
@@ -128,13 +128,13 @@ drop-in replacement for HTML `<select>` tag you might probably want to use
           @click="toggleSelect(3)">
           {{selectLabels[3]}}
         </geo-select-toggle-button>
-        <geo-select-entry
+        <geo-dropdown-list-item
           v-for="(option, index) in chunkedLongList"
           :key="index"
           :option="option"
-          @change-current-selection="changeCurrentSelection(3, option)">
+          @click="changeCurrentSelection(3, option)">
           {{option.label}}
-        </geo-select-entry>
+        </geo-dropdown-list-item>
         <template slot="moreResultsTextContent">Load more results</template>
       </geo-select-base>
     </div>
