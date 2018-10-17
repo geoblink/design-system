@@ -83,27 +83,30 @@ drop-in replacement for HTML `<select>` tag you might probably want to use
           v-model="searchPatterns[2]"
           placeholder="Search..." />
         <template v-if="filteredOptGroupsItems.length">
-          <template v-for="(option, index) in filteredOptGroupsItems">
-            <geo-select-opt-group-header
-              v-if="option.isOptGroup"
-              :key="index">
-              <template v-if="!isSearchingOptGroups">{{option.label}}</template>
-              <geo-highlighted-string
+          <geo-dropdown-group v-for="(option, index) in filteredOptGroupsItems" :key="index">
+              <template
+                slot="title"
+                v-if="option.isOptGroup"
+              >
+                <template v-if="!isSearchingOptGroups">{{option.label}}</template>
+                <geo-highlighted-string
+                  :key="index"
+                  v-else
+                  :highlighted-chars="option.matches"
+                  :reference-string="option.label"/>
+              </template>
+              <geo-dropdown-list-item
                 v-else
-                :highlighted-chars="option.matches"
-                :reference-string="option.label"/>
-            </geo-select-opt-group-header>
-            <geo-select-opt-group-entry
-              v-else
-              :key="index"
-              @change-current-selection="changeCurrentSelection(2, option)">
-              <template v-if="!isSearchingOptGroups">{{option.label}}</template>
-              <geo-highlighted-string
-                v-else
-                :highlighted-chars="option.matches"
-                :reference-string="option.label"/>
-            </geo-select-opt-group-entry>
-          </template>
+                slot="item"
+                :key="index"
+                @click="changeCurrentSelection(2, option)">
+                <template v-if="!isSearchingOptGroups">{{option.label}}</template>
+                <geo-highlighted-string
+                  v-else
+                  :highlighted-chars="option.matches"
+                  :reference-string="option.label"/>
+              </geo-dropdown-list-item>
+          </geo-dropdown-group>
         </template>
         <geo-select-read-only-entry v-else>
           No Results Found
