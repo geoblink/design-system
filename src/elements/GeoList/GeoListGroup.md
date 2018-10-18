@@ -14,7 +14,7 @@ is advised.
     <geo-list-group>
       <template slot="title">Exclusive options</template>
       <geo-list-item slot="item">
-        <template slot="label">First</template>
+        <template>First</template>
         <input
           slot="trailingAccessoryItem"
           type="radio"
@@ -22,7 +22,7 @@ is advised.
         >
       </geo-list-item>
       <geo-list-item slot="item">
-        <template slot="label">Second</template>
+        <template>Second</template>
         <input
           slot="trailingAccessoryItem"
           type="radio"
@@ -30,7 +30,7 @@ is advised.
         >
       </geo-list-item>
       <geo-list-item slot="item">
-        <template slot="label">Third</template>
+        <template>Third</template>
         <input
           slot="trailingAccessoryItem"
           type="radio"
@@ -46,21 +46,21 @@ is advised.
         type="checkbox"
       >
       <geo-list-item slot="item">
-        <template slot="label">First</template>
+        <template>First</template>
         <input
           slot="trailingAccessoryItem"
           type="checkbox"
         >
       </geo-list-item>
       <geo-list-item slot="item">
-        <template slot="label">Second</template>
+        <template>Second</template>
         <input
           slot="trailingAccessoryItem"
           type="checkbox"
         >
       </geo-list-item>
       <geo-list-item slot="item">
-        <template slot="label">Third</template>
+        <template>Third</template>
         <input
           slot="trailingAccessoryItem"
           type="checkbox"
@@ -77,10 +77,10 @@ is advised.
         fixed-width
       />
       <geo-list-item slot="item">
-        <template slot="label">One</template>
+        <template>One</template>
       </geo-list-item>
       <geo-list-item slot="item">
-        <template slot="label">Two</template>
+        <template>Two</template>
       </geo-list-item>
     </geo-list-group>
   </div>
