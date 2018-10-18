@@ -87,28 +87,28 @@ drop-in replacement for HTML `<select>` tag you might probably want to use
             v-for="(optGroup, index) in filteredOptGroupsItems"
             :key="index"
           >
-              <template
-                slot="title"
-                v-if="optGroup.isOptGroup"
-              >
-                <template v-if="!isSearchingOptGroups">{{optGroup.label}}</template>
-                <geo-highlighted-string
-                  :key="index"
-                  v-else
-                  :highlighted-chars="optGroup.matches"
-                  :reference-string="optGroup.label"/>
-              </template>
-              <geo-list-item
-                slot="item"
-                v-for="(option, index) in optGroup.items"
+            <template
+              slot="title"
+              v-if="optGroup.isOptGroup"
+            >
+              <template v-if="!isSearchingOptGroups">{{optGroup.label}}</template>
+              <geo-highlighted-string
                 :key="index"
-                @click="changeCurrentSelection(2, option)">
-                <template v-if="!isSearchingOptGroups">{{option.label}}</template>
-                <geo-highlighted-string
-                  v-else
-                  :highlighted-chars="option.matches"
-                  :reference-string="option.label"/>
-              </geo-list-item>
+                v-else
+                :highlighted-chars="optGroup.matches"
+                :reference-string="optGroup.label"/>
+            </template>
+            <geo-list-item
+              slot="item"
+              v-for="(option, index) in optGroup.items"
+              :key="index"
+              @click="changeCurrentSelection(2, option)">
+              <template v-if="!isSearchingOptGroups">{{option.label}}</template>
+              <geo-highlighted-string
+                v-else
+                :highlighted-chars="option.matches"
+                :reference-string="option.label"/>
+            </geo-list-item>
           </geo-list-group>
         </template>
         <geo-select-read-only-entry v-else>

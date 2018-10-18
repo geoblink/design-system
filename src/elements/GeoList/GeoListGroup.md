@@ -1,7 +1,7 @@
 `GeoListGroup` is a component designed to show a collection of items inside
 a visually isolated group. It supports a customizable group `title` and allows
 showing any kind of content inside the group, althought using
-[GeoListItem](http://localhost:6060/#/Elements/Ge?id=geolistitem)
+[GeoListItem](./#/Elements/GeoList?id=geolistitem)
 is advised.
 
 ```jsx

@@ -18,8 +18,6 @@
       <div :class="`geo-list-item__icon-and-label__label${cssSuffix}`">
         <!-- @slot Use this slot to customize rows's main content -->
         <slot />
-        <!-- @slot **Deprecated. Use `default` slot instead** Use this slot to customize items's label -->
-        <slot name="label" />
       </div>
     </div>
     <div
