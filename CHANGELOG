@@ -1,0 +1,20 @@
+# 7.0.0
+
+New:
+
+- `GeoDropdownListItem` `header` and `footer` slots.
+
+Breaking:
+
+- Renamed some CSS classes in `GeoDropdownListItem`.
+
+# 6.2.0
+
+New:
+
+- `GeoSegmentedControl`
+- `GeoFileUpload`
+
+# Previous versions
+
+Changelog was not tracked yet.
