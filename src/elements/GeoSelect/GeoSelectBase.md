@@ -83,21 +83,24 @@ drop-in replacement for HTML `<select>` tag you might probably want to use
           v-model="searchPatterns[2]"
           placeholder="Search..." />
         <template v-if="filteredOptGroupsItems.length">
-          <geo-dropdown-group v-for="(option, index) in filteredOptGroupsItems" :key="index">
+          <geo-dropdown-group
+            v-for="(optGroup, index) in filteredOptGroupsItems"
+            :key="index"
+          >
               <template
                 slot="title"
-                v-if="option.isOptGroup"
+                v-if="optGroup.isOptGroup"
               >
-                <template v-if="!isSearchingOptGroups">{{option.label}}</template>
+                <template v-if="!isSearchingOptGroups">{{optGroup.label}}</template>
                 <geo-highlighted-string
                   :key="index"
                   v-else
-                  :highlighted-chars="option.matches"
-                  :reference-string="option.label"/>
+                  :highlighted-chars="optGroup.matches"
+                  :reference-string="optGroup.label"/>
               </template>
               <geo-dropdown-list-item
-                v-else
                 slot="item"
+                v-for="(option, index) in optGroup.items"
                 :key="index"
                 @click="changeCurrentSelection(2, option)">
                 <template v-if="!isSearchingOptGroups">{{option.label}}</template>
@@ -131,7 +134,6 @@ drop-in replacement for HTML `<select>` tag you might probably want to use
         <geo-dropdown-list-item
           v-for="(option, index) in chunkedLongList"
           :key="index"
-          :option="option"
           @click="changeCurrentSelection(3, option)">
           {{option.label}}
         </geo-dropdown-list-item>
@@ -200,7 +202,7 @@ export default {
               })
             }
           })
-          return [group, ...group.items]
+          return group
         }
         const foundItems = _.filter(group.items, function (item) {
           var matches = item.label.match(self.searchPatterns[2])
@@ -211,7 +213,7 @@ export default {
           }
           return item.label.indexOf(self.searchPatterns[2]) !== -1
         })
-        if (foundItems.length) return [group, ...foundItems]
+        if (foundItems.length) return _.assign({}, group, {items: foundItems})
       }))
     },
     filteredItemsList () {
