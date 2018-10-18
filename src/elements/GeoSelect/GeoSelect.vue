@@ -22,40 +22,44 @@
       v-model="searchPattern"
     />
     <template v-if="visibleOptions.length">
-      <geo-dropdown-group
-        v-for="(option, index) in visibleOptions"
-        v-if="option.isOptGroup"
-        :key="index"
-      >
-        <template
-          v-if="option.isOptGroupHeader"
-          slot="title"
-        >
-          {{ option.label }}
-        </template>
-        <geo-dropdown-list-item
-          v-for="(item, index) in options.items"
-          slot="item"
+      <template v-if="isOptSelect">
+        <geo-dropdown-group
+          v-for="(option, index) in visibleOptions"
           :key="index"
-          :css-modifier="cssModifier"
-          :option="option"
-          @click="changeCurrentSelection(option)">
-          <geo-highlighted-string
-            v-if="isSearching"
+        >
+          <template
+            v-if="option.isOptGroupHeader"
+            slot="title"
+          >
+            <geo-highlighted-string
+              v-if="isSearching"
+              :css-modifier="cssModifier"
+              :highlighted-chars="option.matches"
+              :reference-string="option.label"
+            />
+            <template v-else>{{ option.label }}</template>
+          </template>
+          <geo-dropdown-list-item
+            v-for="(item, index) in option.items"
+            slot="item"
+            :key="index"
             :css-modifier="cssModifier"
-            :highlighted-chars="option.matches"
-            :reference-string="option.label"
-          />
-          <template v-else>{{ option.label }}</template>
-        </geo-dropdown-list-item>
-      </geo-dropdown-group>
+            @click="changeCurrentSelection(item)">
+            <geo-highlighted-string
+              v-if="isSearching"
+              :css-modifier="cssModifier"
+              :highlighted-chars="item.matches"
+              :reference-string="item.label"
+            />
+            <template v-else>{{ item.label }}</template>
+          </geo-dropdown-list-item>
+        </geo-dropdown-group>
+      </template>
       <template v-else>
         <geo-dropdown-list-item
           v-for="(option, index) in visibleOptions"
-          slot="item"
           :key="index"
           :css-modifier="cssModifier"
-          :option="option"
           @click="changeCurrentSelection(option)">
           <geo-highlighted-string
             v-if="isSearching"
@@ -203,6 +207,16 @@ export default {
     },
 
     /**
+     * Whether the `GeoSelect` is going to be grouped by optGroups or not.
+     *
+     * **Note:** If set to true, the options array must be grouped with the items inside each one of the opt-groups
+     */
+    isOptSelect: {
+      type: Boolean,
+      default: false
+    },
+
+    /**
      * Placeholder text that will be displayed in the search form when no input
      * is provided.
      */
@@ -271,16 +285,14 @@ export default {
   },
   computed: {
     filteredOptions () {
-      // debugger
       const self = this
       return _.flatMap(self.options, function (item) {
         const itemWithMatches = getOptGroupHeader(item, item.isOptGroup)
 
         if (!self.deburredSearchPattern) {
-          return itemWithMatches
-          // return itemWithMatches.isOptGroupHeader
-          //   ? [itemWithMatches, ..._.map(itemWithMatches.items, getOptGroupEntry)]
-          //   : itemWithMatches
+          return itemWithMatches.isOptGroupHeader
+            ? _.assign({}, itemWithMatches, { items: _.map(itemWithMatches.items, getOptGroupEntry) })
+            : itemWithMatches
         }
 
         const matches = self.getMatchesForItem(itemWithMatches, self.deburredSearchPattern)
@@ -288,13 +300,13 @@ export default {
 
         if (itemWithMatches.isOptGroupHeader) {
           if (matches.length) {
-            return [itemWithMatches, ..._.map(itemWithMatches.items, getOptGroupEntry)]
+            return _.assign({}, itemWithMatches, { items: _.map(itemWithMatches.items, getOptGroupEntry) })
           } else {
             const childrenWithMatches = _.map(itemWithMatches.items, getOptGroupEntry)
             const filteredChildren = _.filter(childrenWithMatches, function (child) {
               return !!child.matches.length
             })
-            return filteredChildren.length ? [itemWithMatches, ...filteredChildren] : []
+            return filteredChildren.length ? _.assign({}, itemWithMatches, { items: filteredChildren }) : []
           }
         } else {
           return matches.length ? [itemWithMatches] : []
