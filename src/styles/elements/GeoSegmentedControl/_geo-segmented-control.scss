@@ -1,0 +1,80 @@
+@mixin geo-segmented-control-make($modifier-name) {
+  @include geo-segmented-control-item-make($modifier-name);
+
+  $modifier-name-with-prefix: '';
+
+  @if $modifier-name != '' {
+    // sass-lint:disable space-around-operator
+    $modifier-name-with-prefix: --#{$modifier-name};
+  }
+
+  .geo-segmented-control#{$modifier-name-with-prefix} {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+
+    .geo-segmented-control-item#{$modifier-name-with-prefix} {
+      $idle-color: $color-grey;
+      $active-color: $color-blue;
+      $hover-color: $color-link;
+
+      width: 100%;
+
+      &:not(:first-child) {
+        // We don't want left border color unless in the first item, active and
+        // hovered ones.
+        border-left-color: transparent;
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+      }
+
+      &:not(:last-child) {
+        // We don't want right border color unless in the last item, active and
+        // hovered ones.
+        border-right-color: transparent;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+      }
+
+      & + .geo-segmented-control-item#{$modifier-name-with-prefix} {
+        border-left-color: $idle-color;
+      }
+
+      &.geo-segmented-control-item--active#{$modifier-name-with-prefix} {
+        border-left-color: $active-color;
+        border-right-color: $active-color;
+      }
+
+      &, &.geo-segmented-control-item--active#{$modifier-name-with-prefix} {
+        &:hover {
+          border-left-color: $hover-color;
+          border-right-color: $hover-color;
+        }
+      }
+
+      // We don't want left border on the button after the currently active or
+      // hovered ones
+      &.geo-segmented-control-item--active#{$modifier-name-with-prefix} +
+      .geo-segmented-control-item#{$modifier-name-with-prefix},
+      &:hover + .geo-segmented-control-item#{$modifier-name-with-prefix} {
+        border-left-color: transparent;
+      }
+
+      // But if we hover the item previous to an active item, then we want both
+      // borders
+      &:hover + .geo-segmented-control-item--active#{$modifier-name-with-prefix} {
+        border-left-color: $active-color;
+      }
+
+      // But if we hover the item after an active item, then we want both
+      // borders
+      &.geo-segmented-control-item--active#{$modifier-name-with-prefix} +
+      .geo-segmented-control-item:hover#{$modifier-name-with-prefix} {
+        border-left-color: $hover-color;
+      }
+    }
+  }
+}
+
+@include geo-segmented-control-make('');

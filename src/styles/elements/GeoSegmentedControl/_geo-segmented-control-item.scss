@@ -1,0 +1,39 @@
+@mixin geo-segmented-control-item-make($modifier-name) {
+
+  $modifier-name-with-prefix: '';
+
+  @if $modifier-name != '' {
+    // sass-lint:disable space-around-operator
+    $modifier-name-with-prefix: --#{$modifier-name};
+  }
+
+  .geo-segmented-control-item#{$modifier-name-with-prefix} {
+    background: $color-white;
+    border: 1px solid $color-grey;
+    border-radius: $border-radius-default;
+    color: $color-grey-darker;
+    cursor: pointer;
+    font-family: $font-family-text;
+    font-size: $display-x-small;
+    padding: 5px 10px 7px 10px;
+    text-align: center;
+    white-space: nowrap;
+
+    &:hover {
+      border-color: $color-link;
+      color: $color-link;
+      font-weight: $font-weight-bold;
+
+    }
+  }
+
+  .geo-segmented-control-item--active#{$modifier-name-with-prefix} {
+    &, &:hover {
+      border-color: $color-blue;
+      color: $color-blue;
+      font-weight: $font-weight-bold;
+    }
+  }
+}
+
+@include geo-segmented-control-item-make('');
