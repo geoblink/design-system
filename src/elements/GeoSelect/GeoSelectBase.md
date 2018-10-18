@@ -21,12 +21,12 @@ drop-in replacement for HTML `<select>` tag you might probably want to use
           @click="toggleSelect(0)">
           {{selectLabels[0]}}
         </geo-select-toggle-button>
-        <geo-dropdown-list-item
+        <geo-list-item
           v-for="(option, index) in itemsList"
           :key="index"
           @click="changeCurrentSelection(0, option)">
           {{option.label}}
-        </geo-dropdown-list-item>
+        </geo-list-item>
       </geo-select-base>
     </div>
     <h3 class="element-demo__header">Select with search option</h3>
@@ -48,7 +48,7 @@ drop-in replacement for HTML `<select>` tag you might probably want to use
           v-model="searchPatterns[1]"
           placeholder="Search..." />
         <template v-if="filteredItemsList.length">
-          <geo-dropdown-list-item
+          <geo-list-item
             v-for="(option, index) in filteredItemsList"
             :key="index"
             @click="changeCurrentSelection(1, option)">
@@ -57,7 +57,7 @@ drop-in replacement for HTML `<select>` tag you might probably want to use
               v-else
               :highlighted-chars="option.matches"
               :reference-string="option.label"/>
-          </geo-dropdown-list-item>
+          </geo-list-item>
         </template>
         <geo-select-read-only-entry v-else>
           No Results Found
@@ -83,7 +83,7 @@ drop-in replacement for HTML `<select>` tag you might probably want to use
           v-model="searchPatterns[2]"
           placeholder="Search..." />
         <template v-if="filteredOptGroupsItems.length">
-          <geo-dropdown-group
+          <geo-list-group
             v-for="(optGroup, index) in filteredOptGroupsItems"
             :key="index"
           >
@@ -98,7 +98,7 @@ drop-in replacement for HTML `<select>` tag you might probably want to use
                   :highlighted-chars="optGroup.matches"
                   :reference-string="optGroup.label"/>
               </template>
-              <geo-dropdown-list-item
+              <geo-list-item
                 slot="item"
                 v-for="(option, index) in optGroup.items"
                 :key="index"
@@ -108,8 +108,8 @@ drop-in replacement for HTML `<select>` tag you might probably want to use
                   v-else
                   :highlighted-chars="option.matches"
                   :reference-string="option.label"/>
-              </geo-dropdown-list-item>
-          </geo-dropdown-group>
+              </geo-list-item>
+          </geo-list-group>
         </template>
         <geo-select-read-only-entry v-else>
           No Results Found
@@ -131,12 +131,12 @@ drop-in replacement for HTML `<select>` tag you might probably want to use
           @click="toggleSelect(3)">
           {{selectLabels[3]}}
         </geo-select-toggle-button>
-        <geo-dropdown-list-item
+        <geo-list-item
           v-for="(option, index) in chunkedLongList"
           :key="index"
           @click="changeCurrentSelection(3, option)">
           {{option.label}}
-        </geo-dropdown-list-item>
+        </geo-list-item>
         <template slot="moreResultsTextContent">Load more results</template>
       </geo-select-base>
     </div>

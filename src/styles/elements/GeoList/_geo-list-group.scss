@@ -1,0 +1,59 @@
+@mixin geo-list-group-make($modifier-name) {
+
+  $modifier-name-with-prefix: '';
+
+  @if $modifier-name != '' {
+    // sass-lint:disable space-around-operator
+    $modifier-name-with-prefix: --#{$modifier-name};
+  }
+
+  .geo-list-group#{$modifier-name-with-prefix} {
+    background: $color_white;
+  }
+
+  .geo-list-group__header#{$modifier-name-with-prefix} {
+    align-items: center;
+    background: $color_white;
+    border-radius: $border_radius_default;
+    color: $color_grey_dark;
+    cursor: default;
+    display: flex;
+    flex-direction: row;
+    font-family: $font_family_heading;
+    font-size: $small;
+    font-weight: $font-weight-semi-bold;
+    height: 30px;
+    justify-content: space-between;
+    line-height: $line_height_base;
+    margin: 0 5px 5px 5px;
+    padding: 0 7px 0 5px;
+    white-space: nowrap;
+
+
+    &:first-child {
+      margin-top: 5px;
+    }
+  }
+
+  .geo-list-group__header__icon-and-label#{$modifier-name-with-prefix} {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+  }
+
+  .geo-list-group__header__icon-and-label__icon-container#{$modifier-name-with-prefix} {
+    margin-right: 10px;
+  }
+
+  .geo-list-group__header__trailing-accessory-items#{$modifier-name-with-prefix} {
+    color: $color_grey_light;
+    margin-left: 10px;
+  }
+
+  .geo-list-group__content#{$modifier-name-with-prefix} {
+    margin-left: 10px;
+  }
+
+}
+
+@include geo-list-group-make('');

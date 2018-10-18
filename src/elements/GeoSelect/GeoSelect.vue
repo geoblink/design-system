@@ -23,7 +23,7 @@
     />
     <template v-if="visibleOptions.length">
       <template v-if="isOptSelect">
-        <geo-dropdown-group
+        <geo-list-group
           v-for="(option, index) in visibleOptions"
           :key="index"
         >
@@ -39,7 +39,7 @@
             />
             <template v-else>{{ option.label }}</template>
           </template>
-          <geo-dropdown-list-item
+          <geo-list-item
             v-for="(item, index) in option.items"
             slot="item"
             :key="index"
@@ -52,11 +52,11 @@
               :reference-string="item.label"
             />
             <template v-else>{{ item.label }}</template>
-          </geo-dropdown-list-item>
-        </geo-dropdown-group>
+          </geo-list-item>
+        </geo-list-group>
       </template>
       <template v-else>
-        <geo-dropdown-list-item
+        <geo-list-item
           v-for="(option, index) in visibleOptions"
           :key="index"
           :css-modifier="cssModifier"
@@ -68,7 +68,7 @@
             :reference-string="option.label"
           />
           <template v-else>{{ option.label }}</template>
-        </geo-dropdown-list-item>
+        </geo-list-item>
       </template>
     </template>
     <geo-select-read-only-entry v-else>
