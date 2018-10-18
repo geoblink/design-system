@@ -30,7 +30,6 @@
     align-items: center;
     display: flex;
     flex-direction: row;
-    height: 30px;
     justify-content: space-between;
   }
 
@@ -39,6 +38,7 @@
     display: flex;
     flex-direction: row;
     flex-grow: 1;
+    height: 30px;
   }
 
   .geo-dropdown__list-item__row__body__icon-container#{$modifier-name-with-prefix} {
