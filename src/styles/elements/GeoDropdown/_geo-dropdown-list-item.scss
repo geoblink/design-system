@@ -34,14 +34,14 @@
     justify-content: space-between;
   }
 
-  .geo-dropdown__list-item__row__icon-and-label#{$modifier-name-with-prefix} {
+  .geo-dropdown__list-item__row__body#{$modifier-name-with-prefix} {
     align-items: center;
     display: flex;
     flex-direction: row;
     flex-grow: 1;
   }
 
-  .geo-dropdown__list-item__row__icon-and-label__icon-container#{$modifier-name-with-prefix} {
+  .geo-dropdown__list-item__row__body__icon-container#{$modifier-name-with-prefix} {
     margin-right: 10px;
   }
 

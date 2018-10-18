@@ -6,19 +6,19 @@
     <!-- @slot Use this slot to customize content displayed above item content -->
     <slot name="header" />
     <div :class="`geo-dropdown__list-item__row${cssSuffix}`">
-      <div :class="`geo-dropdown__list-item__row__icon-and-label${cssSuffix}`">
+      <div :class="`geo-dropdown__list-item__row__body${cssSuffix}`">
         <div
           v-if="icon"
-          :class="`geo-dropdown__list-item__row__icon-and-label__icon-container${cssSuffix}`"
+          :class="`geo-dropdown__list-item__row__body__icon-container${cssSuffix}`"
         >
           <font-awesome-icon
             :icon="icon"
-            :class="`geo-dropdown__list-item__row__icon-and-label__icon-container__icon${cssSuffix}`"
+            :class="`geo-dropdown__list-item__row__body__icon-container__icon${cssSuffix}`"
             aria-hidden
             fixed-width
           />
         </div>
-        <div :class="`geo-dropdown__list-item__row__icon-and-label__label${cssSuffix}`">
+        <div :class="`geo-dropdown__list-item__row__body__label${cssSuffix}`">
           <!-- @slot Use this slot to customize rows's main content -->
           <slot />
           <!-- @slot **Deprecated. Use `default` slot instead** Use this slot to customize items's label -->
