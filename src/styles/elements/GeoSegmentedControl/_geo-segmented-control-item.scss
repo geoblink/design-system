@@ -7,10 +7,9 @@
     $modifier-name-with-prefix: --#{$modifier-name};
   }
 
-  .geo-segmented-control-item#{$modifier-name-with-prefix} {
+  .geo-segmented-control-item#{$modifier-name-with-prefix},
+  .geo-segmented-control-item--outline#{$modifier-name-with-prefix} {
     align-items: center;
-    background: $color-white;
-    border: 1px solid $color-grey;
     border-radius: $border-radius-default;
     color: $color-grey-darker;
     cursor: pointer;
@@ -18,25 +17,65 @@
     flex-direction: row;
     font-family: $font-family-text;
     font-size: $display-x-small;
-    font-weight: $font-weight-bold;
-    padding: 5px 10px 7px 10px;
+    padding: 0 10px;
     text-align: center;
     user-select: none;
     white-space: nowrap;
-
-    &:hover {
-      color: $color-blue;
-    }
 
     & > *:first-child:not(:last-child) {
       margin-right: 5px;
     }
   }
 
+  .geo-segmented-control-item#{$modifier-name-with-prefix} {
+    height: 24px;
+
+    &:hover {
+      background: $color-white-dark;
+    }
+  }
+
   .geo-segmented-control-item--active#{$modifier-name-with-prefix} {
+    &, &:hover {
+      background: $color-blue;
+      color: $color-white;
+    }
+  }
+
+  .geo-segmented-control-item--disabled#{$modifier-name-with-prefix},
+  .geo-segmented-control-item--active--disabled#{$modifier-name-with-prefix} {
+    &, &:hover {
+      background: $color-grey;
+      color: $color-grey-darker;
+      cursor: not-allowed;
+    }
+  }
+
+  .geo-segmented-control-item--outline#{$modifier-name-with-prefix} {
+    background: $color-white;
+    border: 1px solid $color-grey;
+    font-weight: $font-weight-bold;
+    height: 30px;
+
+    &:hover {
+      color: $color-blue;
+    }
+  }
+
+  .geo-segmented-control-item--outline--active#{$modifier-name-with-prefix} {
     &, &:hover {
       border-color: $color-blue;
       color: $color-blue;
+    }
+  }
+
+  .geo-segmented-control-item--outline--disabled#{$modifier-name-with-prefix},
+  .geo-segmented-control-item--outline--active--disabled#{$modifier-name-with-prefix} {
+    &, &:hover {
+      background: $color-grey;
+      border-color: transparent;
+      color: $color-grey-darker;
+      cursor: not-allowed;
     }
   }
 }
