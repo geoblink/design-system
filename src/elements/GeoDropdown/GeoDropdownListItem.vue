@@ -26,7 +26,7 @@
         </div>
       </div>
       <div
-        v-if="hasTrailingAccessoryItems"
+        v-if="hasTrailingAccessoryItem"
         :class="`geo-dropdown__list-item__row__trailing-accessory-items${cssSuffix}`"
       >
         <!-- @slot Use this slot to add more items to the trailing edge of this row -->
@@ -60,7 +60,7 @@ export default {
     }
   },
   computed: {
-    hasTrailingAccessoryItems () {
+    hasTrailingAccessoryItem () {
       return !!(this.$slots.trailingAccessoryItem && this.$slots.trailingAccessoryItem.length)
     }
   },
