@@ -33,7 +33,7 @@
 }
 
 @mixin geo-file-upload__upload-icon {
-  font-size: 18px;
+  font-size: $display-medium;
   margin-bottom: 10px;
 }
 
@@ -56,11 +56,11 @@
 
 @mixin geo-file-upload__title {
   color: $color_grey_darker;
-  font-size: 14px;
+  font-size: $display-small;
 }
 
 @mixin geo-file-upload__help {
-  font-size: 12px;
+  font-size: $display-x-small;
   line-height: 1.3em;
   margin-top: 10px;
   text-align: center;
