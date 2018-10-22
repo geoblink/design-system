@@ -22,21 +22,54 @@
       v-model="searchPattern"
     />
     <template v-if="visibleOptions.length">
-      <component
-        v-for="(option, index) in visibleOptions"
-        :is="option.component"
-        :css-modifier="cssModifier"
-        :key="index"
-        :option="option"
-        @change-current-selection="changeCurrentSelection(option)">
-        <geo-highlighted-string
-          v-if="isSearching"
+      <template v-if="isOptSelect">
+        <geo-list-group
+          v-for="(option, index) in visibleOptions"
+          :key="index"
+        >
+          <template
+            v-if="option.isOptGroupHeader"
+            slot="title"
+          >
+            <geo-highlighted-string
+              v-if="isSearching"
+              :css-modifier="cssModifier"
+              :highlighted-chars="option.matches"
+              :reference-string="option.label"
+            />
+            <template v-else>{{ option.label }}</template>
+          </template>
+          <geo-list-item
+            v-for="(item, index) in option.items"
+            slot="item"
+            :key="index"
+            :css-modifier="cssModifier"
+            @click="changeCurrentSelection(item)">
+            <geo-highlighted-string
+              v-if="isSearching"
+              :css-modifier="cssModifier"
+              :highlighted-chars="item.matches"
+              :reference-string="item.label"
+            />
+            <template v-else>{{ item.label }}</template>
+          </geo-list-item>
+        </geo-list-group>
+      </template>
+      <template v-else>
+        <geo-list-item
+          v-for="(option, index) in visibleOptions"
+          :key="index"
           :css-modifier="cssModifier"
-          :highlighted-chars="option.matches"
-          :reference-string="option.label"
-        />
-        <template v-else>{{ option.label }}</template>
-      </component>
+          @click="changeCurrentSelection(option)">
+          <geo-highlighted-string
+            v-if="isSearching"
+            :css-modifier="cssModifier"
+            :highlighted-chars="option.matches"
+            :reference-string="option.label"
+          />
+          <template v-else>{{ option.label }}</template>
+        </geo-list-item>
+      </template>
     </template>
     <geo-select-read-only-entry v-else>
       <!--
@@ -174,6 +207,16 @@ export default {
     },
 
     /**
+     * Whether the `GeoSelect` is going to be grouped by optGroups or not.
+     *
+     * **Note:** If set to true, the options array must be grouped with the items inside each one of the opt-groups
+     */
+    isOptSelect: {
+      type: Boolean,
+      default: false
+    },
+
+    /**
      * Placeholder text that will be displayed in the search form when no input
      * is provided.
      */
@@ -248,7 +291,7 @@ export default {
 
         if (!self.deburredSearchPattern) {
           return itemWithMatches.isOptGroupHeader
-            ? [itemWithMatches, ..._.map(itemWithMatches.items, getOptGroupEntry)]
+            ? _.assign({}, itemWithMatches, { items: _.map(itemWithMatches.items, getOptGroupEntry) })
             : itemWithMatches
         }
 
@@ -257,13 +300,13 @@ export default {
 
         if (itemWithMatches.isOptGroupHeader) {
           if (matches.length) {
-            return [itemWithMatches, ..._.map(itemWithMatches.items, getOptGroupEntry)]
+            return _.assign({}, itemWithMatches, { items: _.map(itemWithMatches.items, getOptGroupEntry) })
           } else {
             const childrenWithMatches = _.map(itemWithMatches.items, getOptGroupEntry)
             const filteredChildren = _.filter(childrenWithMatches, function (child) {
               return !!child.matches.length
             })
-            return filteredChildren.length ? [itemWithMatches, ...filteredChildren] : []
+            return filteredChildren.length ? _.assign({}, itemWithMatches, { items: filteredChildren }) : []
           }
         } else {
           return matches.length ? [itemWithMatches] : []
@@ -274,8 +317,6 @@ export default {
         return {
           matches: [],
           isOptGroupHeader,
-          isOptGroupEntry: false,
-          component: isOptGroupHeader ? 'geo-select-opt-group-header' : 'geo-select-entry',
           label: item.label,
           items: item.items,
           item
@@ -287,8 +328,6 @@ export default {
         return {
           matches,
           isOptGroupHeader: false,
-          isOptGroupEntry: true,
-          component: 'geo-select-opt-group-entry',
           label: item.label,
           item
         }

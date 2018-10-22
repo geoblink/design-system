@@ -20,6 +20,8 @@ aliases:
     value: "#FF594F"
   green:
     value: "#3FAD4D"
+  green_light:
+    value: "#7ED321"
   yellow_light:
     value: "#FFDB7C"
   yellow:
@@ -83,6 +85,9 @@ props:
     value: "{!yellow_highlight}"
     category: color_group_4
 
+  color_green_light:
+    value: "{!green_light}"
+    category: color_group_5
   color_green:
     value: "{!green}"
     category: color_group_5

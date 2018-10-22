@@ -56,18 +56,7 @@
 
 @include geo-select-base-make('select-demo');
 @include geo-select-base-make('select-demo__opt-groups');
-@include geo-select-entry-make('has-opt-group');
-@include geo-select-entry-make('is-opt-group');
 
 .geo-select__options-container--select-demo {
   width: 220px;
-}
-
-.geo-select-entry__container--is-opt-group {
-  padding-left: 10px;
-  cursor: default;
-}
-
-.geo-select-entry__container--has-opt-group {
-  padding-left: 20px;
 }
