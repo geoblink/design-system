@@ -1,3 +1,9 @@
+# 7.0.1
+
+Fixes:
+
+- `GeoSegmentedControlItem` content is properly centered.
+
 # 7.0.0
 
 New:
