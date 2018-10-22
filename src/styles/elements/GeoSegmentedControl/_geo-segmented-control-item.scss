@@ -8,22 +8,28 @@
   }
 
   .geo-segmented-control-item#{$modifier-name-with-prefix} {
+    align-items: center;
     background: $color-white;
     border: 1px solid $color-grey;
     border-radius: $border-radius-default;
     color: $color-grey-darker;
     cursor: pointer;
+    display: flex;
+    flex-direction: row;
     font-family: $font-family-text;
     font-size: $display-x-small;
+    font-weight: $font-weight-bold;
     padding: 5px 10px 7px 10px;
     text-align: center;
+    user-select: none;
     white-space: nowrap;
 
     &:hover {
-      border-color: $color-link;
-      color: $color-link;
-      font-weight: $font-weight-bold;
+      color: $color-blue;
+    }
 
+    & > *:first-child:not(:last-child) {
+      margin-right: 5px;
     }
   }
 
@@ -31,7 +37,6 @@
     &, &:hover {
       border-color: $color-blue;
       color: $color-blue;
-      font-weight: $font-weight-bold;
     }
   }
 }

@@ -8,31 +8,40 @@
     $modifier-name-with-prefix: --#{$modifier-name};
   }
 
+  $idle-color: $color-grey;
+  $active-color: $color-blue;
+  $hover-color: $color-link;
+
   .geo-segmented-control#{$modifier-name-with-prefix} {
     align-items: center;
+    background: $color-white;
+    border: 1px solid $idle-color;
+    border-radius: $border-radius-default;
     display: flex;
     flex-direction: row;
     width: 100%;
 
     .geo-segmented-control-item#{$modifier-name-with-prefix} {
-      $idle-color: $color-grey;
-      $active-color: $color-blue;
-      $hover-color: $color-link;
-
+      background: transparent;
+      border-color: transparent;
+      margin: -1px 0;
       width: 100%;
 
+      &:first-child {
+        margin-left: -1px;
+      }
+
+      &:last-child {
+        margin-right: -1px;
+      }
+
       &:not(:first-child) {
-        // We don't want left border color unless in the first item, active and
-        // hovered ones.
-        border-left-color: transparent;
         border-top-left-radius: 0;
         border-bottom-left-radius: 0;
       }
 
       &:not(:last-child) {
-        // We don't want right border color unless in the last item, active and
-        // hovered ones.
-        border-right-color: transparent;
+        margin-right: -1px;
         border-top-right-radius: 0;
         border-bottom-right-radius: 0;
       }
@@ -42,37 +51,40 @@
       }
 
       &.geo-segmented-control-item--active#{$modifier-name-with-prefix} {
-        border-left-color: $active-color;
-        border-right-color: $active-color;
+        border-color: $active-color;
       }
 
-      &, &.geo-segmented-control-item--active#{$modifier-name-with-prefix} {
-        &:hover {
-          border-left-color: $hover-color;
-          border-right-color: $hover-color;
-        }
-      }
+      // &, &.geo-segmented-control-item--active#{$modifier-name-with-prefix} {
+      //   &:hover {
+      //     border-left-color: $hover-color;
+      //     border-right-color: $hover-color;
+      //   }
+      // }
 
-      // We don't want left border on the button after the currently active or
-      // hovered ones
+      // We don't want left border on the button after the currently active one
       &.geo-segmented-control-item--active#{$modifier-name-with-prefix} +
-      .geo-segmented-control-item#{$modifier-name-with-prefix},
-      &:hover + .geo-segmented-control-item#{$modifier-name-with-prefix} {
+      .geo-segmented-control-item#{$modifier-name-with-prefix} {
         border-left-color: transparent;
       }
 
+      // &:not(.geo-segmented-control-item--active):hover {
+      //   border-bottom-color: $idle-color;
+      //   border-left-color: $idle-color;
+      //   border-top-color: $idle-color;
+      // }
+
       // But if we hover the item previous to an active item, then we want both
       // borders
-      &:hover + .geo-segmented-control-item--active#{$modifier-name-with-prefix} {
-        border-left-color: $active-color;
-      }
+      // &:hover + .geo-segmented-control-item--active#{$modifier-name-with-prefix} {
+      //   border-left-color: $active-color;
+      // }
 
       // But if we hover the item after an active item, then we want both
       // borders
-      &.geo-segmented-control-item--active#{$modifier-name-with-prefix} +
-      .geo-segmented-control-item:hover#{$modifier-name-with-prefix} {
-        border-left-color: $hover-color;
-      }
+      // &.geo-segmented-control-item--active#{$modifier-name-with-prefix} +
+      // .geo-segmented-control-item:hover#{$modifier-name-with-prefix} {
+      //   border-left-color: transparent;
+      // }
     }
   }
 }

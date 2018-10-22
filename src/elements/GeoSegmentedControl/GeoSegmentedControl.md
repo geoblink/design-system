@@ -9,12 +9,13 @@ It's designed to work nicely with [`GeoSegmentedControlItem`](./#/Elements/GeoSe
     <div class="element-demo__block" style="width: 750px;">
       <geo-segmented-control>
         <geo-segmented-control-item
-          v-for="control in availableControls"
+          v-for="(control, index) in availableControls"
           :key="control"
           :active="activeControls[control]"
           @click="toggleControl(control)"
         >
-          Option {{ control }}
+          <font-awesome-icon :icon="availableIcons[index]" fixed-width />
+          <span>Option {{ control }}</span>
         </geo-segmented-control-item>
       </geo-segmented-control>
     </div>
@@ -35,6 +36,14 @@ export default {
     }
   },
   computed: {
+    availableIcons () {
+      return [
+        'cat', 'crow', 'spider', 'ghost', 'broom'
+      ].map(icon => {
+        return ['fas', icon]
+      })
+    },
+
     availableControls () {
       return Object.keys(this.activeControls)
     }
@@ -46,5 +55,4 @@ export default {
   }
 }
 </script>
-
 ```
