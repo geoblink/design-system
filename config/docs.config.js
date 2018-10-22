@@ -125,6 +125,11 @@ module.exports = {
           sectionDepth: 1
         },
         {
+          name: 'GeoScrollableContainer',
+          components: '../src/elements/GeoScrollableContainer/GeoScrollableContainer*.vue',
+          sectionDepth: 0
+        },
+        {
           name: 'String Utils',
           components: () => [
             '../src/elements/GeoHighlightedString/GeoHighlightedString.vue',

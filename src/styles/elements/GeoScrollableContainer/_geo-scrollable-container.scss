@@ -1,0 +1,21 @@
+@mixin geo-scrollable-container-make($modifier-name) {
+
+  $modifier-name-with-prefix: '';
+
+  @if $modifier-name != '' {
+    // sass-lint:disable space-around-operator
+    $modifier-name-with-prefix: --#{$modifier-name};
+  }
+
+  .geo-scrollable-container__container#{$modifier-name-with-prefix} {
+    min-width: 150px;
+  }
+
+  .geo-scrollable-container__container__scrollable-content#{$modifier-name-with-prefix} {
+    max-height: 350px;
+    overflow-y: auto;
+  }
+
+}
+
+@include geo-scrollable-container-make('');
