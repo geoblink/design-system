@@ -8,9 +8,8 @@
   }
 
   @include geo-select-base-make($modifier-name);
-  @include geo-select-entry-make($modifier-name);
-  @include geo-select-opt-group-header-make($modifier-name);
-  @include geo-select-opt-group-entry-make($modifier-name);
+  @include geo-list-item-make($modifier-name);
+  @include geo-list-group-make($modifier-name);
   @include geo-select-search-entry-form-make($modifier-name);
   @include geo-select-more-results-make($modifier-name);
   @include geo-select-toggle-button-make($modifier-name);

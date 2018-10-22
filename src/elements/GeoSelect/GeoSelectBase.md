@@ -21,12 +21,12 @@ drop-in replacement for HTML `<select>` tag you might probably want to use
           @click="toggleSelect(0)">
           {{selectLabels[0]}}
         </geo-select-toggle-button>
-        <geo-select-entry
+        <geo-list-item
           v-for="(option, index) in itemsList"
           :key="index"
-          @change-current-selection="changeCurrentSelection(0, option)">
+          @click="changeCurrentSelection(0, option)">
           {{option.label}}
-        </geo-select-entry>
+        </geo-list-item>
       </geo-select-base>
     </div>
     <h3 class="element-demo__header">Select with search option</h3>
@@ -48,16 +48,16 @@ drop-in replacement for HTML `<select>` tag you might probably want to use
           v-model="searchPatterns[1]"
           placeholder="Search..." />
         <template v-if="filteredItemsList.length">
-          <geo-select-entry
+          <geo-list-item
             v-for="(option, index) in filteredItemsList"
             :key="index"
-            @change-current-selection="changeCurrentSelection(1, option)">
+            @click="changeCurrentSelection(1, option)">
             <template v-if="!isSearchingPlainList">{{option.label}}</template>
             <geo-highlighted-string
               v-else
               :highlighted-chars="option.matches"
               :reference-string="option.label"/>
-          </geo-select-entry>
+          </geo-list-item>
         </template>
         <geo-select-read-only-entry v-else>
           No Results Found
@@ -83,27 +83,33 @@ drop-in replacement for HTML `<select>` tag you might probably want to use
           v-model="searchPatterns[2]"
           placeholder="Search..." />
         <template v-if="filteredOptGroupsItems.length">
-          <template v-for="(option, index) in filteredOptGroupsItems">
-            <geo-select-opt-group-header
-              v-if="option.isOptGroup"
-              :key="index">
-              <template v-if="!isSearchingOptGroups">{{option.label}}</template>
+          <geo-list-group
+            v-for="(optGroup, index) in filteredOptGroupsItems"
+            :key="index"
+          >
+            <template
+              slot="title"
+              v-if="optGroup.isOptGroup"
+            >
+              <template v-if="!isSearchingOptGroups">{{optGroup.label}}</template>
               <geo-highlighted-string
+                :key="index"
                 v-else
-                :highlighted-chars="option.matches"
-                :reference-string="option.label"/>
-            </geo-select-opt-group-header>
-            <geo-select-opt-group-entry
-              v-else
+                :highlighted-chars="optGroup.matches"
+                :reference-string="optGroup.label"/>
+            </template>
+            <geo-list-item
+              slot="item"
+              v-for="(option, index) in optGroup.items"
               :key="index"
-              @change-current-selection="changeCurrentSelection(2, option)">
+              @click="changeCurrentSelection(2, option)">
               <template v-if="!isSearchingOptGroups">{{option.label}}</template>
               <geo-highlighted-string
                 v-else
                 :highlighted-chars="option.matches"
                 :reference-string="option.label"/>
-            </geo-select-opt-group-entry>
-          </template>
+            </geo-list-item>
+          </geo-list-group>
         </template>
         <geo-select-read-only-entry v-else>
           No Results Found
@@ -125,13 +131,12 @@ drop-in replacement for HTML `<select>` tag you might probably want to use
           @click="toggleSelect(3)">
           {{selectLabels[3]}}
         </geo-select-toggle-button>
-        <geo-select-entry
+        <geo-list-item
           v-for="(option, index) in chunkedLongList"
           :key="index"
-          :option="option"
-          @change-current-selection="changeCurrentSelection(3, option)">
+          @click="changeCurrentSelection(3, option)">
           {{option.label}}
-        </geo-select-entry>
+        </geo-list-item>
         <template slot="moreResultsTextContent">Load more results</template>
       </geo-select-base>
     </div>
@@ -197,7 +202,7 @@ export default {
               })
             }
           })
-          return [group, ...group.items]
+          return group
         }
         const foundItems = _.filter(group.items, function (item) {
           var matches = item.label.match(self.searchPatterns[2])
@@ -208,7 +213,7 @@ export default {
           }
           return item.label.indexOf(self.searchPatterns[2]) !== -1
         })
-        if (foundItems.length) return [group, ...foundItems]
+        if (foundItems.length) return _.assign({}, group, {items: foundItems})
       }))
     },
     filteredItemsList () {

@@ -30,6 +30,7 @@ a better UX including chunked load and search capabilities.
     <div class="element-demo__block" style="justify-content: space-around;">
       <geo-select
         :options="optGroupsList"
+        :is-opt-select="true"
         :searchable="true"
         css-modifier="select-demo"
         placeholder="Choose an option"
