@@ -95,6 +95,11 @@ module.exports = {
           sectionDepth: 0
         },
         {
+          name: 'GeoSegmentedControl',
+          components: '../src/elements/GeoSegmentedControl/GeoSegmentedControl*.vue',
+          sectionDepth: 0
+        },
+        {
           name: 'GeoDropdown',
           components: '../src/elements/GeoDropdown/GeoDropdown*.vue',
           sectionDepth: 1
