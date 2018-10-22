@@ -16,6 +16,9 @@
 @import "../styles/elements/GeoHighlightedString/geo-highlighted-string";
 @import "../styles/elements/GeoMarquee/geo-marquee";
 
+@import "../styles/elements/GeoList/geo-list-group";
+@import "../styles/elements/GeoList/geo-list-item";
+
 @import "../styles/elements/GeoDropdown/geo-dropdown";
 @import "../styles/elements/GeoDropdown/geo-dropdown-compact-button";
 @import "../styles/elements/GeoDropdown/geo-dropdown-footer";
@@ -31,10 +34,7 @@
 @import "../styles/elements/GeoSegmentedControl/geo-segmented-control";
 
 @import "../styles/elements/GeoSelect/geo-select-toggle-button";
-@import "../styles/elements/GeoSelect/geo-select-entry";
 @import "../styles/elements/GeoSelect/geo-select-read-only-entry";
-@import "../styles/elements/GeoSelect/geo-select-opt-group-header";
-@import "../styles/elements/GeoSelect/geo-select-opt-group-entry";
 @import "../styles/elements/GeoSelect/geo-select-search-entry-form";
 @import "../styles/elements/GeoSelect/geo-select-more-results";
 @import "../styles/elements/GeoSelect/geo-select-base";

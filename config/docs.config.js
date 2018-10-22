@@ -120,6 +120,11 @@ module.exports = {
           sectionDepth: 1
         },
         {
+          name: 'GeoList',
+          components: '../src/elements/GeoList/GeoList*.vue',
+          sectionDepth: 1
+        },
+        {
           name: 'String Utils',
           components: () => [
             '../src/elements/GeoHighlightedString/GeoHighlightedString.vue',
