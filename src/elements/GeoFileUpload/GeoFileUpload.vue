@@ -39,7 +39,7 @@
         `geo-file-upload__help--${status}${cssSuffix}`
       ]"
     >
-      <!-- @slot Use this slot to customize help text on the bototm. -->
+      <!-- @slot Use this slot to customize help text on the bottom. -->
       <slot name="help" />
     </div>
 
