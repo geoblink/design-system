@@ -105,6 +105,11 @@ module.exports = {
           sectionDepth: 0
         },
         {
+          name: 'GeoFileUpload',
+          components: '../src/elements/GeoFileUpload/GeoFileUpload*.vue',
+          sectionDepth: 0
+        },
+        {
           name: 'GeoSelect',
           components: '../src/elements/GeoSelect/GeoSelect*.vue',
           sectionDepth: 1
