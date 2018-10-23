@@ -1,8 +1,8 @@
 <template>
-  <div :class="`geo-scrollable-container__container${cssSuffix}`">
+  <div :class="`geo-scrollable-container${cssSuffix}`">
     <div
-      ref="scrollableContent"
-      :class="`geo-scrollable-container__container__scrollable-content${cssSuffix}`"
+      ref="scrollableContainer"
+      :class="`geo-scrollable-container__body${cssSuffix}`"
     >
       <slot name="scrollableList"/>
     </div>
@@ -23,7 +23,7 @@ import cssSuffix from '../../mixins/cssModifierMixin'
 export default {
   name: 'GeoScrollableContainer',
   status: 'missing-tests',
-  release: '7.0.1',
+  release: '7.1.0',
   mixins: [cssSuffix],
   props: {
     showMoreResultsButton: {
@@ -33,9 +33,9 @@ export default {
   },
   methods: {
     loadNextPage () {
-      const popup = this.$refs.scrollableContent
-      const currentVerticalOffset = popup.scrollTop
-      const nextPageVerticalOffset = currentVerticalOffset + popup.scrollHeight
+      const scrollableContainer = this.$refs.scrollableContainer
+      const currentVerticalOffset = scrollableContainer.scrollTop
+      const nextPageVerticalOffset = currentVerticalOffset + scrollableContainer.scrollHeight
       /**
        * Load more results in GeoSelect options
        *
@@ -44,7 +44,7 @@ export default {
        */
       this.$emit('load-more-results', {
         scrollToLastEntry () {
-          popup.scrollTop = nextPageVerticalOffset
+          scrollableContainer.scrollTop = nextPageVerticalOffset
         }
       })
     }

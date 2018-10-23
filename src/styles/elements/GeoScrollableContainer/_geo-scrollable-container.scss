@@ -7,11 +7,11 @@
     $modifier-name-with-prefix: --#{$modifier-name};
   }
 
-  .geo-scrollable-container__container#{$modifier-name-with-prefix} {
+  .geo-scrollable-container#{$modifier-name-with-prefix} {
     min-width: 150px;
   }
 
-  .geo-scrollable-container__container__scrollable-content#{$modifier-name-with-prefix} {
+  .geo-scrollable-container__body#{$modifier-name-with-prefix} {
     max-height: 350px;
     overflow-y: auto;
   }
