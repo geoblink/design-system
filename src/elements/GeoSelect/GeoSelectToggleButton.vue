@@ -30,7 +30,7 @@ export default {
   mixins: [cssSuffix],
   props: {
     /**
-     * Font Awesome 5 icon to be displayed as close button.
+     * Font Awesome 5 icon to be displayed as dropdown toggle button.
      *
      * See [vue-fontawesome](https://www.npmjs.com/package/@fortawesome/vue-fontawesome#explicit-prefix-note-the-vue-bind-shorthand-because-this-uses-an-array)
      * for more info about this.
