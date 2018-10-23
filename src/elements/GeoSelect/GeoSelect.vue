@@ -7,7 +7,7 @@
     @load-more-results="loadNextPage">
     <geo-select-toggle-button
       slot="toggleButton"
-      :dropdown-icon="['fas', 'chevron-down']"
+      :dropdown-icon="dropdownIcon"
       :css-modifier="cssModifier"
       :is-empty="!value"
       @click="toggleSelect">
@@ -16,7 +16,7 @@
     <geo-select-search-entry-form
       v-if="searchable"
       slot="header"
-      :search-icon="['fas', 'search']"
+      :search-icon="searchIcon"
       :css-modifier="cssModifier"
       :placeholder="searchInputPlaceholder"
       v-model="searchPattern"
@@ -273,6 +273,32 @@ export default {
       validator (value) {
         if (!_.isFinite(value)) return value > 0
         return true
+      }
+    },
+
+    /**
+     * Font Awesome 5 icon to be displayed as close button.
+     *
+     * See [vue-fontawesome](https://www.npmjs.com/package/@fortawesome/vue-fontawesome#explicit-prefix-note-the-vue-bind-shorthand-because-this-uses-an-array)
+     * for more info about this.
+     */
+    dropdownIcon: {
+      type: Array,
+      default () {
+        return ['fal', 'chevron-down']
+      }
+    },
+
+    /**
+     * Icon used for the search box.
+     *
+     * See [vue-fontawesome](https://www.npmjs.com/package/@fortawesome/vue-fontawesome#explicit-prefix-note-the-vue-bind-shorthand-because-this-uses-an-array)
+     * for more info about this.
+     */
+    searchIcon: {
+      type: Array,
+      default () {
+        return ['fal', 'search']
       }
     }
   },

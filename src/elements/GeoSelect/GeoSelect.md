@@ -8,6 +8,8 @@ a better UX including chunked load and search capabilities.
     <div class="element-demo__block" style="justify-content: space-around;">
       <geo-select
         :options="itemsList"
+        :dropdown-icon="['fas', 'chevron-down']"
+        :search-icon="['fas', 'search']"
         css-modifier="select-demo"
         placeholder="Choose an option"
         v-model="currentSelection[0]"
@@ -17,6 +19,8 @@ a better UX including chunked load and search capabilities.
     <div class="element-demo__block" style="justify-content: space-around;">
       <geo-select
         :options="itemsList"
+        :dropdown-icon="['fas', 'chevron-down']"
+        :search-icon="['fas', 'search']"
         :searchable="true"
         css-modifier="select-demo"
         placeholder="Choose an option"
@@ -30,6 +34,8 @@ a better UX including chunked load and search capabilities.
     <div class="element-demo__block" style="justify-content: space-around;">
       <geo-select
         :options="optGroupsList"
+        :dropdown-icon="['fas', 'chevron-down']"
+        :search-icon="['fas', 'search']"
         :is-opt-select="true"
         :searchable="true"
         css-modifier="select-demo"
@@ -44,6 +50,8 @@ a better UX including chunked load and search capabilities.
     <div class="element-demo__block" style="justify-content: space-around;">
       <geo-select
         :options="longList"
+        :dropdown-icon="['fas', 'chevron-down']"
+        :search-icon="['fas', 'search']"
         :page-size="20"
         css-modifier="select-demo"
         placeholder="Choose an option"
