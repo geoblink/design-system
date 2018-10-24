@@ -9,6 +9,7 @@ element.
     <div class="element-demo__block">
       <geo-button
         :disabled="isDisabled"
+        css-modifier="test-css-modifier"
         :loading="isLoading"
         type="primary"
         @click="startLoading()"

@@ -191,7 +191,7 @@
   }
 
   .geo-button#{$modifier-name-with-prefix} {
-    @include geo-button($modifier-name);
+    @include geo-button(#{$modifier-name-with-prefix});
   }
 
   .geo-button--primary#{$modifier-name-with-prefix} {
