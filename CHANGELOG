@@ -1,3 +1,21 @@
+# 7.1.2
+
+Fixes:
+
+- SCSS modifier refactor in `GeoButton`.
+
+# 7.1.1
+
+Fixes:
+
+- Icons as props in `GeoSelect`.
+
+# 7.1.0
+
+New:
+
+- `GeoScrollableContainer` component.
+
 # 7.0.1
 
 Fixes:
