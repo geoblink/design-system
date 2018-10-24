@@ -1,29 +1,31 @@
 // Creates a geo-button color scheme varying the background and text color based
 // on the hover/focus/disabled status.
 @mixin geo-button-make-scheme ($params, $css-suffix) {
-  @if map-has-key($params, normal-background-color) {
-    background: map-get($params, normal-background-color);
-  }
-
-  @if map-has-key($params, normal-text-color) {
-    color: map-get($params, normal-text-color);
-  }
-
-  @if map-has-key($params, normal-border-color) {
-    border-color: map-get($params, normal-border-color);
-  }
-
-  &:hover, &[hover], &:focus, &[focus] {
-    @if map-has-key($params, hover-background-color) {
-      background: map-get($params, hover-background-color);
+  &#{$css-suffix} {
+    @if map-has-key($params, normal-background-color) {
+      background: map-get($params, normal-background-color);
+    }
+  
+    @if map-has-key($params, normal-text-color) {
+      color: map-get($params, normal-text-color);
+    }
+  
+    @if map-has-key($params, normal-border-color) {
+      border-color: map-get($params, normal-border-color);
     }
 
-    @if map-has-key($params, hover-text-color) {
-      color: map-get($params, hover-text-color);
-    }
-
-    @if map-has-key($params, hover-border-color) {
-      border-color: map-get($params, hover-border-color);
+    &:hover, &[hover], &:focus, &[focus] {
+      @if map-has-key($params, hover-background-color) {
+        background: map-get($params, hover-background-color);
+      }
+  
+      @if map-has-key($params, hover-text-color) {
+        color: map-get($params, hover-text-color);
+      }
+  
+      @if map-has-key($params, hover-border-color) {
+        border-color: map-get($params, hover-border-color);
+      }
     }
   }
 
@@ -77,8 +79,10 @@
     disabled-text-color: $color_white
   ), $css-suffix);
 
-  transition: all $duration_quickly $easing_base;
-  transition-property: background-color;
+  &#{$css-suffix} {
+    transition: all $duration_quickly $easing_base;
+    transition-property: background-color;
+  }
 }
 
 @mixin geo-button--secondary($css-suffix) {
@@ -93,8 +97,10 @@
     disabled-border-color: $color_blue_dark,
   ), $css-suffix);
 
-  transition: all $duration_quickly $easing_base;
-  transition-property: background-color, border-color, color;
+  &#{$css-suffix} {
+    transition: all $duration_quickly $easing_base;
+    transition-property: background-color, border-color, color;
+  }
 }
 
 @mixin geo-button--tertiary($css-suffix) {
@@ -106,11 +112,13 @@
     disabled-text-color: $color_blue,
   ), $css-suffix);
 
-  font-style: italic;
-  font-weight: $font_weight_light;
-  text-transform: initial;
+  &#{$css-suffix} {
+    font-style: italic;
+    font-weight: $font_weight_light;
+    text-transform: initial;
 
-  transition: color $duration_quickly $easing_base;
+    transition: color $duration_quickly $easing_base;
+  }
 }
 
 @mixin geo-button--destructive($css-suffix) {
@@ -121,8 +129,10 @@
     disabled-background-color: $color_red,
   ), $css-suffix);
 
-  transition: all $duration_quickly $easing_base;
-  transition-property: background-color, border-color, color;
+  &#{$css-suffix} {
+    transition: all $duration_quickly $easing_base;
+    transition-property: background-color, border-color, color;
+  }
 }
 
 @mixin geo-button--danger($css-suffix) {
@@ -133,25 +143,46 @@
     disabled-background-color: $color_red,
   ), $css-suffix);
 
-  transition: all $duration_quickly $easing_base;
-  transition-property: background-color, border-color, color;
+  &#{$css-suffix} {
+    transition: all $duration_quickly $easing_base;
+    transition-property: background-color, border-color, color;
+  }
 }
 
 @mixin geo-button($css-suffix) {
-  align-items: center;
-  justify-content: center;
-  border-radius: 3px;
-  border: 1px solid transparent;
-  cursor: pointer;
-  display: flex;
-  font-family: $font_family_text;
-  font-size: $small;
-  font-weight: font_weight_bold;
-  line-height: 1.25em;
-  overflow: hidden;
-  position: relative;
-  text-transform: uppercase;
-  user-select: none;
+  &#{$css-suffix} {
+    align-items: center;
+    justify-content: center;
+    border-radius: 3px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    display: flex;
+    font-family: $font_family_text;
+    font-size: $small;
+    font-weight: font_weight_bold;
+    line-height: 1.25em;
+    overflow: hidden;
+    position: relative;
+    text-transform: uppercase;
+    user-select: none;
+
+    .geo-button__label#{$css-suffix} {
+      padding: .58em .83em .67em .83em;
+      transition: all $duration_noticeable $easing_base;
+      transition-property: transform, opacity;
+    }
+  
+    .geo-button__label--loading#{$css-suffix} {
+      transform: scale(0);
+      opacity: 0;
+    }
+  
+    .geo-button__activity-indicator#{$css-suffix} {
+      height: 1em;
+      position: absolute;
+      width: 1em;
+    }
+  }
 
   $this: &;
 
@@ -161,23 +192,6 @@
     &:not(#{$this}--loading#{$css-suffix}) {
       opacity: .3;
     }
-  }
-
-  .geo-button__label#{$css-suffix} {
-    padding: .58em .83em .67em .83em;
-    transition: all $duration_noticeable $easing_base;
-    transition-property: transform, opacity;
-  }
-
-  .geo-button__label--loading#{$css-suffix} {
-    transform: scale(0);
-    opacity: 0;
-  }
-
-  .geo-button__activity-indicator#{$css-suffix} {
-    height: 1em;
-    position: absolute;
-    width: 1em;
   }
 }
 
@@ -190,27 +204,27 @@
     $modifier-name-with-prefix: --#{$modifier-name};
   }
 
-  .geo-button#{$modifier-name-with-prefix} {
-    @include geo-button(#{$modifier-name-with-prefix});
+  .geo-button {
+    @include geo-button($modifier-name-with-prefix);
   }
 
-  .geo-button--primary#{$modifier-name-with-prefix} {
+  .geo-button--primary {
     @include geo-button--primary($modifier-name-with-prefix);
   }
 
-  .geo-button--secondary#{$modifier-name-with-prefix} {
+  .geo-button--secondary{
     @include geo-button--secondary($modifier-name-with-prefix);
   }
 
-  .geo-button--tertiary#{$modifier-name-with-prefix} {
+  .geo-button--tertiary {
     @include geo-button--tertiary($modifier-name-with-prefix);
   }
 
-  .geo-button--danger#{$modifier-name-with-prefix} {
+  .geo-button--danger {
     @include geo-button--danger($modifier-name-with-prefix);
   }
 
-  .geo-button--destructive#{$modifier-name-with-prefix} {
+  .geo-button--destructive {
     @include geo-button--destructive($modifier-name-with-prefix);
   }
 }
