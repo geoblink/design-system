@@ -30,6 +30,7 @@ import ScrollAnywhere from '../../directives/GeoScrollAnywhere'
 import getDOMElementOffset from '../../utils/getDOMElementOffset'
 import cssSuffix from '../../mixins/cssModifierMixin'
 import { X_AXIS_POSITION, Y_AXIS_POSITION } from './GeoDropdown.constants'
+import _ from 'lodash'
 
 export default {
   name: 'GeoDropdown',
@@ -64,7 +65,8 @@ export default {
       }
     },
     /**
-     * Position of the popup relative to the container. `top` or `bottom`
+     * Preferred position of the popup relative to the container. `top` or `bottom`.
+     * This is the position that will be used when the popup fits both above and below.
      * Values available in `Y_AXIS_POSITION`
      * - `Y_AXIS_POSITION.top`
      * - `Y_AXIS_POSITION.bottom`
@@ -77,6 +79,29 @@ export default {
       validator: function (value) {
         return value in Y_AXIS_POSITION
       }
+    },
+
+    /**
+     * Forced position of the popup relative to the container. `top`, `bottom` or none.
+     * If provided, this is the position that the popup will use regardless whether it fits or not.
+     * Values available in `Y_AXIS_POSITION`
+     * - `Y_AXIS_POSITION.top`
+     * - `Y_AXIS_POSITION.bottom`
+     */
+    forceYAxisPosition: {
+      type: String,
+      required: false,
+      validator: function (value) {
+        return value === undefined || value in Y_AXIS_POSITION
+      }
+    },
+
+    /**
+     * When this property is `true`, the popup width will be the same as that of the toggle button.
+     */
+    fixedWidth: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
@@ -91,7 +116,11 @@ export default {
       popupTranslation: {
         x: 0,
         y: 0
-      }
+      },
+      // When dropdown has a force Y Axis position,
+      // the maximum visible height should be this
+      popupMaxHeight: null,
+      toggleButtonWidth: null
     }
   },
   computed: {
@@ -100,12 +129,22 @@ export default {
     },
 
     popupStyle () {
-      return {
+      const styles = {
         transform: `translate(
           ${this.containerOffset.left + this.popupTranslation.x}px,
           ${this.containerOffset.top + this.popupTranslation.y}px
         )`
       }
+
+      if (this.popupMaxHeight) {
+        styles.height = `${this.popupMaxHeight}px`
+      }
+
+      if (this.fixedWidth) {
+        styles.width = `${this.toggleButtonWidth}px`
+      }
+
+      return styles
     }
   },
   watch: {
@@ -154,6 +193,10 @@ export default {
 
       const containerRect = containerElement.getBoundingClientRect()
       const popupRect = popupElement.getBoundingClientRect()
+
+      this.toggleButtonWidth = _.sum(_.map(_.get(this.$slots, 'toggleButton'), function (vNode) {
+        return (vNode.elm && vNode.elm.getBoundingClientRect().width) || 0
+      }))
 
       const popupComputedStyle = getComputedStyle(popupElement)
 
@@ -228,12 +271,28 @@ export default {
         ? translationTowardsPreferredXPosition
         : translationTowardsFallbackXPosition
 
-      const translationY = fitsTowardsPreferredYPosition
+      const automaticTranslationY = fitsTowardsPreferredYPosition
         ? translationTowardsPreferredYPosition
         : translationTowardsFallbackYPosition
 
+      const forcedYAxisPositionToTranslationMapping = {
+        [Y_AXIS_POSITION.top]: configTowardsTop.translationTowardsPreferredYPosition,
+        [Y_AXIS_POSITION.bottom]: configTowardsBottom.translationTowardsPreferredYPosition
+      }
+
+      const translationY = forcedYAxisPositionToTranslationMapping[this.forceYAxisPosition] || automaticTranslationY
+
       this.popupTranslation.x = translationX
       this.popupTranslation.y = translationY
+
+      const maxHeightAbove = Math.max(containerRect.top - (spacingToToggleButton * 2), 0)
+      const maxHeightBelow = Math.max(viewport.height - containerRect.bottom - (spacingToToggleButton * 2), 0)
+
+      const forcedYAxisPositionToMaxHeightMapping = {
+        [Y_AXIS_POSITION.top]: maxHeightAbove,
+        [Y_AXIS_POSITION.bottom]: maxHeightBelow
+      }
+      this.popupMaxHeight = forcedYAxisPositionToMaxHeightMapping[this.forceYAxisPosition] || null
     },
 
     checkClickCoordinatesAndEmitClickOutside ($event) {
@@ -242,7 +301,7 @@ export default {
       // the document body
       const popupElement = this.$refs.popup
 
-      if (popupElement === $event.target || popupElement.contains($event.target)) {
+      if (!this.isOpened || popupElement === $event.target || popupElement.contains($event.target)) {
         return
       }
 

@@ -1,6 +1,9 @@
 <template>
   <geo-dropdown
+    ref="dropdown"
     :opened="opened"
+    :css-modifier="cssModifier"
+    :force-y-axis-position="Y_AXIS_POSITION.bottom"
     @click-outside="handleClickOutside($event)"
   >
     <!-- @slot Use this slot to customize the button toggling the actual selection popup -->
@@ -46,6 +49,7 @@
 
 <script>
 import cssSuffix from '../../mixins/cssModifierMixin'
+import { Y_AXIS_POSITION } from '../GeoDropdown/GeoDropdown.constants'
 
 export default {
   name: 'GeoSelectBase',
@@ -67,6 +71,11 @@ export default {
     hasMoreResults: {
       type: Boolean,
       default: false
+    }
+  },
+  computed: {
+    Y_AXIS_POSITION () {
+      return Y_AXIS_POSITION
     }
   },
   methods: {

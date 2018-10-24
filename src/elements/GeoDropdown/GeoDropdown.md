@@ -143,12 +143,37 @@ if pinned to left side.
       </geo-dropdown>
       </div>
     </div>
-    <h3 class="element-demo__header">Menu inside scrollable container</h3>
+    <h3 class="element-demo__header">
+      Menu inside scrollable container
+      <div class="element-demo__inline-input-group">
+        <label class="element-demo__inline-input-group__field">
+          Force YAxis position: <select
+            v-model="forcedYAxisPosition"
+          >
+            <option value="none">None</option>
+            <option value="bottom">Bottom</option>
+            <option value="top">Top</option>
+          </select>
+        </label>
+      </div>
+      <div class="element-demo__inline-input-group">
+        <label class="element-demo__inline-input-group__field">
+          Fixed width: <select
+            v-model="fixedWidth"
+          >
+            <option :value="true">True</option>
+            <option :value="false">False</option>
+          </select>
+        </label>
+      </div>
+    </h3>
     <div class="element-demo__block" style="justify-content: space-around;">
       <div class="element-demo__bordered-box container-with-scroll-overflow">
         <div style="margin-bottom: 300px;">
           <geo-dropdown
             :opened="isOpened[2]"
+            :force-y-axis-position="dropdownForcedYAxisPosition"
+            :fixed-width="fixedWidth"
             @click-outside="closeMenu(2)"
           >
             <geo-dropdown-regular-button
@@ -220,10 +245,16 @@ export default {
   data () {
     return {
       isOpened: [false, false, false],
-      currentPath: [[], [], []]
+      currentPath: [[], [], []],
+      forcedYAxisPosition: 'none',
+      fixedWidth: false
     }
   },
   computed: {
+    dropdownForcedYAxisPosition () {
+      return this.forcedYAxisPosition === 'none' ? undefined : this.forcedYAxisPosition
+    },
+
     sampleItems () {
       return [
         {
