@@ -2,7 +2,7 @@
 
 Fixes:
 
-- css mixin called with wrong parameter in `GeoButton`.
+- SCSS mixin called with wrong parameter in `GeoButton`.
 
 # 7.1.1
 
