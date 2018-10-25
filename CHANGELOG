@@ -1,14 +1,14 @@
 # 7.2.0
 
-Fixes:
-
-- Propagate GeoSelect cssModifier to inner GeoDropdown
-- Don't emit click-outside event if GeoDropdown popup is open
-
 New:
 
 - Add flag to force GeoSelect dropdown position and change max height accordingly
 - Add flag to GeoDropdown to sync options list width with that of the toggle button
+
+Fixes:
+
+- Propagate GeoSelect cssModifier to inner GeoDropdown
+- Don't emit click-outside event if GeoDropdown popup is open
 
 # 7.1.2
 
