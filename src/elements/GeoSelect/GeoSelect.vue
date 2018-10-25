@@ -1,6 +1,6 @@
 <template>
   <geo-select-base
-    ref="select-base"
+    ref="selectBase"
     :opened="isOpened"
     :css-modifier="cssModifier"
     :has-more-results="hasMoreResultsToLoad"
