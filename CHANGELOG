@@ -2,7 +2,7 @@
 
 Fixes:
 
-- Propagate cssModifier to geoScrollableContainer
+- [GeoSelectBase] Propagate cssModifier to geoScrollableContainer
 
 # 7.2.1
 
