@@ -20,6 +20,7 @@
     <geo-scrollable-container
       slot="popupContent"
       :show-more-results-button="hasMoreResults"
+      :css-modifier="cssModifier"
       @load-more-results="loadNextPage">
       <div
         slot="scrollableList"
