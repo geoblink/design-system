@@ -8,12 +8,18 @@
   }
 
   .geo-scrollable-container#{$modifier-name-with-prefix} {
+    display: flex;
+    flex-direction: column;
     min-width: 150px;
+    overflow: hidden;
   }
 
   .geo-scrollable-container__body#{$modifier-name-with-prefix} {
+    flex-grow: 1;
+    flex-shrink: 1;
     max-height: 350px;
     overflow-y: auto;
+    overflow-x: hidden;
   }
 
 }

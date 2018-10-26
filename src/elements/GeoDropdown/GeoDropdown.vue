@@ -137,7 +137,7 @@ export default {
       }
 
       if (this.popupMaxHeight) {
-        styles.height = `${this.popupMaxHeight}px`
+        styles.maxHeight = `${this.popupMaxHeight}px`
       }
 
       if (this.fixedWidth) {
