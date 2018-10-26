@@ -1,3 +1,9 @@
+# 7.2.1
+
+Fixes:
+
+- Fix height issues with scrollable content in GeoSelect
+
 # 7.2.0
 
 New:

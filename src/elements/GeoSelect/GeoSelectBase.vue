@@ -17,34 +17,29 @@
       slot="popupContent"
       name="header"
     />
-    <div
+    <geo-scrollable-container
       slot="popupContent"
-      ref="popup"
-      :class="`geo-select__options-container${cssSuffix}`"
-    >
-      <!-- @slot Use this slot to customize the main content of the selection popup -->
-      <slot />
-    </div>
+      :show-more-results-button="hasMoreResults"
+      @load-more-results="loadNextPage">
+      <div
+        slot="scrollableList"
+        ref="scrollableContent"
+        :class="`geo-select__options-container${cssSuffix}`"
+      >
+        <!-- @slot Use this slot to customize the main content of the selection popup -->
+        <slot />
+      </div>
+      <!-- @slot Use this slot to customize the label of the button allowing user to load more data when there are too much elements to be displayed at once -->
+      <slot
+        slot="moreResultsTextContent"
+        name="moreResultsTextContent"
+      />
+    </geo-scrollable-container>
     <!-- @slot Use this slot to customize the footer of the selection popup -->
     <slot
       slot="popupContent"
       name="footer"
     />
-    <template
-      v-if="hasMoreResults"
-      slot="popupContent"
-    >
-      <geo-select-more-results-footer-button
-        slot="moreResults"
-        @load-more-results="loadNextPage"
-      >
-        <!-- @slot Use this slot to customize the label of the button allowing user to load more data when there are too much elements to be displayed at once -->
-        <slot
-          slot="moreResultsContent"
-          name="moreResultsTextContent"
-        />
-      </geo-select-more-results-footer-button>
-    </template>
   </geo-dropdown>
 </template>
 
@@ -95,9 +90,9 @@ export default {
     },
 
     loadNextPage () {
-      const popup = this.$refs.popup
-      const currentVerticalOffset = popup.scrollTop
-      const nextPageVerticalOffset = currentVerticalOffset + popup.scrollHeight
+      const scrollableContent = this.$refs.scrollableContent
+      const currentVerticalOffset = scrollableContent.parentElement.scrollTop
+      const nextPageVerticalOffset = currentVerticalOffset + scrollableContent.scrollHeight
       /**
        * Load more results in GeoSelect options
        *
@@ -106,7 +101,7 @@ export default {
        */
       this.$emit('load-more-results', {
         scrollToLastEntry () {
-          popup.scrollTop = nextPageVerticalOffset
+          scrollableContent.parentElement.scrollTop = nextPageVerticalOffset
         }
       })
     }

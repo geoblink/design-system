@@ -34,30 +34,30 @@ if pinned to left side.
           >
             {{ item.label }}
           </geo-dropdown-header>
-          <geo-dropdown-group
+          <geo-list-group
             v-else-if="item.groupedItems"
             :key="index"
           >
             <template slot="title">{{ item.label }}</template>
-            <geo-dropdown-list-item
+            <geo-list-item
               v-for="(item, index) in item.groupedItems"
               :key="index"
               :icon="item.icon"
               slot="item"
             >
-              <template slot="label">{{ item.label }}</template>
-            </geo-dropdown-list-item>
-          </geo-dropdown-group>
+              {{ item.label }}
+            </geo-list-item>
+          </geo-list-group>
           <geo-dropdown-footer v-else-if="item.footer" :key="index">
             <geo-button type="primary">{{ item.label }}</geo-button>
           </geo-dropdown-footer>
-          <geo-dropdown-list-item
+          <geo-list-item
             v-else
             :key="index"
             :icon="item.icon"
             @click="handleListItemClick(0, index)"
           >
-            <template slot="label">{{ item.label }}</template>
+            {{ item.label }}
             <template slot="trailingAccessoryItem">
               <font-awesome-icon
                 v-if="item.submenu"
@@ -70,7 +70,7 @@ if pinned to left side.
                 type="checkbox"
               >
             </template>
-          </geo-dropdown-list-item>
+          </geo-list-item>
         </template>
       </geo-dropdown>
     </div>
@@ -102,30 +102,30 @@ if pinned to left side.
           >
             {{ item.label }}
           </geo-dropdown-header>
-          <geo-dropdown-group
+          <geo-list-group
             v-else-if="item.groupedItems"
             :key="index"
           >
             <template slot="title">{{ item.label }}</template>
-            <geo-dropdown-list-item
+            <geo-list-item
               v-for="(item, index) in item.groupedItems"
               :key="index"
               :icon="item.icon"
               slot="item"
             >
-              <template slot="label">{{ item.label }}</template>
-            </geo-dropdown-list-item>
-          </geo-dropdown-group>
+              {{ item.label }}
+            </geo-list-item>
+          </geo-list-group>
           <geo-dropdown-footer v-else-if="item.footer" :key="index">
             <geo-button type="primary">{{ item.label }}</geo-button>
           </geo-dropdown-footer>
-          <geo-dropdown-list-item
+          <geo-list-item
             v-else
             :key="index"
             :icon="item.icon"
             @click="handleListItemClick(1, index)"
           >
-            <template slot="label">{{ item.label }}</template>
+            {{ item.label }}
             <template slot="trailingAccessoryItem">
               <font-awesome-icon
                 v-if="item.submenu"
@@ -138,7 +138,7 @@ if pinned to left side.
                 type="checkbox"
               >
             </template>
-          </geo-dropdown-list-item>
+          </geo-list-item>
         </template>
       </geo-dropdown>
       </div>
@@ -195,30 +195,30 @@ if pinned to left side.
               >
                 {{ item.label }}
               </geo-dropdown-header>
-              <geo-dropdown-group
+              <geo-list-group
                 v-else-if="item.groupedItems"
                 :key="index"
               >
                 <template slot="title">{{ item.label }}</template>
-                <geo-dropdown-list-item
+                <geo-list-item
                   v-for="(item, index) in item.groupedItems"
                   :key="index"
                   :icon="item.icon"
                   slot="item"
                 >
-                  <template slot="label">{{ item.label }}</template>
-                </geo-dropdown-list-item>
-              </geo-dropdown-group>
+                  {{ item.label }}
+                </geo-list-item>
+              </geo-list-group>
               <geo-dropdown-footer v-else-if="item.footer" :key="index">
                 <geo-button type="primary">{{ item.label }}</geo-button>
               </geo-dropdown-footer>
-              <geo-dropdown-list-item
+              <geo-list-item
                 v-else
                 :key="index"
                 :icon="item.icon"
                 @click="handleListItemClick(2, index)"
               >
-                <template slot="label">{{ item.label }}</template>
+                {{ item.label }}
                 <template slot="trailingAccessoryItem">
                   <font-awesome-icon
                     v-if="item.submenu"
@@ -231,7 +231,7 @@ if pinned to left side.
                     type="checkbox"
                   >
                 </template>
-              </geo-dropdown-list-item>
+              </geo-list-item>
             </template>
           </geo-dropdown>
         </div>

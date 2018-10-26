@@ -18,7 +18,6 @@
   .geo-dropdown__popup--is-open#{$modifier-name-with-prefix} {
     display: flex;
     flex-direction: column;
-    max-height: 250px;
   }
 }
 

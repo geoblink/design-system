@@ -137,7 +137,7 @@ export default {
       }
 
       if (this.popupMaxHeight) {
-        styles.height = `${this.popupMaxHeight}px`
+        styles.maxHeight = `${this.popupMaxHeight}px`
       }
 
       if (this.fixedWidth) {
@@ -178,6 +178,8 @@ export default {
     },
 
     repositionPopup () {
+      if (!this.isOpened) return
+
       const viewport = {
         height: document.documentElement.clientHeight,
         width: document.documentElement.clientWidth
