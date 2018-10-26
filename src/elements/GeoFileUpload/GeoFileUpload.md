@@ -70,17 +70,11 @@ Only one file can be uploaded using this component.
 export default {
   data () {
     return {
+      status: 'initial',
       file: null
     }
   },
   computed: {
-    status () {
-      const possibleStatus = ['success', 'error', 'warning']
-      return this.file
-        ? possibleStatus[Math.floor(Math.random() * possibleStatus.length)]
-        : 'initial'
-    },
-
     pickerTitle () {
       switch (this.status) {
         case 'success':
@@ -115,8 +109,16 @@ export default {
   methods: {
     pickFile (file) {
       this.file = file
+
+      const nextStatus = {
+        'initial': 'error',
+        'error': 'warning',
+        'warning': 'success',
+        'success': 'initial'
+      }
+
+      this.status = nextStatus[this.status]
     }
   }
 }
 </script>
-```
