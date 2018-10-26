@@ -178,6 +178,8 @@ export default {
     },
 
     repositionPopup () {
+      if (!this.isOpened) return
+
       const viewport = {
         height: document.documentElement.clientHeight,
         width: document.documentElement.clientWidth
