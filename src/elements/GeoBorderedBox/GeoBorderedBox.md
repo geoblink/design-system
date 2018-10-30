@@ -35,12 +35,41 @@ consistent experience.
     </h3>
     <div class="element-demo__block" style="justify-content: space-around;">
       <geo-bordered-box>
-        <geo-bordered-box-header v-if="showBoxHeader" slot="header">
+        <geo-bordered-box-header v-if="showBoxHeader">
           My header
         </geo-bordered-box-header>
         <p>Box content:</p>
         <blockquote>{{ content }}</blockquote>
-        <geo-bordered-box-footer v-if="showBoxFooter" slot="footer">
+        <geo-bordered-box-footer v-if="showBoxFooter">
+          <div style="display: flex; flex-direction:row; justify-content: flex-end;">
+            <geo-tertiary-button>Cancel</geo-tertiary-button>
+            <geo-primary-button>Save changes</geo-primary-button>
+          </div>
+        </geo-bordered-box-footer>
+      </geo-bordered-box>
+    </div>
+    <h3 class="element-demo__header">Bordered box with header</h3>
+    <div class="element-demo__block" style="justify-content: space-around;">
+      <geo-bordered-box>
+        <geo-bordered-box-header>My header</geo-bordered-box-header>
+        <geo-list-item>This box has a nice header</geo-list-item>
+      </geo-bordered-box>
+    </div>
+    <h3 class="element-demo__header">Bordered box with footer</h3>
+    <div class="element-demo__block" style="justify-content: space-around;">
+      <geo-bordered-box>
+        <geo-list-item>This box has a nice footer</geo-list-item>
+        <geo-bordered-box-footer>
+          <geo-primary-button>Save changes</geo-primary-button>
+        </geo-bordered-box-footer>
+      </geo-bordered-box>
+    </div>
+    <h3 class="element-demo__header">Bordered box with header and footer</h3>
+    <div class="element-demo__block" style="justify-content: space-around;">
+      <geo-bordered-box>
+        <geo-bordered-box-header>My header</geo-bordered-box-header>
+        <geo-list-item>This box has a nice header and footer</geo-list-item>
+        <geo-bordered-box-footer>
           <div style="display: flex; flex-direction:row; justify-content: flex-end;">
             <geo-tertiary-button>Cancel</geo-tertiary-button>
             <geo-primary-button>Save changes</geo-primary-button>
