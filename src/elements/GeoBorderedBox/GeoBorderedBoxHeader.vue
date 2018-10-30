@@ -1,34 +1,34 @@
 <template>
   <div
-    :class="`geo-dropdown__header${cssSuffix}`"
+    :class="`geo-bordered-box-header${cssSuffix}`"
     @click="emitClick($event)"
   >
-    <div :class="`geo-dropdown__header__icon-and-label${cssSuffix}`">
+    <div class="geo-bordered-box-header__icon-and-label">
       <div
         v-if="icon"
-        :class="`geo-dropdown__header__icon-and-label__icon-container${cssSuffix}`"
+        class="geo-bordered-box-header__icon-container"
       >
         <font-awesome-icon
           :icon="icon"
-          :class="`geo-dropdown__header__icon-and-label__icon-container__icon${cssSuffix}`"
+          class="geo-bordered-box-header__icon"
           aria-hidden
           fixed-width
           @click="emitIconClick($event)"
         />
       </div>
-      <div :class="`geo-dropdown__header__icon-and-label__label${cssSuffix}`">
+      <div class="geo-bordered-box-header__label">
         <!-- @slot Use this slot to customize header's content -->
         <slot />
       </div>
     </div>
     <div
       v-if="shouldShowCloseButton"
-      :class="`geo-dropdown__header__close-button${cssSuffix}`"
+      class="geo-bordered-box-header__close-button"
       @click="emitClose($event)"
     >
       <font-awesome-icon
         :icon="closeIcon"
-        :class="`geo-dropdown__header__close-button__icon${cssSuffix}`"
+        class="geo-bordered-box-header__close-button-icon"
         aria-hidden
         fixed-width
       />
@@ -40,14 +40,13 @@
 import cssSuffix from '../../mixins/cssModifierMixin'
 
 export default {
-  name: 'GeoDropdownHeader',
-  status: 'deprecated',
-  alternative: 'GeoBorderedBoxHeader',
-  release: '4.0.0',
+  name: 'GeoBorderedBoxHeader',
+  status: 'missing-tests',
+  release: '7.3.0',
   mixins: [cssSuffix],
   props: {
     /**
-     * Optional Font Awesome 5 icon to be displayed next to the entry's label,
+     * Optional Font Awesome 5 icon to be displayed next to the header's label,
      * on the leading edge.
      *
      * See [vue-fontawesome](https://www.npmjs.com/package/@fortawesome/vue-fontawesome#explicit-prefix-note-the-vue-bind-shorthand-because-this-uses-an-array)
