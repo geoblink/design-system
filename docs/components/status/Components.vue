@@ -69,7 +69,7 @@
           </td>
           <td v-else>N/A</td>
           <td v-if="component.release">
-            {{ component.release }}
+            <pre>{{ component.release }}</pre>
           </td>
           <td v-else>N/A</td>
           <td v-if="component.status">
@@ -105,6 +105,12 @@
               }"
               :icon="['fas', 'times-circle']"
             />
+            <span
+              v-if="component.status === 'deprecated' && component.alternative"
+              class="non-deprecated-alternative"
+            >
+              Use <code>{{ component.alternative }}</code> instead
+            </span>
           </td>
           <td v-else>—</td>
         </tr>
@@ -226,6 +232,9 @@ export default {
       font-weight: $font-weight-bold;
       white-space: nowrap;
     }
+  }
+  .non-deprecated-alternative {
+    margin-left: 5px;
   }
   .status-list {
     margin: 0 0 $space-small;
