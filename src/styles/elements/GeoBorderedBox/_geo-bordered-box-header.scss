@@ -1,0 +1,64 @@
+@mixin geo-bordered-box-header-make($modifier-name) {
+
+  $modifier-name-with-prefix: '';
+
+  @if $modifier-name != '' {
+    // sass-lint:disable space-around-operator
+    $modifier-name-with-prefix: --#{$modifier-name};
+  }
+
+  .geo-bordered-box-header#{$modifier-name-with-prefix} {
+    align-items: center;
+    background: $color_white_dark;
+    border-bottom: 1px solid $color_grey;
+    color: $color_grey_darker;
+    display: flex;
+    flex-direction: row;
+    font-family: $font_family_heading;
+    font-size: $small;
+    height: 40px;
+    justify-content: space-between;
+    line-height: $line_height_base;
+    padding: 0 7px 0 5px;
+    white-space: nowrap;
+
+    .geo-bordered-box-header__icon-and-label {
+      align-items: center;
+      display: flex;
+      flex-direction: row;
+
+      &:first-child:last-child {
+        margin-right: 10px;
+      }
+    }
+
+    .geo-bordered-box-header__label:first-child:last-child {
+      margin-left: 10px;
+    }
+
+    .geo-bordered-box-header__icon-container {
+      color: $color_grey_light;
+      cursor: pointer;
+      margin-right: 10px;
+
+      &:hover {
+        color: $color_grey_darker;
+      }
+    }
+
+    .geo-bordered-box-header__close-button {
+      align-items: center;
+      color: $color_grey_light;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      margin-left: 10px;
+
+      &:hover {
+        color: $color_grey_darker;
+      }
+    }
+  }
+}
+
+@include geo-bordered-box-header-make('');
