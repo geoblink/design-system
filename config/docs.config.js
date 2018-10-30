@@ -105,6 +105,16 @@ module.exports = {
           sectionDepth: 1
         },
         {
+          name: 'GeoModal',
+          components: '../src/elements/GeoModal/GeoModal*.vue',
+          sectionDepth: 1
+        },
+        {
+          name: 'GeoBorderedBox',
+          components: '../src/elements/GeoBorderedBox/GeoBorderedBox*.vue',
+          sectionDepth: 1
+        },
+        {
           name: 'GeoInput',
           components: '../src/elements/GeoInput/GeoInput*.vue',
           sectionDepth: 0
