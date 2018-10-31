@@ -24,6 +24,7 @@
     overflow-x: hidden;
   }
 
+  @include geo-list-footer-button-make($modifier-name);
 }
 
 @include geo-scrollable-container-make('');
