@@ -143,8 +143,8 @@ export default {
     popupStyle () {
       const styles = {
         transform: `translate(
-          ${this.containerOffset.left + this.popupTranslation.x}px,
-          ${this.containerOffset.top + this.popupTranslation.y}px
+          ${Math.round(this.containerOffset.left + this.popupTranslation.x)}px,
+          ${Math.round(this.containerOffset.top + this.popupTranslation.y)}px
         )`
       }
 
