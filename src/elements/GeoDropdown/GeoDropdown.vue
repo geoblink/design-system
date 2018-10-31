@@ -241,8 +241,8 @@ export default {
       // and fallback position
       const configTowardsLeft = {
         fitsTowardsPreferredXPosition: fitsTowardsLeft,
-        translationTowardsPreferredXPosition: towardsRightTranslationX,
-        translationTowardsFallbackXPosition: towardsLeftTranslationX
+        translationTowardsPreferredXPosition: towardsLeftTranslationX,
+        translationTowardsFallbackXPosition: towardsRightTranslationX
       }
 
       const configTowardsRight = {
