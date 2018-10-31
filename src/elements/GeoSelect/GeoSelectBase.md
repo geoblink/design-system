@@ -59,9 +59,9 @@ drop-in replacement for HTML `<select>` tag you might probably want to use
               :reference-string="option.label"/>
           </geo-list-item>
         </template>
-        <geo-select-read-only-entry v-else>
+        <geo-list-clear-item v-else>
           No Results Found
-        </geo-select-read-only-entry>
+        </geo-list-clear-item>
       </geo-select-base>
     </div>
     <h3 class="element-demo__header">Select with opt-groups</h3>
@@ -111,9 +111,9 @@ drop-in replacement for HTML `<select>` tag you might probably want to use
             </geo-list-item>
           </geo-list-group>
         </template>
-        <geo-select-read-only-entry v-else>
+        <geo-list-clear-item v-else>
           No Results Found
-        </geo-select-read-only-entry>
+        </geo-list-clear-item>
       </geo-select-base>
     </div>
     <h3 class="element-demo__header">Select with pagination</h3>
