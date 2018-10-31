@@ -1,0 +1,35 @@
+@mixin geo-list-footer-button-make($modifier-name) {
+
+  $modifier-name-with-prefix: '';
+
+  @if $modifier-name != '' {
+    // sass-lint:disable space-around-operator
+    $modifier-name-with-prefix: --#{$modifier-name};
+  }
+
+  .geo-list-footer-button#{$modifier-name-with-prefix} {
+    align-items: center;
+    background: $color_white;
+    border-top: 1px solid $color_grey;
+    display: flex;
+    flex-grow: 0;
+    flex-shrink: 0;
+    height: 40px;
+    justify-content: center;
+    padding: 0 10px;
+
+    .geo-list-footer-button__button {
+      font-family: $font_family_text;
+      font-size: small;
+      user-select: none;
+    }
+
+    .geo-list-footer-button__label {
+      cursor: pointer;
+      color: $color_blue;
+      font-style: italic;
+    }
+  }
+}
+
+@include geo-list-footer-button-make('');
