@@ -4,11 +4,13 @@
       ref="scrollableContainer"
       :class="`geo-scrollable-container__body${cssSuffix}`"
     >
-      <slot name="scrollableList"/>
+      <!-- @slot Use this slot to customize the content that can be scrolled -->
+      <slot />
     </div>
     <geo-select-more-results-footer-button
       v-if="showMoreResultsButton"
       @load-more-results="loadNextPage">
+      <!-- @slot Use this slot to customize the button displayed to show more results -->
       <slot
         slot="moreResultsContent"
         name="moreResultsTextContent"
@@ -28,7 +30,7 @@ export default {
   props: {
     showMoreResultsButton: {
       type: Boolean,
-      required: true
+      default: false
     }
   },
   methods: {
