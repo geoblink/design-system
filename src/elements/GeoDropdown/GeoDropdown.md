@@ -177,6 +177,7 @@ if pinned to left side.
             <geo-dropdown-regular-button
               slot="toggleButton"
               :icon="['fas', 'user']"
+              style="width: 100%;"
               @click="toggleMenu(2)"
             >
               People: <strong>Residents</strong>, <strong>Visitors</strong>, <strong>Workers</strong>
