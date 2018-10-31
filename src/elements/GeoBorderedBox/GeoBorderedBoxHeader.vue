@@ -22,7 +22,7 @@
       </div>
     </div>
     <div
-      v-if="shouldShowCloseButton"
+      v-if="isCloseButtonVisible"
       class="geo-bordered-box-header__close-button"
       @click="emitClose($event)"
     >
@@ -70,7 +70,7 @@ export default {
     }
   },
   computed: {
-    shouldShowCloseButton () {
+    isCloseButtonVisible () {
       return this.$listeners && this.$listeners.close
     }
   },
