@@ -12,16 +12,6 @@ export default {
   name: 'GeoBorderedBox',
   status: 'missing-tests',
   release: '7.3.0',
-  mixins: [cssSuffix],
-  props: {},
-  computed: {
-    hasHeader () {
-      return !!this.slots.header.length
-    },
-
-    hasFooter () {
-      return !!this.slots.footer.length
-    }
-  }
+  mixins: [cssSuffix]
 }
 </script>
