@@ -28,7 +28,8 @@
   }
 
   .geo-dropdown__popup--is-open#{$modifier-name-with-prefix} {
-    display: block;
+    display: flex;
+    flex-direction: column;
   }
 
 }
