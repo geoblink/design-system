@@ -42,7 +42,7 @@ drop-in replacement for HTML `<select>` tag you might probably want to use
           @click="toggleSelect(1)">
           {{selectLabels[1]}}
         </geo-select-toggle-button>
-        <geo-select-search-entry-form
+        <geo-bordered-box-header-search-form
           slot="header"
           :search-icon="['fas', 'search']"
           v-model="searchPatterns[1]"
@@ -77,7 +77,7 @@ drop-in replacement for HTML `<select>` tag you might probably want to use
           @click="toggleSelect(2)">
           {{selectLabels[2]}}
         </geo-select-toggle-button>
-        <geo-select-search-entry-form
+        <geo-bordered-box-header-search-form
           slot="header"
           :search-icon="['fas', 'search']"
           v-model="searchPatterns[2]"

@@ -14,7 +14,7 @@
       @click="toggleSelect">
       {{ toggleButtonLabel }}
     </geo-select-toggle-button>
-    <geo-select-search-entry-form
+    <geo-bordered-box-header-search-form
       v-if="searchable"
       slot="header"
       :search-icon="searchIcon"

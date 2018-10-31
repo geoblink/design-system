@@ -1,0 +1,46 @@
+@mixin geo-bordered-box-header-search-form-make($modifier-name) {
+
+  $modifier-name-with-prefix: '';
+
+  @if $modifier-name != '' {
+    // sass-lint:disable space-around-operator
+    $modifier-name-with-prefix: --#{$modifier-name};
+  }
+
+  .geo-bordered-box-header-search-form#{$modifier-name-with-prefix} {
+    align-items: center;
+    background: $color_white_dark;
+    border-bottom: 1px solid $color_grey;
+    display: flex;
+    flex-direction: row;
+    flex-grow: 0;
+    flex-shrink: 0;
+    height: 40px;
+    padding: 0 10px;
+
+    .geo-bordered-box-header-search-form__icon {
+      color: $color_grey_light;
+      font-size: 20px;
+      padding-right: 5px;
+    }
+
+    .geo-bordered-box-header-search-form__input {
+      background: none;
+      border: 0;
+      color: $color_grey_light;
+      font-size: 14px;
+      outline: 0;
+      width: 100%;
+
+      &::placeholder {
+        color: $color_grey_light;
+      }
+    }
+
+    .geo-bordered-box-header-search-form__input--empty {
+      font-style: italic;
+    }
+  }
+}
+
+@include geo-bordered-box-header-search-form-make('');

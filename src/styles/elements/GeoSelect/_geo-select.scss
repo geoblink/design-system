@@ -11,7 +11,7 @@
   @include geo-list-item-make($modifier-name);
   @include geo-list-group-make($modifier-name);
   @include geo-list-clear-item-make($modifier-name);
-  @include geo-select-search-entry-form-make($modifier-name);
+  @include geo-bordered-box-header-search-form-make($modifier-name);
   @include geo-select-toggle-button-make($modifier-name);
   @include geo-highlighted-string-make($modifier-name);
 }
