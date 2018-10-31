@@ -8,12 +8,9 @@ It's useful to be used altogether with the [GeoDropdown](./#/Elements/GeoDropdow
     <div class="element-demo__block" style="justify-content: space-around;">
       <geo-scrollable-container
         :show-more-results-button="showMoreResultsButton"
-        @load-more-results="loadNextPage($event)">
-        <template slot="scrollableList">
-          <p
-            v-for="(item, index) in chunkedList"
-            :key="index">{{ item.label }}</p>
-        </template>
+        @load-more-results="loadNextPage($event)"
+      >
+        <p v-for="(item, index) in chunkedList" :key="index">{{ item.label }}</p>
         <template slot="moreResultsTextContent">Load more results</template>
       </geo-scrollable-container>
     </div>
