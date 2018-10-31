@@ -17,6 +17,7 @@ New:
 Fixed:
 
 - [GeoDropdown] Exposes constants properly
+- [GeoDropdown] Horizontal axis position when there's no space on the right is computed properly
 - [GeoSelect] Search is properly throttled
 
 # 7.3.0
