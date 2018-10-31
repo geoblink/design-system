@@ -12,35 +12,30 @@
       slot="toggleButton"
       name="toggleButton"
     />
-    <!-- @slot Use this slot to customize the header of the selection popup -->
-    <slot
-      slot="popupContent"
-      name="header"
-    />
-    <geo-scrollable-container
-      slot="popupContent"
-      :show-more-results-button="hasMoreResults"
-      :css-modifier="cssModifier"
-      @load-more-results="loadNextPage">
-      <div
-        slot="scrollableList"
-        ref="scrollableContent"
-        :class="`geo-select__options-container${cssSuffix}`"
+    <geo-bordered-box slot="popupContent">
+      <!-- @slot Use this slot to customize the header of the selection popup -->
+      <slot name="header" />
+      <geo-scrollable-container
+        :show-more-results-button="hasMoreResults"
+        :css-modifier="cssModifier"
+        @load-more-results="loadNextPage"
       >
-        <!-- @slot Use this slot to customize the main content of the selection popup -->
-        <slot />
-      </div>
-      <!-- @slot Use this slot to customize the label of the button allowing user to load more data when there are too much elements to be displayed at once -->
-      <slot
-        slot="moreResultsTextContent"
-        name="moreResultsTextContent"
-      />
-    </geo-scrollable-container>
-    <!-- @slot Use this slot to customize the footer of the selection popup -->
-    <slot
-      slot="popupContent"
-      name="footer"
-    />
+        <div
+          ref="scrollableContent"
+          :class="`geo-select__options-container${cssSuffix}`"
+        >
+          <!-- @slot Use this slot to customize the main content of the selection popup -->
+          <slot />
+        </div>
+        <!-- @slot Use this slot to customize the label of the button allowing user to load more data when there are too much elements to be displayed at once -->
+        <slot
+          slot="moreResultsTextContent"
+          name="moreResultsTextContent"
+        />
+      </geo-scrollable-container>
+      <!-- @slot Use this slot to customize the footer of the selection popup -->
+      <slot name="footer" />
+    </geo-bordered-box>
   </geo-dropdown>
 </template>
 
