@@ -11,6 +11,8 @@
     border: 1px solid $color_grey;
     border-radius: $border-radius-default;
     box-shadow: $box-shadow-regular;
+    display: flex;
+    flex-direction: column;
     overflow: hidden;
   }
 }

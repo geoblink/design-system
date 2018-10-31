@@ -19,6 +19,13 @@
     display: flex;
     flex-direction: column;
   }
+
+  @include geo-scrollable-container-make($modifier-name);
+
+  .geo-scrollable-container#{$modifier-name-with-prefix} {
+    flex-grow: 1;
+    flex-shrink: 1;
+  }
 }
 
 @include geo-select-base-make('');
