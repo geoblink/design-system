@@ -1,4 +1,4 @@
-# 8.0.1
+# 8.0.2
 
 - Fixes: [GeoSelect] Remove unnecessary if/else logic in embeded GeoHighlightedString component
 
