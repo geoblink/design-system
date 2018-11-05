@@ -1,3 +1,9 @@
+# 8.0.5
+
+Fixed:
+
+- [GeoSelect] Add missing cssModifier to GeoListGroup
+
 # 8.0.4
 
 Fixed:
