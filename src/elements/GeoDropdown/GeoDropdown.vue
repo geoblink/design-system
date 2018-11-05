@@ -237,6 +237,9 @@ export default {
       const fitsBelow = containerRect.top + belowTranslationY + popupRect.height < viewport.height
       const fitsAbove = containerRect.top + aboveTranslationY >= 0
 
+      const maxHeightAbove = Math.max(containerRect.top - (spacingToToggleButton * 2), 0)
+      const maxHeightBelow = Math.max(viewport.height - containerRect.bottom - (spacingToToggleButton * 2), 0)
+
       // We set the config for each possible position, if fits, preferred position
       // and fallback position
       const configTowardsLeft = {
@@ -254,13 +257,17 @@ export default {
       const configTowardsTop = {
         fitsTowardsPreferredYPosition: (!fitsBelow || fitsAbove),
         translationTowardsPreferredYPosition: aboveTranslationY,
-        translationTowardsFallbackYPosition: belowTranslationY
+        translationTowardsFallbackYPosition: belowTranslationY,
+        popupMaxHeightTowardsPreferredYPosition: maxHeightAbove,
+        popupMaxHeightTowardsFallbackYPosition: maxHeightBelow
       }
 
       const configTowardsBottom = {
         fitsTowardsPreferredYPosition: (fitsBelow || !fitsAbove),
         translationTowardsPreferredYPosition: belowTranslationY,
-        translationTowardsFallbackYPosition: aboveTranslationY
+        translationTowardsFallbackYPosition: aboveTranslationY,
+        popupMaxHeightTowardsPreferredYPosition: maxHeightBelow,
+        popupMaxHeightTowardsFallbackYPosition: maxHeightAbove
       }
 
       // Assignation of the config for X and Y depending on the preferred position
@@ -275,7 +282,9 @@ export default {
       const {
         fitsTowardsPreferredYPosition,
         translationTowardsPreferredYPosition,
-        translationTowardsFallbackYPosition
+        translationTowardsFallbackYPosition,
+        popupMaxHeightTowardsPreferredYPosition,
+        popupMaxHeightTowardsFallbackYPosition
       } = this.preferredYAxisPosition === Y_AXIS_POSITION.top
         ? configTowardsTop
         : configTowardsBottom
@@ -299,14 +308,16 @@ export default {
       this.popupTranslation.x = translationX
       this.popupTranslation.y = translationY
 
-      const maxHeightAbove = Math.max(containerRect.top - (spacingToToggleButton * 2), 0)
-      const maxHeightBelow = Math.max(viewport.height - containerRect.bottom - (spacingToToggleButton * 2), 0)
+      const automaticPopupMaxHeight = fitsTowardsPreferredYPosition ? popupMaxHeightTowardsPreferredYPosition : popupMaxHeightTowardsFallbackYPosition
 
       const forcedYAxisPositionToMaxHeightMapping = {
         [Y_AXIS_POSITION.top]: maxHeightAbove,
         [Y_AXIS_POSITION.bottom]: maxHeightBelow
       }
-      this.popupMaxHeight = forcedYAxisPositionToMaxHeightMapping[this.forceYAxisPosition] || null
+
+      const popupMaxHeight = forcedYAxisPositionToMaxHeightMapping[this.forceYAxisPosition] || automaticPopupMaxHeight
+
+      this.popupMaxHeight = popupMaxHeight
     },
 
     checkClickCoordinatesAndEmitClickOutside ($event) {

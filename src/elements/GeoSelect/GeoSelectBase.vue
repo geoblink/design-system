@@ -3,7 +3,7 @@
     ref="dropdown"
     :opened="opened"
     :css-modifier="cssModifier"
-    :force-y-axis-position="Y_AXIS_POSITION.bottom"
+    :force-y-axis-position="forceYAxisPosition"
     :fixed-width="true"
     @click-outside="handleClickOutside($event)"
   >
@@ -63,11 +63,24 @@ export default {
     hasMoreResults: {
       type: Boolean,
       default: false
-    }
-  },
-  computed: {
-    Y_AXIS_POSITION () {
-      return Y_AXIS_POSITION
+    },
+
+    /**
+     * Forced position of the popup relative to the container. `top`, `bottom`
+     * or none.
+     *
+     * If provided, this is the position that the popup will use regardless
+     * whether it fits or not. Values available in `Y_AXIS_POSITION`:
+     *
+     * - `Y_AXIS_POSITION.top`
+     * - `Y_AXIS_POSITION.bottom`
+     */
+    forceYAxisPosition: {
+      type: String,
+      required: false,
+      validator: function (value) {
+        return value === undefined || value in Y_AXIS_POSITION
+      }
     }
   },
   methods: {
