@@ -16,7 +16,8 @@ import cssSuffix from '../../mixins/cssModifierMixin'
 
 export default {
   name: 'GeoSelectReadOnlyEntry',
-  status: 'missing-tests',
+  status: 'deprecated',
+  alternative: 'GeoListClearItem',
   release: '4.1.0',
   mixins: [cssSuffix]
 }

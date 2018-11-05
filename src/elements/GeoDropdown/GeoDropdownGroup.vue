@@ -42,7 +42,8 @@ import cssSuffix from '../../mixins/cssModifierMixin'
 
 export default {
   name: 'GeoDropdownGroup',
-  status: 'missing-tests',
+  status: 'deprecated',
+  alternative: 'GeoListGroup',
   release: '4.0.0',
   mixins: [cssSuffix],
   props: {

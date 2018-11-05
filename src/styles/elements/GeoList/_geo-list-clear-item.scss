@@ -1,0 +1,24 @@
+@mixin geo-list-clear-item-make($modifier-name) {
+
+  $modifier-name-with-prefix: '';
+
+  @if $modifier-name != '' {
+    // sass-lint:disable space-around-operator
+    $modifier-name-with-prefix: --#{$modifier-name};
+  }
+
+  .geo-list-clear-item#{$modifier-name-with-prefix} {
+    align-items: center;
+    border-radius: $border_radius_default;
+    color: $color-grey-light;
+    cursor: default;
+    display: flex;
+    font-family: $font_family_text;
+    font-weight: $font-weight-regular;
+    justify-content: center;
+    margin: 20px 10px;
+    min-height: 20px;
+  }
+}
+
+@include geo-list-clear-item-make('');

@@ -1,0 +1,36 @@
+@mixin geo-modal-make ($modifier-name) {
+  $modifier-name-with-prefix: '';
+
+  @if $modifier-name != '' {
+    // sass-lint:disable space-around-operator
+    $modifier-name-with-prefix: --#{$modifier-name};
+  }
+
+  .geo-modal#{$modifier-name-with-prefix} {
+    align-items: center;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    left: 0;
+    position: fixed;
+    right: 0;
+    top: 0;
+    z-index: $z-index-modal;
+
+    .geo-modal__backdrop {
+      bottom: 0;
+      background: $color-grey-backdrop;
+      left: 0;
+      position: absolute;
+      right: 0;
+      top: 0;
+      z-index: 0;
+    }
+
+    .geo-modal__content {
+      z-index: 1;
+    }
+  }
+}
+
+@include geo-modal-make('');

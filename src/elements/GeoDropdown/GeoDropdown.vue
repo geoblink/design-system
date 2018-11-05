@@ -36,6 +36,10 @@ export default {
   name: 'GeoDropdown',
   status: 'missing-tests',
   release: '4.0.0',
+  constants: {
+    X_AXIS_POSITION,
+    Y_AXIS_POSITION
+  },
   directives: {
     ScrollAnywhere,
     ClickOutside
@@ -51,7 +55,8 @@ export default {
     },
     /**
      * Position of the popup relative to the container. `right` or `left`
-     * Values available in `X_AXIS_POSITION`
+     * Values available in `X_AXIS_POSITION`:
+     *
      * - `X_AXIS_POSITION.right`
      * - `X_AXIS_POSITION.left`
      */
@@ -65,9 +70,12 @@ export default {
       }
     },
     /**
-     * Preferred position of the popup relative to the container. `top` or `bottom`.
-     * This is the position that will be used when the popup fits both above and below.
-     * Values available in `Y_AXIS_POSITION`
+     * Preferred position of the popup relative to the container. `top` or
+     * `bottom`.
+     *
+     * This is the position that will be used when the popup fits both above
+     * and below. Values available in `Y_AXIS_POSITION`:
+     *
      * - `Y_AXIS_POSITION.top`
      * - `Y_AXIS_POSITION.bottom`
      */
@@ -82,9 +90,12 @@ export default {
     },
 
     /**
-     * Forced position of the popup relative to the container. `top`, `bottom` or none.
-     * If provided, this is the position that the popup will use regardless whether it fits or not.
-     * Values available in `Y_AXIS_POSITION`
+     * Forced position of the popup relative to the container. `top`, `bottom`
+     * or none.
+     *
+     * If provided, this is the position that the popup will use regardless
+     * whether it fits or not. Values available in `Y_AXIS_POSITION`:
+     *
      * - `Y_AXIS_POSITION.top`
      * - `Y_AXIS_POSITION.bottom`
      */
@@ -97,7 +108,8 @@ export default {
     },
 
     /**
-     * When this property is `true`, the popup width will be the same as that of the toggle button.
+     * When this property is `true`, the popup width will be the same as that of
+     * the toggle button.
      */
     fixedWidth: {
       type: Boolean,
@@ -131,8 +143,8 @@ export default {
     popupStyle () {
       const styles = {
         transform: `translate(
-          ${this.containerOffset.left + this.popupTranslation.x}px,
-          ${this.containerOffset.top + this.popupTranslation.y}px
+          ${Math.round(this.containerOffset.left + this.popupTranslation.x)}px,
+          ${Math.round(this.containerOffset.top + this.popupTranslation.y)}px
         )`
       }
 
@@ -229,8 +241,8 @@ export default {
       // and fallback position
       const configTowardsLeft = {
         fitsTowardsPreferredXPosition: fitsTowardsLeft,
-        translationTowardsPreferredXPosition: towardsRightTranslationX,
-        translationTowardsFallbackXPosition: towardsLeftTranslationX
+        translationTowardsPreferredXPosition: towardsLeftTranslationX,
+        translationTowardsFallbackXPosition: towardsRightTranslationX
       }
 
       const configTowardsRight = {

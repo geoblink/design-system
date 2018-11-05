@@ -16,7 +16,8 @@ import cssSuffix from '../../mixins/cssModifierMixin'
 
 export default {
   name: 'GeoSelectMoreResultsFooterButton',
-  status: 'missing-tests',
+  status: 'deprecated',
+  alternative: 'GeoListFooterButton',
   release: '4.1.0',
   mixins: [cssSuffix],
   methods: {

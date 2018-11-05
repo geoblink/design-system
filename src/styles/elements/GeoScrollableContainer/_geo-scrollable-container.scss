@@ -10,6 +10,8 @@
   .geo-scrollable-container#{$modifier-name-with-prefix} {
     display: flex;
     flex-direction: column;
+    flex-grow: 1;
+    flex-shrink: 1;
     min-width: 150px;
     overflow: hidden;
   }
@@ -22,6 +24,7 @@
     overflow-x: hidden;
   }
 
+  @include geo-list-footer-button-make($modifier-name);
 }
 
 @include geo-scrollable-container-make('');
