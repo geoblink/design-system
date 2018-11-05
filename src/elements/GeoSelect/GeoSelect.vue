@@ -33,12 +33,10 @@
             slot="title"
           >
             <geo-highlighted-string
-              v-if="isSearching"
               :css-modifier="cssModifier"
               :highlighted-chars="option.matches"
               :reference-string="option.label"
             />
-            <template v-else>{{ option.label }}</template>
           </template>
           <geo-list-item
             v-for="(item, index) in option.items"
@@ -47,12 +45,10 @@
             :css-modifier="cssModifier"
             @click="changeCurrentSelection(item)">
             <geo-highlighted-string
-              v-if="isSearching"
               :css-modifier="cssModifier"
               :highlighted-chars="item.matches"
               :reference-string="item.label"
             />
-            <template v-else>{{ item.label }}</template>
           </geo-list-item>
         </geo-list-group>
       </template>
@@ -63,12 +59,10 @@
           :css-modifier="cssModifier"
           @click="changeCurrentSelection(option)">
           <geo-highlighted-string
-            v-if="isSearching"
             :css-modifier="cssModifier"
             :highlighted-chars="option.matches"
             :reference-string="option.label"
           />
-          <template v-else>{{ option.label }}</template>
         </geo-list-item>
       </template>
     </template>
@@ -366,10 +360,6 @@ export default {
 
     deburredSearchPattern () {
       return _.deburr(this.searchPattern)
-    },
-
-    isSearching () {
-      return !!this.searchPattern
     },
 
     toggleButtonLabel () {
