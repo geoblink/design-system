@@ -57,6 +57,20 @@
         border-color: map-get($params, hover-border-color);
       }
     }
+
+    &:active {
+      @if map-has-key($params, hover-transform) {
+        transform: none;
+      }
+
+      @if map-has-key($params, hover-decoration) {
+        text-decoration: none;
+      }
+
+      @if map-has-key($params, hover-shadow) {
+        box-shadow: none;
+      }
+    }
   }
 
   &--disabled#{$css-suffix} {
