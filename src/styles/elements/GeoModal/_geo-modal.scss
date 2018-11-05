@@ -28,6 +28,9 @@
     }
 
     .geo-modal__content {
+      align-items: center;
+      display: flex;
+      justify-content: center;
       z-index: 1;
     }
   }

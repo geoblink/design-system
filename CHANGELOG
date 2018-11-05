@@ -1,6 +1,14 @@
 # 8.0.2
 
-- Fixes: [GeoSelect] Remove unnecessary if/else logic in embeded GeoHighlightedString component
+Fixed: 
+
+- [GeoSelect] Remove unnecessary if/else logic in embeded GeoHighlightedString component
+
+# 8.0.1
+
+Fixed:
+
+- [GeoModal] Content is vertically and horizontally centered
 
 # 8.0.0
 
