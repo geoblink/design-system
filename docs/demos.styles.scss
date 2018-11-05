@@ -2,6 +2,12 @@
 
 }
 
+.element-demo__columns-layout {
+  display: flex;
+  flex-direction: row;
+  margin-top: $space-base;
+}
+
 .element-demo__header {
   align-items: center;
   display: flex;
@@ -53,6 +59,7 @@
   border: 1px solid #e2e6ea;
   border-radius: 3px;
   box-shadow: inset 0 0 8px rgba(0, 17, 35, 0.05);
+  overflow: hidden;
   padding: 16px;
 }
 

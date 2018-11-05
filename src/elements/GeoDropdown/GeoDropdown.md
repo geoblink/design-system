@@ -22,56 +22,55 @@ if pinned to left side.
         >
           People: <strong>Residents</strong>, <strong>Visitors</strong>, <strong>Workers</strong>
         </geo-dropdown-regular-button>
-        <template
-          slot="popupContent"
-          v-for="(item, index) in menuItems[0]"
-        >
-          <geo-dropdown-header
-            v-if="item.back"
-            :icon="['fas', 'chevron-left']"
-            :key="index"
-            @click-icon="handleListItemClick(0, index)"
-          >
-            {{ item.label }}
-          </geo-dropdown-header>
-          <geo-list-group
-            v-else-if="item.groupedItems"
-            :key="index"
-          >
-            <template slot="title">{{ item.label }}</template>
-            <geo-list-item
-              v-for="(item, index) in item.groupedItems"
+        <geo-bordered-box slot="popupContent">
+          <template v-for="(item, index) in menuItems[0]">
+            <geo-bordered-box-header
+              v-if="item.back"
+              :icon="['fas', 'chevron-left']"
               :key="index"
-              :icon="item.icon"
-              slot="item"
+              @click-icon="handleListItemClick(0, index)"
             >
               {{ item.label }}
-            </geo-list-item>
-          </geo-list-group>
-          <geo-dropdown-footer v-else-if="item.footer" :key="index">
-            <geo-button type="primary">{{ item.label }}</geo-button>
-          </geo-dropdown-footer>
-          <geo-list-item
-            v-else
-            :key="index"
-            :icon="item.icon"
-            @click="handleListItemClick(0, index)"
-          >
-            {{ item.label }}
-            <template slot="trailingAccessoryItem">
-              <font-awesome-icon
-                v-if="item.submenu"
-                :icon="['fas', 'chevron-right']"
-                aria-hidden
-                fixed-width
-              />
-              <input
-                v-else-if="item.checkbox"
-                type="checkbox"
+            </geo-bordered-box-header>
+            <geo-list-group
+              v-else-if="item.groupedItems"
+              :key="index"
+            >
+              <template slot="title">{{ item.label }}</template>
+              <geo-list-item
+                v-for="(item, index) in item.groupedItems"
+                :key="index"
+                :icon="item.icon"
+                slot="item"
               >
-            </template>
-          </geo-list-item>
-        </template>
+                {{ item.label }}
+              </geo-list-item>
+            </geo-list-group>
+            <geo-bordered-box-footer v-else-if="item.footer" :key="index">
+              <geo-button type="primary">{{ item.label }}</geo-button>
+            </geo-bordered-box-footer>
+            <geo-list-item
+              v-else
+              :key="index"
+              :icon="item.icon"
+              @click="handleListItemClick(0, index)"
+            >
+              {{ item.label }}
+              <template slot="trailingAccessoryItem">
+                <font-awesome-icon
+                  v-if="item.submenu"
+                  :icon="['fas', 'chevron-right']"
+                  aria-hidden
+                  fixed-width
+                />
+                <input
+                  v-else-if="item.checkbox"
+                  type="checkbox"
+                >
+              </template>
+            </geo-list-item>
+          </template>
+        </geo-bordered-box>
       </geo-dropdown>
     </div>
     <h3 class="element-demo__header">Menu inside container and placed top right</h3>
@@ -90,56 +89,55 @@ if pinned to left side.
         >
           People: <strong>Residents</strong>, <strong>Visitors</strong>, <strong>Workers</strong>
         </geo-dropdown-regular-button>
-        <template
-          slot="popupContent"
-          v-for="(item, index) in menuItems[1]"
-        >
-          <geo-dropdown-header
-            v-if="item.back"
-            :icon="['fas', 'chevron-left']"
-            :key="index"
-            @click-icon="handleListItemClick(1, index)"
-          >
-            {{ item.label }}
-          </geo-dropdown-header>
-          <geo-list-group
-            v-else-if="item.groupedItems"
-            :key="index"
-          >
-            <template slot="title">{{ item.label }}</template>
-            <geo-list-item
-              v-for="(item, index) in item.groupedItems"
+        <geo-bordered-box slot="popupContent">
+          <template v-for="(item, index) in menuItems[1]">
+            <geo-bordered-box-header
+              v-if="item.back"
+              :icon="['fas', 'chevron-left']"
               :key="index"
-              :icon="item.icon"
-              slot="item"
+              @click-icon="handleListItemClick(1, index)"
             >
               {{ item.label }}
-            </geo-list-item>
-          </geo-list-group>
-          <geo-dropdown-footer v-else-if="item.footer" :key="index">
-            <geo-button type="primary">{{ item.label }}</geo-button>
-          </geo-dropdown-footer>
-          <geo-list-item
-            v-else
-            :key="index"
-            :icon="item.icon"
-            @click="handleListItemClick(1, index)"
-          >
-            {{ item.label }}
-            <template slot="trailingAccessoryItem">
-              <font-awesome-icon
-                v-if="item.submenu"
-                :icon="['fas', 'chevron-right']"
-                aria-hidden
-                fixed-width
-              />
-              <input
-                v-else-if="item.checkbox"
-                type="checkbox"
+            </geo-bordered-box-header>
+            <geo-list-group
+              v-else-if="item.groupedItems"
+              :key="index"
+            >
+              <template slot="title">{{ item.label }}</template>
+              <geo-list-item
+                v-for="(item, index) in item.groupedItems"
+                :key="index"
+                :icon="item.icon"
+                slot="item"
               >
-            </template>
-          </geo-list-item>
-        </template>
+                {{ item.label }}
+              </geo-list-item>
+            </geo-list-group>
+            <geo-bordered-box-footer v-else-if="item.footer" :key="index">
+              <geo-button type="primary">{{ item.label }}</geo-button>
+            </geo-bordered-box-footer>
+            <geo-list-item
+              v-else
+              :key="index"
+              :icon="item.icon"
+              @click="handleListItemClick(1, index)"
+            >
+              {{ item.label }}
+              <template slot="trailingAccessoryItem">
+                <font-awesome-icon
+                  v-if="item.submenu"
+                  :icon="['fas', 'chevron-right']"
+                  aria-hidden
+                  fixed-width
+                />
+                <input
+                  v-else-if="item.checkbox"
+                  type="checkbox"
+                >
+              </template>
+            </geo-list-item>
+          </template>
+        </geo-bordered-box>
       </geo-dropdown>
       </div>
     </div>
@@ -179,60 +177,60 @@ if pinned to left side.
             <geo-dropdown-regular-button
               slot="toggleButton"
               :icon="['fas', 'user']"
+              style="width: 100%;"
               @click="toggleMenu(2)"
             >
               People: <strong>Residents</strong>, <strong>Visitors</strong>, <strong>Workers</strong>
             </geo-dropdown-regular-button>
-            <template
-              slot="popupContent"
-              v-for="(item, index) in menuItems[2]"
-            >
-              <geo-dropdown-header
-                v-if="item.back"
-                :icon="['fas', 'chevron-left']"
-                :key="index"
-                @click-icon="handleListItemClick(2, index)"
-              >
-                {{ item.label }}
-              </geo-dropdown-header>
-              <geo-list-group
-                v-else-if="item.groupedItems"
-                :key="index"
-              >
-                <template slot="title">{{ item.label }}</template>
-                <geo-list-item
-                  v-for="(item, index) in item.groupedItems"
+            <geo-bordered-box slot="popupContent">
+              <template v-for="(item, index) in menuItems[2]">
+                <geo-bordered-box-header
+                  v-if="item.back"
+                  :icon="['fas', 'chevron-left']"
                   :key="index"
-                  :icon="item.icon"
-                  slot="item"
+                  @click-icon="handleListItemClick(2, index)"
                 >
                   {{ item.label }}
-                </geo-list-item>
-              </geo-list-group>
-              <geo-dropdown-footer v-else-if="item.footer" :key="index">
-                <geo-button type="primary">{{ item.label }}</geo-button>
-              </geo-dropdown-footer>
-              <geo-list-item
-                v-else
-                :key="index"
-                :icon="item.icon"
-                @click="handleListItemClick(2, index)"
-              >
-                {{ item.label }}
-                <template slot="trailingAccessoryItem">
-                  <font-awesome-icon
-                    v-if="item.submenu"
-                    :icon="['fas', 'chevron-right']"
-                    aria-hidden
-                    fixed-width
-                  />
-                  <input
-                    v-else-if="item.checkbox"
-                    type="checkbox"
+                </geo-bordered-box-header>
+                <geo-list-group
+                  v-else-if="item.groupedItems"
+                  :key="index"
+                >
+                  <template slot="title">{{ item.label }}</template>
+                  <geo-list-item
+                    v-for="(item, index) in item.groupedItems"
+                    :key="index"
+                    :icon="item.icon"
+                    slot="item"
                   >
-                </template>
-              </geo-list-item>
-            </template>
+                    {{ item.label }}
+                  </geo-list-item>
+                </geo-list-group>
+                <geo-bordered-box-footer v-else-if="item.footer" :key="index">
+                  <geo-button type="primary">{{ item.label }}</geo-button>
+                </geo-bordered-box-footer>
+                <geo-list-item
+                  v-else
+                  :key="index"
+                  :icon="item.icon"
+                  @click="handleListItemClick(2, index)"
+                >
+                  {{ item.label }}
+                  <template slot="trailingAccessoryItem">
+                    <font-awesome-icon
+                      v-if="item.submenu"
+                      :icon="['fas', 'chevron-right']"
+                      aria-hidden
+                      fixed-width
+                    />
+                    <input
+                      v-else-if="item.checkbox"
+                      type="checkbox"
+                    >
+                  </template>
+                </geo-list-item>
+              </template>
+            </geo-bordered-box>
           </geo-dropdown>
         </div>
       </div>

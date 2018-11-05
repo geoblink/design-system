@@ -1,33 +1,31 @@
 <template>
-  <div :class="`geo-select-search-entry-form__container${cssSuffix}`">
-    <form :class="`geo-select-search-entry-form__search-input__container${cssSuffix}`">
-      <font-awesome-icon
-        :icon="searchIcon"
-        :class="`geo-select-search-entry-form__search-icon${cssSuffix}`"
-      />
-      <input
-        :class="{
-          [`geo-select-search-entry-form__search-input${cssSuffix}`]: true,
-          [`geo-select-search-entry-form__search-input--empty${cssSuffix}`]: !value
-        }"
-        :value="value"
-        :placeholder="placeholder"
-        type="text"
-        @keyup="searchPattern($event)"
-      >
-    </form>
-  </div>
+  <form :class="`geo-bordered-box-header-search-form${cssSuffix}`">
+    <font-awesome-icon
+      :icon="searchIcon"
+      class="geo-bordered-box-header-search-form__icon"
+    />
+    <input
+      :class="{
+        'geo-bordered-box-header-search-form__input': true,
+        [`geo-bordered-box-header-search-form__input--empty${cssSuffix}`]: !value
+      }"
+      :value="value"
+      :placeholder="placeholder"
+      type="text"
+      @keyup="searchPattern($event)"
+    >
+  </form>
 </template>
 
 <script>
 import _ from 'lodash'
+import throttle from '../../utils/throttle'
 import cssSuffix from '../../mixins/cssModifierMixin'
 
 export default {
-  name: 'GeoSelectSearchEntryForm',
-  status: 'deprecated',
-  alternative: 'GeoBorderedBoxHeaderSearchForm',
-  release: '4.1.0',
+  name: 'GeoBorderedBoxHeaderSearchForm',
+  status: 'missing-tests',
+  release: '8.0.0',
   mixins: [cssSuffix],
   props: {
     /**
@@ -66,7 +64,7 @@ export default {
   },
   computed: {
     searchPattern () {
-      return _.debounce(function ($event) {
+      return throttle(function ($event) {
         /**
          * User wrote something in the select search form.
          * @event input

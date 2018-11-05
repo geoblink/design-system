@@ -29,6 +29,24 @@ row or more complex elements (like form inputs) to the trailing edge.
         fixed-width
       />
     </geo-list-item>
+
+    <geo-bordered-box>
+      <geo-list-item>My button</geo-list-item>
+      <geo-list-item>
+        Enable option
+        <input slot="trailingAccessoryItem" type="checkbox">
+      </geo-list-item>
+      <geo-list-item :icon="['far', 'user']">My profile</geo-list-item>
+      <geo-list-item :icon="['far', 'bell']">
+        Notifications
+        <font-awesome-icon
+          slot="trailingAccessoryItem"
+          :icon="['fas', 'chevron-right']"
+          aria-hidden
+          fixed-width
+        />
+      </geo-list-item>
+    </geo-bordered-box>
   </div>
 </div>
 ```

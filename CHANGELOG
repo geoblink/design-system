@@ -1,3 +1,39 @@
+# 8.0.0
+
+Breaking:
+
+- [GeoDropdown] No longer embeds popup content in a bordered box. Use `GeoBorderedBox` to achieve the same results as in older versions.
+- [GeoScrollableContainer] Renamed slot `scrollableList` to default slot.
+- [GeoSelect] Removed `GeoSelectReadOnlyEntry` (use `GeoListClearItem` instead)
+- [GeoSelect] Removed `GeoSelectMoreResultsFooterButton` (use `GeoListFooterButton` instead)
+- [GeoSelect] Removed `GeoSelectSearchEntryForm` (use `GeoBorderedBoxHeaderSearchForm` instead)
+
+New:
+
+- `GeoListClearItem` component
+- `GeoListFooterButton` component
+- `GeoBorderedBoxHeaderSearchForm` component
+
+Fixed:
+
+- [GeoDropdown] Exposes constants properly
+- [GeoDropdown] Horizontal axis position when there's no space on the right is computed properly
+- [GeoSelect] Search is properly throttled
+
+# 7.3.0
+
+New:
+
+- `GeoModal` component
+- `GeoBorderedBox` component
+- `GeoBorderedBoxHeader` component
+- `GeoBorderedBoxFooter` component
+
+Deprecated:
+
+- [GeoDropdown] `GeoDropdownHeader` (use `GeoBorderedBoxHeader` instead)
+- [GeoDropdown] `GeoDropdownFooter` (use `GeoBorderedBoxFooter` instead)
+
 # 7.2.2
 
 Fixes:

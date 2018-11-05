@@ -90,13 +90,13 @@ module.exports = {
           sectionDepth: 0
         },
         {
-          name: 'GeoButton',
-          components: '../src/elements/GeoButton/Geo*Button.vue',
-          sectionDepth: 0
+          name: 'GeoBorderedBox',
+          components: '../src/elements/GeoBorderedBox/GeoBorderedBox*.vue',
+          sectionDepth: 1
         },
         {
-          name: 'GeoSegmentedControl',
-          components: '../src/elements/GeoSegmentedControl/GeoSegmentedControl*.vue',
+          name: 'GeoButton',
+          components: '../src/elements/GeoButton/Geo*Button.vue',
           sectionDepth: 0
         },
         {
@@ -105,19 +105,14 @@ module.exports = {
           sectionDepth: 1
         },
         {
-          name: 'GeoInput',
-          components: '../src/elements/GeoInput/GeoInput*.vue',
-          sectionDepth: 0
-        },
-        {
           name: 'GeoFileUpload',
           components: '../src/elements/GeoFileUpload/GeoFileUpload*.vue',
           sectionDepth: 0
         },
         {
-          name: 'GeoSelect',
-          components: '../src/elements/GeoSelect/GeoSelect*.vue',
-          sectionDepth: 1
+          name: 'GeoInput',
+          components: '../src/elements/GeoInput/GeoInput*.vue',
+          sectionDepth: 0
         },
         {
           name: 'GeoList',
@@ -125,9 +120,24 @@ module.exports = {
           sectionDepth: 1
         },
         {
+          name: 'GeoModal',
+          components: '../src/elements/GeoModal/GeoModal*.vue',
+          sectionDepth: 1
+        },
+        {
           name: 'GeoScrollableContainer',
           components: '../src/elements/GeoScrollableContainer/GeoScrollableContainer*.vue',
           sectionDepth: 0
+        },
+        {
+          name: 'GeoSegmentedControl',
+          components: '../src/elements/GeoSegmentedControl/GeoSegmentedControl*.vue',
+          sectionDepth: 0
+        },
+        {
+          name: 'GeoSelect',
+          components: '../src/elements/GeoSelect/GeoSelect*.vue',
+          sectionDepth: 1
         },
         {
           name: 'String Utils',

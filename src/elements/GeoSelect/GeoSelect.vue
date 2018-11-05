@@ -14,7 +14,7 @@
       @click="toggleSelect">
       {{ toggleButtonLabel }}
     </geo-select-toggle-button>
-    <geo-select-search-entry-form
+    <geo-bordered-box-header-search-form
       v-if="searchable"
       slot="header"
       :search-icon="searchIcon"
@@ -72,13 +72,16 @@
         </geo-list-item>
       </template>
     </template>
-    <geo-select-read-only-entry v-else>
+    <geo-list-clear-item
+      v-else
+      :css-modifier="cssModifier"
+    >
       <!--
         @slot Use this slot to customize the label that will be displayed when
         no results are found after searching for an option
       -->
       <slot name="noResults" />
-    </geo-select-read-only-entry>
+    </geo-list-clear-item>
     <!--
       @slot Use this slot to customize the label of the button allowing to
       display additional options when there are too many to be displayed at once
