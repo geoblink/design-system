@@ -1,3 +1,9 @@
+# 8.0.1
+
+Fixed:
+
+- [GeoModal] Content is vertically and horizontally centered
+
 # 8.0.0
 
 Breaking:
