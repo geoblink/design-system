@@ -1,0 +1,19 @@
+// TODO: Align design system tokens with invision and then replace here
+
+$fontMap: (
+  large: 600 28px/38px "'Montserrat', Times New Roman, serif",
+  medium: 600 24px/32px "'Montserrat', Times New Roman, serif",
+  small: 600 18px/26px "'Montserrat', Times New Roman, serif",
+  heading: 600 14px/20px "'Montserrat', Times New Roman, serif",
+  heading-light: 500 14px/20px "'Montserrat', Times New Roman, serif",
+  headaing-small: 500 12px/18px "'Montserrat', Times New Roman, serif",
+  headaing-xsmall: 500 10px/15px "'Montserrat', Times New Roman, serif",
+  body: 400 14px/20px "'Lato', Helvetica, sans-serif",
+  body-small: 400 12px/18px "'Lato', Helvetica, sans-serif",
+  body-xsmall: 400 10px/14px "'Lato', Helvetica, sans-serif",
+  highlight: 700 14px/20px "'Lato', Helvetica, sans-serif",
+  highlight-small: 400 12px/18px "'Lato', Helvetica, sans-serif",
+  label: 500 12px/15px "'Montserrat', Times New Roman, serif",
+  label-big: 600 12px/15px "'Montserrat', Times New Roman, serif",
+  label-optional: 500 12px/15px "'Montserrat', Times New Roman, serif",
+)

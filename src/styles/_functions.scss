@@ -160,3 +160,9 @@
 
   @return hsla($hue, $hsl-saturation, $hsl-lightness, 1);
 }
+
+@function font($key) {
+  @if map-has-key($fontMap, $key) {
+      @return map-get($fontMap, $key);
+  }
+}
