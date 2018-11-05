@@ -1,6 +1,9 @@
 <template>
   <div
-    :class="`geo-list-actionable-item${cssSuffix}`"
+    :class="{
+      [`geo-list-actionable-item${cssSuffix}`]: true,
+      [`geo-list-actionable-item--active${cssSuffix}`]: active
+    }"
   >
     <font-awesome-icon
       v-if="icon"
@@ -60,6 +63,13 @@ export default {
     icon: {
       type: Array,
       required: false
+    },
+    /**
+     * Whether the item is active (`true`) or not.
+     */
+    active: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {

@@ -52,6 +52,10 @@
       margin-top: 10px;
     }
   }
+
+  .geo-list-actionable-item--active#{$modifier-name-with-prefix} {
+    background-color: rgba($color_blue_light, .1)
+  }
 }
 
 @include geo-list-actionable-item-make('');

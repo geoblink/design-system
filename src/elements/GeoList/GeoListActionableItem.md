@@ -8,7 +8,7 @@ row or more complex elements (like form inputs) to the trailing edge.
 <div class="element-demo">
   <div class="element-demo__block" style="justify-content: space-around;">
     <div class="element-demo__item">
-      <geo-list-actionable-item>
+      <geo-list-actionable-item active="true">
         <div slot="itemTitle">List item 1 no icon</div>
         <font-awesome-icon
           slot="trailingAccessoryItem"
