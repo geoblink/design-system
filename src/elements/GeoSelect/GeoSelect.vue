@@ -26,6 +26,7 @@
       <template v-if="isOptSelect">
         <geo-list-group
           v-for="(option, index) in visibleOptions"
+          :css-modifier="cssModifier"
           :key="index"
         >
           <template
