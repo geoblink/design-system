@@ -1,3 +1,9 @@
+# 8.0.3
+
+Fixed:
+
+- [GeoSelect] Use forceYAxisPosition as an optional prop for all GeoSelect components
+
 # 8.0.2
 
 Fixed: 
