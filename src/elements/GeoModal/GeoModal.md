@@ -11,7 +11,7 @@ Use it together with [`GeoBorderedBox`]() to offer a modal window experience.
       <geo-primary-button @click="openModal('bodyAttached')">Open modal</geo-primary-button>
       <geo-modal
         v-if="isOpen.bodyAttached"
-        @backdrop-click="closeModal('bodyAttached')"
+        @click-backdrop="closeModal('bodyAttached')"
       >
         <div class="element-demo__bordered-box">
           This is the body of the modal.

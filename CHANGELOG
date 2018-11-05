@@ -1,12 +1,18 @@
-# 8.0.3
+# 8.0.4
 
 Fixed:
 
 - [GeoSelect] Use forceYAxisPosition as an optional prop for all GeoSelect components
 
+# 8.0.3
+
+Fixed:
+
+- [GeoModal] `backdrop-click` event is now named `click-backdrop`
+
 # 8.0.2
 
-Fixed: 
+Fixed:
 
 - [GeoSelect] Remove unnecessary if/else logic in embeded GeoHighlightedString component
 

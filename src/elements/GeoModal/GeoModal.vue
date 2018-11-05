@@ -106,10 +106,10 @@ export default {
     handleBackdropClick ($event) {
       /**
        * User clicked on backdrop
-       * @event backdrop-click
+       * @event click-backdrop
        * @type {MouseEvent}
        */
-      this.$emit('backdrop-click', $event)
+      this.$emit('click-backdrop', $event)
     }
   }
 }
