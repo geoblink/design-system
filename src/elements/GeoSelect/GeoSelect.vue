@@ -90,12 +90,17 @@
 <script>
 import _ from 'lodash'
 import cssSuffix from '../../mixins/cssModifierMixin'
+import { Y_AXIS_POSITION, X_AXIS_POSITION } from '../GeoDropdown/GeoDropdown.constants'
 
 export default {
   name: 'GeoSelect',
   status: 'missing-tests',
   release: '4.1.0',
   mixins: [cssSuffix],
+  constants: {
+    X_AXIS_POSITION,
+    Y_AXIS_POSITION
+  },
   props: {
     /**
      * Array of options that will be displayed in the select component.
@@ -297,6 +302,24 @@ export default {
       type: Array,
       default () {
         return ['fal', 'search']
+      }
+    },
+
+    /**
+     * Forced position of the popup relative to the container. `top`, `bottom`
+     * or none.
+     *
+     * If provided, this is the position that the popup will use regardless
+     * whether it fits or not. Values available in `Y_AXIS_POSITION`:
+     *
+     * - `Y_AXIS_POSITION.top`
+     * - `Y_AXIS_POSITION.bottom`
+     */
+    forceYAxisPosition: {
+      type: String,
+      required: false,
+      validator: function (value) {
+        return value === undefined || value in Y_AXIS_POSITION
       }
     }
   },

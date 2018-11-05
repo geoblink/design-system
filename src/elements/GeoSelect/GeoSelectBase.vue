@@ -41,13 +41,17 @@
 
 <script>
 import cssSuffix from '../../mixins/cssModifierMixin'
-import { Y_AXIS_POSITION } from '../GeoDropdown/GeoDropdown.constants'
+import { Y_AXIS_POSITION, X_AXIS_POSITION } from '../GeoDropdown/GeoDropdown.constants'
 
 export default {
   name: 'GeoSelectBase',
   status: 'missing-tests',
   release: '4.1.0',
   mixins: [cssSuffix],
+  constants: {
+    X_AXIS_POSITION,
+    Y_AXIS_POSITION
+  },
   props: {
     /**
      * Whether the selection popup is opened (`true`) or not.
