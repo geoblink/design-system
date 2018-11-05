@@ -41,7 +41,7 @@ export default {
   },
   data () {
     return {
-      // Offset of the container (modal's parent) relative to the document root
+      // Offset of the container (modal's parent) relative to `attachTo` element
       containerOffset: {
         left: 0,
         top: 0
