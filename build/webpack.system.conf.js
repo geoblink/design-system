@@ -83,6 +83,7 @@ const webpackConfig = merge(baseWebpackConfig, {
         [utils.assetsSystemPath('system.utils.scss')]: [
           './src/assets/tokens/tokens.scss',
           './src/styles/_spacing.scss',
+          './src/styles/_fontsMaps.scss',
           './src/styles/_mixins.scss',
           './src/styles/_functions.scss',
           ...elementsSCSS

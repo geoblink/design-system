@@ -12,6 +12,8 @@ props:
     value: "0 14px 24px -12px rgba(0, 0, 0, 0.2)"
   box_shadow_focus:
     value: "inset 0 0 3px 1px rgba(#6FA1D4, 0.5)"
+  box_shadow_button_hover:
+    value: "0 2px 10px 0 rgba(0,0,0,0.3)"
 global:
   type: ...
   category: box-shadow
