@@ -72,3 +72,10 @@
   min-width: 0;
   max-width: 100%;
 }
+
+// Used to get the mapped font shorthand of $fontMap in _fontsMaps.scss
+@mixin font($key) {
+  @if map-has-key($fontMap, $key) {
+      font: map-get($fontMap, $key);
+  }
+}

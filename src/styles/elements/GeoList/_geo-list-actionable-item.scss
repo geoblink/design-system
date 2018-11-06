@@ -39,8 +39,8 @@
     }
 
     .geo-list-actionable-item__title {
+      @include font('heading');
       color: $color_grey_darker;
-      font: font('heading');
     }
 
     .geo-list-actionable-item__trailing-accessory-items {
@@ -51,8 +51,8 @@
     }
   
     .geo-list-actionable-item__body {
+      @include font('body');
       color: $color_grey_darker;
-      font: font('body');
       margin: 10px 0;
     }
 
