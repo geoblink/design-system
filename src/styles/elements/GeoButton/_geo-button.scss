@@ -1,6 +1,8 @@
 // Creates a geo-button color scheme varying the background and text color based
 // on the hover/focus/disabled status.
 @mixin geo-button-make-scheme ($params, $css-suffix) {
+  $hoverYOffsetWithBorders: -3px;
+
   &#{$css-suffix} {
     @if map-has-key($params, normal-background-color) {
       background: map-get($params, normal-background-color);
@@ -28,7 +30,7 @@
           left: 0;
       
           /* Bottom is positioned to cover the area the hovered element is leaving */
-          bottom: -3px;
+          bottom: $hoverYOffsetWithBorders;
       
           /* We need to place the pseudo-element under everything else. Without 
             specifying the placement, it will sit on top of the parent element (our card)
@@ -127,13 +129,15 @@
 }
 
 @mixin geo-button--primary($css-suffix) {
+  $hoverYOffset: -1px;
+
   @include geo-button-make-scheme((
     normal-background-color: $color_blue,
     normal-text-color: $color_white,
     disabled-background-color: $color_blue,
     disabled-text-color: $color_white,
     hover-shadow: $box_shadow_button_hover,
-    hover-transform: translateY(-1px)
+    hover-transform: translateY($hoverYOffset)
   ), $css-suffix);
 
   &#{$css-suffix} {
@@ -143,6 +147,8 @@
 }
 
 @mixin geo-button--secondary($css-suffix) {
+  $hoverYOffset: -1px;
+  
   @include geo-button-make-scheme((
     normal-background-color: $color_white,
     normal-text-color: $color_blue,
@@ -151,7 +157,7 @@
     disabled-text-color: $color_blue,
     disabled-border-color: $color_blue,
     hover-shadow: $box_shadow_button_hover,
-    hover-transform: translateY(-1px)
+    hover-transform: translateY($hoverYOffset)
   ), $css-suffix);
 
   &#{$css-suffix} {
@@ -179,12 +185,14 @@
 }
 
 @mixin geo-button--destructive($css-suffix) {
+  $hoverYOffset: -1px;
+
   @include geo-button-make-scheme((
     normal-background-color: $color_red,
     normal-text-color: $color_white,
     disabled-background-color: $color_red,
     hover-shadow: $box_shadow_button_hover,
-    hover-transform: translateY(-1px)
+    hover-transform: translateY($hoverYOffset)
   ), $css-suffix);
 
   &#{$css-suffix} {
@@ -194,12 +202,14 @@
 }
 
 @mixin geo-button--danger($css-suffix) {
+  $hoverYOffset: -1px;
+
   @include geo-button-make-scheme((
     normal-background-color: $color_red,
     normal-text-color: $color_white,
     disabled-background-color: $color_red,
     hover-shadow: $box_shadow_button_hover,
-    hover-transform: translateY(-1px)
+    hover-transform: translateY($hoverYOffset)
   ), $css-suffix);
 
   &#{$css-suffix} {
