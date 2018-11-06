@@ -8,7 +8,7 @@
     <font-awesome-icon
       v-if="icon"
       :icon="icon"
-      class="geo-list-actionable-item__left-icon"
+      class="geo-list-actionable-item__leading-icon"
       aria-hidden
       fixed-width
     />
