@@ -17,7 +17,8 @@
     >
       <div class="geo-list-actionable-item__title-container">
         <div class="geo-list-actionable-item__title">
-          <slot name="itemTitle" />
+          <!-- @slot Use this slot to customize the title of the item -->
+          <slot name="title" />
         </div>
 
         <div
