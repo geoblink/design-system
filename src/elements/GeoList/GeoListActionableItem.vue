@@ -51,7 +51,7 @@ import cssSuffix from '../../mixins/cssModifierMixin'
 export default {
   name: 'GeoListActionableItem',
   status: 'ready',
-  release: '4.0.0',
+  release: '8.1.0',
   mixins: [cssSuffix],
   props: {
     /**
