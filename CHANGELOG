@@ -1,3 +1,9 @@
+# 8.0.7
+
+Fixed:
+
+- [GeoAlert] Do not shrink content when displayed in a flex environment
+
 # 8.0.6
 
 Fixed:
