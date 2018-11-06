@@ -1,3 +1,9 @@
+# 8.0.6
+
+Fixed:
+
+- [GeoListItem] Do not force maximum height
+
 # 8.0.5
 
 Fixed:
