@@ -83,6 +83,7 @@
 @mixin geo-alert {
   display: flex;
   flex-direction: row;
+  flex-shrink: 0;
   font-family: $font_family_text;
   font-size: $small;
   justify-content: center;
