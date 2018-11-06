@@ -52,11 +52,10 @@ drop-in replacement for HTML `<select>` tag you might probably want to use
             v-for="(option, index) in filteredItemsList"
             :key="index"
             @click="changeCurrentSelection(1, option)">
-            <template v-if="!isSearchingPlainList">{{option.label}}</template>
             <geo-highlighted-string
-              v-else
               :highlighted-chars="option.matches"
-              :reference-string="option.label"/>
+              :reference-string="option.label"
+            />
           </geo-list-item>
         </template>
         <geo-list-clear-item v-else>
@@ -91,23 +90,21 @@ drop-in replacement for HTML `<select>` tag you might probably want to use
               slot="title"
               v-if="optGroup.isOptGroup"
             >
-              <template v-if="!isSearchingOptGroups">{{optGroup.label}}</template>
               <geo-highlighted-string
                 :key="index"
-                v-else
                 :highlighted-chars="optGroup.matches"
-                :reference-string="optGroup.label"/>
+                :reference-string="optGroup.label"
+              />
             </template>
             <geo-list-item
               slot="item"
               v-for="(option, index) in optGroup.items"
               :key="index"
               @click="changeCurrentSelection(2, option)">
-              <template v-if="!isSearchingOptGroups">{{option.label}}</template>
               <geo-highlighted-string
-                v-else
                 :highlighted-chars="option.matches"
-                :reference-string="option.label"/>
+                :reference-string="option.label"
+              />
             </geo-list-item>
           </geo-list-group>
         </template>
@@ -227,12 +224,6 @@ export default {
         }
         return item.label.indexOf(self.searchPatterns[1]) !== -1
       })
-    },
-    isSearchingPlainList () {
-      return !!this.searchPatterns[1]
-    },
-    isSearchingOptGroups () {
-      return !!this.searchPatterns[2]
     }
   },
   methods: {

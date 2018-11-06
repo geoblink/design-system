@@ -26,6 +26,7 @@
       <template v-if="isOptSelect">
         <geo-list-group
           v-for="(option, index) in visibleOptions"
+          :css-modifier="cssModifier"
           :key="index"
         >
           <template
@@ -33,12 +34,10 @@
             slot="title"
           >
             <geo-highlighted-string
-              v-if="isSearching"
               :css-modifier="cssModifier"
               :highlighted-chars="option.matches"
               :reference-string="option.label"
             />
-            <template v-else>{{ option.label }}</template>
           </template>
           <geo-list-item
             v-for="(item, index) in option.items"
@@ -47,12 +46,10 @@
             :css-modifier="cssModifier"
             @click="changeCurrentSelection(item)">
             <geo-highlighted-string
-              v-if="isSearching"
               :css-modifier="cssModifier"
               :highlighted-chars="item.matches"
               :reference-string="item.label"
             />
-            <template v-else>{{ item.label }}</template>
           </geo-list-item>
         </geo-list-group>
       </template>
@@ -63,12 +60,10 @@
           :css-modifier="cssModifier"
           @click="changeCurrentSelection(option)">
           <geo-highlighted-string
-            v-if="isSearching"
             :css-modifier="cssModifier"
             :highlighted-chars="option.matches"
             :reference-string="option.label"
           />
-          <template v-else>{{ option.label }}</template>
         </geo-list-item>
       </template>
     </template>
@@ -96,12 +91,17 @@
 <script>
 import _ from 'lodash'
 import cssSuffix from '../../mixins/cssModifierMixin'
+import { Y_AXIS_POSITION, X_AXIS_POSITION } from '../GeoDropdown/GeoDropdown.constants'
 
 export default {
   name: 'GeoSelect',
   status: 'missing-tests',
   release: '4.1.0',
   mixins: [cssSuffix],
+  constants: {
+    X_AXIS_POSITION,
+    Y_AXIS_POSITION
+  },
   props: {
     /**
      * Array of options that will be displayed in the select component.
@@ -304,6 +304,24 @@ export default {
       default () {
         return ['fal', 'search']
       }
+    },
+
+    /**
+     * Forced position of the popup relative to the container. `top`, `bottom`
+     * or none.
+     *
+     * If provided, this is the position that the popup will use regardless
+     * whether it fits or not. Values available in `Y_AXIS_POSITION`:
+     *
+     * - `Y_AXIS_POSITION.top`
+     * - `Y_AXIS_POSITION.bottom`
+     */
+    forceYAxisPosition: {
+      type: String,
+      required: false,
+      validator: function (value) {
+        return value === undefined || value in Y_AXIS_POSITION
+      }
     }
   },
   data () {
@@ -366,10 +384,6 @@ export default {
 
     deburredSearchPattern () {
       return _.deburr(this.searchPattern)
-    },
-
-    isSearching () {
-      return !!this.searchPattern
     },
 
     toggleButtonLabel () {

@@ -1,3 +1,33 @@
+# 8.0.5
+
+Fixed:
+
+- [GeoSelect] Add missing cssModifier to GeoListGroup
+
+# 8.0.4
+
+Fixed:
+
+- [GeoSelect] Use forceYAxisPosition as an optional prop for all GeoSelect components
+
+# 8.0.3
+
+Fixed:
+
+- [GeoModal] `backdrop-click` event is now named `click-backdrop`
+
+# 8.0.2
+
+Fixed:
+
+- [GeoSelect] Remove unnecessary if/else logic in embeded GeoHighlightedString component
+
+# 8.0.1
+
+Fixed:
+
+- [GeoModal] Content is vertically and horizontally centered
+
 # 8.0.0
 
 Breaking:
