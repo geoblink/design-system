@@ -1,5 +1,5 @@
 `GeoListItem` is a component designed to build vertical lists which fit
-properly in a [GeoList](./#/Elements/GeoList?id=geolist-1).
+properly in a [GeoBorderedBox](./#/Elements/GeoBorderedBox).
 
 It can be customized in several ways, adding icons to the leading edge of the
 row or more complex elements (like form inputs) to the trailing edge.
