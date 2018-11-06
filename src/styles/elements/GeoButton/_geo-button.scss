@@ -28,7 +28,7 @@
           left: 0;
       
           /* Bottom is positioned to cover the area the hovered element is leaving */
-          bottom: -4px;
+          bottom: -3px;
       
           /* We need to place the pseudo-element under everything else. Without 
             specifying the placement, it will sit on top of the parent element (our card)
@@ -133,7 +133,7 @@
     disabled-background-color: $color_blue,
     disabled-text-color: $color_white,
     hover-shadow: $box_shadow_button_hover,
-    hover-transform: translateY(-2px)
+    hover-transform: translateY(-1px)
   ), $css-suffix);
 
   &#{$css-suffix} {
@@ -151,7 +151,7 @@
     disabled-text-color: $color_blue,
     disabled-border-color: $color_blue,
     hover-shadow: $box_shadow_button_hover,
-    hover-transform: translateY(-2px)
+    hover-transform: translateY(-1px)
   ), $css-suffix);
 
   &#{$css-suffix} {
@@ -184,7 +184,7 @@
     normal-text-color: $color_white,
     disabled-background-color: $color_red,
     hover-shadow: $box_shadow_button_hover,
-    hover-transform: translateY(-2px)
+    hover-transform: translateY(-1px)
   ), $css-suffix);
 
   &#{$css-suffix} {
@@ -199,7 +199,7 @@
     normal-text-color: $color_white,
     disabled-background-color: $color_red,
     hover-shadow: $box_shadow_button_hover,
-    hover-transform: translateY(-2px)
+    hover-transform: translateY(-1px)
   ), $css-suffix);
 
   &#{$css-suffix} {
