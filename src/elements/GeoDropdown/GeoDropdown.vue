@@ -250,8 +250,8 @@ export default {
 
       const configTowardsRight = {
         fitsTowardsPreferredXPosition: fitsTowardsRight,
-        translationTowardsPreferredXPosition: towardsLeftTranslationX,
-        translationTowardsFallbackXPosition: towardsRightTranslationX
+        translationTowardsPreferredXPosition: towardsRightTranslationX,
+        translationTowardsFallbackXPosition: towardsLeftTranslationX
       }
 
       const configTowardsTop = {
@@ -275,7 +275,7 @@ export default {
         fitsTowardsPreferredXPosition,
         translationTowardsPreferredXPosition,
         translationTowardsFallbackXPosition
-      } = this.preferredXAxisPosition === X_AXIS_POSITION.left
+      } = this.preferredXAxisPosition === X_AXIS_POSITION.right
         ? configTowardsLeft
         : configTowardsRight
 
