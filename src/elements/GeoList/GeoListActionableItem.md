@@ -29,7 +29,7 @@ row or more complex elements (like form inputs) to the trailing edge.
         />
         <div>There are 27 new events around your stores.</div>
         <div>31/10/2018</div>
-        <geo-button slot="actions" type="secondary">Button</geo-button>
+        <geo-secondary-button slot="actions">Button</geo-secondary-button>
       </geo-list-actionable-item>
     </div>
 
@@ -44,7 +44,7 @@ row or more complex elements (like form inputs) to the trailing edge.
         />
         <div>There are 27 new events around your stores.</div>
         <div>31/10/2018</div>
-        <geo-button slot="actions" type="secondary">Button</geo-button>
+        <geo-secondary-button slot="actions">Button</geo-secondary-button>
       </geo-list-actionable-item>
       <geo-list-actionable-item :icon="['far', 'bell']">
         <div slot="title">Title with icon and trailing icon</div>
@@ -56,7 +56,7 @@ row or more complex elements (like form inputs) to the trailing edge.
         />
         <div>There are 27 new events around your stores.</div>
         <div>31/10/2018</div>
-        <geo-button slot="actions" type="secondary">Button</geo-button>
+        <geo-secondary-button slot="actions">Button</geo-secondary-button>
       </geo-list-actionable-item>
     </div>
   </div>
