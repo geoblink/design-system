@@ -1,3 +1,21 @@
+# 8.0.8
+
+Fixed:
+
+- [GeoDropdown] Expand dropdown from left to right by default
+
+# 8.0.7
+
+Fixed:
+
+- [GeoAlert] Do not shrink content when displayed in a flex environment
+
+# 8.0.6
+
+Fixed:
+
+- [GeoListItem] Do not force maximum height
+
 # 8.0.5
 
 Fixed:

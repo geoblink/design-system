@@ -18,7 +18,7 @@
     flex-shrink: 0;
     font-family: $font_family_text;
     font-size: $small;
-    height: 30px;
+    min-height: 30px;
     justify-content: space-between;
     line-height: $line_height_base;
     margin: 5px;
