@@ -1,6 +1,6 @@
-#8.1.1
+#8.2.0
 
-Fixed:
+New:
 
 - [GeoSelect] Add GeoMarquee for too long options or opt-groups headers
 
