@@ -59,6 +59,29 @@ a better UX including chunked load and search capabilities.
         <template slot="moreResultsTextContent">Load more results</template>
       </geo-select>
     </div>
+    <h3 class="element-demo__header">Select with marquee options</h3>
+    <div class="element-demo__block" style="justify-content: space-around;">
+      <geo-select
+        :options="marqueeOptions"
+        :dropdown-icon="['fas', 'chevron-down']"
+        :search-icon="['fas', 'search']"
+        css-modifier="select-demo"
+        placeholder="Choose an option"
+        v-model="currentSelection[4]">
+      </geo-select>
+    </div>
+    <h3 class="element-demo__header">Select with opt groups and marquee options</h3>
+    <div class="element-demo__block" style="justify-content: space-around;">
+      <geo-select
+        :is-opt-select="true"
+        :options="marqueeOptGroupsList"
+        :dropdown-icon="['fas', 'chevron-down']"
+        :search-icon="['fas', 'search']"
+        css-modifier="select-demo"
+        placeholder="Choose an option"
+        v-model="currentSelection[5]">
+      </geo-select>
+    </div>
   </div>
 </template>
 
@@ -66,8 +89,21 @@ a better UX including chunked load and search capabilities.
 export default {
   data () {
     return {
-      currentSelection: [null, null, null, null],
+      currentSelection: [null, null, null, null, null, null],
       itemsList: _.times(4, idx => { return {label: `Item ${idx}`} }),
+      marqueeOptions: _.times(4, idx => { return {label: `Super long name so it doesn't fit in the box ${idx}`} }),
+      marqueeOptGroupsList: [
+        {
+          isOptGroup: true,
+          label: 'First Group with absurdingly long name that probably will not fit',
+          items: _.times(4, idx => { return {label: `Super long name so it doesn't fit in the box ${idx}`} }),
+        },
+        {
+          isOptGroup: true,
+          label: 'Second Group with absurdingly long name that probably will not fit',
+          items: _.times(4, idx => { return {label: `Super long name so it doesn't fit in the box ${idx}`} }),
+        },
+      ],
       optGroupsList: [
         {
           isOptGroup: true,

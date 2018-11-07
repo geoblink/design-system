@@ -13,7 +13,15 @@
   @include geo-list-clear-item-make($modifier-name);
   @include geo-bordered-box-header-search-form-make($modifier-name);
   @include geo-select-toggle-button-make($modifier-name);
+  @include geo-marquee-make($modifier-name);
   @include geo-highlighted-string-make($modifier-name);
+
+  .geo-list-item__icon-and-label#{$modifier-name-with-prefix},
+  .geo-list-item__icon-and-label__label#{$modifier-name-with-prefix},
+  .geo-list-group__header__icon-and-label#{$modifier-name-with-prefix},
+  .geo-list-group__header__icon-and-label__label#{$modifier-name-with-prefix} {
+    overflow: hidden;
+  }
 }
 
 @include geo-select-make('');

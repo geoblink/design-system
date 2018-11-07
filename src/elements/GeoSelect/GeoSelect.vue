@@ -12,7 +12,9 @@
       :css-modifier="cssModifier"
       :is-empty="!value"
       @click="toggleSelect">
-      {{ toggleButtonLabel }}
+      <geo-marquee :css-modifier="cssModifier">
+        <template slot-scope="{}">{{ toggleButtonLabel }}</template>
+      </geo-marquee>
     </geo-select-toggle-button>
     <geo-bordered-box-header-search-form
       v-if="searchable"
@@ -33,11 +35,15 @@
             v-if="option.isOptGroupHeader"
             slot="title"
           >
-            <geo-highlighted-string
-              :css-modifier="cssModifier"
-              :highlighted-chars="option.matches"
-              :reference-string="option.label"
-            />
+            <geo-marquee
+              :css-modifier="cssModifier">
+              <geo-highlighted-string
+                slot-scope="{}"
+                :css-modifier="cssModifier"
+                :highlighted-chars="option.matches"
+                :reference-string="option.label"
+              />
+            </geo-marquee>
           </template>
           <geo-list-item
             v-for="(item, index) in option.items"
@@ -45,11 +51,14 @@
             :key="index"
             :css-modifier="cssModifier"
             @click="changeCurrentSelection(item)">
-            <geo-highlighted-string
-              :css-modifier="cssModifier"
-              :highlighted-chars="item.matches"
-              :reference-string="item.label"
-            />
+            <geo-marquee :css-modifier="cssModifier">
+              <geo-highlighted-string
+                slot-scope="{}"
+                :css-modifier="cssModifier"
+                :highlighted-chars="item.matches"
+                :reference-string="item.label"
+              />
+            </geo-marquee>
           </geo-list-item>
         </geo-list-group>
       </template>
@@ -59,11 +68,14 @@
           :key="index"
           :css-modifier="cssModifier"
           @click="changeCurrentSelection(option)">
-          <geo-highlighted-string
-            :css-modifier="cssModifier"
-            :highlighted-chars="option.matches"
-            :reference-string="option.label"
-          />
+          <geo-marquee :css-modifier="cssModifier">
+            <geo-highlighted-string
+              slot-scope="{}"
+              :css-modifier="cssModifier"
+              :highlighted-chars="option.matches"
+              :reference-string="option.label"
+            />
+          </geo-marquee>
         </geo-list-item>
       </template>
     </template>
