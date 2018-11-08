@@ -1,3 +1,9 @@
+#8.2.1
+
+Fixed:
+
+- [GeoSelect] Make sure the dropdown toggle arrow is always on the right side of the dropdown
+
 #8.2.0
 
 New:
