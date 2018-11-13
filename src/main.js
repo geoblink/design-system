@@ -3,7 +3,7 @@
 import Vue from 'vue'
 import App from '@/App'
 import router from '@/router'
-import WebFontLoader from '@/utils/webFontLoader' // eslint-disable-line no-unused-vars
+import '@/utils/webFontLoader'
 import Meta from 'vue-meta'
 
 // Vue Design System: Auto importing components globally
