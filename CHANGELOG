@@ -1,10 +1,16 @@
-#8.2.1
+# 8.3.0
+
+New:
+
+- `GeoMarkdownContent` component
+
+# 8.2.1
 
 Fixed:
 
 - [GeoSelect] Make sure the dropdown toggle arrow is always on the right side of the dropdown
 
-#8.2.0
+# 8.2.0
 
 New:
 
