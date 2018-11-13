@@ -28,6 +28,8 @@ const MarkdownIt = (function () {
 
 export default {
   name: 'GeoMarkdownContent',
+  status: 'missing-tests',
+  release: '8.3.0',
   constants: {
     MarkdownParserFeatures
   },
