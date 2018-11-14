@@ -28,18 +28,21 @@ export default function (markdownItInstance, { variableValues }) {
   function getVariableTokens (currentToken, state) {
     const { content, level } = currentToken
 
+    variableRegexGlobal.lastIndex = -1
+
     const contentContainsVariable = variableRegexGlobal.test(content)
     if (!contentContainsVariable) {
       return [currentToken]
     }
 
+    variableRegexGlobal.lastIndex = -1
+
     /** @type {MarkdownIt.Token[]} */
     const newTokens = []
-    const variableRegex = new RegExp(variableRegexPattern, 'g')
 
     let remainingContentStartingPosition
     let match
-    while ((match = variableRegex.exec(content)) !== null) {
+    while ((match = variableRegexGlobal.exec(content)) !== null) {
       const position = match.index
       const [matchedText, variableName] = match
 
