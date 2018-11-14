@@ -197,8 +197,8 @@ const nodeTypeParsers = {
   ordered_list_open: parseOrderedListToken,
   list_item_open: parseListItemToken,
   blockquote_open: parseBlockquoteToken,
-  code_block: parseCodeblockToken,
-  fence: parseCodeblockToken
+  code_block: parseCodeToken,
+  fence: parseCodeToken
 }
 
 /**
@@ -463,7 +463,7 @@ function parseBlockquoteToken ({ tokens, position }) {
  * @param {NodeParsingInput} params
  * @returns {NodeParsingOutput}
  */
-function parseCodeblockToken ({ tokens, position }) {
+function parseCodeToken ({ tokens, position }) {
   const token = tokens[position]
 
   const node = {
