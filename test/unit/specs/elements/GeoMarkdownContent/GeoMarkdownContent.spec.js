@@ -42,4 +42,35 @@ describe('GeoMarkdownContent', () => {
     expect(wrapper.find('p > a').element.getAttribute('href')).toBe(linkURL)
     expect(wrapper.find('p > a > span').element.innerHTML).toBe(linkText)
   })
+
+  it('should not parse interpolated variables', function () {
+    const uptoBoldSegment = 'This is a '
+    const boldSegment = 'bold'
+    const boldToLinkSegment = 'word with a '
+    const linkText = 'link'
+    const linkURL = 'https://geoblink.com'
+    const variableValue = 'and a **markdown** string that will be rendered __without__ [Markdown](https://geoblink.com)'
+    const values = {
+      myVariable: variableValue
+    }
+    const markdown = `${uptoBoldSegment}**${boldSegment}**${boldToLinkSegment}[${linkText}](${linkURL}) :myVariable`
+    const wrapper = mount(GeoMarkdownContent, {
+      propsData: {
+        markdown,
+        values,
+        features: {
+          [GeoMarkdownContent.constants.MarkdownParserFeatures.emphasis]: true,
+          [GeoMarkdownContent.constants.MarkdownParserFeatures.linkify]: false,
+          [GeoMarkdownContent.constants.MarkdownParserFeatures.link]: true
+        }
+      }
+    })
+
+    expect(wrapper.find('p > span:first-of-type').element.innerHTML).toBe(uptoBoldSegment)
+    expect(wrapper.find('p > strong > span').element.innerHTML).toBe(boldSegment)
+    expect(wrapper.find('p > span:nth-of-type(2)').element.innerHTML).toBe(boldToLinkSegment)
+    expect(wrapper.find('p > a').element.getAttribute('href')).toBe(linkURL)
+    expect(wrapper.find('p > a > span').element.innerHTML).toBe(linkText)
+    expect(wrapper.find('p > span:last-of-type').element.innerHTML).toBe(variableValue)
+  })
 })

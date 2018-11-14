@@ -1,3 +1,5 @@
+import VariableInterpolationPlugin from './VariableInterpolationPlugin'
+
 /**
  * @typedef MarkdownNodeType
  * @readonly
@@ -145,7 +147,8 @@ export const MarkdownParserFeatures = {
  * @param {MarkdownIt} markdownItInstance
  * @returns {MarkdownNode[]}
  */
-export function getMarkdownNodes (markdownText, markdownItInstance) {
+export function getMarkdownNodes (markdownText, variableValues, markdownItInstance) {
+  markdownItInstance.use(VariableInterpolationPlugin, { variableValues })
   const tokens = markdownItInstance.parse(markdownText, {})
   return parseASTList(tokens)
 }

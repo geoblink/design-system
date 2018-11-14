@@ -28,7 +28,7 @@ const MarkdownIt = (function () {
 
 export default {
   name: 'GeoMarkdownContent',
-  status: 'missing-tests',
+  status: 'ready',
   release: '8.3.0',
   constants: {
     MarkdownParserFeatures
@@ -40,10 +40,26 @@ export default {
   props: {
     /**
      * Markdown string to be rendered.
+     *
+     * You can use `:variableName` special syntax to render values without
+     * rendering them as Markdown. This is handy when dealing with user input.
+     *
+     * Variable names must start with a letter and can contain only letters,
+     * digits and the `_` symbol. They must match the pattern:
+     * `[a-zA-Z][a-zA-Z0-9_]*`
      */
     markdown: {
       type: String,
       required: true
+    },
+
+    /**
+     * Values to replace variables found in Markdown text. Each key of this
+     * object should match one variable appearing in `markdown` string.
+     */
+    values: {
+      type: Object,
+      required: false
     },
 
     /**
@@ -117,7 +133,7 @@ export default {
         return []
       }
 
-      return getMarkdownNodes(this.markdown, this.parser)
+      return getMarkdownNodes(this.markdown, this.values, this.parser)
     }
   }
 }

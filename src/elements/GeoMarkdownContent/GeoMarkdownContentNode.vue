@@ -38,7 +38,7 @@ import { MarkdownNodeType } from './GeoMarkdownParser'
 
 export default {
   name: 'GeoMarkdownContentNode',
-  status: 'missing-tests',
+  status: 'ready',
   release: '8.3.0',
   props: {
     node: {
