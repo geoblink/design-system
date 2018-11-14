@@ -1,14 +1,12 @@
-# 8.3.1
-
-Fixed:
-
-- [GeoButton] shadow opacity is animated
-
 # 8.3.0
 
 New:
 
 - `GeoMarkdownContent` component
+
+Fixed:
+
+- [GeoButton] shadow opacity is animated
 
 # 8.2.1
 
