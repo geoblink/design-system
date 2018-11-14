@@ -357,7 +357,7 @@ function parseImageToken ({ tokens, position }) {
  * @returns {NodeParsingOutput}
  */
 function parseStrongToken ({ tokens, position }) {
-  return parseNoAttributedHTMLTagToken({
+  return parseHTMLTagWithoutAttributesToken({
     tokens,
     position,
     markdownNodeType: MarkdownNodeType.strong,
@@ -370,7 +370,7 @@ function parseStrongToken ({ tokens, position }) {
  * @returns {NodeParsingOutput}
  */
 function parseEmphasisToken ({ tokens, position }) {
-  return parseNoAttributedHTMLTagToken({
+  return parseHTMLTagWithoutAttributesToken({
     tokens,
     position,
     markdownNodeType: MarkdownNodeType.emphasis,
@@ -383,7 +383,7 @@ function parseEmphasisToken ({ tokens, position }) {
  * @returns {NodeParsingOutput}
  */
 function parseStrikethroughToken ({ tokens, position }) {
-  return parseNoAttributedHTMLTagToken({
+  return parseHTMLTagWithoutAttributesToken({
     tokens,
     position,
     markdownNodeType: MarkdownNodeType.strikethrough,
@@ -399,7 +399,7 @@ function parseHeadingToken ({ tokens, position }) {
   const token = tokens[position]
   const markdownNodeHTMLTag = htmlHeadingTagToMarkdownNodeHTMLTag[token.tag]
 
-  return parseNoAttributedHTMLTagToken({
+  return parseHTMLTagWithoutAttributesToken({
     tokens,
     position,
     markdownNodeType: MarkdownNodeType.heading,
@@ -412,7 +412,7 @@ function parseHeadingToken ({ tokens, position }) {
  * @returns {NodeParsingOutput}
  */
 function parseUnorderedListToken ({ tokens, position }) {
-  return parseNoAttributedHTMLTagToken({
+  return parseHTMLTagWithoutAttributesToken({
     tokens,
     position,
     markdownNodeType: MarkdownNodeType.unorderedList,
@@ -425,7 +425,7 @@ function parseUnorderedListToken ({ tokens, position }) {
  * @returns {NodeParsingOutput}
  */
 function parseOrderedListToken ({ tokens, position }) {
-  return parseNoAttributedHTMLTagToken({
+  return parseHTMLTagWithoutAttributesToken({
     tokens,
     position,
     markdownNodeType: MarkdownNodeType.orderedList,
@@ -438,7 +438,7 @@ function parseOrderedListToken ({ tokens, position }) {
  * @returns {NodeParsingOutput}
  */
 function parseListItemToken ({ tokens, position }) {
-  return parseNoAttributedHTMLTagToken({
+  return parseHTMLTagWithoutAttributesToken({
     tokens,
     position,
     markdownNodeType: MarkdownNodeType.listItem,
@@ -451,7 +451,7 @@ function parseListItemToken ({ tokens, position }) {
  * @returns {NodeParsingOutput}
  */
 function parseBlockquoteToken ({ tokens, position }) {
-  return parseNoAttributedHTMLTagToken({
+  return parseHTMLTagWithoutAttributesToken({
     tokens,
     position,
     markdownNodeType: MarkdownNodeType.blockquote,
@@ -481,7 +481,7 @@ function parseCodeToken ({ tokens, position }) {
  * @param {{tokens: Token[], position: number, markdownNodeType: MarkdownNodeType, markdownNodeHTMLTag, MarkdownNodeHTMLTag}} params
  * @returns {NodeParsingOutput}
  */
-function parseNoAttributedHTMLTagToken ({
+function parseHTMLTagWithoutAttributesToken ({
   tokens,
   position,
   markdownNodeType,
