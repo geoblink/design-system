@@ -8,11 +8,15 @@
 
   .geo-markdown-content#{$modifier-name-with-prefix} {
     strong {
-      font-weight: bold;
+      &, span {
+        font-weight: bold;
+      }
     }
 
     em {
-      font-style: italic;
+      &, span {
+        font-style: italic;
+      }
     }
   }
 }
