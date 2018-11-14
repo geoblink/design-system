@@ -65,7 +65,7 @@ export default {
     /**
      * Dictionary of features (keys) and whether they should be enabled or not
      * (values). Use a `truthy` value to enable a feature and a `falsy` value to
-     * disble one of the enabled-by-default features.
+     * disable one of the enabled-by-default features.
      *
      * See `MarkdownParserFeatures` named constant to see a list of available
      * features.
