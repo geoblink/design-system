@@ -7,13 +7,46 @@
     @if map-has-key($params, normal-background-color) {
       background: map-get($params, normal-background-color);
     }
-  
+
     @if map-has-key($params, normal-text-color) {
       color: map-get($params, normal-text-color);
     }
-  
+
     @if map-has-key($params, normal-border-color) {
       border-color: map-get($params, normal-border-color);
+    }
+
+    &::before {
+      bottom: 0;
+      content: "";
+      left: 0;
+      opacity: 0;
+      position: absolute;
+      right: 0;
+      top: 0;
+      transition: opacity $easing_base $duration_noticeable;
+
+      @if map-has-key($params, hover-shadow) {
+        box-shadow: map-get($params, hover-shadow);
+      }
+    }
+
+    /* This pseudo-element prevents hover flickering due to button translation
+       on hover. To do so efficiently this element is position at the beginning
+       and moved using a transform when parent is hovered */
+    &::after {
+      /* Basic setup */
+      content: "";
+      bottom: 0;
+      left: 0;
+      position: absolute;
+      top: 0;
+      width: 100%;
+
+      /* We need to place the pseudo-element under everything else. Without
+        specifying the placement, it will sit on top of the parent element (our
+        card) and block the user from selecting text or clicking links */
+      z-index: -1;
     }
 
     &:hover, &[hover], &:focus, &[focus] {
@@ -21,21 +54,13 @@
         transform: map-get($params, hover-transform);
         transition: transform $easing_base $duration_noticeable;
 
-        &:after {
-          /* Basic setup */
-          position: absolute;
-          content: "";
-          width: 100%;
-          top: 0;
-          left: 0;
-      
+        &::before {
+          opacity: 1;
+        }
+
+        &::after {
           /* Bottom is positioned to cover the area the hovered element is leaving */
-          bottom: $hoverYOffsetWithBorders;
-      
-          /* We need to place the pseudo-element under everything else. Without 
-            specifying the placement, it will sit on top of the parent element (our card)
-            and block the user from selecting text or clicking links */
-          z-index: -1;
+          transform: translateY(-$hoverYOffsetWithBorders);
         }
       }
 
@@ -43,18 +68,14 @@
         text-decoration: map-get($params, hover-decoration);
       }
 
-      @if map-has-key($params, hover-shadow) {
-        box-shadow: map-get($params, hover-shadow);
-      }
-
       @if map-has-key($params, hover-background-color) {
         background: map-get($params, hover-background-color);
       }
-  
+
       @if map-has-key($params, hover-text-color) {
         color: map-get($params, hover-text-color);
       }
-  
+
       @if map-has-key($params, hover-border-color) {
         border-color: map-get($params, hover-border-color);
       }
@@ -67,10 +88,6 @@
 
       @if map-has-key($params, hover-decoration) {
         text-decoration: none;
-      }
-
-      @if map-has-key($params, hover-shadow) {
-        box-shadow: none;
       }
     }
   }
@@ -148,7 +165,7 @@
 
 @mixin geo-button--secondary($css-suffix) {
   $hoverYOffset: -1px;
-  
+
   @include geo-button-make-scheme((
     normal-background-color: $color_white,
     normal-text-color: $color_blue,
@@ -242,12 +259,12 @@
       transition: all $duration_noticeable $easing_base;
       transition-property: transform, opacity;
     }
-  
+
     .geo-button__label--loading#{$css-suffix} {
       transform: scale(0);
       opacity: 0;
     }
-  
+
     .geo-button__activity-indicator#{$css-suffix} {
       height: 20px;
       position: absolute;

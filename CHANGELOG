@@ -1,16 +1,31 @@
-#8.3.0
+#8.4.0
 
 New:
 
 - `GeoContextMenuClickOutside` directive
+- Register directives in the install
 
-#8.2.1
+Fixes:
+
+- Correctly export directives from Design System
+
+# 8.3.0
+
+New:
+
+- `GeoMarkdownContent` component
+
+Fixed:
+
+- [GeoButton] shadow opacity is animated
+
+# 8.2.1
 
 Fixed:
 
 - [GeoSelect] Make sure the dropdown toggle arrow is always on the right side of the dropdown
 
-#8.2.0
+# 8.2.0
 
 New:
 
