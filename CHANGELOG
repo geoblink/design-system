@@ -1,3 +1,9 @@
+#8.3.0
+
+New:
+
+- `GeoContextMenuClickOutside` directive
+
 #8.2.1
 
 Fixed:
