@@ -29,16 +29,17 @@ contexts.forEach(context => {
   })
 })
 
+const directives = require.context('@/directives/', true, /\.js$/)
+export { directives }
+
 export default {
   install (Vue) {
     componentsList.forEach(c => Vue.component(c.name, c))
+    directives.forEach((d, name) => Vue.directive(name, d))
   }
 }
 
 export { componentsByName as components }
 export { constantsByComponentName as constants }
-
-const directives = require.context('@/directives/', true, /\.js$/)
-export { directives }
 
 export { instance }
