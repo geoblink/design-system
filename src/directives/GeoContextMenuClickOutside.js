@@ -12,7 +12,7 @@ const runCallbacks = throttle(function (event) {
 
 let callbacks = {}
 
-module.exports = {
+export default {
   bind: function (el, binding, vNode) {
     if (!isValidBinding(binding) || isServer(vNode)) {
       return
