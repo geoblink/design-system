@@ -19,11 +19,11 @@ export default {
     }
 
     if (_.isEmpty(callbacks)) {
-      window.addEventListener('click', runCallbacks, true)
+      window.addEventListener('contextmenu', runCallbacks, true)
     }
 
-    el.__geoOnClickOutsideCallbackId__ = getNextCallbackId()
-    callbacks[el.__geoOnClickOutsideCallbackId__] = function (event) {
+    el.__geoOnContextMenuClickOutsideCallbackId__ = getNextCallbackId()
+    callbacks[el.__geoOnContextMenuClickOutsideCallbackId__] = function (event) {
       if (!vNode.context || el === event.target || el.contains(event.target)) {
         return
       }
@@ -32,16 +32,16 @@ export default {
   },
 
   unbind: function (el) {
-    callbacks = _.omit(callbacks, el.__geoOnClickOutsideCallbackId__)
+    callbacks = _.omit(callbacks, el.__geoOnContextMenuClickOutsideCallbackId__)
     if (_.isEmpty(callbacks)) {
-      window.removeEventListener('click', runCallbacks)
+      window.removeEventListener('contextmenu', runCallbacks)
     }
   }
 }
 
 function isValidBinding (binding) {
   if (typeof binding.value !== 'function') {
-    console.error(`GeoClickOutside [directive] :: provided expression ${binding.expression} is not a function`)
+    console.error(`GeoContextMenuClickOutside [directive] :: provided expression ${binding.expression} is not a function`)
     return false
   }
 
