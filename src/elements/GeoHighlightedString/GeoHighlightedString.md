@@ -7,7 +7,7 @@ a fuzzy-search with results higlighting out-of-the-box.
 <div class="element-demo">
   <h3 class="element-demo__header">String with some letters highlighted</h3>
   <div class="element-demo__block" style="justify-content: space-around;">
-    <geo-highlighted-string :higlighted-chars="[0,1,3,6]" reference-string="Hello World!"/>
+    <geo-highlighted-string :highlighted-chars="[0,1,3,6]" reference-string="Hello World!"/>
   </div>
 </div>
 ```
