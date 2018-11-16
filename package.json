@@ -5,7 +5,8 @@
   "author": "Geoblink <contact@geoblink.com>",
   "main": "dist/system/system.js",
   "files": [
-    "dist/system"
+    "dist/system",
+    "dist/assets"
   ],
   "homepage": "https://geoblink.com",
   "license": "MIT",
