@@ -4,6 +4,8 @@
  */
 import instance from '@/utils/vueInstance'
 
+import '@/styles/styles.scss'
+
 // Defines contexts to require
 // (you should remove templates from this if not used in production)
 const contexts = [
@@ -36,7 +38,7 @@ directives.keys().forEach(key => {
   const definition = directives(key).default
   const directiveName = key.replace(/^\.\/(.*)\.js$/i, '$1')
   directivesByName[directiveName] = definition
-  directivesList.push({name: directiveName, definition})
+  directivesList.push({ name: directiveName, definition })
 })
 
 export default {
