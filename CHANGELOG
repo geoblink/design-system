@@ -1,11 +1,23 @@
-#8.4.0
+# 8.4.2
+
+Fixed:
+
+- Bundle non-scoped CSS.
+
+# 8.4.1
+
+Fixed:
+
+- Bundle `dist/assets` folder in NPM package.
+
+# 8.4.0
 
 New:
 
 - `GeoContextMenuClickOutside` directive
 - Register directives in the install
 
-Fixes:
+Fixed:
 
 - Correctly export directives from Design System
 
