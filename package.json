@@ -1,11 +1,12 @@
 {
   "name": "@geoblink/design-system",
-  "version": "8.4.0",
+  "version": "8.4.2",
   "description": "Geoblink Design System for Vue.js",
   "author": "Geoblink <contact@geoblink.com>",
   "main": "dist/system/system.js",
   "files": [
-    "dist/system"
+    "dist/system",
+    "dist/assets"
   ],
   "homepage": "https://geoblink.com",
   "license": "MIT",
