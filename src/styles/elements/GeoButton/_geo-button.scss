@@ -194,7 +194,8 @@
 
   &#{$css-suffix} {
     font-style: italic;
-    font-weight: $font_weight_light;
+    font-weight: $font_weight_regular;
+    font-size: $display_small;
     text-transform: initial;
 
     transition: color $duration_quickly $easing_base;
