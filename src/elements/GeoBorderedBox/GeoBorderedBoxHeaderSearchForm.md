@@ -1,8 +1,8 @@
 `GeoBorderedBoxHeaderSearchForm` is a header featuring a search form designed to
-fit nicely in a [GeoBorderedBox](http://localhost:6060/#/Elements/GeoBorderedBox?id=geoborderedbox-1).
+fit nicely in a [GeoBorderedBox](/#/Elements/GeoBorderedBox?id=geoborderedbox-1).
 
 **Note:** this component is not responsible of filtering displayed elements but
-[GeoSelect](http://localhost:6060/#/Elements/GeoSelect?id=geoselect-1) is.
+[GeoSelect](/#/Elements/GeoSelect?id=geoselect-1) is.
 
 ```jsx
 <div class="element-demo">
