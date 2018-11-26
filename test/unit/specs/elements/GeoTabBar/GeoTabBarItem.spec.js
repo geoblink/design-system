@@ -42,6 +42,16 @@ describe('GeoTabBarItem', () => {
     expect(wrapper.emitted()['click']).toBeFalsy()
   })
 
+  it('should add active suffix when item is active', function () {
+    const wrapper = mount(GeoTabBarItem, {
+      propsData: {
+        active: true
+      }
+    })
+
+    expect(wrapper.find('.geo-tab-bar-item--active').exists()).toBe(true)
+  })
+
   it('should add CSS Suffix when given', function () {
     const wrapper = mount(GeoTabBarItem, {
       propsData: {
