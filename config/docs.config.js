@@ -140,6 +140,11 @@ module.exports = {
           sectionDepth: 1
         },
         {
+          name: 'GeoTabBar',
+          components: '../src/elements/GeoTabBar/GeoTabBar*.vue',
+          sectionDepth: 1
+        },
+        {
           name: 'String Utils',
           components: () => [
             '../src/elements/GeoHighlightedString/GeoHighlightedString.vue',

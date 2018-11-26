@@ -1,0 +1,23 @@
+@mixin geo-tab-bar-make($modifier-name) {
+
+  $modifier-name-with-prefix: '';
+
+  @if $modifier-name != '' {
+    // sass-lint:disable space-around-operator
+    $modifier-name-with-prefix: --#{$modifier-name};
+  }
+
+  .geo-tab-bar#{$modifier-name-with-prefix} {
+    align-items: center;
+    background: $color-blue-dark;
+    display: flex;
+    flex-direction: row;
+    height: 50px;
+    justify-content: flex-start;
+    padding: 0 10px;
+  }
+
+  @include geo-tab-bar-item-make($modifier-name);
+}
+
+@include geo-tab-bar-make('');
