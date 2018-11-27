@@ -17,7 +17,7 @@ pipelines:
           name: Audit
           max-time: 1
           script:
-            - yarn audit
+            - yarn audit | grep -E "(High | Critical)" -B3 -A10 | wc -l | export ISSUES=$(awk '{print $1}'); exit $ISSUES
     # - step:
     #     name: Publish
     #     trigger: manual
