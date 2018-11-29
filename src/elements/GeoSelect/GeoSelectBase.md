@@ -3,7 +3,7 @@ the minimum boilerplate to create a popup-driven single-element pickers.
 
 Use this component if you want to build a custom experience. If you just need a
 drop-in replacement for HTML `<select>` tag you might probably want to use
-[GeoSelect](http://localhost:6060/#/Elements/GeoSelect?id=geoselect-1) component.
+[GeoSelect](/#/Elements/GeoSelect?id=geoselect-1) component.
 
 ```vue
 <template>

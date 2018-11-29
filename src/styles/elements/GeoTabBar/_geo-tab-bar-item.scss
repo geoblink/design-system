@@ -1,0 +1,48 @@
+@mixin geo-tab-bar-item-make($modifier-name) {
+
+  $modifier-name-with-prefix: '';
+
+  @if $modifier-name != '' {
+    // sass-lint:disable space-around-operator
+    $modifier-name-with-prefix: --#{$modifier-name};
+  }
+
+  .geo-tab-bar-item#{$modifier-name-with-prefix} {
+    align-items: center;
+    background-color: $color-blue-dark;
+    border-bottom: 4px solid transparent;
+    color: $color-white;
+    cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    font-family: $font-family-heading;
+    font-size: $display-small;
+    height: 42px;
+    justify-content: space-between;
+    padding: 4px 10px 0;
+
+    &:not(:last-of-type) {
+      margin-right: 30px;
+    }
+
+    & > *:not(:first-child) {
+      margin-left: 10px;
+    }
+
+    &:hover, &[hover] {
+      border-bottom-color: $color-blue-light;
+      color: $color-white;
+    }
+  }
+
+  .geo-tab-bar-item--active#{$modifier-name-with-prefix} {
+    border-bottom-color: $color-yellow;
+
+    &:hover, &[hover] {
+      border-bottom-color: $color-blue-light;
+      color: $color-white;
+    }
+  }
+}
+
+@include geo-tab-bar-item-make('');

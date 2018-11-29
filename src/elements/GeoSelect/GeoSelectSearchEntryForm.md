@@ -1,8 +1,8 @@
 `GeoSelectSearchEntry` is a search form designed to fit nicely in a
-[GeoSelect](http://localhost:6060/#/Elements/GeoSelect?id=geoselect-1) header.
+[GeoSelect](/#/Elements/GeoSelect?id=geoselect-1) header.
 
 **Note:** this component is not responsible of filtering displayed elements but
-[GeoSelect](http://localhost:6060/#/Elements/GeoSelect?id=geoselect-1) is.
+[GeoSelect](/#/Elements/GeoSelect?id=geoselect-1) is.
 
 ```jsx
 <div class="element-demo">
