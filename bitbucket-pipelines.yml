@@ -2,16 +2,22 @@ image: node:8
 
 pipelines:
   default:
-    - step:
-        name: Test
-        max-time: 5
-        caches:
-          - node
-        script:
-          - yarn
-          - yarn lint
-          - mkdir test-reports
-          - TEST_REPORT_PATH=test-reports yarn test
+    - parallel:
+      - step:
+          name: Test
+          max-time: 5
+          caches:
+            - node
+          script:
+            - yarn
+            - yarn lint
+            - mkdir test-reports
+            - TEST_REPORT_PATH=test-reports yarn test
+      - step:
+          name: Audit
+          max-time: 1
+          script:
+            - yarn audit | grep -E "(High | Critical)" -B3 -A10 | wc -l | export ISSUES=$(awk '{print $1}'); exit $ISSUES
     # - step:
     #     name: Publish
     #     trigger: manual
