@@ -135,6 +135,11 @@ module.exports = {
           sectionDepth: 0
         },
         {
+          name: 'GeoCircle',
+          components: '../src/elements/GeoCircle/GeoCircle.vue',
+          sectionDepth: 0
+        },
+        {
           name: 'GeoSelect',
           components: '../src/elements/GeoSelect/GeoSelect*.vue',
           sectionDepth: 1
