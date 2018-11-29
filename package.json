@@ -1,6 +1,6 @@
 {
   "name": "@geoblink/design-system",
-  "version": "8.4.4",
+  "version": "8.4.5",
   "description": "Geoblink Design System for Vue.js",
   "author": "Geoblink <contact@geoblink.com>",
   "main": "dist/system/system.js",
@@ -105,6 +105,7 @@
     }
   },
   "resolutions": {
+    "merge": ">= 1.2.1",
     "vue-styleguidist/vue-docgen-api": "~2.3.14"
   },
   "dependencies": {
