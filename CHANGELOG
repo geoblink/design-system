@@ -10,6 +10,14 @@ Changed:
 
 - `GeoInput` increased spacing of buttons in normal mode
 
+Fixed:
+
+- `GeoInput` now exports constants
+
+Security:
+
+- Removed `event-stream` dependency
+
 # 8.5.0
 
 New:
