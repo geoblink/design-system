@@ -3,6 +3,12 @@
 New:
 
 - `GeoCircle` component
+- `GeoInput` can be styled up depending on its type
+- Complete overhaul of font styles
+
+Changed:
+
+- `GeoInput` increased spacing of buttons in normal mode
 
 # 8.5.0
 
