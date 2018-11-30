@@ -1,11 +1,11 @@
 @mixin geo-input-make($modifier-name) {
   $modifier-name-with-prefix: '';
-  
+
   @if $modifier-name != '' {
     // sass-lint:disable space-around-operator
     $modifier-name-with-prefix: --#{$modifier-name};
   }
-  
+
   @include geo-activity-indicator-make('geo-input#{$modifier-name-with-prefix}');
   @include geo-dropdown-make('geo-input--table#{$modifier-name-with-prefix}');
   @include geo-dropdown-make('geo-input--normal#{$modifier-name-with-prefix}');
@@ -55,12 +55,12 @@
       border: 1px solid transparent;
     }
   }
-  
+
   .geo-input__form__input#{$modifier-name-with-prefix} {
     border: 1px solid transparent;
     border-radius: $border_radius_default;
     box-sizing: border-box;
-    font-size: $small;
+    font-size: $font-size_small;
     height: 30px;
     padding: 0 5px;
     width: 100%;
@@ -85,7 +85,7 @@
     box-shadow: $box_shadow_small;
     cursor: pointer;
     display: flex;
-    font-size: $icon_small;
+    font-size: 12px;
     height: 20px;
     justify-content: center;
     outline: none;

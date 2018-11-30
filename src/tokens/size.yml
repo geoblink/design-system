@@ -8,6 +8,8 @@ props:
     value: "64px"
   tappable_square:
     value: "44px"
+  size_medium:
+    value: "18px"
 global:
   type: number
   category: size

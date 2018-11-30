@@ -15,12 +15,12 @@
       border-bottom: 1px solid $color_grey;
     }
 
-    
+
     .geo-list-actionable-item__leading-icon,
     .geo-list-actionable-item__trailing-accessory-items {
       color: $color_grey_light;
-      height: $display_medium;
-      width: $display_medium;
+      height: $size_medium;
+      width: $size_medium;
     }
 
     .geo-list-actionable-item__leading-icon {
@@ -49,7 +49,7 @@
       display: flex;
       margin-left: 10px;
     }
-  
+
     .geo-list-actionable-item__body {
       @include font('body');
       color: $color_grey_darker;

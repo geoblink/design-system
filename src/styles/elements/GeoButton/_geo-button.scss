@@ -195,7 +195,7 @@
   &#{$css-suffix} {
     font-style: italic;
     font-weight: $font_weight_regular;
-    font-size: $display_small;
+    font-size: $font_size_small;
     text-transform: initial;
 
     transition: color $duration_quickly $easing_base;
@@ -246,7 +246,7 @@
     cursor: pointer;
     display: flex;
     font-family: $font_family_text;
-    font-size: $display_x_small;
+    font-size: $font_size_small;
     font-weight: $font_weight_bold;
     height: 30px;
     letter-spacing: 1px;

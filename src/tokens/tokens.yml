@@ -4,7 +4,9 @@
 
 imports:
   - ./color.yml
+  - ./font-family.yml
   - ./font-size.yml
+  - ./font-weight.yml
   - ./font.yml
   - ./opacity.yml
   - ./size.yml

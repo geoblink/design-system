@@ -76,6 +76,9 @@
 // Used to get the mapped font shorthand of $fontMap in _fontsMaps.scss
 @mixin font($key) {
   @if map-has-key($fontMap, $key) {
-      font: map-get($fontMap, $key);
+    $font-spec: map-get($fontMap, $key);
+    @each $property-name in ('color', 'font-family', 'font-size', 'font-style', 'font-weight', 'line-height', 'letter-spacing', 'text-transform') {
+      #{$property-name}: map-get($font-spec, $property-name);
+    }
   }
 }
