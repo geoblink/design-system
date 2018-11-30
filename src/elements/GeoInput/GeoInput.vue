@@ -68,6 +68,7 @@ export default {
   status: 'ready',
   release: '6.1.0',
   mixins: [cssSuffix],
+  constants: { TYPE },
   props: {
     /**
      * Input value.
