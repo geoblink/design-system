@@ -22,6 +22,14 @@
   .geo-list-group__header__icon-and-label__label#{$modifier-name-with-prefix} {
     overflow: hidden;
   }
+
+  .geo-select-toggle-button__toggle-icon--geo-select#{$modifier-name-with-prefix} {
+    transition: transform $duration-quickly $easing-base;
+  }
+
+  .geo-dropdown--is-open--geo-select#{$modifier-name-with-prefix} .geo-select-toggle-button__toggle-icon--geo-select#{$modifier-name-with-prefix} {
+    transform: rotateZ(180deg);
+  }
 }
 
 @include geo-select-make('');
