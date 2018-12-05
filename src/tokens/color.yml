@@ -32,6 +32,8 @@ aliases:
     value: "#FFFFFF"
   white_dark:
     value: "#F4F4F4"
+  white_disabled:
+    value: "rgba(210, 210, 210, .4)"
   grey_backdrop:
     value: "rgba(74, 74, 74, .4)"
   grey_light:
@@ -105,6 +107,9 @@ props:
     category: color_group_6
   color_white_dark:
     value: "{!white_dark}"
+    category: color_group_6
+  color_white_disabled:
+    value: "{!white_disabled}"
     category: color_group_6
   color_grey_backdrop:
     value: "{!grey_backdrop}"

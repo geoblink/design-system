@@ -106,6 +106,10 @@
     }
 
     &:hover, &[hover], &:focus, &[focus] {
+      &::before {
+        opacity: 0;
+      }
+
       @if map-has-key($params, hover-transform) {
         transform: none;
       }
@@ -151,8 +155,9 @@
   @include geo-button-make-scheme((
     normal-background-color: $color_blue,
     normal-text-color: $color_white,
-    disabled-background-color: $color_blue,
-    disabled-text-color: $color_white,
+    disabled-background-color: $color_grey,
+    disabled-text-color: $color_grey_light,
+    hover-and-disabled-background-color: $color_grey,
     hover-shadow: $box_shadow_button_hover,
     hover-transform: translateY($hoverYOffset)
   ), $css-suffix);
@@ -170,9 +175,9 @@
     normal-background-color: $color_white,
     normal-text-color: $color_blue,
     normal-border-color: $color_blue,
-    disabled-background-color: $color_white,
-    disabled-text-color: $color_blue,
-    disabled-border-color: $color_blue,
+    disabled-background-color: $color_white_disabled,
+    disabled-text-color: $color_grey_light,
+    disabled-border-color: $color_grey,
     hover-shadow: $box_shadow_button_hover,
     hover-transform: translateY($hoverYOffset)
   ), $css-suffix);
@@ -188,7 +193,7 @@
     normal-background-color: transparent,
     normal-text-color: $color_blue,
     normal-border-color: transparent,
-    disabled-text-color: $color_blue,
+    disabled-text-color: $color_grey_light,
     hover-decoration: underline
   ), $css-suffix);
 
@@ -208,7 +213,9 @@
   @include geo-button-make-scheme((
     normal-background-color: $color_red,
     normal-text-color: $color_white,
-    disabled-background-color: $color_red,
+    disabled-background-color: $color_white_disabled,
+    disabled-text-color: $color_grey_light,
+    disabled-border-color: $color_grey,
     hover-shadow: $box_shadow_button_hover,
     hover-transform: translateY($hoverYOffset)
   ), $css-suffix);
@@ -225,7 +232,9 @@
   @include geo-button-make-scheme((
     normal-background-color: $color_red,
     normal-text-color: $color_white,
-    disabled-background-color: $color_red,
+    disabled-background-color: $color_white_disabled,
+    disabled-text-color: $color_grey_light,
+    disabled-border-color: $color_grey,
     hover-shadow: $box_shadow_button_hover,
     hover-transform: translateY($hoverYOffset)
   ), $css-suffix);
@@ -277,10 +286,6 @@
 
   &--disabled#{$css-suffix} {
     cursor: not-allowed;
-
-    &:not(#{$this}--loading#{$css-suffix}) {
-      opacity: .3;
-    }
   }
 }
 
