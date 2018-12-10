@@ -7,20 +7,28 @@
     $modifier-name-with-prefix: --#{$modifier-name};
   }
 
-  @include geo-select-base-make($modifier-name);
-  @include geo-list-item-make($modifier-name);
-  @include geo-list-group-make($modifier-name);
-  @include geo-list-clear-item-make($modifier-name);
-  @include geo-bordered-box-header-search-form-make($modifier-name);
-  @include geo-select-toggle-button-make($modifier-name);
-  @include geo-marquee-make($modifier-name);
-  @include geo-highlighted-string-make($modifier-name);
+  @include geo-select-base-make("geo-select#{$modifier-name-with-prefix}");
+  @include geo-list-item-make("geo-select#{$modifier-name-with-prefix}");
+  @include geo-list-group-make("geo-select#{$modifier-name-with-prefix}");
+  @include geo-list-clear-item-make("geo-select#{$modifier-name-with-prefix}");
+  @include geo-bordered-box-header-search-form-make("geo-select#{$modifier-name-with-prefix}");
+  @include geo-select-toggle-button-make("geo-select#{$modifier-name-with-prefix}");
+  @include geo-marquee-make("geo-select#{$modifier-name-with-prefix}");
+  @include geo-highlighted-string-make("geo-select#{$modifier-name-with-prefix}");
 
   .geo-list-item__icon-and-label#{$modifier-name-with-prefix},
   .geo-list-item__icon-and-label__label#{$modifier-name-with-prefix},
   .geo-list-group__header__icon-and-label#{$modifier-name-with-prefix},
   .geo-list-group__header__icon-and-label__label#{$modifier-name-with-prefix} {
     overflow: hidden;
+  }
+
+  .geo-select-toggle-button__toggle-icon--geo-select#{$modifier-name-with-prefix} {
+    transition: transform $duration-quickly $easing-base;
+  }
+
+  .geo-dropdown--is-open--geo-select#{$modifier-name-with-prefix} .geo-select-toggle-button__toggle-icon--geo-select#{$modifier-name-with-prefix} {
+    transform: rotateZ(180deg);
   }
 }
 

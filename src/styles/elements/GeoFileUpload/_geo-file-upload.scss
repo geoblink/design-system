@@ -55,13 +55,12 @@
 }
 
 @mixin geo-file-upload__title {
-  color: $color_grey_darker;
-  font-size: $display-small;
+  @include font($body);
 }
 
 @mixin geo-file-upload__help {
-  font-size: $display-x-small;
-  line-height: 1.3em;
+  @include font($body);
+  color: $color_grey_light;
   margin-top: 10px;
   text-align: center;
 }

@@ -10,7 +10,7 @@
     <geo-dropdown
       ref="dropdown"
       :opened="showButtons"
-      :css-modifier="`geo-input${cssSuffix}`"
+      :css-modifier="`geo-input--${inputType}${cssSuffix}`"
       preferred-x-axis-position="right"
       @click-outside="handleClickOutside($event)"
     >
@@ -68,6 +68,7 @@ export default {
   status: 'ready',
   release: '6.1.0',
   mixins: [cssSuffix],
+  constants: { TYPE },
   props: {
     /**
      * Input value.

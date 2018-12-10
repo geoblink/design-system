@@ -5,20 +5,20 @@
         class="font-sizes__table__header-cell font-sizes__table__header-cell--big">
         Typestyle
       </div>
-      <div class="font-sizes__table__header-cell font-sizes__table__header-cell--big">
-        <font-awesome-icon
-          :icon="['fas', 'weight']"
-        />
-        Font Weight
+      <div class="font-sizes__table__header-cell font-sizes__table__header-cell--small">
+        Font
+      </div>
+      <div class="font-sizes__table__header-cell font-sizes__table__header-cell--small">
+        Weight
       </div>
       <div class="font-sizes__table__header-cell font-sizes__table__header-cell--small">
         Size
       </div>
       <div class="font-sizes__table__header-cell font-sizes__table__header-cell--small">
-        Line
+        Line Height
       </div>
       <div class="font-sizes__table__header-cell font-sizes__table__header-cell--small">
-        Character
+        Letter Spacing
       </div>
     </div>
     <div
@@ -26,42 +26,42 @@
       :key="index"
       :class="{
         ['font-sizes__table__row']: true,
-        ['font-sizes__table__row--grey-bg']: font.font_family === 'Lato'
+        ['font-sizes__table__row--grey-bg']: font.fontFamily.includes('Lato')
       }"
     >
       <div
-        :style="{
-          fontFamily: font.font_family,
-          fontWeight: font.weight,
-          fontStyle: font.font_style,
-          lineHeight: font.line_height,
-          letterSpacing: font.letter_spacing,
-          fontSize: font.value,
-          textTransform: font.text_transform,
-          color: font.color
+        ref="fontSamples"
+        :class="{
+          'font': true,
+          'font-sizes__table__row-cell': true,
+          'font-sizes__table__row-cell--big': true,
+          [`font-${font.value}`]: true
         }"
-        class="font font-sizes__table__row-cell font-sizes__table__row-cell--big">
-        <span>${{ font.name.replace(/_/g, " ") }}</span>
-      </div>
-      <div class="font-sizes__table__row-cell font-sizes__table__row-cell--big">
-        {{ font.font_style }} ({{ font.weight }})
+      >
+        <span>${{ font.value }}</span>
       </div>
       <div class="font-sizes__table__row-cell font-sizes__table__row-cell--small">
-        {{ font.originalValue }}
+        {{ font.fontFamily }}
       </div>
       <div class="font-sizes__table__row-cell font-sizes__table__row-cell--small">
-        {{ font.line_height ? font.line_height : '?' }}
+        {{ font.styles.fontWeight }}
       </div>
       <div class="font-sizes__table__row-cell font-sizes__table__row-cell--small">
-        {{ font.letter_spacing ? font.letter_spacing : '0px' }}
+        {{ font.styles.fontSize }}
+      </div>
+      <div class="font-sizes__table__row-cell font-sizes__table__row-cell--small">
+        {{ font.styles.lineHeight }}
+      </div>
+      <div class="font-sizes__table__row-cell font-sizes__table__row-cell--small">
+        {{ font.styles.letterSpacing }}
       </div>
       <div
-        v-if="index === 0 || index === 6"
+        v-if="index === firstMontserratFontIndex || index === firstLatoFontIndex"
         :class="{
           ['font-sizes__table__row-cell__font-family']: true,
-          [`font-sizes__table__row-cell__font-family--${font.font_family.toLowerCase()}`]: true
+          [`font-sizes__table__row-cell__font-family--${font.fontFamily.toLowerCase()}`]: true
       }">
-        {{ font.font_family }}
+        {{ font.fontFamily }}
       </div>
     </div>
   </div>
@@ -69,8 +69,8 @@
 
 <script>
 import designTokens from '@/assets/tokens/tokens.raw.json'
-import orderBy from 'lodash/orderBy'
-import filter from 'lodash/filter'
+import _orderBy from 'lodash/orderBy'
+import _filter from 'lodash/filter'
 
 /**
  * This typographic scale makes it easier to achieve visual harmony in the
@@ -82,15 +82,54 @@ export default {
   name: 'FontSize',
   data () {
     return {
-      tokens: this.orderData(designTokens.props)
+      styles: []
     }
   },
+  computed: {
+    fontTokens () {
+      return _filter(designTokens.props, { category: 'font' })
+    },
+
+    tokens () {
+      return _orderBy(
+        this.fontTokens.map((obj, index) => {
+          const styles = this.styles[index]
+          const stylesObject = styles || {}
+          const fontFamily = (
+            stylesObject.fontFamily || ''
+          ).includes('Lato')
+            ? 'Lato'
+            : 'Montserrat'
+          return Object.assign({}, obj, {
+            hasStyles: !!styles,
+            styles: styles || {},
+            fontFamily,
+            order: `${fontFamily}-${stylesObject.fontSize}-${stylesObject.fontWeight}`
+          })
+        }),
+        (spec, index) => spec.order,
+        'desc'
+      )
+    },
+
+    firstMontserratFontIndex () {
+      return this.tokens.findIndex(spec => spec.fontFamily.includes('Montserrat'))
+    },
+
+    firstLatoFontIndex () {
+      return this.tokens.findIndex(spec => spec.fontFamily.includes('Lato'))
+    }
+  },
+  mounted () {
+    this.collectStyles()
+  },
   methods: {
-    orderData (data) {
-      let order = filter(orderBy(data, ['font_family', 'value'], ['desc', 'desc']), (d) => {
-        return d.category === 'font-size'
-      })
-      return order
+    collectStyles () {
+      this.styles = this.$refs.fontSamples.map(
+        function (element) {
+          return getComputedStyle(element)
+        }
+      )
     }
   }
 }
@@ -98,6 +137,12 @@ export default {
 
 <style lang="scss" scoped>
 @import "../../docs.tokens.scss";
+
+@each $font-mixin-name, $value in $fontMap {
+  .font-#{$font-mixin-name} {
+    @include font(#{$font-mixin-name});
+  }
+}
 
 /* STYLES
 --------------------------------------------- */
@@ -109,10 +154,16 @@ export default {
 .font-sizes__table__header {
   display: flex;
   justify-content: space-between;
-  padding: 0 0 30px 25px;
+  padding: 0 0 0 25px;
 }
 
 .font-sizes__table__header-cell {
+  color: $color_grey_light;
+  font-family: $font_family_heading;
+  font-size: 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+
   &--big {
     width: 35%;
   }

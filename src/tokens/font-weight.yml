@@ -1,0 +1,19 @@
+#
+# FONT TOKENS
+# Use these tokens to set font-weight.
+#
+
+props:
+  font_weight_bold:
+    value: "700"
+  font_weight_semi_bold:
+    value: "600"
+  font_weight_medium:
+    value: "500"
+  font_weight_regular:
+    value: "400"
+  font_weight_light:
+    value: "300"
+global:
+  type: number
+  category: font-weight

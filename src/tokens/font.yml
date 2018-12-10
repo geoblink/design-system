@@ -3,19 +3,48 @@
 # Use these tokens to set font-weight and font-family.
 #
 
+#
+# FONT-SIZE TOKENS
+# Use these tokens to set a font-size.
+#
+
 props:
-  font_family_heading:
-    value: "'Montserrat', Times New Roman, serif"
-  font_family_text:
-    value: "'Lato', Helvetica, sans-serif"
-  font_weight_bold:
-    value: "700"
-  font_weight_semi_bold:
-    value: "600"
-  font_weight_regular:
-    value: "400"
-  font_weight_light:
-    value: "300"
+
+  display_large:
+    value: "display_large"
+  display_medium:
+    value: "display_medium"
+  display_small:
+    value: "display_small"
+
+  heading:
+    value: "heading"
+  heading_light:
+    value: "heading_light"
+  heading_small:
+    value: "heading_small"
+  heading_xsmall:
+    value: "heading_xsmall"
+
+  body:
+    value: "body"
+  body_small:
+    value: "body_small"
+  body_xsmall:
+    value: "body_xsmall"
+
+  highlight:
+    value: "highlight"
+  highlight_small:
+    value: "highlight_small"
+
+  label_big:
+    value: "label_big"
+  label:
+    value: "label"
+  label_optional:
+    value: "label_optional"
+
 global:
-  type: ...
+  type: mixin-name
   category: font

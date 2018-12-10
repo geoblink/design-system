@@ -20,10 +20,18 @@
     padding: 0 10px;
     user-select: none;
     width: 200px;
+
+    &:hover, &:focus {
+      border-color: $color_blue;
+
+      .geo-select-toggle-button__toggle-icon#{$modifier-name-with-prefix} {
+        color: $color_blue;
+      }
+    }
   }
 
   .geo-select-toggle-button--empty#{$modifier-name-with-prefix} {
-    font-size: $small;
+    font-size: $font-size_small;
     color: $color_grey_light;
     font-style: italic;
   }

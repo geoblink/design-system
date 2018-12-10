@@ -2,17 +2,17 @@
   <geo-select-base
     ref="selectBase"
     :opened="isOpened"
-    :css-modifier="cssModifier"
+    :css-modifier="`geo-select${cssSuffix}`"
     :has-more-results="hasMoreResultsToLoad"
     @click-outside="closeSelect"
     @load-more-results="loadNextPage">
     <geo-select-toggle-button
       slot="toggleButton"
       :dropdown-icon="dropdownIcon"
-      :css-modifier="cssModifier"
+      :css-modifier="`geo-select${cssSuffix}`"
       :is-empty="!value"
       @click="toggleSelect">
-      <geo-marquee :css-modifier="cssModifier">
+      <geo-marquee :css-modifier="`geo-select${cssSuffix}`">
         <template slot-scope="{}">{{ toggleButtonLabel }}</template>
       </geo-marquee>
     </geo-select-toggle-button>
@@ -20,7 +20,7 @@
       v-if="searchable"
       slot="header"
       :search-icon="searchIcon"
-      :css-modifier="cssModifier"
+      :css-modifier="`geo-select${cssSuffix}`"
       :placeholder="searchInputPlaceholder"
       v-model="searchPattern"
     />
@@ -28,7 +28,7 @@
       <template v-if="isOptSelect">
         <geo-list-group
           v-for="(option, index) in visibleOptions"
-          :css-modifier="cssModifier"
+          :css-modifier="`geo-select${cssSuffix}`"
           :key="index"
         >
           <template
@@ -36,10 +36,10 @@
             slot="title"
           >
             <geo-marquee
-              :css-modifier="cssModifier">
+              :css-modifier="`geo-select${cssSuffix}`">
               <geo-highlighted-string
                 slot-scope="{}"
-                :css-modifier="cssModifier"
+                :css-modifier="`geo-select${cssSuffix}`"
                 :highlighted-chars="option.matches"
                 :reference-string="option.label"
               />
@@ -49,12 +49,12 @@
             v-for="(item, index) in option.items"
             slot="item"
             :key="index"
-            :css-modifier="cssModifier"
+            :css-modifier="`geo-select${cssSuffix}`"
             @click="changeCurrentSelection(item)">
-            <geo-marquee :css-modifier="cssModifier">
+            <geo-marquee :css-modifier="`geo-select${cssSuffix}`">
               <geo-highlighted-string
                 slot-scope="{}"
-                :css-modifier="cssModifier"
+                :css-modifier="`geo-select${cssSuffix}`"
                 :highlighted-chars="item.matches"
                 :reference-string="item.label"
               />
@@ -66,12 +66,12 @@
         <geo-list-item
           v-for="(option, index) in visibleOptions"
           :key="index"
-          :css-modifier="cssModifier"
+          :css-modifier="`geo-select${cssSuffix}`"
           @click="changeCurrentSelection(option)">
-          <geo-marquee :css-modifier="cssModifier">
+          <geo-marquee :css-modifier="`geo-select${cssSuffix}`">
             <geo-highlighted-string
               slot-scope="{}"
-              :css-modifier="cssModifier"
+              :css-modifier="`geo-select${cssSuffix}`"
               :highlighted-chars="option.matches"
               :reference-string="option.label"
             />
@@ -81,7 +81,7 @@
     </template>
     <geo-list-clear-item
       v-else
-      :css-modifier="cssModifier"
+      :css-modifier="`geo-select${cssSuffix}`"
     >
       <!--
         @slot Use this slot to customize the label that will be displayed when

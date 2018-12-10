@@ -143,7 +143,7 @@ export default {
   }
 
   .text-introduction__subheader {
-    font-size: $display_medium;
+    font-size: $font_size_medium;
     font-weight: 300;
   }
 

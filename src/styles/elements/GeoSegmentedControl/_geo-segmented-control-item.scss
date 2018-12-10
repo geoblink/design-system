@@ -9,14 +9,14 @@
 
   .geo-segmented-control-item#{$modifier-name-with-prefix},
   .geo-segmented-control-item--outline#{$modifier-name-with-prefix} {
+    @include font($highlight_small);
+
     align-items: center;
     border-radius: $border-radius-default;
     color: $color-grey-darker;
     cursor: pointer;
     display: flex;
     flex-direction: row;
-    font-family: $font-family-text;
-    font-size: $display-x-small;
     padding: 0 10px;
     justify-content: center;
     user-select: none;

@@ -8,6 +8,8 @@
   }
 
   .geo-tab-bar-item#{$modifier-name-with-prefix} {
+    @include font($heading_light);
+
     align-items: center;
     background-color: $color-blue-dark;
     border-bottom: 4px solid transparent;
@@ -15,8 +17,6 @@
     cursor: pointer;
     display: flex;
     flex-direction: row;
-    font-family: $font-family-heading;
-    font-size: $display-small;
     height: 42px;
     justify-content: space-between;
     padding: 4px 10px 0;

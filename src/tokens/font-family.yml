@@ -1,0 +1,13 @@
+#
+# FONT TOKENS
+# Use these tokens to set font-family.
+#
+
+props:
+  font_family_heading:
+    value: "'Montserrat', Times New Roman, serif"
+  font_family_text:
+    value: "'Lato', Helvetica, sans-serif"
+global:
+  type: font-family
+  category: font-family
