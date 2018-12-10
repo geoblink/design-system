@@ -1,3 +1,9 @@
+# 9.0.1
+
+Fixed:
+
+- Several components with wrong font-size after fonts refactor
+
 # 9.0.0
 
 Breaking:
