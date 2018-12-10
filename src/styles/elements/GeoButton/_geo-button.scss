@@ -200,7 +200,8 @@
   &#{$css-suffix} {
     font-style: italic;
     font-weight: $font_weight_regular;
-    font-size: $font_size_small;
+    font-size: $font_size_regular;
+    letter-spacing: initial;
     text-transform: initial;
 
     transition: color $duration_quickly $easing_base;
