@@ -16,10 +16,10 @@
   @include geo-marquee-make("geo-select#{$modifier-name-with-prefix}");
   @include geo-highlighted-string-make("geo-select#{$modifier-name-with-prefix}");
 
-  .geo-list-item__icon-and-label#{$modifier-name-with-prefix},
-  .geo-list-item__icon-and-label__label#{$modifier-name-with-prefix},
-  .geo-list-group__header__icon-and-label#{$modifier-name-with-prefix},
-  .geo-list-group__header__icon-and-label__label#{$modifier-name-with-prefix} {
+  .geo-list-item__icon-and-label--geo-select#{$modifier-name-with-prefix},
+  .geo-list-item__icon-and-label__label--geo-select#{$modifier-name-with-prefix},
+  .geo-list-group__header__icon-and-label--geo-select#{$modifier-name-with-prefix},
+  .geo-list-group__header__icon-and-label__label--geo-select#{$modifier-name-with-prefix} {
     overflow: hidden;
   }
 
@@ -29,6 +29,13 @@
 
   .geo-dropdown--is-open--geo-select#{$modifier-name-with-prefix} .geo-select-toggle-button__toggle-icon--geo-select#{$modifier-name-with-prefix} {
     transform: rotateZ(180deg);
+  }
+
+  .geo-list-group--geo-select#{$modifier-name-with-prefix} {
+    &:not(:first-child) {
+      border-top: 1px solid $color_grey;
+      margin-top: 10px;
+    }
   }
 }
 
