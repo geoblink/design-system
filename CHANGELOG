@@ -1,3 +1,9 @@
+# 9.0.2
+
+Changed:
+
+- `GeoHighlightedString` without span tags
+
 # 9.0.1
 
 Fixed:

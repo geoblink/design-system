@@ -7,6 +7,11 @@
     $modifier-name-with-prefix: --#{$modifier-name};
   }
 
+  .highlighted-string__container {
+    align-items: center;
+    display: inline-flex;
+  }
+
   .highlighted-string--highlighted#{$modifier-name-with-prefix} {
     background: $color_yellow_highlight;
     font-weight: $font_weight_bold;
