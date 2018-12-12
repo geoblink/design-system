@@ -1,16 +1,21 @@
 <template>
   <div :class="`highlighted-string__container${cssSuffix}`">
-    <span
-      v-for="(entry, index) in groups"
-      :key="index"
-    ><span
-      v-if="entry.isHighlighted"
-      :class="`highlighted-string--highlighted${cssSuffix}`"
-    >{{ entry.substring }}</span><span
-      v-else
-      :class="`highlighted-string--normal${cssSuffix}`"
-    >{{ entry.substring }}</span>
-    </span>
+    <template v-for="(entry, index) in groups">
+      <div
+        v-if="entry.isHighlighted"
+        :class="`highlighted-string--highlighted${cssSuffix}`"
+        :key="index"
+      >
+        {{ entry.substring }}
+      </div>
+      <div
+        v-else
+        :class="`highlighted-string--normal${cssSuffix}`"
+        :key="index"
+      >
+        {{ entry.substring }}
+      </div>
+    </template>
   </div>
 </template>
 
