@@ -1,3 +1,9 @@
+# 9.0.3
+
+Fixed:
+
+- `GeoHighlightedString` scss selector with css-modifier
+
 # 9.0.2
 
 Changed:

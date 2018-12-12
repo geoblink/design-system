@@ -7,7 +7,7 @@
     $modifier-name-with-prefix: --#{$modifier-name};
   }
 
-  .highlighted-string__container {
+  .highlighted-string__container#{$modifier-name-with-prefix} {
     align-items: center;
     display: inline-flex;
   }
