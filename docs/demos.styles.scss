@@ -63,6 +63,11 @@
   padding: 16px;
 }
 
+.element-demo__notification-box {
+  display: flex;
+  width: 100%;
+}
+
 @include geo-select-make('select-demo');
 
 .geo-select__options-container--select-demo {
