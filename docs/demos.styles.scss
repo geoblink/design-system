@@ -29,6 +29,22 @@
   }
 }
 
+.element-demo__block__config {
+  display: flex;
+  flex-direction: column;
+  font-family: $font_family_heading;
+  font-weight: 700;
+  margin-left: auto;
+
+  & > * {
+    margin-bottom: 10px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
 .element-demo__item {
   border: 1px solid $color_grey;
 }

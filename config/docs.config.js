@@ -167,6 +167,11 @@ module.exports = {
             '../src/elements/GeoMarkdownContent/GeoMarkdownContent.vue'
           ],
           sectionDepth: 1
+        }, {
+          name: 'Charts',
+          components: () => [
+            '../src/elements/GeoChart/GeoChart.vue'
+          ]
         }
       ]
     },

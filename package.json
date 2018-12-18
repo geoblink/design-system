@@ -114,6 +114,7 @@
   "peerDependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.2",
     "@fortawesome/vue-fontawesome": "^0.1.1",
+    "d3": "^5.7.0",
     "lodash": "^4.17.10",
     "markdown-it": "^8.4.2",
     "vue": "^2.5.16"
@@ -124,6 +125,7 @@
     "@fortawesome/free-regular-svg-icons": "^5.4.1",
     "@fortawesome/free-solid-svg-icons": "^5.4.1",
     "@fortawesome/vue-fontawesome": "^0.1.1",
+    "@types/d3": "^5.0.1",
     "@types/lodash": "^4.14.118",
     "@types/markdown-it": "^0.0.7",
     "@vue/test-utils": "^1.0.0-beta.24",
@@ -145,6 +147,7 @@
     "compression-webpack-plugin": "^2.0.0",
     "copy-webpack-plugin": "^4.5.2",
     "css-loader": "^1.0.0",
+    "d3": "^5.7.0",
     "eslint": "^5.5.0",
     "eslint-config-standard": "^12.0.0",
     "eslint-plugin-compat": "^2.5.1",
