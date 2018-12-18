@@ -98,10 +98,6 @@ export default {
       this.$emit('click-outside', $event)
     },
 
-    toggleOptions () {
-      this.isDropdownOpen = !this.isDropdownOpen
-    },
-
     loadNextPage () {
       const scrollableContent = this.$refs.scrollableContent
       const currentVerticalOffset = scrollableContent.parentElement.scrollTop
