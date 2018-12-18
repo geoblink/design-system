@@ -6,7 +6,7 @@ import GeoListFooterButton from '@/elements/GeoList/GeoListFooterButton.vue'
 import GeoDropdown from '@/elements/GeoDropdown/GeoDropdown.vue'
 import GeoBorderedBox from '@/elements/GeoBorderedBox/GeoBorderedBox.vue'
 import GeoScrollableContainer from '@/elements/GeoScrollableContainer/GeoScrollableContainer.vue'
-
+import { Y_AXIS_POSITION } from '@/elements/GeoDropdown/GeoDropdown.constants'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fas } from '@fortawesome/free-solid-svg-icons'
 import { doesNotReject } from 'assert'
@@ -25,7 +25,8 @@ describe('GeoSelectBase', () => {
       },
       propsData: {
         opened: false,
-        hasMoreResults: true
+        hasMoreResults: true,
+        forceYAxisPosition: Y_AXIS_POSITION.top
       },
       slots: {
         toggleButton:
