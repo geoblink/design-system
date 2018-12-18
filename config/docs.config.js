@@ -125,6 +125,11 @@ module.exports = {
           sectionDepth: 1
         },
         {
+          name: 'GeoNotificationBar',
+          components: '../src/elements/GeoNotificationBar/GeoNotificationBar*.vue',
+          sectionDepth: 1
+        },
+        {
           name: 'GeoScrollableContainer',
           components: '../src/elements/GeoScrollableContainer/GeoScrollableContainer*.vue',
           sectionDepth: 0

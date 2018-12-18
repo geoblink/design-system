@@ -1,0 +1,44 @@
+@mixin geo-notification-bar-make ($modifier-name) {
+  $modifier-name-with-prefix: '';
+
+  @if $modifier-name != '' {
+    // sass-lint:disable space-around-operator
+    $modifier-name-with-prefix: --#{$modifier-name};
+  }
+
+  .geo-notification-bar#{$modifier-name-with-prefix} {
+    align-items: center;
+    background: $color_green_notification;
+    display: flex;
+    height: 45px;
+    justify-content: space-between;
+    padding: 0 25px;
+    width: 100%;
+
+    .geo-notification-bar__message-body {
+      align-items: center;
+      display: flex;
+      width: 100%;
+    }
+
+    .geo-notification-bar__close-icon,
+    .geo-notification-bar__icon {
+      font-size: 18px;
+      color: $color_white;
+    }
+
+    .geo-notification-bar__message-text {
+      @include font($body);
+      color: $color_black;
+      margin: 0 15px;
+      user-select: none;
+    }
+
+    .geo-notification-bar__close-icon {
+      cursor: pointer;
+      margin-left: 15px;
+    }
+  }
+}
+
+@include geo-notification-bar-make('');

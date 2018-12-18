@@ -22,6 +22,8 @@ aliases:
     value: "#3FAD4D"
   green_light:
     value: "#7ED321"
+  green_notification:
+    value: "#53C798"
   yellow_light:
     value: "#FFDB7C"
   yellow:
@@ -46,6 +48,8 @@ aliases:
     value: "#4A4A4A"
   dark:
     value: "#17293D"
+  black:
+    value: "#000000"
 
 props:
 
@@ -101,6 +105,9 @@ props:
   color_green_darker:
     value: "brightness({!green}, -40)"
     category: color_group_5
+  color_green_notification:
+    value: "{!green_notification}"
+    category: color_group_5
 
   color_white:
     value: "{!white}"
@@ -128,6 +135,9 @@ props:
     category: color_group_6
   color_dark:
     value: "{!dark}"
+    category: color_group_6
+  color_black:
+    value: "{!black}"
     category: color_group_6
 
 global:
