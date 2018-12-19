@@ -32,6 +32,7 @@ describe('GeoBorderedBoxHeaderSearchForm', () => {
         searchIcon: ['fas', 'search']
       }
     })
+    expect(wrapper.find('.geo-bordered-box-header-search-form').exists()).toBe(true)
     expect(spy).toBeCalledWith(expect.stringContaining('[Vue warn]: Invalid prop'))
   })
 
