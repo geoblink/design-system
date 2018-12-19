@@ -31,7 +31,7 @@ export function addBarGroupFactory (d3Instance) {
     const getWidth = (d, i) => getAxisScaledSpan(options.axis.horizontal, d)
     const getHeight = (d, i) => getAxisScaledSpan(options.axis.vertical, d)
 
-    const getTransform = getSingleItemTransformFactory(options)
+    const getTranslation = getSingleItemTranslationFactory(options)
 
     const bars = group
       .selectAll('rect.geo-chart-bar')
@@ -55,20 +55,36 @@ export function addBarGroupFactory (d3Instance) {
     bars
       .exit()
       .remove()
+
+    function getTransform (d, i) {
+      const translation = getTranslation(d, i)
+      return `translate(${translation.x}, ${translation.y})`
+    }
   }
 }
 
 /**
- * @callback GetTransformFunction
+ * @callback GetTranslationFunction
  * @param {object} singleItem
  * @param {number} index
  */
 
 /**
- * @param {GeoChart.BarGroupConfig<HorizontalDomain, VerticalDomain>} options
- * @returns {GetTransformFunction}
+ * @template Domain
+ * @param {GeoChart.AxisConfig<Domain>} options
+ * @param {object} singleItem
  */
-function getSingleItemTransformFactory (options) {
+function isBarAxisLengthIncreasing (axisConfig, singleItem) {
+  const originHorizontalPosition = axisConfig.scale.axisScale(axisConfig.scale.valueForOrigin)
+  const valueHorizontalPosition = getAxisScaledValue(axisConfig, singleItem)
+  return originHorizontalPosition < valueHorizontalPosition
+}
+
+/**
+ * @param {GeoChart.BarGroupConfig<HorizontalDomain, VerticalDomain>} options
+ * @returns {GetTranslationFunction}
+ */
+function getSingleItemTranslationFactory (options) {
   return function (singleItem, index) {
     const horizontalAxis = options.axis.horizontal
     const verticalAxis = options.axis.vertical
@@ -76,14 +92,11 @@ function getSingleItemTransformFactory (options) {
     const originHorizontalPosition = horizontalAxis.scale.axisScale(horizontalAxis.scale.valueForOrigin)
     const originVerticalPosition = verticalAxis.scale.axisScale(verticalAxis.scale.valueForOrigin)
 
-    const valueHorizontalPosition = getAxisScaledValue(horizontalAxis, singleItem)
-    const valueVerticalPosition = getAxisScaledValue(verticalAxis, singleItem)
-
     const valueHorizontalSpan = getAxisScaledSpan(horizontalAxis, singleItem)
     const valueVericalSpan = getAxisScaledSpan(verticalAxis, singleItem)
 
-    const isBarHorizontalLengthIncreasing = originHorizontalPosition < valueHorizontalPosition
-    const isBarVerticalLengthIncreasing = originVerticalPosition < valueVerticalPosition
+    const isBarHorizontalLengthIncreasing = isBarAxisLengthIncreasing(horizontalAxis, singleItem)
+    const isBarVerticalLengthIncreasing = isBarAxisLengthIncreasing(verticalAxis, singleItem)
 
     const horizontalAxisTranslationForDimension = {
       [DIMENSIONS.horizontal]: isBarHorizontalLengthIncreasing
@@ -102,7 +115,10 @@ function getSingleItemTransformFactory (options) {
     const horizontalAxisTranslation = horizontalAxisTranslationForDimension[options.dimension]
     const verticalAxisTranslation = verticalAxisTranslationForDimension[options.dimension]
 
-    return `translate(${horizontalAxisTranslation}, ${verticalAxisTranslation})`
+    return {
+      x: horizontalAxisTranslation,
+      y: verticalAxisTranslation
+    }
   }
 }
 
