@@ -1,27 +1,103 @@
-import { POSITIONS } from './GeoChart.axis'
+import { POSITIONS } from './GeoChart.positioning'
 import { DIMENSIONS } from './GeoChart.bars'
+import { SCALE_TYPES } from './GeoChart.scale'
+
+export const scaleLinearSchema = {
+  type: 'object',
+  additionalProperties: false,
+  required: ['type', 'domain'],
+  properties: {
+    type: {
+      const: SCALE_TYPES.linear
+    },
+    valueForOrigin: {
+      type: 'number'
+    },
+    domain: {
+      oneOf: [{
+        type: 'object',
+        additionalProperties: false,
+        required: ['start', 'end'],
+        properties: {
+          start: {
+            type: 'number'
+          },
+          end: {
+            type: 'number'
+          }
+        }
+      }, {
+        type: 'array',
+        additionalItems: false,
+        items: {
+          type: 'number'
+        }
+      }]
+    }
+  }
+}
+
+export const scaleCategoricalSchema = {
+  type: 'object',
+  additionalProperties: false,
+  required: ['type', 'domain'],
+  properties: {
+    type: {
+      const: SCALE_TYPES.categorical
+    },
+    valueForOrigin: {
+      type: 'string'
+    },
+    domain: {
+      type: 'array',
+      additionalItems: false,
+      items: {
+        type: ['string', 'number']
+      }
+    },
+    padding: {
+      type: 'object',
+      additionalProperties: false,
+      properties: {
+        inner: {
+          type: 'number'
+        },
+        outer: {
+          type: 'number'
+        }
+      }
+    }
+  }
+}
 
 export const axisConfigJsonSchema = {
   type: 'object',
+  additionalProperties: false,
+  required: ['id', 'position', 'scale'],
   properties: {
     ticks: {
       type: 'integer',
       minimum: 0
     },
+    id: {
+      type: 'string'
+    },
     position: {
       type: 'string',
       enum: Object.values(POSITIONS)
     },
-    scale: 'object'
+    scale: {
+      type: 'object',
+      oneOf: [scaleLinearSchema, scaleCategoricalSchema]
+    }
   }
 }
 
 export const barConfigJsonSchema = {
   type: 'object',
-  required: 'data',
+  additionalProperties: false,
+  required: ['data', 'dimension', 'idHorizontalAxis', 'idVerticalAxis'],
   properties: {
-    additionalProperties: false,
-    required: ['data', 'dimension', 'scale'],
     data: {
       type: 'array',
       additionalItems: false,
@@ -33,14 +109,11 @@ export const barConfigJsonSchema = {
       type: 'string',
       enum: Object.values(DIMENSIONS)
     },
-    scale: {
-      type: 'object',
-      additionalItems: false,
-      required: ['horizontal', 'vertical'],
-      properties: {
-        horizontal: 'object',
-        vertical: 'object'
-      }
+    idHorizontalAxis: {
+      type: 'string'
+    },
+    idVerticalAxis: {
+      type: 'string'
     }
   }
 }
@@ -48,26 +121,32 @@ export const barConfigJsonSchema = {
 export const chartConfigJsonSchema = {
   type: 'object',
   additionalProperties: false,
-  required: ['chartSize', 'chartMargin', 'axisGroups'],
+  required: ['chart', 'axisGroups'],
   properties: {
-    chartSize: {
+    chart: {
       type: 'object',
-      required: ['height', 'width'],
       additionalProperties: false,
+      required: ['margin'],
       properties: {
-        height: 'number',
-        width: 'number'
-      }
-    },
-    chartMargin: {
-      type: 'object',
-      required: ['top', 'right', 'bottom', 'left'],
-      additionalProperties: false,
-      properties: {
-        top: 'number',
-        left: 'number',
-        bottom: 'number',
-        right: 'number'
+        margin: {
+          type: 'object',
+          required: ['top', 'right', 'bottom', 'left'],
+          additionalProperties: false,
+          properties: {
+            top: {
+              type: 'number'
+            },
+            left: {
+              type: 'number'
+            },
+            bottom: {
+              type: 'number'
+            },
+            right: {
+              type: 'number'
+            }
+          }
+        }
       }
     },
     axisGroups: {

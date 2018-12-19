@@ -1,49 +1,12 @@
 /// <reference types="d3" />
 
 import * as d3 from 'd3'
-
-/**
- * @typedef AxisPosition
- * @readonly
- * @enum {string}
- */
-export const POSITIONS = {
-  bottom: 'bottom',
-  top: 'top',
-  left: 'left',
-  right: 'right',
-  verticallyCenteredInTheMiddle: 'verticallyCenteredInTheMiddle',
-  horizontallyCenteredInTheMiddle: 'horizontallyCenteredInTheMiddle'
-}
-
-/**
- * @typedef {Object} Margin
- * @param {Number} left
- * @param {Number} right
- * @param {Number} top
- * @param {Number} bottom
- */
-
-/**
- * @typedef {Object} Size
- * @param {Number} height
- * @param {Number} width
- */
+import { POSITIONS, getOriginXTranslation, getOriginYTranslation } from './GeoChart.positioning'
 
 /**
  * @template Domain
- * @typedef {Object} AxisConfig
- * @property {String} id
- * @property {Number} ticks
- * @property {AxisPosition} position
- * @property {d3.AxisScale<Domain>} scale
- * @property {Size} chartSize
- * @property {Margin} chartMargin
- */
-
-/**
  * @callback AddAxisFunction
- * @param {AxisConfig<Domain>} options
+ * @param {GeoChart.AxisConfig<Domain>} options
  */
 
 /**
@@ -59,18 +22,18 @@ export function addAxisFactory (d3Instance) {
       .attr('class', `geo-chart-axis geo-chart-axis-${options.id} geo-chart-axis--${options.position}`)
     groups[options.id] = group
 
-    const axis = getAxisForPositionAndScale(options.position, options.scale)
+    const axis = getAxisForPositionAndScale(options.position, options.scale.axisScale)
       .ticks(options.ticks)
 
-    const xTranslation = getAxisXTranslation(
+    const xTranslation = getOriginXTranslation(
       options.position,
-      options.chartSize,
-      options.chartMargin
+      options.chart.size,
+      options.chart.margin
     )
-    const yTranslation = getAxisYTranslation(
+    const yTranslation = getOriginYTranslation(
       options.position,
-      options.chartSize,
-      options.chartMargin
+      options.chart.size,
+      options.chart.margin
     )
 
     const dominantBaselineForPosition = {
@@ -80,6 +43,7 @@ export function addAxisFactory (d3Instance) {
       [POSITIONS.left]: null,
       [POSITIONS.right]: null,
       [POSITIONS.horizontallyCenteredInTheMiddle]: null
+      // TODO: Add position "anchoredToScale" which will render the axis in the position of the origin value of given scale
     }
 
     const textAnchorForPosition = {
@@ -89,6 +53,7 @@ export function addAxisFactory (d3Instance) {
       [POSITIONS.left]: 'end',
       [POSITIONS.right]: 'start',
       [POSITIONS.horizontallyCenteredInTheMiddle]: 'end'
+      // TODO: Add position "anchoredToScale" which will render the axis in the position of the origin value of given scale
     }
 
     group.attr('transform', `translate(${xTranslation}, ${yTranslation})`)
@@ -105,7 +70,7 @@ export function addAxisFactory (d3Instance) {
 
 /**
  * @template Domain
- * @param {AxisPosition} position
+ * @param {GeoChart.AxisPosition} position
  * @param {d3.AxisScale<Domain>} scale
  * @returns {d3.Axis<Domain>}
  */
@@ -125,51 +90,5 @@ function getAxisForPositionAndScale (position, scale) {
       return d3.axisLeft(scale) // TODO: Implement this properly
   }
 
-  console.warn(`[GeoChart.axis] Tried to get axis for unknown position: ${position}`)
-}
-
-/**
- * @param {AxisPosition} position
- * @param {Size} svgSize
- * @param {Margin} margin
- * @returns {String}
- */
-function getAxisXTranslation (position, svgSize, margin) {
-  switch (position) {
-    case POSITIONS.top:
-    case POSITIONS.bottom:
-    case POSITIONS.verticallyCenteredInTheMiddle:
-      return 0
-    case POSITIONS.left:
-      return margin.left
-    case POSITIONS.right:
-      return svgSize.width - margin.right
-    case POSITIONS.horizontallyCenteredInTheMiddle:
-      return margin.left + (svgSize.width - margin.left - margin.right) / 2
-  }
-
-  console.warn(`[GeoChart.axis] Tried to get X Translation for unknown position: ${position}`)
-}
-
-/**
- * @param {AxisPosition} position
- * @param {Size} svgSize
- * @param {Margin} [margin]
- * @returns {String}
- */
-function getAxisYTranslation (position, svgSize, margin) {
-  switch (position) {
-    case POSITIONS.top:
-      return margin.top
-    case POSITIONS.bottom:
-      return svgSize.height - margin.bottom
-    case POSITIONS.verticallyCenteredInTheMiddle:
-      return (svgSize.height - margin.top - margin.bottom) / 2
-    case POSITIONS.left:
-    case POSITIONS.right:
-    case POSITIONS.horizontallyCenteredInTheMiddle:
-      return 0
-  }
-
-  console.warn(`[GeoChart.axis] Tried to get X Translation for unknown position: ${position}`)
+  console.warn(`GeoChart (axis) [component] :: Tried to get axis for unknown position: ${position}`)
 }

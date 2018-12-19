@@ -11,9 +11,10 @@
 <script>
 import _ from 'lodash'
 import cssSuffix from '../../mixins/cssModifierMixin'
-import { POSITIONS, addAxisFactory } from './GeoChart.axis'
+import { addAxisFactory } from './GeoChart.axis'
 import { addBarGroupFactory } from './GeoChart.bars'
 import { chartConfigJsonSchema } from './GeoChartConfig'
+import { getNewScale } from './GeoChart.scale'
 
 const d3 = (function () {
   try {
@@ -31,24 +32,48 @@ const Ajv = (function () {
   }
 })()
 
+const ajvErrors = (function () {
+  try {
+    return require('ajv-errors')
+  } catch (error) {
+    return null
+  }
+})()
+
 if (!Ajv) {
   // eslint-disable-next-line no-console
   console.debug('GeoChart [component] :: Install `ajv` to validate charts config')
 }
 
-function chartConfigValidator (value) {
+const chartConfigValidator = (function () {
   let validator = null
 
-  return function () {
+  return function (value) {
     if (!Ajv) return true
-    if (validator) return validator(value)
+    if (validator) return getValidationResult(validator)
 
-    const newValidator = new Ajv().compile(chartConfigJsonSchema)
+    const ajv = new Ajv({
+      allErrors: true
+    })
+    ajvErrors(ajv)
+
+    const newValidator = ajv.compile(chartConfigJsonSchema)
     validator = newValidator
 
-    return newValidator(value)
+    return getValidationResult(newValidator)
+
+    function getValidationResult (validator) {
+      const isValid = validator(value)
+
+      const errors = validator.errors || []
+      for (const error of errors) {
+        console.error(`GeoChart [component] :: Invalid config: ${error.message}${error.dataPath ? ' (' + error.dataPath + ')' : ''}`, error)
+      }
+
+      return isValid
+    }
   }
-}
+})()
 
 export default {
   name: 'GeoChart',
@@ -60,11 +85,7 @@ export default {
       type: Object,
       required: true,
       validator (value) {
-        if (chartConfigValidator) {
-          return chartConfigValidator(value)
-        }
-
-        return true
+        return chartConfigValidator(value)
       }
     },
     debug: {
@@ -86,45 +107,38 @@ export default {
       return d3.select(this.svgElement)
     },
 
-    axisConfig () {
+    scalesById () {
       const chartSize = this.svgSize
-      const chartMargin = this.config.chartMargin
-
-      const horizontalSpaceAvailable = chartSize.width - chartMargin.right
-      const verticalSpaceAvailable = chartSize.height - chartMargin.bottom
-
-      const rangeStartForPosition = {
-        [POSITIONS.top]: chartMargin.left,
-        [POSITIONS.bottom]: chartMargin.left,
-        [POSITIONS.verticallyCenteredInTheMiddle]: chartMargin.left,
-        [POSITIONS.left]: chartMargin.top,
-        [POSITIONS.right]: chartMargin.top,
-        [POSITIONS.horizontallyCenteredInTheMiddle]: chartMargin.top
+      const chartMargin = this.config.chart.margin
+      const chart = {
+        size: chartSize,
+        margin: chartMargin
       }
 
-      const rangeEndForPosition = {
-        [POSITIONS.top]: horizontalSpaceAvailable,
-        [POSITIONS.bottom]: horizontalSpaceAvailable,
-        [POSITIONS.verticallyCenteredInTheMiddle]: horizontalSpaceAvailable,
-        [POSITIONS.left]: verticalSpaceAvailable,
-        [POSITIONS.right]: verticalSpaceAvailable,
-        [POSITIONS.horizontallyCenteredInTheMiddle]: verticalSpaceAvailable
-      }
+      return _.fromPairs(_.map(this.config.axisGroups, (axisConfig) => {
+        const scale = getNewScale(axisConfig, chart)
+        return [axisConfig.id, scale]
+      }))
+    },
 
-      return _.map(this.config.axisGroups, (axisConfig) => {
-        const scale = axisConfig.scale.copy().range([
-          rangeStartForPosition[axisConfig.position],
-          rangeEndForPosition[axisConfig.position]
-        ]) // chart dimensions
+    axisConfigById () {
+      const chartSize = this.svgSize
+      const chartMargin = this.config.chart.margin
 
-        return {
+      return _.fromPairs(_.map(this.config.axisGroups, (axisConfig) => {
+        const scale = this.scalesById[axisConfig.id]
+
+        return [axisConfig.id, {
+          id: axisConfig.id,
           ticks: axisConfig.ticks,
           position: axisConfig.position,
-          chartSize,
-          chartMargin,
+          chart: {
+            size: chartSize,
+            margin: chartMargin
+          },
           scale
-        }
-      })
+        }]
+      }))
     },
 
     addAxis () {
@@ -147,14 +161,14 @@ export default {
       this.debouncedRedraw()
     },
 
-    'config.chartSize': {
+    'config.chart.size': {
       handler () {
         this.debouncedRedraw()
       },
       deep: true
     },
 
-    'config.chartMargin': {
+    'config.chart.margin': {
       handler () {
         this.debouncedRedraw()
       },
@@ -203,9 +217,26 @@ export default {
     },
 
     updateBarGroups () {
+      const chartSize = this.svgSize
+      const chartMargin = this.config.chart.margin
+      const chart = {
+        size: chartSize,
+        margin: chartMargin
+      }
+
       for (let id = 0; id < this.config.barGroups.length; id++) {
         const barGroupConfig = this.config.barGroups[id]
-        this.addBarGroup(_.assign({ id }, barGroupConfig))
+        const axis = {
+          horizontal: this.axisConfigById[barGroupConfig.idHorizontalAxis],
+          vertical: this.axisConfigById[barGroupConfig.idVerticalAxis]
+        }
+        this.addBarGroup({
+          id,
+          chart,
+          axis,
+          data: barGroupConfig.data,
+          dimension: barGroupConfig.dimension
+        })
       }
     },
 
@@ -240,9 +271,9 @@ export default {
     },
 
     redrawAxes () {
-      for (let id = 0; id < this.axisConfig.length; id++) {
-        const axisConfig = this.axisConfig[id]
-        this.addAxis(_.assign({ id }, axisConfig))
+      const axes = Object.values(this.axisConfigById)
+      for (const axisConfig of axes) {
+        this.addAxis(axisConfig)
       }
     }
   }

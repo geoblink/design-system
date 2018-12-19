@@ -144,6 +144,7 @@
 <script>
 const d3 = require('d3')
 const { DIMENSIONS: BARS_DIMENSIONS } = require('./GeoChart.bars')
+const { SCALE_TYPES } = require('./GeoChart.scale')
 
 export default {
   name: 'GeoChartDemo',
@@ -152,10 +153,10 @@ export default {
       height: '300',
       width: '500',
       chartMargin: {
-        top: 0,
-        right: 0,
-        bottom: 0,
-        left: 0
+        top: 30,
+        right: 30,
+        bottom: 30,
+        left: 30
       },
       horizontalAxis: {
         domain: {
@@ -163,7 +164,7 @@ export default {
           end: 100
         },
         ticks: 10,
-        position: 'hidden'
+        position: 'top'
       },
       verticalAxis: {
         domain: {
@@ -171,7 +172,7 @@ export default {
           end: 100
         },
         ticks: 10,
-        position: 'hidden'
+        position: 'right'
       },
       debug: true,
       categoricalChartData: null
@@ -179,7 +180,7 @@ export default {
   },
   computed: {
     POSITIONS () {
-      const { POSITIONS } = require('./GeoChart.axis')
+      const { POSITIONS } = require('./GeoChart.positioning')
       return POSITIONS
     },
 
@@ -196,23 +197,33 @@ export default {
 
       if (this.horizontalAxis.position in this.POSITIONS) {
         axes.push({
+          id: 'horizontal',
           ticks: this.horizontalAxis.ticks,
           position: this.horizontalAxis.position,
 
-          scale: d3
-            .scaleLinear()
-            .domain([this.horizontalAxis.domain.start, this.horizontalAxis.domain.end]) // data dimensions
+          scale: {
+            type: SCALE_TYPES.linear,
+            domain: {
+              start: this.horizontalAxis.domain.start,
+              end: this.horizontalAxis.domain.end
+            }
+          }
         })
       }
 
       if (this.verticalAxis.position in this.POSITIONS) {
         axes.push({
+          id: 'vertical',
           ticks: this.verticalAxis.ticks,
           position: this.verticalAxis.position,
 
-          scale: d3
-            .scaleLinear()
-            .domain([this.verticalAxis.domain.start, this.verticalAxis.domain.end]) // data dimensions
+          scale: {
+            type: SCALE_TYPES.linear,
+            domain: {
+              start: this.verticalAxis.domain.start,
+              end: this.verticalAxis.domain.end
+            }
+          }
         })
       }
 
@@ -221,11 +232,9 @@ export default {
 
     chartConfig () {
       return {
-        chartSize: {
-          height: this.heightInPx,
-          width: this.widthInPx
+        chart: {
+          margin: this.chartMargin,
         },
-        chartMargin: this.chartMargin,
         axisGroups: this.axisGroups
       }
     },
@@ -247,24 +256,38 @@ export default {
 
       const values = _.map(this.categoricalChartData, 'value')
 
+      const valueForOrigin = 0
+
       return {
+        id: 'value',
         ticks: 5,
         position: this.POSITIONS.bottom,
 
-        scale: d3
-          .scaleLinear()
-          .domain([_.min(values), _.max(values)])
+        scale: {
+          type: SCALE_TYPES.linear,
+          valueForOrigin,
+          domain: {
+            start: _.min([...values, valueForOrigin]),
+            end: _.max([...values, valueForOrigin])
+          }
+        }
       }
     },
 
     categoricalChartVerticalAxisConfig () {
       return {
+        id: 'category',
         ticks: this.categoricalChartCategories.length,
         position: this.POSITIONS.left,
 
-        scale: d3
-          .scaleLinear()
-          .domain(this.categoricalChartCategories)
+        scale: {
+          type: SCALE_TYPES.categorical,
+          domain: this.categoricalChartCategories,
+          padding: {
+            outer: 0.2,
+            inner: 0.1
+          }
+        }
       }
     },
 
@@ -279,24 +302,20 @@ export default {
       if (!this.categoricalChartData) return null
 
       return {
-        chartSize: {
-          height: this.heightInPx,
-          width: this.widthInPx
-        },
-        chartMargin: {
-          top: 30,
-          right: 30,
-          bottom: 30,
-          left: 30
+        chart: {
+          margin: {
+            top: 30,
+            right: 30,
+            bottom: 30,
+            left: 100
+          }
         },
         axisGroups: this.categoricalChartAxisGroups,
         barGroups: [{
           data: this.categoricalChartData,
           dimension: BARS_DIMENSIONS.horizontal,
-          scale: {
-            horizontal: this.categoricalChartHorizontalAxisConfig.scale,
-            vertical: this.categoricalChartHorizontalAxisConfig.scale
-          }
+          idHorizontalAxis: this.categoricalChartHorizontalAxisConfig.id,
+          idVerticalAxis: this.categoricalChartVerticalAxisConfig.id
         }]
       }
     }
