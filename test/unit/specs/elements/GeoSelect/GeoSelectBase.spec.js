@@ -1,4 +1,4 @@
-import { mount, shallowMount } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import GeoSelectBase from '@/elements/GeoSelect/GeoSelectBase.vue'
 import GeoSelectToggleButton from '@/elements/GeoSelect/GeoSelectToggleButton.vue'
@@ -9,7 +9,6 @@ import GeoScrollableContainer from '@/elements/GeoScrollableContainer/GeoScrolla
 import { Y_AXIS_POSITION } from '@/elements/GeoDropdown/GeoDropdown.constants'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fas } from '@fortawesome/free-solid-svg-icons'
-import { doesNotReject } from 'assert'
 library.add(fas)
 
 describe('GeoSelectBase', () => {

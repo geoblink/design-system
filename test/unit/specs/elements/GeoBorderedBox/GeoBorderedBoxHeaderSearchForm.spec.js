@@ -2,13 +2,13 @@ import { mount } from '@vue/test-utils'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fas } from '@fortawesome/free-solid-svg-icons'
-import GeoSelectSearchEntryForm from '@/elements/GeoSelect/GeoSelectSearchEntryForm.vue'
+import GeoBorderedBoxHeaderSearchForm from '@/elements/GeoBorderedBox/GeoBorderedBoxHeaderSearchForm.vue'
 
 library.add(fas)
 
-describe('GeoSelectSearchEntryForm', () => {
+describe('GeoBorderedBoxHeaderSearchForm', () => {
   it('should render element', () => {
-    const wrapper = mount(GeoSelectSearchEntryForm, {
+    const wrapper = mount(GeoBorderedBoxHeaderSearchForm, {
       stubs: {
         'font-awesome-icon': FontAwesomeIcon
       },
@@ -16,14 +16,14 @@ describe('GeoSelectSearchEntryForm', () => {
         searchIcon: ['fas', 'search']
       }
     })
-    expect(wrapper.find('.geo-select-search-entry-form__container').exists()).toBe(true)
+    expect(wrapper.find('.geo-bordered-box-header-search-form').exists()).toBe(true)
   })
 
   it('Should fail validation if passed an incorrect value', () => {
     let spy = jest.spyOn(console, 'error')
     afterEach(() => spy.mockReset())
 
-    const wrapper = mount(GeoSelectSearchEntryForm, {
+    const wrapper = mount(GeoBorderedBoxHeaderSearchForm, {
       stubs: {
         'font-awesome-icon': FontAwesomeIcon
       },
@@ -36,10 +36,7 @@ describe('GeoSelectSearchEntryForm', () => {
   })
 
   it('Should pass validation if passed a correct value', () => {
-    let spy = jest.spyOn(console, 'error')
-    afterEach(() => spy.mockReset())
-
-    const wrapper = mount(GeoSelectSearchEntryForm, {
+    const wrapper = mount(GeoBorderedBoxHeaderSearchForm, {
       stubs: {
         'font-awesome-icon': FontAwesomeIcon
       },
@@ -48,11 +45,11 @@ describe('GeoSelectSearchEntryForm', () => {
         searchIcon: ['fas', 'search']
       }
     })
-    expect(wrapper.find('.geo-select-search-entry-form__search-input').element.value).toBe('Some value')
+    expect(wrapper.find('.geo-bordered-box-header-search-form__input').element.value).toBe('Some value')
   })
 
   it('should display the placeholder if it is given', () => {
-    const wrapper = mount(GeoSelectSearchEntryForm, {
+    const wrapper = mount(GeoBorderedBoxHeaderSearchForm, {
       stubs: {
         'font-awesome-icon': FontAwesomeIcon
       },
@@ -61,12 +58,12 @@ describe('GeoSelectSearchEntryForm', () => {
         searchIcon: ['fas', 'search']
       }
     })
-    expect(wrapper.find('.geo-select-search-entry-form__search-input').exists()).toBe(true)
-    expect(wrapper.find('.geo-select-search-entry-form__search-input').element.placeholder).toBe('Some demo placeholder')
+    expect(wrapper.find('.geo-bordered-box-header-search-form__input').exists()).toBe(true)
+    expect(wrapper.find('.geo-bordered-box-header-search-form__input').element.placeholder).toBe('Some demo placeholder')
   })
 
   it('should emit an event when something is typed down', (done) => {
-    const wrapper = mount(GeoSelectSearchEntryForm, {
+    const wrapper = mount(GeoBorderedBoxHeaderSearchForm, {
       stubs: {
         'font-awesome-icon': FontAwesomeIcon
       },
@@ -74,10 +71,10 @@ describe('GeoSelectSearchEntryForm', () => {
         searchIcon: ['fas', 'search']
       }
     })
-    const textInput = wrapper.find('.geo-select-search-entry-form__search-input')
+    const textInput = wrapper.find('.geo-bordered-box-header-search-form__input')
     textInput.setValue('Some search')
-    wrapper.find('.geo-select-search-entry-form__search-input').trigger('keyup')
-    expect(wrapper.find('.geo-select-search-entry-form__search-input').element.value).toBe('Some search')
+    wrapper.find('.geo-bordered-box-header-search-form__input').trigger('keyup')
+    expect(wrapper.find('.geo-bordered-box-header-search-form__input').element.value).toBe('Some search')
     setTimeout(function () {
       expect(wrapper.emitted().input).toBeTruthy()
       done()

@@ -10,7 +10,7 @@ import cssSuffix from '../../mixins/cssModifierMixin'
 
 export default {
   name: 'GeoListClearItem',
-  status: 'missing-tests',
+  status: 'ready',
   release: '8.0.0',
   mixins: [cssSuffix]
 }
