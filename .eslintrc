@@ -9,5 +9,12 @@
   "rules": {
     "vue/require-default-prop": "off",
     "no-console": ["error", { "allow": ["warn", "error"] }]
+  },
+  "parserOptions": {
+    "sourceType": "module",
+    "ecmaVersion": 8,
+    "ecmaFeatures": {
+      "jsx": true
+    }
   }
 }
