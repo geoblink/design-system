@@ -107,6 +107,12 @@ export default {
       return d3.select(this.svgElement)
     },
 
+    animationsDurationInMilliseconds () {
+      return _.isFinite(this.config.animationsDurationInMilliseconds)
+        ? this.config.animationsDurationInMilliseconds
+        : 250
+    },
+
     scalesById () {
       const chartSize = this.svgSize
       const chartMargin = this.config.chart.margin
@@ -133,6 +139,7 @@ export default {
           ticks: axisConfig.ticks,
           position: axisConfig.position,
           chart: {
+            animationsDurationInMilliseconds: this.animationsDurationInMilliseconds,
             size: chartSize,
             margin: chartMargin
           },
@@ -220,6 +227,7 @@ export default {
       const chartSize = this.svgSize
       const chartMargin = this.config.chart.margin
       const chart = {
+        animationsDurationInMilliseconds: this.animationsDurationInMilliseconds,
         size: chartSize,
         margin: chartMargin
       }

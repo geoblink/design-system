@@ -21,7 +21,6 @@ export const DIMENSIONS = {
  */
 export function addBarGroupFactory (d3Instance) {
   const groups = {}
-  const getTransformFunctions = {}
 
   return function (options) {
     const group = groups[options.id] || d3Instance
@@ -32,8 +31,7 @@ export function addBarGroupFactory (d3Instance) {
     const getWidth = (d, i) => getAxisScaledSpan(options.axis.horizontal, d)
     const getHeight = (d, i) => getAxisScaledSpan(options.axis.vertical, d)
 
-    const getTransform = getTransformFunctions[options.id] || getSingleItemTransformFactory(options)
-    getTransformFunctions[options.id] = getTransform
+    const getTransform = getSingleItemTransformFactory(options)
 
     const bars = group
       .selectAll('rect.geo-chart-bar')
@@ -42,7 +40,14 @@ export function addBarGroupFactory (d3Instance) {
     bars
       .enter()
       .append('rect')
-      .attr('class', (d, i) => `geo-chart-bar geo-chart-bar--value-${d.value} geo-chart-bar geo-chart-bar--${i} geo-chart-bar--${options.dimension}`)
+      .attr('class', (d, i) => `geo-chart-bar geo-chart-bar--${i} geo-chart-bar--${options.dimension}`)
+      .attr('transform', getTransform)
+      .attr('width', getWidth)
+      .attr('height', getHeight)
+
+    bars
+      .transition()
+      .duration(options.chart.animationsDurationInMilliseconds)
       .attr('transform', getTransform)
       .attr('width', getWidth)
       .attr('height', getHeight)

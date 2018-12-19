@@ -57,7 +57,10 @@ export function addAxisFactory (d3Instance) {
     }
 
     group.attr('transform', `translate(${xTranslation}, ${yTranslation})`)
-    group.call(axis)
+    group
+      .transition()
+      .duration(options.chart.animationsDurationInMilliseconds)
+      .call(axis)
       .selectAll('g.tick')
       .attr('class', `tick geo-chart-axis-tick--${options.position}`)
       .selectAll('text')

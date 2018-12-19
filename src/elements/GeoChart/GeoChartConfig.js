@@ -128,6 +128,9 @@ export const chartConfigJsonSchema = {
       additionalProperties: false,
       required: ['margin'],
       properties: {
+        animationsDurationInMilliseconds: {
+          type: 'number'
+        },
         margin: {
           type: 'object',
           required: ['top', 'right', 'bottom', 'left'],

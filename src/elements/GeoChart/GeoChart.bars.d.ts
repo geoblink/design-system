@@ -12,6 +12,7 @@ declare namespace GeoChart {
       vertical: GeoChart.AxisConfig<VerticalDomain>
     }
     chart: {
+      animationsDurationInMilliseconds: number
       size: GeoChart.Size
       margin: GeoChart.Margin
     }

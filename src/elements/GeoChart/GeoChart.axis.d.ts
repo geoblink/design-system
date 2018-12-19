@@ -10,6 +10,7 @@ declare namespace GeoChart {
     position: GeoChart.AxisPosition
     scale: AxisConfigScale<Domain>
     chart: {
+      animationsDurationInMilliseconds: number
       size: GeoChart.Size
       margin: GeoChart.Margin
     }
