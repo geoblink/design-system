@@ -68,6 +68,7 @@ describe('GeoSelect', () => {
         value: { label: 45 }
       }
     })
+    expect(wrapper.find('.geo-select__options-container--geo-select').exists()).toBe(true)
     expect(spy).toBeCalledWith(expect.stringContaining('[Vue warn]: Invalid prop'))
   })
 
