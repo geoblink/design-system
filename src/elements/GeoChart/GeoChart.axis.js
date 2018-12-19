@@ -1,6 +1,5 @@
 /// <reference types="d3" />
 
-import _ from 'lodash'
 import * as d3 from 'd3'
 
 /**
@@ -37,7 +36,7 @@ export const POSITIONS = {
  * @property {String} id
  * @property {Number} ticks
  * @property {AxisPosition} position
- * @property {d3.AxisScale<Domain>} domain
+ * @property {d3.AxisScale<Domain>} scale
  * @property {Size} chartSize
  * @property {Margin} chartMargin
  */
@@ -48,7 +47,6 @@ export const POSITIONS = {
  */
 
 /**
- * @template Domain
  * @param {d3.Selection<any, any, null, undefined>} d3Instance
  * @returns {AddAxisFunction}
  */

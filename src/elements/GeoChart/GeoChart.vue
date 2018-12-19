@@ -12,6 +12,8 @@
 import _ from 'lodash'
 import cssSuffix from '../../mixins/cssModifierMixin'
 import { POSITIONS, addAxisFactory } from './GeoChart.axis'
+import { addBarGroupFactory } from './GeoChart.bars'
+import { chartConfigJsonSchema } from './GeoChartConfig'
 
 const d3 = (function () {
   try {
@@ -21,6 +23,33 @@ const d3 = (function () {
   }
 })()
 
+const Ajv = (function () {
+  try {
+    return require('ajv')
+  } catch (error) {
+    return null
+  }
+})()
+
+if (!Ajv) {
+  // eslint-disable-next-line no-console
+  console.debug('GeoChart [component] :: Install `ajv` to validate charts config')
+}
+
+function chartConfigValidator (value) {
+  let validator = null
+
+  return function () {
+    if (!Ajv) return true
+    if (validator) return validator(value)
+
+    const newValidator = new Ajv().compile(chartConfigJsonSchema)
+    validator = newValidator
+
+    return newValidator(value)
+  }
+}
+
 export default {
   name: 'GeoChart',
   status: 'missing-tests',
@@ -29,7 +58,14 @@ export default {
   props: {
     config: {
       type: Object,
-      required: true
+      required: true,
+      validator (value) {
+        if (chartConfigValidator) {
+          return chartConfigValidator(value)
+        }
+
+        return true
+      }
     },
     debug: {
       type: Boolean,
@@ -95,6 +131,10 @@ export default {
       return addAxisFactory(this.d3Instance)
     },
 
+    addBarGroup () {
+      return addBarGroupFactory(this.d3Instance)
+    },
+
     debouncedRedraw () {
       return _.debounce(this.redraw.bind(this), 10, {
         leading: true,
@@ -134,8 +174,8 @@ export default {
   methods: {
     redraw () {
       this.adjustSize()
-      this.updateDummyData()
-      this.redrawAxe()
+      this.updateData()
+      this.redrawAxes()
     },
 
     adjustSize () {
@@ -151,6 +191,21 @@ export default {
       this.svgSize = {
         height: svgBoundingClientRect.height,
         width: svgBoundingClientRect.width
+      }
+    },
+
+    updateData () {
+      if (!_.isEmpty(this.config.barGroups)) {
+        this.updateBarGroups()
+      } else {
+        this.updateDummyData()
+      }
+    },
+
+    updateBarGroups () {
+      for (let id = 0; id < this.config.barGroups.length; id++) {
+        const barGroupConfig = this.config.barGroups[id]
+        this.addBarGroup(_.assign({ id }, barGroupConfig))
       }
     },
 
@@ -184,7 +239,7 @@ export default {
         .remove()
     },
 
-    redrawAxe () {
+    redrawAxes () {
       for (let id = 0; id < this.axisConfig.length; id++) {
         const axisConfig = this.axisConfig[id]
         this.addAxis(_.assign({ id }, axisConfig))

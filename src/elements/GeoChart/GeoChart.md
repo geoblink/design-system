@@ -122,10 +122,29 @@
         </label>
       </div>
     </div>
+    <h3 class="element-demo__header">
+      Categorical chart
+      <div class="element-demo__inline-input-group">
+        <geo-primary-button @click="randomizeCategoricalChartData()">
+          Randomize data
+        </geo-primary-button>
+      </div>
+    </h3>
+    <div class="element-demo__block">
+      <geo-chart
+        v-if="categoricalChartConfig"
+        :config="categoricalChartConfig"
+        :height="heightInPx"
+        :width="widthInPx"
+      />
+    </div>
   </div>
 </template>
 
 <script>
+const d3 = require('d3')
+const { DIMENSIONS: BARS_DIMENSIONS } = require('./GeoChart.bars')
+
 export default {
   name: 'GeoChartDemo',
   data () {
@@ -154,7 +173,8 @@ export default {
         ticks: 10,
         position: 'hidden'
       },
-      debug: true
+      debug: true,
+      categoricalChartData: null
     }
   },
   computed: {
@@ -172,12 +192,10 @@ export default {
     },
 
     axisGroups () {
-      const d3 = require('d3')
-
-      const axe = []
+      const axes = []
 
       if (this.horizontalAxis.position in this.POSITIONS) {
-        axe.push({
+        axes.push({
           ticks: this.horizontalAxis.ticks,
           position: this.horizontalAxis.position,
 
@@ -188,7 +206,7 @@ export default {
       }
 
       if (this.verticalAxis.position in this.POSITIONS) {
-        axe.push({
+        axes.push({
           ticks: this.verticalAxis.ticks,
           position: this.verticalAxis.position,
 
@@ -198,7 +216,7 @@ export default {
         })
       }
 
-      return axe
+      return axes
     },
 
     chartConfig () {
@@ -210,6 +228,94 @@ export default {
         chartMargin: this.chartMargin,
         axisGroups: this.axisGroups
       }
+    },
+
+    categoricalChartDomain () {
+      const limit = 500000
+      return {
+        start: -limit,
+        end: limit
+      }
+    },
+
+    categoricalChartCategories () {
+      return ['First category', 'Second category', 'Third category']
+    },
+
+    categoricalChartHorizontalAxisConfig () {
+      if (!this.categoricalChartData) return null
+
+      const values = _.map(this.categoricalChartData, 'value')
+
+      return {
+        ticks: 5,
+        position: this.POSITIONS.bottom,
+
+        scale: d3
+          .scaleLinear()
+          .domain([_.min(values), _.max(values)])
+      }
+    },
+
+    categoricalChartVerticalAxisConfig () {
+      return {
+        ticks: this.categoricalChartCategories.length,
+        position: this.POSITIONS.left,
+
+        scale: d3
+          .scaleLinear()
+          .domain(this.categoricalChartCategories)
+      }
+    },
+
+    categoricalChartAxisGroups () {
+      return [
+        this.categoricalChartHorizontalAxisConfig,
+        this.categoricalChartVerticalAxisConfig
+      ]
+    },
+
+    categoricalChartConfig () {
+      if (!this.categoricalChartData) return null
+
+      return {
+        chartSize: {
+          height: this.heightInPx,
+          width: this.widthInPx
+        },
+        chartMargin: {
+          top: 30,
+          right: 30,
+          bottom: 30,
+          left: 30
+        },
+        axisGroups: this.categoricalChartAxisGroups,
+        barGroups: [{
+          data: this.categoricalChartData,
+          dimension: BARS_DIMENSIONS.horizontal,
+          scale: {
+            horizontal: this.categoricalChartHorizontalAxisConfig.scale,
+            vertical: this.categoricalChartHorizontalAxisConfig.scale
+          }
+        }]
+      }
+    }
+  },
+  mounted () {
+    this.randomizeCategoricalChartData()
+  },
+  methods: {
+    randomizeCategoricalChartData () {
+      this.categoricalChartData = _.map(this.categoricalChartCategories, (category) => {
+        return {
+          category,
+          value: _.random(
+            this.categoricalChartDomain.start,
+            this.categoricalChartDomain.end,
+            false
+          )
+        }
+      })
     }
   }
 }
