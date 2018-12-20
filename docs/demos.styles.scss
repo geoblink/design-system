@@ -69,6 +69,7 @@
 }
 
 @include geo-select-make('select-demo');
+@include geo-select-base-make('select-demo');
 
 .geo-select__options-container--select-demo {
   width: 220px;
