@@ -1,7 +1,12 @@
 /// <reference types="d3" />
 
 import * as d3 from 'd3'
-import { POSITIONS, getOriginXTranslation, getOriginYTranslation } from './GeoChart.positioning'
+
+import {
+  POSITIONS,
+  getOriginXTranslation,
+  getOriginYTranslation
+} from './GeoChartPositioning'
 
 /**
  * @template Domain

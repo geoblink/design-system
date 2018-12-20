@@ -1,6 +1,6 @@
-import { POSITIONS } from './GeoChart.positioning'
-import { DIMENSIONS } from './GeoChart.bars'
-import { SCALE_TYPES } from './GeoChart.scale'
+import { POSITIONS } from './GeoChartPositioning'
+import { DIMENSIONS } from './GeoChartBars'
+import { SCALE_TYPES } from './GeoChartScale'
 
 export const scaleLinearSchema = {
   type: 'object',
@@ -83,8 +83,39 @@ export const axisConfigJsonSchema = {
       type: 'string'
     },
     position: {
-      type: 'string',
-      enum: Object.values(POSITIONS)
+      oneOf: [{
+        type: 'object',
+        additionalProperties: false,
+        required: ['type'],
+        properties: {
+          type: {
+            type: 'string',
+            enum: [
+              POSITIONS.top,
+              POSITIONS.bottom,
+              POSITIONS.horizontallyCenteredInTheMiddle,
+              POSITIONS.left,
+              POSITIONS.right,
+              POSITIONS.verticallyCenteredInTheMiddle
+            ]
+          }
+        }
+      }, {
+        type: 'object',
+        additionalProperties: false,
+        required: ['type', 'value', 'relativeToScale'],
+        properties: {
+          type: {
+            const: POSITIONS.anchoredToScale
+          },
+          value: {
+            type: 'number'
+          },
+          relativeToScale: {
+            type: 'string'
+          }
+        }
+      }]
     },
     scale: {
       type: 'object',

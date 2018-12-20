@@ -1,6 +1,6 @@
 /// <reference types="d3" />
 
-import './GeoChart.axis'
+import './GeoChartAxis'
 
 /**
  * @enum {GeoChart.BarDimension}

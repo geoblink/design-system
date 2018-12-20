@@ -11,10 +11,10 @@
 <script>
 import _ from 'lodash'
 import cssSuffix from '../../mixins/cssModifierMixin'
-import { addAxisFactory } from './GeoChart.axis'
-import { addBarGroupFactory } from './GeoChart.bars'
+import { addAxisFactory } from './GeoChartAxis'
+import { addBarGroupFactory } from './GeoChartBars'
 import { chartConfigJsonSchema } from './GeoChartConfig'
-import { getNewScale } from './GeoChart.scale'
+import { getNewScale } from './GeoChartScale'
 
 const d3 = (function () {
   try {

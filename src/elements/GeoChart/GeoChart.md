@@ -143,8 +143,8 @@
 
 <script>
 const d3 = require('d3')
-const { DIMENSIONS: BARS_DIMENSIONS } = require('./GeoChart.bars')
-const { SCALE_TYPES } = require('./GeoChart.scale')
+const { DIMENSIONS: BARS_DIMENSIONS } = require('./GeoChartBars')
+const { SCALE_TYPES } = require('./GeoChartScale')
 
 export default {
   name: 'GeoChartDemo',
@@ -180,7 +180,7 @@ export default {
   },
   computed: {
     POSITIONS () {
-      const { POSITIONS } = require('./GeoChart.positioning')
+      const { POSITIONS } = require('./GeoChartPositioning')
       return POSITIONS
     },
 

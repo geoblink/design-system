@@ -7,8 +7,8 @@ export const POSITIONS = {
   left: 'left',
   right: 'right',
   verticallyCenteredInTheMiddle: 'verticallyCenteredInTheMiddle',
-  horizontallyCenteredInTheMiddle: 'horizontallyCenteredInTheMiddle'
-  // TODO: Add position "anchoredToScale" which will render the axis in the position of the origin value of given scale
+  horizontallyCenteredInTheMiddle: 'horizontallyCenteredInTheMiddle',
+  anchoredToScale: 'anchoredToScale'
 }
 
 /**
