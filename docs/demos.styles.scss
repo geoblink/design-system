@@ -69,9 +69,5 @@
 }
 
 @include geo-select-make('select-demo');
-
-.geo-select__options-container--select-demo {
-  width: 220px;
-}
-
+@include geo-select-base-make('select-demo');
 @include geo-button-make('test-css-modifier');

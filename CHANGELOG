@@ -1,3 +1,10 @@
+# 9.2.0
+
+New:
+
+- `GeoSelect` allows using non-fixed width for its dropdown
+- `GeoSelectBase` allows using non-fixed width for its dropdown
+
 # 9.1.0
 
 New:

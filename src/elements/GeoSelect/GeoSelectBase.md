@@ -12,6 +12,7 @@ drop-in replacement for HTML `<select>` tag you might probably want to use
     <div class="element-demo__block" style="justify-content: space-around;">
       <geo-select-base
         :opened="isOpened[0]"
+        :fixed-width="false"
         css-modifier="select-demo"
         @click-outside="closeSelect(0)">
         <geo-select-toggle-button
@@ -25,7 +26,7 @@ drop-in replacement for HTML `<select>` tag you might probably want to use
           v-for="(option, index) in itemsList"
           :key="index"
           @click="changeCurrentSelection(0, option)">
-          {{option.label}}
+          {{option.label}} {{option.label}} {{option.label}} {{option.label}} {{option.label}} {{option.label}} {{option.label}} {{option.label}}
         </geo-list-item>
       </geo-select-base>
     </div>

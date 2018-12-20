@@ -4,6 +4,7 @@
     :opened="isOpened"
     :css-modifier="`geo-select${cssSuffix}`"
     :has-more-results="hasMoreResultsToLoad"
+    :fixed-width="fixedWidth"
     @click-outside="closeSelect"
     @load-more-results="loadNextPage">
     <geo-select-toggle-button
@@ -115,6 +116,15 @@ export default {
     Y_AXIS_POSITION
   },
   props: {
+    /**
+     * Whether dropdown with options' width should be fixed to the width of the
+     * toggle button or not.
+     */
+    fixedWidth: {
+      type: Boolean,
+      default: true
+    },
+
     /**
      * Array of options that will be displayed in the select component.
      *
