@@ -72,8 +72,8 @@ describe('GeoSelect', () => {
     expect(spy).toBeCalledWith(expect.stringContaining('[Vue warn]: Invalid prop'))
   })
 
-  it('Should execute load more results when given the event', async () => {
-    const { promise, stub } = asyncStubFactory()
+  it('Should execute load more results when given the event', (done) => {
+    const mockScrollToLastEntry = jest.fn()
     const wrapper = mount(GeoSelect, {
       stubs: {
         GeoSelectBase,
@@ -91,8 +91,12 @@ describe('GeoSelect', () => {
         placeholder: 'Some Placeholder'
       }
     })
-    wrapper.vm.$refs.selectBase.$emit('load-more-results', { scrollToLastEntry: stub })
-    await promise
+    wrapper.vm.$refs.selectBase.$emit('load-more-results', { scrollToLastEntry: mockScrollToLastEntry })
+    // https://vue-test-utils.vuejs.org/guides/testing-async-components.html
+    wrapper.vm.$nextTick(() => {
+      expect(mockScrollToLastEntry).toHaveBeenCalled()
+      done()
+    })
   })
 
   it('Should change selection when selecting one of the options', () => {
@@ -219,14 +223,3 @@ describe('GeoSelect', () => {
     expect(wrapper.findAll('.geo-list-item--geo-select').length).toBe(4)
   })
 })
-
-function asyncStubFactory () {
-  let _resolve
-  const promise = new Promise(function (resolve) {
-    _resolve = resolve
-  })
-  return {
-    promise,
-    stub: _resolve
-  }
-}

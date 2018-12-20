@@ -63,7 +63,8 @@ describe('GeoBorderedBoxHeaderSearchForm', () => {
     expect(wrapper.find('.geo-bordered-box-header-search-form__input').element.placeholder).toBe('Some demo placeholder')
   })
 
-  it('should emit an event when something is typed down', (done) => {
+  it('should emit an event when something is typed down', () => {
+    jest.useFakeTimers()
     const wrapper = mount(GeoBorderedBoxHeaderSearchForm, {
       stubs: {
         'font-awesome-icon': FontAwesomeIcon
@@ -76,9 +77,7 @@ describe('GeoBorderedBoxHeaderSearchForm', () => {
     textInput.setValue('Some search')
     wrapper.find('.geo-bordered-box-header-search-form__input').trigger('keyup')
     expect(wrapper.find('.geo-bordered-box-header-search-form__input').element.value).toBe('Some search')
-    setTimeout(function () {
-      expect(wrapper.emitted().input).toBeTruthy()
-      done()
-    })
+    jest.runAllTimers()
+    expect(wrapper.emitted().input).toBeTruthy()
   })
 })
