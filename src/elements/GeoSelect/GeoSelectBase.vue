@@ -4,7 +4,7 @@
     :opened="opened"
     :css-modifier="cssModifier"
     :force-y-axis-position="forceYAxisPosition"
-    :fixed-width="true"
+    :fixed-width="fixedWidth"
     @click-outside="handleClickOutside($event)"
   >
     <!-- @slot Use this slot to customize the button toggling the actual selection popup -->
@@ -59,6 +59,15 @@ export default {
     opened: {
       type: Boolean,
       required: true
+    },
+
+    /**
+     * Whether dropdown with options' width should be fixed to the width of the
+     * toggle button or not.
+     */
+    fixedWidth: {
+      type: Boolean,
+      default: true
     },
 
     /**
