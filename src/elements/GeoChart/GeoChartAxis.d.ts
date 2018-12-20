@@ -32,9 +32,23 @@ declare namespace GeoChart {
 
   type AxisPosition<RelativeScaleDomain> = AxisPositionConfigSimple | AxisPositionConfigRelative<RelativeScaleDomain>
 
+  interface DrawingEnvironment {
+    canvasSize: GeoChart.Size
+    chartMargin: GeoChart.Margin
+    absolutePosition: {
+      x: number
+      y: number
+    }
+  }
+
   interface AxisConfig<Domain, RelativeScaleDomain> {
     id: string
-    ticks: number
+    ticks: {
+      count: number
+    }
+    labels: {
+      transform: (d: object, i: number, drawingEnvironment: DrawingEnvironment) => string
+    }
     position: AxisPosition<RelativeScaleDomain>
     scale: AxisConfigScale<Domain>
     chart: {

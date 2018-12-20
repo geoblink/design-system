@@ -198,7 +198,9 @@ export default {
       if (this.horizontalAxis.position in this.POSITIONS) {
         axes.push({
           id: 'horizontal',
-          ticks: this.horizontalAxis.ticks,
+          ticks: {
+            count: this.horizontalAxis.ticks
+          },
           position: {
             type: this.horizontalAxis.position
           },
@@ -216,7 +218,9 @@ export default {
       if (this.verticalAxis.position in this.POSITIONS) {
         axes.push({
           id: 'vertical',
-          ticks: this.verticalAxis.ticks,
+          ticks: {
+            count: this.verticalAxis.ticks
+          },
           position: {
             type: this.verticalAxis.position
           },
@@ -266,7 +270,9 @@ export default {
 
       return {
         id: 'value',
-        ticks: 5,
+        ticks: {
+          count: 5
+        },
         position: {
           type: this.POSITIONS.bottom
         },
@@ -285,7 +291,14 @@ export default {
     categoricalChartVerticalAxisConfig () {
       return {
         id: 'category',
-        ticks: this.categoricalChartCategories.length,
+        ticks: {
+          count: this.categoricalChartCategories.length
+        },
+        labels: {
+          transform (d, i, drawingEnvironment) {
+            return `translate(-${drawingEnvironment.absolutePosition.x - drawingEnvironment.chartMargin.left}, 0)`
+          }
+        },
         position: {
           type: this.POSITIONS.anchoredToScale,
           value: this.categoricalChartValueForOrigin,

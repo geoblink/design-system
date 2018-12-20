@@ -76,8 +76,21 @@ export const axisConfigJsonSchema = {
   required: ['id', 'position', 'scale'],
   properties: {
     ticks: {
-      type: 'integer',
-      minimum: 0
+      type: 'object',
+      additionalProperties: false,
+      properties: {
+        count: {
+          type: 'integer',
+          minimum: 0
+        }
+      }
+    },
+    labels: {
+      type: 'object',
+      additionalProperties: false,
+      properties: {
+        transform: {}
+      }
     },
     id: {
       type: 'string'

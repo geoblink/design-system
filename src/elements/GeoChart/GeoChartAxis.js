@@ -1,5 +1,6 @@
 /// <reference types="d3" />
 
+import _ from 'lodash'
 import * as d3 from 'd3'
 
 export const DIMENSIONS = {
@@ -46,7 +47,11 @@ export function addAxisFactory (d3Instance) {
     groups[options.id] = group
 
     const axis = getAxisForPositionAndScale(options.position, options.scale.axisScale)
-      .ticks(options.ticks)
+
+    const ticksCount = _.get(options, 'ticks.count')
+    if (_.isFinite(ticksCount)) {
+      axis.ticks(options.ticks.count)
+    }
 
     const xTranslation = getOriginXTranslation(
       options.position,
@@ -81,14 +86,31 @@ export function addAxisFactory (d3Instance) {
       [POSITIONS.anchoredToScale]: dimension === DIMENSIONS.horizontal ? 'middle' : null
     }
 
-    group
+    const tickGroups = group
       .transition()
       .duration(options.chart.animationsDurationInMilliseconds)
       .attr('transform', `translate(${xTranslation}, ${yTranslation})`)
       .call(axis)
       .selectAll('g.tick')
       .attr('class', `tick geo-chart-axis-tick--${options.position.type}`)
+
+    const textGroups = tickGroups
       .selectAll('text')
+
+    const labelsTransform = _.get(options, 'labels.transform')
+    if (labelsTransform) {
+      textGroups
+        .attr('transform', (d, i) => labelsTransform(d, i, {
+          canvasSize: options.chart.size,
+          chartMargin: options.chart.margin,
+          absolutePosition: {
+            x: xTranslation,
+            y: yTranslation
+          }
+        }))
+    }
+
+    textGroups
       .attr('dominant-baseline', dominantBaselineForPosition[options.position.type])
       .attr('text-anchor', textAnchorForPosition[options.position.type])
       .attr('dx', null)

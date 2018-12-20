@@ -168,6 +168,7 @@ export default {
         return [axisConfig.id, {
           id: axisConfig.id,
           ticks: axisConfig.ticks,
+          labels: axisConfig.labels,
           position,
           chart: {
             animationsDurationInMilliseconds: this.animationsDurationInMilliseconds,
