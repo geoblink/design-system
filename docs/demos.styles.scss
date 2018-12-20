@@ -91,3 +91,8 @@
 @include geo-select-make('select-demo');
 @include geo-select-base-make('select-demo');
 @include geo-button-make('test-css-modifier');
+
+// This can't be applied directly in the demo
+.geo-chart-bar {
+  fill: $color_blue_light;
+}
