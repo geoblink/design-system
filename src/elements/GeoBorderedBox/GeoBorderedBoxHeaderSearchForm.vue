@@ -24,7 +24,7 @@ import cssSuffix from '../../mixins/cssModifierMixin'
 
 export default {
   name: 'GeoBorderedBoxHeaderSearchForm',
-  status: 'missing-tests',
+  status: 'ready',
   release: '8.0.0',
   mixins: [cssSuffix],
   props: {

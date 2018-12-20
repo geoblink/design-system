@@ -25,7 +25,7 @@ import cssSuffix from '../../mixins/cssModifierMixin'
 
 export default {
   name: 'GeoSelectToggleButton',
-  status: 'missing-tests',
+  status: 'ready',
   release: '4.1.0',
   mixins: [cssSuffix],
   props: {

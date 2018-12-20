@@ -107,7 +107,7 @@ import { Y_AXIS_POSITION, X_AXIS_POSITION } from '../GeoDropdown/GeoDropdown.con
 
 export default {
   name: 'GeoSelect',
-  status: 'missing-tests',
+  status: 'ready',
   release: '4.1.0',
   mixins: [cssSuffix],
   constants: {
