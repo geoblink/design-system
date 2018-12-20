@@ -82,14 +82,9 @@ export const axisConfigJsonSchema = {
         count: {
           type: 'integer',
           minimum: 0
-        }
-      }
-    },
-    labels: {
-      type: 'object',
-      additionalProperties: false,
-      properties: {
-        transform: {}
+        },
+        format: {},
+        labelTransform: {}
       }
     },
     id: {

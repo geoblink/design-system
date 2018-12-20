@@ -48,9 +48,14 @@ export function addAxisFactory (d3Instance) {
 
     const axis = getAxisForPositionAndScale(options.position, options.scale.axisScale)
 
-    const ticksCount = _.get(options, 'ticks.count')
-    if (_.isFinite(ticksCount)) {
-      axis.ticks(options.ticks.count)
+    const tickCount = _.get(options, 'ticks.count')
+    if (_.isFinite(tickCount)) {
+      axis.ticks(tickCount)
+    }
+
+    const tickFormat = _.get(options, 'ticks.format')
+    if (tickFormat) {
+      axis.tickFormat(tickFormat)
     }
 
     const xTranslation = getOriginXTranslation(
@@ -97,10 +102,10 @@ export function addAxisFactory (d3Instance) {
     const textGroups = tickGroups
       .selectAll('text')
 
-    const labelsTransform = _.get(options, 'labels.transform')
-    if (labelsTransform) {
+    const labelTransform = _.get(options, 'ticks.labelTransform')
+    if (labelTransform) {
       textGroups
-        .attr('transform', (d, i) => labelsTransform(d, i, {
+        .attr('transform', (d, i) => labelTransform(d, i, {
           canvasSize: options.chart.size,
           chartMargin: options.chart.margin,
           absolutePosition: {

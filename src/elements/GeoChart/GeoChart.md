@@ -289,13 +289,19 @@ export default {
     },
 
     categoricalChartVerticalAxisConfig () {
+      const emojis = ['😀', '😅', '😂']
+
       return {
         id: 'category',
         ticks: {
-          count: this.categoricalChartCategories.length
-        },
-        labels: {
-          transform (d, i, drawingEnvironment) {
+          count: this.categoricalChartCategories.length,
+          format (d, i) {
+            const cutLabel = d.substr(0, 10)
+            const label = (cutLabel.length + 3) < d.length ? `${cutLabel}...` : d
+            return `${emojis[i]} - ${label}`
+          },
+
+          labelTransform (d, i, drawingEnvironment) {
             return `translate(-${drawingEnvironment.absolutePosition.x - drawingEnvironment.chartMargin.left}, 0)`
           }
         },
