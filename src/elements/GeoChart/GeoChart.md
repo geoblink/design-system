@@ -180,7 +180,7 @@ export default {
   },
   computed: {
     POSITIONS () {
-      const { POSITIONS } = require('./GeoChartPositioning')
+      const { POSITIONS } = require('./GeoChartAxis')
       return POSITIONS
     },
 
@@ -199,7 +199,9 @@ export default {
         axes.push({
           id: 'horizontal',
           ticks: this.horizontalAxis.ticks,
-          position: this.horizontalAxis.position,
+          position: {
+            type: this.horizontalAxis.position
+          },
 
           scale: {
             type: SCALE_TYPES.linear,
@@ -215,7 +217,9 @@ export default {
         axes.push({
           id: 'vertical',
           ticks: this.verticalAxis.ticks,
-          position: this.verticalAxis.position,
+          position: {
+            type: this.verticalAxis.position
+          },
 
           scale: {
             type: SCALE_TYPES.linear,
@@ -239,6 +243,10 @@ export default {
       }
     },
 
+    categoricalChartValueForOrigin () {
+      return 0
+    },
+
     categoricalChartDomain () {
       const limit = 500000
       return {
@@ -256,19 +264,19 @@ export default {
 
       const values = _.map(this.categoricalChartData, 'value')
 
-      const valueForOrigin = 0
-
       return {
         id: 'value',
         ticks: 5,
-        position: this.POSITIONS.bottom,
+        position: {
+          type: this.POSITIONS.bottom
+        },
 
         scale: {
           type: SCALE_TYPES.linear,
-          valueForOrigin,
+          valueForOrigin: this.categoricalChartValueForOrigin,
           domain: {
-            start: _.min([...values, valueForOrigin]),
-            end: _.max([...values, valueForOrigin])
+            start: _.min([...values, this.categoricalChartValueForOrigin]),
+            end: _.max([...values, this.categoricalChartValueForOrigin])
           }
         }
       }
@@ -278,7 +286,11 @@ export default {
       return {
         id: 'category',
         ticks: this.categoricalChartCategories.length,
-        position: this.POSITIONS.left,
+        position: {
+          type: this.POSITIONS.anchoredToScale,
+          value: this.categoricalChartValueForOrigin,
+          relativeToScale: 'value'
+        },
 
         scale: {
           type: SCALE_TYPES.categorical,

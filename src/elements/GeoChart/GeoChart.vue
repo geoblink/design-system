@@ -11,7 +11,7 @@
 <script>
 import _ from 'lodash'
 import cssSuffix from '../../mixins/cssModifierMixin'
-import { addAxisFactory } from './GeoChartAxis'
+import { POSITIONS, SIMPLE_POSITIONS, addAxisFactory, getAxisDimension } from './GeoChartAxis'
 import { addBarGroupFactory } from './GeoChartBars'
 import { chartConfigJsonSchema } from './GeoChartConfig'
 import { getNewScale } from './GeoChartScale'
@@ -53,7 +53,8 @@ const chartConfigValidator = (function () {
     if (validator) return getValidationResult(validator)
 
     const ajv = new Ajv({
-      allErrors: true
+      allErrors: true,
+      jsonPointers: true
     })
     ajvErrors(ajv)
 
@@ -121,10 +122,36 @@ export default {
         margin: chartMargin
       }
 
-      return _.fromPairs(_.map(this.config.axisGroups, (axisConfig) => {
-        const scale = getNewScale(axisConfig, chart)
+      const axisGroups = this.config.axisGroups
+
+      const [
+        simplePositionScalesAxisGroups,
+        advancedPositionedScalesAxisGroups
+      ] = _.partition(axisGroups, (axisConfig) => axisConfig.position.type in SIMPLE_POSITIONS)
+
+      const simplePositionedScales = _.fromPairs(_.map(
+        simplePositionScalesAxisGroups,
+        (axisConfig) => getScaleForAxisConfig(axisConfig, { scalesById: {}, axisGroups })
+      ))
+
+      const advancedPositionedScales = _.fromPairs(_.map(
+        advancedPositionedScalesAxisGroups,
+        (axisConfig) => getScaleForAxisConfig(axisConfig, { scalesById: simplePositionedScales, axisGroups })
+      ))
+
+      return Object.assign({}, simplePositionedScales, advancedPositionedScales)
+
+      function getScaleForAxisConfig (axisConfig, { scalesById, axisGroups }) {
+        const position = getPositionOfAxis(axisConfig, { scalesById, axisGroups })
+        const dimension = getAxisDimension(position)
+
+        const scale = getNewScale({
+          id: axisConfig.id,
+          dimension,
+          scale: axisConfig.scale
+        }, chart)
         return [axisConfig.id, scale]
-      }))
+      }
     },
 
     axisConfigById () {
@@ -133,11 +160,15 @@ export default {
 
       return _.fromPairs(_.map(this.config.axisGroups, (axisConfig) => {
         const scale = this.scalesById[axisConfig.id]
+        const position = getPositionOfAxis(axisConfig, {
+          scalesById: this.scalesById,
+          axisGroups: this.config.axisGroups
+        })
 
         return [axisConfig.id, {
           id: axisConfig.id,
           ticks: axisConfig.ticks,
-          position: axisConfig.position,
+          position,
           chart: {
             animationsDurationInMilliseconds: this.animationsDurationInMilliseconds,
             size: chartSize,
@@ -159,7 +190,7 @@ export default {
     debouncedRedraw () {
       return _.debounce(this.redraw.bind(this), 10, {
         leading: true,
-        trailing: true
+        trailing: false
       })
     }
   },
@@ -284,6 +315,35 @@ export default {
         this.addAxis(axisConfig)
       }
     }
+  }
+}
+
+function getPositionOfAxis (axisConfig, { scalesById, axisGroups }) {
+  if (axisConfig.position.type === POSITIONS.anchoredToScale) {
+    return getPositionOfAnchoredToScalePositionedAxis(axisConfig.position, { scalesById, axisGroups })
+  }
+
+  return {
+    type: axisConfig.position.type
+  }
+}
+
+function getPositionOfAnchoredToScalePositionedAxis (position, { scalesById, axisGroups }) {
+  const relativeAxisConfig = _.find(axisGroups, {
+    id: position.relativeToScale
+  })
+
+  if (!relativeAxisConfig) {
+    throw new Error(`GeoChart [component] :: Tried to add an axis relative to unknown scale ${position.relativeToScale}`)
+  }
+
+  const scale = scalesById[position.relativeToScale]
+
+  return {
+    type: POSITIONS.anchoredToScale,
+    value: position.value,
+    scale,
+    relativeAxisPosition: getPositionOfAxis(relativeAxisConfig, { scalesById, axisGroups })
   }
 }
 </script>

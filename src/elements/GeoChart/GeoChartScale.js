@@ -3,7 +3,7 @@
 import _ from 'lodash'
 import * as d3 from 'd3'
 
-import { POSITIONS } from './GeoChartPositioning'
+import { DIMENSIONS } from './GeoChartAxis'
 
 /**
  * @enum {GeoChart.ScaleType}
@@ -41,7 +41,7 @@ const scaleFactoryForType = {
 /**
  * @typedef {object} AxisConfig
  * @property {string} id
- * @property {GeoChart.AxisPosition} position
+ * @property {GeoChart.AxisDimension} dimension
  * @property {ScaleConfig} scale
  */
 
@@ -57,56 +57,48 @@ export function getNewScale (axisConfig, chart) {
   const horizontalSpaceAvailable = chart.size.width - chart.margin.right
   const verticalSpaceAvailable = chart.size.height - chart.margin.bottom
 
-  const rangeStartForPosition = {
-    [POSITIONS.top]: chart.margin.left,
-    [POSITIONS.bottom]: chart.margin.left,
-    [POSITIONS.verticallyCenteredInTheMiddle]: chart.margin.left,
-    [POSITIONS.left]: chart.margin.top,
-    [POSITIONS.right]: chart.margin.top,
-    [POSITIONS.horizontallyCenteredInTheMiddle]: chart.margin.top
+  const rangeStartForDimension = {
+    [DIMENSIONS.horizontal]: chart.margin.left,
+    [DIMENSIONS.vertical]: chart.margin.top
   }
 
-  const rangeEndForPosition = {
-    [POSITIONS.top]: horizontalSpaceAvailable,
-    [POSITIONS.bottom]: horizontalSpaceAvailable,
-    [POSITIONS.verticallyCenteredInTheMiddle]: horizontalSpaceAvailable,
-    [POSITIONS.left]: verticalSpaceAvailable,
-    [POSITIONS.right]: verticalSpaceAvailable,
-    [POSITIONS.horizontallyCenteredInTheMiddle]: verticalSpaceAvailable
+  const rangeEndForDimension = {
+    [DIMENSIONS.horizontal]: horizontalSpaceAvailable,
+    [DIMENSIONS.vertical]: verticalSpaceAvailable
   }
 
   const scaleFactory = scaleFactoryForType[scaleConfig.type]
-  if (scaleFactory) {
-    const scale = scaleFactory()
-
-    scale.range([
-      rangeStartForPosition[axisConfig.position],
-      rangeEndForPosition[axisConfig.position]
-    ])
-
-    const paddingInner = _.get(scaleConfig, 'padding.inner')
-    if (_.isFinite(paddingInner)) {
-      scale.paddingInner(paddingInner)
-    }
-
-    const paddingOuter = _.get(scaleConfig, 'padding.outer')
-    if (_.isFinite(paddingOuter)) {
-      scale.paddingOuter(paddingOuter)
-    }
-
-    if ('start' in scaleConfig.domain && 'end' in scaleConfig.domain) {
-      scale.domain([scaleConfig.domain.start, scaleConfig.domain.end])
-    } else if (_.isArray(scaleConfig.domain)) {
-      scale.domain(scaleConfig.domain)
-    } else {
-      console.error(`GeoChart (scale) [component] :: Wrong domain config for scale of axis ${axisConfig.id}`, scaleConfig)
-    }
-
-    return {
-      axisScale: scale,
-      valueForOrigin: scaleConfig.valueForOrigin
-    }
+  if (!scaleFactory) {
+    throw new Error(`GeoChart (scale) [component] :: Trying to get scale of unknown type: ${scaleConfig.type}`)
   }
 
-  console.error(`GeoChart (scale) [component] :: Trying to get scale of unknown type: ${scaleConfig.type}`, scaleConfig)
+  const axisScale = scaleFactory()
+
+  axisScale.range([
+    rangeStartForDimension[axisConfig.dimension],
+    rangeEndForDimension[axisConfig.dimension]
+  ])
+
+  const paddingInner = _.get(scaleConfig, 'padding.inner')
+  if (_.isFinite(paddingInner)) {
+    axisScale.paddingInner(paddingInner)
+  }
+
+  const paddingOuter = _.get(scaleConfig, 'padding.outer')
+  if (_.isFinite(paddingOuter)) {
+    axisScale.paddingOuter(paddingOuter)
+  }
+
+  if ('start' in scaleConfig.domain && 'end' in scaleConfig.domain) {
+    axisScale.domain([scaleConfig.domain.start, scaleConfig.domain.end])
+  } else if (_.isArray(scaleConfig.domain)) {
+    axisScale.domain(scaleConfig.domain)
+  } else {
+    throw new Error(`GeoChart (scale) [component] :: Wrong domain config for scale of axis ${axisConfig.id}`)
+  }
+
+  return {
+    axisScale,
+    valueForOrigin: scaleConfig.valueForOrigin
+  }
 }

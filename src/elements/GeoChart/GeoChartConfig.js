@@ -1,4 +1,4 @@
-import { POSITIONS } from './GeoChartPositioning'
+import { POSITIONS } from './GeoChartAxis'
 import { DIMENSIONS } from './GeoChartBars'
 import { SCALE_TYPES } from './GeoChartScale'
 
