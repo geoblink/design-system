@@ -8,7 +8,7 @@
 
   .geo-notification-bar#{$modifier-name-with-prefix} {
     align-items: center;
-    background: $color_green_notification;
+    background: $color-green-notification;
     display: flex;
     height: 45px;
     justify-content: space-between;
@@ -29,7 +29,7 @@
 
     .geo-notification-bar__message-text {
       @include font($body);
-      color: $color_black;
+      color: $color-black;
       margin: 0 15px;
       user-select: none;
     }

@@ -8,13 +8,13 @@
   }
 
   $background-color-by-variant: (
-    default: $color_blue,
-    primary: $color_blue,
-    success: $color_green,
-    info: $color_blue_light,
-    warn: $color_yellow,
-    error: $color_red,
-    disabled: $color_grey
+    default: $color-blue,
+    primary: $color-blue,
+    success: $color-green,
+    info: $color-blue-light,
+    warn: $color-yellow,
+    error: $color-red,
+    disabled: $color-grey
   );
 
   .geo-circle#{$modifier-name-with-prefix} {

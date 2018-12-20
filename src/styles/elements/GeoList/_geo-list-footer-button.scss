@@ -9,8 +9,8 @@
 
   .geo-list-footer-button#{$modifier-name-with-prefix} {
     align-items: center;
-    background: $color_white;
-    border-top: 1px solid $color_grey;
+    background: $color-white;
+    border-top: 1px solid $color-grey;
     display: flex;
     flex-grow: 0;
     flex-shrink: 0;
@@ -19,14 +19,14 @@
     padding: 0 10px;
 
     .geo-list-footer-button__button {
-      font-family: $font_family_text;
+      font-family: $font-family-text;
       font-size: small;
       user-select: none;
     }
 
     .geo-list-footer-button__label {
       cursor: pointer;
-      color: $color_blue;
+      color: $color-blue;
       font-style: italic;
     }
   }

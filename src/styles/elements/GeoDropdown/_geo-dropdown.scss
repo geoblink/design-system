@@ -9,8 +9,8 @@
 
   .geo-dropdown#{$modifier-name-with-prefix} {
     display: flex;
-    font-family: $font_family_text;
-    font-size: $font_size_regular;
+    font-family: $font-family-text;
+    font-size: $font-size-regular;
     user-select: none;
   }
 

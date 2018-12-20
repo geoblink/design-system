@@ -9,7 +9,7 @@
 
   .geo-segmented-control-item#{$modifier-name-with-prefix},
   .geo-segmented-control-item--outline#{$modifier-name-with-prefix} {
-    @include font($highlight_small);
+    @include font($highlight-small);
 
     align-items: center;
     border-radius: $border-radius-default;

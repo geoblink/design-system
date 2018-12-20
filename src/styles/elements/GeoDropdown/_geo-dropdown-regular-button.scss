@@ -9,30 +9,30 @@
 
   .geo-dropdown__regular-button-container#{$modifier-name-with-prefix} {
     align-items: center;
-    background-color: $color_white;
-    border: 1px solid $color_grey;
-    border-radius: $border_radius_default;
-    color: $color_grey_darker;
+    background-color: $color-white;
+    border: 1px solid $color-grey;
+    border-radius: $border-radius-default;
+    color: $color-grey-darker;
     cursor: pointer;
     display: flex;
-    font-family: $font_family_text;
-    font-size: $font_size_regular;
+    font-family: $font-family-text;
+    font-size: $font-size-regular;
     height: 40px;
     justify-content: center;
-    line-height: $line_height_base;
+    line-height: $line-height-base;
     padding: 0 10px;
 
     &:hover {
-      border-color: $color_blue;
+      border-color: $color-blue;
 
       .geo-dropdown__regular-button-container__icon#{$modifier-name-with-prefix} {
-        color: $color_blue;
+        color: $color-blue;
       }
     }
 
     strong {
-      color: $color_blue;
-      font-weight: $font_weight_bold;
+      color: $color-blue;
+      font-weight: $font-weight-bold;
     }
   }
 
