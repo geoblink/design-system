@@ -59,24 +59,26 @@ export function addAxisFactory (d3Instance) {
       options.chart.margin
     )
 
+    const dimension = getAxisDimension(options.position)
+
     const dominantBaselineForPosition = {
       [POSITIONS.top]: 'baseline',
       [POSITIONS.bottom]: 'hanging',
       [POSITIONS.verticallyCenteredInTheMiddle]: 'baseline',
-      [POSITIONS.left]: null,
-      [POSITIONS.right]: null,
-      [POSITIONS.horizontallyCenteredInTheMiddle]: null,
-      [POSITIONS.anchoredToScale]: null
+      [POSITIONS.left]: 'middle',
+      [POSITIONS.right]: 'middle',
+      [POSITIONS.horizontallyCenteredInTheMiddle]: 'middle',
+      [POSITIONS.anchoredToScale]: dimension === DIMENSIONS.vertical ? 'middle' : null
     }
 
     const textAnchorForPosition = {
-      [POSITIONS.top]: null,
-      [POSITIONS.bottom]: null,
-      [POSITIONS.verticallyCenteredInTheMiddle]: null,
+      [POSITIONS.top]: 'middle',
+      [POSITIONS.bottom]: 'middle',
+      [POSITIONS.verticallyCenteredInTheMiddle]: 'middle',
       [POSITIONS.left]: 'end',
       [POSITIONS.right]: 'start',
       [POSITIONS.horizontallyCenteredInTheMiddle]: 'end',
-      [POSITIONS.anchoredToScale]: null
+      [POSITIONS.anchoredToScale]: dimension === DIMENSIONS.horizontal ? 'middle' : null
     }
 
     group
