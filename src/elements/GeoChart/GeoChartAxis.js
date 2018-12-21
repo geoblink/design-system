@@ -3,6 +3,8 @@
 import _ from 'lodash'
 import * as d3 from 'd3'
 
+import { wrapTextTagsForWidthFactory, wrapTextSegmentsForWidthFactory } from './GeoChartText'
+
 export const DIMENSIONS = {
   horizontal: 'horizontal',
   vertical: 'vertical'
@@ -39,24 +41,13 @@ export const SIMPLE_POSITIONS = {
  */
 export function addAxisFactory (d3Instance) {
   const groups = {}
+  const wrapTextForWidthCache = {}
 
   return function (options) {
     const group = groups[options.id] || d3Instance
       .append('g')
       .attr('class', `geo-chart-axis geo-chart-axis-${options.id} geo-chart-axis--${options.position.type}`)
     groups[options.id] = group
-
-    const axis = getAxisForPositionAndScale(options.position, options.scale.axisScale)
-
-    const tickCount = _.get(options, 'ticks.count')
-    if (_.isFinite(tickCount)) {
-      axis.ticks(tickCount)
-    }
-
-    const tickFormat = _.get(options, 'ticks.format')
-    if (tickFormat) {
-      axis.tickFormat(tickFormat)
-    }
 
     const xTranslation = getOriginXTranslation(
       options.position,
@@ -68,6 +59,35 @@ export function addAxisFactory (d3Instance) {
       options.chart.size,
       options.chart.margin
     )
+
+    const drawingEnvironment = {
+      canvasSize: options.chart.size,
+      chartMargin: options.chart.margin,
+      absolutePosition: {
+        x: xTranslation,
+        y: yTranslation
+      }
+    }
+
+    const axis = getAxisForPositionAndScale(options.position, options.scale.axisScale)
+
+    const tickCount = _.get(options, 'ticks.count')
+    const isShowingTicks = (_.isFinite(tickCount) && tickCount > 0) || _.isNil(tickCount)
+    if (isShowingTicks) {
+      axis.ticks(tickCount)
+    }
+
+    const tickFormat = _.get(options, 'ticks.format')
+    if (tickFormat) {
+      axis.tickFormat(tickFormat)
+    }
+
+    const getLabelMaximumWidth = _.get(options, 'ticks.label.maximumWidth')
+    const labelMaximumWidth = _.isFunction(getLabelMaximumWidth)
+      ? getLabelMaximumWidth(drawingEnvironment)
+      : 0
+    const isLabelWidthLimited = _.isFinite(labelMaximumWidth) && labelMaximumWidth > 0 && isShowingTicks
+    const isAnimated = !isLabelWidthLimited && options.chart.animationsDurationInMilliseconds > 0
 
     const dimension = getAxisDimension(options.position)
 
@@ -91,28 +111,42 @@ export function addAxisFactory (d3Instance) {
       [POSITIONS.anchoredToScale]: dimension === DIMENSIONS.horizontal ? 'middle' : null
     }
 
-    const tickGroups = group
-      .transition()
-      .duration(options.chart.animationsDurationInMilliseconds)
+    const animatedGroup = isAnimated
+      ? group
+        .transition()
+        .duration(options.chart.animationsDurationInMilliseconds)
+      : group
+
+    const tickGroups = animatedGroup
       .attr('transform', `translate(${xTranslation}, ${yTranslation})`)
       .call(axis)
       .selectAll('g.tick')
       .attr('class', `tick geo-chart-axis-tick--${options.position.type}`)
 
-    const textGroups = tickGroups
-      .selectAll('text')
+    const textGroups = tickGroups.selectAll('text')
 
-    const labelTransform = _.get(options, 'ticks.labelTransform')
+    if (isLabelWidthLimited) {
+      if (tickFormat) {
+        const wrapTextForWidth = wrapTextForWidthCache[options.id] || wrapTextSegmentsForWidthFactory()
+        wrapTextForWidthCache[options.id] = wrapTextForWidth
+
+        const tickValuesOfScale = axis.tickValues() || options.scale.axisScale.domain()
+        const tickTexts = _.map(tickValuesOfScale, (value, index) => {
+          return tickFormat(value, index)
+        })
+
+        textGroups.call(wrapTextForWidth, tickTexts, labelMaximumWidth)
+      } else {
+        const wrapTextForWidth = wrapTextForWidthCache[options.id] || wrapTextTagsForWidthFactory()
+        wrapTextForWidthCache[options.id] = wrapTextForWidth
+        textGroups.call(wrapTextForWidth, labelMaximumWidth)
+      }
+    }
+
+    const labelTransform = _.get(options, 'ticks.label.transform')
     if (labelTransform) {
       textGroups
-        .attr('transform', (d, i) => labelTransform(d, i, {
-          canvasSize: options.chart.size,
-          chartMargin: options.chart.margin,
-          absolutePosition: {
-            x: xTranslation,
-            y: yTranslation
-          }
-        }))
+        .attr('transform', (d, i) => labelTransform(d, i, drawingEnvironment))
     }
 
     textGroups

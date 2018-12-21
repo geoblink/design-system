@@ -294,15 +294,18 @@ export default {
       return {
         id: 'category',
         ticks: {
-          count: this.categoricalChartCategories.length,
           format (d, i) {
-            const cutLabel = d.substr(0, 10)
-            const label = (cutLabel.length + 3) < d.length ? `${cutLabel}...` : d
-            return `${emojis[i]} - ${label}`
+            return [`${emojis[i]} -`, d, 'with a long suffix']
           },
 
-          labelTransform (d, i, drawingEnvironment) {
-            return `translate(-${drawingEnvironment.absolutePosition.x - drawingEnvironment.chartMargin.left}, 0)`
+          label: {
+            maximumWidth (drawingEnvironment) {
+              return drawingEnvironment.chartMargin.left - 10
+            },
+
+            transform (d, i, drawingEnvironment) {
+              return `translate(${-1 * (drawingEnvironment.absolutePosition.x - drawingEnvironment.chartMargin.left + 10)}, 0)`
+            }
           }
         },
         position: {

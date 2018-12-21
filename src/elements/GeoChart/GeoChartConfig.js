@@ -84,7 +84,10 @@ export const axisConfigJsonSchema = {
           minimum: 0
         },
         format: {},
-        labelTransform: {}
+        label: {
+          maximumWidth: {},
+          transform: {}
+        }
       }
     },
     id: {

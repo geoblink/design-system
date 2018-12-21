@@ -45,9 +45,11 @@ declare namespace GeoChart {
     id: string
     ticks: {
       count: number
-    }
-    labels: {
-      transform: (d: object, i: number, drawingEnvironment: DrawingEnvironment) => string
+      format: (d: object, i: number) => string
+      label: {
+        maximumLengthInAxisDimensionForDrawingEnvironment: (drawingEnvironment: DrawingEnvironment) => number
+        transform: (d: object, i: number, drawingEnvironment: DrawingEnvironment) => string
+      }
     }
     position: AxisPosition<RelativeScaleDomain>
     scale: AxisConfigScale<Domain>
