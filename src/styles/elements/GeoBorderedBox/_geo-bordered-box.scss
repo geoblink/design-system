@@ -7,8 +7,8 @@
   }
 
   .geo-bordered-box#{$modifier-name-with-prefix} {
-    background: $color_white;
-    border: 1px solid $color_grey;
+    background: $color-white;
+    border: 1px solid $color-grey;
     border-radius: $border-radius-default;
     box-shadow: $box-shadow-regular;
     display: flex;

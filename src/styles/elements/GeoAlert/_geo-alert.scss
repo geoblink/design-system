@@ -22,16 +22,16 @@
 
 @mixin geo-alert__content--info($modifier-name-with-prefix) {
   @include _geo-alert__content--variant(
-    $color_white,
-    $color_blue_light,
+    $color-white,
+    $color-blue-light,
     $modifier-name-with-prefix
   );
 }
 
 @mixin geo-alert__content--success($modifier-name-with-prefix) {
   @include _geo-alert__content--variant(
-    $color_white,
-    $color_green,
+    $color-white,
+    $color-green,
     $modifier-name-with-prefix
   );
 }
@@ -40,42 +40,42 @@
 
 @mixin geo-alert__content--error($modifier-name-with-prefix) {
   @include _geo-alert__content--variant(
-    $color_white,
-    $color_red,
+    $color-white,
+    $color-red,
     $modifier-name-with-prefix
   );
 }
 
 @mixin geo-alert__content--warn($modifier-name-with-prefix) {
   @include _geo-alert__content--variant(
-    $color_white,
-    $color_yellow,
+    $color-white,
+    $color-yellow,
     $modifier-name-with-prefix
   );
 }
 
 @mixin geo-alert__content--warning($modifier-name-with-prefix) {
   @include _geo-alert__content--variant(
-    $color_white,
-    $color_yellow,
+    $color-white,
+    $color-yellow,
     $modifier-name-with-prefix
   );
 }
 
 @mixin geo-alert__content--progress($modifier-name-with-prefix) {
-  background: $color_blue_dark;
-  color: $color_white;
+  background: $color-blue-dark;
+  color: $color-white;
 
   .geo-alert__content__icon#{$modifier-name-with-prefix},
   .geo-alert__content__close-icon#{$modifier-name-with-prefix}:hover {
-    color: $color_link;
+    color: $color-link;
   }
 
   a {
-    color: $color_blue_light;
+    color: $color-blue-light;
 
     &:hover {
-      background: brighten($color_blue_dark, -10);
+      background: brighten($color-blue-dark, -10);
     }
   }
 }
@@ -84,8 +84,8 @@
   display: flex;
   flex-direction: row;
   flex-shrink: 0;
-  font-family: $font_family_text;
-  font-size: $font_size_regular;
+  font-family: $font-family-text;
+  font-size: $font-size-regular;
   justify-content: center;
   margin-bottom: 20px;
   min-height: 2.5em;
@@ -96,13 +96,13 @@
   left: 50%;
   position: fixed;
   transform: translateX(-50%);
-  z-index: $z_index_sticky;
+  z-index: $z-index-sticky;
 }
 
 @mixin geo-alert__content {
   align-items: center;
   border-radius: 3px;
-  box-shadow: $box_shadow_regular;
+  box-shadow: $box-shadow-regular;
   display: inline-flex;
   flex-direction: row;
   max-width: 50vw;
@@ -126,7 +126,7 @@
   a {
     border-radius: 3px;
     cursor: pointer;
-    font-family: $font_family_heading;
+    font-family: $font-family-heading;
     padding: 2px 5px 3px;
   }
 }

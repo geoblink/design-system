@@ -33,7 +33,7 @@
 
   .geo-list-group--geo-select#{$modifier-name-with-prefix} {
     &:not(:first-child) {
-      border-top: 1px solid $color_grey;
+      border-top: 1px solid $color-grey;
       margin-top: 10px;
     }
   }

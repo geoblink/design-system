@@ -24,7 +24,7 @@
       position: absolute;
       right: 0;
       top: 0;
-      transition: opacity $easing_base $duration_noticeable;
+      transition: opacity $easing-base $duration-noticeable;
 
       @if map-has-key($params, hover-shadow) {
         box-shadow: map-get($params, hover-shadow);
@@ -52,7 +52,7 @@
     &:hover, &[hover], &:focus, &[focus] {
       @if map-has-key($params, hover-transform) {
         transform: map-get($params, hover-transform);
-        transition: transform $easing_base $duration_noticeable;
+        transition: transform $easing-base $duration-noticeable;
 
         &::before {
           opacity: 1;
@@ -153,17 +153,17 @@
   $hoverYOffset: -1px;
 
   @include geo-button-make-scheme((
-    normal-background-color: $color_blue,
-    normal-text-color: $color_white,
-    disabled-background-color: $color_grey,
-    disabled-text-color: $color_grey_light,
-    hover-and-disabled-background-color: $color_grey,
-    hover-shadow: $box_shadow_button_hover,
+    normal-background-color: $color-blue,
+    normal-text-color: $color-white,
+    disabled-background-color: $color-grey,
+    disabled-text-color: $color-grey-light,
+    hover-and-disabled-background-color: $color-grey,
+    hover-shadow: $box-shadow-button-hover,
     hover-transform: translateY($hoverYOffset)
   ), $css-suffix);
 
   &#{$css-suffix} {
-    transition: all $duration_quickly $easing_base;
+    transition: all $duration-quickly $easing-base;
     transition-property: background-color;
   }
 }
@@ -172,18 +172,18 @@
   $hoverYOffset: -1px;
 
   @include geo-button-make-scheme((
-    normal-background-color: $color_white,
-    normal-text-color: $color_blue,
-    normal-border-color: $color_blue,
-    disabled-background-color: $color_white_disabled,
-    disabled-text-color: $color_grey_light,
-    disabled-border-color: $color_grey,
-    hover-shadow: $box_shadow_button_hover,
+    normal-background-color: $color-white,
+    normal-text-color: $color-blue,
+    normal-border-color: $color-blue,
+    disabled-background-color: $color-white-disabled,
+    disabled-text-color: $color-grey-light,
+    disabled-border-color: $color-grey,
+    hover-shadow: $box-shadow-button-hover,
     hover-transform: translateY($hoverYOffset)
   ), $css-suffix);
 
   &#{$css-suffix} {
-    transition: all $duration_quickly $easing_base;
+    transition: all $duration-quickly $easing-base;
     transition-property: background-color, border-color, color;
   }
 }
@@ -191,20 +191,20 @@
 @mixin geo-button--tertiary($css-suffix) {
   @include geo-button-make-scheme((
     normal-background-color: transparent,
-    normal-text-color: $color_blue,
+    normal-text-color: $color-blue,
     normal-border-color: transparent,
-    disabled-text-color: $color_grey_light,
+    disabled-text-color: $color-grey-light,
     hover-decoration: underline
   ), $css-suffix);
 
   &#{$css-suffix} {
     font-style: italic;
-    font-weight: $font_weight_regular;
-    font-size: $font_size_regular;
+    font-weight: $font-weight-regular;
+    font-size: $font-size-regular;
     letter-spacing: initial;
     text-transform: initial;
 
-    transition: color $duration_quickly $easing_base;
+    transition: color $duration-quickly $easing-base;
   }
 }
 
@@ -212,17 +212,17 @@
   $hoverYOffset: -1px;
 
   @include geo-button-make-scheme((
-    normal-background-color: $color_red,
-    normal-text-color: $color_white,
-    disabled-background-color: $color_white_disabled,
-    disabled-text-color: $color_grey_light,
-    disabled-border-color: $color_grey,
-    hover-shadow: $box_shadow_button_hover,
+    normal-background-color: $color-red,
+    normal-text-color: $color-white,
+    disabled-background-color: $color-white-disabled,
+    disabled-text-color: $color-grey-light,
+    disabled-border-color: $color-grey,
+    hover-shadow: $box-shadow-button-hover,
     hover-transform: translateY($hoverYOffset)
   ), $css-suffix);
 
   &#{$css-suffix} {
-    transition: all $duration_quickly $easing_base;
+    transition: all $duration-quickly $easing-base;
     transition-property: background-color, border-color, color;
   }
 }
@@ -231,17 +231,17 @@
   $hoverYOffset: -1px;
 
   @include geo-button-make-scheme((
-    normal-background-color: $color_red,
-    normal-text-color: $color_white,
-    disabled-background-color: $color_white_disabled,
-    disabled-text-color: $color_grey_light,
-    disabled-border-color: $color_grey,
-    hover-shadow: $box_shadow_button_hover,
+    normal-background-color: $color-red,
+    normal-text-color: $color-white,
+    disabled-background-color: $color-white-disabled,
+    disabled-text-color: $color-grey-light,
+    disabled-border-color: $color-grey,
+    hover-shadow: $box-shadow-button-hover,
     hover-transform: translateY($hoverYOffset)
   ), $css-suffix);
 
   &#{$css-suffix} {
-    transition: all $duration_quickly $easing_base;
+    transition: all $duration-quickly $easing-base;
     transition-property: background-color, border-color, color;
   }
 }
@@ -255,9 +255,9 @@
     box-sizing: border-box;
     cursor: pointer;
     display: flex;
-    font-family: $font_family_text;
-    font-size: $font_size_small;
-    font-weight: $font_weight_bold;
+    font-family: $font-family-text;
+    font-size: $font-size-small;
+    font-weight: $font-weight-bold;
     height: 30px;
     letter-spacing: 1px;
     line-height: 1.25em;
@@ -267,7 +267,7 @@
 
     .geo-button__label#{$css-suffix} {
       padding: .58em .83em .67em .83em;
-      transition: all $duration_noticeable $easing_base;
+      transition: all $duration-noticeable $easing-base;
       transition-property: transform, opacity;
     }
 

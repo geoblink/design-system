@@ -9,24 +9,24 @@
 
   .geo-list-item#{$modifier-name-with-prefix} {
     align-items: center;
-    background: $color_white;
-    border-radius: $border_radius_default;
-    color: $color_grey_dark;
+    background: $color-white;
+    border-radius: $border-radius-default;
+    color: $color-grey-dark;
     cursor: pointer;
     display: flex;
     flex-direction: row;
     flex-shrink: 0;
-    font-family: $font_family_text;
-    font-size: $font_size_regular;
+    font-family: $font-family-text;
+    font-size: $font-size-regular;
     min-height: 30px;
     justify-content: space-between;
-    line-height: $line_height_base;
+    line-height: $line-height-base;
     margin: 5px;
     padding: 0 7px 0 5px;
     white-space: nowrap;
 
     &:hover {
-      background: $color_white_dark;
+      background: $color-white-dark;
     }
   }
 
@@ -42,7 +42,7 @@
   }
 
   .geo-list-item__trailing-accessory-items#{$modifier-name-with-prefix} {
-    color: $color_grey_light;
+    color: $color-grey-light;
     margin-left: 10px;
   }
 

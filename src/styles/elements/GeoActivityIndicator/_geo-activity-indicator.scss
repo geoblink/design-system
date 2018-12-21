@@ -50,43 +50,43 @@
   @include geo-activity-indicator-make-variant(
     'primary',
     $modifier-name-with-prefix,
-    $color_link
+    $color-link
   );
 
   @include geo-activity-indicator-make-variant(
     'info',
     $modifier-name-with-prefix,
-    $color_blue
+    $color-blue
   );
 
   @include geo-activity-indicator-make-variant(
     'success',
     $modifier-name-with-prefix,
-    $color_green_darker
+    $color-green-darker
   );
 
   @include geo-activity-indicator-make-variant(
     'error',
     $modifier-name-with-prefix,
-    $color_red_darker
+    $color-red-darker
   );
 
   @include geo-activity-indicator-make-variant(
     'warn',
     $modifier-name-with-prefix,
-    $color_yellow_light
+    $color-yellow-light
   );
 
   @include geo-activity-indicator-make-variant(
     'progress',
     $modifier-name-with-prefix,
-    $color_link
+    $color-link
   );
 
   @include geo-activity-indicator-make-variant(
     'dark-transparent',
     $modifier-name-with-prefix,
-    $color_white
+    $color-white
   );
 }
 

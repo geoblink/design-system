@@ -9,11 +9,11 @@
 
   .geo-list-clear-item#{$modifier-name-with-prefix} {
     align-items: center;
-    border-radius: $border_radius_default;
+    border-radius: $border-radius-default;
     color: $color-grey-light;
     cursor: default;
     display: flex;
-    font-family: $font_family_text;
+    font-family: $font-family-text;
     font-weight: $font-weight-regular;
     justify-content: center;
     margin: 20px 10px;

@@ -13,20 +13,20 @@
     background-color: transparent;
     border: 1px solid transparent;
     border-radius: 3px;
-    color: $color_grey_darker;
+    color: $color-grey-darker;
 
     cursor: pointer;
     display: flex;
-    font-size: $font_size_regular;
+    font-size: $font-size-regular;
     height: 2em;
     justify-content: center;
     padding: 0.35em;
     width: 1.2em;
 
     &:hover {
-      background-color: $color_white;
-      border-color: $color_blue;
-      color: $color_blue;
+      background-color: $color-white;
+      border-color: $color-blue;
+      color: $color-blue;
     }
   }
 }

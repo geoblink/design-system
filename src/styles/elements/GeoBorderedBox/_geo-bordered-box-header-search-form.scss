@@ -9,8 +9,8 @@
 
   .geo-bordered-box-header-search-form#{$modifier-name-with-prefix} {
     align-items: center;
-    background: $color_white_dark;
-    border-bottom: 1px solid $color_grey;
+    background: $color-white-dark;
+    border-bottom: 1px solid $color-grey;
     display: flex;
     flex-direction: row;
     flex-grow: 0;
@@ -19,7 +19,7 @@
     padding: 0 10px;
 
     .geo-bordered-box-header-search-form__icon {
-      color: $color_grey_light;
+      color: $color-grey-light;
       font-size: 20px;
       padding-right: 5px;
     }
@@ -27,13 +27,13 @@
     .geo-bordered-box-header-search-form__input {
       background: none;
       border: 0;
-      color: $color_grey_light;
+      color: $color-grey-light;
       font-size: 14px;
       outline: 0;
       width: 100%;
 
       &::placeholder {
-        color: $color_grey_light;
+        color: $color-grey-light;
       }
     }
 

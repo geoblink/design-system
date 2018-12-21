@@ -9,10 +9,10 @@
 
   .geo-select-read-only-entry__container#{$modifier-name-with-prefix} {
     align-items: center;
-    border-radius: $border_radius_default;
+    border-radius: $border-radius-default;
     cursor: default;
     display: flex;
-    font-family: $font_family_text;
+    font-family: $font-family-text;
     justify-content: space-between;
     margin: 5px;
     min-height: 30px;

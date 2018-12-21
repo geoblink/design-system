@@ -8,7 +8,7 @@
   }
 
   .geo-tab-bar-item#{$modifier-name-with-prefix} {
-    @include font($heading_light);
+    @include font($heading-light);
 
     align-items: center;
     background-color: $color-blue-dark;
