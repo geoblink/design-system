@@ -43,20 +43,23 @@ declare namespace GeoChart {
 
   interface AxisConfig<Domain, RelativeScaleDomain> {
     id: string
-    ticks: {
-      count: number
-      format: (d: object, i: number) => string
-      label: {
-        maximumLengthInAxisDimensionForDrawingEnvironment: (drawingEnvironment: DrawingEnvironment) => number
-        transform: (d: object, i: number, drawingEnvironment: DrawingEnvironment) => string
-      }
-    }
+    keyForValues: string
     position: AxisPosition<RelativeScaleDomain>
     scale: AxisConfigScale<Domain>
     chart: {
       animationsDurationInMilliseconds: number
       size: GeoChart.Size
       margin: GeoChart.Margin
+    }
+    cssClasses?: (originalClasses: string[]) => string[]
+    ticks: {
+      count?: number
+      cssClasses?: (originalClasses: string[]) => string[]
+      format?: (d: object, i: number) => string
+      label?: {
+        maximumLengthInAxisDimensionForDrawingEnvironment?: (drawingEnvironment: DrawingEnvironment) => number
+        transform?: (d: object, i: number, drawingEnvironment: DrawingEnvironment) => string
+      }
     }
   }
 }

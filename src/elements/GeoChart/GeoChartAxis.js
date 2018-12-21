@@ -44,36 +44,27 @@ export function addAxisFactory (d3Instance) {
   const wrapTextForWidthCache = {}
 
   return function (options) {
-    const group = groups[options.id] || d3Instance
-      .append('g')
-      .attr('class', `geo-chart-axis geo-chart-axis-${options.id} geo-chart-axis--${options.position.type}`)
-    groups[options.id] = group
+    const group = getOrSetValue(groups, options.id, () => {
+      const defaultGroupCSSClasses = [
+        `geo-chart-axis geo-chart-axis-${options.id}`,
+        `geo-chart-axis--${options.position.type}`
+      ]
 
-    const xTranslation = getOriginXTranslation(
-      options.position,
-      options.chart.size,
-      options.chart.margin
-    )
-    const yTranslation = getOriginYTranslation(
-      options.position,
-      options.chart.size,
-      options.chart.margin
-    )
+      const getGroupCSSClasses = _.isFunction(options.cssClasses)
+        ? (...args) => options.cssClasses(defaultGroupCSSClasses, ...args).join(' ')
+        : defaultGroupCSSClasses.join(' ')
 
-    const drawingEnvironment = {
-      canvasSize: options.chart.size,
-      chartMargin: options.chart.margin,
-      absolutePosition: {
-        x: xTranslation,
-        y: yTranslation
-      }
-    }
+      return d3Instance
+        .append('g')
+        .attr('class', getGroupCSSClasses)
+    })
 
-    const axis = getAxisForPositionAndScale(options.position, options.scale.axisScale)
+    const drawingEnvironment = getDrawingEnvironment(options)
+    const axis = getAxis(options)
 
     const tickCount = _.get(options, 'ticks.count')
-    const isShowingTicks = (_.isFinite(tickCount) && tickCount > 0) || _.isNil(tickCount)
-    if (isShowingTicks) {
+    const isTickCountForced = _.isFinite(tickCount)
+    if (isTickCountForced) {
       axis.ticks(tickCount)
     }
 
@@ -82,34 +73,20 @@ export function addAxisFactory (d3Instance) {
       axis.tickFormat(tickFormat)
     }
 
+    const isShowingTicks = (isTickCountForced && tickCount > 0) || _.isNil(tickCount)
+
+    if (!isShowingTicks) {
+      axis
+        .tickValues([])
+        .tickSize(0)
+    }
+
     const getLabelMaximumWidth = _.get(options, 'ticks.label.maximumWidth')
     const labelMaximumWidth = _.isFunction(getLabelMaximumWidth)
       ? getLabelMaximumWidth(drawingEnvironment)
       : 0
-    const isLabelWidthLimited = _.isFinite(labelMaximumWidth) && labelMaximumWidth > 0 && isShowingTicks
+    const isLabelWidthLimited = labelMaximumWidth > 0 && isShowingTicks
     const isAnimated = !isLabelWidthLimited && options.chart.animationsDurationInMilliseconds > 0
-
-    const dimension = getAxisDimension(options.position)
-
-    const dominantBaselineForPosition = {
-      [POSITIONS.top]: 'baseline',
-      [POSITIONS.bottom]: 'hanging',
-      [POSITIONS.verticallyCenteredInTheMiddle]: 'baseline',
-      [POSITIONS.left]: 'middle',
-      [POSITIONS.right]: 'middle',
-      [POSITIONS.horizontallyCenteredInTheMiddle]: 'middle',
-      [POSITIONS.anchoredToScale]: dimension === DIMENSIONS.vertical ? 'middle' : null
-    }
-
-    const textAnchorForPosition = {
-      [POSITIONS.top]: 'middle',
-      [POSITIONS.bottom]: 'middle',
-      [POSITIONS.verticallyCenteredInTheMiddle]: 'middle',
-      [POSITIONS.left]: 'end',
-      [POSITIONS.right]: 'start',
-      [POSITIONS.horizontallyCenteredInTheMiddle]: 'end',
-      [POSITIONS.anchoredToScale]: dimension === DIMENSIONS.horizontal ? 'middle' : null
-    }
 
     const animatedGroup = isAnimated
       ? group
@@ -117,54 +94,146 @@ export function addAxisFactory (d3Instance) {
         .duration(options.chart.animationsDurationInMilliseconds)
       : group
 
+    const forcedTickCSSClasses = ['tick']
+    const defaultTickCSSClasses = [`geo-chart-axis-tick--${options.position.type}`]
+    const getTickCSSClasses = _.isFunction(_.get(options, 'ticks.cssClasses'))
+      ? (...args) => [...forcedTickCSSClasses, ...options.ticks.cssClasses(defaultTickCSSClasses, ...args)].join(' ')
+      : [...forcedTickCSSClasses, ...defaultTickCSSClasses].join(' ')
+
     const tickGroups = animatedGroup
-      .attr('transform', `translate(${xTranslation}, ${yTranslation})`)
+      .attr('transform', `translate(${drawingEnvironment.absolutePosition.x}, ${drawingEnvironment.absolutePosition.y})`)
       .call(axis)
       .selectAll('g.tick')
-      .attr('class', `tick geo-chart-axis-tick--${options.position.type}`)
+      .attr('class', getTickCSSClasses)
 
     const textGroups = tickGroups.selectAll('text')
 
     if (isLabelWidthLimited) {
       if (tickFormat) {
-        const wrapTextForWidth = wrapTextForWidthCache[options.id] || wrapTextSegmentsForWidthFactory()
-        wrapTextForWidthCache[options.id] = wrapTextForWidth
-
         const tickValuesOfScale = axis.tickValues() || options.scale.axisScale.domain()
         const tickTexts = _.map(tickValuesOfScale, (value, index) => {
-          return tickFormat(value, index)
+          if (_.isFunction(tickFormat)) return tickFormat(value, index)
+          return value
         })
+
+        const wrapTextForWidth = getOrSetValue(
+          wrapTextForWidthCache,
+          options.id,
+          wrapTextSegmentsForWidthFactory
+        )
 
         textGroups.call(wrapTextForWidth, tickTexts, labelMaximumWidth)
       } else {
-        const wrapTextForWidth = wrapTextForWidthCache[options.id] || wrapTextTagsForWidthFactory()
-        wrapTextForWidthCache[options.id] = wrapTextForWidth
+        const wrapTextForWidth = getOrSetValue(
+          wrapTextForWidthCache,
+          options.id,
+          wrapTextTagsForWidthFactory
+        )
+
         textGroups.call(wrapTextForWidth, labelMaximumWidth)
       }
     }
 
     const labelTransform = _.get(options, 'ticks.label.transform')
     if (labelTransform) {
-      textGroups
-        .attr('transform', (d, i) => labelTransform(d, i, drawingEnvironment))
+      textGroups.attr('transform', (d, i) => labelTransform(d, i, drawingEnvironment))
     }
 
+    const dominantBaseline = getDominantBaselineForPosition(options.position)
+    const textAnchor = getTextAnchorForPosition(options.position)
+
     textGroups
-      .attr('dominant-baseline', dominantBaselineForPosition[options.position.type])
-      .attr('text-anchor', textAnchorForPosition[options.position.type])
+      .attr('dominant-baseline', dominantBaseline)
+      .attr('text-anchor', textAnchor)
       .attr('dx', null)
       .attr('dy', null)
   }
 }
 
+function getOrSetValue (object, key, fallbackGenerator) {
+  const value = _.get(object, key) || fallbackGenerator()
+  _.set(object, key, value)
+  return value
+}
+
+/**
+ * @param {GeoChart.AxisConfig<Domain>} options
+ * @returns {GeoChart.DrawingEnvironment}
+ */
+function getDrawingEnvironment (options) {
+  const xTranslation = getOriginXTranslation(
+    options.position,
+    options.chart.size,
+    options.chart.margin
+  )
+  const yTranslation = getOriginYTranslation(
+    options.position,
+    options.chart.size,
+    options.chart.margin
+  )
+
+  const drawingEnvironment = {
+    canvasSize: options.chart.size,
+    chartMargin: options.chart.margin,
+    absolutePosition: {
+      x: xTranslation,
+      y: yTranslation
+    }
+  }
+
+  return drawingEnvironment
+}
+
 /**
  * @template Domain
- * @template RelativeScaleDomain
- * @param {GeoChart.AxisPosition<RelativeScaleDomain>} position
- * @param {d3.AxisScale<Domain>} scale
+ * @param {GeoChart.AxisPosition<Domain>} position
+ * @returns {string|null}
+ */
+function getDominantBaselineForPosition (position) {
+  const dimension = getAxisDimension(position)
+
+  const dominantBaselineForPosition = {
+    [POSITIONS.top]: 'baseline',
+    [POSITIONS.bottom]: 'hanging',
+    [POSITIONS.verticallyCenteredInTheMiddle]: 'baseline',
+    [POSITIONS.left]: 'middle',
+    [POSITIONS.right]: 'middle',
+    [POSITIONS.horizontallyCenteredInTheMiddle]: 'middle',
+    [POSITIONS.anchoredToScale]: dimension === DIMENSIONS.vertical ? 'middle' : null
+  }
+
+  return dominantBaselineForPosition[position.type]
+}
+
+/**
+ * @template Domain
+ * @param {GeoChart.AxisPosition<Domain>} position
+ * @returns {string|null}
+ */
+function getTextAnchorForPosition (position) {
+  const dimension = getAxisDimension(position)
+
+  const textAnchorForPosition = {
+    [POSITIONS.top]: 'middle',
+    [POSITIONS.bottom]: 'middle',
+    [POSITIONS.verticallyCenteredInTheMiddle]: 'middle',
+    [POSITIONS.left]: 'end',
+    [POSITIONS.right]: 'start',
+    [POSITIONS.horizontallyCenteredInTheMiddle]: 'end',
+    [POSITIONS.anchoredToScale]: dimension === DIMENSIONS.horizontal ? 'middle' : null
+  }
+
+  return textAnchorForPosition[position.type]
+}
+
+/**
+ * @template Domain
+ * @param {GeoChart.AxisConfig<Domain>} options
  * @returns {d3.Axis<Domain>}
  */
-function getAxisForPositionAndScale (position, scale) {
+function getAxis (options) {
+  const { position, scale: { axisScale: scale } } = options
+
   switch (position.type) {
     case POSITIONS.top:
       return d3.axisTop(scale)
@@ -186,7 +255,7 @@ function getAxisForPositionAndScale (position, scale) {
     }
   }
 
-  console.warn(`GeoChart (axis) [component] :: Tried to get axis for unknown position: ${position.type}`, position)
+  console.warn(`GeoChart (axis) [component] :: Tried to get axis for unknown position: ${position.type}`, options)
 }
 
 /**
@@ -222,7 +291,7 @@ export function getAxisDimension (position) {
  * @param {GeoChart.Margin} margin
  * @returns {string}
  */
-export function getOriginXTranslation (position, svgSize, margin) {
+function getOriginXTranslation (position, svgSize, margin) {
   switch (position.type) {
     case POSITIONS.top:
     case POSITIONS.bottom:
@@ -258,7 +327,7 @@ export function getOriginXTranslation (position, svgSize, margin) {
  * @param {GeoChart.Margin} [margin]
  * @returns {string}
  */
-export function getOriginYTranslation (position, svgSize, margin) {
+function getOriginYTranslation (position, svgSize, margin) {
   switch (position.type) {
     case POSITIONS.top:
       return margin.top

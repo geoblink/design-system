@@ -167,14 +167,16 @@ export default {
 
         return [axisConfig.id, {
           id: axisConfig.id,
-          ticks: axisConfig.ticks,
+          keyForValues: axisConfig.keyForValues,
           position,
           chart: {
             animationsDurationInMilliseconds: this.animationsDurationInMilliseconds,
             size: chartSize,
             margin: chartMargin
           },
-          scale
+          scale,
+          cssClasses: axisConfig.cssClasses,
+          ticks: axisConfig.ticks
         }]
       }))
     },

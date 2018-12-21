@@ -198,6 +198,7 @@ export default {
       if (this.horizontalAxis.position in this.POSITIONS) {
         axes.push({
           id: 'horizontal',
+          keyForValues: 'x',
           ticks: {
             count: this.horizontalAxis.ticks
           },
@@ -219,6 +220,7 @@ export default {
       if (this.verticalAxis.position in this.POSITIONS) {
         axes.push({
           id: 'vertical',
+          keyForValues: 'y',
           ticks: {
             count: this.verticalAxis.ticks
           },
@@ -272,6 +274,7 @@ export default {
 
       return {
         id: 'value',
+        keyForValues: 'value',
         ticks: {
           count: 5
         },
@@ -290,14 +293,22 @@ export default {
       }
     },
 
-    categoricalChartVerticalAxisConfig () {
+    categoricalChartLeftVerticalAxisConfig () {
       const emojis = ['😀', '😅', '😂']
 
       return {
-        id: 'category',
+        id: 'category-left',
+        keyForValues: 'category',
+        cssClasses (originalClasses) {
+          return [...originalClasses, 'hide-paths']
+        },
         ticks: {
           format (d, i) {
             return [`${emojis[i]} -`, d, 'with a long suffix']
+          },
+
+          cssClasses (originalClasses) {
+            return [...originalClasses, 'hide-lines']
           },
 
           label: {
@@ -309,6 +320,28 @@ export default {
               return `translate(${-1 * (drawingEnvironment.absolutePosition.x - drawingEnvironment.chartMargin.left + 10)}, 0)`
             }
           }
+        },
+        position: {
+          type: this.POSITIONS.left
+        },
+
+        scale: {
+          type: SCALE_TYPES.categorical,
+          domain: this.categoricalChartCategories,
+          padding: {
+            outer: 0.2,
+            inner: 0.1
+          }
+        }
+      }
+    },
+
+    categoricalChartMiddleVerticalAxisConfig () {
+      return {
+        id: 'category-anchored',
+        keyForValues: 'category',
+        ticks: {
+          count: 0
         },
         position: {
           type: this.POSITIONS.anchoredToScale,
@@ -330,7 +363,8 @@ export default {
     categoricalChartAxisGroups () {
       return [
         this.categoricalChartHorizontalAxisConfig,
-        this.categoricalChartVerticalAxisConfig
+        this.categoricalChartLeftVerticalAxisConfig,
+        this.categoricalChartMiddleVerticalAxisConfig
       ]
     },
 
@@ -351,7 +385,7 @@ export default {
           data: this.categoricalChartData,
           dimension: BARS_DIMENSIONS.horizontal,
           idHorizontalAxis: this.categoricalChartHorizontalAxisConfig.id,
-          idVerticalAxis: this.categoricalChartVerticalAxisConfig.id
+          idVerticalAxis: this.categoricalChartLeftVerticalAxisConfig.id
         }]
       }
     }

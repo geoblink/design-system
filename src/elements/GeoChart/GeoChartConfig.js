@@ -73,24 +73,12 @@ export const scaleCategoricalSchema = {
 export const axisConfigJsonSchema = {
   type: 'object',
   additionalProperties: false,
-  required: ['id', 'position', 'scale'],
+  required: ['id', 'keyForValues', 'position', 'scale'],
   properties: {
-    ticks: {
-      type: 'object',
-      additionalProperties: false,
-      properties: {
-        count: {
-          type: 'integer',
-          minimum: 0
-        },
-        format: {},
-        label: {
-          maximumWidth: {},
-          transform: {}
-        }
-      }
-    },
     id: {
+      type: 'string'
+    },
+    keyForValues: {
       type: 'string'
     },
     position: {
@@ -131,6 +119,43 @@ export const axisConfigJsonSchema = {
     scale: {
       type: 'object',
       oneOf: [scaleLinearSchema, scaleCategoricalSchema]
+    },
+    // Function taking as first parameter an array of CSS classes that would
+    // be set by default. Should return the array of CSS classes to be
+    // finally set. Some addtional CSS classes required by D3 might be added
+    // regardless this customization. Use this function to customize which CSS
+    // classes are set to the group containing this axis.
+    cssClasses: {},
+    ticks: {
+      type: 'object',
+      additionalProperties: false,
+      properties: {
+        count: {
+          type: 'integer',
+          minimum: 0
+        },
+        // Function taking as first parameter an array of CSS classes that would
+        // be set by default. Should return the array of CSS classes to be
+        // finally set. Some addtional CSS classes required by D3 might be added
+        // regardless this customization. Use this function to customize which
+        // CSS classes are set to the group inside this axis containing the
+        // ticks lines and labels.
+        cssClasses: {},
+        // Function taking as first parameter the value of the axis in the domain,
+        // corresponding to the series being drawed and as second parameter its
+        // index. Should return an array of strings to use for ticks of this axis.
+        format: {},
+        label: {
+          // Takes as parameter a drawingEnvironment and should return a number
+          // of px to use as maximum width of tick texts of this axis.
+          maximumWidth: {},
+          // Takes as parameters the value of the axis in the domain,
+          // corresponding to the series being transformed, as second parameter
+          // its index and as third one a drawingEnvironment. Should return a
+          // valid transformation string. https://github.com/trinary/d3-transform
+          transform: {}
+        }
+      }
     }
   }
 }

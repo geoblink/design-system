@@ -131,7 +131,7 @@ function getSingleItemTranslationFactory (options) {
  * @return {number}
  */
 function getAxisScaledValue (axisConfig, singleItem) {
-  const rawValue = singleItem[axisConfig.id]
+  const rawValue = singleItem[axisConfig.keyForValues]
   return axisConfig.scale.axisScale(rawValue)
 }
 

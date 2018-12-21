@@ -7,7 +7,13 @@
   }
 
   .geo-chart#{$modifier-name-with-prefix} {
+    .hide-paths path {
+      visibility: hidden;
+    }
 
+    .hide-lines line {
+      visibility: hidden;
+    }
   }
 
   .geo-chart--debug#{$modifier-name-with-prefix} {
