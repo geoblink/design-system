@@ -249,8 +249,6 @@ export default {
     updateData () {
       if (!_.isEmpty(this.config.barGroups)) {
         this.updateBarGroups()
-      } else {
-        this.updateDummyData()
       }
     },
 
@@ -277,36 +275,6 @@ export default {
           dimension: barGroupConfig.dimension
         })
       }
-    },
-
-    // TODO: Remove this method
-    updateDummyData () {
-      const data = [Math.floor(Math.random() * 100)]
-
-      const dummyNumberElements = this.d3Instance
-        .selectAll('text.dummy-data')
-        .data(data)
-
-      dummyNumberElements
-        .enter()
-        .append('text')
-        .attr('class', 'dummy-data')
-        .attr('x', '50%')
-        .attr('y', '50%')
-        .text(function (d) {
-          console.log('Enter!')
-          return `I'm number ${d}!`
-        })
-
-      dummyNumberElements
-        .text(function (d) {
-          console.log('Update!')
-          return `I'm number ${d}!`
-        })
-
-      dummyNumberElements
-        .exit()
-        .remove()
     },
 
     redrawAxes () {

@@ -5,7 +5,7 @@ import { SCALE_TYPES } from './GeoChartScale'
 export const scaleLinearSchema = {
   type: 'object',
   additionalProperties: false,
-  required: ['type', 'domain'],
+  required: ['type', 'valueForOrigin', 'domain'],
   properties: {
     type: {
       const: SCALE_TYPES.linear

@@ -207,6 +207,7 @@ export default {
 
           scale: {
             type: SCALE_TYPES.linear,
+            valueForOrigin: Math.max(this.horizontalAxis.domain.start, 0),
             domain: {
               start: this.horizontalAxis.domain.start,
               end: this.horizontalAxis.domain.end
@@ -227,6 +228,7 @@ export default {
 
           scale: {
             type: SCALE_TYPES.linear,
+            valueForOrigin: Math.max(this.verticalAxis.domain.start, 0),
             domain: {
               start: this.verticalAxis.domain.start,
               end: this.verticalAxis.domain.end
