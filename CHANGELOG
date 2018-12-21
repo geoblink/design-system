@@ -1,8 +1,15 @@
-# 9.1.1
+# 9.2.1
 
 Changed:
 
 - Use of hyphen for variable names
+
+# 9.2.0
+
+New:
+
+- `GeoSelect` allows using non-fixed width for its dropdown
+- `GeoSelectBase` allows using non-fixed width for its dropdown
 
 # 9.1.0
 
