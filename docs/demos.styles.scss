@@ -68,6 +68,10 @@
   width: 100%;
 }
 
+.element-demo__block--long-highlighted-string .highlighted-string__container {
+  width: 150px;
+}
+
 @include geo-select-make('select-demo');
 @include geo-select-base-make('select-demo');
 @include geo-button-make('test-css-modifier');
