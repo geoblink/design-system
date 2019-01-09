@@ -1,3 +1,9 @@
+# 9.2.2
+
+Fixed:
+
+- `GeoHighlightedString` Fix highlighting of long strings
+
 # 9.2.1
 
 Changed:

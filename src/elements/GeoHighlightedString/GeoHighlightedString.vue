@@ -5,16 +5,11 @@
         v-if="entry.isHighlighted"
         :class="`highlighted-string--highlighted${cssSuffix}`"
         :key="index"
-      >
-        {{ entry.substring }}
-      </div>
-      <div
+      >{{ entry.substring }}</div><div
         v-else
         :class="`highlighted-string--normal${cssSuffix}`"
         :key="index"
-      >
-        {{ entry.substring }}
-      </div>
+      >{{ entry.substring }}</div>
     </template>
   </div>
 </template>
