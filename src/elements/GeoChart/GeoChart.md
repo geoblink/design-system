@@ -309,7 +309,7 @@ export default {
             }, {
               text: d
             }, {
-              cssClasses: ['chart-category-pill'],
+              cssClasses: ['rect-stroke-red-and-text-fill-black'],
               text: 'with a long suffix'
             }]
           },

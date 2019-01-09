@@ -96,3 +96,13 @@
 .geo-chart-bar {
   fill: $color_blue_light;
 }
+
+.rect-stroke-red-and-text-fill-black {
+  rect {
+    stroke: red;
+  }
+
+  text {
+    fill: black;
+  }
+}
