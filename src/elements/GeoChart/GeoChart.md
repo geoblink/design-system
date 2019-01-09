@@ -304,7 +304,14 @@ export default {
         },
         ticks: {
           format (d, i) {
-            return [`${emojis[i]} -`, d, 'with a long suffix']
+            return [{
+              text: `${emojis[i]} - `
+            }, {
+              text: d
+            }, {
+              cssClasses: ['chart-category-pill'],
+              text: 'with a long suffix'
+            }]
           },
 
           cssClasses (originalClasses) {

@@ -55,7 +55,10 @@ declare namespace GeoChart {
     ticks: {
       count?: number
       cssClasses?: (originalClasses: string[]) => string[]
-      format?: (d: object, i: number) => string
+      format?: (d: object, i: number) => {
+        text: string
+        cssClasses: string[]
+      }[]
       label?: {
         maximumLengthInAxisDimensionForDrawingEnvironment?: (drawingEnvironment: DrawingEnvironment) => number
         transform?: (d: object, i: number, drawingEnvironment: DrawingEnvironment) => string

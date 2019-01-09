@@ -143,7 +143,9 @@ export const axisConfigJsonSchema = {
         cssClasses: {},
         // Function taking as first parameter the value of the axis in the domain,
         // corresponding to the series being drawed and as second parameter its
-        // index. Should return an array of strings to use for ticks of this axis.
+        // index. Should return an array of objects with a `text` key for the
+        // text to be displayed in the tick and a `cssClasses` keys for an array
+        // of CSS classes to be applied to the text.
         format: {},
         label: {
           // Takes as parameter a drawingEnvironment and should return a number

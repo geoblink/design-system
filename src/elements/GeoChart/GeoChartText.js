@@ -56,6 +56,23 @@ export function wrapTextSegmentsForWidthFactory () {
 }
 
 /**
+ * @callback wrapTextSegmentsForWidth
+ * @param {d3.Selection<any, any, null, undefined>} textTags
+ * @param {{text: string, cssClasses?: string[]}[][]} segmentsForTags
+ * @param {number} width
+ */
+
+/**
+ * @returns {wrapTextSegmentsForWidth}
+ */
+export function wrapTextSegmentsForCSSClasses (textTags, segmentsForTags, width) {
+  textTags.each(function (value, index) {
+    const textSegments = segmentsForTags[index]
+    makeSinglelineTextTags(this, textSegments)
+  })
+}
+
+/**
  * @param {d3.Selection<any, any, null, undefined>} textTag
  * @param {number} width
  * @returns {string[]}
@@ -152,4 +169,57 @@ function makeMultilineTextTag (textTag, lines) {
       .attr('x', 0)
       .attr('y', y)
   }
+}
+
+/**
+ * @param {d3.Selection<any, any, null, undefined>} textTag
+ * @param {{text: string, cssClasses?: string[]}[]} lines
+ */
+function makeSinglelineTextTags (textTag, lines) {
+  if (!lines.length) return
+
+  const d3TextTag = d3.select(textTag)
+
+  const bbox = d3TextTag.node().getBBox()
+  const { height } = bbox
+
+  const group = d3TextTag
+    .select(function () {
+      return this.parentNode
+    })
+    .append('g')
+
+  const requiredWidthOfLine = []
+  for (const line of lines) {
+    const requiredWidth = d3TextTag.text(line.text).node().getComputedTextLength()
+    requiredWidthOfLine.push(requiredWidth)
+  }
+  const totalWidth = _.max(requiredWidthOfLine)
+
+  for (let lineNumber = 0; lineNumber < lines.length; lineNumber++) {
+    const line = lines[lineNumber]
+    const requiredWidth = requiredWidthOfLine[lineNumber]
+
+    group
+      .attr('class', (line.cssClasses || []).join(' '))
+      .append('rect')
+      .attr('height', height)
+      .attr('width', requiredWidth)
+      .attr('transform', `translate(${totalWidth - requiredWidth}, ${height * lineNumber - height / 2})`)
+
+    group
+      .append('text')
+      .attr('x', 0)
+      .attr('y', 0)
+      .attr('height', height)
+      .attr('width', requiredWidth)
+      .attr('transform', `translate(${totalWidth - requiredWidth}, ${height * lineNumber})`)
+      .attr('text-anchor', 'start')
+      .attr('dominant-baseline', 'middle')
+      .text(line.text)
+  }
+
+  group.attr('transform', `translate(${-totalWidth}, 0)`)
+
+  d3TextTag.remove()
 }

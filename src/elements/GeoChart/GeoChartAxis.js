@@ -3,7 +3,7 @@
 import _ from 'lodash'
 import * as d3 from 'd3'
 
-import { wrapTextTagsForWidthFactory, wrapTextSegmentsForWidthFactory } from './GeoChartText'
+import { wrapTextTagsForWidthFactory, wrapTextSegmentsForCSSClasses } from './GeoChartText'
 
 export const DIMENSIONS = {
   horizontal: 'horizontal',
@@ -111,18 +111,12 @@ export function addAxisFactory (d3Instance) {
     if (isLabelWidthLimited) {
       if (tickFormat) {
         const tickValuesOfScale = axis.tickValues() || options.scale.axisScale.domain()
-        const tickTexts = _.map(tickValuesOfScale, (value, index) => {
+        const tickTextsAndCSSClasses = _.map(tickValuesOfScale, (value, index) => {
           if (_.isFunction(tickFormat)) return tickFormat(value, index)
           return value
         })
 
-        const wrapTextForWidth = getOrSetValue(
-          wrapTextForWidthCache,
-          options.id,
-          wrapTextSegmentsForWidthFactory
-        )
-
-        textGroups.call(wrapTextForWidth, tickTexts, labelMaximumWidth)
+        textGroups.call(wrapTextSegmentsForCSSClasses, tickTextsAndCSSClasses, labelMaximumWidth)
       } else {
         const wrapTextForWidth = getOrSetValue(
           wrapTextForWidthCache,
