@@ -183,11 +183,15 @@ function makeSinglelineTextTags (textTag, lines) {
   const bbox = d3TextTag.node().getBBox()
   const { height } = bbox
 
-  const group = d3TextTag
-    .select(function () {
-      return this.parentNode
-    })
-    .append('g')
+  const d3TextTagParent = d3TextTag.select(function () {
+    return this.parentNode
+  })
+
+  d3TextTagParent
+    .selectAll('g')
+    .remove()
+
+  const group = d3TextTagParent.append('g')
 
   const requiredWidthOfLine = []
   for (const line of lines) {
@@ -221,5 +225,5 @@ function makeSinglelineTextTags (textTag, lines) {
 
   group.attr('transform', `translate(${-totalWidth}, 0)`)
 
-  d3TextTag.remove()
+  d3TextTag.text(null)
 }

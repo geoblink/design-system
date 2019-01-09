@@ -106,7 +106,7 @@ export function addAxisFactory (d3Instance) {
       .selectAll('g.tick')
       .attr('class', getTickCSSClasses)
 
-    const textGroups = tickGroups.selectAll('text')
+    const textGroups = tickGroups.selectAll(':scope > text')
 
     if (isLabelWidthLimited) {
       if (tickFormat) {
