@@ -187,6 +187,91 @@ export const barConfigJsonSchema = {
   }
 }
 
+export const labelConfigJsonSchema = {
+  type: 'object',
+  additionalProperties: false,
+  required: ['data', 'idVerticalAxis'],
+  properties: {
+    data: {
+      type: 'array',
+      additionalItems: false,
+      items: {
+        type: 'object',
+        required: ['labels'],
+        additionalProperties: true,
+        properties: {
+          labels: {
+            type: 'array',
+            additionalItems: false,
+            items: {
+              type: 'object',
+              required: ['text'],
+              additionalProperties: false,
+              properties: {
+                text: {
+                  type: 'string'
+                },
+                padding: {
+                  type: 'object',
+                  required: ['top', 'right', 'bottom', 'left'],
+                  additionalProperties: false,
+                  properties: {
+                    top: {
+                      type: 'number'
+                    },
+                    right: {
+                      type: 'number'
+                    },
+                    bottom: {
+                      type: 'number'
+                    },
+                    left: {
+                      type: 'number'
+                    }
+                  }
+                },
+                margin: {
+                  type: 'object',
+                  required: ['top', 'right', 'bottom', 'left'],
+                  additionalProperties: false,
+                  properties: {
+                    top: {
+                      type: 'number'
+                    },
+                    right: {
+                      type: 'number'
+                    },
+                    bottom: {
+                      type: 'number'
+                    },
+                    left: {
+                      type: 'number'
+                    }
+                  }
+                },
+                cornerRadius: {
+                  type: 'number'
+                },
+                // Function taking as first parameter an array of CSS classes
+                // that would be set by default. Should return the array of CSS
+                // classes to be finally set. Use this function to customize
+                // which CSS classes are set to the group containing the text.
+                // Note that there might be some of the default classes might be
+                // added regardless to your customization as they are required
+                // internally.
+                cssClasses: {}
+              }
+            }
+          }
+        }
+      }
+    },
+    idVerticalAxis: {
+      type: 'string'
+    }
+  }
+}
+
 export const chartConfigJsonSchema = {
   type: 'object',
   additionalProperties: false,
@@ -231,6 +316,11 @@ export const chartConfigJsonSchema = {
       type: 'array',
       additionalItems: false,
       items: barConfigJsonSchema
+    },
+    labelGroups: {
+      type: 'array',
+      additionalItems: false,
+      items: labelConfigJsonSchema
     }
   }
 }

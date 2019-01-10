@@ -13,6 +13,7 @@ import _ from 'lodash'
 import cssSuffix from '../../mixins/cssModifierMixin'
 import { POSITIONS, SIMPLE_POSITIONS, addAxisFactory, getAxisDimension } from './GeoChartAxis'
 import { addBarGroupFactory } from './GeoChartBars'
+import { addLabelGroupFactory } from './GeoChartLabels'
 import { chartConfigJsonSchema } from './GeoChartConfig'
 import { getNewScale } from './GeoChartScale'
 
@@ -189,6 +190,10 @@ export default {
       return addBarGroupFactory(this.d3Instance)
     },
 
+    addLabelGroup () {
+      return addLabelGroupFactory(this.d3Instance)
+    },
+
     debouncedRedraw () {
       return _.debounce(this.redraw.bind(this), 10, {
         leading: true,
@@ -252,6 +257,10 @@ export default {
       if (!_.isEmpty(this.config.barGroups)) {
         this.updateBarGroups()
       }
+
+      if (!_.isEmpty(this.config.labelGroups)) {
+        this.updateLabelGroups()
+      }
     },
 
     updateBarGroups () {
@@ -275,6 +284,29 @@ export default {
           axis,
           data: barGroupConfig.data,
           dimension: barGroupConfig.dimension
+        })
+      }
+    },
+
+    updateLabelGroups () {
+      const chartSize = this.svgSize
+      const chartMargin = this.config.chart.margin
+      const chart = {
+        animationsDurationInMilliseconds: this.animationsDurationInMilliseconds,
+        size: chartSize,
+        margin: chartMargin
+      }
+
+      for (let id = 0; id < this.config.barGroups.length; id++) {
+        const labelGroupConfig = this.config.labelGroups[id]
+        const axis = {
+          vertical: this.axisConfigById[labelGroupConfig.idVerticalAxis]
+        }
+        this.addLabelGroup({
+          id,
+          chart,
+          axis,
+          data: labelGroupConfig.data
         })
       }
     },

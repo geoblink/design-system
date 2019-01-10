@@ -123,7 +123,7 @@
       </div>
     </div>
     <h3 class="element-demo__header">
-      Categorical chart
+      Categorical chart with axis pills
       <div class="element-demo__inline-input-group">
         <geo-primary-button @click="randomizeCategoricalChartData()">
           Randomize data
@@ -132,8 +132,24 @@
     </h3>
     <div class="element-demo__block">
       <geo-chart
-        v-if="categoricalChartConfig"
-        :config="categoricalChartConfig"
+        v-if="categoricalChartWithPillsConfig"
+        :config="categoricalChartWithPillsConfig"
+        :height="heightInPx"
+        :width="widthInPx"
+      />
+    </div>
+    <h3 class="element-demo__header">
+      Categorical chart with multiline axis ticks
+      <div class="element-demo__inline-input-group">
+        <geo-primary-button @click="randomizeCategoricalChartData()">
+          Randomize data
+        </geo-primary-button>
+      </div>
+    </h3>
+    <div class="element-demo__block">
+      <geo-chart
+        v-if="categoricalChartWithMultiLabelAxisConfig"
+        :config="categoricalChartWithMultiLabelAxisConfig"
         :height="heightInPx"
         :width="widthInPx"
       />
@@ -367,15 +383,37 @@ export default {
       }
     },
 
-    categoricalChartAxisGroups () {
-      return [
-        this.categoricalChartHorizontalAxisConfig,
-        this.categoricalChartLeftVerticalAxisConfig,
-        this.categoricalChartMiddleVerticalAxisConfig
-      ]
+    categoricalChartDataLabels () {
+      return _.map(this.categoricalChartData, (data, index) => {
+        const valueForVerticalAxis = data[this.categoricalChartMiddleVerticalAxisConfig.keyForValues]
+        return {
+          [this.categoricalChartMiddleVerticalAxisConfig.keyForValues]: valueForVerticalAxis,
+          labels: [{
+            text: valueForVerticalAxis
+          }, {
+            text: `Variable ${index}`,
+            padding: {
+              top: 7,
+              right: 10,
+              bottom: 2,
+              left: 10
+            },
+            margin: {
+              top: 0,
+              right: 0,
+              bottom: 0,
+              left: 10
+            },
+            cornerRadius: 5,
+            cssClasses (defaultClasses) {
+              return [...defaultClasses, 'rect-stroke-red-and-text-fill-black']
+            }
+          }]
+        }
+      })
     },
 
-    categoricalChartConfig () {
+    categoricalChartWithPillsConfig () {
       if (!this.categoricalChartData) return null
 
       return {
@@ -387,7 +425,40 @@ export default {
             left: 100
           }
         },
-        axisGroups: this.categoricalChartAxisGroups,
+        axisGroups: [
+          this.categoricalChartHorizontalAxisConfig,
+          this.categoricalChartMiddleVerticalAxisConfig
+        ],
+        barGroups: [{
+          data: this.categoricalChartData,
+          dimension: BARS_DIMENSIONS.horizontal,
+          idHorizontalAxis: this.categoricalChartHorizontalAxisConfig.id,
+          idVerticalAxis: this.categoricalChartMiddleVerticalAxisConfig.id
+        }],
+        labelGroups: [{
+          data: this.categoricalChartDataLabels,
+          idVerticalAxis: this.categoricalChartMiddleVerticalAxisConfig.id
+        }]
+      }
+    },
+
+    categoricalChartWithMultiLabelAxisConfig () {
+      if (!this.categoricalChartData) return null
+
+      return {
+        chart: {
+          margin: {
+            top: 30,
+            right: 30,
+            bottom: 30,
+            left: 100
+          }
+        },
+        axisGroups: [
+          this.categoricalChartHorizontalAxisConfig,
+          this.categoricalChartLeftVerticalAxisConfig,
+          this.categoricalChartMiddleVerticalAxisConfig
+        ],
         barGroups: [{
           data: this.categoricalChartData,
           dimension: BARS_DIMENSIONS.horizontal,
