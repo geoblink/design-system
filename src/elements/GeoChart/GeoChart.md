@@ -191,7 +191,8 @@ export default {
         position: 'right'
       },
       debug: true,
-      categoricalChartData: null
+      categoricalChartData: null,
+      categoricalChartAdditionalData: null
     }
   },
   computed: {
@@ -286,7 +287,10 @@ export default {
     categoricalChartHorizontalAxisConfig () {
       if (!this.categoricalChartData) return null
 
-      const values = _.map(this.categoricalChartData, 'value')
+      const values = [
+        ..._.map(this.categoricalChartData, 'value'),
+        ..._.map(this.categoricalChartAdditionalData, 'value')
+      ]
 
       return {
         id: 'value',
@@ -432,6 +436,15 @@ export default {
         barGroups: [{
           data: this.categoricalChartData,
           dimension: BARS_DIMENSIONS.horizontal,
+          naturalWidth: 0.7,
+          naturalNormalOffset: 0.3,
+          idHorizontalAxis: this.categoricalChartHorizontalAxisConfig.id,
+          idVerticalAxis: this.categoricalChartMiddleVerticalAxisConfig.id
+        }, {
+          data: this.categoricalChartAdditionalData,
+          dimension: BARS_DIMENSIONS.horizontal,
+          naturalWidth: 0.1,
+          naturalNormalOffset: 0.1,
           idHorizontalAxis: this.categoricalChartHorizontalAxisConfig.id,
           idVerticalAxis: this.categoricalChartMiddleVerticalAxisConfig.id
         }],
@@ -479,6 +492,16 @@ export default {
           value: _.random(
             this.categoricalChartDomain.start,
             this.categoricalChartDomain.end,
+            false
+          )
+        }
+      })
+      this.categoricalChartAdditionalData = _.map(this.categoricalChartData, (item) => {
+        return {
+          category: item.category,
+          value: item.value * _.random(
+            0.8,
+            1.1,
             false
           )
         }

@@ -283,7 +283,11 @@ export default {
           chart,
           axis,
           data: barGroupConfig.data,
-          dimension: barGroupConfig.dimension
+          dimension: barGroupConfig.dimension,
+          normalOffset: barGroupConfig.normalOffset,
+          naturalNormalOffset: barGroupConfig.naturalNormalOffset,
+          width: barGroupConfig.width,
+          naturalWidth: barGroupConfig.naturalWidth
         })
       }
     },
@@ -297,7 +301,7 @@ export default {
         margin: chartMargin
       }
 
-      for (let id = 0; id < this.config.barGroups.length; id++) {
+      for (let id = 0; id < this.config.labelGroups.length; id++) {
         const labelGroupConfig = this.config.labelGroups[id]
         const axis = {
           vertical: this.axisConfigById[labelGroupConfig.idVerticalAxis]

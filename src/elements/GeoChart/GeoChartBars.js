@@ -28,8 +28,8 @@ export function addBarGroupFactory (d3Instance) {
       .attr('class', `geo-chart-bars-group geo-chart-bars-group--${options.id} geo-chart-bars-group--${options.dimension}`)
     groups[options.id] = group
 
-    const getWidth = (d, i) => getAxisScaledSpan(options.axis.horizontal, d)
-    const getHeight = (d, i) => getAxisScaledSpan(options.axis.vertical, d)
+    const getWidth = (d, i) => getAxisScaledSpan(options.axis.horizontal, d, options)
+    const getHeight = (d, i) => getAxisScaledSpan(options.axis.vertical, d, options)
 
     const getTranslation = getSingleItemTranslationFactory(options)
 
@@ -92,21 +92,23 @@ function getSingleItemTranslationFactory (options) {
     const originHorizontalPosition = horizontalAxis.scale.axisScale(horizontalAxis.scale.valueForOrigin)
     const originVerticalPosition = verticalAxis.scale.axisScale(verticalAxis.scale.valueForOrigin)
 
-    const valueHorizontalSpan = getAxisScaledSpan(horizontalAxis, singleItem)
-    const valueVericalSpan = getAxisScaledSpan(verticalAxis, singleItem)
+    const valueHorizontalSpan = getAxisScaledSpan(horizontalAxis, singleItem, options)
+    const valueVericalSpan = getAxisScaledSpan(verticalAxis, singleItem, options)
 
     const isBarHorizontalLengthIncreasing = isBarAxisLengthIncreasing(horizontalAxis, singleItem)
     const isBarVerticalLengthIncreasing = isBarAxisLengthIncreasing(verticalAxis, singleItem)
+
+    const naturalNormalOffset = _.get(options, 'naturalNormalOffset', 0)
 
     const horizontalAxisTranslationForDimension = {
       [DIMENSIONS.horizontal]: isBarHorizontalLengthIncreasing
         ? originHorizontalPosition
         : originHorizontalPosition - valueHorizontalSpan,
-      [DIMENSIONS.vertical]: getAxisScaledValue(horizontalAxis, singleItem)
+      [DIMENSIONS.vertical]: getAxisScaledValue(horizontalAxis, singleItem) + getAxisScaledSpan(horizontalAxis, singleItem) * naturalNormalOffset
     }
 
     const verticalAxisTranslationForDimension = {
-      [DIMENSIONS.horizontal]: getAxisScaledValue(verticalAxis, singleItem),
+      [DIMENSIONS.horizontal]: getAxisScaledValue(verticalAxis, singleItem) + getAxisScaledSpan(verticalAxis, singleItem) * naturalNormalOffset,
       [DIMENSIONS.vertical]: isBarVerticalLengthIncreasing
         ? originVerticalPosition
         : originVerticalPosition - valueVericalSpan
@@ -141,13 +143,28 @@ function getAxisScaledValue (axisConfig, singleItem) {
  * @template Domain
  * @param {GeoChart.AxisConfig<Domain>} axisConfig
  * @param {object} singleItem
+ * @param {GeoChart.BarGroupConfig<HorizontalDomain, VerticalDomain>} [options]
  * @return {number}
  */
-function getAxisScaledSpan (axisConfig, singleItem) {
-  if (axisConfig.scale.axisScale.bandwidth) return axisConfig.scale.axisScale.bandwidth()
+function getAxisScaledSpan (axisConfig, singleItem, options) {
+  if (isScaleBand(axisConfig.scale.axisScale)) {
+    const widthForOneNaturalUnit = axisConfig.scale.axisScale.bandwidth()
+    const naturalUnitsForWidth = _.get(options, 'naturalWidth', 1)
+    return widthForOneNaturalUnit * naturalUnitsForWidth
+  }
 
   const positionAtOrigin = axisConfig.scale.axisScale(axisConfig.scale.valueForOrigin)
   const positionAtValue = getAxisScaledValue(axisConfig, singleItem)
 
   return Math.abs(positionAtValue - positionAtOrigin)
+}
+
+/**
+ * @template Domain
+ * @param {d3.AxisScale<Domain>} axisScale
+ * @returns {boolean}
+ * @see https://github.com/d3/d3-scale#scaleBand
+ */
+function isScaleBand (axisScale) {
+  return !!axisScale.bandwidth
 }

@@ -17,5 +17,9 @@ declare namespace GeoChart {
       margin: GeoChart.Margin
     }
     data: object[]
+    normalOffset?: number
+    naturalNormalOffset?: number
+    width?: number
+    naturalWidth?: number
   }
 }

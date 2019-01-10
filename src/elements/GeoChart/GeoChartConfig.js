@@ -166,6 +166,23 @@ export const barConfigJsonSchema = {
   type: 'object',
   additionalProperties: false,
   required: ['data', 'dimension', 'idHorizontalAxis', 'idVerticalAxis'],
+  allOf: [{
+    not: { required: ['normal', 'naturalNormal'] }
+  }, {
+    oneOf: [
+      { required: ['normal'] },
+      { required: ['naturalNormal'] },
+      {}
+    ]
+  }, {
+    not: { required: ['width', 'naturalWidth'] }
+  }, {
+    oneOf: [
+      { required: ['width'] },
+      { required: ['naturalWidth'] },
+      { }
+    ]
+  }],
   properties: {
     data: {
       type: 'array',
@@ -173,6 +190,18 @@ export const barConfigJsonSchema = {
       items: {
         type: 'object'
       }
+    },
+    normalOffset: {
+      type: 'number'
+    },
+    naturalNormalOffset: {
+      type: 'number'
+    },
+    width: {
+      type: 'number'
+    },
+    naturalWidth: {
+      type: 'number'
     },
     dimension: {
       type: 'string',
