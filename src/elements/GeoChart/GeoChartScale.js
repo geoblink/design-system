@@ -1,9 +1,16 @@
 /// <reference types="d3" />
 
 import _ from 'lodash'
-import * as d3 from 'd3'
 
 import { DIMENSIONS } from './GeoChartAxis'
+
+const d3 = (function () {
+  try {
+    return require('d3')
+  } catch (error) {
+    return null
+  }
+})()
 
 /**
  * @enum {GeoChart.ScaleType}

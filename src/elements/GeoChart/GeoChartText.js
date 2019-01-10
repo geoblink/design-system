@@ -1,5 +1,12 @@
 import _ from 'lodash'
-import * as d3 from 'd3'
+
+const d3 = (function () {
+  try {
+    return require('d3')
+  } catch (error) {
+    return null
+  }
+})()
 
 /**
  * @callback wrapTextTagsForWidth
