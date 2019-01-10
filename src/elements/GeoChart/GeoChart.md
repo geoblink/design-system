@@ -393,7 +393,7 @@ export default {
         return {
           [this.categoricalChartMiddleVerticalAxisConfig.keyForValues]: valueForVerticalAxis,
           labels: [{
-            text: valueForVerticalAxis
+            text: _.first(`${valueForVerticalAxis}`.split(' '))
           }, {
             text: `Variable ${index}`,
             padding: {
@@ -426,7 +426,7 @@ export default {
             top: 30,
             right: 30,
             bottom: 30,
-            left: 100
+            left: 150
           }
         },
         axisGroups: [
@@ -499,11 +499,7 @@ export default {
       this.categoricalChartAdditionalData = _.map(this.categoricalChartData, (item) => {
         return {
           category: item.category,
-          value: item.value * _.random(
-            0.8,
-            1.1,
-            false
-          )
+          value: item.value * (Math.random() < 0.5 ? _.random(0.4, 0.8, false) : _.random(1.2, 1.5, false))
         }
       })
     }
