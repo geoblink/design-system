@@ -1,9 +1,16 @@
 /// <reference types="d3" />
 
 import _ from 'lodash'
-import * as d3 from 'd3'
 
 import { wrapTextTagsForWidthFactory, wrapTextSegmentsForCSSClasses } from './GeoChartText'
+
+const d3 = (function () {
+  try {
+    return require('d3')
+  } catch (error) {
+    return null
+  }
+})()
 
 export const DIMENSIONS = {
   horizontal: 'horizontal',
