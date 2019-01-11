@@ -5,19 +5,17 @@
 
 props:
   space_xx_large:
-    value: "128px"
+    value: "50px"
   space_x_large:
-    value: "64px"
+    value: "40px"
   space_large:
-    value: "48px"
+    value: "30px"
   space_base:
-    value: "24px"
+    value: "20px"
   space_small:
-    value: "16px"
+    value: "10px"
   space_x_small:
-    value: "8px"
-  space_xx_small:
-    value: "4px"
+    value: "5px"
 global:
   type: number
   category: space
