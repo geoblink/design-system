@@ -37,6 +37,41 @@ export const scaleLinearSchema = {
   }
 }
 
+export const scaleLogarithmicSchema = {
+  type: 'object',
+  additionalProperties: false,
+  required: ['type', 'valueForOrigin', 'domain'],
+  properties: {
+    type: {
+      const: SCALE_TYPES.logarithmic
+    },
+    valueForOrigin: {
+      type: 'number'
+    },
+    domain: {
+      oneOf: [{
+        type: 'object',
+        additionalProperties: false,
+        required: ['start', 'end'],
+        properties: {
+          start: {
+            type: 'number'
+          },
+          end: {
+            type: 'number'
+          }
+        }
+      }, {
+        type: 'array',
+        additionalItems: false,
+        items: {
+          type: 'number'
+        }
+      }]
+    }
+  }
+}
+
 export const scaleCategoricalSchema = {
   type: 'object',
   additionalProperties: false,
@@ -118,7 +153,11 @@ export const axisConfigJsonSchema = {
     },
     scale: {
       type: 'object',
-      oneOf: [scaleLinearSchema, scaleCategoricalSchema]
+      oneOf: [
+        scaleLinearSchema,
+        scaleLogarithmicSchema,
+        scaleCategoricalSchema
+      ]
     },
     // Function taking as first parameter an array of CSS classes that would
     // be set by default. Should return the array of CSS classes to be

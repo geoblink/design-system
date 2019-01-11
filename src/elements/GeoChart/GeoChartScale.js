@@ -17,11 +17,13 @@ const d3 = (function () {
  */
 export const SCALE_TYPES = {
   linear: 'linear',
+  logarithmic: 'logarithmic',
   categorical: 'categorical'
 }
 
 const scaleFactoryForType = {
   [SCALE_TYPES.linear]: d3.scaleLinear,
+  [SCALE_TYPES.logarithmic]: d3.scaleLog,
   [SCALE_TYPES.categorical]: d3.scaleBand
 }
 

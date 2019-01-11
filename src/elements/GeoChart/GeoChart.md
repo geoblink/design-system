@@ -170,6 +170,22 @@
         :width="widthInPx"
       />
     </div>
+    <h3 class="element-demo__header">
+      Numerical chart with multiple series
+      <div class="element-demo__inline-input-group">
+        <geo-primary-button @click="randomizeNumericalChartData()">
+          Randomize data
+        </geo-primary-button>
+      </div>
+    </h3>
+    <div class="element-demo__block">
+      <geo-chart
+        v-if="numericalChartWithWidthAndOffsetConfig"
+        :config="numericalChartWithWidthAndOffsetConfig"
+        :height="heightInPx"
+        :width="widthInPx"
+      />
+    </div>
   </div>
 </template>
 
@@ -208,7 +224,8 @@ export default {
       },
       debug: true,
       categoricalChartData: null,
-      categoricalChartAdditionalData: null
+      categoricalChartAdditionalData: null,
+      numericalChartData: null
     }
   },
   computed: {
@@ -288,8 +305,20 @@ export default {
       return 0
     },
 
+    numericalChartValueForOrigin () {
+      return 0
+    },
+
     categoricalChartDomain () {
       const limit = 500000
+      return {
+        start: -limit,
+        end: limit
+      }
+    },
+
+    numericalChartDomain () {
+      const limit = 500
       return {
         start: -limit,
         end: limit
@@ -398,6 +427,64 @@ export default {
           padding: {
             outer: 0.2,
             inner: 0.1
+          }
+        }
+      }
+    },
+
+    numericalChartTopHorizontalAxisConfig () {
+      if (!this.numericalChartData) return null
+
+      const values = [
+        ..._.map(this.numericalChartData, 'horizontal'),
+        ..._.map(this.numericalChartAdditionalData, 'horizontal')
+      ]
+
+      return {
+        id: 'horizontal-numerical',
+        keyForValues: 'horizontal',
+        ticks: {
+          count: 10
+        },
+        position: {
+          type: this.POSITIONS.top
+        },
+
+        scale: {
+          type: SCALE_TYPES.linear,
+          valueForOrigin: this.numericalChartValueForOrigin,
+          domain: {
+            start: _.min([...values, this.numericalChartValueForOrigin]),
+            end: _.max([...values, this.numericalChartValueForOrigin])
+          }
+        }
+      }
+    },
+
+    numericalChartLeftVerticalAxisConfig () {
+      if (!this.numericalChartData) return null
+
+      const values = [
+        ..._.map(this.numericalChartData, 'vertical'),
+        ..._.map(this.numericalChartAdditionalData, 'vertical')
+      ]
+
+      return {
+        id: 'vertical-numerical',
+        keyForValues: 'vertical',
+        ticks: {
+          count: 5
+        },
+        position: {
+          type: this.POSITIONS.left
+        },
+
+        scale: {
+          type: SCALE_TYPES.logarithmic,
+          valueForOrigin: this.numericalChartValueForOrigin,
+          domain: {
+            start: _.min(values),
+            end: _.max(values)
           }
         }
       }
@@ -528,10 +615,52 @@ export default {
           idVerticalAxis: this.categoricalChartLeftVerticalAxisConfig.id
         }]
       }
+    },
+
+    numericalChartWithWidthAndOffsetConfig () {
+      if (!this.numericalChartData) return null
+
+      return {
+        chart: {
+          margin: {
+            top: 30,
+            right: 0,
+            bottom: 30,
+            left: 50
+          }
+        },
+        axisGroups: [
+          this.numericalChartLeftVerticalAxisConfig,
+          this.numericalChartTopHorizontalAxisConfig
+        ],
+        barGroups: [{
+          data: this.numericalChartData,
+          dimension: BARS_DIMENSIONS.horizontal,
+          naturalWidth: 1,
+          naturalNormalOffset: 0.5,
+          idHorizontalAxis: this.numericalChartTopHorizontalAxisConfig.id,
+          idVerticalAxis: this.numericalChartLeftVerticalAxisConfig.id
+        }, {
+          data: this.numericalChartAdditionalData,
+          dimension: BARS_DIMENSIONS.horizontal,
+          width: 15,
+          normalOffset: 40,
+          idHorizontalAxis: this.numericalChartTopHorizontalAxisConfig.id,
+          idVerticalAxis: this.numericalChartLeftVerticalAxisConfig.id
+        }, {
+          data: this.numericalChartAdditionalData,
+          dimension: BARS_DIMENSIONS.horizontal,
+          width: 5,
+          naturalNormalOffset: 0.5,
+          idHorizontalAxis: this.numericalChartTopHorizontalAxisConfig.id,
+          idVerticalAxis: this.numericalChartLeftVerticalAxisConfig.id
+        }]
+      }
     }
   },
   mounted () {
     this.randomizeCategoricalChartData()
+    this.randomizeNumericalChartData()
   },
   methods: {
     randomizeCategoricalChartData () {
@@ -549,6 +678,25 @@ export default {
         return {
           category: item.category,
           value: item.value * (Math.random() < 0.5 ? _.random(0.4, 0.8, false) : _.random(1.2, 1.5, false))
+        }
+      })
+    },
+
+    randomizeNumericalChartData () {
+      this.numericalChartData = _.times(10, i => {
+        return {
+          vertical: 2 * (i + 1),
+          horizontal: _.random(
+            this.numericalChartDomain.start,
+            this.numericalChartDomain.end,
+            false
+          )
+        }
+      })
+      this.numericalChartAdditionalData = _.map(this.numericalChartData, (item) => {
+        return {
+          vertical: item.vertical,
+          horizontal: item.horizontal * (Math.random() < 0.5 ? _.random(0.4, 0.8, false) : _.random(1.2, 1.5, false))
         }
       })
     }
