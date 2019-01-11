@@ -1,6 +1,6 @@
 /// <reference types="d3" />
 
-import './GeoChartAxis'
+import { EMPTY_MARGIN } from './GeoChartSizing'
 
 import _ from 'lodash'
 
@@ -11,22 +11,6 @@ const d3 = (function () {
     return null
   }
 })()
-
-/**
- * @typedef {object} PaddingOrMargin
- * @property {number} top
- * @property {number} right
- * @property {number} bottom
- * @property {number} left
- */
-
-/** @type {PaddingOrMargin} */
-const emptyPaddingOrMargin = {
-  top: 0,
-  right: 0,
-  bottom: 0,
-  left: 0
-}
 
 /**
  * @callback AddLabelGroupFunction
@@ -262,8 +246,8 @@ function getPositioningAttributes (allRectAndTextGroups) {
 
     const requiredHeightForText = d3TextNode.getBBox().height
     const requiredWidthForText = d3TextNode.getComputedTextLength()
-    const padding = d.padding || emptyPaddingOrMargin
-    const margin = d.margin || emptyPaddingOrMargin
+    const padding = d.padding || EMPTY_MARGIN
+    const margin = d.margin || EMPTY_MARGIN
 
     const widthWithPadding = padding.left + requiredWidthForText + padding.right
     const heightWithPadding = padding.top + requiredHeightForText + padding.bottom

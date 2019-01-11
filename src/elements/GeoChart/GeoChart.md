@@ -139,6 +139,22 @@
       />
     </div>
     <h3 class="element-demo__header">
+      Categorical chart with multiple series
+      <div class="element-demo__inline-input-group">
+        <geo-primary-button @click="randomizeCategoricalChartData()">
+          Randomize data
+        </geo-primary-button>
+      </div>
+    </h3>
+    <div class="element-demo__block">
+      <geo-chart
+        v-if="categoricalChartWithWidthAndOffsetConfig"
+        :config="categoricalChartWithWidthAndOffsetConfig"
+        :height="heightInPx"
+        :width="widthInPx"
+      />
+    </div>
+    <h3 class="element-demo__header">
       Categorical chart with multiline axis ticks
       <div class="element-demo__inline-input-group">
         <geo-primary-button @click="randomizeCategoricalChartData()">
@@ -450,6 +466,39 @@ export default {
         }],
         labelGroups: [{
           data: this.categoricalChartDataLabels,
+          idVerticalAxis: this.categoricalChartMiddleVerticalAxisConfig.id
+        }]
+      }
+    },
+
+    categoricalChartWithWidthAndOffsetConfig () {
+      if (!this.categoricalChartData) return null
+
+      return {
+        chart: {
+          margin: {
+            top: 30,
+            right: 30,
+            bottom: 30,
+            left: 150
+          }
+        },
+        axisGroups: [
+          this.categoricalChartHorizontalAxisConfig,
+          this.categoricalChartMiddleVerticalAxisConfig
+        ],
+        barGroups: [{
+          data: this.categoricalChartData,
+          dimension: BARS_DIMENSIONS.horizontal,
+          width: 35,
+          idHorizontalAxis: this.categoricalChartHorizontalAxisConfig.id,
+          idVerticalAxis: this.categoricalChartMiddleVerticalAxisConfig.id
+        }, {
+          data: this.categoricalChartAdditionalData,
+          dimension: BARS_DIMENSIONS.horizontal,
+          width: 15,
+          normalOffset: 40,
+          idHorizontalAxis: this.categoricalChartHorizontalAxisConfig.id,
           idVerticalAxis: this.categoricalChartMiddleVerticalAxisConfig.id
         }]
       }

@@ -1,5 +1,7 @@
 /// <reference types="d3" />
 
+import _ from 'lodash'
+
 import './GeoChartAxis'
 
 /**
@@ -9,6 +11,8 @@ export const DIMENSIONS = {
   horizontal: 'horizontal',
   vertical: 'vertical'
 }
+
+export const DEFAULT_WIDTH = 10
 
 /**
  * @callback AddBarGroupFunction
@@ -98,17 +102,22 @@ function getSingleItemTranslationFactory (options) {
     const isBarHorizontalLengthIncreasing = isBarAxisLengthIncreasing(horizontalAxis, singleItem)
     const isBarVerticalLengthIncreasing = isBarAxisLengthIncreasing(verticalAxis, singleItem)
 
-    const naturalNormalOffset = _.get(options, 'naturalNormalOffset', 0)
+    // By default we don't want to add any additional translation to be bars
+    // apart from the one required to position it respect to their value in the
+    // normal axis
+    const naturalNormalOffset = isNaturalNormalOffsetForced(options)
+      ? options.naturalNormalOffset
+      : 0
 
     const horizontalAxisTranslationForDimension = {
       [DIMENSIONS.horizontal]: isBarHorizontalLengthIncreasing
         ? originHorizontalPosition
         : originHorizontalPosition - valueHorizontalSpan,
-      [DIMENSIONS.vertical]: getAxisScaledValue(horizontalAxis, singleItem) + getAxisScaledSpan(horizontalAxis, singleItem) * naturalNormalOffset
+      [DIMENSIONS.vertical]: getTranslationForAxisNormalToDimension(horizontalAxis, singleItem)
     }
 
     const verticalAxisTranslationForDimension = {
-      [DIMENSIONS.horizontal]: getAxisScaledValue(verticalAxis, singleItem) + getAxisScaledSpan(verticalAxis, singleItem) * naturalNormalOffset,
+      [DIMENSIONS.horizontal]: getTranslationForAxisNormalToDimension(verticalAxis, singleItem),
       [DIMENSIONS.vertical]: isBarVerticalLengthIncreasing
         ? originVerticalPosition
         : originVerticalPosition - valueVericalSpan
@@ -120,6 +129,29 @@ function getSingleItemTranslationFactory (options) {
     return {
       x: horizontalAxisTranslation,
       y: verticalAxisTranslation
+    }
+
+    /**
+     * @template Domain
+     * @param {GeoChart.AxisConfig<Domain>} normalAxis
+     * @param {object} singleItem
+     */
+    function getTranslationForAxisNormalToDimension (normalAxis, singleItem) {
+      const positionOfItemValue = getAxisScaledValue(normalAxis, singleItem)
+
+      if (isScaleBand(normalAxis.scale.axisScale)) {
+        const normalOffset = isNormalOffsetForced(options)
+          ? options.normalOffset
+          : naturalNormalOffset * normalAxis.scale.axisScale.bandwidth()
+
+        return positionOfItemValue + normalOffset
+      }
+
+      if (isNormalOffsetForced(options)) return positionOfItemValue + options.normalOffset
+
+      return getAxisScaledValue(normalAxis, {
+        [normalAxis.keyForValues]: _.get(singleItem, normalAxis.keyForValues) + naturalNormalOffset
+      })
     }
   }
 }
@@ -138,7 +170,8 @@ function getAxisScaledValue (axisConfig, singleItem) {
 }
 
 /**
- * Returns the span (width or height) of given value in given axis.
+ * Returns the span (width or height) of given value in given axis, also
+ * considering if there's a width overriden.
  *
  * @template Domain
  * @param {GeoChart.AxisConfig<Domain>} axisConfig
@@ -147,24 +180,123 @@ function getAxisScaledValue (axisConfig, singleItem) {
  * @return {number}
  */
 function getAxisScaledSpan (axisConfig, singleItem, options) {
+  if (isDimensionAxis(axisConfig, options) && isWidthForced(options)) return options.width
+
   if (isScaleBand(axisConfig.scale.axisScale)) {
     const widthForOneNaturalUnit = axisConfig.scale.axisScale.bandwidth()
-    const naturalUnitsForWidth = _.get(options, 'naturalWidth', 1)
+    const naturalUnitsForWidth = isDimensionAxis(axisConfig, options)
+      ? _.get(options, 'naturalWidth', 1)
+      : 1
     return widthForOneNaturalUnit * naturalUnitsForWidth
   }
 
-  const positionAtOrigin = axisConfig.scale.axisScale(axisConfig.scale.valueForOrigin)
+  const positionAtAxisOrigin = axisConfig.scale.axisScale(axisConfig.scale.valueForOrigin)
   const positionAtValue = getAxisScaledValue(axisConfig, singleItem)
 
-  return Math.abs(positionAtValue - positionAtOrigin)
+  return Math.abs(getSpanTargetPoint() - getSpanOriginPoint())
+
+  function getSpanOriginPoint () {
+    if (isDimensionAxis(axisConfig, options)) {
+      if (isNaturalWidthForced(options)) {
+        return getAxisScaledValue(axisConfig, {
+          [axisConfig.keyForValues]: _.get(singleItem, axisConfig.keyForValues) - options.naturalWidth / 2
+        })
+      }
+
+      // By default bars will have a width of 10px in non-band scales so they
+      // start 5px below the anchor point.
+      return positionAtValue - _.get(options, 'width', DEFAULT_WIDTH / 2)
+    }
+
+    return positionAtAxisOrigin
+  }
+
+  function getSpanTargetPoint () {
+    if (isDimensionAxis(axisConfig, options)) {
+      if (isNaturalWidthForced(options)) {
+        return getAxisScaledValue(axisConfig, {
+          [axisConfig.keyForValues]: _.get(singleItem, axisConfig.keyForValues) + options.naturalWidth / 2
+        })
+      }
+
+      // By default bars will have a width of 10px in non-band scales so they
+      // start 5px below the anchor point.
+      return positionAtValue + _.get(options, 'width', DEFAULT_WIDTH / 2)
+    }
+
+    return positionAtValue
+  }
 }
 
 /**
  * @template Domain
+ * @template HorizontalDomain
+ * @template VerticalDomain
  * @param {d3.AxisScale<Domain>} axisScale
  * @returns {boolean}
  * @see https://github.com/d3/d3-scale#scaleBand
  */
 function isScaleBand (axisScale) {
   return !!axisScale.bandwidth
+}
+
+/**
+ * Returns the span (width or height) of given value in given axis.
+ *
+ * @template Domain
+ * @template HorizontalDomain
+ * @template VerticalDomain
+ * @param {GeoChart.AxisConfig<Domain>} axisConfig
+ * @param {GeoChart.BarGroupConfig<HorizontalDomain, VerticalDomain>} [options]
+ * @return {boolean}
+ */
+function isDimensionAxis (axisConfig, options) {
+  if (!options) return false
+
+  const axisForDimension = {
+    [DIMENSIONS.horizontal]: options.axis.vertical,
+    [DIMENSIONS.vertical]: options.axis.horizontal
+  }
+
+  return axisForDimension[options.dimension] === axisConfig
+}
+
+/**
+ * @template HorizontalDomain
+ * @template VerticalDomain
+ * @param {GeoChart.BarGroupConfig<HorizontalDomain, VerticalDomain>} [options]
+ * @return {boolean}
+ */
+function isWidthForced (options) {
+  return _.isFinite(_.get(options, 'width'))
+}
+
+/**
+ * @template HorizontalDomain
+ * @template VerticalDomain
+ * @param {GeoChart.BarGroupConfig<HorizontalDomain, VerticalDomain>} [options]
+ * @return {boolean}
+ */
+function isNaturalWidthForced (options) {
+  return _.isFinite(_.get(options, 'naturalWidth'))
+}
+
+/**
+ * @template HorizontalDomain
+ * @template VerticalDomain
+ * @param {GeoChart.BarGroupConfig<HorizontalDomain, VerticalDomain>} [options]
+ * @return {boolean}
+ */
+function isNormalOffsetForced (options) {
+  return _.isFinite(_.get(options, 'normalOffset'))
+}
+
+/**
+ * @template HorizontalDomain
+ * @template VerticalDomain
+ * @param {GeoChart.BarGroupConfig<HorizontalDomain, VerticalDomain>} [options]
+ * @return {boolean}
+ */
+function isNaturalNormalOffsetForced (options) {
+  return _.isFinite(_.get(options, 'naturalNormalOffset'))
 }

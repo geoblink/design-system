@@ -167,21 +167,35 @@ export const barConfigJsonSchema = {
   additionalProperties: false,
   required: ['data', 'dimension', 'idHorizontalAxis', 'idVerticalAxis'],
   allOf: [{
-    not: { required: ['normal', 'naturalNormal'] }
+    oneOf: [{
+      not: {
+        anyOf: [
+          { required: ['normal'] },
+          { required: ['naturalNormal'] }
+        ]
+      }
+    }, {
+      required: ['normal'],
+      not: { required: ['naturalNormal'] }
+    }, {
+      required: ['naturalNormal'],
+      not: { required: ['normal'] }
+    }]
   }, {
-    oneOf: [
-      { required: ['normal'] },
-      { required: ['naturalNormal'] },
-      {}
-    ]
-  }, {
-    not: { required: ['width', 'naturalWidth'] }
-  }, {
-    oneOf: [
-      { required: ['width'] },
-      { required: ['naturalWidth'] },
-      { }
-    ]
+    oneOf: [{
+      not: {
+        anyOf: [
+          { required: ['width'] },
+          { required: ['naturalWidth'] }
+        ]
+      }
+    }, {
+      required: ['width'],
+      not: { required: ['naturalWidth'] }
+    }, {
+      required: ['naturalWidth'],
+      not: { required: ['width'] }
+    }]
   }],
   properties: {
     data: {
@@ -304,7 +318,7 @@ export const labelConfigJsonSchema = {
 export const chartConfigJsonSchema = {
   type: 'object',
   additionalProperties: false,
-  required: ['chart', 'axisGroups'],
+  required: ['axisGroups'],
   properties: {
     chart: {
       type: 'object',

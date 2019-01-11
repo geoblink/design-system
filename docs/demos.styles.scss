@@ -97,6 +97,14 @@
   fill: $color_blue_light;
 }
 
+.geo-chart-bars-group--1 .geo-chart-bar {
+  fill: $color_red;
+}
+
+.geo-chart-bars-group--2 .geo-chart-bar {
+  fill: $color_green;
+}
+
 .rect-stroke-red-and-text-fill-black {
   rect {
     stroke: red;

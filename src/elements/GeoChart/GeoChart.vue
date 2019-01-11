@@ -12,6 +12,7 @@
 import _ from 'lodash'
 import cssSuffix from '../../mixins/cssModifierMixin'
 import { POSITIONS, SIMPLE_POSITIONS, addAxisFactory, getAxisDimension } from './GeoChartAxis'
+import { EMPTY_MARGIN } from './GeoChartSizing'
 import { addBarGroupFactory } from './GeoChartBars'
 import { addLabelGroupFactory } from './GeoChartLabels'
 import { chartConfigJsonSchema } from './GeoChartConfig'
@@ -117,7 +118,7 @@ export default {
 
     scalesById () {
       const chartSize = this.svgSize
-      const chartMargin = this.config.chart.margin
+      const chartMargin = _.get(this.config.chart, 'margin', EMPTY_MARGIN)
       const chart = {
         size: chartSize,
         margin: chartMargin
@@ -157,7 +158,7 @@ export default {
 
     axisConfigById () {
       const chartSize = this.svgSize
-      const chartMargin = this.config.chart.margin
+      const chartMargin = _.get(this.config.chart, 'margin', EMPTY_MARGIN)
 
       return _.fromPairs(_.map(this.config.axisGroups, (axisConfig) => {
         const scale = this.scalesById[axisConfig.id]
@@ -265,7 +266,7 @@ export default {
 
     updateBarGroups () {
       const chartSize = this.svgSize
-      const chartMargin = this.config.chart.margin
+      const chartMargin = _.get(this.config.chart, 'margin', EMPTY_MARGIN)
       const chart = {
         animationsDurationInMilliseconds: this.animationsDurationInMilliseconds,
         size: chartSize,
@@ -294,7 +295,7 @@ export default {
 
     updateLabelGroups () {
       const chartSize = this.svgSize
-      const chartMargin = this.config.chart.margin
+      const chartMargin = _.get(this.config.chart, 'margin', EMPTY_MARGIN)
       const chart = {
         animationsDurationInMilliseconds: this.animationsDurationInMilliseconds,
         size: chartSize,
