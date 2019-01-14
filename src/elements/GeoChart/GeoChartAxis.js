@@ -24,7 +24,7 @@ export const POSITIONS = {
   right: 'right',
   verticallyCenteredInTheMiddle: 'verticallyCenteredInTheMiddle',
   horizontallyCenteredInTheMiddle: 'horizontallyCenteredInTheMiddle',
-  anchoredToScale: 'anchoredToScale'
+  anchoredToAxis: 'anchoredToAxis'
 }
 
 export const SIMPLE_POSITIONS = {
@@ -134,20 +134,6 @@ export function addAxisFactory (d3Instance) {
         textGroups.call(wrapTextForWidth, labelMaximumWidth)
       }
     }
-
-    const labelTransform = _.get(options, 'ticks.label.transform')
-    if (labelTransform) {
-      textGroups.attr('transform', (d, i) => labelTransform(d, i, drawingEnvironment))
-    }
-
-    const dominantBaseline = getDominantBaselineForPosition(options.position)
-    const textAnchor = getTextAnchorForPosition(options.position)
-
-    textGroups
-      .attr('dominant-baseline', dominantBaseline)
-      .attr('text-anchor', textAnchor)
-      .attr('dx', null)
-      .attr('dy', null)
   }
 }
 
@@ -187,48 +173,6 @@ function getDrawingEnvironment (options) {
 
 /**
  * @template Domain
- * @param {GeoChart.AxisPosition<Domain>} position
- * @returns {string|null}
- */
-function getDominantBaselineForPosition (position) {
-  const dimension = getAxisDimension(position)
-
-  const dominantBaselineForPosition = {
-    [POSITIONS.top]: 'baseline',
-    [POSITIONS.bottom]: 'hanging',
-    [POSITIONS.verticallyCenteredInTheMiddle]: 'baseline',
-    [POSITIONS.left]: 'middle',
-    [POSITIONS.right]: 'middle',
-    [POSITIONS.horizontallyCenteredInTheMiddle]: 'middle',
-    [POSITIONS.anchoredToScale]: dimension === DIMENSIONS.vertical ? 'middle' : null
-  }
-
-  return dominantBaselineForPosition[position.type]
-}
-
-/**
- * @template Domain
- * @param {GeoChart.AxisPosition<Domain>} position
- * @returns {string|null}
- */
-function getTextAnchorForPosition (position) {
-  const dimension = getAxisDimension(position)
-
-  const textAnchorForPosition = {
-    [POSITIONS.top]: 'middle',
-    [POSITIONS.bottom]: 'middle',
-    [POSITIONS.verticallyCenteredInTheMiddle]: 'middle',
-    [POSITIONS.left]: 'end',
-    [POSITIONS.right]: 'start',
-    [POSITIONS.horizontallyCenteredInTheMiddle]: 'end',
-    [POSITIONS.anchoredToScale]: dimension === DIMENSIONS.horizontal ? 'middle' : null
-  }
-
-  return textAnchorForPosition[position.type]
-}
-
-/**
- * @template Domain
  * @param {GeoChart.AxisConfig<Domain>} options
  * @returns {d3.Axis<Domain>}
  */
@@ -241,14 +185,14 @@ function getAxis (options) {
     case POSITIONS.bottom:
       return d3.axisBottom(scale)
     case POSITIONS.verticallyCenteredInTheMiddle:
-      return d3.axisTop(scale) // TODO: Implement this properly
+      return d3.axisTop(scale)
     case POSITIONS.left:
       return d3.axisLeft(scale)
     case POSITIONS.right:
       return d3.axisRight(scale)
     case POSITIONS.horizontallyCenteredInTheMiddle:
-      return d3.axisLeft(scale) // TODO: Implement this properly
-    case POSITIONS.anchoredToScale: {
+      return d3.axisLeft(scale)
+    case POSITIONS.anchoredToAxis: {
       const axisDimension = getAxisDimension(position)
       return axisDimension === DIMENSIONS.horizontal
         ? d3.axisBottom(scale)
@@ -274,7 +218,7 @@ export function getAxisDimension (position) {
     case POSITIONS.right:
     case POSITIONS.horizontallyCenteredInTheMiddle:
       return DIMENSIONS.vertical
-    case POSITIONS.anchoredToScale: {
+    case POSITIONS.anchoredToAxis: {
       const anchoredAxisPosition = getAxisDimension(position.relativeAxisPosition)
       return anchoredAxisPosition === DIMENSIONS.horizontal
         ? DIMENSIONS.vertical
@@ -304,7 +248,7 @@ function getOriginXTranslation (position, svgSize, margin) {
       return svgSize.width - margin.right
     case POSITIONS.horizontallyCenteredInTheMiddle:
       return margin.left + (svgSize.width - margin.left - margin.right) / 2
-    case POSITIONS.anchoredToScale: {
+    case POSITIONS.anchoredToAxis: {
       const dimension = getAxisDimension(position)
 
       switch (dimension) {
@@ -340,7 +284,7 @@ function getOriginYTranslation (position, svgSize, margin) {
     case POSITIONS.right:
     case POSITIONS.horizontallyCenteredInTheMiddle:
       return 0
-    case POSITIONS.anchoredToScale: {
+    case POSITIONS.anchoredToAxis: {
       const dimension = getAxisDimension(position)
 
       switch (dimension) {

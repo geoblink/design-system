@@ -21,11 +21,7 @@ export const SCALE_TYPES = {
   categorical: 'categorical'
 }
 
-const scaleFactoryForType = {
-  [SCALE_TYPES.linear]: d3.scaleLinear,
-  [SCALE_TYPES.logarithmic]: d3.scaleLog,
-  [SCALE_TYPES.categorical]: d3.scaleBand
-}
+export const DEFAULT_LOGARITHMIC_SCALE_BASE = 10
 
 /**
  * @typedef BandScalePadding
@@ -76,12 +72,7 @@ export function getNewScale (axisConfig, chart) {
     [DIMENSIONS.vertical]: verticalSpaceAvailable
   }
 
-  const scaleFactory = scaleFactoryForType[scaleConfig.type]
-  if (!scaleFactory) {
-    throw new Error(`GeoChart (scale) [component] :: Trying to get scale of unknown type: ${scaleConfig.type}`)
-  }
-
-  const axisScale = scaleFactory()
+  const axisScale = scaleFactory(scaleConfig)
 
   axisScale.range([
     rangeStartForDimension[axisConfig.dimension],
@@ -110,4 +101,24 @@ export function getNewScale (axisConfig, chart) {
     axisScale,
     valueForOrigin: scaleConfig.valueForOrigin
   }
+}
+
+/**
+ * @param {ScaleConfig} scaleConfig
+ * @returns {d3.AxisScale}
+ */
+function scaleFactory (scaleConfig) {
+  switch (scaleConfig.type) {
+    case SCALE_TYPES.linear:
+      return d3.scaleLinear()
+    case SCALE_TYPES.logarithmic: {
+      const scale = d3.scaleLog()
+      scale.base(scaleConfig.base || DEFAULT_LOGARITHMIC_SCALE_BASE)
+      return scale
+    }
+    case SCALE_TYPES.categorical:
+      return d3.scaleBand()
+  }
+
+  throw new Error(`GeoChart (scale) [component] :: Trying to get scale of unknown type: ${scaleConfig.type}`)
 }

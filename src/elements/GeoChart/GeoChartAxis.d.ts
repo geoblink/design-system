@@ -11,7 +11,7 @@ declare namespace GeoChart {
     right = 'right',
     verticallyCenteredInTheMiddle = 'verticallyCenteredInTheMiddle',
     horizontallyCenteredInTheMiddle = 'horizontallyCenteredInTheMiddle',
-    anchoredToScale = 'anchoredToScale'
+    anchoredToAxis = 'anchoredToAxis'
   }
 
   interface AxisConfigScale<Domain> {
@@ -24,7 +24,7 @@ declare namespace GeoChart {
   }
 
   interface AxisPositionConfigRelative<RelativeScaleDomain> {
-    type: 'anchoredToScale'
+    type: 'anchoredToAxis'
     value: RelativeScaleDomain
     scale: AxisConfigScale<RelativeScaleDomain>
     relativeAxisPosition: AxisPositionConfigSimple
@@ -61,7 +61,6 @@ declare namespace GeoChart {
       }[]
       label?: {
         maximumLengthInAxisDimensionForDrawingEnvironment?: (drawingEnvironment: DrawingEnvironment) => number
-        transform?: (d: object, i: number, drawingEnvironment: DrawingEnvironment) => string
       }
     }
   }

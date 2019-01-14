@@ -1,4 +1,26 @@
-`GeoChart` provides a convenient wrapper on top of D3 to display reactive data.
+`GeoChart` provides a convenient wrapper on top of D3 to display reactive data,
+hiding all the complexities of [D3](https://d3js.org/). To use this component
+you must [install D3](https://github.com/d3/d3/wiki#installing) in your application.
+
+To ease integration of `GeoChart` there's an extensive config validator. The
+JSON schema of the config is available in `GeoChartConfig.js`.
+
+Axis and data representation are completely decoupled. Each different kind of
+chart has a different set of requirements regarding axis and other parameters.
+Check out the documentation of each specific data representation for more info.
+
+**Note** that `GeoChart` API is different from [D3's]() so you need no knowledge
+of [D3](https://d3js.org/) to use it.
+
+## Optional properties
+
+- `margin`: must be an object with `top`, `right`, `bottom` and `left` keys,
+which values are numbers. Applies this margin to the entire chart.
+- `animationsDurationInMilliseconds`: must be a number, allows customizing the
+duration of the animations.
+
+> We encourage you take a look at `GeoChartConfig.js` for more info about global
+> settings.
 
 ```vue
 <template>
@@ -80,7 +102,6 @@
             type="number"
             v-model.number="horizontalAxis.domain.end"
           > position: <select v-model="horizontalAxis.position">
-            <option value="hidden">Hidden</option>
             <option :value="POSITIONS.bottom">Bottom</option>
             <option :value="POSITIONS.top">Top</option>
             <option :value="POSITIONS.verticallyCenteredInTheMiddle">Vertically Centered in the Middle</option>
@@ -107,7 +128,6 @@
             type="number"
             v-model.number="verticalAxis.domain.end"
           > position: <select v-model="verticalAxis.position">
-            <option value="hidden">Hidden</option>
             <option :value="POSITIONS.left">Left</option>
             <option :value="POSITIONS.right">Right</option>
             <option :value="POSITIONS.horizontallyCenteredInTheMiddle">Horizontally Centered in the Middle</option>
@@ -121,70 +141,6 @@
           >
         </label>
       </div>
-    </div>
-    <h3 class="element-demo__header">
-      Categorical chart with axis pills
-      <div class="element-demo__inline-input-group">
-        <geo-primary-button @click="randomizeCategoricalChartData()">
-          Randomize data
-        </geo-primary-button>
-      </div>
-    </h3>
-    <div class="element-demo__block">
-      <geo-chart
-        v-if="categoricalChartWithPillsConfig"
-        :config="categoricalChartWithPillsConfig"
-        :height="heightInPx"
-        :width="widthInPx"
-      />
-    </div>
-    <h3 class="element-demo__header">
-      Categorical chart with multiple series
-      <div class="element-demo__inline-input-group">
-        <geo-primary-button @click="randomizeCategoricalChartData()">
-          Randomize data
-        </geo-primary-button>
-      </div>
-    </h3>
-    <div class="element-demo__block">
-      <geo-chart
-        v-if="categoricalChartWithWidthAndOffsetConfig"
-        :config="categoricalChartWithWidthAndOffsetConfig"
-        :height="heightInPx"
-        :width="widthInPx"
-      />
-    </div>
-    <h3 class="element-demo__header">
-      Categorical chart with multiline axis ticks
-      <div class="element-demo__inline-input-group">
-        <geo-primary-button @click="randomizeCategoricalChartData()">
-          Randomize data
-        </geo-primary-button>
-      </div>
-    </h3>
-    <div class="element-demo__block">
-      <geo-chart
-        v-if="categoricalChartWithMultiLabelAxisConfig"
-        :config="categoricalChartWithMultiLabelAxisConfig"
-        :height="heightInPx"
-        :width="widthInPx"
-      />
-    </div>
-    <h3 class="element-demo__header">
-      Numerical chart with multiple series
-      <div class="element-demo__inline-input-group">
-        <geo-primary-button @click="randomizeNumericalChartData()">
-          Randomize data
-        </geo-primary-button>
-      </div>
-    </h3>
-    <div class="element-demo__block">
-      <geo-chart
-        v-if="numericalChartWithWidthAndOffsetConfig"
-        :config="numericalChartWithWidthAndOffsetConfig"
-        :height="heightInPx"
-        :width="widthInPx"
-      />
     </div>
   </div>
 </template>
@@ -222,10 +178,7 @@ export default {
         ticks: 10,
         position: 'right'
       },
-      debug: true,
-      categoricalChartData: null,
-      categoricalChartAdditionalData: null,
-      numericalChartData: null
+      debug: true
     }
   },
   computed: {
@@ -299,406 +252,6 @@ export default {
         },
         axisGroups: this.axisGroups
       }
-    },
-
-    categoricalChartValueForOrigin () {
-      return 0
-    },
-
-    numericalChartValueForOrigin () {
-      return 0
-    },
-
-    categoricalChartDomain () {
-      const limit = 500000
-      return {
-        start: -limit,
-        end: limit
-      }
-    },
-
-    numericalChartDomain () {
-      const limit = 500
-      return {
-        start: -limit,
-        end: limit
-      }
-    },
-
-    categoricalChartCategories () {
-      return ['First category', 'Second category', 'Third category']
-    },
-
-    categoricalChartHorizontalAxisConfig () {
-      if (!this.categoricalChartData) return null
-
-      const values = [
-        ..._.map(this.categoricalChartData, 'value'),
-        ..._.map(this.categoricalChartAdditionalData, 'value')
-      ]
-
-      return {
-        id: 'value',
-        keyForValues: 'value',
-        ticks: {
-          count: 5
-        },
-        position: {
-          type: this.POSITIONS.bottom
-        },
-
-        scale: {
-          type: SCALE_TYPES.linear,
-          valueForOrigin: this.categoricalChartValueForOrigin,
-          domain: {
-            start: _.min([...values, this.categoricalChartValueForOrigin]),
-            end: _.max([...values, this.categoricalChartValueForOrigin])
-          }
-        }
-      }
-    },
-
-    categoricalChartLeftVerticalAxisConfig () {
-      const emojis = ['😀', '😅', '😂']
-
-      return {
-        id: 'category-left',
-        keyForValues: 'category',
-        cssClasses (originalClasses) {
-          return [...originalClasses, 'hide-paths']
-        },
-        ticks: {
-          format (d, i) {
-            return [{
-              text: `${emojis[i]} - `
-            }, {
-              text: d
-            }, {
-              cssClasses: ['rect-stroke-red-and-text-fill-black'],
-              text: 'with a long suffix'
-            }]
-          },
-
-          cssClasses (originalClasses) {
-            return [...originalClasses, 'hide-lines']
-          },
-
-          label: {
-            maximumWidth (drawingEnvironment) {
-              return drawingEnvironment.chartMargin.left - 10
-            },
-
-            transform (d, i, drawingEnvironment) {
-              return `translate(${-1 * (drawingEnvironment.absolutePosition.x - drawingEnvironment.chartMargin.left + 10)}, 0)`
-            }
-          }
-        },
-        position: {
-          type: this.POSITIONS.left
-        },
-
-        scale: {
-          type: SCALE_TYPES.categorical,
-          domain: this.categoricalChartCategories,
-          padding: {
-            outer: 0.2,
-            inner: 0.1
-          }
-        }
-      }
-    },
-
-    categoricalChartMiddleVerticalAxisConfig () {
-      return {
-        id: 'category-anchored',
-        keyForValues: 'category',
-        ticks: {
-          count: 0
-        },
-        position: {
-          type: this.POSITIONS.anchoredToScale,
-          value: this.categoricalChartValueForOrigin,
-          relativeToScale: 'value'
-        },
-
-        scale: {
-          type: SCALE_TYPES.categorical,
-          domain: this.categoricalChartCategories,
-          padding: {
-            outer: 0.2,
-            inner: 0.1
-          }
-        }
-      }
-    },
-
-    numericalChartTopHorizontalAxisConfig () {
-      if (!this.numericalChartData) return null
-
-      const values = [
-        ..._.map(this.numericalChartData, 'horizontal'),
-        ..._.map(this.numericalChartAdditionalData, 'horizontal')
-      ]
-
-      return {
-        id: 'horizontal-numerical',
-        keyForValues: 'horizontal',
-        ticks: {
-          count: 10
-        },
-        position: {
-          type: this.POSITIONS.top
-        },
-
-        scale: {
-          type: SCALE_TYPES.linear,
-          valueForOrigin: this.numericalChartValueForOrigin,
-          domain: {
-            start: _.min([...values, this.numericalChartValueForOrigin]),
-            end: _.max([...values, this.numericalChartValueForOrigin])
-          }
-        }
-      }
-    },
-
-    numericalChartLeftVerticalAxisConfig () {
-      if (!this.numericalChartData) return null
-
-      const values = [
-        ..._.map(this.numericalChartData, 'vertical'),
-        ..._.map(this.numericalChartAdditionalData, 'vertical')
-      ]
-
-      return {
-        id: 'vertical-numerical',
-        keyForValues: 'vertical',
-        ticks: {
-          count: 5
-        },
-        position: {
-          type: this.POSITIONS.left
-        },
-
-        scale: {
-          type: SCALE_TYPES.logarithmic,
-          valueForOrigin: this.numericalChartValueForOrigin,
-          domain: {
-            start: _.min(values),
-            end: _.max(values)
-          }
-        }
-      }
-    },
-
-    categoricalChartDataLabels () {
-      return _.map(this.categoricalChartData, (data, index) => {
-        const valueForVerticalAxis = data[this.categoricalChartMiddleVerticalAxisConfig.keyForValues]
-        return {
-          [this.categoricalChartMiddleVerticalAxisConfig.keyForValues]: valueForVerticalAxis,
-          labels: [{
-            text: _.first(`${valueForVerticalAxis}`.split(' '))
-          }, {
-            text: `Variable ${index}`,
-            padding: {
-              top: 7,
-              right: 10,
-              bottom: 2,
-              left: 10
-            },
-            margin: {
-              top: 0,
-              right: 0,
-              bottom: 0,
-              left: 10
-            },
-            cornerRadius: 5,
-            cssClasses (defaultClasses) {
-              return [...defaultClasses, 'rect-stroke-red-and-text-fill-black']
-            }
-          }]
-        }
-      })
-    },
-
-    categoricalChartWithPillsConfig () {
-      if (!this.categoricalChartData) return null
-
-      return {
-        chart: {
-          margin: {
-            top: 30,
-            right: 30,
-            bottom: 30,
-            left: 150
-          }
-        },
-        axisGroups: [
-          this.categoricalChartHorizontalAxisConfig,
-          this.categoricalChartMiddleVerticalAxisConfig
-        ],
-        barGroups: [{
-          data: this.categoricalChartData,
-          dimension: BARS_DIMENSIONS.horizontal,
-          naturalWidth: 0.7,
-          naturalNormalOffset: 0.3,
-          idHorizontalAxis: this.categoricalChartHorizontalAxisConfig.id,
-          idVerticalAxis: this.categoricalChartMiddleVerticalAxisConfig.id
-        }, {
-          data: this.categoricalChartAdditionalData,
-          dimension: BARS_DIMENSIONS.horizontal,
-          naturalWidth: 0.1,
-          naturalNormalOffset: 0.1,
-          idHorizontalAxis: this.categoricalChartHorizontalAxisConfig.id,
-          idVerticalAxis: this.categoricalChartMiddleVerticalAxisConfig.id
-        }],
-        labelGroups: [{
-          data: this.categoricalChartDataLabels,
-          idVerticalAxis: this.categoricalChartMiddleVerticalAxisConfig.id
-        }]
-      }
-    },
-
-    categoricalChartWithWidthAndOffsetConfig () {
-      if (!this.categoricalChartData) return null
-
-      return {
-        chart: {
-          margin: {
-            top: 30,
-            right: 30,
-            bottom: 30,
-            left: 150
-          }
-        },
-        axisGroups: [
-          this.categoricalChartHorizontalAxisConfig,
-          this.categoricalChartMiddleVerticalAxisConfig
-        ],
-        barGroups: [{
-          data: this.categoricalChartData,
-          dimension: BARS_DIMENSIONS.horizontal,
-          width: 35,
-          idHorizontalAxis: this.categoricalChartHorizontalAxisConfig.id,
-          idVerticalAxis: this.categoricalChartMiddleVerticalAxisConfig.id
-        }, {
-          data: this.categoricalChartAdditionalData,
-          dimension: BARS_DIMENSIONS.horizontal,
-          width: 15,
-          normalOffset: 40,
-          idHorizontalAxis: this.categoricalChartHorizontalAxisConfig.id,
-          idVerticalAxis: this.categoricalChartMiddleVerticalAxisConfig.id
-        }]
-      }
-    },
-
-    categoricalChartWithMultiLabelAxisConfig () {
-      if (!this.categoricalChartData) return null
-
-      return {
-        chart: {
-          margin: {
-            top: 30,
-            right: 30,
-            bottom: 30,
-            left: 100
-          }
-        },
-        axisGroups: [
-          this.categoricalChartHorizontalAxisConfig,
-          this.categoricalChartLeftVerticalAxisConfig,
-          this.categoricalChartMiddleVerticalAxisConfig
-        ],
-        barGroups: [{
-          data: this.categoricalChartData,
-          dimension: BARS_DIMENSIONS.horizontal,
-          idHorizontalAxis: this.categoricalChartHorizontalAxisConfig.id,
-          idVerticalAxis: this.categoricalChartLeftVerticalAxisConfig.id
-        }]
-      }
-    },
-
-    numericalChartWithWidthAndOffsetConfig () {
-      if (!this.numericalChartData) return null
-
-      return {
-        chart: {
-          margin: {
-            top: 30,
-            right: 0,
-            bottom: 30,
-            left: 50
-          }
-        },
-        axisGroups: [
-          this.numericalChartLeftVerticalAxisConfig,
-          this.numericalChartTopHorizontalAxisConfig
-        ],
-        barGroups: [{
-          data: this.numericalChartData,
-          dimension: BARS_DIMENSIONS.horizontal,
-          naturalWidth: 1,
-          naturalNormalOffset: 0.5,
-          idHorizontalAxis: this.numericalChartTopHorizontalAxisConfig.id,
-          idVerticalAxis: this.numericalChartLeftVerticalAxisConfig.id
-        }, {
-          data: this.numericalChartAdditionalData,
-          dimension: BARS_DIMENSIONS.horizontal,
-          width: 15,
-          normalOffset: 40,
-          idHorizontalAxis: this.numericalChartTopHorizontalAxisConfig.id,
-          idVerticalAxis: this.numericalChartLeftVerticalAxisConfig.id
-        }, {
-          data: this.numericalChartAdditionalData,
-          dimension: BARS_DIMENSIONS.horizontal,
-          width: 5,
-          naturalNormalOffset: 0.5,
-          idHorizontalAxis: this.numericalChartTopHorizontalAxisConfig.id,
-          idVerticalAxis: this.numericalChartLeftVerticalAxisConfig.id
-        }]
-      }
-    }
-  },
-  mounted () {
-    this.randomizeCategoricalChartData()
-    this.randomizeNumericalChartData()
-  },
-  methods: {
-    randomizeCategoricalChartData () {
-      this.categoricalChartData = _.map(this.categoricalChartCategories, (category) => {
-        return {
-          category,
-          value: _.random(
-            this.categoricalChartDomain.start,
-            this.categoricalChartDomain.end,
-            false
-          )
-        }
-      })
-      this.categoricalChartAdditionalData = _.map(this.categoricalChartData, (item) => {
-        return {
-          category: item.category,
-          value: item.value * (Math.random() < 0.5 ? _.random(0.4, 0.8, false) : _.random(1.2, 1.5, false))
-        }
-      })
-    },
-
-    randomizeNumericalChartData () {
-      this.numericalChartData = _.times(10, i => {
-        return {
-          vertical: 2 * (i + 1),
-          horizontal: _.random(
-            this.numericalChartDomain.start,
-            this.numericalChartDomain.end,
-            false
-          )
-        }
-      })
-      this.numericalChartAdditionalData = _.map(this.numericalChartData, (item) => {
-        return {
-          vertical: item.vertical,
-          horizontal: item.horizontal * (Math.random() < 0.5 ? _.random(0.4, 0.8, false) : _.random(1.2, 1.5, false))
-        }
-      })
     }
   }
 }

@@ -55,19 +55,25 @@ export const scaleLogarithmicSchema = {
         required: ['start', 'end'],
         properties: {
           start: {
-            type: 'number'
+            type: 'number',
+            exclusiveMinimum: 0
           },
           end: {
-            type: 'number'
+            type: 'number',
+            exclusiveMinimum: 0
           }
         }
       }, {
         type: 'array',
         additionalItems: false,
         items: {
-          type: 'number'
+          type: 'number',
+          exclusiveMinimum: 0
         }
       }]
+    },
+    base: {
+      type: 'number'
     }
   }
 }
@@ -81,7 +87,7 @@ export const scaleCategoricalSchema = {
       const: SCALE_TYPES.categorical
     },
     valueForOrigin: {
-      type: 'string'
+      type: ['string', 'number']
     },
     domain: {
       type: 'array',
@@ -137,15 +143,15 @@ export const axisConfigJsonSchema = {
       }, {
         type: 'object',
         additionalProperties: false,
-        required: ['type', 'value', 'relativeToScale'],
+        required: ['type', 'value', 'relativeToAxis'],
         properties: {
           type: {
-            const: POSITIONS.anchoredToScale
+            const: POSITIONS.anchoredToAxis
           },
           value: {
             type: 'number'
           },
-          relativeToScale: {
+          relativeToAxis: {
             type: 'string'
           }
         }
@@ -183,18 +189,16 @@ export const axisConfigJsonSchema = {
         // Function taking as first parameter the value of the axis in the domain,
         // corresponding to the series being drawed and as second parameter its
         // index. Should return an array of objects with a `text` key for the
-        // text to be displayed in the tick and a `cssClasses` keys for an array
+        // text to be displayed in the tick and a `cssClasses` key for an array
         // of CSS classes to be applied to the text.
         format: {},
         label: {
-          // Takes as parameter a drawingEnvironment and should return a number
-          // of px to use as maximum width of tick texts of this axis.
-          maximumWidth: {},
-          // Takes as parameters the value of the axis in the domain,
-          // corresponding to the series being transformed, as second parameter
-          // its index and as third one a drawingEnvironment. Should return a
-          // valid transformation string. https://github.com/trinary/d3-transform
-          transform: {}
+          type: 'object',
+          properties: {
+            // Takes as parameter a drawingEnvironment and should return a number
+            // of px to use as maximum width of tick texts of this axis.
+            maximumWidth: {}
+          }
         }
       }
     }

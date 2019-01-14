@@ -84,6 +84,10 @@ export default {
   release: '9.1.0',
   mixins: [cssSuffix],
   props: {
+    /**
+     * Main chart config. See the docs for more info or check out the JSON
+     * schema in `GeoChartConfig.js`.
+     */
     config: {
       type: Object,
       required: true,
@@ -91,6 +95,10 @@ export default {
         return chartConfigValidator(value)
       }
     },
+    /**
+     * Whether debug grid (a square gray grid) should be displayed (`true`) or
+     * not. Useful to find errors in charts.
+     */
     debug: {
       type: Boolean,
       default: false
@@ -111,8 +119,8 @@ export default {
     },
 
     animationsDurationInMilliseconds () {
-      return _.isFinite(this.config.animationsDurationInMilliseconds)
-        ? this.config.animationsDurationInMilliseconds
+      return _.isFinite(this.config.chart.animationsDurationInMilliseconds)
+        ? this.config.chart.animationsDurationInMilliseconds
         : 250
     },
 
@@ -326,8 +334,8 @@ export default {
 }
 
 function getPositionOfAxis (axisConfig, { scalesById, axisGroups }) {
-  if (axisConfig.position.type === POSITIONS.anchoredToScale) {
-    return getPositionOfAnchoredToScalePositionedAxis(axisConfig.position, { scalesById, axisGroups })
+  if (axisConfig.position.type === POSITIONS.anchoredToAxis) {
+    return getPositionOfAnchoredToAxisPositionedAxis(axisConfig.position, { scalesById, axisGroups })
   }
 
   return {
@@ -335,19 +343,19 @@ function getPositionOfAxis (axisConfig, { scalesById, axisGroups }) {
   }
 }
 
-function getPositionOfAnchoredToScalePositionedAxis (position, { scalesById, axisGroups }) {
+function getPositionOfAnchoredToAxisPositionedAxis (position, { scalesById, axisGroups }) {
   const relativeAxisConfig = _.find(axisGroups, {
-    id: position.relativeToScale
+    id: position.relativeToAxis
   })
 
   if (!relativeAxisConfig) {
-    throw new Error(`GeoChart [component] :: Tried to add an axis relative to unknown scale ${position.relativeToScale}`)
+    throw new Error(`GeoChart [component] :: Tried to add an axis relative to unknown axis ${position.relativeToAxis}`)
   }
 
-  const scale = scalesById[position.relativeToScale]
+  const scale = scalesById[position.relativeToAxis]
 
   return {
-    type: POSITIONS.anchoredToScale,
+    type: POSITIONS.anchoredToAxis,
     value: position.value,
     scale,
     relativeAxisPosition: getPositionOfAxis(relativeAxisConfig, { scalesById, axisGroups })

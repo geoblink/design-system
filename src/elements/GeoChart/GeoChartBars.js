@@ -4,6 +4,14 @@ import _ from 'lodash'
 
 import './GeoChartAxis'
 
+const d3 = (function () {
+  try {
+    return require('d3')
+  } catch (error) {
+    return null
+  }
+})()
+
 /**
  * @enum {GeoChart.BarDimension}
  */
@@ -35,6 +43,23 @@ export function addBarGroupFactory (d3Instance) {
     const getWidth = (d, i) => getAxisScaledSpan(options.axis.horizontal, d, options)
     const getHeight = (d, i) => getAxisScaledSpan(options.axis.vertical, d, options)
 
+    const getNewItemInitialWidth = (d, i) => {
+      switch (options.dimension) {
+        case DIMENSIONS.horizontal:
+          return 0
+        case DIMENSIONS.vertical:
+          return getWidth(d, i)
+      }
+    }
+    const getNewItemInitialHeight = (d, i) => {
+      switch (options.dimension) {
+        case DIMENSIONS.horizontal:
+          return getHeight(d, i)
+        case DIMENSIONS.vertical:
+          return 0
+      }
+    }
+
     const getTranslation = getSingleItemTranslationFactory(options)
 
     const bars = group
@@ -44,6 +69,11 @@ export function addBarGroupFactory (d3Instance) {
     bars
       .enter()
       .append('rect')
+      .attr('transform', getNewItemInitialTransform)
+      .attr('width', getNewItemInitialWidth)
+      .attr('height', getNewItemInitialHeight)
+      .transition()
+      .duration(options.chart.animationsDurationInMilliseconds)
       .attr('class', (d, i) => `geo-chart-bar geo-chart-bar--${i} geo-chart-bar--${options.dimension}`)
       .attr('transform', getTransform)
       .attr('width', getWidth)
@@ -58,11 +88,55 @@ export function addBarGroupFactory (d3Instance) {
 
     bars
       .exit()
+      .transition()
+      .duration(options.chart.animationsDurationInMilliseconds)
+      .attr('transform', getItemToBeRemovedFinalTransform)
+      .attr('width', getNewItemInitialWidth)
+      .attr('height', getNewItemInitialHeight)
       .remove()
 
     function getTransform (d, i) {
       const translation = getTranslation(d, i)
+
+      if (_.isNaN(translation.x)) {
+        throw new Error('GeoChart (bars) [component] :: Wrong translation in x-axis. This usually means that the bar group axes have been swapped or misconfigured.')
+      }
+
+      if (_.isNaN(translation.y)) {
+        throw new Error('GeoChart (bars) [component] :: Wrong translation in y-axis. This usually means that the bar group axes have been swapped or misconfigured.')
+      }
+
       return `translate(${translation.x}, ${translation.y})`
+    }
+
+    function getNewItemInitialTransform (d, i) {
+      const translationForItemAtOrigin = getTranslation({
+        [options.axis.horizontal.keyForValues]: options.axis.horizontal.scale.valueForOrigin,
+        [options.axis.vertical.keyForValues]: options.axis.vertical.scale.valueForOrigin
+      }, i)
+      const translation = getTranslation(d, i)
+
+      switch (options.dimension) {
+        case DIMENSIONS.horizontal:
+          return `translate(${translationForItemAtOrigin.x}, ${translation.y})`
+        case DIMENSIONS.vertical:
+          return `translate(${translation.x}, ${translationForItemAtOrigin.y})`
+      }
+    }
+
+    function getItemToBeRemovedFinalTransform (d, i) {
+      const previousTransform = d3.select(this).attr('transform')
+      const translationForItemAtOrigin = getTranslation({
+        [options.axis.horizontal.keyForValues]: options.axis.horizontal.scale.valueForOrigin,
+        [options.axis.vertical.keyForValues]: options.axis.vertical.scale.valueForOrigin
+      }, i)
+
+      switch (options.dimension) {
+        case DIMENSIONS.horizontal:
+          return previousTransform.replace(/(.*\s*translate\()[^,]*(,.*)/gi, `$1${translationForItemAtOrigin.x}$2`)
+        case DIMENSIONS.vertical:
+          return previousTransform.replace(/(.*\s*translate\([^,]*,)[^)]*(\).*)/gi, `$1${translationForItemAtOrigin.y}$2`)
+      }
     }
   }
 }
