@@ -60,7 +60,7 @@ declare namespace GeoChart {
         cssClasses: string[]
       }[]
       label?: {
-        maximumWidth?: (drawingEnvironment: DrawingEnvironment) => number
+        maxWidth?: (drawingEnvironment: DrawingEnvironment) => number
       }
     }
   }

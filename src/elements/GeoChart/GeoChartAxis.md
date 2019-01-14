@@ -491,7 +491,7 @@ export default {
               }]
             },
             label: {
-              maximumWidth (drawingEnvironment) {
+              maxWidth (drawingEnvironment) {
                 return drawingEnvironment.chartMargin.left
               }
             }

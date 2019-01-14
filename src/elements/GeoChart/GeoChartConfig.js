@@ -197,7 +197,7 @@ export const axisConfigJsonSchema = {
           properties: {
             // Takes as parameter a drawingEnvironment and should return a number
             // of px to use as maximum width of tick texts of this axis.
-            maximumWidth: {}
+            maxWidth: {}
           }
         }
       }

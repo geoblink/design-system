@@ -92,11 +92,11 @@ export function factory (d3Instance) {
         .tickSize(0)
     }
 
-    const getLabelMaximumWidth = _.get(options, 'ticks.label.maximumWidth')
-    const labelMaximumWidth = _.isFunction(getLabelMaximumWidth)
-      ? getLabelMaximumWidth(drawingEnvironment)
+    const getLabelMaxWidth = _.get(options, 'ticks.label.maxWidth')
+    const labelMaxWidth = _.isFunction(getLabelMaxWidth)
+      ? getLabelMaxWidth(drawingEnvironment)
       : 0
-    const isLabelWidthLimited = labelMaximumWidth > 0 && isShowingTicks
+    const isLabelWidthLimited = labelMaxWidth > 0 && isShowingTicks
     const isAnimated = !isLabelWidthLimited && options.chart.animationsDurationInMilliseconds > 0
 
     const animatedGroup = isAnimated
@@ -127,7 +127,7 @@ export function factory (d3Instance) {
           return value
         })
 
-        textGroups.call(wrapTextSegmentsForCSSClasses, tickTextsAndCSSClasses, labelMaximumWidth)
+        textGroups.call(wrapTextSegmentsForCSSClasses, tickTextsAndCSSClasses, labelMaxWidth)
       } else {
         const wrapTextForWidth = getOrSetValue(
           wrapTextForWidthCache,
@@ -135,7 +135,7 @@ export function factory (d3Instance) {
           wrapTextTagsForWidthFactory
         )
 
-        textGroups.call(wrapTextForWidth, labelMaximumWidth)
+        textGroups.call(wrapTextForWidth, labelMaxWidth)
       }
     }
   }
