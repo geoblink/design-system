@@ -64,7 +64,7 @@ to be displayed as value for given tick or an array of specially crafted objects
 
 ### Multiline ticks
 
-Sometimes the text is long enough to fit nicely in multilple lines. Even if the
+Sometimes the text is long enough to fit nicely in multiple lines. Even if the
 text is going to be displayed in a single line, you might be interested in adding
 additional CSS classes to further customize the text.
 
