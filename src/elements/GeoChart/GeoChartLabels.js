@@ -18,7 +18,11 @@ const d3 = (function () {
  */
 
 /**
- * @param {d3.Selection<any, any, null, undefined>} d3Instance
+ * @template GElement
+ * @template Datum
+ * @template PElement
+ * @template PDatum
+ * @param {d3.Selection<GElement, Datum, PElement, PDatum>} d3Instance
  * @returns {AddLabelGroupFunction}
  */
 export function groupFactory (d3Instance) {
@@ -185,7 +189,11 @@ function getAxisScaledSpan (axisConfig, singleItem) {
  */
 
 /**
- * @param {d3.Selection<any, any, null, undefined>} allSingleLabelGroups
+ * @template GElement
+ * @template Datum
+ * @template PElement
+ * @template PDatum
+ * @param {d3.Selection<GElement, Datum, PElement, PDatum>} allSingleLabelGroups
  */
 function applyPositioningAttributes (allSingleLabelGroups) {
   const positioningAttributes = getPositioningAttributes(allSingleLabelGroups)
@@ -224,7 +232,11 @@ function applyPositioningAttributes (allSingleLabelGroups) {
 }
 
 /**
- * @param {d3.Selection<any, any, null, undefined>} allRectAndTextGroups
+ * @template GElement
+ * @template Datum
+ * @template PElement
+ * @template PDatum
+ * @param {d3.Selection<GElement, Datum, PElement, PDatum>} allRectAndTextGroups
  * @returns {PositioningAttributes[]}
  */
 function getPositioningAttributes (allRectAndTextGroups) {

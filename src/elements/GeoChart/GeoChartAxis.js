@@ -43,7 +43,11 @@ export const SIMPLE_POSITIONS = {
  */
 
 /**
- * @param {d3.Selection<any, any, null, undefined>} d3Instance
+ * @template GElement
+ * @template Datum
+ * @template PElement
+ * @template PDatum
+ * @param {d3.Selection<GElement, Datum, PElement, PDatum>} d3Instance
  * @returns {AddAxisFunction}
  */
 export function factory (d3Instance) {

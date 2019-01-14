@@ -10,7 +10,11 @@ const d3 = (function () {
 
 /**
  * @callback wrapTextTagsForWidth
- * @param {d3.Selection<any, any, null, undefined>} textTags
+ * @template GElement
+ * @template Datum
+ * @template PElement
+ * @template PDatum
+ * @param {d3.Selection<GElement, Datum, PElement, PDatum>} textTags
  * @param {number} width
  */
 
@@ -37,7 +41,11 @@ export function wrapTextTagsForWidthFactory () {
 
 /**
  * @callback wrapTextSegmentsForWidth
- * @param {d3.Selection<any, any, null, undefined>} textTags
+ * @template GElement
+ * @template Datum
+ * @template PElement
+ * @template PDatum
+ * @param {d3.Selection<GElement, Datum, PElement, PDatum>} textTags
  * @param {string[][]} segmentsForTags
  * @param {number} width
  */
@@ -64,7 +72,11 @@ export function wrapTextSegmentsForWidthFactory () {
 
 /**
  * @callback wrapTextSegmentsForWidth
- * @param {d3.Selection<any, any, null, undefined>} textTags
+ * @template GElement
+ * @template Datum
+ * @template PElement
+ * @template PDatum
+ * @param {d3.Selection<GElement, Datum, PElement, PDatum>} textTags
  * @param {{text: string, cssClasses?: string[]}[][]} segmentsForTags
  * @param {number} width
  */
@@ -80,7 +92,11 @@ export function wrapTextSegmentsForCSSClasses (textTags, segmentsForTags, width)
 }
 
 /**
- * @param {d3.Selection<any, any, null, undefined>} textTag
+ * @template GElement
+ * @template Datum
+ * @template PElement
+ * @template PDatum
+ * @param {d3.Selection<GElement, Datum, PElement, PDatum>} textTag
  * @param {number} width
  * @returns {string[]}
  */
@@ -93,7 +109,11 @@ function getRequiredLinesForTextTag (textTag, width) {
 }
 
 /**
- * @param {d3.Selection<any, any, null, undefined>} textTag
+ * @template GElement
+ * @template Datum
+ * @template PElement
+ * @template PDatum
+ * @param {d3.Selection<GElement, Datum, PElement, PDatum>} textTag
  * @param {string[]} textSegments
  * @param {number} width
  * @returns {string[]}
@@ -143,7 +163,11 @@ function getRequiredLinesForTextSegments (textTag, textSegments, width) {
 }
 
 /**
- * @param {d3.Selection<any, any, null, undefined>} textTag
+ * @template GElement
+ * @template Datum
+ * @template PElement
+ * @template PDatum
+ * @param {d3.Selection<GElement, Datum, PElement, PDatum>} textTag
  * @param {string[]} lines
  */
 function makeMultilineTextTag (textTag, lines) {
@@ -179,7 +203,11 @@ function makeMultilineTextTag (textTag, lines) {
 }
 
 /**
- * @param {d3.Selection<any, any, null, undefined>} textTag
+ * @template GElement
+ * @template Datum
+ * @template PElement
+ * @template PDatum
+ * @param {d3.Selection<GElement, Datum, PElement, PDatum>} textTag
  * @param {{text: string, cssClasses?: string[]}[]} lines
  */
 function makeSinglelineTextTags (textTag, lines) {

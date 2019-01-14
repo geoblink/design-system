@@ -28,7 +28,11 @@ export const DEFAULT_WIDTH = 10
  */
 
 /**
- * @param {d3.Selection<any, any, null, undefined>} d3Instance
+ * @template GElement
+ * @template Datum
+ * @template PElement
+ * @template PDatum
+ * @param {d3.Selection<GElement, Datum, PElement, PDatum>} d3Instance
  * @returns {AddBarGroupFunction}
  */
 export function groupFactory (d3Instance) {
