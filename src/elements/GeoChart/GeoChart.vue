@@ -140,12 +140,12 @@ export default {
       const axisGroups = this.config.axisGroups
 
       const [
-        simplePositionScalesAxisGroups,
+        simplePositionedScalesAxisGroups,
         advancedPositionedScalesAxisGroups
       ] = _.partition(axisGroups, (axisConfig) => axisConfig.position.type in ChartAxis.SIMPLE_POSITIONS)
 
       const simplePositionedScales = _.fromPairs(_.map(
-        simplePositionScalesAxisGroups,
+        simplePositionedScalesAxisGroups,
         (axisConfig) => getScaleForAxisConfig(axisConfig, { scalesById: {}, axisGroups })
       ))
 
