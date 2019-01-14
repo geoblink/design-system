@@ -319,8 +319,6 @@ function isScaleBand (axisScale) {
 }
 
 /**
- * Returns the span (width or height) of given value in given axis.
- *
  * @template Domain
  * @template HorizontalDomain
  * @template VerticalDomain
