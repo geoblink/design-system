@@ -213,16 +213,16 @@ export const barConfigJsonSchema = {
     oneOf: [{
       not: {
         anyOf: [
-          { required: ['normal'] },
-          { required: ['naturalNormal'] }
+          { required: ['normalOffset'] },
+          { required: ['naturalNormalOffset'] }
         ]
       }
     }, {
-      required: ['normal'],
-      not: { required: ['naturalNormal'] }
+      required: ['normalOffset'],
+      not: { required: ['naturalNormalOffset'] }
     }, {
-      required: ['naturalNormal'],
-      not: { required: ['normal'] }
+      required: ['naturalNormalOffset'],
+      not: { required: ['normalOffset'] }
     }]
   }, {
     oneOf: [{
