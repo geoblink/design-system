@@ -146,12 +146,12 @@ export default {
 
       const simplePositionedScales = _.fromPairs(_.map(
         simplePositionedScalesAxisGroups,
-        (axisConfig) => getScaleForAxisConfig(axisConfig, { scalesById: {}, axisGroups })
+        (axisConfig) => [axisConfig.id, getScaleForAxisConfig(axisConfig, { scalesById: {}, axisGroups })]
       ))
 
       const advancedPositionedScales = _.fromPairs(_.map(
         advancedPositionedScalesAxisGroups,
-        (axisConfig) => getScaleForAxisConfig(axisConfig, { scalesById: simplePositionedScales, axisGroups })
+        (axisConfig) => [axisConfig.id, getScaleForAxisConfig(axisConfig, { scalesById: simplePositionedScales, axisGroups })]
       ))
 
       return Object.assign({}, simplePositionedScales, advancedPositionedScales)
@@ -165,7 +165,7 @@ export default {
           dimension,
           scale: axisConfig.scale
         }, chart)
-        return [axisConfig.id, scale]
+        return scale
       }
     },
 
