@@ -173,7 +173,6 @@ p[class^="rsg--para"] {
 
 div[class^="rsg--docs"],
 p[class^="rsg--para"],
-ul[class^="rsg--list"],
 h3[class^="rsg--heading"],
 h4[class^="rsg--heading"] {
   max-width: 800px;
@@ -181,6 +180,15 @@ h4[class^="rsg--heading"] {
   p[class^="rsg--para"] {
     width: 100%;
   }
+  @media (max-width: 1300px) {
+    width: 100%;
+  }
+}
+
+main[class^="rsg--content"] ul[class^="rsg--list"] {
+  max-width: 800px;
+  width: 75%;
+
   @media (max-width: 1300px) {
     width: 100%;
   }
