@@ -42,15 +42,15 @@ const ajvErrors = (function () {
   }
 })()
 
-if (!Ajv) {
-  // eslint-disable-next-line no-console
-  console.debug('GeoChart [component] :: Install `ajv` to validate charts config')
-}
-
 const chartConfigValidator = (function () {
   let validator = null
 
   return function (value) {
+    if (!Ajv) {
+      // eslint-disable-next-line no-console
+      console.debug('GeoChart [component] :: Install `ajv` to validate charts config')
+    }
+
     if (!Ajv) return true
     if (validator) return getValidationResult(validator)
 
