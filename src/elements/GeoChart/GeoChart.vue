@@ -348,30 +348,26 @@ export default {
 
 function getPositionOfAxis (axisConfig, { scalesById, axisGroups }) {
   if (axisConfig.position.type === ChartAxis.POSITIONS.anchoredToAxis) {
-    return getPositionOfAnchoredToAxisPositionedAxis(axisConfig.position, { scalesById, axisGroups })
+    const relativeAxisConfig = _.find(axisGroups, {
+      id: axisConfig.position.relativeToAxis
+    })
+
+    if (!relativeAxisConfig) {
+      throw new Error(`GeoChart [component] :: Tried to add an axis relative to unknown axis ${axisConfig.position.relativeToAxis}`)
+    }
+
+    const scale = scalesById[axisConfig.position.relativeToAxis]
+
+    return {
+      type: ChartAxis.POSITIONS.anchoredToAxis,
+      value: axisConfig.position.value,
+      scale,
+      relativeAxisPosition: getPositionOfAxis(relativeAxisConfig, { scalesById, axisGroups })
+    }
   }
 
   return {
     type: axisConfig.position.type
-  }
-}
-
-function getPositionOfAnchoredToAxisPositionedAxis (position, { scalesById, axisGroups }) {
-  const relativeAxisConfig = _.find(axisGroups, {
-    id: position.relativeToAxis
-  })
-
-  if (!relativeAxisConfig) {
-    throw new Error(`GeoChart [component] :: Tried to add an axis relative to unknown axis ${position.relativeToAxis}`)
-  }
-
-  const scale = scalesById[position.relativeToAxis]
-
-  return {
-    type: ChartAxis.POSITIONS.anchoredToAxis,
-    value: position.value,
-    scale,
-    relativeAxisPosition: getPositionOfAxis(relativeAxisConfig, { scalesById, axisGroups })
   }
 }
 </script>
