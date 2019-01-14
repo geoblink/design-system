@@ -69,8 +69,6 @@ export function groupFactory (d3Instance) {
 
     const newRects = newSingleLabelGroups
       .append('rect')
-      .attr('rx', d => d.cornerRadius)
-      .attr('ry', d => d.cornerRadius)
     const updatedRects = updatedSingleLabelGroups
       .selectAll('rect')
     const allRects = newRects
