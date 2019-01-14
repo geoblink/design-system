@@ -286,7 +286,7 @@ function getOriginYTranslation (position, svgSize, margin) {
     case POSITIONS.bottom:
       return svgSize.height - margin.bottom
     case POSITIONS.verticallyCenteredInTheMiddle:
-      return (svgSize.height - margin.top - margin.bottom) / 2
+      return (svgSize.height + margin.top - margin.bottom) / 2
     case POSITIONS.left:
     case POSITIONS.right:
     case POSITIONS.horizontallyCenteredInTheMiddle:
