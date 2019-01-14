@@ -20,7 +20,14 @@ declare namespace GeoChart {
   }
 
   interface AxisPositionConfigSimple {
-    type: 'bottom' | 'top' | 'left' | 'right' | 'verticallyCenteredInTheMiddle' | 'horizontallyCenteredInTheMiddle'
+    type: (
+      AxisPositionType.bottom |
+      AxisPositionType.top |
+      AxisPositionType.left |
+      AxisPositionType.right |
+      AxisPositionType.verticallyCenteredInTheMiddle |
+      AxisPositionType.horizontallyCenteredInTheMiddle
+    )
   }
 
   interface AxisPositionConfigRelative<RelativeScaleDomain> {
