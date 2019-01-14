@@ -21,7 +21,7 @@ const d3 = (function () {
  * @param {d3.Selection<any, any, null, undefined>} d3Instance
  * @returns {AddLabelGroupFunction}
  */
-export function addLabelGroupFactory (d3Instance) {
+export function groupFactory (d3Instance) {
   const rootGroups = {}
 
   return function (options) {

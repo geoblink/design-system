@@ -11,12 +11,12 @@
 <script>
 import _ from 'lodash'
 import cssSuffix from '../../mixins/cssModifierMixin'
-import { POSITIONS, SIMPLE_POSITIONS, addAxisFactory, getAxisDimension } from './GeoChartAxis'
-import { EMPTY_MARGIN } from './GeoChartSizing'
-import { addBarGroupFactory } from './GeoChartBars'
-import { addLabelGroupFactory } from './GeoChartLabels'
-import { chartConfigJsonSchema } from './GeoChartConfig'
-import { getNewScale } from './GeoChartScale'
+import * as ChartAxis from './GeoChartAxis'
+import * as ChartSizing from './GeoChartSizing'
+import * as ChartBars from './GeoChartBars'
+import * as ChartLabels from './GeoChartLabels'
+import * as ChartConfig from './GeoChartConfig'
+import * as ChartScale from './GeoChartScale'
 
 const d3 = (function () {
   try {
@@ -60,7 +60,7 @@ const chartConfigValidator = (function () {
     })
     ajvErrors(ajv)
 
-    const newValidator = ajv.compile(chartConfigJsonSchema)
+    const newValidator = ajv.compile(ChartConfig.jsonSchema)
     validator = newValidator
 
     return getValidationResult(newValidator)
@@ -126,7 +126,7 @@ export default {
 
     scalesById () {
       const chartSize = this.svgSize
-      const chartMargin = _.get(this.config.chart, 'margin', EMPTY_MARGIN)
+      const chartMargin = _.get(this.config.chart, 'margin', ChartSizing.EMPTY_MARGIN)
       const chart = {
         size: chartSize,
         margin: chartMargin
@@ -137,7 +137,7 @@ export default {
       const [
         simplePositionScalesAxisGroups,
         advancedPositionedScalesAxisGroups
-      ] = _.partition(axisGroups, (axisConfig) => axisConfig.position.type in SIMPLE_POSITIONS)
+      ] = _.partition(axisGroups, (axisConfig) => axisConfig.position.type in ChartAxis.SIMPLE_POSITIONS)
 
       const simplePositionedScales = _.fromPairs(_.map(
         simplePositionScalesAxisGroups,
@@ -153,9 +153,9 @@ export default {
 
       function getScaleForAxisConfig (axisConfig, { scalesById, axisGroups }) {
         const position = getPositionOfAxis(axisConfig, { scalesById, axisGroups })
-        const dimension = getAxisDimension(position)
+        const dimension = ChartAxis.getAxisDimension(position)
 
-        const scale = getNewScale({
+        const scale = ChartScale.getNewScale({
           id: axisConfig.id,
           dimension,
           scale: axisConfig.scale
@@ -166,7 +166,7 @@ export default {
 
     axisConfigById () {
       const chartSize = this.svgSize
-      const chartMargin = _.get(this.config.chart, 'margin', EMPTY_MARGIN)
+      const chartMargin = _.get(this.config.chart, 'margin', ChartSizing.EMPTY_MARGIN)
 
       return _.fromPairs(_.map(this.config.axisGroups, (axisConfig) => {
         const scale = this.scalesById[axisConfig.id]
@@ -192,15 +192,15 @@ export default {
     },
 
     addAxis () {
-      return addAxisFactory(this.d3Instance)
+      return ChartAxis.factory(this.d3Instance)
     },
 
     addBarGroup () {
-      return addBarGroupFactory(this.d3Instance)
+      return ChartBars.groupFactory(this.d3Instance)
     },
 
     addLabelGroup () {
-      return addLabelGroupFactory(this.d3Instance)
+      return ChartLabels.groupFactory(this.d3Instance)
     },
 
     debouncedRedraw () {
@@ -274,7 +274,7 @@ export default {
 
     updateBarGroups () {
       const chartSize = this.svgSize
-      const chartMargin = _.get(this.config.chart, 'margin', EMPTY_MARGIN)
+      const chartMargin = _.get(this.config.chart, 'margin', ChartSizing.EMPTY_MARGIN)
       const chart = {
         animationsDurationInMilliseconds: this.animationsDurationInMilliseconds,
         size: chartSize,
@@ -303,7 +303,7 @@ export default {
 
     updateLabelGroups () {
       const chartSize = this.svgSize
-      const chartMargin = _.get(this.config.chart, 'margin', EMPTY_MARGIN)
+      const chartMargin = _.get(this.config.chart, 'margin', ChartSizing.EMPTY_MARGIN)
       const chart = {
         animationsDurationInMilliseconds: this.animationsDurationInMilliseconds,
         size: chartSize,
@@ -334,7 +334,7 @@ export default {
 }
 
 function getPositionOfAxis (axisConfig, { scalesById, axisGroups }) {
-  if (axisConfig.position.type === POSITIONS.anchoredToAxis) {
+  if (axisConfig.position.type === ChartAxis.POSITIONS.anchoredToAxis) {
     return getPositionOfAnchoredToAxisPositionedAxis(axisConfig.position, { scalesById, axisGroups })
   }
 
@@ -355,7 +355,7 @@ function getPositionOfAnchoredToAxisPositionedAxis (position, { scalesById, axis
   const scale = scalesById[position.relativeToAxis]
 
   return {
-    type: POSITIONS.anchoredToAxis,
+    type: ChartAxis.POSITIONS.anchoredToAxis,
     value: position.value,
     scale,
     relativeAxisPosition: getPositionOfAxis(relativeAxisConfig, { scalesById, axisGroups })

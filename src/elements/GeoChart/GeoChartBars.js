@@ -31,7 +31,7 @@ export const DEFAULT_WIDTH = 10
  * @param {d3.Selection<any, any, null, undefined>} d3Instance
  * @returns {AddBarGroupFunction}
  */
-export function addBarGroupFactory (d3Instance) {
+export function groupFactory (d3Instance) {
   const groups = {}
 
   return function (options) {

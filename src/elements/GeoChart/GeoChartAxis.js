@@ -46,7 +46,7 @@ export const SIMPLE_POSITIONS = {
  * @param {d3.Selection<any, any, null, undefined>} d3Instance
  * @returns {AddAxisFunction}
  */
-export function addAxisFactory (d3Instance) {
+export function factory (d3Instance) {
   const groups = {}
   const wrapTextForWidthCache = {}
 
