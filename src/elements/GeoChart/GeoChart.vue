@@ -115,6 +115,11 @@ export default {
     },
 
     d3Instance () {
+      if (!d3) {
+        console.warn('GeoChart [component] :: d3 NPM package is required to use this component')
+        return null
+      }
+
       return d3.select(this.svgElement)
     },
 
@@ -192,14 +197,20 @@ export default {
     },
 
     addAxis () {
+      if (!this.d3Instance) return
+
       return ChartAxis.factory(this.d3Instance)
     },
 
     addBarGroup () {
+      if (!this.d3Instance) return
+
       return ChartBars.groupFactory(this.d3Instance)
     },
 
     addLabelGroup () {
+      if (!this.d3Instance) return
+
       return ChartLabels.groupFactory(this.d3Instance)
     },
 
@@ -247,6 +258,8 @@ export default {
     },
 
     adjustSize () {
+      if (!this.d3Instance) return
+
       if (!_.isNil(this.height)) {
         this.d3Instance.style('height', this.height)
       }
