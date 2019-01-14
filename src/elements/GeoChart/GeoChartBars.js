@@ -271,7 +271,7 @@ function getAxisScaledSpan (axisConfig, singleItem, options) {
   const positionAtAxisOrigin = axisConfig.scale.axisScale(axisConfig.scale.valueForOrigin)
   const positionAtValue = getAxisScaledValue(axisConfig, singleItem)
 
-  return Math.abs(getSpanTargetPoint() - getSpanOriginPoint())
+  return Math.abs(getSpanEndPoint() - getSpanOriginPoint())
 
   function getSpanOriginPoint () {
     if (isDimensionAxis(axisConfig, options)) {
@@ -289,7 +289,7 @@ function getAxisScaledSpan (axisConfig, singleItem, options) {
     return positionAtAxisOrigin
   }
 
-  function getSpanTargetPoint () {
+  function getSpanEndPoint () {
     if (isDimensionAxis(axisConfig, options)) {
       if (isNaturalWidthForced(options)) {
         return getAxisScaledValue(axisConfig, {
