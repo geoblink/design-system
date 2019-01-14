@@ -31,7 +31,7 @@ declare namespace GeoChart {
   }
 
   interface AxisPositionConfigRelative<RelativeScaleDomain> {
-    type: 'anchoredToAxis'
+    type: AxisPositionType.anchoredToAxis
     value: RelativeScaleDomain
     scale: AxisConfigScale<RelativeScaleDomain>
     relativeAxisPosition: AxisPositionConfigSimple
