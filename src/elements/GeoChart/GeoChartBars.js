@@ -283,7 +283,7 @@ function getAxisScaledSpan (axisConfig, singleItem, options) {
 
       // By default bars will have a width of 10px in non-band scales so they
       // start 5px below the anchor point.
-      return positionAtValue - _.get(options, 'width', DEFAULT_WIDTH / 2)
+      return positionAtValue - _.get(options, 'width', DEFAULT_WIDTH) / 2
     }
 
     return positionAtAxisOrigin
@@ -299,7 +299,7 @@ function getAxisScaledSpan (axisConfig, singleItem, options) {
 
       // By default bars will have a width of 10px in non-band scales so they
       // start 5px below the anchor point.
-      return positionAtValue + _.get(options, 'width', DEFAULT_WIDTH / 2)
+      return positionAtValue + _.get(options, 'width', DEFAULT_WIDTH) / 2
     }
 
     return positionAtValue
