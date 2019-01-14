@@ -44,8 +44,8 @@ export function groupFactory (d3Instance) {
       .attr('class', `geo-chart-bars-group geo-chart-bars-group--${options.id} geo-chart-bars-group--${options.dimension}`)
     groups[options.id] = group
 
-    const getWidth = (d, i) => getAxisScaledSpan(options.axis.horizontal, d, options)
-    const getHeight = (d, i) => getAxisScaledSpan(options.axis.vertical, d, options)
+    const getWidth = (d, i) => getItemSpanAtAxis(options.axis.horizontal, d, options)
+    const getHeight = (d, i) => getItemSpanAtAxis(options.axis.vertical, d, options)
 
     const getNewItemInitialWidth = (d, i) => {
       switch (options.dimension) {
@@ -158,7 +158,7 @@ export function groupFactory (d3Instance) {
  */
 function isBarAxisLengthIncreasing (axisConfig, singleItem) {
   const originHorizontalPosition = axisConfig.scale.axisScale(axisConfig.scale.valueForOrigin)
-  const valueHorizontalPosition = getAxisScaledValue(axisConfig, singleItem)
+  const valueHorizontalPosition = getItemValueAtAxis(axisConfig, singleItem)
   return originHorizontalPosition < valueHorizontalPosition
 }
 
@@ -174,8 +174,8 @@ function getSingleItemTranslationFactory (options) {
     const originHorizontalPosition = horizontalAxis.scale.axisScale(horizontalAxis.scale.valueForOrigin)
     const originVerticalPosition = verticalAxis.scale.axisScale(verticalAxis.scale.valueForOrigin)
 
-    const valueHorizontalSpan = getAxisScaledSpan(horizontalAxis, singleItem, options)
-    const valueVerticalSpan = getAxisScaledSpan(verticalAxis, singleItem, options)
+    const valueHorizontalSpan = getItemSpanAtAxis(horizontalAxis, singleItem, options)
+    const valueVerticalSpan = getItemSpanAtAxis(verticalAxis, singleItem, options)
 
     const isBarHorizontalLengthIncreasing = isBarAxisLengthIncreasing(horizontalAxis, singleItem)
     const isBarVerticalLengthIncreasing = isBarAxisLengthIncreasing(verticalAxis, singleItem)
@@ -215,7 +215,7 @@ function getSingleItemTranslationFactory (options) {
      * @param {object} singleItem
      */
     function getTranslationForAxisNormalToDimension (normalAxis, singleItem) {
-      const positionOfItemValue = getAxisScaledValue(normalAxis, singleItem)
+      const positionOfItemValue = getItemValueAtAxis(normalAxis, singleItem)
 
       if (isScaleBand(normalAxis.scale.axisScale)) {
         const normalOffset = isNormalOffsetForced(options)
@@ -227,7 +227,7 @@ function getSingleItemTranslationFactory (options) {
 
       if (isNormalOffsetForced(options)) return positionOfItemValue + options.normalOffset
 
-      return getAxisScaledValue(normalAxis, {
+      return getItemValueAtAxis(normalAxis, {
         [normalAxis.keyForValues]: _.get(singleItem, normalAxis.keyForValues) + naturalNormalOffset
       })
     }
@@ -242,7 +242,7 @@ function getSingleItemTranslationFactory (options) {
  * @param {object} singleItem
  * @return {number}
  */
-function getAxisScaledValue (axisConfig, singleItem) {
+function getItemValueAtAxis (axisConfig, singleItem) {
   const rawValue = singleItem[axisConfig.keyForValues]
   return axisConfig.scale.axisScale(rawValue)
 }
@@ -257,7 +257,7 @@ function getAxisScaledValue (axisConfig, singleItem) {
  * @param {GeoChart.BarGroupConfig<HorizontalDomain, VerticalDomain>} [options]
  * @return {number}
  */
-function getAxisScaledSpan (axisConfig, singleItem, options) {
+function getItemSpanAtAxis (axisConfig, singleItem, options) {
   if (isDimensionAxis(axisConfig, options) && isWidthForced(options)) return options.width
 
   if (isScaleBand(axisConfig.scale.axisScale)) {
@@ -269,14 +269,14 @@ function getAxisScaledSpan (axisConfig, singleItem, options) {
   }
 
   const positionAtAxisOrigin = axisConfig.scale.axisScale(axisConfig.scale.valueForOrigin)
-  const positionAtValue = getAxisScaledValue(axisConfig, singleItem)
+  const positionAtValue = getItemValueAtAxis(axisConfig, singleItem)
 
   return Math.abs(getSpanEndPoint() - getSpanOriginPoint())
 
   function getSpanOriginPoint () {
     if (isDimensionAxis(axisConfig, options)) {
       if (isNaturalWidthForced(options)) {
-        return getAxisScaledValue(axisConfig, {
+        return getItemValueAtAxis(axisConfig, {
           [axisConfig.keyForValues]: _.get(singleItem, axisConfig.keyForValues) - options.naturalWidth / 2
         })
       }
@@ -292,7 +292,7 @@ function getAxisScaledSpan (axisConfig, singleItem, options) {
   function getSpanEndPoint () {
     if (isDimensionAxis(axisConfig, options)) {
       if (isNaturalWidthForced(options)) {
-        return getAxisScaledValue(axisConfig, {
+        return getItemValueAtAxis(axisConfig, {
           [axisConfig.keyForValues]: _.get(singleItem, axisConfig.keyForValues) + options.naturalWidth / 2
         })
       }
