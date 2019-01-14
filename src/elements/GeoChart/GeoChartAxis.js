@@ -252,7 +252,7 @@ function getOriginXTranslation (position, svgSize, margin) {
       return svgSize.width - margin.right
     case POSITIONS.horizontallyCenteredInTheMiddle:
       return margin.left + (svgSize.width - margin.left - margin.right) / 2
-    case POSITIONS.anchoredToAxis: {
+    case POSITIONS.anchoredToAxis:
       const dimension = getAxisDimension(position)
 
       switch (dimension) {
@@ -263,10 +263,13 @@ function getOriginXTranslation (position, svgSize, margin) {
       }
 
       console.warn(`GeoChart (axis) [component] :: Tried to get X Translation for unknown dimension: ${dimension}`, position)
-    }
+
+      return null
   }
 
   console.warn(`GeoChart (axis) [component] :: Tried to get X Translation for unknown position: ${position.type}`, position)
+
+  return null
 }
 
 /**
@@ -288,7 +291,7 @@ function getOriginYTranslation (position, svgSize, margin) {
     case POSITIONS.right:
     case POSITIONS.horizontallyCenteredInTheMiddle:
       return 0
-    case POSITIONS.anchoredToAxis: {
+    case POSITIONS.anchoredToAxis:
       const dimension = getAxisDimension(position)
 
       switch (dimension) {
@@ -299,8 +302,11 @@ function getOriginYTranslation (position, svgSize, margin) {
       }
 
       console.warn(`GeoChart (axis) [component] :: Tried to get Y Translation for unknown dimension: ${dimension}`, position)
-    }
+
+      return null
   }
 
   console.warn(`GeoChart (axis) [component] :: Tried to get Y Translation for unknown position: ${position.type}`, position)
+
+  return null
 }
