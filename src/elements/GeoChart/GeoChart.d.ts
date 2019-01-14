@@ -8,6 +8,6 @@ declare namespace GeoChart {
     top: number
     right: number
     bottom: number
-    right: number
+    left: number
   }
 }
