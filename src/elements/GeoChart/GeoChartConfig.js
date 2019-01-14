@@ -167,7 +167,7 @@ export const axisConfigJsonSchema = {
     },
     // Function taking as first parameter an array of CSS classes that would
     // be set by default. Should return the array of CSS classes to be
-    // finally set. Some addtional CSS classes required by D3 might be added
+    // finally set. Some additional CSS classes required by D3 might be added
     // regardless this customization. Use this function to customize which CSS
     // classes are set to the group containing this axis.
     cssClasses: {},
@@ -181,7 +181,7 @@ export const axisConfigJsonSchema = {
         },
         // Function taking as first parameter an array of CSS classes that would
         // be set by default. Should return the array of CSS classes to be
-        // finally set. Some addtional CSS classes required by D3 might be added
+        // finally set. Some additional CSS classes required by D3 might be added
         // regardless this customization. Use this function to customize which
         // CSS classes are set to the group inside this axis containing the
         // ticks lines and labels.

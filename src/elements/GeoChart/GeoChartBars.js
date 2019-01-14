@@ -175,7 +175,7 @@ function getSingleItemTranslationFactory (options) {
     const originVerticalPosition = verticalAxis.scale.axisScale(verticalAxis.scale.valueForOrigin)
 
     const valueHorizontalSpan = getAxisScaledSpan(horizontalAxis, singleItem, options)
-    const valueVericalSpan = getAxisScaledSpan(verticalAxis, singleItem, options)
+    const valueVerticalSpan = getAxisScaledSpan(verticalAxis, singleItem, options)
 
     const isBarHorizontalLengthIncreasing = isBarAxisLengthIncreasing(horizontalAxis, singleItem)
     const isBarVerticalLengthIncreasing = isBarAxisLengthIncreasing(verticalAxis, singleItem)
@@ -198,7 +198,7 @@ function getSingleItemTranslationFactory (options) {
       [DIMENSIONS.horizontal]: getTranslationForAxisNormalToDimension(verticalAxis, singleItem),
       [DIMENSIONS.vertical]: isBarVerticalLengthIncreasing
         ? originVerticalPosition
-        : originVerticalPosition - valueVericalSpan
+        : originVerticalPosition - valueVerticalSpan
     }
 
     const horizontalAxisTranslation = horizontalAxisTranslationForDimension[options.dimension]
