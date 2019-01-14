@@ -169,7 +169,7 @@ export default {
       }
     },
 
-    axisConfigById () {
+    axesConfigById () {
       const chartSize = this.svgSize
       const chartMargin = _.get(this.config.chart, 'margin', ChartSizing.EMPTY_MARGIN)
 
@@ -297,8 +297,8 @@ export default {
       for (let id = 0; id < this.config.barGroups.length; id++) {
         const barGroupConfig = this.config.barGroups[id]
         const axis = {
-          horizontal: this.axisConfigById[barGroupConfig.idHorizontalAxis],
-          vertical: this.axisConfigById[barGroupConfig.idVerticalAxis]
+          horizontal: this.axesConfigById[barGroupConfig.idHorizontalAxis],
+          vertical: this.axesConfigById[barGroupConfig.idVerticalAxis]
         }
         this.addBarGroup({
           id,
@@ -326,7 +326,7 @@ export default {
       for (let id = 0; id < this.config.labelGroups.length; id++) {
         const labelGroupConfig = this.config.labelGroups[id]
         const axis = {
-          vertical: this.axisConfigById[labelGroupConfig.idVerticalAxis]
+          vertical: this.axesConfigById[labelGroupConfig.idVerticalAxis]
         }
         this.addLabelGroup({
           id,
@@ -338,7 +338,7 @@ export default {
     },
 
     redrawAxes () {
-      const axes = Object.values(this.axisConfigById)
+      const axes = Object.values(this.axesConfigById)
       for (const axisConfig of axes) {
         this.addAxis(axisConfig)
       }
