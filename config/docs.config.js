@@ -155,6 +155,11 @@ module.exports = {
           sectionDepth: 1
         },
         {
+          name: 'GeoBorderedToken',
+          components: '../src/elements/GeoBorderedToken/GeoBorderedToken.vue',
+          sectionDepth: 0
+        },
+        {
           name: 'String Utils',
           components: () => [
             '../src/elements/GeoHighlightedString/GeoHighlightedString.vue',
