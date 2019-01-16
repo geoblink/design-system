@@ -59,8 +59,8 @@ export const DEFAULT_LOGARITHMIC_SCALE_BASE = 10
 export function getNewScale (axisConfig, chart) {
   const scaleConfig = axisConfig.scale
 
-  const horizontalSpaceAvailable = chart.size.width - chart.margin.right
-  const verticalSpaceAvailable = chart.size.height - chart.margin.bottom
+  const horizontalRangeEnd = chart.size.width - chart.margin.right
+  const verticalRangeEnd = chart.size.height - chart.margin.bottom
 
   const rangeStartForDimension = {
     [DIMENSIONS.horizontal]: chart.margin.left,
@@ -68,8 +68,8 @@ export function getNewScale (axisConfig, chart) {
   }
 
   const rangeEndForDimension = {
-    [DIMENSIONS.horizontal]: horizontalSpaceAvailable,
-    [DIMENSIONS.vertical]: verticalSpaceAvailable
+    [DIMENSIONS.horizontal]: horizontalRangeEnd,
+    [DIMENSIONS.vertical]: verticalRangeEnd
   }
 
   const axisScale = scaleFactory(scaleConfig)
