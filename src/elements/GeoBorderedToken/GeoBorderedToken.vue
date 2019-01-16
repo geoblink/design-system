@@ -3,7 +3,6 @@
     <font-awesome-icon
       :class="`geo-bordered-token__icon${cssSuffix}`"
       :icon="icon"
-      fixed-width
     />
     <span :class="`geo-bordered-token__label${cssSuffix}`">
       {{ label }}
