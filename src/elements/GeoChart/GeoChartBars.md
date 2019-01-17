@@ -11,7 +11,7 @@ must be an object with the following...
 Each **group** **requires** these properties:
 
 - `data`: Collection being displayed (array).
-- `dimension`: A value of `DIMENSIONS` named export (either `horizontal` or `vertical`). The dimension in which the rectangle will grow depending on the value.
+- `dimension`: A value of `BARS_DIMENSIONS` named export (either `horizontal` or `vertical`). The dimension in which the rectangle will grow depending on the value.
 - `idHorizontalAxis`: The ID of the axis defining the `horizontal` dimension. Will be used to compute proper origin and span of the bar the horizontal.
 - `idVerticalAxis`: The ID of the axis defining the `vertical` dimension. Will be used to compute proper origin and span of the bar the vertical.
 

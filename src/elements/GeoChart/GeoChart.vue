@@ -83,6 +83,11 @@ export default {
   name: 'GeoChart',
   status: 'missing-tests',
   release: '9.3.0',
+  constants: {
+    SCALE_TYPES: ChartScale.SCALE_TYPES,
+    POSITIONS: ChartAxis.POSITIONS,
+    BARS_DIMENSIONS: ChartBars.DIMENSIONS
+  },
   mixins: [cssSuffix, configAdapterMixin],
   props: {
     /**
@@ -125,7 +130,7 @@ export default {
     },
 
     animationsDurationInMilliseconds () {
-      return _.isFinite(this.config.chart.animationsDurationInMilliseconds)
+      return _.isFinite(_.get(this.config.chart, 'animationsDurationInMilliseconds'))
         ? this.config.chart.animationsDurationInMilliseconds
         : 250
     },
