@@ -2,8 +2,6 @@
 
 import _ from 'lodash'
 
-import { wrapTextTagsForWidthFactory, wrapTextSegmentsForCSSClasses } from './GeoChartText'
-
 const d3 = (function () {
   try {
     return require('d3')
@@ -52,7 +50,6 @@ export const SIMPLE_POSITIONS = {
  */
 export function factory (d3Instance) {
   const groups = {}
-  const wrapTextForWidthCache = {}
 
   return function (options) {
     const group = getOrSetValue(groups, options.id, () => {
@@ -92,12 +89,7 @@ export function factory (d3Instance) {
         .tickSize(0)
     }
 
-    const getLabelMaxWidth = _.get(options, 'ticks.label.maxWidth')
-    const labelMaxWidth = _.isFunction(getLabelMaxWidth)
-      ? getLabelMaxWidth(drawingEnvironment)
-      : 0
-    const isLabelWidthLimited = labelMaxWidth > 0 && isShowingTicks
-    const isAnimated = !isLabelWidthLimited && options.chart.animationsDurationInMilliseconds > 0
+    const isAnimated = options.chart.animationsDurationInMilliseconds > 0
 
     const animatedGroup = isAnimated
       ? group
@@ -111,33 +103,11 @@ export function factory (d3Instance) {
       ? (...args) => [...forcedTickCSSClasses, ...options.ticks.cssClasses(defaultTickCSSClasses, ...args)].join(' ')
       : [...forcedTickCSSClasses, ...defaultTickCSSClasses].join(' ')
 
-    const tickGroups = animatedGroup
+    animatedGroup
       .attr('transform', `translate(${drawingEnvironment.absolutePosition.x}, ${drawingEnvironment.absolutePosition.y})`)
       .call(axis)
       .selectAll('g.tick')
       .attr('class', getTickCSSClasses)
-
-    const textGroups = tickGroups.selectAll(':scope > text')
-
-    if (isLabelWidthLimited) {
-      if (tickFormat) {
-        const tickValuesOfScale = axis.tickValues() || options.scale.axisScale.domain()
-        const tickTextsAndCSSClasses = _.map(tickValuesOfScale, (value, index) => {
-          if (_.isFunction(tickFormat)) return tickFormat(value, index)
-          return value
-        })
-
-        textGroups.call(wrapTextSegmentsForCSSClasses, tickTextsAndCSSClasses, labelMaxWidth)
-      } else {
-        const wrapTextForWidth = getOrSetValue(
-          wrapTextForWidthCache,
-          options.id,
-          wrapTextTagsForWidthFactory
-        )
-
-        textGroups.call(wrapTextForWidth, labelMaxWidth)
-      }
-    }
   }
 }
 

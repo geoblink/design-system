@@ -59,23 +59,7 @@ properties, all of them optional:
 - `count`: to customize the amount of ticks displayed. Must be an integer number.
 - `format`: function taking as first parameter the value of the axis in the
 domain and as second parameter its index. Should return a string with the text
-to be displayed as value for given tick or an array of specially crafted objects
-(see _Multiline ticks_ section for more info).
-
-### Multiline ticks
-
-Sometimes the text is long enough to fit nicely in multiple lines. Even if the
-text is going to be displayed in a single line, you might be interested in adding
-additional CSS classes to further customize the text.
-
-To so so you can return an array of objects instead of a plain string in `format`
-method. Those object must have the following shape:
-
-- `text`: a string with the text to be rendered in one isolated line.
-- `cssClasses`: an array of CSS classes to be added to the line.
-
-Each entry of the array will be rendered in a different line, wrapped in a rect
-with given CSS classes.
+to be displayed as value for given tick.
 
 ```vue
 <template>
@@ -418,82 +402,6 @@ export default {
           ticks: {
             format (d, i) {
               return `Tick ${i}: «${d}»`
-            }
-          }
-        }]
-      }
-    }
-  }
-}
-</script>
-```
-
-```vue
-<template>
-  <div class="element-demo">
-    <h3 class="element-demo__header">Multiline ticks</h3>
-    <div class="element-demo__block">
-      <geo-chart
-        v-if="chartConfig"
-        :config="chartConfig"
-        height="300px"
-        width="500px"
-      />
-    </div>
-  </div>
-</template>
-
-<script>
-const d3 = require('d3')
-const { DIMENSIONS: BARS_DIMENSIONS } = require('./GeoChartBars')
-const { SCALE_TYPES } = require('./GeoChartScale')
-
-export default {
-  name: 'GeoChartAxisDemo',
-  computed: {
-    POSITIONS () {
-      const { POSITIONS } = require('./GeoChartAxis')
-      return POSITIONS
-    },
-
-    chartConfig () {
-      return {
-        chart: {
-          margin: {
-            top: 30,
-            right: 30,
-            bottom: 30,
-            left: 200
-          }
-        },
-        axisGroups: [{
-          id: 'demo-categorical-anchored-axis',
-          keyForValues: 'category',
-          position: {
-            type: this.POSITIONS.left
-          },
-          scale: {
-            type: SCALE_TYPES.categorical,
-            domain: _.times(5, i => `Category ${i}`),
-            padding: {
-              inner: 10,
-              outer: 20
-            }
-          },
-          ticks: {
-            format (d, i) {
-              return [{
-                text: `Tick ${i}:`,
-                cssClasses: ['rect-stroke-red-and-text-fill-black']
-              }, {
-                text: `«${d}»`,
-                cssClasses: ['rect-stroke-red-and-text-fill-black']
-              }]
-            },
-            label: {
-              maxWidth (drawingEnvironment) {
-                return drawingEnvironment.chartMargin.left
-              }
             }
           }
         }]
