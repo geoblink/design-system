@@ -65,11 +65,11 @@ There are 2 exclusive properties available to customize the **width**:
 
 There are 2 exclusive properties available to customize the **offset**:
 
-- `offset` if you want to use **absolute** units.
-- `naturalOffset` if you want to use **natural** units.
+- `normalOffset` if you want to use **absolute** units.
+- `naturalNormalOffset` if you want to use **natural** units.
 
-> **Note:** You can't set both `width` and `naturalWidth` or `offset` and
-`naturalOffset`. Doing so will throw an invalid config error.
+> **Note:** You can't set both `width` and `naturalWidth` or `normalOffset` and
+`naturalNormalOffset`. Doing so will throw an invalid config error.
 
 ```vue
 <template>
