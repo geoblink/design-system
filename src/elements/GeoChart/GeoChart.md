@@ -25,6 +25,54 @@ duration of the animations.
 ```vue
 <template>
   <div class="element-demo">
+    <h3 class="element-demo__header">Empty chart</h3>
+    <div class="element-demo__block">
+      <geo-chart
+        :config2="{
+          axisGroups: [{
+            id: 'horizontal',
+            keyForValues: 'x',
+            position: {
+              type: 'left'
+            },
+            scale: {
+              type: 'linear',
+              valueForOrigin: 0,
+              domain: {
+                start: 0,
+                end: 100
+              }
+            }
+          }]
+        }"
+        :config="config"
+        height="300px"
+        width="500px"
+        debug
+      />
+    </div>
+  </div>
+</template>
+
+<script>
+const d3 = require('d3')
+const { DIMENSIONS: BARS_DIMENSIONS } = require('./GeoChartBars')
+const { SCALE_TYPES } = require('./GeoChartScale')
+
+export default {
+  name: 'GeoChartDemo',
+  computed: {
+    config () {
+      return {"chart":{"margin":{"top":50,"right":50,"bottom":50,"left":130}},"axisGroups":[{"id":"sales","keyForValues":"y","position":{"type":"bottom"},"scale":{"type":"linear","valueForOrigin":0,"domain":{"start":300000,"end":-300000}}},{"id":"variables","keyForValues":"displayed_name","position":{"type":"anchoredToAxis","value":0,"relativeToAxis":"sales"},"scale":{"type":"categorical","domain":["Tipo de establecimiento","Área del establecimiento","Tráfico andado","Tráfico rodado","Población total","Edad media","Desempleo"],"padding":{"inner":0.1,"outer":0.2}}}],"barGroups":[{"data":[{"displayed_name":"tipo_de_establecimiento","y":300000},{"displayed_name":"area_del_establecimiento","y":180000},{"displayed_name":"trafico_andado","y":146372.495781959},{"displayed_name":"trafico_rodado","y":20787},{"displayed_name":"poblacion_total","y":285900},{"displayed_name":"edad_media","y":44146.239482650104},{"displayed_name":"desempleo","y":-999.129370969232}],"dimension":"horizontal","idHorizontalAxis":"sales","idVerticalAxis":"variables","naturalWidth":1}]}
+    }
+  }
+}
+</script>
+```
+
+```vue
+<template>
+  <div class="element-demo">
     <h3 class="element-demo__header">Chart</h3>
     <div class="element-demo__block">
       <geo-chart
