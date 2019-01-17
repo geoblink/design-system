@@ -132,8 +132,8 @@ export function groupFactory (d3Instance) {
 function getSingleItemTranslationFactory (options) {
   return function (singleItem, height) {
     const verticalAxis = options.axis.vertical
-    const verticalAxisTranslationToTopPosition = getAxisScaledValue(verticalAxis, singleItem)
-    const verticalAxisSpan = getAxisScaledSpan(verticalAxis, singleItem)
+    const verticalAxisTranslationToTopPosition = getItemValueAtAxis(verticalAxis, singleItem)
+    const verticalAxisSpan = getItemSpanAtAxis(verticalAxis, singleItem)
     const verticalAxisTranslation = verticalAxisTranslationToTopPosition + (verticalAxisSpan - height) / 2
 
     return {
@@ -151,7 +151,7 @@ function getSingleItemTranslationFactory (options) {
  * @param {object} singleItem
  * @return {number}
  */
-function getAxisScaledValue (axisConfig, singleItem) {
+function getItemValueAtAxis (axisConfig, singleItem) {
   const rawValue = singleItem[axisConfig.keyForValues]
   return axisConfig.scale.axisScale(rawValue)
 }
@@ -164,11 +164,11 @@ function getAxisScaledValue (axisConfig, singleItem) {
  * @param {object} singleItem
  * @return {number}
  */
-function getAxisScaledSpan (axisConfig, singleItem) {
+function getItemSpanAtAxis (axisConfig, singleItem) {
   if (axisConfig.scale.axisScale.bandwidth) return axisConfig.scale.axisScale.bandwidth()
 
   const positionAtOrigin = axisConfig.scale.axisScale(axisConfig.scale.valueForOrigin)
-  const positionAtValue = getAxisScaledValue(axisConfig, singleItem)
+  const positionAtValue = getItemValueAtAxis(axisConfig, singleItem)
 
   return Math.abs(positionAtValue - positionAtOrigin)
 }
