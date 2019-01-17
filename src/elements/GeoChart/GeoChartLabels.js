@@ -107,7 +107,7 @@ export function groupFactory (d3Instance) {
     }
 
     function getSingleLabelGroupCSSClasses (d, i) {
-      const defaultClasses = [singleLabelGroupsBaseClass]
+      const defaultClasses = [singleLabelGroupsBaseClass, 'rect-fill-none']
 
       if (d.cssClasses) {
         const customClasses = d.cssClasses(defaultClasses)
