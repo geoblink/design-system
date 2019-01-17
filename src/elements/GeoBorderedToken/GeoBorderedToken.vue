@@ -17,7 +17,7 @@ import cssSuffix from '../../mixins/cssModifierMixin'
 export default {
   name: 'GeoBorderedToken',
   status: 'ready',
-  release: '9.2.4',
+  release: '9.3.0',
   mixins: [cssSuffix],
   props: {
     /**
