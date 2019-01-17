@@ -66,8 +66,10 @@ export function groupFactory (d3Instance) {
 
     const getTranslation = getSingleItemTranslationFactory(options)
 
+    const singleBarBaseClass = 'geo-chart-bar'
+
     const bars = group
-      .selectAll('rect.geo-chart-bar')
+      .selectAll(`rect.${singleBarBaseClass}`)
       .data(options.data)
 
     bars
@@ -78,7 +80,7 @@ export function groupFactory (d3Instance) {
       .attr('height', getNewItemInitialHeight)
       .transition()
       .duration(options.chart.animationsDurationInMilliseconds)
-      .attr('class', (d, i) => `geo-chart-bar geo-chart-bar--${i} geo-chart-bar--${options.dimension}`)
+      .attr('class', getSingleBarCSSClasses)
       .attr('transform', getTransform)
       .attr('width', getWidth)
       .attr('height', getHeight)
@@ -86,6 +88,7 @@ export function groupFactory (d3Instance) {
     bars
       .transition()
       .duration(options.chart.animationsDurationInMilliseconds)
+      .attr('class', getSingleBarCSSClasses)
       .attr('transform', getTransform)
       .attr('width', getWidth)
       .attr('height', getHeight)
@@ -141,6 +144,21 @@ export function groupFactory (d3Instance) {
         case DIMENSIONS.vertical:
           return previousTransform.replace(/(.*\s*translate\([^,]*,)[^)]*(\).*)/gi, `$1${translationForItemAtOrigin.y}$2`)
       }
+    }
+
+    function getSingleBarCSSClasses (d, i) {
+      const defaultClasses = [
+        singleBarBaseClass,
+        `geo-chart-bar--${i}`,
+        `geo-chart-bar--${options.dimension}`
+      ]
+
+      if (d.cssClasses) {
+        const customClasses = d.cssClasses(defaultClasses)
+        return _.uniq([...customClasses, singleBarBaseClass]).join(' ')
+      }
+
+      return defaultClasses.join(' ')
     }
   }
 }
