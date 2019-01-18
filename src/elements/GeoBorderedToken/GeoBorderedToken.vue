@@ -1,10 +1,10 @@
 <template>
   <div :class="`geo-bordered-token${cssSuffix}`">
     <font-awesome-icon
-      :class="`geo-bordered-token__icon${cssSuffix}`"
       :icon="icon"
+      class="geo-bordered-token__icon"
     />
-    <span :class="`geo-bordered-token__label${cssSuffix}`">
+    <span class="geo-bordered-token__label">
       {{ label }}
     </span>
   </div>

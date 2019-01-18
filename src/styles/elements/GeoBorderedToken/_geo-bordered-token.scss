@@ -13,16 +13,16 @@
     border-radius: 3px;
     padding: 8px 10px;
     user-select: none;
-  }
 
-  .geo-bordered-token__icon#{$modifier-name-with-prefix} {
-    color: $color-grey-light;
-  }
+    .geo-bordered-token__icon {
+      color: $color-grey-light;
+    }
 
-  .geo-bordered-token__label#{$modifier-name-with-prefix} {
-    color: $color-grey-darker;
-    font-family: $font-family-text;
-    padding-left: 5px;
+    .geo-bordered-token__label {
+      color: $color-grey-darker;
+      font-family: $font-family-text;
+      padding-left: 5px;
+    }
   }
 }
 
