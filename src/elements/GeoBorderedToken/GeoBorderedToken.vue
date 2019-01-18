@@ -1,6 +1,7 @@
 <template>
   <div :class="`geo-bordered-token${cssSuffix}`">
     <font-awesome-icon
+      v-if="icon"
       :icon="icon"
       class="geo-bordered-token__icon"
     />
