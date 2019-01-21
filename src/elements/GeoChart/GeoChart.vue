@@ -14,7 +14,6 @@ import cssSuffix from '../../mixins/cssModifierMixin'
 import * as ChartAxis from './GeoChartAxis'
 import * as ChartSizing from './GeoChartSizing'
 import * as ChartBars from './GeoChartBars'
-import * as ChartLabels from './GeoChartLabels'
 import * as ChartConfig from './GeoChartConfig'
 import * as ChartScale from './GeoChartScale'
 import configAdapterMixin from './GeoChartConfigAdapter.mixin'
@@ -176,9 +175,6 @@ export default {
     },
 
     axesConfigById () {
-      const chartSize = this.svgSize
-      const chartMargin = _.get(this.config.chart, 'margin', ChartSizing.EMPTY_MARGIN)
-
       return _.fromPairs(_.map(this.config.axisGroups, (axisConfig) => {
         const scale = this.scalesById[axisConfig.id]
         const position = getPositionOfAxis(axisConfig, {
@@ -190,34 +186,11 @@ export default {
           id: axisConfig.id,
           keyForValues: axisConfig.keyForValues,
           position,
-          chart: {
-            animationsDurationInMilliseconds: this.animationsDurationInMilliseconds,
-            size: chartSize,
-            margin: chartMargin
-          },
           scale,
           cssClasses: axisConfig.cssClasses,
           ticks: axisConfig.ticks
         }]
       }))
-    },
-
-    addAxis () {
-      if (!this.d3Instance) return
-
-      return ChartAxis.factory(this.d3Instance)
-    },
-
-    addBarGroup () {
-      if (!this.d3Instance) return
-
-      return ChartBars.groupFactory(this.d3Instance)
-    },
-
-    addLabelGroup () {
-      if (!this.d3Instance) return
-
-      return ChartLabels.groupFactory(this.d3Instance)
     },
 
     debouncedRedraw () {
@@ -282,10 +255,19 @@ export default {
     },
 
     redrawAxes () {
-      const axes = Object.values(this.axesConfigById)
-      for (const axisConfig of axes) {
-        this.addAxis(axisConfig)
+      const axesConfig = Object.values(this.axesConfigById)
+
+      const chartSize = this.svgSize
+      const chartMargin = _.get(this.config.chart, 'margin', ChartSizing.EMPTY_MARGIN)
+      const globalAxesConfig = {
+        chart: {
+          animationsDurationInMilliseconds: this.animationsDurationInMilliseconds,
+          size: chartSize,
+          margin: chartMargin
+        }
       }
+
+      ChartAxis.render(this.d3Instance, axesConfig, globalAxesConfig)
     }
   }
 }

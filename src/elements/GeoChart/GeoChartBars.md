@@ -71,6 +71,13 @@ There are 2 exclusive properties available to customize the **offset**:
 > **Note:** You can't set both `width` and `naturalWidth` or `normalOffset` and
 `naturalNormalOffset`. Doing so will throw an invalid config error.
 
+### Customizing CSS classes
+
+Each bar can customize its CSS classes by setting a function for key `cssClasses`.
+This functions takes as parameters the array of classes that would be set by
+default, the item corresponding to the bar being customized and its position
+inside the data array.
+
 ```vue
 <template>
   <div class="element-demo">
@@ -340,6 +347,258 @@ export default {
           [this.linearAxisConfig.keyForValues]: _.random(this.linearAxisConfig.scale.domain.start, this.linearAxisConfig.scale.domain.end, false)
         }
       })
+    }
+  }
+}
+</script>
+```
+
+```vue
+<template>
+  <div class="element-demo">
+    <h3 class="element-demo__header">
+      Interactive multi-series categorical chart
+      <div class="element-demo__inline-input-group">
+        <geo-primary-button @click="randomizeData()">
+          Randomize data
+        </geo-primary-button>
+      </div>
+      <div class="element-demo__inline-input-group">
+        <geo-primary-button @click="showAverageSales = !showAverageSales">
+          Toggle average sales
+        </geo-primary-button>
+      </div>
+    </h3>
+    <div class="element-demo__block">
+      <geo-chart
+        v-if="chartConfig"
+        :config="chartConfig"
+        height="300px"
+        width="500px"
+      />
+    </div>
+  </div>
+</template>
+
+<script>
+const d3 = require('d3')
+const { POSITIONS } = require('./GeoChartAxis')
+const { DIMENSIONS: BARS_DIMENSIONS } = require('./GeoChartBars')
+const { SCALE_TYPES } = require('./GeoChartScale')
+
+export default {
+  name: 'GeoChartBars',
+  data () {
+    return {
+      showAverageSales: false,
+      categoricalDomain: null,
+      thisYearSales: null,
+      averageSales: null
+    }
+  },
+  computed: {
+    linearAxisConfig () {
+      return {
+        id: 'demo-linear-axis',
+        keyForValues: 'income',
+        ticks: {
+          count: 3
+        },
+        position: {
+          type: POSITIONS.bottom
+        },
+        scale: {
+          type: SCALE_TYPES.linear,
+          valueForOrigin: 0,
+          domain: {
+            start: -300000,
+            end: 300000
+          }
+        }
+      }
+    },
+
+    percentageAxisConfig () {
+      return {
+        id: 'demo-percentage-axis',
+        keyForValues: 'percentage-income',
+        ticks: {
+          count: 3
+        },
+        position: {
+          type: POSITIONS.bottom
+        },
+        scale: {
+          type: SCALE_TYPES.linear,
+          valueForOrigin: 0,
+          domain: {
+            start: -1,
+            end: 1
+          }
+        }
+      }
+    },
+
+    categoricalAxisConfig () {
+      if (!this.linearAxisConfig) return null
+
+      const position = this.showAverageSales
+        ? {
+          type: POSITIONS.anchoredToAxis,
+          value: this.percentageAxisConfig.scale.valueForOrigin,
+          relativeToAxis: this.percentageAxisConfig.id
+        }
+        : {
+          type: POSITIONS.anchoredToAxis,
+          value: this.linearAxisConfig.scale.valueForOrigin,
+          relativeToAxis: this.linearAxisConfig.id
+        }
+
+      return {
+        id: 'demo-categorical-axis',
+        keyForValues: 'point_of_sale',
+        position,
+        scale: {
+          type: SCALE_TYPES.categorical,
+          domain: _.times(5, i => `Store #${i}`),
+          padding: {
+            inner: 0.1,
+            outer: 0.2
+          }
+        },
+        cssClasses (originalClasses) {
+          return [...originalClasses, 'hide-text', 'hide-paths', 'hide-lines']
+        }
+      }
+    },
+
+    chartConfig () {
+      if (!this.linearAxisConfig) return null
+      if (!this.percentageAxisConfig) return null
+      if (!this.categoricalAxisConfig) return null
+      if (!this.thisYearSales) return null
+      if (!this.averageSales) return null
+
+      const axisGroups = [
+        this.categoricalAxisConfig
+      ]
+
+      const idHorizontalAxis = this.showAverageSales
+        ? this.percentageAxisConfig.id
+        : this.linearAxisConfig.id
+
+      const barGroups = [{
+        data: this.thisYearSales,
+        dimension: BARS_DIMENSIONS.horizontal,
+        naturalWidth: 0.45,
+        idHorizontalAxis,
+        idVerticalAxis: this.categoricalAxisConfig.id,
+        cssClasses: (originalClasses, item, index) => [
+          ...originalClasses,
+          item[this.linearAxisConfig.keyForValues] < 0 ? 'fill-red' : 'fill-green'
+        ]
+      }]
+
+      if (this.showAverageSales) {
+        barGroups.push({
+          data: this.averageSales,
+          dimension: BARS_DIMENSIONS.horizontal,
+          naturalWidth: 0.15,
+          naturalNormalOffset: 0.55,
+          idHorizontalAxis,
+          idVerticalAxis: this.categoricalAxisConfig.id
+        })
+        axisGroups.push(this.percentageAxisConfig)
+      } else {
+        axisGroups.push(this.linearAxisConfig)
+      }
+
+      const labelGroupsData = _.map(this.categoricalAxisConfig.scale.domain, (category) => {
+
+        const labels = [{ text: category }]
+
+        if (Math.random() > 0.5) {
+          labels.push({
+            text: '»',
+            cornerRadius: _.random(5, 20, false),
+            padding: {
+              top: 0,
+              right: _.random(10, 20, false),
+              bottom: 0,
+              left: _.random(10, 20, false)
+            },
+            margin: {
+              top: 0,
+              right: 0,
+              left: _.random(10, 20, false),
+              bottom: 0
+            },
+            cssClasses: (defaultClasses, d, i) => [...defaultClasses, 'rect-stroke-red-and-text-fill-black']
+          })
+        }
+
+        return {
+          [this.categoricalAxisConfig.keyForValues]: category,
+          labels
+        }
+      })
+
+      return {
+        chart: {
+          margin: {
+            top: 30,
+            right: 30,
+            bottom: 30,
+            left: 250
+          }
+        },
+        axisGroups,
+        labelGroups: [{
+          data: _.take(labelGroupsData, _.random(1, labelGroupsData.length, false)),
+          idVerticalAxis: this.categoricalAxisConfig.id
+        }],
+        barGroups
+      }
+    }
+  },
+  mounted () {
+    this.randomizeData()
+  },
+  methods: {
+    randomizeData () {
+      if (!this.categoricalAxisConfig) return
+      if (!this.percentageAxisConfig) return
+      if (!this.linearAxisConfig) return
+
+      const {
+        categoricalAxisConfig,
+        percentageAxisConfig,
+        linearAxisConfig
+      } = this
+
+      this.thisYearSales = getRandomSalesData()
+      this.averageSales = getRandomSalesData()
+
+      function getRandomSalesData () {
+        return _.map(
+          categoricalAxisConfig.scale.domain,
+          (category) => {
+            return {
+              [percentageAxisConfig.keyForValues]: _.random(
+                percentageAxisConfig.scale.domain.start,
+                percentageAxisConfig.scale.domain.end,
+                false
+              ),
+              [categoricalAxisConfig.keyForValues]: category,
+              [linearAxisConfig.keyForValues]: _.random(
+                linearAxisConfig.scale.domain.start,
+                linearAxisConfig.scale.domain.end,
+                false
+              )
+            }
+          }
+        )
+      }
     }
   }
 }

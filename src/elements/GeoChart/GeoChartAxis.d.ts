@@ -48,16 +48,19 @@ declare namespace GeoChart {
     }
   }
 
-  interface AxisConfig<Domain, RelativeScaleDomain> {
-    id: string
-    keyForValues: string
-    position: AxisPosition<RelativeScaleDomain>
-    scale: AxisConfigScale<Domain>
+  interface GlobalAxesConfig {
     chart: {
       animationsDurationInMilliseconds: number
       size: GeoChart.Size
       margin: GeoChart.Margin
     }
+  }
+
+  interface AxisConfig<Domain, RelativeScaleDomain> {
+    id: string
+    keyForValues: string
+    position: AxisPosition<RelativeScaleDomain>
+    scale: AxisConfigScale<Domain>
     cssClasses?: (originalClasses: string[]) => string[]
     ticks: {
       count?: number

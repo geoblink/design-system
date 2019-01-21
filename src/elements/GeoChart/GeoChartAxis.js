@@ -35,10 +35,56 @@ export const SIMPLE_POSITIONS = {
 }
 
 /**
+ * @template GElement
+ * @template Datum
+ * @template PElement
+ * @template PDatum
  * @template Domain
- * @callback AddAxisFunction
- * @param {GeoChart.AxisConfig<Domain>} options
+ * @template RelativeScaleDomain
+ * @param {d3.Selection<GElement, Datum, PElement, PDatum>} d3Instance
+ * @param {Array<GeoChart.AxisConfig<Domain, RelativeScaleDomain>>} axesOptions
+ * @param {GeoChart.GlobalAxesConfig} globalAxesConfig
  */
+export function render (d3Instance, axesOptions, globalAxesConfig) {
+  const baseAxisCSSClass = 'geo-chart-axis'
+  const axisGroups = d3Instance
+    .selectAll(`g.${baseAxisCSSClass}`)
+    .data(axesOptions)
+
+  const newAxisGroups = axisGroups
+    .enter()
+    .append('g')
+    .attr('class', getAxisCSSClasses)
+
+  const updatedAxisGroups = axisGroups
+  const allAxisGroups = newAxisGroups.merge(updatedAxisGroups)
+
+  axisGroups
+    .exit()
+    .transition()
+    .duration(globalAxesConfig.chart.animationsDurationInMilliseconds)
+    .style('opacity', 0)
+    .remove()
+
+  allAxisGroups.each(function (singleAxisOptions, i) {
+    const group = d3.select(this)
+    renderSingleAxis(group, singleAxisOptions, globalAxesConfig)
+  })
+
+  function getAxisCSSClasses (singleAxisOptions, i) {
+    const defaultGroupCSSClasses = [
+      baseAxisCSSClass,
+      `geo-chart-axis-${singleAxisOptions.id}`,
+      `geo-chart-axis--${singleAxisOptions.position.type}`
+    ]
+
+    const customCSSClasses = _.isFunction(singleAxisOptions.cssClasses)
+      ? singleAxisOptions.cssClasses(defaultGroupCSSClasses)
+      : defaultGroupCSSClasses
+
+    return _.uniq([...customCSSClasses, baseAxisCSSClass]).join(' ')
+  }
+}
 
 /**
  * @template GElement
@@ -46,96 +92,73 @@ export const SIMPLE_POSITIONS = {
  * @template PElement
  * @template PDatum
  * @param {d3.Selection<GElement, Datum, PElement, PDatum>} d3Instance
- * @returns {AddAxisFunction}
+ * @param {GeoChart.AxisConfig<Domain>} singleAxisOptions
+ * @param {GeoChart.GlobalAxesConfig} globalAxesConfig
  */
-export function factory (d3Instance) {
-  const groups = {}
+function renderSingleAxis (group, singleAxisOptions, globalAxesConfig) {
+  const drawingEnvironment = getDrawingEnvironment(singleAxisOptions, globalAxesConfig)
+  const axis = getAxis(singleAxisOptions)
 
-  return function (options) {
-    const group = getOrSetValue(groups, options.id, () => {
-      const defaultGroupCSSClasses = [
-        `geo-chart-axis geo-chart-axis-${options.id}`,
-        `geo-chart-axis--${options.position.type}`
-      ]
-
-      const getGroupCSSClasses = _.isFunction(options.cssClasses)
-        ? (...args) => options.cssClasses(defaultGroupCSSClasses, ...args).join(' ')
-        : defaultGroupCSSClasses.join(' ')
-
-      return d3Instance
-        .append('g')
-        .attr('class', getGroupCSSClasses)
-    })
-
-    const drawingEnvironment = getDrawingEnvironment(options)
-    const axis = getAxis(options)
-
-    const tickCount = _.get(options, 'ticks.count')
-    const isTickCountForced = _.isFinite(tickCount)
-    if (isTickCountForced) {
-      axis.ticks(tickCount)
-    }
-
-    const tickFormat = _.get(options, 'ticks.format')
-    if (tickFormat) {
-      axis.tickFormat(tickFormat)
-    }
-
-    const isShowingTicks = (isTickCountForced && tickCount > 0) || _.isNil(tickCount)
-
-    if (!isShowingTicks) {
-      axis
-        .tickValues([])
-        .tickSize(0)
-    }
-
-    const isAnimated = options.chart.animationsDurationInMilliseconds > 0
-
-    const animatedGroup = isAnimated
-      ? group
-        .transition()
-        .duration(options.chart.animationsDurationInMilliseconds)
-      : group
-
-    const forcedTickCSSClasses = ['tick']
-    const defaultTickCSSClasses = [`geo-chart-axis-tick--${options.position.type}`]
-    const getTickCSSClasses = _.isFunction(_.get(options, 'ticks.cssClasses'))
-      ? (...args) => [...forcedTickCSSClasses, ...options.ticks.cssClasses(defaultTickCSSClasses, ...args)].join(' ')
-      : [...forcedTickCSSClasses, ...defaultTickCSSClasses].join(' ')
-
-    animatedGroup
-      .attr('transform', `translate(${drawingEnvironment.absolutePosition.x}, ${drawingEnvironment.absolutePosition.y})`)
-      .call(axis)
-      .selectAll('g.tick')
-      .attr('class', getTickCSSClasses)
+  const tickCount = _.get(singleAxisOptions, 'ticks.count')
+  const isTickCountForced = _.isFinite(tickCount)
+  if (isTickCountForced) {
+    axis.ticks(tickCount)
   }
-}
 
-function getOrSetValue (object, key, fallbackGenerator) {
-  const value = _.get(object, key) || fallbackGenerator()
-  _.set(object, key, value)
-  return value
+  const tickFormat = _.get(singleAxisOptions, 'ticks.format')
+  if (tickFormat) {
+    axis.tickFormat(tickFormat)
+  }
+
+  const isShowingTicks = (isTickCountForced && tickCount > 0) || _.isNil(tickCount)
+
+  if (!isShowingTicks) {
+    axis
+      .tickValues([])
+      .tickSize(0)
+  }
+
+  const isAnimated = globalAxesConfig.chart.animationsDurationInMilliseconds > 0
+
+  const animatedGroup = isAnimated
+    ? group
+      .transition()
+      .duration(globalAxesConfig.chart.animationsDurationInMilliseconds)
+    : group
+
+  const forcedTickCSSClasses = ['tick']
+  const defaultTickCSSClasses = [`geo-chart-axis-tick--${singleAxisOptions.position.type}`]
+  const getTickCSSClasses = _.isFunction(_.get(singleAxisOptions, 'ticks.cssClasses'))
+    ? (...args) => [...forcedTickCSSClasses, ...singleAxisOptions.ticks.cssClasses(defaultTickCSSClasses, ...args)].join(' ')
+    : [...forcedTickCSSClasses, ...defaultTickCSSClasses].join(' ')
+
+  animatedGroup
+    .attr('transform', `translate(${drawingEnvironment.absolutePosition.x}, ${drawingEnvironment.absolutePosition.y})`)
+    .call(axis)
+    .selectAll('g.tick')
+    .attr('class', getTickCSSClasses)
 }
 
 /**
- * @param {GeoChart.AxisConfig<Domain>} options
+ * @param {GeoChart.AxisConfig<Domain>} singleAxisOptions
+ * @param {GeoChart.GlobalAxesConfig} globalAxesConfig
  * @returns {GeoChart.DrawingEnvironment}
  */
-function getDrawingEnvironment (options) {
+function getDrawingEnvironment (singleAxisOptions, globalAxesConfig) {
   const xTranslation = getOriginXTranslation(
-    options.position,
-    options.chart.size,
-    options.chart.margin
+    singleAxisOptions.position,
+    globalAxesConfig.chart.size,
+    globalAxesConfig.chart.margin
   )
   const yTranslation = getOriginYTranslation(
-    options.position,
-    options.chart.size,
-    options.chart.margin
+    singleAxisOptions.position,
+    globalAxesConfig.chart.size,
+    globalAxesConfig.chart.margin
   )
 
   const drawingEnvironment = {
-    canvasSize: options.chart.size,
-    chartMargin: options.chart.margin,
+    canvasSize: globalAxesConfig.chart.size,
+    chartMargin: globalAxesConfig.chart.margin,
     absolutePosition: {
       x: xTranslation,
       y: yTranslation
@@ -147,11 +170,11 @@ function getDrawingEnvironment (options) {
 
 /**
  * @template Domain
- * @param {GeoChart.AxisConfig<Domain>} options
+ * @param {GeoChart.AxisConfig<Domain>} singleAxisOptions
  * @returns {d3.Axis<Domain>}
  */
-function getAxis (options) {
-  const { position, scale: { axisScale: scale } } = options
+function getAxis (singleAxisOptions) {
+  const { position, scale: { axisScale: scale } } = singleAxisOptions
 
   switch (position.type) {
     case POSITIONS.top:
@@ -174,7 +197,7 @@ function getAxis (options) {
     }
   }
 
-  console.warn(`GeoChart (axis) [component] :: Tried to get axis for unknown position: ${position.type}`, options)
+  console.warn(`GeoChart (axis) [component] :: Tried to get axis for unknown position: ${position.type}`, singleAxisOptions)
 }
 
 /**

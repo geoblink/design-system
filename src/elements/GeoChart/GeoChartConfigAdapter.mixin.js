@@ -1,6 +1,8 @@
 import _ from 'lodash'
 
 import * as ChartSizing from './GeoChartSizing'
+import * as ChartBars from './GeoChartBars'
+import * as ChartLabels from './GeoChartLabels'
 
 export default {
   methods: {
@@ -23,24 +25,26 @@ export default {
         margin: chartMargin
       }
 
-      for (let id = 0; id < this.config.barGroups.length; id++) {
-        const barGroupConfig = this.config.barGroups[id]
+      const barGroupsConfig = _.map(this.config.barGroups, (singleBarGroupConfig, index) => {
         const axis = {
-          horizontal: this.axesConfigById[barGroupConfig.idHorizontalAxis],
-          vertical: this.axesConfigById[barGroupConfig.idVerticalAxis]
+          horizontal: this.axesConfigById[singleBarGroupConfig.idHorizontalAxis],
+          vertical: this.axesConfigById[singleBarGroupConfig.idVerticalAxis]
         }
-        this.addBarGroup({
-          id,
+        return {
+          id: index,
           chart,
           axis,
-          data: barGroupConfig.data,
-          dimension: barGroupConfig.dimension,
-          normalOffset: barGroupConfig.normalOffset,
-          naturalNormalOffset: barGroupConfig.naturalNormalOffset,
-          width: barGroupConfig.width,
-          naturalWidth: barGroupConfig.naturalWidth
-        })
-      }
+          data: singleBarGroupConfig.data,
+          dimension: singleBarGroupConfig.dimension,
+          normalOffset: singleBarGroupConfig.normalOffset,
+          naturalNormalOffset: singleBarGroupConfig.naturalNormalOffset,
+          width: singleBarGroupConfig.width,
+          naturalWidth: singleBarGroupConfig.naturalWidth,
+          cssClasses: singleBarGroupConfig.cssClasses
+        }
+      })
+
+      ChartBars.render(this.d3Instance, barGroupsConfig, { chart })
     },
 
     updateLabelGroups () {
@@ -52,18 +56,17 @@ export default {
         margin: chartMargin
       }
 
-      for (let id = 0; id < this.config.labelGroups.length; id++) {
-        const labelGroupConfig = this.config.labelGroups[id]
-        const axis = {
-          vertical: this.axesConfigById[labelGroupConfig.idVerticalAxis]
+      const labelGroupsConfig = _.map(this.config.labelGroups, (singleLabelGroupConfig, index) => {
+        return {
+          id: index,
+          axis: {
+            vertical: this.axesConfigById[singleLabelGroupConfig.idVerticalAxis]
+          },
+          data: singleLabelGroupConfig.data
         }
-        this.addLabelGroup({
-          id,
-          chart,
-          axis,
-          data: labelGroupConfig.data
-        })
-      }
+      })
+
+      ChartLabels.render(this.d3Instance, labelGroupsConfig, { chart })
     }
   }
 }

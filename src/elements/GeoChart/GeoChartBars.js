@@ -23,143 +23,171 @@ export const DIMENSIONS = {
 export const DEFAULT_WIDTH = 10
 
 /**
- * @callback AddBarGroupFunction
- * @param {GeoChart.BarGroupConfig<HorizontalDomain, VerticalDomain>} options
+ * @template GElement
+ * @template Datum
+ * @template PElement
+ * @template PDatum
+ * @template HorizontalDomain
+ * @template VerticalDomain
+ * @param {d3.Selection<GElement, Datum, PElement, PDatum>} d3Instance
+ * @param {Array<GeoChart.SingleBarGroupConfig<HorizontalDomain, VerticalDomain>>} options
+ * @param {GeoChart.BarGroupsGlobalConfig} globalOptions
  */
+export function render (d3Instance, options, globalOptions) {
+  const groups = d3Instance
+    .selectAll('g.geo-chart-bars-group')
+    .data(options)
+
+  const newGroups = groups
+    .enter()
+    .append('g')
+    .attr('class', (singleGroupOptions, i) =>
+      `geo-chart-bars-group geo-chart-bars-group--${singleGroupOptions.id} geo-chart-bars-group--${singleGroupOptions.dimension}`
+    )
+
+  groups
+    .exit()
+    .transition()
+    .duration(globalOptions.chart.animationsDurationInMilliseconds)
+    .style('opacity', 0)
+    .remove()
+
+  const updatedGroups = groups
+  const allGroups = newGroups.merge(updatedGroups)
+
+  allGroups.each(function (singleGroupOptions, i) {
+    const group = d3.select(this)
+    renderSingleGroup(group, singleGroupOptions, globalOptions)
+  })
+}
 
 /**
  * @template GElement
  * @template Datum
  * @template PElement
  * @template PDatum
+ * @template HorizontalDomain
+ * @template VerticalDomain
  * @param {d3.Selection<GElement, Datum, PElement, PDatum>} d3Instance
- * @returns {AddBarGroupFunction}
+ * @param {GeoChart.SingleBarGroupConfig<HorizontalDomain, VerticalDomain>} singleGroupOptions
+ * @param {GeoChart.BarGroupsGlobalConfig} globalOptions
  */
-export function groupFactory (d3Instance) {
-  const groups = {}
+function renderSingleGroup (group, singleGroupOptions, globalOptions) {
+  const getWidth = (d, i) => getItemSpanAtAxis(singleGroupOptions.axis.horizontal, d, singleGroupOptions)
+  const getHeight = (d, i) => getItemSpanAtAxis(singleGroupOptions.axis.vertical, d, singleGroupOptions)
 
-  return function (options) {
-    const group = groups[options.id] || d3Instance
-      .append('g')
-      .attr('class', `geo-chart-bars-group geo-chart-bars-group--${options.id} geo-chart-bars-group--${options.dimension}`)
-    groups[options.id] = group
-
-    const getWidth = (d, i) => getItemSpanAtAxis(options.axis.horizontal, d, options)
-    const getHeight = (d, i) => getItemSpanAtAxis(options.axis.vertical, d, options)
-
-    const getNewItemInitialWidth = (d, i) => {
-      switch (options.dimension) {
-        case DIMENSIONS.horizontal:
-          return 0
-        case DIMENSIONS.vertical:
-          return getWidth(d, i)
-      }
+  const getNewItemInitialWidth = (d, i) => {
+    switch (singleGroupOptions.dimension) {
+      case DIMENSIONS.horizontal:
+        return 0
+      case DIMENSIONS.vertical:
+        return getWidth(d, i)
     }
-    const getNewItemInitialHeight = (d, i) => {
-      switch (options.dimension) {
-        case DIMENSIONS.horizontal:
-          return getHeight(d, i)
-        case DIMENSIONS.vertical:
-          return 0
-      }
+  }
+  const getNewItemInitialHeight = (d, i) => {
+    switch (singleGroupOptions.dimension) {
+      case DIMENSIONS.horizontal:
+        return getHeight(d, i)
+      case DIMENSIONS.vertical:
+        return 0
     }
+  }
 
-    const getTranslation = getSingleItemTranslationFactory(options)
+  const getTranslation = getSingleItemTranslationFactory(singleGroupOptions)
 
-    const singleBarBaseClass = 'geo-chart-bar'
+  const singleBarBaseClass = 'geo-chart-bar'
 
-    const bars = group
-      .selectAll(`rect.${singleBarBaseClass}`)
-      .data(options.data)
+  const bars = group
+    .selectAll(`rect.${singleBarBaseClass}`)
+    .data(singleGroupOptions.data)
 
-    bars
-      .enter()
-      .append('rect')
-      .attr('transform', getNewItemInitialTransform)
-      .attr('width', getNewItemInitialWidth)
-      .attr('height', getNewItemInitialHeight)
-      .transition()
-      .duration(options.chart.animationsDurationInMilliseconds)
-      .attr('class', getSingleBarCSSClasses)
-      .attr('transform', getTransform)
-      .attr('width', getWidth)
-      .attr('height', getHeight)
+  bars
+    .enter()
+    .append('rect')
+    .attr('transform', getNewItemInitialTransform)
+    .attr('width', getNewItemInitialWidth)
+    .attr('height', getNewItemInitialHeight)
+    .transition()
+    .duration(globalOptions.chart.animationsDurationInMilliseconds)
+    .attr('class', getSingleBarCSSClasses)
+    .attr('transform', getTransform)
+    .attr('width', getWidth)
+    .attr('height', getHeight)
 
-    bars
-      .transition()
-      .duration(options.chart.animationsDurationInMilliseconds)
-      .attr('class', getSingleBarCSSClasses)
-      .attr('transform', getTransform)
-      .attr('width', getWidth)
-      .attr('height', getHeight)
+  bars
+    .transition()
+    .duration(globalOptions.chart.animationsDurationInMilliseconds)
+    .attr('class', getSingleBarCSSClasses)
+    .attr('transform', getTransform)
+    .attr('width', getWidth)
+    .attr('height', getHeight)
 
-    bars
-      .exit()
-      .transition()
-      .duration(options.chart.animationsDurationInMilliseconds)
-      .attr('transform', getItemToBeRemovedFinalTransform)
-      .attr('width', getNewItemInitialWidth)
-      .attr('height', getNewItemInitialHeight)
-      .remove()
+  bars
+    .exit()
+    .transition()
+    .duration(globalOptions.chart.animationsDurationInMilliseconds)
+    .attr('transform', getItemToBeRemovedFinalTransform)
+    .attr('width', getNewItemInitialWidth)
+    .attr('height', getNewItemInitialHeight)
+    .remove()
 
-    function getTransform (d, i) {
-      const translation = getTranslation(d, i)
+  function getTransform (d, i) {
+    const translation = getTranslation(d, i)
 
-      if (_.isNaN(translation.x)) {
-        throw new Error('GeoChart (bars) [component] :: Wrong translation in x-axis. This usually means that the bar group axes have been swapped or misconfigured.')
-      }
-
-      if (_.isNaN(translation.y)) {
-        throw new Error('GeoChart (bars) [component] :: Wrong translation in y-axis. This usually means that the bar group axes have been swapped or misconfigured.')
-      }
-
-      return `translate(${translation.x}, ${translation.y})`
+    if (_.isNaN(translation.x)) {
+      throw new Error('GeoChart (bars) [component] :: Wrong translation in x-axis. This usually means that the bar group axes have been swapped or misconfigured.')
     }
 
-    function getNewItemInitialTransform (d, i) {
-      const translationForItemAtOrigin = getTranslation({
-        [options.axis.horizontal.keyForValues]: options.axis.horizontal.scale.valueForOrigin,
-        [options.axis.vertical.keyForValues]: options.axis.vertical.scale.valueForOrigin
-      }, i)
-      const translation = getTranslation(d, i)
-
-      switch (options.dimension) {
-        case DIMENSIONS.horizontal:
-          return `translate(${translationForItemAtOrigin.x}, ${translation.y})`
-        case DIMENSIONS.vertical:
-          return `translate(${translation.x}, ${translationForItemAtOrigin.y})`
-      }
+    if (_.isNaN(translation.y)) {
+      throw new Error('GeoChart (bars) [component] :: Wrong translation in y-axis. This usually means that the bar group axes have been swapped or misconfigured.')
     }
 
-    function getItemToBeRemovedFinalTransform (d, i) {
-      const previousTransform = d3.select(this).attr('transform')
-      const translationForItemAtOrigin = getTranslation({
-        [options.axis.horizontal.keyForValues]: options.axis.horizontal.scale.valueForOrigin,
-        [options.axis.vertical.keyForValues]: options.axis.vertical.scale.valueForOrigin
-      }, i)
+    return `translate(${translation.x}, ${translation.y})`
+  }
 
-      switch (options.dimension) {
-        case DIMENSIONS.horizontal:
-          return previousTransform.replace(/(.*\s*translate\()[^,]*(,.*)/gi, `$1${translationForItemAtOrigin.x}$2`)
-        case DIMENSIONS.vertical:
-          return previousTransform.replace(/(.*\s*translate\([^,]*,)[^)]*(\).*)/gi, `$1${translationForItemAtOrigin.y}$2`)
-      }
+  function getNewItemInitialTransform (d, i) {
+    const translationForItemAtOrigin = getTranslation({
+      [singleGroupOptions.axis.horizontal.keyForValues]: singleGroupOptions.axis.horizontal.scale.valueForOrigin,
+      [singleGroupOptions.axis.vertical.keyForValues]: singleGroupOptions.axis.vertical.scale.valueForOrigin
+    }, i)
+    const translation = getTranslation(d, i)
+
+    switch (singleGroupOptions.dimension) {
+      case DIMENSIONS.horizontal:
+        return `translate(${translationForItemAtOrigin.x}, ${translation.y})`
+      case DIMENSIONS.vertical:
+        return `translate(${translation.x}, ${translationForItemAtOrigin.y})`
+    }
+  }
+
+  function getItemToBeRemovedFinalTransform (d, i) {
+    const previousTransform = d3.select(this).attr('transform')
+    const translationForItemAtOrigin = getTranslation({
+      [singleGroupOptions.axis.horizontal.keyForValues]: singleGroupOptions.axis.horizontal.scale.valueForOrigin,
+      [singleGroupOptions.axis.vertical.keyForValues]: singleGroupOptions.axis.vertical.scale.valueForOrigin
+    }, i)
+
+    switch (singleGroupOptions.dimension) {
+      case DIMENSIONS.horizontal:
+        return previousTransform.replace(/(.*\s*translate\()[^,]*(,.*)/gi, `$1${translationForItemAtOrigin.x}$2`)
+      case DIMENSIONS.vertical:
+        return previousTransform.replace(/(.*\s*translate\([^,]*,)[^)]*(\).*)/gi, `$1${translationForItemAtOrigin.y}$2`)
+    }
+  }
+
+  function getSingleBarCSSClasses (d, i) {
+    const defaultClasses = [
+      singleBarBaseClass,
+      `geo-chart-bar--${i}`,
+      `geo-chart-bar--${singleGroupOptions.dimension}`
+    ]
+
+    if (singleGroupOptions.cssClasses) {
+      const customClasses = singleGroupOptions.cssClasses(defaultClasses, d, i)
+      return _.uniq([...customClasses, singleBarBaseClass]).join(' ')
     }
 
-    function getSingleBarCSSClasses (d, i) {
-      const defaultClasses = [
-        singleBarBaseClass,
-        `geo-chart-bar--${i}`,
-        `geo-chart-bar--${options.dimension}`
-      ]
-
-      if (d.cssClasses) {
-        const customClasses = d.cssClasses(defaultClasses)
-        return _.uniq([...customClasses, singleBarBaseClass]).join(' ')
-      }
-
-      return defaultClasses.join(' ')
-    }
+    return defaultClasses.join(' ')
   }
 }
 
@@ -181,7 +209,7 @@ function isBarAxisLengthIncreasing (axisConfig, singleItem) {
 }
 
 /**
- * @param {GeoChart.BarGroupConfig<HorizontalDomain, VerticalDomain>} options
+ * @param {GeoChart.SingleBarGroupConfig<HorizontalDomain, VerticalDomain>} options
  * @returns {GetTranslationFunction}
  */
 function getSingleItemTranslationFactory (options) {
@@ -272,7 +300,7 @@ function getItemValueAtAxis (axisConfig, singleItem) {
  * @template Domain
  * @param {GeoChart.AxisConfig<Domain>} axisConfig
  * @param {object} singleItem
- * @param {GeoChart.BarGroupConfig<HorizontalDomain, VerticalDomain>} [options]
+ * @param {GeoChart.SingleBarGroupConfig<HorizontalDomain, VerticalDomain>} [options]
  * @return {number}
  */
 function getItemSpanAtAxis (axisConfig, singleItem, options) {
@@ -341,7 +369,7 @@ function isScaleBand (axisScale) {
  * @template HorizontalDomain
  * @template VerticalDomain
  * @param {GeoChart.AxisConfig<Domain>} axisConfig
- * @param {GeoChart.BarGroupConfig<HorizontalDomain, VerticalDomain>} [options]
+ * @param {GeoChart.SingleBarGroupConfig<HorizontalDomain, VerticalDomain>} [options]
  * @return {boolean}
  */
 function isDimensionAxis (axisConfig, options) {
@@ -358,7 +386,7 @@ function isDimensionAxis (axisConfig, options) {
 /**
  * @template HorizontalDomain
  * @template VerticalDomain
- * @param {GeoChart.BarGroupConfig<HorizontalDomain, VerticalDomain>} [options]
+ * @param {GeoChart.SingleBarGroupConfig<HorizontalDomain, VerticalDomain>} [options]
  * @return {boolean}
  */
 function isWidthForced (options) {
@@ -368,7 +396,7 @@ function isWidthForced (options) {
 /**
  * @template HorizontalDomain
  * @template VerticalDomain
- * @param {GeoChart.BarGroupConfig<HorizontalDomain, VerticalDomain>} [options]
+ * @param {GeoChart.SingleBarGroupConfig<HorizontalDomain, VerticalDomain>} [options]
  * @return {boolean}
  */
 function isNaturalWidthForced (options) {
@@ -378,7 +406,7 @@ function isNaturalWidthForced (options) {
 /**
  * @template HorizontalDomain
  * @template VerticalDomain
- * @param {GeoChart.BarGroupConfig<HorizontalDomain, VerticalDomain>} [options]
+ * @param {GeoChart.SingleBarGroupConfig<HorizontalDomain, VerticalDomain>} [options]
  * @return {boolean}
  */
 function isNormalOffsetForced (options) {
@@ -388,7 +416,7 @@ function isNormalOffsetForced (options) {
 /**
  * @template HorizontalDomain
  * @template VerticalDomain
- * @param {GeoChart.BarGroupConfig<HorizontalDomain, VerticalDomain>} [options]
+ * @param {GeoChart.SingleBarGroupConfig<HorizontalDomain, VerticalDomain>} [options]
  * @return {boolean}
  */
 function isNaturalNormalOffsetForced (options) {

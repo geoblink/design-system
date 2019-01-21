@@ -13,133 +13,183 @@ const d3 = (function () {
 })()
 
 /**
- * @callback AddLabelGroupFunction
- * @param {GeoChart.LabelGroupConfig<HorizontalDomain, VerticalDomain>} options
+ * @template GElement
+ * @template Datum
+ * @template PElement
+ * @template PDatum
+ * @template HorizontalDomain
+ * @template VerticalDomain
+ * @param {d3.Selection<GElement, Datum, PElement, PDatum>} d3Instance
+ * @param {Array<GeoChart.LabelGroupConfig<HorizontalDomain, VerticalDomain>>} options
+ * @param {GeoChart.LabelGroupsGlobalConfig} globalOptions
  */
+export function render (d3Instance, options, globalOptions) {
+  const groups = d3Instance
+    .selectAll('g.geo-chart-labels-group-container')
+    .data(options)
+
+  const newGroups = groups
+    .enter()
+    .append('g')
+    .attr('class', (singleGroupOptions, i) =>
+      `geo-chart-labels-group-container geo-chart-labels-group-container--${singleGroupOptions.id}`
+    )
+
+  groups
+    .exit()
+    .transition()
+    .duration(globalOptions.chart.animationsDurationInMilliseconds)
+    .style('opacity', 0)
+    .remove()
+
+  const updatedGroups = groups
+  const allGroups = newGroups.merge(updatedGroups)
+
+  allGroups.each(function (singleGroupOptions, i) {
+    const group = d3.select(this)
+    renderSingleGroup(group, singleGroupOptions, globalOptions)
+  })
+}
 
 /**
  * @template GElement
  * @template Datum
  * @template PElement
  * @template PDatum
+ * @template HorizontalDomain
+ * @template VerticalDomain
  * @param {d3.Selection<GElement, Datum, PElement, PDatum>} d3Instance
- * @returns {AddLabelGroupFunction}
+ * @param {GeoChart.LabelGroupConfig<HorizontalDomain, VerticalDomain>} singleGroupOptions
+ * @param {GeoChart.LabelGroupsGlobalConfig} globalOptions
  */
-export function groupFactory (d3Instance) {
-  const rootGroups = {}
+function renderSingleGroup (group, singleGroupOptions, globalOptions) {
+  const singleDataGroups = group
+    .selectAll('g.geo-chart-labels-group')
+    .data(singleGroupOptions.data)
 
-  return function (options) {
-    const getTranslation = getSingleItemTranslationFactory(options)
-    const rootGroup = rootGroups[options.id] || d3Instance
-      .append('g')
-      .attr('class', `geo-chart-labels-group-container geo-chart-labels-group-container--${options.id}`)
-    rootGroups[options.id] = rootGroup
+  const newSingleDataGroups = singleDataGroups
+    .enter()
+    .append('g')
+    .style('opacity', 0)
+    .attr('class', (d, i) => `geo-chart-labels-group geo-chart-label-group--${i}`)
 
-    const singleDataGroups = rootGroup
-      .selectAll('g.geo-chart-labels-group')
-      .data(options.data)
+  singleDataGroups
+    .exit()
+    .transition()
+    .duration(globalOptions.chart.animationsDurationInMilliseconds)
+    .style('opacity', 0)
+    .remove()
 
-    const newSingleDataGroups = singleDataGroups
-      .enter()
-      .append('g')
-      .attr('class', (d, i) => `geo-chart-labels-group geo-chart-label-group--${i}`)
-    const updatedSingleDataGroups = singleDataGroups
-      .selectAll('g.geo-chart-labels-group')
-    const allSingleDataGroups = newSingleDataGroups
-      .merge(updatedSingleDataGroups)
+  const updatedSingleDataGroups = singleDataGroups
+  const allSingleDataGroups = newSingleDataGroups
+    .merge(updatedSingleDataGroups)
 
-    const singleLabelGroupsBaseClass = 'geo-chart-labels-group__single-label'
-    const singleLabelGroups = newSingleDataGroups
-      .selectAll(`g.${singleLabelGroupsBaseClass}`)
-      .data(d => d.labels)
+  allSingleDataGroups.each(function () {
+    const labelsGroup = d3.select(this)
+    renderSingleLabel(labelsGroup, singleGroupOptions, globalOptions)
+  })
 
-    const newSingleLabelGroups = singleLabelGroups
-      .enter()
-      .append('g')
-      .attr('class', getSingleLabelGroupCSSClasses)
-    const updatedSingleLabelGroups = singleLabelGroups
-      .selectAll(`g.${singleLabelGroupsBaseClass}`)
-    const allSingleLabelGroups = newSingleLabelGroups
-      .merge(updatedSingleLabelGroups)
-      .attr('class', getSingleLabelGroupCSSClasses)
+  allSingleDataGroups
+    .transition()
+    .duration(globalOptions.chart.animationsDurationInMilliseconds)
+    .style('opacity', 1)
+    .attr('transform', getTransform)
 
-    singleLabelGroups
-      .exit()
-      .remove()
-
-    const newRects = newSingleLabelGroups
-      .append('rect')
-    const updatedRects = updatedSingleLabelGroups
-      .selectAll('rect')
-    const allRects = newRects
-      .merge(updatedRects)
-
-    allRects
-      .attr('rx', d => d.cornerRadius)
-      .attr('ry', d => d.cornerRadius)
-
-    const newTexts = newSingleLabelGroups
-      .append('text')
-      .attr('dominant-baseline', 'hanging')
-    const updatedTexts = updatedSingleLabelGroups
-      .selectAll('text')
-    const allTexts = newTexts
-      .merge(updatedTexts)
-
-    allTexts
-      .text(d => d.text)
-
-    applyPositioningAttributes(allSingleLabelGroups)
-
-    allSingleDataGroups
-      .transition()
-      .duration(options.chart.animationsDurationInMilliseconds)
-      .attr('transform', getTransform)
-
-    singleDataGroups
-      .exit()
-      .remove()
-
-    function getTransform (d, i) {
-      const height = d3.select(this).node().getBBox().height
-      const translation = getTranslation(d, height)
-      return `translate(${translation.x}, ${translation.y})`
-    }
-
-    function getSingleLabelGroupCSSClasses (d, i) {
-      const defaultClasses = [singleLabelGroupsBaseClass, 'rect-fill-none']
-
-      if (d.cssClasses) {
-        const customClasses = d.cssClasses(defaultClasses)
-        return _.uniq([...customClasses, singleLabelGroupsBaseClass]).join(' ')
-      }
-
-      return defaultClasses.join(' ')
-    }
+  function getTransform (d, i) {
+    const height = d3.select(this).node().getBBox().height
+    const translation = getTranslation(singleGroupOptions, d, height)
+    return `translate(${translation.x}, ${translation.y})`
   }
 }
 
 /**
- * @callback GetTranslationFunction
- * @param {object} singleItem
- * @param {number} height
+ * @template GElement
+ * @template Datum
+ * @template PElement
+ * @template PDatum
+ * @template HorizontalDomain
+ * @template VerticalDomain
+ * @param {d3.Selection<GElement, Datum, PElement, PDatum>} d3Instance
+ * @param {GeoChart.LabelGroupConfig<HorizontalDomain, VerticalDomain>} singleGroupOptions
+ * @param {GeoChart.LabelGroupsGlobalConfig} globalOptions
  */
+function renderSingleLabel (group, singleGroupOptions, globalOptions) {
+  const singleLabelGroupsBaseClass = 'geo-chart-labels-group__single-label'
+
+  const singleLabelGroups = group
+    .selectAll(`g.${singleLabelGroupsBaseClass}`)
+    .data(d => d.labels)
+
+  const newSingleLabelGroups = singleLabelGroups
+    .enter()
+    .append('g')
+    .attr('class', getSingleLabelGroupCSSClasses)
+
+  singleLabelGroups
+    .exit()
+    .transition()
+    .duration(globalOptions.chart.animationsDurationInMilliseconds)
+    .style('opacity', 0)
+    .remove()
+
+  const updatedSingleLabelGroups = singleLabelGroups
+  const allSingleLabelGroups = newSingleLabelGroups
+    .merge(updatedSingleLabelGroups)
+    .attr('class', getSingleLabelGroupCSSClasses)
+
+  const newRects = newSingleLabelGroups
+    .append('rect')
+  const updatedRects = updatedSingleLabelGroups
+    .selectAll('rect')
+  const allRects = newRects
+    .merge(updatedRects)
+
+  allRects
+    .attr('rx', d => d.cornerRadius)
+    .attr('ry', d => d.cornerRadius)
+
+  const newTexts = newSingleLabelGroups
+    .append('text')
+    .attr('dominant-baseline', 'hanging')
+  const updatedTexts = updatedSingleLabelGroups
+    .selectAll('text')
+  const allTexts = newTexts
+    .merge(updatedTexts)
+
+  allTexts
+    .text(d => d.text)
+
+  applyPositioningAttributes(allSingleLabelGroups, globalOptions)
+
+  function getSingleLabelGroupCSSClasses (d, i) {
+    const defaultClasses = [singleLabelGroupsBaseClass, 'rect-fill-none']
+
+    if (d.cssClasses) {
+      const customClasses = d.cssClasses(defaultClasses)
+      return _.uniq([...customClasses, singleLabelGroupsBaseClass]).join(' ')
+    }
+
+    return defaultClasses.join(' ')
+  }
+}
 
 /**
- * @param {GeoChart.BarGroupConfig<HorizontalDomain, VerticalDomain>} options
- * @returns {GetTranslationFunction}
+ * @template HorizontalDomain
+ * @template VerticalDomain
+ * @param {GeoChart.LabelGroupConfig<HorizontalDomain, VerticalDomain>} singleGroupOptions
+ * @param {object} singleItem
+ * @param {number} height
+ * @returns {{x: number, y: number}}
  */
-function getSingleItemTranslationFactory (options) {
-  return function (singleItem, height) {
-    const verticalAxis = options.axis.vertical
-    const verticalAxisTranslationToTopPosition = getItemValueAtAxis(verticalAxis, singleItem)
-    const verticalAxisSpan = getItemSpanAtAxis(verticalAxis, singleItem)
-    const verticalAxisTranslation = verticalAxisTranslationToTopPosition + (verticalAxisSpan - height) / 2
+function getTranslation (singleGroupOptions, singleItem, height) {
+  const verticalAxis = singleGroupOptions.axis.vertical
+  const verticalAxisTranslationToTopPosition = getItemValueAtAxis(verticalAxis, singleItem)
+  const verticalAxisSpan = getItemSpanAtAxis(verticalAxis, singleItem)
+  const verticalAxisTranslation = verticalAxisTranslationToTopPosition + (verticalAxisSpan - height) / 2
 
-    return {
-      x: 0,
-      y: verticalAxisTranslation
-    }
+  return {
+    x: 0,
+    y: verticalAxisTranslation
   }
 }
 
@@ -192,8 +242,9 @@ function getItemSpanAtAxis (axisConfig, singleItem) {
  * @template PElement
  * @template PDatum
  * @param {d3.Selection<GElement, Datum, PElement, PDatum>} allSingleLabelGroups
+ * @param {GeoChart.LabelGroupsGlobalConfig} globalOptions
  */
-function applyPositioningAttributes (allSingleLabelGroups) {
+function applyPositioningAttributes (allSingleLabelGroups, globalOptions) {
   const positioningAttributes = getPositioningAttributes(allSingleLabelGroups)
 
   const tallestGroupHeight = _.max(_.map(positioningAttributes, 'heightWithPaddingAndMargin'))
@@ -216,13 +267,19 @@ function applyPositioningAttributes (allSingleLabelGroups) {
     const yTranslation = (tallestGroupHeight - heightWithPaddingAndMargin) / 2
 
     d3TextSelection
+      .transition()
+      .duration(globalOptions.chart.animationsDurationInMilliseconds)
       .attr('transform', `translate(${margin.left + padding.left}, ${padding.top})`)
     d3RectSelection
+      .transition()
+      .duration(globalOptions.chart.animationsDurationInMilliseconds)
       .attr('width', widthWithPadding)
       .attr('height', heightWithPadding)
       .attr('x', margin.left)
       .attr('y', margin.top)
     group
+      .transition()
+      .duration(globalOptions.chart.animationsDurationInMilliseconds)
       .attr('width', widthWithPaddingAndMargin)
       .attr('height', heightWithPaddingAndMargin)
       .attr('transform', `translate(${xTranslation}, ${yTranslation})`)
