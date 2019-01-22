@@ -167,6 +167,24 @@ module.exports = {
             '../src/elements/GeoMarkdownContent/GeoMarkdownContent.vue'
           ],
           sectionDepth: 1
+        }, {
+          name: 'Charts',
+          sections: [{
+            name: 'Introduction',
+            components: '../src/elements/GeoChart/GeoChart.vue'
+          }, {
+            name: 'Axes',
+            content: '../src/elements/GeoChart/GeoChartAxis.md'
+          }, {
+            name: 'Scales',
+            content: '../src/elements/GeoChart/GeoChartScale.md'
+          }, {
+            name: 'Labels',
+            content: '../src/elements/GeoChart/GeoChartLabels.md'
+          }, {
+            name: 'Bar charts',
+            content: '../src/elements/GeoChart/GeoChartBars.md'
+          }]
         }
       ]
     },

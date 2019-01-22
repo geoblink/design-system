@@ -1,0 +1,36 @@
+@mixin geo-chart-make ($modifier-name) {
+  $modifier-name-with-prefix: '';
+
+  @if $modifier-name != '' {
+    // sass-lint:disable space-around-operator
+    $modifier-name-with-prefix: --#{$modifier-name};
+  }
+
+  .geo-chart#{$modifier-name-with-prefix} {
+    .hide-paths path {
+      visibility: hidden;
+    }
+
+    .hide-lines line {
+      visibility: hidden;
+    }
+
+    .hide-text text {
+      visibility: hidden;
+    }
+
+    .rect-fill-none rect {
+      fill: none;
+    }
+  }
+
+  .geo-chart--debug#{$modifier-name-with-prefix} {
+    background-size: 50px 50px;
+    background-image:
+      linear-gradient(to right, grey 1px, transparent 1px),
+      linear-gradient(to bottom, grey 1px, transparent 0px);
+    background-position: -0.5px -0.5px;
+  }
+}
+
+@include geo-chart-make('');

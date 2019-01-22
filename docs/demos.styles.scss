@@ -29,6 +29,22 @@
   }
 }
 
+.element-demo__block__config {
+  display: flex;
+  flex-direction: column;
+  font-family: $font_family_heading;
+  font-weight: 700;
+  margin-left: auto;
+
+  & > * {
+    margin-bottom: 10px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
 .element-demo__item {
   border: 1px solid $color_grey;
 }
@@ -75,3 +91,26 @@
 @include geo-select-make('select-demo');
 @include geo-select-base-make('select-demo');
 @include geo-button-make('test-css-modifier');
+
+// This can't be applied directly in the demo
+.geo-chart-bar {
+  fill: $color_blue_light;
+}
+
+.rect-stroke-red-and-text-fill-black {
+  rect {
+    stroke: $color_red;
+  }
+
+  text {
+    fill: black;
+  }
+}
+
+.fill-red {
+  fill: $color_red;
+}
+
+.fill-green {
+  fill: $color_green;
+}

@@ -185,6 +185,15 @@ h4[class^="rsg--heading"] {
   }
 }
 
+main[class^="rsg--content"] ul[class^="rsg--list"] {
+  max-width: 800px;
+  width: 75%;
+
+  @media (max-width: 1300px) {
+    width: 100%;
+  }
+}
+
 td[class^="rsg--cell"] p {
   width: 100%;
 }
