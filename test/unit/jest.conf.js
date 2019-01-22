@@ -7,10 +7,9 @@ module.exports = {
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1'
   },
-  notify: true,
   transform: {
-    '^.+\\.js$': '<rootDir>/node_modules/babel-jest',
-    '.*\\.(vue)$': '<rootDir>/node_modules/vue-jest'
+    '.*\\.js$': '<rootDir>/node_modules/babel-jest',
+    '.*\\.vue$': '<rootDir>/node_modules/vue-jest'
   },
   testResultsProcessor: '<rootDir>/node_modules/jest-junit-reporter',
   snapshotSerializers: ['<rootDir>/node_modules/jest-serializer-vue'],
