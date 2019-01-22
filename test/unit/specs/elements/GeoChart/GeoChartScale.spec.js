@@ -115,7 +115,7 @@ describe('GeoChartScale', function () {
             config,
             chartBaseConfig
           )
-        }).toThrow()
+        }).toThrowError()
       })
     })
 
@@ -197,7 +197,7 @@ describe('GeoChartScale', function () {
             config,
             chartBaseConfig
           )
-        }).toThrow()
+        }).toThrowError()
       })
     })
 
@@ -272,6 +272,28 @@ describe('GeoChartScale', function () {
 
         expect(scale.axisScale.paddingOuter()).toEqual(outerPadding)
       })
+    })
+
+    it('should throw error when trying to get an unknown scale', function () {
+      const unknownScaleBaseConfig = {
+        id: 0,
+        dimension: GeoChartAxis.DIMENSIONS.horizontal,
+        scale: {
+          type: 'unknown',
+          valueForOrigin: 0,
+          domain: {
+            start: 0,
+            end: 0
+          }
+        }
+      }
+
+      expect(function () {
+        GeoChartScale.getNewScale(
+          unknownScaleBaseConfig,
+          chartBaseConfig
+        )
+      }).toThrowError()
     })
 
     function testRange (scaleConfig) {
