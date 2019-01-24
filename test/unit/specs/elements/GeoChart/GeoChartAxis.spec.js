@@ -1,6 +1,6 @@
-import * as _ from 'lodash'
+import _ from 'lodash'
 
-import { flushD3Transitions, stubGetBoundingClientRectFactory } from './GeoChart.spec-utils' // This has to be imported before D3
+import { flushD3Transitions, stubGetBoundingClientRectFactory, stubLodashDebounceFactory } from './GeoChart.spec-utils' // This has to be imported before D3
 import { createLocalVue, mount } from '@vue/test-utils'
 import GeoChart from '@/elements/GeoChart/GeoChart.vue'
 
@@ -859,6 +859,136 @@ describe('GeoChartAxis', function () {
           }
         })
       }
+    })
+
+    describe('Reactive data change', function () {
+      const stubLodashDebounce = stubLodashDebounceFactory()
+
+      beforeEach(function () {
+        stubLodashDebounce.setup()
+      })
+
+      afterEach(function () {
+        stubLodashDebounce.teardown()
+      })
+
+      it('should add new axis', function () {
+        const initialAxis = _.merge({}, linearAxisConfig, {
+          position: { type: GeoChart.constants.POSITIONS.left }
+        })
+        const newAxis = _.merge({}, linearAxisConfig, {
+          id: 'new-axis',
+          position: { type: GeoChart.constants.POSITIONS.left }
+        })
+
+        const wrapper = mount(GeoChart, {
+          propsData: {
+            config: {
+              axisGroups: [initialAxis]
+            },
+            height: `${chartHeight}px`,
+            width: `${chartWidth}px`
+          }
+        })
+
+        flushD3Transitions()
+
+        expect(wrapper.find('.geo-chart').exists()).toBe(true)
+        expect(wrapper.findAll('.geo-chart-axis')).toHaveLength(1)
+        expect(wrapper.find(`.geo-chart-axis-${initialAxis.id}`).exists()).toBe(true)
+        expect(wrapper.find(`.geo-chart-axis-${newAxis.id}`).exists()).toBe(false)
+
+        wrapper.setProps({
+          config: {
+            axisGroups: [initialAxis, newAxis]
+          }
+        })
+        flushD3Transitions()
+
+        expect(wrapper.findAll('.geo-chart-axis')).toHaveLength(2)
+        expect(wrapper.find(`.geo-chart-axis-${initialAxis.id}`).exists()).toBe(true)
+        expect(wrapper.find(`.geo-chart-axis-${newAxis.id}`).exists()).toBe(true)
+      })
+
+      it('should update existing axis', function () {
+        const initialAxis = _.merge({}, linearAxisConfig, {
+          ticks: {
+            count: 5
+          },
+          position: { type: GeoChart.constants.POSITIONS.left }
+        })
+        const updatedAxis = _.merge({}, linearAxisConfig, {
+          ticks: {
+            count: 1
+          },
+          position: { type: GeoChart.constants.POSITIONS.right }
+        })
+
+        const wrapper = mount(GeoChart, {
+          propsData: {
+            config: {
+              axisGroups: [initialAxis]
+            },
+            height: `${chartHeight}px`,
+            width: `${chartWidth}px`
+          }
+        })
+
+        flushD3Transitions()
+
+        expect(wrapper.find('.geo-chart').exists()).toBe(true)
+        expect(wrapper.find('.geo-chart-axis').exists()).toBe(true)
+        expect(wrapper.findAll('.geo-chart-axis .tick')).toHaveLength(initialAxis.ticks.count)
+
+        wrapper.setProps({
+          config: {
+            axisGroups: [updatedAxis]
+          }
+        })
+        flushD3Transitions()
+
+        expect(wrapper.find('.geo-chart').exists()).toBe(true)
+        expect(wrapper.find('.geo-chart-axis').exists()).toBe(true)
+        expect(wrapper.findAll('.geo-chart-axis .tick')).toHaveLength(updatedAxis.ticks.count)
+      })
+
+      it.only('should remove axis', function () {
+        const firstAxis = _.merge({}, linearAxisConfig, {
+          id: 'fist-axis',
+          position: { type: GeoChart.constants.POSITIONS.left }
+        })
+        const secondAxis = _.merge({}, linearAxisConfig, {
+          id: 'second-axis',
+          position: { type: GeoChart.constants.POSITIONS.right }
+        })
+
+        const wrapper = mount(GeoChart, {
+          propsData: {
+            config: {
+              axisGroups: [firstAxis, secondAxis]
+            },
+            height: `${chartHeight}px`,
+            width: `${chartWidth}px`
+          }
+        })
+
+        flushD3Transitions()
+
+        expect(wrapper.find('.geo-chart').exists()).toBe(true)
+        expect(wrapper.find(`.geo-chart-axis-${firstAxis.id}`).exists()).toBe(true)
+        expect(wrapper.find(`.geo-chart-axis-${secondAxis.id}`).exists()).toBe(true)
+
+        wrapper.setProps({
+          config: {
+            axisGroups: [secondAxis]
+          }
+        })
+        flushD3Transitions()
+
+        expect(wrapper.find('.geo-chart').exists()).toBe(true)
+        expect(wrapper.find(`.geo-chart-axis-${firstAxis.id}`).exists()).toBe(false)
+        expect(wrapper.find(`.geo-chart-axis-${secondAxis.id}`).exists()).toBe(true)
+      })
     })
   })
 })

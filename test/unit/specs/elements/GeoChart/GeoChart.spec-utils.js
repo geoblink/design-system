@@ -1,4 +1,5 @@
-import * as _ from 'lodash'
+// We import in this way because we also import this way in `GeoChart`
+import _ from 'lodash'
 import * as sinon from 'sinon'
 
 // To mock d3 timers we have to hijack requestAnimationFrame before d3 picks it
@@ -9,6 +10,20 @@ const d3 = require('d3')
 
 // These utils require faking timers
 jest.useFakeTimers()
+
+export function stubLodashDebounceFactory () {
+  const sandbox = sinon.createSandbox()
+
+  return { setup, teardown }
+
+  function setup () {
+    sandbox.stub(_, 'debounce').returnsArg(0)
+  }
+
+  function teardown () {
+    sandbox.restore()
+  }
+}
 
 export function stubRequestAnimationFrameFactory () {
   const sandbox = sinon.createSandbox()
@@ -93,6 +108,19 @@ function svgElementPrototypeTransformStubFactory () {
         baseVal: {
           consolidate () {
             const currentTransform = element.getAttribute('transform')
+
+            if (currentTransform === '') {
+              return {
+                matrix: {
+                  a: 1, // R: 0, C: 0
+                  b: 0, // R: 1, C: 0
+                  c: 0, // R: 0, C: 1
+                  d: 1, // R: 1, C: 1
+                  e: 0, // R: 0, C: 2
+                  f: 0 // R: 1, C: 2
+                }
+              }
+            }
 
             const matches = /translate\(\s*(-?\d*(?:\.\d+)?),\s*(-?\d*(?:\.\d+)?)\s*\)/gi.exec(currentTransform)
 
