@@ -260,7 +260,7 @@ describe('GeoChartAxis', function () {
         expect(wrapper.find('.geo-chart').exists()).toBe(true)
         expect(wrapper.find('.geo-chart-axis').exists()).toBe(true)
 
-        expect(cssClassesMock).toHaveBeenCalledTimes(1)
+        expect(cssClassesMock).toHaveBeenCalled()
 
         expect(cssClassesMock.mock.calls[0][0].length).toBeGreaterThan(0)
 
