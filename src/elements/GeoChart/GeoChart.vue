@@ -107,6 +107,20 @@ export default {
     debug: {
       type: Boolean,
       default: false
+    },
+    /**
+     * Height of the chart, including units and margin.
+     */
+    height: {
+      type: String,
+      required: true
+    },
+    /**
+     * Width of the chart, including units and margin.
+     */
+    width: {
+      type: String,
+      required: true
     }
   },
   data () {
