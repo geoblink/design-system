@@ -952,7 +952,7 @@ describe('GeoChartAxis', function () {
         expect(wrapper.findAll('.geo-chart-axis .tick')).toHaveLength(updatedAxis.ticks.count)
       })
 
-      it.only('should remove axis', function () {
+      it('should remove axis', function () {
         const firstAxis = _.merge({}, linearAxisConfig, {
           id: 'fist-axis',
           position: { type: GeoChart.constants.POSITIONS.left }
