@@ -71,7 +71,11 @@ export default {
   },
   computed: {
     isCloseButtonVisible () {
-      return this.$listeners && this.$listeners.close
+      return this.$listeners && this.$listeners.close && this.hasCloseIcon
+    },
+
+    hasCloseIcon () {
+      return this.closeIcon.length > 0
     }
   },
   methods: {

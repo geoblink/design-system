@@ -9,7 +9,33 @@
       @click="handleBackdropClick($event)"
     />
     <div class="geo-modal__content">
-      <slot />
+      <slot>
+        <geo-bordered-box :css-modifier="`geo-modal${cssSuffix}`">
+          <geo-bordered-box-header
+            v-if="hasHeader"
+            :css-modifier="`geo-modal${cssSuffix}`"
+            :icon="headerIcon"
+            :close-icon="headerCloseIcon"
+            @close="headerClose"
+          >
+            <slot name="header" />
+          </geo-bordered-box-header>
+
+          <div
+            v-if="hasBody"
+            class="geo-modal__content-body"
+          >
+            <slot name="body" />
+          </div>
+
+          <geo-bordered-box-footer
+            v-if="hasFooter"
+            :css-modifier="`geo-modal${cssSuffix}`"
+          >
+            <slot name="footer" />
+          </geo-bordered-box-footer>
+        </geo-bordered-box>
+      </slot>
     </div>
   </div>
 </template>
@@ -36,6 +62,31 @@ export default {
       type: null, // There's no built in type for HTMLElement.
       default () {
         return document.body
+      }
+    },
+
+    /**
+     * Optional Font Awesome 5 icon to be displayed next to the header's label,
+     * on the leading edge.
+     *
+     * See [vue-fontawesome](https://www.npmjs.com/package/@fortawesome/vue-fontawesome#explicit-prefix-note-the-vue-bind-shorthand-because-this-uses-an-array)
+     * for more info about this.
+     */
+    headerIcon: {
+      type: Array,
+      required: false
+    },
+
+    /**
+     * Font Awesome 5 icon to be displayed as close button.
+     *
+     * See [vue-fontawesome](https://www.npmjs.com/package/@fortawesome/vue-fontawesome#explicit-prefix-note-the-vue-bind-shorthand-because-this-uses-an-array)
+     * for more info about this.
+     */
+    headerCloseIcon: {
+      type: Array,
+      default () {
+        return []
       }
     }
   },
@@ -67,6 +118,22 @@ export default {
       }
 
       return styles
+    },
+
+    headerClose () {
+      return this.$listeners.close || Function.prototype
+    },
+
+    hasHeader () {
+      return !!(this.$slots.header && this.$slots.header.length)
+    },
+
+    hasBody () {
+      return !!(this.$slots.body && this.$slots.body.length)
+    },
+
+    hasFooter () {
+      return !!(this.$slots.footer && this.$slots.footer.length)
     }
   },
   mounted () {
