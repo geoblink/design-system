@@ -1,3 +1,11 @@
+@mixin geo-tab-bar-common {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  padding: 0 10px;
+}
+
 @mixin geo-tab-bar-make($modifier-name) {
 
   $modifier-name-with-prefix: '';
@@ -7,14 +15,18 @@
     $modifier-name-with-prefix: --#{$modifier-name};
   }
 
-  .geo-tab-bar#{$modifier-name-with-prefix} {
-    align-items: center;
+  .geo-tab-bar-default#{$modifier-name-with-prefix} {
+    @include geo-tab-bar-common;
+
     background-color: $color-blue-dark;
-    display: flex;
-    flex-direction: row;
     height: 50px;
-    justify-content: flex-start;
-    padding: 0 10px;
+  }
+
+  .geo-tab-bar-modal#{$modifier-name-with-prefix} {
+    @include geo-tab-bar-common;
+
+    background-color: $color-white-dark;
+    height: 40px;
   }
 
   @include geo-tab-bar-item-make($modifier-name);
