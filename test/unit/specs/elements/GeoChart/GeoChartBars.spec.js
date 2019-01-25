@@ -10,8 +10,8 @@ import * as GeoChartAxis from '@/elements/GeoChart/GeoChartAxis'
 const localVue = createLocalVue()
 localVue.component('geo-chart', GeoChart)
 
-const chartHeight = 300
-const chartWidth = 500
+// const chartNormalDimensionSpan = 300
+// const chartDimensionSpan = 500
 
 describe('GeoChartBars', function () {
   describe('Constants', function () {
@@ -64,26 +64,37 @@ describe('GeoChartBars', function () {
       }
     }
 
-    const stubGetBoundingClientRect = stubGetBoundingClientRectFactory({
-      height: chartHeight,
-      width: chartWidth
-    })
-
-    beforeEach(function () {
-      stubGetBoundingClientRect.setup()
-    })
-
-    afterEach(function () {
-      stubGetBoundingClientRect.teardown()
-    })
-
     const keyForValuesInMainDimensionAxis = 'dimension-axis-value'
 
     describe('Vertical dimension', function () {
-      const dimensionAttribute = 'height'
-      const normalDimensionAttribute = 'width'
+      testSpecificDimension({
+        dimensionAttribute: 'height',
+        normalDimensionAttribute: 'width',
+        chartDimensionSpan: 500,
+        chartNormalDimensionSpan: 300
+      })
+    })
 
-      const categoriesSpanInCanvasUnits = _.times(categories.length, () => chartWidth / categories.length)
+    function testSpecificDimension ({
+      dimensionAttribute,
+      normalDimensionAttribute,
+      chartDimensionSpan,
+      chartNormalDimensionSpan
+    }) {
+      const stubGetBoundingClientRect = stubGetBoundingClientRectFactory({
+        height: chartNormalDimensionSpan,
+        width: chartDimensionSpan
+      })
+
+      beforeEach(function () {
+        stubGetBoundingClientRect.setup()
+      })
+
+      afterEach(function () {
+        stubGetBoundingClientRect.teardown()
+      })
+
+      const categoriesSpanInCanvasUnits = _.times(categories.length, () => chartDimensionSpan / categories.length)
       const getCategoricalNormalAxisExpectedOffsetForNaturalValue = function (naturalValue, additionalOffset = 0) {
         const positionInCategoriesList = categories.indexOf(naturalValue)
         return {
@@ -98,13 +109,14 @@ describe('GeoChartBars', function () {
       function testLinearAxisForMainDimension () {
         const linearValuesInCanvasUnits = [0, 50, 100]
         const linearValuesOffsetInCanvasUnits = [
-          chartHeight / 2,
-          chartHeight / 2,
-          chartHeight / 2 - 100 // -100 because this is expanding from top to bottom
+          chartNormalDimensionSpan / 2,
+          chartNormalDimensionSpan / 2,
+          chartNormalDimensionSpan / 2 - 100 // -100 because this is expanding from top to bottom
         ]
 
-        testSpecificDimension({
+        testSpecificDimensionAxis({
           specName: 'Linear scale for main dimension',
+          dimension: GeoChartBars.DIMENSIONS.vertical,
           dimensionAttribute,
           normalDimensionAttribute,
           dimensionAxisBaseConfig: baseLinearAxisConfig,
@@ -115,7 +127,9 @@ describe('GeoChartBars', function () {
               [keyForValuesInMainDimensionAxis]: linearValues[index]
             }
           }),
-          getCategoricalNormalAxisExpectedOffsetForNaturalValue
+          getCategoricalNormalAxisExpectedOffsetForNaturalValue,
+          chartHeight: chartNormalDimensionSpan,
+          chartWidth: chartDimensionSpan
         })
       }
 
@@ -136,12 +150,13 @@ describe('GeoChartBars', function () {
         const logarithmicAxisExponentSpan = logarithmicAxisBiggestExponent - logarithmicAxisSmallestExponent
         const logarithmicValuesInCanvasUnits = _.map(
           logarithmicValues,
-          v => (Math.log2(v) - logarithmicAxisOriginExponent) * chartHeight / logarithmicAxisExponentSpan
+          v => (Math.log2(v) - logarithmicAxisOriginExponent) * chartNormalDimensionSpan / logarithmicAxisExponentSpan
         )
-        const logarithmicValuesOffsetInCanvasUnits = [chartHeight / logarithmicAxisExponentSpan, chartHeight / logarithmicAxisExponentSpan, chartHeight / logarithmicAxisExponentSpan]
+        const logarithmicValuesOffsetInCanvasUnits = [chartNormalDimensionSpan / logarithmicAxisExponentSpan, chartNormalDimensionSpan / logarithmicAxisExponentSpan, chartNormalDimensionSpan / logarithmicAxisExponentSpan]
 
-        testSpecificDimension({
+        testSpecificDimensionAxis({
           specName: 'Logarithmic scale for main dimension',
+          dimension: GeoChartBars.DIMENSIONS.vertical,
           dimensionAttribute,
           normalDimensionAttribute,
           dimensionAxisBaseConfig: baseLogarithmicAxisConfig,
@@ -152,7 +167,9 @@ describe('GeoChartBars', function () {
               [keyForValuesInMainDimensionAxis]: logarithmicValues[index]
             }
           }),
-          getCategoricalNormalAxisExpectedOffsetForNaturalValue
+          getCategoricalNormalAxisExpectedOffsetForNaturalValue,
+          chartHeight: chartNormalDimensionSpan,
+          chartWidth: chartDimensionSpan
         })
       }
 
@@ -168,7 +185,7 @@ describe('GeoChartBars', function () {
         //   chartHeight / categories.length,
         //   chartHeight / categories.length - categoriesSpanInCanvasUnits[2]
         // ]
-        // testSpecificDimension({
+        // testSpecificDimensionAxis({
         //   specName: 'Categorical scale for main dimension',
         //   dimensionAxisBaseConfig: baseCategoricalAxisConfig,
         //   dimensionAxisValuesInCanvasUnits: categoriesValuesInCanvasUnits,
@@ -181,17 +198,20 @@ describe('GeoChartBars', function () {
         //   getCategoricalNormalAxisExpectedOffsetForNaturalValue
         // })
       }
-    })
+    }
 
-    function testSpecificDimension ({
+    function testSpecificDimensionAxis ({
       specName,
+      dimension,
       dimensionAttribute,
       normalDimensionAttribute,
       dimensionAxisBaseConfig,
       dimensionAxisValuesInCanvasUnits,
       dimensionAxisOffsetsInCanvasUnits,
       baseBarGroupData,
-      getCategoricalNormalAxisExpectedOffsetForNaturalValue
+      getCategoricalNormalAxisExpectedOffsetForNaturalValue,
+      chartHeight,
+      chartWidth
     }) {
       describe(specName, function () {
         const dimensionAxisConfig = _.merge({}, dimensionAxisBaseConfig, {
@@ -240,7 +260,7 @@ describe('GeoChartBars', function () {
 
         testSpecificNormal({
           specName: 'Categorical scale for normal dimension',
-          dimension: GeoChartBars.DIMENSIONS.vertical,
+          dimension,
           dimensionAttribute,
           normalDimensionAttribute,
           dimensionAxisConfig,
@@ -248,12 +268,14 @@ describe('GeoChartBars', function () {
           dimensionAxisOffsetsInCanvasUnits,
           normalAxisConfig: categoricalNormalAxisConfig,
           firstBarGroupData: barGroupData,
-          getExpectedOffsetForNaturalValue: getCategoricalNormalAxisExpectedOffsetForNaturalValue
+          getExpectedOffsetForNaturalValue: getCategoricalNormalAxisExpectedOffsetForNaturalValue,
+          chartHeight,
+          chartWidth
         })
 
         testSpecificNormal({
           specName: 'Linear scale for normal dimension',
-          dimension: GeoChartBars.DIMENSIONS.vertical,
+          dimension,
           dimensionAttribute,
           normalDimensionAttribute,
           dimensionAxisConfig,
@@ -262,7 +284,9 @@ describe('GeoChartBars', function () {
           normalAxisConfig: linearNormalAxisConfig,
           firstBarGroupData: barGroupData,
           getExpectedOffsetForNaturalValue: getLinearNormalAxisExpectedOffsetForNaturalValue,
-          expectedForcedWidthByDefault: GeoChartBars.DEFAULT_WIDTH
+          expectedForcedWidthByDefault: GeoChartBars.DEFAULT_WIDTH,
+          chartHeight,
+          chartWidth
         })
       })
     }
@@ -278,7 +302,9 @@ describe('GeoChartBars', function () {
       normalAxisConfig,
       firstBarGroupData,
       getExpectedOffsetForNaturalValue,
-      expectedForcedWidthByDefault
+      expectedForcedWidthByDefault,
+      chartHeight,
+      chartWidth
     }) {
       describe(specName, function () {
         it('should render bars', function () {
