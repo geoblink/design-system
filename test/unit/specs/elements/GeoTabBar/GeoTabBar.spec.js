@@ -12,7 +12,7 @@ describe('GeoTabBar', () => {
         default: '<span>Some content</span>'
       }
     })
-    const tabBar = wrapper.find('.geo-tab-bar')
+    const tabBar = wrapper.find('.geo-tab-bar-default')
     expect(tabBar.exists()).toBe(true)
     expect(tabBar.find('span').exists()).toBe(true)
   })
@@ -24,6 +24,6 @@ describe('GeoTabBar', () => {
       }
     })
 
-    expect(wrapper.find('.geo-tab-bar--custom').exists()).toBe(true)
+    expect(wrapper.find('.geo-tab-bar-default--custom').exists()).toBe(true)
   })
 })

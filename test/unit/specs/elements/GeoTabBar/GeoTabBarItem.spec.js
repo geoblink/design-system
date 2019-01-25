@@ -12,14 +12,14 @@ describe('GeoTabBarItem', () => {
         default: '<span>Some content</span>'
       }
     })
-    const tabBarItem = wrapper.find('.geo-tab-bar-item')
+    const tabBarItem = wrapper.find('.geo-tab-bar-item-default')
     expect(tabBarItem.exists()).toBe(true)
     expect(tabBarItem.find('span').exists()).toBe(true)
   })
 
   it('should emit an event on click', function (done) {
     const wrapper = mount(GeoTabBarItem, {})
-    wrapper.find('.geo-tab-bar-item').trigger('click')
+    wrapper.find('.geo-tab-bar-item-default').trigger('click')
     setTimeout(function () {
       try {
         expect(wrapper.emitted()['click']).toBeTruthy()
@@ -37,7 +37,7 @@ describe('GeoTabBarItem', () => {
       }
     })
 
-    const tabBarItem = wrapper.find('.geo-tab-bar-item')
+    const tabBarItem = wrapper.find('.geo-tab-bar-item-default')
     tabBarItem.trigger('click')
     expect(wrapper.emitted()['click']).toBeFalsy()
   })
@@ -49,7 +49,7 @@ describe('GeoTabBarItem', () => {
       }
     })
 
-    expect(wrapper.find('.geo-tab-bar-item--active').exists()).toBe(true)
+    expect(wrapper.find('.geo-tab-bar-item-default--active').exists()).toBe(true)
   })
 
   it('should add CSS Suffix when given', function () {
@@ -59,6 +59,6 @@ describe('GeoTabBarItem', () => {
       }
     })
 
-    expect(wrapper.find('.geo-tab-bar-item--custom').exists()).toBe(true)
+    expect(wrapper.find('.geo-tab-bar-item-default--custom').exists()).toBe(true)
   })
 })
