@@ -1,6 +1,6 @@
-import * as _ from 'lodash'
+import _ from 'lodash'
 
-import { flushD3Transitions, stubGetBoundingClientRectFactory } from './GeoChart.spec-utils' // This has to be imported before D3
+import { flushD3Transitions, stubGetBoundingClientRectFactory, stubLodashDebounceFactory } from './GeoChart.spec-utils' // This has to be imported before D3
 import { createLocalVue, mount } from '@vue/test-utils'
 import GeoChart from '@/elements/GeoChart/GeoChart.vue'
 
@@ -9,9 +9,6 @@ import * as GeoChartAxis from '@/elements/GeoChart/GeoChartAxis'
 
 const localVue = createLocalVue()
 localVue.component('geo-chart', GeoChart)
-
-// const chartNormalDimensionSpan = 300
-// const chartDimensionSpan = 500
 
 describe('GeoChartBars', function () {
   describe('Constants', function () {
@@ -68,6 +65,7 @@ describe('GeoChartBars', function () {
 
     describe('Vertical dimension', function () {
       testSpecificDimension({
+        dimension: GeoChartBars.DIMENSIONS.vertical,
         dimensionAttribute: 'height',
         normalDimensionAttribute: 'width',
         chartDimensionSpan: 500,
@@ -75,7 +73,18 @@ describe('GeoChartBars', function () {
       })
     })
 
+    describe('Horizontal dimension', function () {
+      testSpecificDimension({
+        dimension: GeoChartBars.DIMENSIONS.horizontal,
+        dimensionAttribute: 'width',
+        normalDimensionAttribute: 'height',
+        chartDimensionSpan: 500,
+        chartNormalDimensionSpan: 300
+      })
+    })
+
     function testSpecificDimension ({
+      dimension,
       dimensionAttribute,
       normalDimensionAttribute,
       chartDimensionSpan,
@@ -97,8 +106,16 @@ describe('GeoChartBars', function () {
       const categoriesSpanInCanvasUnits = _.times(categories.length, () => chartDimensionSpan / categories.length)
       const getCategoricalNormalAxisExpectedOffsetForNaturalValue = function (naturalValue, additionalOffset = 0) {
         const positionInCategoriesList = categories.indexOf(naturalValue)
-        return {
-          x: (positionInCategoriesList + additionalOffset) * _.first(categoriesSpanInCanvasUnits)
+
+        switch (dimension) {
+          case GeoChartAxis.DIMENSIONS.vertical:
+            return {
+              x: (positionInCategoriesList + additionalOffset) * _.first(categoriesSpanInCanvasUnits)
+            }
+          case GeoChartAxis.DIMENSIONS.horizontal:
+            return {
+              y: (positionInCategoriesList + additionalOffset) * _.first(categoriesSpanInCanvasUnits)
+            }
         }
       }
 
@@ -116,7 +133,7 @@ describe('GeoChartBars', function () {
 
         testSpecificDimensionAxis({
           specName: 'Linear scale for main dimension',
-          dimension: GeoChartBars.DIMENSIONS.vertical,
+          dimension,
           dimensionAttribute,
           normalDimensionAttribute,
           dimensionAxisBaseConfig: baseLinearAxisConfig,
@@ -156,7 +173,7 @@ describe('GeoChartBars', function () {
 
         testSpecificDimensionAxis({
           specName: 'Logarithmic scale for main dimension',
-          dimension: GeoChartBars.DIMENSIONS.vertical,
+          dimension,
           dimensionAttribute,
           normalDimensionAttribute,
           dimensionAxisBaseConfig: baseLogarithmicAxisConfig,
@@ -253,8 +270,15 @@ describe('GeoChartBars', function () {
         })
 
         const getLinearNormalAxisExpectedOffsetForNaturalValue = function (naturalValue, additionalOffset = 0) {
-          return {
-            x: (naturalValue + additionalOffset - linearNormalAxisConfig.scale.domain.start) * chartWidth / linearNormalAxisDomainSpan
+          switch (dimension) {
+            case GeoChartAxis.DIMENSIONS.vertical:
+              return {
+                x: (naturalValue + additionalOffset - linearNormalAxisConfig.scale.domain.start) * chartWidth / linearNormalAxisDomainSpan
+              }
+            case GeoChartAxis.DIMENSIONS.horizontal:
+              return {
+                y: (naturalValue + additionalOffset - linearNormalAxisConfig.scale.domain.start) * chartWidth / linearNormalAxisDomainSpan
+              }
           }
         }
 
@@ -306,6 +330,14 @@ describe('GeoChartBars', function () {
       chartHeight,
       chartWidth
     }) {
+      const idHorizontalAxis = dimension === GeoChartBars.DIMENSIONS.horizontal
+        ? dimensionAxisConfig.id
+        : normalAxisConfig.id
+
+      const idVerticalAxis = dimension === GeoChartBars.DIMENSIONS.horizontal
+        ? normalAxisConfig.id
+        : dimensionAxisConfig.id
+
       describe(specName, function () {
         it('should render bars', function () {
           const wrapper = mount(GeoChart, {
@@ -315,8 +347,8 @@ describe('GeoChartBars', function () {
                 barGroups: [{
                   data: firstBarGroupData,
                   dimension,
-                  idHorizontalAxis: normalAxisConfig.id,
-                  idVerticalAxis: dimensionAxisConfig.id
+                  idHorizontalAxis,
+                  idVerticalAxis
                 }]
               },
               height: `${chartHeight}px`,
@@ -340,8 +372,8 @@ describe('GeoChartBars', function () {
                 barGroups: [{
                   data: _.dropRight(firstBarGroupData),
                   dimension,
-                  idHorizontalAxis: normalAxisConfig.id,
-                  idVerticalAxis: dimensionAxisConfig.id
+                  idHorizontalAxis,
+                  idVerticalAxis
                 }]
               },
               height: `${chartHeight}px`,
@@ -365,8 +397,8 @@ describe('GeoChartBars', function () {
                 barGroups: [{
                   data: firstBarGroupData,
                   dimension,
-                  idHorizontalAxis: normalAxisConfig.id,
-                  idVerticalAxis: dimensionAxisConfig.id
+                  idHorizontalAxis,
+                  idVerticalAxis
                 }]
               },
               height: `${chartHeight}px`,
@@ -386,13 +418,22 @@ describe('GeoChartBars', function () {
 
           for (let i = 0; i < allBars.length; i++) {
             const dimensionAttributeValue = parseFloat(allBars.at(i).attributes(dimensionAttribute))
+
             expect(dimensionAttributeValue).toBeCloseTo(dimensionAxisValuesInCanvasUnits[i], 2)
 
             const transformAttributeValue = allBars.at(i).attributes('transform')
             const transformMatches = /translate\((-?\d+(?:\.\d+)?), (-?\d+(?:\.\d+)?)\)/.exec(transformAttributeValue)
 
             expect(transformMatches).toHaveLength(3)
-            expect(parseFloat(transformMatches[2])).toBeCloseTo(dimensionAxisOffsetsInCanvasUnits[i], 2)
+
+            switch (dimension) {
+              case GeoChartBars.DIMENSIONS.horizontal:
+                expect(parseFloat(transformMatches[1])).toBeCloseTo(dimensionAxisOffsetsInCanvasUnits[i], 2)
+                break
+              case GeoChartBars.DIMENSIONS.vertical:
+                expect(parseFloat(transformMatches[2])).toBeCloseTo(dimensionAxisOffsetsInCanvasUnits[i], 2)
+                break
+            }
           }
         })
 
@@ -404,8 +445,8 @@ describe('GeoChartBars', function () {
                 barGroups: [{
                   data: firstBarGroupData,
                   dimension,
-                  idHorizontalAxis: normalAxisConfig.id,
-                  idVerticalAxis: dimensionAxisConfig.id
+                  idHorizontalAxis,
+                  idVerticalAxis
                 }]
               },
               height: `${chartHeight}px`,
@@ -453,8 +494,8 @@ describe('GeoChartBars', function () {
                 barGroups: [{
                   data: firstBarGroupData,
                   dimension,
-                  idHorizontalAxis: normalAxisConfig.id,
-                  idVerticalAxis: dimensionAxisConfig.id,
+                  idHorizontalAxis,
+                  idVerticalAxis,
                   width: forcedWidthInNormalDimension
                 }]
               },
@@ -489,8 +530,8 @@ describe('GeoChartBars', function () {
                 barGroups: [{
                   data: firstBarGroupData,
                   dimension,
-                  idHorizontalAxis: normalAxisConfig.id,
-                  idVerticalAxis: dimensionAxisConfig.id,
+                  idHorizontalAxis,
+                  idVerticalAxis,
                   naturalWidth: forcedNaturalWidthInNormalDimension
                 }]
               },
@@ -535,8 +576,8 @@ describe('GeoChartBars', function () {
                 barGroups: [{
                   data: firstBarGroupData,
                   dimension,
-                  idHorizontalAxis: normalAxisConfig.id,
-                  idVerticalAxis: dimensionAxisConfig.id,
+                  idHorizontalAxis,
+                  idVerticalAxis,
                   normalOffset: forcedOffset
                 }]
               },
@@ -582,8 +623,8 @@ describe('GeoChartBars', function () {
                 barGroups: [{
                   data: firstBarGroupData,
                   dimension,
-                  idHorizontalAxis: normalAxisConfig.id,
-                  idVerticalAxis: dimensionAxisConfig.id,
+                  idHorizontalAxis,
+                  idVerticalAxis,
                   naturalNormalOffset: forcedOffsetInNaturalUnits
                 }]
               },
@@ -628,8 +669,8 @@ describe('GeoChartBars', function () {
                 barGroups: [{
                   data: firstBarGroupData,
                   dimension,
-                  idHorizontalAxis: normalAxisConfig.id,
-                  idVerticalAxis: dimensionAxisConfig.id,
+                  idHorizontalAxis,
+                  idVerticalAxis,
                   cssClasses: function (originalClasses, d, i) {
                     return [customClasses[i]]
                   }
@@ -672,13 +713,13 @@ describe('GeoChartBars', function () {
                 barGroups: [{
                   data: firstBarGroupData,
                   dimension,
-                  idHorizontalAxis: normalAxisConfig.id,
-                  idVerticalAxis: dimensionAxisConfig.id
+                  idHorizontalAxis,
+                  idVerticalAxis
                 }, {
                   data: secondData,
                   dimension,
-                  idHorizontalAxis: normalAxisConfig.id,
-                  idVerticalAxis: dimensionAxisConfig.id
+                  idHorizontalAxis,
+                  idVerticalAxis
                 }]
               },
               height: `${chartHeight}px`,
@@ -695,17 +736,148 @@ describe('GeoChartBars', function () {
           expect(wrapper.findAll('.geo-chart .geo-chart-bars-group').at(0).findAll('.geo-chart-bar')).toHaveLength(firstBarGroupData.length)
           expect(wrapper.findAll('.geo-chart .geo-chart-bars-group').at(1).findAll('.geo-chart-bar')).toHaveLength(secondData.length)
         })
+
+        describe('Reactive data change', function () {
+          const stubLodashDebounce = stubLodashDebounceFactory()
+
+          beforeEach(function () {
+            stubLodashDebounce.setup()
+          })
+
+          afterEach(function () {
+            stubLodashDebounce.teardown()
+          })
+
+          it('should add new series', function () {
+            const secondData = _.dropRight(firstBarGroupData)
+            const wrapper = mount(GeoChart, {
+              propsData: {
+                config: {
+                  axisGroups: [dimensionAxisConfig, normalAxisConfig],
+                  barGroups: [{
+                    data: firstBarGroupData,
+                    dimension,
+                    idHorizontalAxis,
+                    idVerticalAxis
+                  }]
+                },
+                height: `${chartHeight}px`,
+                width: `${chartWidth}px`
+              }
+            })
+
+            flushD3Transitions()
+
+            expect(wrapper.find('.geo-chart').exists()).toBe(true)
+            expect(wrapper.findAll('.geo-chart-bars-group')).toHaveLength(1)
+
+            wrapper.setProps({
+              config: {
+                axisGroups: [dimensionAxisConfig, normalAxisConfig],
+                barGroups: [{
+                  data: firstBarGroupData,
+                  dimension,
+                  idHorizontalAxis,
+                  idVerticalAxis
+                }, {
+                  data: secondData,
+                  dimension,
+                  idHorizontalAxis,
+                  idVerticalAxis
+                }]
+              }
+            })
+            flushD3Transitions()
+
+            expect(wrapper.find('.geo-chart').exists()).toBe(true)
+            expect(wrapper.findAll('.geo-chart-bars-group')).toHaveLength(2)
+          })
+
+          it('should update series', function () {
+            const secondData = _.dropRight(firstBarGroupData)
+            const wrapper = mount(GeoChart, {
+              propsData: {
+                config: {
+                  axisGroups: [dimensionAxisConfig, normalAxisConfig],
+                  barGroups: [{
+                    data: firstBarGroupData,
+                    dimension,
+                    idHorizontalAxis,
+                    idVerticalAxis
+                  }]
+                },
+                height: `${chartHeight}px`,
+                width: `${chartWidth}px`
+              }
+            })
+
+            flushD3Transitions()
+
+            expect(wrapper.find('.geo-chart').exists()).toBe(true)
+            expect(wrapper.findAll('.geo-chart-bars-group .geo-chart-bar')).toHaveLength(firstBarGroupData.length)
+
+            wrapper.setProps({
+              config: {
+                axisGroups: [dimensionAxisConfig, normalAxisConfig],
+                barGroups: [{
+                  data: secondData,
+                  dimension,
+                  idHorizontalAxis,
+                  idVerticalAxis
+                }]
+              }
+            })
+            flushD3Transitions()
+
+            expect(wrapper.findAll('.geo-chart-bars-group .geo-chart-bar')).toHaveLength(secondData.length)
+          })
+
+          it('should remove series', function () {
+            const secondData = _.dropRight(firstBarGroupData)
+            const wrapper = mount(GeoChart, {
+              propsData: {
+                config: {
+                  axisGroups: [dimensionAxisConfig, normalAxisConfig],
+                  barGroups: [{
+                    data: firstBarGroupData,
+                    dimension,
+                    idHorizontalAxis,
+                    idVerticalAxis
+                  }, {
+                    data: secondData,
+                    dimension,
+                    idHorizontalAxis,
+                    idVerticalAxis
+                  }]
+                },
+                height: `${chartHeight}px`,
+                width: `${chartWidth}px`
+              }
+            })
+
+            flushD3Transitions()
+
+            expect(wrapper.find('.geo-chart').exists()).toBe(true)
+            expect(wrapper.findAll('.geo-chart-bars-group')).toHaveLength(2)
+
+            wrapper.setProps({
+              config: {
+                axisGroups: [dimensionAxisConfig, normalAxisConfig],
+                barGroups: [{
+                  data: firstBarGroupData,
+                  dimension,
+                  idHorizontalAxis,
+                  idVerticalAxis
+                }]
+              }
+            })
+            flushD3Transitions()
+
+            expect(wrapper.find('.geo-chart').exists()).toBe(true)
+            expect(wrapper.findAll('.geo-chart-bars-group')).toHaveLength(1)
+          })
+        })
       })
     }
-
-    // TODO: Add test with linear scale for dimension
-    // TODO: Add test with logarithmic scale for dimension
-
-    // TODO: Add test with logarithmic scale for width
-    // TODO: Add test with categorical scale for width
-
-    // TODO: Add simple test about dynamically adding a bar
-    // TODO: Add simple test about dynamically updating a bar
-    // TODO: Add simple test about dynamically removing a bar
   })
 })
