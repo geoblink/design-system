@@ -61,4 +61,14 @@ describe('GeoTabBarItem', () => {
 
     expect(wrapper.find('.geo-tab-bar-item-default--custom').exists()).toBe(true)
   })
+
+  it('should add CSS varian when given', function () {
+    const wrapper = mount(GeoTabBarItem, {
+      propsData: {
+        variant: 'modal'
+      }
+    })
+
+    expect(wrapper.find('.geo-tab-bar-item-modal').exists()).toBe(true)
+  })
 })
