@@ -37,6 +37,7 @@
 </template>
 
 <script>
+import _ from 'lodash'
 import cssSuffix from '../../mixins/cssModifierMixin'
 
 export default {
@@ -75,7 +76,7 @@ export default {
     },
 
     hasCloseIcon () {
-      return this.closeIcon.length > 0
+      return _.size(this.closeIcon) > 0
     }
   },
   methods: {
