@@ -10,7 +10,7 @@ import cssSuffix from '../../mixins/cssModifierMixin'
 
 export default {
   name: 'GeoTabBar',
-  status: 'ready-tests',
+  status: 'ready',
   release: '8.5.0',
   mixins: [cssSuffix]
 }
