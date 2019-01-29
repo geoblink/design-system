@@ -16,7 +16,7 @@
             :css-modifier="`geo-modal${cssSuffix}`"
             :icon="headerIcon"
             :close-icon="headerCloseIcon"
-            @close="headerClose"
+            @close="handleCloseClick($event)"
           >
             <slot name="header" />
           </geo-bordered-box-header>
@@ -120,10 +120,6 @@ export default {
       return styles
     },
 
-    headerClose () {
-      return this.$listeners.close || Function.prototype
-    },
-
     hasHeader () {
       return !!(this.$slots.header && this.$slots.header.length)
     },
@@ -177,6 +173,15 @@ export default {
        * @type {MouseEvent}
        */
       this.$emit('click-backdrop', $event)
+    },
+
+    handleCloseClick ($event) {
+      /**
+       * User clicked close icon
+       * @event close
+       * @type {MouseEvent}
+       */
+      this.$emit('close', $event)
     }
   }
 }
