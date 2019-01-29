@@ -1,0 +1,138 @@
+@import './geo-table-header-row';
+@import './geo-table-header-row-cell';
+@import './geo-table-body-row';
+@import './geo-table-body-row-cell';
+@import './geo-table-pagination';
+
+@mixin geo-table-make($modifier-name) {
+
+  $modifier-name-with-prefix: '';
+
+  @if $modifier-name != '' {
+    // sass-lint:disable space-around-operator
+    $modifier-name-with-prefix: --#{$modifier-name};
+  }
+
+  @include geo-table-header-row-make($modifier-name);
+  @include geo-table-header-row-cell-make($modifier-name);
+  @include geo-table-body-row-make($modifier-name);
+  @include geo-table-body-row-cell-make($modifier-name);
+  @include geo-table-pagination-make($modifier-name);
+
+  .geo-table#{$modifier-name-with-prefix} {
+    @include font($body);
+
+    background: $color_white;
+    border: 1px solid $geo_table_border_color;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+
+    .geo-table__container {
+      display: flex;
+      flex: auto;
+      flex-direction: column;
+      overflow-x: hidden;
+      overflow-y: auto;
+      position: relative;
+    }
+
+    .geo-table__container--requiring-horizontal-scroll {
+      overflow-x: scroll;
+    }
+
+    .geo-table__header {
+      border-bottom: 1px solid $geo-table-border-color;
+      flex: 0 0 auto;
+      left: 0; // This will always be 0, we use transform-translate to make header sticky
+      position: absolute;
+      top: 0;  // This will always be 0, we use transform-translate to make header sticky
+      z-index: 1;
+    }
+
+    .geo-table__header--empty-table {
+      border-bottom: 1px solid $geo-table-border-color;
+      position: initial;
+    }
+
+    .geo-table__body-empty {
+
+    }
+
+    .geo-table__body {
+      display: flex;
+      flex: auto;
+      flex-direction: column;
+    }
+
+    .geo-table__body-content {
+      overflow: visible;
+    }
+
+    .geo-table__footer {
+      align-items: center;
+      background: $color-white-dark;
+      border-top: 1px solid $geo-table-border-color;
+      display: flex;
+      flex: 0 0 auto;
+      flex-direction: row;
+      justify-content: space-between;
+    }
+
+    // > Shadows
+
+    .geo-table__shadow--vertical-top {
+      background: linear-gradient(
+        180deg,
+        $geo_table_shadow_background_dark 0%,
+        $geo_table_shadow_background_transparent 100%
+      );
+      height: $geo_table_shadow_size;
+      position: absolute;
+      top: 0;
+      width: 100%;
+    }
+
+    .geo-table__shadow--vertical-bottom {
+      background: linear-gradient(
+        0deg,
+        $geo_table_shadow_background_dark 0%,
+        $geo_table_shadow_background_transparent 100%
+      );
+      bottom: 0;
+      height: $geo_table_shadow_size;
+      position: absolute;
+      width: 100%;
+    }
+
+    .geo-table__shadow--horizontal-left {
+      background: linear-gradient(
+        90deg,
+        $geo_table_shadow_background_dark 0%,
+        $geo_table_shadow_background_transparent 100%
+      );
+      bottom: 0;
+      left: 0;
+      position: absolute;
+      top: 0;
+      width: $geo_table_shadow_size;
+      z-index: 2;
+    }
+
+    .geo-table__shadow--horizontal-right {
+      background: linear-gradient(
+        -90deg,
+        $geo_table_shadow_background_dark 0%,
+        $geo_table_shadow_background_transparent 100%
+      );
+      bottom: 0;
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: $geo_table_shadow_size;
+      z-index: 2;
+    }
+  }
+}
+
+@include geo-table-make('');

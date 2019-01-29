@@ -1,0 +1,19 @@
+@import './geo-table-row.common';
+
+@mixin geo-table-body-row-make($modifier-name) {
+
+  $modifier-name-with-prefix: '';
+
+  @if $modifier-name != '' {
+    // sass-lint:disable space-around-operator
+    $modifier-name-with-prefix: --#{$modifier-name};
+  }
+
+  .geo-table-body-row#{$modifier-name-with-prefix} {
+    @include geo-table-make-row($color_white);
+
+    height: $space-large;
+  }
+}
+
+@include geo-table-body-row-make('');

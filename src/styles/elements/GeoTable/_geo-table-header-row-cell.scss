@@ -1,0 +1,35 @@
+@import './geo-table-row.common';
+
+@mixin geo-table-header-row-cell-make-common () {
+  @include geo-table-make-cell($color-white);
+  @include font($heading_small);
+
+  color: $color_grey_darker;
+  font-weight: $font_weight_semi_bold;
+  justify-content: space-between;
+  white-space: nowrap;
+}
+
+@mixin geo-table-header-row-cell-make($modifier-name) {
+
+  $modifier-name-with-prefix: '';
+
+  @if $modifier-name != '' {
+    // sass-lint:disable space-around-operator
+    $modifier-name-with-prefix: --#{$modifier-name};
+  }
+
+  .geo-table-header-row-cell--main#{$modifier-name-with-prefix},
+  .geo-table-header-row-cell--single#{$modifier-name-with-prefix} {
+    @include geo-table-header-row-cell-make-common();
+
+    position: relative;
+  }
+
+  .geo-table-header-row-cell--aux#{$modifier-name-with-prefix} {
+    @include geo-table-header-row-cell-make-common();
+    @include font($heading_xsmall);
+  }
+}
+
+@include geo-table-header-row-cell-make('');
