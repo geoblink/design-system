@@ -1,5 +1,6 @@
 @import './geo-table-header-row';
 @import './geo-table-header-row-cell';
+@import './geo-table-sort';
 @import './geo-table-body-row';
 @import './geo-table-body-row-cell';
 @import './geo-table-pagination';
@@ -53,10 +54,6 @@
     .geo-table__header--empty-table {
       border-bottom: 1px solid $geo-table-border-color;
       position: initial;
-    }
-
-    .geo-table__body-empty {
-
     }
 
     .geo-table__body {

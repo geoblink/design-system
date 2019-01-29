@@ -1,0 +1,127 @@
+<template>
+  <div
+    :class="{
+      [`geo-table-sort${cssSuffix}`]: true,
+      [`geo-table-sort--active${cssSuffix}`]: currentlySortingTable
+    }"
+  >
+    <slot
+      :action="sortAsc"
+      :is-current-sorting-direction="isCurrentlyAscendingOrdered"
+      name="sortAscButton"
+    >
+      <font-awesome-icon
+        :icon="sortAscendingIcon"
+        :class="{
+          'geo-table-sort__button': true,
+          'geo-table-sort__button--active': isCurrentlyAscendingOrdered
+        }"
+        aria-hidden="true"
+        fixed-width
+        @click="sortAsc()"
+      />
+    </slot>
+
+    <slot
+      :action="sortDesc"
+      :is-current-sorting-direction="isCurrentlyDescendingOrdered"
+      name="sortDescButton"
+    >
+      <font-awesome-icon
+        :icon="sortDescendingIcon"
+        :class="{
+          'geo-table-sort__button': true,
+          'geo-table-sort__button--active': isCurrentlyDescendingOrdered
+        }"
+        aria-hidden="true"
+        fixed-width
+        @click="sortDesc()"
+      />
+    </slot>
+  </div>
+</template>
+
+<script>
+import cssSuffix from '../../mixins/cssModifierMixin'
+
+import { SORTING_DIRECTIONS } from './GeoTable.constants'
+
+export default {
+  name: 'GeoTableSort',
+  status: 'missing-tests',
+  release: '9.5.0',
+  mixins: [ cssSuffix ],
+  constants: { SORTING_DIRECTIONS },
+  props: {
+    /**
+     * Direction by which data is being currently sorted. Used only to highlight
+     * current status.
+     */
+    currentSortingDirection: {
+      type: String,
+      required: true,
+      validator (value) {
+        if (value in SORTING_DIRECTIONS) return true
+
+        const supportedValues = Object.values(SORTING_DIRECTIONS).map(i => `«${i}»`).join(', ')
+        console.warn(`GeoTableSort [component] :: Unsupported value («${value}») for «currentSortingDirection» property. Use one of ${supportedValues}`)
+        return false
+      }
+    },
+
+    /**
+     * Whether table is being sorted using the criteria represented by this
+     * sorter or not. Used only to highlight current status.
+     */
+    currentlySortingTable: {
+      type: Boolean,
+      required: true
+    }
+  },
+  computed: {
+    isCurrentlyAscendingOrdered () {
+      return this.currentlySortingTable && this.currentSortingDirection === SORTING_DIRECTIONS.asc
+    },
+
+    isCurrentlyDescendingOrdered () {
+      return this.currentlySortingTable && this.currentSortingDirection === SORTING_DIRECTIONS.desc
+    },
+
+    sortAscendingIcon () {
+      return [
+        this.isCurrentlyAscendingOrdered ? 'fal' : 'fas',
+        'caret-up'
+      ]
+    },
+
+    sortDescendingIcon () {
+      return [
+        this.isCurrentlyDescendingOrdered ? 'fal' : 'fas',
+        'caret-down'
+      ]
+    }
+  },
+  methods: {
+    sortAsc () {
+      this.sort(SORTING_DIRECTIONS.asc)
+    },
+
+    sortDesc () {
+      this.sort(SORTING_DIRECTIONS.desc)
+    },
+
+    sort (direction) {
+      /**
+       * User wants to sort data using the criteria represented by this sorter
+       * in the direction passed as parameter.
+       *
+       * Check `SORTING_DIRECTIONS` named export for possible directions.
+       *
+       * @event sort
+       * @type {string}
+       */
+      this.$emit('sort', direction)
+    }
+  }
+}
+</script>

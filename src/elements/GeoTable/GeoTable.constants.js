@@ -5,3 +5,10 @@ const HEADER_VARIANTS = {
 }
 
 export { HEADER_VARIANTS }
+
+const SORTING_DIRECTIONS = {
+  asc: 'asc',
+  desc: 'desc'
+}
+
+export { SORTING_DIRECTIONS }

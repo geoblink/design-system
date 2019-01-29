@@ -1,6 +1,6 @@
 @import './geo-table-row.common';
 
-@mixin geo-table-header-row-cell-make-common () {
+@mixin geo-table-header-row-cell-make-common ($modifier-name-with-prefix) {
   @include geo-table-make-cell($color-white);
   @include font($heading_small);
 
@@ -8,6 +8,12 @@
   font-weight: $font_weight_semi_bold;
   justify-content: space-between;
   white-space: nowrap;
+
+  &:hover {
+    .geo-table-sort#{$modifier-name-with-prefix} {
+      visibility: visible;
+    }
+  }
 }
 
 @mixin geo-table-header-row-cell-make($modifier-name) {
@@ -21,13 +27,13 @@
 
   .geo-table-header-row-cell--main#{$modifier-name-with-prefix},
   .geo-table-header-row-cell--single#{$modifier-name-with-prefix} {
-    @include geo-table-header-row-cell-make-common();
+    @include geo-table-header-row-cell-make-common($modifier-name-with-prefix);
 
     position: relative;
   }
 
   .geo-table-header-row-cell--aux#{$modifier-name-with-prefix} {
-    @include geo-table-header-row-cell-make-common();
+    @include geo-table-header-row-cell-make-common($modifier-name-with-prefix);
     @include font($heading_xsmall);
   }
 }

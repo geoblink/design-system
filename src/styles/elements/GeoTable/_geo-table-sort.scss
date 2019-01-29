@@ -1,0 +1,35 @@
+@mixin geo-table-sort-make($modifier-name) {
+
+  $modifier-name-with-prefix: '';
+
+  @if $modifier-name != '' {
+    // sass-lint:disable space-around-operator
+    $modifier-name-with-prefix: --#{$modifier-name};
+  }
+
+  .geo-table-sort#{$modifier-name-with-prefix} {
+    display: flex;
+    flex-direction: column;
+    margin-left: $space_small;
+    visibility: hidden;
+
+    .geo-table-sort__button {
+      color: $color_grey_light;
+      cursor: pointer;
+
+      &:hover {
+        color: $color_link;
+      }
+    }
+
+    .geo-table-sort__button--active {
+      color: $color_link;
+    }
+  }
+
+  .geo-table-sort--active#{$modifier-name-with-prefix} {
+    visibility: visible;
+  }
+}
+
+@include geo-table-sort-make('');

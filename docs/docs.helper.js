@@ -30,7 +30,14 @@ window.addEventListener('hashchange', () => {
   activeNav.methods.init()
 })
 
-const iconsToMock = ['faChevronLeft', 'faChevronRight', 'faStepBackward', 'faStepForward']
+const iconsToMock = [
+  'faChevronLeft',
+  'faChevronRight',
+  'faStepBackward',
+  'faStepForward',
+  'faCaretUp',
+  'faCaretDown'
+]
 const mockedFalIcons = _.mapValues(_.pick(fas, iconsToMock), function (original) {
   return _.assign({}, original, {
     prefix: 'fal'
