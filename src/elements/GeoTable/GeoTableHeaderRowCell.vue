@@ -14,7 +14,7 @@ export default {
   name: 'GeoTableHeaderRowCell',
   status: 'missing-tests',
   release: '9.5.0',
-  constants: VARIANTS,
+  constants: { VARIANTS },
   mixins: [cssSuffix],
   props: {
     /**
