@@ -517,7 +517,7 @@ describe('GeoTablePagination', () => {
   })
 
   it('should apply CSS suffix when the modifier is provided', function () {
-    const inactiveWrapper = mount(GeoTablePagination, {
+    const wrapper = mount(GeoTablePagination, {
       propsData: {
         cssModifier: 'demo-modifier',
         pageSize: 10,
@@ -529,6 +529,6 @@ describe('GeoTablePagination', () => {
       }
     })
 
-    expect(inactiveWrapper.find('.geo-table-pagination--demo-modifier').exists()).toBe(true)
+    expect(wrapper.find('.geo-table-pagination--demo-modifier').exists()).toBe(true)
   })
 })

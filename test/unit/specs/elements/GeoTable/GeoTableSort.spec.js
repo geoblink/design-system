@@ -38,6 +38,24 @@ describe('GeoTableSort', () => {
     expect(instance.exists()).toBe(true)
   })
 
+  it('should complain when using unknown sorting direction', function () {
+    const consoleErrorSpy = jest.spyOn(global.console, 'error').mockImplementation(() => { })
+    const consoleWarnSpy = jest.spyOn(global.console, 'warn').mockImplementation(() => { })
+
+    mount(GeoTableSort, {
+      propsData: {
+        currentSortingDirection: 'unknown-sorting-direction-for-tests',
+        currentlySortingTable: false
+      }
+    })
+
+    expect(consoleErrorSpy).toHaveBeenCalled()
+    expect(consoleWarnSpy).toHaveBeenCalled()
+
+    consoleErrorSpy.mockRestore()
+    consoleWarnSpy.mockRestore()
+  })
+
   it('should emit sort event when clicking on sort asc button', function () {
     const wrapper = mount(GeoTableSort, {
       propsData: {
