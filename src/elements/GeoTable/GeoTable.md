@@ -79,7 +79,9 @@ header cells opt out from this behaviour with property `ignoreContentWidth`.
             <geo-table-header-row-cell :column-max-width="150">Max width</geo-table-header-row-cell>
             <geo-table-header-row-cell :column-width="100">Fixed size</geo-table-header-row-cell>
             <geo-table-header-row-cell :ignore-content-width="ignoreContentWidth">
-              <label><input type="checkbox" v-model="ignoreContentWidth"> Ignore cell's width?</label>
+              <geo-trimmed-content>
+                <label><input type="checkbox" v-model="ignoreContentWidth"> Ignore cell's width?</label>
+              </geo-trimmed-content>
             </geo-table-header-row-cell>
           </geo-table-header-row>
           <geo-table-body-row slot="body" slot-scope="row">

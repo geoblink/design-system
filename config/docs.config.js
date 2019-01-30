@@ -168,6 +168,7 @@ module.exports = {
           name: 'String Utils',
           components: () => [
             '../src/elements/GeoHighlightedString/GeoHighlightedString.vue',
+            '../src/elements/GeoTrimmedContent/GeoTrimmedContent.vue',
             '../src/elements/GeoMarquee/GeoMarquee.vue',
             '../src/elements/GeoMarkdownContent/GeoMarkdownContent.vue'
           ],
