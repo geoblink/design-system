@@ -28,7 +28,7 @@ const getNextInstanceId = counterFactory()
 
 export default {
   name: 'GeoTrimmedContent',
-  status: 'missing-tests',
+  status: 'ready',
   release: '9.5.0',
   directives: { OnResize, Tooltip },
   mixins: [ cssSuffix ],
@@ -88,6 +88,8 @@ export default {
     },
 
     reloadTooltipContent () {
+      if (!this.$refs.content) return
+
       this.tooltipHTML = this.$refs.content.innerHTML
       const existingElement = document.getElementById(this.idTooltipContentNode)
       existingElement.innerHTML = this.tooltipHTML
