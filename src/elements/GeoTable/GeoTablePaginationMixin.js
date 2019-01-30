@@ -36,14 +36,6 @@ export default {
       return this.totalPages - 1
     },
 
-    isNotFirstPage () {
-      return this.currentPage !== 0
-    },
-
-    isNotLastPage () {
-      return this.currentPage !== this.lastPage
-    },
-
     hasPreviousPage () {
       return this.currentPage > 0
     },

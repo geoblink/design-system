@@ -6,14 +6,12 @@
     <!-- @slot Use this slot to customize the shortcut to display first page of data -->
     <slot
       :action="goToFirstPage"
-      :is-not-first-page="isNotFirstPage"
       :has-previous-page="hasPreviousPage"
       :has-next-page="hasNextPage"
-      :is-not-last-page="isNotLastPage"
       name="firstPageShortcut"
     >
       <font-awesome-icon
-        v-if="isNotFirstPage"
+        v-if="hasPreviousPage"
         :icon="['fal', 'step-backward']"
         class="geo-table-pagination__action-first"
         aria-hidden="true"
@@ -30,10 +28,8 @@
     <!-- @slot Use this slot to customize the button to display previous page of data -->
     <slot
       :action="goToPreviousPage"
-      :is-not-first-page="isNotFirstPage"
       :has-previous-page="hasPreviousPage"
       :has-next-page="hasNextPage"
-      :is-not-last-page="isNotLastPage"
       name="prevPageShortcut"
     >
       <font-awesome-icon
@@ -54,10 +50,8 @@
     <div class="geo-table-pagination__current-range">
       <!-- @slot Use this slot to customize how currently displayed range is shown -->
       <slot
-        :is-not-first-page="isNotFirstPage"
         :has-previous-page="hasPreviousPage"
         :has-next-page="hasNextPage"
-        :is-not-last-page="isNotLastPage"
         :current-page="currentPage"
         :page-size="pageSize"
         :source-data-length="sourceDataLength"
@@ -71,10 +65,8 @@
     <!-- @slot Use this slot to customize the button to display next page of data -->
     <slot
       :action="goToNextPage"
-      :is-not-first-page="isNotFirstPage"
       :has-previous-page="hasPreviousPage"
       :has-next-page="hasNextPage"
-      :is-not-last-page="isNotLastPage"
       name="nextPageShortcut"
     >
       <font-awesome-icon
@@ -95,14 +87,12 @@
     <!-- @slot Use this slot to customize the shortcut to display last page of data -->
     <slot
       :action="goToLastPage"
-      :is-not-first-page="isNotFirstPage"
       :has-previous-page="hasPreviousPage"
       :has-next-page="hasNextPage"
-      :is-not-last-page="isNotLastPage"
       name="lastPageShortcut"
     >
       <font-awesome-icon
-        v-if="isNotLastPage"
+        v-if="hasNextPage"
         :icon="['fal', 'step-forward']"
         class="geo-table-pagination__action-last"
         aria-hidden="true"
