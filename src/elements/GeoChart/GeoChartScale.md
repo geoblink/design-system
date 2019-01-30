@@ -16,7 +16,7 @@ them numbers. A domain may be decreasing.
 considered to start. This is usually `0` although might be a different value.
 This affect each data representation in a different way, for instance, in a bar
 chart using this axis for its dimension, the bar's growth will be proportional
-to the difference between the item value and this `valurForOrigin`. If you want
+to the difference between the item value and this `valueForOrigin`. If you want
 to represent temperatures in Celsius degrees this `valueForOrigin` would
 probably by `0` but if you want to use Fahrenheit degrees it would be `32`.
 
