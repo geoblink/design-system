@@ -5,7 +5,7 @@ import GeoTableHeaderRow from '@/elements/GeoTable/GeoTableHeaderRow'
 const localVue = createLocalVue()
 localVue.component('geo-table-header-row', GeoTableHeaderRow)
 
-describe('GeoHeaderRow', () => {
+describe('GeoTableHeaderRow', () => {
   it('should render component', function () {
     let slotScope
     const wrapper = mount(GeoTableHeaderRow, {
@@ -20,6 +20,7 @@ describe('GeoHeaderRow', () => {
     expect(instance.exists()).toBe(true)
 
     expect(slotScope).toHaveProperty('cssModifier')
+    expect(slotScope).toHaveProperty('variant', 'main')
   })
 
   it('should render `aux` variant', function () {
