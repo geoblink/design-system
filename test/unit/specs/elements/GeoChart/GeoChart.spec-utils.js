@@ -112,12 +112,13 @@ function svgElementPrototypeTransformStubFactory () {
             if (currentTransform === '') {
               return {
                 matrix: {
-                  a: 1, // R: 0, C: 0
-                  b: 0, // R: 1, C: 0
-                  c: 0, // R: 0, C: 1
-                  d: 1, // R: 1, C: 1
-                  e: 0, // R: 0, C: 2
-                  f: 0 // R: 1, C: 2
+                  // See: https://en.wikipedia.org/wiki/Transformation_matrix
+                  a: 1, // Row: 0, Col: 0
+                  b: 0, // Row: 1, Col: 0
+                  c: 0, // Row: 0, Col: 1
+                  d: 1, // Row: 1, Col: 1
+                  e: 0, // Row: 0, Col: 2
+                  f: 0 // Row: 1, Col: 2
                 }
               }
             }
@@ -130,12 +131,13 @@ function svgElementPrototypeTransformStubFactory () {
             const yTranslate = parseFloat(matches[2])
 
             const transformMatrix = {
-              a: 1, // R: 0, C: 0
-              b: 0, // R: 1, C: 0
-              c: 0, // R: 0, C: 1
-              d: 1, // R: 1, C: 1
-              e: xTranslate, // R: 0, C: 2
-              f: yTranslate // R: 1, C: 2
+              // See: https://en.wikipedia.org/wiki/Transformation_matrix
+              a: 1, // Row: 0, Col: 0
+              b: 0, // Row: 1, Col: 0
+              c: 0, // Row: 0, Col: 1
+              d: 1, // Row: 1, Col: 1
+              e: xTranslate, // Row: 0, Col: 2
+              f: yTranslate // Row: 1, Col: 2
             }
 
             return {
