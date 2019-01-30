@@ -66,6 +66,9 @@ export function render (d3Instance, axesOptions, globalAxesConfig) {
     .style('opacity', 0)
     .remove()
 
+  allAxisGroups
+    .attr('class', getAxisCSSClasses)
+
   allAxisGroups.each(function (singleAxisOptions, i) {
     const group = d3.select(this)
     renderSingleAxis(group, singleAxisOptions, globalAxesConfig)

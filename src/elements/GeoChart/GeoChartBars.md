@@ -147,6 +147,7 @@ export default {
         },
         scale: {
           type: SCALE_TYPES.categorical,
+          valueForOrigin: _.first(this.categoricalDomain),
           domain: this.categoricalDomain,
           padding: {
             inner: 0.1,
@@ -281,6 +282,7 @@ export default {
         },
         scale: {
           type: SCALE_TYPES.categorical,
+          valueForOrigin: _.first(this.categoricalDomain),
           domain: this.categoricalDomain,
           padding: {
             inner: 0.1,
@@ -454,13 +456,16 @@ export default {
           relativeToAxis: this.linearAxisConfig.id
         }
 
+      const domain = _.times(5, i => `Store #${i}`)
+
       return {
         id: 'demo-categorical-axis',
         keyForValues: 'point_of_sale',
         position,
         scale: {
           type: SCALE_TYPES.categorical,
-          domain: _.times(5, i => `Store #${i}`),
+          valueForOrigin: _.first(domain),
+          domain,
           padding: {
             inner: 0.1,
             outer: 0.2

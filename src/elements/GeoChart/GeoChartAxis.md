@@ -156,6 +156,7 @@ export default {
         },
         scale: {
           type: SCALE_TYPES.categorical,
+          valueForOrigin: _.first(this.categoricalDomain),
           domain: this.categoricalDomain,
           padding: {
             inner: 10,
@@ -296,6 +297,7 @@ export default {
         },
         scale: {
           type: SCALE_TYPES.categorical,
+          valueForOrigin: _.first(this.categoricalDomain),
           domain: this.categoricalDomain,
           padding: {
             inner: 10,
@@ -376,6 +378,8 @@ export default {
     },
 
     chartConfig () {
+      const domain = _.times(5, i => `Category ${i}`)
+
       return {
         chart: {
           margin: {
@@ -393,7 +397,8 @@ export default {
           },
           scale: {
             type: SCALE_TYPES.categorical,
-            domain: _.times(5, i => `Category ${i}`),
+            valueForOrigin: _.first(domain),
+            domain,
             padding: {
               inner: 10,
               outer: 20

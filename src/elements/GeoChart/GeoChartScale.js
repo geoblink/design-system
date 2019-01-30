@@ -52,9 +52,8 @@ export const DEFAULT_LOGARITHMIC_SCALE_BASE = 10
 
 /**
  * @param {AxisConfig} axisConfig
- * @param {ScaleOptions} options
  * @param {{size: GeoChart.Size, margin: GeoChart.Margin}} chart
- * @return {d3.ScaleLinear|null}
+ * @return {d3.ScaleLinear|d3.ScaleBand|d3.ScaleLogarithmic|null}
  */
 export function getNewScale (axisConfig, chart) {
   const scaleConfig = axisConfig.scale

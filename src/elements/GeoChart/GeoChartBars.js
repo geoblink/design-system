@@ -133,19 +133,18 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions) {
 
   function getTransform (d, i) {
     const translation = getTranslation(d, i)
-
-    if (_.isNaN(translation.x)) {
-      throw new Error('GeoChart (bars) [component] :: Wrong translation in x-axis. This usually means that the bar group axes have been swapped or misconfigured.')
-    }
-
-    if (_.isNaN(translation.y)) {
-      throw new Error('GeoChart (bars) [component] :: Wrong translation in y-axis. This usually means that the bar group axes have been swapped or misconfigured.')
-    }
-
     return `translate(${translation.x}, ${translation.y})`
   }
 
   function getNewItemInitialTransform (d, i) {
+    if (_.isNil(singleGroupOptions.axis.horizontal.scale.valueForOrigin)) {
+      throw new Error(`GeoChart (bars) [component] :: Horizontal axis («${singleGroupOptions.axis.horizontal.id}») does not have a valueForOrigin set. In bar charts this is required to set the initial position of the items.`)
+    }
+
+    if (_.isNil(singleGroupOptions.axis.vertical.scale.valueForOrigin)) {
+      throw new Error(`GeoChart (bars) [component] :: Vertical axis («${singleGroupOptions.axis.vertical.id}») does not have a valueForOrigin set. In bar charts this is required to set the initial position of the items.`)
+    }
+
     const translationForItemAtOrigin = getTranslation({
       [singleGroupOptions.axis.horizontal.keyForValues]: singleGroupOptions.axis.horizontal.scale.valueForOrigin,
       [singleGroupOptions.axis.vertical.keyForValues]: singleGroupOptions.axis.vertical.scale.valueForOrigin
@@ -249,6 +248,14 @@ function getSingleItemTranslationFactory (options) {
 
     const horizontalAxisTranslation = horizontalAxisTranslationForDimension[options.dimension]
     const verticalAxisTranslation = verticalAxisTranslationForDimension[options.dimension]
+
+    if (!_.isFinite(horizontalAxisTranslation)) {
+      throw new Error(`GeoChart (bars) [component] :: Wrong translation in x-axis. Check that item ${index} has a proper value for key «${horizontalAxis.keyForValues}» (currently it is «${_.get(singleItem, horizontalAxis.keyForValues)}»). Alternatively, change the horizontal axis (currently set to «${horizontalAxis.id}»). This could also happen if the axis has an invalid valueForOrigin (currently it is «${horizontalAxis.valueForOrigin}»).`)
+    }
+
+    if (!_.isFinite(verticalAxisTranslation)) {
+      throw new Error(`GeoChart (bars) [component] :: Wrong translation in y-axis. Check that item ${index} has a proper value for key «${verticalAxis.keyForValues}» (currently it is «${_.get(singleItem, verticalAxis.keyForValues)}»). Alternatively, change the vertical axis (currently set to ${verticalAxis.id}). This could also happen if the axis has an invalid valueForOrigin (currently it is «${verticalAxis.valueForOrigin}»).`)
+    }
 
     return {
       x: horizontalAxisTranslation,

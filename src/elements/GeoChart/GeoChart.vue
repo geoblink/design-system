@@ -80,7 +80,7 @@ const chartConfigValidator = (function () {
 
 export default {
   name: 'GeoChart',
-  status: 'missing-tests',
+  status: 'ready',
   release: '9.4.0',
   constants: {
     SCALE_TYPES: ChartScale.SCALE_TYPES,
@@ -107,6 +107,20 @@ export default {
     debug: {
       type: Boolean,
       default: false
+    },
+    /**
+     * Height of the chart, including units and margin.
+     */
+    height: {
+      type: String,
+      required: true
+    },
+    /**
+     * Width of the chart, including units and margin.
+     */
+    width: {
+      type: String,
+      required: true
     }
   },
   data () {

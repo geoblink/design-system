@@ -116,6 +116,7 @@ export default {
         },
         scale: {
           type: SCALE_TYPES.categorical,
+          valueForOrigin: _.first(this.categoricalDomain),
           domain: this.categoricalDomain,
           padding: {
             inner: 0.1,
