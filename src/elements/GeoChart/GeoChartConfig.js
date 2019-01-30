@@ -81,7 +81,7 @@ export const scaleLogarithmicSchema = {
 export const scaleCategoricalSchema = {
   type: 'object',
   additionalProperties: false,
-  required: ['type', 'domain'],
+  required: ['type', 'valueForOrigin', 'domain'],
   properties: {
     type: {
       const: SCALE_TYPES.categorical
