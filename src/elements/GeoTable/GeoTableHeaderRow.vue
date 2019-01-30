@@ -1,5 +1,6 @@
 <template>
   <div :class="`geo-table-header-row--${variant}${cssSuffix}`">
+    <!-- @slot Use this slot to customize row's content -->
     <slot
       :variant="variant"
       :css-modifier="cssModifier"

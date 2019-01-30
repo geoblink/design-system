@@ -1,5 +1,6 @@
 <template>
   <div :class="`geo-table-body-row${cssSuffix}`">
+    <!-- @slot Use this slot to customize row's content -->
     <slot :css-modifier="cssModifier" />
   </div>
 </template>
