@@ -23,8 +23,8 @@
   .geo-table#{$modifier-name-with-prefix} {
     @include font($body);
 
-    background: $color_white;
-    border: 1px solid $geo_table_border_color;
+    background: $color-white;
+    border: 1px solid $geo-table-border-color;
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -81,10 +81,10 @@
     .geo-table__shadow--vertical-top {
       background: linear-gradient(
         180deg,
-        $geo_table_shadow_background_dark 0%,
-        $geo_table_shadow_background_transparent 100%
+        $geo-table-shadow-background-dark 0%,
+        $geo-table-shadow-background-transparent 100%
       );
-      height: $geo_table_shadow_size;
+      height: $geo-table-shadow-size;
       position: absolute;
       top: 0;
       width: 100%;
@@ -93,11 +93,11 @@
     .geo-table__shadow--vertical-bottom {
       background: linear-gradient(
         0deg,
-        $geo_table_shadow_background_dark 0%,
-        $geo_table_shadow_background_transparent 100%
+        $geo-table-shadow-background-dark 0%,
+        $geo-table-shadow-background-transparent 100%
       );
       bottom: 0;
-      height: $geo_table_shadow_size;
+      height: $geo-table-shadow-size;
       position: absolute;
       width: 100%;
     }
@@ -105,28 +105,28 @@
     .geo-table__shadow--horizontal-left {
       background: linear-gradient(
         90deg,
-        $geo_table_shadow_background_dark 0%,
-        $geo_table_shadow_background_transparent 100%
+        $geo-table-shadow-background-dark 0%,
+        $geo-table-shadow-background-transparent 100%
       );
       bottom: 0;
       left: 0;
       position: absolute;
       top: 0;
-      width: $geo_table_shadow_size;
+      width: $geo-table-shadow-size;
       z-index: 2;
     }
 
     .geo-table__shadow--horizontal-right {
       background: linear-gradient(
         -90deg,
-        $geo_table_shadow_background_dark 0%,
-        $geo_table_shadow_background_transparent 100%
+        $geo-table-shadow-background-dark 0%,
+        $geo-table-shadow-background-transparent 100%
       );
       bottom: 0;
       position: absolute;
       right: 0;
       top: 0;
-      width: $geo_table_shadow_size;
+      width: $geo-table-shadow-size;
       z-index: 2;
     }
   }

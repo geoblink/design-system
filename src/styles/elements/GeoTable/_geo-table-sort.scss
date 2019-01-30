@@ -10,20 +10,20 @@
   .geo-table-sort#{$modifier-name-with-prefix} {
     display: flex;
     flex-direction: column;
-    margin-left: $space_small;
+    margin-left: $space-small;
     visibility: hidden;
 
     .geo-table-sort__button {
-      color: $color_grey_light;
+      color: $color-grey-light;
       cursor: pointer;
 
       &:hover {
-        color: $color_link;
+        color: $color-link;
       }
     }
 
     .geo-table-sort__button--active {
-      color: $color_link;
+      color: $color-link;
     }
   }
 

@@ -10,8 +10,8 @@
   }
 
   .geo-table-body-row-cell#{$modifier-name-with-prefix} {
-    @include geo-table-make-cell($color_white);
-    @include font($body_small);
+    @include geo-table-make-cell($color-white);
+    @include font($body-small);
 
     white-space: nowrap;
   }

@@ -15,14 +15,14 @@
 
 @mixin geo-table-make-cell ($background-color) {
   align-items: center;
-  border-left: 1px solid $geo_table_border_color;
-  border-top: 1px solid $geo_table_border_color;
+  border-left: 1px solid $geo-table-border-color;
+  border-top: 1px solid $geo-table-border-color;
   box-sizing: border-box;
   display: flex;
   flex: 0 0 auto;
   flex-direction: row;
   height: 100%;
-  padding: 0 $space_small;
+  padding: 0 $space-small;
 
   &:first-child {
     border-left: 0;
