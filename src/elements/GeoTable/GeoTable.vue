@@ -272,7 +272,6 @@ export default {
         .getBoundingClientRect()
         .height
 
-      // TODO: Move all of these to data?
       this.$refs.tableHeader.style.transform = `translate(0px, ${yOffset}px)`
 
       this.$refs.tableShadowVerticalTop.style.visibility = isScrolledToYStart ? 'hidden' : 'visible'
@@ -519,17 +518,14 @@ export default {
 
       if (tableRemainingWidth >= 0) {
         // If there's no scroll then we get rid of the scrolled offset entirely.
-        // TODO: Move to a computed property?
         self.$refs.tableContainer.classList.remove(self.hasHorizontalScrollCSSClass)
         self.$refs.tableContainer.scrollLeft = 0
       } else {
         // If we need horizontal scroll we add an additional class just so we
         // can do customizations later on with CSS or whatever...
         // Table requires horizontal scroll
-        // TODO: Move to a computed property?
         self.$refs.tableContainer.classList.add(self.hasHorizontalScrollCSSClass)
         // If new width is smaller than current scroll offset we should reset it
-        // TODO: Move to a computed property?
         self.$refs.tableContainer.scrollLeft = _.min([
           self.$refs.tableContainer.scrollLeft,
           tableContentWidth - tableContainerWidth
@@ -557,7 +553,6 @@ export default {
       self.$refs.tableHeader.style.width = `${_.max([tableContentWidth, tableContainerWidth])}px`
       self.$refs.tableBody.style.width = `${_.max([tableContentWidth, tableContainerWidth])}px`
       // We need this padding so sticky header doesn't cover any row
-      // TODO: Move to a computed property?
       const headerHeight = self.$refs.tableHeader
         .getBoundingClientRect()
         .height
