@@ -1,6 +1,6 @@
 <template>
   <div
-    v-on-resize="autoSetColumnsWidth"
+    v-on-resize="layoutTableIfPossible"
     :class="`geo-table${cssSuffix}`"
   >
     <div
@@ -71,6 +71,7 @@
 
     <div
       v-if="isFooterDisplayed"
+      ref="tableFooter"
       class="geo-table__footer"
     >
       <slot
@@ -96,10 +97,13 @@ import cssSuffix from '../../mixins/cssModifierMixin'
 import throttle from '../../utils/throttle'
 import _ from 'lodash'
 
+const DEFAULT_PAGESIZE = 10
+
 export default {
   name: 'GeoTable',
-  status: 'missing-tests',
+  status: 'ready',
   release: '9.5.0',
+  constants: { DEFAULT_PAGESIZE },
   directives: { OnResize },
   mixins: [cssSuffix],
   props: {
@@ -118,10 +122,25 @@ export default {
      *
      * Use this it to tweak the balance between data density and performance
      * optimum for your dataset.
+     *
+     * If empty, `GeoTable` will either pick an amount that fits table's
+     * available height (if `automaticPageSize` is set to `true`) or display up
+     * to 10 rows (if `automaticPageSize` is unset or set to `false`).
      */
-    pageSize: {
+    forcedPageSize: {
       type: Number,
-      default: 10
+      required: false
+    },
+
+    /**
+     * Whether page size should be computed automatically to fill table ensuring
+     * there's no vertical scroll required to see all content.
+     *
+     * Note that `forcedPageSize` overrides this property.
+     */
+    automaticPageSize: {
+      type: Boolean,
+      required: false
     },
 
     /**
@@ -133,13 +152,19 @@ export default {
       type: Number, // First page is page 0
       required: true
     }
-
-    // currentOrder: {
-    //   type: Object,
-    //   validator (value) {
-    //     return 'field' in value && value.direction in constants.sortingDirection
-    //   }
-    // },
+  },
+  data () {
+    return {
+      inferredPageSize: null
+      // This is intentionally non-reactive to avoid triggering update hook
+      // isLayoutingTable: false
+      // This is intentionally non-reactive to avoid triggering infinite loops
+      // when inferring page size stops
+      // isInferringPageSize: false
+      // This is intentionally non-reactive to avoid triggering infinite loops
+      // when computing column's width
+      // columnsWidths: {}
+    }
   },
   computed: {
     isEmpty () {
@@ -164,15 +189,36 @@ export default {
 
     hasHorizontalScrollCSSClass () {
       return `geo-table__container--requiring-horizontal-scroll${this.cssSuffix}`
+    },
+
+    pageSize () {
+      return _.isFinite(this.forcedPageSize)
+        ? this.forcedPageSize
+        : _.isFinite(this.inferredPageSize)
+          ? this.inferredPageSize
+          : DEFAULT_PAGESIZE
+    },
+
+    layoutHeadersAndShadowsThrottled () {
+      return throttle(this.layoutHeadersAndShadows)
+    },
+
+    forcedLayoutTableThrottled () {
+      return throttle(this.forcedLayoutTable)
     }
   },
   mounted () {
-    // TODO: Check nextTick or other alternatives
-    setTimeout(this.autoSetColumnsWidth, 0) // We want everything rendered before doing this
+    this.layoutTableIfPossible()
+    this.$nextTick(() => {
+      setTimeout(() => {
+        this.layoutTableIfPossible()
+      }, 0)
+    })
   },
   updated () {
-    // TODO: Check nextTick or other alternatives
-    setTimeout(this.autoSetColumnsWidth, 0) // We want everything rendered before doing this
+    if (this.isLayoutingTable) return
+
+    this.layoutTableIfPossible()
   },
   methods: {
     goToPage (page) {
@@ -186,13 +232,13 @@ export default {
     },
 
     onScroll (event) {
-      this.layoutHeader({
+      this.layoutHeadersAndShadowsThrottled({
         yOffset: event.target.scrollTop,
         xOffset: event.target.scrollLeft
       })
     },
 
-    layoutHeader: throttle(function (scroll) {
+    layoutHeadersAndShadows (scroll) {
       if (this.isEmpty) return
 
       const requiredObjects = [
@@ -208,18 +254,14 @@ export default {
 
       const { xOffset, yOffset } = scroll
 
-      const containerHeight = Math.ceil(parseFloat(window
-        .getComputedStyle(this.$refs.tableContainer)
-        .getPropertyValue('height')
-        .replace('px', '')
-      ))
+      const containerHeight = this.$refs.tableContainer
+        .getBoundingClientRect()
+        .height
       const contentHeight = this.$refs.tableContainer.scrollHeight
 
-      const containerWidth = Math.ceil(parseFloat(window
-        .getComputedStyle(this.$refs.tableContainer)
-        .getPropertyValue('width')
-        .replace('px', '')
-      ))
+      const containerWidth = this.$refs.tableContainer
+        .getBoundingClientRect()
+        .width
       const contentWidth = this.$refs.tableContainer.scrollWidth
 
       const hasHorizontalScroll =
@@ -229,13 +271,11 @@ export default {
       const isScrolledToYStart = yOffset === 0
       const isScrolledToXStart = !hasHorizontalScroll || xOffset === 0
       const isScrolledToYEnd = yOffset + containerHeight === contentHeight
-      const isScrolledToXEnd = !hasHorizontalScroll || Math.abs(xOffset + containerWidth - contentWidth) <= 1
+      const isScrolledToXEnd = !hasHorizontalScroll || xOffset + containerWidth === contentWidth
 
-      const headerHeight = parseFloat(window
-        .getComputedStyle(this.$refs.tableHeader)
-        .getPropertyValue('height')
-        .replace('px', '')
-      )
+      const headerHeight = this.$refs.tableHeader
+        .getBoundingClientRect()
+        .height
 
       // TODO: Move all of these to data?
       this.$refs.tableHeader.style.transform = `translate(0px, ${yOffset}px)`
@@ -249,9 +289,42 @@ export default {
       this.$refs.tableShadowVerticalBottom.style.transform = `translate(${xOffset}px, ${yOffset}px)`
       this.$refs.tableShadowHorizontalLeft.style.transform = `translate(${xOffset}px, ${yOffset}px)`
       this.$refs.tableShadowHorizontalRight.style.transform = `translate(${xOffset}px, ${yOffset}px)`
-    }),
+    },
 
-    autoSetColumnsWidth () {
+    layoutTableIfPossible () {
+      if (this.isEmpty) return
+
+      const requiredObjects = [
+        this.$refs.tableHeader,
+        this.$refs.tableBody,
+        this.$refs.tableContainer
+      ]
+      const hasAllRequiredObjects = _.reduce(requiredObjects, (accum, object) => accum && !!object, true)
+      if (!hasAllRequiredObjects) return
+
+      this.forcedLayoutTableThrottled()
+    },
+
+    async forcedLayoutTable () {
+      this.isLayoutingTable = true
+      await this.inferPageSize()
+      this.layoutColumns()
+      this.isLayoutingTable = false
+    },
+
+    layoutColumns () {
+      this.computeColumnsWidth()
+      this.applyComputedColumnsWidth()
+
+      if (this.$refs.tableContainer) {
+        this.layoutHeadersAndShadowsThrottled({
+          yOffset: this.$refs.tableContainer.scrollTop,
+          xOffset: this.$refs.tableContainer.scrollLeft
+        })
+      }
+    },
+
+    computeColumnsWidth () {
       if (this.isEmpty) return
 
       const requiredObjects = [
@@ -360,7 +433,7 @@ export default {
       // Once we have the settings and content width we have to compute a first
       // width proposal respecting minimum and maximum and using forced width
       // (if set)
-      const columnsWidths = _.map(columnsSettings, function (currentColumnSettings) {
+      this.columnsWidths = _.map(columnsSettings, function (currentColumnSettings) {
         if (currentColumnSettings.width) return currentColumnSettings.width
         const min = _.defaultTo(currentColumnSettings.minWidth, Number.NEGATIVE_INFINITY)
         const max = _.defaultTo(currentColumnSettings.maxWidth, Number.POSITIVE_INFINITY)
@@ -372,7 +445,7 @@ export default {
       // container so we know if we need horizontal scroll or if there's extra
       // width that should be divided into the columns
       const tableContainerWidth = getDOMElementWidth(this.$el)
-      const tableContentWidth = _.sum(columnsWidths)
+      const tableContentWidth = _.sum(this.columnsWidths)
 
       // If we have more space than required we have to divide the remaining
       // space between the columns using automatic width, so we don't mess with
@@ -415,7 +488,7 @@ export default {
           for (const unsaturatedColumnSettings of unsaturatedColumns) {
             const columnIndex = unsaturatedColumnSettings.index
             unsaturatedColumnSettings.remainingWidthUntilReachingMaximum -= singleColumnWidthIncrease
-            columnsWidths[columnIndex] += singleColumnWidthIncrease
+            this.columnsWidths[columnIndex] += singleColumnWidthIncrease
           }
 
           tableRemainingWidth -= singleColumnWidthIncrease * unsaturatedColumns.length
@@ -428,53 +501,117 @@ export default {
         if (tableRemainingWidth > 0) {
           console.warn('GeoTable [component] :: could not redistribute extra space between table columns without breaking limits on their maximum - or explicit - width')
         }
+      }
+    },
 
+    applyComputedColumnsWidth () {
+      const self = this
+
+      if (self.isEmpty) return
+      if (!self.columnsWidths) return
+
+      const requiredObjects = [
+        self.$refs.tableHeader,
+        self.$refs.tableBody,
+        self.$refs.tableContainer
+      ]
+      const hasAllRequiredObjects = _.reduce(requiredObjects, (accum, object) => accum && !!object, true)
+      if (!hasAllRequiredObjects) return
+
+      const tableContainerWidth = getDOMElementWidth(self.$el)
+      const tableContentWidth = _.sum(self.columnsWidths)
+      const tableRemainingWidth = tableContainerWidth - tableContentWidth
+
+      if (tableRemainingWidth >= 0) {
         // If there's no scroll then we get rid of the scrolled offset entirely.
         // TODO: Move to a computed property?
-        this.$refs.tableContainer.classList.remove(this.hasHorizontalScrollCSSClass)
-        this.$refs.tableContainer.scrollLeft = 0
+        self.$refs.tableContainer.classList.remove(self.hasHorizontalScrollCSSClass)
+        self.$refs.tableContainer.scrollLeft = 0
       } else {
         // If we need horizontal scroll we add an additional class just so we
         // can do customizations later on with CSS or whatever...
         // Table requires horizontal scroll
         // TODO: Move to a computed property?
-        this.$refs.tableContainer.classList.add(this.hasHorizontalScrollCSSClass)
+        self.$refs.tableContainer.classList.add(self.hasHorizontalScrollCSSClass)
         // If new width is smaller than current scroll offset we should reset it
         // TODO: Move to a computed property?
-        this.$refs.tableContainer.scrollLeft = _.min([
-          this.$refs.tableContainer.scrollLeft,
+        self.$refs.tableContainer.scrollLeft = _.min([
+          self.$refs.tableContainer.scrollLeft,
           tableContentWidth - tableContainerWidth
         ])
       }
+
+      // Probably we should find a more reliable approach to do this. We can use
+      // this.$slots.header to get the VNodes added to header slot but we can't
+      // do that in the body because it's a scope slot (it receives parameters
+      // from the parent), so to use that approach (this.$scopeSlots) we have to
+      // duplicate here the logic of the v-for and parameter passing that we use
+      // in the template...
+      //
+      // As we always use geo-table-header-row and geo-table-body-row components
+      // we'll make that a requirement to use the table
+      const componentsByTagName = _.groupBy(self.$children, '$vnode.componentOptions.tag')
+      const headerRows = _.map(componentsByTagName['geo-table-header-row'], getHeaderCellDefaultSlotDOMElements)
+      const bodyRows = _.map(componentsByTagName['geo-table-body-row'], getDefaultSlotDOMElements)
 
       // Finally we apply the widths to the headers...
       _.forEach(headerRows, applyWidthToRow)
       // ... and the body...
       _.forEach(bodyRows, applyWidthToRow)
-      // ... and rows container (this is required because otherwise this
-      // container hide any x-overflowing content out)
-      // TODO: Move to a computed property?
-      this.$refs.tableHeader.style.width = `${_.max([tableContentWidth, tableContainerWidth])}px`
-      this.$refs.tableBody.style.width = `${_.max([tableContentWidth, tableContainerWidth])}px`
+
+      self.$refs.tableHeader.style.width = `${_.max([tableContentWidth, tableContainerWidth])}px`
+      self.$refs.tableBody.style.width = `${_.max([tableContentWidth, tableContainerWidth])}px`
       // We need this padding so sticky header doesn't cover any row
       // TODO: Move to a computed property?
-      this.$refs.tableBody.style['padding-top'] = window
-        .getComputedStyle(this.$refs.tableHeader)
-        .getPropertyValue('height')
-
-      this.layoutHeader({
-        yOffset: this.$refs.tableContainer.scrollTop,
-        xOffset: this.$refs.tableContainer.scrollLeft
-      })
+      const headerHeight = self.$refs.tableHeader
+        .getBoundingClientRect()
+        .height
+      self.$refs.tableBody.style['padding-top'] = `${headerHeight}px`
 
       function applyWidthToRow (row) {
         _.forEach(row, applyWidthToCell)
       }
 
       function applyWidthToCell (cell, columnIndex) {
-        const width = columnsWidths[columnIndex]
+        const width = self.columnsWidths[columnIndex]
         cell.domElement.style.width = `${width}px`
       }
+    },
+
+    async inferPageSize () {
+      const self = this
+
+      if (!self.automaticPageSize) return
+      if (!self.$refs.tableHeader) return
+      if (!self.$refs.tableContainer) return
+      if (_.isFinite(self.forcedPageSize)) return
+      if (self.isInferringPageSize) return
+
+      self.isInferringPageSize = true
+      self.inferredPageSize = 1
+      await self.$nextTick()
+
+      while (self.inferredPageSize < self.sourceData.length) {
+        self.inferredPageSize += 1
+        await self.$nextTick()
+
+        const containerHeight = self.$refs.tableContainer
+          .getBoundingClientRect()
+          .height
+        const contentHeight = self.$refs.tableContainer.scrollHeight
+
+        const isVerticalScrollRequired = containerHeight < contentHeight
+
+        if (isVerticalScrollRequired) {
+          self.inferredPageSize -= 1
+          await self.$nextTick()
+          break
+        }
+      }
+
+      self.applyComputedColumnsWidth()
+      await self.$nextTick()
+      self.isInferringPageSize = false
     }
   }
 }
@@ -545,6 +682,6 @@ function getDOMElementWidth (node) {
     .replace('px', '')
   // We want a number, so we remove the unit and parse number
   const width = parseFloat(widthString)
-  return width
+  return Math.ceil(width)
 }
 </script>
