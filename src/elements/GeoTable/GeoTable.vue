@@ -309,26 +309,13 @@ export default {
     layoutColumns () {
       this.computeColumnsWidth()
       this.applyComputedColumnsWidth()
-
-      if (this.$refs.tableContainer) {
-        this.layoutHeadersAndShadowsThrottled({
-          yOffset: this.$refs.tableContainer.scrollTop,
-          xOffset: this.$refs.tableContainer.scrollLeft
-        })
-      }
+      this.layoutHeadersAndShadowsThrottled({
+        yOffset: this.$refs.tableContainer.scrollTop,
+        xOffset: this.$refs.tableContainer.scrollLeft
+      })
     },
 
     computeColumnsWidth () {
-      if (this.isEmpty) return
-
-      const requiredObjects = [
-        this.$refs.tableHeader,
-        this.$refs.tableBody,
-        this.$refs.tableContainer
-      ]
-      const hasAllRequiredObjects = _.reduce(requiredObjects, (accum, object) => accum && !!object, true)
-      if (!hasAllRequiredObjects) return
-
       // Probably we should find a more reliable approach to do this. We can use
       // this.$slots.header to get the VNodes added to header slot but we can't
       // do that in the body because it's a scope slot (it receives parameters
@@ -501,7 +488,6 @@ export default {
     applyComputedColumnsWidth () {
       const self = this
 
-      if (self.isEmpty) return
       if (!self.columnsWidths) return
 
       const requiredObjects = [
