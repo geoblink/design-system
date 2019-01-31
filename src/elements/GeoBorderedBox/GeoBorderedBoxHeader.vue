@@ -37,6 +37,7 @@
 </template>
 
 <script>
+import _ from 'lodash'
 import cssSuffix from '../../mixins/cssModifierMixin'
 
 export default {
@@ -71,7 +72,11 @@ export default {
   },
   computed: {
     isCloseButtonVisible () {
-      return this.$listeners && this.$listeners.close
+      return this.$listeners && this.$listeners.close && this.hasCloseIcon
+    },
+
+    hasCloseIcon () {
+      return _.size(this.closeIcon) > 0
     }
   },
   methods: {

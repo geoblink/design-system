@@ -1,8 +1,8 @@
 <template>
   <a
     :class="{
-      [`geo-tab-bar-item${cssSuffix}`]: true,
-      [`geo-tab-bar-item--active${cssSuffix}`]: active,
+      [`geo-tab-bar-item-${variant}${cssSuffix}`]: true,
+      [`geo-tab-bar-item-${variant}--active${cssSuffix}`]: active,
     }"
     @click="handleClick($event)"
   >
@@ -12,13 +12,16 @@
 </template>
 
 <script>
-import cssSuffix from '../../mixins/cssModifierMixin'
+import geoTabBarMixin, { VARIANTS } from './GeoTabBar.mixin'
 
 export default {
   name: 'GeoTabBarItem',
   status: 'ready',
   release: '8.5.0',
-  mixins: [cssSuffix],
+  mixins: [geoTabBarMixin],
+  constants: {
+    VARIANTS
+  },
   props: {
     /**
      * Whether this tab is active or not. Active tab is higlighted using a
