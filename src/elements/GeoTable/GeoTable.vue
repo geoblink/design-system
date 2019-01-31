@@ -209,11 +209,6 @@ export default {
   },
   mounted () {
     this.layoutTableIfPossible()
-    this.$nextTick(() => {
-      setTimeout(() => {
-        this.layoutTableIfPossible()
-      }, 0)
-    })
   },
   updated () {
     if (this.isLayoutingTable) return
