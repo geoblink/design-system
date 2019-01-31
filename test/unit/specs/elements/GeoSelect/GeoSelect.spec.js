@@ -177,7 +177,7 @@ describe('GeoSelect', () => {
     })
     wrapper.setData({ isOpened: true })
     wrapper.find('.geo-bordered-box-header-search-form__input').element.value = 'Item 1'
-    wrapper.find('.geo-bordered-box-header-search-form__input').trigger('keyup', { which: 13 }) // Keycode for enter
+    wrapper.find('.geo-bordered-box-header-search-form__input').trigger('keyup')
     expect(wrapper.findAll('.geo-list-item--geo-select').length).toBe(1)
     expect(wrapper.find('.geo-list-item--geo-select').text()).toEqual('Item 1')
   })
@@ -219,7 +219,7 @@ describe('GeoSelect', () => {
     })
     wrapper.setData({ isOpened: true })
     wrapper.find('.geo-bordered-box-header-search-form__input').element.value = 'Second Group'
-    wrapper.find('.geo-bordered-box-header-search-form__input').trigger('keyup', { which: 13 }) // Keycode for enter
+    wrapper.find('.geo-bordered-box-header-search-form__input').trigger('keyup')
     expect(wrapper.findAll('.geo-list-item--geo-select').length).toBe(4)
   })
 })
