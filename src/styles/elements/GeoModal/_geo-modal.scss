@@ -6,6 +6,10 @@
     $modifier-name-with-prefix: --#{$modifier-name};
   }
 
+  @include geo-bordered-box-make('geo-modal#{$modifier-name-with-prefix}');
+  @include geo-bordered-box-header-make('geo-modal#{$modifier-name-with-prefix}');
+  @include geo-bordered-box-footer-make('geo-modal#{$modifier-name-with-prefix}');
+
   .geo-modal#{$modifier-name-with-prefix} {
     align-items: center;
     bottom: 0;
@@ -32,6 +36,10 @@
       display: flex;
       justify-content: center;
       z-index: 1;
+    }
+
+    .geo-modal__content-body {
+      padding: $space-base;
     }
   }
 }

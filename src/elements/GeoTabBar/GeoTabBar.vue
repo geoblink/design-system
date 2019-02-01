@@ -1,17 +1,20 @@
 <template>
-  <nav :class="`geo-tab-bar${cssSuffix}`">
+  <nav :class="`geo-tab-bar-${variant}${cssSuffix}`">
     <!-- @slot Use this slot to customize the tabs displayed in this navigation bar -->
     <slot />
   </nav>
 </template>
 
 <script>
-import cssSuffix from '../../mixins/cssModifierMixin'
+import geoTabBarMixin, { VARIANTS } from './GeoTabBar.mixin'
 
 export default {
   name: 'GeoTabBar',
   status: 'ready',
   release: '8.5.0',
-  mixins: [cssSuffix]
+  mixins: [geoTabBarMixin],
+  constants: {
+    VARIANTS
+  }
 }
 </script>

@@ -1,3 +1,23 @@
+@mixin geo-tab-bar-item-common {
+  $border-height: 4px;
+
+  align-items: center;
+  border-bottom: $border-height solid transparent;
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: $border-height $space-small 0;
+
+  &:not(:last-of-type) {
+    margin-right: $space-large;
+  }
+
+  & > *:not(:first-child) {
+    margin-left: $space-small;
+  }
+}
+
 @mixin geo-tab-bar-item-make($modifier-name) {
 
   $modifier-name-with-prefix: '';
@@ -7,27 +27,13 @@
     $modifier-name-with-prefix: --#{$modifier-name};
   }
 
-  .geo-tab-bar-item#{$modifier-name-with-prefix} {
+  .geo-tab-bar-item-default#{$modifier-name-with-prefix} {
     @include font($heading-light);
+    @include geo-tab-bar-item-common;
 
-    align-items: center;
     background-color: $color-blue-dark;
-    border-bottom: 4px solid transparent;
     color: $color-white;
-    cursor: pointer;
-    display: flex;
-    flex-direction: row;
     height: 42px;
-    justify-content: space-between;
-    padding: 4px 10px 0;
-
-    &:not(:last-of-type) {
-      margin-right: 30px;
-    }
-
-    & > *:not(:first-child) {
-      margin-left: 10px;
-    }
 
     &:hover, &[hover] {
       border-bottom-color: $color-blue-light;
@@ -35,12 +41,33 @@
     }
   }
 
-  .geo-tab-bar-item--active#{$modifier-name-with-prefix} {
+  .geo-tab-bar-item-default--active#{$modifier-name-with-prefix} {
     border-bottom-color: $color-yellow;
 
     &:hover, &[hover] {
       border-bottom-color: $color-blue-light;
       color: $color-white;
+    }
+  }
+
+  .geo-tab-bar-item-modal#{$modifier-name-with-prefix} {
+    @include font($heading-light);
+    @include geo-tab-bar-item-common;
+
+    background-color: $color-white-dark;
+    height: 32px;
+
+    &:hover, &[hover] {
+      border-bottom-color: $color-grey;
+    }
+  }
+
+  .geo-tab-bar-item-modal--active#{$modifier-name-with-prefix} {
+    @include font($heading);
+    border-bottom-color: $color-blue;
+
+    &:hover, &[hover] {
+      border-bottom-color: $color-grey;
     }
   }
 }

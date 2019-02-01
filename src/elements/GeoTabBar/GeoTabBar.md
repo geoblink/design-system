@@ -3,17 +3,35 @@ specially aimed for pages where there are multiple independent modules.
 
 ```vue
 <template>
-  <geo-tab-bar>
-    <geo-tab-bar-item
-      v-for="tab in tabs"
-      :key="tab"
-      :active="activeTab === tab"
-      @click="activeTab = tab"
-    >
-      <span>{{ tab }}</span>
-      <font-awesome-icon :icon="['fas', 'info-circle']" />
-    </geo-tab-bar-item>
-  </geo-tab-bar>
+  <div class="element-demo">
+    <div class="element-demo__block">
+      <geo-tab-bar>
+        <geo-tab-bar-item
+          v-for="tab in tabs"
+          :key="tab"
+          :active="activeTab === tab"
+          @click="activeTab = tab"
+        >
+          <span>{{ tab }}</span>
+          <font-awesome-icon :icon="['fas', 'info-circle']" />
+        </geo-tab-bar-item>
+      </geo-tab-bar>
+    </div>
+    <div class="element-demo__block">
+      <geo-tab-bar variant="modal">
+        <geo-tab-bar-item
+          v-for="tab in tabs"
+          variant="modal"
+          :key="tab"
+          :active="activeTab === tab"
+          @click="activeTab = tab"
+        >
+          <span>{{ tab }}</span>
+          <font-awesome-icon :icon="['fas', 'info-circle']" />
+        </geo-tab-bar-item>
+      </geo-tab-bar>
+    </div>
+  </div>
 </template>
 
 <script>
