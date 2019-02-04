@@ -187,7 +187,7 @@ export default {
       return !!this.$slots.footer || _.size(this.sourceData) > this.pageSize
     },
 
-    hasHorizontalScrollCSSClass () {
+    horizontalScrollCSSClass () {
       return 'geo-table__container--requiring-horizontal-scroll'
     },
 
@@ -261,7 +261,7 @@ export default {
 
       const hasHorizontalScroll =
         this.$refs.tableContainer &&
-        this.$refs.tableContainer.classList.contains(this.hasHorizontalScrollCSSClass)
+        this.$refs.tableContainer.classList.contains(this.horizontalScrollCSSClass)
 
       const isScrolledToYStart = yOffset === 0
       const isScrolledToXStart = !hasHorizontalScroll || xOffset === 0
@@ -504,13 +504,13 @@ export default {
 
       if (tableRemainingWidth >= 0) {
         // If there's no scroll then we get rid of the scrolled offset entirely.
-        self.$refs.tableContainer.classList.remove(self.hasHorizontalScrollCSSClass)
+        self.$refs.tableContainer.classList.remove(self.horizontalScrollCSSClass)
         self.$refs.tableContainer.scrollLeft = 0
       } else {
         // If we need horizontal scroll we add an additional class just so we
         // can do customizations later on with CSS or whatever...
         // Table requires horizontal scroll
-        self.$refs.tableContainer.classList.add(self.hasHorizontalScrollCSSClass)
+        self.$refs.tableContainer.classList.add(self.horizontalScrollCSSClass)
         // If new width is smaller than current scroll offset we should reset it
         self.$refs.tableContainer.scrollLeft = _.min([
           self.$refs.tableContainer.scrollLeft,
