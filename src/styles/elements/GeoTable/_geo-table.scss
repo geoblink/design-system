@@ -9,6 +9,7 @@
 
   @include geo-table-header-row-make($modifier-name);
   @include geo-table-header-row-cell-make($modifier-name);
+  @include geo-table-sort-make($modifier-name);
   @include geo-table-body-row-make($modifier-name);
   @include geo-table-body-row-cell-make($modifier-name);
   @include geo-table-pagination-make($modifier-name);

@@ -29,7 +29,7 @@ const getNextInstanceId = counterFactory()
 export default {
   name: 'GeoTrimmedContent',
   status: 'ready',
-  release: '9.5.0',
+  release: '10.1.0',
   directives: { OnResize, Tooltip },
   mixins: [ cssSuffix ],
   data () {

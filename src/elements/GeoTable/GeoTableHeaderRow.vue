@@ -16,8 +16,8 @@ export { VARIANTS }
 
 export default {
   name: 'GeoTableHeaderRow',
-  status: 'missing-tests',
-  release: '9.5.0',
+  status: 'ready',
+  release: '10.1.0',
   constants: { VARIANTS },
   mixins: [cssSuffix],
   props: {

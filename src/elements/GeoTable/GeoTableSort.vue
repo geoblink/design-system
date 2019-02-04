@@ -48,8 +48,8 @@ import { SORTING_DIRECTIONS } from './GeoTable.constants'
 
 export default {
   name: 'GeoTableSort',
-  status: 'missing-tests',
-  release: '9.5.0',
+  status: 'ready',
+  release: '10.1.0',
   mixins: [ cssSuffix ],
   constants: { SORTING_DIRECTIONS },
   props: {

@@ -102,7 +102,7 @@ const DEFAULT_PAGESIZE = 10
 export default {
   name: 'GeoTable',
   status: 'ready',
-  release: '9.5.0',
+  release: '10.1.0',
   constants: { DEFAULT_PAGESIZE },
   directives: { OnResize },
   mixins: [cssSuffix],
@@ -149,7 +149,7 @@ export default {
      * First page is page `0`.
      */
     currentPage: {
-      type: Number, // First page is page 0
+      type: Number,
       required: true
     }
   },
@@ -316,35 +316,39 @@ export default {
     },
 
     computeColumnsWidth () {
-      // Probably we should find a more reliable approach to do this. We can use
-      // this.$slots.header to get the VNodes added to header slot but we can't
-      // do that in the body because it's a scope slot (it receives parameters
-      // from the parent), so to use that approach (this.$scopeSlots) we have to
-      // duplicate here the logic of the v-for and parameter passing that we use
-      // in the template...
-      //
-      // As we always use geo-table-header-row and geo-table-body-row components
-      // we'll make that a requirement to use the table
+      /*
+       Probably we should find a more reliable approach to do this. We can use
+       this.$slots.header to get the VNodes added to header slot but we can't
+       do that in the body because it's a scope slot (it receives parameters
+       from the parent), so to use that approach (this.$scopeSlots) we have to
+       duplicate here the logic of the v-for and parameter passing that we use
+       in the template...
+
+       As we always use geo-table-header-row and geo-table-body-row components
+       we'll make that a requirement to use the table
+      */
       const componentsByTagName = _.groupBy(this.$children, '$vnode.componentOptions.tag')
       const headerRows = _.map(componentsByTagName['geo-table-header-row'], getHeaderCellDefaultSlotDOMElements)
       const bodyRows = _.map(componentsByTagName['geo-table-body-row'], getDefaultSlotDOMElements)
 
-      // Here we store...
-      //
-      // - maxWidth:     The maximum width of the column (optional)
-      // - minWidth:     The minimum width of the column (optional)
-      // - width:        The width of the column (optional)
-      // - contentWidth: The width of the longest content in the column
-      //                 (automatically computed)
-      //
-      // This object has a key for each column and an object with those 4
-      // properties as value.
-      //
-      // After filling the object we get the final width, which will be:
-      //
-      // - width, if set
-      // - contentWidth, considering it must be greater than minWidth (if set)
-      //   and lower than maxWidth (if set)
+      /*
+       Here we store...
+
+       - maxWidth:     The maximum width of the column (optional)
+       - minWidth:     The minimum width of the column (optional)
+       - width:        The width of the column (optional)
+       - contentWidth: The width of the longest content in the column
+                       (automatically computed)
+
+       This object has a key for each column and an object with those 4
+       properties as value.
+
+       After filling the object we get the final width, which will be:
+
+       - width, if set
+       - contentWidth, considering it must be greater than minWidth (if set)
+         and lower than maxWidth (if set)
+      */
       const columnsSettings = {}
 
       // First we gather information from the header rows, in those rows we
@@ -446,11 +450,11 @@ export default {
             ? Number.MAX_VALUE
             : currentColumnSettings.maxWidth - currentColumnSettings.contentWidth
 
-          const usingAutomaticColumnWidth =
+          const isUsingAutomaticColumnWidth =
             _.isNil(currentColumnSettings.width) &&
             remainingWidthUntilReachingMaximum > 0
 
-          return usingAutomaticColumnWidth
+          return isUsingAutomaticColumnWidth
             ? {
               index: index,
               contentWidth: currentColumnSettings.contentWidth,

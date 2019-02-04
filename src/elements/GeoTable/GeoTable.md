@@ -51,8 +51,8 @@ It is possible to show multiple header rows in a single table:
 
 ### Customizing column's width
 
-It is possible to set up a minimum, maximum and a forced width. This is a
-applied on per-header-cell basis. When setting a header cell's `columnMinWidth`,
+It is possible to set up a minimum, maximum and a forced width. This is applied
+on per-header-cell basis. When setting a header cell's `columnMinWidth`,
 column's final width won't be smaller than it. If there's a `columnMaxWidth`,
 column's final width won't exceed it.
 

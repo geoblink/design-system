@@ -114,8 +114,8 @@ import paginationMixin from './GeoTablePaginationMixin'
 
 export default {
   name: 'GeoTablePagination',
-  status: 'missing-tests',
-  release: '9.5.0',
+  status: 'ready',
+  release: '10.1.0',
   mixins: [paginationMixin, cssSuffix]
 }
 </script>
