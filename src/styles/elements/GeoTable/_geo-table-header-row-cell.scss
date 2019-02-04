@@ -1,5 +1,3 @@
-@import './geo-table-row.common';
-
 @mixin geo-table-header-row-cell-make-common ($modifier-name-with-prefix) {
   @include geo-table-make-cell($color-white);
   @include font($heading-small);

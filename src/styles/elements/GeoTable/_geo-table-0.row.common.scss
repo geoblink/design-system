@@ -1,5 +1,3 @@
-@import './geo-table.constants';
-
 @mixin geo-table-make-row ($background-color) {
   background: $background-color;
   display: flex;
