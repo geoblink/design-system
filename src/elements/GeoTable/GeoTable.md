@@ -459,7 +459,7 @@ export default {
       </div>
     </h3>
     <div class="element-demo__block">
-      <div class="element-demo__bordered-box" style="display: flex; resize: vertical;">
+      <div class="element-demo__bordered-box" style="display: flex; flex-direction: column; resize: vertical;">
         <geo-table
           :source-data="sortedData"
           :current-page="currentPage"

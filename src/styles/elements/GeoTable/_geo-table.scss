@@ -24,8 +24,9 @@
 
     .geo-table__container {
       display: flex;
-      flex: auto;
       flex-direction: column;
+      flex-grow: 0;
+      flex-shrink: 1;
       overflow-x: hidden;
       overflow-y: auto;
       position: relative;
@@ -51,8 +52,9 @@
 
     .geo-table__body {
       display: flex;
-      flex: auto;
       flex-direction: column;
+      flex-grow: 0;
+      flex-shrink: 1;
     }
 
     .geo-table__body-content {
@@ -64,8 +66,9 @@
       background: $color-white-dark;
       border-top: 1px solid $geo-table-border-color;
       display: flex;
-      flex: 0 0 auto;
       flex-direction: row;
+      flex-grow: 0;
+      flex-shrink: 0;
       justify-content: space-between;
     }
 
