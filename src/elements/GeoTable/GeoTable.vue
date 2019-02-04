@@ -188,7 +188,7 @@ export default {
     },
 
     hasHorizontalScrollCSSClass () {
-      return `geo-table__container--requiring-horizontal-scroll${this.cssSuffix}`
+      return 'geo-table__container--requiring-horizontal-scroll'
     },
 
     pageSize () {
