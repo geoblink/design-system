@@ -95,8 +95,18 @@ module.exports = {
           sectionDepth: 1
         },
         {
+          name: 'GeoBorderedToken',
+          components: '../src/elements/GeoBorderedToken/GeoBorderedToken.vue',
+          sectionDepth: 0
+        },
+        {
           name: 'GeoButton',
           components: '../src/elements/GeoButton/Geo*Button.vue',
+          sectionDepth: 0
+        },
+        {
+          name: 'GeoCircle',
+          components: '../src/elements/GeoCircle/GeoCircle.vue',
           sectionDepth: 0
         },
         {
@@ -140,11 +150,6 @@ module.exports = {
           sectionDepth: 0
         },
         {
-          name: 'GeoCircle',
-          components: '../src/elements/GeoCircle/GeoCircle.vue',
-          sectionDepth: 0
-        },
-        {
           name: 'GeoSelect',
           components: '../src/elements/GeoSelect/GeoSelect*.vue',
           sectionDepth: 1
@@ -155,14 +160,15 @@ module.exports = {
           sectionDepth: 1
         },
         {
-          name: 'GeoBorderedToken',
-          components: '../src/elements/GeoBorderedToken/GeoBorderedToken.vue',
-          sectionDepth: 0
+          name: 'GeoTable',
+          components: '../src/elements/GeoTable/GeoTable*.vue',
+          sectionDepth: 1
         },
         {
           name: 'String Utils',
           components: () => [
             '../src/elements/GeoHighlightedString/GeoHighlightedString.vue',
+            '../src/elements/GeoTrimmedContent/GeoTrimmedContent.vue',
             '../src/elements/GeoMarquee/GeoMarquee.vue',
             '../src/elements/GeoMarkdownContent/GeoMarkdownContent.vue'
           ],

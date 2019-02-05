@@ -42,7 +42,7 @@ import cssSuffix from '../../mixins/cssModifierMixin'
 
 export default {
   name: 'GeoBorderedBoxHeader',
-  status: 'missing-tests',
+  status: 'ready',
   release: '7.3.0',
   mixins: [cssSuffix],
   props: {

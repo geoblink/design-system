@@ -10,7 +10,7 @@ import geoTabBarMixin, { VARIANTS } from './GeoTabBar.mixin'
 
 export default {
   name: 'GeoTabBar',
-  status: 'ready-tests',
+  status: 'ready',
   release: '8.5.0',
   mixins: [geoTabBarMixin],
   constants: {

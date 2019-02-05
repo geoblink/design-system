@@ -15,6 +15,7 @@
 @import "../styles/elements/GeoAlert/geo-alert";
 @import "../styles/elements/GeoButton/geo-button";
 @import "../styles/elements/GeoHighlightedString/geo-highlighted-string";
+@import "../styles/elements/GeoTrimmedContent/geo-trimmed-content";
 @import "../styles/elements/GeoMarkdownContent/geo-markdown-content";
 @import "../styles/elements/GeoMarquee/geo-marquee";
 
@@ -57,6 +58,16 @@
 @import "../styles/elements/GeoTabBar/geo-tab-bar-item";
 @import "../styles/elements/GeoTabBar/geo-tab-bar";
 @import "../styles/elements/GeoCircle/geo-circle";
+
+@import "../styles/elements/GeoTable/geo-table-0.constants";
+@import "../styles/elements/GeoTable/geo-table-0.row.common";
+@import "../styles/elements/GeoTable/geo-table-header-row";
+@import "../styles/elements/GeoTable/geo-table-header-row-cell";
+@import "../styles/elements/GeoTable/geo-table-sort";
+@import "../styles/elements/GeoTable/geo-table-body-row";
+@import "../styles/elements/GeoTable/geo-table-body-row-cell";
+@import "../styles/elements/GeoTable/geo-table-pagination";
+@import "../styles/elements/GeoTable/geo-table";
 
 @import "../styles/elements/GeoNotificationBar/geo-notification-bar";
 

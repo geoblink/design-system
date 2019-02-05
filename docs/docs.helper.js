@@ -3,6 +3,7 @@
  * You can add more things if/when needed.
  */
 import Vue from 'vue'
+import _ from 'lodash'
 import '../src/utils/webFontLoader'
 import statusLabels from './utils/statusLabels'
 import activeNav from './utils/activeNav'
@@ -29,4 +30,18 @@ window.addEventListener('hashchange', () => {
   activeNav.methods.init()
 })
 
-library.add(fab, fas, far)
+const iconsToMock = [
+  'faChevronLeft',
+  'faChevronRight',
+  'faStepBackward',
+  'faStepForward',
+  'faCaretUp',
+  'faCaretDown'
+]
+const mockedFalIcons = _.mapValues(_.pick(fas, iconsToMock), function (original) {
+  return _.assign({}, original, {
+    prefix: 'fal'
+  })
+})
+
+library.add(fab, fas, far, mockedFalIcons)

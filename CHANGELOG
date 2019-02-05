@@ -1,3 +1,10 @@
+# 10.1.0
+
+New:
+
+- `GeoTable` component
+- `GeoTrimmedContent` component
+
 # 10.0.0
 
 Changed:
@@ -8,6 +15,11 @@ New:
 
 - `GeoTabBar` new variant to use the component in `GeoModal`
 - `GeoTabBarItem` new variant to use the component in `GeoModal`
+
+Breaking:
+
+- `GeoTabBar` CSS classes now include variant.
+- `GeoTabBarItem` CSS classes now include variant.
 
 # 9.4.0
 

@@ -466,10 +466,10 @@
     source-map "^0.5.6"
     vue-template-es2015-compiler "^1.6.0"
 
-"@vue/test-utils@^1.0.0-beta.24":
-  version "1.0.0-beta.26"
-  resolved "https://registry.yarnpkg.com/@vue/test-utils/-/test-utils-1.0.0-beta.26.tgz#1ae7e1dc2bef4f49f9dbfdfecad342d17d6c5c88"
-  integrity sha512-2bvTgdh4Rh9NqeIrH+rah6AjXUHYxFqLO+NoOMqWXYqSvk1PGgvI5o5sT6Pty4HklIReOZxWxsMpgnJFK9rW+A==
+"@vue/test-utils@^1.0.0-beta.28":
+  version "1.0.0-beta.28"
+  resolved "https://registry.yarnpkg.com/@vue/test-utils/-/test-utils-1.0.0-beta.28.tgz#767c43413df8cde86128735e58923803e444b9a5"
+  integrity sha512-uVbFJG0g/H9hf2pgWUdhvQYItRGzQ44cMFf00wp0YEo85pxuvM9e3mx8QLQfx6R2CogxbK4CvV7qvkLblehXeQ==
   dependencies:
     dom-event-types "^1.0.0"
     lodash "^4.17.4"
@@ -9010,6 +9010,11 @@ pn@^1.1.0:
   resolved "https://registry.yarnpkg.com/pn/-/pn-1.1.0.tgz#e2f4cef0e219f463c179ab37463e4e1ecdccbafb"
   integrity sha512-2qHaIQr2VLRFoxe2nASzsV6ef4yOOH+Fi9FBOVH6cqeSgUnoyySPZkxzLuzd+RYOQTRpROA0ztTMqxROKSb/nA==
 
+popper.js@1.12.5:
+  version "1.12.5"
+  resolved "https://registry.yarnpkg.com/popper.js/-/popper.js-1.12.5.tgz#229e4dea01629e1f1a1e26991ffade5024220fa6"
+  integrity sha512-6R2eXIy1xYukMNutoD+y/Gj0IpjEQhivyZonm5Vz0Fp8jdc7kvheKCvpM/t+PxqKb7VbLVnvPVEdTyslEb7f6w==
+
 portfinder@^1.0.17, portfinder@^1.0.9:
   version "1.0.19"
   resolved "https://registry.yarnpkg.com/portfinder/-/portfinder-1.0.19.tgz#07e87914a55242dcda5b833d42f018d6875b595f"
@@ -10563,6 +10568,11 @@ requizzle@~0.2.1:
   integrity sha1-aUPDUwxNmn5G8c3dUcFY/GcM294=
   dependencies:
     underscore "~1.6.0"
+
+resize-observer-polyfill@^1.5.1:
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/resize-observer-polyfill/-/resize-observer-polyfill-1.5.1.tgz#0e9020dd3d21024458d4ebd27e23e40269810464"
+  integrity sha512-LwZrotdHOo12nQuZlHEmtuXdqGoOD0OhaxopaNFxWzInpEgaLWoVuAMbTzixuosCx2nEG58ngzW3vxdWoxIgdg==
 
 resolve-cwd@^2.0.0:
   version "2.0.0"
@@ -12344,6 +12354,13 @@ vm-browserify@0.0.4:
   integrity sha1-XX6kW7755Kb/ZflUOOCofDV9WnM=
   dependencies:
     indexof "0.0.1"
+
+vue-directive-tooltip@^1.4.5:
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/vue-directive-tooltip/-/vue-directive-tooltip-1.5.0.tgz#362e8013eb7244d8a20e0a1ffb53ac7bfdb9af56"
+  integrity sha512-hHFYs5XrGkojGvWLszEz2+pvf2RIqtXz44TiVrBgck56vEkpYdgSK+yI5ZBSJv0bwPWcT6rHz59ljUXMv9tXug==
+  dependencies:
+    popper.js "1.12.5"
 
 vue-docgen-api@^2.5.2, vue-docgen-api@~2.3.14:
   version "2.3.14"
