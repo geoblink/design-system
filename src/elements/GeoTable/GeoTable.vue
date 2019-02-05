@@ -157,7 +157,7 @@ export default {
     return {
       inferredPageSize: null
       // This is intentionally non-reactive to avoid triggering update hook
-      // isLayoutingTable: false
+      // isAdjustingTable: false
       // This is intentionally non-reactive to avoid triggering infinite loops
       // when inferring page size stops
       // isInferringPageSize: false
@@ -211,7 +211,7 @@ export default {
     this.layoutTableIfPossible()
   },
   updated () {
-    if (this.isLayoutingTable) return
+    if (this.isAdjustingTable) return
 
     this.layoutTableIfPossible()
   },
@@ -300,10 +300,10 @@ export default {
     },
 
     async forcedLayoutTable () {
-      this.isLayoutingTable = true
+      this.isAdjustingTable = true
       await this.inferPageSize()
       this.layoutColumns()
-      this.isLayoutingTable = false
+      this.isAdjustingTable = false
     },
 
     layoutColumns () {
