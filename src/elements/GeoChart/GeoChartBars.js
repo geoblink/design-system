@@ -3,6 +3,7 @@
 import _ from 'lodash'
 
 import './GeoChartAxis'
+import { setupTooltipEventListeners } from './GeoChartTooltip'
 
 const d3 = (function () {
   try {
@@ -30,10 +31,11 @@ export const DEFAULT_WIDTH = 10
  * @template HorizontalDomain
  * @template VerticalDomain
  * @param {d3.Selection<GElement, Datum, PElement, PDatum>} d3Instance
+ * @param {d3.Selection<GElement, Datum, PElement, PDatum>} [d3TipInstance]
  * @param {Array<GeoChart.SingleBarGroupConfig<HorizontalDomain, VerticalDomain>>} options
  * @param {GeoChart.BarGroupsGlobalConfig} globalOptions
  */
-export function render (d3Instance, options, globalOptions) {
+export function render (d3Instance, d3TipInstance, options, globalOptions) {
   const groups = d3Instance
     .selectAll('g.geo-chart-bars-group')
     .data(options)
@@ -57,7 +59,7 @@ export function render (d3Instance, options, globalOptions) {
 
   allGroups.each(function (singleGroupOptions, i) {
     const group = d3.select(this)
-    renderSingleGroup(group, singleGroupOptions, globalOptions)
+    renderSingleGroup(group, d3TipInstance, singleGroupOptions, globalOptions)
   })
 }
 
@@ -68,11 +70,12 @@ export function render (d3Instance, options, globalOptions) {
  * @template PDatum
  * @template HorizontalDomain
  * @template VerticalDomain
- * @param {d3.Selection<GElement, Datum, PElement, PDatum>} d3Instance
+ * @param {d3.Selection<GElement, Datum, PElement, PDatum>} group
+ * @param {d3.Selection<GElement, Datum, PElement, PDatum>} [d3TipInstance]
  * @param {GeoChart.SingleBarGroupConfig<HorizontalDomain, VerticalDomain>} singleGroupOptions
  * @param {GeoChart.BarGroupsGlobalConfig} globalOptions
  */
-function renderSingleGroup (group, singleGroupOptions, globalOptions) {
+function renderSingleGroup (group, d3TipInstance, singleGroupOptions, globalOptions) {
   const getWidth = (d, i) => getItemSpanAtAxis(singleGroupOptions.axis.horizontal, d, singleGroupOptions)
   const getHeight = (d, i) => getItemSpanAtAxis(singleGroupOptions.axis.vertical, d, singleGroupOptions)
 
@@ -101,12 +104,14 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions) {
     .selectAll(`rect.${singleBarBaseClass}`)
     .data(singleGroupOptions.data)
 
-  bars
+  const newBars = bars
     .enter()
     .append('rect')
     .attr('transform', getNewItemInitialTransform)
     .attr('width', getNewItemInitialWidth)
     .attr('height', getNewItemInitialHeight)
+
+  newBars
     .transition()
     .duration(globalOptions.chart.animationsDurationInMilliseconds)
     .attr('class', getSingleBarCSSClasses)
@@ -114,13 +119,18 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions) {
     .attr('width', getWidth)
     .attr('height', getHeight)
 
-  bars
+  const updatedBars = bars
+  updatedBars
     .transition()
     .duration(globalOptions.chart.animationsDurationInMilliseconds)
     .attr('class', getSingleBarCSSClasses)
     .attr('transform', getTransform)
     .attr('width', getWidth)
     .attr('height', getHeight)
+
+  const allBars = newBars.merge(updatedBars)
+
+  setupTooltipEventListeners(allBars, d3TipInstance, singleGroupOptions.getTooltip)
 
   bars
     .exit()

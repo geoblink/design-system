@@ -24,6 +24,7 @@ declare namespace GeoChart {
     naturalNormalOffset?: number
     width?: number
     naturalWidth?: number
+    getTooltip?: (item: object, index: number) => string | null | undefined
     cssClasses?: (defaultClasses: string[], item: object, index: number) => string[]
   }
 }
