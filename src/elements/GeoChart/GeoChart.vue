@@ -153,9 +153,7 @@ export default {
     d3TipInstance () {
       if (!d3Tip) return null
 
-      return d3Tip()
-        .attr('class', `geo-chart-tooltip${this.cssSuffix}`)
-        // .offset([-10, 0])
+      return d3Tip().attr('class', `geo-chart-tooltip${this.cssSuffix}`)
     },
 
     animationsDurationInMilliseconds () {
