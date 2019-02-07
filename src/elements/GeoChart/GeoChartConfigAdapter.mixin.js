@@ -39,6 +39,10 @@ export default {
           console.warn('GeoChart [component] :: d3-tip NPM package is required to use tooltips (attempted to use tooltips on a bar chart)')
         }
 
+        if (singleBarGroupConfig.tooltip && !_.isFunction(singleBarGroupConfig.tooltip)) {
+          console.warn(`GeoChart [component] :: Attempted to use a non-function as bar chart tooltip content (used «${singleBarGroupConfig.tooltip}»)`)
+        }
+
         return {
           id: index,
           chart,
