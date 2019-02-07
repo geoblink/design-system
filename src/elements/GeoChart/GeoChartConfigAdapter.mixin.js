@@ -3,6 +3,7 @@ import _ from 'lodash'
 import * as ChartSizing from './GeoChartSizing'
 import * as ChartBars from './GeoChartBars'
 import * as ChartLabels from './GeoChartLabels'
+import * as ChartPie from './GeoChartPie'
 
 export default {
   methods: {
@@ -13,6 +14,10 @@ export default {
 
       if (!_.isEmpty(this.config.labelGroups)) {
         this.updateLabelGroups()
+      }
+
+      if (!_.isEmpty(this.config.pieConfig)) {
+        this.updatePieConfig()
       }
     },
 
@@ -67,6 +72,18 @@ export default {
       })
 
       ChartLabels.render(this.d3Instance, labelGroupsConfig, { chart })
+    },
+
+    updatePieConfig () {
+      const chartSize = this.svgSize
+      const chartMargin = _.get(this.config.chart, 'margin', ChartSizing.EMPTY_MARGIN)
+      const chart = {
+        animationsDurationInMilliseconds: this.animationsDurationInMilliseconds,
+        size: chartSize,
+        margin: chartMargin
+      }
+
+      ChartPie.render(this.d3Instance, this.config.pieConfig, { chart })
     }
   }
 }
