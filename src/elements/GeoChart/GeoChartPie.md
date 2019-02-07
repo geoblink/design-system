@@ -2,7 +2,7 @@
 <template>
   <div class="element-demo">
     <h3 class="element-demo__header">
-      Pills axis chart
+      Pie chart
       <div class="element-demo__inline-input-group">
         <geo-primary-button @click="randomizeData()">
           Randomize data

@@ -57,7 +57,11 @@ function renderSinglePie (pie, singlePieOptions, globalOptions) {
   const pieInnerRadius = innerRadius * chartRadius
 
   const pieScale = getPieScale()
+  const arc = getArc()
   const arcTween = getArcTween()
+  const arcTweenExit = getArcTweenExit()
+
+  let pieWasEmpty = true
   const pieSegmentSelection = pie
     .selectAll('path')
     .each(function (d, i) {
@@ -65,6 +69,7 @@ function renderSinglePie (pie, singlePieOptions, globalOptions) {
         singlePieOptions.data[i].previousEndAngle = d.endAngle
         singlePieOptions.data[i].previousStartAngle = d.startAngle
       }
+      pieWasEmpty = false
     })
 
   const pieSegments = pieSegmentSelection
@@ -75,26 +80,19 @@ function renderSinglePie (pie, singlePieOptions, globalOptions) {
     .append('path')
     .attr('class', getPieCSSClasses)
 
-  // .transition()
-  // .duration(globalOptions.chart.animationsDurationInMilliseconds)
-  // .attrTween('d', arcTween)
-
   const updatedPieSegments = pieSegments
-
   const allPieSegments = newPieSegments.merge(updatedPieSegments)
 
   allPieSegments
     .transition()
-    // .ease(d3.easeLinear)
     .duration(1500)
     .attrTween('d', arcTween)
 
   pieSegments
     .exit()
-    // .transition()
-    // .ease(d3.easeLinear)
-    // .duration(1000)
-    .style('opacity', 0)
+    .transition()
+    .duration(1500)
+    .attrTween('d', arcTweenExit)
     .remove()
 
   function getPieScale () {
@@ -105,14 +103,15 @@ function renderSinglePie (pie, singlePieOptions, globalOptions) {
   }
 
   function getArcTween () {
-    const arc = d3
-      .arc()
-      .innerRadius(pieInnerRadius)
-      .outerRadius(pieOuterRadius)
-
     return function (d) {
-      const interpolateEndAngle = d3.interpolate(d.data.previousEndAngle || 0, d.endAngle)
-      const interpolateStartAngle = d3.interpolate(d.data.previousStartAngle || 0, d.startAngle)
+      let newPieElementsStartAngle
+      if (pieWasEmpty) {
+        newPieElementsStartAngle = 0
+      } else {
+        newPieElementsStartAngle = 2 * Math.PI
+      }
+      const interpolateEndAngle = d3.interpolate(_.defaultTo(d.data.previousEndAngle, newPieElementsStartAngle), d.endAngle)
+      const interpolateStartAngle = d3.interpolate(_.defaultTo(d.data.previousStartAngle, newPieElementsStartAngle), d.startAngle)
 
       return function (t) {
         d.startAngle = interpolateStartAngle(t)
@@ -120,6 +119,27 @@ function renderSinglePie (pie, singlePieOptions, globalOptions) {
         return arc(d)
       }
     }
+  }
+
+  function getArcTweenExit () {
+    return function (d) {
+      const endAngle = 2 * Math.PI
+      const interpolateEndAngle = d3.interpolate(d.endAngle, endAngle)
+      const interpolateStartAngle = d3.interpolate(d.startAngle, endAngle)
+
+      return function (t) {
+        d.startAngle = interpolateStartAngle(t)
+        d.endAngle = interpolateEndAngle(t)
+        return arc(d)
+      }
+    }
+  }
+
+  function getArc () {
+    return d3
+      .arc()
+      .innerRadius(pieInnerRadius)
+      .outerRadius(pieOuterRadius)
   }
 
   function getPieCSSClasses (d, i) {
