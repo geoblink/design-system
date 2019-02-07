@@ -123,7 +123,7 @@ must be an object with the following...
     },
     methods: {
       randomizeData () {
-        this.categoricalDomain = _.times(_.random(2, 15), i => `Bucket ${i}`)
+        this.categoricalDomain = _.times(_.random(2, 12), i => `Bucket ${i}`)
         this.normalValue = _.random(0, 1, true)
 
         this.chartData = _.filter(_.map(this.categoricalDomain, (category) => {

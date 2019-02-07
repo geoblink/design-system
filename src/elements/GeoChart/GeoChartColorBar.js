@@ -3,6 +3,7 @@
 import _ from 'lodash'
 
 import './GeoChartAxis'
+import { color } from 'd3'
 
 const d3 = (function () {
   try {
@@ -92,6 +93,19 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions) {
       }, singleGroupOptions)
     }
   }
+
+  const getSegmentWidth = (d, i) => {
+    if (singleGroupOptions.dimension === DIMENSIONS.horizontal) {
+      // TODO: log error if invalid range
+      return getItemSpanAtAxis(axisForDimension, d, singleGroupOptions) - 1
+    } else if (singleGroupOptions.dimension === DIMENSIONS.vertical) {
+      // TODO: log error if not scale band
+      return getItemSpanAtAxis(axisForNormalDimension, {
+        [axisForNormalDimension.keyForValues]: singleGroupOptions.normalValue
+      }, singleGroupOptions)
+    }
+  }
+
   const getHeight = (d, i) => {
     if (singleGroupOptions.dimension === DIMENSIONS.horizontal) {
       // TODO: log error if not scale band
@@ -100,11 +114,23 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions) {
       }, singleGroupOptions)
     } else if (singleGroupOptions.dimension === DIMENSIONS.vertical) {
       // TODO: log error if invalid range
-      return axisForDimension.scale.axisScale.range()[1] - axisForDimension.scale.axisScale.range()[0]
+      return axisForDimension.scale.axisScale.range()[1] - axisForDimension.scale.axisScale.range()[0] - 1
     }
   }
 
-  const getNewItemInitialWidth = (d, i) => {
+  const getSegmentHeight = (d, i) => {
+    if (singleGroupOptions.dimension === DIMENSIONS.horizontal) {
+      // TODO: log error if not scale band
+      return getItemSpanAtAxis(axisForNormalDimension, {
+        [axisForNormalDimension.keyForValues]: singleGroupOptions.normalValue
+      }, singleGroupOptions)
+    } else if (singleGroupOptions.dimension === DIMENSIONS.vertical) {
+      // TODO: log error if invalid range
+      return getItemSpanAtAxis(axisForDimension, d, singleGroupOptions)
+    }
+  }
+
+  const getNewSegmentInitialWidth = (d, i) => {
     switch (singleGroupOptions.dimension) {
       case DIMENSIONS.horizontal:
         return 0
@@ -112,7 +138,7 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions) {
         return getWidth(d, i)
     }
   }
-  const getNewItemInitialHeight = (d, i) => {
+  const getNewSegmentInitialHeight = (d, i) => {
     switch (singleGroupOptions.dimension) {
       case DIMENSIONS.horizontal:
         return getHeight(d, i)
@@ -122,82 +148,148 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions) {
   }
 
   const getTranslation = getSingleItemTranslationFactory(singleGroupOptions)
+  const getSegmentTranslation = getSingleSegmentTranslationFactory(singleGroupOptions)
 
   const colorBarBaseClass = 'geo-chart-color-bar'
+  const segmentBaseClass = 'geo-chart-color-bar__segment'
   const highlightedSegmentBaseClass = 'geo-chart-color-bar__highlighted-segment'
 
   const colorBar = group
-    .selectAll(`rect.${colorBarBaseClass}`)
+    .selectAll(`g.${colorBarBaseClass}`)
     .data([{
       [axisForNormalDimension.keyForValues]: singleGroupOptions.normalValue,
       [axisForDimension.keyForValues]: axisForDimension.scale.valueForOrigin
     }])
 
-  colorBar
-    .enter()
-    .append('rect')
-    // .transition()
-    // .duration(globalOptions.chart.animationsDurationInMilliseconds)
-    .attr('class', getSingleBarCSSClasses)
-    .attr('transform', getTransform)
-    .attr('width', getWidth)
-    .attr('height', getHeight)
-
-  colorBar
-    .transition()
-    .duration(globalOptions.chart.animationsDurationInMilliseconds)
-    .attr('class', getSingleBarCSSClasses)
-    .attr('transform', getTransform)
-    .attr('width', getWidth)
-    .attr('height', getHeight)
-
-  const highlightedSegments = colorBar
-    .selectAll(`g.${highlightedSegmentBaseClass}`)
-    .data(singleGroupOptions.data)
-
-  highlightedSegments
+  const newColorBar = colorBar
     .enter()
     .append('g')
-    .attr('x-index', (d, i) => i)
-    .attr('class', highlightedSegmentBaseClass)
-  // bars
-  //   .enter()
-  //   .append('rect')
-  //   .attr('transform', getNewItemInitialTransform)
-  //   .attr('width', getNewItemInitialWidth)
-  //   .attr('height', getNewItemInitialHeight)
-  //   .transition()
-  //   .duration(globalOptions.chart.animationsDurationInMilliseconds)
-  //   .attr('class', getSingleBarCSSClasses)
-  //   .attr('transform', getTransform)
-  //   .attr('width', getWidth)
-  //   .attr('height', getHeight)
+    .attr('class', getSingleBarCSSClasses)
+
+  newColorBar
+    .transition()
+    .duration(globalOptions.chart.animationsDurationInMilliseconds)
+    .attr('transform', getColorBarTransform)
+
+  newColorBar
+    .append('g')
+    .attr('class', 'geo-chart-color-bar__segment-container')
+
+  newColorBar
+    .append('g')
+    .attr('class', 'geo-chart-color-bar__highlighted-segment-container')
+
+  const updatedColorBar = colorBar
+  const allColorBars = updatedColorBar.merge(newColorBar)
+
+  allColorBars
+    .attr('class', getSingleBarCSSClasses)
+    .transition()
+    .duration(globalOptions.chart.animationsDurationInMilliseconds)
+    .attr('transform', getColorBarTransform)
+
+  colorBar
+    .exit()
+    .remove()
+
+  const segments = colorBar
+    .select('g.geo-chart-color-bar__segment-container')
+    .selectAll(`rect.${segmentBaseClass}`)
+    .data(_.map(axisForDimension.scale.axisScale.domain(), (d) => {
+      return {
+        [axisForNormalDimension.keyForValues]: singleGroupOptions.normalValue,
+        [axisForDimension.keyForValues]: d
+      }
+    }))
+
+  const newSegments = segments
+    .enter()
+    .append('rect')
+    .attr('class', getSegmentBarCSSClasses)
+    .attr('transform', getColorBarNewSegmentInitialTransform)
+    .attr('stroke-width', '1px')
+    .attr('width', getNewSegmentInitialWidth)
+    .attr('height', getNewSegmentInitialHeight)
+
+  const updatedSegments = segments
+  const allSegments = updatedSegments.merge(newSegments)
+
+  allSegments
+    .transition()
+    .duration(globalOptions.chart.animationsDurationInMilliseconds)
+    .attr('class', getSegmentBarCSSClasses)
+    .attr('transform', getColorBarSegmentTransform)
+    .attr('stroke-width', '1px')
+    .attr('width', getSegmentWidth)
+    .attr('height', getSegmentHeight)
+
+  segments
+    .exit()
+    .remove()
+
+  const highlightedSegments = colorBar
+    .select('g.geo-chart-color-bar__highlighted-segment-container')
+    .selectAll(`rect.${highlightedSegmentBaseClass}`)
+    .data(singleGroupOptions.data)
+
+  const newHighlightedSegments = highlightedSegments
+    .enter()
+    .append('rect')
+    .attr('class', getHighlightedSegmentBarCSSClasses)
+    .attr('transform', getColorBarNewSegmentInitialTransform)
+    .attr('width', (d, i) => {
+      return getNewSegmentInitialWidth() + 4
+    })
+    .attr('height', (d, i) => {
+      return getNewSegmentInitialHeight() + 4
+    })
+    .attr('stroke', 'black')
+    .attr('stroke-width', '1px')
+
+  const updatedHighlightedSegments = highlightedSegments
+  const allHighlightedSegments = newHighlightedSegments.merge(updatedHighlightedSegments)
+
+  allHighlightedSegments
+    .attr('class', getHighlightedSegmentBarCSSClasses)
+    .attr('transform', getColorBarSegmentTransform)
+    .attr('width', (d, i) => {
+      return getSegmentWidth() + 4
+    })
+    .attr('height', (d, i) => {
+      return getSegmentHeight() + 4
+    })
+    .attr('stroke', 'black')
+    .attr('stroke-width', '1px')
 
   highlightedSegments
-    .attr('x-index', (d, i) => i)
-    .attr('class', highlightedSegmentBaseClass)
+    .exit()
+    .remove()
 
-  // bars
-  //   .transition()
-  //   .duration(globalOptions.chart.animationsDurationInMilliseconds)
-  //   .attr('class', getSingleBarCSSClasses)
-  //   .attr('transform', getTransform)
-  //   .attr('width', getWidth)
-  //   .attr('height', getHeight)
-
-  highlightedSegments.exit().remove()
-  // bars
-  //   .exit()
-  //   .transition()
-  //   .duration(globalOptions.chart.animationsDurationInMilliseconds)
-  //   .attr('transform', getItemToBeRemovedFinalTransform)
-  //   .attr('width', getNewItemInitialWidth)
-  //   .attr('height', getNewItemInitialHeight)
-  //   .remove()
-
-  function getTransform (d, i) {
+  function getColorBarTransform (d, i) {
     const translation = getTranslation(d, i)
+    if (singleGroupOptions.dimension === DIMENSIONS.horizontal) {
+      return `translate(0, ${translation.y})`
+    } else if (singleGroupOptions.dimension === DIMENSIONS.vertical) {
+      return `translate(${translation.x}, 0)`
+    }
+  }
+
+  function getColorBarSegmentTransform (d, i) {
+    const translation = getSegmentTranslation(d, i)
     return `translate(${translation.x}, ${translation.y})`
+  }
+
+  function getColorBarNewSegmentInitialTransform (d, i) {
+    const translation = getSegmentTranslation(d, i)
+    const originTranslation = getSegmentTranslation({
+      [axisForDimension.keyForValues]: axisForDimension.scale.valueForOrigin,
+      [axisForNormalDimension.keyForValues]: singleGroupOptions.normalValue
+    }, i)
+    if (singleGroupOptions.dimension === DIMENSIONS.horizontal) {
+      return `translate(${originTranslation.x}, ${translation.y})`
+    } else if (singleGroupOptions.dimension === DIMENSIONS.vertical) {
+      return `translate(${translation.x}, ${originTranslation.y})`
+    }
   }
 
   function getSingleBarCSSClasses (d, i) {
@@ -210,6 +302,36 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions) {
     if (singleGroupOptions.cssClasses) {
       const customClasses = singleGroupOptions.cssClasses(defaultClasses, d, i)
       return _.uniq([...customClasses, colorBarBaseClass]).join(' ')
+    }
+
+    return defaultClasses.join(' ')
+  }
+
+  function getSegmentBarCSSClasses (d, i) {
+    const defaultClasses = [
+      segmentBaseClass,
+      `geo-chart-color-bar__segment--${i}`,
+      `geo-chart-color-bar__segment--${singleGroupOptions.dimension}`
+    ]
+
+    if (singleGroupOptions.cssClasses) {
+      const customClasses = singleGroupOptions.cssClasses(defaultClasses, d, i)
+      return _.uniq([...customClasses, segmentBaseClass]).join(' ')
+    }
+
+    return defaultClasses.join(' ')
+  }
+
+  function getHighlightedSegmentBarCSSClasses (d, i) {
+    const defaultClasses = [
+      highlightedSegmentBaseClass,
+      `geo-chart-color-bar__highlighted-segment--${i}`,
+      `geo-chart-color-bar__highlighted-segment--${singleGroupOptions.dimension}`
+    ]
+
+    if (singleGroupOptions.cssClasses) {
+      const customClasses = singleGroupOptions.cssClasses(defaultClasses, d, i)
+      return _.uniq([...customClasses, highlightedSegmentBaseClass]).join(' ')
     }
 
     return defaultClasses.join(' ')
@@ -336,6 +458,86 @@ function isNaturalWidthForced (options) {
 function getItemValueAtAxis (axisConfig, singleItem) {
   const rawValue = singleItem[axisConfig.keyForValues]
   return axisConfig.scale.axisScale(rawValue)
+}
+
+/**
+ * @param {GeoChart.SingleBarGroupConfig<HorizontalDomain, VerticalDomain>} options
+ * @returns {GetTranslationFunction}
+ */
+function getSingleSegmentTranslationFactory (options) {
+  return function (singleItem, index) {
+    const horizontalAxis = options.axis.horizontal
+    const verticalAxis = options.axis.vertical
+
+    const originHorizontalPosition = horizontalAxis.scale.axisScale(singleItem[horizontalAxis.keyForValues])
+    const originVerticalPosition = verticalAxis.scale.axisScale(singleItem[verticalAxis.keyForValues])
+
+    const valueHorizontalSpan = getItemSpanAtAxis(horizontalAxis, singleItem, options)
+    const valueVerticalSpan = getItemSpanAtAxis(verticalAxis, singleItem, options)
+
+    const isBarHorizontalLengthIncreasing = isBarAxisLengthIncreasing(horizontalAxis, singleItem)
+    const isBarVerticalLengthIncreasing = isBarAxisLengthIncreasing(verticalAxis, singleItem)
+
+    // By default we don't want to add any additional translation to be bars
+    // apart from the one required to position it respect to their value in the
+    // normal axis
+    const naturalNormalOffset = isNaturalNormalOffsetForced(options)
+      ? options.naturalNormalOffset
+      : 0
+
+    const horizontalAxisTranslationForDimension = {
+      [DIMENSIONS.horizontal]: isBarHorizontalLengthIncreasing
+        ? originHorizontalPosition
+        : originHorizontalPosition - valueHorizontalSpan,
+      [DIMENSIONS.vertical]: 0
+    }
+
+    const verticalAxisTranslationForDimension = {
+      [DIMENSIONS.horizontal]: 0,
+      [DIMENSIONS.vertical]: isBarVerticalLengthIncreasing
+        ? originVerticalPosition
+        : originVerticalPosition - valueVerticalSpan
+    }
+
+    const horizontalAxisTranslation = horizontalAxisTranslationForDimension[options.dimension]
+    const verticalAxisTranslation = verticalAxisTranslationForDimension[options.dimension]
+
+    if (!_.isFinite(horizontalAxisTranslation)) {
+      throw new Error(`GeoChart (Color bars) [component] :: Wrong translation in x-axis. Check that item ${index} has a proper value for key «${horizontalAxis.keyForValues}» (currently it is «${_.get(singleItem, horizontalAxis.keyForValues)}»). Alternatively, change the horizontal axis (currently set to «${horizontalAxis.id}»). This could also happen if the axis has an invalid valueForOrigin (currently it is «${horizontalAxis.valueForOrigin}»).`)
+    }
+
+    if (!_.isFinite(verticalAxisTranslation)) {
+      throw new Error(`GeoChart (Color bars) [component] :: Wrong translation in y-axis. Check that item ${index} has a proper value for key «${verticalAxis.keyForValues}» (currently it is «${_.get(singleItem, verticalAxis.keyForValues)}»). Alternatively, change the vertical axis (currently set to ${verticalAxis.id}). This could also happen if the axis has an invalid valueForOrigin (currently it is «${verticalAxis.valueForOrigin}»).`)
+    }
+
+    return {
+      x: horizontalAxisTranslation,
+      y: verticalAxisTranslation
+    }
+
+    /**
+     * @template Domain
+     * @param {GeoChart.AxisConfig<Domain>} normalAxis
+     * @param {object} singleItem
+     */
+    function getTranslationForAxisNormalToDimension (normalAxis, singleItem) {
+      const positionOfItemValue = getItemValueAtAxis(normalAxis, singleItem)
+
+      if (isScaleBand(normalAxis.scale.axisScale)) {
+        const normalOffset = isNormalOffsetForced(options)
+          ? options.normalOffset
+          : naturalNormalOffset * normalAxis.scale.axisScale.bandwidth()
+
+        return positionOfItemValue + normalOffset
+      }
+
+      if (isNormalOffsetForced(options)) return positionOfItemValue + options.normalOffset
+
+      return getItemValueAtAxis(normalAxis, {
+        [normalAxis.keyForValues]: _.get(singleItem, normalAxis.keyForValues) + naturalNormalOffset
+      })
+    }
+  }
 }
 
 /**
