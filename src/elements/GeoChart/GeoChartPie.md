@@ -47,6 +47,9 @@ export default {
           data: this.chartData,
           keyForValues: 'value',
           innerRadius: 0.3,
+          labelFormat: function (d, i) {
+            return '10%'
+          }
         }
       }
     }

@@ -76,7 +76,13 @@ export default {
 
     updatePieConfig () {
       const DEFAULT_PIE_TRANSITION_DURATION = 1000
+      const DEFAULT_OUTER_RADIUS = 1
+      const DEFAULT_INNER_RADIUS = 0
+
       const chartSize = this.svgSize
+      const userConfig = this.config.pieConfig
+      const innerRadius = userConfig.innerRadius || DEFAULT_INNER_RADIUS
+      const outerRadius = userConfig.outerRadius || DEFAULT_OUTER_RADIUS
       const chartMargin = _.get(this.config.chart, 'margin', ChartSizing.EMPTY_MARGIN)
       const animationsDurationInMilliseconds = this.config.chart.animationsDurationInMilliseconds
         ? this.animationsDurationInMilliseconds
@@ -85,10 +91,21 @@ export default {
       const chart = {
         animationsDurationInMilliseconds: animationsDurationInMilliseconds,
         size: chartSize,
-        margin: chartMargin
+        margin: chartMargin,
+        chartHeight: chartSize.height,
+        chartWidth: chartSize.width,
+        chartRadius: Math.min(chartSize.height, chartSize.width) / 2
       }
 
-      ChartPie.render(this.d3Instance, this.config.pieConfig, { chart })
+      const pieConfig = {
+        data: userConfig.data,
+        innerRadius: innerRadius * chart.chartRadius,
+        outerRadius: outerRadius * chart.chartRadius,
+        keyForValues: userConfig.keyForValues,
+        labelFormat: userConfig.labelFormat
+      }
+
+      ChartPie.render(this.d3Instance, pieConfig, { chart })
     }
   }
 }
