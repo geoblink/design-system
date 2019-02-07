@@ -72,7 +72,7 @@ function renderSinglePie (pie, singlePieOptions, globalOptions) {
   const arcTween = getArcTween()
   const arcTweenExit = getArcTweenExit()
 
-  const pieSegmentSelection = pie
+  const pieSegments = pie
     .selectAll('path')
     // In the first iteration of the pie we won't have any element yet and the forEach is ignored.
     // But if data is updated, we need to save the angles of the current slices to animate them later.
@@ -83,8 +83,6 @@ function renderSinglePie (pie, singlePieOptions, globalOptions) {
       }
       pieWasEmpty = false
     })
-
-  const pieSegments = pieSegmentSelection
     .data(pieScaleData)
 
   const newPieSegments = pieSegments
