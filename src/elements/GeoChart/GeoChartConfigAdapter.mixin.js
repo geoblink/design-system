@@ -3,6 +3,7 @@ import _ from 'lodash'
 import * as ChartSizing from './GeoChartSizing'
 import * as ChartBars from './GeoChartBars'
 import * as ChartLabels from './GeoChartLabels'
+import * as ChartColorBar from './GeoChartColorBar'
 
 export default {
   methods: {
@@ -13,6 +14,10 @@ export default {
 
       if (!_.isEmpty(this.config.labelGroups)) {
         this.updateLabelGroups()
+      }
+
+      if (!_.isEmpty(this.config.colorBarGroups)) {
+        this.updateBarColoredGroups()
       }
     },
 
@@ -45,6 +50,37 @@ export default {
       })
 
       ChartBars.render(this.d3Instance, barGroupsConfig, { chart })
+    },
+
+    updateBarColoredGroups () {
+      const chartSize = this.svgSize
+      const chartMargin = _.get(this.config.chart, 'margin', ChartSizing.EMPTY_MARGIN)
+      const chart = {
+        animationsDurationInMilliseconds: this.animationsDurationInMilliseconds,
+        size: chartSize,
+        margin: chartMargin
+      }
+      const colorBarGroupsConfig = _.map(this.config.colorBarGroups, (singleColorBarGroupConfig, index) => {
+        const axis = {
+          horizontal: this.axesConfigById[singleColorBarGroupConfig.idHorizontalAxis],
+          vertical: this.axesConfigById[singleColorBarGroupConfig.idVerticalAxis]
+        }
+        return {
+          id: index,
+          chart,
+          axis,
+          data: singleColorBarGroupConfig.data,
+          dimension: singleColorBarGroupConfig.dimension,
+          normalOffset: singleColorBarGroupConfig.normalOffset,
+          naturalNormalOffset: singleColorBarGroupConfig.naturalNormalOffset,
+          width: singleColorBarGroupConfig.width,
+          naturalWidth: singleColorBarGroupConfig.naturalWidth,
+          normalValue: singleColorBarGroupConfig.normalValue,
+          cssClasses: singleColorBarGroupConfig.cssClasses
+        }
+      })
+
+      ChartColorBar.render(this.d3Instance, colorBarGroupsConfig, { chart })
     },
 
     updateLabelGroups () {
