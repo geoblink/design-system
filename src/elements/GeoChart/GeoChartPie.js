@@ -97,13 +97,13 @@ function renderSinglePie (pie, singlePieOptions, globalOptions) {
 
   allPieSegments
     .transition()
-    .duration(1500)
+    .duration(globalOptions.chart.animationsDurationInMilliseconds)
     .attrTween('d', arcTween)
 
   pieSegments
     .exit()
     .transition()
-    .duration(1500)
+    .duration(globalOptions.chart.animationsDurationInMilliseconds)
     .attrTween('d', arcTweenExit)
     .remove()
 

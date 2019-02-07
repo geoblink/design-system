@@ -75,10 +75,15 @@ export default {
     },
 
     updatePieConfig () {
+      const DEFAULT_PIE_TRANSITION_DURATION = 1000
       const chartSize = this.svgSize
       const chartMargin = _.get(this.config.chart, 'margin', ChartSizing.EMPTY_MARGIN)
+      const animationsDurationInMilliseconds = this.config.chart.animationsDurationInMilliseconds
+        ? this.animationsDurationInMilliseconds
+        : DEFAULT_PIE_TRANSITION_DURATION
+
       const chart = {
-        animationsDurationInMilliseconds: this.animationsDurationInMilliseconds,
+        animationsDurationInMilliseconds: animationsDurationInMilliseconds,
         size: chartSize,
         margin: chartMargin
       }
