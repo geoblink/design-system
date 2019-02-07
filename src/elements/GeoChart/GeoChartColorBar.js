@@ -236,7 +236,7 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions) {
     .enter()
     .append('rect')
     .attr('class', getHighlightedSegmentBarCSSClasses)
-    .attr('transform', getColorBarNewSegmentInitialTransform)
+    .attr('transform', getColorBarNewHighlightedSegmentInitialTransform)
     .attr('width', (d, i) => {
       return getNewSegmentInitialWidth() + 4
     })
@@ -251,7 +251,7 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions) {
 
   allHighlightedSegments
     .attr('class', getHighlightedSegmentBarCSSClasses)
-    .attr('transform', getColorBarSegmentTransform)
+    .attr('transform', getColorBarHighlightedSegmentTransform)
     .attr('width', (d, i) => {
       return getSegmentWidth() + 4
     })
@@ -289,6 +289,24 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions) {
       return `translate(${originTranslation.x}, ${translation.y})`
     } else if (singleGroupOptions.dimension === DIMENSIONS.vertical) {
       return `translate(${translation.x}, ${originTranslation.y})`
+    }
+  }
+
+  function getColorBarHighlightedSegmentTransform (d, i) {
+    const translation = getSegmentTranslation(d, i)
+    return `translate(${translation.x}, ${translation.y - 2})`
+  }
+
+  function getColorBarNewHighlightedSegmentInitialTransform (d, i) {
+    const translation = getSegmentTranslation(d, i)
+    const originTranslation = getSegmentTranslation({
+      [axisForDimension.keyForValues]: axisForDimension.scale.valueForOrigin,
+      [axisForNormalDimension.keyForValues]: singleGroupOptions.normalValue
+    }, i)
+    if (singleGroupOptions.dimension === DIMENSIONS.horizontal) {
+      return `translate(${originTranslation.x}, ${translation.y - 2})`
+    } else if (singleGroupOptions.dimension === DIMENSIONS.vertical) {
+      return `translate(${translation.x - 2}, ${originTranslation.y})`
     }
   }
 
