@@ -47,7 +47,8 @@ must be an object with the following...
     data () {
       return {
         categoricalDomain: null,
-        chartData: null
+        chartData: null,
+        normalValue: null,
       }
     },
     computed: {
@@ -79,7 +80,7 @@ must be an object with the following...
           id: 'demo-categorical-axis',
           keyForValues: 'category',
           position: {
-            type: POSITIONS.verticallyCenteredInTheMiddle
+            type: POSITIONS.bottom
           },
           scale: {
             type: SCALE_TYPES.categorical,
@@ -106,7 +107,7 @@ must be an object with the following...
             this.categoricalAxisConfig
           ],
           colorBarGroups: [{
-            normalValue: .5,
+            normalValue: this.normalValue,
             normalOffset: -7.5,
             width: 15,
             data: this.chartData,
@@ -123,6 +124,7 @@ must be an object with the following...
     methods: {
       randomizeData () {
         this.categoricalDomain = _.times(_.random(2, 15), i => `Bucket ${i}`)
+        this.normalValue = _.random(0, 1, true)
 
         this.chartData = _.filter(_.map(this.categoricalDomain, (category) => {
           return !!_.random(0, 1) ?

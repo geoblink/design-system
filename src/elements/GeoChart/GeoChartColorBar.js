@@ -143,6 +143,14 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions) {
     .attr('width', getWidth)
     .attr('height', getHeight)
 
+  colorBar
+    .transition()
+    .duration(globalOptions.chart.animationsDurationInMilliseconds)
+    .attr('class', getSingleBarCSSClasses)
+    .attr('transform', getTransform)
+    .attr('width', getWidth)
+    .attr('height', getHeight)
+
   const highlightedSegments = colorBar
     .selectAll(`g.${highlightedSegmentBaseClass}`)
     .data(singleGroupOptions.data)
