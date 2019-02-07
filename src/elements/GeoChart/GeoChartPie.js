@@ -19,7 +19,7 @@ export const DEFAULT_INNER_RADIUS = 0
  * @template PElement
  * @template PDatum
  * @param {d3.Selection<GElement, Datum, PElement, PDatum>} d3Instance
- * @param {Array<GeoChart.PieConfig} options
+ * @param {GeoChart.PieConfig} options
  * @param {GeoChart.PieGlobalConfig} globalOptions
  */
 export function render (d3Instance, options, globalOptions) {
@@ -40,13 +40,22 @@ export function render (d3Instance, options, globalOptions) {
 
   const allPies = newPies.merge(updatedPies)
 
-  // TODO:  Para pillar el primer hijo
+  // We use forEach to get the 'this' of the pie although we know we'll always have 1 for now.
   allPies.each(function () {
     const pie = d3.select(this)
     renderSinglePie(pie, options, globalOptions)
   })
 }
 
+/**
+ * @template GElement
+ * @template Datum
+ * @template PElement
+ * @template PDatum
+ * @param {d3.Selection<GElement, Datum, PElement, PDatum>} pie
+ * @param {GeoChart.PieConfig} singlePieOptions
+ * @param {GeoChart.PieGlobalConfig} globalOptions
+ */
 function renderSinglePie (pie, singlePieOptions, globalOptions) {
   const outerRadius = singlePieOptions.outerRadius || DEFAULT_OUTER_RADIUS
   const innerRadius = singlePieOptions.innerRadius || DEFAULT_INNER_RADIUS
@@ -55,25 +64,28 @@ function renderSinglePie (pie, singlePieOptions, globalOptions) {
   const chartRadius = Math.min(chartHeight, chartWidth) / 2
   const pieOuterRadius = outerRadius * chartRadius
   const pieInnerRadius = innerRadius * chartRadius
+  let pieWasEmpty = true
 
   const pieScale = getPieScale()
+  const pieScaleData = pieScale(singlePieOptions.data)
   const arc = getArc()
   const arcTween = getArcTween()
   const arcTweenExit = getArcTweenExit()
 
-  let pieWasEmpty = true
   const pieSegmentSelection = pie
     .selectAll('path')
+    // In the first iteration of the pie we won't have any element yet and the forEach is ignored.
+    // But if data is updated, we need to save the angles of the current slices to animate them later.
     .each(function (d, i) {
       if (i < singlePieOptions.data.length) {
-        singlePieOptions.data[i].previousEndAngle = d.endAngle
-        singlePieOptions.data[i].previousStartAngle = d.startAngle
+        pieScaleData[i].previousEndAngle = d.endAngle
+        pieScaleData[i].previousStartAngle = d.startAngle
       }
       pieWasEmpty = false
     })
 
   const pieSegments = pieSegmentSelection
-    .data(pieScale(singlePieOptions.data))
+    .data(pieScaleData)
 
   const newPieSegments = pieSegments
     .enter()
@@ -110,8 +122,8 @@ function renderSinglePie (pie, singlePieOptions, globalOptions) {
       } else {
         newPieElementsStartAngle = 2 * Math.PI
       }
-      const interpolateEndAngle = d3.interpolate(_.defaultTo(d.data.previousEndAngle, newPieElementsStartAngle), d.endAngle)
-      const interpolateStartAngle = d3.interpolate(_.defaultTo(d.data.previousStartAngle, newPieElementsStartAngle), d.startAngle)
+      const interpolateEndAngle = d3.interpolate(_.defaultTo(d.previousEndAngle, newPieElementsStartAngle), d.endAngle)
+      const interpolateStartAngle = d3.interpolate(_.defaultTo(d.previousStartAngle, newPieElementsStartAngle), d.startAngle)
 
       return function (t) {
         d.startAngle = interpolateStartAngle(t)

@@ -273,7 +273,7 @@ export const barConfigJsonSchema = {
 export const pieConfigJsonSchema = {
   type: 'object',
   additionalProperties: false,
-  required: ['data', 'innerRadius', 'keyForValues'],
+  required: ['data', 'keyForValues'],
   properties: {
     data: {
       type: 'array',
