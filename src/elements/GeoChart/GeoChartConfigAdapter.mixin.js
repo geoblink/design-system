@@ -20,6 +20,12 @@ export default {
       }
     },
 
+    cleanupData () {
+      if (this.d3TipInstance) {
+        this.d3TipInstance.destroy()
+      }
+    },
+
     updateBarGroups () {
       const chartSize = this.svgSize
       const chartMargin = _.get(this.config.chart, 'margin', ChartSizing.EMPTY_MARGIN)

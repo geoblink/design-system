@@ -257,6 +257,9 @@ export default {
   mounted () {
     this.debouncedRedraw()
   },
+  beforeDestroy () {
+    this.cleanupData()
+  },
   methods: {
     redraw () {
       this.adjustSize()
