@@ -11,6 +11,8 @@ const d3 = require('d3')
 // These utils require faking timers
 jest.useFakeTimers()
 
+require('d3-tip').default = require('d3-tip')
+
 export function stubLodashDebounceFactory () {
   const sandbox = sinon.createSandbox()
 
