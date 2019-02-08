@@ -208,7 +208,7 @@ export function stubGetBBoxFactory (functionOrValue) {
 
   function getReturnValue () {
     return _.isFunction(functionOrValue)
-      ? functionOrValue
+      ? functionOrValue()
       : functionOrValue
   }
 }
@@ -267,7 +267,7 @@ export function stubGetScreenCTMFactory (functionOrValue) {
 
   function getReturnValue () {
     return _.isFunction(functionOrValue)
-      ? functionOrValue
+      ? functionOrValue()
       : functionOrValue
   }
 }
