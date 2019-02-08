@@ -1,3 +1,9 @@
+# 10.1.2
+
+Fixed:
+
+- `GeoTable` Fix exception when attempting to render table before DOM is ready.
+
 # 10.1.1
 
 Fixed:
