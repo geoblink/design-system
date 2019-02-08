@@ -389,7 +389,6 @@ export const labelConfigJsonSchema = {
 export const jsonSchema = {
   type: 'object',
   additionalProperties: false,
-  // required: ['axisGroups'],
   properties: {
     chart: {
       type: 'object',
