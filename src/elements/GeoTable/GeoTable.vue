@@ -300,6 +300,14 @@ export default {
     },
 
     async forcedLayoutTable () {
+      const requiredObjects = [
+        this.$refs.tableHeader,
+        this.$refs.tableBody,
+        this.$refs.tableContainer
+      ]
+      const hasAllRequiredObjects = _.reduce(requiredObjects, (accum, object) => accum && !!object, true)
+      if (!hasAllRequiredObjects) return
+
       this.isAdjustingTable = true
       await this.inferPageSize()
       this.layoutColumns()
@@ -466,9 +474,24 @@ export default {
         while (unsaturatedColumns.length && tableRemainingWidth > 0) {
           const maximumSingleColumnWidthIncrease = _.first(unsaturatedColumns).remainingWidthUntilReachingMaximum
           const singleColumnWidthIncrease = _.min([
-            tableRemainingWidth / unsaturatedColumns.length,
+            Math.floor(tableRemainingWidth / unsaturatedColumns.length),
             maximumSingleColumnWidthIncrease
           ])
+
+          // Maybe there's not enough free space to give all columns at least
+          // 1px more of space. If this happens it's better to add all the
+          // remaining space to one column instead of trying to add the same
+          // amount to all of them.
+          if (singleColumnWidthIncrease === 0) {
+            const columnIndex = _.first(unsaturatedColumns).index
+            unsaturatedColumns[columnIndex].remainingWidthUntilReachingMaximum -= tableRemainingWidth
+            this.columnsWidths[columnIndex] += tableRemainingWidth
+            tableRemainingWidth = 0
+            unsaturatedColumns = _.filter(unsaturatedColumns, (unsaturatedColumnSettings) =>
+              unsaturatedColumnSettings.remainingWidthUntilReachingMaximum > 0
+            )
+            break
+          }
 
           for (const unsaturatedColumnSettings of unsaturatedColumns) {
             const columnIndex = unsaturatedColumnSettings.index
