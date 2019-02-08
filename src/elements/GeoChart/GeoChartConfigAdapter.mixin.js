@@ -102,7 +102,7 @@ export default {
         innerRadius: innerRadius * chart.chartRadius,
         outerRadius: outerRadius * chart.chartRadius,
         keyForValues: userConfig.keyForValues,
-        labelFormat: userConfig.labelFormat
+        cssClasses: userConfig.cssClasses
       }
 
       ChartPie.render(this.d3Instance, pieConfig, { chart })

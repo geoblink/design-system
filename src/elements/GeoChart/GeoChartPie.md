@@ -1,3 +1,29 @@
+
+## Required properties
+
+- `data`: Collection being displayed (array).
+- `keyForValues`: the key in each chart item where the value for this axis is stored.
+
+## Optional properties
+
+Optionally you can configure the pie with an **inner radius** and an **outer radius**.
+These properties are useful to create different variations of a pie chart, from a full
+pie chart to a donut chart.
+
+- `innerRadius`: `[0-1]` defines the **inner radius factor** of the pie being **0** the
+default value and **1** the maximum chart radius.
+
+- `outerRadius`: `[0-1]` defines the **outer radius factor** of the pie being **1** the
+default value as the maximum radius allowed by the chart height/width, and **0** the minimum
+chart radius.
+
+### Customizing CSS classes
+
+Each slice can customize its CSS classes by setting a function for key `cssClasses`.
+This functions takes as parameters the array of classes that would be set by
+default, the item corresponding to the slice being customized and its position
+inside the data array.
+
 ```vue
 <template>
   <div class="element-demo">
@@ -47,8 +73,8 @@ export default {
           data: this.chartData,
           keyForValues: 'value',
           innerRadius: 0.3,
-          labelFormat: function (d, i) {
-            return '10%'
+          cssClasses (originalClasses, d, i) {
+            return [...originalClasses, 'my-custom-class']
           }
         }
       }

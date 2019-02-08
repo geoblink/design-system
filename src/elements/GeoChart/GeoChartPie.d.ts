@@ -1,14 +1,12 @@
 declare namespace GeoChart {
-  enum BarDimension {
-    horizontal = 'horizontal',
-    vertical = 'vertical'
-  }
-
   interface PieGlobalConfig {
     chart: {
       animationsDurationInMilliseconds: number
       size: GeoChart.Size
       margin: GeoChart.Margin
+      chartHeight: GeoChart.Size.height
+      chartWidth: GeoChart.Size.width
+      chartRadius: number
     }
   }
 

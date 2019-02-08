@@ -10,9 +10,6 @@ const d3 = (function () {
   }
 })()
 
-export const DEFAULT_OUTER_RADIUS = 1
-export const DEFAULT_INNER_RADIUS = 0
-
 /**
  * @template GElement
  * @template Datum
@@ -94,10 +91,6 @@ function renderSinglePie (pie, singlePieOptions, globalOptions) {
     .attrTween('d', arcTweenExit)
     .remove()
 
-  if (singlePieOptions.labelFormat) {
-    renderPieLabels(pie, pieScaleData)
-  }
-
   function getPieScale () {
     return d3
       .pie()
@@ -158,38 +151,4 @@ function renderSinglePie (pie, singlePieOptions, globalOptions) {
 
     return defaultClasses.join(' ')
   }
-}
-
-/**
- * @template GElement
- * @template Datum
- * @template PElement
- * @template PDatum
- * @param {d3.Selection<GElement, Datum, PElement, PDatum>} pie
- * @param {GeoChart.PieConfig} singlePieOptions
- * @param {GeoChart.PieGlobalConfig} globalOptions
- */
-function renderPieLabels (pie, pieScaleData) {
-  // const labels = pie
-  //   .selectAll('text.geo-chart-pie-label')
-  //   // Order clockwise so that we always move clockwise.
-  //   // TODO start with the biggest one
-  //   .data(pieScaleData.sort(function (p1, p2) { return p1.startAngle - p2.startAngle }))
-
-  // labels
-  //   .enter()
-  //   .append('text')
-  //   .attr('class', 'geo-chart-pie-label')
-  //   .attr('text-anchor', 'middle')
-  //   .attr('dominant-baseline', 'central')
-
-  // labels
-  //   .exit()
-  //   .remove()
-
-  // const labelLayout = d3
-  //   .quadtree()
-  //   .extent([[-chartController.innerWidth / 2, -chartController.innerHeight / 2], [chartController.innerWidth / 2, chartController.innerHeight / 2]])
-  //   .x(function (d) { return d.x })
-  //   .y(function (d) { return d.y })([ ]) // Create empty quadtree to hold label positions
 }
