@@ -3,7 +3,6 @@
 import _ from 'lodash'
 
 import './GeoChartAxis'
-import { color } from 'd3'
 
 const d3 = (function () {
   try {
@@ -82,22 +81,10 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions) {
     ? singleGroupOptions.axis.horizontal
     : singleGroupOptions.axis.vertical
 
-  const getWidth = (d, i) => {
-    if (singleGroupOptions.dimension === DIMENSIONS.horizontal) {
-      // TODO: log error if invalid range
-      return axisForDimension.scale.axisScale.range()[1] - axisForDimension.scale.axisScale.range()[0]
-    } else if (singleGroupOptions.dimension === DIMENSIONS.vertical) {
-      // TODO: log error if not scale band
-      return getItemSpanAtAxis(axisForNormalDimension, {
-        [axisForNormalDimension.keyForValues]: singleGroupOptions.normalValue
-      }, singleGroupOptions)
-    }
-  }
-
   const getSegmentWidth = (d, i) => {
     if (singleGroupOptions.dimension === DIMENSIONS.horizontal) {
       // TODO: log error if invalid range
-      return getItemSpanAtAxis(axisForDimension, d, singleGroupOptions) - 1
+      return getItemSpanAtAxis(axisForDimension, d, singleGroupOptions)
     } else if (singleGroupOptions.dimension === DIMENSIONS.vertical) {
       // TODO: log error if not scale band
       return getItemSpanAtAxis(axisForNormalDimension, {
@@ -105,19 +92,6 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions) {
       }, singleGroupOptions)
     }
   }
-
-  const getHeight = (d, i) => {
-    if (singleGroupOptions.dimension === DIMENSIONS.horizontal) {
-      // TODO: log error if not scale band
-      return getItemSpanAtAxis(axisForNormalDimension, {
-        [axisForNormalDimension.keyForValues]: singleGroupOptions.normalValue
-      }, singleGroupOptions)
-    } else if (singleGroupOptions.dimension === DIMENSIONS.vertical) {
-      // TODO: log error if invalid range
-      return axisForDimension.scale.axisScale.range()[1] - axisForDimension.scale.axisScale.range()[0] - 1
-    }
-  }
-
   const getSegmentHeight = (d, i) => {
     if (singleGroupOptions.dimension === DIMENSIONS.horizontal) {
       // TODO: log error if not scale band
@@ -135,13 +109,54 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions) {
       case DIMENSIONS.horizontal:
         return 0
       case DIMENSIONS.vertical:
-        return getWidth(d, i)
+        return getSegmentWidth(d, i)
     }
   }
   const getNewSegmentInitialHeight = (d, i) => {
     switch (singleGroupOptions.dimension) {
       case DIMENSIONS.horizontal:
-        return getHeight(d, i)
+        return getSegmentHeight(d, i)
+      case DIMENSIONS.vertical:
+        return 0
+    }
+  }
+
+  const getHighlightedSegmentWidth = (d, i) => {
+    if (singleGroupOptions.dimension === DIMENSIONS.horizontal) {
+      // TODO: log error if invalid range
+      return getItemSpanAtAxis(axisForDimension, d, singleGroupOptions)
+    } else if (singleGroupOptions.dimension === DIMENSIONS.vertical) {
+      // TODO: log error if not scale band
+      return getHighlightedItemSpanAtAxis(axisForNormalDimension, {
+        [axisForNormalDimension.keyForValues]: singleGroupOptions.normalValue
+      }, singleGroupOptions)
+    }
+  }
+
+  const getHighlightedSegmentHeight = (d, i) => {
+    if (singleGroupOptions.dimension === DIMENSIONS.horizontal) {
+      // TODO: log error if not scale band
+      return getHighlightedItemSpanAtAxis(axisForNormalDimension, {
+        [axisForNormalDimension.keyForValues]: singleGroupOptions.normalValue
+      }, singleGroupOptions)
+    } else if (singleGroupOptions.dimension === DIMENSIONS.vertical) {
+      // TODO: log error if invalid range
+      return getItemSpanAtAxis(axisForDimension, d, singleGroupOptions)
+    }
+  }
+
+  const getNewHighlightedSegmentInitialWidth = (d, i) => {
+    switch (singleGroupOptions.dimension) {
+      case DIMENSIONS.horizontal:
+        return 0
+      case DIMENSIONS.vertical:
+        return getHighlightedSegmentWidth(d, i)
+    }
+  }
+  const getNewHighlightedSegmentInitialHeight = (d, i) => {
+    switch (singleGroupOptions.dimension) {
+      case DIMENSIONS.horizontal:
+        return getHighlightedSegmentHeight(d, i)
       case DIMENSIONS.vertical:
         return 0
     }
@@ -149,6 +164,7 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions) {
 
   const getTranslation = getSingleItemTranslationFactory(singleGroupOptions)
   const getSegmentTranslation = getSingleSegmentTranslationFactory(singleGroupOptions)
+  const getHighlightedSegmentTranslation = getHighlightedSegmentTranslationFactory(singleGroupOptions)
 
   const colorBarBaseClass = 'geo-chart-color-bar'
   const segmentBaseClass = 'geo-chart-color-bar__segment'
@@ -206,7 +222,7 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions) {
     .enter()
     .append('rect')
     .attr('class', getSegmentBarCSSClasses)
-    .attr('transform', getColorBarNewSegmentInitialTransform)
+    .attr('transform', getNewSegmentInitialTransform)
     .attr('stroke-width', '1px')
     .attr('width', getNewSegmentInitialWidth)
     .attr('height', getNewSegmentInitialHeight)
@@ -218,7 +234,7 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions) {
     .transition()
     .duration(globalOptions.chart.animationsDurationInMilliseconds)
     .attr('class', getSegmentBarCSSClasses)
-    .attr('transform', getColorBarSegmentTransform)
+    .attr('transform', getSegmentTransform)
     .attr('stroke-width', '1px')
     .attr('width', getSegmentWidth)
     .attr('height', getSegmentHeight)
@@ -230,19 +246,20 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions) {
   const highlightedSegments = colorBar
     .select('g.geo-chart-color-bar__highlighted-segment-container')
     .selectAll(`rect.${highlightedSegmentBaseClass}`)
-    .data(singleGroupOptions.data)
+    .data(_.map(singleGroupOptions.data, (d) => {
+      return {
+        [axisForNormalDimension.keyForValues]: singleGroupOptions.normalValue,
+        [axisForDimension.keyForValues]: d[axisForDimension.keyForValues]
+      }
+    }))
 
   const newHighlightedSegments = highlightedSegments
     .enter()
     .append('rect')
     .attr('class', getHighlightedSegmentBarCSSClasses)
-    .attr('transform', getColorBarNewHighlightedSegmentInitialTransform)
-    .attr('width', (d, i) => {
-      return getNewSegmentInitialWidth() + 4
-    })
-    .attr('height', (d, i) => {
-      return getNewSegmentInitialHeight() + 4
-    })
+    .attr('transform', getNewHighlightedSegmentInitialTransform)
+    .attr('width', getNewHighlightedSegmentInitialWidth)
+    .attr('height', getNewHighlightedSegmentInitialHeight)
     .attr('stroke', 'black')
     .attr('stroke-width', '1px')
 
@@ -250,14 +267,12 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions) {
   const allHighlightedSegments = newHighlightedSegments.merge(updatedHighlightedSegments)
 
   allHighlightedSegments
+    .transition()
+    .duration(globalOptions.chart.animationsDurationInMilliseconds)
     .attr('class', getHighlightedSegmentBarCSSClasses)
-    .attr('transform', getColorBarHighlightedSegmentTransform)
-    .attr('width', (d, i) => {
-      return getSegmentWidth() + 4
-    })
-    .attr('height', (d, i) => {
-      return getSegmentHeight() + 4
-    })
+    .attr('transform', getHighlightedSegmentTransform)
+    .attr('width', getHighlightedSegmentWidth)
+    .attr('height', getHighlightedSegmentHeight)
     .attr('stroke', 'black')
     .attr('stroke-width', '1px')
 
@@ -274,12 +289,11 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions) {
     }
   }
 
-  function getColorBarSegmentTransform (d, i) {
+  function getSegmentTransform (d, i) {
     const translation = getSegmentTranslation(d, i)
     return `translate(${translation.x}, ${translation.y})`
   }
-
-  function getColorBarNewSegmentInitialTransform (d, i) {
+  function getNewSegmentInitialTransform (d, i) {
     const translation = getSegmentTranslation(d, i)
     const originTranslation = getSegmentTranslation({
       [axisForDimension.keyForValues]: axisForDimension.scale.valueForOrigin,
@@ -292,21 +306,20 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions) {
     }
   }
 
-  function getColorBarHighlightedSegmentTransform (d, i) {
-    const translation = getSegmentTranslation(d, i)
-    return `translate(${translation.x}, ${translation.y - 2})`
+  function getHighlightedSegmentTransform (d, i) {
+    const translation = getHighlightedSegmentTranslation(d, i)
+    return `translate(${translation.x}, ${translation.y})`
   }
-
-  function getColorBarNewHighlightedSegmentInitialTransform (d, i) {
-    const translation = getSegmentTranslation(d, i)
-    const originTranslation = getSegmentTranslation({
+  function getNewHighlightedSegmentInitialTransform (d, i) {
+    const translation = getHighlightedSegmentTranslation(d, i)
+    const originTranslation = getHighlightedSegmentTranslation({
       [axisForDimension.keyForValues]: axisForDimension.scale.valueForOrigin,
       [axisForNormalDimension.keyForValues]: singleGroupOptions.normalValue
     }, i)
     if (singleGroupOptions.dimension === DIMENSIONS.horizontal) {
-      return `translate(${originTranslation.x}, ${translation.y - 2})`
+      return `translate(${originTranslation.x}, ${translation.y})`
     } else if (singleGroupOptions.dimension === DIMENSIONS.vertical) {
-      return `translate(${translation.x - 2}, ${originTranslation.y})`
+      return `translate(${translation.x}, ${originTranslation.y})`
     }
   }
 
@@ -356,6 +369,63 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions) {
   }
 }
 
+/**
+ * Returns the span (width or height) of given value in given axis, also
+ * considering if there's a width overriden.
+ *
+ * @template Domain
+ * @param {GeoChart.AxisConfig<Domain>} axisConfig
+ * @param {object} singleItem
+ * @param {GeoChart.SingleColorBarGroupConfig<HorizontalDomain, VerticalDomain>} [options]
+ * @return {number}
+ */
+function getHighlightedItemSpanAtAxis (axisConfig, singleItem, options) {
+  if (!isDimensionAxis(axisConfig, options) && isHighlightedWidthForced(options)) return options.highlightedWidth
+  if (isScaleBand(axisConfig.scale.axisScale)) {
+    const highlightedWidthForOneNaturalUnit = axisConfig.scale.axisScale.bandwidth()
+    const naturalUnitsForWidth = isDimensionAxis(axisConfig, options)
+      ? 1
+      : _.get(options, 'naturalHighlightedWidth', 1)
+    return highlightedWidthForOneNaturalUnit * naturalUnitsForWidth
+  }
+
+  const positionAtAxisOrigin = axisConfig.scale.axisScale(axisConfig.scale.valueForOrigin)
+  const positionAtValue = getItemValueAtAxis(axisConfig, singleItem)
+
+  return Math.abs(getSpanEndPoint() - getSpanOriginPoint())
+
+  function getSpanOriginPoint () {
+    if (!isDimensionAxis(axisConfig, options)) {
+      if (isNaturalHighlightedWidthForced(options)) {
+        return getItemValueAtAxis(axisConfig, {
+          [axisConfig.keyForValues]: _.get(singleItem, axisConfig.keyForValues) - options.naturalHighlightedWidth / 2
+        })
+      }
+
+      // By default bars will have a width of 10px in non-band scales so they
+      // start 5px below the anchor point.
+      return positionAtValue - _.get(options, 'width', DEFAULT_WIDTH) / 2
+    }
+
+    return positionAtAxisOrigin
+  }
+
+  function getSpanEndPoint () {
+    if (!isDimensionAxis(axisConfig, options)) {
+      if (isNaturalHighlightedWidthForced(options)) {
+        return getItemValueAtAxis(axisConfig, {
+          [axisConfig.keyForValues]: _.get(singleItem, axisConfig.keyForValues) + options.naturalHighlightedWidth / 2
+        })
+      }
+
+      // By default bars will have a width of 10px in non-band scales so they
+      // start 5px below the anchor point.
+      return positionAtValue + _.get(options, 'width', DEFAULT_WIDTH) / 2
+    }
+
+    return positionAtValue
+  }
+}
 /**
  * Returns the span (width or height) of given value in given axis, also
  * considering if there's a width overriden.
@@ -461,8 +531,28 @@ function isWidthForced (options) {
  * @param {GeoChart.SingleBarGroupConfig<HorizontalDomain, VerticalDomain>} [options]
  * @return {boolean}
  */
+function isHighlightedWidthForced (options) {
+  return _.isFinite(_.get(options, 'highlightedWidth'))
+}
+
+/**
+ * @template HorizontalDomain
+ * @template VerticalDomain
+ * @param {GeoChart.SingleBarGroupConfig<HorizontalDomain, VerticalDomain>} [options]
+ * @return {boolean}
+ */
 function isNaturalWidthForced (options) {
   return _.isFinite(_.get(options, 'naturalWidth'))
+}
+
+/**
+ * @template HorizontalDomain
+ * @template VerticalDomain
+ * @param {GeoChart.SingleBarGroupConfig<HorizontalDomain, VerticalDomain>} [options]
+ * @return {boolean}
+ */
+function isNaturalHighlightedWidthForced (options) {
+  return _.isFinite(_.get(options, 'naturalHighlightedWidth'))
 }
 
 /**
@@ -558,6 +648,85 @@ function getSingleSegmentTranslationFactory (options) {
   }
 }
 
+/**
+ * @param {GeoChart.SingleBarGroupConfig<HorizontalDomain, VerticalDomain>} options
+ * @returns {GetTranslationFunction}
+ */
+function getHighlightedSegmentTranslationFactory (options) {
+  return function (singleItem, index) {
+    const horizontalAxis = options.axis.horizontal
+    const verticalAxis = options.axis.vertical
+
+    const originHorizontalPosition = horizontalAxis.scale.axisScale(singleItem[horizontalAxis.keyForValues])
+    const originVerticalPosition = verticalAxis.scale.axisScale(singleItem[verticalAxis.keyForValues])
+
+    const valueHorizontalSpan = getHighlightedItemSpanAtAxis(horizontalAxis, singleItem, options)
+    const valueVerticalSpan = getHighlightedItemSpanAtAxis(verticalAxis, singleItem, options)
+
+    const isBarHorizontalLengthIncreasing = isBarAxisLengthIncreasing(horizontalAxis, singleItem)
+    const isBarVerticalLengthIncreasing = isBarAxisLengthIncreasing(verticalAxis, singleItem)
+
+    // By default we don't want to add any additional translation to be bars
+    // apart from the one required to position it respect to their value in the
+    // normal axis
+    const naturalNormalOffset = isNaturalNormalOffsetForced(options)
+      ? options.naturalNormalOffset
+      : 0
+
+    const horizontalAxisTranslationForDimension = {
+      [DIMENSIONS.horizontal]: isBarHorizontalLengthIncreasing
+        ? originHorizontalPosition
+        : originHorizontalPosition - valueHorizontalSpan,
+      [DIMENSIONS.vertical]: 0
+    }
+
+    const verticalAxisTranslationForDimension = {
+      [DIMENSIONS.horizontal]: 0,
+      [DIMENSIONS.vertical]: isBarVerticalLengthIncreasing
+        ? originVerticalPosition
+        : originVerticalPosition - valueVerticalSpan
+    }
+
+    const horizontalAxisTranslation = horizontalAxisTranslationForDimension[options.dimension]
+    const verticalAxisTranslation = verticalAxisTranslationForDimension[options.dimension]
+
+    if (!_.isFinite(horizontalAxisTranslation)) {
+      throw new Error(`GeoChart (Color bars) [component] :: Wrong translation in x-axis. Check that item ${index} has a proper value for key «${horizontalAxis.keyForValues}» (currently it is «${_.get(singleItem, horizontalAxis.keyForValues)}»). Alternatively, change the horizontal axis (currently set to «${horizontalAxis.id}»). This could also happen if the axis has an invalid valueForOrigin (currently it is «${horizontalAxis.valueForOrigin}»).`)
+    }
+
+    if (!_.isFinite(verticalAxisTranslation)) {
+      throw new Error(`GeoChart (Color bars) [component] :: Wrong translation in y-axis. Check that item ${index} has a proper value for key «${verticalAxis.keyForValues}» (currently it is «${_.get(singleItem, verticalAxis.keyForValues)}»). Alternatively, change the vertical axis (currently set to ${verticalAxis.id}). This could also happen if the axis has an invalid valueForOrigin (currently it is «${verticalAxis.valueForOrigin}»).`)
+    }
+
+    return {
+      x: horizontalAxisTranslation,
+      y: verticalAxisTranslation
+    }
+
+    /**
+     * @template Domain
+     * @param {GeoChart.AxisConfig<Domain>} normalAxis
+     * @param {object} singleItem
+     */
+    function getTranslationForAxisNormalToDimension (normalAxis, singleItem) {
+      const positionOfItemValue = getItemValueAtAxis(normalAxis, singleItem)
+
+      if (isScaleBand(normalAxis.scale.axisScale)) {
+        const normalOffset = isNormalOffsetForced(options)
+          ? options.normalOffset
+          : naturalNormalOffset * normalAxis.scale.axisScale.bandwidth()
+
+        return positionOfItemValue + normalOffset
+      }
+
+      if (isNormalOffsetForced(options)) return positionOfItemValue + options.normalOffset
+
+      return getItemValueAtAxis(normalAxis, {
+        [normalAxis.keyForValues]: _.get(singleItem, normalAxis.keyForValues) + naturalNormalOffset
+      })
+    }
+  }
+}
 /**
  * @param {GeoChart.SingleBarGroupConfig<HorizontalDomain, VerticalDomain>} options
  * @returns {GetTranslationFunction}

@@ -109,7 +109,8 @@ must be an object with the following...
           colorBarGroups: [{
             normalValue: this.normalValue,
             normalOffset: -7.5,
-            width: 15,
+            naturalWidth: .06,
+            naturalHighlightedWidth: .08,
             data: this.chartData,
             dimension: BARS_DIMENSIONS.horizontal,
             idVerticalAxis: this.linearAxisConfig.id,

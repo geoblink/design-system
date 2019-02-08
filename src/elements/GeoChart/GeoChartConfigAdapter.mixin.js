@@ -75,6 +75,8 @@ export default {
           naturalNormalOffset: singleColorBarGroupConfig.naturalNormalOffset,
           width: singleColorBarGroupConfig.width,
           naturalWidth: singleColorBarGroupConfig.naturalWidth,
+          highlightedWidth: singleColorBarGroupConfig.highlightedWidth,
+          naturalHighlightedWidth: singleColorBarGroupConfig.naturalHighlightedWidth,
           normalValue: singleColorBarGroupConfig.normalValue,
           cssClasses: singleColorBarGroupConfig.cssClasses
         }

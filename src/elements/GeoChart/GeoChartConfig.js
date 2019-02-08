@@ -338,6 +338,12 @@ export const colorBarConfigJsonSchema = {
     normalValue: {
       type: 'number'
     },
+    naturalHighlightedWidth: {
+      type: 'number'
+    },
+    highlightedWidth: {
+      type: 'number'
+    },
     // Function taking as first parameter an array of CSS classes that would be
     // set by default. Should return the array of CSS classes to be finally set.
     // Use this function to customize which CSS classes are set to the rect for
