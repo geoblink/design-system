@@ -1,3 +1,9 @@
+# 10.1.1
+
+Fixed:
+
+- `GeoTable` Properly layout table when container width is not divisible by amount of columns.
+
 # 10.1.0
 
 New:
