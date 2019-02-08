@@ -321,11 +321,11 @@ function getItemValueAtAxis (axisConfig, singleItem) {
  * @return {number}
  */
 function getItemSpanAtAxis (axisConfig, singleItem, options) {
-  if (isDimensionAxis(axisConfig, options) && isWidthForced(options)) return options.width
+  if (!isDimensionAxis(axisConfig, options) && isWidthForced(options)) return options.width
 
   if (isScaleBand(axisConfig.scale.axisScale)) {
     const widthForOneNaturalUnit = axisConfig.scale.axisScale.bandwidth()
-    const naturalUnitsForWidth = isDimensionAxis(axisConfig, options)
+    const naturalUnitsForWidth = !isDimensionAxis(axisConfig, options)
       ? _.get(options, 'naturalWidth', 1)
       : 1
     return widthForOneNaturalUnit * naturalUnitsForWidth
@@ -337,7 +337,7 @@ function getItemSpanAtAxis (axisConfig, singleItem, options) {
   return Math.abs(getSpanEndPoint() - getSpanOriginPoint())
 
   function getSpanOriginPoint () {
-    if (isDimensionAxis(axisConfig, options)) {
+    if (!isDimensionAxis(axisConfig, options)) {
       if (isNaturalWidthForced(options)) {
         return getItemValueAtAxis(axisConfig, {
           [axisConfig.keyForValues]: _.get(singleItem, axisConfig.keyForValues) - options.naturalWidth / 2
@@ -353,7 +353,7 @@ function getItemSpanAtAxis (axisConfig, singleItem, options) {
   }
 
   function getSpanEndPoint () {
-    if (isDimensionAxis(axisConfig, options)) {
+    if (!isDimensionAxis(axisConfig, options)) {
       if (isNaturalWidthForced(options)) {
         return getItemValueAtAxis(axisConfig, {
           [axisConfig.keyForValues]: _.get(singleItem, axisConfig.keyForValues) + options.naturalWidth / 2
@@ -393,8 +393,8 @@ function isDimensionAxis (axisConfig, options) {
   if (!options) return false
 
   const axisForDimension = {
-    [DIMENSIONS.horizontal]: options.axis.vertical,
-    [DIMENSIONS.vertical]: options.axis.horizontal
+    [DIMENSIONS.horizontal]: options.axis.horizontal,
+    [DIMENSIONS.vertical]: options.axis.vertical
   }
 
   return axisForDimension[options.dimension] === axisConfig
