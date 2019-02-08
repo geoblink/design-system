@@ -167,3 +167,9 @@ export function stubGetBoundingClientRectFactory (functionOrValue) {
     sandbox.restore()
   }
 }
+
+export function getTransformTranslateMatches (elem) {
+  const transformAttributeValue = elem.attributes('transform')
+
+  return /translate\((-?\d+(?:\.\d+)?), (-?\d+(?:\.\d+)?)\)/.exec(transformAttributeValue)
+}

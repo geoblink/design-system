@@ -28,7 +28,7 @@ export function render (d3Instance, options, globalOptions) {
     .enter()
     .append('g')
     .attr('class', 'geo-chart-pie')
-    .attr('transform', 'translate(' + (globalOptions.chart.chartWidth / 2) + ',' + (globalOptions.chart.chartHeight / 2) + ')')
+    .attr('transform', 'translate(' + (globalOptions.chart.chartWidth / 2) + ', ' + (globalOptions.chart.chartHeight / 2) + ')')
 
   const updatedPies = pies
 
