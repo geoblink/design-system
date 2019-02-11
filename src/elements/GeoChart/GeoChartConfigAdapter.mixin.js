@@ -19,7 +19,7 @@ export default {
       if (!_.isEmpty(this.config.pieConfig)) {
         this.updatePieConfig()
       }
-      
+
       if (this.d3TipInstance) {
         this.d3Instance.call(this.d3TipInstance)
       }
