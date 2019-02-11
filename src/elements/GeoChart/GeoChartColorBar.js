@@ -169,14 +169,7 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions) {
     }
   }
 
-  const getTranslation = getSingleItemTranslationFactory(singleGroupOptions)
-  const getSegmentTranslation = getSingleSegmentTranslationFactory(singleGroupOptions)
-  const getHighlightedSegmentTranslation = getHighlightedSegmentTranslationFactory(singleGroupOptions)
-
-  const colorBarBaseClass = 'geo-chart-color-bar'
-  const segmentBaseClass = 'geo-chart-color-bar__segment'
-  const highlightedSegmentBaseClass = 'geo-chart-color-bar__highlighted-segment'
-
+  // ColorBar container positioning
   const colorBar = group
     .selectAll(`g.${colorBarBaseClass}`)
     .data([{
@@ -215,6 +208,7 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions) {
     .exit()
     .remove()
 
+  // Color bar Segments positioning
   const segments = colorBar
     .select('g.geo-chart-color-bar__segment-container')
     .selectAll(`rect.${segmentBaseClass}`)
@@ -250,6 +244,7 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions) {
     .exit()
     .remove()
 
+  // Color bar highlighted segments
   const highlightedSegments = colorBar
     .select('g.geo-chart-color-bar__highlighted-segment-container')
     .selectAll(`rect.${highlightedSegmentBaseClass}`)
@@ -287,6 +282,7 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions) {
     .exit()
     .remove()
 
+  // Color bar items translation functions
   function getColorBarTransform (d, i) {
     const translation = getTranslation(d, i)
     if (singleGroupOptions.dimension === DIMENSIONS.horizontal) {
@@ -295,7 +291,6 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions) {
       return `translate(${translation.x}, 0)`
     }
   }
-
   function getSegmentTransform (d, i) {
     const translation = getSegmentTranslation(d, i)
     return `translate(${translation.x}, ${translation.y})`
@@ -312,7 +307,6 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions) {
       return `translate(${translation.x}, ${originTranslation.y})`
     }
   }
-
   function getHighlightedSegmentTransform (d, i) {
     const translation = getHighlightedSegmentTranslation(d, i)
     return `translate(${translation.x}, ${translation.y})`
@@ -330,6 +324,195 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions) {
     }
   }
 
+  //
+  /**
+   * @param {GeoChart.SingleBarGroupConfig<HorizontalDomain, VerticalDomain>} options
+   * @returns {GetTranslationFunction}
+   */
+  function getSingleSegmentTranslationFactory (options) {
+    return function (singleItem, index) {
+      const horizontalAxis = options.axis.horizontal
+      const verticalAxis = options.axis.vertical
+
+      const originHorizontalPosition = horizontalAxis.scale.axisScale(singleItem[horizontalAxis.keyForValues])
+      const originVerticalPosition = verticalAxis.scale.axisScale(singleItem[verticalAxis.keyForValues])
+
+      const valueHorizontalSpan = getItemSpanAtAxis(horizontalAxis, singleItem, options)
+      const valueVerticalSpan = getItemSpanAtAxis(verticalAxis, singleItem, options)
+
+      const isBarHorizontalLengthIncreasing = isBarAxisLengthIncreasing(horizontalAxis, singleItem)
+      const isBarVerticalLengthIncreasing = isBarAxisLengthIncreasing(verticalAxis, singleItem)
+
+      const horizontalAxisTranslationForDimension = {
+        [DIMENSIONS.horizontal]: isBarHorizontalLengthIncreasing
+          ? originHorizontalPosition
+          : originHorizontalPosition - valueHorizontalSpan,
+        [DIMENSIONS.vertical]: 0
+      }
+
+      const verticalAxisTranslationForDimension = {
+        [DIMENSIONS.horizontal]: 0,
+        [DIMENSIONS.vertical]: isBarVerticalLengthIncreasing
+          ? originVerticalPosition
+          : originVerticalPosition - valueVerticalSpan
+      }
+
+      const horizontalAxisTranslation = horizontalAxisTranslationForDimension[options.dimension]
+      const verticalAxisTranslation = verticalAxisTranslationForDimension[options.dimension]
+
+      if (!_.isFinite(horizontalAxisTranslation)) {
+        throw new Error(`GeoChart (Color bars) [component] :: Wrong translation in x-axis. Check that item ${index} has a proper value for key «${horizontalAxis.keyForValues}» (currently it is «${_.get(singleItem, horizontalAxis.keyForValues)}»). Alternatively, change the horizontal axis (currently set to «${horizontalAxis.id}»). This could also happen if the axis has an invalid valueForOrigin (currently it is «${horizontalAxis.valueForOrigin}»).`)
+      }
+
+      if (!_.isFinite(verticalAxisTranslation)) {
+        throw new Error(`GeoChart (Color bars) [component] :: Wrong translation in y-axis. Check that item ${index} has a proper value for key «${verticalAxis.keyForValues}» (currently it is «${_.get(singleItem, verticalAxis.keyForValues)}»). Alternatively, change the vertical axis (currently set to ${verticalAxis.id}). This could also happen if the axis has an invalid valueForOrigin (currently it is «${verticalAxis.valueForOrigin}»).`)
+      }
+
+      return {
+        x: horizontalAxisTranslation,
+        y: verticalAxisTranslation
+      }
+    }
+  }
+
+  /**
+   * @param {GeoChart.SingleBarGroupConfig<HorizontalDomain, VerticalDomain>} options
+   * @returns {GetTranslationFunction}
+   */
+  function getHighlightedSegmentTranslationFactory (options) {
+    return function (singleItem, index) {
+      const horizontalAxis = options.axis.horizontal
+      const verticalAxis = options.axis.vertical
+
+      const originHorizontalPosition = horizontalAxis.scale.axisScale(singleItem[horizontalAxis.keyForValues])
+      const originVerticalPosition = verticalAxis.scale.axisScale(singleItem[verticalAxis.keyForValues])
+
+      const horizontalHighlightedElementOffset = isWidthForced(options)
+        ? (options.highlightedWidth - options.width) / 2
+        : 0
+
+      const verticalHighlightedElementOffset = isWidthForced(options)
+        ? (options.highlightedWidth - options.width) / 2
+        : 0
+
+      const valueHorizontalSpan = getHighlightedItemSpanAtAxis(horizontalAxis, singleItem, options)
+      const valueVerticalSpan = getHighlightedItemSpanAtAxis(verticalAxis, singleItem, options)
+
+      const isBarHorizontalLengthIncreasing = isBarAxisLengthIncreasing(horizontalAxis, singleItem)
+      const isBarVerticalLengthIncreasing = isBarAxisLengthIncreasing(verticalAxis, singleItem)
+
+      const horizontalAxisTranslationForDimension = {
+        [DIMENSIONS.horizontal]: isBarHorizontalLengthIncreasing
+          ? originHorizontalPosition
+          : originHorizontalPosition - valueHorizontalSpan,
+        [DIMENSIONS.vertical]: 0 - horizontalHighlightedElementOffset
+      }
+
+      const verticalAxisTranslationForDimension = {
+        [DIMENSIONS.horizontal]: 0 - verticalHighlightedElementOffset,
+        [DIMENSIONS.vertical]: isBarVerticalLengthIncreasing
+          ? originVerticalPosition
+          : originVerticalPosition - valueVerticalSpan
+      }
+
+      const horizontalAxisTranslation = horizontalAxisTranslationForDimension[options.dimension]
+      const verticalAxisTranslation = verticalAxisTranslationForDimension[options.dimension]
+
+      if (!_.isFinite(horizontalAxisTranslation)) {
+        throw new Error(`GeoChart (Color bars) [component] :: Wrong translation in x-axis. Check that item ${index} has a proper value for key «${horizontalAxis.keyForValues}» (currently it is «${_.get(singleItem, horizontalAxis.keyForValues)}»). Alternatively, change the horizontal axis (currently set to «${horizontalAxis.id}»). This could also happen if the axis has an invalid valueForOrigin (currently it is «${horizontalAxis.valueForOrigin}»).`)
+      }
+
+      if (!_.isFinite(verticalAxisTranslation)) {
+        throw new Error(`GeoChart (Color bars) [component] :: Wrong translation in y-axis. Check that item ${index} has a proper value for key «${verticalAxis.keyForValues}» (currently it is «${_.get(singleItem, verticalAxis.keyForValues)}»). Alternatively, change the vertical axis (currently set to ${verticalAxis.id}). This could also happen if the axis has an invalid valueForOrigin (currently it is «${verticalAxis.valueForOrigin}»).`)
+      }
+
+      return {
+        x: horizontalAxisTranslation,
+        y: verticalAxisTranslation
+      }
+    }
+  }
+  /**
+   * @param {GeoChart.SingleBarGroupConfig<HorizontalDomain, VerticalDomain>} options
+   * @returns {GetTranslationFunction}
+   */
+  function getSingleItemTranslationFactory (options) {
+    return function (singleItem, index) {
+      const horizontalAxis = options.axis.horizontal
+      const verticalAxis = options.axis.vertical
+
+      const originHorizontalPosition = horizontalAxis.scale.axisScale(horizontalAxis.scale.valueForOrigin)
+      const originVerticalPosition = verticalAxis.scale.axisScale(verticalAxis.scale.valueForOrigin)
+
+      const valueHorizontalSpan = getItemSpanAtAxis(horizontalAxis, singleItem, options)
+      const valueVerticalSpan = getItemSpanAtAxis(verticalAxis, singleItem, options)
+
+      const isBarHorizontalLengthIncreasing = isBarAxisLengthIncreasing(horizontalAxis, singleItem)
+      const isBarVerticalLengthIncreasing = isBarAxisLengthIncreasing(verticalAxis, singleItem)
+
+      // By default we don't want to add any additional translation to be bars
+      // apart from the one required to position it respect to their value in the
+      // normal axis
+      const naturalNormalOffset = isNaturalNormalOffsetForced(options)
+        ? options.naturalNormalOffset
+        : 0
+
+      const horizontalAxisTranslationForDimension = {
+        [DIMENSIONS.horizontal]: isBarHorizontalLengthIncreasing
+          ? originHorizontalPosition
+          : originHorizontalPosition - valueHorizontalSpan,
+        [DIMENSIONS.vertical]: getTranslationForAxisNormalToDimension(horizontalAxis, singleItem)
+      }
+
+      const verticalAxisTranslationForDimension = {
+        [DIMENSIONS.horizontal]: getTranslationForAxisNormalToDimension(verticalAxis, singleItem),
+        [DIMENSIONS.vertical]: isBarVerticalLengthIncreasing
+          ? originVerticalPosition
+          : originVerticalPosition - valueVerticalSpan
+      }
+
+      const horizontalAxisTranslation = horizontalAxisTranslationForDimension[options.dimension]
+      const verticalAxisTranslation = verticalAxisTranslationForDimension[options.dimension]
+
+      if (!_.isFinite(horizontalAxisTranslation)) {
+        throw new Error(`GeoChart (Color bars) [component] :: Wrong translation in x-axis. Check that item ${index} has a proper value for key «${horizontalAxis.keyForValues}» (currently it is «${_.get(singleItem, horizontalAxis.keyForValues)}»). Alternatively, change the horizontal axis (currently set to «${horizontalAxis.id}»). This could also happen if the axis has an invalid valueForOrigin (currently it is «${horizontalAxis.valueForOrigin}»).`)
+      }
+
+      if (!_.isFinite(verticalAxisTranslation)) {
+        throw new Error(`GeoChart (Color bars) [component] :: Wrong translation in y-axis. Check that item ${index} has a proper value for key «${verticalAxis.keyForValues}» (currently it is «${_.get(singleItem, verticalAxis.keyForValues)}»). Alternatively, change the vertical axis (currently set to ${verticalAxis.id}). This could also happen if the axis has an invalid valueForOrigin (currently it is «${verticalAxis.valueForOrigin}»).`)
+      }
+
+      return {
+        x: horizontalAxisTranslation,
+        y: verticalAxisTranslation
+      }
+
+      /**
+       * @template Domain
+       * @param {GeoChart.AxisConfig<Domain>} normalAxis
+       * @param {object} singleItem
+       */
+      function getTranslationForAxisNormalToDimension (normalAxis, singleItem) {
+        const positionOfItemValue = getItemValueAtAxis(normalAxis, singleItem)
+
+        if (isScaleBand(normalAxis.scale.axisScale)) {
+          const normalOffset = isNormalOffsetForced(options)
+            ? options.normalOffset
+            : naturalNormalOffset * normalAxis.scale.axisScale.bandwidth()
+
+          return positionOfItemValue + normalOffset
+        }
+
+        if (isNormalOffsetForced(options)) return positionOfItemValue + options.normalOffset
+
+        return getItemValueAtAxis(normalAxis, {
+          [normalAxis.keyForValues]: _.get(singleItem, normalAxis.keyForValues) + naturalNormalOffset
+        })
+      }
+    }
+  }
+
+  // CSS getClasses() Functions
   function getSingleBarCSSClasses (d, i) {
     const defaultClasses = [
       colorBarBaseClass,
@@ -492,6 +675,8 @@ function getItemSpanAtAxis (axisConfig, singleItem, options) {
   }
 }
 
+// COLOR BAR HELPER FUNCTIONS
+
 /**
  * @template Domain
  * @template HorizontalDomain
@@ -574,245 +759,6 @@ function isNaturalHighlightedWidthForced (options) {
 function getItemValueAtAxis (axisConfig, singleItem) {
   const rawValue = singleItem[axisConfig.keyForValues]
   return axisConfig.scale.axisScale(rawValue)
-}
-
-/**
- * @param {GeoChart.SingleBarGroupConfig<HorizontalDomain, VerticalDomain>} options
- * @returns {GetTranslationFunction}
- */
-function getSingleSegmentTranslationFactory (options) {
-  return function (singleItem, index) {
-    const horizontalAxis = options.axis.horizontal
-    const verticalAxis = options.axis.vertical
-
-    const originHorizontalPosition = horizontalAxis.scale.axisScale(singleItem[horizontalAxis.keyForValues])
-    const originVerticalPosition = verticalAxis.scale.axisScale(singleItem[verticalAxis.keyForValues])
-
-    const valueHorizontalSpan = getItemSpanAtAxis(horizontalAxis, singleItem, options)
-    const valueVerticalSpan = getItemSpanAtAxis(verticalAxis, singleItem, options)
-
-    const isBarHorizontalLengthIncreasing = isBarAxisLengthIncreasing(horizontalAxis, singleItem)
-    const isBarVerticalLengthIncreasing = isBarAxisLengthIncreasing(verticalAxis, singleItem)
-
-    // By default we don't want to add any additional translation to be bars
-    // apart from the one required to position it respect to their value in the
-    // normal axis
-    const naturalNormalOffset = isNaturalNormalOffsetForced(options)
-      ? options.naturalNormalOffset
-      : 0
-
-    const horizontalAxisTranslationForDimension = {
-      [DIMENSIONS.horizontal]: isBarHorizontalLengthIncreasing
-        ? originHorizontalPosition
-        : originHorizontalPosition - valueHorizontalSpan,
-      [DIMENSIONS.vertical]: 0
-    }
-
-    const verticalAxisTranslationForDimension = {
-      [DIMENSIONS.horizontal]: 0,
-      [DIMENSIONS.vertical]: isBarVerticalLengthIncreasing
-        ? originVerticalPosition
-        : originVerticalPosition - valueVerticalSpan
-    }
-
-    const horizontalAxisTranslation = horizontalAxisTranslationForDimension[options.dimension]
-    const verticalAxisTranslation = verticalAxisTranslationForDimension[options.dimension]
-
-    if (!_.isFinite(horizontalAxisTranslation)) {
-      throw new Error(`GeoChart (Color bars) [component] :: Wrong translation in x-axis. Check that item ${index} has a proper value for key «${horizontalAxis.keyForValues}» (currently it is «${_.get(singleItem, horizontalAxis.keyForValues)}»). Alternatively, change the horizontal axis (currently set to «${horizontalAxis.id}»). This could also happen if the axis has an invalid valueForOrigin (currently it is «${horizontalAxis.valueForOrigin}»).`)
-    }
-
-    if (!_.isFinite(verticalAxisTranslation)) {
-      throw new Error(`GeoChart (Color bars) [component] :: Wrong translation in y-axis. Check that item ${index} has a proper value for key «${verticalAxis.keyForValues}» (currently it is «${_.get(singleItem, verticalAxis.keyForValues)}»). Alternatively, change the vertical axis (currently set to ${verticalAxis.id}). This could also happen if the axis has an invalid valueForOrigin (currently it is «${verticalAxis.valueForOrigin}»).`)
-    }
-
-    return {
-      x: horizontalAxisTranslation,
-      y: verticalAxisTranslation
-    }
-
-    /**
-     * @template Domain
-     * @param {GeoChart.AxisConfig<Domain>} normalAxis
-     * @param {object} singleItem
-     */
-    function getTranslationForAxisNormalToDimension (normalAxis, singleItem) {
-      const positionOfItemValue = getItemValueAtAxis(normalAxis, singleItem)
-
-      if (isScaleBand(normalAxis.scale.axisScale)) {
-        const normalOffset = isNormalOffsetForced(options)
-          ? options.normalOffset
-          : naturalNormalOffset * normalAxis.scale.axisScale.bandwidth()
-
-        return positionOfItemValue + normalOffset
-      }
-
-      if (isNormalOffsetForced(options)) return positionOfItemValue + options.normalOffset
-
-      return getItemValueAtAxis(normalAxis, {
-        [normalAxis.keyForValues]: _.get(singleItem, normalAxis.keyForValues) + naturalNormalOffset
-      })
-    }
-  }
-}
-
-/**
- * @param {GeoChart.SingleBarGroupConfig<HorizontalDomain, VerticalDomain>} options
- * @returns {GetTranslationFunction}
- */
-function getHighlightedSegmentTranslationFactory (options) {
-  return function (singleItem, index) {
-    const horizontalAxis = options.axis.horizontal
-    const verticalAxis = options.axis.vertical
-
-    const originHorizontalPosition = horizontalAxis.scale.axisScale(singleItem[horizontalAxis.keyForValues])
-    const originVerticalPosition = verticalAxis.scale.axisScale(singleItem[verticalAxis.keyForValues])
-
-    const valueHorizontalSpan = getHighlightedItemSpanAtAxis(horizontalAxis, singleItem, options)
-    const valueVerticalSpan = getHighlightedItemSpanAtAxis(verticalAxis, singleItem, options)
-
-    const isBarHorizontalLengthIncreasing = isBarAxisLengthIncreasing(horizontalAxis, singleItem)
-    const isBarVerticalLengthIncreasing = isBarAxisLengthIncreasing(verticalAxis, singleItem)
-
-    // By default we don't want to add any additional translation to be bars
-    // apart from the one required to position it respect to their value in the
-    // normal axis
-    const naturalNormalOffset = isNaturalNormalOffsetForced(options)
-      ? options.naturalNormalOffset
-      : 0
-
-    const horizontalAxisTranslationForDimension = {
-      [DIMENSIONS.horizontal]: isBarHorizontalLengthIncreasing
-        ? originHorizontalPosition
-        : originHorizontalPosition - valueHorizontalSpan,
-      [DIMENSIONS.vertical]: 0
-    }
-
-    const verticalAxisTranslationForDimension = {
-      [DIMENSIONS.horizontal]: 0,
-      [DIMENSIONS.vertical]: isBarVerticalLengthIncreasing
-        ? originVerticalPosition
-        : originVerticalPosition - valueVerticalSpan
-    }
-
-    const horizontalAxisTranslation = horizontalAxisTranslationForDimension[options.dimension]
-    const verticalAxisTranslation = verticalAxisTranslationForDimension[options.dimension]
-
-    if (!_.isFinite(horizontalAxisTranslation)) {
-      throw new Error(`GeoChart (Color bars) [component] :: Wrong translation in x-axis. Check that item ${index} has a proper value for key «${horizontalAxis.keyForValues}» (currently it is «${_.get(singleItem, horizontalAxis.keyForValues)}»). Alternatively, change the horizontal axis (currently set to «${horizontalAxis.id}»). This could also happen if the axis has an invalid valueForOrigin (currently it is «${horizontalAxis.valueForOrigin}»).`)
-    }
-
-    if (!_.isFinite(verticalAxisTranslation)) {
-      throw new Error(`GeoChart (Color bars) [component] :: Wrong translation in y-axis. Check that item ${index} has a proper value for key «${verticalAxis.keyForValues}» (currently it is «${_.get(singleItem, verticalAxis.keyForValues)}»). Alternatively, change the vertical axis (currently set to ${verticalAxis.id}). This could also happen if the axis has an invalid valueForOrigin (currently it is «${verticalAxis.valueForOrigin}»).`)
-    }
-
-    return {
-      x: horizontalAxisTranslation,
-      y: verticalAxisTranslation
-    }
-
-    /**
-     * @template Domain
-     * @param {GeoChart.AxisConfig<Domain>} normalAxis
-     * @param {object} singleItem
-     */
-    function getTranslationForAxisNormalToDimension (normalAxis, singleItem) {
-      const positionOfItemValue = getItemValueAtAxis(normalAxis, singleItem)
-
-      if (isScaleBand(normalAxis.scale.axisScale)) {
-        const normalOffset = isNormalOffsetForced(options)
-          ? options.normalOffset
-          : naturalNormalOffset * normalAxis.scale.axisScale.bandwidth()
-
-        return positionOfItemValue + normalOffset
-      }
-
-      if (isNormalOffsetForced(options)) return positionOfItemValue + options.normalOffset
-
-      return getItemValueAtAxis(normalAxis, {
-        [normalAxis.keyForValues]: _.get(singleItem, normalAxis.keyForValues) + naturalNormalOffset
-      })
-    }
-  }
-}
-/**
- * @param {GeoChart.SingleBarGroupConfig<HorizontalDomain, VerticalDomain>} options
- * @returns {GetTranslationFunction}
- */
-function getSingleItemTranslationFactory (options) {
-  return function (singleItem, index) {
-    const horizontalAxis = options.axis.horizontal
-    const verticalAxis = options.axis.vertical
-
-    const originHorizontalPosition = horizontalAxis.scale.axisScale(horizontalAxis.scale.valueForOrigin)
-    const originVerticalPosition = verticalAxis.scale.axisScale(verticalAxis.scale.valueForOrigin)
-
-    const valueHorizontalSpan = getItemSpanAtAxis(horizontalAxis, singleItem, options)
-    const valueVerticalSpan = getItemSpanAtAxis(verticalAxis, singleItem, options)
-
-    const isBarHorizontalLengthIncreasing = isBarAxisLengthIncreasing(horizontalAxis, singleItem)
-    const isBarVerticalLengthIncreasing = isBarAxisLengthIncreasing(verticalAxis, singleItem)
-
-    // By default we don't want to add any additional translation to be bars
-    // apart from the one required to position it respect to their value in the
-    // normal axis
-    const naturalNormalOffset = isNaturalNormalOffsetForced(options)
-      ? options.naturalNormalOffset
-      : 0
-
-    const horizontalAxisTranslationForDimension = {
-      [DIMENSIONS.horizontal]: isBarHorizontalLengthIncreasing
-        ? originHorizontalPosition
-        : originHorizontalPosition - valueHorizontalSpan,
-      [DIMENSIONS.vertical]: getTranslationForAxisNormalToDimension(horizontalAxis, singleItem)
-    }
-
-    const verticalAxisTranslationForDimension = {
-      [DIMENSIONS.horizontal]: getTranslationForAxisNormalToDimension(verticalAxis, singleItem),
-      [DIMENSIONS.vertical]: isBarVerticalLengthIncreasing
-        ? originVerticalPosition
-        : originVerticalPosition - valueVerticalSpan
-    }
-
-    const horizontalAxisTranslation = horizontalAxisTranslationForDimension[options.dimension]
-    const verticalAxisTranslation = verticalAxisTranslationForDimension[options.dimension]
-
-    if (!_.isFinite(horizontalAxisTranslation)) {
-      throw new Error(`GeoChart (Color bars) [component] :: Wrong translation in x-axis. Check that item ${index} has a proper value for key «${horizontalAxis.keyForValues}» (currently it is «${_.get(singleItem, horizontalAxis.keyForValues)}»). Alternatively, change the horizontal axis (currently set to «${horizontalAxis.id}»). This could also happen if the axis has an invalid valueForOrigin (currently it is «${horizontalAxis.valueForOrigin}»).`)
-    }
-
-    if (!_.isFinite(verticalAxisTranslation)) {
-      throw new Error(`GeoChart (Color bars) [component] :: Wrong translation in y-axis. Check that item ${index} has a proper value for key «${verticalAxis.keyForValues}» (currently it is «${_.get(singleItem, verticalAxis.keyForValues)}»). Alternatively, change the vertical axis (currently set to ${verticalAxis.id}). This could also happen if the axis has an invalid valueForOrigin (currently it is «${verticalAxis.valueForOrigin}»).`)
-    }
-
-    return {
-      x: horizontalAxisTranslation,
-      y: verticalAxisTranslation
-    }
-
-    /**
-     * @template Domain
-     * @param {GeoChart.AxisConfig<Domain>} normalAxis
-     * @param {object} singleItem
-     */
-    function getTranslationForAxisNormalToDimension (normalAxis, singleItem) {
-      const positionOfItemValue = getItemValueAtAxis(normalAxis, singleItem)
-
-      if (isScaleBand(normalAxis.scale.axisScale)) {
-        const normalOffset = isNormalOffsetForced(options)
-          ? options.normalOffset
-          : naturalNormalOffset * normalAxis.scale.axisScale.bandwidth()
-
-        return positionOfItemValue + normalOffset
-      }
-
-      if (isNormalOffsetForced(options)) return positionOfItemValue + options.normalOffset
-
-      return getItemValueAtAxis(normalAxis, {
-        [normalAxis.keyForValues]: _.get(singleItem, normalAxis.keyForValues) + naturalNormalOffset
-      })
-    }
-  }
 }
 
 /**
