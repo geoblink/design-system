@@ -273,7 +273,7 @@ export const barConfigJsonSchema = {
 export const colorBarConfigJsonSchema = {
   type: 'object',
   additionalProperties: false,
-  required: ['data', 'dimension', 'idHorizontalAxis', 'idVerticalAxis'],
+  required: ['data', 'dimension', 'idHorizontalAxis', 'idVerticalAxis', 'normalValue'],
   allOf: [{
     oneOf: [{
       not: {
@@ -303,6 +303,21 @@ export const colorBarConfigJsonSchema = {
     }, {
       required: ['naturalWidth'],
       not: { required: ['width'] }
+    }]
+  }, {
+    oneOf: [{
+      not: {
+        anyOf: [
+          { required: ['highlightedWidth'] },
+          { required: ['naturalHighlightedWidth'] }
+        ]
+      }
+    }, {
+      required: ['highlightedWidth'],
+      not: { required: ['naturalHighlightedWidth'] }
+    }, {
+      required: ['naturalHighlightedWidth'],
+      not: { required: ['highlightedWidth'] }
     }]
   }],
   properties: {
