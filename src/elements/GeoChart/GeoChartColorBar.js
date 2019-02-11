@@ -81,6 +81,14 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions) {
     ? singleGroupOptions.axis.horizontal
     : singleGroupOptions.axis.vertical
 
+  const getTranslation = getSingleItemTranslationFactory(singleGroupOptions)
+  const getSegmentTranslation = getSingleSegmentTranslationFactory(singleGroupOptions)
+  const getHighlightedSegmentTranslation = getHighlightedSegmentTranslationFactory(singleGroupOptions)
+
+  const colorBarBaseClass = 'geo-chart-color-bar'
+  const segmentBaseClass = 'geo-chart-color-bar__segment'
+  const highlightedSegmentBaseClass = 'geo-chart-color-bar__highlighted-segment'
+
   const getSegmentWidth = (d, i) => {
     if (singleGroupOptions.dimension === DIMENSIONS.horizontal) {
       // TODO: log error if invalid range
@@ -132,7 +140,6 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions) {
       }, singleGroupOptions)
     }
   }
-
   const getHighlightedSegmentHeight = (d, i) => {
     if (singleGroupOptions.dimension === DIMENSIONS.horizontal) {
       // TODO: log error if not scale band
@@ -354,9 +361,10 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions) {
   }
 
   function getHighlightedSegmentBarCSSClasses (d, i) {
+    const highlightedSegmentIndex = _.indexOf(singleGroupOptions.axis.horizontal.scale.axisScale.domain(), d[axisForDimension.keyForValues])
     const defaultClasses = [
       highlightedSegmentBaseClass,
-      `geo-chart-color-bar__highlighted-segment--${i}`,
+      `geo-chart-color-bar__highlighted-segment--${highlightedSegmentIndex}`,
       `geo-chart-color-bar__highlighted-segment--${singleGroupOptions.dimension}`
     ]
 
