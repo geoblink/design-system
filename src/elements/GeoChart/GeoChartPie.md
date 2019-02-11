@@ -85,9 +85,7 @@ export default {
   },
   methods: {
     randomizeData () {
-      const values = _.times(_.random(2, 10), i => _.random(100, 1000))
-
-      this.chartData = _.times(_.random(2, 10), function() {
+      this.chartData = _.times(_.random(0, 10), function() {
         return {
           value: _.random(100, 1000)
         }
