@@ -1,6 +1,7 @@
 /// <reference types="d3" />
 
 import _ from 'lodash'
+import { setupDynamicTooltipEventListeners } from './GeoChartTooltip'
 
 const d3 = (function () {
   try {
@@ -16,10 +17,11 @@ const d3 = (function () {
  * @template PElement
  * @template PDatum
  * @param {d3.Selection<GElement, Datum, PElement, PDatum>} d3Instance
+ * @param {d3.Selection<GElement, Datum, PElement, PDatum>} [d3TipInstance]
  * @param {GeoChart.PieConfig} options
  * @param {GeoChart.PieGlobalConfig} globalOptions
  */
-export function render (d3Instance, options, globalOptions) {
+export function render (d3Instance, d3TipInstance, options, globalOptions) {
   const pies = d3Instance
     .selectAll('g.geo-chart-pie')
     .data([{}])
@@ -37,7 +39,7 @@ export function render (d3Instance, options, globalOptions) {
   // We use forEach to get the 'this' of the pie although we know we'll always have 1 for now.
   allPies.each(function () {
     const pie = d3.select(this)
-    renderSinglePie(pie, options, globalOptions)
+    renderSinglePie(pie, d3TipInstance, options, globalOptions)
   })
 }
 
@@ -47,10 +49,11 @@ export function render (d3Instance, options, globalOptions) {
  * @template PElement
  * @template PDatum
  * @param {d3.Selection<GElement, Datum, PElement, PDatum>} pie
+ * @param {d3.Selection<GElement, Datum, PElement, PDatum>} [d3TipInstance]
  * @param {GeoChart.PieConfig} singlePieOptions
  * @param {GeoChart.PieGlobalConfig} globalOptions
  */
-function renderSinglePie (pie, singlePieOptions, globalOptions) {
+function renderSinglePie (pie, d3TipInstance, singlePieOptions, globalOptions) {
   let pieWasEmpty = true
   const pieScale = getPieScale()
   const pieScaleData = pieScale(singlePieOptions.data)
@@ -90,6 +93,8 @@ function renderSinglePie (pie, singlePieOptions, globalOptions) {
     .duration(globalOptions.chart.animationsDurationInMilliseconds)
     .attrTween('d', arcTweenExit)
     .remove()
+
+  setupDynamicTooltipEventListeners(allPieSegments, d3TipInstance, singlePieOptions.getTooltip)
 
   function getPieScale () {
     return d3

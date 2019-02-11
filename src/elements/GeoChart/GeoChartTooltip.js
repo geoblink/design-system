@@ -1,3 +1,11 @@
+const d3 = (function () {
+  try {
+    return require('d3')
+  } catch (error) {
+    return null
+  }
+})()
+
 /**
  * Sets up `d3TipInstance` to be displayed when `d3Element` is hovered.
  *
@@ -16,6 +24,52 @@ export function setupTooltipEventListeners (d3Element, d3TipInstance, getHTMLCod
   } else {
     removeD3TipEvents(d3Element)
   }
+}
+
+/**
+ * Sets up `d3TipInstance` to be displayed when `d3Element` is hovered and
+ * update the position on mouse movements.
+ *
+ * **Note:** If `d3TipInstance` or `getHTMLCode` are falsy, events set by a
+ * previous call to this method with the same `d3Element` will be removed.
+ *
+ * @param {d3.Selection<GElement, Datum, PElement, PDatum>} d3Element
+ * @param {d3.Selection<GElement, Datum, PElement, PDatum>} [d3TipInstance]
+ * @param {Function} [getHTMLCode] Function taking as parameters an object and its
+ * positions in the data source and returning tooltip HTML code to be rendered
+ * when hovering its value in the chart.
+ */
+export function setupDynamicTooltipEventListeners (d3Element, d3TipInstance, getHTMLCode) {
+  if (d3TipInstance && getHTMLCode) {
+    registerD3DynamicTipEvents(d3TipInstance, d3Element, getHTMLCode)
+  } else {
+    removeD3TipEvents(d3Element)
+  }
+}
+
+/**
+ * Registers event listeners required to show tooltips when hovering element
+ * and then updating the tooltip offset according to the mouse position.
+ *
+ * @param {d3.Selection<GElement, Datum, PElement, PDatum>} d3TipInstance
+ * @param {d3.Selection<GElement, Datum, PElement, PDatum>} d3Element
+ * @param {Function} getHTMLCode Function taking as parameters an object and its
+ * positions in the data source and returning tooltip HTML code to be rendered
+ * when hovering its value in the chart.
+ */
+function registerD3DynamicTipEvents (d3TipInstance, d3Element, getHTMLCode) {
+  d3Element
+    .on('mouseover.updateTooltipText', function () {
+      d3TipInstance.html(getTooltipHTMLEmbeddingFactory(getHTMLCode))
+    })
+    .on('mousemove.updateTooltipOffset', function () {
+      const mouse = d3.mouse(this)
+      const bbox = this.getBBox()
+      const midpoint = [ bbox.x + bbox.width / 2, bbox.y + bbox.height / 2 ]
+      d3TipInstance.offset([mouse[1] - 15 - bbox.y, -midpoint[0] + mouse[0]])
+    })
+    .on('mousemove.updateTooltipPosition', d3TipInstance.show)
+    .on('mouseout.hideTooltip', d3TipInstance.hide)
 }
 
 /**
@@ -45,6 +99,8 @@ function removeD3TipEvents (d3Element) {
   d3Element.on('mouseover.updateTooltipText', null)
   d3Element.on('mouseover.showTooltip', null)
   d3Element.on('mouseover.hideTooltip', null)
+  d3Element.on('mousemove.updateTooltipOffset', null)
+  d3Element.on('mousemove.updateTooltipPosition', null)
 }
 
 /**

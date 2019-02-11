@@ -17,6 +17,13 @@ default value and **1** the maximum chart radius.
 default value as the maximum radius allowed by the chart height/width, and **0** the minimum
 chart radius.
 
+### Tooltips
+
+Each slice can customize the tooltip displayed when it's hovered by setting a
+function for key `tooltip`. This function takes as parameters the item
+corresponding to the slice being customized and its position inside the data array
+and is expected to return a HTML string that will be rendered inside a tooltip.
+
 ### Customizing CSS classes
 
 Each slice can customize its CSS classes by setting a function for key `cssClasses`.
@@ -73,6 +80,9 @@ export default {
           data: this.chartData,
           keyForValues: 'value',
           innerRadius: 0.3,
+          tooltip (d, i) {
+            return d.data.value
+          },
           cssClasses (originalClasses, d, i) {
             return [...originalClasses, 'my-custom-class']
           }

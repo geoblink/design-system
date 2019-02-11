@@ -108,6 +108,14 @@ export default {
         ? this.animationsDurationInMilliseconds
         : DEFAULT_PIE_TRANSITION_DURATION
 
+      if (userConfig.tooltip && !this.d3TipInstance) {
+        console.warn('GeoChart [component] :: d3-tip NPM package is required to use tooltips (attempted to use tooltips on a pie chart)')
+      }
+
+      if (userConfig.tooltip && !_.isFunction(userConfig.tooltip)) {
+        console.warn(`GeoChart [component] :: Attempted to use a non-function as pie chart tooltip content (used «${userConfig.tooltip}»)`)
+      }
+
       const chart = {
         animationsDurationInMilliseconds: animationsDurationInMilliseconds,
         size: chartSize,
@@ -122,10 +130,11 @@ export default {
         innerRadius: innerRadius * chart.chartRadius,
         outerRadius: outerRadius * chart.chartRadius,
         keyForValues: userConfig.keyForValues,
+        getTooltip: userConfig.tooltip,
         cssClasses: userConfig.cssClasses
       }
 
-      ChartPie.render(this.d3Instance, pieConfig, { chart })
+      ChartPie.render(this.d3Instance, this.d3TipInstance, pieConfig, { chart })
     }
   }
 }

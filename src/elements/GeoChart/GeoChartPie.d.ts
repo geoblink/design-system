@@ -15,6 +15,7 @@ declare namespace GeoChart {
     innerRadius: number
     outerRadius: number
     keyForValues: string
+    getTooltip?: (item: object, index: number) => string | null | undefined
     cssClasses?: (defaultClasses: string[], item: object, index: number) => string[]
   }
 }
