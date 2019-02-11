@@ -287,15 +287,6 @@ export default {
 
     layoutTableIfPossible () {
       if (this.isEmpty) return
-
-      const requiredObjects = [
-        this.$refs.tableHeader,
-        this.$refs.tableBody,
-        this.$refs.tableContainer
-      ]
-      const hasAllRequiredObjects = _.reduce(requiredObjects, (accum, object) => accum && !!object, true)
-      if (!hasAllRequiredObjects) return
-
       this.forcedLayoutTableThrottled()
     },
 
@@ -315,6 +306,14 @@ export default {
     },
 
     layoutColumns () {
+      const requiredObjects = [
+        this.$refs.tableHeader,
+        this.$refs.tableBody,
+        this.$refs.tableContainer
+      ]
+      const hasAllRequiredObjects = _.reduce(requiredObjects, (accum, object) => accum && !!object, true)
+      if (!hasAllRequiredObjects) return
+
       this.computeColumnsWidth()
       this.applyComputedColumnsWidth()
       this.layoutHeadersAndShadowsThrottled({
