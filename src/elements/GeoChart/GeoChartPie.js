@@ -105,15 +105,11 @@ function renderSinglePie (pie, d3TipInstance, singlePieOptions, globalOptions) {
 
   function getArcTween () {
     return function (d) {
-      let newPieElementsStartAngle
-      if (pieWasEmpty) {
-        // The animation of a new pie will be clockwise
-        newPieElementsStartAngle = 0
-      } else {
-        // If the pie is updated with new slices, those slices will be animated counterclockwise,
-        // meaning that the existing elements will adapt their width and the new ones will grow from the left.
-        newPieElementsStartAngle = 2 * Math.PI
-      }
+      // The animation of a new pie will be clockwise (from 0 to angle)
+      // If the pie is updated with new slices, those slices will be animated counterclockwise, meaning that
+      // the existing elements will adapt their width and the new ones will grow from the left (from 2 * Math.PI to angle).
+      const newPieElementsStartAngle = pieWasEmpty ? 0 : 2 * Math.PI
+
       const interpolateEndAngle = d3.interpolate(_.defaultTo(d.previousEndAngle, newPieElementsStartAngle), d.endAngle)
       const interpolateStartAngle = d3.interpolate(_.defaultTo(d.previousStartAngle, newPieElementsStartAngle), d.startAngle)
 
@@ -127,14 +123,10 @@ function renderSinglePie (pie, d3TipInstance, singlePieOptions, globalOptions) {
 
   function getArcTweenExit () {
     return function (d) {
-      let endAngle
-      if (pieScaleData.length === 0) {
-        // If the pie is updated with no data, all the slices will shrink and dissapear towards the right.
-        endAngle = 0
-      } else {
-        // If only some of the slices are no longer in the pie, those slices will shrink and dissapear towards the left.
-        endAngle = 2 * Math.PI
-      }
+      // If the pie is updated with no data, all the slices will shrink and dissapear towards the right.
+      // If only some of the slices are no longer in the pie, those slices will shrink and dissapear towards the left.
+      const endAngle = !pieScaleData.length ? 0 : 2 * Math.PI
+
       const interpolateEndAngle = d3.interpolate(d.endAngle, endAngle)
       const interpolateStartAngle = d3.interpolate(d.startAngle, endAngle)
 
