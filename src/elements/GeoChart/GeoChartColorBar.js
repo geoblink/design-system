@@ -269,9 +269,9 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions) {
   const allHighlightedSegments = newHighlightedSegments.merge(updatedHighlightedSegments)
 
   allHighlightedSegments
+    .attr('class', getHighlightedSegmentBarCSSClasses)
     .transition()
     .duration(globalOptions.chart.animationsDurationInMilliseconds)
-    .attr('class', getHighlightedSegmentBarCSSClasses)
     .attr('transform', getHighlightedSegmentTransform)
     .attr('width', getHighlightedSegmentWidth)
     .attr('height', getHighlightedSegmentHeight)
@@ -389,11 +389,11 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions) {
 
       const horizontalHighlightedElementOffset = isWidthForced(options)
         ? (options.highlightedWidth - options.width) / 2
-        : 0
+        : (horizontalAxis.scale.axisScale(options.naturalHighlightedWidth) - horizontalAxis.scale.axisScale(options.naturalWidth)) / 2
 
       const verticalHighlightedElementOffset = isWidthForced(options)
         ? (options.highlightedWidth - options.width) / 2
-        : 0
+        : (verticalAxis.scale.axisScale(options.naturalHighlightedWidth) - verticalAxis.scale.axisScale(options.naturalWidth)) / 2
 
       const valueHorizontalSpan = getHighlightedItemSpanAtAxis(horizontalAxis, singleItem, options)
       const valueVerticalSpan = getHighlightedItemSpanAtAxis(verticalAxis, singleItem, options)
