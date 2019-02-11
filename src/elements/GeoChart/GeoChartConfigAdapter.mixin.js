@@ -104,6 +104,7 @@ export default {
       const innerRadius = userConfig.innerRadius || DEFAULT_INNER_RADIUS
       const outerRadius = userConfig.outerRadius || DEFAULT_OUTER_RADIUS
       const chartMargin = _.get(this.config.chart, 'margin', ChartSizing.EMPTY_MARGIN)
+      const chartRadius = Math.min(chartSize.height, chartSize.width) / 2
       const animationsDurationInMilliseconds = _.get(this.config.chart, 'animationsDurationInMilliseconds')
         ? this.animationsDurationInMilliseconds
         : DEFAULT_PIE_TRANSITION_DURATION
@@ -121,14 +122,13 @@ export default {
         size: chartSize,
         margin: chartMargin,
         chartHeight: chartSize.height,
-        chartWidth: chartSize.width,
-        chartRadius: Math.min(chartSize.height, chartSize.width) / 2
+        chartWidth: chartSize.width
       }
 
       const pieConfig = {
         data: userConfig.data,
-        innerRadius: innerRadius * chart.chartRadius,
-        outerRadius: outerRadius * chart.chartRadius,
+        innerRadius: innerRadius * chartRadius,
+        outerRadius: outerRadius * chartRadius,
         keyForValues: userConfig.keyForValues,
         getTooltip: userConfig.tooltip,
         cssClasses: userConfig.cssClasses

@@ -6,7 +6,6 @@ declare namespace GeoChart {
       margin: GeoChart.Margin
       chartHeight: GeoChart.Size.height
       chartWidth: GeoChart.Size.width
-      chartRadius: number
     }
   }
 
