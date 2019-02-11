@@ -232,8 +232,6 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions) {
   const allSegments = updatedSegments.merge(newSegments)
 
   allSegments
-    .transition()
-    .duration(globalOptions.chart.animationsDurationInMilliseconds)
     .attr('class', getSegmentBarCSSClasses)
     .attr('transform', getSegmentTransform)
     .attr('stroke-width', '1px')
@@ -544,7 +542,7 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions) {
   }
 
   function getHighlightedSegmentBarCSSClasses (d, i) {
-    const highlightedSegmentIndex = _.indexOf(singleGroupOptions.axis.horizontal.scale.axisScale.domain(), d[axisForDimension.keyForValues])
+    const highlightedSegmentIndex = _.indexOf(axisForDimension.scale.axisScale.domain(), d[axisForDimension.keyForValues])
     const defaultClasses = [
       highlightedSegmentBaseClass,
       `geo-chart-color-bar__highlighted-segment--${highlightedSegmentIndex}`,
