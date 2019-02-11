@@ -71,10 +71,17 @@ There are 2 exclusive properties available to customize the **offset**:
 > **Note:** You can't set both `width` and `naturalWidth` or `normalOffset` and
 `naturalNormalOffset`. Doing so will throw an invalid config error.
 
+### Tooltips
+
+Each bar can customize the tooltip displayed when it's hovered by setting a
+function for key `tooltip`. This function takes as parameters the item
+corresponding to the bar being customized and its position inside the data array
+and is expected to return a HTML string that will be rendered inside a tooltip.
+
 ### Customizing CSS classes
 
 Each bar can customize its CSS classes by setting a function for key `cssClasses`.
-This functions takes as parameters the array of classes that would be set by
+This function takes as parameters the array of classes that would be set by
 default, the item corresponding to the bar being customized and its position
 inside the data array.
 
@@ -210,7 +217,7 @@ export default {
 <template>
   <div class="element-demo">
     <h3 class="element-demo__header">
-      Multiple series categorical chart
+      Multiple series with tooltip
       <div class="element-demo__inline-input-group">
         <geo-primary-button @click="randomizeData()">
           Randomize data
@@ -240,7 +247,8 @@ export default {
     return {
       categoricalDomain: null,
       monthlyTemperatureOf2017: null,
-      monthlyTemperatureOf2018: null
+      monthlyTemperatureOf2018: null,
+      monthlyTemperatureOf2019: null
     }
   },
   computed: {
@@ -294,6 +302,8 @@ export default {
 
     chartConfig () {
       if (!this.monthlyTemperatureOf2017) return null
+      if (!this.monthlyTemperatureOf2018) return null
+      if (!this.monthlyTemperatureOf2019) return null
 
       return {
         chart: {
@@ -311,16 +321,28 @@ export default {
         barGroups: [{
           data: this.monthlyTemperatureOf2017,
           dimension: BARS_DIMENSIONS.vertical,
-          naturalWidth: 0.45,
+          naturalWidth: 0.3,
           idHorizontalAxis: this.categoricalAxisConfig.id,
-          idVerticalAxis: this.linearAxisConfig.id
+          idVerticalAxis: this.linearAxisConfig.id,
+          tooltip: (d, i) => `${d[this.categoricalAxisConfig.keyForValues]} 2017 :: ${d[this.linearAxisConfig.keyForValues]}`
         }, {
           data: this.monthlyTemperatureOf2018,
           dimension: BARS_DIMENSIONS.vertical,
-          naturalWidth: 0.45,
-          naturalNormalOffset: 0.55,
+          naturalWidth: 0.3,
+          naturalNormalOffset: 0.35,
           idHorizontalAxis: this.categoricalAxisConfig.id,
-          idVerticalAxis: this.linearAxisConfig.id
+          idVerticalAxis: this.linearAxisConfig.id,
+          tooltip: (d, i) => `${d[this.categoricalAxisConfig.keyForValues]} 2018 :: ${d[this.linearAxisConfig.keyForValues]}`,
+          cssClasses: (original) => [...original, 'fill-red']
+        }, {
+          data: this.monthlyTemperatureOf2019,
+          dimension: BARS_DIMENSIONS.vertical,
+          naturalWidth: 0.3,
+          naturalNormalOffset: 0.7,
+          idHorizontalAxis: this.categoricalAxisConfig.id,
+          idVerticalAxis: this.linearAxisConfig.id,
+          tooltip: (d, i) => `${d[this.categoricalAxisConfig.keyForValues]} 2019 :: ${d[this.linearAxisConfig.keyForValues]}`,
+          cssClasses: (original) => [...original, 'fill-green']
         }]
       }
     }
@@ -344,6 +366,13 @@ export default {
       })
 
       this.monthlyTemperatureOf2018 = _.map(this.categoricalDomain, (category) => {
+        return {
+          [this.categoricalAxisConfig.keyForValues]: category,
+          [this.linearAxisConfig.keyForValues]: _.random(this.linearAxisConfig.scale.domain.start, this.linearAxisConfig.scale.domain.end, false)
+        }
+      })
+
+      this.monthlyTemperatureOf2019 = _.map(this.categoricalDomain, (category) => {
         return {
           [this.categoricalAxisConfig.keyForValues]: category,
           [this.linearAxisConfig.keyForValues]: _.random(this.linearAxisConfig.scale.domain.start, this.linearAxisConfig.scale.domain.end, false)

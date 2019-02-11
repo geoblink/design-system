@@ -19,6 +19,16 @@ export default {
       if (!_.isEmpty(this.config.pieConfig)) {
         this.updatePieConfig()
       }
+      
+      if (this.d3TipInstance) {
+        this.d3Instance.call(this.d3TipInstance)
+      }
+    },
+
+    cleanupData () {
+      if (this.d3TipInstance) {
+        this.d3TipInstance.destroy()
+      }
     },
 
     updateBarGroups () {
@@ -35,6 +45,15 @@ export default {
           horizontal: this.axesConfigById[singleBarGroupConfig.idHorizontalAxis],
           vertical: this.axesConfigById[singleBarGroupConfig.idVerticalAxis]
         }
+
+        if (singleBarGroupConfig.tooltip && !this.d3TipInstance) {
+          console.warn('GeoChart [component] :: d3-tip NPM package is required to use tooltips (attempted to use tooltips on a bar chart)')
+        }
+
+        if (singleBarGroupConfig.tooltip && !_.isFunction(singleBarGroupConfig.tooltip)) {
+          console.warn(`GeoChart [component] :: Attempted to use a non-function as bar chart tooltip content (used «${singleBarGroupConfig.tooltip}»)`)
+        }
+
         return {
           id: index,
           chart,
@@ -45,11 +64,12 @@ export default {
           naturalNormalOffset: singleBarGroupConfig.naturalNormalOffset,
           width: singleBarGroupConfig.width,
           naturalWidth: singleBarGroupConfig.naturalWidth,
+          getTooltip: singleBarGroupConfig.tooltip,
           cssClasses: singleBarGroupConfig.cssClasses
         }
       })
 
-      ChartBars.render(this.d3Instance, barGroupsConfig, { chart })
+      ChartBars.render(this.d3Instance, this.d3TipInstance, barGroupsConfig, { chart })
     },
 
     updateLabelGroups () {

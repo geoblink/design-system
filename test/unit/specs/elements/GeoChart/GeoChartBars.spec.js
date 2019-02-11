@@ -1,6 +1,14 @@
 import _ from 'lodash'
 
-import { flushD3Transitions, stubGetBoundingClientRectFactory, stubLodashDebounceFactory, getTransformTranslateMatches } from './GeoChart.spec-utils' // This has to be imported before D3
+import {
+  flushD3Transitions,
+  stubGetBoundingClientRectFactory,
+  stubGetBBoxFactory,
+  stubGetScreenCTMFactory,
+  stubLodashDebounceFactory,
+  getTransformTranslateMatches,
+  stubCreateSVGPointFactory
+} from './GeoChart.spec-utils' // This has to be imported before D3
 import { createLocalVue, mount } from '@vue/test-utils'
 import GeoChart from '@/elements/GeoChart/GeoChart.vue'
 
@@ -11,6 +19,26 @@ const localVue = createLocalVue()
 localVue.component('geo-chart', GeoChart)
 
 describe('GeoChartBars', function () {
+  const stubGetBBox = stubGetBBoxFactory()
+  const stubGetScreenCTM = stubGetScreenCTMFactory()
+  const stubCreateSVGPoint = stubCreateSVGPointFactory()
+
+  beforeEach(function () {
+    stubGetBBox.setup()
+    stubCreateSVGPoint.setup()
+    stubGetScreenCTM.setup()
+  })
+
+  afterEach(function () {
+    stubGetBBox.teardown()
+    stubCreateSVGPoint.teardown()
+    stubGetScreenCTM.teardown()
+  })
+
+  afterEach(function () {
+    document.body.innerHTML = ''
+  })
+
   describe('Constants', function () {
     it('should export DIMENSIONS', function () {
       expect(GeoChartBars).toHaveProperty('DIMENSIONS')
@@ -872,6 +900,84 @@ describe('GeoChartBars', function () {
 
             expect(wrapper.find('.geo-chart').exists()).toBe(true)
             expect(wrapper.findAll('.geo-chart-bars-group')).toHaveLength(1)
+          })
+        })
+
+        describe('Tooltips', function () {
+          it('should show proper tooltip on hover', function () {
+            const tooltipText = (d, i) => `${i} :: ${d[dimensionAxisConfig.keyForValues]}`
+            const wrapper = mount(GeoChart, {
+              propsData: {
+                config: {
+                  axisGroups: [dimensionAxisConfig, normalAxisConfig],
+                  barGroups: [{
+                    data: firstBarGroupData,
+                    dimension,
+                    idHorizontalAxis,
+                    idVerticalAxis,
+                    tooltip: tooltipText
+                  }]
+                },
+                height: `${chartHeight}px`,
+                width: `${chartWidth}px`
+              }
+            })
+
+            flushD3Transitions()
+
+            expect(wrapper.find('.geo-chart').exists()).toBe(true)
+
+            expect(wrapper.find('.geo-chart .geo-chart-bars-group').exists()).toBe(true)
+
+            expect(document.getElementsByClassName('geo-chart-tooltip')).toHaveLength(1)
+
+            const tooltipDiv = document.getElementsByClassName('geo-chart-tooltip')[0]
+            expect(window.getComputedStyle(tooltipDiv).opacity).toBe('0')
+
+            for (let i = 0; i < firstBarGroupData.length; i++) {
+              const singleBar = wrapper.findAll(`.geo-chart .geo-chart-bars-group .geo-chart-bar`).at(i)
+              singleBar.trigger('mouseover')
+              expect(window.getComputedStyle(tooltipDiv).opacity).toBe('1')
+              expect(tooltipDiv.textContent).toBe(tooltipText(firstBarGroupData[i], i))
+            }
+
+            wrapper.destroy()
+          })
+
+          it('should remove tooltip from DOM after chart is removed from DOM', function () {
+            const wrapper = mount(GeoChart, {
+              propsData: {
+                config: {
+                  axisGroups: [dimensionAxisConfig, normalAxisConfig],
+                  barGroups: [{
+                    data: firstBarGroupData,
+                    dimension,
+                    idHorizontalAxis,
+                    idVerticalAxis,
+                    tooltip (d, i) {
+                      return `${i} :: ${d[dimensionAxisConfig.keyForValues]}`
+                    }
+                  }]
+                },
+                height: `${chartHeight}px`,
+                width: `${chartWidth}px`
+              }
+            })
+
+            flushD3Transitions()
+
+            expect(wrapper.find('.geo-chart').exists()).toBe(true)
+
+            expect(wrapper.find('.geo-chart .geo-chart-bars-group').exists()).toBe(true)
+
+            expect(document.getElementsByClassName('geo-chart-tooltip')).toHaveLength(1)
+
+            const tooltipDiv = document.getElementsByClassName('geo-chart-tooltip')[0]
+            expect(window.getComputedStyle(tooltipDiv).opacity).toBe('0')
+
+            wrapper.destroy()
+
+            expect(document.getElementsByClassName('geo-chart-tooltip')).toHaveLength(0)
           })
         })
       })

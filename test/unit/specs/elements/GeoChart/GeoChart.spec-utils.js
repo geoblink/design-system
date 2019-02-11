@@ -11,6 +11,8 @@ const d3 = require('d3')
 // These utils require faking timers
 jest.useFakeTimers()
 
+require('d3-tip').default = require('d3-tip')
+
 export function stubLodashDebounceFactory () {
   const sandbox = sinon.createSandbox()
 
@@ -172,4 +174,137 @@ export function getTransformTranslateMatches (elem) {
   const transformAttributeValue = elem.attributes('transform')
 
   return /translate\((-?\d+(?:\.\d+)?), (-?\d+(?:\.\d+)?)\)/.exec(transformAttributeValue)
+}
+
+export function stubGetBBoxFactory (functionOrValue) {
+  // Object shape at » https://developer.mozilla.org/en-US/docs/Web/API/DOMRect
+  functionOrValue = functionOrValue || {
+    x: 0,
+    y: 0,
+    width: 0,
+    height: 0,
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0
+  }
+  const sandbox = sinon.createSandbox()
+
+  const isGetBBoxPresentInSVGElementPrototype = 'getBBox' in SVGSVGElement.prototype
+
+  return { setup, teardown }
+
+  function setup () {
+    // Sinon can't stub missing properties
+    if (isGetBBoxPresentInSVGElementPrototype) {
+      sandbox.stub(SVGSVGElement.prototype, 'getBBox').callsFake(getReturnValue)
+    } else {
+      SVGSVGElement.prototype.getBBox = getReturnValue
+    }
+  }
+
+  function teardown () {
+    if (isGetBBoxPresentInSVGElementPrototype) {
+      sandbox.restore()
+    } else {
+      // So ownProperties are restored -- maybe they are checked by a 3rd party
+      delete SVGSVGElement.getBBox
+    }
+  }
+
+  function getReturnValue () {
+    return _.isFunction(functionOrValue)
+      ? functionOrValue()
+      : functionOrValue
+  }
+}
+
+export function stubGetScreenCTMFactory (functionOrValue) {
+  // Object shape at » https://developer.mozilla.org/en-US/docs/Web/API/DOMMatrix
+  functionOrValue = functionOrValue || {
+    is2D: true,
+    isIdentity: true,
+    a: 1,
+    b: 0,
+    c: 0,
+    d: 1,
+    e: 0,
+    f: 0,
+    m11: 1,
+    m12: 0,
+    m13: 0,
+    m14: 0,
+    m21: 0,
+    m22: 1,
+    m23: 0,
+    m24: 0,
+    m31: 0,
+    m32: 0,
+    m33: 1,
+    m34: 0,
+    m41: 0,
+    m42: 0,
+    m43: 0,
+    m44: 1
+  }
+  const sandbox = sinon.createSandbox()
+
+  const isGetScreenCTMPresentInSVGElementPrototype = 'getScreenCTM' in SVGSVGElement.prototype
+
+  return { setup, teardown }
+
+  function setup () {
+    // Sinon can't stub missing properties
+    if (isGetScreenCTMPresentInSVGElementPrototype) {
+      sandbox.stub(SVGSVGElement.prototype, 'getScreenCTM').callsFake(getReturnValue)
+    } else {
+      SVGSVGElement.prototype.getScreenCTM = getReturnValue
+    }
+  }
+
+  function teardown () {
+    if (isGetScreenCTMPresentInSVGElementPrototype) {
+      sandbox.restore()
+    } else {
+      // So ownProperties are restored -- maybe they are checked by a 3rd party
+      delete SVGSVGElement.getScreenCTM
+    }
+  }
+
+  function getReturnValue () {
+    return _.isFunction(functionOrValue)
+      ? functionOrValue()
+      : functionOrValue
+  }
+}
+
+export function stubCreateSVGPointFactory () {
+  const sandbox = sinon.createSandbox()
+  const defaultPoint = {
+    matrixTransform () {
+      return {}
+    }
+  }
+
+  const isCreateSVGPointPresentInSVGSVGElementPrototype = 'createSVGPoint' in SVGSVGElement.prototype
+
+  return { setup, teardown }
+
+  function setup () {
+    // Sinon can't stub missing properties
+    if (isCreateSVGPointPresentInSVGSVGElementPrototype) {
+      sandbox.stub(SVGSVGElement.prototype, 'createSVGPoint').returns(defaultPoint)
+    } else {
+      SVGSVGElement.prototype.createSVGPoint = () => defaultPoint
+    }
+  }
+
+  function teardown () {
+    if (isCreateSVGPointPresentInSVGSVGElementPrototype) {
+      sandbox.restore()
+    } else {
+      // So ownProperties are restored -- maybe they are checked by a 3rd party
+      delete SVGSVGElement.createSVGPoint
+    }
+  }
 }

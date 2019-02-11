@@ -24,6 +24,104 @@
     }
   }
 
+  .geo-chart-tooltip#{$modifier-name-with-prefix} {
+    // These styles are directly taken from vue-directive-tooltip so Chart
+    // tooltips look like regular tooltips.
+
+    $popper-background-color: #000 !default;
+    $popper-tooltip-arrow-size: 5px;
+
+    background-color: $popper-background-color;
+    border-radius: 3px;
+    box-shadow: 2px 2px 3px rgba(#000, 0.4);
+    box-sizing: border-box;
+    color: #fff;
+    max-width: 320px;
+    padding: 6px 10px;
+    z-index: 100;
+
+    .geo-chart-tooltip__content {
+      text-align: center;
+    }
+
+    .geo-chart-tooltip__arrow {
+      border-style: solid;
+      content: '';
+      height: 0;
+      margin: $popper-tooltip-arrow-size;
+      position: absolute;
+      width: 0;
+    }
+
+    &.n {
+      margin-bottom: $popper-tooltip-arrow-size;
+
+      .geo-chart-tooltip__arrow {
+        border-bottom-color: transparent !important;
+        border-left-color: transparent !important;
+        border-right-color: transparent !important;
+        border-top-color: $popper-background-color;
+        border-width: $popper-tooltip-arrow-size $popper-tooltip-arrow-size 0 $popper-tooltip-arrow-size;
+        bottom: -$popper-tooltip-arrow-size;
+        left: 50%;
+        margin-top: 0;
+        margin-bottom: 0;
+        transform: translateX(-100%);
+      }
+    }
+
+    &.s {
+      margin-top: $popper-tooltip-arrow-size;
+
+      .geo-chart-tooltip__arrow {
+        border-bottom-color: $popper-background-color;
+        border-left-color: transparent !important;
+        border-right-color: transparent !important;
+        border-top-color: transparent !important;
+        border-width: 0 $popper-tooltip-arrow-size $popper-tooltip-arrow-size $popper-tooltip-arrow-size;
+        left: 50%;
+        margin-top: 0;
+        margin-bottom: 0;
+        top: -$popper-tooltip-arrow-size;
+        transform: translateX(-100%);
+      }
+    }
+
+    &.e {
+      margin-left: $popper-tooltip-arrow-size;
+
+      .geo-chart-tooltip__arrow {
+        border-bottom-color: transparent !important;
+        border-left-color: transparent !important;
+        border-top-color: transparent !important;
+        border-right-color: $popper-background-color;
+        border-width: $popper-tooltip-arrow-size $popper-tooltip-arrow-size $popper-tooltip-arrow-size 0;
+        left: -$popper-tooltip-arrow-size;
+        margin-left: 0;
+        margin-right: 0;
+        top: 50%;
+        transform: translateY(-100%);
+      }
+    }
+
+    &.w {
+      margin-right: $popper-tooltip-arrow-size;
+
+      .geo-chart-tooltip__arrow {
+        border-bottom-color: transparent !important;
+        border-left-color: $popper-background-color;
+        border-right-color: transparent !important;
+        border-top-color: transparent !important;
+        border-width: $popper-tooltip-arrow-size 0 $popper-tooltip-arrow-size $popper-tooltip-arrow-size;
+        margin-left: 0;
+        margin-right: 0;
+        right: -$popper-tooltip-arrow-size;
+        top: 50%;
+        transform: translateY(-100%);
+      }
+    }
+  }
+
   .geo-chart--debug#{$modifier-name-with-prefix} {
     background-size: 50px 50px;
     background-image:

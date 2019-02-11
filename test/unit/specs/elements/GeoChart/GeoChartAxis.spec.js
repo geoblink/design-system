@@ -1,6 +1,13 @@
 import _ from 'lodash'
 
-import { flushD3Transitions, stubGetBoundingClientRectFactory, stubLodashDebounceFactory } from './GeoChart.spec-utils' // This has to be imported before D3
+import {
+  flushD3Transitions,
+  stubGetBoundingClientRectFactory,
+  stubGetBBoxFactory,
+  stubGetScreenCTMFactory,
+  stubLodashDebounceFactory,
+  stubCreateSVGPointFactory
+} from './GeoChart.spec-utils' // This has to be imported before D3
 import { createLocalVue, mount } from '@vue/test-utils'
 import GeoChart from '@/elements/GeoChart/GeoChart.vue'
 
@@ -10,6 +17,26 @@ const localVue = createLocalVue()
 localVue.component('geo-chart', GeoChart)
 
 describe('GeoChartAxis', function () {
+  const stubGetBBox = stubGetBBoxFactory()
+  const stubGetScreenCTM = stubGetScreenCTMFactory()
+  const stubCreateSVGPoint = stubCreateSVGPointFactory()
+
+  beforeEach(function () {
+    stubGetBBox.setup()
+    stubCreateSVGPoint.setup()
+    stubGetScreenCTM.setup()
+  })
+
+  afterEach(function () {
+    stubGetBBox.teardown()
+    stubCreateSVGPoint.teardown()
+    stubGetScreenCTM.teardown()
+  })
+
+  afterEach(function () {
+    document.body.innerHTML = ''
+  })
+
   describe('Constants', function () {
     it('should export DIMENSIONS', function () {
       expect(GeoChartAxis).toHaveProperty('DIMENSIONS')
