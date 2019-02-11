@@ -1,3 +1,9 @@
+# 10.2.0
+
+New:
+
+- `GeoChart` support for tooltips in bar chart
+
 # 10.1.2
 
 Fixed:

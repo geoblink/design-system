@@ -26,6 +26,14 @@ const d3 = (function () {
   }
 })()
 
+const d3Tip = (function () {
+  try {
+    return require('d3-tip').default
+  } catch (error) {
+    return null
+  }
+})()
+
 const Ajv = (function () {
   try {
     return require('ajv')
@@ -142,6 +150,12 @@ export default {
       return d3.select(this.svgElement)
     },
 
+    d3TipInstance () {
+      if (!d3Tip) return null
+
+      return d3Tip().attr('class', `geo-chart-tooltip${this.cssSuffix}`)
+    },
+
     animationsDurationInMilliseconds () {
       return _.isFinite(_.get(this.config.chart, 'animationsDurationInMilliseconds'))
         ? this.config.chart.animationsDurationInMilliseconds
@@ -242,6 +256,9 @@ export default {
   },
   mounted () {
     this.debouncedRedraw()
+  },
+  beforeDestroy () {
+    this.cleanupData()
   },
   methods: {
     redraw () {
