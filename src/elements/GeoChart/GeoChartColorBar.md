@@ -5,14 +5,78 @@ must be an object with the following...
 
 ## Required properties
 
-- `data`: Collection being displayed (array).
+- `data`: Collection of highlighted elements being displayed (array).
 - `dimension`: A value of `BARS_DIMENSIONS` named export (either `horizontal` or `vertical`). The dimension in which the stacked rectangles will be positioned.
 - `idHorizontalAxis`: The ID of the axis defining the `horizontal` dimension. Will be used to compute proper origin and span of the bar if the dimension is horizontal or the width of each individual group if the dimension is vertical.
 - `idVerticalAxis`: The ID of the axis defining the `vertical` dimension. Will be used to compute proper origin and span of the bar if the dimension is vertical or the width of each individual group if the dimension is horizontal.
+- `normalValue`: Value to position the colorBar in the normal (numerical) axis. The value must be contained within the linear axis domain.
 
 **Note:** `idHorizontalAxis` and `idVerticalAxis` must be IDs of registered axes. See [Axes](./#/Elements/Charts?id=axes) for more info.
 
-### TBC
+## Optional properties
+
+Optionally you can configure each **group** with an **offset** and a **width**.
+These are useful when you want to display multiple collections which have repeated
+items for the **normal dimension**.
+
+> **Normal dimension** is the dimension perpendicular to the group's `dimension`.
+>
+> For instance, if you set `dimension` to `horizontal` then the **normal dimension**
+> will be `vertical`.
+
+To allow maximum flexibility `GeoChart` does not prevent overlaps. To prevent
+bars from different **groups** from overlapping you'll have to set a **width**
+and an `offset`.
+
+- **Width** defines the span of the rectangle in the **normal dimension**. The
+span in the **group** `dimension` is computed just using the value associated to
+that item in the corresponding axis, however, this is not appliable in all the
+scenarios (a classic one is a bar chart displaying a set of categories and for
+each category a numeric value - like an expenses by category chart - with the
+**width** you can customize the span of the bars in the categorical axis).
+
+- **HighlightedWidth** is defined exactly the same as width, with the difference
+that this property is only applied to the items passed as data within each of the `colorBarGroups`.
+The highlighted items will have by default a black stroke, with the user being able to customize
+the extra width applied to each one of the items.
+
+- **Offset** defines the translation in the **normal dimension** that must be
+applied to the bars in order to not overlap. This is not enough to prevent
+overlapping since by default in some axis the **width** is all the available
+space so there doesn't exist a translation which would prevent an overlap.
+
+Both of them can be expressed either in **absolute** or **natural** units:
+
+- **Absolute** means in the same units as the underlying SVG coordinate space.
+You can think of this as just pixels (although they are not strictly just pixels
+and they might not directly translate 1:1 to screen pixels).
+- **Natural** means in the same units as the axis used for the **normal dimension**.
+For instance, if you have an axis of seconds, then a `naturalOffset` of `N` is
+an offset of `N` seconds. If the axis are categories then the absolute value for
+an offset of `N` is the absolute value for `N` categories.
+
+You can chose either **absolute** or **natural** values for **width** and
+**offset** independently, so the **offset** can be set to **natural** units
+while the **width** is set to **absolute**.
+
+There are 2 exclusive properties available to customize the **width**:
+
+- `width` if you want to use **absolute** units.
+- `naturalWidth` if you want to use **natural** units.
+
+There are 2 exclusive properties available to customize the **highlightedWidth**:
+
+- `highlightedWidth` if you want to use **absolute** units.
+- `naturalHighlightedWidth` if you want to use **absolute** units.
+
+There are 2 exclusive properties available to customize the **offset**:
+
+- `normalOffset` if you want to use **absolute** units.
+- `naturalNormalOffset` if you want to use **natural** units.
+
+> **Note:** You can't set both `width` and `naturalWidth`,
+`highlightedWidth` and `naturalHighlightedWidth`, or `normalOffset` and `naturalNormalOffset`.
+Doing so will throw an invalid config error.
 
 ```vue
 <template>
