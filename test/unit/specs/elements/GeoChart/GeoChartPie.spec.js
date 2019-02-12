@@ -210,7 +210,9 @@ describe('GeoChartPie', function () {
           pieConfig: {
             data: chartData,
             keyForValues,
-            tooltip: tooltipText,
+            tooltip: {
+              content: tooltipText
+            },
             cssClasses (originalClasses, d, i) {
               return [...originalClasses, `my-custom-class-${i}`]
             }

@@ -1,7 +1,7 @@
 /// <reference types="d3" />
 
 import _ from 'lodash'
-import { setupDynamicTooltipEventListeners } from './GeoChartTooltip'
+import { setupTooltipEventListeners } from './GeoChartTooltip'
 
 const d3 = (function () {
   try {
@@ -94,7 +94,7 @@ function renderSinglePie (pie, d3TipInstance, singlePieOptions, globalOptions) {
     .attrTween('d', arcTweenExit)
     .remove()
 
-  setupDynamicTooltipEventListeners(allPieSegments, d3TipInstance, singlePieOptions.getTooltip)
+  setupTooltipEventListeners(allPieSegments, d3TipInstance, singlePieOptions.tooltip)
 
   function getPieScale () {
     return d3
