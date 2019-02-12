@@ -1,6 +1,6 @@
 Similarly to [Bar charts](./#/Elements/Charts?id=bars), Colored bar charts are collections of grouped bars which are displayed as stacked rectangles in a 2-dimensional grid. An arbitrary amount of different collections of grouped bars can be displayed using colored bar charts, each of those collections are called **groups**.
 
-To add colored bar **groups** to a chart, add an array to `coloredBarGroups` key of [GeoChart](./#/Elements/Charts?id=introduction)'s config. Each item of the array
+To add colored bar **groups** to a chart, add an array to `colorBarGroups` key of [GeoChart](./#/Elements/Charts?id=introduction)'s config. Each item of the array
 must be an object with the following...
 
 ## Required properties
@@ -107,7 +107,7 @@ Doing so will throw an invalid config error.
   const { SCALE_TYPES } = require('./GeoChartScale')
 
   export default {
-    name: 'GeoChartColoredBarDemo',
+    name: 'GeoChartColorBarDemo',
     data () {
       return {
         categoricalDomain: null,
@@ -164,7 +164,8 @@ Doing so will throw an invalid config error.
               right: 30,
               bottom: 30,
               left: 30
-            }
+            },
+            animationsDurationInMilliseconds: 1500
           },
           axisGroups: [
             this.linearAxisConfig,
@@ -230,7 +231,7 @@ Doing so will throw an invalid config error.
   const { SCALE_TYPES } = require('./GeoChartScale')
 
   export default {
-    name: 'GeoChartColoredBarDemo',
+    name: 'GeoChartColorBarDemo',
     data () {
       return {
         categoricalDomain: null,
@@ -353,7 +354,7 @@ Doing so will throw an invalid config error.
   const { SCALE_TYPES } = require('./GeoChartScale')
 
   export default {
-    name: 'GeoChartColoredBarDemo',
+    name: 'GeoChartColorBarDemo',
     data () {
       return {
         categoricalDomain: null,
@@ -476,7 +477,7 @@ Doing so will throw an invalid config error.
   const { SCALE_TYPES } = require('./GeoChartScale')
 
   export default {
-    name: 'GeoChartColoredBarDemo',
+    name: 'GeoChartColorBarDemo',
     data () {
       return {
         categoricalDomain: null,

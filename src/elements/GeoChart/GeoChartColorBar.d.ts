@@ -11,7 +11,6 @@ declare namespace GeoChart {
       margin: GeoChart.Margin
     }
   }
-
   interface SingleColorBarGroupConfig<HorizontalDomain, VerticalDomain> {
     id: string
     dimension: GeoChart.BarDimension
@@ -26,6 +25,7 @@ declare namespace GeoChart {
     naturalWidth?: number
     highlightedWidth?: number
     naturalHighlightedWidth?: number
+    normalValue: number
     cssClasses?: (defaultClasses: string[], item: object, index: number) => string[]
   }
 }

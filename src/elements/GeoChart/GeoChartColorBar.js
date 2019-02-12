@@ -68,7 +68,7 @@ export function render (d3Instance, options, globalOptions) {
  * @template PDatum
  * @template HorizontalDomain
  * @template VerticalDomain
- * @param {d3.Selection<GElement, Datum, PElement, PDatum>} d3Instance
+ * @param {d3.Selection<GElement, Datum, PElement, PDatum>} group
  * @param {GeoChart.SingleColorBarGroupConfig<HorizontalDomain, VerticalDomain>} singleGroupOptions
  * @param {GeoChart.ColorBarGroupsGlobalConfig} globalOptions
  */
@@ -90,195 +90,104 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions) {
   const highlightedSegmentBaseClass = 'geo-chart-color-bar__highlighted-segment'
 
   const getSegmentWidth = (d, i) => {
-    if (singleGroupOptions.dimension === DIMENSIONS.horizontal) {
-      // TODO: log error if invalid range
-      return getItemSpanAtAxis(axisForDimension, d, singleGroupOptions)
-    } else if (singleGroupOptions.dimension === DIMENSIONS.vertical) {
-      // TODO: log error if not scale band
-      return getItemSpanAtAxis(axisForNormalDimension, {
-        [axisForNormalDimension.keyForValues]: singleGroupOptions.normalValue
-      }, singleGroupOptions)
+    switch (singleGroupOptions.dimension) {
+      case DIMENSIONS.horizontal:
+        return getItemSpanAtAxis(axisForDimension, d, singleGroupOptions)
+      case DIMENSIONS.vertical:
+        return getItemSpanAtAxis(axisForNormalDimension, {
+          [axisForNormalDimension.keyForValues]: singleGroupOptions.normalValue
+        }, singleGroupOptions)
+      default:
+        console.error(`GeoChartColorBar [component] :: Invalid axis dimension for getSegmentWidth: ${singleGroupOptions.dimension}`)
     }
   }
   const getSegmentHeight = (d, i) => {
-    if (singleGroupOptions.dimension === DIMENSIONS.horizontal) {
-      // TODO: log error if not scale band
-      return getItemSpanAtAxis(axisForNormalDimension, {
-        [axisForNormalDimension.keyForValues]: singleGroupOptions.normalValue
-      }, singleGroupOptions)
-    } else if (singleGroupOptions.dimension === DIMENSIONS.vertical) {
-      // TODO: log error if invalid range
-      return getItemSpanAtAxis(axisForDimension, d, singleGroupOptions)
+    switch (singleGroupOptions.dimension) {
+      case DIMENSIONS.horizontal:
+        return getItemSpanAtAxis(axisForNormalDimension, {
+          [axisForNormalDimension.keyForValues]: singleGroupOptions.normalValue
+        }, singleGroupOptions)
+      case DIMENSIONS.vertical:
+        return getItemSpanAtAxis(axisForDimension, d, singleGroupOptions)
+      default:
+        console.error(`GeoChartColorBar [component] :: Invalid axis dimension for getSegmentHeight: ${singleGroupOptions.dimension}`)
     }
   }
 
   const getNewSegmentInitialWidth = (d, i) => {
     switch (singleGroupOptions.dimension) {
       case DIMENSIONS.horizontal:
-        return 0
       case DIMENSIONS.vertical:
         return getSegmentWidth(d, i)
+      default:
+        console.error(`GeoChartColorBar [component] :: Invalid axis dimension for getNewSegmentInitialWidth: ${singleGroupOptions.dimension}`)
     }
   }
   const getNewSegmentInitialHeight = (d, i) => {
     switch (singleGroupOptions.dimension) {
       case DIMENSIONS.horizontal:
-        return getSegmentHeight(d, i)
       case DIMENSIONS.vertical:
-        return 0
+        return getSegmentHeight(d, i)
+      default:
+        console.error(`GeoChartColorBar [component] :: Invalid axis dimension for getNewSegmentInitialHeight: ${singleGroupOptions.dimension}`)
     }
   }
 
   const getHighlightedSegmentWidth = (d, i) => {
-    if (singleGroupOptions.dimension === DIMENSIONS.horizontal) {
-      // TODO: log error if invalid range
-      return getItemSpanAtAxis(axisForDimension, d, singleGroupOptions)
-    } else if (singleGroupOptions.dimension === DIMENSIONS.vertical) {
-      // TODO: log error if not scale band
-      return getHighlightedItemSpanAtAxis(axisForNormalDimension, {
-        [axisForNormalDimension.keyForValues]: singleGroupOptions.normalValue
-      }, singleGroupOptions)
+    switch (singleGroupOptions.dimension) {
+      case DIMENSIONS.horizontal:
+        return getItemSpanAtAxis(axisForDimension, d, singleGroupOptions)
+      case DIMENSIONS.vertical:
+        return getHighlightedItemSpanAtAxis(axisForNormalDimension, {
+          [axisForNormalDimension.keyForValues]: singleGroupOptions.normalValue
+        }, singleGroupOptions)
+      default:
+        console.error(`GeoChartColorBar [component] :: Invalid axis dimension for getHighlightedSegmentWidth: ${singleGroupOptions.dimension}`)
     }
   }
   const getHighlightedSegmentHeight = (d, i) => {
-    if (singleGroupOptions.dimension === DIMENSIONS.horizontal) {
-      // TODO: log error if not scale band
-      return getHighlightedItemSpanAtAxis(axisForNormalDimension, {
-        [axisForNormalDimension.keyForValues]: singleGroupOptions.normalValue
-      }, singleGroupOptions)
-    } else if (singleGroupOptions.dimension === DIMENSIONS.vertical) {
-      // TODO: log error if invalid range
-      return getItemSpanAtAxis(axisForDimension, d, singleGroupOptions)
+    switch (singleGroupOptions.dimension) {
+      case DIMENSIONS.horizontal:
+        return getHighlightedItemSpanAtAxis(axisForNormalDimension, {
+          [axisForNormalDimension.keyForValues]: singleGroupOptions.normalValue
+        }, singleGroupOptions)
+      case DIMENSIONS.vertical:
+        return getItemSpanAtAxis(axisForDimension, d, singleGroupOptions)
+      default:
+        console.error(`GeoChartColorBar [component] :: Invalid axis dimension for getHighlightedSegmentHeight: ${singleGroupOptions.dimension}`)
     }
   }
 
   const getNewHighlightedSegmentInitialWidth = (d, i) => {
     switch (singleGroupOptions.dimension) {
       case DIMENSIONS.horizontal:
-        return 0
       case DIMENSIONS.vertical:
         return getHighlightedSegmentWidth(d, i)
+      default:
+        console.error(`GeoChartColorBar [component] :: Invalid axis dimension for getNewHighlightedSegmentInitialWidth: ${singleGroupOptions.dimension}`)
     }
   }
   const getNewHighlightedSegmentInitialHeight = (d, i) => {
     switch (singleGroupOptions.dimension) {
       case DIMENSIONS.horizontal:
-        return getHighlightedSegmentHeight(d, i)
       case DIMENSIONS.vertical:
-        return 0
+        return getHighlightedSegmentHeight(d, i)
+      default:
+        console.error(`GeoChartColorBar [component] :: Invalid axis dimension for getNewHighlightedSegmentInitialHeight: ${singleGroupOptions.dimension}`)
     }
   }
 
   // ColorBar container positioning
-  const colorBar = group
-    .selectAll(`g.${colorBarBaseClass}`)
-    .data([{
-      [axisForNormalDimension.keyForValues]: singleGroupOptions.normalValue,
-      [axisForDimension.keyForValues]: axisForDimension.scale.valueForOrigin
-    }])
-
-  const newColorBar = colorBar
-    .enter()
-    .append('g')
-    .attr('class', getSingleBarCSSClasses)
-
-  newColorBar
-    .transition()
-    .duration(globalOptions.chart.animationsDurationInMilliseconds)
-    .attr('transform', getColorBarTransform)
-
-  newColorBar
-    .append('g')
-    .attr('class', 'geo-chart-color-bar__segment-container')
-
-  newColorBar
-    .append('g')
-    .attr('class', 'geo-chart-color-bar__highlighted-segment-container')
-
-  const updatedColorBar = colorBar
-  const allColorBars = updatedColorBar.merge(newColorBar)
-
-  allColorBars
-    .attr('class', getSingleBarCSSClasses)
-    .transition()
-    .duration(globalOptions.chart.animationsDurationInMilliseconds)
-    .attr('transform', getColorBarTransform)
-
-  colorBar
-    .exit()
-    .remove()
+  let colorBar
+  renderColorBarContainer()
 
   // Color bar Segments positioning
-  const segments = colorBar
-    .select('g.geo-chart-color-bar__segment-container')
-    .selectAll(`rect.${segmentBaseClass}`)
-    .data(_.map(axisForDimension.scale.axisScale.domain(), (d) => {
-      return {
-        [axisForNormalDimension.keyForValues]: singleGroupOptions.normalValue,
-        [axisForDimension.keyForValues]: d
-      }
-    }))
-
-  const newSegments = segments
-    .enter()
-    .append('rect')
-    .attr('class', getSegmentBarCSSClasses)
-    .attr('transform', getNewSegmentInitialTransform)
-    .attr('stroke-width', '1px')
-    .attr('width', getNewSegmentInitialWidth)
-    .attr('height', getNewSegmentInitialHeight)
-
-  const updatedSegments = segments
-  const allSegments = updatedSegments.merge(newSegments)
-
-  allSegments
-    .attr('class', getSegmentBarCSSClasses)
-    .attr('transform', getSegmentTransform)
-    .attr('stroke-width', '1px')
-    .attr('width', getSegmentWidth)
-    .attr('height', getSegmentHeight)
-
-  segments
-    .exit()
-    .remove()
+  let segments
+  renderColorBarSegments()
 
   // Color bar highlighted segments
-  const highlightedSegments = colorBar
-    .select('g.geo-chart-color-bar__highlighted-segment-container')
-    .selectAll(`rect.${highlightedSegmentBaseClass}`)
-    .data(_.map(singleGroupOptions.data, (d) => {
-      return {
-        [axisForNormalDimension.keyForValues]: singleGroupOptions.normalValue,
-        [axisForDimension.keyForValues]: d[axisForDimension.keyForValues]
-      }
-    }))
-
-  const newHighlightedSegments = highlightedSegments
-    .enter()
-    .append('rect')
-    .attr('class', getHighlightedSegmentBarCSSClasses)
-    .attr('transform', getNewHighlightedSegmentInitialTransform)
-    .attr('width', getNewHighlightedSegmentInitialWidth)
-    .attr('height', getNewHighlightedSegmentInitialHeight)
-    .attr('stroke', 'black')
-    .attr('stroke-width', '1px')
-
-  const updatedHighlightedSegments = highlightedSegments
-  const allHighlightedSegments = newHighlightedSegments.merge(updatedHighlightedSegments)
-
-  allHighlightedSegments
-    .attr('class', getHighlightedSegmentBarCSSClasses)
-    .transition()
-    .duration(globalOptions.chart.animationsDurationInMilliseconds)
-    .attr('transform', getHighlightedSegmentTransform)
-    .attr('width', getHighlightedSegmentWidth)
-    .attr('height', getHighlightedSegmentHeight)
-    .attr('stroke', 'black')
-    .attr('stroke-width', '1px')
-
-  highlightedSegments
-    .exit()
-    .remove()
+  let highlightedSegments
+  renderColorBarHighlightedSegments()
 
   // Color bar items translation functions
   function getColorBarTransform (d, i) {
@@ -555,6 +464,122 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions) {
     }
 
     return defaultClasses.join(' ')
+  }
+
+  function renderColorBarContainer () {
+    colorBar = group
+      .selectAll(`g.${colorBarBaseClass}`)
+      .data([{
+        [axisForNormalDimension.keyForValues]: singleGroupOptions.normalValue,
+        [axisForDimension.keyForValues]: axisForDimension.scale.valueForOrigin
+      }])
+
+    const newColorBar = colorBar
+      .enter()
+      .append('g')
+      .attr('class', getSingleBarCSSClasses)
+
+    newColorBar
+      .transition()
+      .duration(globalOptions.chart.animationsDurationInMilliseconds)
+      .attr('transform', getColorBarTransform)
+
+    newColorBar
+      .append('g')
+      .attr('class', 'geo-chart-color-bar__segment-container')
+
+    newColorBar
+      .append('g')
+      .attr('class', 'geo-chart-color-bar__highlighted-segment-container')
+
+    const updatedColorBar = colorBar
+    const allColorBars = updatedColorBar.merge(newColorBar)
+
+    allColorBars
+      .attr('class', getSingleBarCSSClasses)
+      .transition()
+      .duration(globalOptions.chart.animationsDurationInMilliseconds)
+      .attr('transform', getColorBarTransform)
+
+    colorBar
+      .exit()
+      .remove()
+  }
+
+  function renderColorBarSegments () {
+    segments = colorBar
+      .select('g.geo-chart-color-bar__segment-container')
+      .selectAll(`rect.${segmentBaseClass}`)
+      .data(_.map(axisForDimension.scale.axisScale.domain(), (d) => {
+        return {
+          [axisForNormalDimension.keyForValues]: singleGroupOptions.normalValue,
+          [axisForDimension.keyForValues]: d
+        }
+      }))
+
+    const newSegments = segments
+      .enter()
+      .append('rect')
+      .attr('class', getSegmentBarCSSClasses)
+      .attr('transform', getNewSegmentInitialTransform)
+      .attr('stroke-width', '1px')
+      .attr('width', getNewSegmentInitialWidth)
+      .attr('height', getNewSegmentInitialHeight)
+
+    const updatedSegments = segments
+    const allSegments = updatedSegments.merge(newSegments)
+
+    allSegments
+      .transition()
+      .duration(globalOptions.chart.animationsDurationInMilliseconds)
+      .attr('class', getSegmentBarCSSClasses)
+      .attr('transform', getSegmentTransform)
+      .attr('stroke-width', '1px')
+      .attr('width', getSegmentWidth)
+      .attr('height', getSegmentHeight)
+
+    segments
+      .exit()
+      .remove()
+  }
+
+  function renderColorBarHighlightedSegments () {
+    highlightedSegments = colorBar
+      .select('g.geo-chart-color-bar__highlighted-segment-container')
+      .selectAll(`rect.${highlightedSegmentBaseClass}`)
+      .data(_.map(singleGroupOptions.data, (d) => {
+        return {
+          [axisForNormalDimension.keyForValues]: singleGroupOptions.normalValue,
+          [axisForDimension.keyForValues]: d[axisForDimension.keyForValues]
+        }
+      }))
+
+    const newHighlightedSegments = highlightedSegments
+      .enter()
+      .append('rect')
+      .attr('class', getHighlightedSegmentBarCSSClasses)
+      .attr('transform', getNewHighlightedSegmentInitialTransform)
+      .attr('width', getNewHighlightedSegmentInitialWidth)
+      .attr('height', getNewHighlightedSegmentInitialHeight)
+      .attr('stroke', 'black')
+      .attr('stroke-width', '1px')
+
+    const updatedHighlightedSegments = highlightedSegments
+    const allHighlightedSegments = newHighlightedSegments.merge(updatedHighlightedSegments)
+
+    allHighlightedSegments
+      .attr('class', getHighlightedSegmentBarCSSClasses)
+      .transition()
+      .duration(globalOptions.chart.animationsDurationInMilliseconds)
+      .attr('transform', getHighlightedSegmentTransform)
+      .attr('width', getHighlightedSegmentWidth)
+      .attr('height', getHighlightedSegmentHeight)
+      .attr('stroke', 'black')
+      .attr('stroke-width', '1px')
+
+    highlightedSegments
+      .exit()
+      .remove()
   }
 }
 

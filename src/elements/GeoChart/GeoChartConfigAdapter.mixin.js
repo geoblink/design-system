@@ -17,7 +17,7 @@ export default {
       }
 
       if (!_.isEmpty(this.config.colorBarGroups)) {
-        this.updateBarColoredGroups()
+        this.updateColorBarGroups()
       }
 
       if (this.d3TipInstance) {
@@ -56,7 +56,6 @@ export default {
 
         return {
           id: index,
-          chart,
           axis,
           data: singleBarGroupConfig.data,
           dimension: singleBarGroupConfig.dimension,
@@ -72,7 +71,7 @@ export default {
       ChartBars.render(this.d3Instance, this.d3TipInstance, barGroupsConfig, { chart })
     },
 
-    updateBarColoredGroups () {
+    updateColorBarGroups () {
       const chartSize = this.svgSize
       const chartMargin = _.get(this.config.chart, 'margin', ChartSizing.EMPTY_MARGIN)
       const chart = {
@@ -87,7 +86,6 @@ export default {
         }
         return {
           id: index,
-          chart,
           axis,
           data: singleColorBarGroupConfig.data,
           dimension: singleColorBarGroupConfig.dimension,
