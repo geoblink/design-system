@@ -3,6 +3,7 @@
 Fixed:
 
 - `GeoMarkdownContent` variables are properly interpolated in Internet Explorer
+- `GeoMarkdownContent` multiple variables are properly interpolated when used inside a single tag
 
 # 10.3.0
 
