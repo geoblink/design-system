@@ -114,3 +114,22 @@
 .fill-green {
   fill: $color_green;
 }
+
+$colors: (
+  0: $color-green,
+  1: $color-green-dark,
+  2: $color-green-darker,
+  3: $color-green-light,
+  4: $color-green-notification,
+  5: $color-blue-dark,
+  6: $color-blue,
+  7: $color-blue-light,
+  8: $color-link,
+  9: $color-red
+);
+
+@for $i from 0 through 10 {
+  .geo-chart-pie-slice--#{$i} {
+    fill: map-get($colors, $i);
+  }
+}
