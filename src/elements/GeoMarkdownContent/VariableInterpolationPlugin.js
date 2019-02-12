@@ -28,15 +28,13 @@ export default function (markdownItInstance, { variableValues }) {
   function getVariableTokens (currentToken, state) {
     const { content, level } = currentToken
 
-    variableRegexGlobal.lastIndex = -1
-
+    variableRegexGlobal.lastIndex = 0
     const contentContainsVariable = variableRegexGlobal.test(content)
     if (!contentContainsVariable) {
       return [currentToken]
     }
 
-    variableRegexGlobal.lastIndex = -1
-
+    variableRegexGlobal.lastIndex = 0
     /** @type {MarkdownIt.Token[]} */
     const newTokens = []
 
