@@ -57,7 +57,7 @@ inside the data array.
 const d3 = require('d3')
 
 export default {
-  name: 'GeoChartBarsDemo',
+  name: 'GeoChartPieDemo',
   data () {
     return {
       chartData: null

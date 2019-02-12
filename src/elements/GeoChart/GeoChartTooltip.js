@@ -58,6 +58,8 @@ export function setupDynamicTooltipEventListeners (d3Element, d3TipInstance, get
  * when hovering its value in the chart.
  */
 function registerD3DynamicTipEvents (d3TipInstance, d3Element, getHTMLCode) {
+  const mouseTopOffset = 15
+
   d3Element
     .on('mouseover.updateTooltipText', function () {
       d3TipInstance.html(getTooltipHTMLEmbeddingFactory(getHTMLCode))
@@ -66,7 +68,7 @@ function registerD3DynamicTipEvents (d3TipInstance, d3Element, getHTMLCode) {
       const mouse = d3.mouse(this)
       const bbox = this.getBBox()
       const midpoint = [ bbox.x + bbox.width / 2, bbox.y + bbox.height / 2 ]
-      d3TipInstance.offset([mouse[1] - 15 - bbox.y, -midpoint[0] + mouse[0]])
+      d3TipInstance.offset([mouse[1] - mouseTopOffset - bbox.y, -midpoint[0] + mouse[0]])
     })
     .on('mousemove.updateTooltipPosition', d3TipInstance.show)
     .on('mouseout.hideTooltip', d3TipInstance.hide)
