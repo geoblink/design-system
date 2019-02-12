@@ -1,3 +1,15 @@
+# 11.0.0
+
+New:
+
+- `GeoChart` support for customizing tooltips offset
+
+Breaking:
+
+- `GeoChart` bars and pie `tooltip` property is no longer a function but an
+object with a property `content` (what previosly was `tooltip`) and an optional
+property `offset`
+
 # 10.3.0
 
 New:

@@ -50,9 +50,16 @@ export default {
           console.warn('GeoChart [component] :: d3-tip NPM package is required to use tooltips (attempted to use tooltips on a bar chart)')
         }
 
-        if (singleBarGroupConfig.tooltip && !_.isFunction(singleBarGroupConfig.tooltip)) {
+        if (singleBarGroupConfig.tooltip && !_.isFunction(singleBarGroupConfig.tooltip.content)) {
           console.warn(`GeoChart [component] :: Attempted to use a non-function as bar chart tooltip content (used «${singleBarGroupConfig.tooltip}»)`)
         }
+
+        const tooltipConfig = singleBarGroupConfig.tooltip
+          ? {
+            getContent: singleBarGroupConfig.tooltip.content,
+            getOffset: singleBarGroupConfig.tooltip.offset
+          }
+          : null
 
         return {
           id: index,
@@ -64,7 +71,7 @@ export default {
           naturalNormalOffset: singleBarGroupConfig.naturalNormalOffset,
           width: singleBarGroupConfig.width,
           naturalWidth: singleBarGroupConfig.naturalWidth,
-          getTooltip: singleBarGroupConfig.tooltip,
+          tooltip: tooltipConfig,
           cssClasses: singleBarGroupConfig.cssClasses
         }
       })
@@ -125,12 +132,19 @@ export default {
         chartWidth: chartSize.width
       }
 
+      const tooltipConfig = userConfig.tooltip
+        ? {
+          getContent: userConfig.tooltip.content,
+          getOffset: userConfig.tooltip.offset
+        }
+        : null
+
       const pieConfig = {
         data: userConfig.data,
         innerRadius: innerRadius * chartRadius,
         outerRadius: outerRadius * chartRadius,
         keyForValues: userConfig.keyForValues,
-        getTooltip: userConfig.tooltip,
+        tooltip: tooltipConfig,
         cssClasses: userConfig.cssClasses
       }
 

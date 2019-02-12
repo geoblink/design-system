@@ -130,7 +130,7 @@ function renderSingleGroup (group, d3TipInstance, singleGroupOptions, globalOpti
 
   const allBars = newBars.merge(updatedBars)
 
-  setupTooltipEventListeners(allBars, d3TipInstance, singleGroupOptions.getTooltip)
+  setupTooltipEventListeners(allBars, d3TipInstance, singleGroupOptions.tooltip)
 
   bars
     .exit()
