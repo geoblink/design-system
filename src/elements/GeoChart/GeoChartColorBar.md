@@ -111,7 +111,7 @@ Doing so will throw an invalid config error.
     data () {
       return {
         categoricalDomain: _.times(8, i => `Bucket ${i}`),
-        chartData: null,
+        chartData: [],
         normalValue: _.random(0, 1, true),
       }
     },
