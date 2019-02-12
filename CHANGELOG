@@ -1,3 +1,9 @@
+# 10.3.1
+
+Fixed:
+
+- `GeoMarkdownContent` variables are properly interpolated in Internet Explorer
+
 # 10.3.0
 
 New:
