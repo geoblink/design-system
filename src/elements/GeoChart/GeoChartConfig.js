@@ -298,6 +298,41 @@ export const barConfigJsonSchema = {
   }
 }
 
+export const pieConfigJsonSchema = {
+  type: 'object',
+  additionalProperties: false,
+  required: ['data', 'keyForValues'],
+  properties: {
+    data: {
+      type: 'array',
+      additionalItems: false,
+      items: {
+        type: 'object'
+      }
+    },
+    innerRadius: {
+      type: 'number'
+    },
+    outerRadius: {
+      type: 'number'
+    },
+    keyForValues: {
+      type: 'string'
+    },
+    // Function taking as first parameter a single item of data array and as
+    // second parameter its index. Should return the text to be displayed as
+    // tooltip for the bar corresponding to given value.
+    tooltip: {},
+    // Function taking as first parameter an array of CSS classes that would be
+    // set by default. Should return the array of CSS classes to be finally set.
+    // Use this function to customize which CSS classes are set to the rect for
+    // the bar of each item. Note that there might be some of the default classes
+    // might be added regardless to your customization as they are required
+    // internally.
+    cssClasses: {}
+  }
+}
+
 export const labelConfigJsonSchema = {
   type: 'object',
   additionalProperties: false,
@@ -386,7 +421,6 @@ export const labelConfigJsonSchema = {
 export const jsonSchema = {
   type: 'object',
   additionalProperties: false,
-  required: ['axisGroups'],
   properties: {
     chart: {
       type: 'object',
@@ -428,6 +462,7 @@ export const jsonSchema = {
       additionalItems: false,
       items: barConfigJsonSchema
     },
+    pieConfig: pieConfigJsonSchema,
     labelGroups: {
       type: 'array',
       additionalItems: false,

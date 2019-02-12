@@ -6,6 +6,7 @@ import {
   stubGetBBoxFactory,
   stubGetScreenCTMFactory,
   stubLodashDebounceFactory,
+  getTransformTranslateMatches,
   stubCreateSVGPointFactory
 } from './GeoChart.spec-utils' // This has to be imported before D3
 import { createLocalVue, mount } from '@vue/test-utils'
@@ -448,8 +449,7 @@ describe('GeoChartBars', function () {
 
             expect(dimensionAttributeValue).toBeCloseTo(dimensionAxisValuesInCanvasUnits[i], 2)
 
-            const transformAttributeValue = allBars.at(i).attributes('transform')
-            const transformMatches = /translate\((-?\d+(?:\.\d+)?), (-?\d+(?:\.\d+)?)\)/.exec(transformAttributeValue)
+            const transformMatches = getTransformTranslateMatches(allBars.at(i))
 
             expect(transformMatches).toHaveLength(3)
 
@@ -624,8 +624,7 @@ describe('GeoChartBars', function () {
           expect(allBars).toHaveLength(categories.length)
 
           for (let i = 0; i < allBars.length; i++) {
-            const transformAttributeValue = allBars.at(i).attributes('transform')
-            const transformMatches = /translate\((-?\d+(?:\.\d+)?), (-?\d+(?:\.\d+)?)\)/.exec(transformAttributeValue)
+            const transformMatches = getTransformTranslateMatches(allBars.at(i))
 
             expect(transformMatches).toHaveLength(3)
 
@@ -671,8 +670,7 @@ describe('GeoChartBars', function () {
           expect(allBars).toHaveLength(categories.length)
 
           for (let i = 0; i < allBars.length; i++) {
-            const transformAttributeValue = allBars.at(i).attributes('transform')
-            const transformMatches = /translate\((-?\d+(?:\.\d+)?), (-?\d+(?:\.\d+)?)\)/.exec(transformAttributeValue)
+            const transformMatches = getTransformTranslateMatches(allBars.at(i))
 
             expect(transformMatches).toHaveLength(3)
             const expectedOffset = getExpectedOffsetForNaturalValue(_.get(firstBarGroupData[i], normalAxisConfig.keyForValues), forcedOffsetInNaturalUnits)
