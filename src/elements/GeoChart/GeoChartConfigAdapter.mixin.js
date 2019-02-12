@@ -4,6 +4,7 @@ import * as ChartSizing from './GeoChartSizing'
 import * as ChartBars from './GeoChartBars'
 import * as ChartLabels from './GeoChartLabels'
 import * as ChartColorBar from './GeoChartColorBar'
+import * as ChartPie from './GeoChartPie'
 
 export default {
   methods: {
@@ -18,6 +19,10 @@ export default {
 
       if (!_.isEmpty(this.config.colorBarGroups)) {
         this.updateColorBarGroups()
+      }
+
+      if (!_.isEmpty(this.config.pieConfig)) {
+        this.updatePieConfig()
       }
 
       if (this.d3TipInstance) {
@@ -123,6 +128,49 @@ export default {
       })
 
       ChartLabels.render(this.d3Instance, labelGroupsConfig, { chart })
+    },
+
+    updatePieConfig () {
+      const DEFAULT_PIE_TRANSITION_DURATION = 1000
+      const DEFAULT_OUTER_RADIUS = 1
+      const DEFAULT_INNER_RADIUS = 0
+
+      const chartSize = this.svgSize
+      const userConfig = this.config.pieConfig
+      const innerRadius = userConfig.innerRadius || DEFAULT_INNER_RADIUS
+      const outerRadius = userConfig.outerRadius || DEFAULT_OUTER_RADIUS
+      const chartMargin = _.get(this.config.chart, 'margin', ChartSizing.EMPTY_MARGIN)
+      const chartRadius = Math.min(chartSize.height, chartSize.width) / 2
+      const animationsDurationInMilliseconds = _.get(this.config.chart, 'animationsDurationInMilliseconds')
+        ? this.animationsDurationInMilliseconds
+        : DEFAULT_PIE_TRANSITION_DURATION
+
+      if (userConfig.tooltip && !this.d3TipInstance) {
+        console.warn('GeoChart [component] :: d3-tip NPM package is required to use tooltips (attempted to use tooltips on a pie chart)')
+      }
+
+      if (userConfig.tooltip && !_.isFunction(userConfig.tooltip)) {
+        console.warn(`GeoChart [component] :: Attempted to use a non-function as pie chart tooltip content (used «${userConfig.tooltip}»)`)
+      }
+
+      const chart = {
+        animationsDurationInMilliseconds: animationsDurationInMilliseconds,
+        size: chartSize,
+        margin: chartMargin,
+        chartHeight: chartSize.height,
+        chartWidth: chartSize.width
+      }
+
+      const pieConfig = {
+        data: userConfig.data,
+        innerRadius: innerRadius * chartRadius,
+        outerRadius: outerRadius * chartRadius,
+        keyForValues: userConfig.keyForValues,
+        getTooltip: userConfig.tooltip,
+        cssClasses: userConfig.cssClasses
+      }
+
+      ChartPie.render(this.d3Instance, this.d3TipInstance, pieConfig, { chart })
     }
   }
 }

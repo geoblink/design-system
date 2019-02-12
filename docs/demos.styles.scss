@@ -136,3 +136,9 @@ $colors: (
     fill: map-get($colors, $i);
   }
 }
+
+@for $i from 0 through 10 {
+  .geo-chart-pie-slice--#{$i} {
+    fill: map-get($colors, $i);
+  }
+}
