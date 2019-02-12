@@ -19,10 +19,16 @@ chart radius.
 
 ### Tooltips
 
-Each slice can customize the tooltip displayed when it's hovered by setting a
-function for key `tooltip`. This function takes as parameters the item
-corresponding to the slice being customized and its position inside the data array
-and is expected to return a HTML string that will be rendered inside a tooltip.
+Each slice can customize the tooltip displayed when it's hovered by setting the
+key `tooltip`. This key must store an object with the following shape:
+
+- `content`: **Required**. Function that takes as parameters the item
+corresponding to the bar being customized and its position inside the data array.
+It's expected to return a HTML string that will be rendered inside a tooltip.
+- `offset`: *Optional*. Function that takes as parameter the event triggering the
+tooltip and is expected to return an object with an `x` and a `y` property, both
+storing numbers that will be used as offset of the tooltip with respect to event
+coordinates. By default tooltip will be positioned above cursor.
 
 ### Customizing CSS classes
 
@@ -80,8 +86,8 @@ export default {
           data: this.chartData,
           keyForValues: 'value',
           innerRadius: 0.3,
-          tooltip (d, i) {
-            return d.data.value
+          tooltip: {
+            content: (d, i) => d.data.value
           },
           cssClasses (originalClasses, d, i) {
             return [...originalClasses, 'my-custom-class']
