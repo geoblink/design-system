@@ -195,6 +195,30 @@ export const axisConfigJsonSchema = {
   }
 }
 
+export const guidelineConfigJsonSchema = {
+  type: 'object',
+  additionalProperties: false,
+  required: ['dimension', 'idHorizontalAxis', 'idVerticalAxis'],
+  properties: {
+    dimension: {
+      type: 'string',
+      enum: Object.values(DIMENSIONS)
+    },
+    idHorizontalAxis: {
+      type: 'string'
+    },
+    idVerticalAxis: {
+      type: 'string'
+    },
+    // Function taking as first parameter an array of CSS classes that would be
+    // set by default. Should return the array of CSS classes to be finally set.
+    // Use this function to customize which CSS classes are set to each line.
+    // Note that there might be some of the default classes might be added
+    // regardless to your customization as they are required internally.
+    cssClasses: {}
+  }
+}
+
 export const barConfigJsonSchema = {
   type: 'object',
   additionalProperties: false,
