@@ -5,6 +5,7 @@ import _ from 'lodash'
 import './GeoChartAxis'
 import {
   getItemSpanAtAxis,
+  getHighlightedItemSpanAtAxis,
   getSingleItemTranslationFactory,
   getSingleSegmentTranslationFactory,
   getHighlightedSegmentTranslationFactory,

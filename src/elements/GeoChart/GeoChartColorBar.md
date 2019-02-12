@@ -542,8 +542,8 @@ Doing so will throw an invalid config error.
           ],
           colorBarGroups: [{
             normalValue: this.normalValue,
-            width: .08,
-            highlightedWidth: .1,
+            naturalWidth: .03,
+            naturalHighlightedWidth: .035,
             data: this.chartData,
             dimension: BARS_DIMENSIONS.vertical,
             idVerticalAxis: this.categoricalAxisConfig.id,

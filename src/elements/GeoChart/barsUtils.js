@@ -1,5 +1,6 @@
 module.exports = {
   getItemSpanAtAxis,
+  getHighlightedItemSpanAtAxis,
   getSingleItemTranslationFactory,
   getSingleSegmentTranslationFactory,
   getHighlightedSegmentTranslationFactory,
@@ -253,7 +254,7 @@ function isNaturalNormalOffsetForced (options) {
 function isBarAxisLengthIncreasing (axisConfig, singleItem) {
   const originHorizontalPosition = axisConfig.scale.axisScale(axisConfig.scale.valueForOrigin)
   const valueHorizontalPosition = getItemValueAtAxis(axisConfig, singleItem)
-  return originHorizontalPosition < valueHorizontalPosition
+  return originHorizontalPosition <= valueHorizontalPosition
 }
 
 /**
