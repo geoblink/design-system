@@ -111,7 +111,7 @@ Doing so will throw an invalid config error.
     data () {
       return {
         categoricalDomain: _.times(8, i => `Bucket ${i}`),
-        chartData: [],
+        chartData: null,
         normalValue: _.random(0, 1, true),
       }
     },
@@ -155,7 +155,7 @@ Doing so will throw an invalid config error.
       },
 
       chartConfig () {
-        if (!(this.categoricalAxisConfig || this.chartData)) return null
+        if (!(this.categoricalAxisConfig && this.chartData)) return null
 
         return {
           chart: {
@@ -189,9 +189,9 @@ Doing so will throw an invalid config error.
     methods: {
       randomizeData () {
         this.chartData = _.filter(_.map(this.categoricalDomain, (category) => {
-          return !!_.random(0, 1) ?
-          { [this.categoricalAxisConfig.keyForValues]: category } :
-          null
+          return !!_.random(0, 1)
+          ? { [this.categoricalAxisConfig.keyForValues]: category }
+          : null
         }))
       }
     }
