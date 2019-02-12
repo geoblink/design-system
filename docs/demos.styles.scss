@@ -131,7 +131,9 @@ $colors: (
 );
 
 @for $i from 0 through 11 {
-  .geo-chart-color-bar__segment--#{$i},
+  .geo-chart-color-bar__segment--#{$i} {
+    fill: map-get($colors, $i);
+  }
   .geo-chart-color-bar__highlighted-segment--#{$i} {
     fill: map-get($colors, $i);
   }

@@ -110,9 +110,9 @@ Doing so will throw an invalid config error.
     name: 'GeoChartColorBarDemo',
     data () {
       return {
-        categoricalDomain: null,
+        categoricalDomain: _.times(8, i => `Bucket ${i}`),
         chartData: null,
-        normalValue: null,
+        normalValue: _.random(0, 1, true),
       }
     },
     computed: {
@@ -165,7 +165,7 @@ Doing so will throw an invalid config error.
               bottom: 30,
               left: 30
             },
-            animationsDurationInMilliseconds: 1500
+            animationsDurationInMilliseconds: 800
           },
           axisGroups: [
             this.linearAxisConfig,
@@ -188,9 +188,6 @@ Doing so will throw an invalid config error.
     },
     methods: {
       randomizeData () {
-        this.categoricalDomain = _.times(_.random(2, 12), i => `Bucket ${i}`)
-        this.normalValue = _.random(0, 1, true)
-
         this.chartData = _.filter(_.map(this.categoricalDomain, (category) => {
           return !!_.random(0, 1) ?
           { [this.categoricalAxisConfig.keyForValues]: category } :

@@ -164,25 +164,6 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions) {
     }
   }
 
-  const getNewHighlightedSegmentInitialWidth = (d, i) => {
-    switch (singleGroupOptions.dimension) {
-      case DIMENSIONS.horizontal:
-      case DIMENSIONS.vertical:
-        return getHighlightedSegmentWidth(d, i)
-      default:
-        console.error(`GeoChartColorBar [component] :: Invalid axis dimension for getNewHighlightedSegmentInitialWidth: ${singleGroupOptions.dimension}`)
-    }
-  }
-  const getNewHighlightedSegmentInitialHeight = (d, i) => {
-    switch (singleGroupOptions.dimension) {
-      case DIMENSIONS.horizontal:
-      case DIMENSIONS.vertical:
-        return getHighlightedSegmentHeight(d, i)
-      default:
-        console.error(`GeoChartColorBar [component] :: Invalid axis dimension for getNewHighlightedSegmentInitialHeight: ${singleGroupOptions.dimension}`)
-    }
-  }
-
   // ColorBar container positioning
   let colorBar
   renderColorBarContainer()
@@ -223,18 +204,6 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions) {
   function getHighlightedSegmentTransform (d, i) {
     const translation = getHighlightedSegmentTranslation(d, i)
     return `translate(${translation.x}, ${translation.y})`
-  }
-  function getNewHighlightedSegmentInitialTransform (d, i) {
-    const translation = getHighlightedSegmentTranslation(d, i)
-    const originTranslation = getHighlightedSegmentTranslation({
-      [axisForDimension.keyForValues]: axisForDimension.scale.valueForOrigin,
-      [axisForNormalDimension.keyForValues]: singleGroupOptions.normalValue
-    }, i)
-    if (singleGroupOptions.dimension === DIMENSIONS.horizontal) {
-      return `translate(${originTranslation.x}, ${translation.y})`
-    } else if (singleGroupOptions.dimension === DIMENSIONS.vertical) {
-      return `translate(${translation.x}, ${originTranslation.y})`
-    }
   }
   function getSingleBarCSSClasses (d, i) {
     const defaultClasses = [
@@ -293,8 +262,6 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions) {
       .attr('class', getSingleBarCSSClasses)
 
     newColorBar
-      .transition()
-      .duration(globalOptions.chart.animationsDurationInMilliseconds)
       .attr('transform', getColorBarTransform)
 
     newColorBar
@@ -334,7 +301,6 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions) {
       .append('rect')
       .attr('class', getSegmentBarCSSClasses)
       .attr('transform', getNewSegmentInitialTransform)
-      .attr('stroke-width', '1px')
       .attr('width', getNewSegmentInitialWidth)
       .attr('height', getNewSegmentInitialHeight)
 
@@ -342,11 +308,8 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions) {
     const allSegments = updatedSegments.merge(newSegments)
 
     allSegments
-      .transition()
-      .duration(globalOptions.chart.animationsDurationInMilliseconds)
       .attr('class', getSegmentBarCSSClasses)
       .attr('transform', getSegmentTransform)
-      .attr('stroke-width', '1px')
       .attr('width', getSegmentWidth)
       .attr('height', getSegmentHeight)
 
@@ -369,11 +332,11 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions) {
       .enter()
       .append('rect')
       .attr('class', getHighlightedSegmentBarCSSClasses)
-      .attr('transform', getNewHighlightedSegmentInitialTransform)
-      .attr('width', getNewHighlightedSegmentInitialWidth)
-      .attr('height', getNewHighlightedSegmentInitialHeight)
+      .attr('transform', getSegmentTransform)
+      .attr('width', getSegmentWidth)
+      .attr('height', getSegmentHeight)
       .attr('stroke', 'black')
-      .attr('stroke-width', '1px')
+      .attr('opacity', 0)
 
     const updatedHighlightedSegments = highlightedSegments
     const allHighlightedSegments = newHighlightedSegments.merge(updatedHighlightedSegments)
@@ -387,9 +350,16 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions) {
       .attr('height', getHighlightedSegmentHeight)
       .attr('stroke', 'black')
       .attr('stroke-width', '1px')
+      .attr('opacity', 1)
 
     highlightedSegments
       .exit()
+      .transition()
+      .duration(globalOptions.chart.animationsDurationInMilliseconds)
+      .attr('opacity', 0)
+      .attr('transform', getSegmentTransform)
+      .attr('width', getSegmentWidth)
+      .attr('height', getSegmentHeight)
       .remove()
   }
 }
