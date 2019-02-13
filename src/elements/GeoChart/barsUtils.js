@@ -367,12 +367,10 @@ function getSingleSegmentTranslationFactory (options) {
     const verticalAxisTranslation = verticalAxisTranslationForDimension[options.dimension]
 
     if (!_.isFinite(horizontalAxisTranslation)) {
-      debugger
       throw new Error(`GeoChart (bar) [component] :: Wrong translation in x-axis. Check that item ${index} has a proper value for key «${horizontalAxis.keyForValues}» (currently it is «${_.get(singleItem, horizontalAxis.keyForValues)}»). Alternatively, change the horizontal axis (currently set to «${horizontalAxis.id}»). This could also happen if the axis has an invalid valueForOrigin (currently it is «${horizontalAxis.scale.valueForOrigin}»).`)
     }
 
     if (!_.isFinite(verticalAxisTranslation)) {
-      debugger
       throw new Error(`GeoChart (bar) [component] :: Wrong translation in y-axis. Check that item ${index} has a proper value for key «${verticalAxis.keyForValues}» (currently it is «${_.get(singleItem, verticalAxis.keyForValues)}»). Alternatively, change the vertical axis (currently set to ${verticalAxis.id}). This could also happen if the axis has an invalid valueForOrigin (currently it is «${verticalAxis.scale.valueForOrigin}»).`)
     }
 
