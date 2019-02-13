@@ -198,24 +198,45 @@ export const axisConfigJsonSchema = {
 export const guidelineConfigJsonSchema = {
   type: 'object',
   additionalProperties: false,
-  required: ['dimension', 'idHorizontalAxis', 'idVerticalAxis'],
+  oneOf: [
+    { required: [ 'idAxis' ] },
+    { required: [ 'axisConfig' ] }
+  ],
   properties: {
-    dimension: {
-      type: 'string',
-      enum: Object.values(DIMENSIONS)
-    },
-    idHorizontalAxis: {
+    idAxis: {
       type: 'string'
     },
-    idVerticalAxis: {
-      type: 'string'
-    },
+    axisConfig: axisConfigJsonSchema,
     // Function taking as first parameter an array of CSS classes that would be
     // set by default. Should return the array of CSS classes to be finally set.
     // Use this function to customize which CSS classes are set to each line.
     // Note that there might be some of the default classes might be added
     // regardless to your customization as they are required internally.
-    cssClasses: {}
+    cssClasses: {},
+    guidelines: {
+      type: 'object',
+      additionalProperties: false,
+      anyOf: [
+        { required: [ 'count' ] },
+        { required: [ 'outerLines' ] }
+      ],
+      properties: {
+        count: {
+          type: 'integer',
+          minimum: 0
+        },
+        outerLines: {
+          type: 'boolean'
+        },
+        // Function taking as first parameter an array of CSS classes that would
+        // be set by default. Should return the array of CSS classes to be
+        // finally set. Some additional CSS classes required by D3 might be added
+        // regardless this customization. Use this function to customize which
+        // CSS classes are set to the group inside this axis containing the
+        // ticks lines and labels.
+        cssClasses: {}
+      }
+    }
   }
 }
 
@@ -461,6 +482,11 @@ export const jsonSchema = {
       type: 'array',
       additionalItems: false,
       items: barConfigJsonSchema
+    },
+    guidelinesGroups: {
+      type: 'array',
+      additionalItems: false,
+      items: guidelineConfigJsonSchema
     },
     pieConfig: pieConfigJsonSchema,
     labelGroups: {

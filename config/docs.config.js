@@ -182,6 +182,9 @@ module.exports = {
             name: 'Axes',
             content: '../src/elements/GeoChart/GeoChartAxis.md'
           }, {
+            name: 'Axes guidelines',
+            content: '../src/elements/GeoChart/GeoChartAxisGuidelines.md'
+          }, {
             name: 'Scales',
             content: '../src/elements/GeoChart/GeoChartScale.md'
           }, {

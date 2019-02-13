@@ -147,7 +147,7 @@ function renderSingleAxis (group, singleAxisOptions, globalAxesConfig) {
  * @param {GeoChart.GlobalAxesConfig} globalAxesConfig
  * @returns {GeoChart.DrawingEnvironment}
  */
-function getDrawingEnvironment (singleAxisOptions, globalAxesConfig) {
+export function getDrawingEnvironment (singleAxisOptions, globalAxesConfig) {
   const xTranslation = getOriginXTranslation(
     singleAxisOptions.position,
     globalAxesConfig.chart.size,
@@ -176,7 +176,7 @@ function getDrawingEnvironment (singleAxisOptions, globalAxesConfig) {
  * @param {GeoChart.AxisConfig<Domain>} singleAxisOptions
  * @returns {d3.Axis<Domain>}
  */
-function getAxis (singleAxisOptions) {
+export function getAxis (singleAxisOptions) {
   const { position, scale: { axisScale: scale } } = singleAxisOptions
 
   switch (position.type) {

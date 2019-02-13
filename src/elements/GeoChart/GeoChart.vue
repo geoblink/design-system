@@ -12,6 +12,7 @@
 import _ from 'lodash'
 import cssSuffix from '../../mixins/cssModifierMixin'
 import * as ChartAxis from './GeoChartAxis'
+import * as ChartAxisGuidelines from './GeoChartAxisGuidelines'
 import * as ChartSizing from './GeoChartSizing'
 import * as ChartBars from './GeoChartBars'
 import * as ChartConfig from './GeoChartConfig'
@@ -170,7 +171,7 @@ export default {
         margin: chartMargin
       }
 
-      const axisGroups = this.config.axisGroups
+      const axisGroups = [...this.config.axisGroups, ...this.guidelinesConfigs]
 
       const [
         simplePositionedScalesAxisGroups,
@@ -202,22 +203,13 @@ export default {
       }
     },
 
+    guidelinesConfigs () {
+      return _.filter(_.map(this.config.guidelinesGroups, function (group) { return group.axisConfig }))
+    },
+
     axesConfigById () {
       return _.fromPairs(_.map(this.config.axisGroups, (axisConfig) => {
-        const scale = this.scalesById[axisConfig.id]
-        const position = getPositionOfAxis(axisConfig, {
-          scalesById: this.scalesById,
-          axisGroups: this.config.axisGroups
-        })
-
-        return [axisConfig.id, {
-          id: axisConfig.id,
-          keyForValues: axisConfig.keyForValues,
-          position,
-          scale,
-          cssClasses: axisConfig.cssClasses,
-          ticks: axisConfig.ticks
-        }]
+        return [axisConfig.id, this.getAxisConfig(axisConfig)]
       }))
     },
 
@@ -263,6 +255,7 @@ export default {
   methods: {
     redraw () {
       this.adjustSize()
+      this.redrawGuidelines()
       this.updateData()
       this.redrawAxes()
     },
@@ -285,6 +278,34 @@ export default {
       }
     },
 
+    redrawGuidelines () {
+      if (!this.config.guidelinesGroups) return
+
+      const chartSize = this.svgSize
+      const chartMargin = _.get(this.config.chart, 'margin', ChartSizing.EMPTY_MARGIN)
+      const globalGuidelinesConfig = {
+        chart: {
+          animationsDurationInMilliseconds: this.animationsDurationInMilliseconds,
+          size: chartSize,
+          margin: chartMargin
+        }
+      }
+
+      const guidelinesConfig = _.map(this.config.guidelinesGroups, (groupConfig, index) => {
+        const axisConfig = this.axesConfigById[groupConfig.idAxis] || this.getAxisConfig(groupConfig.axisConfig)
+
+        return {
+          id: axisConfig.id,
+          idAxis: groupConfig.isAxis,
+          axisConfig: _.cloneDeep(axisConfig),
+          guidelines: groupConfig.guidelines,
+          cssClasses: groupConfig.cssClasses
+        }
+      })
+
+      ChartAxisGuidelines.render(this.d3Instance, guidelinesConfig, globalGuidelinesConfig)
+    },
+
     redrawAxes () {
       const axesConfig = Object.values(this.axesConfigById)
 
@@ -299,6 +320,23 @@ export default {
       }
 
       ChartAxis.render(this.d3Instance, axesConfig, globalAxesConfig)
+    },
+
+    getAxisConfig (axisConfig) {
+      const scale = this.scalesById[axisConfig.id]
+      const position = getPositionOfAxis(axisConfig, {
+        scalesById: this.scalesById,
+        axisGroups: this.config.axisGroups
+      })
+
+      return {
+        id: axisConfig.id,
+        keyForValues: axisConfig.keyForValues,
+        position,
+        scale,
+        cssClasses: axisConfig.cssClasses,
+        ticks: axisConfig.ticks
+      }
     }
   }
 }
