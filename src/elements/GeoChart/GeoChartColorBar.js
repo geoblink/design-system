@@ -120,25 +120,6 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions) {
     }
   }
 
-  const getNewSegmentInitialWidth = (d, i) => {
-    switch (singleGroupOptions.dimension) {
-      case DIMENSIONS.horizontal:
-      case DIMENSIONS.vertical:
-        return getSegmentWidth(d, i)
-      default:
-        console.error(`GeoChartColorBar [component] :: Invalid axis dimension for getNewSegmentInitialWidth: ${singleGroupOptions.dimension}`)
-    }
-  }
-  const getNewSegmentInitialHeight = (d, i) => {
-    switch (singleGroupOptions.dimension) {
-      case DIMENSIONS.horizontal:
-      case DIMENSIONS.vertical:
-        return getSegmentHeight(d, i)
-      default:
-        console.error(`GeoChartColorBar [component] :: Invalid axis dimension for getNewSegmentInitialHeight: ${singleGroupOptions.dimension}`)
-    }
-  }
-
   const getHighlightedSegmentWidth = (d, i) => {
     switch (singleGroupOptions.dimension) {
       case DIMENSIONS.horizontal:
@@ -299,8 +280,8 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions) {
       .append('rect')
       .attr('class', getSegmentBarCSSClasses)
       .attr('transform', getNewSegmentInitialTransform)
-      .attr('width', getNewSegmentInitialWidth)
-      .attr('height', getNewSegmentInitialHeight)
+      .attr('width', getSegmentWidth)
+      .attr('height', getSegmentHeight)
 
     const updatedSegments = segments
     const allSegments = updatedSegments.merge(newSegments)
@@ -330,7 +311,7 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions) {
       .enter()
       .append('rect')
       .attr('class', getHighlightedSegmentBarCSSClasses)
-      .attr('transform', getSegmentTransform)
+      .attr('transform', getHighlightedSegmentTransform)
       .attr('width', getSegmentWidth)
       .attr('height', getSegmentHeight)
       .attr('stroke', 'black')
@@ -355,9 +336,6 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions) {
       .transition()
       .duration(globalOptions.chart.animationsDurationInMilliseconds)
       .attr('opacity', 0)
-      .attr('transform', getSegmentTransform)
-      .attr('width', getSegmentWidth)
-      .attr('height', getSegmentHeight)
       .remove()
   }
 }

@@ -316,6 +316,8 @@ Doing so will throw an invalid config error.
           { [this.categoricalAxisConfig.keyForValues]: category } :
           null
         }))
+        console.log(this.categoricalDomain)
+        console.log(this.chartData)
       }
     }
   }
