@@ -175,29 +175,10 @@ function getGuidelinesPosition (singleAxisOptions) {
  */
 function getTickSize (position, svgSize, margin) {
   switch (position.type) {
-    case POSITIONS.top:
     case POSITIONS.bottom:
-    case POSITIONS.verticallyCenteredInTheMiddle:
       return -svgSize.height + margin.top + margin.bottom
     case POSITIONS.left:
       return -svgSize.width + margin.right + margin.left
-    case POSITIONS.right:
-      return -svgSize.width + margin.right + margin.left
-    case POSITIONS.horizontallyCenteredInTheMiddle:
-      return margin.left + (svgSize.width - margin.left - margin.right) / 2
-    case POSITIONS.anchoredToAxis:
-      const dimension = ChartAxis.getAxisDimension(position)
-
-      switch (dimension) {
-        case DIMENSIONS.horizontal:
-          return 0
-        case DIMENSIONS.vertical:
-          return position.scale.axisScale(position.value)
-      }
-
-      console.warn(`GeoChart (axis) [component] :: Tried to get X Translation for unknown dimension: ${dimension}`, position)
-
-      return null
   }
 
   console.warn(`GeoChart (axis) [component] :: Tried to get X Translation for unknown position: ${position.type}`, position)
