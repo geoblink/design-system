@@ -28,27 +28,25 @@ export default function (markdownItInstance, { variableValues }) {
   function getVariableTokens (currentToken, state) {
     const { content, level } = currentToken
 
-    variableRegexGlobal.lastIndex = -1
-
+    variableRegexGlobal.lastIndex = 0
     const contentContainsVariable = variableRegexGlobal.test(content)
     if (!contentContainsVariable) {
       return [currentToken]
     }
 
-    variableRegexGlobal.lastIndex = -1
-
+    variableRegexGlobal.lastIndex = 0
     /** @type {MarkdownIt.Token[]} */
     const newTokens = []
 
-    let remainingContentStartingPosition
+    let remainingContentStartingPosition = 0
     let match
     while ((match = variableRegexGlobal.exec(content)) !== null) {
       const position = match.index
       const [matchedText, variableName] = match
 
-      if (position > 0) {
+      if (position > remainingContentStartingPosition) {
         const contentBeforeVariableToken = new state.Token('text', '', 0)
-        contentBeforeVariableToken.content = content.slice(0, position)
+        contentBeforeVariableToken.content = content.slice(remainingContentStartingPosition, position)
         contentBeforeVariableToken.level = level
         newTokens.push(contentBeforeVariableToken)
       }

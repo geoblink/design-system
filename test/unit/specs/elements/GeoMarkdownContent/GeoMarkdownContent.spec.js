@@ -73,4 +73,27 @@ describe('GeoMarkdownContent', () => {
     expect(wrapper.find('p > a > span').element.innerHTML).toBe(linkText)
     expect(wrapper.find('p > span:last-of-type').element.innerHTML).toBe(variableValue)
   })
+
+  it('should allow interpolating multiple variables inside a single tag', function () {
+    const uptoBoldSegment = 'The '
+    const boldSegment = ':variableSelected and :secondVariableSelected'
+    const afterBoldSegment = ' should appear in bold'
+    const variableValue = 'actual interpolated value'
+    const secondVariableValue = 'actual interpolated value'
+    const values = {
+      variableSelected: variableValue,
+      secondVariableSelected: secondVariableValue
+    }
+    const markdown = `${uptoBoldSegment}**${boldSegment}**${afterBoldSegment}`
+    const wrapper = mount(GeoMarkdownContent, {
+      propsData: {
+        markdown,
+        values
+      }
+    })
+
+    expect(wrapper.find('p > span:first-of-type').element.innerHTML).toBe(uptoBoldSegment)
+    expect(wrapper.find('p > strong').element.textContent).toBe(`${variableValue} and ${secondVariableValue}`)
+    expect(wrapper.find('p > span:last-of-type').element.innerHTML).toBe(afterBoldSegment)
+  })
 })

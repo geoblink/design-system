@@ -1,3 +1,10 @@
+# 11.0.1
+
+Fixed:
+
+- `GeoMarkdownContent` variables are properly interpolated in Internet Explorer
+- `GeoMarkdownContent` multiple variables are properly interpolated when used inside a single tag
+
 # 11.0.0
 
 New:
@@ -9,6 +16,13 @@ Breaking:
 - `GeoChart` bars and pie `tooltip` property is no longer a function but an
 object with a property `content` (what previosly was `tooltip`) and an optional
 property `offset`
+
+# 10.3.1
+
+Fixed:
+
+- `GeoMarkdownContent` variables are properly interpolated in Internet Explorer
+- `GeoMarkdownContent` multiple variables are properly interpolated when used inside a single tag
 
 # 10.3.0
 
