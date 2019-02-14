@@ -212,6 +212,24 @@ export default {
             v-model="outerLines"
           >
         </label>
+        <label class="element-demo__inline-input-group__field">
+          show categorical guidelines: <input
+            :style="{
+              width: '40px'
+            }"
+            type="checkbox"
+            v-model="showGuidelinesCategorical"
+          >
+        </label>
+        <label class="element-demo__inline-input-group__field">
+          show linear guidelines: <input
+            :style="{
+              width: '40px'
+            }"
+            type="checkbox"
+            v-model="showGuidelinesLinear"
+          >
+        </label>
       </div>
     </div>
   </div>
@@ -228,7 +246,9 @@ export default {
     return {
       linearDomain: null,
       linesCount: 5,
-      outerLines: false
+      outerLines: false,
+      showGuidelinesCategorical: true,
+      showGuidelinesLinear: true
     }
   },
   computed: {
@@ -291,6 +311,34 @@ export default {
       }
     },
 
+    guidelinesConfigLinear () {
+      return {
+        idAxis: this.linearAxisConfig.id,
+        guidelines: {
+          count: Number(this.linesCount),
+          outerLines: this.outerLines
+        }
+      }
+    },
+
+    guidelinesConfigCategorical () {
+      return {
+        idAxis: this.categoricalAxisAnchoredToZeroAxisConfig.id,
+      }
+    },
+
+    guidelinesGroups () {
+      if (this.showGuidelinesCategorical && this.showGuidelinesLinear) {
+        return [this.guidelinesConfigCategorical, this.guidelinesConfigLinear]
+      } else if (this.showGuidelinesCategorical) {
+        return [this.guidelinesConfigCategorical]
+      } else if (this.showGuidelinesLinear) {
+        return [this.guidelinesConfigLinear]
+      } else {
+        return []
+      }
+    },
+
     chartConfig () {
       if (!this.categoricalAxisAnchoredToZeroAxisConfig) return null
 
@@ -307,18 +355,7 @@ export default {
           this.categoricalAxisAnchoredToZeroAxisConfig,
           this.linearAxisConfig
         ],
-        guidelinesGroups: [
-          {
-            idAxis: this.categoricalAxisAnchoredToZeroAxisConfig.id,
-          },
-          {
-            idAxis: this.linearAxisConfig.id,
-            guidelines: {
-              count: Number(this.linesCount),
-              outerLines: this.outerLines
-            }
-          }
-        ]
+        guidelinesGroups: this.guidelinesGroups
       }
     }
   },

@@ -97,25 +97,22 @@ function renderSingleAxisGuidelines (group, singleAxisGuidelinesOptions, globalO
     .tickSize(tickSize)
     .tickFormat('')
 
-  const isAnimated = globalOptions.chart.animationsDurationInMilliseconds > 0
-
-  const animatedGroup = isAnimated
-    ? group
-      .transition()
-      .duration(globalOptions.chart.animationsDurationInMilliseconds)
-    : group
-
-  animatedGroup
+  group
     .attr('transform', `translate(${drawingEnvironment.absolutePosition.x}, ${drawingEnvironment.absolutePosition.y})`)
+
+  const animatedGroup = group
+  animatedGroup
+    .transition()
+    .duration(globalOptions.chart.animationsDurationInMilliseconds)
     .call(axis)
     .selectAll('g.tick')
     .attr('class', getGuidelineCSSClasses)
 
   const displayOuterLines = _.get(singleAxisGuidelinesOptions, 'guidelines.outerLines')
   if (displayOuterLines) {
-    animatedGroup.select('.domain').style('stroke-width', 1)
+    group.select('.domain').style('stroke-width', 1)
   } else {
-    animatedGroup.select('.domain').style('stroke-width', 0)
+    group.select('.domain').style('stroke-width', 0)
   }
 
   function getGuidelineCSSClasses (d, i) {
