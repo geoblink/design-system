@@ -31,6 +31,9 @@ function getItemValueAtAxis (axisConfig, singleItem) {
  * @param {GeoChart.AxisConfig<Domain>} axisConfig
  * @param {object} singleItem
  * @param {GeoChart.SingleColorBarGroupConfig<HorizontalDomain, VerticalDomain>} [options]
+ * @param {object} keysConfig
+ * @param {string} keysConfig.keyForWidth
+ * @param {string} keysConfig.keyForNaturalWidth
  * @return {number}
  */
 export function getItemSpanAtAxis (axisConfig, singleItem, options, { keyForWidth, keyForNaturalWidth }) {
@@ -123,6 +126,7 @@ export function isDimensionAxis (axisConfig, options) {
  * @template Domain
  * @param {GeoChart.AxisConfig<Domain>} options
  * @param {object} singleItem
+ * @return {boolean}
  */
 function isBarAxisLengthIncreasing (axisConfig, singleItem) {
   const originPosition = axisConfig.scale.axisScale(axisConfig.scale.valueForOrigin)
@@ -132,8 +136,11 @@ function isBarAxisLengthIncreasing (axisConfig, singleItem) {
 
 /**
  * @template Domain
- * @param {GeoChart.AxisConfig<Domain>} normalAxis
- * @param {object} singleItem
+ * @param {GeoChart.SingleBarGroupConfig<HorizontalDomain, VerticalDomain>} options
+ * @param {object} keysConfig
+ * @param {string} keysConfig.keyForNormalOffset
+ * @param {string} keysConfig.keyForNaturalNormalOffset
+ * @return {number}
  */
 export function getTranslationForAxisNormalToDimensionFactory (options, { keyForNormalOffset, keyForNaturalNormalOffset }) {
   return function (normalAxis, singleItem) {
@@ -162,8 +169,30 @@ export function getTranslationForAxisNormalToDimensionFactory (options, { keyFor
 }
 
 /**
+ * @template Domain
+ * @callback GetTranslationForAxisNormalToDimension
+ * @param {GeoChart.AxisConfig<Domain>} normalAxis
+ * @param {object} singleItem
+ * @returns {number}
+ */
+
+/**
+ * @template Domain
+ * @callback GetOriginPositionAtAxis
+ * @param {GeoChart.AxisConfig<Domain>} axisConfig
+ * @param {object} singleItem
+ * @returns {number}
+ */
+
+/**
  * @param {GeoChart.SingleBarGroupConfig<HorizontalDomain, VerticalDomain>} options
- * @returns {GetTranslationFunction}
+ * @param {object} params
+ * @param {string} params.keyForWidth
+ * @param {string} params.keyForNaturalWidth
+ * @param {GetTranslationForAxisNormalToDimension<HorizontalDomain | VerticalDomain>} params.getTranslationForAxisNormalToDimension
+ * @param {string} params.componentName
+ * @param {GetOriginPositionAtAxis<HorizontalDomain | VerticalDomain>} params.getOriginPositionAtAxis
+ * @returns {Function}
  */
 export function getItemTranslationFactory (options, {
   keyForWidth,
