@@ -80,22 +80,18 @@ export function render (d3Instance, guidelinesOptions, globalOptions) {
  * @param {GeoChart.AxisGuidelinesGroupsGlobalConfig} globalOptions
  */
 function renderSingleAxisGuidelines (group, singleAxisGuidelinesOptions, globalOptions) {
-  const axisOptionsForGuidelines = singleAxisGuidelinesOptions.axisConfig
-  axisOptionsForGuidelines.position.type = getGuidelinesPosition(axisOptionsForGuidelines)
+  const axisConfigForGuidelines = getAxisConfigForGuidelines(singleAxisGuidelinesOptions.axisConfig)
 
-  const drawingEnvironment = ChartAxis.getDrawingEnvironment(axisOptionsForGuidelines, globalOptions)
-  const axis = ChartAxis.getAxis(axisOptionsForGuidelines)
+  const drawingEnvironment = ChartAxis.getDrawingEnvironment(axisConfigForGuidelines, globalOptions)
+  const axis = ChartAxis.getAxis(axisConfigForGuidelines)
 
   const guidelinesCount = _.get(singleAxisGuidelinesOptions, 'guidelines.count')
   const isLineCountForced = _.isFinite(guidelinesCount)
-  const tickCount = _.get(axisOptionsForGuidelines, 'ticks.count')
-  const isTickCountForced = _.isFinite(tickCount)
-  if (isTickCountForced || isLineCountForced) {
-    const forcedCount = isLineCountForced ? guidelinesCount : tickCount
-    axis.ticks(forcedCount)
+  if (isLineCountForced) {
+    axis.ticks(guidelinesCount)
   }
 
-  const tickSize = getTickSize(axisOptionsForGuidelines.position, globalOptions.chart.size, globalOptions.chart.margin)
+  const tickSize = getTickSize(axisConfigForGuidelines.position, globalOptions.chart.size, globalOptions.chart.margin)
 
   axis
     .tickSize(tickSize)
@@ -124,12 +120,22 @@ function renderSingleAxisGuidelines (group, singleAxisGuidelinesOptions, globalO
 
   function getGuidelineCSSClasses (d, i) {
     const forcedTickCSSClasses = ['tick']
-    const defaultGuidelineCSSClasses = ['geo-chart-guideline', `geo-chart-guideline--${axisOptionsForGuidelines.position.type}`]
-    const getGuidelinesCSSClasses = _.isFunction(_.get(axisOptionsForGuidelines, 'guidelines.cssClasses'))
-      ? (...args) => [...forcedTickCSSClasses, ...axisOptionsForGuidelines.guidelines.cssClasses(defaultGuidelineCSSClasses, ...args)].join(' ')
+    const defaultGuidelineCSSClasses = ['geo-chart-guideline', `geo-chart-guideline--${axisConfigForGuidelines.position.type}`]
+    const getGuidelinesCSSClasses = _.isFunction(_.get(singleAxisGuidelinesOptions, 'guidelines.cssClasses'))
+      ? (...args) => [...forcedTickCSSClasses, ...singleAxisGuidelinesOptions.guidelines.cssClasses(defaultGuidelineCSSClasses, ...args)].join(' ')
       : [...forcedTickCSSClasses, ...defaultGuidelineCSSClasses].join(' ')
 
     return getGuidelinesCSSClasses
+  }
+
+  function getAxisConfigForGuidelines (axisConfig) {
+    return {
+      position: {
+        type: getGuidelinesPosition(axisConfig)
+      },
+      scale: axisConfig.scale,
+      ticks: axisConfig.ticks
+    }
   }
 }
 
