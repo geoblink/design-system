@@ -915,7 +915,9 @@ describe('GeoChartBars', function () {
                     dimension,
                     idHorizontalAxis,
                     idVerticalAxis,
-                    tooltip: tooltipText
+                    tooltip: {
+                      content: tooltipText
+                    }
                   }]
                 },
                 height: `${chartHeight}px`,
@@ -937,6 +939,7 @@ describe('GeoChartBars', function () {
             for (let i = 0; i < firstBarGroupData.length; i++) {
               const singleBar = wrapper.findAll(`.geo-chart .geo-chart-bars-group .geo-chart-bar`).at(i)
               singleBar.trigger('mouseover')
+              singleBar.trigger('mousemove')
               expect(window.getComputedStyle(tooltipDiv).opacity).toBe('1')
               expect(tooltipDiv.textContent).toBe(tooltipText(firstBarGroupData[i], i))
             }
@@ -954,8 +957,10 @@ describe('GeoChartBars', function () {
                     dimension,
                     idHorizontalAxis,
                     idVerticalAxis,
-                    tooltip (d, i) {
-                      return `${i} :: ${d[dimensionAxisConfig.keyForValues]}`
+                    tooltip: {
+                      content (d, i) {
+                        return `${i} :: ${d[dimensionAxisConfig.keyForValues]}`
+                      }
                     }
                   }]
                 },

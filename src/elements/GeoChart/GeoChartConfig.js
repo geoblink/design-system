@@ -305,10 +305,22 @@ export const barConfigJsonSchema = {
     idVerticalAxis: {
       type: 'string'
     },
-    // Function taking as first parameter a single item of data array and as
-    // second parameter its index. Should return the text to be displayed as
-    // tooltip for the bar corresponding to given value.
-    tooltip: {},
+    tooltip: {
+      required: ['content'],
+      additionalProperties: false,
+      type: 'object',
+      properties: {
+        // Function taking as first parameter a single item of data array and as
+        // second parameter its index. Should return the text to be displayed as
+        // tooltip for the bar corresponding to given value.
+        content: {},
+        // Function taking as parameters the browser MouseEvent triggering the
+        // tooltip. Should return the offset of the tooltip as an object with an
+        // `x` and a `y` key, both holding numbers. If not provided offset will
+        // be 0.
+        offset: {}
+      }
+    },
     // Function taking as first parameter an array of CSS classes that would be
     // set by default. Should return the array of CSS classes to be finally set.
     // Use this function to customize which CSS classes are set to the rect for
@@ -340,10 +352,22 @@ export const pieConfigJsonSchema = {
     keyForValues: {
       type: 'string'
     },
-    // Function taking as first parameter a single item of data array and as
-    // second parameter its index. Should return the text to be displayed as
-    // tooltip for the bar corresponding to given value.
-    tooltip: {},
+    tooltip: {
+      required: ['content'],
+      additionalProperties: false,
+      type: 'object',
+      properties: {
+        // Function taking as first parameter a single item of data array and as
+        // second parameter its index. Should return the text to be displayed as
+        // tooltip for the bar corresponding to given value.
+        content: {},
+        // Function taking as parameters the browser MouseEvent triggering the
+        // tooltip. Should return the offset of the tooltip as an object with an
+        // `x` and a `y` key, both holding numbers. If not provided offset will
+        // be 0.
+        offset: {}
+      }
+    },
     // Function taking as first parameter an array of CSS classes that would be
     // set by default. Should return the array of CSS classes to be finally set.
     // Use this function to customize which CSS classes are set to the rect for
