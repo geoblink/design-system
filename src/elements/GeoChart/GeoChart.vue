@@ -209,7 +209,7 @@ export default {
 
     axesConfigById () {
       return _.fromPairs(_.map(this.config.axisGroups, (axisConfig) => {
-        return [axisConfig.id, this.getAxisConfig(axisConfig)]
+        return [axisConfig.id, parseAxisConfig(this, axisConfig)]
       }))
     },
 
@@ -292,7 +292,7 @@ export default {
       }
 
       const guidelinesConfig = _.map(this.config.guidelinesGroups, (groupConfig, index) => {
-        const axisConfig = this.axesConfigById[groupConfig.idAxis] || this.getAxisConfig(groupConfig.axisConfig)
+        const axisConfig = this.axesConfigById[groupConfig.idAxis] || parseAxisConfig(this, groupConfig.axisConfig)
 
         return {
           id: axisConfig.id,
@@ -319,24 +319,24 @@ export default {
       }
 
       ChartAxis.render(this.d3Instance, axesConfig, globalAxesConfig)
-    },
-
-    getAxisConfig (axisConfig) {
-      const scale = this.scalesById[axisConfig.id]
-      const position = getPositionOfAxis(axisConfig, {
-        scalesById: this.scalesById,
-        axisGroups: this.config.axisGroups
-      })
-
-      return {
-        id: axisConfig.id,
-        keyForValues: axisConfig.keyForValues,
-        position,
-        scale,
-        cssClasses: axisConfig.cssClasses,
-        ticks: axisConfig.ticks
-      }
     }
+  }
+}
+
+function parseAxisConfig (component, axisConfig) {
+  const scale = component.scalesById[axisConfig.id]
+  const position = getPositionOfAxis(axisConfig, {
+    scalesById: component.scalesById,
+    axisGroups: component.config.axisGroups
+  })
+
+  return {
+    id: axisConfig.id,
+    keyForValues: axisConfig.keyForValues,
+    position,
+    scale,
+    cssClasses: axisConfig.cssClasses,
+    ticks: axisConfig.ticks
   }
 }
 
