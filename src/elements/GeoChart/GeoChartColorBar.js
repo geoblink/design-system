@@ -6,7 +6,7 @@ import './GeoChartAxis'
 import {
   getItemSpanAtAxis,
   getHighlightedItemSpanAtAxis,
-  getSingleItemTranslationFactory,
+  getBarTranslationFactory,
   getSingleSegmentTranslationFactory,
   getHighlightedSegmentTranslationFactory,
   isDimensionAxis
@@ -87,7 +87,7 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions) {
     ? singleGroupOptions.axis.horizontal
     : singleGroupOptions.axis.vertical
 
-  const getTranslation = getSingleItemTranslationFactory(singleGroupOptions)
+  const getTranslation = getBarTranslationFactory(singleGroupOptions)
   const getSegmentTranslation = getSingleSegmentTranslationFactory(singleGroupOptions)
   const getHighlightedSegmentTranslation = getHighlightedSegmentTranslationFactory(singleGroupOptions)
 

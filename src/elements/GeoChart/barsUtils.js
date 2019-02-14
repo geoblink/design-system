@@ -1,7 +1,7 @@
 module.exports = {
   getItemSpanAtAxis,
   getHighlightedItemSpanAtAxis,
-  getSingleItemTranslationFactory,
+  getBarTranslationFactory,
   getSingleSegmentTranslationFactory,
   getHighlightedSegmentTranslationFactory,
   isDimensionAxis
@@ -255,7 +255,7 @@ function isBarAxisLengthIncreasing (axisConfig, singleItem) {
  * @param {GeoChart.SingleBarGroupConfig<HorizontalDomain, VerticalDomain>} options
  * @returns {GetTranslationFunction}
  */
-function getSingleItemTranslationFactory (options) {
+function getBarTranslationFactory (options) {
   return function (singleItem, index) {
     const horizontalAxis = options.axis.horizontal
     const verticalAxis = options.axis.vertical

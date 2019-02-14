@@ -4,7 +4,7 @@ import _ from 'lodash'
 
 import {
   getItemSpanAtAxis,
-  getSingleItemTranslationFactory
+  getBarTranslationFactory
 } from './barsUtils'
 import './GeoChartAxis'
 import { setupTooltipEventListeners } from './GeoChartTooltip'
@@ -100,7 +100,7 @@ function renderSingleGroup (group, d3TipInstance, singleGroupOptions, globalOpti
     }
   }
 
-  const getTranslation = getSingleItemTranslationFactory(singleGroupOptions)
+  const getTranslation = getBarTranslationFactory(singleGroupOptions)
 
   const singleBarBaseClass = 'geo-chart-bar'
 
