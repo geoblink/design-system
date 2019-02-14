@@ -113,13 +113,23 @@ function renderSingleAxisGuidelines (group, singleAxisGuidelinesOptions, globalO
     .attr('transform', `translate(${drawingEnvironment.absolutePosition.x}, ${drawingEnvironment.absolutePosition.y})`)
     .call(axis)
     .selectAll('g.tick')
-    .attr('class', 'tick geo-chart-guideline')
+    .attr('class', getGuidelineCSSClasses)
 
   const displayOuterLines = _.get(singleAxisGuidelinesOptions, 'guidelines.outerLines')
   if (displayOuterLines) {
     animatedGroup.select('.domain').style('stroke-width', 1)
   } else {
     animatedGroup.select('.domain').style('stroke-width', 0)
+  }
+
+  function getGuidelineCSSClasses (d, i) {
+    const forcedTickCSSClasses = ['tick']
+    const defaultGuidelineCSSClasses = ['geo-chart-guideline', `geo-chart-guideline--${axisOptionsForGuidelines.position.type}`]
+    const getGuidelinesCSSClasses = _.isFunction(_.get(axisOptionsForGuidelines, 'guidelines.cssClasses'))
+      ? (...args) => [...forcedTickCSSClasses, ...axisOptionsForGuidelines.guidelines.cssClasses(defaultGuidelineCSSClasses, ...args)].join(' ')
+      : [...forcedTickCSSClasses, ...defaultGuidelineCSSClasses].join(' ')
+
+    return getGuidelinesCSSClasses
   }
 }
 

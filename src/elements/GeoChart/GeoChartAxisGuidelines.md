@@ -293,7 +293,6 @@ export default {
 
     chartConfig () {
       if (!this.categoricalAxisAnchoredToZeroAxisConfig) return null
-      console.log(this.linesCount)
 
       return {
         chart: {
