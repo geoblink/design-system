@@ -7,14 +7,14 @@ declare namespace GeoChart {
     }
   }
 
-  interface SingleAxisGuidelinesGroupConfig<HorizontalDomain, VerticalDomain> {
+  interface SingleAxisGuidelinesGroupConfig<Domain, RelativeScaleDomain> {
     id: string
-    axisConfig: GeoChart.AxisConfig
-    cssClasses?: (defaultClasses: string[], item: HorizontalDomain | VerticalDomain, index: number) => string[]
+    axisConfig: GeoChart.AxisConfig<Domain, RelativeScaleDomain>
+    cssClasses?: (defaultClasses: string[], item: object, index: number) => string[]
     guidelines: {
       count?: number
       outerLines?: boolean
-      cssClasses?: (originalClasses: string[]) => string[]
+      cssClasses?: (originalClasses: string[], item: object, index: number) => string[]
     }
   }
 }

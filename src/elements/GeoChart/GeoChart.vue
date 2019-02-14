@@ -204,7 +204,7 @@ export default {
     },
 
     guidelinesConfigs () {
-      return _.filter(_.map(this.config.guidelinesGroups, function (group) { return group.axisConfig }))
+      return _.filter(_.map(this.config.guidelinesGroups, 'axisConfig'))
     },
 
     axesConfigById () {
@@ -296,8 +296,7 @@ export default {
 
         return {
           id: axisConfig.id,
-          idAxis: groupConfig.isAxis,
-          axisConfig: _.cloneDeep(axisConfig),
+          axisConfig: axisConfig,
           guidelines: groupConfig.guidelines,
           cssClasses: groupConfig.cssClasses
         }

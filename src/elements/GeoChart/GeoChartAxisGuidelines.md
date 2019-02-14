@@ -8,7 +8,7 @@ an object with the following...
 
 ## Required properties
 
-Each **axis guidelines** **requires** at least one of these properties:
+Each **axis guidelines** **requires** only one of these properties:
 
 - `idAxis`: The ID of the axis where we want to show guidelines.
 - `axisConfig`: Axis config (see [axes config](./#/Elements/Charts?id=axes)) to create guidelines

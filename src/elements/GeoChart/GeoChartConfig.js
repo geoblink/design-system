@@ -199,8 +199,8 @@ export const guidelineConfigJsonSchema = {
   type: 'object',
   additionalProperties: false,
   oneOf: [
-    { required: [ 'idAxis' ] },
-    { required: [ 'axisConfig' ] }
+    { required: [ 'idAxis' ], not: { required: ['axisConfig'] } },
+    { required: [ 'axisConfig' ], not: { required: ['idAxis'] } }
   ],
   properties: {
     idAxis: {
