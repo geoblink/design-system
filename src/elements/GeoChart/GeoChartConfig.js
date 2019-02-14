@@ -216,10 +216,6 @@ export const guidelineConfigJsonSchema = {
     guidelines: {
       type: 'object',
       additionalProperties: false,
-      anyOf: [
-        { required: [ 'count' ] },
-        { required: [ 'outerLines' ] }
-      ],
       properties: {
         count: {
           type: 'integer',

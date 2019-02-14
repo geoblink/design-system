@@ -119,7 +119,7 @@ function renderSingleAxisGuidelines (group, singleAxisGuidelinesOptions, globalO
     const forcedTickCSSClasses = ['tick']
     const defaultGuidelineCSSClasses = ['geo-chart-guideline', `geo-chart-guideline--${axisConfigForGuidelines.position.type}`]
     const getGuidelinesCSSClasses = _.isFunction(_.get(singleAxisGuidelinesOptions, 'guidelines.cssClasses'))
-      ? (...args) => [...forcedTickCSSClasses, ...singleAxisGuidelinesOptions.guidelines.cssClasses(defaultGuidelineCSSClasses, ...args)].join(' ')
+      ? [...forcedTickCSSClasses, ...singleAxisGuidelinesOptions.guidelines.cssClasses(defaultGuidelineCSSClasses, d, i)].join(' ')
       : [...forcedTickCSSClasses, ...defaultGuidelineCSSClasses].join(' ')
 
     return getGuidelinesCSSClasses

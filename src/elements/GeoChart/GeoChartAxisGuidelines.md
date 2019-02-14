@@ -147,7 +147,12 @@ export default {
             idAxis: this.categoricalAxisAnchoredToZeroAxisConfig.id
           },
           {
-            idAxis: this.linearAxisConfig.id
+            idAxis: this.linearAxisConfig.id,
+            guidelines: {
+              cssClasses (originalClasses, d, i) {
+                return [...originalClasses, 'my-class']
+              }
+            }
           }
         ]
       }
