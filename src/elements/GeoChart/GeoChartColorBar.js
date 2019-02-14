@@ -5,10 +5,8 @@ import _ from 'lodash'
 import './GeoChartAxis'
 import {
   getItemSpanAtAxis,
-  getHighlightedItemSpanAtAxis,
-  getBarTranslationFactory,
-  getSingleSegmentTranslationFactory,
-  getHighlightedSegmentTranslationFactory,
+  getTranslationForAxisNormalToDimensionFactory,
+  getItemTranslationFactory,
   isDimensionAxis
 } from './barsUtils'
 
@@ -87,9 +85,41 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions) {
     ? singleGroupOptions.axis.horizontal
     : singleGroupOptions.axis.vertical
 
-  const getTranslation = getBarTranslationFactory(singleGroupOptions)
-  const getSegmentTranslation = getSingleSegmentTranslationFactory(singleGroupOptions)
-  const getHighlightedSegmentTranslation = getHighlightedSegmentTranslationFactory(singleGroupOptions)
+  const getTranslation = getItemTranslationFactory(singleGroupOptions, {
+    keyForWidth: 'width',
+    keyForNaturalWidth: 'naturalWidth',
+    componentName: 'Color Bar',
+    getOriginPositionAtAxis (axisConfig, singleItem) {
+      return axisConfig.scale.axisScale(singleItem[axisConfig.keyForValues])
+    },
+    getTranslationForAxisNormalToDimension: getTranslationForAxisNormalToDimensionFactory(singleGroupOptions, {
+      keyForNormalOffset: 'normalOffset',
+      keyForNaturalNormalOffset: 'naturalNormalOffset'
+    })
+  })
+  const getSegmentTranslation = getItemTranslationFactory(singleGroupOptions, {
+    keyForWidth: 'width',
+    keyForNaturalWidth: 'naturalWidth',
+    componentName: 'Color Bar',
+    getOriginPositionAtAxis (axisConfig, singleItem) {
+      return axisConfig.scale.axisScale(singleItem[axisConfig.keyForValues])
+    },
+    getTranslationForAxisNormalToDimension () { return 0 }
+  })
+  const getHighlightedSegmentTranslation = getItemTranslationFactory(singleGroupOptions, {
+    keyForWidth: 'width',
+    keyForNaturalWidth: 'naturalWidth',
+    componentName: 'Color Bar',
+    getOriginPositionAtAxis (axisConfig, singleItem) {
+      return axisConfig.scale.axisScale(singleItem[axisConfig.keyForValues])
+    },
+    getTranslationForAxisNormalToDimension (normalAxis, singleItem) {
+      const normalHighlightedElementOffset = _.isFinite(singleGroupOptions.width)
+        ? (singleGroupOptions.highlightedWidth - singleGroupOptions.width) / 2
+        : (normalAxis.scale.axisScale(singleGroupOptions.naturalHighlightedWidth) - normalAxis.scale.axisScale(singleGroupOptions.naturalWidth)) / 2
+      return 0 - normalHighlightedElementOffset
+    }
+  })
 
   const colorBarBaseClass = 'geo-chart-color-bar'
   const segmentBaseClass = 'geo-chart-color-bar__segment'
@@ -98,11 +128,17 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions) {
   const getSegmentWidth = (d, i) => {
     switch (singleGroupOptions.dimension) {
       case DIMENSIONS.horizontal:
-        return getItemSpanAtAxis(axisForDimension, d, singleGroupOptions)
+        return getItemSpanAtAxis(axisForDimension, d, singleGroupOptions, {
+          keyForWidth: 'width',
+          keyForNaturalWidth: 'naturalWidth'
+        })
       case DIMENSIONS.vertical:
         return getItemSpanAtAxis(axisForNormalDimension, {
           [axisForNormalDimension.keyForValues]: singleGroupOptions.normalValue
-        }, singleGroupOptions)
+        }, singleGroupOptions, {
+          keyForWidth: 'width',
+          keyForNaturalWidth: 'naturalWidth'
+        })
       default:
         console.error(`GeoChartColorBar [component] :: Invalid axis dimension for getSegmentWidth: ${singleGroupOptions.dimension}`)
     }
@@ -112,9 +148,15 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions) {
       case DIMENSIONS.horizontal:
         return getItemSpanAtAxis(axisForNormalDimension, {
           [axisForNormalDimension.keyForValues]: singleGroupOptions.normalValue
-        }, singleGroupOptions)
+        }, singleGroupOptions, {
+          keyForWidth: 'width',
+          keyForNaturalWidth: 'naturalWidth'
+        })
       case DIMENSIONS.vertical:
-        return getItemSpanAtAxis(axisForDimension, d, singleGroupOptions)
+        return getItemSpanAtAxis(axisForDimension, d, singleGroupOptions, {
+          keyForWidth: 'width',
+          keyForNaturalWidth: 'naturalWidth'
+        })
       default:
         console.error(`GeoChartColorBar [component] :: Invalid axis dimension for getSegmentHeight: ${singleGroupOptions.dimension}`)
     }
@@ -123,11 +165,17 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions) {
   const getHighlightedSegmentWidth = (d, i) => {
     switch (singleGroupOptions.dimension) {
       case DIMENSIONS.horizontal:
-        return getItemSpanAtAxis(axisForDimension, d, singleGroupOptions)
+        return getItemSpanAtAxis(axisForDimension, d, singleGroupOptions, {
+          keyForWidth: 'highlightedWidth',
+          keyForNaturalWidth: 'naturalHighlightedWidth'
+        })
       case DIMENSIONS.vertical:
-        return getHighlightedItemSpanAtAxis(axisForNormalDimension, {
+        return getItemSpanAtAxis(axisForNormalDimension, {
           [axisForNormalDimension.keyForValues]: singleGroupOptions.normalValue
-        }, singleGroupOptions)
+        }, singleGroupOptions, {
+          keyForWidth: 'highlightedWidth',
+          keyForNaturalWidth: 'naturalHighlightedWidth'
+        })
       default:
         console.error(`GeoChartColorBar [component] :: Invalid axis dimension for getHighlightedSegmentWidth: ${singleGroupOptions.dimension}`)
     }
@@ -135,11 +183,17 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions) {
   const getHighlightedSegmentHeight = (d, i) => {
     switch (singleGroupOptions.dimension) {
       case DIMENSIONS.horizontal:
-        return getHighlightedItemSpanAtAxis(axisForNormalDimension, {
+        return getItemSpanAtAxis(axisForNormalDimension, {
           [axisForNormalDimension.keyForValues]: singleGroupOptions.normalValue
-        }, singleGroupOptions)
+        }, singleGroupOptions, {
+          keyForWidth: 'highlightedWidth',
+          keyForNaturalWidth: 'naturalHighlightedWidth'
+        })
       case DIMENSIONS.vertical:
-        return getItemSpanAtAxis(axisForDimension, d, singleGroupOptions)
+        return getItemSpanAtAxis(axisForDimension, d, singleGroupOptions, {
+          keyForWidth: 'highlightedWidth',
+          keyForNaturalWidth: 'naturalHighlightedWidth'
+        })
       default:
         console.error(`GeoChartColorBar [component] :: Invalid axis dimension for getHighlightedSegmentHeight: ${singleGroupOptions.dimension}`)
     }

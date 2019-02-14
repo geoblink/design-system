@@ -4,7 +4,8 @@ import _ from 'lodash'
 
 import {
   getItemSpanAtAxis,
-  getBarTranslationFactory
+  getItemTranslationFactory,
+  getTranslationForAxisNormalToDimensionFactory
 } from './barsUtils'
 import './GeoChartAxis'
 import { setupTooltipEventListeners } from './GeoChartTooltip'
@@ -80,8 +81,14 @@ export function render (d3Instance, d3TipInstance, options, globalOptions) {
  * @param {GeoChart.BarGroupsGlobalConfig} globalOptions
  */
 function renderSingleGroup (group, d3TipInstance, singleGroupOptions, globalOptions) {
-  const getWidth = (d, i) => getItemSpanAtAxis(singleGroupOptions.axis.horizontal, d, singleGroupOptions)
-  const getHeight = (d, i) => getItemSpanAtAxis(singleGroupOptions.axis.vertical, d, singleGroupOptions)
+  const getWidth = (d, i) => getItemSpanAtAxis(singleGroupOptions.axis.horizontal, d, singleGroupOptions, {
+    keyForWidth: 'width',
+    keyForNaturalWidth: 'naturalWidth'
+  })
+  const getHeight = (d, i) => getItemSpanAtAxis(singleGroupOptions.axis.vertical, d, singleGroupOptions, {
+    keyForWidth: 'width',
+    keyForNaturalWidth: 'naturalWidth'
+  })
 
   const getNewItemInitialWidth = (d, i) => {
     switch (singleGroupOptions.dimension) {
@@ -100,7 +107,18 @@ function renderSingleGroup (group, d3TipInstance, singleGroupOptions, globalOpti
     }
   }
 
-  const getTranslation = getBarTranslationFactory(singleGroupOptions)
+  const getTranslation = getItemTranslationFactory(singleGroupOptions, {
+    keyForWidth: 'width',
+    keyForNaturalWidth: 'naturalWidth',
+    componentName: 'Bars',
+    getOriginPositionAtAxis (axisConfig) {
+      return axisConfig.scale.axisScale(axisConfig.scale.valueForOrigin)
+    },
+    getTranslationForAxisNormalToDimension: getTranslationForAxisNormalToDimensionFactory(singleGroupOptions, {
+      keyForNormalOffset: 'normalOffset',
+      keyForNaturalNormalOffset: 'naturalNormalOffset'
+    })
+  })
 
   const singleBarBaseClass = 'geo-chart-bar'
 
