@@ -5,7 +5,7 @@ import _ from 'lodash'
 import './GeoChartAxis'
 import {
   getItemSpanAtAxis,
-  getTranslationForAxisNormalToDimensionFactory,
+  getTranslationForNormalAxisFactory,
   getItemTranslationFactory,
   isDimensionAxis
 } from './barsUtils'
@@ -92,7 +92,7 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions) {
     getOriginPositionAtAxis (axisConfig, singleItem) {
       return axisConfig.scale.axisScale(singleItem[axisConfig.keyForValues])
     },
-    getTranslationForAxisNormalToDimension: getTranslationForAxisNormalToDimensionFactory(singleGroupOptions, {
+    getTranslationForNormalAxis: getTranslationForNormalAxisFactory(singleGroupOptions, {
       keyForNormalOffset: 'normalOffset',
       keyForNaturalNormalOffset: 'naturalNormalOffset'
     })
@@ -105,7 +105,7 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions) {
     getOriginPositionAtAxis (axisConfig, singleItem) {
       return axisConfig.scale.axisScale(singleItem[axisConfig.keyForValues])
     },
-    getTranslationForAxisNormalToDimension () { return 0 }
+    getTranslationForNormalAxis () { return 0 }
   })
 
   const getHighlightedSegmentTranslation = getItemTranslationFactory(singleGroupOptions, {
@@ -115,7 +115,7 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions) {
     getOriginPositionAtAxis (axisConfig, singleItem) {
       return axisConfig.scale.axisScale(singleItem[axisConfig.keyForValues])
     },
-    getTranslationForAxisNormalToDimension (normalAxis, singleItem) {
+    getTranslationForNormalAxis (normalAxis, singleItem) {
       const normalHighlightedElementOffset = _.isFinite(singleGroupOptions.width)
         ? (singleGroupOptions.highlightedWidth - singleGroupOptions.width) / 2
         : (normalAxis.scale.axisScale(singleGroupOptions.naturalHighlightedWidth) - normalAxis.scale.axisScale(singleGroupOptions.naturalWidth)) / 2

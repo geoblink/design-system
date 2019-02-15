@@ -5,7 +5,7 @@ import _ from 'lodash'
 import {
   getItemSpanAtAxis,
   getItemTranslationFactory,
-  getTranslationForAxisNormalToDimensionFactory
+  getTranslationForNormalAxisFactory
 } from './barsUtils'
 import './GeoChartAxis'
 import { setupTooltipEventListeners } from './GeoChartTooltip'
@@ -114,7 +114,7 @@ function renderSingleGroup (group, d3TipInstance, singleGroupOptions, globalOpti
     getOriginPositionAtAxis (axisConfig) {
       return axisConfig.scale.axisScale(axisConfig.scale.valueForOrigin)
     },
-    getTranslationForAxisNormalToDimension: getTranslationForAxisNormalToDimensionFactory(singleGroupOptions, {
+    getTranslationForNormalAxis: getTranslationForNormalAxisFactory(singleGroupOptions, {
       keyForNormalOffset: 'normalOffset',
       keyForNaturalNormalOffset: 'naturalNormalOffset'
     })

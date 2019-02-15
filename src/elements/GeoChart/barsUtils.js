@@ -142,7 +142,7 @@ function isBarAxisLengthIncreasing (axisConfig, singleItem) {
  * @param {string} keysConfig.keyForNaturalNormalOffset
  * @return {number}
  */
-export function getTranslationForAxisNormalToDimensionFactory (options, { keyForNormalOffset, keyForNaturalNormalOffset }) {
+export function getTranslationForNormalAxisFactory (options, { keyForNormalOffset, keyForNaturalNormalOffset }) {
   return function (normalAxis, singleItem) {
     // By default we don't want to add any additional translation to be bars
     // apart from the one required to position it respect to their value in the
@@ -170,7 +170,7 @@ export function getTranslationForAxisNormalToDimensionFactory (options, { keyFor
 
 /**
  * @template Domain
- * @callback GetTranslationForAxisNormalToDimension
+ * @callback getTranslationForNormalAxis
  * @param {GeoChart.AxisConfig<Domain>} normalAxis
  * @param {object} singleItem
  * @returns {number}
@@ -189,7 +189,7 @@ export function getTranslationForAxisNormalToDimensionFactory (options, { keyFor
  * @param {object} params
  * @param {string} params.keyForWidth
  * @param {string} params.keyForNaturalWidth
- * @param {GetTranslationForAxisNormalToDimension<HorizontalDomain | VerticalDomain>} params.getTranslationForAxisNormalToDimension
+ * @param {getTranslationForNormalAxis<HorizontalDomain | VerticalDomain>} params.getTranslationForNormalAxis
  * @param {string} params.componentName
  * @param {GetOriginPositionAtAxis<HorizontalDomain | VerticalDomain>} params.getOriginPositionAtAxis
  * @returns {Function}
@@ -197,7 +197,7 @@ export function getTranslationForAxisNormalToDimensionFactory (options, { keyFor
 export function getItemTranslationFactory (options, {
   keyForWidth,
   keyForNaturalWidth,
-  getTranslationForAxisNormalToDimension,
+  getTranslationForNormalAxis,
   componentName,
   getOriginPositionAtAxis
 }) {
@@ -224,11 +224,11 @@ export function getItemTranslationFactory (options, {
       [DIMENSIONS.horizontal]: isBarHorizontalLengthIncreasing
         ? originHorizontalPosition
         : originHorizontalPosition - valueHorizontalSpan,
-      [DIMENSIONS.vertical]: getTranslationForAxisNormalToDimension(horizontalAxis, singleItem)
+      [DIMENSIONS.vertical]: getTranslationForNormalAxis(horizontalAxis, singleItem)
     }
 
     const verticalAxisTranslationForDimension = {
-      [DIMENSIONS.horizontal]: getTranslationForAxisNormalToDimension(verticalAxis, singleItem),
+      [DIMENSIONS.horizontal]: getTranslationForNormalAxis(verticalAxis, singleItem),
       [DIMENSIONS.vertical]: isBarVerticalLengthIncreasing
         ? originVerticalPosition
         : originVerticalPosition - valueVerticalSpan
