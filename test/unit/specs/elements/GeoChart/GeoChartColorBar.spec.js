@@ -117,107 +117,107 @@ describe('GeoChartColorBar', function () {
 
   describe('#render', function () {
     for (const dimension in axisDimensions) {
-      describe(`${dimension} color bar`, () => {
-        const linearAxisConfig = axisDimensions[dimension].linearAxisConfig
-        const categoricalAxisConfig = axisDimensions[dimension].categoricalAxisConfig
-        const highlightedSegments = _.filter(_.map(mockDomain, (category) => {
-          return _.random(0, 1)
-            ? { [axisDimensions[dimension].categoricalAxisConfig.keyForValues]: category }
-            : null
-        }))
-        const cssClassFn = (original) => [...original, 'test-color-bar']
-
-        switch (dimension) {
-          case GeoChart.constants.BARS_DIMENSIONS.horizontal:
-            return testDimension(dimension, linearAxisConfig, categoricalAxisConfig, highlightedSegments, cssClassFn)
-          case GeoChart.constants.BARS_DIMENSIONS.vertical:
-            return testDimension(dimension, categoricalAxisConfig, linearAxisConfig, highlightedSegments, null)
-          default:
-            console.error(`Unknown dimension: ${dimension}`)
-        }
-      })
-    }
-  })
-
-  function testDimension (dimension, verticalAxis, horizontalAxis, highlightedSegments, cssClassFn) {
-    const idVerticalAxis = verticalAxis.id
-    const idHorizontalAxis = horizontalAxis.id
-    const colorBarConfig = {
-      axisGroups: [
-        verticalAxis,
-        horizontalAxis
-      ],
-      colorBarGroups: [{
-        normalValue: 0.5,
-        width: 12,
-        highlightedWidth: 16,
-        data: highlightedSegments,
-        dimension: GeoChart.constants.BARS_DIMENSIONS[dimension],
-        idVerticalAxis: idVerticalAxis,
-        idHorizontalAxis: idHorizontalAxis,
-        cssClasses: cssClassFn
-      }]
-    }
-    it('Should render the ColorBar', () => {
-      const wrapper = mount(GeoChart, {
-        propsData: {
-          config: colorBarConfig,
-          width: `${chartConfig.width}`,
-          height: `${chartConfig.height}`
-        }
-      })
-
-      flushD3Transitions()
-
-      expect(wrapper.find('.geo-chart').exists()).toBe(true)
-      expect(wrapper.find('.geo-chart .geo-chart-color-bar-group').exists()).toBe(true)
-      expect(wrapper.find('.geo-chart .geo-chart-color-bar__segment-container').exists()).toBe(true)
-      expect(wrapper.findAll('.geo-chart .geo-chart-color-bar__segment')).toHaveLength(mockDomain.length)
-      expect(wrapper.findAll('.geo-chart .geo-chart-color-bar__highlighted-segment')).toHaveLength(highlightedSegments.length)
-
-      wrapper.destroy()
-    })
-    it('Should update data', () => {
-      const stubLodashDebounce = stubLodashDebounceFactory()
-      beforeEach(function () {
-        stubLodashDebounce.setup()
-      })
-
-      afterEach(function () {
-        stubLodashDebounce.teardown()
-      })
-
-      const wrapper = mount(GeoChart, {
-        propsData: {
-          config: colorBarConfig,
-          width: `${chartConfig.width}`,
-          height: `${chartConfig.height}`
-        }
-      })
-
-      flushD3Transitions()
-
-      expect(wrapper.find('.geo-chart').exists()).toBe(true)
-      expect(wrapper.find('.geo-chart .geo-chart-color-bar-group').exists()).toBe(true)
-
-      const highlightedSegments2 = _.filter(_.map(mockDomain, (category) => {
+      const linearAxisConfig = axisDimensions[dimension].linearAxisConfig
+      const categoricalAxisConfig = axisDimensions[dimension].categoricalAxisConfig
+      const highlightedSegments = _.filter(_.map(mockDomain, (category) => {
         return _.random(0, 1)
           ? { [axisDimensions[dimension].categoricalAxisConfig.keyForValues]: category }
           : null
       }))
-      const colorBarConfig2 = _.assign({}, colorBarConfig)
-      colorBarConfig2.colorBarGroups[0].data = highlightedSegments2
+      const cssClassFn = (original) => [...original, 'test-color-bar']
 
-      wrapper.setProps({
-        config: colorBarConfig2
+      switch (dimension) {
+        case GeoChart.constants.BARS_DIMENSIONS.horizontal:
+          return testDimension(dimension, linearAxisConfig, categoricalAxisConfig, highlightedSegments, cssClassFn)
+        case GeoChart.constants.BARS_DIMENSIONS.vertical:
+          return testDimension(dimension, categoricalAxisConfig, linearAxisConfig, highlightedSegments, null)
+        default:
+          console.error(`Unknown dimension: ${dimension}`)
+      }
+    }
+  })
+
+  function testDimension (dimension, verticalAxis, horizontalAxis, highlightedSegments, cssClassFn) {
+    describe(`${dimension} color bar`, () => {
+      const idVerticalAxis = verticalAxis.id
+      const idHorizontalAxis = horizontalAxis.id
+      const colorBarConfig = {
+        axisGroups: [
+          verticalAxis,
+          horizontalAxis
+        ],
+        colorBarGroups: [{
+          normalValue: 0.5,
+          width: 12,
+          highlightedWidth: 16,
+          data: highlightedSegments,
+          dimension: GeoChart.constants.BARS_DIMENSIONS[dimension],
+          idVerticalAxis: idVerticalAxis,
+          idHorizontalAxis: idHorizontalAxis,
+          cssClasses: cssClassFn
+        }]
+      }
+      it('Should render the ColorBar', () => {
+        const wrapper = mount(GeoChart, {
+          propsData: {
+            config: colorBarConfig,
+            width: `${chartConfig.width}`,
+            height: `${chartConfig.height}`
+          }
+        })
+
+        flushD3Transitions()
+
+        expect(wrapper.find('.geo-chart').exists()).toBe(true)
+        expect(wrapper.find('.geo-chart .geo-chart-color-bar-group').exists()).toBe(true)
+        expect(wrapper.find('.geo-chart .geo-chart-color-bar__segment-container').exists()).toBe(true)
+        expect(wrapper.findAll('.geo-chart .geo-chart-color-bar__segment')).toHaveLength(mockDomain.length)
+        expect(wrapper.findAll('.geo-chart .geo-chart-color-bar__highlighted-segment')).toHaveLength(highlightedSegments.length)
+
+        wrapper.destroy()
       })
-      flushD3Transitions()
+      it('Should update data', () => {
+        const stubLodashDebounce = stubLodashDebounceFactory()
+        beforeEach(function () {
+          stubLodashDebounce.setup()
+        })
 
-      expect(wrapper.find('.geo-chart').exists()).toBe(true)
-      expect(wrapper.find('.geo-chart .geo-chart-color-bar-group').exists()).toBe(true)
-      expect(wrapper.find('.geo-chart .geo-chart-color-bar__segment-container').exists()).toBe(true)
-      expect(wrapper.findAll('.geo-chart .geo-chart-color-bar__segment')).toHaveLength(mockDomain.length)
-      expect(wrapper.findAll('.geo-chart .geo-chart-color-bar__highlighted-segment')).toHaveLength(highlightedSegments2.length)
+        afterEach(function () {
+          stubLodashDebounce.teardown()
+        })
+
+        const wrapper = mount(GeoChart, {
+          propsData: {
+            config: colorBarConfig,
+            width: `${chartConfig.width}`,
+            height: `${chartConfig.height}`
+          }
+        })
+
+        flushD3Transitions()
+
+        expect(wrapper.find('.geo-chart').exists()).toBe(true)
+        expect(wrapper.find('.geo-chart .geo-chart-color-bar-group').exists()).toBe(true)
+
+        const highlightedSegments2 = _.filter(_.map(mockDomain, (category) => {
+          return _.random(0, 1)
+            ? { [axisDimensions[dimension].categoricalAxisConfig.keyForValues]: category }
+            : null
+        }))
+        const colorBarConfig2 = _.assign({}, colorBarConfig)
+        colorBarConfig2.colorBarGroups[0].data = highlightedSegments2
+
+        wrapper.setProps({
+          config: colorBarConfig2
+        })
+        flushD3Transitions()
+
+        expect(wrapper.find('.geo-chart').exists()).toBe(true)
+        expect(wrapper.find('.geo-chart .geo-chart-color-bar-group').exists()).toBe(true)
+        expect(wrapper.find('.geo-chart .geo-chart-color-bar__segment-container').exists()).toBe(true)
+        expect(wrapper.findAll('.geo-chart .geo-chart-color-bar__segment')).toHaveLength(mockDomain.length)
+        expect(wrapper.findAll('.geo-chart .geo-chart-color-bar__highlighted-segment')).toHaveLength(highlightedSegments2.length)
+      })
     })
   }
 })
