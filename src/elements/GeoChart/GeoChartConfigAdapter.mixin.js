@@ -3,6 +3,7 @@ import _ from 'lodash'
 import * as ChartSizing from './GeoChartSizing'
 import * as ChartBars from './GeoChartBars'
 import * as ChartLabels from './GeoChartLabels'
+import * as ChartColorBar from './GeoChartColorBar'
 import * as ChartPie from './GeoChartPie'
 
 export default {
@@ -14,6 +15,10 @@ export default {
 
       if (!_.isEmpty(this.config.labelGroups)) {
         this.updateLabelGroups()
+      }
+
+      if (!_.isEmpty(this.config.colorBarGroups)) {
+        this.updateColorBarGroups()
       }
 
       if (!_.isEmpty(this.config.pieConfig)) {
@@ -63,7 +68,6 @@ export default {
 
         return {
           id: index,
-          chart,
           axis,
           data: singleBarGroupConfig.data,
           dimension: singleBarGroupConfig.dimension,
@@ -77,6 +81,38 @@ export default {
       })
 
       ChartBars.render(this.d3Instance, this.d3TipInstance, barGroupsConfig, { chart })
+    },
+
+    updateColorBarGroups () {
+      const chartSize = this.svgSize
+      const chartMargin = _.get(this.config.chart, 'margin', ChartSizing.EMPTY_MARGIN)
+      const chart = {
+        animationsDurationInMilliseconds: this.animationsDurationInMilliseconds,
+        size: chartSize,
+        margin: chartMargin
+      }
+      const colorBarGroupsConfig = _.map(this.config.colorBarGroups, (singleColorBarGroupConfig, index) => {
+        const axis = {
+          horizontal: this.axesConfigById[singleColorBarGroupConfig.idHorizontalAxis],
+          vertical: this.axesConfigById[singleColorBarGroupConfig.idVerticalAxis]
+        }
+        return {
+          id: index,
+          axis,
+          data: singleColorBarGroupConfig.data,
+          dimension: singleColorBarGroupConfig.dimension,
+          normalOffset: singleColorBarGroupConfig.normalOffset,
+          naturalNormalOffset: singleColorBarGroupConfig.naturalNormalOffset,
+          width: singleColorBarGroupConfig.width,
+          naturalWidth: singleColorBarGroupConfig.naturalWidth,
+          highlightedWidth: singleColorBarGroupConfig.highlightedWidth,
+          naturalHighlightedWidth: singleColorBarGroupConfig.naturalHighlightedWidth,
+          normalValue: singleColorBarGroupConfig.normalValue,
+          cssClasses: singleColorBarGroupConfig.cssClasses
+        }
+      })
+
+      ChartColorBar.render(this.d3Instance, colorBarGroupsConfig, { chart })
     },
 
     updateLabelGroups () {

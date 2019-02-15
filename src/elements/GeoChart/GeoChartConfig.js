@@ -286,6 +286,105 @@ export const barConfigJsonSchema = {
   }
 }
 
+export const colorBarConfigJsonSchema = {
+  type: 'object',
+  additionalProperties: false,
+  required: ['data', 'dimension', 'idHorizontalAxis', 'idVerticalAxis', 'normalValue'],
+  allOf: [{
+    oneOf: [{
+      not: {
+        anyOf: [
+          { required: ['normalOffset'] },
+          { required: ['naturalNormalOffset'] }
+        ]
+      }
+    }, {
+      required: ['normalOffset'],
+      not: { required: ['naturalNormalOffset'] }
+    }, {
+      required: ['naturalNormalOffset'],
+      not: { required: ['normalOffset'] }
+    }]
+  }, {
+    oneOf: [{
+      not: {
+        anyOf: [
+          { required: ['width'] },
+          { required: ['naturalWidth'] }
+        ]
+      }
+    }, {
+      required: ['width'],
+      not: { required: ['naturalWidth'] }
+    }, {
+      required: ['naturalWidth'],
+      not: { required: ['width'] }
+    }]
+  }, {
+    oneOf: [{
+      not: {
+        anyOf: [
+          { required: ['highlightedWidth'] },
+          { required: ['naturalHighlightedWidth'] }
+        ]
+      }
+    }, {
+      required: ['highlightedWidth'],
+      not: { required: ['naturalHighlightedWidth'] }
+    }, {
+      required: ['naturalHighlightedWidth'],
+      not: { required: ['highlightedWidth'] }
+    }]
+  }],
+  properties: {
+    data: {
+      type: 'array',
+      additionalItems: false,
+      items: {
+        type: 'object'
+      }
+    },
+    normalOffset: {
+      type: 'number'
+    },
+    naturalNormalOffset: {
+      type: 'number'
+    },
+    width: {
+      type: 'number'
+    },
+    naturalWidth: {
+      type: 'number'
+    },
+    dimension: {
+      type: 'string',
+      enum: Object.values(DIMENSIONS)
+    },
+    idHorizontalAxis: {
+      type: 'string'
+    },
+    idVerticalAxis: {
+      type: 'string'
+    },
+    normalValue: {
+      type: 'number'
+    },
+    naturalHighlightedWidth: {
+      type: 'number'
+    },
+    highlightedWidth: {
+      type: 'number'
+    },
+    // Function taking as first parameter an array of CSS classes that would be
+    // set by default. Should return the array of CSS classes to be finally set.
+    // Use this function to customize which CSS classes are set to the rect for
+    // the bar of each item. Note that there might be some of the default classes
+    // might be added regardless to your customization as they are required
+    // internally.
+    cssClasses: {}
+  }
+}
+
 export const pieConfigJsonSchema = {
   type: 'object',
   additionalProperties: false,
@@ -461,6 +560,11 @@ export const jsonSchema = {
       type: 'array',
       additionalItems: false,
       items: barConfigJsonSchema
+    },
+    colorBarGroups: {
+      type: 'array',
+      additionalItems: false,
+      items: colorBarConfigJsonSchema
     },
     pieConfig: pieConfigJsonSchema,
     labelGroups: {
