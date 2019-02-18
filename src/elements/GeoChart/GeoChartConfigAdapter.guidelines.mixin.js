@@ -1,6 +1,6 @@
 import _ from 'lodash'
 
-import { parseAxisConfig } from './GeoChart'
+import { parseAxisConfig } from './GeoChartConfigAdapterUtils'
 import * as ChartSizing from './GeoChartSizing'
 import * as ChartAxisGuidelines from './GeoChartAxisGuidelines'
 
