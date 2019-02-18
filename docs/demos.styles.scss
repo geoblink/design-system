@@ -125,8 +125,17 @@ $colors: (
   6: $color-blue,
   7: $color-blue-light,
   8: $color-link,
-  9: $color-red
+  9: $color-red,
+  10: $color-yellow,
+  11: $color-yellow-light
 );
+
+@for $i from 0 through 11 {
+  .geo-chart-color-bar__segment--#{$i},
+  .geo-chart-color-bar__highlighted-segment--#{$i} {
+    fill: map-get($colors, $i);
+  }
+}
 
 @for $i from 0 through 10 {
   .geo-chart-pie-slice--#{$i} {
