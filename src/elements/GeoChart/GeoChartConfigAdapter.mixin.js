@@ -5,8 +5,10 @@ import * as ChartBars from './GeoChartBars'
 import * as ChartLabels from './GeoChartLabels'
 import * as ChartColorBar from './GeoChartColorBar'
 import * as ChartPie from './GeoChartPie'
+import gudidelinesAdapterMixin from './GeoChartConfigAdapter.guidelines.mixin'
 
 export default {
+  mixins: [gudidelinesAdapterMixin],
   methods: {
     updateData () {
       if (!_.isEmpty(this.config.barGroups)) {
