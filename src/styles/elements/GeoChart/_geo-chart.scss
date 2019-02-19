@@ -22,6 +22,16 @@
     .rect-fill-none rect {
       fill: none;
     }
+
+    .geo-chart-guidelines {
+      .domain {
+        stroke: $color-grey;
+      }
+
+      .tick line {
+        stroke: $color-grey;
+      }
+    }
   }
 
   .geo-chart-tooltip#{$modifier-name-with-prefix} {

@@ -102,25 +102,6 @@ function renderSingleAxis (group, singleAxisOptions, globalAxesConfig) {
   const drawingEnvironment = getDrawingEnvironment(singleAxisOptions, globalAxesConfig)
   const axis = getAxis(singleAxisOptions)
 
-  const tickCount = _.get(singleAxisOptions, 'ticks.count')
-  const isTickCountForced = _.isFinite(tickCount)
-  if (isTickCountForced) {
-    axis.ticks(tickCount)
-  }
-
-  const tickFormat = _.get(singleAxisOptions, 'ticks.format')
-  if (tickFormat) {
-    axis.tickFormat(tickFormat)
-  }
-
-  const isShowingTicks = (isTickCountForced && tickCount > 0) || _.isNil(tickCount)
-
-  if (!isShowingTicks) {
-    axis
-      .tickValues([])
-      .tickSize(0)
-  }
-
   const isAnimated = globalAxesConfig.chart.animationsDurationInMilliseconds > 0
 
   const animatedGroup = isAnimated
@@ -147,7 +128,7 @@ function renderSingleAxis (group, singleAxisOptions, globalAxesConfig) {
  * @param {GeoChart.GlobalAxesConfig} globalAxesConfig
  * @returns {GeoChart.DrawingEnvironment}
  */
-function getDrawingEnvironment (singleAxisOptions, globalAxesConfig) {
+export function getDrawingEnvironment (singleAxisOptions, globalAxesConfig) {
   const xTranslation = getOriginXTranslation(
     singleAxisOptions.position,
     globalAxesConfig.chart.size,
@@ -176,31 +157,56 @@ function getDrawingEnvironment (singleAxisOptions, globalAxesConfig) {
  * @param {GeoChart.AxisConfig<Domain>} singleAxisOptions
  * @returns {d3.Axis<Domain>}
  */
-function getAxis (singleAxisOptions) {
+export function getAxis (singleAxisOptions) {
   const { position, scale: { axisScale: scale } } = singleAxisOptions
 
-  switch (position.type) {
-    case POSITIONS.top:
-      return d3.axisTop(scale)
-    case POSITIONS.bottom:
-      return d3.axisBottom(scale)
-    case POSITIONS.verticallyCenteredInTheMiddle:
-      return d3.axisTop(scale)
-    case POSITIONS.left:
-      return d3.axisLeft(scale)
-    case POSITIONS.right:
-      return d3.axisRight(scale)
-    case POSITIONS.horizontallyCenteredInTheMiddle:
-      return d3.axisLeft(scale)
-    case POSITIONS.anchoredToAxis: {
-      const axisDimension = getAxisDimension(position)
-      return axisDimension === DIMENSIONS.horizontal
-        ? d3.axisBottom(scale)
-        : d3.axisLeft(scale)
-    }
+  const d3Axis = getD3Axis()
+
+  const tickCount = _.get(singleAxisOptions, 'ticks.count')
+  const isTickCountForced = _.isFinite(tickCount)
+  if (isTickCountForced) {
+    d3Axis.ticks(tickCount)
   }
 
-  console.warn(`GeoChart (axis) [component] :: Tried to get axis for unknown position: ${position.type}`, singleAxisOptions)
+  const tickFormat = _.get(singleAxisOptions, 'ticks.format')
+  if (tickFormat) {
+    d3Axis.tickFormat(tickFormat)
+  }
+
+  const isShowingTicks = (isTickCountForced && tickCount > 0) || _.isNil(tickCount)
+
+  if (!isShowingTicks) {
+    d3Axis
+      .tickValues([])
+      .tickSize(0)
+  }
+
+  return d3Axis
+
+  function getD3Axis () {
+    switch (position.type) {
+      case POSITIONS.top:
+        return d3.axisTop(scale)
+      case POSITIONS.bottom:
+        return d3.axisBottom(scale)
+      case POSITIONS.verticallyCenteredInTheMiddle:
+        return d3.axisTop(scale)
+      case POSITIONS.left:
+        return d3.axisLeft(scale)
+      case POSITIONS.right:
+        return d3.axisRight(scale)
+      case POSITIONS.horizontallyCenteredInTheMiddle:
+        return d3.axisLeft(scale)
+      case POSITIONS.anchoredToAxis: {
+        const axisDimension = getAxisDimension(position)
+        return axisDimension === DIMENSIONS.horizontal
+          ? d3.axisBottom(scale)
+          : d3.axisLeft(scale)
+      }
+      default:
+        console.warn(`GeoChart (axis) [component] :: Tried to get axis for unknown position: ${position.type}`, singleAxisOptions)
+    }
+  }
 }
 
 /**

@@ -17,6 +17,7 @@ import * as ChartBars from './GeoChartBars'
 import * as ChartConfig from './GeoChartConfig'
 import * as ChartScale from './GeoChartScale'
 import configAdapterMixin from './GeoChartConfigAdapter.mixin'
+import { parseAxisConfig, getPositionOfAxis } from './GeoChartConfigAdapterUtils'
 
 const d3 = (function () {
   try {
@@ -170,7 +171,7 @@ export default {
         margin: chartMargin
       }
 
-      const axisGroups = this.config.axisGroups
+      const axisGroups = [...this.config.axisGroups, ...this.guidelinesConfigs]
 
       const [
         simplePositionedScalesAxisGroups,
@@ -202,22 +203,13 @@ export default {
       }
     },
 
+    guidelinesConfigs () {
+      return _.filter(_.map(this.config.guidelinesGroups, 'axisConfig'))
+    },
+
     axesConfigById () {
       return _.fromPairs(_.map(this.config.axisGroups, (axisConfig) => {
-        const scale = this.scalesById[axisConfig.id]
-        const position = getPositionOfAxis(axisConfig, {
-          scalesById: this.scalesById,
-          axisGroups: this.config.axisGroups
-        })
-
-        return [axisConfig.id, {
-          id: axisConfig.id,
-          keyForValues: axisConfig.keyForValues,
-          position,
-          scale,
-          cssClasses: axisConfig.cssClasses,
-          ticks: axisConfig.ticks
-        }]
+        return [axisConfig.id, parseAxisConfig(this, axisConfig)]
       }))
     },
 
@@ -263,6 +255,7 @@ export default {
   methods: {
     redraw () {
       this.adjustSize()
+      this.redrawGuidelines()
       this.updateData()
       this.redrawAxes()
     },
@@ -300,31 +293,6 @@ export default {
 
       ChartAxis.render(this.d3Instance, axesConfig, globalAxesConfig)
     }
-  }
-}
-
-function getPositionOfAxis (axisConfig, { scalesById, axisGroups }) {
-  if (axisConfig.position.type === ChartAxis.POSITIONS.anchoredToAxis) {
-    const relativeAxisConfig = _.find(axisGroups, {
-      id: axisConfig.position.relativeToAxis
-    })
-
-    if (!relativeAxisConfig) {
-      throw new Error(`GeoChart [component] :: Tried to add an axis relative to unknown axis ${axisConfig.position.relativeToAxis}`)
-    }
-
-    const scale = scalesById[axisConfig.position.relativeToAxis]
-
-    return {
-      type: ChartAxis.POSITIONS.anchoredToAxis,
-      value: axisConfig.position.value,
-      scale,
-      relativeAxisPosition: getPositionOfAxis(relativeAxisConfig, { scalesById, axisGroups })
-    }
-  }
-
-  return {
-    type: axisConfig.position.type
   }
 }
 </script>

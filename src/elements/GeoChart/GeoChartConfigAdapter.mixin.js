@@ -5,8 +5,10 @@ import * as ChartBars from './GeoChartBars'
 import * as ChartLabels from './GeoChartLabels'
 import * as ChartColorBar from './GeoChartColorBar'
 import * as ChartPie from './GeoChartPie'
+import guidelinesAdapterMixin from './GeoChartConfigAdapter.guidelines.mixin'
 
 export default {
+  mixins: [guidelinesAdapterMixin],
   methods: {
     updateData () {
       if (!_.isEmpty(this.config.barGroups)) {
@@ -156,7 +158,7 @@ export default {
         console.warn('GeoChart [component] :: d3-tip NPM package is required to use tooltips (attempted to use tooltips on a pie chart)')
       }
 
-      if (userConfig.tooltip && !_.isFunction(userConfig.tooltip)) {
+      if (userConfig.tooltip && !_.isFunction(userConfig.tooltip.content)) {
         console.warn(`GeoChart [component] :: Attempted to use a non-function as pie chart tooltip content (used «${userConfig.tooltip}»)`)
       }
 

@@ -356,7 +356,10 @@ export default {
             content: (d, i) => `${d[this.categoricalAxisConfig.keyForValues]} 2019 :: ${d[this.linearAxisConfig.keyForValues]}`
           },
           cssClasses: (original) => [...original, 'fill-green']
-        }]
+        }],
+        guidelinesGroups: [
+          { idAxis: this.linearAxisConfig.id }
+        ]
       }
     }
   },
@@ -604,7 +607,8 @@ export default {
           data: _.take(labelGroupsData, _.random(1, labelGroupsData.length, false)),
           idVerticalAxis: this.categoricalAxisConfig.id
         }],
-        barGroups
+        barGroups,
+        guidelinesGroups: [{idAxis: idHorizontalAxis}]
       }
     }
   },
