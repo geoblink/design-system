@@ -15,11 +15,14 @@ export default {
 
     el.__geoOnResizeCallbackId__ = getNextCallbackId()
 
+    const callback = _.get(binding.value, 'callback', binding.value)
+    const target = _.get(binding.value, 'target', el)
+
     const observer = new ResizeObserver(throttle(function (entries) {
-      binding.value(entries)
+      callback(entries)
     }))
 
-    observer.observe(el)
+    observer.observe(target)
 
     connectedObservers[el.__geoOnResizeCallbackId__] = observer
   },
@@ -31,8 +34,9 @@ export default {
 }
 
 function isValidBinding (binding) {
-  if (typeof binding.value !== 'function') {
-    console.error(`GeoOnResize [directive] :: provided expression ${binding.expression} is not a function`)
+  const callback = _.get(binding.value, 'callback', binding.value)
+  if (typeof callback !== 'function') {
+    console.error(`GeoOnResize [directive] :: provided callback ${callback} is not a function`)
     return false
   }
 

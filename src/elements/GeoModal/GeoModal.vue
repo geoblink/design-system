@@ -1,5 +1,9 @@
 <template>
   <div
+    v-on-resize="{
+      callback: repositionModal,
+      target: attachTo
+    }"
     v-scroll-anywhere="repositionModal"
     :class="`geo-modal${cssSuffix}`"
     :style="modalStyle"
@@ -41,6 +45,7 @@
 </template>
 
 <script>
+import OnResize from '../../directives/GeoOnResize'
 import ScrollAnywhere from '../../directives/GeoScrollAnywhere'
 import cssSuffix from '../../mixins/cssModifierMixin'
 
@@ -49,6 +54,7 @@ export default {
   status: 'missing-tests',
   release: '7.3.0',
   directives: {
+    OnResize,
     ScrollAnywhere
   },
   mixins: [cssSuffix],
@@ -92,8 +98,7 @@ export default {
   },
   data () {
     return {
-      // Offset of the container (modal's parent) relative to `attachTo` element
-      containerOffset: {
+      containerScrollOffset: {
         left: 0,
         top: 0
       },
@@ -106,12 +111,16 @@ export default {
   },
   computed: {
     modalStyle () {
-      if (this.attachTo === document.body) return null
+      if (this.attachTo === document.body) {
+        return {
+          position: 'fixed'
+        }
+      }
 
       const styles = {
         transform: `translate(
-          ${this.containerOffset.left}px,
-          ${this.containerOffset.top}px
+          ${this.containerScrollOffset.left}px,
+          ${this.containerScrollOffset.top}px
         )`,
         height: `${this.containerSize.height}px`,
         width: `${this.containerSize.width}px`
@@ -130,6 +139,11 @@ export default {
 
     hasFooter () {
       return !!(this.$slots.footer && this.$slots.footer.length)
+    }
+  },
+  watch: {
+    attachTo () {
+      this.reattachModalToProperParent()
     }
   },
   mounted () {
@@ -153,17 +167,26 @@ export default {
       const componentElement = this.$el
       this.removeModalFromDOM()
       this.attachTo.appendChild(componentElement)
+      this.setAttachToElementPosition()
       this.repositionModal()
     },
 
-    repositionModal () {
+    setAttachToElementPosition () {
       if (this.attachTo === document.body) return
 
+      const currentPosition = getComputedStyle(this.attachTo).getPropertyValue('position')
+      if (currentPosition === 'static') {
+        console.warn(`GeoModal [component] :: setting position of attach-to element to «relative» since it's required to anchor the modal. Set attach-to element position to «relative» in your CSS styles to avoid this warning.`)
+        this.attachTo.style.position = 'relative'
+      }
+    },
+
+    repositionModal () {
       const boundingRect = this.attachTo.getBoundingClientRect()
-      this.containerOffset.left = boundingRect.left
-      this.containerOffset.top = boundingRect.top
       this.containerSize.height = boundingRect.height
       this.containerSize.width = boundingRect.width
+      this.containerScrollOffset.left = this.attachTo.scrollLeft
+      this.containerScrollOffset.top = this.attachTo.scrollTop
     },
 
     handleBackdropClick ($event) {
