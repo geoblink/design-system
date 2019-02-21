@@ -1,16 +1,21 @@
 @keyframes geoActivityIndicatorSpin {
   100% {
-    transform:rotate(360deg);
+    transform: rotate(360deg);
   }
 }
 
 @mixin geo-activity-indicator () {
-  animation: geoActivityIndicatorSpin 1s linear infinite;
-  animation-play-state: paused;
+  g {
+    animation: geoActivityIndicatorSpin 1s linear infinite;
+    animation-play-state: paused;
+    transform-origin: 50% 50%;
+  }
 }
 
 @mixin geo-activity-indicator--animated () {
-  animation-play-state: running;
+  g {
+    animation-play-state: running;
+  }
 }
 
 @mixin geo-activity-indicator-make-variant (
