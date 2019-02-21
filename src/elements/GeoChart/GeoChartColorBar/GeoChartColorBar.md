@@ -102,11 +102,11 @@ Doing so will throw an invalid config error.
 
 <script>
   const d3 = require('d3')
-  const { POSITIONS } = require('./GeoChartAxis')
-  const { DIMENSIONS: BARS_DIMENSIONS } = require('./GeoChartBars')
-  const { SCALE_TYPES } = require('./GeoChartScale')
+  const { POSITIONS } = require('../GeoChartAxis/GeoChartAxis')
+  const { DIMENSIONS: BARS_DIMENSIONS } = require('../GeoChartBars/GeoChartBars')
+  const { SCALE_TYPES } = require('../GeoChartScale/GeoChartScale')
 
-  export default {
+export default {
     name: 'GeoChartColorBarDemo',
     data () {
       return {
@@ -223,9 +223,9 @@ Doing so will throw an invalid config error.
 
 <script>
   const d3 = require('d3')
-  const { POSITIONS } = require('./GeoChartAxis')
-  const { DIMENSIONS: BARS_DIMENSIONS } = require('./GeoChartBars')
-  const { SCALE_TYPES } = require('./GeoChartScale')
+  const { POSITIONS } = require('../GeoChartAxis/GeoChartAxis')
+  const { DIMENSIONS: BARS_DIMENSIONS } = require('../GeoChartBars/GeoChartBars')
+  const { SCALE_TYPES } = require('../GeoChartScale/GeoChartScale')
 
   export default {
     name: 'GeoChartColorBarDemo',
@@ -346,9 +346,9 @@ Doing so will throw an invalid config error.
 
 <script>
   const d3 = require('d3')
-  const { POSITIONS } = require('./GeoChartAxis')
-  const { DIMENSIONS: BARS_DIMENSIONS } = require('./GeoChartBars')
-  const { SCALE_TYPES } = require('./GeoChartScale')
+  const { POSITIONS } = require('../GeoChartAxis/GeoChartAxis')
+  const { DIMENSIONS: BARS_DIMENSIONS } = require('../GeoChartBars/GeoChartBars')
+  const { SCALE_TYPES } = require('../GeoChartScale/GeoChartScale')
 
   export default {
     name: 'GeoChartColorBarDemo',
@@ -469,9 +469,9 @@ Doing so will throw an invalid config error.
 
 <script>
   const d3 = require('d3')
-  const { POSITIONS } = require('./GeoChartAxis')
-  const { DIMENSIONS: BARS_DIMENSIONS } = require('./GeoChartBars')
-  const { SCALE_TYPES } = require('./GeoChartScale')
+  const { POSITIONS } = require('../GeoChartAxis/GeoChartAxis')
+  const { DIMENSIONS: BARS_DIMENSIONS } = require('../GeoChartBars/GeoChartBars')
+  const { SCALE_TYPES } = require('../GeoChartScale/GeoChartScale')
 
   export default {
     name: 'GeoChartColorBarDemo',

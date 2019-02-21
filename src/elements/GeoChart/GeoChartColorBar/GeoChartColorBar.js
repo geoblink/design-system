@@ -2,13 +2,13 @@
 
 import _ from 'lodash'
 
-import './GeoChartAxis'
+import '../GeoChartAxis/GeoChartAxis'
 import {
   getItemSpanAtAxis,
   getTranslationForNormalAxisFactory,
   getItemTranslationFactory,
   isDimensionAxis
-} from './barsUtils'
+} from '../GeoChartUtils/barsUtils'
 
 const d3 = (function () {
   try {

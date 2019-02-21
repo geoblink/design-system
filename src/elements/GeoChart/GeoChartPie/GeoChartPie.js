@@ -1,7 +1,7 @@
 /// <reference types="d3" />
 
 import _ from 'lodash'
-import { setupTooltipEventListeners } from './GeoChartTooltip'
+import { setupTooltipEventListeners } from '../GeoChartUtils/GeoChartTooltip'
 
 const d3 = (function () {
   try {

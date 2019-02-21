@@ -180,25 +180,25 @@ module.exports = {
             components: '../src/elements/GeoChart/GeoChart.vue'
           }, {
             name: 'Axes',
-            content: '../src/elements/GeoChart/GeoChartAxis.md'
+            content: '../src/elements/GeoChart/GeoChartAxis/GeoChartAxis.md'
           }, {
             name: 'Axes guidelines',
-            content: '../src/elements/GeoChart/GeoChartAxisGuidelines.md'
+            content: '../src/elements/GeoChart/GeoChartAxisGuidelines/GeoChartAxisGuidelines.md'
           }, {
             name: 'Scales',
-            content: '../src/elements/GeoChart/GeoChartScale.md'
+            content: '../src/elements/GeoChart/GeoChartScale/GeoChartScale.md'
           }, {
             name: 'Labels',
-            content: '../src/elements/GeoChart/GeoChartLabels.md'
+            content: '../src/elements/GeoChart/GeoChartLabels/GeoChartLabels.md'
           }, {
             name: 'Bar charts',
-            content: '../src/elements/GeoChart/GeoChartBars.md'
+            content: '../src/elements/GeoChart/GeoChartBars/GeoChartBars.md'
           }, {
             name: 'Colored bar charts',
-            content: '../src/elements/GeoChart/GeoChartColorBar.md'
+            content: '../src/elements/GeoChart/GeoChartColorBar/GeoChartColorBar.md'
           }, {
             name: 'Pie charts',
-            content: '../src/elements/GeoChart/GeoChartPie.md'
+            content: '../src/elements/GeoChart/GeoChartPie/GeoChartPie.md'
           }]
         }
       ]

@@ -115,9 +115,9 @@ inside the data array.
 
 <script>
 const d3 = require('d3')
-const { POSITIONS } = require('./GeoChartAxis')
+const { POSITIONS } = require('../GeoChartAxis/GeoChartAxis')
 const { DIMENSIONS: BARS_DIMENSIONS } = require('./GeoChartBars')
-const { SCALE_TYPES } = require('./GeoChartScale')
+const { SCALE_TYPES } = require('../GeoChartScale/GeoChartScale')
 
 export default {
   name: 'GeoChartBarsDemo',
@@ -243,9 +243,9 @@ export default {
 
 <script>
 const d3 = require('d3')
-const { POSITIONS } = require('./GeoChartAxis')
-const { DIMENSIONS: BARS_DIMENSIONS } = require('./GeoChartBars')
-const { SCALE_TYPES } = require('./GeoChartScale')
+const { POSITIONS } = require('../GeoChartAxis/GeoChartAxis')
+const { DIMENSIONS: BARS_DIMENSIONS } = require('../GeoChartBars/GeoChartBars')
+const { SCALE_TYPES } = require('../GeoChartScale/GeoChartScale')
 
 export default {
   name: 'GeoChartBarsDemo',
@@ -429,9 +429,9 @@ export default {
 
 <script>
 const d3 = require('d3')
-const { POSITIONS } = require('./GeoChartAxis')
-const { DIMENSIONS: BARS_DIMENSIONS } = require('./GeoChartBars')
-const { SCALE_TYPES } = require('./GeoChartScale')
+const { POSITIONS } = require('../GeoChartAxis/GeoChartAxis')
+const { DIMENSIONS: BARS_DIMENSIONS } = require('../GeoChartBars/GeoChartBars')
+const { SCALE_TYPES } = require('../GeoChartScale/GeoChartScale')
 
 export default {
   name: 'GeoChartBars',

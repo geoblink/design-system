@@ -1,10 +1,10 @@
 import _ from 'lodash'
 
-import * as ChartSizing from './GeoChartSizing'
-import * as ChartBars from './GeoChartBars'
-import * as ChartLabels from './GeoChartLabels'
-import * as ChartColorBar from './GeoChartColorBar'
-import * as ChartPie from './GeoChartPie'
+import * as ChartSizing from '../GeoChartUtils/GeoChartSizing'
+import * as ChartBars from '../GeoChartBars/GeoChartBars'
+import * as ChartLabels from '../GeoChartLabels/GeoChartLabels'
+import * as ChartColorBar from '../GeoChartColorBar/GeoChartColorBar'
+import * as ChartPie from '../GeoChartPie/GeoChartPie'
 import guidelinesAdapterMixin from './GeoChartConfigAdapter.guidelines.mixin'
 
 export default {

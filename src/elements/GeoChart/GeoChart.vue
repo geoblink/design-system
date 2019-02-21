@@ -11,13 +11,13 @@
 <script>
 import _ from 'lodash'
 import cssSuffix from '../../mixins/cssModifierMixin'
-import * as ChartAxis from './GeoChartAxis'
-import * as ChartSizing from './GeoChartSizing'
-import * as ChartBars from './GeoChartBars'
-import * as ChartConfig from './GeoChartConfig'
-import * as ChartScale from './GeoChartScale'
-import configAdapterMixin from './GeoChartConfigAdapter.mixin'
-import { parseAxisConfig, getPositionOfAxis } from './GeoChartConfigAdapterUtils'
+import * as ChartAxis from './GeoChartAxis/GeoChartAxis'
+import * as ChartSizing from './GeoChartUtils/GeoChartSizing'
+import * as ChartBars from './GeoChartBars/GeoChartBars'
+import * as ChartConfig from './GeoChartConfigs/GeoChartConfig'
+import * as ChartScale from './GeoChartScale/GeoChartScale'
+import configAdapterMixin from './GeoChartConfigs/GeoChartConfigAdapter.mixin'
+import { parseAxisConfig, getPositionOfAxis } from './GeoChartConfigs/GeoChartConfigAdapterUtils'
 
 const d3 = (function () {
   try {

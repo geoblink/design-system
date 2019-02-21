@@ -1,6 +1,6 @@
-import { POSITIONS } from './GeoChartAxis'
-import { DIMENSIONS } from './GeoChartBars'
-import { SCALE_TYPES } from './GeoChartScale'
+import { POSITIONS } from '../GeoChartAxis/GeoChartAxis'
+import { DIMENSIONS } from '../GeoChartBars/GeoChartBars'
+import { SCALE_TYPES } from '../GeoChartScale/GeoChartScale'
 
 export const scaleLinearSchema = {
   type: 'object',
