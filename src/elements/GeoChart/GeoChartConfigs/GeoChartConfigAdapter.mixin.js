@@ -5,6 +5,7 @@ import * as ChartBars from '../GeoChartBars/GeoChartBars'
 import * as ChartLabels from '../GeoChartLabels/GeoChartLabels'
 import * as ChartColorBar from '../GeoChartColorBar/GeoChartColorBar'
 import * as ChartPie from '../GeoChartPie/GeoChartPie'
+import * as ChartLineSegments from '../GeoChartLineSegments/GeoChartLineSegments'
 import guidelinesAdapterMixin from './GeoChartConfigAdapter.guidelines.mixin'
 
 export default {
@@ -25,6 +26,10 @@ export default {
 
       if (!_.isEmpty(this.config.pieConfig)) {
         this.updatePieConfig()
+      }
+
+      if (!_.isEmpty(this.config.lineSegmentsGroups)) {
+        this.updateLineSegmentsGroups()
       }
 
       if (this.d3TipInstance) {
@@ -187,6 +192,37 @@ export default {
       }
 
       ChartPie.render(this.d3Instance, this.d3TipInstance, pieConfig, { chart })
+    },
+
+    updateLineSegmentsGroups () {
+      const chartSize = this.svgSize
+      const chartMargin = _.get(this.config.chart, 'margin', ChartSizing.EMPTY_MARGIN)
+      const chart = {
+        animationsDurationInMilliseconds: this.animationsDurationInMilliseconds,
+        size: chartSize,
+        margin: chartMargin
+      }
+      const lineSegmentsGroupsConfig = _.map(this.config.lineSegmentsGroups, (singleLineSegmentsGroupsConfig, index) => {
+        const axis = {
+          horizontal: this.axesConfigById[singleLineSegmentsGroupsConfig.idHorizontalAxis],
+          vertical: this.axesConfigById[singleLineSegmentsGroupsConfig.idVerticalAxis]
+        }
+        return {
+          id: index,
+          axis,
+          data: singleLineSegmentsGroupsConfig.data,
+          dimension: singleLineSegmentsGroupsConfig.dimension,
+          normalOffset: singleLineSegmentsGroupsConfig.normalOffset,
+          naturalNormalOffset: singleLineSegmentsGroupsConfig.naturalNormalOffset,
+          width: singleLineSegmentsGroupsConfig.width,
+          naturalWidth: singleLineSegmentsGroupsConfig.naturalWidth,
+          highlightedWidth: singleLineSegmentsGroupsConfig.highlightedWidth,
+          naturalHighlightedWidth: singleLineSegmentsGroupsConfig.naturalHighlightedWidth,
+          normalValue: singleLineSegmentsGroupsConfig.normalValue,
+          cssClasses: singleLineSegmentsGroupsConfig.cssClasses
+        }
+      })
+      ChartLineSegments.render(this.d3Instance, lineSegmentsGroupsConfig, { chart })
     }
   }
 }

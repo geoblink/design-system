@@ -197,6 +197,9 @@ module.exports = {
             name: 'Colored bar charts',
             content: '../src/elements/GeoChart/GeoChartColorBar/GeoChartColorBar.md'
           }, {
+            name: 'Line segments charts',
+            content: '../src/elements/GeoChart/GeoChartLineSegments/GeoChartLineSegments.md'
+          }, {
             name: 'Pie charts',
             content: '../src/elements/GeoChart/GeoChartPie/GeoChartPie.md'
           }]
