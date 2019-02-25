@@ -32,7 +32,7 @@ export default {
     name: 'GeoChartLineSegmentsDemo',
     data () {
       return {
-        categoricalDomain: _.times(8, i => `Segment ${i}`),
+        categoricalDomain: _.times(2, i => `Segment ${i}`),
         chartData: null,
         normalValue: _.random(0, 1, true),
       }
@@ -97,6 +97,9 @@ export default {
             normalValue: this.normalValue,
             data: this.chartData,
             dimension: BARS_DIMENSIONS.horizontal,
+            lineWidth: 5,
+            circleRadius: 2,
+            circleMargin: 2,
             idVerticalAxis: this.linearAxisConfig.id,
             idHorizontalAxis: this.categoricalAxisConfig.id
           }]

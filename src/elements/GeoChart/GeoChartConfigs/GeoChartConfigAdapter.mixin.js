@@ -214,10 +214,12 @@ export default {
           dimension: singleLineSegmentsGroupsConfig.dimension,
           normalOffset: singleLineSegmentsGroupsConfig.normalOffset,
           naturalNormalOffset: singleLineSegmentsGroupsConfig.naturalNormalOffset,
-          width: singleLineSegmentsGroupsConfig.width,
-          naturalWidth: singleLineSegmentsGroupsConfig.naturalWidth,
-          highlightedWidth: singleLineSegmentsGroupsConfig.highlightedWidth,
-          naturalHighlightedWidth: singleLineSegmentsGroupsConfig.naturalHighlightedWidth,
+          lineWidth: singleLineSegmentsGroupsConfig.lineWidth,
+          lineNaturalWidth: singleLineSegmentsGroupsConfig.lineNaturalWidth,
+          circleRadius: singleLineSegmentsGroupsConfig.circleRadius,
+          circleNaturalRadius: singleLineSegmentsGroupsConfig.circleNaturalRadius,
+          circleMargin: singleLineSegmentsGroupsConfig.circleMargin,
+          circleNaturalMargin: singleLineSegmentsGroupsConfig.circleNaturalMargin,
           normalValue: singleLineSegmentsGroupsConfig.normalValue,
           cssClasses: singleLineSegmentsGroupsConfig.cssClasses
         }

@@ -85,22 +85,42 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions) {
     ? singleGroupOptions.axis.horizontal
     : singleGroupOptions.axis.vertical
 
+  function getCircleSpanAtAxis () {
+    return getItemSpanAtAxis(axisForNormalDimension, {
+      [axisForNormalDimension.keyForValues]: singleGroupOptions.circleRadius
+    }, singleGroupOptions, {
+      keyForWidth: 'circleRadius',
+      keyForNaturalWidth: 'circleNaturalRadius'
+    })
+  }
+
+  function getCircleMarginSpanAtAxis () {
+    return getItemSpanAtAxis(axisForNormalDimension, {
+      [axisForNormalDimension.keyForValues]: singleGroupOptions.circleMargin
+    }, singleGroupOptions, {
+      keyForWidth: 'circleMargin',
+      keyForNaturalWidth: 'circleNaturalMargin'
+    })
+  }
+
   const getSegmentWidth = (d, i) => {
     switch (singleGroupOptions.dimension) {
       case DIMENSIONS.horizontal:
+        const circleSpanAtAxis = getCircleSpanAtAxis()
+        const circleMarginSpanAtAxis = getCircleMarginSpanAtAxis()
         return getItemSpanAtAxis(axisForDimension, d, singleGroupOptions, {
-          keyForWidth: 'width',
-          keyForNaturalWidth: 'naturalWidth'
-        })
+          keyForWidth: null,
+          keyForNaturalWidth: null
+        }) - (circleSpanAtAxis + circleMarginSpanAtAxis) * 2
       case DIMENSIONS.vertical:
         return getItemSpanAtAxis(axisForNormalDimension, {
           [axisForNormalDimension.keyForValues]: singleGroupOptions.normalValue
         }, singleGroupOptions, {
-          keyForWidth: 'width',
-          keyForNaturalWidth: 'naturalWidth'
+          keyForWidth: 'lineWidth',
+          keyForNaturalWidth: 'lineNaturalWidth'
         })
       default:
-        console.error(`GeoChartColorBar [component] :: Invalid axis dimension for getSegmentWidth: ${singleGroupOptions.dimension}`)
+        console.error(`GeoChartLineSegments [component] :: Invalid axis dimension for getSegmentWidth: ${singleGroupOptions.dimension}`)
     }
   }
   const getSegmentHeight = (d, i) => {
@@ -109,25 +129,27 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions) {
         return getItemSpanAtAxis(axisForNormalDimension, {
           [axisForNormalDimension.keyForValues]: singleGroupOptions.normalValue
         }, singleGroupOptions, {
-          keyForWidth: 'width',
-          keyForNaturalWidth: 'naturalWidth'
+          keyForWidth: 'lineWidth',
+          keyForNaturalWidth: 'lineNaturalWidth'
         })
       case DIMENSIONS.vertical:
+        const circleSpanAtAxis = getCircleSpanAtAxis()
+        const circleMarginSpanAtAxis = getCircleMarginSpanAtAxis()
         return getItemSpanAtAxis(axisForDimension, d, singleGroupOptions, {
-          keyForWidth: 'width',
-          keyForNaturalWidth: 'naturalWidth'
-        })
+          keyForWidth: null,
+          keyForNaturalWidth: null
+        }) - (circleSpanAtAxis + circleMarginSpanAtAxis) * 2
       default:
-        console.error(`GeoChartColorBar [component] :: Invalid axis dimension for getSegmentHeight: ${singleGroupOptions.dimension}`)
+        console.error(`GeoChartLineSegments [component] :: Invalid axis dimension for getSegmentHeight: ${singleGroupOptions.dimension}`)
     }
   }
 
-  const colorBarContainer = renderColorBarContainer(group, singleGroupOptions, globalOptions, {
+  const lineSegmentsContainer = renderLineSegmentsContainer(group, singleGroupOptions, globalOptions, {
     axisForDimension,
     axisForNormalDimension
   })
 
-  renderColorBarSegments(colorBarContainer, singleGroupOptions, {
+  renderLineSegments(lineSegmentsContainer, singleGroupOptions, {
     axisForDimension,
     axisForNormalDimension,
     getSegmentWidth,
@@ -135,15 +157,15 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions) {
   })
 }
 
-function renderColorBarContainer (group, singleGroupOptions, globalOptions, {
+function renderLineSegmentsContainer (group, singleGroupOptions, globalOptions, {
   axisForDimension,
   axisForNormalDimension
 }) {
   const colorBarBaseClass = 'geo-chart-line-segments'
   const getTranslation = getItemTranslationFactory(singleGroupOptions, {
-    keyForWidth: 'width',
-    keyForNaturalWidth: 'naturalWidth',
-    componentName: 'Color Bar',
+    keyForWidth: null,
+    keyForNaturalWidth: null,
+    componentName: 'Line Segments',
     getOriginPositionAtAxis (axisConfig, singleItem) {
       return axisConfig.scale.axisScale(singleItem[axisConfig.keyForValues])
     },
@@ -211,7 +233,7 @@ function renderColorBarContainer (group, singleGroupOptions, globalOptions, {
   }
 }
 
-function renderColorBarSegments (colorBarContainer, singleGroupOptions, {
+function renderLineSegments (lineSegmentsContainer, singleGroupOptions, {
   axisForDimension,
   axisForNormalDimension,
   getSegmentWidth,
@@ -219,16 +241,16 @@ function renderColorBarSegments (colorBarContainer, singleGroupOptions, {
 }) {
   const segmentBaseClass = 'geo-chart-line-segments__segment'
   const getSegmentTranslation = getItemTranslationFactory(singleGroupOptions, {
-    keyForWidth: 'width',
-    keyForNaturalWidth: 'naturalWidth',
-    componentName: 'Color Bar',
+    keyForWidth: null,
+    keyForNaturalWidth: null,
+    componentName: 'Line Segments',
     getOriginPositionAtAxis (axisConfig, singleItem) {
       return axisConfig.scale.axisScale(singleItem[axisConfig.keyForValues])
     },
     getTranslationForNormalAxis () { return 0 }
   })
 
-  const segments = colorBarContainer
+  const segments = lineSegmentsContainer
     .select('g.geo-chart-line-segments__segment-container')
     .selectAll(`rect.${segmentBaseClass}`)
     .data(_.map(axisForDimension.scale.axisScale.domain(), (d) => {

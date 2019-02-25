@@ -477,20 +477,69 @@ export const lineSegmentsConfigSchema = {
   type: 'object',
   additionalProperties: false,
   required: ['data', 'dimension', 'idHorizontalAxis', 'idVerticalAxis', 'normalValue'],
-  oneOf: [{
-    not: {
-      anyOf: [
-        { required: ['normalOffset'] },
-        { required: ['naturalNormalOffset'] }
-      ]
+  allOf: [
+    {
+      oneOf: [{
+        not: {
+          anyOf: [
+            { required: ['normalOffset'] },
+            { required: ['naturalNormalOffset'] }
+          ]
+        }
+      }, {
+        required: ['normalOffset'],
+        not: { required: ['naturalNormalOffset'] }
+      }, {
+        required: ['naturalNormalOffset'],
+        not: { required: ['normalOffset'] }
+      }]
+    }, {
+      oneOf: [{
+        not: {
+          anyOf: [
+            { required: ['lineWidth'] },
+            { required: ['lineNaturalWidth'] }
+          ]
+        }
+      }, {
+        required: ['lineWidth'],
+        not: { required: ['lineNaturalWidth'] }
+      }, {
+        required: ['lineNaturalWidth'],
+        not: { required: ['lineWidth'] }
+      }]
+    }, {
+      oneOf: [{
+        not: {
+          anyOf: [
+            { required: ['circleRadius'] },
+            { required: ['circleNaturalRadius'] }
+          ]
+        }
+      }, {
+        required: ['circleRadius'],
+        not: { required: ['circleNaturalRadius'] }
+      }, {
+        required: ['circleNaturalRadius'],
+        not: { required: ['circleRadius'] }
+      }]
+    }, {
+      oneOf: [{
+        not: {
+          anyOf: [
+            { required: ['circleMargin'] },
+            { required: ['circleNaturalMargin'] }
+          ]
+        }
+      }, {
+        required: ['circleMargin'],
+        not: { required: ['circleNaturalMargin'] }
+      }, {
+        required: ['circleNaturalMargin'],
+        not: { required: ['circleMargin'] }
+      }]
     }
-  }, {
-    required: ['normalOffset'],
-    not: { required: ['naturalNormalOffset'] }
-  }, {
-    required: ['naturalNormalOffset'],
-    not: { required: ['normalOffset'] }
-  }],
+  ],
   properties: {
     data: {
       type: 'array',
@@ -516,6 +565,24 @@ export const lineSegmentsConfigSchema = {
       type: 'string'
     },
     normalValue: {
+      type: 'number'
+    },
+    lineWidth: {
+      type: 'number'
+    },
+    lineNaturalWidth: {
+      type: 'number'
+    },
+    circleRadius: {
+      type: 'number'
+    },
+    circleNaturalRadius: {
+      type: 'number'
+    },
+    circleMargin: {
+      type: 'number'
+    },
+    circleNaturalMargin: {
       type: 'number'
     },
     // Function taking as first parameter an array of CSS classes that would be
