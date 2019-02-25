@@ -1,3 +1,9 @@
+# 11.2.2
+
+Fixed:
+
+- `GeoModal` is repositioned after attached-to element size changes
+
 # 11.2.1
 
 Fixed:
