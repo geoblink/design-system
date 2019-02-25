@@ -2,6 +2,7 @@
 
 import _ from 'lodash'
 import { setupTooltipEventListeners } from './GeoChartTooltip'
+import { setupTextDescriptions } from './GeoChartTextDescription'
 
 const d3 = (function () {
   try {
@@ -39,7 +40,7 @@ export function render (d3Instance, d3TipInstance, options, globalOptions) {
   // We use forEach to get the 'this' of the pie although we know we'll always have 1 for now.
   allPies.each(function () {
     const pie = d3.select(this)
-    renderSinglePie(pie, d3TipInstance, options, globalOptions)
+    renderSinglePie(pie, d3Instance, d3TipInstance, options, globalOptions)
   })
 }
 
@@ -53,7 +54,7 @@ export function render (d3Instance, d3TipInstance, options, globalOptions) {
  * @param {GeoChart.PieConfig} singlePieOptions
  * @param {GeoChart.PieGlobalConfig} globalOptions
  */
-function renderSinglePie (pie, d3TipInstance, singlePieOptions, globalOptions) {
+function renderSinglePie (pie, d3Instance, d3TipInstance, singlePieOptions, globalOptions) {
   let pieWasEmpty = true
   const pieScale = getPieScale()
   const pieScaleData = pieScale(singlePieOptions.data)
@@ -95,6 +96,10 @@ function renderSinglePie (pie, d3TipInstance, singlePieOptions, globalOptions) {
     .remove()
 
   setupTooltipEventListeners(allPieSegments, d3TipInstance, singlePieOptions.tooltip)
+
+  if (singlePieOptions.text) {
+    renderTexts(allPieSegments, d3Instance, singlePieOptions, globalOptions, arc)
+  }
 
   function getPieScale () {
     return d3
@@ -157,5 +162,85 @@ function renderSinglePie (pie, d3TipInstance, singlePieOptions, globalOptions) {
     }
 
     return defaultClasses.join(' ')
+  }
+}
+
+/**
+ * @template GElement
+ * @template Datum
+ * @template PElement
+ * @template PDatum
+ * @param {d3.Selection<GElement, Datum, PElement, PDatum>} pie
+ * @param {GeoChart.PieConfig} singlePieOptions
+ * @param {GeoChart.PieGlobalConfig} globalOptions
+ */
+function renderTexts (allPieSegments, d3Instance, singlePieOptions, globalOptions, arc) {
+  const rightGroup = []
+  const leftGroup = []
+  const newSettings = []
+  const chartRadius = Math.min(globalOptions.chart.chartHeight, globalOptions.chart.chartWidth) / 2
+  const outerArc = d3.arc()
+    .innerRadius(singlePieOptions.outerRadius)
+    .outerRadius(singlePieOptions.outerRadius)
+
+  allPieSegments
+    .each(function (d, i) {
+      if (midAngle(d) < Math.PI) {
+        rightGroup.push(d)
+      } else {
+        leftGroup.push(d)
+      }
+    })
+
+  const midChartWidth = globalOptions.chart.chartWidth / 2
+  const midChartHeight = globalOptions.chart.chartHeight / 2
+  const startPositionRight = [midChartWidth + singlePieOptions.outerRadius, midChartHeight]
+  const startPositionLeft = [midChartWidth - singlePieOptions.outerRadius, midChartHeight]
+  const startPosition = [midChartWidth, midChartHeight]
+  const width = midChartWidth - chartRadius
+  const range = [-midChartHeight, midChartHeight]
+
+  const textDescriptionSettingsRight = {
+    data: rightGroup,
+    textOptions: singlePieOptions.text,
+    getTextPositionMainDirection: getTextPositionMainDirection,
+    startPosition: startPositionRight,
+    width: width,
+    height: globalOptions.chart.chartHeight,
+    textAnchor: 'start',
+    range: range,
+    margin: 10
+  }
+
+  newSettings.push(textDescriptionSettingsRight)
+
+  const textDescriptionSettingsLeft = {
+    data: leftGroup,
+    textOptions: singlePieOptions.text,
+    getTextPositionMainDirection: getTextPositionMainDirection,
+    startPosition: startPositionLeft,
+    width: width,
+    height: globalOptions.chart.chartHeight,
+    textAnchor: 'end',
+    range: range,
+    margin: 10
+  }
+
+  newSettings.push(textDescriptionSettingsLeft)
+
+  console.log(rightGroup)
+  console.log(leftGroup)
+  setupTextDescriptions(newSettings, d3Instance, globalOptions)
+
+  function getTextPositionMainDirection (d, i) {
+    const centroid = outerArc.centroid(d)
+    // centroid[0] = singlePieOptions.outerRadius * (midAngle(d) < Math.PI ? 1 : -1)
+    // const yPos = midAngle(d) < Math.PI ? -centroid[1] : centroid[1]
+    const yPos = centroid[1]
+    return yPos
+  }
+
+  function midAngle (d) {
+    return d.startAngle + (d.endAngle - d.startAngle) / 2
   }
 }

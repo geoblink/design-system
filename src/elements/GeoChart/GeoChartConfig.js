@@ -463,6 +463,18 @@ export const pieConfigJsonSchema = {
         offset: {}
       }
     },
+    text: {
+      type: 'object',
+      additionalProperties: false,
+      required: ['content'],
+      properties: {
+        // Function taking as first parameter a single item of data array and as
+        // second parameter its index. Should return an array with options TODO:.
+        content: {},
+        cssClassesGroups: {},
+        cssClassesTexts: {}
+      }
+    },
     // Function taking as first parameter an array of CSS classes that would be
     // set by default. Should return the array of CSS classes to be finally set.
     // Use this function to customize which CSS classes are set to the rect for

@@ -183,6 +183,7 @@ export default {
         outerRadius: outerRadius * chartRadius,
         keyForValues: userConfig.keyForValues,
         tooltip: tooltipConfig,
+        text: userConfig.text,
         cssClasses: userConfig.cssClasses
       }
 

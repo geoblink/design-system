@@ -85,9 +85,31 @@ export default {
         pieConfig: {
           data: this.chartData,
           keyForValues: 'value',
-          innerRadius: 0.3,
+          innerRadius: 0.2,
+          outerRadius: 0.8,
           tooltip: {
             content: (d, i) => d.data.value
+          },
+          text: {
+            content (d, i) {
+              if (i === 0) {
+                return [
+                  {
+                    text: d.data.value
+                  },
+                  {
+                    text: 'Other line',
+                    newLine: true
+                  }
+                ]
+              } else {
+                return [
+                  {
+                    text: d.data.value
+                  }
+                ]
+              }
+            }
           },
           cssClasses (originalClasses, d, i) {
             return [...originalClasses, 'my-custom-class']
