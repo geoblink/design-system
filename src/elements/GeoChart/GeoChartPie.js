@@ -179,7 +179,6 @@ function renderTexts (allPieSegments, d3Instance, singlePieOptions, globalOption
   const rightGroup = []
   const leftGroup = []
   const newSettings = []
-  const chartRadius = Math.min(globalOptions.chart.chartHeight, globalOptions.chart.chartWidth) / 2
   const outerArc = d3.arc()
     .innerRadius(singlePieOptions.outerRadius * 1.1)
     .outerRadius(singlePieOptions.outerRadius * 1.1)
@@ -198,12 +197,11 @@ function renderTexts (allPieSegments, d3Instance, singlePieOptions, globalOption
   // requires the Y's to be in desc order.
   _.reverse(rightGroup)
 
-  const offsetRight = singlePieOptions.outerRadius + 20
-  const offsetLeft = singlePieOptions.outerRadius + 20
+  const textOffset = singlePieOptions.outerRadius + 20
   const midChartWidth = globalOptions.chart.chartWidth / 2
   const midChartHeight = globalOptions.chart.chartHeight / 2
-  const startPositionRight = [midChartWidth + offsetRight, midChartHeight]
-  const startPositionLeft = [midChartWidth - offsetLeft, midChartHeight]
+  const startPositionRight = [midChartWidth + textOffset, midChartHeight]
+  const startPositionLeft = [midChartWidth - textOffset, midChartHeight]
   const range = [-midChartHeight, midChartHeight]
 
   const commonSettings = {
@@ -252,7 +250,6 @@ function renderTexts (allPieSegments, d3Instance, singlePieOptions, globalOption
       .enter()
       .append('g')
       .attr('class', 'geo-chart-polylines')
-      .attr('transform', `translate(${globalOptions.chart.chartWidth / 2}, ${globalOptions.chart.chartHeight / 2})`)
 
     groups
       .exit()
@@ -266,7 +263,7 @@ function renderTexts (allPieSegments, d3Instance, singlePieOptions, globalOption
 
     allGroups.each(function (singleData, i) {
       const group = d3.select(this)
-      const polylinePoints = getPolylinePoints(i)
+      const polylinePoints = getPolylinePoints(newSettings[i])
 
       const polylines = group
         .selectAll('polyline')
@@ -304,18 +301,32 @@ function renderTexts (allPieSegments, d3Instance, singlePieOptions, globalOption
     })
   }
 
-  function getPolylinePoints (dataIndex) {
-    const xPos = dataIndex === 0 ? offsetRight - 10 : -(offsetLeft - 10)
+  function getPolylinePoints (settings) {
+    const xPos = settings.startPosition[0]
     const innerArc = d3.arc()
       .innerRadius(singlePieOptions.outerRadius * 0.8)
       .outerRadius(singlePieOptions.outerRadius * 0.8)
 
     return function (d) {
-      const pos = [
-        xPos,
-        outerArc.centroid(d.data)[1]
+      // Space between the line and the text
+      const xPosOffset = midAngle(d.data) < Math.PI ? -5 : 5
+
+      const innerPoint = [
+        innerArc.centroid(d.data)[0] + midChartWidth,
+        innerArc.centroid(d.data)[1] + midChartHeight
       ]
-      return [innerArc.centroid(d.data), outerArc.centroid(d.data), pos]
+
+      const outerPoint = [
+        outerArc.centroid(d.data)[0] + midChartWidth,
+        outerArc.centroid(d.data)[1] + midChartHeight
+      ]
+
+      const textPoint = [
+        xPos + xPosOffset,
+        outerArc.centroid(d.data)[1] + midChartHeight
+      ]
+
+      return [innerPoint, outerPoint, textPoint]
     }
   }
 }
