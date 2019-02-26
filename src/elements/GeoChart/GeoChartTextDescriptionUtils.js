@@ -7,14 +7,15 @@
  * @returns {Array<Number>} positions
  */
 export function computeLabelPositionsNaturalDirection (textElemsConfig, generalConfig) {
+  let maxY = generalConfig.maxY
   var positions = []
-  var initialMaxY = generalConfig.maxY
+  var initialMaxY = maxY
   for (var i = 0; i < textElemsConfig.length; i++) {
     var heightWithMargin = textElemsConfig[i].height + 2 * generalConfig.margin
     var lowerY = textElemsConfig[i].preferredPosition - heightWithMargin / 2
     var upperY = lowerY + heightWithMargin
-    if (upperY > generalConfig.maxY) {
-      lowerY = generalConfig.maxY - heightWithMargin
+    if (upperY > maxY) {
+      lowerY = maxY - heightWithMargin
       upperY = lowerY + heightWithMargin
     }
     if (lowerY < generalConfig.minY) {
@@ -55,8 +56,8 @@ export function computeLabelPositionsNaturalDirection (textElemsConfig, generalC
         return positions
       }
     }
-    // TODO: don't edit config, use local variable
-    generalConfig.maxY = lowerY
+
+    maxY = lowerY
     positions[i] = lowerY
   }
 
