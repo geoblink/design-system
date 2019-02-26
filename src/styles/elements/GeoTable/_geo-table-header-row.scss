@@ -26,6 +26,14 @@
     color: $color-grey-darker;
     position: relative;
   }
+
+  .geo-table-header-row--multiLine#{$modifier-name-with-prefix} {
+    @include geo-table-make-row($color-white-dark);
+
+    color: $color-grey-darker;
+    height: auto;
+    position: relative;
+  }
 }
 
 @include geo-table-header-row-make('');
