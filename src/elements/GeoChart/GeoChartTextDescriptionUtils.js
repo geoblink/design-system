@@ -1,10 +1,7 @@
 /**
- * @param {Array<Number>} heights
- * @param {Array<Number>} preferredPositions
- * @param {Number} textGroupMargin
- * @param {Number} maxY
- * @param {Number} minY
- * @returns {Array<Number>} positions
+ * @param {Array<TextDescription.TextElemConfig>} textElemsConfig Array must be sorted by preferredPosition in descending order
+ * @param {TextDescription.GeneralConfig} generalConfig
+ * @returns {Array<TextDescription.ComputedLabelPosition>} positions
  */
 export function computeLabelPositionsNaturalDirection (textElemsConfig, generalConfig) {
   let maxY = generalConfig.maxY
