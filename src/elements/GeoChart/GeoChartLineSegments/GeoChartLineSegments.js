@@ -100,82 +100,7 @@ function renderLineSegments (lineSegmentsContainer, singleGroupOptions, globalOp
   axisForDimension,
   axisForNormalDimension
 }) {
-  const getLineSegmentInitialWidth = (d, i) => {
-    switch (singleGroupOptions.dimension) {
-      case DIMENSIONS.horizontal:
-        return 0
-      case DIMENSIONS.vertical:
-        return getItemSpanAtAxis(axisForNormalDimension, {
-          [axisForNormalDimension.keyForValues]: singleGroupOptions.normalValue
-        }, singleGroupOptions, {
-          keyForWidth: 'lineWidth',
-          keyForNaturalWidth: 'lineNaturalWidth'
-        })
-      default:
-        console.error(`GeoChartLineSegments [component] :: Invalid axis dimension for getLineSegmentWidth: ${singleGroupOptions.dimension}`)
-    }
-  }
-  const getLineSegmentWidth = (d, i) => {
-    const leadingEdgeMargin = i === 0 ? 0 : circleRadiusAtAxis + circleRadialMarginAtAxis
-    const trailingEdgeMargin = i === singleGroupOptions.data.length ? 0 : circleRadiusAtAxis + circleRadialMarginAtAxis
-    switch (singleGroupOptions.dimension) {
-      case DIMENSIONS.horizontal:
-        return Math.max(
-          axisForDimension.scale.axisScale(d.endValue) - axisForDimension.scale.axisScale(d.startValue) - (leadingEdgeMargin + trailingEdgeMargin),
-          0
-        )
-      case DIMENSIONS.vertical:
-        return getItemSpanAtAxis(axisForNormalDimension, {
-          [axisForNormalDimension.keyForValues]: singleGroupOptions.normalValue
-        }, singleGroupOptions, {
-          keyForWidth: 'lineWidth',
-          keyForNaturalWidth: 'lineNaturalWidth'
-        })
-      default:
-        console.error(`GeoChartLineSegments [component] :: Invalid axis dimension for getLineSegmentWidth: ${singleGroupOptions.dimension}`)
-    }
-  }
-  const getLineSegmentInitialHeight = (d, i) => {
-    switch (singleGroupOptions.dimension) {
-      case DIMENSIONS.horizontal:
-        return getItemSpanAtAxis(axisForNormalDimension, {
-          [axisForNormalDimension.keyForValues]: singleGroupOptions.normalValue
-        }, singleGroupOptions, {
-          keyForWidth: 'lineWidth',
-          keyForNaturalWidth: 'lineNaturalWidth'
-        })
-      case DIMENSIONS.vertical:
-        return 0
-      default:
-        console.error(`GeoChartLineSegments [component] :: Invalid axis dimension for getLineSegmentHeight: ${singleGroupOptions.dimension}`)
-    }
-  }
-  const getLineSegmentHeight = (d, i) => {
-    const leadingEdgeMargin = i === 0 ? 0 : circleRadiusAtAxis + circleRadialMarginAtAxis
-    const trailingEdgeMargin = i === singleGroupOptions.data.length ? 0 : circleRadiusAtAxis + circleRadialMarginAtAxis
-    switch (singleGroupOptions.dimension) {
-      case DIMENSIONS.horizontal:
-        return getItemSpanAtAxis(axisForNormalDimension, {
-          [axisForNormalDimension.keyForValues]: singleGroupOptions.normalValue
-        }, singleGroupOptions, {
-          keyForWidth: 'lineWidth',
-          keyForNaturalWidth: 'lineNaturalWidth'
-        })
-      case DIMENSIONS.vertical:
-        return Math.max(
-          axisForDimension.scale.axisScale(d.endValue) - axisForDimension.scale.axisScale(d.startValue) - (leadingEdgeMargin + trailingEdgeMargin),
-          0
-        )
-      default:
-        console.error(`GeoChartLineSegments [component] :: Invalid axis dimension for getLineSegmentHeight: ${singleGroupOptions.dimension}`)
-    }
-  }
   const lineSegmentsBaseClass = 'geo-chart-line-segments__segment'
-
-  function getCirclePositionInMainDimension (idx) {
-    return _.get(singleGroupOptions.data[idx], axisForDimension.keyForValues)
-  }
-
   const circleRadiusAtAxis = getItemSpanAtAxis(axisForNormalDimension, null, singleGroupOptions, {
     keyForWidth: 'circleRadius',
     keyForNaturalWidth: 'circleNaturalRadius'
@@ -224,6 +149,10 @@ function renderLineSegments (lineSegmentsContainer, singleGroupOptions, globalOp
     .exit()
     .remove()
 
+  function getCirclePositionInMainDimension (idx) {
+    return _.get(singleGroupOptions.data[idx], axisForDimension.keyForValues)
+  }
+
   function getLineSegmentsTransform (d, i) {
     const leadingEdgeMargin = i === 0 ? 0 : circleRadiusAtAxis + circleRadialMarginAtAxis
     const dimensionTranslation = axisForDimension.scale.axisScale(d.startValue)
@@ -241,21 +170,90 @@ function renderLineSegments (lineSegmentsContainer, singleGroupOptions, globalOp
     const translation = translationForDimension[singleGroupOptions.dimension]
     return `translate(${translation.x}, ${translation.y})`
   }
-
   function getLineSegmentInitialTransform (d, i) {
-    const normalDimensionTranslation = axisForNormalDimension.scale.axisScale(singleGroupOptions.normalValue) - getLineSegmentHeight(d, i) / 2
+    const normalDimensionTranslation = axisForNormalDimension.scale.axisScale(singleGroupOptions.normalValue)
     const translationForDimension = {
       [DIMENSIONS.horizontal]: {
-        x: 0,
-        y: normalDimensionTranslation
+        x: axisForDimension.scale.axisScale(d.startValue),
+        y: normalDimensionTranslation - getLineSegmentHeight(d, i) / 2
       },
       [DIMENSIONS.vertical]: {
-        x: normalDimensionTranslation,
-        y: 0
+        x: normalDimensionTranslation - getLineSegmentWidth(d, i) / 2,
+        y: axisForDimension.scale.axisScale(d.startValue)
       }
     }
     const translation = translationForDimension[singleGroupOptions.dimension]
     return `translate(${translation.x}, ${translation.y})`
+  }
+  function getLineSegmentInitialWidth (d, i) {
+    switch (singleGroupOptions.dimension) {
+      case DIMENSIONS.horizontal:
+        return 0
+      case DIMENSIONS.vertical:
+        return getItemSpanAtAxis(axisForNormalDimension, {
+          [axisForNormalDimension.keyForValues]: singleGroupOptions.normalValue
+        }, singleGroupOptions, {
+          keyForWidth: 'lineWidth',
+          keyForNaturalWidth: 'lineNaturalWidth'
+        })
+      default:
+        console.error(`GeoChartLineSegments [component] :: Invalid axis dimension for getLineSegmentWidth: ${singleGroupOptions.dimension}`)
+    }
+  }
+  function getLineSegmentWidth (d, i) {
+    const leadingEdgeMargin = i === 0 ? 0 : circleRadiusAtAxis + circleRadialMarginAtAxis
+    const trailingEdgeMargin = i === singleGroupOptions.data.length ? 0 : circleRadiusAtAxis + circleRadialMarginAtAxis
+    switch (singleGroupOptions.dimension) {
+      case DIMENSIONS.horizontal:
+        return Math.max(
+          axisForDimension.scale.axisScale(d.endValue) - axisForDimension.scale.axisScale(d.startValue) - (leadingEdgeMargin + trailingEdgeMargin),
+          0
+        )
+      case DIMENSIONS.vertical:
+        return getItemSpanAtAxis(axisForNormalDimension, {
+          [axisForNormalDimension.keyForValues]: singleGroupOptions.normalValue
+        }, singleGroupOptions, {
+          keyForWidth: 'lineWidth',
+          keyForNaturalWidth: 'lineNaturalWidth'
+        })
+      default:
+        console.error(`GeoChartLineSegments [component] :: Invalid axis dimension for getLineSegmentWidth: ${singleGroupOptions.dimension}`)
+    }
+  }
+  function getLineSegmentInitialHeight (d, i) {
+    switch (singleGroupOptions.dimension) {
+      case DIMENSIONS.horizontal:
+        return getItemSpanAtAxis(axisForNormalDimension, {
+          [axisForNormalDimension.keyForValues]: singleGroupOptions.normalValue
+        }, singleGroupOptions, {
+          keyForWidth: 'lineWidth',
+          keyForNaturalWidth: 'lineNaturalWidth'
+        })
+      case DIMENSIONS.vertical:
+        return 0
+      default:
+        console.error(`GeoChartLineSegments [component] :: Invalid axis dimension for getLineSegmentHeight: ${singleGroupOptions.dimension}`)
+    }
+  }
+  function getLineSegmentHeight (d, i) {
+    const leadingEdgeMargin = i === 0 ? 0 : circleRadiusAtAxis + circleRadialMarginAtAxis
+    const trailingEdgeMargin = i === singleGroupOptions.data.length ? 0 : circleRadiusAtAxis + circleRadialMarginAtAxis
+    switch (singleGroupOptions.dimension) {
+      case DIMENSIONS.horizontal:
+        return getItemSpanAtAxis(axisForNormalDimension, {
+          [axisForNormalDimension.keyForValues]: singleGroupOptions.normalValue
+        }, singleGroupOptions, {
+          keyForWidth: 'lineWidth',
+          keyForNaturalWidth: 'lineNaturalWidth'
+        })
+      case DIMENSIONS.vertical:
+        return Math.max(
+          axisForDimension.scale.axisScale(d.endValue) - axisForDimension.scale.axisScale(d.startValue) - (leadingEdgeMargin + trailingEdgeMargin),
+          0
+        )
+      default:
+        console.error(`GeoChartLineSegments [component] :: Invalid axis dimension for getLineSegmentHeight: ${singleGroupOptions.dimension}`)
+    }
   }
 
   function getLineSegmentsCssClasses (d, i) {
@@ -279,47 +277,6 @@ function renderLineSegmentsStops (lineSegmentsContainer, singleGroupOptions, glo
   axisForNormalDimension
 }) {
   const lineSegmentsStopBaseClass = 'geo-chart-line-segments__segment-stop'
-  const getLineSegmentsStopInitialCx = (d, i) => {
-    switch (singleGroupOptions.dimension) {
-      case DIMENSIONS.horizontal:
-        return 0
-      case DIMENSIONS.vertical:
-        return axisForNormalDimension.scale.axisScale(singleGroupOptions.normalValue)
-      default:
-        console.error(`GeoChartLineSegments [component] :: Invalid axis dimension for getLineSegmentsStopInitialCx: ${singleGroupOptions.dimension}`)
-    }
-  }
-  const getLineSegmentsStopInitialCy = (d, i) => {
-    switch (singleGroupOptions.dimension) {
-      case DIMENSIONS.horizontal:
-        return axisForNormalDimension.scale.axisScale(singleGroupOptions.normalValue)
-      case DIMENSIONS.vertical:
-        return 0
-      default:
-        console.error(`GeoChartLineSegments [component] :: Invalid axis dimension for getLineSegmentsStopInitialCy: ${singleGroupOptions.dimension}`)
-    }
-  }
-  const getLineSegmentsStopCx = (d, i) => {
-    switch (singleGroupOptions.dimension) {
-      case DIMENSIONS.horizontal:
-        return axisForDimension.scale.axisScale(_.get(d, axisForDimension.keyForValues))
-      case DIMENSIONS.vertical:
-        return axisForNormalDimension.scale.axisScale(singleGroupOptions.normalValue)
-      default:
-        console.error(`GeoChartLineSegments [component] :: Invalid axis dimension for getLineSegmentsStopCx: ${singleGroupOptions.dimension}`)
-    }
-  }
-  const getLineSegmentsStopCy = (d, i) => {
-    switch (singleGroupOptions.dimension) {
-      case DIMENSIONS.horizontal:
-        return axisForNormalDimension.scale.axisScale(singleGroupOptions.normalValue)
-      case DIMENSIONS.vertical:
-        return axisForDimension.scale.axisScale(_.get(d, axisForDimension.keyForValues))
-      default:
-        console.error(`GeoChartLineSegments [component] :: Invalid axis dimension for getLineSegmentsStopCy: ${singleGroupOptions.dimension}`)
-    }
-  }
-
   const lineSegmentsStops = lineSegmentsContainer
     .selectAll(`circle.${lineSegmentsStopBaseClass}`)
     .data(singleGroupOptions.data)
@@ -352,6 +309,47 @@ function renderLineSegmentsStops (lineSegmentsContainer, singleGroupOptions, glo
       keyForWidth: 'circleRadius',
       keyForNaturalWidth: 'circleNaturalRadius'
     })
+  }
+
+  function getLineSegmentsStopInitialCx (d, i) {
+    switch (singleGroupOptions.dimension) {
+      case DIMENSIONS.horizontal:
+        return 0
+      case DIMENSIONS.vertical:
+        return axisForNormalDimension.scale.axisScale(singleGroupOptions.normalValue)
+      default:
+        console.error(`GeoChartLineSegments [component] :: Invalid axis dimension for getLineSegmentsStopInitialCx: ${singleGroupOptions.dimension}`)
+    }
+  }
+  function getLineSegmentsStopInitialCy (d, i) {
+    switch (singleGroupOptions.dimension) {
+      case DIMENSIONS.horizontal:
+        return axisForNormalDimension.scale.axisScale(singleGroupOptions.normalValue)
+      case DIMENSIONS.vertical:
+        return 0
+      default:
+        console.error(`GeoChartLineSegments [component] :: Invalid axis dimension for getLineSegmentsStopInitialCy: ${singleGroupOptions.dimension}`)
+    }
+  }
+  function getLineSegmentsStopCx (d, i) {
+    switch (singleGroupOptions.dimension) {
+      case DIMENSIONS.horizontal:
+        return axisForDimension.scale.axisScale(_.get(d, axisForDimension.keyForValues))
+      case DIMENSIONS.vertical:
+        return axisForNormalDimension.scale.axisScale(singleGroupOptions.normalValue)
+      default:
+        console.error(`GeoChartLineSegments [component] :: Invalid axis dimension for getLineSegmentsStopCx: ${singleGroupOptions.dimension}`)
+    }
+  }
+  function getLineSegmentsStopCy (d, i) {
+    switch (singleGroupOptions.dimension) {
+      case DIMENSIONS.horizontal:
+        return axisForNormalDimension.scale.axisScale(singleGroupOptions.normalValue)
+      case DIMENSIONS.vertical:
+        return axisForDimension.scale.axisScale(_.get(d, axisForDimension.keyForValues))
+      default:
+        console.error(`GeoChartLineSegments [component] :: Invalid axis dimension for getLineSegmentsStopCy: ${singleGroupOptions.dimension}`)
+    }
   }
 
   function getLineSegmentsStopsCssClasses (d, i) {
