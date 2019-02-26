@@ -12,8 +12,8 @@ import {
 import { createLocalVue, mount } from '@vue/test-utils'
 import GeoChart from '@/elements/GeoChart/GeoChart.vue'
 
-import * as GeoChartBars from '@/elements/GeoChart/GeoChartBars'
-import * as GeoChartAxis from '@/elements/GeoChart/GeoChartAxis'
+import * as GeoChartBars from '@/elements/GeoChart/GeoChartBars/GeoChartBars'
+import * as GeoChartAxis from '@/elements/GeoChart/GeoChartAxis/GeoChartAxis'
 
 const localVue = createLocalVue()
 localVue.component('geo-chart', GeoChart)
