@@ -3,6 +3,7 @@
 import _ from 'lodash'
 import { setupTooltipEventListeners } from './GeoChartTooltip'
 import { setupTextDescriptions } from './GeoChartTextDescription'
+import { ALGORITHIMS } from './GeoChartTextDescriptionUtils'
 
 const d3 = (function () {
   try {
@@ -192,38 +193,45 @@ function renderTexts (allPieSegments, d3Instance, singlePieOptions, globalOption
       }
     })
 
+  // reverse is needed on the rightGroup because the positioning algorithim
+  // requires the Y's to be in desc order.
+  _.reverse(rightGroup)
+
   const midChartWidth = globalOptions.chart.chartWidth / 2
   const midChartHeight = globalOptions.chart.chartHeight / 2
-  const startPositionRight = [midChartWidth + singlePieOptions.outerRadius, midChartHeight]
-  const startPositionLeft = [midChartWidth - singlePieOptions.outerRadius, midChartHeight]
-  const startPosition = [midChartWidth, midChartHeight]
+  const startPositionRight = [midChartWidth + singlePieOptions.outerRadius + 20, midChartHeight]
+  const startPositionLeft = [midChartWidth - singlePieOptions.outerRadius - 20, midChartHeight]
   const width = midChartWidth - chartRadius
   const range = [-midChartHeight, midChartHeight]
 
   const textDescriptionSettingsRight = {
     data: rightGroup,
+    keyForId: singlePieOptions.keyForId,
     textOptions: singlePieOptions.text,
     getTextPositionMainDirection: getTextPositionMainDirection,
     startPosition: startPositionRight,
     width: width,
     height: globalOptions.chart.chartHeight,
     textAnchor: 'start',
-    range: range,
-    margin: 10
+    minY: range[0],
+    maxY: range[1],
+    algorithim: ALGORITHIMS.withoutReadjustment
   }
 
   newSettings.push(textDescriptionSettingsRight)
 
   const textDescriptionSettingsLeft = {
     data: leftGroup,
+    keyForId: singlePieOptions.keyForId,
     textOptions: singlePieOptions.text,
     getTextPositionMainDirection: getTextPositionMainDirection,
     startPosition: startPositionLeft,
     width: width,
     height: globalOptions.chart.chartHeight,
     textAnchor: 'end',
-    range: range,
-    margin: 10
+    minY: range[0],
+    maxY: range[1],
+    algorithim: ALGORITHIMS.withoutReadjustment
   }
 
   newSettings.push(textDescriptionSettingsLeft)
@@ -234,8 +242,6 @@ function renderTexts (allPieSegments, d3Instance, singlePieOptions, globalOption
 
   function getTextPositionMainDirection (d, i) {
     const centroid = outerArc.centroid(d)
-    // centroid[0] = singlePieOptions.outerRadius * (midAngle(d) < Math.PI ? 1 : -1)
-    // const yPos = midAngle(d) < Math.PI ? -centroid[1] : centroid[1]
     const yPos = centroid[1]
     return yPos
   }

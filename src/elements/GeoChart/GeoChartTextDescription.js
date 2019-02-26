@@ -1,4 +1,5 @@
 import _ from 'lodash'
+import { computeLabelPositionsWithBackPressure, computeLabelPositionsWithoutReadjustment, ALGORITHIMS } from './GeoChartTextDescriptionUtils'
 
 const d3 = (function () {
   try {
@@ -50,60 +51,43 @@ export function setupTextDescriptions (settingsData, d3Instance, globalOptions) 
 function renderSingleGroup (group, singleOptions, globalOptions) {
   const textOptions = singleOptions.textOptions
   const margin = _.get(singleOptions.textOptions, 'margin', 0)
-  const textGroups = group
+  const textElems = group
     .selectAll('text')
-    .data(singleOptions.data)
+    .data(singleOptions.data, (d) => d.data[singleOptions.keyForId])
 
-  const newTextGroups = textGroups
+  const newTextElems = textElems
     .enter()
     .append('text')
     .attr('class', getCSSClassesTexts)
     .attr('dominant-baseline', 'text-before-edge')
     .attr('text-anchor', singleOptions.textAnchor)
-    .attr('y', 0)
+    .attr('opacity', 0)
 
-  newTextGroups
+  newTextElems
     .transition()
     .duration(globalOptions.chart.animationsDurationInMilliseconds)
-    .attr('y', singleOptions.getTextPositionMainDirection)
+    .attr('opacity', 1)
 
-  const updatedTextGroups = textGroups
-  updatedTextGroups
-    .transition()
-    .duration(globalOptions.chart.animationsDurationInMilliseconds)
-    .attr('text-anchor', singleOptions.textAnchor)
-    .attr('y', singleOptions.getTextPositionMainDirection)
+  const updatedTextElems = textElems
 
-  textGroups
+  textElems
     .exit()
-    // .transition()
-    // .duration(globalOptions.chart.animationsDurationInMilliseconds)
-    // .style('opacity', 0)
+    .transition()
+    .duration(globalOptions.chart.animationsDurationInMilliseconds)
+    .attr('opacity', 0)
     .remove()
 
-  const allTextGroups = newTextGroups.merge(updatedTextGroups)
+  const allTextElems = newTextElems.merge(updatedTextElems)
 
-  setTextContent(allTextGroups)
-  setTextContentLineBreaks(allTextGroups)
+  setTextContent(allTextElems)
+  setTextContentLineBreaks(allTextElems)
 
-  var heights = []
-  var preferredPositions = []
-  allTextGroups.each(function (d) {
-    heights.push(this.getBBox().height)
-    preferredPositions.push(this.getBBox().y)
-    console.log(d.data.value)
-    console.log(this.getBBox())
-  })
+  const positions = computeLabelPositions(allTextElems)
 
-  // console.log(heights)
-  // console.log(preferredPositions)
-  // var positions = computeLabelPositions(heights, preferredPositions, margin, singleOptions.range[1], singleOptions.range[0])
-  // console.log(positions)
+  setTextElementsPosition(allTextElems, positions)
 
-  // setTextElementsGroupsPosition(allTextGroups, positions)
-
-  function setTextContent (groups) {
-    const tspans = groups
+  function setTextContent (textElems) {
+    const tspans = textElems
       .selectAll('tspan')
       .data(function (d, i) {
         return textOptions.content(d, i)
@@ -135,9 +119,9 @@ function renderSingleGroup (group, singleOptions, globalOptions) {
       .remove()
   }
 
-  function setTextContentLineBreaks (groups) {
+  function setTextContentLineBreaks (textElems) {
     const lineHeight = 18
-    groups.each(function (d, i) {
+    textElems.each(function (d, i) {
       const tspans = d3.select(this).selectAll('tspan')
       tspans.each(function (d, i) {
         if (d.newLine) {
@@ -148,18 +132,49 @@ function renderSingleGroup (group, singleOptions, globalOptions) {
     })
   }
 
-  function setTextElementsGroupsPosition (groups, positions) {
-    groups.each(function (d, i) {
-      var textGroup = d3.select(this)
-      if (i < positions.length) {
-        var y = positions[i]
-        // textGroup.select('text')
-        // .attr('transform', `translate(${xOffset}, ${y + singleOptions.margin})`)
-        textGroup.attr('y', y)
+  function setTextElementsPosition (textElems, positions) {
+    textElems.each(function (d, i) {
+      const textElem = d3.select(this)
+      if (positions[i]) {
+        let y = positions[i]
+        textElem
+          .transition()
+          .duration(globalOptions.chart.animationsDurationInMilliseconds)
+          .attr('text-anchor', singleOptions.textAnchor)
+          .attr('y', y)
+          .attr('opacity', 1)
       } else {
-        // textGroup.remove()
+        textElem.remove()
       }
     })
+  }
+
+  function computeLabelPositions (textElems) {
+    const textElemsConfig = []
+    const computeGeneralConfig = {
+      margin: margin,
+      minY: singleOptions.minY,
+      maxY: singleOptions.maxY
+    }
+
+    textElems.each(function (d) {
+      const bbox = this.getBBox()
+
+      textElemsConfig.push({
+        height: bbox.height,
+        preferredPosition: singleOptions.getTextPositionMainDirection(d) - bbox.height / 2
+      })
+    })
+
+    switch (singleOptions.algorithim) {
+      case ALGORITHIMS.backPressure:
+        return computeLabelPositionsWithBackPressure(textElemsConfig, computeGeneralConfig)
+      case ALGORITHIMS.withoutReadjustment:
+        return computeLabelPositionsWithoutReadjustment(textElemsConfig, computeGeneralConfig)
+      default:
+        console.warn(`GeoChart (GeoChartTextDescription) [component] :: Unknown algorithim: ${singleOptions.algorithim}`)
+        break
+    }
   }
 
   function getCSSClassesTexts (options, i) {

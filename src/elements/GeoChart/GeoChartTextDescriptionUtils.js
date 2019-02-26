@@ -1,3 +1,8 @@
+export const ALGORITHIMS = {
+  backPressure: 'backPressure',
+  withoutReadjustment: 'withoutReadjustment'
+}
+
 /**
  * This function receives a list of suggested positions and it readjusts them to
  * fit as many as possible.

@@ -46,6 +46,14 @@ inside the data array.
         <geo-primary-button @click="randomizeData()">
           Randomize data
         </geo-primary-button>
+        <br>
+        <geo-primary-button @click="useData1()">
+          Data 1
+        </geo-primary-button>
+        <br>
+        <geo-primary-button @click="useData2()">
+          Data 2
+        </geo-primary-button>
       </div>
     </h3>
     <div class="element-demo__block">
@@ -85,6 +93,7 @@ export default {
         pieConfig: {
           data: this.chartData,
           keyForValues: 'value',
+          keyForId: 'id',
           innerRadius: 0.2,
           outerRadius: 0.8,
           tooltip: {
@@ -92,7 +101,7 @@ export default {
           },
           text: {
             content (d, i) {
-              if (i === 0) {
+              if (d.data.id === 1) {
                 return [
                   {
                     text: d.data.value
@@ -109,7 +118,8 @@ export default {
                   }
                 ]
               }
-            }
+            },
+            margin: 2
           },
           cssClasses (originalClasses, d, i) {
             return [...originalClasses, 'my-custom-class']
@@ -122,10 +132,31 @@ export default {
     this.randomizeData()
   },
   methods: {
+    useData1 () {
+      this.chartData = [
+        { id: 1, value: 30},
+        { id: 2, value: 100},
+        { id: 3, value: 10},
+        { id: 4, value: 50},
+        { id: 5, value: 20}
+      ]
+    },
+    useData2 () {
+      this.chartData = [
+        { id: 1, value: 90},
+        { id: 2, value: 20},
+        { id: 5, value: 50}
+      ]
+    },
     randomizeData () {
-      this.chartData = _.times(_.random(0, 10), function() {
+      const ids = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+      const rand = _.random(0, 15)
+      this.chartData = _.times(rand, function(d) {
+        const randId = _.random(0, ids.length-1)
+        const id = ids.splice(randId, 1)[0]
         return {
-          value: _.random(100, 1000)
+          id: id,
+          value: _.random(1, 1000)
         }
       })
     }
