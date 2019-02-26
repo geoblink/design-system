@@ -53,12 +53,20 @@ export function computeLabelPositionsNaturalDirection (textElemsConfig, generalC
         }
       } else {
         // bail out we don't set anything further
-        return positions
+        break
       }
     }
 
     maxY = lowerY
     positions[i] = lowerY
+  }
+
+  for (let i = 0; i < textElemsConfig.length; i++) {
+    if (i < positions.length) {
+      positions[i] = positions[i] + generalConfig.margin + textElemsConfig[i].height / 2
+    } else {
+      positions[i] = null
+    }
   }
 
   return positions
