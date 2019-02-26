@@ -212,8 +212,6 @@ export default {
           axis,
           circleData: singleLineSegmentsGroupsConfig.circleData,
           dimension: singleLineSegmentsGroupsConfig.dimension,
-          normalOffset: singleLineSegmentsGroupsConfig.normalOffset,
-          naturalNormalOffset: singleLineSegmentsGroupsConfig.naturalNormalOffset,
           lineWidth: singleLineSegmentsGroupsConfig.lineWidth,
           lineNaturalWidth: singleLineSegmentsGroupsConfig.lineNaturalWidth,
           circleRadius: singleLineSegmentsGroupsConfig.circleRadius,
