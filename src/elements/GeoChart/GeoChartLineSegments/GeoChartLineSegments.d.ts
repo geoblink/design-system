@@ -18,9 +18,7 @@ declare namespace GeoChart {
       horizontal: GeoChart.AxisConfig<HorizontalDomain>
       vertical: GeoChart.AxisConfig<VerticalDomain>
     }
-    data: object[]
-    normalOffset?: number
-    naturalNormalOffset?: number
+    circleData: object[]
     lineWidth?: number,
     lineNaturalWidth?: number,
     circleRadius?: number,
