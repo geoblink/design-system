@@ -51,6 +51,7 @@ export function render (d3Instance, d3TipInstance, options, globalOptions) {
  * @template PElement
  * @template PDatum
  * @param {d3.Selection<GElement, Datum, PElement, PDatum>} pie
+ * @param {d3.Selection<GElement, Datum, PElement, PDatum>} d3Instance
  * @param {d3.Selection<GElement, Datum, PElement, PDatum>} [d3TipInstance]
  * @param {GeoChart.PieConfig} singlePieOptions
  * @param {GeoChart.PieGlobalConfig} globalOptions
@@ -171,11 +172,12 @@ function renderSinglePie (pie, d3Instance, d3TipInstance, singlePieOptions, glob
  * @template Datum
  * @template PElement
  * @template PDatum
- * @param {d3.Selection<GElement, Datum, PElement, PDatum>} pie
+ * @param {d3.Selection<GElement, Datum, PElement, PDatum>} allPieSegments
+ * @param {d3.Selection<GElement, Datum, PElement, PDatum>} d3Instance
  * @param {GeoChart.PieConfig} singlePieOptions
  * @param {GeoChart.PieGlobalConfig} globalOptions
  */
-function renderTexts (allPieSegments, d3Instance, singlePieOptions, globalOptions, arc) {
+function renderTexts (allPieSegments, d3Instance, singlePieOptions, globalOptions) {
   const rightGroup = []
   const leftGroup = []
   const newSettings = []
@@ -185,7 +187,8 @@ function renderTexts (allPieSegments, d3Instance, singlePieOptions, globalOption
 
   allPieSegments
     .each(function (d, i) {
-      d.pieIndex = i // it is alright to modify this d since this is the d provided by d3 pie, not the one by the user
+      // It's alright to modify this d since this is the d provided by d3 pie, not the one by the user.
+      d.pieIndex = i
       if (midAngle(d) < Math.PI) {
         rightGroup.push(d)
       } else {
