@@ -541,6 +541,7 @@ export const lineSegmentsConfigSchema = {
     }
   ],
   properties: {
+    // TODO: Rename data property to circleData
     data: {
       type: 'array',
       additionalItems: false,

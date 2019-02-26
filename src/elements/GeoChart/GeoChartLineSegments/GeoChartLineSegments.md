@@ -32,7 +32,7 @@ export default {
     name: 'GeoChartLineSegmentsDemo',
     data () {
       return {
-        categoricalDomain: _.times(2, i => `Segment ${i}`),
+        numericalDomain: null,
         chartData: null,
         normalValue: _.random(0, 1, true),
       }
@@ -59,25 +59,26 @@ export default {
         }
       },
 
-      categoricalAxisConfig () {
-        if (!this.categoricalDomain) return null
-
+      numericalAxisConfig () {
         return {
-          id: 'demo-categorical-axis',
-          keyForValues: 'category',
+          id: 'demo-numerical-axis',
+          keyForValues: 'numerical',
           position: {
             type: POSITIONS.bottom
           },
           scale: {
-            type: SCALE_TYPES.categorical,
-            valueForOrigin: _.first(this.categoricalDomain),
-            domain: this.categoricalDomain
+            type: SCALE_TYPES.linear,
+            valueForOrigin: 0,
+            domain: {
+              start: 0,
+              end: 200
+            }
           }
         }
       },
 
       chartConfig () {
-        if (!(this.categoricalAxisConfig && this.chartData)) return null
+        if (!(this.numericalAxisConfig && this.chartData)) return null
 
         return {
           chart: {
@@ -91,17 +92,17 @@ export default {
           },
           axisGroups: [
             this.linearAxisConfig,
-            this.categoricalAxisConfig
+            this.numericalAxisConfig
           ],
           lineSegmentsGroups: [{
             normalValue: this.normalValue,
             data: this.chartData,
             dimension: BARS_DIMENSIONS.horizontal,
-            lineWidth: 5,
-            circleRadius: 2,
+            lineWidth: 2,
+            circleRadius: 3,
             circleMargin: 2,
             idVerticalAxis: this.linearAxisConfig.id,
-            idHorizontalAxis: this.categoricalAxisConfig.id
+            idHorizontalAxis: this.numericalAxisConfig.id
           }]
         }
       }
@@ -111,11 +112,10 @@ export default {
     },
     methods: {
       randomizeData () {
-        this.chartData = _.filter(_.map(this.categoricalDomain, (category) => {
-          return !!_.random(0, 1)
-          ? { [this.categoricalAxisConfig.keyForValues]: category }
-          : null
-        }))
+        this.normalValue = _.random(0, 1, true)
+        this.chartData = _.sortBy(_.times(_.random(1, 3), () => {
+          return { [this.numericalAxisConfig.keyForValues]: _.random(0, 200) }
+        }), this.numericalAxisConfig.keyForValues)
       }
     }
   }
