@@ -37,10 +37,14 @@ export function setupTextDescriptions (settingsData, d3Instance, globalOptions) 
   const updatedGroups = groups
   const allGroups = newGroups.merge(updatedGroups)
 
+  const dataWithPositions = []
   allGroups.each(function (singleOptions, i) {
     const group = d3.select(this)
-    renderSingleGroup(group, singleOptions, globalOptions)
+    const newDataWithPositions = renderSingleGroup(group, singleOptions, globalOptions)
+    dataWithPositions.push(newDataWithPositions)
   })
+
+  return dataWithPositions
 
   function getCSSClassesGroups (options, i) {
     const defaultGroupCSSClasses = ['geo-chart-text-descriptions']
@@ -55,23 +59,15 @@ export function setupTextDescriptions (settingsData, d3Instance, globalOptions) 
 
 function renderSingleGroup (group, singleOptions, globalOptions) {
   const textOptions = singleOptions.textOptions
-  const singleGroupData = _.map(singleOptions.data, function (d) {
-    return {
-      data: d,
-      position: null
-    }
-  })
   const margin = _.get(singleOptions.textOptions, 'margin', 0)
   const textElems = group
     .selectAll('text')
-    .data(singleGroupData, (d) => d.data[singleOptions.keyForId])
+    .data(singleOptions.data, (d) => d[singleOptions.keyForId])
 
   const newTextElems = textElems
     .enter()
     .append('text')
-    .attr('class', function (d, i) {
-      return getCSSClassesTexts(d.data, i)
-    })
+    .attr('class', getCSSClassesTexts)
     .attr('dominant-baseline', 'text-before-edge')
     .attr('text-anchor', singleOptions.textAnchor)
     .attr('opacity', 0)
@@ -107,7 +103,7 @@ function renderSingleGroup (group, singleOptions, globalOptions) {
     }
   }))
 
-  setTextElementsPosition(allTextElems, dataWithPositions)
+  setTextElementsPosition(allTextElems)
 
   return dataWithPositions
 
@@ -115,7 +111,7 @@ function renderSingleGroup (group, singleOptions, globalOptions) {
     const tspans = textElems
       .selectAll('tspan')
       .data(function (d, i) {
-        return textOptions.content(d.data, i)
+        return textOptions.content(d, i)
       })
 
     const newtspans = tspans
@@ -157,44 +153,21 @@ function renderSingleGroup (group, singleOptions, globalOptions) {
     })
   }
 
-  function setTextElementsPosition (textElems, dataWithPositions) {
-    const updatedTextElems = group
-    // textElems
-      .selectAll('text')
-      .data(dataWithPositions, function (d) {
-        return d.data[singleOptions.keyForId]
-      })
-
-    updatedTextElems
-      .transition()
-      .duration(globalOptions.chart.animationsDurationInMilliseconds)
-      .attr('text-anchor', singleOptions.textAnchor)
-      .attr('y', function (d) {
-        return d.position
-      })
-      .attr('opacity', 1)
-
-    updatedTextElems
-      .exit()
-      .remove()
-
-    textElems.merge(updatedTextElems)
-
-    //   data
-    // textElems.each(function (d, i) {
-    //   const textElem = d3.select(this)
-    //   if (positions[i]) {
-    //     let y = positions[i]
-    //     textElem
-    //       .transition()
-    //       .duration(globalOptions.chart.animationsDurationInMilliseconds)
-    //       .attr('text-anchor', singleOptions.textAnchor)
-    //       .attr('y', y)
-    //       .attr('opacity', 1)
-    //   } else {
-    //     textElem.remove()
-    //   }
-    // })
+  function setTextElementsPosition (textElems) {
+    textElems.each(function (d, i) {
+      const textElem = d3.select(this)
+      if (positions[i]) {
+        let y = positions[i]
+        textElem
+          .transition()
+          .duration(globalOptions.chart.animationsDurationInMilliseconds)
+          .attr('text-anchor', singleOptions.textAnchor)
+          .attr('y', y)
+          .attr('opacity', 1)
+      } else {
+        textElem.remove()
+      }
+    })
   }
 
   function computeLabelPositions (textElems) {
@@ -210,7 +183,7 @@ function renderSingleGroup (group, singleOptions, globalOptions) {
 
       textElemsConfig.push({
         height: bbox.height,
-        preferredPosition: singleOptions.getTextPositionMainDirection(d.data) - bbox.height / 2
+        preferredPosition: singleOptions.getTextPositionMainDirection(d) - bbox.height / 2
       })
     })
 

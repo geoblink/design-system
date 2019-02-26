@@ -186,6 +186,7 @@ function renderTexts (allPieSegments, d3Instance, singlePieOptions, globalOption
 
   allPieSegments
     .each(function (d, i) {
+      d.pieIndex = i // it is alright to modify this d since this is the d provided by d3 pie, not the one by the user
       if (midAngle(d) < Math.PI) {
         rightGroup.push(d)
       } else {
@@ -204,41 +205,33 @@ function renderTexts (allPieSegments, d3Instance, singlePieOptions, globalOption
   const width = midChartWidth - chartRadius
   const range = [-midChartHeight, midChartHeight]
 
-  const textDescriptionSettingsRight = {
+  const commonSettings = {
+    keyForId: 'pieIndex',
+    textOptions: singlePieOptions.text,
+    getTextPositionMainDirection: getTextPositionMainDirection,
+    width: width,
+    height: globalOptions.chart.chartHeight,
+    minY: range[0],
+    maxY: range[1],
+    algorithim: ALGORITHIMS.withoutReadjustment
+  }
+
+  const textDescriptionSettingsRight = _.assign({}, commonSettings, {
     data: rightGroup,
-    keyForId: singlePieOptions.keyForId,
-    textOptions: singlePieOptions.text,
-    getTextPositionMainDirection: getTextPositionMainDirection,
     startPosition: startPositionRight,
-    width: width,
-    height: globalOptions.chart.chartHeight,
-    textAnchor: 'start',
-    minY: range[0],
-    maxY: range[1],
-    algorithim: ALGORITHIMS.withoutReadjustment
-  }
+    textAnchor: 'start'
+  })
 
-  newSettings.push(textDescriptionSettingsRight)
-
-  const textDescriptionSettingsLeft = {
+  const textDescriptionSettingsLeft = _.assign({}, commonSettings, {
     data: leftGroup,
-    keyForId: singlePieOptions.keyForId,
-    textOptions: singlePieOptions.text,
-    getTextPositionMainDirection: getTextPositionMainDirection,
     startPosition: startPositionLeft,
-    width: width,
-    height: globalOptions.chart.chartHeight,
-    textAnchor: 'end',
-    minY: range[0],
-    maxY: range[1],
-    algorithim: ALGORITHIMS.withoutReadjustment
-  }
+    textAnchor: 'end'
+  })
 
-  newSettings.push(textDescriptionSettingsLeft)
+  newSettings.push(textDescriptionSettingsRight, textDescriptionSettingsLeft)
 
-  console.log(rightGroup)
-  console.log(leftGroup)
-  setupTextDescriptions(newSettings, d3Instance, globalOptions)
+  const dataWithPositions = setupTextDescriptions(newSettings, d3Instance, globalOptions)
+  console.log(dataWithPositions)
 
   function getTextPositionMainDirection (d, i) {
     const centroid = outerArc.centroid(d)

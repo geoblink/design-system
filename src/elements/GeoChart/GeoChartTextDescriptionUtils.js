@@ -7,9 +7,9 @@ export const ALGORITHIMS = {
  * This function receives a list of suggested positions and it readjusts them to
  * fit as many as possible.
  *
- * @param {Array<TextDescription.TextElemConfig>} textElemsConfig Array must be sorted by preferredPosition in descending order
- * @param {TextDescription.GeneralConfig} generalConfig
- * @returns {Array<TextDescription.ComputedLabelPosition>} positions
+ * @param {Array<GeoChart.TextDescriptionUtilsTextElemConfig>} textElemsConfig Array must be sorted by preferredPosition in descending order
+ * @param {GeoChart.TextDescriptionUtilsGeneralConfig} generalConfig
+ * @returns {Array<GeoChart.TextDescriptionUtilsComputedLabelPosition>} positions
  */
 export function computeLabelPositionsWithBackPressure (textElemsConfig, generalConfig) {
   let maxY = generalConfig.maxY
@@ -80,9 +80,10 @@ export function computeLabelPositionsWithBackPressure (textElemsConfig, generalC
 /**
  * This function receives a list of suggested positions and removes the necessary ones
  * to avoid overlapping
- * @param {Array<TextDescription.TextElemConfig>} textElemsConfig Array must be sorted by preferredPosition in descending order
- * @param {TextDescription.GeneralConfig} generalConfig
- * @returns {Array<TextDescription.ComputedLabelPosition>} positions
+ *
+ * @param {Array<GeoChart.TextDescriptionUtilsTextElemConfig>} textElemsConfig Array must be sorted by preferredPosition in descending order
+ * @param {GeoChart.TextDescriptionUtilsGeneralConfig} generalConfig
+ * @returns {Array<GeoChart.TextDescriptionUtilsComputedLabelPosition>} positions
  */
 export function computeLabelPositionsWithoutReadjustment (textElemsConfig, generalConfig) {
   const positions = []
