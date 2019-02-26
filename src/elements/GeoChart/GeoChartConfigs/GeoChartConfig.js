@@ -595,6 +595,68 @@ export const lineSegmentsConfigSchema = {
   }
 }
 
+export const anchoredShapesConfigSchema = {
+  type: 'object',
+  additionalProperties: false,
+  required: [
+    'shapeData',
+    'dimension',
+    'idHorizontalAxis',
+    'idVerticalAxis',
+    'normalValue',
+    'getAnchorPosition',
+    'getShapeSize',
+    'getShapePath'
+  ],
+  properties: {
+    shapeData: {
+      type: 'array',
+      additionalItems: false,
+      items: {
+        type: 'object'
+      }
+    },
+    normalOffset: {
+      type: 'number'
+    },
+    naturalNormalOffset: {
+      type: 'number'
+    },
+    dimension: {
+      type: 'string',
+      enum: Object.values(DIMENSIONS)
+    },
+    idHorizontalAxis: {
+      type: 'string'
+    },
+    idVerticalAxis: {
+      type: 'string'
+    },
+    normalValue: {
+      type: 'number'
+    },
+    // Function taking as first parameter an array of CSS classes that would be
+    // set by default. Should return the array of CSS classes to be finally set.
+    // Use this function to customize which CSS classes are set to the rect for
+    // the bar of each item. Note that there might be some of the default classes
+    // might be added regardless to your customization as they are required
+    // internally.
+    cssClasses: {},
+    // Function that receives an item from the data and should return either
+    // leading or trailing to determine the position
+    // of the shape in relation to the axis. Leading for left/above the axis and trailing
+    // for right/below it.
+    getAnchorPosition: {},
+    // Function that returns an object with width and height values so the shape can be
+    // drawn with a polygon.
+    getShapeSize: {},
+    // Function that returns a path to render the desired shape. The DS integrates the function
+    // to render a triangle. The rest of the algorithms for the shapes should be provided
+    // by the developer.
+    getShapePath: {}
+  }
+}
+
 export const labelConfigJsonSchema = {
   type: 'object',
   additionalProperties: false,
@@ -733,6 +795,11 @@ export const jsonSchema = {
       type: 'array',
       additionalItems: false,
       items: lineSegmentsConfigSchema
+    },
+    anchoredShapesGroups: {
+      type: 'array',
+      additionalItems: false,
+      items: anchoredShapesConfigSchema
     },
     guidelinesGroups: {
       type: 'array',

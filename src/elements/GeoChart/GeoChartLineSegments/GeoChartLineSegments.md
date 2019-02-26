@@ -94,7 +94,6 @@ export default {
     name: 'GeoChartLineSegmentsDemo',
     data () {
       return {
-        numericalDomain: null,
         chartData: null,
         normalValue: _.random(0, 1, true),
       }
@@ -215,7 +214,6 @@ export default {
     name: 'GeoChartLineSegmentsDemo',
     data () {
       return {
-        numericalDomain: null,
         chartData: null,
         normalValue: _.random(0, 1, true),
       }

@@ -6,6 +6,7 @@ import * as ChartLabels from '../GeoChartLabels/GeoChartLabels'
 import * as ChartColorBar from '../GeoChartColorBar/GeoChartColorBar'
 import * as ChartPie from '../GeoChartPie/GeoChartPie'
 import * as ChartLineSegments from '../GeoChartLineSegments/GeoChartLineSegments'
+import * as ChartAnchoredShapes from '../GeoChartAnchoredShapes/GeoChartAnchoredShapes'
 import guidelinesAdapterMixin from './GeoChartConfigAdapter.guidelines.mixin'
 
 export default {
@@ -30,6 +31,10 @@ export default {
 
       if (!_.isEmpty(this.config.lineSegmentsGroups)) {
         this.updateLineSegmentsGroups()
+      }
+
+      if (!_.isEmpty(this.config.anchoredShapesGroups)) {
+        this.updateAnchoredShapesGroups()
       }
 
       if (this.d3TipInstance) {
@@ -223,6 +228,36 @@ export default {
         }
       })
       ChartLineSegments.render(this.d3Instance, lineSegmentsGroupsConfig, { chart })
+    },
+
+    updateAnchoredShapesGroups () {
+      const chartSize = this.svgSize
+      const chartMargin = _.get(this.config.chart, 'margin', ChartSizing.EMPTY_MARGIN)
+      const chart = {
+        animationsDurationInMilliseconds: this.animationsDurationInMilliseconds,
+        size: chartSize,
+        margin: chartMargin
+      }
+      const anchoredShapesGroupsConfig = _.map(this.config.anchoredShapesGroups, (singleAnchoredShapesGroupsConfig, index) => {
+        const axis = {
+          horizontal: this.axesConfigById[singleAnchoredShapesGroupsConfig.idHorizontalAxis],
+          vertical: this.axesConfigById[singleAnchoredShapesGroupsConfig.idVerticalAxis]
+        }
+        return {
+          id: index,
+          axis,
+          shapeData: singleAnchoredShapesGroupsConfig.shapeData,
+          dimension: singleAnchoredShapesGroupsConfig.dimension,
+          offset: singleAnchoredShapesGroupsConfig.offset,
+          naturalOffset: singleAnchoredShapesGroupsConfig.naturalOffset,
+          normalValue: singleAnchoredShapesGroupsConfig.normalValue,
+          getAnchorPosition: singleAnchoredShapesGroupsConfig.getAnchorPosition,
+          getShapeSize: singleAnchoredShapesGroupsConfig.getShapeSize,
+          getShapePath: singleAnchoredShapesGroupsConfig.getShapePath,
+          cssClasses: singleAnchoredShapesGroupsConfig.cssClasses
+        }
+      })
+      ChartAnchoredShapes.render(this.d3Instance, anchoredShapesGroupsConfig, { chart })
     }
   }
 }

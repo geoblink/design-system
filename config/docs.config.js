@@ -200,6 +200,9 @@ module.exports = {
             name: 'Line segments charts',
             content: '../src/elements/GeoChart/GeoChartLineSegments/GeoChartLineSegments.md'
           }, {
+            name: 'Anchored Shapes charts',
+            content: '../src/elements/GeoChart/GeoChartAnchoredShapes/GeoChartAnchoredShapes.md'
+          }, {
             name: 'Pie charts',
             content: '../src/elements/GeoChart/GeoChartPie/GeoChartPie.md'
           }]
