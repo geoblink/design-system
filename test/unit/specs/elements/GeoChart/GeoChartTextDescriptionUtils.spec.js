@@ -1,132 +1,311 @@
-import { computeLabelPositionsNaturalDirection } from 'src/elements/GeoChart/GeoChartTextDescriptionUtils.js'
+import { computeLabelPositionsWithBackPressure, computeLabelPositionsWithoutReadjustment } from 'src/elements/GeoChart/GeoChartTextDescriptionUtils.js'
 
-describe.only('GeoChartTextDescriptionUtils.js', () => {
-  const tests = [
-    {
-      name: 'all labels fit in the preferred position',
-      textElemsConfig: [
-        {
-          height: 5,
-          preferredPosition: 80
+describe('GeoChartTextDescriptionUtils.js', () => {
+  describe('computeLabelPositionsWithBackPressure', () => {
+    const tests = [
+      {
+        name: 'all labels fit in the preferred position',
+        textElemsConfig: [
+          {
+            height: 5,
+            preferredPosition: 80
+          },
+          {
+            height: 5,
+            preferredPosition: 50
+          }
+        ],
+        generalConfig: {
+          margin: 0,
+          minY: 0,
+          maxY: 300
         },
-        {
-          height: 5,
-          preferredPosition: 50
-        }
-      ],
-      generalConfig: {
-        margin: 0,
-        minY: 0,
-        maxY: 300
+        expect: [80, 50]
       },
-      expect: [80, 50]
-    },
-    {
-      name: 'not enough space for any of them',
-      textElemsConfig: [
-        {
-          height: 20,
-          preferredPosition: 80
+      {
+        name: 'not enough space for any of them',
+        textElemsConfig: [
+          {
+            height: 20,
+            preferredPosition: 80
+          },
+          {
+            height: 20,
+            preferredPosition: 50
+          }
+        ],
+        generalConfig: {
+          margin: 0,
+          minY: 0,
+          maxY: 10
         },
-        {
-          height: 20,
-          preferredPosition: 50
-        }
-      ],
-      generalConfig: {
-        margin: 0,
-        minY: 0,
-        maxY: 10
+        expect: [null, null]
       },
-      expect: [null, null]
-    },
-    {
-      name: 'only one fits',
-      textElemsConfig: [
-        {
-          height: 20,
-          preferredPosition: 80
+      {
+        name: 'only one fits',
+        textElemsConfig: [
+          {
+            height: 20,
+            preferredPosition: 80
+          },
+          {
+            height: 20,
+            preferredPosition: 50
+          }
+        ],
+        generalConfig: {
+          margin: 0,
+          minY: 0,
+          maxY: 20
         },
-        {
-          height: 20,
-          preferredPosition: 50
-        }
-      ],
-      generalConfig: {
-        margin: 0,
-        minY: 0,
-        maxY: 20
+        expect: [10, null]
       },
-      expect: [10, null]
-    },
-    {
-      name: 'the 2 boxes overlap',
-      textElemsConfig: [
-        {
-          height: 20,
-          preferredPosition: 80
+      {
+        name: 'the 2 boxes overlap',
+        textElemsConfig: [
+          {
+            height: 20,
+            preferredPosition: 80
+          },
+          {
+            height: 20,
+            preferredPosition: 80
+          }
+        ],
+        generalConfig: {
+          margin: 0,
+          minY: 0,
+          maxY: 100
         },
-        {
-          height: 20,
-          preferredPosition: 80
-        }
-      ],
-      generalConfig: {
-        margin: 0,
-        minY: 0,
-        maxY: 100
+        expect: [80, 60]
       },
-      expect: [80, 60]
-    },
-    {
-      name: 'the 2 boxes overlap at the end',
-      textElemsConfig: [
-        {
-          height: 20,
-          preferredPosition: 10
+      {
+        name: 'the 2 boxes overlap at the end',
+        textElemsConfig: [
+          {
+            height: 20,
+            preferredPosition: 10
+          },
+          {
+            height: 20,
+            preferredPosition: 10
+          }
+        ],
+        generalConfig: {
+          margin: 0,
+          minY: 0,
+          maxY: 100
         },
-        {
-          height: 20,
-          preferredPosition: 10
-        }
-      ],
-      generalConfig: {
-        margin: 0,
-        minY: 0,
-        maxY: 100
+        expect: [30, 10]
       },
-      expect: [30, 10]
-    },
-    {
-      name: '3 boxes overlap at the end',
-      textElemsConfig: [
-        {
-          height: 20,
-          preferredPosition: 10
+      {
+        name: '3 boxes overlap at the end',
+        textElemsConfig: [
+          {
+            height: 20,
+            preferredPosition: 10
+          },
+          {
+            height: 20,
+            preferredPosition: 10
+          },
+          {
+            height: 20,
+            preferredPosition: 10
+          }
+        ],
+        generalConfig: {
+          margin: 0,
+          minY: 0,
+          maxY: 100
         },
-        {
-          height: 20,
-          preferredPosition: 10
-        },
-        {
-          height: 20,
-          preferredPosition: 10
-        }
-      ],
-      generalConfig: {
-        margin: 0,
-        minY: 0,
-        maxY: 100
+        expect: [50, 30, 10]
       },
-      expect: [50, 30, 10]
-    }
-  ]
+      {
+        name: '2 boxes overlap out of 3',
+        textElemsConfig: [
+          {
+            height: 20,
+            preferredPosition: 30
+          },
+          {
+            height: 20,
+            preferredPosition: 30
+          },
+          {
+            height: 20,
+            preferredPosition: 10
+          }
+        ],
+        generalConfig: {
+          margin: 0,
+          minY: 0,
+          maxY: 40
+        },
+        expect: [30, 10, null]
+      }
+    ]
 
-  tests.forEach(function (test) {
-    it(test.name, function () {
-      const positions = computeLabelPositionsNaturalDirection(test.textElemsConfig, test.generalConfig)
+    tests.forEach(function (test) {
+      it(test.name, function () {
+        const positions = computeLabelPositionsWithBackPressure(test.textElemsConfig, test.generalConfig)
 
-      expect(positions).toEqual(test.expect)
+        expect(positions).toEqual(test.expect)
+      })
+    })
+  })
+
+  describe('computeLabelPositionsWithoutReadjustment', () => {
+    const tests = [
+      {
+        name: 'all labels fit in the preferred position',
+        textElemsConfig: [
+          {
+            height: 5,
+            preferredPosition: 80
+          },
+          {
+            height: 5,
+            preferredPosition: 50
+          }
+        ],
+        generalConfig: {
+          margin: 0,
+          minY: 0,
+          maxY: 300
+        },
+        expect: [80, 50]
+      },
+      {
+        name: 'not enough space for any of them',
+        textElemsConfig: [
+          {
+            height: 20,
+            preferredPosition: 80
+          },
+          {
+            height: 20,
+            preferredPosition: 50
+          }
+        ],
+        generalConfig: {
+          margin: 0,
+          minY: 0,
+          maxY: 10
+        },
+        expect: [null, null]
+      },
+      {
+        name: 'only one fits',
+        textElemsConfig: [
+          {
+            height: 20,
+            preferredPosition: 80
+          },
+          {
+            height: 20,
+            preferredPosition: 50
+          }
+        ],
+        generalConfig: {
+          margin: 0,
+          minY: 0,
+          maxY: 20
+        },
+        expect: [null, null]
+      },
+      {
+        name: 'the 2 boxes overlap',
+        textElemsConfig: [
+          {
+            height: 20,
+            preferredPosition: 80
+          },
+          {
+            height: 20,
+            preferredPosition: 80
+          }
+        ],
+        generalConfig: {
+          margin: 0,
+          minY: 0,
+          maxY: 100
+        },
+        expect: [80, null]
+      },
+      {
+        name: 'the 2 boxes overlap at the end',
+        textElemsConfig: [
+          {
+            height: 20,
+            preferredPosition: 10
+          },
+          {
+            height: 20,
+            preferredPosition: 10
+          }
+        ],
+        generalConfig: {
+          margin: 0,
+          minY: 0,
+          maxY: 100
+        },
+        expect: [10, null]
+      },
+      {
+        name: '3 boxes overlap at the end',
+        textElemsConfig: [
+          {
+            height: 20,
+            preferredPosition: 10
+          },
+          {
+            height: 20,
+            preferredPosition: 10
+          },
+          {
+            height: 20,
+            preferredPosition: 10
+          }
+        ],
+        generalConfig: {
+          margin: 0,
+          minY: 0,
+          maxY: 100
+        },
+        expect: [10, null, null]
+      },
+      {
+        name: '2 boxes overlap out of 3',
+        textElemsConfig: [
+          {
+            height: 20,
+            preferredPosition: 30
+          },
+          {
+            height: 20,
+            preferredPosition: 30
+          },
+          {
+            height: 20,
+            preferredPosition: 10
+          }
+        ],
+        generalConfig: {
+          margin: 0,
+          minY: 0,
+          maxY: 40
+        },
+        expect: [30, null, 10]
+      }
+    ]
+
+    tests.forEach(function (test) {
+      it(test.name, function () {
+        const positions = computeLabelPositionsWithoutReadjustment(test.textElemsConfig, test.generalConfig)
+
+        expect(positions).toEqual(test.expect)
+      })
     })
   })
 })

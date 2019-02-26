@@ -1,9 +1,12 @@
 /**
+ * This function receives a list of suggested positions and it readjusts them to
+ * fit as many as possible.
+ *
  * @param {Array<TextDescription.TextElemConfig>} textElemsConfig Array must be sorted by preferredPosition in descending order
  * @param {TextDescription.GeneralConfig} generalConfig
  * @returns {Array<TextDescription.ComputedLabelPosition>} positions
  */
-export function computeLabelPositionsNaturalDirection (textElemsConfig, generalConfig) {
+export function computeLabelPositionsWithBackPressure (textElemsConfig, generalConfig) {
   let maxY = generalConfig.maxY
   var positions = []
   var initialMaxY = maxY
@@ -63,6 +66,33 @@ export function computeLabelPositionsNaturalDirection (textElemsConfig, generalC
       positions[i] = positions[i] + generalConfig.margin + textElemsConfig[i].height / 2
     } else {
       positions[i] = null
+    }
+  }
+
+  return positions
+}
+
+/**
+ * This function receives a list of suggested positions and removes the necessary ones
+ * to avoid overlapping
+ * @param {Array<TextDescription.TextElemConfig>} textElemsConfig Array must be sorted by preferredPosition in descending order
+ * @param {TextDescription.GeneralConfig} generalConfig
+ * @returns {Array<TextDescription.ComputedLabelPosition>} positions
+ */
+export function computeLabelPositionsWithoutReadjustment (textElemsConfig, generalConfig) {
+  const positions = []
+  let maxY = generalConfig.maxY
+
+  for (let i = 0; i < textElemsConfig.length; i++) {
+    const textElemConfig = textElemsConfig[i]
+    const heightWithMargin = textElemConfig.height + 2 * generalConfig.margin
+    const lowerY = textElemConfig.preferredPosition - heightWithMargin / 2
+    const upperY = lowerY + heightWithMargin
+    if (upperY > maxY) {
+      positions.push(null) // bbox doesn't fit and we are not readjusting
+    } else {
+      positions.push(textElemConfig.preferredPosition)
+      maxY = lowerY // this raises the limit so the next bbox doesn't intersect
     }
   }
 
