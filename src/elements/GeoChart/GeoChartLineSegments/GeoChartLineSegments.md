@@ -1,4 +1,66 @@
-### GeoChart Line Segments
+Line segments charts are collections of grouped segments intersected by circles across an axis.
+This chart can be used in combination with [GeoChartTriangles](./#/Elements/Charts?id=geocharttriangles)
+to compare several values across an axis, each stop being the relative position of each value with the rest.
+
+To add line segments **groups** to a chart, add an array to `lineSegmentsGroups` key of [GeoChart](./#/Elements/Charts?id=introduction)'s config. Each item of the array
+must be an object with the following:
+
+## Required properties
+
+- `circleData`: Collection of dots (stops) that will be distributed across the axis, filling the rest with line segments (array).
+- `dimension`: A value of `BARS_DIMENSIONS` named export (either `horizontal` or `vertical`). The dimension in which the stacked rectangles will be positioned.
+- `idHorizontalAxis`: The ID of the axis defining the `horizontal` dimension. Will be used to compute proper origin and span of the bar if the dimension is horizontal or the width of each individual group if the dimension is vertical.
+- `idVerticalAxis`: The ID of the axis defining the `vertical` dimension. Will be used to compute proper origin and span of the bar if the dimension is vertical or the width of each individual group if the dimension is horizontal.
+- `normalValue`: Value to position the colorBar in the normal (numerical) axis. The value must be contained within the linear axis domain.
+
+**Note:** `idHorizontalAxis` and `idVerticalAxis` must be IDs of registered axes. See [Axes](./#/Elements/Charts?id=axes) for more info.
+
+## Optional properties
+
+To set the lines width and the dots size, you'll need to set three different parameters:
+
+- **lineWidth** defines the span of the line segment in the **normal dimension**. The
+span in the **group** `dimension` is computed just using the value associated to
+that item in the corresponding axis.
+
+- **circleRadius** defines the radius of each one of the dots of your data in the **normal dimension**.
+
+- **circleMargin** defines the amount of margin of each one of the dots of your data. Take into account that
+the value you give to this margin will be computed twice to get the segment width and the total size of the circle.
+(i.e: If you define a circle with a radius of 2 and margin of 3, the total size of the circle plus its margins
+will be 10)
+
+The three of these parameters can be expressed either in **absolute** or **natural** units:
+
+- **Absolute** means in the same units as the underlying SVG coordinate space.
+You can think of this as just pixels (although they are not strictly just pixels
+and they might not directly translate 1:1 to screen pixels).
+- **Natural** means in the same units as the axis used for the **normal dimension**.
+For instance, if you have an axis of seconds, then a `naturalOffset` of `N` is
+an offset of `N` seconds. If the axis are categories then the absolute value for
+an offset of `N` is the absolute value for `N` categories.
+
+You can choose either **absolute** or **natural** values for **lineWidth**, **circleRadius** and
+**circleMargin** independently.
+
+There are 2 exclusive properties available to customize the **lineWidth**:
+
+- `lineWidth` if you want to use **absolute** units.
+- `lineNaturalWidth` if you want to use **absolute** units.
+
+There are 2 exclusive properties available to customize the **circleRadius**:
+
+- `circleRadius` if you want to use **absolute** units.
+- `circleNaturalRadius` if you want to use **natural** units.
+
+There are 2 exclusive properties available to customize the **circleMargin**:
+
+- `circleMargin` if you want to use **absolute** units.
+- `circleNaturalMargin` if you want to use **absolute** units.
+
+> **Note:** You can't set both `lineWidth` and `lineNaturalWidth`,
+`circleRadius` and `circleNaturalRadius`, or `circleMargin` and `circleNaturalMargin`.
+Doing so will throw an invalid config error.
 
 ```vue
 <template>
@@ -96,7 +158,7 @@ export default {
           ],
           lineSegmentsGroups: [{
             normalValue: this.normalValue,
-            data: this.chartData,
+            circleData: this.chartData,
             dimension: BARS_DIMENSIONS.horizontal,
             lineWidth: 2,
             circleRadius: 3,
@@ -217,7 +279,7 @@ export default {
           ],
           lineSegmentsGroups: [{
             normalValue: this.normalValue,
-            data: this.chartData,
+            circleData: this.chartData,
             dimension: BARS_DIMENSIONS.vertical,
             lineWidth: 2,
             circleRadius: 3,

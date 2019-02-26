@@ -5,8 +5,6 @@ import _ from 'lodash'
 import '../GeoChartAxis/GeoChartAxis'
 import {
   getItemSpanAtAxis,
-  getTranslationForNormalAxisFactory,
-  getItemTranslationFactory,
   isDimensionAxis
 } from '../GeoChartUtils/barsUtils'
 
@@ -111,12 +109,12 @@ function renderLineSegments (lineSegmentsContainer, singleGroupOptions, globalOp
     keyForNaturalWidth: 'circleNaturalMargin'
   })
 
-  const segments = _.times(singleGroupOptions.data.length + 1, function (idx) {
+  const segments = _.times(singleGroupOptions.circleData.length + 1, function (idx) {
     return {
       startValue: idx > 0
         ? getCirclePositionInMainDimension(idx - 1)
         : _.first(axisForDimension.scale.axisScale.domain()),
-      endValue: idx < singleGroupOptions.data.length
+      endValue: idx < singleGroupOptions.circleData.length
         ? getCirclePositionInMainDimension(idx)
         : _.last(axisForDimension.scale.axisScale.domain())
     }
@@ -150,7 +148,7 @@ function renderLineSegments (lineSegmentsContainer, singleGroupOptions, globalOp
     .remove()
 
   function getCirclePositionInMainDimension (idx) {
-    return _.get(singleGroupOptions.data[idx], axisForDimension.keyForValues)
+    return _.get(singleGroupOptions.circleData[idx], axisForDimension.keyForValues)
   }
 
   function getLineSegmentsTransform (d, i) {
@@ -202,7 +200,7 @@ function renderLineSegments (lineSegmentsContainer, singleGroupOptions, globalOp
   }
   function getLineSegmentWidth (d, i) {
     const leadingEdgeMargin = i === 0 ? 0 : circleRadiusAtAxis + circleRadialMarginAtAxis
-    const trailingEdgeMargin = i === singleGroupOptions.data.length ? 0 : circleRadiusAtAxis + circleRadialMarginAtAxis
+    const trailingEdgeMargin = i === singleGroupOptions.circleData.length ? 0 : circleRadiusAtAxis + circleRadialMarginAtAxis
     switch (singleGroupOptions.dimension) {
       case DIMENSIONS.horizontal:
         return Math.max(
@@ -237,7 +235,7 @@ function renderLineSegments (lineSegmentsContainer, singleGroupOptions, globalOp
   }
   function getLineSegmentHeight (d, i) {
     const leadingEdgeMargin = i === 0 ? 0 : circleRadiusAtAxis + circleRadialMarginAtAxis
-    const trailingEdgeMargin = i === singleGroupOptions.data.length ? 0 : circleRadiusAtAxis + circleRadialMarginAtAxis
+    const trailingEdgeMargin = i === singleGroupOptions.circleData.length ? 0 : circleRadiusAtAxis + circleRadialMarginAtAxis
     switch (singleGroupOptions.dimension) {
       case DIMENSIONS.horizontal:
         return getItemSpanAtAxis(axisForNormalDimension, {
@@ -279,7 +277,7 @@ function renderLineSegmentsStops (lineSegmentsContainer, singleGroupOptions, glo
   const lineSegmentsStopBaseClass = 'geo-chart-line-segments__segment-stop'
   const lineSegmentsStops = lineSegmentsContainer
     .selectAll(`circle.${lineSegmentsStopBaseClass}`)
-    .data(singleGroupOptions.data)
+    .data(singleGroupOptions.circleData)
 
   const newLineSegmentsStops = lineSegmentsStops
     .enter()

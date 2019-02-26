@@ -476,7 +476,7 @@ export const pieConfigJsonSchema = {
 export const lineSegmentsConfigSchema = {
   type: 'object',
   additionalProperties: false,
-  required: ['data', 'dimension', 'idHorizontalAxis', 'idVerticalAxis', 'normalValue'],
+  required: ['circleData', 'dimension', 'idHorizontalAxis', 'idVerticalAxis', 'normalValue'],
   allOf: [
     {
       oneOf: [{
@@ -541,8 +541,7 @@ export const lineSegmentsConfigSchema = {
     }
   ],
   properties: {
-    // TODO: Rename data property to circleData
-    data: {
+    circleData: {
       type: 'array',
       additionalItems: false,
       items: {

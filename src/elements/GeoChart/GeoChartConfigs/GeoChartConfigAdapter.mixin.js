@@ -210,7 +210,7 @@ export default {
         return {
           id: index,
           axis,
-          data: singleLineSegmentsGroupsConfig.data,
+          circleData: singleLineSegmentsGroupsConfig.circleData,
           dimension: singleLineSegmentsGroupsConfig.dimension,
           normalOffset: singleLineSegmentsGroupsConfig.normalOffset,
           naturalNormalOffset: singleLineSegmentsGroupsConfig.naturalNormalOffset,
