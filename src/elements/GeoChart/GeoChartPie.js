@@ -181,8 +181,8 @@ function renderTexts (allPieSegments, d3Instance, singlePieOptions, globalOption
   const newSettings = []
   const chartRadius = Math.min(globalOptions.chart.chartHeight, globalOptions.chart.chartWidth) / 2
   const outerArc = d3.arc()
-    .innerRadius(singlePieOptions.outerRadius)
-    .outerRadius(singlePieOptions.outerRadius)
+    .innerRadius(singlePieOptions.outerRadius * 1.1)
+    .outerRadius(singlePieOptions.outerRadius * 1.1)
 
   allPieSegments
     .each(function (d, i) {
@@ -231,7 +231,55 @@ function renderTexts (allPieSegments, d3Instance, singlePieOptions, globalOption
   newSettings.push(textDescriptionSettingsRight, textDescriptionSettingsLeft)
 
   const dataWithPositions = setupTextDescriptions(newSettings, d3Instance, globalOptions)
-  console.log(dataWithPositions)
+
+  const groups = d3Instance
+    .selectAll('g.geo-chart-polylines')
+    .data(dataWithPositions)
+
+  const newGroups = groups
+    .enter()
+    .append('g')
+    .attr('class', 'geo-chart-polylines')
+    .attr('transform', 'translate(' + (globalOptions.chart.chartWidth / 2) + ', ' + (globalOptions.chart.chartHeight / 2) + ')')
+
+  groups
+    .exit()
+    .transition()
+    .duration(globalOptions.chart.animationsDurationInMilliseconds)
+    .attr('opacity', 0)
+    .remove()
+
+  const updatedGroups = groups
+  const allGroups = newGroups.merge(updatedGroups)
+
+  allGroups.each(function (singleData, i) {
+    const group = d3.select(this)
+
+    const polylinePoints = getPolylinePoints(i)
+    const polylines = group
+      .selectAll('polyline')
+      .data(singleData, function (d) {
+        return d.data[commonSettings.keyForId]
+      })
+
+    const newPolylines = polylines
+      .enter()
+      .append('polyline')
+      .attr('fill', 'none')
+      .attr('stroke', 'black')
+
+    const updatedPolylines = polylines
+    const allPolylines = newPolylines.merge(updatedPolylines)
+
+    allPolylines
+      .transition()
+      .duration(globalOptions.chart.animationsDurationInMilliseconds)
+      .attr('points', polylinePoints)
+
+    polylines
+      .exit()
+      .remove()
+  })
 
   function getTextPositionMainDirection (d, i) {
     const centroid = outerArc.centroid(d)
@@ -241,5 +289,16 @@ function renderTexts (allPieSegments, d3Instance, singlePieOptions, globalOption
 
   function midAngle (d) {
     return d.startAngle + (d.endAngle - d.startAngle) / 2
+  }
+
+  function getPolylinePoints (dataIndex) {
+    const xPos = dataIndex === 0 ? singlePieOptions.outerRadius + 20 : -singlePieOptions.outerRadius - 20
+    return function (d) {
+      const pos = [
+        xPos,
+        outerArc.centroid(d.data)[1]
+      ]
+      return [arc.centroid(d.data), outerArc.centroid(d.data), pos]
+    }
   }
 }
