@@ -472,7 +472,7 @@ export const pieConfigJsonSchema = {
           type: 'number'
         },
         // Function taking as first parameter a single item of data array and as
-        // second parameter its index. Should return an array with options TODO:.
+        // second parameter its index. Should return an array with options see GeoChart.TextDescriptionOptions.
         content: {},
         cssClassesGroups: {},
         cssClassesTexts: {}
