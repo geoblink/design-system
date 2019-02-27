@@ -128,9 +128,11 @@ describe('GeoChartColorBar', function () {
 
       switch (dimension) {
         case GeoChart.constants.BARS_DIMENSIONS.horizontal:
-          return testDimension(dimension, linearAxisConfig, categoricalAxisConfig, highlightedSegments, cssClassFn)
+          testDimension(dimension, linearAxisConfig, categoricalAxisConfig, highlightedSegments, cssClassFn)
+          break
         case GeoChart.constants.BARS_DIMENSIONS.vertical:
-          return testDimension(dimension, categoricalAxisConfig, linearAxisConfig, highlightedSegments, null)
+          testDimension(dimension, categoricalAxisConfig, linearAxisConfig, highlightedSegments, null)
+          break
         default:
           console.error(`Unknown dimension: ${dimension}`)
       }

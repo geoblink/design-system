@@ -95,7 +95,7 @@ const axisDimensions = {
   }
 }
 
-describe('GeoChartColorBar', function () {
+describe('GeoChartLineSegments', function () {
   const stubGetBBox = stubGetBBoxFactory()
   const stubGetScreenCTM = stubGetScreenCTMFactory()
   const stubCreateSVGPoint = stubCreateSVGPointFactory()
@@ -126,13 +126,15 @@ describe('GeoChartColorBar', function () {
     for (const dimension in axisDimensions) {
       const linearAxisConfig = axisDimensions[dimension].linearAxisConfig
       const numericalAxisConfig = axisDimensions[dimension].numericalAxisConfig
-      const cssClassFn = (original) => [...original, 'test-color-bar']
+      const cssClassFn = (original) => [...original, 'test-line-segments']
 
       switch (dimension) {
         case GeoChart.constants.BARS_DIMENSIONS.horizontal:
-          return testDimension(dimension, linearAxisConfig, numericalAxisConfig, cssClassFn)
+          testDimension(dimension, linearAxisConfig, numericalAxisConfig, cssClassFn)
+          break
         case GeoChart.constants.BARS_DIMENSIONS.vertical:
-          return testDimension(dimension, numericalAxisConfig, linearAxisConfig, null)
+          testDimension(dimension, numericalAxisConfig, linearAxisConfig, null)
+          break
         default:
           console.error(`Unknown dimension: ${dimension}`)
       }
@@ -160,7 +162,8 @@ describe('GeoChartColorBar', function () {
           circleRadius: 3,
           circleMargin: 2,
           idVerticalAxis: idVerticalAxis,
-          idHorizontalAxis: idHorizontalAxis
+          idHorizontalAxis: idHorizontalAxis,
+          cssClasses: cssClassFn
         }]
       }
       it('Should render the LineSegments', () => {

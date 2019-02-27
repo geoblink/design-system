@@ -233,7 +233,7 @@ function renderAnchoredShape (anchoredShapesContainer, singleShape, singleGroupO
   }
 }
 
-function renderAnchoredText (anchoredShapesContainer, singleShape, singleGroupOptions, globalOptions, {
+export function renderAnchoredText (anchoredShapesContainer, singleShape, singleGroupOptions, globalOptions, {
   axisForDimension,
   axisForNormalDimension
 }) {
@@ -289,7 +289,6 @@ function renderAnchoredText (anchoredShapesContainer, singleShape, singleGroupOp
     const hSign = isLabelTooLong ? 1 : -1
     const shapeAnchorPosition = singleGroupOptions.getAnchorPosition(d, i)
     const shapeSize = singleGroupOptions.getShapeSize()
-    debugger
     if (shapeAnchorPosition === ANCHOR_POSITIONS.leading) {
       leadingDimensionTranslation = dimensionTranslation - labelOffset + hSign * shapeSize.width
       trailingDimensionTranslation = normalDimensionTranslation - (shapeOffsetFromAxis + shapeSize.height * 2)
