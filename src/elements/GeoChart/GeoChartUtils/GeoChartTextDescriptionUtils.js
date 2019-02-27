@@ -1,4 +1,4 @@
-export const ALGORITHIMS = {
+export const ALGORITHMS = {
   backPressure: 'backPressure',
   withoutReadjustment: 'withoutReadjustment'
 }

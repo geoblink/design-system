@@ -9,8 +9,8 @@ import {
   getTransformTranslateMatches,
   stubCreateSVGPointFactory
 } from './GeoChart.spec-utils' // This has to be imported before D3
-import { ALGORITHIMS } from '@/elements/GeoChart/GeoChartTextDescriptionUtils.js'
-import { setupTextDescriptions } from '@/elements/GeoChart/GeoChartTextDescription'
+import { ALGORITHMS } from '@/elements/GeoChart/GeoChartUtils/GeoChartTextDescriptionUtils.js'
+import { setupTextDescriptions } from '@/elements/GeoChart/GeoChartUtils/GeoChartTextDescription'
 import { createLocalVue, mount } from '@vue/test-utils'
 import GeoChart from '@/elements/GeoChart/GeoChart.vue'
 
@@ -37,7 +37,7 @@ describe('GeoChartTextDescription.js', () => {
     getTextPositionMainDirection: getTextPositionMainDirection,
     minY: 0,
     maxY: 300,
-    algorithim: ALGORITHIMS.withoutReadjustment,
+    algorithm: ALGORITHMS.withoutReadjustment,
     data: [{}],
     startPosition: [100, 100],
     textAnchor: 'start'
@@ -230,7 +230,7 @@ describe('GeoChartTextDescription.js', () => {
     }
   })
 
-  it('should not render sencond text if positions overlap using withoutReadjustment algorithim', function () {
+  it('should not render sencond text if positions overlap using withoutReadjustment algorithm', function () {
     const newSettings = _.assign({}, settings, {
       data: [
         { yPos: 30 },
@@ -245,9 +245,9 @@ describe('GeoChartTextDescription.js', () => {
     expect(textElems).toHaveLength(1)
   })
 
-  it('should render sencond text if positions overlap using backPressure algorithim', function () {
+  it('should render sencond text if positions overlap using backPressure algorithm', function () {
     const newSettings = _.assign({}, settings, {
-      algorithim: ALGORITHIMS.backPressure,
+      algorithm: ALGORITHMS.backPressure,
       data: [
         { yPos: 30 },
         { yPos: 30 }

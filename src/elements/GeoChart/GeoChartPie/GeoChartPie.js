@@ -2,8 +2,8 @@
 
 import _ from 'lodash'
 import { setupTooltipEventListeners } from '../GeoChartUtils/GeoChartTooltip'
-import { setupTextDescriptions } from '../GeoChartTextDescription'
-import { ALGORITHIMS } from '../GeoChartTextDescriptionUtils'
+import { setupTextDescriptions } from '../GeoChartUtils/GeoChartTextDescription'
+import { ALGORITHMS } from '../GeoChartUtils/GeoChartTextDescriptionUtils'
 
 const d3 = (function () {
   try {
@@ -197,7 +197,7 @@ function renderTexts (allPieSegments, d3Instance, singlePieOptions, globalOption
       }
     })
 
-  // reverse is needed on the rightGroup because the positioning algorithim
+  // reverse is needed on the rightGroup because the positioning algorithm
   // requires the Y's to be in desc order.
   _.reverse(rightGroup)
 
@@ -213,7 +213,7 @@ function renderTexts (allPieSegments, d3Instance, singlePieOptions, globalOption
     getTextPositionMainDirection: getTextPositionMainDirection,
     minY: -midChartHeight,
     maxY: midChartHeight,
-    algorithim: ALGORITHIMS.withoutReadjustment
+    algorithm: ALGORITHMS.withoutReadjustment
   }
 
   const textDescriptionSettingsRight = _.assign({}, commonSettings, {

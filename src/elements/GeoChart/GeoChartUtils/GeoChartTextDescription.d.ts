@@ -15,7 +15,7 @@ declare namespace GeoChart {
     textAnchor: string
     minY: number
     maxY: number
-    algorithim: GeoChart.TextDescriptionUtilsAlgorithims
+    algorithm: GeoChart.TextDescriptionUtilsAlgorithms
   }
 
   interface TextDescriptionGlobalOptions {

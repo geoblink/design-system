@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import { computeLabelPositionsWithBackPressure, computeLabelPositionsWithoutReadjustment, ALGORITHIMS } from './GeoChartTextDescriptionUtils'
+import { computeLabelPositionsWithBackPressure, computeLabelPositionsWithoutReadjustment, ALGORITHMS } from './GeoChartTextDescriptionUtils'
 
 const d3 = (function () {
   try {
@@ -186,13 +186,13 @@ function renderSingleGroup (group, singleOptions, globalOptions) {
       })
     })
 
-    switch (singleOptions.algorithim) {
-      case ALGORITHIMS.backPressure:
+    switch (singleOptions.algorithm) {
+      case ALGORITHMS.backPressure:
         return computeLabelPositionsWithBackPressure(textElemsConfig, computeGeneralConfig)
-      case ALGORITHIMS.withoutReadjustment:
+      case ALGORITHMS.withoutReadjustment:
         return computeLabelPositionsWithoutReadjustment(textElemsConfig, computeGeneralConfig)
       default:
-        console.warn(`GeoChart (GeoChartTextDescription) [component] :: Unknown algorithim: ${singleOptions.algorithim}`)
+        console.warn(`GeoChart (GeoChartTextDescription) [component] :: Unknown algorithm: ${singleOptions.algorithm}`)
         break
     }
   }

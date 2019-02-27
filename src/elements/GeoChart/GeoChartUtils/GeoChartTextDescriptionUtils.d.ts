@@ -1,5 +1,5 @@
 declare namespace GeoChart {
-  enum TextDescriptionUtilsAlgorithims {
+  enum TextDescriptionUtilsAlgorithms {
     backPressure = 'backPressure',
     withoutReadjustment = 'withoutReadjustment'
   }
