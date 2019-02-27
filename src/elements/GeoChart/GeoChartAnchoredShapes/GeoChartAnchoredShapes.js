@@ -5,7 +5,7 @@ import _ from 'lodash'
 import '../GeoChartAxis/GeoChartAxis'
 import {
   isDimensionAxis,
-  getItemSpanAtAxis
+  isForced
 } from '../GeoChartUtils/barsUtils'
 
 import { setTextContent } from '../GeoChartUtils/textUtils'
@@ -68,15 +68,15 @@ export function render (d3Instance, options, globalOptions) {
       `geo-chart-anchored-shapes-group geo-chart-anchored-shapes-group--${singleGroupOptions.id} geo-chart-anchored-shapes-group--${singleGroupOptions.dimension}`
     )
 
+  const updatedGroups = groups
+  const allGroups = newGroups.merge(updatedGroups)
+
   groups
     .exit()
     .transition()
     .duration(globalOptions.chart.animationsDurationInMilliseconds)
     .style('opacity', 0)
     .remove()
-
-  const updatedGroups = groups
-  const allGroups = newGroups.merge(updatedGroups)
 
   allGroups.each(function (singleGroupOptions, i) {
     const group = d3.select(this)
@@ -104,33 +104,54 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions) {
     ? singleGroupOptions.axis.horizontal
     : singleGroupOptions.axis.vertical
 
-  const shapeOffsetFromAxis = getItemSpanAtAxis(axisForNormalDimension, null, singleGroupOptions, {
-    keyForWidth: 'normalOffset',
-    keyForNaturalWidth: 'naturalNormalOffset'
+  const shapeTextGroup = group
+    .selectAll('g.geo-chart-anchored-shapes-group__shape-text-element')
+    .data(singleGroupOptions.shapeData)
+
+  const newShapeTextGroup = shapeTextGroup
+    .enter()
+    .append('g')
+    .attr('class', (d, i) =>
+      `geo-chart-anchored-shapes-group__shape-text-element geo-chart-anchored-shapes-group__shape-text-element--${i}`
+    )
+
+  const updatedShapeTextGroup = shapeTextGroup
+  const allShapeTextGroup = newShapeTextGroup.merge(updatedShapeTextGroup)
+
+  allShapeTextGroup.each(function (singleShape, i) {
+    const group = d3.select(this)
+    renderAnchoredShape(group, singleShape, singleGroupOptions, globalOptions, {
+      axisForDimension,
+      axisForNormalDimension
+    })
+
+    renderAnchoredText(group, singleShape, singleGroupOptions, globalOptions, {
+      axisForDimension,
+      axisForNormalDimension
+    })
   })
 
-  renderAnchoredShapes(group, singleGroupOptions, globalOptions, {
-    axisForDimension,
-    axisForNormalDimension,
-    shapeOffsetFromAxis
-  })
-
-  renderAnchoredTexts(group, singleGroupOptions, globalOptions, {
-    axisForDimension,
-    axisForNormalDimension,
-    shapeOffsetFromAxis
-  })
+  shapeTextGroup
+    .exit()
+    .transition()
+    .duration(globalOptions.chart.animationsDurationInMilliseconds)
+    .style('opacity', 0)
+    .remove()
 }
 
-function renderAnchoredShapes (anchoredShapesContainer, singleGroupOptions, globalOptions, {
+function renderAnchoredShape (anchoredShapesContainer, singleShape, singleGroupOptions, globalOptions, {
   axisForDimension,
-  axisForNormalDimension,
-  shapeOffsetFromAxis
+  axisForNormalDimension
 }) {
   const anchoredShapesBaseClass = 'geo-chart-anchored-shapes__shape-element'
+  const shapeOffsetFromAxis = getTranslationOffsetForNormalAxis(axisForNormalDimension, singleGroupOptions, {
+    keyForNormalOffset: 'normalOffset',
+    keyForNaturalNormalOffset: 'naturalNormalOffset'
+  })
+
   const anchoredShapes = anchoredShapesContainer
     .selectAll(`polygon.${anchoredShapesBaseClass}`)
-    .data(singleGroupOptions.shapeData)
+    .data([singleShape])
 
   const newAnchoredShapes = anchoredShapes
     .enter()
@@ -212,10 +233,9 @@ function renderAnchoredShapes (anchoredShapesContainer, singleGroupOptions, glob
   }
 }
 
-function renderAnchoredTexts (anchoredShapesContainer, singleGroupOptions, globalOptions, {
+function renderAnchoredText (anchoredShapesContainer, singleShape, singleGroupOptions, globalOptions, {
   axisForDimension,
-  axisForNormalDimension,
-  shapeOffsetFromAxis
+  axisForNormalDimension
 }) {
   if (!_.isFunction(_.get(singleGroupOptions, 'text.content'))) return
   if (singleGroupOptions.dimension === DIMENSIONS.vertical) {
@@ -223,9 +243,14 @@ function renderAnchoredTexts (anchoredShapesContainer, singleGroupOptions, globa
     throw new Error(`GeoChart (Anchored Shapes) [component] :: Anchored texts are not supported for vertical dimensions. If you want to display labels together with shapes, set dimension to «Horizontal» in your chart config.`)
   }
   const anchoredTextsBaseClass = 'geo-chart-anchored-shapes__text-element'
+  const shapeOffsetFromAxis = getTranslationOffsetForNormalAxis(axisForNormalDimension, singleGroupOptions, {
+    keyForNormalOffset: 'normalOffset',
+    keyForNaturalNormalOffset: 'naturalNormalOffset'
+  })
+
   const anchoredTexts = anchoredShapesContainer
     .selectAll(`text.${anchoredTextsBaseClass}`)
-    .data(singleGroupOptions.shapeData)
+    .data([singleShape])
 
   const newAnchoredTexts = anchoredTexts
     .enter()
@@ -264,7 +289,7 @@ function renderAnchoredTexts (anchoredShapesContainer, singleGroupOptions, globa
     const hSign = isLabelTooLong ? 1 : -1
     const shapeAnchorPosition = singleGroupOptions.getAnchorPosition(d, i)
     const shapeSize = singleGroupOptions.getShapeSize()
-
+    debugger
     if (shapeAnchorPosition === ANCHOR_POSITIONS.leading) {
       leadingDimensionTranslation = dimensionTranslation - labelOffset + hSign * shapeSize.width
       trailingDimensionTranslation = normalDimensionTranslation - (shapeOffsetFromAxis + shapeSize.height * 2)
@@ -293,5 +318,22 @@ function renderAnchoredTexts (anchoredShapesContainer, singleGroupOptions, globa
     }
 
     return defaultClasses.join(' ')
+  }
+}
+
+function getTranslationOffsetForNormalAxis (normalAxis, options, {
+  keyForNormalOffset,
+  keyForNaturalNormalOffset
+}) {
+  const isNormalOffsetForced = isForced(options, keyForNormalOffset)
+  const isNaturalNormalOffsetForced = isForced(options, keyForNaturalNormalOffset)
+  if (!(isNormalOffsetForced || isNaturalNormalOffsetForced)) return 0
+
+  if (isNormalOffsetForced) {
+    return options[keyForNormalOffset]
+  }
+
+  if (isNaturalNormalOffsetForced) {
+    return normalAxis.scale.axisScale(options[keyForNaturalNormalOffset])
   }
 }

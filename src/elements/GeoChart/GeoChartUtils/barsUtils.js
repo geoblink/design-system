@@ -89,7 +89,7 @@ export function getItemSpanAtAxis (axisConfig, singleItem, options, { keyForWidt
  * @param {string} [key]
  * @return {boolean}
  */
-function isForced (options, key) {
+export function isForced (options, key) {
   return _.isFinite(_.get(options, key))
 }
 

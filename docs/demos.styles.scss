@@ -153,7 +153,7 @@ $rankLineColors: (
 }
 
 @for $i from 0 through 3 {
-  .geo-chart-anchored-shapes__shape-element--#{$i},
+  .geo-chart-anchored-shapes-group__shape-text-element--#{$i} > .geo-chart-anchored-shapes__shape-element,
   .geo-chart-line-segments__segment--#{$i},
   .geo-chart-line-segments__segment-stop--#{$i} {
     fill: map-get($rankLineColors, $i);

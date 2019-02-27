@@ -22,7 +22,8 @@ To add anchored shapes **groups** to a chart, add an array to `anchoredShapesGro
 - **Offset** defines the translation in the **normal dimension** that must be
 applied to the shapes in order to not overlap with the axis they're been positioned. (Can be set using **natural** units)
 
-- **getAnchoredText** defines the format of the text (if wanted) to be applied to the labels next to each one of the shapes.
+- **text** object takes a function (content) that lets you shape the format of each one of the labels that
+will be tied to your shapes. The function should return an array of objects, each one with the properties `text` and `cssClass`.
 
 There are 2 exclusive properties available to customize the **offset**:
 
@@ -48,7 +49,7 @@ Doing so will throw an invalid config error.
         v-if="chartConfig"
         css-modifier="hidden-axis"
         :config="chartConfig"
-        height="70px"
+        height="200px"
         width="500px"
       />
     </div>
@@ -63,136 +64,137 @@ Doing so will throw an invalid config error.
   const { ANCHOR_POSITIONS, getTriangleShapePath }= require('./GeoChartAnchoredShapes')
 
 export default {
-    name: 'GeoChartAnchoredShapesDemo',
-    data () {
+  name: 'GeoChartAnchoredShapesDemo',
+  data () {
+    return {
+      normalValue: 0.5,
+      randomValue: 5
+    }
+  },
+  computed: {
+    linearAxisConfig () {
       return {
-        chartData: null,
-        normalValue: 0.5,
-      }
-    },
-    computed: {
-      linearAxisConfig () {
-        return {
-          id: 'demo-linear-axis',
-          keyForValues: 'value',
-          ticks: {
-            count: 2
-          },
-          position: {
-            type: POSITIONS.left
-          },
-          scale: {
-            type: SCALE_TYPES.linear,
-            valueForOrigin: 0,
-            domain: {
-              start: 0,
-              end: 1
-            }
+        id: 'demo-linear-axis',
+        keyForValues: 'value',
+        ticks: {
+          count: 2
+        },
+        position: {
+          type: POSITIONS.left
+        },
+        scale: {
+          type: SCALE_TYPES.linear,
+          valueForOrigin: 0,
+          domain: {
+            start: 0,
+            end: 1
           }
-        }
-      },
-
-      numericalAxisConfig () {
-        return {
-          id: 'demo-numerical-axis',
-          keyForValues: 'numerical',
-          position: {
-            type: POSITIONS.bottom
-          },
-          scale: {
-            type: SCALE_TYPES.linear,
-            valueForOrigin: 0,
-            domain: {
-              start: 0,
-              end: 200
-            }
-          }
-        }
-      },
-
-      chartConfig () {
-        if (!(this.numericalAxisConfig && this.chartData)) return null
-
-        return {
-          chart: {
-            margin: {
-              top: 30,
-              right: 30,
-              bottom: 30,
-              left: 30
-            },
-            animationsDurationInMilliseconds: 800
-          },
-          axisGroups: [
-            this.linearAxisConfig,
-            this.numericalAxisConfig
-          ],
-          anchoredShapesGroups: [{
-            normalValue: this.normalValue,
-            normalOffset: 6,
-            shapeData: this.getRandomShapeDistribution(),
-            dimension: BARS_DIMENSIONS.horizontal,
-            idVerticalAxis: this.linearAxisConfig.id,
-            idHorizontalAxis: this.numericalAxisConfig.id,
-            getAnchorPosition (d, i) {
-              return d.isUp ? ANCHOR_POSITIONS.leading : ANCHOR_POSITIONS.trailing
-            },
-            getShapeSize () {
-              return {
-                width: 12,
-                height: 10
-              }
-            },
-            text: {
-              content (d, i) {
-                return [
-                  {
-                    text: `Label ${i}`,
-                    cssClass: 'label'
-                  },
-                  {
-                    text: ' - ',
-                    cssClass: 'separator'
-                  },
-                  {
-                    text: `Value ${d.numerical}`,
-                    cssClass: 'value'
-                  }
-                ]
-              }
-            },
-            getShapePath (d, i, { size, shapeOffsetFromAxis, singleGroupOptions }) {
-              return getTriangleShapePath(d, i, { size, shapeOffsetFromAxis, singleGroupOptions })
-            }
-          }]
         }
       }
     },
-    mounted () {
-      this.randomizeData()
-    },
-    methods: {
-      randomizeData () {
-        this.chartData = this.getRandomShapeDistribution()
-      },
-      getRandomShapeDistribution () {
-        return [
-          {
-            [this.numericalAxisConfig.keyForValues]: this.numericalAxisConfig.scale.domain.start,
-            isUp: true
-          },
-          {
-            [this.numericalAxisConfig.keyForValues]: this.numericalAxisConfig.scale.domain.end,
-            isUp: true
-          },
-          {
-            [this.numericalAxisConfig.keyForValues]: _.random(0, 200),
-            isUp: false
+
+    numericalAxisConfig () {
+      return {
+        id: 'demo-numerical-axis',
+        keyForValues: 'numerical',
+        position: {
+          type: POSITIONS.bottom
+        },
+        scale: {
+          type: SCALE_TYPES.linear,
+          valueForOrigin: 0,
+          domain: {
+            start: 0,
+            end: 200
           }
-        ]
+        }
+      }
+    },
+
+    dataDistribution() {
+      return _.sortBy([
+        {
+          [this.numericalAxisConfig.keyForValues]: this.numericalAxisConfig.scale.domain.start,
+          isUp: true
+        },
+        {
+          [this.numericalAxisConfig.keyForValues]: this.numericalAxisConfig.scale.domain.end,
+          isUp: true
+        },
+        {
+          [this.numericalAxisConfig.keyForValues]: this.randomValue,
+          isUp: false
+        }
+      ], this.numericalAxisConfig.keyForValues)
+    },
+
+    chartConfig () {
+      if (!(this.numericalAxisConfig)) return null
+
+      return {
+        chart: {
+          margin: {
+            top: 30,
+            right: 30,
+            bottom: 30,
+            left: 30
+          },
+          animationsDurationInMilliseconds: 800
+        },
+        axisGroups: [
+          this.linearAxisConfig,
+          this.numericalAxisConfig
+        ],
+        anchoredShapesGroups: [{
+          normalValue: this.normalValue,
+          normalOffset: 6,
+          shapeData: this.dataDistribution,
+          dimension: BARS_DIMENSIONS.horizontal,
+          idVerticalAxis: this.linearAxisConfig.id,
+          idHorizontalAxis: this.numericalAxisConfig.id,
+          getAnchorPosition (d, i) {
+            return d.isUp ? ANCHOR_POSITIONS.leading : ANCHOR_POSITIONS.trailing
+          },
+          getShapeSize () {
+            return {
+              width: 12,
+              height: 10
+            }
+          },
+          text: {
+            content (d, i) {
+              return [
+                {
+                  text: `Label`,
+                  cssClass: 'label'
+                },
+                {
+                  text: ' - ',
+                  cssClass: 'separator'
+                },
+                {
+                  text: `Value ${d.numerical}`,
+                  cssClass: 'value'
+                }
+              ]
+            }
+          },
+          getShapePath (d, i, { size, shapeOffsetFromAxis, singleGroupOptions }) {
+            return getTriangleShapePath(d, i, { size, shapeOffsetFromAxis, singleGroupOptions })
+          }
+        }]
       }
     }
+  },
+  mounted () {
+    this.randomizeData()
+  },
+  methods: {
+    randomizeData () {
+      this.randomValue = _.random(0, 200)
+    },
   }
+}
 </script>
 ```
 
@@ -212,7 +214,7 @@ export default {
         v-if="chartConfig"
         css-modifier="hidden-axis"
         :config="chartConfig"
-        height="70px"
+        height="200px"
         width="500px"
       />
     </div>
@@ -227,146 +229,146 @@ export default {
   const { ANCHOR_POSITIONS, getTriangleShapePath }= require('./GeoChartAnchoredShapes')
 
 export default {
-    name: 'GeoChartAnchoredShapesDemo',
-    data () {
-      return {
-        normalValue: 0.5,
-        randomValue: 5
-      }
-    },
-    computed: {
-      linearAxisConfig () {
-        return {
-          id: 'demo-linear-axis',
-          keyForValues: 'value',
-          ticks: {
-            count: 2
-          },
-          position: {
-            type: POSITIONS.left
-          },
-          scale: {
-            type: SCALE_TYPES.linear,
-            valueForOrigin: 0,
-            domain: {
-              start: 0,
-              end: 1
-            }
-          }
-        }
-      },
-
-      numericalAxisConfig () {
-        return {
-          id: 'demo-numerical-axis',
-          keyForValues: 'numerical',
-          position: {
-            type: POSITIONS.bottom
-          },
-          scale: {
-            type: SCALE_TYPES.linear,
-            valueForOrigin: 0,
-            domain: {
-              start: 0,
-              end: 200
-            }
-          }
-        }
-      },
-
-      dataDistribution() {
-        return _.sortBy([
-          {
-            [this.numericalAxisConfig.keyForValues]: this.numericalAxisConfig.scale.domain.start,
-            isUp: true
-          },
-          {
-            [this.numericalAxisConfig.keyForValues]: this.numericalAxisConfig.scale.domain.end,
-            isUp: true
-          },
-          {
-            [this.numericalAxisConfig.keyForValues]: this.randomValue,
-            isUp: false
-          }
-        ], this.numericalAxisConfig.keyForValues)
-      },
-
-      chartConfig () {
-        if (!(this.numericalAxisConfig)) return null
-
-        return {
-          chart: {
-            margin: {
-              top: 30,
-              right: 30,
-              bottom: 30,
-              left: 30
-            },
-            animationsDurationInMilliseconds: 800
-          },
-          axisGroups: [
-            this.linearAxisConfig,
-            this.numericalAxisConfig
-          ],
-          lineSegmentsGroups: [{
-            normalValue: this.normalValue,
-            circleData: this.dataDistribution,
-            dimension: BARS_DIMENSIONS.horizontal,
-            lineWidth: 2,
-            circleRadius: 3,
-            circleMargin: 4,
-            idHorizontalAxis: this.numericalAxisConfig.id,
-            idVerticalAxis: this.linearAxisConfig.id
-          }],
-          anchoredShapesGroups: [{
-            normalValue: this.normalValue,
-            normalOffset: 6,
-            shapeData: this.dataDistribution,
-            dimension: BARS_DIMENSIONS.horizontal,
-            idVerticalAxis: this.linearAxisConfig.id,
-            idHorizontalAxis: this.numericalAxisConfig.id,
-            getAnchorPosition (d, i) {
-              return d.isUp ? ANCHOR_POSITIONS.leading : ANCHOR_POSITIONS.trailing
-            },
-            getShapeSize () {
-              return {
-                width: 12,
-                height: 10
-              }
-            },
-            text: {
-              content (d, i) {
-                return [
-                  {
-                    text: `Label ${i}`,
-                    cssClass: 'label'
-                  },
-                  {
-                    text: ' - ',
-                    cssClass: 'separator'
-                  },
-                  {
-                    text: `Value ${d.numerical}`,
-                    cssClass: 'value'
-                  }
-                ]
-              }
-            },
-            getShapePath (d, i, { size, shapeOffsetFromAxis, singleGroupOptions }) {
-              return getTriangleShapePath(d, i, { size, shapeOffsetFromAxis, singleGroupOptions })
-            }
-          }]
-        }
-      }
-    },
-    mounted () {
-      this.randomizeData()
-    },
-    methods: {
-      randomizeData () {
-        this.randomValue = _.random(0, 200)
-      },
+  name: 'GeoChartAnchoredShapesDemo',
+  data () {
+    return {
+      normalValue: 0.5,
+      randomValue: 5
     }
+  },
+  computed: {
+    linearAxisConfig () {
+      return {
+        id: 'demo-linear-axis',
+        keyForValues: 'value',
+        ticks: {
+          count: 2
+        },
+        position: {
+          type: POSITIONS.left
+        },
+        scale: {
+          type: SCALE_TYPES.linear,
+          valueForOrigin: 0,
+          domain: {
+            start: 0,
+            end: 1
+          }
+        }
+      }
+    },
+
+    numericalAxisConfig () {
+      return {
+        id: 'demo-numerical-axis',
+        keyForValues: 'numerical',
+        position: {
+          type: POSITIONS.bottom
+        },
+        scale: {
+          type: SCALE_TYPES.linear,
+          valueForOrigin: 0,
+          domain: {
+            start: 0,
+            end: 200
+          }
+        }
+      }
+    },
+
+    dataDistribution() {
+      return _.sortBy([
+        {
+          [this.numericalAxisConfig.keyForValues]: this.numericalAxisConfig.scale.domain.start,
+          isUp: true
+        },
+        {
+          [this.numericalAxisConfig.keyForValues]: this.numericalAxisConfig.scale.domain.end,
+          isUp: true
+        },
+        {
+          [this.numericalAxisConfig.keyForValues]: this.randomValue,
+          isUp: false
+        }
+      ], this.numericalAxisConfig.keyForValues)
+    },
+
+    chartConfig () {
+      if (!(this.numericalAxisConfig)) return null
+
+      return {
+        chart: {
+          margin: {
+            top: 30,
+            right: 30,
+            bottom: 30,
+            left: 30
+          },
+          animationsDurationInMilliseconds: 800
+        },
+        axisGroups: [
+          this.linearAxisConfig,
+          this.numericalAxisConfig
+        ],
+        lineSegmentsGroups: [{
+          normalValue: this.normalValue,
+          circleData: this.dataDistribution,
+          dimension: BARS_DIMENSIONS.horizontal,
+          lineWidth: 2,
+          circleRadius: 3,
+          circleMargin: 4,
+          idHorizontalAxis: this.numericalAxisConfig.id,
+          idVerticalAxis: this.linearAxisConfig.id
+        }],
+        anchoredShapesGroups: [{
+          normalValue: this.normalValue,
+          normalOffset: 6,
+          shapeData: this.dataDistribution,
+          dimension: BARS_DIMENSIONS.horizontal,
+          idVerticalAxis: this.linearAxisConfig.id,
+          idHorizontalAxis: this.numericalAxisConfig.id,
+          getAnchorPosition (d, i) {
+            return d.isUp ? ANCHOR_POSITIONS.leading : ANCHOR_POSITIONS.trailing
+          },
+          getShapeSize () {
+            return {
+              width: 12,
+              height: 10
+            }
+          },
+          text: {
+            content (d, i) {
+              return [
+                {
+                  text: `Label`,
+                  cssClass: 'label'
+                },
+                {
+                  text: ' - ',
+                  cssClass: 'separator'
+                },
+                {
+                  text: `Value ${d.numerical}`,
+                  cssClass: 'value'
+                }
+              ]
+            }
+          },
+          getShapePath (d, i, { size, shapeOffsetFromAxis, singleGroupOptions }) {
+            return getTriangleShapePath(d, i, { size, shapeOffsetFromAxis, singleGroupOptions })
+          }
+        }]
+      }
+    }
+  },
+  mounted () {
+    this.randomizeData()
+  },
+  methods: {
+    randomizeData () {
+      this.randomValue = _.random(0, 200)
+    },
   }
+}
 </script>
 ```
