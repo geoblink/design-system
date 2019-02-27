@@ -1,0 +1,309 @@
+import _ from 'lodash'
+
+import {
+  flushD3Transitions,
+  stubGetBoundingClientRectFactory,
+  stubGetBBoxFactory,
+  stubGetScreenCTMFactory,
+  stubLodashDebounceFactory,
+  getTransformTranslateMatches,
+  stubCreateSVGPointFactory
+} from './GeoChart.spec-utils' // This has to be imported before D3
+import { ALGORITHIMS } from '@/elements/GeoChart/GeoChartTextDescriptionUtils.js'
+import { setupTextDescriptions } from '@/elements/GeoChart/GeoChartTextDescription'
+import { createLocalVue, mount } from '@vue/test-utils'
+import GeoChart from '@/elements/GeoChart/GeoChart.vue'
+
+const localVue = createLocalVue()
+localVue.component('geo-chart', GeoChart)
+
+describe('GeoChartTextDescription.js', () => {
+  let wrapper
+  const chart = {
+    animationsDurationInMilliseconds: 1000
+  }
+  const chartConfig = {
+    height: 300,
+    width: 500
+  }
+
+  const settings = {
+    keyForId: 'id',
+    textOptions: {
+      content,
+      cssClassesGroups (originalClasses) { return [...originalClasses, 'my-group-class'] },
+      cssClassesTexts (originalClasses) { return [...originalClasses, 'my-text-class'] }
+    },
+    getTextPositionMainDirection: getTextPositionMainDirection,
+    minY: 0,
+    maxY: 300,
+    algorithim: ALGORITHIMS.withoutReadjustment,
+    data: [{}],
+    startPosition: [100, 100],
+    textAnchor: 'start'
+  }
+
+  function content () {
+    return [{ text: 'content text' }]
+  }
+
+  function getTextPositionMainDirection (d, i) {
+    return d.yPos || 20
+  }
+
+  const bbox = {
+    x: 0,
+    y: 0,
+    width: 0,
+    height: 20,
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0
+  }
+
+  const stubGetBBox = stubGetBBoxFactory(bbox)
+  const stubGetScreenCTM = stubGetScreenCTMFactory()
+  const stubCreateSVGPoint = stubCreateSVGPointFactory()
+  const stubLodashDebounce = stubLodashDebounceFactory()
+  const stubGetBoundingClientRect = stubGetBoundingClientRectFactory({
+    height: chartConfig.height,
+    width: chartConfig.width
+  })
+
+  beforeEach(function () {
+    stubGetBoundingClientRect.setup()
+    stubLodashDebounce.setup()
+    stubGetBBox.setup()
+    stubCreateSVGPoint.setup()
+    stubGetScreenCTM.setup()
+
+    wrapper = mount(GeoChart, {
+      propsData: {
+        config: {},
+        height: `${chartConfig.height}px`,
+        width: `${chartConfig.width}px`
+      }
+    })
+
+    flushD3Transitions()
+  })
+
+  afterEach(function () {
+    stubGetBoundingClientRect.teardown()
+    stubLodashDebounce.teardown()
+    stubGetBBox.teardown()
+    stubCreateSVGPoint.teardown()
+    stubGetScreenCTM.teardown()
+
+    wrapper.destroy()
+    wrapper = null
+  })
+
+  it('should create group, text and tspan', function () {
+    expect(wrapper.find('.geo-chart').exists()).toBe(true)
+    setupTextDescriptions([settings], wrapper.vm.d3Instance, { chart })
+    expect(wrapper.find('.geo-chart-text-descriptions').exists()).toBe(true)
+    expect(wrapper.findAll('.geo-chart-text-descriptions text').exists()).toBe(true)
+    expect(wrapper.findAll('.geo-chart-text-descriptions text tspan').exists()).toBe(true)
+  })
+
+  it('should add custom class to descriptions', function () {
+    setupTextDescriptions([settings], wrapper.vm.d3Instance, { chart })
+    flushD3Transitions()
+
+    expect(wrapper.find('.geo-chart-text-descriptions.my-group-class').exists()).toBe(true)
+  })
+
+  it('should add custom class to texts', function () {
+    setupTextDescriptions([settings], wrapper.vm.d3Instance, { chart })
+    flushD3Transitions()
+
+    expect(wrapper.find('.geo-chart-text-descriptions text.my-text-class').exists()).toBe(true)
+  })
+
+  it('should translate group to startPosition', function () {
+    expect(wrapper.find('.geo-chart').exists()).toBe(true)
+    setupTextDescriptions([settings], wrapper.vm.d3Instance, { chart })
+    flushD3Transitions()
+
+    const descriptions = wrapper.find('.geo-chart-text-descriptions')
+    expect(descriptions.exists()).toBe(true)
+
+    const transformMatches = getTransformTranslateMatches(descriptions)
+    expect(parseInt(transformMatches[1])).toBe(settings.startPosition[0])
+    expect(parseInt(transformMatches[2])).toBe(settings.startPosition[1])
+  })
+
+  it('should create one text and tspan as data items and content return items', function () {
+    const newSettings = _.assign({}, settings, {
+      textOptions: {
+        content (d) {
+          return [{ text: d.value }]
+        }
+      },
+      data: [
+        { value: 'my text' }
+      ]
+    })
+
+    setupTextDescriptions([newSettings], wrapper.vm.d3Instance, { chart })
+
+    const textElems = wrapper.findAll('.geo-chart-text-descriptions text')
+    expect(textElems).toHaveLength(newSettings.data.length)
+
+    for (let i = 0; i < textElems.length; i++) {
+      const tspanElems = textElems.at(i).findAll('tspan')
+      expect(tspanElems).toHaveLength(newSettings.textOptions.content({}).length)
+
+      for (let i = 0; i < tspanElems.length; i++) {
+        expect(tspanElems.at(i).text()).toBe(newSettings.data[i].value)
+      }
+    }
+  })
+
+  it('should create multiple tspan\'s', function () {
+    const texts = {
+      0: '#',
+      1: '200'
+    }
+    const newSettings = _.assign({}, settings, {
+      textOptions: {
+        content () {
+          return [{ text: texts[0] }, { text: texts[1] }]
+        }
+      }
+    })
+
+    setupTextDescriptions([newSettings], wrapper.vm.d3Instance, { chart })
+
+    const textElems = wrapper.findAll('.geo-chart-text-descriptions text')
+    expect(textElems).toHaveLength(newSettings.data.length)
+
+    for (let i = 0; i < textElems.length; i++) {
+      const tspanElems = textElems.at(i).findAll('tspan')
+      expect(textElems.at(i).text()).toBe(texts[0] + texts[1])
+      expect(tspanElems).toHaveLength(newSettings.textOptions.content({}).length)
+
+      for (let i = 0; i < tspanElems.length; i++) {
+        expect(tspanElems.at(i).text()).toBe(texts[i])
+      }
+    }
+  })
+
+  it('should add custom class to tspan', function () {
+    const newSettings = _.assign({}, settings, {
+      textOptions: {
+        content () {
+          return [{ text: 'text', cssClass: 'my-tspan-class' }]
+        }
+      }
+    })
+
+    setupTextDescriptions([newSettings], wrapper.vm.d3Instance, { chart })
+    flushD3Transitions()
+
+    const textElems = wrapper.findAll('.geo-chart-text-descriptions text')
+    expect(textElems).toHaveLength(newSettings.data.length)
+
+    for (let i = 0; i < textElems.length; i++) {
+      expect(textElems.at(i).findAll('tspan.my-tspan-class').exists()).toBe(true)
+    }
+  })
+
+  it('should position the text in the mid point of bbox height', function () {
+    const newSettings = _.assign({}, settings, {
+      data: [
+        { yPos: 30 }
+      ]
+    })
+
+    setupTextDescriptions([newSettings], wrapper.vm.d3Instance, { chart })
+    flushD3Transitions()
+
+    const textElems = wrapper.findAll('.geo-chart-text-descriptions text')
+    expect(textElems).toHaveLength(newSettings.data.length)
+
+    for (let i = 0; i < textElems.length; i++) {
+      const yPosText = newSettings.data[i].yPos - bbox.height / 2
+      expect(textElems.at(i).attributes('y')).toBe(yPosText.toString())
+    }
+  })
+
+  it('should not render sencond text if positions overlap using withoutReadjustment algorithim', function () {
+    const newSettings = _.assign({}, settings, {
+      data: [
+        { yPos: 30 },
+        { yPos: 30 }
+      ]
+    })
+
+    setupTextDescriptions([newSettings], wrapper.vm.d3Instance, { chart })
+    flushD3Transitions()
+
+    const textElems = wrapper.findAll('.geo-chart-text-descriptions text')
+    expect(textElems).toHaveLength(1)
+  })
+
+  it('should render sencond text if positions overlap using backPressure algorithim', function () {
+    const newSettings = _.assign({}, settings, {
+      algorithim: ALGORITHIMS.backPressure,
+      data: [
+        { yPos: 30 },
+        { yPos: 30 }
+      ]
+    })
+
+    setupTextDescriptions([newSettings], wrapper.vm.d3Instance, { chart })
+    flushD3Transitions()
+
+    const textElems = wrapper.findAll('.geo-chart-text-descriptions text')
+    expect(textElems).toHaveLength(2)
+  })
+
+  it('should return an array with data and Y position of the shown texts', function () {
+    const newSettings = _.assign({}, settings, {
+      data: [
+        { yPos: 60 },
+        { yPos: 30 }
+      ]
+    })
+
+    const dataWithPositions = setupTextDescriptions([newSettings], wrapper.vm.d3Instance, { chart })
+    flushD3Transitions()
+
+    expect(dataWithPositions.length).toBe(1)
+
+    for (let i = 0; i < dataWithPositions.length; i++) {
+      expect(dataWithPositions[i].length).toBe(newSettings.data.length)
+
+      for (let j = 0; j < dataWithPositions[i].length; j++) {
+        expect(dataWithPositions[i][j].data).toEqual(newSettings.data[j])
+        expect(dataWithPositions[i][j].position).toEqual(newSettings.data[j].yPos - bbox.height / 2)
+      }
+    }
+  })
+
+  it('should not return data that overlaps', function () {
+    const newSettings = _.assign({}, settings, {
+      data: [
+        { yPos: 60 },
+        { yPos: 60 }
+      ]
+    })
+
+    const dataWithPositions = setupTextDescriptions([newSettings], wrapper.vm.d3Instance, { chart })
+    flushD3Transitions()
+
+    expect(dataWithPositions.length).toBe(1)
+
+    for (let i = 0; i < dataWithPositions.length; i++) {
+      expect(dataWithPositions[i].length).toBe(1)
+
+      for (let j = 0; j < dataWithPositions[i].length; j++) {
+        expect(dataWithPositions[i][j].data).toEqual(newSettings.data[j])
+        expect(dataWithPositions[i][j].position).toEqual(newSettings.data[j].yPos - bbox.height / 2)
+      }
+    }
+  })
+})

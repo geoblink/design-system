@@ -1,4 +1,4 @@
-import { computeLabelPositionsWithBackPressure, computeLabelPositionsWithoutReadjustment } from 'src/elements/GeoChart/GeoChartTextDescriptionUtils.js'
+import { computeLabelPositionsWithBackPressure, computeLabelPositionsWithoutReadjustment } from '@/elements/GeoChart/GeoChartTextDescriptionUtils.js'
 
 describe('GeoChartTextDescriptionUtils.js', () => {
   describe('computeLabelPositionsWithBackPressure', () => {
