@@ -46,11 +46,11 @@ export function setupTextDescriptions (settingsData, d3Instance, globalOptions) 
 
   return dataWithPositions
 
-  function getCSSClassesGroups (options, i) {
+  function getCSSClassesGroups (d, i) {
     const defaultGroupCSSClasses = ['geo-chart-text-descriptions']
 
-    const customCSSClasses = _.isFunction(options.cssClassesGroups)
-      ? options.cssClassesGroups(defaultGroupCSSClasses)
+    const customCSSClasses = _.isFunction(d.textOptions.cssClassesGroups)
+      ? d.textOptions.cssClassesGroups(defaultGroupCSSClasses, d, i).join(' ')
       : defaultGroupCSSClasses
 
     return customCSSClasses
@@ -130,6 +130,9 @@ function renderSingleGroup (group, singleOptions, globalOptions) {
 
     tspans
       .exit()
+      .transition()
+      .duration(globalOptions.chart.animationsDurationInMilliseconds)
+      .style('opacity', 0)
       .remove()
   }
 
@@ -157,7 +160,11 @@ function renderSingleGroup (group, singleOptions, globalOptions) {
           .attr('y', y)
           .attr('opacity', 1)
       } else {
-        textElem.remove()
+        textElem
+          .transition()
+          .duration(globalOptions.chart.animationsDurationInMilliseconds)
+          .style('opacity', 0)
+          .remove()
       }
     })
   }
@@ -190,11 +197,11 @@ function renderSingleGroup (group, singleOptions, globalOptions) {
     }
   }
 
-  function getCSSClassesTexts (options, i) {
+  function getCSSClassesTexts (d, i) {
     const defaultCSSClasses = ['geo-chart-text-descriptions__text']
 
-    const customCSSClasses = _.isFunction(options.cssClassesTexts)
-      ? options.cssClassesTexts(defaultCSSClasses)
+    const customCSSClasses = _.isFunction(singleOptions.textOptions.cssClassesTexts)
+      ? singleOptions.textOptions.cssClassesTexts(defaultCSSClasses, d, i).join(' ')
       : defaultCSSClasses
 
     return customCSSClasses
