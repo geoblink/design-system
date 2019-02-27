@@ -1,9 +1,42 @@
+Anchored shapes charts are collections of shapes that are tied to a certain axis.
+This chart can be used in combination with [GeoChartLineSegments](./#/Elements/Charts?id=geochartlinesegments)
+to compare several values across an axis, each shape being the value that is being represented as the desired shape.
+
+To add anchored shapes **groups** to a chart, add an array to `anchoredShapesGroups` key of [GeoChart](./#/Elements/Charts?id=introduction)'s config. Each item of the array must be an object with the following:
+
+## Required properties
+
+- `shapeData`: Collection of dots (stops) that will be distributed across the axis, filling the rest with line segments (array).
+- `dimension`: A value of `BARS_DIMENSIONS` named export (either `horizontal` or `vertical`). The dimension in which the stacked rectangles will be positioned.
+- `idHorizontalAxis`: The ID of the axis defining the `horizontal` dimension. Will be used to compute proper origin and span of the bar if the dimension is horizontal or the width of each individual group if the dimension is vertical.
+- `idVerticalAxis`: The ID of the axis defining the `vertical` dimension. Will be used to compute proper origin and span of the bar if the dimension is vertical or the width of each individual group if the dimension is horizontal.
+- `normalValue`: Value to position the colorBar in the normal (numerical) axis. The value must be contained within the linear axis domain.
+- `getAnchorPosition`: Function to set the shape either on top/left (leading) or at the bottom/right (trailing) of the axis.
+- `getShapeSize`: Function to get the dimensions (width/height) of the desired shape.
+- `getShapePath`: Function to create the path of the shape.
+
+**Note:** `idHorizontalAxis` and `idVerticalAxis` must be IDs of registered axes. See [Axes](./#/Elements/Charts?id=axes) for more info.
+
+## Optional properties
+
+- **Offset** defines the translation in the **normal dimension** that must be
+applied to the shapes in order to not overlap with the axis they're been positioned. (Can be set using **natural** units)
+
+- **getAnchoredText** defines the format of the text (if wanted) to be applied to the labels next to each one of the shapes.
+
+There are 2 exclusive properties available to customize the **offset**:
+
+- `offset` if you want to use **absolute** units.
+- `naturalNormalOffset` if you want to use **absolute** units.
+
+> **Note:** You can't set both `offset` and `naturalNormalOffset`.
+Doing so will throw an invalid config error.
 
 ```vue
 <template>
   <div class="element-demo">
     <h3 class="element-demo__header">
-      Horizontal Anchored shapes
+      Horizontal Anchored shapes with texts
       <div class="element-demo__inline-input-group">
         <geo-primary-button @click="randomizeData()">
           Randomize data
@@ -110,8 +143,23 @@ export default {
                 height: 10
               }
             },
-            getAnchoredText (d, i, axis) {
-              return `Label ${i} - Value ${d[axis.keyForValues]}`
+            text: {
+              content (d, i) {
+                return [
+                  {
+                    text: `Label ${i}`,
+                    cssClass: 'label'
+                  },
+                  {
+                    text: ' - ',
+                    cssClass: 'separator'
+                  },
+                  {
+                    text: `Value ${d.numerical}`,
+                    cssClass: 'value'
+                  }
+                ]
+              }
             },
             getShapePath (d, i, { size, shapeOffsetFromAxis, singleGroupOptions }) {
               return getTriangleShapePath(d, i, { size, shapeOffsetFromAxis, singleGroupOptions })
@@ -286,8 +334,23 @@ export default {
                 height: 10
               }
             },
-            getAnchoredText (d, i, axis) {
-              return `Label ${i} - Value ${d[axis.keyForValues]}`
+            text: {
+              content (d, i) {
+                return [
+                  {
+                    text: `Label ${i}`,
+                    cssClass: 'label'
+                  },
+                  {
+                    text: ' - ',
+                    cssClass: 'separator'
+                  },
+                  {
+                    text: `Value ${d.numerical}`,
+                    cssClass: 'value'
+                  }
+                ]
+              }
             },
             getShapePath (d, i, { size, shapeOffsetFromAxis, singleGroupOptions }) {
               return getTriangleShapePath(d, i, { size, shapeOffsetFromAxis, singleGroupOptions })

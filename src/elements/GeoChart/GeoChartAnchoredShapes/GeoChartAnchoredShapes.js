@@ -8,6 +8,8 @@ import {
   getItemSpanAtAxis
 } from '../GeoChartUtils/barsUtils'
 
+import { setTextContent } from '../GeoChartUtils/textUtils'
+
 const d3 = (function () {
   try {
     return require('d3')
@@ -215,6 +217,7 @@ function renderAnchoredTexts (anchoredShapesContainer, singleGroupOptions, globa
   axisForNormalDimension,
   shapeOffsetFromAxis
 }) {
+  if (!_.isFunction(_.get(singleGroupOptions, 'text.content'))) return
   if (singleGroupOptions.dimension === DIMENSIONS.vertical) {
     // TODO: Add vertical behaviour to position text labels
     throw new Error(`GeoChart (Anchored Shapes) [component] :: Anchored texts are not supported for vertical dimensions. If you want to display labels together with shapes, set dimension to «Horizontal» in your chart config.`)
@@ -233,12 +236,10 @@ function renderAnchoredTexts (anchoredShapesContainer, singleGroupOptions, globa
 
   const updatedAnchoredTexts = anchoredTexts
   const allAnchoredTexts = updatedAnchoredTexts.merge(newAnchoredTexts)
+  setTextContent(allAnchoredTexts, singleGroupOptions.text)
 
   allAnchoredTexts
     .attr('class', getAnchoredTextsStopsCssClasses)
-    .text((d, i) => {
-      return singleGroupOptions.getAnchoredText(d, i, axisForDimension)
-    })
     .transition()
     .duration(globalOptions.chart.animationsDurationInMilliseconds)
     .attr('transform', getRankingLineTransform)

@@ -606,8 +606,25 @@ export const anchoredShapesConfigSchema = {
     'normalValue',
     'getAnchorPosition',
     'getShapeSize',
-    'getShapePath',
-    'getAnchoredText'
+    'getShapePath'
+  ],
+  allOf: [
+    {
+      oneOf: [{
+        not: {
+          anyOf: [
+            { required: ['normalOffset'] },
+            { required: ['naturalNormalOffset'] }
+          ]
+        }
+      }, {
+        required: ['normalOffset'],
+        not: { required: ['naturalNormalOffset'] }
+      }, {
+        required: ['naturalNormalOffset'],
+        not: { required: ['normalOffset'] }
+      }]
+    }
   ],
   properties: {
     shapeData: {
@@ -655,8 +672,14 @@ export const anchoredShapesConfigSchema = {
     // to render a triangle. The rest of the algorithms for the shapes should be provided
     // by the developer.
     getShapePath: {},
-    // Function that returns a string to render as the shape label
-    getAnchoredText: {}
+    text: {
+      type: 'object',
+      additionalProperties: false,
+      properties: {
+        // Function that returns an array of objects, each one containing a text property and a cssClass property
+        content: {}
+      }
+    }
   }
 }
 

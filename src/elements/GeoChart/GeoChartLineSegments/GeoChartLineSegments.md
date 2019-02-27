@@ -1,5 +1,5 @@
 Line segments charts are collections of grouped segments intersected by circles across an axis.
-This chart can be used in combination with [GeoChartTriangles](./#/Elements/Charts?id=geocharttriangles)
+This chart can be used in combination with [GeoChartAnchoredShapes](./#/Elements/Charts?id=geochartanchoredshapes)
 to compare several values across an axis, each stop being the relative position of each value with the rest.
 
 To add line segments **groups** to a chart, add an array to `lineSegmentsGroups` key of [GeoChart](./#/Elements/Charts?id=introduction)'s config. Each item of the array
