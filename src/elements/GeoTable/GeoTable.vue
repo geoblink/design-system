@@ -365,6 +365,11 @@ export default {
           const headerRowCell = singleHeaderRow[columnIndex]
           const currentColumnSettings = columnsSettings[columnIndex] || {}
 
+          currentColumnSettings.growingDisabled = _.defaultTo(
+            headerRowCell.growingDisabled,
+            currentColumnSettings.growingDisabled
+          )
+
           // We want to keep the lowest maximum as it's compatible with all the
           // maximum widths set
           currentColumnSettings.maxWidth = _.min([
@@ -453,6 +458,8 @@ export default {
         //
         // A column with an explicit width is saturated by definition
         let unsaturatedColumns = _.sortBy(_.filter(_.map(columnsSettings, function (currentColumnSettings, index) {
+          if (currentColumnSettings.growingDisabled) return null
+
           const remainingWidthUntilReachingMaximum = _.isNil(currentColumnSettings.maxWidth)
             ? Number.MAX_VALUE
             : currentColumnSettings.maxWidth - currentColumnSettings.contentWidth
@@ -608,6 +615,14 @@ export default {
       self.applyComputedColumnsWidth()
       await self.$nextTick()
       self.isInferringPageSize = false
+
+      /**
+       * Inferred page size changed.
+       *
+       * @event infer-page-size
+       * @type {number}
+       */
+      self.$emit('infer-page-size', self.inferredPageSize)
     }
   }
 }
@@ -641,6 +656,7 @@ function getHeaderCellDefaultSlotDOMElements (vueComponent) {
     function getBaseComponentAttributes (componentInstance) {
       const propNames = [
         'ignoreContentWidth',
+        'growingDisabled',
         'columnWidth',
         'columnMinWidth',
         'columnMaxWidth'
@@ -649,6 +665,7 @@ function getHeaderCellDefaultSlotDOMElements (vueComponent) {
       if (_.find(propNames, attributeName => attributeName in componentInstance)) {
         return {
           ignoreContentWidth: componentInstance.ignoreContentWidth,
+          growingDisabled: componentInstance.growingDisabled,
           columnMinWidth: componentInstance.columnMinWidth,
           columnMaxWidth: componentInstance.columnMaxWidth,
           columnWidth: componentInstance.columnWidth,
