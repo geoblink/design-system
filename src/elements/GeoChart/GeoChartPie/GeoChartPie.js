@@ -265,7 +265,7 @@ function renderTexts (allPieSegments, d3Instance, singlePieOptions, globalOption
 
     allGroups.each(function (singleData, i) {
       const group = d3.select(this)
-      const polylinePoints = getPolylinePoints(newSettings[i])
+      const polylinePoints = getPolylinePointsFactory(newSettings[i])
 
       const polylines = group
         .selectAll('polyline')
@@ -303,7 +303,7 @@ function renderTexts (allPieSegments, d3Instance, singlePieOptions, globalOption
     })
   }
 
-  function getPolylinePoints (settings) {
+  function getPolylinePointsFactory (settings) {
     const xPos = settings.startPosition[0]
     const innerArc = d3.arc()
       .innerRadius(singlePieOptions.outerRadius * 0.8)
