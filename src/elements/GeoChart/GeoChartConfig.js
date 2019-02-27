@@ -447,9 +447,6 @@ export const pieConfigJsonSchema = {
     keyForValues: {
       type: 'string'
     },
-    keyForId: {
-      type: 'string'
-    },
     tooltip: {
       required: ['content'],
       additionalProperties: false,

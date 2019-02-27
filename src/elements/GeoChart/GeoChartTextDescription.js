@@ -59,7 +59,8 @@ export function setupTextDescriptions (settingsData, d3Instance, globalOptions) 
 
 function renderSingleGroup (group, singleOptions, globalOptions) {
   const textOptions = singleOptions.textOptions
-  const margin = _.get(singleOptions.textOptions, 'margin', 0)
+  const margin = _.get(textOptions, 'margin', 0)
+
   const textElems = group
     .selectAll('text')
     .data(singleOptions.data, (d) => d[singleOptions.keyForId])
@@ -117,21 +118,13 @@ function renderSingleGroup (group, singleOptions, globalOptions) {
     const newtspans = tspans
       .enter()
       .append('tspan')
-      .attr('class', function (d) {
-        return d.cssClass
-      })
-      .text(function (d) {
-        return d.text
-      })
+      .attr('class', (d) => d.cssClass)
+      .text((d) => d.text)
 
     const updatedtspans = tspans
     updatedtspans
-      .attr('class', function (d) {
-        return d.cssClass
-      })
-      .text(function (textD) {
-        return textD.text
-      })
+      .attr('class', (d) => d.cssClass)
+      .text((d) => d.text)
 
     newtspans.merge(updatedtspans)
 
@@ -161,7 +154,6 @@ function renderSingleGroup (group, singleOptions, globalOptions) {
         textElem
           .transition()
           .duration(globalOptions.chart.animationsDurationInMilliseconds)
-          .attr('text-anchor', singleOptions.textAnchor)
           .attr('y', y)
           .attr('opacity', 1)
       } else {

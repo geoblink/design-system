@@ -93,7 +93,6 @@ export default {
         pieConfig: {
           data: this.chartData,
           keyForValues: 'value',
-          keyForId: 'id',
           innerRadius: 0.2,
           outerRadius: 0.8,
           tooltip: {

@@ -5,11 +5,14 @@ declare namespace GeoChart {
   }
 
   interface TextDescriptionSettingsData {
-    keyForId: singlePieOptions.keyForId
+    data: object[]
+    keyForId: string
     textOptions: GeoChart.TextDescriptionOptions[]
+    // y coordinate to position the text
     getTextPositionMainDirection: (item: object, index: number) => number
-    width: number
-    height: number
+    // [x, y] coordinates where the main group will be translated
+    startPosition: number[]
+    textAnchor: string
     minY: number
     maxY: number
     algorithim: GeoChart.TextDescriptionUtilsAlgorithims

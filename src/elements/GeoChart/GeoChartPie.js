@@ -178,6 +178,7 @@ function renderSinglePie (pie, d3Instance, d3TipInstance, singlePieOptions, glob
  * @param {GeoChart.PieGlobalConfig} globalOptions
  */
 function renderTexts (allPieSegments, d3Instance, singlePieOptions, globalOptions) {
+  const keyForTextId = 'pieIndex'
   const rightGroup = []
   const leftGroup = []
   const newSettings = []
@@ -188,7 +189,7 @@ function renderTexts (allPieSegments, d3Instance, singlePieOptions, globalOption
   allPieSegments
     .each(function (d, i) {
       // It's alright to modify this d since this is the d provided by d3 pie, not the one by the user.
-      d.pieIndex = i
+      d[keyForTextId] = i
       if (midAngle(d) < Math.PI) {
         rightGroup.push(d)
       } else {
@@ -205,14 +206,13 @@ function renderTexts (allPieSegments, d3Instance, singlePieOptions, globalOption
   const midChartHeight = globalOptions.chart.chartHeight / 2
   const startPositionRight = [midChartWidth + textOffset, midChartHeight]
   const startPositionLeft = [midChartWidth - textOffset, midChartHeight]
-  const range = [-midChartHeight, midChartHeight]
 
   const commonSettings = {
-    keyForId: 'pieIndex',
+    keyForId: keyForTextId,
     textOptions: singlePieOptions.text,
     getTextPositionMainDirection: getTextPositionMainDirection,
-    minY: range[0],
-    maxY: range[1],
+    minY: -midChartHeight,
+    maxY: midChartHeight,
     algorithim: ALGORITHIMS.withoutReadjustment
   }
 
@@ -313,21 +313,13 @@ function renderTexts (allPieSegments, d3Instance, singlePieOptions, globalOption
     return function (d) {
       // Space between the line and the text
       const xPosOffset = midAngle(d.data) < Math.PI ? -5 : 5
+      const [innerPointX, innerPointY] = innerArc.centroid(d.data)
+      const [outerPointX, outerPointY] = outerArc.centroid(d.data)
 
-      const innerPoint = [
-        innerArc.centroid(d.data)[0] + midChartWidth,
-        innerArc.centroid(d.data)[1] + midChartHeight
-      ]
-
-      const outerPoint = [
-        outerArc.centroid(d.data)[0] + midChartWidth,
-        outerArc.centroid(d.data)[1] + midChartHeight
-      ]
-
-      const textPoint = [
-        xPos + xPosOffset,
-        outerArc.centroid(d.data)[1] + midChartHeight
-      ]
+      // Position the points with respect to the middle of the chart
+      const innerPoint = [innerPointX + midChartWidth, innerPointY + midChartHeight]
+      const outerPoint = [outerPointX + midChartWidth, outerPointY + midChartHeight]
+      const textPoint = [xPos + xPosOffset, outerPointY + midChartHeight]
 
       return [innerPoint, outerPoint, textPoint]
     }
