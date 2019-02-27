@@ -215,6 +215,10 @@ function renderAnchoredTexts (anchoredShapesContainer, singleGroupOptions, globa
   axisForNormalDimension,
   shapeOffsetFromAxis
 }) {
+  if (singleGroupOptions.dimension === DIMENSIONS.vertical) {
+    // TODO: Add vertical behaviour to position text labels
+    throw new Error(`GeoChart (Anchored Shapes) [component] :: Anchored texts are not supported for vertical dimensions. If you want to display labels together with shapes, set dimension to «Horizontal» in your chart config.`)
+  }
   const anchoredTextsBaseClass = 'geo-chart-anchored-shapes__text-element'
   const anchoredTexts = anchoredShapesContainer
     .selectAll(`text.${anchoredTextsBaseClass}`)
@@ -256,9 +260,9 @@ function renderAnchoredTexts (anchoredShapesContainer, singleGroupOptions, globa
     const normalDimensionTranslation = axisForNormalDimension.scale.axisScale(singleGroupOptions.normalValue)
     const isLabelTooLong = dimensionTranslation + width > chartInnerWidth
     const labelOffset = isLabelTooLong ? width : 0
+    const hSign = isLabelTooLong ? 1 : -1
     const shapeAnchorPosition = singleGroupOptions.getAnchorPosition(d, i)
     const shapeSize = singleGroupOptions.getShapeSize()
-    const hSign = isLabelTooLong ? 1 : -1
 
     if (shapeAnchorPosition === ANCHOR_POSITIONS.leading) {
       leadingDimensionTranslation = dimensionTranslation - labelOffset + hSign * shapeSize.width
@@ -268,17 +272,10 @@ function renderAnchoredTexts (anchoredShapesContainer, singleGroupOptions, globa
       trailingDimensionTranslation = normalDimensionTranslation + (shapeOffsetFromAxis + shapeSize.height / 2)
     }
 
-    const translationForDimension = {
-      [DIMENSIONS.horizontal]: {
-        x: leadingDimensionTranslation,
-        y: trailingDimensionTranslation
-      },
-      [DIMENSIONS.vertical]: {
-        x: trailingDimensionTranslation,
-        y: leadingDimensionTranslation
-      }
+    const translation = {
+      x: leadingDimensionTranslation,
+      y: trailingDimensionTranslation
     }
-    const translation = translationForDimension[singleGroupOptions.dimension]
     return `translate(${translation.x}, ${translation.y})`
   }
 

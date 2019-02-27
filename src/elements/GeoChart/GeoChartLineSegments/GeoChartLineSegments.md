@@ -75,9 +75,10 @@ Doing so will throw an invalid config error.
     </h3>
     <div class="element-demo__block">
       <geo-chart
+        css-modifier="hidden-axis"
         v-if="chartConfig"
         :config="chartConfig"
-        height="300px"
+        height="20px"
         width="500px"
       />
     </div>
@@ -196,9 +197,10 @@ export default {
     <div class="element-demo__block">
       <geo-chart
         v-if="chartConfig"
+        css-modifier="hidden-axis"
         :config="chartConfig"
         height="500px"
-        width="200px"
+        width="50px"
       />
     </div>
   </div>
