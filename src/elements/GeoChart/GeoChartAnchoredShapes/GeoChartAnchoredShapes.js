@@ -4,7 +4,8 @@ import _ from 'lodash'
 
 import '../GeoChartAxis/GeoChartAxis'
 import {
-  isDimensionAxis
+  isDimensionAxis,
+  getItemSpanAtAxis
 } from '../GeoChartUtils/barsUtils'
 
 const d3 = (function () {
@@ -31,14 +32,14 @@ export const ANCHOR_POSITIONS = {
   trailing: 'trailing'
 }
 
-export const getTriangleShapePath = (d, i, size, singleGroupOptions) => {
+export const getTriangleShapePath = (d, i, { size, shapeOffsetFromAxis, singleGroupOptions }) => {
   const shapeAnchorPosition = singleGroupOptions.getAnchorPosition(d, i)
   const { width, height } = size
   const sign = shapeAnchorPosition === ANCHOR_POSITIONS.leading ? -1 : 1
   return [
-    (width / 2) + ' ' + sign * height,
-    -(width / 2) + ' ' + sign * height,
-    '0 ' + sign
+    (width / 2) + ' ' + sign * (height + shapeOffsetFromAxis),
+    -(width / 2) + ' ' + sign * (height + shapeOffsetFromAxis),
+    '0 ' + sign * shapeOffsetFromAxis
   ]
 }
 
@@ -101,17 +102,30 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions) {
     ? singleGroupOptions.axis.horizontal
     : singleGroupOptions.axis.vertical
 
+  const shapeOffsetFromAxis = getItemSpanAtAxis(axisForNormalDimension, null, singleGroupOptions, {
+    keyForWidth: 'normalOffset',
+    keyForNaturalWidth: 'naturalNormalOffset'
+  })
+
   renderAnchoredShapes(group, singleGroupOptions, globalOptions, {
     axisForDimension,
-    axisForNormalDimension
+    axisForNormalDimension,
+    shapeOffsetFromAxis
+  })
+
+  renderAnchoredTexts(group, singleGroupOptions, globalOptions, {
+    axisForDimension,
+    axisForNormalDimension,
+    shapeOffsetFromAxis
   })
 }
 
 function renderAnchoredShapes (anchoredShapesContainer, singleGroupOptions, globalOptions, {
   axisForDimension,
-  axisForNormalDimension
+  axisForNormalDimension,
+  shapeOffsetFromAxis
 }) {
-  const anchoredShapesBaseClass = 'geo-chart-anchored-shapes__segment-stop'
+  const anchoredShapesBaseClass = 'geo-chart-anchored-shapes__shape-element'
   const anchoredShapes = anchoredShapesContainer
     .selectAll(`polygon.${anchoredShapesBaseClass}`)
     .data(singleGroupOptions.shapeData)
@@ -121,8 +135,10 @@ function renderAnchoredShapes (anchoredShapesContainer, singleGroupOptions, glob
     .append('polygon')
     .attr('class', getAnchoredShapesStopsCssClasses)
     .attr('points', (d, i) => {
-      const shapeSize = singleGroupOptions.getShapeSize()
-      return singleGroupOptions.getShapePath(d, i, shapeSize, singleGroupOptions)
+      const size = singleGroupOptions.getShapeSize()
+      return singleGroupOptions.getShapePath(d, i, {
+        size, shapeOffsetFromAxis, singleGroupOptions
+      })
     })
     .attr('transform', getAnchoredShapesInitialTransform)
 
@@ -134,8 +150,10 @@ function renderAnchoredShapes (anchoredShapesContainer, singleGroupOptions, glob
     .transition()
     .duration(globalOptions.chart.animationsDurationInMilliseconds)
     .attr('points', (d, i) => {
-      const shapeSize = singleGroupOptions.getShapeSize()
-      return singleGroupOptions.getShapePath(d, i, shapeSize, singleGroupOptions)
+      const size = singleGroupOptions.getShapeSize()
+      return singleGroupOptions.getShapePath(d, i, {
+        size, shapeOffsetFromAxis, singleGroupOptions
+      })
     })
     .attr('transform', getAnchoredShapesTransform)
 
@@ -179,13 +197,101 @@ function renderAnchoredShapes (anchoredShapesContainer, singleGroupOptions, glob
   function getAnchoredShapesStopsCssClasses (d, i) {
     const defaultClasses = [
       anchoredShapesBaseClass,
-      `geo-chart-anchored-shapes__segment-stop--${i}`,
-      `geo-chart-anchored-shapes__segment-stop--${singleGroupOptions.dimension}`
+      `geo-chart-anchored-shapes__shape-element--${i}`,
+      `geo-chart-anchored-shapes__shape-element--${singleGroupOptions.dimension}`
     ]
 
     if (singleGroupOptions.cssClasses) {
       const customClasses = singleGroupOptions.cssClasses(defaultClasses, d, i)
       return _.uniq([...customClasses, anchoredShapesBaseClass]).join(' ')
+    }
+
+    return defaultClasses.join(' ')
+  }
+}
+
+function renderAnchoredTexts (anchoredShapesContainer, singleGroupOptions, globalOptions, {
+  axisForDimension,
+  axisForNormalDimension,
+  shapeOffsetFromAxis
+}) {
+  const anchoredTextsBaseClass = 'geo-chart-anchored-shapes__text-element'
+  const anchoredTexts = anchoredShapesContainer
+    .selectAll(`text.${anchoredTextsBaseClass}`)
+    .data(singleGroupOptions.shapeData)
+
+  const newAnchoredTexts = anchoredTexts
+    .enter()
+    .append('text')
+    .attr('class', getAnchoredTextsStopsCssClasses)
+    .attr('dominant-baseline', 'central')
+    .attr('opacity', 0)
+
+  const updatedAnchoredTexts = anchoredTexts
+  const allAnchoredTexts = updatedAnchoredTexts.merge(newAnchoredTexts)
+
+  allAnchoredTexts
+    .attr('class', getAnchoredTextsStopsCssClasses)
+    .text((d, i) => {
+      return singleGroupOptions.getAnchoredText(d, i, axisForDimension)
+    })
+    .transition()
+    .duration(globalOptions.chart.animationsDurationInMilliseconds)
+    .attr('transform', getRankingLineTransform)
+    .attr('opacity', 1)
+
+  anchoredTexts
+    .exit()
+    .remove()
+
+  // This algorithm is tightly coupled to the app case in which we're always going to have
+  // two shapes with text up (one on 0 and the other on the max value) and another
+  // shape below with another text element
+  // TODO: Find a more abstract algorithm so we can position N shapes with their respectives text elements.
+  function getRankingLineTransform (d, i) {
+    let leadingDimensionTranslation, trailingDimensionTranslation
+    const { width } = this.getBBox()
+    const chartInnerWidth = globalOptions.chart.size.width - globalOptions.chart.margin.left - globalOptions.chart.margin.right
+    const dimensionTranslation = axisForDimension.scale.axisScale(d[axisForDimension.keyForValues])
+    const normalDimensionTranslation = axisForNormalDimension.scale.axisScale(singleGroupOptions.normalValue)
+    const isLabelTooLong = dimensionTranslation + width > chartInnerWidth
+    const labelOffset = isLabelTooLong ? width : 0
+    const shapeAnchorPosition = singleGroupOptions.getAnchorPosition(d, i)
+    const shapeSize = singleGroupOptions.getShapeSize()
+    const hSign = isLabelTooLong ? 1 : -1
+
+    if (shapeAnchorPosition === ANCHOR_POSITIONS.leading) {
+      leadingDimensionTranslation = dimensionTranslation - labelOffset + hSign * shapeSize.width
+      trailingDimensionTranslation = normalDimensionTranslation - (shapeOffsetFromAxis + shapeSize.height * 2)
+    } else {
+      leadingDimensionTranslation = dimensionTranslation - labelOffset - hSign * shapeSize.width
+      trailingDimensionTranslation = normalDimensionTranslation + (shapeOffsetFromAxis + shapeSize.height / 2)
+    }
+
+    const translationForDimension = {
+      [DIMENSIONS.horizontal]: {
+        x: leadingDimensionTranslation,
+        y: trailingDimensionTranslation
+      },
+      [DIMENSIONS.vertical]: {
+        x: trailingDimensionTranslation,
+        y: leadingDimensionTranslation
+      }
+    }
+    const translation = translationForDimension[singleGroupOptions.dimension]
+    return `translate(${translation.x}, ${translation.y})`
+  }
+
+  function getAnchoredTextsStopsCssClasses (d, i) {
+    const defaultClasses = [
+      anchoredTextsBaseClass,
+      `geo-chart-anchored-shapes__text-element--${i}`,
+      `geo-chart-anchored-shapes__text-element--${singleGroupOptions.dimension}`
+    ]
+
+    if (singleGroupOptions.cssClasses) {
+      const customClasses = singleGroupOptions.cssClasses(defaultClasses, d, i)
+      return _.uniq([...customClasses, anchoredTextsBaseClass]).join(' ')
     }
 
     return defaultClasses.join(' ')

@@ -33,7 +33,7 @@ export default {
     data () {
       return {
         chartData: null,
-        normalValue: _.random(0, 1, true),
+        normalValue: 0.5,
       }
     },
     computed: {
@@ -95,6 +95,7 @@ export default {
           ],
           anchoredShapesGroups: [{
             normalValue: this.normalValue,
+            normalOffset: 6,
             shapeData: this.getRandomShapeDistribution(),
             dimension: BARS_DIMENSIONS.horizontal,
             idVerticalAxis: this.linearAxisConfig.id,
@@ -108,8 +109,11 @@ export default {
                 height: 10
               }
             },
-            getShapePath (d, i, size, singleGroupOptions) {
-              return getTriangleShapePath(d, i, size, singleGroupOptions)
+            getAnchoredText (d, i, axis) {
+              return `Label ${i} - Value ${d[axis.keyForValues]}`
+            },
+            getShapePath (d, i, { size, shapeOffsetFromAxis, singleGroupOptions }) {
+              return getTriangleShapePath(d, i, { size, shapeOffsetFromAxis, singleGroupOptions })
             }
           }]
         }
@@ -123,12 +127,20 @@ export default {
         this.chartData = this.getRandomShapeDistribution()
       },
       getRandomShapeDistribution () {
-        return _.sortBy(_.times(_.random(1, 3), () => {
-          return {
+        return [
+          {
+            [this.numericalAxisConfig.keyForValues]: this.numericalAxisConfig.scale.domain.start,
+            isUp: true
+          },
+          {
+            [this.numericalAxisConfig.keyForValues]: this.numericalAxisConfig.scale.domain.end,
+            isUp: true
+          },
+          {
             [this.numericalAxisConfig.keyForValues]: _.random(0, 200),
-            isUp: !!_.random(0, 1)
+            isUp: false
           }
-        }), this.numericalAxisConfig.keyForValues)
+        ]
       }
     }
   }

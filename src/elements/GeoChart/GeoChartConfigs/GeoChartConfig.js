@@ -606,7 +606,8 @@ export const anchoredShapesConfigSchema = {
     'normalValue',
     'getAnchorPosition',
     'getShapeSize',
-    'getShapePath'
+    'getShapePath',
+    'getAnchoredText'
   ],
   properties: {
     shapeData: {
@@ -653,7 +654,9 @@ export const anchoredShapesConfigSchema = {
     // Function that returns a path to render the desired shape. The DS integrates the function
     // to render a triangle. The rest of the algorithms for the shapes should be provided
     // by the developer.
-    getShapePath: {}
+    getShapePath: {},
+    // Function that returns a string to render as the shape label
+    getAnchoredText: {}
   }
 }
 

@@ -249,9 +249,11 @@ export default {
           shapeData: singleAnchoredShapesGroupsConfig.shapeData,
           dimension: singleAnchoredShapesGroupsConfig.dimension,
           offset: singleAnchoredShapesGroupsConfig.offset,
-          naturalOffset: singleAnchoredShapesGroupsConfig.naturalOffset,
+          normalOffset: singleAnchoredShapesGroupsConfig.normalOffset,
+          naturalNormalOffset: singleAnchoredShapesGroupsConfig.naturalNormalOffset,
           normalValue: singleAnchoredShapesGroupsConfig.normalValue,
           getAnchorPosition: singleAnchoredShapesGroupsConfig.getAnchorPosition,
+          getAnchoredText: singleAnchoredShapesGroupsConfig.getAnchoredText,
           getShapeSize: singleAnchoredShapesGroupsConfig.getShapeSize,
           getShapePath: singleAnchoredShapesGroupsConfig.getShapePath,
           cssClasses: singleAnchoredShapesGroupsConfig.cssClasses

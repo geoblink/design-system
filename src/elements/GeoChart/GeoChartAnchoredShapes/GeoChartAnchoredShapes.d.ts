@@ -19,11 +19,13 @@ declare namespace GeoChart {
     }
     shapeData: object[],
     offset?: number,
-    naturalOffset?: number,
+    normalOffset?: number,
+    naturalNormalOffset?: number,
     normalValue: number,
     getShapeSize: (item: object, index: number) => { width: number, height: number },
     getShapePath: (item: object, index: number, size: object) => string,
     getAnchorPosition: (item: object, index: number) => AnchorPositions,
+    getAnchoredText: (item: object, index: number) => string,
     cssClasses?: (defaultClasses: string[], item: object, index: number) => string[]
   }
 }
