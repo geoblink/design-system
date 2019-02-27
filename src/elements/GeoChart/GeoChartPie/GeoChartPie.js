@@ -181,7 +181,6 @@ function renderTexts (allPieSegments, d3Instance, singlePieOptions, globalOption
   const keyForTextId = 'pieIndex'
   const rightGroup = []
   const leftGroup = []
-  const newSettings = []
   const outerArc = d3.arc()
     .innerRadius(singlePieOptions.outerRadius * 1.1)
     .outerRadius(singlePieOptions.outerRadius * 1.1)
@@ -228,7 +227,7 @@ function renderTexts (allPieSegments, d3Instance, singlePieOptions, globalOption
     textAnchor: 'end'
   })
 
-  newSettings.push(textDescriptionSettingsRight, textDescriptionSettingsLeft)
+  const newSettings = [textDescriptionSettingsRight, textDescriptionSettingsLeft]
 
   const dataWithPositions = setupTextDescriptions(newSettings, d3Instance, globalOptions)
 
