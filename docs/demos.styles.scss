@@ -146,3 +146,7 @@ $colors: (
     fill: map-get($colors, $i);
   }
 }
+
+.geo-chart-line-segments__segment {
+  opacity: .3;
+}

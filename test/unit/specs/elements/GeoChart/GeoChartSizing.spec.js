@@ -1,4 +1,4 @@
-import * as GeoChartSizing from '@/elements/GeoChart/GeoChartSizing.js'
+import * as GeoChartSizing from '@/elements/GeoChart/GeoChartUtils/GeoChartSizing.js'
 
 describe('GeoChartSizing', () => {
   it('should export EMPTY_MARGIN', function () {

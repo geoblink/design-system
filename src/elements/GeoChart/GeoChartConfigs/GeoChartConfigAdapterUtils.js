@@ -1,6 +1,6 @@
 import _ from 'lodash'
 
-import * as ChartAxis from './GeoChartAxis'
+import * as ChartAxis from '../GeoChartAxis/GeoChartAxis'
 
 /**
  * @param {GeoChart} component

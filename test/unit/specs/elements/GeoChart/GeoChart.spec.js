@@ -1,8 +1,8 @@
 import GeoChart from '@/elements/GeoChart/GeoChart.vue'
 
-import * as GeoChartScale from '@/elements/GeoChart/GeoChartScale'
-import * as GeoChartAxis from '@/elements/GeoChart/GeoChartAxis'
-import * as GeoChartBars from '@/elements/GeoChart/GeoChartBars'
+import * as GeoChartScale from '@/elements/GeoChart/GeoChartScale/GeoChartScale'
+import * as GeoChartAxis from '@/elements/GeoChart/GeoChartAxis/GeoChartAxis'
+import * as GeoChartBars from '@/elements/GeoChart/GeoChartBars/GeoChartBars'
 
 describe('GeoChart', () => {
   describe('Constants', function () {

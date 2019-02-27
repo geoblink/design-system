@@ -1,9 +1,9 @@
 /// <reference types="d3" />
 
 import _ from 'lodash'
-import { setupTooltipEventListeners } from './GeoChartTooltip'
-import { setupTextDescriptions } from './GeoChartTextDescription'
-import { ALGORITHIMS } from './GeoChartTextDescriptionUtils'
+import { setupTooltipEventListeners } from '../GeoChartUtils/GeoChartTooltip'
+import { setupTextDescriptions } from '../GeoChartTextDescription'
+import { ALGORITHIMS } from '../GeoChartTextDescriptionUtils'
 
 const d3 = (function () {
   try {

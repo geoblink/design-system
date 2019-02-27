@@ -6,9 +6,9 @@ import {
   getItemSpanAtAxis,
   getItemTranslationFactory,
   getTranslationForNormalAxisFactory
-} from './barsUtils'
-import './GeoChartAxis'
-import { setupTooltipEventListeners } from './GeoChartTooltip'
+} from '../GeoChartUtils/barsUtils'
+import '../GeoChartAxis/GeoChartAxis'
+import { setupTooltipEventListeners } from '../GeoChartUtils/GeoChartTooltip'
 
 const d3 = (function () {
   try {

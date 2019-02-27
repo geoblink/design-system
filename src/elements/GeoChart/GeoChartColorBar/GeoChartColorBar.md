@@ -55,7 +55,7 @@ For instance, if you have an axis of seconds, then a `naturalOffset` of `N` is
 an offset of `N` seconds. If the axis are categories then the absolute value for
 an offset of `N` is the absolute value for `N` categories.
 
-You can chose either **absolute** or **natural** values for **width** and
+You can choose either **absolute** or **natural** values for **width** and
 **offset** independently, so the **offset** can be set to **natural** units
 while the **width** is set to **absolute**.
 
@@ -102,11 +102,11 @@ Doing so will throw an invalid config error.
 
 <script>
   const d3 = require('d3')
-  const { POSITIONS } = require('./GeoChartAxis')
-  const { DIMENSIONS: BARS_DIMENSIONS } = require('./GeoChartBars')
-  const { SCALE_TYPES } = require('./GeoChartScale')
+  const { POSITIONS } = require('../GeoChartAxis/GeoChartAxis')
+  const { DIMENSIONS: BARS_DIMENSIONS } = require('../GeoChartBars/GeoChartBars')
+  const { SCALE_TYPES } = require('../GeoChartScale/GeoChartScale')
 
-  export default {
+export default {
     name: 'GeoChartColorBarDemo',
     data () {
       return {
@@ -223,9 +223,9 @@ Doing so will throw an invalid config error.
 
 <script>
   const d3 = require('d3')
-  const { POSITIONS } = require('./GeoChartAxis')
-  const { DIMENSIONS: BARS_DIMENSIONS } = require('./GeoChartBars')
-  const { SCALE_TYPES } = require('./GeoChartScale')
+  const { POSITIONS } = require('../GeoChartAxis/GeoChartAxis')
+  const { DIMENSIONS: BARS_DIMENSIONS } = require('../GeoChartBars/GeoChartBars')
+  const { SCALE_TYPES } = require('../GeoChartScale/GeoChartScale')
 
   export default {
     name: 'GeoChartColorBarDemo',
@@ -346,9 +346,9 @@ Doing so will throw an invalid config error.
 
 <script>
   const d3 = require('d3')
-  const { POSITIONS } = require('./GeoChartAxis')
-  const { DIMENSIONS: BARS_DIMENSIONS } = require('./GeoChartBars')
-  const { SCALE_TYPES } = require('./GeoChartScale')
+  const { POSITIONS } = require('../GeoChartAxis/GeoChartAxis')
+  const { DIMENSIONS: BARS_DIMENSIONS } = require('../GeoChartBars/GeoChartBars')
+  const { SCALE_TYPES } = require('../GeoChartScale/GeoChartScale')
 
   export default {
     name: 'GeoChartColorBarDemo',
@@ -469,9 +469,9 @@ Doing so will throw an invalid config error.
 
 <script>
   const d3 = require('d3')
-  const { POSITIONS } = require('./GeoChartAxis')
-  const { DIMENSIONS: BARS_DIMENSIONS } = require('./GeoChartBars')
-  const { SCALE_TYPES } = require('./GeoChartScale')
+  const { POSITIONS } = require('../GeoChartAxis/GeoChartAxis')
+  const { DIMENSIONS: BARS_DIMENSIONS } = require('../GeoChartBars/GeoChartBars')
+  const { SCALE_TYPES } = require('../GeoChartScale/GeoChartScale')
 
   export default {
     name: 'GeoChartColorBarDemo',
