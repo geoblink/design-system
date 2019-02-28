@@ -642,7 +642,7 @@ export const anchoredShapesConfigSchema = {
     },
     dimension: {
       type: 'string',
-      enum: Object.values(DIMENSIONS)
+      enum: [DIMENSIONS.horizontal]
     },
     idHorizontalAxis: {
       type: 'string'

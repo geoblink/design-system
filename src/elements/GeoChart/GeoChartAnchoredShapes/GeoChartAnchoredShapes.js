@@ -144,6 +144,10 @@ function renderAnchoredShape (anchoredShapesContainer, singleShape, singleGroupO
   axisForDimension,
   axisForNormalDimension
 }) {
+  if (singleGroupOptions.dimension === DIMENSIONS.vertical) {
+    // TODO: Add vertical behaviour to position text labels
+    throw new Error('GeoChart (Anchored Shapes) [component] :: Anchored shapes are not supported for vertical dimensions. If you want to display labels together with shapes, set dimension to «Horizontal» in your chart config.')
+  }
   const anchoredShapesBaseClass = 'geo-chart-anchored-shapes__shape-element'
   const shapeOffsetFromAxis = getTranslationOffsetForNormalAxis(axisForNormalDimension, singleGroupOptions, {
     keyForNormalOffset: 'normalOffset',
@@ -234,14 +238,14 @@ function renderAnchoredShape (anchoredShapesContainer, singleShape, singleGroupO
   }
 }
 
-export function renderAnchoredText (anchoredShapesContainer, singleShape, singleGroupOptions, globalOptions, {
+function renderAnchoredText (anchoredShapesContainer, singleShape, singleGroupOptions, globalOptions, {
   axisForDimension,
   axisForNormalDimension
 }) {
   if (!_.isFunction(_.get(singleGroupOptions, 'text.content'))) return
   if (singleGroupOptions.dimension === DIMENSIONS.vertical) {
     // TODO: Add vertical behaviour to position text labels
-    throw new Error(`GeoChart (Anchored Shapes) [component] :: Anchored texts are not supported for vertical dimensions. If you want to display labels together with shapes, set dimension to «Horizontal» in your chart config.`)
+    throw new Error('GeoChart (Anchored Shapes) [component] :: Anchored texts are not supported for vertical dimensions. If you want to display labels together with shapes, set dimension to «Horizontal» in your chart config.')
   }
   const anchoredTextsBaseClass = 'geo-chart-anchored-shapes__text-element'
   const shapeOffsetFromAxis = getTranslationOffsetForNormalAxis(axisForNormalDimension, singleGroupOptions, {

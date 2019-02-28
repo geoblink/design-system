@@ -143,10 +143,19 @@ describe('GeoChartLineSegments', function () {
 
   function testDimension (dimension, verticalAxis, horizontalAxis, cssClassFn) {
     describe(`${dimension} line segments`, () => {
+      const stubLodashDebounce = stubLodashDebounceFactory()
+      beforeEach(function () {
+        stubLodashDebounce.setup()
+      })
+
+      afterEach(function () {
+        stubLodashDebounce.teardown()
+      })
+
       const idVerticalAxis = verticalAxis.id
       const idHorizontalAxis = horizontalAxis.id
-      const circleData = _.sortBy(_.times(_.random(1, 3), () => {
-        return { [axisDimensions[dimension].numericalAxisConfig.keyForValues]: _.random(0, 200) }
+      const circleData = _.sortBy(_.times(2, (i) => {
+        return { [axisDimensions[dimension].numericalAxisConfig.keyForValues]: 50 * i }
       }), axisDimensions[dimension].numericalAxisConfig.keyForValues)
 
       const lineSegmentsConfig = {
@@ -184,15 +193,6 @@ describe('GeoChartLineSegments', function () {
         wrapper.destroy()
       })
       it('Should update data', () => {
-        const stubLodashDebounce = stubLodashDebounceFactory()
-        beforeEach(function () {
-          stubLodashDebounce.setup()
-        })
-
-        afterEach(function () {
-          stubLodashDebounce.teardown()
-        })
-
         const wrapper = mount(GeoChart, {
           propsData: {
             config: lineSegmentsConfig,
@@ -209,8 +209,8 @@ describe('GeoChartLineSegments', function () {
         expect(wrapper.findAll('.geo-chart-line-segments__segment-stop')).toHaveLength(circleData.length)
         expect(wrapper.findAll('.geo-chart-line-segments__segment')).toHaveLength(circleData.length + 1)
 
-        const circleData2 = _.sortBy(_.times(_.random(1, 3), () => {
-          return { [axisDimensions[dimension].numericalAxisConfig.keyForValues]: _.random(0, 200) }
+        const circleData2 = _.sortBy(_.times(4, (i) => {
+          return { [axisDimensions[dimension].numericalAxisConfig.keyForValues]: 32 * i }
         }), axisDimensions[dimension].numericalAxisConfig.keyForValues)
 
         const lineSegmentsConfig2 = _.assign({}, lineSegmentsConfig)
@@ -226,6 +226,7 @@ describe('GeoChartLineSegments', function () {
         expect(wrapper.find('.geo-chart-line-segments__segment-stop').exists()).toBe(true)
         expect(wrapper.findAll('.geo-chart-line-segments__segment-stop')).toHaveLength(circleData2.length)
         expect(wrapper.findAll('.geo-chart-line-segments__segment')).toHaveLength(circleData2.length + 1)
+        wrapper.destroy()
       })
     })
   }

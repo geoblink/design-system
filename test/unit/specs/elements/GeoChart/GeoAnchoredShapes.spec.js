@@ -57,7 +57,7 @@ const axisDimensions = {
   }
 }
 
-describe('GeoChartColorBar', function () {
+describe('GeoChartAnchoredShapes', function () {
   const stubGetBBox = stubGetBBoxFactory()
   const stubGetScreenCTM = stubGetScreenCTMFactory()
   const stubCreateSVGPoint = stubCreateSVGPointFactory()
@@ -104,7 +104,7 @@ describe('GeoChartColorBar', function () {
         isUp: true
       },
       {
-        [axisDimensions.numericalAxisConfig.keyForValues]: _.random(0, 200),
+        [axisDimensions.numericalAxisConfig.keyForValues]: 56,
         isUp: false
       }
     ], axisDimensions.numericalAxisConfig.keyForValues)
@@ -154,40 +154,37 @@ describe('GeoChartColorBar', function () {
         }
       }]
     }
-    describe('Anchored Shape with vertical dimension', function () {
-      it('Should throw error', function () {
-        expect(function () {
-          const config = _.cloneDeep(anchoredShapesConfig)
-          config.anchoredShapesGroups[0].dimension = GeoChart.constants.BARS_DIMENSIONS.vertical
+    describe('Anchored Shape with no text content', function () {
+      it('Should not have text elements', function () {
+        const config = _.cloneDeep(anchoredShapesConfig)
+        config.anchoredShapesGroups[0].text = {}
+        const wrapper = mount(GeoChart, {
+          propsData: {
+            config: config,
+            width: `${chartConfig.width}`,
+            height: `${chartConfig.height}`
+          }
+        })
 
-          return GeoChartAnchoredShapes.renderAnchoredText(
-            null, null, config.anchoredShapesGroups[0], null,
-            { horizontalAxis, verticalAxis }
-          )
-        }).toThrowError()
+        flushD3Transitions()
+        expect(wrapper.find('.geo-chart').exists()).toBe(true)
+        expect(wrapper.find('.geo-chart-anchored-shapes-group').exists()).toBe(true)
+        expect(wrapper.findAll('.geo-chart-anchored-shapes-group__shape-text-element')).toHaveLength(shapeData.length)
+        expect(wrapper.findAll('.geo-chart-anchored-shapes-group__shape-text-element')).toHaveLength(shapeData.length)
+        expect(wrapper.findAll('.geo-chart-anchored-shapes__shape-element')).toHaveLength(shapeData.length)
+        expect(wrapper.find('.geo-chart-anchored-shapes__text-element').exists()).toBe(false)
+        wrapper.destroy()
       })
     })
-    describe('Anchored Shape with no text content', function () {
-      // it('Should not be executed', function () {
-      //   const config = _.cloneDeep(anchoredShapesConfig)
-      //   const wrapper = mount(GeoChart, {
-      //     propsData: {
-      //       config: anchoredShapesConfig,
-      //       width: `${chartConfig.width}`,
-      //       height: `${chartConfig.height}`
-      //     }
-      //   })
-      //   const mockRender = jest.spyOn(GeoChartAnchoredShapes, 'renderAnchoredText').mockImplementation(() => {
-      //     console.log('MOCKING TEST')
-      //   })
-
-      //   flushD3Transitions()
-      //   // config.anchoredShapesGroups[0].text = {}
-      //   expect(mockRender).toHaveBeenCalled()
-      //   wrapper.destroy()
-      // })
-    })
     describe('Horizontal Anchored shapes', () => {
+      const stubLodashDebounce = stubLodashDebounceFactory()
+      beforeEach(function () {
+        stubLodashDebounce.setup()
+      })
+
+      afterEach(function () {
+        stubLodashDebounce.teardown()
+      })
       it('Should render the LineSegments', () => {
         const wrapper = mount(GeoChart, {
           propsData: {
@@ -213,15 +210,6 @@ describe('GeoChartColorBar', function () {
       })
 
       it('Should update data', () => {
-        const stubLodashDebounce = stubLodashDebounceFactory()
-        beforeEach(function () {
-          stubLodashDebounce.setup()
-        })
-
-        afterEach(function () {
-          stubLodashDebounce.teardown()
-        })
-
         const wrapper = mount(GeoChart, {
           propsData: {
             config: anchoredShapesConfig,
@@ -244,10 +232,10 @@ describe('GeoChartColorBar', function () {
         expect(wrapper.findAll('.geo-chart-anchored-shapes-group__shape-text-element--leading')).toHaveLength(leadingElements)
         expect(wrapper.findAll('.geo-chart-anchored-shapes-group__shape-text-element--trailing')).toHaveLength(trailingElements)
 
-        const shapeData2 = _.sortBy(_.times(_.random(1, 5), (i) => {
+        const shapeData2 = _.sortBy(_.times(5, (i) => {
           return {
-            [axisDimensions.numericalAxisConfig.keyForValues]: _.random(0, 200),
-            isUp: !!_.random(0, 1)
+            [axisDimensions.numericalAxisConfig.keyForValues]: 40 * i,
+            isUp: i % 2 === 0
           }
         }), axisDimensions.numericalAxisConfig.keyForValues)
         const anchoredShapesConfig2 = _.assign({}, anchoredShapesConfig)
@@ -256,6 +244,7 @@ describe('GeoChartColorBar', function () {
         wrapper.setProps({
           config: anchoredShapesConfig2
         })
+
         flushD3Transitions()
 
         const leadingElements2 = _.filter(shapeData2, 'isUp').length
@@ -269,6 +258,35 @@ describe('GeoChartColorBar', function () {
         expect(wrapper.findAll('.geo-chart-anchored-shapes__text-element')).toHaveLength(shapeData2.length)
         expect(wrapper.findAll('.geo-chart-anchored-shapes-group__shape-text-element--leading')).toHaveLength(leadingElements2)
         expect(wrapper.findAll('.geo-chart-anchored-shapes-group__shape-text-element--trailing')).toHaveLength(trailingElements2)
+
+        const shapeData3 = _.sortBy(_.times(2, (i) => {
+          return {
+            [axisDimensions.numericalAxisConfig.keyForValues]: 25 * i,
+            isUp: !i % 2 === 0
+          }
+        }), axisDimensions.numericalAxisConfig.keyForValues)
+        const anchoredShapesConfig3 = _.assign({}, anchoredShapesConfig)
+        anchoredShapesConfig3.anchoredShapesGroups[0].shapeData = shapeData3
+
+        wrapper.setProps({
+          config: anchoredShapesConfig3
+        })
+
+        flushD3Transitions()
+
+        const leadingElements3 = _.filter(shapeData3, 'isUp').length
+        const trailingElements3 = shapeData3.length - leadingElements3
+
+        expect(wrapper.find('.geo-chart').exists()).toBe(true)
+        expect(wrapper.find('.geo-chart-anchored-shapes-group').exists()).toBe(true)
+        expect(wrapper.findAll('.geo-chart-anchored-shapes-group__shape-text-element')).toHaveLength(shapeData3.length)
+        expect(wrapper.findAll('.geo-chart-anchored-shapes-group__shape-text-element')).toHaveLength(shapeData3.length)
+        expect(wrapper.findAll('.geo-chart-anchored-shapes__shape-element')).toHaveLength(shapeData3.length)
+        expect(wrapper.findAll('.geo-chart-anchored-shapes__text-element')).toHaveLength(shapeData3.length)
+        expect(wrapper.findAll('.geo-chart-anchored-shapes-group__shape-text-element--leading')).toHaveLength(leadingElements3)
+        expect(wrapper.findAll('.geo-chart-anchored-shapes-group__shape-text-element--trailing')).toHaveLength(trailingElements3)
+
+        wrapper.destroy()
       })
     })
   }
