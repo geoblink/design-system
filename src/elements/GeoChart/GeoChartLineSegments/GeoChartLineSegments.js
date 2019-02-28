@@ -160,7 +160,7 @@ function renderLineSegments (lineSegmentsContainer, singleGroupOptions, globalOp
   }
 
   function getLineSegmentsTransform (d, i) {
-    const circleSizeAtAxis = getCircleSizeAtAxis(axisForDimension, {
+    const circleSizeAtAxis = getStopSizeAtAxis(axisForDimension, {
       [axisForDimension.keyForValues]: d.endValue
     }, {
       optionalMargin: singleGroupOptions.circleMargin,
@@ -215,7 +215,7 @@ function renderLineSegments (lineSegmentsContainer, singleGroupOptions, globalOp
     }
   }
   function getLineSegmentWidth (d, i) {
-    const circleSizeAtAxis = getCircleSizeAtAxis(axisForDimension, {
+    const circleSizeAtAxis = getStopSizeAtAxis(axisForDimension, {
       [axisForDimension.keyForValues]: d.endValue
     }, {
       optionalMargin: singleGroupOptions.circleMargin,
@@ -258,7 +258,7 @@ function renderLineSegments (lineSegmentsContainer, singleGroupOptions, globalOp
     }
   }
   function getLineSegmentHeight (d, i) {
-    const circleSizeAtAxis = getCircleSizeAtAxis(axisForDimension, {
+    const circleSizeAtAxis = getStopSizeAtAxis(axisForDimension, {
       [axisForDimension.keyForValues]: d.endValue
     }, {
       optionalMargin: singleGroupOptions.circleMargin,
@@ -350,7 +350,7 @@ function renderLineSegmentsStops (lineSegmentsContainer, singleGroupOptions, glo
     .remove()
 
   function getLineSegmentStopCircleRadius (d, i) {
-    const circleSizeWithoutMargin = getCircleSizeAtAxis(axisForDimension, d, {
+    const circleSizeWithoutMargin = getStopSizeAtAxis(axisForDimension, d, {
       optionalRadius: singleGroupOptions.circleRadius,
       optionalNaturalRadius: singleGroupOptions.circleNaturalRadius
     })
@@ -424,7 +424,7 @@ function renderLineSegmentsStops (lineSegmentsContainer, singleGroupOptions, glo
  * @param {string} params.optionalMargin
  * @param {string} params.optionalNaturalMargin
  */
-function getCircleSizeAtAxis (axisConfig, singleItem, {
+function getStopSizeAtAxis (axisConfig, singleItem, {
   optionalRadius,
   optionalNaturalRadius,
   optionalMargin,
