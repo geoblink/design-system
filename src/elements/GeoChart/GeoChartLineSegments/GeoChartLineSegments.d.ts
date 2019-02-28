@@ -12,7 +12,7 @@ declare namespace GeoChart {
     }
   }
   interface SingleLineSegmentsGroupConfig<HorizontalDomain, VerticalDomain> {
-    id: string
+    id: number
     dimension: GeoChart.BarDimension
     axis: {
       horizontal: GeoChart.AxisConfig<HorizontalDomain>
