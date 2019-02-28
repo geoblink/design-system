@@ -11,7 +11,7 @@ declare namespace GeoChart {
     }
   }
   interface SingleAnchoredShapesGroupConfig<HorizontalDomain, VerticalDomain> {
-    id: string
+    id: number
     dimension: GeoChart.BarDimension
     axis: {
       horizontal: GeoChart.AxisConfig<HorizontalDomain>

@@ -15,49 +15,48 @@ import * as GeoChartAnchoredShapes from '@/elements/GeoChart/GeoChartAnchoredSha
 const localVue = createLocalVue()
 localVue.component('geo-chart', GeoChart)
 
-const chartConfig = {
-  height: 300,
-  width: 500
-}
+describe('GeoChartAnchoredShapes', function () {
+  const chartConfig = {
+    height: 300,
+    width: 500
+  }
 
-const axisDimensions = {
-  linearAxisConfig: {
-    id: 'spec-linear-axis',
-    keyForValues: 'value',
-    ticks: {
-      count: 2
-    },
-    position: {
-      type: GeoChart.constants.POSITIONS.left
-    },
-    scale: {
-      type: GeoChart.constants.SCALE_TYPES.linear,
-      valueForOrigin: 0,
-      domain: {
-        start: 0,
-        end: 1
+  const axisDimensions = {
+    linearAxisConfig: {
+      id: 'spec-linear-axis',
+      keyForValues: 'value',
+      ticks: {
+        count: 2
+      },
+      position: {
+        type: GeoChart.constants.POSITIONS.left
+      },
+      scale: {
+        type: GeoChart.constants.SCALE_TYPES.linear,
+        valueForOrigin: 0,
+        domain: {
+          start: 0,
+          end: 1
+        }
       }
-    }
-  },
-
-  numericalAxisConfig: {
-    id: 'demo-numerical-axis',
-    keyForValues: 'numerical',
-    position: {
-      type: GeoChart.constants.POSITIONS.bottom
     },
-    scale: {
-      type: GeoChart.constants.SCALE_TYPES.linear,
-      valueForOrigin: 0,
-      domain: {
-        start: 0,
-        end: 200
+
+    numericalAxisConfig: {
+      id: 'demo-numerical-axis',
+      keyForValues: 'numerical',
+      position: {
+        type: GeoChart.constants.POSITIONS.bottom
+      },
+      scale: {
+        type: GeoChart.constants.SCALE_TYPES.linear,
+        valueForOrigin: 0,
+        domain: {
+          start: 0,
+          end: 200
+        }
       }
     }
   }
-}
-
-describe('GeoChartAnchoredShapes', function () {
   const stubGetBBox = stubGetBBoxFactory()
   const stubGetScreenCTM = stubGetScreenCTMFactory()
   const stubCreateSVGPoint = stubCreateSVGPointFactory()

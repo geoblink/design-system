@@ -78,7 +78,7 @@ Doing so will throw an invalid config error.
         css-modifier="hidden-axis"
         v-if="chartConfig"
         :config="chartConfig"
-        height="20px"
+        height="80px"
         width="500px"
       />
     </div>
