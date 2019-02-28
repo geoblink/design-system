@@ -57,5 +57,32 @@ instances as content of this component's slot.
       </geo-table-body-row>
     </div>
   </div>
+
+  <h3 class="element-demo__header">Row variants</h3>
+  <div class="element-demo__block">
+    <div class="element-demo__bordered-box">
+      <geo-table-body-row variant="default">
+        <geo-table-body-row-cell>Variant</geo-table-body-row-cell>
+        <geo-table-body-row-cell>is</geo-table-body-row-cell>
+        <geo-table-body-row-cell>default</geo-table-body-row-cell>
+      </geo-table-body-row>
+    </div>
+
+    <div class="element-demo__bordered-box">
+      <geo-table-body-row variant="alternative">
+        <geo-table-body-row-cell>Variant</geo-table-body-row-cell>
+        <geo-table-body-row-cell>is</geo-table-body-row-cell>
+        <geo-table-body-row-cell>alternative</geo-table-body-row-cell>
+      </geo-table-body-row>
+    </div>
+
+    <div class="element-demo__bordered-box">
+      <geo-table-body-row variant="selected">
+        <geo-table-body-row-cell>Variant</geo-table-body-row-cell>
+        <geo-table-body-row-cell>is</geo-table-body-row-cell>
+        <geo-table-body-row-cell>selected</geo-table-body-row-cell>
+      </geo-table-body-row>
+    </div>
+  </div>
 </div>
 ```

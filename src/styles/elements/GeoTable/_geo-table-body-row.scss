@@ -7,10 +7,32 @@
     $modifier-name-with-prefix: --#{$modifier-name};
   }
 
-  .geo-table-body-row#{$modifier-name-with-prefix} {
+  .geo-table-body-row--default#{$modifier-name-with-prefix},
+  .geo-table-body-row--alternative#{$modifier-name-with-prefix},
+  .geo-table-body-row--selected#{$modifier-name-with-prefix} {
     @include geo-table-make-row($color-white);
 
     height: $space-large;
+  }
+
+  .geo-table-body-row--default#{$modifier-name-with-prefix}:hover {
+    background: rgba($color-blue, .2);
+  }
+
+  .geo-table-body-row--alternative#{$modifier-name-with-prefix} {
+    background: rgba($color-yellow, .1);
+
+    &:hover {
+      background: rgba($color-yellow, .2);
+    }
+  }
+
+  .geo-table-body-row--selected#{$modifier-name-with-prefix} {
+    background: rgba($color-blue, .1);
+
+    &:hover {
+      background: rgba($color-blue, .2);
+    }
   }
 }
 
