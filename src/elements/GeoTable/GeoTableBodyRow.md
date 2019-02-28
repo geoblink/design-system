@@ -69,18 +69,26 @@ instances as content of this component's slot.
     </div>
 
     <div class="element-demo__bordered-box">
-      <geo-table-body-row variant="alternative">
+      <geo-table-body-row variant="highlighted">
         <geo-table-body-row-cell>Variant</geo-table-body-row-cell>
         <geo-table-body-row-cell>is</geo-table-body-row-cell>
-        <geo-table-body-row-cell>alternative</geo-table-body-row-cell>
+        <geo-table-body-row-cell>highlighted</geo-table-body-row-cell>
       </geo-table-body-row>
     </div>
 
     <div class="element-demo__bordered-box">
-      <geo-table-body-row variant="selected">
+      <geo-table-body-row variant="active">
         <geo-table-body-row-cell>Variant</geo-table-body-row-cell>
         <geo-table-body-row-cell>is</geo-table-body-row-cell>
-        <geo-table-body-row-cell>selected</geo-table-body-row-cell>
+        <geo-table-body-row-cell>active</geo-table-body-row-cell>
+      </geo-table-body-row>
+    </div>
+
+    <div class="element-demo__bordered-box">
+      <geo-table-body-row variant="highlighted-active">
+        <geo-table-body-row-cell>Variant</geo-table-body-row-cell>
+        <geo-table-body-row-cell>is</geo-table-body-row-cell>
+        <geo-table-body-row-cell>highlighted-active</geo-table-body-row-cell>
       </geo-table-body-row>
     </div>
   </div>

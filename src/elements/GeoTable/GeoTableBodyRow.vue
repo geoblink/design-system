@@ -10,8 +10,9 @@ import cssSuffix from '../../mixins/cssModifierMixin'
 
 const VARIANTS = {
   default: 'default',
-  alternative: 'alternative',
-  selected: 'selected'
+  highlighted: 'highlighted',
+  'highlighted-active': 'highlighted-active',
+  active: 'active'
 }
 
 export { VARIANTS }
@@ -34,8 +35,9 @@ export default {
      * Supported values:
      *
      * - `default`
-     * - `alternative`
-     * - `selected`
+     * - `highlighted`
+     * - `highlighted-active`
+     * - `active`
      */
     variant: {
       type: String,
