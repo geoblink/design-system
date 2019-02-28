@@ -77,11 +77,13 @@ Use it together with [`GeoBorderedBox`]() to offer a modal window experience.
       <div class="element-demo__block" style="flex: 1;">
         <geo-primary-button @click="toggleModal('containerAttached')">Toggle modal</geo-primary-button>
       </div>
-      <div class="element-demo__bordered-box" style="flex: 1;" ref="sidebarContainer">
+      <div class="element-demo__bordered-box" style="flex: 1; height: 100px; overflow-y: auto;" ref="sidebarContainer">
         <p>Modal will be opened on top of this container and will block interaction
         with the button below.</p>
 
         <geo-primary-button @click="showAlert('Hello!')">Show alert</geo-primary-button>
+
+        <p>There's more content here to force vertical scroll</p>
 
         <geo-modal
           v-if="isOpen.containerAttached"
