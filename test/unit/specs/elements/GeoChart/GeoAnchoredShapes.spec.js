@@ -197,6 +197,9 @@ describe('GeoChartColorBar', function () {
           }
         })
 
+        const leadingElements = _.filter(shapeData, 'isUp').length
+        const trailingElements = shapeData.length - leadingElements
+
         flushD3Transitions()
         expect(wrapper.find('.geo-chart').exists()).toBe(true)
         expect(wrapper.find('.geo-chart-anchored-shapes-group').exists()).toBe(true)
@@ -204,7 +207,68 @@ describe('GeoChartColorBar', function () {
         expect(wrapper.findAll('.geo-chart-anchored-shapes-group__shape-text-element')).toHaveLength(shapeData.length)
         expect(wrapper.findAll('.geo-chart-anchored-shapes__shape-element')).toHaveLength(shapeData.length)
         expect(wrapper.findAll('.geo-chart-anchored-shapes__text-element')).toHaveLength(shapeData.length)
+        expect(wrapper.findAll('.geo-chart-anchored-shapes-group__shape-text-element--leading')).toHaveLength(leadingElements)
+        expect(wrapper.findAll('.geo-chart-anchored-shapes-group__shape-text-element--trailing')).toHaveLength(trailingElements)
         wrapper.destroy()
+      })
+
+      it('Should update data', () => {
+        const stubLodashDebounce = stubLodashDebounceFactory()
+        beforeEach(function () {
+          stubLodashDebounce.setup()
+        })
+
+        afterEach(function () {
+          stubLodashDebounce.teardown()
+        })
+
+        const wrapper = mount(GeoChart, {
+          propsData: {
+            config: anchoredShapesConfig,
+            width: `${chartConfig.width}`,
+            height: `${chartConfig.height}`
+          }
+        })
+
+        flushD3Transitions()
+
+        const leadingElements = _.filter(shapeData, 'isUp').length
+        const trailingElements = shapeData.length - leadingElements
+
+        expect(wrapper.find('.geo-chart').exists()).toBe(true)
+        expect(wrapper.find('.geo-chart-anchored-shapes-group').exists()).toBe(true)
+        expect(wrapper.findAll('.geo-chart-anchored-shapes-group__shape-text-element')).toHaveLength(shapeData.length)
+        expect(wrapper.findAll('.geo-chart-anchored-shapes-group__shape-text-element')).toHaveLength(shapeData.length)
+        expect(wrapper.findAll('.geo-chart-anchored-shapes__shape-element')).toHaveLength(shapeData.length)
+        expect(wrapper.findAll('.geo-chart-anchored-shapes__text-element')).toHaveLength(shapeData.length)
+        expect(wrapper.findAll('.geo-chart-anchored-shapes-group__shape-text-element--leading')).toHaveLength(leadingElements)
+        expect(wrapper.findAll('.geo-chart-anchored-shapes-group__shape-text-element--trailing')).toHaveLength(trailingElements)
+
+        const shapeData2 = _.sortBy(_.times(_.random(1, 5), (i) => {
+          return {
+            [axisDimensions.numericalAxisConfig.keyForValues]: _.random(0, 200),
+            isUp: !!_.random(0, 1)
+          }
+        }), axisDimensions.numericalAxisConfig.keyForValues)
+        const anchoredShapesConfig2 = _.assign({}, anchoredShapesConfig)
+        anchoredShapesConfig2.anchoredShapesGroups[0].shapeData = shapeData2
+
+        wrapper.setProps({
+          config: anchoredShapesConfig2
+        })
+        flushD3Transitions()
+
+        const leadingElements2 = _.filter(shapeData2, 'isUp').length
+        const trailingElements2 = shapeData2.length - leadingElements2
+
+        expect(wrapper.find('.geo-chart').exists()).toBe(true)
+        expect(wrapper.find('.geo-chart-anchored-shapes-group').exists()).toBe(true)
+        expect(wrapper.findAll('.geo-chart-anchored-shapes-group__shape-text-element')).toHaveLength(shapeData2.length)
+        expect(wrapper.findAll('.geo-chart-anchored-shapes-group__shape-text-element')).toHaveLength(shapeData2.length)
+        expect(wrapper.findAll('.geo-chart-anchored-shapes__shape-element')).toHaveLength(shapeData2.length)
+        expect(wrapper.findAll('.geo-chart-anchored-shapes__text-element')).toHaveLength(shapeData2.length)
+        expect(wrapper.findAll('.geo-chart-anchored-shapes-group__shape-text-element--leading')).toHaveLength(leadingElements2)
+        expect(wrapper.findAll('.geo-chart-anchored-shapes-group__shape-text-element--trailing')).toHaveLength(trailingElements2)
       })
     })
   }

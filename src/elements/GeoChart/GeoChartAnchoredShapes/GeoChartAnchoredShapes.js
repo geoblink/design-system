@@ -111,9 +111,10 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions) {
   const newShapeTextGroup = shapeTextGroup
     .enter()
     .append('g')
-    .attr('class', (d, i) =>
-      `geo-chart-anchored-shapes-group__shape-text-element geo-chart-anchored-shapes-group__shape-text-element--${i}`
-    )
+    .attr('class', (d, i) => {
+      const anchorPosition = singleGroupOptions.getAnchorPosition(d, i)
+      return `geo-chart-anchored-shapes-group__shape-text-element geo-chart-anchored-shapes-group__shape-text-element--${i} geo-chart-anchored-shapes-group__shape-text-element--${anchorPosition}`
+    })
 
   const updatedShapeTextGroup = shapeTextGroup
   const allShapeTextGroup = newShapeTextGroup.merge(updatedShapeTextGroup)
