@@ -149,7 +149,7 @@ function renderAnchoredShape (anchoredShapesContainer, singleShape, singleGroupO
     throw new Error('GeoChart (Anchored Shapes) [component] :: Anchored shapes are not supported for vertical dimensions. If you want to display labels together with shapes, set dimension to «Horizontal» in your chart config.')
   }
   const anchoredShapesBaseClass = 'geo-chart-anchored-shapes__shape-element'
-  const shapeOffsetFromAxis = getTranslationOffsetForNormalAxis(axisForNormalDimension, singleGroupOptions, {
+  const shapeOffsetFromAxis = getTranslationOffsetForNormalAxis(axisForNormalDimension, singleGroupOptions, globalOptions, {
     keyForNormalOffset: 'normalOffset',
     keyForNaturalNormalOffset: 'naturalNormalOffset'
   })
@@ -248,7 +248,7 @@ function renderAnchoredText (anchoredShapesContainer, singleShape, singleGroupOp
     throw new Error('GeoChart (Anchored Shapes) [component] :: Anchored texts are not supported for vertical dimensions. If you want to display labels together with shapes, set dimension to «Horizontal» in your chart config.')
   }
   const anchoredTextsBaseClass = 'geo-chart-anchored-shapes__text-element'
-  const shapeOffsetFromAxis = getTranslationOffsetForNormalAxis(axisForNormalDimension, singleGroupOptions, {
+  const shapeOffsetFromAxis = getTranslationOffsetForNormalAxis(axisForNormalDimension, singleGroupOptions, globalOptions, {
     keyForNormalOffset: 'normalOffset',
     keyForNaturalNormalOffset: 'naturalNormalOffset'
   })
@@ -325,7 +325,7 @@ function renderAnchoredText (anchoredShapesContainer, singleShape, singleGroupOp
   }
 }
 
-function getTranslationOffsetForNormalAxis (normalAxis, options, {
+function getTranslationOffsetForNormalAxis (normalAxis, options, globalOptions, {
   keyForNormalOffset,
   keyForNaturalNormalOffset
 }) {
@@ -338,6 +338,6 @@ function getTranslationOffsetForNormalAxis (normalAxis, options, {
   }
 
   if (isNaturalNormalOffsetForced) {
-    return normalAxis.scale.axisScale(options[keyForNaturalNormalOffset])
+    return normalAxis.scale.axisScale(options[keyForNaturalNormalOffset]) - globalOptions.chart.margin.top
   }
 }
