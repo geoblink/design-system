@@ -5,7 +5,8 @@ import _ from 'lodash'
 import '../GeoChartAxis/GeoChartAxis'
 import {
   getItemSpanAtAxis,
-  isDimensionAxis
+  isDimensionAxis,
+  getItemValueAtAxis
 } from '../GeoChartUtils/barsUtils'
 
 const d3 = (function () {
@@ -15,6 +16,8 @@ const d3 = (function () {
     return null
   }
 })()
+
+export const DEFAULT_RADIUS = 5
 
 /**
  * @enum {GeoChart.BarDimension}
@@ -94,21 +97,26 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions) {
   })
 }
 
+/**
+ * @template GElement
+ * @template Datum
+ * @template PElement
+ * @template PDatum
+ * @template HorizontalDomain
+ * @template VerticalDomain
+ * @template Domain
+ * @param {d3.Selection<GElement, Datum, PElement, PDatum>} lineSegmentsContainer
+ * @param {GeoChart.singleLineSegmentsGroupsConfig<HorizontalDomain, VerticalDomain>} singleGroupOptions
+ * @param {GeoChart.LineSegmentsGroupsGlobalConfig} globalOptions
+ * @param {object} params
+ * @param {GeoChart.AxisConfig<Domain>} params.axisForDimension
+ * @param {GeoChart.AxisConfig<Domain>} params.axisForNormalDimension
+ */
 function renderLineSegments (lineSegmentsContainer, singleGroupOptions, globalOptions, {
   axisForDimension,
   axisForNormalDimension
 }) {
   const lineSegmentsBaseClass = 'geo-chart-line-segments__segment'
-  const circleRadiusAtAxis = getItemSpanAtAxis(axisForNormalDimension, null, singleGroupOptions, {
-    keyForWidth: 'circleRadius',
-    keyForNaturalWidth: 'circleNaturalRadius'
-  })
-
-  const circleRadialMarginAtAxis = getItemSpanAtAxis(axisForNormalDimension, null, singleGroupOptions, {
-    keyForWidth: 'circleMargin',
-    keyForNaturalWidth: 'circleNaturalMargin'
-  })
-
   const segments = _.times(singleGroupOptions.circleData.length + 1, function (idx) {
     return {
       startValue: idx > 0
@@ -152,7 +160,15 @@ function renderLineSegments (lineSegmentsContainer, singleGroupOptions, globalOp
   }
 
   function getLineSegmentsTransform (d, i) {
-    const leadingEdgeMargin = i === 0 ? 0 : circleRadiusAtAxis + circleRadialMarginAtAxis
+    const circleSizeAtAxis = getCircleSizeAtAxis(axisForDimension, {
+      [axisForDimension.keyForValues]: d.endValue
+    }, {
+      optionalMargin: singleGroupOptions.circleMargin,
+      optionalNaturalMargin: singleGroupOptions.circleNaturalMargin,
+      optionalRadius: singleGroupOptions.circleRadius,
+      optionalNaturalRadius: singleGroupOptions.circleNaturalRadius
+    })
+    const leadingEdgeMargin = i === 0 ? 0 : circleSizeAtAxis / 2
     const dimensionTranslation = axisForDimension.scale.axisScale(d.startValue)
     const normalDimensionTranslation = axisForNormalDimension.scale.axisScale(singleGroupOptions.normalValue)
     const translationForDimension = {
@@ -199,8 +215,16 @@ function renderLineSegments (lineSegmentsContainer, singleGroupOptions, globalOp
     }
   }
   function getLineSegmentWidth (d, i) {
-    const leadingEdgeMargin = i === 0 ? 0 : circleRadiusAtAxis + circleRadialMarginAtAxis
-    const trailingEdgeMargin = i === singleGroupOptions.circleData.length ? 0 : circleRadiusAtAxis + circleRadialMarginAtAxis
+    const circleSizeAtAxis = getCircleSizeAtAxis(axisForDimension, {
+      [axisForDimension.keyForValues]: d.endValue
+    }, {
+      optionalMargin: singleGroupOptions.circleMargin,
+      optionalNaturalMargin: singleGroupOptions.circleNaturalMargin,
+      optionalRadius: singleGroupOptions.circleRadius,
+      optionalNaturalRadius: singleGroupOptions.circleNaturalRadius
+    })
+    const leadingEdgeMargin = i === 0 ? 0 : circleSizeAtAxis / 2
+    const trailingEdgeMargin = i === singleGroupOptions.circleData.length ? 0 : circleSizeAtAxis / 2
     switch (singleGroupOptions.dimension) {
       case DIMENSIONS.horizontal:
         return Math.max(
@@ -234,8 +258,16 @@ function renderLineSegments (lineSegmentsContainer, singleGroupOptions, globalOp
     }
   }
   function getLineSegmentHeight (d, i) {
-    const leadingEdgeMargin = i === 0 ? 0 : circleRadiusAtAxis + circleRadialMarginAtAxis
-    const trailingEdgeMargin = i === singleGroupOptions.circleData.length ? 0 : circleRadiusAtAxis + circleRadialMarginAtAxis
+    const circleSizeAtAxis = getCircleSizeAtAxis(axisForDimension, {
+      [axisForDimension.keyForValues]: d.endValue
+    }, {
+      optionalMargin: singleGroupOptions.circleMargin,
+      optionalNaturalMargin: singleGroupOptions.circleNaturalMargin,
+      optionalRadius: singleGroupOptions.circleRadius,
+      optionalNaturalRadius: singleGroupOptions.circleNaturalRadius
+    })
+    const leadingEdgeMargin = i === 0 ? 0 : circleSizeAtAxis / 2
+    const trailingEdgeMargin = i === singleGroupOptions.circleData.length ? 0 : circleSizeAtAxis / 2
     switch (singleGroupOptions.dimension) {
       case DIMENSIONS.horizontal:
         return getItemSpanAtAxis(axisForNormalDimension, {
@@ -270,6 +302,21 @@ function renderLineSegments (lineSegmentsContainer, singleGroupOptions, globalOp
   }
 }
 
+/**
+ * @template GElement
+ * @template Datum
+ * @template PElement
+ * @template PDatum
+ * @template HorizontalDomain
+ * @template VerticalDomain
+ * @template Domain
+ * @param {d3.Selection<GElement, Datum, PElement, PDatum>} lineSegmentsContainer
+ * @param {GeoChart.singleLineSegmentsGroupsConfig<HorizontalDomain, VerticalDomain>} singleGroupOptions
+ * @param {GeoChart.LineSegmentsGroupsGlobalConfig} globalOptions
+ * @param {object} params
+ * @param {GeoChart.AxisConfig<Domain>} params.axisForDimension
+ * @param {GeoChart.AxisConfig<Domain>} params.axisForNormalDimension
+ */
 function renderLineSegmentsStops (lineSegmentsContainer, singleGroupOptions, globalOptions, {
   axisForDimension,
   axisForNormalDimension
@@ -303,10 +350,11 @@ function renderLineSegmentsStops (lineSegmentsContainer, singleGroupOptions, glo
     .remove()
 
   function getLineSegmentStopCircleRadius (d, i) {
-    return getItemSpanAtAxis(axisForNormalDimension, d, singleGroupOptions, {
-      keyForWidth: 'circleRadius',
-      keyForNaturalWidth: 'circleNaturalRadius'
+    const circleSizeWithoutMargin = getCircleSizeAtAxis(axisForDimension, d, {
+      optionalRadius: singleGroupOptions.circleRadius,
+      optionalNaturalRadius: singleGroupOptions.circleNaturalRadius
     })
+    return circleSizeWithoutMargin / 2
   }
 
   function getLineSegmentsStopInitialCx (d, i) {
@@ -363,5 +411,43 @@ function renderLineSegmentsStops (lineSegmentsContainer, singleGroupOptions, glo
     }
 
     return defaultClasses.join(' ')
+  }
+}
+
+/**
+ * @template Domain
+ * @param {GeoChart.AxisConfig<Domain>} axisConfig
+ * * @param {object} singleItem
+ * @param {object} params
+ * @param {string} params.optionalRadius
+ * @param {string} params.optionalNaturalRadius
+ * @param {string} params.optionalMargin
+ * @param {string} params.optionalNaturalMargin
+ */
+function getCircleSizeAtAxis (axisConfig, singleItem, {
+  optionalRadius,
+  optionalNaturalRadius,
+  optionalMargin,
+  optionalNaturalMargin
+}) {
+  const naturalRadius = _.defaultTo(optionalNaturalRadius, 0)
+  const hasNaturalRadius = naturalRadius !== 0
+  const radius = _.defaultTo(optionalRadius, hasNaturalRadius ? 0 : DEFAULT_RADIUS)
+
+  const naturalMargin = _.defaultTo(optionalNaturalMargin, 0)
+  const margin = _.defaultTo(optionalMargin, 0)
+
+  return Math.abs(getSpanEndPoint() - getSpanOriginPoint())
+
+  function getSpanOriginPoint () {
+    return getItemValueAtAxis(axisConfig, {
+      [axisConfig.keyForValues]: _.get(singleItem, axisConfig.keyForValues) - naturalRadius - naturalMargin
+    }) - radius - margin
+  }
+
+  function getSpanEndPoint () {
+    return getItemValueAtAxis(axisConfig, {
+      [axisConfig.keyForValues]: _.get(singleItem, axisConfig.keyForValues) + naturalRadius + naturalMargin
+    }) + radius + margin
   }
 }
