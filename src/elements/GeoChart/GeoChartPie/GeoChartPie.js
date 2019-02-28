@@ -181,7 +181,10 @@ function renderTexts (allPieSegments, d3Instance, singlePieOptions, globalOption
   const keyForTextId = 'pieIndex'
   const rightGroup = []
   const leftGroup = []
-  const outerArc = d3.arc()
+  const innerPointArc = d3.arc()
+    .innerRadius(singlePieOptions.outerRadius * 0.8)
+    .outerRadius(singlePieOptions.outerRadius * 0.8)
+  const outerPointArc = d3.arc()
     .innerRadius(singlePieOptions.outerRadius * 1.1)
     .outerRadius(singlePieOptions.outerRadius * 1.1)
 
@@ -234,7 +237,7 @@ function renderTexts (allPieSegments, d3Instance, singlePieOptions, globalOption
   addPolylines()
 
   function getTextPositionMainDirection (d, i) {
-    const centroid = outerArc.centroid(d)
+    const centroid = outerPointArc.centroid(d)
     const yPos = centroid[1]
     return yPos
   }
@@ -305,15 +308,12 @@ function renderTexts (allPieSegments, d3Instance, singlePieOptions, globalOption
 
   function getPolylinePointsFactory (settings) {
     const xPos = settings.startPosition[0]
-    const innerArc = d3.arc()
-      .innerRadius(singlePieOptions.outerRadius * 0.8)
-      .outerRadius(singlePieOptions.outerRadius * 0.8)
 
     return function (d) {
       // Space between the line and the text
       const xPosOffset = midAngle(d.data) < Math.PI ? -5 : 5
-      const [innerPointX, innerPointY] = innerArc.centroid(d.data)
-      const [outerPointX, outerPointY] = outerArc.centroid(d.data)
+      const [innerPointX, innerPointY] = innerPointArc.centroid(d.data)
+      const [outerPointX, outerPointY] = outerPointArc.centroid(d.data)
 
       // Position the points with respect to the middle of the chart
       const innerPoint = [innerPointX + midChartWidth, innerPointY + midChartHeight]
