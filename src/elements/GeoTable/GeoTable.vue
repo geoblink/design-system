@@ -402,6 +402,11 @@ export default {
           // in it as long as the header name is not truncatable
           const contentWidth = getDOMElementWidth(headerRowCell.domElement)
 
+          currentColumnSettings.headerContentWidth = _.max([
+            currentColumnSettings.headerContentWidth,
+            contentWidth
+          ])
+
           if (!headerRowCell.ignoreContentWidth) {
             currentColumnSettings.contentWidth = _.max([
               currentColumnSettings.contentWidth,
@@ -452,9 +457,13 @@ export default {
         // We have to increase width of cells without an explicit width but with
         // or without minimum/maximum width
         //
-        // We'll proceed as by splitting the remaining width equally between all
-        // columns which have not been saturated yet, where saturated means that
-        // the column has reached its maximum width
+        // First we'll attempt to increase the width of those columns which
+        // header content was not considered for the column's width but which
+        // were wider than their content.
+        //
+        // We'll proceed then by splitting the remaining width equally between
+        // all columns which have not been saturated yet, where saturated means
+        // that the column has reached its maximum width
         //
         // A column with an explicit width is saturated by definition
         let unsaturatedColumns = _.sortBy(_.filter(_.map(columnsSettings, function (currentColumnSettings, index) {
@@ -468,42 +477,73 @@ export default {
             _.isNil(currentColumnSettings.width) &&
             remainingWidthUntilReachingMaximum > 0
 
+          const isHeaderContentEntirelyVisible = currentColumnSettings.headerContentWidth <= currentColumnSettings.contentWidth
+
           return isUsingAutomaticColumnWidth
             ? {
               index: index,
+              headerContentWidth: currentColumnSettings.headerContentWidth,
               contentWidth: currentColumnSettings.contentWidth,
-              remainingWidthUntilReachingMaximum: remainingWidthUntilReachingMaximum
+              isHeaderContentEntirelyVisible,
+              remainingWidthUntilReachingMaximum: !isHeaderContentEntirelyVisible
+                ? Math.min(
+                  remainingWidthUntilReachingMaximum,
+                  currentColumnSettings.headerContentWidth - currentColumnSettings.contentWidth
+                )
+                : remainingWidthUntilReachingMaximum
             }
             : null
         })), 'remainingWidthUntilReachingMaximum')
 
-        while (unsaturatedColumns.length && tableRemainingWidth > 0) {
-          const maximumSingleColumnWidthIncrease = _.first(unsaturatedColumns).remainingWidthUntilReachingMaximum
-          const singleColumnWidthIncrease = _.max([
-            Math.floor(
-              _.min([
-                tableRemainingWidth / unsaturatedColumns.length,
-                maximumSingleColumnWidthIncrease
-              ])
-            ),
-            // Maybe there's not enough free space to give all columns at least
-            // 1px more of space. If this happens it's better to add 1px column
-            // by column until we run out of pixels.
-            1
-          ])
+        // We first distribute width evenly among columns which header content
+        // is wider than it's body content.
 
-          for (const unsaturatedColumnSettings of unsaturatedColumns) {
-            const columnIndex = unsaturatedColumnSettings.index
-            unsaturatedColumnSettings.remainingWidthUntilReachingMaximum -= singleColumnWidthIncrease
-            this.columnsWidths[columnIndex] += singleColumnWidthIncrease
-            tableRemainingWidth -= singleColumnWidthIncrease
+        let unsaturatedColumnsWithHeaderContentNotEntirelyVisible = _.reject(
+          unsaturatedColumns,
+          (columnsSettings) => !columnsSettings.isHeaderContentEntirelyVisible
+        )
 
-            if (tableRemainingWidth === 0) break
+        while (unsaturatedColumnsWithHeaderContentNotEntirelyVisible.length && tableRemainingWidth > 0) {
+          const result = getColumnsWidthDistribution(
+            unsaturatedColumnsWithHeaderContentNotEntirelyVisible,
+            tableRemainingWidth
+          )
+
+          for (const columnIndex of Object.keys(result.columnsWidths)) {
+            const currentColumnSettings = columnsSettings[columnIndex]
+
+            this.columnsWidths[columnIndex] += result.columnsWidths[columnIndex]
+            currentColumnSettings.remainingWidthUntilReachingMaximum -= result.columnsWidths[columnIndex]
+            currentColumnSettings.isHeaderContentEntirelyVisible = currentColumnSettings.headerContentWidth <= this.columnsWidths[columnIndex]
           }
 
-          unsaturatedColumns = _.filter(unsaturatedColumns, (unsaturatedColumnSettings) =>
-            unsaturatedColumnSettings.remainingWidthUntilReachingMaximum > 0
+          tableRemainingWidth = result.remainingWidth
+          unsaturatedColumnsWithHeaderContentNotEntirelyVisible = _.filter(
+            result.remainingColumns,
+            (column, columnIndex) => column.headerContentWidth > columnsSettings[columnIndex]
           )
+        }
+
+        // Then we get remaining unsaturated columns and attempt to distribute
+        // space evenly among them.
+
+        unsaturatedColumns = _.filter(
+          unsaturatedColumns,
+          (columnsSettings) => columnsSettings.remainingWidthUntilReachingMaximum > 0
+        )
+
+        while (unsaturatedColumns.length && tableRemainingWidth > 0) {
+          const result = getColumnsWidthDistribution(unsaturatedColumns, tableRemainingWidth)
+
+          for (const columnIndex of Object.keys(result.columnsWidths)) {
+            const currentColumnSettings = columnsSettings[columnIndex]
+
+            currentColumnSettings.remainingWidthUntilReachingMaximum -= result.columnsWidths[columnIndex]
+            this.columnsWidths[columnIndex] += result.columnsWidths[columnIndex]
+          }
+
+          tableRemainingWidth = result.remainingWidth
+          unsaturatedColumns = result.remainingColumns
         }
 
         if (tableRemainingWidth > 0) {
@@ -696,5 +736,56 @@ function getDOMElementWidth (node) {
   // We want a number, so we remove the unit and parse number
   const width = parseFloat(widthString)
   return Math.ceil(width)
+}
+
+/**
+ * @typedef {object} ColumnSettings
+ * @property {number} remainingWidthUntilReachingMaximum
+ * @property {number} headerContentWidth
+ * @property {number} index
+ */
+
+/**
+ * @param {ColumnSettings[]} columns
+ * @returns {{remainingColumns: ColumnSettings[], remainingWidth: number, columnsWidths: object}}
+ */
+function getColumnsWidthDistribution (columns, width) {
+  let remainingWidth = width
+
+  const remainingColumns = []
+  const columnsWidths = {}
+
+  const maximumSingleColumnWidthIncrease = _.first(columns).remainingWidthUntilReachingMaximum
+  const singleColumnWidthIncrease = _.max([
+    Math.floor(
+      _.min([
+        width / columns.length,
+        maximumSingleColumnWidthIncrease
+      ])
+    ),
+    // Maybe there's not enough free space to give all columns at least
+    // 1px more of space. If this happens it's better to add 1px column
+    // by column until we run out of pixels.
+    1
+  ])
+
+  for (const columnSettings of columns) {
+    const columnIndex = columnSettings.index
+
+    if (columnSettings.remainingWidthUntilReachingMaximum - singleColumnWidthIncrease > 0) {
+      remainingColumns.push(columnSettings)
+    }
+
+    columnsWidths[columnIndex] = singleColumnWidthIncrease
+    remainingWidth -= singleColumnWidthIncrease
+
+    if (remainingWidth === 0) break
+  }
+
+  return {
+    remainingColumns,
+    remainingWidth,
+    columnsWidths
+  }
 }
 </script>
