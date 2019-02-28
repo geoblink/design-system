@@ -266,7 +266,7 @@ function renderAnchoredText (anchoredShapesContainer, singleShape, singleGroupOp
 
   const updatedAnchoredTexts = anchoredTexts
   const allAnchoredTexts = updatedAnchoredTexts.merge(newAnchoredTexts)
-  setTextContent(allAnchoredTexts, singleGroupOptions.text)
+  setTextContent(allAnchoredTexts, singleGroupOptions.text, globalOptions)
 
   allAnchoredTexts
     .attr('class', getAnchoredTextsStopsCssClasses)

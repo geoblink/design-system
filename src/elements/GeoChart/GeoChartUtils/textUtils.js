@@ -1,5 +1,5 @@
 // TODO: Use this exported function in pieChartLabels
-export function setTextContent (textElems, textOptions) {
+export function setTextContent (textElems, textOptions, globalOptions) {
   const tspans = textElems
     .selectAll('tspan')
     .data(function (d, i) {
@@ -21,5 +21,8 @@ export function setTextContent (textElems, textOptions) {
 
   tspans
     .exit()
+    .transition()
+    .duration(globalOptions.chart.animationsDurationInMilliseconds)
+    .style('opacity', 0)
     .remove()
 }

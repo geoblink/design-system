@@ -147,7 +147,7 @@ export default {
         ],
         anchoredShapesGroups: [{
           normalValue: this.normalValue,
-          normalOffset: 6,
+          naturalNormalOffset: .5,
           shapeData: this.dataDistribution,
           dimension: BARS_DIMENSIONS.horizontal,
           idVerticalAxis: this.linearAxisConfig.id,
@@ -214,7 +214,7 @@ export default {
         v-if="chartConfig"
         css-modifier="hidden-axis"
         :config="chartConfig"
-        height="200px"
+        height="1000px"
         width="500px"
       />
     </div>
@@ -322,7 +322,7 @@ export default {
         }],
         anchoredShapesGroups: [{
           normalValue: this.normalValue,
-          normalOffset: 6,
+          naturalNormalOffset: .5,
           shapeData: this.dataDistribution,
           dimension: BARS_DIMENSIONS.horizontal,
           idVerticalAxis: this.linearAxisConfig.id,
