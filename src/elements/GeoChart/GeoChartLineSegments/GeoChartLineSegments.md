@@ -161,8 +161,8 @@ export default {
             circleData: this.chartData,
             dimension: BARS_DIMENSIONS.horizontal,
             lineWidth: 2,
-            circleRadius: 3,
-            circleMargin: 2,
+            circleNaturalRadius: 3,
+            circleNaturalMargin: 6,
             idVerticalAxis: this.linearAxisConfig.id,
             idHorizontalAxis: this.numericalAxisConfig.id
           }]
@@ -282,8 +282,8 @@ export default {
             circleData: this.chartData,
             dimension: BARS_DIMENSIONS.vertical,
             lineWidth: 2,
-            circleRadius: 3,
-            circleMargin: 2,
+            circleNaturalRadius: 3,
+            circleNaturalMargin: 2,
             idHorizontalAxis: this.linearAxisConfig.id,
             idVerticalAxis: this.numericalAxisConfig.id
           }]
