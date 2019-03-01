@@ -173,7 +173,8 @@ module.exports = {
             '../src/elements/GeoMarkdownContent/GeoMarkdownContent.vue'
           ],
           sectionDepth: 1
-        }, {
+        },
+        {
           name: 'Charts',
           sections: [{
             name: 'Introduction',
@@ -201,6 +202,7 @@ module.exports = {
             content: '../src/elements/GeoChart/GeoChartPie.md'
           }]
         }
+        // hygen-component (reference for injection, do not remove)
       ]
     },
     {
