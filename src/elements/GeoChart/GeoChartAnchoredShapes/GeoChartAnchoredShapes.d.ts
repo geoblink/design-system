@@ -3,6 +3,7 @@ declare namespace GeoChart {
     leading = 'leading',
     trailing = 'trailing'
   }
+
   interface LineSegmentsGroupsGlobalConfig {
     chart: {
       animationsDurationInMilliseconds: number
@@ -10,6 +11,7 @@ declare namespace GeoChart {
       margin: GeoChart.Margin
     }
   }
+
   interface SingleAnchoredShapesGroupConfig<HorizontalDomain, VerticalDomain> {
     id: number
     dimension: GeoChart.BarDimension
