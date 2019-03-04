@@ -61,7 +61,7 @@ Doing so will throw an invalid config error.
   const { POSITIONS } = require('../GeoChartAxis/GeoChartAxis')
   const { DIMENSIONS: BARS_DIMENSIONS } = require('../GeoChartBars/GeoChartBars')
   const { SCALE_TYPES } = require('../GeoChartScale/GeoChartScale')
-  const { ANCHOR_POSITIONS, getTriangleShapePath }= require('./GeoChartAnchoredShapes')
+  const { ANCHOR_POSITIONS, getTriangleShapePath } = require('./GeoChartAnchoredShapes')
 
 export default {
   name: 'GeoChartAnchoredShapesDemo',
