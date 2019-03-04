@@ -500,7 +500,7 @@ export default {
 
         let unsaturatedColumnsWithHeaderContentNotEntirelyVisible = _.reject(
           unsaturatedColumns,
-          (columnsSettings) => !columnsSettings.isHeaderContentEntirelyVisible
+          'isHeaderContentEntirelyVisible'
         )
 
         while (unsaturatedColumnsWithHeaderContentNotEntirelyVisible.length && tableRemainingWidth > 0) {
