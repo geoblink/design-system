@@ -6,14 +6,14 @@ To add anchored shapes **groups** to a chart, add an array to `anchoredShapesGro
 
 ## Required properties
 
-- `shapeData`: Collection of dots (stops) that will be distributed across the axis, filling the rest with line segments (array).
+- `shapeData`: Array of objects, each one representing a single shape that will be distributed across the axis.
 - `dimension`: A value of `BARS_DIMENSIONS` named export (either `horizontal` or `vertical`). The dimension in which the stacked rectangles will be positioned.
 - `idHorizontalAxis`: The ID of the axis defining the `horizontal` dimension. Will be used to compute proper origin and span of the bar if the dimension is horizontal or the width of each individual group if the dimension is vertical.
 - `idVerticalAxis`: The ID of the axis defining the `vertical` dimension. Will be used to compute proper origin and span of the bar if the dimension is vertical or the width of each individual group if the dimension is horizontal.
 - `normalValue`: Value to position the colorBar in the normal (numerical) axis. The value must be contained within the linear axis domain.
 - `getAnchorPosition`: Function to set the shape either on top/left (leading) or at the bottom/right (trailing) of the axis.
 - `getShapeSize`: Function to get the dimensions (width/height) of the desired shape.
-- `getShapePath`: Function to create the path of the shape.
+- `getShapePath`: Function to create the path of the shape. The returned value of this function should be valid as input for `svg` polygon data.
 
 **Note:** `idHorizontalAxis` and `idVerticalAxis` must be IDs of registered axes. See [Axes](./#/Elements/Charts?id=axes) for more info.
 
