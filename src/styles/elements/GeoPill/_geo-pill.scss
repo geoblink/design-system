@@ -8,45 +8,42 @@
 
   .geo-pill--default#{$modifier-name-with-prefix},
   .geo-pill--light#{$modifier-name-with-prefix},
-  .geo-pill--grey#{$modifier-name-with-prefix},
+  .geo-pill--dark#{$modifier-name-with-prefix},
   .geo-pill--opaque#{$modifier-name-with-prefix} {
     align-items: center;
+    border-radius: 50vh;
+    border: 1px solid $color-grey;
     display: flex;
+    flex-direction: row;
     font-family: $font-family-text;
+    user-select: none;
   }
 
   .geo-pill--default#{$modifier-name-with-prefix},
   .geo-pill--light#{$modifier-name-with-prefix} {
     background: $color-white;
-    border: 1px solid $color-grey;
-    border-radius: 50vh;
-    font-size: 8px;
+    font-size: $font-size-xxsmall;
     font-weight: $font-weight-bold;
     height: $space-base;
     padding: 0 6px;
     text-transform: uppercase;
   }
 
-  .geo-pill--grey#{$modifier-name-with-prefix} {
+  .geo-pill--dark#{$modifier-name-with-prefix} {
     background: $color-white-dark;
-    border: 1px solid $color-grey;
     border-radius: $border-radius-default;
     color: $color-grey-darker;
-    font-family: $font-family-text;
-    min-height: 30px;
+    min-height: $space-large;
     padding: 0 $space-small;
-    user-select: none;
   }
 
   .geo-pill--opaque#{$modifier-name-with-prefix} {
-    font-size: $font-size-small;
     background: $color-yellow-light;
-    border-radius: 50vh;
+    border: none;
     color: $color-grey-darker;
-    display: flex;
-    padding: 0 1.5em;
-    user-select: none;
+    font-size: $font-size-small;
     height: $space-large;
+    padding: 0 1.5em;
   }
 }
 
