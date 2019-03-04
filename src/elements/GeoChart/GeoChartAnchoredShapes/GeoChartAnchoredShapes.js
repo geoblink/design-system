@@ -119,17 +119,14 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions) {
   const updatedShapeTextGroup = shapeTextGroup
   const allShapeTextGroup = newShapeTextGroup.merge(updatedShapeTextGroup)
 
-  allShapeTextGroup.each(function (singleShape, i) {
-    const group = d3.select(this)
-    renderAnchoredShape(group, singleShape, singleGroupOptions, globalOptions, {
-      axisForDimension,
-      axisForNormalDimension
-    })
+  renderAnchoredShapes(newShapeTextGroup, allShapeTextGroup, singleGroupOptions, globalOptions, {
+    axisForDimension,
+    axisForNormalDimension
+  })
 
-    renderAnchoredText(group, singleShape, singleGroupOptions, globalOptions, {
-      axisForDimension,
-      axisForNormalDimension
-    })
+  renderAnchoredTexts(newShapeTextGroup, allShapeTextGroup, singleGroupOptions, globalOptions, {
+    axisForDimension,
+    axisForNormalDimension
   })
 
   shapeTextGroup
@@ -140,7 +137,7 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions) {
     .remove()
 }
 
-function renderAnchoredShape (anchoredShapesContainer, singleShape, singleGroupOptions, globalOptions, {
+function renderAnchoredShapes (newAnchoredShapesContainer, allAnchoredShapesContainer, singleGroupOptions, globalOptions, {
   axisForDimension,
   axisForNormalDimension
 }) {
@@ -154,12 +151,7 @@ function renderAnchoredShape (anchoredShapesContainer, singleShape, singleGroupO
     keyForNaturalNormalOffset: 'naturalNormalOffset'
   })
 
-  const anchoredShapes = anchoredShapesContainer
-    .selectAll(`polygon.${anchoredShapesBaseClass}`)
-    .data([singleShape])
-
-  const newAnchoredShapes = anchoredShapes
-    .enter()
+  newAnchoredShapesContainer
     .append('polygon')
     .attr('class', getAnchoredShapesStopsCssClasses)
     .attr('points', (d, i) => {
@@ -170,10 +162,8 @@ function renderAnchoredShape (anchoredShapesContainer, singleShape, singleGroupO
     })
     .attr('transform', getAnchoredShapesInitialTransform)
 
-  const updatedAnchoredShapesStops = anchoredShapes
-  const allAnchoredShapesStops = updatedAnchoredShapesStops.merge(newAnchoredShapes)
-
-  allAnchoredShapesStops
+  allAnchoredShapesContainer
+    .select(`polygon.${anchoredShapesBaseClass}`)
     .attr('class', getAnchoredShapesStopsCssClasses)
     .transition()
     .duration(globalOptions.chart.animationsDurationInMilliseconds)
@@ -184,10 +174,6 @@ function renderAnchoredShape (anchoredShapesContainer, singleShape, singleGroupO
       })
     })
     .attr('transform', getAnchoredShapesTransform)
-
-  anchoredShapes
-    .exit()
-    .remove()
 
   function getAnchoredShapesTransform (d, i) {
     const dimensionTranslation = axisForDimension.scale.axisScale(d[axisForDimension.keyForValues])
@@ -238,7 +224,7 @@ function renderAnchoredShape (anchoredShapesContainer, singleShape, singleGroupO
   }
 }
 
-function renderAnchoredText (anchoredShapesContainer, singleShape, singleGroupOptions, globalOptions, {
+function renderAnchoredTexts (newAnchoredShapesContainer, allAnchoredShapesContainer, singleGroupOptions, globalOptions, {
   axisForDimension,
   axisForNormalDimension
 }) {
@@ -253,31 +239,21 @@ function renderAnchoredText (anchoredShapesContainer, singleShape, singleGroupOp
     keyForNaturalNormalOffset: 'naturalNormalOffset'
   })
 
-  const anchoredTexts = anchoredShapesContainer
-    .selectAll(`text.${anchoredTextsBaseClass}`)
-    .data([singleShape])
-
-  const newAnchoredTexts = anchoredTexts
-    .enter()
+  const anchoredTexts = newAnchoredShapesContainer
     .append('text')
     .attr('class', getAnchoredTextsStopsCssClasses)
     .attr('dominant-baseline', 'central')
     .attr('opacity', 0)
 
-  const updatedAnchoredTexts = anchoredTexts
-  const allAnchoredTexts = updatedAnchoredTexts.merge(newAnchoredTexts)
-  setTextContent(allAnchoredTexts, singleGroupOptions.text, globalOptions)
+  setTextContent(anchoredTexts, singleGroupOptions.text, globalOptions)
 
-  allAnchoredTexts
+  allAnchoredShapesContainer
+    .select(`text.${anchoredTextsBaseClass}`)
     .attr('class', getAnchoredTextsStopsCssClasses)
     .transition()
     .duration(globalOptions.chart.animationsDurationInMilliseconds)
     .attr('transform', getRankingLineTransform)
     .attr('opacity', 1)
-
-  anchoredTexts
-    .exit()
-    .remove()
 
   // This algorithm is tightly coupled to the app case in which we're always going to have
   // two shapes with text up (one on 0 and the other on the max value) and another
