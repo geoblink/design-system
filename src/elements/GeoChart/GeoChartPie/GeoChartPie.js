@@ -181,9 +181,11 @@ function renderTexts (allPieSegments, d3Instance, singlePieOptions, globalOption
   const keyForTextId = 'pieIndex'
   const rightGroup = []
   const leftGroup = []
+  // Arc inside the pie for the starter point of the lines
   const innerPointArc = d3.arc()
     .innerRadius(singlePieOptions.outerRadius * 0.8)
     .outerRadius(singlePieOptions.outerRadius * 0.8)
+  // Arc out of the pie to get the points where the texts and lines should be placed
   const outerPointArc = d3.arc()
     .innerRadius(singlePieOptions.outerRadius * 1.1)
     .outerRadius(singlePieOptions.outerRadius * 1.1)
