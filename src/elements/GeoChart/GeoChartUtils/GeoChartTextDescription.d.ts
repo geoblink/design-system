@@ -1,5 +1,5 @@
 declare namespace GeoChart {
-  interface TextDescriptionOptions {
+  type TextDescriptionOptions = {
     text: string
     newLine: boolean
   }
