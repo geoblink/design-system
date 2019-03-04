@@ -28,7 +28,7 @@ will be tied to your shapes. The function should return an array of objects, eac
 There are 2 exclusive properties available to customize the **offset**:
 
 - `offset` if you want to use **absolute** units.
-- `naturalNormalOffset` if you want to use **absolute** units.
+- `naturalNormalOffset` if you want to use **natural** units.
 
 > **Note:** You can't set both `offset` and `naturalNormalOffset`.
 Doing so will throw an invalid config error.
