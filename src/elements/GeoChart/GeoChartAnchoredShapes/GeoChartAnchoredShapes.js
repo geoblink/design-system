@@ -307,7 +307,6 @@ function getTranslationOffsetForNormalAxis (normalAxis, options, globalOptions, 
 }) {
   const isNormalOffsetForced = isForced(options, keyForNormalOffset)
   const isNaturalNormalOffsetForced = isForced(options, keyForNaturalNormalOffset)
-  if (!(isNormalOffsetForced || isNaturalNormalOffsetForced)) return 0
 
   if (isNormalOffsetForced) {
     return options[keyForNormalOffset]
@@ -316,4 +315,6 @@ function getTranslationOffsetForNormalAxis (normalAxis, options, globalOptions, 
   if (isNaturalNormalOffsetForced) {
     return normalAxis.scale.axisScale(options[keyForNaturalNormalOffset]) - globalOptions.chart.margin.top
   }
+
+  return 0
 }
