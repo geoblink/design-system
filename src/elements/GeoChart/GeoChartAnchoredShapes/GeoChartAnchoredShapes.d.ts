@@ -1,5 +1,5 @@
 declare namespace GeoChart {
-  enum AnchorPositions {
+  enum AnchorPosition {
     leading = 'leading',
     trailing = 'trailing'
   }
@@ -24,7 +24,7 @@ declare namespace GeoChart {
     normalValue: number,
     getShapeSize: (item: object, index: number) => { width: number, height: number },
     getShapePath: (item: object, index: number, size: object) => string,
-    getAnchorPosition: (item: object, index: number) => AnchorPositions,
+    getAnchorPosition: (item: object, index: number) => AnchorPosition,
     text: {
       content: (item: object, index: number) => string[]
     },

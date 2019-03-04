@@ -27,7 +27,7 @@ export const DIMENSIONS = {
 }
 
 /**
- * @enum {GeoChart.AnchorPositions}
+ * @enum {GeoChart.AnchorPosition}
  */
 export const ANCHOR_POSITIONS = {
   leading: 'leading',
