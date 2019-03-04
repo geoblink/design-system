@@ -1,3 +1,5 @@
+/* eslint-disable comma-dangle */
+
 const path = require('path')
 const baseConfig = require('../build/webpack.base.conf.js')
 const merge = require('webpack-merge')
@@ -201,7 +203,7 @@ module.exports = {
             name: 'Pie charts',
             content: '../src/elements/GeoChart/GeoChartPie.md'
           }]
-        }
+        },
         // hygen-component (reference for injection, do not remove)
       ]
     },
