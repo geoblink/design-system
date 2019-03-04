@@ -39,9 +39,9 @@ export const getTriangleShapePath = (d, i, { size, shapeOffsetFromAxis, singleGr
   const { width, height } = size
   const sign = shapeAnchorPosition === ANCHOR_POSITIONS.leading ? -1 : 1
   return [
-    (width / 2) + ' ' + sign * (height + shapeOffsetFromAxis),
-    -(width / 2) + ' ' + sign * (height + shapeOffsetFromAxis),
-    '0 ' + sign * shapeOffsetFromAxis
+    `${width / 2} ${sign * (height + shapeOffsetFromAxis)}`,
+    `-${width / 2} ${sign * (height + shapeOffsetFromAxis)}`,
+    `0 ${sign * shapeOffsetFromAxis}`
   ]
 }
 
