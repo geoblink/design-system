@@ -23,7 +23,7 @@ To set the lines width and the dots size, you'll need to set three different par
 span in the **group** `dimension` is computed just using the value associated to
 that item in the corresponding axis.
 
-- **circleRadius** defines the radius of each one of the dots of your data in the **normal dimension**.
+- **circleRadius** defines the radius of each one of the dots of your data in the **main dimension**.
 
 - **circleMargin** defines the amount of margin of each one of the dots of your data. Take into account that
 the value you give to this margin will be computed twice to get the segment width and the total size of the circle.
@@ -35,13 +35,16 @@ The three of these parameters can be expressed either in **absolute** or **natur
 - **Absolute** means in the same units as the underlying SVG coordinate space.
 You can think of this as just pixels (although they are not strictly just pixels
 and they might not directly translate 1:1 to screen pixels).
-- **Natural** means in the same units as the axis used for the **normal dimension**.
+- **Natural** means in the same units as the axis used for the **main dimension**, except
+for `lineWidth`, which is relative to the **normal dimension**.
 For instance, if you have an axis of seconds, then a `naturalOffset` of `N` is
 an offset of `N` seconds. If the axis are categories then the absolute value for
 an offset of `N` is the absolute value for `N` categories.
 
 You can choose either **absolute** or **natural** values for **lineWidth**, **circleRadius** and
-**circleMargin** independently.
+**circleMargin** independently. Take into account though, that for ease of use, if you choose to use
+**circleRadius** in absolute units, you will need to specify the margin also in absolute units. If you
+happen to choose **circleRadius** and **naturalCircleMargin**, the chart validator will throw an error.
 
 There are 2 exclusive properties available to customize the **lineWidth**:
 
@@ -90,7 +93,7 @@ Doing so will throw an invalid config error.
   const { DIMENSIONS: BARS_DIMENSIONS } = require('../GeoChartBars/GeoChartBars')
   const { SCALE_TYPES } = require('../GeoChartScale/GeoChartScale')
 
-export default {
+  export default {
     name: 'GeoChartLineSegmentsDemo',
     data () {
       return {
@@ -211,7 +214,7 @@ export default {
   const { DIMENSIONS: BARS_DIMENSIONS } = require('../GeoChartBars/GeoChartBars')
   const { SCALE_TYPES } = require('../GeoChartScale/GeoChartScale')
 
-export default {
+  export default {
     name: 'GeoChartLineSegmentsDemo',
     data () {
       return {
