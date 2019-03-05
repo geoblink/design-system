@@ -10,92 +10,89 @@ import {
 import { createLocalVue, mount } from '@vue/test-utils'
 import GeoChart from '@/elements/GeoChart/GeoChart.vue'
 
-import * as GeoChartLineSegments from '@/elements/GeoChart/GeoChartLineSegments/GeoChartLineSegments'
-
 const localVue = createLocalVue()
 localVue.component('geo-chart', GeoChart)
 
-const chartConfig = {
-  height: 300,
-  width: 500
-}
+describe('GeoChartColorBar', function () {
+  const chartConfig = {
+    height: 300,
+    width: 500
+  }
 
-const axisDimensions = {
-  horizontal: {
-    linearAxisConfig: {
-      id: 'spec-linear-axis',
-      keyForValues: 'value',
-      ticks: {
-        count: 2
+  const axisDimensions = {
+    horizontal: {
+      linearAxisConfig: {
+        id: 'spec-linear-axis',
+        keyForValues: 'value',
+        ticks: {
+          count: 2
+        },
+        position: {
+          type: GeoChart.constants.POSITIONS.left
+        },
+        scale: {
+          type: GeoChart.constants.SCALE_TYPES.linear,
+          valueForOrigin: 0,
+          domain: {
+            start: 0,
+            end: 1
+          }
+        }
       },
-      position: {
-        type: GeoChart.constants.POSITIONS.left
-      },
-      scale: {
-        type: GeoChart.constants.SCALE_TYPES.linear,
-        valueForOrigin: 0,
-        domain: {
-          start: 0,
-          end: 1
+
+      numericalAxisConfig: {
+        id: 'demo-numerical-axis',
+        keyForValues: 'numerical',
+        position: {
+          type: GeoChart.constants.POSITIONS.bottom
+        },
+        scale: {
+          type: GeoChart.constants.SCALE_TYPES.linear,
+          valueForOrigin: 0,
+          domain: {
+            start: 0,
+            end: 200
+          }
         }
       }
     },
-
-    numericalAxisConfig: {
-      id: 'demo-numerical-axis',
-      keyForValues: 'numerical',
-      position: {
-        type: GeoChart.constants.POSITIONS.bottom
-      },
-      scale: {
-        type: GeoChart.constants.SCALE_TYPES.linear,
-        valueForOrigin: 0,
-        domain: {
-          start: 0,
-          end: 200
+    vertical: {
+      linearAxisConfig: {
+        id: 'spec-linear-axis',
+        keyForValues: 'value',
+        ticks: {
+          count: 2
+        },
+        position: {
+          type: GeoChart.constants.POSITIONS.bottom
+        },
+        scale: {
+          type: GeoChart.constants.SCALE_TYPES.linear,
+          valueForOrigin: 0,
+          domain: {
+            start: 0,
+            end: 1
+          }
         }
-      }
-    }
-  },
-  vertical: {
-    linearAxisConfig: {
-      id: 'spec-linear-axis',
-      keyForValues: 'value',
-      ticks: {
-        count: 2
       },
-      position: {
-        type: GeoChart.constants.POSITIONS.bottom
-      },
-      scale: {
-        type: GeoChart.constants.SCALE_TYPES.linear,
-        valueForOrigin: 0,
-        domain: {
-          start: 0,
-          end: 1
-        }
-      }
-    },
 
-    numericalAxisConfig: {
-      id: 'demo-numerical-axis',
-      keyForValues: 'numerical',
-      position: {
-        type: GeoChart.constants.POSITIONS.left
-      },
-      scale: {
-        type: GeoChart.constants.SCALE_TYPES.linear,
-        valueForOrigin: 0,
-        domain: {
-          start: 0,
-          end: 200
+      numericalAxisConfig: {
+        id: 'demo-numerical-axis',
+        keyForValues: 'numerical',
+        position: {
+          type: GeoChart.constants.POSITIONS.left
+        },
+        scale: {
+          type: GeoChart.constants.SCALE_TYPES.linear,
+          valueForOrigin: 0,
+          domain: {
+            start: 0,
+            end: 200
+          }
         }
       }
     }
   }
-}
-
-describe('GeoChartColorBar', function () {
   const stubGetBBox = stubGetBBoxFactory()
   const stubGetScreenCTM = stubGetScreenCTMFactory()
   const stubCreateSVGPoint = stubCreateSVGPointFactory()
@@ -114,12 +111,6 @@ describe('GeoChartColorBar', function () {
 
   afterEach(function () {
     document.body.innerHTML = ''
-  })
-
-  describe('Constants', function () {
-    it('should export DIMENSIONS', function () {
-      expect(GeoChartLineSegments).toHaveProperty('DIMENSIONS')
-    })
   })
 
   describe('#render', function () {
