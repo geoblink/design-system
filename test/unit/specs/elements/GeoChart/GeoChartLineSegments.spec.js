@@ -115,12 +115,6 @@ describe('GeoChartColorBar', function () {
     document.body.innerHTML = ''
   })
 
-  describe('Constants', function () {
-    it('should export DIMENSIONS', function () {
-      expect(GeoChartLineSegments).toHaveProperty('DIMENSIONS')
-    })
-  })
-
   describe('#render', function () {
     for (const dimension in axisDimensions) {
       const linearAxisConfig = axisDimensions[dimension].linearAxisConfig
