@@ -15,8 +15,8 @@ declare namespace GeoChart {
     id: string
     dimension: GeoChart.BarDimension
     axis: {
-      horizontal: GeoChart.AxisConfig<HorizontalDomain>
-      vertical: GeoChart.AxisConfig<VerticalDomain>
+      horizontal: GeoChart.AxisConfig<HorizontalDomain, any>
+      vertical: GeoChart.AxisConfig<VerticalDomain, any>
     }
     data: object[]
     normalOffset?: number

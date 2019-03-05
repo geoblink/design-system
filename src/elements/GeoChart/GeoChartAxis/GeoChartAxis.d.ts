@@ -16,7 +16,14 @@ declare namespace GeoChart {
 
   interface AxisConfigScale<Domain> {
     valueForOrigin: Domain
-    axisScale: d3.AxisScale<Domain>
+    axisScale: d3.scale.Linear<Domain, any> |
+      d3.scale.Log<Domain, any> |
+      d3.scale.Quantile<any> |
+      d3.scale.Quantize<any> |
+      d3.scale.Pow<Domain, any> |
+      d3.scale.Identity |
+      d3.scale.Ordinal<Domain, any> |
+      d3.scale.Threshold<Domain, any>
   }
 
   interface AxisPositionConfigSimple {

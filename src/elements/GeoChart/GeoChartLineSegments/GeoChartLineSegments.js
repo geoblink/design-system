@@ -2,7 +2,9 @@
 
 import _ from 'lodash'
 
-import '../GeoChartAxis/GeoChartAxis'
+import {
+  DIMENSIONS
+} from '../GeoChartAxis/GeoChartAxis'
 import {
   getItemSpanAtAxis,
   isDimensionAxis,
@@ -18,14 +20,6 @@ const d3 = (function () {
 })()
 
 export const DEFAULT_RADIUS = 5
-
-/**
- * @enum {GeoChart.BarDimension}
- */
-export const DIMENSIONS = {
-  horizontal: 'horizontal',
-  vertical: 'vertical'
-}
 
 /**
  * @template GElement
@@ -160,7 +154,7 @@ function renderLineSegments (lineSegmentsContainer, singleGroupOptions, globalOp
   }
 
   function getLineSegmentsTransform (d, i) {
-    const circleSizeAtAxis = getCircleSizeAtAxis(axisForDimension, {
+    const circleSizeAtAxis = getStopSizeAtAxis(axisForDimension, {
       [axisForDimension.keyForValues]: d.endValue
     }, {
       optionalMargin: singleGroupOptions.circleMargin,
@@ -184,6 +178,7 @@ function renderLineSegments (lineSegmentsContainer, singleGroupOptions, globalOp
     const translation = translationForDimension[singleGroupOptions.dimension]
     return `translate(${translation.x}, ${translation.y})`
   }
+
   function getLineSegmentInitialTransform (d, i) {
     const normalDimensionTranslation = axisForNormalDimension.scale.axisScale(singleGroupOptions.normalValue)
     const translationForDimension = {
@@ -199,6 +194,7 @@ function renderLineSegments (lineSegmentsContainer, singleGroupOptions, globalOp
     const translation = translationForDimension[singleGroupOptions.dimension]
     return `translate(${translation.x}, ${translation.y})`
   }
+
   function getLineSegmentInitialWidth (d, i) {
     switch (singleGroupOptions.dimension) {
       case DIMENSIONS.horizontal:
@@ -214,8 +210,9 @@ function renderLineSegments (lineSegmentsContainer, singleGroupOptions, globalOp
         console.error(`GeoChartLineSegments [component] :: Invalid axis dimension for getLineSegmentWidth: ${singleGroupOptions.dimension}`)
     }
   }
+
   function getLineSegmentWidth (d, i) {
-    const circleSizeAtAxis = getCircleSizeAtAxis(axisForDimension, {
+    const circleSizeAtAxis = getStopSizeAtAxis(axisForDimension, {
       [axisForDimension.keyForValues]: d.endValue
     }, {
       optionalMargin: singleGroupOptions.circleMargin,
@@ -242,6 +239,7 @@ function renderLineSegments (lineSegmentsContainer, singleGroupOptions, globalOp
         console.error(`GeoChartLineSegments [component] :: Invalid axis dimension for getLineSegmentWidth: ${singleGroupOptions.dimension}`)
     }
   }
+
   function getLineSegmentInitialHeight (d, i) {
     switch (singleGroupOptions.dimension) {
       case DIMENSIONS.horizontal:
@@ -257,8 +255,9 @@ function renderLineSegments (lineSegmentsContainer, singleGroupOptions, globalOp
         console.error(`GeoChartLineSegments [component] :: Invalid axis dimension for getLineSegmentHeight: ${singleGroupOptions.dimension}`)
     }
   }
+
   function getLineSegmentHeight (d, i) {
-    const circleSizeAtAxis = getCircleSizeAtAxis(axisForDimension, {
+    const circleSizeAtAxis = getStopSizeAtAxis(axisForDimension, {
       [axisForDimension.keyForValues]: d.endValue
     }, {
       optionalMargin: singleGroupOptions.circleMargin,
@@ -350,7 +349,7 @@ function renderLineSegmentsStops (lineSegmentsContainer, singleGroupOptions, glo
     .remove()
 
   function getLineSegmentStopCircleRadius (d, i) {
-    const circleSizeWithoutMargin = getCircleSizeAtAxis(axisForDimension, d, {
+    const circleSizeWithoutMargin = getStopSizeAtAxis(axisForDimension, d, {
       optionalRadius: singleGroupOptions.circleRadius,
       optionalNaturalRadius: singleGroupOptions.circleNaturalRadius
     })
@@ -417,14 +416,14 @@ function renderLineSegmentsStops (lineSegmentsContainer, singleGroupOptions, glo
 /**
  * @template Domain
  * @param {GeoChart.AxisConfig<Domain>} axisConfig
- * * @param {object} singleItem
+ * @param {object} singleItem
  * @param {object} params
  * @param {string} params.optionalRadius
  * @param {string} params.optionalNaturalRadius
  * @param {string} params.optionalMargin
  * @param {string} params.optionalNaturalMargin
  */
-function getCircleSizeAtAxis (axisConfig, singleItem, {
+function getStopSizeAtAxis (axisConfig, singleItem, {
   optionalRadius,
   optionalNaturalRadius,
   optionalMargin,

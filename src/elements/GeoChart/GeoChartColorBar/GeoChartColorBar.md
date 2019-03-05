@@ -106,7 +106,7 @@ Doing so will throw an invalid config error.
   const { DIMENSIONS: BARS_DIMENSIONS } = require('../GeoChartBars/GeoChartBars')
   const { SCALE_TYPES } = require('../GeoChartScale/GeoChartScale')
 
-export default {
+  export default {
     name: 'GeoChartColorBarDemo',
     data () {
       return {

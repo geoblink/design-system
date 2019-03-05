@@ -1,8 +1,4 @@
 declare namespace GeoChart {
-  enum BarDimension {
-    horizontal = 'horizontal',
-    vertical = 'vertical'
-  }
 
   interface LineSegmentsGroupsGlobalConfig {
     chart: {
@@ -15,8 +11,8 @@ declare namespace GeoChart {
     id: number
     dimension: GeoChart.BarDimension
     axis: {
-      horizontal: GeoChart.AxisConfig<HorizontalDomain>
-      vertical: GeoChart.AxisConfig<VerticalDomain>
+      horizontal: GeoChart.AxisConfig<HorizontalDomain, any>
+      vertical: GeoChart.AxisConfig<VerticalDomain, any>
     }
     circleData: object[]
     lineWidth?: number,
