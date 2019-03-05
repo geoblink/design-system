@@ -1,0 +1,50 @@
+@mixin geo-modal-make ($modifier-name) {
+  $modifier-name-with-prefix: '';
+
+  @if $modifier-name != '' {
+    // sass-lint:disable space-around-operator
+    $modifier-name-with-prefix: --#{$modifier-name};
+  }
+
+  .geo-pill--default#{$modifier-name-with-prefix},
+  .geo-pill--light#{$modifier-name-with-prefix},
+  .geo-pill--dark#{$modifier-name-with-prefix},
+  .geo-pill--opaque#{$modifier-name-with-prefix} {
+    align-items: center;
+    border-radius: 50vh;
+    border: 1px solid $color-grey;
+    display: flex;
+    flex-direction: row;
+    font-family: $font-family-text;
+    user-select: none;
+  }
+
+  .geo-pill--default#{$modifier-name-with-prefix},
+  .geo-pill--light#{$modifier-name-with-prefix} {
+    background: $color-white;
+    font-size: $font-size-xxsmall;
+    font-weight: $font-weight-bold;
+    height: $space-base;
+    padding: 0 6px;
+    text-transform: uppercase;
+  }
+
+  .geo-pill--dark#{$modifier-name-with-prefix} {
+    background: $color-white-dark;
+    border-radius: $border-radius-default;
+    color: $color-grey-darker;
+    min-height: $space-large;
+    padding: 0 $space-small;
+  }
+
+  .geo-pill--opaque#{$modifier-name-with-prefix} {
+    background: $color-yellow-light;
+    border: none;
+    color: $color-grey-darker;
+    font-size: $font-size-small;
+    height: $space-large;
+    padding: 0 1.5em;
+  }
+}
+
+@include geo-modal-make('');
