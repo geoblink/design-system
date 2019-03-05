@@ -10,8 +10,6 @@ import {
 import { createLocalVue, mount } from '@vue/test-utils'
 import GeoChart from '@/elements/GeoChart/GeoChart.vue'
 
-import * as GeoChartColorBars from '@/elements/GeoChart/GeoChartColorBar/GeoChartColorBar'
-
 const localVue = createLocalVue()
 localVue.component('geo-chart', GeoChart)
 
