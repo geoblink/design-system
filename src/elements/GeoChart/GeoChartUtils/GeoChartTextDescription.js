@@ -119,14 +119,13 @@ function renderSingleGroup (group, singleOptions, globalOptions) {
       .enter()
       .append('tspan')
       .attr('class', (d) => d.cssClass)
-      .text((d) => d.text)
 
     const updatedtspans = tspans
-    updatedtspans
+    const alltspans = newtspans.merge(updatedtspans)
+
+    alltspans
       .attr('class', (d) => d.cssClass)
       .text((d) => d.text)
-
-    newtspans.merge(updatedtspans)
 
     tspans
       .exit()
