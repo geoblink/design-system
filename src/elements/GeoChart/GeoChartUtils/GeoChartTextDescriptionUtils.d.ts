@@ -3,6 +3,7 @@ declare namespace GeoChart {
     backPressure = 'backPressure',
     withoutReadjustment = 'withoutReadjustment'
   }
+
   interface TextDescriptionUtilsTextElemConfig {
     height: number
     // This is the coordinate in the main direction of the middle point of the bbox
