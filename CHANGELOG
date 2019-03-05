@@ -1,3 +1,15 @@
+# 11.2.2
+
+Fixed:
+
+- `GeoModal` is repositioned after attached-to element size changes
+
+# 11.2.1
+
+Fixed:
+
+- `GeoActivityIndicator` only SVG inner children will be transform when animating, to avoid overflow issues with SVG parent.
+
 # 11.2.0
 
 New:
