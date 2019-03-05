@@ -494,6 +494,11 @@ export const lineSegmentsConfigSchema = {
   required: ['circleData', 'dimension', 'idHorizontalAxis', 'idVerticalAxis', 'normalValue'],
   allOf: [
     {
+      not: {
+        required: ['circleRadius', 'circleNaturalMargin']
+      }
+    },
+    {
       oneOf: [{
         not: {
           anyOf: [
