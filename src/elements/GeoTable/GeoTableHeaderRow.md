@@ -109,6 +109,34 @@ instances as content of this component's slot.
       </div>
     </div>
 
+    <h3 class="element-demo__header">Isolated row (multiLine variant)</h3>
+    <div class="element-demo__block">
+      <div class="element-demo__bordered-box">
+        <geo-table-header-row variant="multiLine">
+          <geo-table-header-row-cell variant="multiLine">
+            <span>First line</span>
+            <span>Second line</span>
+          </geo-table-header-row-cell>
+        </geo-table-header-row>
+      </div>
+
+      <div class="element-demo__bordered-box">
+        <geo-table-header-row variant="multiLine">
+          <geo-table-header-row-cell variant="multiLine">
+            <font-awesome-icon :icon="['fas', 'table']" /> Cell with an icon
+          </geo-table-header-row-cell>
+        </geo-table-header-row>
+      </div>
+
+      <div class="element-demo__bordered-box">
+        <geo-table-header-row variant="multiLine">
+          <geo-table-header-row-cell variant="multiLine">
+            <label>Cell with a checkbox <input type="checkbox"></label>
+          </geo-table-header-row-cell>
+        </geo-table-header-row>
+      </div>
+    </div>
+
     <h3 class="element-demo__header">Multi row header (mixing variants)</h3>
     <div class="element-demo__block">
       <div class="element-demo__bordered-box">

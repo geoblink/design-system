@@ -7,9 +7,10 @@ import * as ChartColorBar from '../GeoChartColorBar/GeoChartColorBar'
 import * as ChartPie from '../GeoChartPie/GeoChartPie'
 import guidelinesAdapterMixin from './GeoChartConfigAdapter.guidelines.mixin'
 import lineSegmentsAdapterMixin from './GeoChartConfigAdapter.lineSegments.mixin'
+import anchoredShapesAdapterMixin from './GeoChartConfigAdapter.anchoredShapes.mixin'
 
 export default {
-  mixins: [guidelinesAdapterMixin, lineSegmentsAdapterMixin],
+  mixins: [guidelinesAdapterMixin, lineSegmentsAdapterMixin, anchoredShapesAdapterMixin],
   methods: {
     updateData () {
       if (!_.isEmpty(this.config.barGroups)) {
@@ -30,6 +31,10 @@ export default {
 
       if (!_.isEmpty(this.config.lineSegmentsGroups)) {
         this.updateLineSegmentsGroups()
+      }
+
+      if (!_.isEmpty(this.config.anchoredShapesGroups)) {
+        this.updateAnchoredShapesGroups()
       }
 
       if (this.d3TipInstance) {
@@ -190,7 +195,6 @@ export default {
         tooltip: tooltipConfig,
         cssClasses: userConfig.cssClasses
       }
-
       ChartPie.render(this.d3Instance, this.d3TipInstance, pieConfig, { chart })
     }
   }

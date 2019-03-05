@@ -1,5 +1,5 @@
 Line segments charts are collections of grouped segments intersected by circles across an axis.
-This chart can be used in combination with [GeoChartTriangles](./#/Elements/Charts?id=geocharttriangles)
+This chart can be used in combination with [GeoChartAnchoredShapes](./#/Elements/Charts?id=geochartanchoredshapes)
 to compare several values across an axis, each stop being the relative position of each value with the rest.
 
 To add line segments **groups** to a chart, add an array to `lineSegmentsGroups` key of [GeoChart](./#/Elements/Charts?id=introduction)'s config. Each item of the array
@@ -78,9 +78,10 @@ Doing so will throw an invalid config error.
     </h3>
     <div class="element-demo__block">
       <geo-chart
+        css-modifier="hidden-axis"
         v-if="chartConfig"
         :config="chartConfig"
-        height="300px"
+        height="80px"
         width="500px"
       />
     </div>
@@ -97,7 +98,6 @@ Doing so will throw an invalid config error.
     name: 'GeoChartLineSegmentsDemo',
     data () {
       return {
-        numericalDomain: null,
         chartData: null,
         normalValue: _.random(0, 1, true),
       }
@@ -200,9 +200,10 @@ Doing so will throw an invalid config error.
     <div class="element-demo__block">
       <geo-chart
         v-if="chartConfig"
+        css-modifier="hidden-axis"
         :config="chartConfig"
         height="500px"
-        width="200px"
+        width="50px"
       />
     </div>
   </div>
@@ -218,7 +219,6 @@ Doing so will throw an invalid config error.
     name: 'GeoChartLineSegmentsDemo',
     data () {
       return {
-        numericalDomain: null,
         chartData: null,
         normalValue: _.random(0, 1, true),
       }

@@ -132,17 +132,32 @@ $colors: (
 
 @for $i from 0 through 11 {
   .geo-chart-color-bar__segment--#{$i},
-  .geo-chart-color-bar__highlighted-segment--#{$i} {
+  .geo-chart-color-bar__highlighted-segment--#{$i},
+  .geo-chart-pie-slice--#{$i},
+  .geo-chart-line-segments__segment--#{$i},
+  .geo-chart-line-segments__segment-stop--#{$i} {
     fill: map-get($colors, $i);
   }
 }
 
-@for $i from 0 through 10 {
-  .geo-chart-pie-slice--#{$i} {
-    fill: map-get($colors, $i);
+$rankLineColors: (
+  0: $color-blue,
+  1: $color-red,
+  2: $color-green,
+  3: $color-white-darker
+);
+
+.geo-chart-anchored-shapes__text-element {
+  font-family: $font-family-text;
+  font-size: $font-size-small;
+}
+
+@for $i from 0 through 3 {
+  .geo-chart-anchored-shapes-group__shape-text-element--#{$i} > .geo-chart-anchored-shapes__shape-element,
+  .geo-chart-line-segments__segment--#{$i},
+  .geo-chart-line-segments__segment-stop--#{$i} {
+    fill: map-get($rankLineColors, $i);
   }
 }
 
-.geo-chart-line-segments__segment {
-  opacity: .3;
-}
+.geo-chart--hidden-axis .geo-chart-axis { display: none; }

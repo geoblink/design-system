@@ -1,7 +1,6 @@
 <template>
-  <div :class="`geo-table-body-row--${variant}${cssSuffix}`">
-    <!-- @slot Use this slot to customize row's content -->
-    <slot :css-modifier="cssModifier" />
+  <div :class="`geo-pill--${variant}${cssSuffix}`">
+    <slot />
   </div>
 </template>
 
@@ -10,34 +9,33 @@ import cssSuffix from '../../mixins/cssModifierMixin'
 
 const VARIANTS = {
   default: 'default',
-  highlighted: 'highlighted',
-  'highlighted-active': 'highlighted-active',
-  active: 'active'
+  light: 'light',
+  grey: 'grey',
+  opaque: 'opaque'
 }
 
 export { VARIANTS }
 
 export default {
-  name: 'GeoTableBodyRow',
+  name: 'GeoPill',
   status: 'ready',
-  release: '10.1.0',
-  mixins: [cssSuffix],
+  release: '11.3.0',
   constants: {
     VARIANTS
   },
+  mixins: [cssSuffix],
   props: {
     /**
-     * Variant of this row, used to change the color scheme of to adapt to any
-     * kind of interaction status.
+     * Variant of this pill, used to change the color scheme.
      *
      * Supported `variant` values are exported under `VARIANTS` named export.
      *
      * Supported values:
      *
      * - `default`
-     * - `highlighted`
-     * - `highlighted-active`
-     * - `active`
+     * - `light`
+     * - `grey`
+     * - `opaque`
      */
     variant: {
       type: String,
