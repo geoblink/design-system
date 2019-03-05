@@ -10,8 +10,6 @@ import {
 import { createLocalVue, mount } from '@vue/test-utils'
 import GeoChart from '@/elements/GeoChart/GeoChart.vue'
 
-import * as GeoChartColorBars from '@/elements/GeoChart/GeoChartColorBar'
-
 const localVue = createLocalVue()
 localVue.component('geo-chart', GeoChart)
 
@@ -109,12 +107,6 @@ describe('GeoChartColorBar', function () {
     document.body.innerHTML = ''
   })
 
-  describe('Constants', function () {
-    it('should export DIMENSIONS', function () {
-      expect(GeoChartColorBars).toHaveProperty('DIMENSIONS')
-    })
-  })
-
   describe('#render', function () {
     for (const dimension in axisDimensions) {
       const linearAxisConfig = axisDimensions[dimension].linearAxisConfig
@@ -128,9 +120,11 @@ describe('GeoChartColorBar', function () {
 
       switch (dimension) {
         case GeoChart.constants.BARS_DIMENSIONS.horizontal:
-          return testDimension(dimension, linearAxisConfig, categoricalAxisConfig, highlightedSegments, cssClassFn)
+          testDimension(dimension, linearAxisConfig, categoricalAxisConfig, highlightedSegments, cssClassFn)
+          break
         case GeoChart.constants.BARS_DIMENSIONS.vertical:
-          return testDimension(dimension, categoricalAxisConfig, linearAxisConfig, highlightedSegments, null)
+          testDimension(dimension, categoricalAxisConfig, linearAxisConfig, highlightedSegments, null)
+          break
         default:
           console.error(`Unknown dimension: ${dimension}`)
       }
@@ -139,6 +133,15 @@ describe('GeoChartColorBar', function () {
 
   function testDimension (dimension, verticalAxis, horizontalAxis, highlightedSegments, cssClassFn) {
     describe(`${dimension} color bar`, () => {
+      const stubLodashDebounce = stubLodashDebounceFactory()
+      beforeEach(function () {
+        stubLodashDebounce.setup()
+      })
+
+      afterEach(function () {
+        stubLodashDebounce.teardown()
+      })
+
       const idVerticalAxis = verticalAxis.id
       const idHorizontalAxis = horizontalAxis.id
       const colorBarConfig = {
@@ -177,15 +180,6 @@ describe('GeoChartColorBar', function () {
         wrapper.destroy()
       })
       it('Should update data', () => {
-        const stubLodashDebounce = stubLodashDebounceFactory()
-        beforeEach(function () {
-          stubLodashDebounce.setup()
-        })
-
-        afterEach(function () {
-          stubLodashDebounce.teardown()
-        })
-
         const wrapper = mount(GeoChart, {
           propsData: {
             config: colorBarConfig,
@@ -217,6 +211,7 @@ describe('GeoChartColorBar', function () {
         expect(wrapper.find('.geo-chart .geo-chart-color-bar__segment-container').exists()).toBe(true)
         expect(wrapper.findAll('.geo-chart .geo-chart-color-bar__segment')).toHaveLength(mockDomain.length)
         expect(wrapper.findAll('.geo-chart .geo-chart-color-bar__highlighted-segment')).toHaveLength(highlightedSegments2.length)
+        wrapper.destroy()
       })
     })
   }

@@ -1,6 +1,6 @@
 /// <reference types="d3" />
 
-import { EMPTY_MARGIN } from './GeoChartSizing'
+import { EMPTY_MARGIN } from '../GeoChartUtils/GeoChartSizing'
 
 import _ from 'lodash'
 

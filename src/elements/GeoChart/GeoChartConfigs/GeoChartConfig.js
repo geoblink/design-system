@@ -1,6 +1,6 @@
-import { POSITIONS } from './GeoChartAxis'
-import { DIMENSIONS } from './GeoChartBars'
-import { SCALE_TYPES } from './GeoChartScale'
+import { POSITIONS } from '../GeoChartAxis/GeoChartAxis'
+import { DIMENSIONS } from '../GeoChartBars/GeoChartBars'
+import { SCALE_TYPES } from '../GeoChartScale/GeoChartScale'
 
 export const scaleLinearSchema = {
   type: 'object',
@@ -473,6 +473,221 @@ export const pieConfigJsonSchema = {
   }
 }
 
+export const lineSegmentsConfigSchema = {
+  type: 'object',
+  additionalProperties: false,
+  required: ['circleData', 'dimension', 'idHorizontalAxis', 'idVerticalAxis', 'normalValue'],
+  allOf: [
+    {
+      not: {
+        required: ['circleRadius', 'circleNaturalMargin']
+      }
+    },
+    {
+      oneOf: [{
+        not: {
+          anyOf: [
+            { required: ['normalOffset'] },
+            { required: ['naturalNormalOffset'] }
+          ]
+        }
+      }, {
+        required: ['normalOffset'],
+        not: { required: ['naturalNormalOffset'] }
+      }, {
+        required: ['naturalNormalOffset'],
+        not: { required: ['normalOffset'] }
+      }]
+    }, {
+      oneOf: [{
+        not: {
+          anyOf: [
+            { required: ['lineWidth'] },
+            { required: ['lineNaturalWidth'] }
+          ]
+        }
+      }, {
+        required: ['lineWidth'],
+        not: { required: ['lineNaturalWidth'] }
+      }, {
+        required: ['lineNaturalWidth'],
+        not: { required: ['lineWidth'] }
+      }]
+    }, {
+      oneOf: [{
+        not: {
+          anyOf: [
+            { required: ['circleRadius'] },
+            { required: ['circleNaturalRadius'] }
+          ]
+        }
+      }, {
+        required: ['circleRadius'],
+        not: { required: ['circleNaturalRadius'] }
+      }, {
+        required: ['circleNaturalRadius'],
+        not: { required: ['circleRadius'] }
+      }]
+    }, {
+      oneOf: [{
+        not: {
+          anyOf: [
+            { required: ['circleMargin'] },
+            { required: ['circleNaturalMargin'] }
+          ]
+        }
+      }, {
+        required: ['circleMargin'],
+        not: { required: ['circleNaturalMargin'] }
+      }, {
+        required: ['circleNaturalMargin'],
+        not: { required: ['circleMargin'] }
+      }]
+    }
+  ],
+  properties: {
+    circleData: {
+      type: 'array',
+      additionalItems: false,
+      items: {
+        type: 'object'
+      }
+    },
+    normalOffset: {
+      type: 'number'
+    },
+    naturalNormalOffset: {
+      type: 'number'
+    },
+    dimension: {
+      type: 'string',
+      enum: Object.values(DIMENSIONS)
+    },
+    idHorizontalAxis: {
+      type: 'string'
+    },
+    idVerticalAxis: {
+      type: 'string'
+    },
+    normalValue: {
+      type: 'number'
+    },
+    lineWidth: {
+      type: 'number'
+    },
+    lineNaturalWidth: {
+      type: 'number'
+    },
+    circleRadius: {
+      type: 'number'
+    },
+    circleNaturalRadius: {
+      type: 'number'
+    },
+    circleMargin: {
+      type: 'number'
+    },
+    circleNaturalMargin: {
+      type: 'number'
+    },
+    // Function taking as first parameter an array of CSS classes that would be
+    // set by default. Should return the array of CSS classes to be finally set.
+    // Use this function to customize which CSS classes are set to the rect for
+    // the bar of each item. Note that there might be some of the default classes
+    // might be added regardless to your customization as they are required
+    // internally.
+    cssClasses: {}
+  }
+}
+
+export const anchoredShapesConfigSchema = {
+  type: 'object',
+  additionalProperties: false,
+  required: [
+    'shapeData',
+    'dimension',
+    'idHorizontalAxis',
+    'idVerticalAxis',
+    'normalValue',
+    'getAnchorPosition',
+    'getShapeSize',
+    'getShapePath'
+  ],
+  allOf: [
+    {
+      oneOf: [{
+        not: {
+          anyOf: [
+            { required: ['normalOffset'] },
+            { required: ['naturalNormalOffset'] }
+          ]
+        }
+      }, {
+        required: ['normalOffset'],
+        not: { required: ['naturalNormalOffset'] }
+      }, {
+        required: ['naturalNormalOffset'],
+        not: { required: ['normalOffset'] }
+      }]
+    }
+  ],
+  properties: {
+    shapeData: {
+      type: 'array',
+      additionalItems: false,
+      items: {
+        type: 'object'
+      }
+    },
+    normalOffset: {
+      type: 'number'
+    },
+    naturalNormalOffset: {
+      type: 'number'
+    },
+    dimension: {
+      type: 'string',
+      enum: [DIMENSIONS.horizontal]
+    },
+    idHorizontalAxis: {
+      type: 'string'
+    },
+    idVerticalAxis: {
+      type: 'string'
+    },
+    normalValue: {
+      type: 'number'
+    },
+    // Function taking as first parameter an array of CSS classes that would be
+    // set by default. Should return the array of CSS classes to be finally set.
+    // Use this function to customize which CSS classes are set to the rect for
+    // the bar of each item. Note that there might be some of the default classes
+    // might be added regardless to your customization as they are required
+    // internally.
+    cssClasses: {},
+    // Function that receives an item from the data and should return either
+    // leading or trailing to determine the position
+    // of the shape in relation to the axis. Leading for left/above the axis and trailing
+    // for right/below it.
+    getAnchorPosition: {},
+    // Function that returns an object with width and height values so the shape can be
+    // drawn with a polygon.
+    getShapeSize: {},
+    // Function that returns a path to render the desired shape. The DS integrates the function
+    // to render a triangle. The rest of the algorithms for the shapes should be provided
+    // by the developer.
+    getShapePath: {},
+    text: {
+      type: 'object',
+      additionalProperties: false,
+      properties: {
+        // Function that returns an array of objects, each one containing a text property and a cssClass property
+        content: {}
+      }
+    }
+  }
+}
+
 export const labelConfigJsonSchema = {
   type: 'object',
   additionalProperties: false,
@@ -606,6 +821,16 @@ export const jsonSchema = {
       type: 'array',
       additionalItems: false,
       items: colorBarConfigJsonSchema
+    },
+    lineSegmentsGroups: {
+      type: 'array',
+      additionalItems: false,
+      items: lineSegmentsConfigSchema
+    },
+    anchoredShapesGroups: {
+      type: 'array',
+      additionalItems: false,
+      items: anchoredShapesConfigSchema
     },
     guidelinesGroups: {
       type: 'array',

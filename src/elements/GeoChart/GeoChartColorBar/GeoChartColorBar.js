@@ -2,13 +2,15 @@
 
 import _ from 'lodash'
 
-import './GeoChartAxis'
+import {
+  DIMENSIONS
+} from '../GeoChartAxis/GeoChartAxis'
 import {
   getItemSpanAtAxis,
   getTranslationForNormalAxisFactory,
   getItemTranslationFactory,
   isDimensionAxis
-} from './barsUtils'
+} from '../GeoChartUtils/barsUtils'
 
 const d3 = (function () {
   try {
@@ -17,14 +19,6 @@ const d3 = (function () {
     return null
   }
 })()
-
-/**
- * @enum {GeoChart.BarDimension}
- */
-export const DIMENSIONS = {
-  horizontal: 'horizontal',
-  vertical: 'vertical'
-}
 
 /**
  * @template GElement

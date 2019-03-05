@@ -2,7 +2,7 @@
 
 import _ from 'lodash'
 
-import { DIMENSIONS } from './GeoChartAxis'
+import { DIMENSIONS } from '../GeoChartAxis/GeoChartAxis'
 
 const d3 = (function () {
   try {

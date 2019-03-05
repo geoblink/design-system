@@ -18,7 +18,7 @@ const DEFAULT_WIDTH = 10
  * @param {object} singleItem
  * @return {number}
  */
-function getItemValueAtAxis (axisConfig, singleItem) {
+export function getItemValueAtAxis (axisConfig, singleItem) {
   const rawValue = singleItem[axisConfig.keyForValues]
   return axisConfig.scale.axisScale(rawValue)
 }
@@ -89,7 +89,7 @@ export function getItemSpanAtAxis (axisConfig, singleItem, options, { keyForWidt
  * @param {string} [key]
  * @return {boolean}
  */
-function isForced (options, key) {
+export function isForced (options, key) {
   return _.isFinite(_.get(options, key))
 }
 

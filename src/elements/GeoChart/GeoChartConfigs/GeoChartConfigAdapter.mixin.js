@@ -1,14 +1,16 @@
 import _ from 'lodash'
 
-import * as ChartSizing from './GeoChartSizing'
-import * as ChartBars from './GeoChartBars'
-import * as ChartLabels from './GeoChartLabels'
-import * as ChartColorBar from './GeoChartColorBar'
-import * as ChartPie from './GeoChartPie'
+import * as ChartSizing from '../GeoChartUtils/GeoChartSizing'
+import * as ChartBars from '../GeoChartBars/GeoChartBars'
+import * as ChartLabels from '../GeoChartLabels/GeoChartLabels'
+import * as ChartColorBar from '../GeoChartColorBar/GeoChartColorBar'
+import * as ChartPie from '../GeoChartPie/GeoChartPie'
 import guidelinesAdapterMixin from './GeoChartConfigAdapter.guidelines.mixin'
+import lineSegmentsAdapterMixin from './GeoChartConfigAdapter.lineSegments.mixin'
+import anchoredShapesAdapterMixin from './GeoChartConfigAdapter.anchoredShapes.mixin'
 
 export default {
-  mixins: [guidelinesAdapterMixin],
+  mixins: [guidelinesAdapterMixin, lineSegmentsAdapterMixin, anchoredShapesAdapterMixin],
   methods: {
     updateData () {
       if (!_.isEmpty(this.config.barGroups)) {
@@ -25,6 +27,14 @@ export default {
 
       if (!_.isEmpty(this.config.pieConfig)) {
         this.updatePieConfig()
+      }
+
+      if (!_.isEmpty(this.config.lineSegmentsGroups)) {
+        this.updateLineSegmentsGroups()
+      }
+
+      if (!_.isEmpty(this.config.anchoredShapesGroups)) {
+        this.updateAnchoredShapesGroups()
       }
 
       if (this.d3TipInstance) {
@@ -185,7 +195,6 @@ export default {
         tooltip: tooltipConfig,
         cssClasses: userConfig.cssClasses
       }
-
       ChartPie.render(this.d3Instance, this.d3TipInstance, pieConfig, { chart })
     }
   }

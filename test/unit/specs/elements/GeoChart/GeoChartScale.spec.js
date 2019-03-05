@@ -1,6 +1,6 @@
-import * as GeoChartScale from '@/elements/GeoChart/GeoChartScale.js'
-import * as GeoChartAxis from '@/elements/GeoChart/GeoChartAxis.js'
-import * as GeoChartSizing from '@/elements/GeoChart/GeoChartSizing.js'
+import * as GeoChartScale from '@/elements/GeoChart/GeoChartScale/GeoChartScale.js'
+import * as GeoChartAxis from '@/elements/GeoChart/GeoChartAxis/GeoChartAxis.js'
+import * as GeoChartSizing from '@/elements/GeoChart/GeoChartUtils/GeoChartSizing.js'
 
 import * as _ from 'lodash'
 import * as d3 from 'd3'

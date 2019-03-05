@@ -83,8 +83,8 @@ to be displayed as value for given tick.
 
 <script>
 const d3 = require('d3')
-const { DIMENSIONS: BARS_DIMENSIONS } = require('./GeoChartBars')
-const { SCALE_TYPES } = require('./GeoChartScale')
+const { DIMENSIONS: BARS_DIMENSIONS } = require('../GeoChartBars/GeoChartBars')
+const { SCALE_TYPES } = require('../GeoChartScale/GeoChartScale')
 
 export default {
   name: 'GeoChartAxisDemo',
@@ -96,7 +96,7 @@ export default {
   },
   computed: {
     POSITIONS () {
-      const { POSITIONS } = require('./GeoChartAxis')
+      const { POSITIONS } = require('../GeoChartAxis/GeoChartAxis')
       return POSITIONS
     },
 
@@ -237,8 +237,8 @@ export default {
 
 <script>
 const d3 = require('d3')
-const { DIMENSIONS: BARS_DIMENSIONS } = require('./GeoChartBars')
-const { SCALE_TYPES } = require('./GeoChartScale')
+const { DIMENSIONS: BARS_DIMENSIONS } = require('../GeoChartBars/GeoChartBars')
+const { SCALE_TYPES } = require('../GeoChartScale/GeoChartScale')
 
 export default {
   name: 'GeoChartAxisDemo',
@@ -249,7 +249,7 @@ export default {
   },
   computed: {
     POSITIONS () {
-      const { POSITIONS } = require('./GeoChartAxis')
+      const { POSITIONS } = require('../GeoChartAxis/GeoChartAxis')
       return POSITIONS
     },
 
@@ -366,14 +366,14 @@ export default {
 
 <script>
 const d3 = require('d3')
-const { DIMENSIONS: BARS_DIMENSIONS } = require('./GeoChartBars')
-const { SCALE_TYPES } = require('./GeoChartScale')
+const { DIMENSIONS: BARS_DIMENSIONS } = require('../GeoChartBars/GeoChartBars')
+const { SCALE_TYPES } = require('../GeoChartScale/GeoChartScale')
 
 export default {
   name: 'GeoChartAxisDemo',
   computed: {
     POSITIONS () {
-      const { POSITIONS } = require('./GeoChartAxis')
+      const { POSITIONS } = require('../GeoChartAxis/GeoChartAxis')
       return POSITIONS
     },
 
