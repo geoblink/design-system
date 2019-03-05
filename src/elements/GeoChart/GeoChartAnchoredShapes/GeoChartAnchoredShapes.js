@@ -2,7 +2,9 @@
 
 import _ from 'lodash'
 
-import '../GeoChartAxis/GeoChartAxis'
+import {
+  DIMENSIONS
+} from '../GeoChartAxis/GeoChartAxis'
 import {
   isDimensionAxis,
   isForced
@@ -17,14 +19,6 @@ const d3 = (function () {
     return null
   }
 })()
-
-/**
- * @enum {GeoChart.BarDimension}
- */
-export const DIMENSIONS = {
-  horizontal: 'horizontal',
-  vertical: 'vertical'
-}
 
 /**
  * @enum {GeoChart.AnchorPosition}

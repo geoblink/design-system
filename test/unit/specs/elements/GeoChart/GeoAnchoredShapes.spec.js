@@ -78,8 +78,11 @@ describe('GeoChartAnchoredShapes', function () {
   })
 
   describe('Constants', function () {
-    it('should export DIMENSIONS', function () {
-      expect(GeoChartAnchoredShapes).toHaveProperty('DIMENSIONS')
+    it('should export ANCHOR_POSITIONS', function () {
+      expect(GeoChartAnchoredShapes).toHaveProperty('ANCHOR_POSITIONS')
+    })
+    it('Should export getTriangleShape', function () {
+      expect(GeoChartAnchoredShapes).toHaveProperty('getTriangleShapePath')
     })
   })
 
