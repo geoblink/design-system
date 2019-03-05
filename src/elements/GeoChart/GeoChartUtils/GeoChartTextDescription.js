@@ -50,10 +50,10 @@ export function setupTextDescriptions (settingsData, d3Instance, globalOptions) 
     const defaultGroupCSSClasses = ['geo-chart-text-descriptions']
 
     const customCSSClasses = _.isFunction(d.textOptions.cssClassesGroups)
-      ? d.textOptions.cssClassesGroups(defaultGroupCSSClasses, d, i).join(' ')
+      ? d.textOptions.cssClassesGroups(defaultGroupCSSClasses, d, i)
       : defaultGroupCSSClasses
 
-    return customCSSClasses
+    return _.uniq([...customCSSClasses, defaultGroupCSSClasses]).join(' ')
   }
 }
 
