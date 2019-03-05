@@ -309,11 +309,12 @@ function renderTexts (allPieSegments, d3Instance, singlePieOptions, globalOption
   }
 
   function getPolylinePointsFactory (settings) {
+    const spaceOffset = 5
     const xPos = settings.startPosition[0]
 
     return function (d) {
       // Space between the line and the text
-      const xPosOffset = midAngle(d.data) < Math.PI ? -5 : 5
+      const xPosOffset = midAngle(d.data) < Math.PI ? -spaceOffset : spaceOffset
       const [innerPointX, innerPointY] = innerPointArc.centroid(d.data)
       const [outerPointX, outerPointY] = outerPointArc.centroid(d.data)
 
