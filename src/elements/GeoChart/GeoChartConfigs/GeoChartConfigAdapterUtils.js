@@ -20,7 +20,8 @@ export function parseAxisConfig (component, axisUserConfig) {
     position,
     scale,
     cssClasses: axisUserConfig.cssClasses,
-    ticks: axisUserConfig.ticks
+    ticks: axisUserConfig.ticks,
+    label: axisUserConfig.label
   }
 }
 

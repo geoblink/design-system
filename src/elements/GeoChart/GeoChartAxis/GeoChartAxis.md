@@ -272,6 +272,10 @@ export default {
         ticks: {
           count: 10
         },
+         label: {
+          content: 'Some Label as example',
+          margin: -15
+        },
         position: {
           type: this.POSITIONS.left
         },
@@ -316,7 +320,7 @@ export default {
             top: 30,
             right: 30,
             bottom: 30,
-            left: 30
+            left: 50
           }
         },
         axisGroups: [
