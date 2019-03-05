@@ -34,6 +34,16 @@
     @include geo-table-header-row-cell-make-common($modifier-name-with-prefix);
     @include font($heading-xsmall);
   }
+
+  .geo-table-header-row-cell--multiLine#{$modifier-name-with-prefix} {
+    @include geo-table-header-row-cell-make-common($modifier-name-with-prefix);
+
+    align-items: flex-start;
+    flex-direction: column;
+    justify-content: center;
+    padding: $space-x-small $space-small;
+    position: relative;
+  }
 }
 
 @include geo-table-header-row-cell-make('');

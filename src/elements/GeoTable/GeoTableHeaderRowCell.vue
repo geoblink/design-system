@@ -56,6 +56,16 @@ export default {
     },
 
     /**
+     * If set to `true` this column won't grow after it's content fits,
+     * otherwise (default) remaining space will be distributed and this column
+     * might grow.
+     */
+    growingDisabled: {
+      type: Boolean,
+      default: false
+    },
+
+    /**
      * Variant of this table header cell, used to change the color scheme and
      * size of the cell to adapt to different common use cases.
      *

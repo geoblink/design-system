@@ -1,7 +1,8 @@
 const HEADER_VARIANTS = {
   main: 'main',
   aux: 'aux',
-  single: 'single'
+  single: 'single',
+  multiLine: 'multiLine'
 }
 
 export { HEADER_VARIANTS }

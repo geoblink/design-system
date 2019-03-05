@@ -16,8 +16,8 @@ props:
     value: "12px"
   font_size_xsmall:
     value: "10px"
-  font_size_x_small_elegant:
-    value: "10px"
+  font_size_xxsmall:
+    value: "8px"
 global:
   type: number
   category: font-size
