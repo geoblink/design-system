@@ -9,6 +9,8 @@ const d3 = (function () {
   }
 })()
 
+const TSPAN_LINE_HEIGHT = 18
+
 /**
  * @param {Array<GeoChart.TextDescriptionSettingsData>} settingsData
  * @param {d3.Selection<GElement, Datum, PElement, PDatum>} d3Instance
@@ -136,12 +138,11 @@ function renderSingleGroup (group, singleOptions, globalOptions) {
   }
 
   function setTextContentLineBreaks (textElems) {
-    const lineHeight = 18
     textElems.each(function (d, i) {
       const tspans = d3.select(this).selectAll('tspan')
       tspans.each(function (d, i) {
         if (d.newLine) {
-          d3.select(this).attr('dy', lineHeight * i)
+          d3.select(this).attr('dy', TSPAN_LINE_HEIGHT * i)
           d3.select(this).attr('x', 0)
         }
       })
