@@ -13,7 +13,7 @@ import GeoChart from '@/elements/GeoChart/GeoChart.vue'
 const localVue = createLocalVue()
 localVue.component('geo-chart', GeoChart)
 
-describe('GeoChartColorBar', function () {
+describe('GeoChartLineSegments', function () {
   const chartConfig = {
     height: 300,
     width: 500
@@ -117,13 +117,15 @@ describe('GeoChartColorBar', function () {
     for (const dimension in axisDimensions) {
       const linearAxisConfig = axisDimensions[dimension].linearAxisConfig
       const numericalAxisConfig = axisDimensions[dimension].numericalAxisConfig
-      const cssClassFn = (original) => [...original, 'test-color-bar']
+      const cssClassFn = (original) => [...original, 'test-line-segments']
 
       switch (dimension) {
         case GeoChart.constants.BARS_DIMENSIONS.horizontal:
-          return testDimension(dimension, linearAxisConfig, numericalAxisConfig, cssClassFn)
+          testDimension(dimension, linearAxisConfig, numericalAxisConfig, cssClassFn)
+          break
         case GeoChart.constants.BARS_DIMENSIONS.vertical:
-          return testDimension(dimension, numericalAxisConfig, linearAxisConfig, null)
+          testDimension(dimension, numericalAxisConfig, linearAxisConfig, null)
+          break
         default:
           console.error(`Unknown dimension: ${dimension}`)
       }
@@ -132,10 +134,19 @@ describe('GeoChartColorBar', function () {
 
   function testDimension (dimension, verticalAxis, horizontalAxis, cssClassFn) {
     describe(`${dimension} line segments`, () => {
+      const stubLodashDebounce = stubLodashDebounceFactory()
+      beforeEach(function () {
+        stubLodashDebounce.setup()
+      })
+
+      afterEach(function () {
+        stubLodashDebounce.teardown()
+      })
+
       const idVerticalAxis = verticalAxis.id
       const idHorizontalAxis = horizontalAxis.id
-      const circleData = _.sortBy(_.times(_.random(1, 3), () => {
-        return { [axisDimensions[dimension].numericalAxisConfig.keyForValues]: _.random(0, 200) }
+      const circleData = _.sortBy(_.times(2, (i) => {
+        return { [axisDimensions[dimension].numericalAxisConfig.keyForValues]: 50 * i }
       }), axisDimensions[dimension].numericalAxisConfig.keyForValues)
 
       const lineSegmentsConfig = {
@@ -151,7 +162,8 @@ describe('GeoChartColorBar', function () {
           circleRadius: 3,
           circleMargin: 2,
           idVerticalAxis: idVerticalAxis,
-          idHorizontalAxis: idHorizontalAxis
+          idHorizontalAxis: idHorizontalAxis,
+          cssClasses: cssClassFn
         }]
       }
       it('Should render the LineSegments', () => {
@@ -172,15 +184,6 @@ describe('GeoChartColorBar', function () {
         wrapper.destroy()
       })
       it('Should update data', () => {
-        const stubLodashDebounce = stubLodashDebounceFactory()
-        beforeEach(function () {
-          stubLodashDebounce.setup()
-        })
-
-        afterEach(function () {
-          stubLodashDebounce.teardown()
-        })
-
         const wrapper = mount(GeoChart, {
           propsData: {
             config: lineSegmentsConfig,
@@ -197,8 +200,8 @@ describe('GeoChartColorBar', function () {
         expect(wrapper.findAll('.geo-chart-line-segments__segment-stop')).toHaveLength(circleData.length)
         expect(wrapper.findAll('.geo-chart-line-segments__segment')).toHaveLength(circleData.length + 1)
 
-        const circleData2 = _.sortBy(_.times(_.random(1, 3), () => {
-          return { [axisDimensions[dimension].numericalAxisConfig.keyForValues]: _.random(0, 200) }
+        const circleData2 = _.sortBy(_.times(4, (i) => {
+          return { [axisDimensions[dimension].numericalAxisConfig.keyForValues]: 32 * i }
         }), axisDimensions[dimension].numericalAxisConfig.keyForValues)
 
         const lineSegmentsConfig2 = _.assign({}, lineSegmentsConfig)
@@ -214,6 +217,7 @@ describe('GeoChartColorBar', function () {
         expect(wrapper.find('.geo-chart-line-segments__segment-stop').exists()).toBe(true)
         expect(wrapper.findAll('.geo-chart-line-segments__segment-stop')).toHaveLength(circleData2.length)
         expect(wrapper.findAll('.geo-chart-line-segments__segment')).toHaveLength(circleData2.length + 1)
+        wrapper.destroy()
       })
     })
   }

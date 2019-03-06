@@ -62,6 +62,9 @@ By default columns will take the width needed to render their content in a
 single line, considering both, header and body content. However, you can make
 header cells opt out from this behaviour with property `ignoreContentWidth`.
 
+To opt out of `GeoTable` automatic growing for some column, set property
+`growingDisabled` to `true`.
+
 ```vue
 <template>
   <div class="element-demo">
@@ -78,6 +81,9 @@ header cells opt out from this behaviour with property `ignoreContentWidth`.
             <geo-table-header-row-cell :column-min-width="200">Min width</geo-table-header-row-cell>
             <geo-table-header-row-cell :column-max-width="150">Max width</geo-table-header-row-cell>
             <geo-table-header-row-cell :column-width="100">Fixed size</geo-table-header-row-cell>
+            <geo-table-header-row-cell growing-disabled ignore-content-width>
+              <geo-trimmed-content>Not growing</geo-trimmed-content>
+            </geo-table-header-row-cell>
             <geo-table-header-row-cell :ignore-content-width="ignoreContentWidth">
               <geo-trimmed-content>
                 <label><input type="checkbox" v-model="ignoreContentWidth"> Ignore cell's width?</label>
@@ -108,7 +114,7 @@ export default {
   },
   methods: {
     randomizeData () {
-      this.sourceData = [_.times(4, i => _.random(100, 1000000, false))]
+      this.sourceData = [_.times(5, i => _.random(100, 1000000, false))]
     }
   }
 }

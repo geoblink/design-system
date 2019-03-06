@@ -1,3 +1,28 @@
+# 12.1.0
+
+New:
+
+- `GeoChartLineSegments` component
+- `GeoChartAnchoredShapes` component
+
+# 12.0.0
+
+New:
+
+- `GeoTableBodyRow` variant support
+
+Breaking:
+
+- `GeoTableBodyRow` CSS classes include variant
+
+# 11.3.0
+
+New:
+
+- `GeoPill` component
+- `GeoTable` variant `multiLine` for header rows and cells
+- `GeoTable` add `disableGrowing` property to header cells
+
 # 11.2.2
 
 Fixed:

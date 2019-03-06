@@ -16,6 +16,7 @@ import * as ChartSizing from './GeoChartUtils/GeoChartSizing'
 import * as ChartBars from './GeoChartBars/GeoChartBars'
 import * as ChartConfig from './GeoChartConfigs/GeoChartConfig'
 import * as ChartScale from './GeoChartScale/GeoChartScale'
+import { ANCHOR_POSITIONS, getTriangleShapePath } from './GeoChartAnchoredShapes/GeoChartAnchoredShapes'
 import configAdapterMixin from './GeoChartConfigs/GeoChartConfigAdapter.mixin'
 import { parseAxisConfig, getPositionOfAxis } from './GeoChartConfigs/GeoChartConfigAdapterUtils'
 
@@ -94,7 +95,9 @@ export default {
   constants: {
     SCALE_TYPES: ChartScale.SCALE_TYPES,
     POSITIONS: ChartAxis.POSITIONS,
-    BARS_DIMENSIONS: ChartBars.DIMENSIONS
+    BARS_DIMENSIONS: ChartBars.DIMENSIONS,
+    ANCHOR_POSITIONS,
+    getTriangleShapePath
   },
   mixins: [cssSuffix, configAdapterMixin],
   props: {

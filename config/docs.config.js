@@ -100,6 +100,11 @@ module.exports = {
           sectionDepth: 0
         },
         {
+          name: 'GeoPill',
+          components: '../src/elements/GeoPill/GeoPill.vue',
+          sectionDepth: 0
+        },
+        {
           name: 'GeoButton',
           components: '../src/elements/GeoButton/Geo*Button.vue',
           sectionDepth: 0
@@ -199,6 +204,9 @@ module.exports = {
           }, {
             name: 'Line segments charts',
             content: '../src/elements/GeoChart/GeoChartLineSegments/GeoChartLineSegments.md'
+          }, {
+            name: 'Anchored Shapes charts',
+            content: '../src/elements/GeoChart/GeoChartAnchoredShapes/GeoChartAnchoredShapes.md'
           }, {
             name: 'Pie charts',
             content: '../src/elements/GeoChart/GeoChartPie/GeoChartPie.md'
