@@ -117,26 +117,28 @@ function renderSingleAxis (group, singleAxisOptions, globalAxesConfig) {
     : [...forcedTickCSSClasses, ...defaultTickCSSClasses].join(' ')
 
   const labelData = _.get(singleAxisOptions, 'label.content') ? [singleAxisOptions.label.content] : []
-  const labels = group
-    .selectAll(`text.geo-chart-axis-label--${singleAxisOptions.position.type}`)
-    .data(labelData)
+  if (labelData.length) {
+    const labels = group
+      .selectAll(`text.geo-chart-axis-label--${singleAxisOptions.position.type}`)
+      .data(labelData)
 
-  const newLabels = labels
-    .enter()
-    .append('text')
-    .attr('class', `geo-chart-axis-label--${singleAxisOptions.position.type}`)
-    .attr('fill', '#000')
+    const newLabels = labels
+      .enter()
+      .append('text')
+      .attr('class', `geo-chart-axis-label--${singleAxisOptions.position.type}`)
+      .attr('fill', '#000')
 
-  const updatedLabels = labels
-  const allLabels = newLabels.merge(updatedLabels)
+    const updatedLabels = labels
+    const allLabels = newLabels.merge(updatedLabels)
 
-  allLabels.text((d, i) => d)
+    allLabels.text((d, i) => d)
 
-  labels
-    .exit()
-    .remove()
+    labels
+      .exit()
+      .remove()
 
-  positionLabel(allLabels, singleAxisOptions, globalAxesConfig)
+    positionLabel(allLabels, singleAxisOptions, globalAxesConfig)
+  }
 
   animatedGroup
     .attr('transform', `translate(${drawingEnvironment.absolutePosition.x}, ${drawingEnvironment.absolutePosition.y})`)
@@ -337,21 +339,31 @@ function getOriginYTranslation (position, svgSize, margin) {
 
 function positionLabel (label, singleAxisOptions, globalAxesConfig) {
   const offset = _.get(singleAxisOptions, 'label.offset', 0)
-  if (singleAxisOptions.position.type === POSITIONS.bottom || singleAxisOptions.position.type === POSITIONS.anchoredToAxis) {
-    label.attr('x', globalAxesConfig.chart.size.width + globalAxesConfig.chart.margin.right - 20)
-      .attr('dy', '' + globalAxesConfig.chart.margin.bottom - 20 - offset)
-      .style('text-anchor', 'end')
-  } else if (singleAxisOptions.position.type === POSITIONS.top) {
-    label.attr('x', '' + globalAxesConfig.chart.size.width)
-      .attr('dy', '' + (-globalAxesConfig.chart.margin.top))
-  } else if (singleAxisOptions.position.type === POSITIONS.left) {
-    label.attr('x', '' + (-globalAxesConfig.chart.size.height / 2))
-      .attr('dy', '' + (-globalAxesConfig.chart.margin.left / 2 + offset))
-      .attr('transform', 'rotate(-90)')
-      .style('text-anchor', 'middle')
-  } else if (singleAxisOptions.position.type === POSITIONS.right) {
-    label.attr('x', '' + (globalAxesConfig.chart))
-      .attr('dy', '' + (-globalAxesConfig.chart.margin.right + 18))
-      .attr('transform', 'rotate(90)')
+  const axisType = singleAxisOptions.position.type
+  switch (axisType) {
+    case POSITIONS.bottom:
+    case POSITIONS.anchoredToAxis:
+      label.attr('x', globalAxesConfig.chart.size.width + globalAxesConfig.chart.margin.right - 20)
+        .attr('dy', '' + globalAxesConfig.chart.margin.bottom - 20 - offset)
+        .style('text-anchor', 'end')
+      break
+    case POSITIONS.top:
+      label.attr('x', '' + globalAxesConfig.chart.size.width)
+        .attr('dy', '' + (-globalAxesConfig.chart.margin.top))
+      break
+    case POSITIONS.left:
+      label.attr('x', '' + (-globalAxesConfig.chart.size.height / 2))
+        .attr('dy', '' + (-globalAxesConfig.chart.margin.left / 2 + offset))
+        .attr('transform', 'rotate(-90)')
+        .style('text-anchor', 'middle')
+      break
+    case POSITIONS.right:
+      label.attr('x', '' + (globalAxesConfig.chart))
+        .attr('dy', '' + (-globalAxesConfig.chart.margin.right + 18))
+        .attr('transform', 'rotate(90)')
+      break
+    default:
+      console.error(`Unknown position ${axisType}`)
+      break
   }
 }
