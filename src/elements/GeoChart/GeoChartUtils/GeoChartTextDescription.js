@@ -1,5 +1,6 @@
 import _ from 'lodash'
 import { computeLabelPositionsWithBackPressure, computeLabelPositionsWithoutReadjustment, ALGORITHMS } from './GeoChartTextDescriptionUtils'
+import { setTextContent } from '../GeoChartUtils/textUtils'
 
 const d3 = (function () {
   try {
@@ -91,7 +92,7 @@ function renderSingleGroup (group, singleOptions, globalOptions) {
 
   const allTextElems = newTextElems.merge(updatedTextElems)
 
-  setTextContent(allTextElems)
+  setTextContent(allTextElems, textOptions, globalOptions)
   setTextContentLineBreaks(allTextElems)
 
   const positions = computeLabelPositions(allTextElems)
@@ -109,33 +110,6 @@ function renderSingleGroup (group, singleOptions, globalOptions) {
   setTextElementsPosition(allTextElems)
 
   return dataWithPositions
-
-  function setTextContent (textElems) {
-    const tspans = textElems
-      .selectAll('tspan')
-      .data(function (d, i) {
-        return textOptions.content(d, i)
-      })
-
-    const newtspans = tspans
-      .enter()
-      .append('tspan')
-      .attr('class', (d) => d.cssClass)
-
-    const updatedtspans = tspans
-    const alltspans = newtspans.merge(updatedtspans)
-
-    alltspans
-      .attr('class', (d) => d.cssClass)
-      .text((d) => d.text)
-
-    tspans
-      .exit()
-      .transition()
-      .duration(globalOptions.chart.animationsDurationInMilliseconds)
-      .style('opacity', 0)
-      .remove()
-  }
 
   function setTextContentLineBreaks (textElems) {
     textElems.each(function (d, i) {
