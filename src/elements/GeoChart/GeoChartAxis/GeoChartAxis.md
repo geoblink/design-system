@@ -274,7 +274,7 @@ export default {
         },
          label: {
           content: 'Some Label as example',
-          margin: -15
+          offset: -15
         },
         position: {
           type: this.POSITIONS.left

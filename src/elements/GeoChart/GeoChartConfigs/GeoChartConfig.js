@@ -196,7 +196,7 @@ export const axisConfigJsonSchema = {
       content: {
         type: 'string'
       },
-      margin: {
+      offset: {
         type: 'integer'
       }
     }

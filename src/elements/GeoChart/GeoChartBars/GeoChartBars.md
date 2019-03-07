@@ -145,6 +145,10 @@ export default {
             start: 500,
             end: 0
           }
+        },
+        label: {
+          content: 'Linear Axis',
+          offset: -15
         }
       }
     },
@@ -166,6 +170,10 @@ export default {
             inner: 0.1,
             outer: 0.2
           }
+        },
+        label: {
+          content: 'Categorical Axis',
+          offset: -10
         }
       }
     },
@@ -178,9 +186,9 @@ export default {
         chart: {
           margin: {
             top: 30,
-            right: 30,
-            bottom: 30,
-            left: 30
+            right: 10,
+            bottom: 40,
+            left: 50
           }
         },
         axisGroups: [
@@ -279,6 +287,10 @@ export default {
             start: 60,
             end: -30
           }
+        },
+        label: {
+          content: 'Temperature',
+          offset: -10
         }
       }
     },
@@ -302,6 +314,10 @@ export default {
             inner: 0.1,
             outer: 0.2
           }
+        },
+        label: {
+          content: 'Value',
+          offset: -60
         }
       }
     },
@@ -315,9 +331,9 @@ export default {
         chart: {
           margin: {
             top: 30,
-            right: 30,
-            bottom: 30,
-            left: 30
+            right: 0,
+            bottom: 50,
+            left: 50
           }
         },
         axisGroups: [
