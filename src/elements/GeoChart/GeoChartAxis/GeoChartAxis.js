@@ -125,7 +125,7 @@ function renderSingleAxis (group, singleAxisOptions, globalAxesConfig) {
     const newLabels = labels
       .enter()
       .append('text')
-      .attr('class', `geo-chart-axis-label--${singleAxisOptions.position.type}`)
+      .attr('class', `geo-chart-axis-label geo-chart-axis-label--${singleAxisOptions.position.type}`)
       .attr('fill', '#000')
 
     const updatedLabels = labels

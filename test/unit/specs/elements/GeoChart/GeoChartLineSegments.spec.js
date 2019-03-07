@@ -14,11 +14,6 @@ const localVue = createLocalVue()
 localVue.component('geo-chart', GeoChart)
 
 describe('GeoChartLineSegments', function () {
-  const chartConfig = {
-    height: 300,
-    width: 500
-  }
-
   const axisDimensions = {
     horizontal: {
       linearAxisConfig: {
@@ -169,9 +164,7 @@ describe('GeoChartLineSegments', function () {
       it('Should render the LineSegments', () => {
         const wrapper = mount(GeoChart, {
           propsData: {
-            config: lineSegmentsConfig,
-            width: `${chartConfig.width}`,
-            height: `${chartConfig.height}`
+            config: lineSegmentsConfig
           }
         })
 
@@ -186,9 +179,7 @@ describe('GeoChartLineSegments', function () {
       it('Should update data', () => {
         const wrapper = mount(GeoChart, {
           propsData: {
-            config: lineSegmentsConfig,
-            width: `${chartConfig.width}`,
-            height: `${chartConfig.height}`
+            config: lineSegmentsConfig
           }
         })
 

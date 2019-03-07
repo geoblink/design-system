@@ -16,11 +16,6 @@ const localVue = createLocalVue()
 localVue.component('geo-chart', GeoChart)
 
 describe('GeoChartAnchoredShapes', function () {
-  const chartConfig = {
-    height: 300,
-    width: 500
-  }
-
   const axisDimensions = {
     linearAxisConfig: {
       id: 'spec-linear-axis',
@@ -162,9 +157,7 @@ describe('GeoChartAnchoredShapes', function () {
         config.anchoredShapesGroups[0].text = {}
         const wrapper = mount(GeoChart, {
           propsData: {
-            config: config,
-            width: `${chartConfig.width}`,
-            height: `${chartConfig.height}`
+            config: config
           }
         })
 
@@ -190,9 +183,7 @@ describe('GeoChartAnchoredShapes', function () {
       it('Should render the LineSegments', () => {
         const wrapper = mount(GeoChart, {
           propsData: {
-            config: anchoredShapesConfig,
-            width: `${chartConfig.width}`,
-            height: `${chartConfig.height}`
+            config: anchoredShapesConfig
           }
         })
 
@@ -214,9 +205,7 @@ describe('GeoChartAnchoredShapes', function () {
       it('Should update data', () => {
         const wrapper = mount(GeoChart, {
           propsData: {
-            config: anchoredShapesConfig,
-            width: `${chartConfig.width}`,
-            height: `${chartConfig.height}`
+            config: anchoredShapesConfig
           }
         })
 
