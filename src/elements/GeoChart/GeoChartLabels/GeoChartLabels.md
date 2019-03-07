@@ -1,0 +1,211 @@
+Sometimes you might want to add custom labels to the chart, anchored to the items
+already displayed in it, even multiple labels for each item in the chart. A
+collection of labels associated to a single item of the chart is what we call a
+**label group**.
+
+To add **label groups** to a chart, add an array to `labelGroups` key of
+[GeoChart](./#/Elements/Charts?id=introduction)'s config. Each item of the array
+must be an object with the following...
+
+## Required properties
+
+- `idVerticalAxis`: ID of the axis used to position the label vertically.
+- `data`: an array of items to which labels will be added. Each `data` entry must
+have a value for the key used by the axis referenced in `idVerticalAxis`. That
+value will be used to compute label's vertical position. There's another key
+that must be present: `labels` key. It must be an array whose items follows the
+structure describe in _Labels structure_ section.
+
+### Labels structure
+
+Each label has **only one required property**, `text`, which is the string to be
+displayed. However, there are several optional properties:
+
+- `padding`: (_optional_) object with `top`, `right`, `bottom` and `left` keys,
+whose values are numbers. It is the padding to be applied to the text.
+- `margin`: (_optional_) object with `top`, `right`, `bottom` and `left` keys,
+whose values are numbers. It is the margin to be applied to the text container.
+You can combine `padding` and `margin` to render boxed text or just add some
+space between consecutive labels.
+- `cornerRadius`: (_optional_) radius of the border of the box containing the
+text, in units of the canvas (usually, you can think of this as just pixels).
+- `cssClasses`: function taking as first parameter an array of CSS classes
+that would be added by default to the group containing the text. Must return
+the array of final CSS classes that container must have. Required classes will
+be added regardless you not returning them.
+
+```vue
+<template>
+  <div class="element-demo">
+    <h3 class="element-demo__header">
+      Pills axis chart
+      <div class="element-demo__inline-input-group">
+        <geo-primary-button @click="randomizeData()">
+          Randomize data
+        </geo-primary-button>
+      </div>
+    </h3>
+    <div class="element-demo__block">
+      <geo-chart
+        v-if="chartConfig"
+        :config="chartConfig"
+        height="300px"
+        width="500px"
+      />
+    </div>
+  </div>
+</template>
+
+<script>
+const d3 = require('d3')
+const { POSITIONS } = require('../GeoChartAxis/GeoChartAxis')
+const { DIMENSIONS: BARS_DIMENSIONS } = require('../GeoChartBars/GeoChartBars')
+const { SCALE_TYPES } = require('../GeoChartScale/GeoChartScale')
+
+export default {
+  name: 'GeoChartBarsDemo',
+  data () {
+    return {
+      chartData: null
+    }
+  },
+  computed: {
+    categoricalDomain () {
+      return _.times(5, i => `Category ${i}`)
+    },
+
+    linearAxisConfig () {
+      return {
+        id: 'demo-linear-axis',
+        keyForValues: 'value',
+        ticks: {
+          count: 10
+        },
+        position: {
+          type: POSITIONS.bottom
+        },
+        scale: {
+          type: SCALE_TYPES.linear,
+          valueForOrigin: 0,
+          domain: {
+            start: 100,
+            end: -100
+          }
+        }
+      }
+    },
+
+    categoricalAxisConfig () {
+      if (!this.categoricalDomain) return null
+
+      return {
+        id: 'demo-categorical-axis',
+        keyForValues: 'category',
+        position: {
+          type: POSITIONS.anchoredToAxis,
+          value: this.linearAxisConfig.scale.valueForOrigin,
+          relativeToAxis: this.linearAxisConfig.id
+        },
+        cssClasses (originalClasses) {
+          return [...originalClasses, 'hide-paths']
+        },
+        ticks: {
+          cssClasses (originalClasses) {
+            return [...originalClasses, 'hide-lines', 'hide-text']
+          }
+        },
+        scale: {
+          type: SCALE_TYPES.categorical,
+          valueForOrigin: _.first(this.categoricalDomain),
+          domain: this.categoricalDomain,
+          padding: {
+            inner: 0.1,
+            outer: 0.2
+          }
+        }
+      }
+    },
+
+    labelGroup () {
+      if (!this.categoricalDomain) return null
+      if (!this.categoricalAxisConfig) return null
+
+      return {
+        data: _.map(this.categoricalDomain, (category) => {
+          return {
+            labels: [{
+              text: '»',
+              padding: {
+                top: 10,
+                right: 10,
+                bottom: 10,
+                left: 10
+              },
+              margin: {
+                top: 0,
+                right: 10,
+                bottom: 0,
+                left: 0
+              },
+              cornerRadius: 5,
+              cssClasses (originalClasses) {
+                return [...originalClasses, 'rect-stroke-red-and-text-fill-black']
+              }
+            }, {
+              text: category,
+            }],
+            [this.categoricalAxisConfig.keyForValues]: category
+          }
+        }),
+        idVerticalAxis: this.categoricalAxisConfig.id
+      }
+    },
+
+    chartConfig () {
+      if (!this.categoricalAxisConfig) return null
+      if (!this.labelGroup) return null
+      if (!this.chartData) return null
+
+      return {
+        chart: {
+          margin: {
+            top: 30,
+            right: 30,
+            bottom: 30,
+            left: 130
+          }
+        },
+        axisGroups: [
+          this.linearAxisConfig,
+          this.categoricalAxisConfig
+        ],
+        barGroups: [{
+          data: this.chartData,
+          dimension: BARS_DIMENSIONS.horizontal,
+          idHorizontalAxis: this.linearAxisConfig.id,
+          idVerticalAxis: this.categoricalAxisConfig.id
+        }],
+        labelGroups: [this.labelGroup]
+      }
+    }
+  },
+  mounted () {
+    this.randomizeData()
+  },
+  methods: {
+    randomizeData () {
+      this.chartData = _.map(this.categoricalDomain, (category) => {
+        return {
+          [this.categoricalAxisConfig.keyForValues]: category,
+          [this.linearAxisConfig.keyForValues]: _.random(
+            this.linearAxisConfig.scale.domain.start,
+            this.linearAxisConfig.scale.domain.end,
+            false
+          )
+        }
+      })
+    }
+  }
+}
+</script>
+```

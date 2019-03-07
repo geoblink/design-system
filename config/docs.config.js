@@ -102,6 +102,11 @@ module.exports = {
           sectionDepth: 0
         },
         {
+          name: 'GeoPill',
+          components: '../src/elements/GeoPill/GeoPill.vue',
+          sectionDepth: 0
+        },
+        {
           name: 'GeoButton',
           components: '../src/elements/GeoButton/Geo*Button.vue',
           sectionDepth: 0
@@ -183,25 +188,31 @@ module.exports = {
             components: '../src/elements/GeoChart/GeoChart.vue'
           }, {
             name: 'Axes',
-            content: '../src/elements/GeoChart/GeoChartAxis.md'
+            content: '../src/elements/GeoChart/GeoChartAxis/GeoChartAxis.md'
           }, {
             name: 'Axes guidelines',
-            content: '../src/elements/GeoChart/GeoChartAxisGuidelines.md'
+            content: '../src/elements/GeoChart/GeoChartAxisGuidelines/GeoChartAxisGuidelines.md'
           }, {
             name: 'Scales',
-            content: '../src/elements/GeoChart/GeoChartScale.md'
+            content: '../src/elements/GeoChart/GeoChartScale/GeoChartScale.md'
           }, {
             name: 'Labels',
-            content: '../src/elements/GeoChart/GeoChartLabels.md'
+            content: '../src/elements/GeoChart/GeoChartLabels/GeoChartLabels.md'
           }, {
             name: 'Bar charts',
-            content: '../src/elements/GeoChart/GeoChartBars.md'
+            content: '../src/elements/GeoChart/GeoChartBars/GeoChartBars.md'
           }, {
             name: 'Colored bar charts',
-            content: '../src/elements/GeoChart/GeoChartColorBar.md'
+            content: '../src/elements/GeoChart/GeoChartColorBar/GeoChartColorBar.md'
+          }, {
+            name: 'Line segments charts',
+            content: '../src/elements/GeoChart/GeoChartLineSegments/GeoChartLineSegments.md'
+          }, {
+            name: 'Anchored Shapes charts',
+            content: '../src/elements/GeoChart/GeoChartAnchoredShapes/GeoChartAnchoredShapes.md'
           }, {
             name: 'Pie charts',
-            content: '../src/elements/GeoChart/GeoChartPie.md'
+            content: '../src/elements/GeoChart/GeoChartPie/GeoChartPie.md'
           }]
         },
         // hygen-component (reference for injection, do not remove)

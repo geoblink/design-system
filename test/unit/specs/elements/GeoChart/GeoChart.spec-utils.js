@@ -173,7 +173,7 @@ export function stubGetBoundingClientRectFactory (functionOrValue) {
 export function getTransformTranslateMatches (elem) {
   const transformAttributeValue = elem.attributes('transform')
 
-  return /translate\((-?\d+(?:\.\d+)?), (-?\d+(?:\.\d+)?)\)/.exec(transformAttributeValue)
+  return /translate\((-?\d+(?:\.\d+)?),\s?(-?\d+(?:\.\d+)?)\)/.exec(transformAttributeValue)
 }
 
 export function stubGetBBoxFactory (functionOrValue) {
