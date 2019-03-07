@@ -1,3 +1,9 @@
+# 12.3.0
+
+New:
+
+- `yarn new:component` template generation with hygen
+
 # 12.2.0
 
 New:
