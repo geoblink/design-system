@@ -1,15 +1,18 @@
 <template>
-  <svg
-    ref="svgRoot"
+  <div
+    v-on-resize="reloadSize"
     :class="{
       [`geo-chart${cssSuffix}`]: true,
       [`geo-chart--debug${cssSuffix}`]: debug
     }"
-  />
+  >
+    <svg ref="svgRoot"/>
+  </div>
 </template>
 
 <script>
 import _ from 'lodash'
+import OnResize from '../../directives/GeoOnResize'
 import cssSuffix from '../../mixins/cssModifierMixin'
 import * as ChartAxis from './GeoChartAxis/GeoChartAxis'
 import * as ChartSizing from './GeoChartUtils/GeoChartSizing'
@@ -92,6 +95,9 @@ export default {
   name: 'GeoChart',
   status: 'ready',
   release: '9.4.0',
+  directives: {
+    OnResize
+  },
   constants: {
     SCALE_TYPES: ChartScale.SCALE_TYPES,
     POSITIONS: ChartAxis.POSITIONS,
@@ -119,25 +125,15 @@ export default {
     debug: {
       type: Boolean,
       default: false
-    },
-    /**
-     * Height of the chart, including units and margin.
-     */
-    height: {
-      type: String,
-      required: true
-    },
-    /**
-     * Width of the chart, including units and margin.
-     */
-    width: {
-      type: String,
-      required: true
     }
   },
   data () {
     return {
-      svgSize: null
+      svgSize: null,
+      size: {
+        width: null,
+        height: null
+      }
     }
   },
   computed: {
@@ -247,9 +243,17 @@ export default {
         this.debouncedRedraw()
       },
       deep: true
+    },
+
+    size: {
+      handler () {
+        this.debouncedRedraw()
+      },
+      deep: true
     }
   },
   mounted () {
+    this.reloadSize()
     this.debouncedRedraw()
   },
   beforeDestroy () {
@@ -263,17 +267,14 @@ export default {
       this.redrawAxes()
     },
 
+    reloadSize () {
+      const boundingRect = this.$el.getBoundingClientRect()
+      this.size.width = boundingRect.width
+      this.size.height = boundingRect.height
+    },
+
     adjustSize () {
       if (!this.d3Instance) return
-
-      if (!_.isNil(this.height)) {
-        this.d3Instance.style('height', this.height)
-      }
-
-      if (!_.isNil(this.width)) {
-        this.d3Instance.style('width', this.width)
-      }
-
       const svgBoundingClientRect = this.svgElement.getBoundingClientRect()
       this.svgSize = {
         height: svgBoundingClientRect.height,

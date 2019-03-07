@@ -29,8 +29,6 @@ duration of the animations.
     <div class="element-demo__block">
       <geo-chart
         :config="config"
-        height="300px"
-        width="500px"
         debug
       />
     </div>
@@ -74,12 +72,12 @@ export default {
   <div class="element-demo">
     <h3 class="element-demo__header">Chart</h3>
     <div class="element-demo__block">
-      <geo-chart
-        :debug="debug"
-        :config="chartConfig"
-        :height="heightInPx"
-        :width="widthInPx"
-      />
+      <div class="element-demo__bordered-box" style="resize: both;">
+        <geo-chart
+          :debug="debug"
+          :config="chartConfig"
+        />
+      </div>
       <div class="element-demo__block__config">
         <label class="element-demo__inline-input-group__field">
           Debug grid: <input type="checkbox" v-model="debug">

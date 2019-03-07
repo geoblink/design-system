@@ -7,6 +7,11 @@
   }
 
   .geo-chart#{$modifier-name-with-prefix} {
+    &, svg {
+      height: 100%;
+      width: 100%;
+    }
+
     .hide-paths path {
       visibility: hidden;
     }

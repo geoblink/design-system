@@ -70,12 +70,10 @@ to be displayed as value for given tick.
         Randomize data
       </geo-primary-button>
     </h3>
-    <div class="element-demo__block">
+    <div class="element-demo__block element-demo__block--chart-container">
       <geo-chart
         v-if="chartConfig"
         :config="chartConfig"
-        height="300px"
-        width="500px"
       />
     </div>
   </div>
@@ -224,12 +222,10 @@ export default {
         Randomize data
       </geo-primary-button>
     </h3>
-    <div class="element-demo__block">
+    <div class="element-demo__block element-demo__block--chart-container">
       <geo-chart
         v-if="chartConfig"
         :config="chartConfig"
-        height="300px"
-        width="500px"
       />
     </div>
   </div>
@@ -357,12 +353,10 @@ export default {
 <template>
   <div class="element-demo">
     <h3 class="element-demo__header">Custom ticks</h3>
-    <div class="element-demo__block">
+    <div class="element-demo__block element-demo__block--chart-container">
       <geo-chart
         v-if="chartConfig"
         :config="chartConfig"
-        height="300px"
-        width="500px"
       />
     </div>
   </div>

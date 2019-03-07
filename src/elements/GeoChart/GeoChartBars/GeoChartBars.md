@@ -102,12 +102,10 @@ inside the data array.
         </geo-primary-button>
       </div>
     </h3>
-    <div class="element-demo__block">
+    <div class="element-demo__block element-demo__block--chart-container">
       <geo-chart
         v-if="chartConfig"
         :config="chartConfig"
-        height="300px"
-        width="500px"
       />
     </div>
   </div>
@@ -238,12 +236,10 @@ export default {
         </geo-primary-button>
       </div>
     </h3>
-    <div class="element-demo__block">
+    <div class="element-demo__block element-demo__block--chart-container">
       <geo-chart
         v-if="chartConfig"
         :config="chartConfig"
-        height="300px"
-        width="500px"
       />
     </div>
   </div>
@@ -432,12 +428,10 @@ export default {
         </geo-primary-button>
       </div>
     </h3>
-    <div class="element-demo__block">
+    <div class="element-demo__block element-demo__block--chart-container">
       <geo-chart
         v-if="chartConfig"
         :config="chartConfig"
-        height="300px"
-        width="500px"
       />
     </div>
   </div>
