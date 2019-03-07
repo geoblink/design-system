@@ -338,7 +338,7 @@ function getOriginYTranslation (position, svgSize, margin) {
 function positionLabel (label, singleAxisOptions, globalAxesConfig) {
   const offset = _.get(singleAxisOptions, 'label.offset', 0)
   if (singleAxisOptions.position.type === POSITIONS.bottom || singleAxisOptions.position.type === POSITIONS.anchoredToAxis) {
-    label.attr('x', globalAxesConfig.chart.size.width + globalAxesConfig.chart.margin.right - 10)
+    label.attr('x', globalAxesConfig.chart.size.width + globalAxesConfig.chart.margin.right - 20)
       .attr('dy', '' + globalAxesConfig.chart.margin.bottom - 20 - offset)
       .style('text-anchor', 'end')
   } else if (singleAxisOptions.position.type === POSITIONS.top) {
