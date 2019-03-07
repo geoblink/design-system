@@ -127,10 +127,14 @@ $colors: (
   8: $color-link,
   9: $color-red,
   10: $color-yellow,
-  11: $color-yellow-light
+  11: $color-yellow-light,
+  12: $color-red-dark,
+  13: $color-grey-light,
+  14: $color-yellow-darker,
+  15: $color-red-darker
 );
 
-@for $i from 0 through 11 {
+@for $i from 0 through 15 {
   .geo-chart-color-bar__segment--#{$i},
   .geo-chart-color-bar__highlighted-segment--#{$i},
   .geo-chart-pie-slice--#{$i},
