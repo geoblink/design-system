@@ -5,7 +5,12 @@ import counterFactory from '../utils/counterFactory'
 const getNextCallbackId = counterFactory()
 
 const runCallbacks = throttle(function (event) {
-  for (const callback of Object.values(callbacks)) {
+  const sortedCallbacks = _.map(
+    _.reverse(_.sortedUniq(Object.keys(callbacks))),
+    (index) => callbacks[index]
+  )
+
+  for (const callback of sortedCallbacks) {
     callback(event)
   }
 })
@@ -24,10 +29,13 @@ export default {
 
     el.__geoOnContextMenuClickOutsideCallbackId__ = getNextCallbackId()
     callbacks[el.__geoOnContextMenuClickOutsideCallbackId__] = function (event) {
-      if (!vNode.context || el === event.target || el.contains(event.target)) {
+      if (event.isStopped || !vNode.context || el === event.target || el.contains(event.target)) {
         return
       }
-      binding.value(event)
+
+      binding.value(event, function () {
+        event.isStopped = true
+      })
     }
   },
 

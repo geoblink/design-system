@@ -1,3 +1,7 @@
+# 12.4.0
+
+- `GeoClickOutside` and `GeoContextMenuClickOutside` will pass as second parameter a function that will force the rest of handlers in the chain from being called.
+
 # 12.3.0
 
 New:
