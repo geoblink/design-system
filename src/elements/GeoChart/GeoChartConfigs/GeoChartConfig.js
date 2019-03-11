@@ -791,6 +791,11 @@ export const labelConfigJsonSchema = {
 export const jsonSchema = {
   type: 'object',
   additionalProperties: false,
+  oneOf: [{
+    required: ['axisGroups']
+  }, {
+    required: ['pieConfig']
+  }],
   properties: {
     chart: {
       type: 'object',
