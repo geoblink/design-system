@@ -74,10 +74,12 @@
       ref="tableFooter"
       class="geo-table__footer"
     >
+      <!-- @slot Use this slot to customize table's footer and pagination -->
       <slot
         :css-modifier="cssModifier"
         name="footer"
       >
+        <!-- @slot Use this slot to add leading accessories to table's footer without having to add pagination explicitly -->
         <slot name="footerLeadingAccessoryItem" />
         <geo-table-pagination
           :page-size="pageSize"
@@ -85,6 +87,7 @@
           :source-data-length="sourceData.length"
           @go-to-page="goToPage($event)"
         />
+        <!-- @slot Use this slot to add trailing accessories to table's footer without having to add pagination explicitly -->
         <slot name="footerTrailingAccessoryItem" />
       </slot>
     </div>
