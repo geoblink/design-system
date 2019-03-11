@@ -50,7 +50,6 @@ import _ from 'lodash'
  * @return {number}
  */
 
-// getElementContentWidth = getDOMElementWidth
 /**
  * @template TableContainerElement
  * @template CellElement
@@ -150,7 +149,6 @@ export function getInitialTableWidthDistribution (columnSizeRequirements) {
   })
 }
 
-// getElementContentWidth = getDOMElementWidth
 /**
  * @template TableContainerElement
  * @template CellElement
@@ -207,30 +205,31 @@ export function getTableWidthDistributionFillingParent (columnsSettings, initial
   // If we have more space than required we have to divide the remaining
   // space between the columns using automatic width, so we don't mess with
   // any column that has a fixed width (or maximum or minimum)
-  let tableRemainingWidth = containerWidth - contentWidth
-  if (tableRemainingWidth >= 0) {
-    // We first distribute width evenly among columns which raw content is wider
-    // than currently assigned width.
+  const initialWidthToBeDistributed = containerWidth - contentWidth
 
-    tableRemainingWidth = distributeWidth(
-      _.reject(
-        getSortedUnsaturatedColumnsConfig(columnsSettings, resultingColumnsWidths),
-        'isRawContentEntirelyVisible'
-      ),
-      tableRemainingWidth
-    )
+  if (initialWidthToBeDistributed < 0) return resultingColumnsWidths
 
-    // Then we get remaining unsaturated columns and attempt to distribute
-    // space evenly among them.
+  // We first distribute width evenly among columns which raw content is wider
+  // than currently assigned width.
 
-    tableRemainingWidth = distributeWidth(
+  const remainingWidthAfterAdjustingPriorityColumns = distributeWidth(
+    _.reject(
       getSortedUnsaturatedColumnsConfig(columnsSettings, resultingColumnsWidths),
-      tableRemainingWidth
-    )
+      'isRawContentEntirelyVisible'
+    ),
+    initialWidthToBeDistributed
+  )
 
-    if (tableRemainingWidth > 0) {
-      console.warn('GeoTable [component] :: could not redistribute extra space between table columns without breaking limits on their maximum - or explicit - width')
-    }
+  // Then we get remaining unsaturated columns and attempt to distribute
+  // space evenly among them.
+
+  const remainingTableWidth = distributeWidth(
+    getSortedUnsaturatedColumnsConfig(columnsSettings, resultingColumnsWidths),
+    remainingWidthAfterAdjustingPriorityColumns
+  )
+
+  if (remainingTableWidth > 0) {
+    console.warn('GeoTable [component] :: could not redistribute extra space between table columns without breaking limits on their maximum - or explicit - width')
   }
 
   return resultingColumnsWidths
@@ -334,7 +333,7 @@ export function getVueComponentColumnSizingSettings (vueComponent, {
     columnMinWidth: vueComponent.columnMinWidth,
     columnMaxWidth: vueComponent.columnMaxWidth,
     columnWidth: vueComponent.columnWidth,
-    element: vueComponent.$el // Previously was elm
+    element: vueComponent.$el
   }
 }
 
