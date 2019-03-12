@@ -29,13 +29,13 @@ export function render (d3Instance, d3TipInstance, options, globalOptions) {
   const newPies = pies
     .enter()
     .append('g')
-    .attr('class', 'geo-chart-pie')
-    .attr('transform', 'translate(' + (globalOptions.chart.chartWidth / 2) + ', ' + (globalOptions.chart.chartHeight / 2) + ')')
 
   const updatedPies = pies
 
   const allPies = newPies.merge(updatedPies)
-
+  allPies
+    .attr('class', 'geo-chart-pie')
+    .attr('transform', `translate(${((globalOptions.chart.chartWidth + globalOptions.chart.margin.left - globalOptions.chart.margin.right) / 2)}, ${((globalOptions.chart.chartHeight + globalOptions.chart.margin.top - globalOptions.chart.margin.bottom) / 2)})`)
   // We use forEach to get the 'this' of the pie although we know we'll always have 1 for now.
   allPies.each(function () {
     const pie = d3.select(this)

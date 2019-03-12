@@ -254,7 +254,6 @@ export default {
   },
   mounted () {
     this.reloadSize()
-    this.debouncedRedraw()
   },
   beforeDestroy () {
     this.cleanupData()
@@ -271,6 +270,7 @@ export default {
       const boundingRect = this.$el.getBoundingClientRect()
       this.size.width = boundingRect.width
       this.size.height = boundingRect.height
+      this.debouncedRedraw()
     },
 
     adjustSize () {

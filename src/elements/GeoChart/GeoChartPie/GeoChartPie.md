@@ -48,7 +48,7 @@ inside the data array.
         </geo-primary-button>
       </div>
     </h3>
-    <div class="element-demo__block element-demo__block--chart-container">
+    <div class="element-demo__bordered-box element-demo__block--chart-container" style="resize: both;">
       <geo-chart
         v-if="chartConfig"
         :config="chartConfig"
