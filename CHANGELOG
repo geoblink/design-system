@@ -1,3 +1,28 @@
+# 12.5.0
+
+- `GeoTablePagination` exports `GeoTablePaginationMixin` as constant
+
+# 12.4.1
+
+- `GeoChart` enforce `axisGroups` in all charts but `pie` ones
+
+# 12.4.0
+
+- `GeoClickOutside` and `GeoContextMenuClickOutside` will pass as second parameter a function that will force the rest of handlers in the chain from being called.
+
+# 12.3.0
+
+New:
+
+- `yarn new:component` template generation with hygen
+
+# 12.2.0
+
+New:
+
+- `GeoChartTextDescription` component
+- `GeoChartPie` labels
+
 # 12.1.0
 
 New:

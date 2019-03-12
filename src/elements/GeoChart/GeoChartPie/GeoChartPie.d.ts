@@ -18,6 +18,12 @@ declare namespace GeoChart {
       getContent?: (item: object, index: number) => string | null | undefined
       getOffset?: (event: MouseEvent) => { x: number, y: number } | null | undefined
     }
+    text: {
+      margin?: number
+      content: (item: object, index: number) => GeoChart.TextDescriptionOptions[]
+      cssClassesGroups?: (defaultClasses: string[], item: object, index: number) => string[]
+      cssClassesTexts?: (defaultClasses: string[], item: object, index: number) => string[]
+    }
     cssClasses?: (defaultClasses: string[], item: object, index: number) => string[]
   }
 }

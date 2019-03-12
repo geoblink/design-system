@@ -2,6 +2,8 @@
 
 import _ from 'lodash'
 import { setupTooltipEventListeners } from '../GeoChartUtils/GeoChartTooltip'
+import { setupTextDescriptions } from '../GeoChartUtils/GeoChartTextDescription'
+import { ALGORITHMS } from '../GeoChartUtils/GeoChartTextDescriptionUtils'
 
 const d3 = (function () {
   try {
@@ -39,7 +41,7 @@ export function render (d3Instance, d3TipInstance, options, globalOptions) {
   // We use forEach to get the 'this' of the pie although we know we'll always have 1 for now.
   allPies.each(function () {
     const pie = d3.select(this)
-    renderSinglePie(pie, d3TipInstance, options, globalOptions)
+    renderSinglePie(pie, d3Instance, d3TipInstance, options, globalOptions)
   })
 }
 
@@ -49,11 +51,12 @@ export function render (d3Instance, d3TipInstance, options, globalOptions) {
  * @template PElement
  * @template PDatum
  * @param {d3.Selection<GElement, Datum, PElement, PDatum>} pie
+ * @param {d3.Selection<GElement, Datum, PElement, PDatum>} d3Instance
  * @param {d3.Selection<GElement, Datum, PElement, PDatum>} [d3TipInstance]
  * @param {GeoChart.PieConfig} singlePieOptions
  * @param {GeoChart.PieGlobalConfig} globalOptions
  */
-function renderSinglePie (pie, d3TipInstance, singlePieOptions, globalOptions) {
+function renderSinglePie (pie, d3Instance, d3TipInstance, singlePieOptions, globalOptions) {
   let pieWasEmpty = true
   const pieScale = getPieScale()
   const pieScaleData = pieScale(singlePieOptions.data)
@@ -95,6 +98,10 @@ function renderSinglePie (pie, d3TipInstance, singlePieOptions, globalOptions) {
     .remove()
 
   setupTooltipEventListeners(allPieSegments, d3TipInstance, singlePieOptions.tooltip)
+
+  if (singlePieOptions.text) {
+    renderTexts(allPieSegments, d3Instance, singlePieOptions, globalOptions, arc)
+  }
 
   function getPieScale () {
     return d3
@@ -157,5 +164,166 @@ function renderSinglePie (pie, d3TipInstance, singlePieOptions, globalOptions) {
     }
 
     return defaultClasses.join(' ')
+  }
+}
+
+/**
+ * @template GElement
+ * @template Datum
+ * @template PElement
+ * @template PDatum
+ * @param {d3.Selection<GElement, Datum, PElement, PDatum>} allPieSegments
+ * @param {d3.Selection<GElement, Datum, PElement, PDatum>} d3Instance
+ * @param {GeoChart.PieConfig} singlePieOptions
+ * @param {GeoChart.PieGlobalConfig} globalOptions
+ */
+function renderTexts (allPieSegments, d3Instance, singlePieOptions, globalOptions) {
+  const keyForTextId = 'pieIndex'
+  const rightGroup = []
+  const leftGroup = []
+  // Arc inside the pie for the starter point of the lines
+  const innerPointArc = d3.arc()
+    .innerRadius(singlePieOptions.outerRadius * 0.8)
+    .outerRadius(singlePieOptions.outerRadius * 0.8)
+  // Arc out of the pie to get the points where the texts and lines should be placed
+  const outerPointArc = d3.arc()
+    .innerRadius(singlePieOptions.outerRadius * 1.1)
+    .outerRadius(singlePieOptions.outerRadius * 1.1)
+
+  allPieSegments
+    .each(function (d, i) {
+      // It's alright to modify this d since this is the d provided by d3 pie, not the one by the user.
+      d[keyForTextId] = i
+      if (midAngle(d) < Math.PI) {
+        rightGroup.push(d)
+      } else {
+        leftGroup.push(d)
+      }
+    })
+
+  // reverse is needed on the rightGroup because the positioning algorithm
+  // requires the Y's to be in desc order.
+  _.reverse(rightGroup)
+
+  const textOffset = singlePieOptions.outerRadius + 20
+  const midChartWidth = globalOptions.chart.chartWidth / 2
+  const midChartHeight = globalOptions.chart.chartHeight / 2
+  const startPositionRight = [midChartWidth + textOffset, midChartHeight]
+  const startPositionLeft = [midChartWidth - textOffset, midChartHeight]
+
+  const commonSettings = {
+    keyForId: keyForTextId,
+    textOptions: singlePieOptions.text,
+    getTextPositionMainDirection: getTextPositionMainDirection,
+    minY: -midChartHeight,
+    maxY: midChartHeight,
+    algorithm: ALGORITHMS.withoutReadjustment
+  }
+
+  const textDescriptionSettingsRight = _.assign({}, commonSettings, {
+    data: rightGroup,
+    startPosition: startPositionRight,
+    textAnchor: 'start'
+  })
+
+  const textDescriptionSettingsLeft = _.assign({}, commonSettings, {
+    data: leftGroup,
+    startPosition: startPositionLeft,
+    textAnchor: 'end'
+  })
+
+  const newSettings = [textDescriptionSettingsRight, textDescriptionSettingsLeft]
+
+  const dataWithPositions = setupTextDescriptions(newSettings, d3Instance, globalOptions)
+
+  addPolylines()
+
+  function getTextPositionMainDirection (d, i) {
+    const centroid = outerPointArc.centroid(d)
+    const yPos = centroid[1]
+    return yPos
+  }
+
+  function midAngle (d) {
+    return d.startAngle + (d.endAngle - d.startAngle) / 2
+  }
+
+  function addPolylines () {
+    const groups = d3Instance
+      .selectAll('g.geo-chart-polylines')
+      .data(dataWithPositions)
+
+    const newGroups = groups
+      .enter()
+      .append('g')
+      .attr('class', 'geo-chart-polylines')
+
+    groups
+      .exit()
+      .transition()
+      .duration(globalOptions.chart.animationsDurationInMilliseconds)
+      .attr('opacity', 0)
+      .remove()
+
+    const updatedGroups = groups
+    const allGroups = newGroups.merge(updatedGroups)
+
+    allGroups.each(function (singleData, i) {
+      const group = d3.select(this)
+      const polylinePoints = getPolylinePointsFactory(newSettings[i])
+
+      const polylines = group
+        .selectAll('polyline')
+        .data(singleData, function (d) {
+          return d.data[commonSettings.keyForId]
+        })
+
+      const newPolylines = polylines
+        .enter()
+        .append('polyline')
+        .attr('fill', 'none')
+        .attr('stroke', 'black')
+        .attr('opacity', 0)
+
+      newPolylines
+        .transition()
+        .duration(globalOptions.chart.animationsDurationInMilliseconds)
+        .attr('opacity', 1)
+
+      const updatedPolylines = polylines
+      const allPolylines = newPolylines.merge(updatedPolylines)
+
+      allPolylines
+        .transition()
+        .duration(globalOptions.chart.animationsDurationInMilliseconds)
+        .attr('points', polylinePoints)
+        .attr('opacity', 1)
+
+      polylines
+        .exit()
+        .transition()
+        .duration(globalOptions.chart.animationsDurationInMilliseconds)
+        .attr('opacity', 0)
+        .remove()
+    })
+  }
+
+  function getPolylinePointsFactory (settings) {
+    const spaceOffset = 5
+    const xPos = settings.startPosition[0]
+
+    return function (d) {
+      // Space between the line and the text
+      const xPosOffset = midAngle(d.data) < Math.PI ? -spaceOffset : spaceOffset
+      const [innerPointX, innerPointY] = innerPointArc.centroid(d.data)
+      const [outerPointX, outerPointY] = outerPointArc.centroid(d.data)
+
+      // Position the points with respect to the middle of the chart
+      const innerPoint = [innerPointX + midChartWidth, innerPointY + midChartHeight]
+      const outerPoint = [outerPointX + midChartWidth, outerPointY + midChartHeight]
+      const textPoint = [xPos + xPosOffset, outerPointY + midChartHeight]
+
+      return [innerPoint, outerPoint, textPoint]
+    }
   }
 }

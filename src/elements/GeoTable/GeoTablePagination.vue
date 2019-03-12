@@ -110,12 +110,15 @@
 
 <script>
 import cssSuffix from '../../mixins/cssModifierMixin'
-import paginationMixin from './GeoTablePaginationMixin'
+import GeoTablePaginationMixin from './GeoTablePaginationMixin'
 
 export default {
   name: 'GeoTablePagination',
   status: 'ready',
   release: '10.1.0',
-  mixins: [paginationMixin, cssSuffix]
+  mixins: [GeoTablePaginationMixin, cssSuffix],
+  constants: {
+    GeoTablePaginationMixin
+  }
 }
 </script>

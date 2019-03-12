@@ -193,6 +193,7 @@ export default {
         outerRadius: outerRadius * chartRadius,
         keyForValues: userConfig.keyForValues,
         tooltip: tooltipConfig,
+        text: userConfig.text,
         cssClasses: userConfig.cssClasses
       }
       ChartPie.render(this.d3Instance, this.d3TipInstance, pieConfig, { chart })
