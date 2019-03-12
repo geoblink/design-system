@@ -1,3 +1,7 @@
+# 12.5.0
+
+- `GeoTablePagination` exports `GeoTablePaginationMixin` as constant
+
 # 12.4.1
 
 - `GeoChart` enforce `axisGroups` in all charts but `pie` ones
