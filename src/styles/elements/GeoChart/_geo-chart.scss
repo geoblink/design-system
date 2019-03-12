@@ -37,6 +37,10 @@
         stroke: $color-grey;
       }
     }
+
+    .geo-chart-axis-label {
+      fill: $color-black;
+    }
   }
 
   .geo-chart-tooltip#{$modifier-name-with-prefix} {
