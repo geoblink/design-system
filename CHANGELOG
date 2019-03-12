@@ -1,3 +1,13 @@
+# 13.0.0
+
+New:
+
+- `GeoChartAxis` support for axis labels
+
+Breaking:
+
+- Remove fixed `height` and `width` props from `GeoChart`
+
 # 12.5.0
 
 - `GeoTablePagination` exports `GeoTablePaginationMixin` as constant

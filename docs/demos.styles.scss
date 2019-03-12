@@ -21,6 +21,11 @@
   flex-direction: row;
 }
 
+.element-demo__block--chart-container {
+  height: 300px;
+  width: 500px;
+}
+
 .element-demo__block > * {
   margin-right: $space-base;
 

@@ -43,12 +43,10 @@ domain.
         Randomize data
       </geo-primary-button>
     </h3>
-    <div class="element-demo__block">
+    <div class="element-demo__block element-demo__block--chart-container">
       <geo-chart
         v-if="chartConfig"
         :config="chartConfig"
-        height="300px"
-        width="500px"
       />
     </div>
   </div>
@@ -190,12 +188,10 @@ export default {
         Randomize data
       </geo-primary-button>
     </h3>
-    <div class="element-demo__block">
+    <div class="element-demo__block element-demo__block--chart-container">
       <geo-chart
         v-if="chartConfig"
         :config="chartConfig"
-        height="300px"
-        width="500px"
       />
       <div class="element-demo__block__config">
         <label class="element-demo__inline-input-group__field">
@@ -396,12 +392,10 @@ export default {
         Randomize data
       </geo-primary-button>
     </h3>
-    <div class="element-demo__block">
+    <div class="element-demo__block element-demo__block--chart-container">
       <geo-chart
         v-if="chartConfig"
         :config="chartConfig"
-        height="300px"
-        width="500px"
       />
     </div>
   </div>

@@ -182,9 +182,7 @@ describe('GeoChartAxis', function () {
           propsData: {
             config: {
               axisGroups: [axisConfig]
-            },
-            height: `${chartHeight}px`,
-            width: `${chartWidth}px`
+            }
           }
         })
 
@@ -206,9 +204,7 @@ describe('GeoChartAxis', function () {
           propsData: {
             config: {
               axisGroups: [axisConfig]
-            },
-            height: `${chartHeight}px`,
-            width: `${chartWidth}px`
+            }
           }
         })
 
@@ -233,9 +229,7 @@ describe('GeoChartAxis', function () {
           propsData: {
             config: {
               axisGroups: [axisConfig]
-            },
-            height: `${chartHeight}px`,
-            width: `${chartWidth}px`
+            }
           }
         })
 
@@ -276,9 +270,7 @@ describe('GeoChartAxis', function () {
           propsData: {
             config: {
               axisGroups: [axisConfig]
-            },
-            height: `${chartHeight}px`,
-            width: `${chartWidth}px`
+            }
           }
         })
 
@@ -314,9 +306,7 @@ describe('GeoChartAxis', function () {
           propsData: {
             config: {
               axisGroups: [axisConfig]
-            },
-            height: `${chartHeight}px`,
-            width: `${chartWidth}px`
+            }
           }
         })
 
@@ -355,6 +345,31 @@ describe('GeoChartAxis', function () {
             ticksWithCustomClasses.at(i).attributes('class')
           ).toMatch(new RegExp(`(?:.*\\s+)?${expectedClassName}(?:\\s+.*)?`))
         }
+      })
+
+      it('should apply labels if provided in the axis config', function () {
+        const axisConfig = _.omit(
+          _.merge({}, linearAxisConfig, {
+            position: { type: GeoChart.constants.POSITIONS.left },
+            label: { content: 'Test label' }
+          }),
+          'ticks'
+        )
+        const wrapper = mount(GeoChart, {
+          propsData: {
+            config: {
+              axisGroups: [axisConfig]
+            }
+          }
+        })
+
+        flushD3Transitions()
+
+        expect(wrapper.find('.geo-chart').exists()).toBe(true)
+        expect(wrapper.find('.geo-chart-axis').exists()).toBe(true)
+        expect(wrapper.find('.geo-chart-axis-label').exists()).toBe(true)
+        expect(wrapper.find('.geo-chart-axis-label--left').exists()).toBe(true)
+        expect(wrapper.find('.geo-chart-axis-label--left').text()).toBe('Test label')
       })
     })
 
@@ -418,9 +433,7 @@ describe('GeoChartAxis', function () {
             propsData: {
               config: {
                 axisGroups: [axisConfig]
-              },
-              height: `${chartHeight}px`,
-              width: `${chartWidth}px`
+              }
             }
           })
 
@@ -437,9 +450,7 @@ describe('GeoChartAxis', function () {
               config: {
                 axisGroups: [axisConfig],
                 chart: baseChartOptions
-              },
-              height: `${chartHeight}px`,
-              width: `${chartWidth}px`
+              }
             }
           })
 
@@ -460,9 +471,7 @@ describe('GeoChartAxis', function () {
             propsData: {
               config: {
                 axisGroups: [axisConfig]
-              },
-              height: `${chartHeight}px`,
-              width: `${chartWidth}px`
+              }
             }
           })
 
@@ -494,9 +503,7 @@ describe('GeoChartAxis', function () {
                     }
                   }
                 })]
-              },
-              height: `${chartHeight}px`,
-              width: `${chartWidth}px`
+              }
             }
           })
 
@@ -628,9 +635,7 @@ describe('GeoChartAxis', function () {
             propsData: {
               config: {
                 axisGroups: [baseAxisConfig, anchoredAxisConfig]
-              },
-              height: `${chartHeight}px`,
-              width: `${chartWidth}px`
+              }
             }
           })
 
@@ -663,9 +668,7 @@ describe('GeoChartAxis', function () {
                     value: baseAxisConfig.scale.domain.start
                   }
                 })]
-              },
-              height: `${chartHeight}px`,
-              width: `${chartWidth}px`
+              }
             }
           })
 
@@ -689,9 +692,7 @@ describe('GeoChartAxis', function () {
                     value: baseAxisConfig.scale.domain.end
                   }
                 })]
-              },
-              height: `${chartHeight}px`,
-              width: `${chartWidth}px`
+              }
             }
           })
 
@@ -715,9 +716,7 @@ describe('GeoChartAxis', function () {
                     value: (baseAxisConfig.scale.domain.end + baseAxisConfig.scale.domain.start) / 2
                   }
                 })]
-              },
-              height: `${chartHeight}px`,
-              width: `${chartWidth}px`
+              }
             }
           })
 
@@ -741,9 +740,7 @@ describe('GeoChartAxis', function () {
                     value: (baseAxisConfig.scale.domain.end - baseAxisConfig.scale.domain.start) / 4 + baseAxisConfig.scale.domain.start
                   }
                 })]
-              },
-              height: `${chartHeight}px`,
-              width: `${chartWidth}px`
+              }
             }
           })
 
@@ -767,9 +764,7 @@ describe('GeoChartAxis', function () {
                     value: (baseAxisConfig.scale.domain.end - baseAxisConfig.scale.domain.start) / 4 * 3 + baseAxisConfig.scale.domain.start
                   }
                 })]
-              },
-              height: `${chartHeight}px`,
-              width: `${chartWidth}px`
+              }
             }
           })
 
@@ -794,9 +789,7 @@ describe('GeoChartAxis', function () {
                   }
                 })],
                 chart: baseChartOptions
-              },
-              height: `${chartHeight}px`,
-              width: `${chartWidth}px`
+              }
             }
           })
 
@@ -818,9 +811,7 @@ describe('GeoChartAxis', function () {
             propsData: {
               config: {
                 axisGroups: [baseAxisConfig, anchoredAxisConfig]
-              },
-              height: `${chartHeight}px`,
-              width: `${chartWidth}px`
+              }
             }
           })
 
@@ -858,9 +849,7 @@ describe('GeoChartAxis', function () {
                     }
                   }
                 })]
-              },
-              height: `${chartHeight}px`,
-              width: `${chartWidth}px`
+              }
             }
           })
 
@@ -912,9 +901,7 @@ describe('GeoChartAxis', function () {
           propsData: {
             config: {
               axisGroups: [initialAxis]
-            },
-            height: `${chartHeight}px`,
-            width: `${chartWidth}px`
+            }
           }
         })
 
@@ -955,9 +942,7 @@ describe('GeoChartAxis', function () {
           propsData: {
             config: {
               axisGroups: [initialAxis]
-            },
-            height: `${chartHeight}px`,
-            width: `${chartWidth}px`
+            }
           }
         })
 
@@ -993,9 +978,7 @@ describe('GeoChartAxis', function () {
           propsData: {
             config: {
               axisGroups: [firstAxis, secondAxis]
-            },
-            height: `${chartHeight}px`,
-            width: `${chartWidth}px`
+            }
           }
         })
 

@@ -14,10 +14,6 @@ const localVue = createLocalVue()
 localVue.component('geo-chart', GeoChart)
 
 const mockDomain = _.times(8, i => `Bucket ${i}`)
-const chartConfig = {
-  height: 300,
-  width: 500
-}
 
 const axisDimensions = {
   horizontal: {
@@ -163,9 +159,7 @@ describe('GeoChartColorBar', function () {
       it('Should render the ColorBar', () => {
         const wrapper = mount(GeoChart, {
           propsData: {
-            config: colorBarConfig,
-            width: `${chartConfig.width}`,
-            height: `${chartConfig.height}`
+            config: colorBarConfig
           }
         })
 
@@ -182,9 +176,7 @@ describe('GeoChartColorBar', function () {
       it('Should update data', () => {
         const wrapper = mount(GeoChart, {
           propsData: {
-            config: colorBarConfig,
-            width: `${chartConfig.width}`,
-            height: `${chartConfig.height}`
+            config: colorBarConfig
           }
         })
 

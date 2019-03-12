@@ -159,7 +159,7 @@ export default {
       const innerRadius = userConfig.innerRadius || DEFAULT_INNER_RADIUS
       const outerRadius = userConfig.outerRadius || DEFAULT_OUTER_RADIUS
       const chartMargin = _.get(this.config.chart, 'margin', ChartSizing.EMPTY_MARGIN)
-      const chartRadius = Math.min(chartSize.height, chartSize.width) / 2
+      const chartRadius = Math.min(chartSize.height - chartMargin.top - chartMargin.bottom, chartSize.width - chartMargin.left - chartMargin.right) / 2
       const animationsDurationInMilliseconds = _.get(this.config.chart, 'animationsDurationInMilliseconds')
         ? this.animationsDurationInMilliseconds
         : DEFAULT_PIE_TRANSITION_DURATION

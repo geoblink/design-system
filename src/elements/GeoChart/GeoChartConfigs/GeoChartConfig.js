@@ -191,6 +191,14 @@ export const axisConfigJsonSchema = {
         // index. Should return a string.
         format: {}
       }
+    },
+    label: {
+      content: {
+        type: 'string'
+      },
+      offset: {
+        type: 'integer'
+      }
     }
   }
 }

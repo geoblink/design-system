@@ -56,12 +56,10 @@ inside the data array.
         </geo-primary-button>
       </div>
     </h3>
-    <div class="element-demo__block">
+    <div class="element-demo__bordered-box element-demo__block--chart-container" style="resize: both;">
       <geo-chart
         v-if="chartConfig"
         :config="chartConfig"
-        height="300px"
-        width="500px"
       />
     </div>
   </div>

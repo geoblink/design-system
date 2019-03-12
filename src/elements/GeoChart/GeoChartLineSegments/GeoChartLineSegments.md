@@ -76,7 +76,7 @@ Doing so will throw an invalid config error.
         </geo-primary-button>
       </div>
     </h3>
-    <div class="element-demo__block">
+    <div class="element-demo__block element-demo__block--chart-container">
       <geo-chart
         css-modifier="hidden-axis"
         v-if="chartConfig"
@@ -197,7 +197,7 @@ Doing so will throw an invalid config error.
         </geo-primary-button>
       </div>
     </h3>
-    <div class="element-demo__block">
+    <div class="element-demo__block element-demo__block--chart-container">
       <geo-chart
         v-if="chartConfig"
         css-modifier="hidden-axis"

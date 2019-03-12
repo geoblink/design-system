@@ -2,7 +2,6 @@ import _ from 'lodash'
 
 import {
   flushD3Transitions,
-  stubGetBoundingClientRectFactory,
   stubGetBBoxFactory,
   stubGetScreenCTMFactory,
   stubLodashDebounceFactory,
@@ -53,22 +52,6 @@ describe('GeoChartAxisGuidelines', function () {
       }
     }
 
-    const chartHeight = 300
-    const chartWidth = 500
-
-    const stubGetBoundingClientRect = stubGetBoundingClientRectFactory({
-      height: chartHeight,
-      width: chartWidth
-    })
-
-    beforeEach(function () {
-      stubGetBoundingClientRect.setup()
-    })
-
-    afterEach(function () {
-      stubGetBoundingClientRect.teardown()
-    })
-
     describe('Guidelines customization', function () {
       it('should not render guidelines if axis tick count is 0', function () {
         const axisConfig = _.merge({}, linearAxisConfig, {
@@ -82,9 +65,7 @@ describe('GeoChartAxisGuidelines', function () {
             config: {
               axisGroups: [axisConfig],
               guidelinesGroups: [{ idAxis: axisConfig.id }]
-            },
-            height: `${chartHeight}px`,
-            width: `${chartWidth}px`
+            }
           }
         })
 
@@ -107,9 +88,7 @@ describe('GeoChartAxisGuidelines', function () {
             config: {
               axisGroups: [axisConfig],
               guidelinesGroups: [{ idAxis: axisConfig.id }]
-            },
-            height: `${chartHeight}px`,
-            width: `${chartWidth}px`
+            }
           }
         })
 
@@ -132,9 +111,7 @@ describe('GeoChartAxisGuidelines', function () {
             config: {
               axisGroups: [axisConfig],
               guidelinesGroups: [{ idAxis: axisConfig.id }]
-            },
-            height: `${chartHeight}px`,
-            width: `${chartWidth}px`
+            }
           }
         })
 
@@ -164,9 +141,7 @@ describe('GeoChartAxisGuidelines', function () {
                 idAxis: axisConfig.id,
                 cssClasses: cssClassesMock
               }]
-            },
-            height: `${chartHeight}px`,
-            width: `${chartWidth}px`
+            }
           }
         })
 
@@ -207,9 +182,7 @@ describe('GeoChartAxisGuidelines', function () {
                   cssClasses: cssClassesMock
                 }
               }]
-            },
-            height: `${chartHeight}px`,
-            width: `${chartWidth}px`
+            }
           }
         })
 
@@ -242,9 +215,7 @@ describe('GeoChartAxisGuidelines', function () {
             config: {
               axisGroups: [axisConfig],
               guidelinesGroups: [{ axisConfig: axisConfig }]
-            },
-            height: `${chartHeight}px`,
-            width: `${chartWidth}px`
+            }
           }
         })
 
@@ -264,9 +235,7 @@ describe('GeoChartAxisGuidelines', function () {
             config: {
               axisGroups: [axisConfig],
               guidelinesGroups: [{ idAxis: axisConfig.id }]
-            },
-            height: `${chartHeight}px`,
-            width: `${chartWidth}px`
+            }
           }
         })
 
@@ -291,9 +260,7 @@ describe('GeoChartAxisGuidelines', function () {
                   outerLines: true
                 }
               }]
-            },
-            height: `${chartHeight}px`,
-            width: `${chartWidth}px`
+            }
           }
         })
 
@@ -318,9 +285,7 @@ describe('GeoChartAxisGuidelines', function () {
                   count: 10
                 }
               }]
-            },
-            height: `${chartHeight}px`,
-            width: `${chartWidth}px`
+            }
           }
         })
 
@@ -359,9 +324,7 @@ describe('GeoChartAxisGuidelines', function () {
             config: {
               axisGroups: [initialAxis],
               guidelinesGroups: [{ idAxis: initialAxis.id }]
-            },
-            height: `${chartHeight}px`,
-            width: `${chartWidth}px`
+            }
           }
         })
 
@@ -407,9 +370,7 @@ describe('GeoChartAxisGuidelines', function () {
             config: {
               axisGroups: [initialAxis],
               guidelinesGroups: [{ idAxis: initialAxis.id }]
-            },
-            height: `${chartHeight}px`,
-            width: `${chartWidth}px`
+            }
           }
         })
 
@@ -450,9 +411,7 @@ describe('GeoChartAxisGuidelines', function () {
                 { idAxis: firstAxis.id },
                 { idAxis: secondAxis.id }
               ]
-            },
-            height: `${chartHeight}px`,
-            width: `${chartWidth}px`
+            }
           }
         })
 

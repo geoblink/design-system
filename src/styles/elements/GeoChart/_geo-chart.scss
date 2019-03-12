@@ -7,6 +7,11 @@
   }
 
   .geo-chart#{$modifier-name-with-prefix} {
+    &, svg {
+      height: 100%;
+      width: 100%;
+    }
+
     .hide-paths path {
       visibility: hidden;
     }
@@ -31,6 +36,10 @@
       .tick line {
         stroke: $color-grey;
       }
+    }
+
+    .geo-chart-axis-label {
+      fill: $color-black;
     }
   }
 
