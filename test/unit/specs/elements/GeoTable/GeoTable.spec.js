@@ -397,6 +397,75 @@ describe('GeoTable', () => {
       })
     })
 
+    it('should relayout on scroll', async function () {
+      const wrapper = mount(GeoTable, {
+        stubs: {
+          GeoTableHeaderRow,
+          GeoTableHeaderRowCell,
+          GeoTableBodyRow,
+          GeoTableBodyRowCell
+        },
+        propsData: {
+          sourceData: [{ value: 'Body row cell content' }],
+          currentPage: 0
+        },
+        slots: {
+          header: '<GeoTableHeaderRow><GeoTableHeaderRowCell>My header</GeoTableHeaderRowCell></GeoTableHeaderRow>'
+        },
+        scopedSlots: {
+          body: '<GeoTableBodyRow slot-scope="row"><GeoTableBodyRowCell>{{ row.item.value }}</GeoTableBodyRowCell></GeoTableBodyRow>'
+        }
+      })
+
+      const instance = wrapper.find('.geo-table')
+      expect(instance.exists()).toBe(true)
+
+      const layoutHeadersAndShadowsSpy = jest.spyOn(wrapper.vm, 'layoutHeadersAndShadows')
+
+      wrapper.find('.geo-table__container').trigger('scroll')
+      expect(layoutHeadersAndShadowsSpy).toHaveBeenCalled()
+
+      layoutHeadersAndShadowsSpy.mockRestore()
+    })
+
+    it('should emit `@infer-page-size` event after inferring page size', async function () {
+      const numRows = 10
+      const wrapper = mount(GeoTable, {
+        stubs: {
+          GeoTableHeaderRow,
+          GeoTableHeaderRowCell,
+          GeoTableBodyRow,
+          GeoTableBodyRowCell,
+          GeoTablePagination,
+          FontAwesomeIcon: true
+        },
+        propsData: {
+          sourceData: _.times(numRows, (i) => { return { value: `Body row cell content: ${i}` } }),
+          currentPage: 0,
+          automaticPageSize: true
+        },
+        slots: {
+          header: '<GeoTableHeaderRow><GeoTableHeaderRowCell>My header</GeoTableHeaderRowCell></GeoTableHeaderRow>'
+        },
+        scopedSlots: {
+          body: '<GeoTableBodyRow slot-scope="row"><GeoTableBodyRowCell>{{ row.item.value }}</GeoTableBodyRowCell></GeoTableBodyRow>'
+        }
+      })
+
+      const instance = wrapper.find('.geo-table')
+      expect(instance.exists()).toBe(true)
+
+      await wrapper.vm.forcedLayoutTable()
+
+      while (wrapper.vm.isInferringPageSize) {
+        await delayPromise(0)
+      }
+
+      expect(wrapper.vm.isInferringPageSize).toBe(false)
+      expect(wrapper.find('.geo-table').emitted('infer-page-size')).toHaveLength(1)
+      expect(wrapper.find('.geo-table').emitted('infer-page-size')[0]).toEqual([numRows])
+    })
+
     describe('When there is no forced page size', function () {
       it(`should render ${GeoTable.constants.DEFAULT_PAGESIZE} items`, function () {
         const stubBodyRowConstructor = jest.fn()
@@ -756,3 +825,13 @@ describe('GeoTable', () => {
     })
   })
 })
+
+function delayPromise (duration) {
+  return function (...args) {
+    return new Promise(function (resolve) {
+      setTimeout(function () {
+        resolve(...args)
+      }, duration)
+    })
+  }
+}

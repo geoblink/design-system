@@ -95,10 +95,16 @@
 </template>
 
 <script>
+import _ from 'lodash'
+
 import OnResize from '../../directives/GeoOnResize'
 import cssSuffix from '../../mixins/cssModifierMixin'
 import throttle from '../../utils/throttle'
-import _ from 'lodash'
+
+import {
+  getAutomaticColumnsWidth,
+  getVueComponentColumnSizingSettings
+} from './GeoTable.utils'
 
 const DEFAULT_PAGESIZE = 10
 
@@ -326,233 +332,8 @@ export default {
     },
 
     computeColumnsWidth () {
-      /*
-       Probably we should find a more reliable approach to do this. We can use
-       this.$slots.header to get the VNodes added to header slot but we can't
-       do that in the body because it's a scope slot (it receives parameters
-       from the parent), so to use that approach (this.$scopeSlots) we have to
-       duplicate here the logic of the v-for and parameter passing that we use
-       in the template...
-
-       As we always use geo-table-header-row and geo-table-body-row components
-       we'll make that a requirement to use the table
-      */
-      const componentsByTagName = _.groupBy(this.$children, '$vnode.componentOptions.tag')
-      const headerRows = _.map(componentsByTagName['geo-table-header-row'], getHeaderCellDefaultSlotDOMElements)
-      const bodyRows = _.map(componentsByTagName['geo-table-body-row'], getDefaultSlotDOMElements)
-
-      /*
-       Here we store...
-
-       - maxWidth:     The maximum width of the column (optional)
-       - minWidth:     The minimum width of the column (optional)
-       - width:        The width of the column (optional)
-       - contentWidth: The width of the longest content in the column
-                       (automatically computed)
-
-       This object has a key for each column and an object with those 4
-       properties as value.
-
-       After filling the object we get the final width, which will be:
-
-       - width, if set
-       - contentWidth, considering it must be greater than minWidth (if set)
-         and lower than maxWidth (if set)
-      */
-      const columnsSettings = {}
-
-      // First we gather information from the header rows, in those rows we
-      // can set a max or min width
-      for (const singleHeaderRow of headerRows) {
-        for (let columnIndex = 0; columnIndex < singleHeaderRow.length; columnIndex++) {
-          const headerRowCell = singleHeaderRow[columnIndex]
-          const currentColumnSettings = columnsSettings[columnIndex] || {}
-
-          currentColumnSettings.growingDisabled = _.defaultTo(
-            headerRowCell.growingDisabled,
-            currentColumnSettings.growingDisabled
-          )
-
-          // We want to keep the lowest maximum as it's compatible with all the
-          // maximum widths set
-          currentColumnSettings.maxWidth = _.min([
-            currentColumnSettings.maxWidth,
-            headerRowCell.columnMaxWidth
-          ])
-
-          // We want to keep the highest minimum as it's compatible with all the
-          // minimum widths set
-          currentColumnSettings.minWidth = _.max([
-            currentColumnSettings.minWidth,
-            headerRowCell.columnMinWidth
-          ])
-
-          if (!_.isNil(headerRowCell.columnWidth)) {
-            /*
-             We should check if we are forcing a different width here, if we
-             set a width for a column in a header row and a different one in a
-             different header row then we should warn the user about it as it
-             might lead to unexpected results
-             */
-            if (!_.isNil(currentColumnSettings.width) && currentColumnSettings.width !== headerRowCell.columnWidth) {
-              console.warn(`GeoTable [component] :: different widths have been set for the same column: ${currentColumnSettings.width} and ${headerRowCell.columnWidth}. The last one will used.`)
-            }
-
-            currentColumnSettings.width = headerRowCell.columnWidth
-          }
-
-          // We want to keep the greatest contentWidth as all the content fits
-          // in it as long as the header name is not truncatable
-          const contentWidth = getDOMElementWidth(headerRowCell.domElement)
-
-          currentColumnSettings.headerContentWidth = _.max([
-            currentColumnSettings.headerContentWidth,
-            contentWidth
-          ])
-
-          if (!headerRowCell.ignoreContentWidth) {
-            currentColumnSettings.contentWidth = _.max([
-              currentColumnSettings.contentWidth,
-              contentWidth
-            ])
-          }
-
-          columnsSettings[columnIndex] = currentColumnSettings
-        }
-      }
-
-      // Body rows are easier as they don't support setting column width... yet?
-      // So we only have to get the content width and keep the greatest
-      for (const singleBodyRow of bodyRows) {
-        for (let columnIndex = 0; columnIndex < singleBodyRow.length; columnIndex++) {
-          const bodyRowCell = singleBodyRow[columnIndex]
-          const currentColumnSettings = columnsSettings[columnIndex]
-          const contentWidth = getDOMElementWidth(bodyRowCell.domElement)
-          currentColumnSettings.contentWidth = _.max([
-            currentColumnSettings.contentWidth,
-            contentWidth
-          ])
-        }
-      }
-
-      // Once we have the settings and content width we have to compute a first
-      // width proposal respecting minimum and maximum and using forced width
-      // (if set)
-      this.columnsWidths = _.map(columnsSettings, function (currentColumnSettings) {
-        if (currentColumnSettings.width) return currentColumnSettings.width
-        const min = _.defaultTo(currentColumnSettings.minWidth, Number.NEGATIVE_INFINITY)
-        const max = _.defaultTo(currentColumnSettings.maxWidth, Number.POSITIVE_INFINITY)
-        const width = _.clamp(currentColumnSettings.contentWidth, min, max)
-        return width
-      })
-
-      // We know the width of the cells but we need the width of the table's
-      // container so we know if we need horizontal scroll or if there's extra
-      // width that should be divided into the columns
-      const tableContainerWidth = getDOMElementWidth(this.$el)
-      const tableContentWidth = _.sum(this.columnsWidths)
-
-      // If we have more space than required we have to divide the remaining
-      // space between the columns using automatic width, so we don't mess with
-      // any column that has a fixed width (or maximum or minimum)
-      let tableRemainingWidth = tableContainerWidth - tableContentWidth
-      if (tableRemainingWidth >= 0) {
-        // We have to increase width of cells without an explicit width but with
-        // or without minimum/maximum width
-        //
-        // First we'll attempt to increase the width of those columns which
-        // header content was not considered for the column's width but which
-        // were wider than their content.
-        //
-        // We'll proceed then by splitting the remaining width equally between
-        // all columns which have not been saturated yet, where saturated means
-        // that the column has reached its maximum width
-        //
-        // A column with an explicit width is saturated by definition
-        let unsaturatedColumns = _.sortBy(_.filter(_.map(columnsSettings, function (currentColumnSettings, index) {
-          if (currentColumnSettings.growingDisabled) return null
-
-          const remainingWidthUntilReachingMaximum = _.isNil(currentColumnSettings.maxWidth)
-            ? Number.MAX_VALUE
-            : currentColumnSettings.maxWidth - currentColumnSettings.contentWidth
-
-          const isUsingAutomaticColumnWidth =
-            _.isNil(currentColumnSettings.width) &&
-            remainingWidthUntilReachingMaximum > 0
-
-          const isHeaderContentEntirelyVisible = currentColumnSettings.headerContentWidth <= currentColumnSettings.contentWidth
-
-          return isUsingAutomaticColumnWidth
-            ? {
-              index: index,
-              headerContentWidth: currentColumnSettings.headerContentWidth,
-              contentWidth: currentColumnSettings.contentWidth,
-              isHeaderContentEntirelyVisible,
-              remainingWidthUntilReachingMaximum: !isHeaderContentEntirelyVisible
-                ? Math.min(
-                  remainingWidthUntilReachingMaximum,
-                  currentColumnSettings.headerContentWidth - currentColumnSettings.contentWidth
-                )
-                : remainingWidthUntilReachingMaximum
-            }
-            : null
-        })), 'remainingWidthUntilReachingMaximum')
-
-        // We first distribute width evenly among columns which header content
-        // is wider than it's body content.
-
-        let unsaturatedColumnsWithHeaderContentNotEntirelyVisible = _.reject(
-          unsaturatedColumns,
-          'isHeaderContentEntirelyVisible'
-        )
-
-        while (unsaturatedColumnsWithHeaderContentNotEntirelyVisible.length && tableRemainingWidth > 0) {
-          const result = getColumnsWidthDistribution(
-            unsaturatedColumnsWithHeaderContentNotEntirelyVisible,
-            tableRemainingWidth
-          )
-
-          for (const columnIndex of Object.keys(result.columnsWidths)) {
-            const currentColumnSettings = columnsSettings[columnIndex]
-
-            this.columnsWidths[columnIndex] += result.columnsWidths[columnIndex]
-            currentColumnSettings.remainingWidthUntilReachingMaximum -= result.columnsWidths[columnIndex]
-            currentColumnSettings.isHeaderContentEntirelyVisible = currentColumnSettings.headerContentWidth <= this.columnsWidths[columnIndex]
-          }
-
-          tableRemainingWidth = result.remainingWidth
-          unsaturatedColumnsWithHeaderContentNotEntirelyVisible = _.filter(
-            result.remainingColumns,
-            (column, columnIndex) => column.headerContentWidth > columnsSettings[columnIndex]
-          )
-        }
-
-        // Then we get remaining unsaturated columns and attempt to distribute
-        // space evenly among them.
-
-        unsaturatedColumns = _.filter(
-          unsaturatedColumns,
-          (columnsSettings) => columnsSettings.remainingWidthUntilReachingMaximum > 0
-        )
-
-        while (unsaturatedColumns.length && tableRemainingWidth > 0) {
-          const result = getColumnsWidthDistribution(unsaturatedColumns, tableRemainingWidth)
-
-          for (const columnIndex of Object.keys(result.columnsWidths)) {
-            const currentColumnSettings = columnsSettings[columnIndex]
-
-            currentColumnSettings.remainingWidthUntilReachingMaximum -= result.columnsWidths[columnIndex]
-            this.columnsWidths[columnIndex] += result.columnsWidths[columnIndex]
-          }
-
-          tableRemainingWidth = result.remainingWidth
-          unsaturatedColumns = result.remainingColumns
-        }
-
-        if (tableRemainingWidth > 0) {
-          console.warn('GeoTable [component] :: could not redistribute extra space between table columns without breaking limits on their maximum - or explicit - width')
-        }
-      }
+      const tableSizingConfig = getTableSizingConfig(this)
+      this.columnsWidths = getAutomaticColumnsWidth(tableSizingConfig, getDOMElementWidth)
     },
 
     applyComputedColumnsWidth () {
@@ -588,23 +369,10 @@ export default {
         ])
       }
 
-      // Probably we should find a more reliable approach to do this. We can use
-      // this.$slots.header to get the VNodes added to header slot but we can't
-      // do that in the body because it's a scope slot (it receives parameters
-      // from the parent), so to use that approach (this.$scopeSlots) we have to
-      // duplicate here the logic of the v-for and parameter passing that we use
-      // in the template...
-      //
-      // As we always use geo-table-header-row and geo-table-body-row components
-      // we'll make that a requirement to use the table
-      const componentsByTagName = _.groupBy(self.$children, '$vnode.componentOptions.tag')
-      const headerRows = _.map(componentsByTagName['geo-table-header-row'], getHeaderCellDefaultSlotDOMElements)
-      const bodyRows = _.map(componentsByTagName['geo-table-body-row'], getDefaultSlotDOMElements)
+      const tableSizingConfig = getTableSizingConfig(this)
 
-      // Finally we apply the widths to the headers...
-      _.forEach(headerRows, applyWidthToRow)
-      // ... and the body...
-      _.forEach(bodyRows, applyWidthToRow)
+      // Finally we apply the widths to the rows...
+      _.forEach(tableSizingConfig.rowsSizingConfig, (row) => applyWidthToRow(row, this.columnsWidths))
 
       self.$refs.tableHeader.style.width = `${_.max([tableContentWidth, tableContainerWidth])}px`
       self.$refs.tableBody.style.width = `${_.max([tableContentWidth, tableContainerWidth])}px`
@@ -613,15 +381,6 @@ export default {
         .getBoundingClientRect()
         .height
       self.$refs.tableBody.style['padding-top'] = `${headerHeight}px`
-
-      function applyWidthToRow (row) {
-        _.forEach(row, applyWidthToCell)
-      }
-
-      function applyWidthToCell (cell, columnIndex) {
-        const width = self.columnsWidths[columnIndex]
-        cell.domElement.style.width = `${width}px`
-      }
     },
 
     async inferPageSize () {
@@ -670,62 +429,60 @@ export default {
   }
 }
 
-function getDefaultSlotDOMElements (vueComponent) {
-  // If vue-loader doesn't have `preserveWhitespace: false` we might see empty
-  // nodes in slows. See: https://github.com/vuejs/vue/issues/5329
-  const defaultSlotActualContent = _.filter(vueComponent.$slots.default, 'tag')
-  return _.map(defaultSlotActualContent, function (parentComponent) {
-    return {
-      // We only care about properties passed to the components and the
-      // DOM elements
-      ignoreContentWidth: false,
-      columnMinWidth: parentComponent.columnMinWidth,
-      columnMaxWidth: parentComponent.columnMaxWidth,
-      columnWidth: parentComponent.columnWidth,
-      domElement: parentComponent.elm
-    }
-  })
+/**
+ * @param {Vue} vueTableComponent
+ * @return {TableSizingConfig<HTMLElement, HTMLElement>}
+ */
+function getTableSizingConfig (vueTableComponent) {
+  /*
+  Probably we should find a more reliable approach to do this. We can use
+  this.$slots.header to get the VNodes added to header slot but we can't
+  do that in the body because it's a scope slot (it receives parameters
+  from the parent), so to use that approach (this.$scopeSlots) we have to
+  duplicate here the logic of the v-for and parameter passing that we use
+  in the template...
+
+  As we always use geo-table-header-row and geo-table-body-row components
+  we'll make that a requirement to use the table
+  */
+  const componentsByTagName = _.groupBy(vueTableComponent.$children, '$vnode.componentOptions.tag')
+  const headerRows = _.map(
+    componentsByTagName['geo-table-header-row'],
+    (vueCellComponent) => getCellSizingConfigForCell(vueCellComponent)
+  )
+  const bodyRows = _.map(
+    componentsByTagName['geo-table-body-row'],
+    (vueCellComponent) => getCellSizingConfigForCell(vueCellComponent, {
+      overridenIgnoreContentWidth: false
+    })
+  )
+
+  const tableCells = [...headerRows, ...bodyRows]
+
+  const tableSizingConfig = {
+    rowsSizingConfig: tableCells,
+    tableContainerElement: vueTableComponent.$el
+  }
+
+  return tableSizingConfig
 }
 
-function getHeaderCellDefaultSlotDOMElements (vueComponent) {
+/**
+ * @param {Vue} vueComponent
+ * @param {object} overrideSettings
+ * @param {boolean} overrideSettings.overridenIgnoreContentWidth
+ * @param {boolean} overrideSettings.overridenGrowingDisabled
+ * @return {CellSizingConfig}
+ */
+function getCellSizingConfigForCell (vueComponent, overrideSettings) {
   // If vue-loader doesn't have `preserveWhitespace: false` we might see empty
-  // nodes in slows. See: https://github.com/vuejs/vue/issues/5329
+  // nodes in slots. See: https://github.com/vuejs/vue/issues/5329
   const defaultSlotActualContent = _.filter(vueComponent.$slots.default, 'tag')
-  return _.map(defaultSlotActualContent, function (parentComponent) {
-    // We only care about properties passed to the components and the
-    // DOM elements
-    return getBaseComponentAttributes(parentComponent.componentInstance)
 
-    function getBaseComponentAttributes (componentInstance) {
-      const propNames = [
-        'ignoreContentWidth',
-        'growingDisabled',
-        'columnWidth',
-        'columnMinWidth',
-        'columnMaxWidth'
-      ]
-
-      if (_.find(propNames, attributeName => attributeName in componentInstance)) {
-        return {
-          ignoreContentWidth: componentInstance.ignoreContentWidth,
-          growingDisabled: componentInstance.growingDisabled,
-          columnMinWidth: componentInstance.columnMinWidth,
-          columnMaxWidth: componentInstance.columnMaxWidth,
-          columnWidth: componentInstance.columnWidth,
-          domElement: parentComponent.elm
-        }
-      } else {
-        return _.reduce(componentInstance.$children, function (accum, childInstance) {
-          return accum.continueLooking
-            ? getBaseComponentAttributes(childInstance)
-            : accum
-        }, {
-          domElement: parentComponent.elm,
-          continueLooking: true
-        })
-      }
-    }
-  })
+  return _.map(
+    defaultSlotActualContent,
+    (vNode) => getVueComponentColumnSizingSettings(vNode.componentInstance, overrideSettings)
+  )
 }
 
 function getDOMElementWidth (node) {
@@ -742,53 +499,20 @@ function getDOMElementWidth (node) {
 }
 
 /**
- * @typedef {object} ColumnSettings
- * @property {number} remainingWidthUntilReachingMaximum
- * @property {number} headerContentWidth
- * @property {number} index
+ * @param {Array<CellSizingConfig<HTMLElement>>} row
+ * @param {number[]} columnsWidths
  */
+function applyWidthToRow (row, columnsWidths) {
+  _.forEach(row, (row, index) => applyWidthToCell(row, index, columnsWidths))
+}
 
 /**
- * @param {ColumnSettings[]} columns
- * @returns {{remainingColumns: ColumnSettings[], remainingWidth: number, columnsWidths: object}}
+ * @param {CellSizingConfig<HTMLElement>} cell
+ * @param {number} columnIndex
+ * @param {number[]} columnsWidths
  */
-function getColumnsWidthDistribution (columns, width) {
-  let remainingWidth = width
-
-  const remainingColumns = []
-  const columnsWidths = {}
-
-  const maximumSingleColumnWidthIncrease = _.first(columns).remainingWidthUntilReachingMaximum
-  const singleColumnWidthIncrease = _.max([
-    Math.floor(
-      _.min([
-        width / columns.length,
-        maximumSingleColumnWidthIncrease
-      ])
-    ),
-    // Maybe there's not enough free space to give all columns at least
-    // 1px more of space. If this happens it's better to add 1px column
-    // by column until we run out of pixels.
-    1
-  ])
-
-  for (const columnSettings of columns) {
-    const columnIndex = columnSettings.index
-
-    if (columnSettings.remainingWidthUntilReachingMaximum - singleColumnWidthIncrease > 0) {
-      remainingColumns.push(columnSettings)
-    }
-
-    columnsWidths[columnIndex] = singleColumnWidthIncrease
-    remainingWidth -= singleColumnWidthIncrease
-
-    if (remainingWidth === 0) break
-  }
-
-  return {
-    remainingColumns,
-    remainingWidth,
-    columnsWidths
-  }
+function applyWidthToCell (cell, columnIndex, columnsWidths) {
+  const width = columnsWidths[columnIndex]
+  cell.element.style.width = `${width}px`
 }
 </script>
