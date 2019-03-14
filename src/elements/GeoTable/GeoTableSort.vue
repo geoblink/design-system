@@ -89,14 +89,14 @@ export default {
 
     sortAscendingIcon () {
       return [
-        this.isCurrentlyAscendingOrdered ? 'fal' : 'fas',
+        this.isCurrentlyAscendingOrdered ? 'fas' : 'fal',
         'caret-up'
       ]
     },
 
     sortDescendingIcon () {
       return [
-        this.isCurrentlyDescendingOrdered ? 'fal' : 'fas',
+        this.isCurrentlyDescendingOrdered ? 'fas' : 'fal',
         'caret-down'
       ]
     }
