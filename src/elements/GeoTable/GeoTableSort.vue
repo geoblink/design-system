@@ -14,6 +14,7 @@
         :icon="sortAscendingIcon"
         :class="{
           'geo-table-sort__button': true,
+          'geo-table-sort__button--asc': true,
           'geo-table-sort__button--active': isCurrentlyAscendingOrdered
         }"
         aria-hidden="true"
@@ -31,6 +32,7 @@
         :icon="sortDescendingIcon"
         :class="{
           'geo-table-sort__button': true,
+          'geo-table-sort__button--desc': true,
           'geo-table-sort__button--active': isCurrentlyDescendingOrdered
         }"
         aria-hidden="true"
