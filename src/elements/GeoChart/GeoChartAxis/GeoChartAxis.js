@@ -341,11 +341,12 @@ function positionLabel (label, singleAxisOptions, globalAxesConfig) {
   const axisType = singleAxisOptions.position.type
   const labelExtraOffset = 20
   const DEFAULT_LINE_HEIGHT = 18
+  const labelBbox = label.node().getBBox()
   switch (axisType) {
     case POSITIONS.bottom:
     case POSITIONS.anchoredToAxis:
       label
-        .attr('x', globalAxesConfig.chart.size.width + globalAxesConfig.chart.margin.right - labelExtraOffset)
+        .attr('x', (globalAxesConfig.chart.size.width + labelBbox.width) / 2)
         .attr('dy', '' + globalAxesConfig.chart.margin.bottom - labelExtraOffset - offset)
         .style('text-anchor', 'end')
       break
