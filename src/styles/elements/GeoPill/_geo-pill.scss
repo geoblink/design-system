@@ -1,4 +1,4 @@
-@mixin geo-modal-make ($modifier-name) {
+@mixin geo-pill-make ($modifier-name) {
   $modifier-name-with-prefix: '';
 
   @if $modifier-name != '' {
@@ -10,12 +10,15 @@
   .geo-pill--light#{$modifier-name-with-prefix},
   .geo-pill--dark#{$modifier-name-with-prefix},
   .geo-pill--opaque#{$modifier-name-with-prefix} {
+    @include font($body);
     align-items: center;
     border-radius: 50vh;
     border: 1px solid $color-grey;
+    box-sizing: border-box;
     display: flex;
     flex-direction: row;
     font-family: $font-family-text;
+    padding: 0 $space-small;
     user-select: none;
   }
 
@@ -25,16 +28,13 @@
     font-size: $font-size-xxsmall;
     font-weight: $font-weight-bold;
     height: $space-base;
-    padding: 0 6px;
     text-transform: uppercase;
   }
 
   .geo-pill--dark#{$modifier-name-with-prefix} {
     background: $color-white-dark;
-    border-radius: $border-radius-default;
     color: $color-grey-darker;
     min-height: $space-large;
-    padding: 0 $space-small;
   }
 
   .geo-pill--opaque#{$modifier-name-with-prefix} {
@@ -43,8 +43,7 @@
     color: $color-grey-darker;
     font-size: $font-size-small;
     height: $space-large;
-    padding: 0 1.5em;
   }
 }
 
-@include geo-modal-make('');
+@include geo-pill-make('');

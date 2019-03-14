@@ -10,7 +10,7 @@ import cssSuffix from '../../mixins/cssModifierMixin'
 const VARIANTS = {
   default: 'default',
   light: 'light',
-  grey: 'grey',
+  dark: 'dark',
   opaque: 'opaque'
 }
 

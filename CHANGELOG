@@ -1,3 +1,12 @@
+# 13.0.3
+
+- `GeoTableSort` buttons closer to each other
+
+# 13.0.2
+
+- `GeoPill` fix mixin name and styles
+- `GeoTableSort` fix active button
+
 # 13.0.1
 
 - `GeoTable` refactored and simplified algorithm to compute columns width
