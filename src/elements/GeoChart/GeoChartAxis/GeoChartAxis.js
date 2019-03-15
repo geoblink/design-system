@@ -130,13 +130,14 @@ function renderSingleAxis (group, singleAxisOptions, globalAxesConfig) {
     const updatedLabels = labels
     const allLabels = newLabels.merge(updatedLabels)
 
+    positionLabel(allLabels, singleAxisOptions, globalAxesConfig)
+
     allLabels.text((d, i) => d)
 
     labels
       .exit()
       .remove()
 
-    positionLabel(allLabels, singleAxisOptions, globalAxesConfig)
   }
 
   animatedGroup
@@ -341,31 +342,32 @@ function positionLabel (label, singleAxisOptions, globalAxesConfig) {
   const axisType = singleAxisOptions.position.type
   const labelExtraOffset = 20
   const DEFAULT_LINE_HEIGHT = 18
-  const labelBbox = label.node().getBBox()
+  const axesMargin = globalAxesConfig.chart.margin
+  const axesSize = globalAxesConfig.chart.size
   switch (axisType) {
     case POSITIONS.bottom:
     case POSITIONS.anchoredToAxis:
       label
-        .attr('x', (globalAxesConfig.chart.size.width + labelBbox.width) / 2)
-        .attr('dy', '' + globalAxesConfig.chart.margin.bottom - labelExtraOffset - offset)
-        .style('text-anchor', 'end')
+        .attr('x', (axesSize.width / 2) + (axesMargin.left - axesMargin.right) / 2)
+        .attr('dy', '' + axesMargin.bottom - labelExtraOffset - offset)
+        .style('text-anchor', 'middle')
       break
     case POSITIONS.top:
       label
-        .attr('x', '' + globalAxesConfig.chart.size.width)
-        .attr('dy', '' + (-globalAxesConfig.chart.margin.top))
+        .attr('x', '' + axesSize.width)
+        .attr('dy', '' + (-axesMargin.top))
       break
     case POSITIONS.left:
       label
-        .attr('x', '' + (-globalAxesConfig.chart.size.height / 2))
-        .attr('dy', '' + (-globalAxesConfig.chart.margin.left / 2 + offset))
+        .attr('x', '' + (-axesSize.height / 2))
+        .attr('dy', '' + (-axesMargin.left / 2 + offset))
         .attr('transform', 'rotate(-90)')
         .style('text-anchor', 'middle')
       break
     case POSITIONS.right:
       label
         .attr('x', '' + (globalAxesConfig.chart))
-        .attr('dy', '' + (-globalAxesConfig.chart.margin.right + DEFAULT_LINE_HEIGHT))
+        .attr('dy', '' + (-axesMargin.right + DEFAULT_LINE_HEIGHT))
         .attr('transform', 'rotate(90)')
       break
     default:
