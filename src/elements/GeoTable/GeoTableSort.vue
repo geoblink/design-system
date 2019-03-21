@@ -14,6 +14,7 @@
         :icon="sortAscendingIcon"
         :class="{
           'geo-table-sort__button': true,
+          'geo-table-sort__button--asc': true,
           'geo-table-sort__button--active': isCurrentlyAscendingOrdered
         }"
         aria-hidden="true"
@@ -31,6 +32,7 @@
         :icon="sortDescendingIcon"
         :class="{
           'geo-table-sort__button': true,
+          'geo-table-sort__button--desc': true,
           'geo-table-sort__button--active': isCurrentlyDescendingOrdered
         }"
         aria-hidden="true"
@@ -89,14 +91,14 @@ export default {
 
     sortAscendingIcon () {
       return [
-        this.isCurrentlyAscendingOrdered ? 'fal' : 'fas',
+        this.isCurrentlyAscendingOrdered ? 'fas' : 'fal',
         'caret-up'
       ]
     },
 
     sortDescendingIcon () {
       return [
-        this.isCurrentlyDescendingOrdered ? 'fal' : 'fas',
+        this.isCurrentlyDescendingOrdered ? 'fas' : 'fal',
         'caret-down'
       ]
     }

@@ -10,6 +10,7 @@
   .geo-table-sort#{$modifier-name-with-prefix} {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     margin-left: $space-small;
     visibility: hidden;
 
@@ -24,6 +25,14 @@
 
     .geo-table-sort__button--active {
       color: $color-link;
+    }
+
+    .geo-table-sort__button--asc {
+      margin-bottom: -1px;
+    }
+
+    .geo-table-sort__button--desc {
+      margin-top: -1px;
     }
   }
 
