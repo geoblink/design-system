@@ -137,7 +137,6 @@ function renderSingleAxis (group, singleAxisOptions, globalAxesConfig) {
     labels
       .exit()
       .remove()
-
   }
 
   animatedGroup
