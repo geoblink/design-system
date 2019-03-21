@@ -28,10 +28,15 @@
       align-items: center;
       display: flex;
       flex-direction: row;
+      overflow: hidden;
 
       &:first-child:last-child {
         margin-right: 10px;
       }
+    }
+
+    .geo-bordered-box-header__label {
+      overflow: hidden;
     }
 
     .geo-bordered-box-header__label:first-child:last-child {
