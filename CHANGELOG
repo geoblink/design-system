@@ -1,3 +1,7 @@
+# 13.0.5
+
+- `GeoBorderedBoxHeader` set `overflow: hidden` by default
+
 # 13.0.4
 
 - `GeoAxis` center labels of X axes
