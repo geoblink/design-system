@@ -161,12 +161,6 @@ function renderAnchoredShapes (newAnchoredShapesContainer, allAnchoredShapesCont
     .attr('class', getAnchoredShapesStopsCssClasses)
     .transition()
     .duration(globalOptions.chart.animationsDurationInMilliseconds)
-    .attr('points', (d, i) => {
-      const size = singleGroupOptions.getShapeSize()
-      return singleGroupOptions.getShapePath(d, i, {
-        size, shapeOffsetFromAxis, singleGroupOptions
-      })
-    })
     .attr('transform', getAnchoredShapesTransform)
 
   function getAnchoredShapesTransform (d, i) {
