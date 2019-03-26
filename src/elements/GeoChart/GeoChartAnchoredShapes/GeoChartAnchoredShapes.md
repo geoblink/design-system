@@ -280,15 +280,18 @@ export default {
       return _.sortBy([
         {
           [this.numericalAxisConfig.keyForValues]: this.numericalAxisConfig.scale.domain.start,
-          isUp: true
+          isUp: true,
+          id: 0
         },
         {
           [this.numericalAxisConfig.keyForValues]: this.numericalAxisConfig.scale.domain.end,
-          isUp: true
+          isUp: true,
+          id: 1
         },
         {
           [this.numericalAxisConfig.keyForValues]: this.randomValue,
-          isUp: false
+          isUp: false,
+          id: 2
         }
       ], this.numericalAxisConfig.keyForValues)
     },
@@ -366,7 +369,7 @@ export default {
   },
   methods: {
     randomizeData () {
-      this.randomValue = _.random(0, 200)
+      this.randomValue = _.random(180, 250)
     },
   }
 }
