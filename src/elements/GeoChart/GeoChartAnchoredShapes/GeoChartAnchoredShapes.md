@@ -6,7 +6,7 @@ To add anchored shapes **groups** to a chart, add an array to `anchoredShapesGro
 
 ## Required properties
 
-- `shapeData`: Array of objects, each one representing a single shape that will be distributed across the axis.
+- `shapeData`: Array of objects, each one representing a single shape that will be distributed across the axis. If you plan the data of your chart to be changing, you should add an `id` property to each one of your data object, so the changes are correctly tracked.
 - `dimension`: A value of `BARS_DIMENSIONS` named export (either `horizontal` or `vertical`). The dimension in which the stacked rectangles will be positioned.
 - `idHorizontalAxis`: The ID of the axis defining the `horizontal` dimension. Will be used to compute proper origin and span of the bar if the dimension is horizontal or the width of each individual group if the dimension is vertical.
 - `idVerticalAxis`: The ID of the axis defining the `vertical` dimension. Will be used to compute proper origin and span of the bar if the dimension is vertical or the width of each individual group if the dimension is horizontal.
