@@ -160,13 +160,13 @@ function renderAnchoredShapes (newAnchoredShapesContainer, allAnchoredShapesCont
     .select(`polygon.${anchoredShapesBaseClass}`)
     .attr('class', getAnchoredShapesStopsCssClasses)
     .transition()
+    .duration(globalOptions.chart.animationsDurationInMilliseconds)
     .attr('points', (d, i) => {
       const size = singleGroupOptions.getShapeSize()
       return singleGroupOptions.getShapePath(d, i, {
         size, shapeOffsetFromAxis, singleGroupOptions
       })
     })
-    .duration(globalOptions.chart.animationsDurationInMilliseconds)
     .attr('transform', getAnchoredShapesTransform)
 
   function getAnchoredShapesTransform (d, i) {
