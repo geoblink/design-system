@@ -94,15 +94,18 @@ describe('GeoChartAnchoredShapes', function () {
     const shapeData = _.sortBy([
       {
         [axisDimensions.numericalAxisConfig.keyForValues]: axisDimensions.numericalAxisConfig.scale.domain.start,
-        isUp: true
+        isUp: true,
+        id: 0
       },
       {
         [axisDimensions.numericalAxisConfig.keyForValues]: axisDimensions.numericalAxisConfig.scale.domain.end,
-        isUp: true
+        isUp: true,
+        id: 1
       },
       {
         [axisDimensions.numericalAxisConfig.keyForValues]: 56,
-        isUp: false
+        isUp: false,
+        id: 2
       }
     ], axisDimensions.numericalAxisConfig.keyForValues)
 
@@ -226,7 +229,8 @@ describe('GeoChartAnchoredShapes', function () {
         const shapeData2 = _.sortBy(_.times(5, (i) => {
           return {
             [axisDimensions.numericalAxisConfig.keyForValues]: 40 * i,
-            isUp: i % 2 === 0
+            isUp: i % 2 === 0,
+            id: i
           }
         }), axisDimensions.numericalAxisConfig.keyForValues)
         const anchoredShapesConfig2 = _.assign({}, anchoredShapesConfig)
