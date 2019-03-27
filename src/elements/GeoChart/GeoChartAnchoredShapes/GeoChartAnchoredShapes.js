@@ -253,7 +253,7 @@ function renderAnchoredTexts (newAnchoredShapesContainer, allAnchoredShapesConta
   setTextContent(allAnchoredShapesContainer, singleGroupOptions.text, globalOptions)
 
   function getRankingLineInitialTransform (d, i) {
-    let trailingDimensionTranslation = getTrailingDimensionTranslation(d, i)
+    const trailingDimensionTranslation = getTrailingDimensionTranslation(d, i)
     const translation = {
       x: 0,
       y: trailingDimensionTranslation
@@ -267,8 +267,8 @@ function renderAnchoredTexts (newAnchoredShapesContainer, allAnchoredShapesConta
   // TODO: Find a more abstract algorithm so we can position N shapes with their respectives text elements.
   function getRankingLineTransform (d, i) {
     const { width } = this.getBBox()
-    let leadingDimensionTranslation = getLeadingDimensionTranslation(d, i, width)
-    let trailingDimensionTranslation = getTrailingDimensionTranslation(d, i)
+    const leadingDimensionTranslation = getLeadingDimensionTranslation(d, i, width)
+    const trailingDimensionTranslation = getTrailingDimensionTranslation(d, i)
     const translation = {
       x: leadingDimensionTranslation,
       y: trailingDimensionTranslation
