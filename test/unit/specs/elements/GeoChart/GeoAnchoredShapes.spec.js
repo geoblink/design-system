@@ -257,7 +257,8 @@ describe('GeoChartAnchoredShapes', function () {
         const shapeData3 = _.sortBy(_.times(2, (i) => {
           return {
             [axisDimensions.numericalAxisConfig.keyForValues]: 25 * i,
-            isUp: !i % 2 === 0
+            isUp: i % 2 === 0,
+            id: i
           }
         }), axisDimensions.numericalAxisConfig.keyForValues)
         const anchoredShapesConfig3 = _.assign({}, anchoredShapesConfig)
