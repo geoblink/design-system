@@ -573,8 +573,7 @@ export const lineSegmentsConfigSchema = {
       type: 'array',
       additionalItems: false,
       items: {
-        type: 'object',
-        required: ['id']
+        type: 'object'
       }
     },
     normalOffset: {
@@ -620,7 +619,9 @@ export const lineSegmentsConfigSchema = {
     // the bar of each item. Note that there might be some of the default classes
     // might be added regardless to your customization as they are required
     // internally.
-    cssClasses: {}
+    cssClasses: {},
+    // Function that returns the property that is needed by D3 to track data changes correctly
+    trackByKey: {}
   }
 }
 
@@ -660,8 +661,7 @@ export const anchoredShapesConfigSchema = {
       type: 'array',
       additionalItems: false,
       items: {
-        type: 'object',
-        required: ['id']
+        type: 'object'
       }
     },
     normalOffset: {
@@ -702,6 +702,8 @@ export const anchoredShapesConfigSchema = {
     // to render a triangle. The rest of the algorithms for the shapes should be provided
     // by the developer.
     getShapePath: {},
+    // Function that returns the property that is needed by D3 to track data changes correctly
+    trackByKey: {},
     text: {
       type: 'object',
       additionalProperties: false,

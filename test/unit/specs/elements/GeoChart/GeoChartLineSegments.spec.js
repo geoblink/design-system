@@ -161,7 +161,10 @@ describe('GeoChartLineSegments', function () {
           circleMargin: 2,
           idVerticalAxis: idVerticalAxis,
           idHorizontalAxis: idHorizontalAxis,
-          cssClasses: cssClassFn
+          cssClasses: cssClassFn,
+          trackByKey (d, i) {
+            return d.id
+          }
         }]
       }
       it('Should render the LineSegments', () => {

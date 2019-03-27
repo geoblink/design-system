@@ -30,7 +30,8 @@ export default {
           circleMargin: singleLineSegmentsGroupsConfig.circleMargin,
           circleNaturalMargin: singleLineSegmentsGroupsConfig.circleNaturalMargin,
           normalValue: singleLineSegmentsGroupsConfig.normalValue,
-          cssClasses: singleLineSegmentsGroupsConfig.cssClasses
+          cssClasses: singleLineSegmentsGroupsConfig.cssClasses,
+          trackByKey: singleLineSegmentsGroupsConfig.trackByKey
         }
       })
       ChartLineSegments.render(this.d3Instance, lineSegmentsGroupsConfig, { chart })
