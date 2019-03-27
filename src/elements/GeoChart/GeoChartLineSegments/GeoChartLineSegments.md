@@ -81,8 +81,6 @@ Doing so will throw an invalid config error.
         css-modifier="hidden-axis"
         v-if="chartConfig"
         :config="chartConfig"
-        height="80px"
-        width="500px"
       />
     </div>
   </div>
@@ -98,8 +96,8 @@ Doing so will throw an invalid config error.
     name: 'GeoChartLineSegmentsDemo',
     data () {
       return {
-        chartData: null,
         normalValue: _.random(0, 1, true),
+        randomValue: _.random(1, 3)
       }
     },
     computed: {
@@ -122,6 +120,15 @@ Doing so will throw an invalid config error.
             }
           }
         }
+      },
+
+      chartData () {
+        return _.sortBy(_.times(this.randomValue, (idx) => {
+          return {
+            [this.numericalAxisConfig.keyForValues]: _.random(0, 200),
+            id: idx
+          }
+        }), this.numericalAxisConfig.keyForValues)
       },
 
       numericalAxisConfig () {
@@ -177,9 +184,7 @@ Doing so will throw an invalid config error.
     },
     methods: {
       randomizeData () {
-        this.chartData = _.sortBy(_.times(_.random(1, 3), () => {
-          return { [this.numericalAxisConfig.keyForValues]: _.random(0, 200) }
-        }), this.numericalAxisConfig.keyForValues)
+        this.randomValue = _.random(1, 3)
       }
     }
   }
@@ -202,8 +207,6 @@ Doing so will throw an invalid config error.
         v-if="chartConfig"
         css-modifier="hidden-axis"
         :config="chartConfig"
-        height="500px"
-        width="50px"
       />
     </div>
   </div>
@@ -219,8 +222,8 @@ Doing so will throw an invalid config error.
     name: 'GeoChartLineSegmentsDemo',
     data () {
       return {
-        chartData: null,
         normalValue: _.random(0, 1, true),
+        randomValue: _.random(1, 3)
       }
     },
     computed: {
@@ -243,6 +246,15 @@ Doing so will throw an invalid config error.
             }
           }
         }
+      },
+
+      chartData () {
+        return _.sortBy(_.times(this.randomValue, (idx) => {
+          return {
+            [this.numericalAxisConfig.keyForValues]: _.random(0, 200),
+            id: idx
+          }
+        }), this.numericalAxisConfig.keyForValues)
       },
 
       numericalAxisConfig () {
@@ -298,9 +310,7 @@ Doing so will throw an invalid config error.
     },
     methods: {
       randomizeData () {
-        this.chartData = _.sortBy(_.times(_.random(1, 3), () => {
-          return { [this.numericalAxisConfig.keyForValues]: _.random(0, 200) }
-        }), this.numericalAxisConfig.keyForValues)
+        this.randomValue = _.random(1, 3)
       }
     }
   }

@@ -96,6 +96,7 @@
 @include geo-select-make('select-demo');
 @include geo-select-base-make('select-demo');
 @include geo-button-make('test-css-modifier');
+@include geo-chart-make('hidden-axis');
 
 // This can't be applied directly in the demo
 .geo-chart-bar {

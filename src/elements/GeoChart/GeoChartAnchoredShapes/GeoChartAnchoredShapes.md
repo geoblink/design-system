@@ -6,7 +6,7 @@ To add anchored shapes **groups** to a chart, add an array to `anchoredShapesGro
 
 ## Required properties
 
-- `shapeData`: Array of objects, each one representing a single shape that will be distributed across the axis.
+- `shapeData`: Array of objects, each one representing a single shape that will be distributed across the axis. In order for the graph to react correctly to changes in your data, you must add an `id` property to each one of your data objects.
 - `dimension`: A value of `BARS_DIMENSIONS` named export (either `horizontal` or `vertical`). The dimension in which the stacked rectangles will be positioned.
 - `idHorizontalAxis`: The ID of the axis defining the `horizontal` dimension. Will be used to compute proper origin and span of the bar if the dimension is horizontal or the width of each individual group if the dimension is vertical.
 - `idVerticalAxis`: The ID of the axis defining the `vertical` dimension. Will be used to compute proper origin and span of the bar if the dimension is vertical or the width of each individual group if the dimension is horizontal.
@@ -49,8 +49,6 @@ Doing so will throw an invalid config error.
         v-if="chartConfig"
         css-modifier="hidden-axis"
         :config="chartConfig"
-        height="200px"
-        width="500px"
       />
     </div>
   </div>
@@ -115,15 +113,18 @@ export default {
       return _.sortBy([
         {
           [this.numericalAxisConfig.keyForValues]: this.numericalAxisConfig.scale.domain.start,
-          isUp: true
+          isUp: true,
+          id: 0
         },
         {
           [this.numericalAxisConfig.keyForValues]: this.numericalAxisConfig.scale.domain.end,
-          isUp: true
+          isUp: true,
+          id: 1
         },
         {
           [this.numericalAxisConfig.keyForValues]: this.randomValue,
-          isUp: false
+          isUp: false,
+          id: 2
         }
       ], this.numericalAxisConfig.keyForValues)
     },
@@ -214,8 +215,6 @@ export default {
         v-if="chartConfig"
         css-modifier="hidden-axis"
         :config="chartConfig"
-        height="100px"
-        width="500px"
       />
     </div>
   </div>
@@ -280,15 +279,18 @@ export default {
       return _.sortBy([
         {
           [this.numericalAxisConfig.keyForValues]: this.numericalAxisConfig.scale.domain.start,
-          isUp: true
+          isUp: true,
+          id: 0
         },
         {
           [this.numericalAxisConfig.keyForValues]: this.numericalAxisConfig.scale.domain.end,
-          isUp: true
+          isUp: true,
+          id: 1
         },
         {
           [this.numericalAxisConfig.keyForValues]: this.randomValue,
-          isUp: false
+          isUp: false,
+          id: 2
         }
       ], this.numericalAxisConfig.keyForValues)
     },
@@ -322,7 +324,7 @@ export default {
         }],
         anchoredShapesGroups: [{
           normalValue: this.normalValue,
-          naturalNormalOffset: .1,
+          naturalNormalOffset: 0.03,
           shapeData: this.dataDistribution,
           dimension: BARS_DIMENSIONS.horizontal,
           idVerticalAxis: this.linearAxisConfig.id,
@@ -366,7 +368,7 @@ export default {
   },
   methods: {
     randomizeData () {
-      this.randomValue = _.random(0, 200)
+      this.randomValue = _.random(180, 250)
     },
   }
 }

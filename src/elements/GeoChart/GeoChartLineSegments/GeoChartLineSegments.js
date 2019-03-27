@@ -323,7 +323,7 @@ function renderLineSegmentsStops (lineSegmentsContainer, singleGroupOptions, glo
   const lineSegmentsStopBaseClass = 'geo-chart-line-segments__segment-stop'
   const lineSegmentsStops = lineSegmentsContainer
     .selectAll(`circle.${lineSegmentsStopBaseClass}`)
-    .data(singleGroupOptions.circleData)
+    .data(singleGroupOptions.circleData, (d, i) => d.id)
 
   const newLineSegmentsStops = lineSegmentsStops
     .enter()

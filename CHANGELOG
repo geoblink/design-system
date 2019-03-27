@@ -1,3 +1,8 @@
+# 14.0.0
+
+- `GeoChartAnchoredShapes` track data by `id`
+- `GeoChartLineSegments` track data by `id`
+
 # 13.0.5
 
 - `GeoBorderedBoxHeader` set `overflow: hidden` by default

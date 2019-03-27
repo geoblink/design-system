@@ -100,7 +100,7 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions) {
 
   const shapeTextGroup = group
     .selectAll('g.geo-chart-anchored-shapes-group__shape-text-element')
-    .data(singleGroupOptions.shapeData)
+    .data(singleGroupOptions.shapeData, (d, i) => d.id)
 
   const newShapeTextGroup = shapeTextGroup
     .enter()
@@ -237,6 +237,7 @@ function renderAnchoredTexts (newAnchoredShapesContainer, allAnchoredShapesConta
     .append('text')
     .attr('class', getAnchoredTextsStopsCssClasses)
     .attr('dominant-baseline', 'central')
+    .attr('transform', getRankingLineInitialTransform)
     .attr('opacity', 0)
 
   setTextContent(anchoredTexts, singleGroupOptions.text, globalOptions)
@@ -249,16 +250,49 @@ function renderAnchoredTexts (newAnchoredShapesContainer, allAnchoredShapesConta
     .attr('transform', getRankingLineTransform)
     .attr('opacity', 1)
 
+  setTextContent(allAnchoredShapesContainer, singleGroupOptions.text, globalOptions)
+
+  function getRankingLineInitialTransform (d, i) {
+    const trailingDimensionTranslation = getTrailingDimensionTranslation(d, i)
+    const translation = {
+      x: 0,
+      y: trailingDimensionTranslation
+    }
+    return `translate(${translation.x}, ${translation.y})`
+  }
+
   // This algorithm is tightly coupled to the app case in which we're always going to have
   // two shapes with text up (one on 0 and the other on the max value) and another
   // shape below with another text element
   // TODO: Find a more abstract algorithm so we can position N shapes with their respectives text elements.
   function getRankingLineTransform (d, i) {
-    let leadingDimensionTranslation, trailingDimensionTranslation
     const { width } = this.getBBox()
+    const leadingDimensionTranslation = getLeadingDimensionTranslation(d, i, width)
+    const trailingDimensionTranslation = getTrailingDimensionTranslation(d, i)
+    const translation = {
+      x: leadingDimensionTranslation,
+      y: trailingDimensionTranslation
+    }
+    return `translate(${translation.x}, ${translation.y})`
+  }
+
+  function getTrailingDimensionTranslation (d, i) {
+    let trailingDimensionTranslation
+    const normalDimensionTranslation = axisForNormalDimension.scale.axisScale(singleGroupOptions.normalValue)
+    const shapeAnchorPosition = singleGroupOptions.getAnchorPosition(d, i)
+    const shapeSize = singleGroupOptions.getShapeSize()
+    if (shapeAnchorPosition === ANCHOR_POSITIONS.leading) {
+      trailingDimensionTranslation = normalDimensionTranslation - (shapeOffsetFromAxis + shapeSize.height * 2)
+    } else {
+      trailingDimensionTranslation = normalDimensionTranslation + (shapeOffsetFromAxis + shapeSize.height / 2)
+    }
+    return trailingDimensionTranslation
+  }
+
+  function getLeadingDimensionTranslation (d, i, width) {
+    let leadingDimensionTranslation
     const chartInnerWidth = globalOptions.chart.size.width - globalOptions.chart.margin.left - globalOptions.chart.margin.right
     const dimensionTranslation = axisForDimension.scale.axisScale(d[axisForDimension.keyForValues])
-    const normalDimensionTranslation = axisForNormalDimension.scale.axisScale(singleGroupOptions.normalValue)
     const isLabelTooLong = dimensionTranslation + width > chartInnerWidth
     const labelOffset = isLabelTooLong ? width : 0
     const hSign = isLabelTooLong ? 1 : -1
@@ -266,17 +300,10 @@ function renderAnchoredTexts (newAnchoredShapesContainer, allAnchoredShapesConta
     const shapeSize = singleGroupOptions.getShapeSize()
     if (shapeAnchorPosition === ANCHOR_POSITIONS.leading) {
       leadingDimensionTranslation = dimensionTranslation - labelOffset + hSign * shapeSize.width
-      trailingDimensionTranslation = normalDimensionTranslation - (shapeOffsetFromAxis + shapeSize.height * 2)
     } else {
       leadingDimensionTranslation = dimensionTranslation - labelOffset - hSign * shapeSize.width
-      trailingDimensionTranslation = normalDimensionTranslation + (shapeOffsetFromAxis + shapeSize.height / 2)
     }
-
-    const translation = {
-      x: leadingDimensionTranslation,
-      y: trailingDimensionTranslation
-    }
-    return `translate(${translation.x}, ${translation.y})`
+    return leadingDimensionTranslation
   }
 
   function getAnchoredTextsStopsCssClasses (d, i) {

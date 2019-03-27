@@ -94,15 +94,18 @@ describe('GeoChartAnchoredShapes', function () {
     const shapeData = _.sortBy([
       {
         [axisDimensions.numericalAxisConfig.keyForValues]: axisDimensions.numericalAxisConfig.scale.domain.start,
-        isUp: true
+        isUp: true,
+        id: 0
       },
       {
         [axisDimensions.numericalAxisConfig.keyForValues]: axisDimensions.numericalAxisConfig.scale.domain.end,
-        isUp: true
+        isUp: true,
+        id: 1
       },
       {
         [axisDimensions.numericalAxisConfig.keyForValues]: 56,
-        isUp: false
+        isUp: false,
+        id: 2
       }
     ], axisDimensions.numericalAxisConfig.keyForValues)
 
@@ -223,12 +226,23 @@ describe('GeoChartAnchoredShapes', function () {
         expect(wrapper.findAll('.geo-chart-anchored-shapes-group__shape-text-element--leading')).toHaveLength(leadingElements)
         expect(wrapper.findAll('.geo-chart-anchored-shapes-group__shape-text-element--trailing')).toHaveLength(trailingElements)
 
-        const shapeData2 = _.sortBy(_.times(5, (i) => {
-          return {
-            [axisDimensions.numericalAxisConfig.keyForValues]: 40 * i,
-            isUp: i % 2 === 0
+        const shapeData2 = _.sortBy([
+          {
+            [axisDimensions.numericalAxisConfig.keyForValues]: 45,
+            isUp: true,
+            id: 0
+          },
+          {
+            [axisDimensions.numericalAxisConfig.keyForValues]: 180,
+            isUp: true,
+            id: 1
+          },
+          {
+            [axisDimensions.numericalAxisConfig.keyForValues]: 190,
+            isUp: false,
+            id: 2
           }
-        }), axisDimensions.numericalAxisConfig.keyForValues)
+        ], axisDimensions.numericalAxisConfig.keyForValues)
         const anchoredShapesConfig2 = _.assign({}, anchoredShapesConfig)
         anchoredShapesConfig2.anchoredShapesGroups[0].shapeData = shapeData2
 
@@ -250,12 +264,23 @@ describe('GeoChartAnchoredShapes', function () {
         expect(wrapper.findAll('.geo-chart-anchored-shapes-group__shape-text-element--leading')).toHaveLength(leadingElements2)
         expect(wrapper.findAll('.geo-chart-anchored-shapes-group__shape-text-element--trailing')).toHaveLength(trailingElements2)
 
-        const shapeData3 = _.sortBy(_.times(2, (i) => {
-          return {
-            [axisDimensions.numericalAxisConfig.keyForValues]: 25 * i,
-            isUp: !i % 2 === 0
+        const shapeData3 = _.sortBy([
+          {
+            [axisDimensions.numericalAxisConfig.keyForValues]: 95,
+            isUp: true,
+            id: 0
+          },
+          {
+            [axisDimensions.numericalAxisConfig.keyForValues]: 4,
+            isUp: true,
+            id: 1
+          },
+          {
+            [axisDimensions.numericalAxisConfig.keyForValues]: 87,
+            isUp: false,
+            id: 2
           }
-        }), axisDimensions.numericalAxisConfig.keyForValues)
+        ], axisDimensions.numericalAxisConfig.keyForValues)
         const anchoredShapesConfig3 = _.assign({}, anchoredShapesConfig)
         anchoredShapesConfig3.anchoredShapesGroups[0].shapeData = shapeData3
 

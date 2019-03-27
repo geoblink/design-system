@@ -141,7 +141,10 @@ describe('GeoChartLineSegments', function () {
       const idVerticalAxis = verticalAxis.id
       const idHorizontalAxis = horizontalAxis.id
       const circleData = _.sortBy(_.times(2, (i) => {
-        return { [axisDimensions[dimension].numericalAxisConfig.keyForValues]: 50 * i }
+        return {
+          [axisDimensions[dimension].numericalAxisConfig.keyForValues]: 50 * i,
+          id: i
+        }
       }), axisDimensions[dimension].numericalAxisConfig.keyForValues)
 
       const lineSegmentsConfig = {
@@ -192,7 +195,10 @@ describe('GeoChartLineSegments', function () {
         expect(wrapper.findAll('.geo-chart-line-segments__segment')).toHaveLength(circleData.length + 1)
 
         const circleData2 = _.sortBy(_.times(4, (i) => {
-          return { [axisDimensions[dimension].numericalAxisConfig.keyForValues]: 32 * i }
+          return {
+            [axisDimensions[dimension].numericalAxisConfig.keyForValues]: 32 * i,
+            id: i
+          }
         }), axisDimensions[dimension].numericalAxisConfig.keyForValues)
 
         const lineSegmentsConfig2 = _.assign({}, lineSegmentsConfig)
