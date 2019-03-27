@@ -573,7 +573,8 @@ export const lineSegmentsConfigSchema = {
       type: 'array',
       additionalItems: false,
       items: {
-        type: 'object'
+        type: 'object',
+        required: ['id']
       }
     },
     normalOffset: {
@@ -659,7 +660,8 @@ export const anchoredShapesConfigSchema = {
       type: 'array',
       additionalItems: false,
       items: {
-        type: 'object'
+        type: 'object',
+        required: ['id']
       }
     },
     normalOffset: {

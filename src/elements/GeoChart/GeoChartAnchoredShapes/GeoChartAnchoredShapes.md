@@ -49,8 +49,6 @@ Doing so will throw an invalid config error.
         v-if="chartConfig"
         css-modifier="hidden-axis"
         :config="chartConfig"
-        height="200px"
-        width="500px"
       />
     </div>
   </div>
@@ -115,15 +113,18 @@ export default {
       return _.sortBy([
         {
           [this.numericalAxisConfig.keyForValues]: this.numericalAxisConfig.scale.domain.start,
-          isUp: true
+          isUp: true,
+          id: 0
         },
         {
           [this.numericalAxisConfig.keyForValues]: this.numericalAxisConfig.scale.domain.end,
-          isUp: true
+          isUp: true,
+          id: 1
         },
         {
           [this.numericalAxisConfig.keyForValues]: this.randomValue,
-          isUp: false
+          isUp: false,
+          id: 2
         }
       ], this.numericalAxisConfig.keyForValues)
     },
@@ -214,8 +215,6 @@ export default {
         v-if="chartConfig"
         css-modifier="hidden-axis"
         :config="chartConfig"
-        height="100px"
-        width="500px"
       />
     </div>
   </div>
@@ -325,7 +324,7 @@ export default {
         }],
         anchoredShapesGroups: [{
           normalValue: this.normalValue,
-          naturalNormalOffset: .1,
+          naturalNormalOffset: 0.03,
           shapeData: this.dataDistribution,
           dimension: BARS_DIMENSIONS.horizontal,
           idVerticalAxis: this.linearAxisConfig.id,
