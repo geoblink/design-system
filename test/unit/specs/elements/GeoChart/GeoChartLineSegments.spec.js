@@ -162,11 +162,26 @@ describe('GeoChartLineSegments', function () {
           idVerticalAxis: idVerticalAxis,
           idHorizontalAxis: idHorizontalAxis,
           cssClasses: cssClassFn,
-          trackByKey (d, i) {
-            return d.id
-          }
+          trackByKey: 'id'
         }]
       }
+      it('Should render line segments even though no track data property is provided', function () {
+        const config = _.cloneDeep(lineSegmentsConfig)
+        config.lineSegmentsGroups[0].trackByKey = null
+        const wrapper = mount(GeoChart, {
+          propsData: {
+            config: config
+          }
+        })
+
+        flushD3Transitions()
+        expect(wrapper.find('.geo-chart').exists()).toBe(true)
+        expect(wrapper.find('.geo-chart-line-segments-group').exists()).toBe(true)
+        expect(wrapper.find('.geo-chart-line-segments__segment-stop').exists()).toBe(true)
+        expect(wrapper.findAll('.geo-chart-line-segments__segment-stop')).toHaveLength(circleData.length)
+        expect(wrapper.findAll('.geo-chart-line-segments__segment')).toHaveLength(circleData.length + 1)
+        wrapper.destroy()
+      })
       it('Should render the LineSegments', () => {
         const wrapper = mount(GeoChart, {
           propsData: {
