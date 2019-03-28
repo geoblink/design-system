@@ -1,12 +1,18 @@
 # 14.0.1
 
+Fixed:
+
 - `GeoChartAnchoredShapes` and `GeoChartLineSegments` pass track property by optional function
 
 # 14.0.0
 
+Breaking:
+
 - `GeoChartAnchoredShapes` and `GeoChartLineSegments` track data by `id`
 
 # 13.0.5
+
+Fixed:
 
 - `GeoBorderedBoxHeader` set `overflow: hidden` by default
 
