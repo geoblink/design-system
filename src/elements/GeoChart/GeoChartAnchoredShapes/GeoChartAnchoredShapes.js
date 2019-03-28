@@ -100,9 +100,7 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions) {
 
   const shapeTextGroup = group
     .selectAll('g.geo-chart-anchored-shapes-group__shape-text-element')
-    .data(singleGroupOptions.shapeData, (d, i) => {
-      return d[singleGroupOptions.trackByKey]
-    })
+    .data(singleGroupOptions.shapeData, singleGroupOptions.trackByKey)
 
   const newShapeTextGroup = shapeTextGroup
     .enter()

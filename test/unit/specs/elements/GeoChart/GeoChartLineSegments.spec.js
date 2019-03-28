@@ -162,7 +162,9 @@ describe('GeoChartLineSegments', function () {
           idVerticalAxis: idVerticalAxis,
           idHorizontalAxis: idHorizontalAxis,
           cssClasses: cssClassFn,
-          trackByKey: 'id'
+          trackByKey (d, i) {
+            return d.id
+          }
         }]
       }
       it('Should render line segments even though no track data property is provided', function () {

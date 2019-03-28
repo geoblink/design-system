@@ -131,7 +131,9 @@ describe('GeoChartAnchoredShapes', function () {
             height: 10
           }
         },
-        trackByKey: 'id',
+        trackByKey (d, i) {
+          return d.id
+        },
         text: {
           content (d, i) {
             return [

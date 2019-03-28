@@ -323,7 +323,9 @@ export default {
           circleMargin: 4,
           idHorizontalAxis: this.numericalAxisConfig.id,
           idVerticalAxis: this.linearAxisConfig.id,
-          trackByKey: 'id'
+          trackByKey (d, i) {
+            return d.id
+          }
         }],
         anchoredShapesGroups: [{
           normalValue: this.normalValue,
@@ -335,7 +337,9 @@ export default {
           getAnchorPosition (d, i) {
             return d.isUp ? ANCHOR_POSITIONS.leading : ANCHOR_POSITIONS.trailing
           },
-          trackByKey: 'id',
+          trackByKey (d, i) {
+            return d.id
+          },
           getShapeSize () {
             return {
               width: 12,

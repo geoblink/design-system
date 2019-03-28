@@ -17,7 +17,7 @@ must be an object with the following:
 
 ## Optional properties
 
-- **trackByKey** Defines the property of your data that D3  will use to track changes in it.
+- **trackByKey** Define this function to let D3 know which property of your data will be used to track changes in it.
 
 To set the lines width and the dots size, you'll need to set three different parameters:
 
