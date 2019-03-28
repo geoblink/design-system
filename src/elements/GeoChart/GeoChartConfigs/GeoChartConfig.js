@@ -620,8 +620,10 @@ export const lineSegmentsConfigSchema = {
     // might be added regardless to your customization as they are required
     // internally.
     cssClasses: {},
-    // Function that returns the property that is needed by D3 to track data changes correctly
-    trackByKey: {}
+    // string representing the property that is needed by D3 to track data changes correctly
+    trackByKey: {
+      type: 'string'
+    }
   }
 }
 
@@ -702,8 +704,10 @@ export const anchoredShapesConfigSchema = {
     // to render a triangle. The rest of the algorithms for the shapes should be provided
     // by the developer.
     getShapePath: {},
-    // Function that returns the property that is needed by D3 to track data changes correctly
-    trackByKey: {},
+    // string representing the property that is needed by D3 to track data changes correctly
+    trackByKey: {
+      type: 'string'
+    },
     text: {
       type: 'object',
       additionalProperties: false,
