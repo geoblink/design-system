@@ -250,8 +250,6 @@ function renderAnchoredTexts (newAnchoredShapesContainer, allAnchoredShapesConta
     .attr('transform', getRankingLineTransform)
     .attr('opacity', 1)
 
-  setTextContent(allAnchoredShapesContainer, singleGroupOptions.text, globalOptions)
-
   function getRankingLineInitialTransform (d, i) {
     const trailingDimensionTranslation = getTrailingDimensionTranslation(d, i)
     const translation = {
