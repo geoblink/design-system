@@ -1,3 +1,9 @@
+# 14.0.2
+
+Fixed:
+
+- `GeoChartAnchoredShapes` fix positioning bug that caused text and shape overlapping
+
 # 14.0.1
 
 Fixed:
