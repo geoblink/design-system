@@ -1,9 +1,24 @@
+# 14.0.2
+
+Fixed:
+
+- `GeoChartAnchoredShapes` fix positioning bug that caused text and shape overlapping
+
+# 14.0.1
+
+Fixed:
+
+- `GeoChartAnchoredShapes` and `GeoChartLineSegments` pass track property by optional function
+
 # 14.0.0
 
-- `GeoChartAnchoredShapes` track data by `id`
-- `GeoChartLineSegments` track data by `id`
+Breaking:
+
+- `GeoChartAnchoredShapes` and `GeoChartLineSegments` track data by `id`
 
 # 13.0.5
+
+Fixed:
 
 - `GeoBorderedBoxHeader` set `overflow: hidden` by default
 

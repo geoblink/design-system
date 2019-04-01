@@ -6,7 +6,7 @@ To add anchored shapes **groups** to a chart, add an array to `anchoredShapesGro
 
 ## Required properties
 
-- `shapeData`: Array of objects, each one representing a single shape that will be distributed across the axis. In order for the graph to react correctly to changes in your data, you must add an `id` property to each one of your data objects.
+- `shapeData`: Array of objects, each one representing a single shape that will be distributed across the axis.
 - `dimension`: A value of `BARS_DIMENSIONS` named export (either `horizontal` or `vertical`). The dimension in which the stacked rectangles will be positioned.
 - `idHorizontalAxis`: The ID of the axis defining the `horizontal` dimension. Will be used to compute proper origin and span of the bar if the dimension is horizontal or the width of each individual group if the dimension is vertical.
 - `idVerticalAxis`: The ID of the axis defining the `vertical` dimension. Will be used to compute proper origin and span of the bar if the dimension is vertical or the width of each individual group if the dimension is horizontal.
@@ -24,6 +24,8 @@ applied to the shapes in order to not overlap with the axis they're been positio
 
 - **text** object takes a function (content) that lets you shape the format of each one of the labels that
 will be tied to your shapes. The function should return an array of objects, each one with the properties `text` and `cssClass`.
+
+- **trackByKey** Define this function to let D3 know which property of your data will be used to track changes in it.
 
 There are 2 exclusive properties available to customize the **offset**:
 
@@ -320,7 +322,10 @@ export default {
           circleRadius: 3,
           circleMargin: 4,
           idHorizontalAxis: this.numericalAxisConfig.id,
-          idVerticalAxis: this.linearAxisConfig.id
+          idVerticalAxis: this.linearAxisConfig.id,
+          trackByKey (d, i) {
+            return d.id
+          }
         }],
         anchoredShapesGroups: [{
           normalValue: this.normalValue,
@@ -331,6 +336,9 @@ export default {
           idHorizontalAxis: this.numericalAxisConfig.id,
           getAnchorPosition (d, i) {
             return d.isUp ? ANCHOR_POSITIONS.leading : ANCHOR_POSITIONS.trailing
+          },
+          trackByKey (d, i) {
+            return d.id
           },
           getShapeSize () {
             return {

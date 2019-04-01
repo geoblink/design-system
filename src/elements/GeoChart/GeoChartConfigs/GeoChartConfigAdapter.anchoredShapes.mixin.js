@@ -31,6 +31,7 @@ export default {
           text: singleAnchoredShapesGroupsConfig.text,
           getShapeSize: singleAnchoredShapesGroupsConfig.getShapeSize,
           getShapePath: singleAnchoredShapesGroupsConfig.getShapePath,
+          trackByKey: singleAnchoredShapesGroupsConfig.trackByKey,
           cssClasses: singleAnchoredShapesGroupsConfig.cssClasses
         }
       })

@@ -100,7 +100,7 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions) {
 
   const shapeTextGroup = group
     .selectAll('g.geo-chart-anchored-shapes-group__shape-text-element')
-    .data(singleGroupOptions.shapeData, (d, i) => d.id)
+    .data(singleGroupOptions.shapeData, singleGroupOptions.trackByKey)
 
   const newShapeTextGroup = shapeTextGroup
     .enter()
@@ -249,8 +249,6 @@ function renderAnchoredTexts (newAnchoredShapesContainer, allAnchoredShapesConta
     .duration(globalOptions.chart.animationsDurationInMilliseconds)
     .attr('transform', getRankingLineTransform)
     .attr('opacity', 1)
-
-  setTextContent(allAnchoredShapesContainer, singleGroupOptions.text, globalOptions)
 
   function getRankingLineInitialTransform (d, i) {
     const trailingDimensionTranslation = getTrailingDimensionTranslation(d, i)

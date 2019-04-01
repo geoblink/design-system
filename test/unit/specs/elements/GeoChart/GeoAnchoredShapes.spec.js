@@ -131,6 +131,9 @@ describe('GeoChartAnchoredShapes', function () {
             height: 10
           }
         },
+        trackByKey (d, i) {
+          return d.id
+        },
         text: {
           content (d, i) {
             return [
@@ -154,6 +157,26 @@ describe('GeoChartAnchoredShapes', function () {
         }
       }]
     }
+    describe('Anchored Shape with no trackByKey property', function () {
+      it('Should render even though no track data property is provided', function () {
+        const config = _.cloneDeep(anchoredShapesConfig)
+        config.anchoredShapesGroups[0].trackByKey = null
+        const wrapper = mount(GeoChart, {
+          propsData: {
+            config: config
+          }
+        })
+
+        flushD3Transitions()
+        expect(wrapper.find('.geo-chart').exists()).toBe(true)
+        expect(wrapper.find('.geo-chart-anchored-shapes-group').exists()).toBe(true)
+        expect(wrapper.findAll('.geo-chart-anchored-shapes-group__shape-text-element')).toHaveLength(shapeData.length)
+        expect(wrapper.findAll('.geo-chart-anchored-shapes-group__shape-text-element')).toHaveLength(shapeData.length)
+        expect(wrapper.findAll('.geo-chart-anchored-shapes__shape-element')).toHaveLength(shapeData.length)
+        expect(wrapper.findAll('.geo-chart-anchored-shapes__text-element')).toHaveLength(shapeData.length)
+        wrapper.destroy()
+      })
+    })
     describe('Anchored Shape with no text content', function () {
       it('Should not have text elements', function () {
         const config = _.cloneDeep(anchoredShapesConfig)

@@ -17,6 +17,8 @@ must be an object with the following:
 
 ## Optional properties
 
+- **trackByKey** Define this function to let D3 know which property of your data will be used to track changes in it.
+
 To set the lines width and the dots size, you'll need to set three different parameters:
 
 - **lineWidth** defines the span of the line segment in the **normal dimension**. The
