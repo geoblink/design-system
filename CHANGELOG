@@ -1,3 +1,7 @@
+# 14.1.0
+
+- `GeoTableHeaderRowCell` exports `GeoTableHeaderRowCellMixin` as constant to help building custom header cells
+
 # 14.0.2
 
 Fixed:
