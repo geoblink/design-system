@@ -1,3 +1,9 @@
+# 14.1.1
+
+Fixed:
+
+- `GeoSelect` make sure options `:key` is unique for adding/removing options from the list
+
 # 14.1.0
 
 - `GeoTableHeaderRowCell` exports `GeoTableHeaderRowCellMixin` as constant to help building custom header cells

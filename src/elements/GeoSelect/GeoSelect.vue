@@ -30,7 +30,7 @@
         <geo-list-group
           v-for="(option, index) in visibleOptions"
           :css-modifier="`geo-select${cssSuffix}`"
-          :key="index"
+          :key="`${option.label}--${index}`"
         >
           <template
             v-if="option.isOptGroupHeader"
@@ -49,7 +49,7 @@
           <geo-list-item
             v-for="(item, index) in option.items"
             slot="item"
-            :key="index"
+            :key="`${item.label}--${index}`"
             :css-modifier="`geo-select${cssSuffix}`"
             @click="changeCurrentSelection(item)">
             <geo-marquee :css-modifier="`geo-select${cssSuffix}`">
@@ -66,7 +66,7 @@
       <template v-else>
         <geo-list-item
           v-for="(option, index) in visibleOptions"
-          :key="index"
+          :key="`${option.label}--${index}`"
           :css-modifier="`geo-select${cssSuffix}`"
           @click="changeCurrentSelection(option)">
           <geo-marquee :css-modifier="`geo-select${cssSuffix}`">
