@@ -19,7 +19,10 @@
       :style="popupStyle"
     >
       <!-- @slot Use this slot to customize popup's content -->
-      <slot name="popupContent" />
+      <slot
+        v-if="isOpened"
+        name="popupContent"
+      />
     </div>
   </div>
 </template>
