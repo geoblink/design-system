@@ -164,6 +164,7 @@ export default {
   },
   data () {
     return {
+      internallyForcedCurrentPageStart: -1, // Used to force table to display first page during page size inference
       inferredPageSize: null
       // This is intentionally non-reactive to avoid triggering update hook
       // isAdjustingTable: false
@@ -181,7 +182,9 @@ export default {
     },
 
     currentPageStart () {
-      return this.currentPage * this.pageSize
+      return this.internallyForcedCurrentPageStart >= 0
+        ? this.internallyForcedCurrentPageStart
+        : this.currentPage * this.pageSize
     },
 
     currentPageData () {
@@ -393,6 +396,7 @@ export default {
       if (self.isInferringPageSize) return
 
       self.isInferringPageSize = true
+      self.internallyForcedCurrentPageStart = 0
       self.inferredPageSize = 1
       await self.$nextTick()
 
@@ -416,6 +420,7 @@ export default {
 
       self.applyComputedColumnsWidth()
       await self.$nextTick()
+      self.internallyForcedCurrentPageStart = -1
       self.isInferringPageSize = false
 
       /**

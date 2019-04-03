@@ -354,7 +354,13 @@ with a different value using `forced-page-size` property. Additionally, `GeoTabl
   <div class="element-demo">
     <h3 class="element-demo__header">
       Automatic page size
-      <div>
+      <geo-danger-button class="element-demo__inline-input-group" @click="removeAllData()">
+        Remove rows
+      </geo-danger-button>
+      <geo-primary-button class="element-demo__inline-input-group" @click="addNewRow()">
+        Add row
+      </geo-primary-button>
+      <div class="element-demo__inline-input-group">
         <label class="element-demo__inline-input-group__field">
           Max height: {{ maxHeight }}
         </label>
@@ -403,25 +409,23 @@ export default {
     return {
       maxHeight: 320,
       currentPage: 0,
-      automaticMovementInterval: null
+      automaticMovementInterval: null,
+      sourceData: _.times(27, (rowIndex) => {
+        return [rowIndex, ..._.times(4, () => _.random(0, 300, false))]
+      })
     }
   },
   computed: {
     style () {
       return {
         'display': 'flex',
-        'max-height': `${this.maxHeight}px`
+        'max-height': `${this.maxHeight}px`,
+        'resize': 'vertical'
       }
     },
 
     headers () {
       return _.times(5, i => `Column ${i}`)
-    },
-
-    sourceData () {
-      return _.times(27, (rowIndex) => {
-        return _.times(this.headers.length, () => _.random(0, 300, false))
-      })
     }
   },
   methods: {
@@ -443,6 +447,15 @@ export default {
         clearInterval(this.automaticMovementInterval)
         this.automaticMovementInterval = null
       }
+    },
+
+    removeAllData () {
+      this.sourceData = []
+      this.currentPage = 0
+    },
+
+    addNewRow () {
+      this.sourceData.push([this.sourceData.length, ..._.times(this.headers.length, () => _.random(0, 300, false))])
     }
   }
 }
