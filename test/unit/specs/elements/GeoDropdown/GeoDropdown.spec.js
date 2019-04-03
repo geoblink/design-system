@@ -2,7 +2,7 @@ import { mount } from '@vue/test-utils'
 import GeoDropdown from '@/elements/GeoDropdown/GeoDropdown.vue'
 
 describe('GeoDropdown', () => {
-  it('should render toggle button', function () {
+  it('Should render toggle button', function () {
     const wrapper = mount(GeoDropdown, {
       propsData: {
         opened: false
@@ -15,7 +15,7 @@ describe('GeoDropdown', () => {
     expect(wrapper.find('.my-demo-content').exists()).toBe(true)
   })
 
-  it('should render popup content', function () {
+  it('Should not render popup content if closed', function () {
     const wrapper = mount(GeoDropdown, {
       propsData: {
         opened: false
@@ -25,10 +25,23 @@ describe('GeoDropdown', () => {
       }
     })
 
+    expect(wrapper.find('body > .geo-dropdown__popup .my-demo-content').exists()).toBe(false)
+  })
+
+  it('Should render popup content if opened', function () {
+    const wrapper = mount(GeoDropdown, {
+      propsData: {
+        opened: true
+      },
+      slots: {
+        popupContent: [`<span class="my-demo-content">Just some unique demo content</span>`]
+      }
+    })
+
     expect(wrapper.find('body > .geo-dropdown__popup .my-demo-content').exists()).toBe(true)
   })
 
-  it('should reposition popup content when it is mounted', function () {
+  it('Should reposition popup content when it is mounted', function () {
     const reattachPopupToDocumentBody = jest.fn()
     mount(GeoDropdown, {
       propsData: {
@@ -42,7 +55,7 @@ describe('GeoDropdown', () => {
     expect(reattachPopupToDocumentBody.mock.calls.length).toBe(1)
   })
 
-  it('should reposition popup content when it is opened', function () {
+  it('Should reposition popup content when it is opened', function () {
     const repositionPopup = jest.fn()
     const wrapper = mount(GeoDropdown, {
       propsData: {
@@ -60,7 +73,7 @@ describe('GeoDropdown', () => {
     expect(repositionPopup.mock.calls.length).toBeGreaterThan(originalCallCount)
   })
 
-  it('should remove popup from body when unmounted', function () {
+  it('Should remove popup from body when unmounted', function () {
     const removePopupFromDOM = jest.fn()
     const wrapper = mount(GeoDropdown, {
       propsData: {

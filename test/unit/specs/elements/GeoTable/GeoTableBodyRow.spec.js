@@ -6,7 +6,7 @@ const localVue = createLocalVue()
 localVue.component('geo-table-body-row', GeoTableBodyRow)
 
 describe('GeoTableBodyRow', () => {
-  it('should render component', function () {
+  it('Should render component', function () {
     let slotScope
     const wrapper = mount(GeoTableBodyRow, {
       scopedSlots: {
@@ -22,7 +22,7 @@ describe('GeoTableBodyRow', () => {
     expect(slotScope).toHaveProperty('cssModifier')
   })
 
-  it('should render content', function () {
+  it('Should render content', function () {
     const wrapper = mount(GeoTableBodyRow, {
       scopedSlots: {
         default: '<p>Demo content</p>'
@@ -34,7 +34,7 @@ describe('GeoTableBodyRow', () => {
     expect(instance.text()).toEqual('Demo content')
   })
 
-  it('should apply CSS suffix when the modifier is provided', function () {
+  it('Should apply CSS suffix when the modifier is provided', function () {
     let slotScope
     const wrapper = mount(GeoTableBodyRow, {
       propsData: {
@@ -53,22 +53,22 @@ describe('GeoTableBodyRow', () => {
     expect(slotScope).toHaveProperty('cssModifier', 'demo-modifier')
   })
 
-  it('should apply variant when provided', function () {
+  it('Should apply variant when provided', function () {
     const wrapper = mount(GeoTableBodyRow, {
       propsData: {
-        variant: 'alternative'
+        variant: 'highlighted'
       }
     })
 
-    const instance = wrapper.find('.geo-table-body-row--alternative')
+    const instance = wrapper.find('.geo-table-body-row--highlighted')
     expect(instance.exists()).toBe(true)
   })
 
-  it('should apply variant and CSS suffix when both are provided', function () {
+  it('Should apply variant and CSS suffix when both are provided', function () {
     let slotScope
     const wrapper = mount(GeoTableBodyRow, {
       propsData: {
-        variant: 'selected',
+        variant: 'active',
         cssModifier: 'demo-modifier'
       },
       scopedSlots: {
@@ -78,13 +78,13 @@ describe('GeoTableBodyRow', () => {
       }
     })
 
-    const instance = wrapper.find('.geo-table-body-row--selected--demo-modifier')
+    const instance = wrapper.find('.geo-table-body-row--active--demo-modifier')
     expect(instance.exists()).toBe(true)
 
     expect(slotScope).toHaveProperty('cssModifier', 'demo-modifier')
   })
 
-  it('should complain when using unknown variant', function () {
+  it('Should complain when using unknown variant', function () {
     const consoleErrorSpy = jest.spyOn(global.console, 'error').mockImplementation(() => { })
 
     mount(GeoTableBodyRow, {
