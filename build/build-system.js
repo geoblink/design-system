@@ -10,6 +10,8 @@ const chalk = require('chalk')
 const webpack = require('webpack')
 const config = require('../config')
 const webpackConfig = require('./webpack.system.conf')
+const utils = require('./utils')
+const fs = require('fs-extra')
 
 const spinner = ora('Building Design System Library...')
 spinner.start()
@@ -35,14 +37,40 @@ rm(path.join(config.system.assetsRoot, config.system.assetsSubDirectory), err =>
       process.exit(1)
     }
 
-    // eslint-disable-next-line no-console
-    console.log(chalk.cyan('  Design System Library build complete.\n'))
-    // eslint-disable-next-line no-console
-    console.log(
-      chalk.yellow(
-        '  Tip: You can now publish your library as a private NPM module.\n' +
-          "  Users can import it as an ES6 module: import DesignSystem from 'system'\n"
-      )
-    )
+    cleanupSCSSAutomaticStyles()
+      .then(function () {
+        // eslint-disable-next-line no-console
+        console.log(chalk.cyan('  Design System Library build complete.\n'))
+        // eslint-disable-next-line no-console
+        console.log(
+          chalk.yellow(
+            '  Tip: You can now publish your library as a private NPM module.\n' +
+            "  Users can import it as an ES6 module: import DesignSystem from 'system'\n"
+          )
+        )
+      })
+      .catch(function (error) {
+        // eslint-disable-next-line no-console
+        console.log(chalk.red('  Design System SCSS cleanup failed with errors.\n'))
+        console.error(error)
+        process.exit(1)
+      })
   })
 })
+
+async function cleanupSCSSAutomaticStyles () {
+  const spinner = ora('Cleaning up Design System SCSS...')
+  spinner.start()
+
+  const pathToSCSSStyles = path.join(config.system.assetsRoot, utils.assetsSystemPath('system.utils.scss'))
+
+  const originalContent = (await fs.readFile(pathToSCSSStyles)).toString()
+  const contentWithoutDefaultModifierAutomaticInitialization = originalContent.replace(
+    /@include\s+geo-.*-make\s*\(''\);/gi,
+    ''
+  )
+
+  await fs.writeFile(pathToSCSSStyles, contentWithoutDefaultModifierAutomaticInitialization)
+
+  spinner.stop()
+}
