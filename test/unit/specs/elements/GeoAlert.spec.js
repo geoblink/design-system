@@ -161,6 +161,9 @@ describe('GeoAlert', () => {
   })
 
   it('Should check variant prop is valid', function () {
+    const spy = jest.spyOn(global.console, 'warn').mockImplementation(() => { })
+    afterEach(() => spy.mockReset())
+
     const wrapper = mount(GeoAlert, {
       propsData: {
         variant: 'success'
@@ -175,6 +178,7 @@ describe('GeoAlert', () => {
     expect(variantProp.required).toBeTruthy()
     expect(variantProp.type).toBe(String)
     expect(variantProp.validator && variantProp.validator('qwerty')).toBeFalsy()
+    expect(spy).toBeCalledWith(expect.stringContaining('GeoAlert [component] :: Unsupported value («qwerty») for «variant» property.'))
     expect(variantProp.validator && variantProp.validator('info')).toBeTruthy()
   })
 })

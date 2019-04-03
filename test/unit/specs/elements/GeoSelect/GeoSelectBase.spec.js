@@ -12,7 +12,7 @@ import { fas } from '@fortawesome/free-solid-svg-icons'
 library.add(fas)
 
 describe('GeoSelectBase', () => {
-  it('Should render element', () => {
+  it('Should render element toggle button', () => {
     const wrapper = mount(GeoSelectBase, {
       stubs: {
         GeoDropdown,
@@ -36,11 +36,10 @@ describe('GeoSelectBase', () => {
           </geo-select-toggle-button>`
       }
     })
-    expect(wrapper.find('.geo-select__options-container').exists()).toBe(true)
     expect(wrapper.find('.geo-select-toggle-button').exists()).toBe(true)
-    expect(wrapper.find('.geo-list-footer-button').exists()).toBe(true)
   })
-  it('Should emit load more results event', () => {
+
+  it('Should not render element popup if not opened', () => {
     const wrapper = mount(GeoSelectBase, {
       stubs: {
         GeoDropdown,
@@ -52,6 +51,62 @@ describe('GeoSelectBase', () => {
       },
       propsData: {
         opened: false,
+        hasMoreResults: true,
+        forceYAxisPosition: Y_AXIS_POSITION.top
+      },
+      slots: {
+        toggleButton:
+          `<geo-select-toggle-button
+            :is-empty="true"
+            :dropdown-icon="['fas', 'chevron-down']">
+            Choose an option
+          </geo-select-toggle-button>`
+      }
+    })
+    expect(wrapper.find('.geo-select__options-container').exists()).toBe(false)
+    expect(wrapper.find('.geo-list-footer-button').exists()).toBe(false)
+  })
+
+  it('Should render element popup if opened', () => {
+    const wrapper = mount(GeoSelectBase, {
+      stubs: {
+        GeoDropdown,
+        GeoBorderedBox,
+        GeoScrollableContainer,
+        GeoSelectToggleButton,
+        GeoListFooterButton,
+        'font-awesome-icon': FontAwesomeIcon
+      },
+      propsData: {
+        opened: true,
+        hasMoreResults: true,
+        forceYAxisPosition: Y_AXIS_POSITION.top
+      },
+      slots: {
+        toggleButton:
+          `<geo-select-toggle-button
+            :is-empty="true"
+            :dropdown-icon="['fas', 'chevron-down']">
+            Choose an option
+          </geo-select-toggle-button>`
+      }
+    })
+    expect(wrapper.find('.geo-select__options-container').exists()).toBe(true)
+    expect(wrapper.find('.geo-list-footer-button').exists()).toBe(true)
+  })
+
+  it('Should emit load more results event', () => {
+    const wrapper = mount(GeoSelectBase, {
+      stubs: {
+        GeoDropdown,
+        GeoBorderedBox,
+        GeoScrollableContainer,
+        GeoSelectToggleButton,
+        GeoListFooterButton,
+        'font-awesome-icon': FontAwesomeIcon
+      },
+      propsData: {
+        opened: true,
         hasMoreResults: true
       },
       slots: {

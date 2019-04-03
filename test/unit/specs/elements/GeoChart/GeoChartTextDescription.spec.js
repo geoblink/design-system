@@ -80,7 +80,23 @@ describe('GeoChartTextDescription.js', () => {
 
     wrapper = mount(GeoChart, {
       propsData: {
-        config: {},
+        config: {
+          axisGroups: [{
+            id: 'dummy-axis',
+            keyForValues: 'value',
+            position: {
+              type: GeoChart.constants.POSITIONS.left
+            },
+            scale: {
+              type: GeoChart.constants.SCALE_TYPES.linear,
+              valueForOrigin: 0,
+              domain: {
+                start: 0,
+                end: 1
+              }
+            }
+          }]
+        },
         height: `${chartConfig.height}px`,
         width: `${chartConfig.width}px`
       }

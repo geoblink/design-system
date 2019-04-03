@@ -14,7 +14,7 @@ localVue.component('geo-dropdown', GeoDropdown)
 localVue.component('geo-input', GeoInput)
 
 describe('GeoInput', () => {
-  it('should render input component', function () {
+  it('Should render input component', function () {
     const wrapper = mount(GeoInput, {
       propsData: {
         showButtons: false,
@@ -30,7 +30,7 @@ describe('GeoInput', () => {
     expect(wrapper.find('.geo-input__form__input').exists()).toBe(true)
   })
 
-  it('should emit an event on click', function (done) {
+  it('Should emit an event on click', function (done) {
     const wrapper = mount(GeoInput, {
       propsData: {
         showButtons: false,
@@ -54,7 +54,7 @@ describe('GeoInput', () => {
     })
   })
 
-  it('should not emit the event on click when disabled', function (done) {
+  it('Should not emit the event on click when disabled', function (done) {
     const wrapper = mount(GeoInput, {
       propsData: {
         showButtons: false,
@@ -79,10 +79,27 @@ describe('GeoInput', () => {
     })
   })
 
-  it('should emit an event on click save button', function (done) {
+  it('Should not render buttons if they are hidden', function () {
     const wrapper = mount(GeoInput, {
       propsData: {
         showButtons: false,
+        cancelIcon: ['fas', 'times'],
+        saveIcon: ['fas', 'check']
+      },
+      stubs: {
+        'font-awesome-icon': FontAwesomeIcon,
+        GeoDropdown
+      }
+    })
+
+    expect(wrapper.find('.geo-input__container__buttons__button--save').exists()).toBe(false)
+    expect(wrapper.find('.geo-input__container__buttons__button--cancel').exists()).toBe(false)
+  })
+
+  it('Should emit an event on click save button', function (done) {
+    const wrapper = mount(GeoInput, {
+      propsData: {
+        showButtons: true,
         cancelIcon: ['fas', 'times'],
         saveIcon: ['fas', 'check']
       },
@@ -103,10 +120,10 @@ describe('GeoInput', () => {
     })
   })
 
-  it('should emit an event on click cancel button', function (done) {
+  it('Should emit an event on click cancel button', function (done) {
     const wrapper = mount(GeoInput, {
       propsData: {
-        showButtons: false,
+        showButtons: true,
         cancelIcon: ['fas', 'times'],
         saveIcon: ['fas', 'check']
       },
@@ -127,10 +144,10 @@ describe('GeoInput', () => {
     })
   })
 
-  it('should show GeoActivityIndicator when is loading', function (done) {
+  it('Should show GeoActivityIndicator when it is loading', function (done) {
     const wrapper = mount(GeoInput, {
       propsData: {
-        showButtons: false,
+        showButtons: true,
         cancelIcon: ['fas', 'times'],
         saveIcon: ['fas', 'check'],
         loading: true
@@ -151,7 +168,7 @@ describe('GeoInput', () => {
     })
   })
 
-  it('should emit input event when added a value', function (done) {
+  it('Should emit input event when added a value', function (done) {
     const wrapper = mount(GeoInput, {
       propsData: {
         showButtons: false,

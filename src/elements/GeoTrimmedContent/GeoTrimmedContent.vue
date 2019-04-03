@@ -1,24 +1,3 @@
-<template>
-  <span
-    v-on-resize="reloadRequiredWidth"
-    v-tooltip.top.notrigger="{
-      visible: isTooltipVisible,
-      html: idTooltipContentNode
-    }"
-    :class="`geo-trimmed-content${cssSuffix}`"
-    @mouseenter="isHovered = true"
-    @mouseleave="isHovered = false"
-  >
-    <span
-      ref="content"
-      class="geo-trimmed-content__content"
-    >
-      <!-- @slot Use this slot to render content to be trimmed -->
-      <slot />
-    </span>
-  </span>
-</template>
-
 <script>
 import OnResize from '../../directives/GeoOnResize'
 import Tooltip from '../../directives/Tooltip'
@@ -88,6 +67,7 @@ export default {
     },
 
     reloadTooltipContent () {
+      if (!this.isContentTrimmed) return
       if (!this.$refs.content) return
 
       this.tooltipHTML = this.$refs.content.innerHTML
@@ -105,6 +85,40 @@ export default {
       const element = document.getElementById(this.idTooltipContentNode)
       element.parentNode.removeChild(element)
     }
+  },
+  render (createElement) {
+    const directives = [{
+      name: 'on-resize',
+      value: this.reloadRequiredWidth
+    }]
+
+    if (this.isContentTrimmed) {
+      directives.push({
+        name: 'tooltip',
+        value: {
+          visible: this.isTooltipVisible,
+          html: this.idTooltipContentNode
+        },
+        modifiers: {
+          top: true,
+          notrigger: true
+        }
+      })
+    }
+
+    return createElement('span', {
+      directives,
+      class: `geo-trimmed-content${this.cssSuffix}`,
+      on: {
+        mouseenter: () => { this.isHovered = true },
+        mouseleave: () => { this.isHovered = false }
+      }
+    }, [
+      createElement('span', {
+        class: 'geo-trimmed-content__content',
+        ref: 'content'
+      }, this.$slots.default)
+    ])
   }
 }
 </script>

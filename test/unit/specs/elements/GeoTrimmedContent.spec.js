@@ -24,6 +24,11 @@ describe('GeoTrimmedContent', () => {
     const wrapper = mount(GeoTrimmedContent, {
       slots: {
         default: '<div>Custom content</div>'
+      },
+      computed: {
+        isContentTrimmed () {
+          return true
+        }
       }
     })
 
@@ -38,6 +43,11 @@ describe('GeoTrimmedContent', () => {
     const wrapper = mount(GeoTrimmedContent, {
       slots: {
         default: '<div>Custom content</div>'
+      },
+      computed: {
+        isContentTrimmed () {
+          return true
+        }
       }
     })
 

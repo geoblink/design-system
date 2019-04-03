@@ -17,10 +17,20 @@ import _ from 'lodash'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fas } from '@fortawesome/free-solid-svg-icons'
 
-library.add(fas)
+const iconsToMock = [
+  'faChevronUp',
+  'faChevronDown'
+]
+const mockedFalIcons = _.mapValues(_.pick(fas, iconsToMock), function (original) {
+  return _.assign({}, original, {
+    prefix: 'fal'
+  })
+})
+
+library.add(fas, mockedFalIcons)
 
 describe('GeoSelect', () => {
-  it('Should render element', () => {
+  it('Should render toggle button', () => {
     const wrapper = mount(GeoSelect, {
       stubs: {
         GeoSelectBase,
@@ -42,12 +52,67 @@ describe('GeoSelect', () => {
         value: { label: 'Item 0' }
       }
     })
-    expect(wrapper.find('.geo-select__options-container--geo-select').exists()).toBe(true)
     expect(wrapper.find('.geo-select-toggle-button--geo-select').exists()).toBe(true)
   })
 
+  it('Should not render element popup if not opened', () => {
+    const wrapper = mount(GeoSelect, {
+      stubs: {
+        GeoSelectBase,
+        GeoSelectToggleButton,
+        GeoDropdown,
+        GeoBorderedBox,
+        GeoScrollableContainer,
+        GeoMarquee,
+        GeoHighlightedString,
+        GeoListItem,
+        'font-awesome-icon': FontAwesomeIcon
+      },
+      propsData: {
+        options: _.times(4, idx => { return { label: `${idx}` } }),
+        placeholder: 'Some Placeholder',
+        dropdownIcon: ['fas', 'chevron-down'],
+        forceYAxisPosition: Y_AXIS_POSITION.top,
+        pageSize: 4,
+        value: { label: 'Item 0' }
+      }
+    })
+    expect(wrapper.find('.geo-select__options-container--geo-select').exists()).toBe(false)
+  })
+
+  it('Should render element popup if opened', () => {
+    const wrapper = mount(GeoSelect, {
+      stubs: {
+        GeoSelectBase,
+        GeoSelectToggleButton,
+        GeoDropdown,
+        GeoBorderedBox,
+        GeoScrollableContainer,
+        GeoMarquee,
+        GeoHighlightedString,
+        GeoListItem,
+        'font-awesome-icon': FontAwesomeIcon
+      },
+      propsData: {
+        options: _.times(4, idx => { return { label: `${idx}` } }),
+        placeholder: 'Some Placeholder',
+        dropdownIcon: ['fas', 'chevron-down'],
+        forceYAxisPosition: Y_AXIS_POSITION.top,
+        pageSize: 4,
+        value: { label: 'Item 0' }
+      },
+      data () {
+        return {
+          isOpened: true
+        }
+      }
+    })
+    expect(wrapper.find('.geo-select__options-container--geo-select').exists()).toBe(true)
+  })
+
   it('Invalid default value for GeoSelect', () => {
-    let spy = jest.spyOn(console, 'error')
+    const spy = jest.spyOn(console, 'error').mockImplementation(() => {})
+
     afterEach(() => spy.mockReset())
     const wrapper = mount(GeoSelect, {
       stubs: {
@@ -66,6 +131,11 @@ describe('GeoSelect', () => {
         placeholder: 'Some Placeholder',
         dropdownIcon: ['fas', 'chevron-down'],
         value: { label: 45 }
+      },
+      data () {
+        return {
+          isOpened: true
+        }
       }
     })
     expect(wrapper.find('.geo-select__options-container--geo-select').exists()).toBe(true)
@@ -146,6 +216,11 @@ describe('GeoSelect', () => {
         dropdownIcon: ['fas', 'chevron-down'],
         searchIcon: ['fas', 'search'],
         searchable: true
+      },
+      data () {
+        return {
+          isOpened: true
+        }
       }
     })
     expect(wrapper.find('.geo-bordered-box-header-search-form--geo-select').exists()).toBe(true)
@@ -173,9 +248,13 @@ describe('GeoSelect', () => {
         dropdownIcon: ['fas', 'chevron-down'],
         searchIcon: ['fas', 'search'],
         searchable: true
+      },
+      data () {
+        return {
+          isOpened: true
+        }
       }
     })
-    wrapper.setData({ isOpened: true })
     wrapper.find('.geo-bordered-box-header-search-form__input').element.value = 'Item 1'
     wrapper.find('.geo-bordered-box-header-search-form__input').trigger('keyup')
     expect(wrapper.findAll('.geo-list-item--geo-select').length).toBe(1)
@@ -215,9 +294,13 @@ describe('GeoSelect', () => {
         searchIcon: ['fas', 'search'],
         searchable: true,
         isOptSelect: true
+      },
+      data () {
+        return {
+          isOpened: true
+        }
       }
     })
-    wrapper.setData({ isOpened: true })
     wrapper.find('.geo-bordered-box-header-search-form__input').element.value = 'Second Group'
     wrapper.find('.geo-bordered-box-header-search-form__input').trigger('keyup')
     expect(wrapper.findAll('.geo-list-item--geo-select').length).toBe(4)
