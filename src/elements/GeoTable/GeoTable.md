@@ -411,7 +411,7 @@ export default {
       currentPage: 0,
       automaticMovementInterval: null,
       sourceData: _.times(27, (rowIndex) => {
-        return _.times(5, () => _.random(0, 300, false))
+        return [rowIndex, ..._.times(4, () => _.random(0, 300, false))]
       })
     }
   },
@@ -451,10 +451,11 @@ export default {
 
     removeAllData () {
       this.sourceData = []
+      this.currentPage = 0
     },
 
     addNewRow () {
-      this.sourceData.push(_.times(this.headers.length, () => _.random(0, 300, false)))
+      this.sourceData.push([this.sourceData.length, ..._.times(this.headers.length, () => _.random(0, 300, false))])
     }
   }
 }
