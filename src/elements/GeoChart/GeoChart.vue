@@ -187,7 +187,7 @@ export default {
         (axisConfig) => [axisConfig.id, getScaleForAxisConfig(axisConfig, { scalesById: simplePositionedScales, axisGroups })]
       ))
 
-      return Object.assign({}, simplePositionedScales, advancedPositionedScales)
+      return _.assign({}, simplePositionedScales, advancedPositionedScales)
 
       function getScaleForAxisConfig (axisConfig, { scalesById, axisGroups }) {
         const position = getPositionOfAxis(axisConfig, { scalesById, axisGroups })
@@ -283,7 +283,7 @@ export default {
     },
 
     redrawAxes () {
-      const axesConfig = Object.values(this.axesConfigById)
+      const axesConfig = _.values(this.axesConfigById)
 
       const chartSize = this.svgSize
       const chartMargin = _.get(this.config.chart, 'margin', ChartSizing.EMPTY_MARGIN)
