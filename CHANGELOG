@@ -1,4 +1,10 @@
-# 16.0.0
+# 16.0.0-beta.1
+
+Changed:
+
+- Add d3 as direct dependency.
+
+# 16.0.0-beta.0
 
 Migration guide:
 
@@ -14,7 +20,7 @@ Breaking:
   - `node_modules/@geoblink/design-system/system.utils.scss`
   - `node_modules/@geoblink/design-system/tokens/tokens.(json|map.scss|raw.json|scss)`
 
-Fixes:
+Fixed:
 
 - Remove unneded files from dist bundle
 - Reduce bundle size to <240kb
