@@ -1,3 +1,9 @@
+# 15.0.1
+
+Fixed:
+
+- `GeoTrimmedContent` don't attempt to remove tooltip DOM elements if content is not trimmed.
+
 # 15.0.0
 
 Breaking:
@@ -7,6 +13,12 @@ Breaking:
 Migration guide:
 
 - Add at least one import to `dist/system.css` in order to get default CSS code.
+
+# 14.1.4 (Backport)
+
+Fixed:
+
+- `GeoTrimmedContent` don't attempt to remove tooltip DOM elements if content is not trimmed.
 
 # 14.1.3
 
