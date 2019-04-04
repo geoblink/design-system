@@ -47,7 +47,7 @@
 
 <script>
 import designTokens from '@/assets/tokens/tokens.raw.json'
-import orderBy from 'lodash/orderBy'
+import { orderBy } from 'lodash'
 
 /**
  * A list of available tokens in Vue Design System. Use these tokens in place

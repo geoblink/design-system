@@ -1,3 +1,4 @@
+import { assign } from 'lodash'
 import VariableInterpolationPlugin from './VariableInterpolationPlugin'
 
 /**

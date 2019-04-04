@@ -69,8 +69,7 @@
 
 <script>
 import designTokens from '@/assets/tokens/tokens.raw.json'
-import _orderBy from 'lodash/orderBy'
-import _filter from 'lodash/filter'
+import { orderBy, filter, assign } from 'lodash'
 
 /**
  * This typographic scale makes it easier to achieve visual harmony in the
@@ -87,11 +86,11 @@ export default {
   },
   computed: {
     fontTokens () {
-      return _filter(designTokens.props, { category: 'font' })
+      return filter(designTokens.props, { category: 'font' })
     },
 
     tokens () {
-      return _orderBy(
+      return orderBy(
         this.fontTokens.map((obj, index) => {
           const styles = this.styles[index]
           const stylesObject = styles || {}
@@ -100,7 +99,7 @@ export default {
           ).includes('Lato')
             ? 'Lato'
             : 'Montserrat'
-          return Object.assign({}, obj, {
+          return assign({}, obj, {
             hasStyles: !!styles,
             styles: styles || {},
             fontFamily,
