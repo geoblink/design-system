@@ -1,3 +1,13 @@
+# 15.0.0
+
+Breaking:
+
+- `dist/system/system.utils.scss` no longer generates any CSS code, to allow requiring CSS mixins from several places without duplicating CSS code.
+
+Migration guide:
+
+- Add at least one import to `dist/system.css` in order to get default CSS code.
+
 # 14.1.3
 
 Fixed:
