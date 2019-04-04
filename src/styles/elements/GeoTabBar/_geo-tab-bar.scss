@@ -11,6 +11,8 @@
   $modifier-name-with-prefix: '';
 
   @if $modifier-name != '' {
+    @include geo-tab-bar-item-make($modifier-name);
+
     // sass-lint:disable space-around-operator
     $modifier-name-with-prefix: --#{$modifier-name};
   }
@@ -28,8 +30,6 @@
     background-color: $color-white-dark;
     height: 40px;
   }
-
-  @include geo-tab-bar-item-make($modifier-name);
 }
 
 @include geo-tab-bar-make('');

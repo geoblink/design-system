@@ -3,6 +3,8 @@
   $modifier-name-with-prefix: '';
 
   @if $modifier-name != '' {
+    @include geo-list-footer-button-make($modifier-name);
+
     // sass-lint:disable space-around-operator
     $modifier-name-with-prefix: --#{$modifier-name};
   }
@@ -23,8 +25,6 @@
     overflow-y: auto;
     overflow-x: hidden;
   }
-
-  @include geo-list-footer-button-make($modifier-name);
 }
 
 @include geo-scrollable-container-make('');
