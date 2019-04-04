@@ -1,0 +1,12 @@
+@mixin geo-chart-line-make($modifier-name) {
+
+  $modifier-name-with-prefix: '';
+
+  @if $modifier-name != '' {
+    // sass-lint:disable space-around-operator
+    $modifier-name-with-prefix: --#{$modifier-name};
+  }
+
+}
+
+@include geo-chart-line-make('');

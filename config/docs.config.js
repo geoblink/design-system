@@ -213,8 +213,11 @@ module.exports = {
           }, {
             name: 'Pie charts',
             content: '../src/elements/GeoChart/GeoChartPie/GeoChartPie.md'
+          }, {
+            name: 'Line charts',
+            content: '../src/elements/GeoChart/GeoChartLine/GeoChartLine.md',
           }]
-        },
+        }
         // hygen-component (reference for injection, do not remove)
       ]
     },
