@@ -3,6 +3,9 @@
   $modifier-name-with-prefix: '';
 
   @if $modifier-name != '' {
+    @include geo-dropdown-make($modifier-name);
+    @include geo-scrollable-container-make($modifier-name);
+
     // sass-lint:disable space-around-operator
     $modifier-name-with-prefix: --#{$modifier-name};
   }
@@ -13,14 +16,10 @@
     overflow-y: auto;
   }
 
-  @include geo-dropdown-make($modifier-name);
-
   .geo-dropdown__popup--is-open#{$modifier-name-with-prefix} {
     display: flex;
     flex-direction: column;
   }
-
-  @include geo-scrollable-container-make($modifier-name);
 
   .geo-scrollable-container#{$modifier-name-with-prefix} {
     flex-grow: 1;
