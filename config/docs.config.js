@@ -279,16 +279,14 @@ module.exports = {
     favicon: './favicon.ico'
   },
   /**
-   * Ignore app.vue, tests, and example component.
+   * Ignore tests and example component.
    */
   ignore: [
-    '**/App.vue',
     '**/__tests__/**',
     '**/*.test.js',
     '**/*.test.jsx',
     '**/*.spec.js',
-    '**/*.spec.jsx',
-    '**/ExampleComponent.vue'
+    '**/*.spec.jsx'
   ],
   webpackConfig: merge(baseConfig, {
     module: {

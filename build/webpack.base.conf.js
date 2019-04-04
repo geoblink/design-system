@@ -12,9 +12,6 @@ function resolve (dir) {
 module.exports = {
   mode: process.env.NODE_ENV === 'production' ? config.build.mode : config.dev.mode,
   context: path.resolve(__dirname, '../'),
-  entry: {
-    app: './src/main.js'
-  },
   output: {
     path: config.build.assetsRoot,
     filename: '[name].js',

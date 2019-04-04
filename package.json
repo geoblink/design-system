@@ -11,8 +11,7 @@
   "homepage": "https://geoblink.com",
   "license": "MIT",
   "scripts": {
-    "dev": "webpack-dev-server --inline --config ./build/webpack.dev.conf.js",
-    "start": "run-p styleguide theo:onchange theo dev",
+    "start": "run-p styleguide theo:onchange theo",
     "unit": "jest --config ./test/unit/jest.conf.js --coverage",
     "unit:watch": "jest --config ./test/unit/jest.conf.js --watch",
     "build": "run-s theo node:build",
@@ -69,9 +68,6 @@
   "resolutions": {
     "merge": ">= 1.2.1",
     "vue-styleguidist/vue-docgen-api": "~2.3.14"
-  },
-  "dependencies": {
-    "webfontloader": "^1.6.28"
   },
   "peerDependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.2",
@@ -177,6 +173,7 @@
     "vue-styleguidist": "^2.0.2",
     "vue-template-compiler": "^2.5.17",
     "vuex": "^3.0.1",
+    "webfontloader": "^1.6.28",
     "webpack": "^4.17.2",
     "webpack-bundle-analyzer": "^2.13.1",
     "webpack-cli": "^3.1.0",
