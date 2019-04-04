@@ -3,6 +3,7 @@ const path = require('path')
 const utils = require('./utils')
 const config = require('../config')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const PeerDepsExternalsPlugin = require('peer-deps-externals-webpack-plugin')
 const { VueLoaderPlugin } = require('vue-loader')
 
 function resolve (dir) {
@@ -70,7 +71,11 @@ module.exports = {
       }
     ]
   },
-  plugins: [new VueLoaderPlugin(), new MiniCssExtractPlugin('style.css')],
+  plugins: [
+    new VueLoaderPlugin(),
+    new MiniCssExtractPlugin('style.css'),
+    new PeerDepsExternalsPlugin()
+  ],
   node: {
     // prevent webpack from injecting useless setImmediate polyfill because Vue
     // source contains it (although only uses it if it's native).
