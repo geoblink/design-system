@@ -73,7 +73,9 @@ module.exports = {
   },
   plugins: [
     new VueLoaderPlugin(),
-    new MiniCssExtractPlugin('style.css'),
+    new MiniCssExtractPlugin({
+      filename: utils.assetsSystemPath('[name].css')
+    }),
     new PeerDepsExternalsPlugin()
   ],
   node: {
