@@ -367,7 +367,7 @@ export function getColumnsWidthDistribution (columns, width) {
 
   for (const columnSettings of columns) {
     if (remainingWidth === 0) {
-      remainingColumns.push(Object.assign({}, columnSettings))
+      remainingColumns.push(_.assign({}, columnSettings))
       continue
     }
 
@@ -375,7 +375,7 @@ export function getColumnsWidthDistribution (columns, width) {
 
     const remainingWidthUntilReachingMaximum = columnSettings.remainingWidthUntilReachingMaximum - singleColumnWidthIncrease
     if (remainingWidthUntilReachingMaximum > 0) {
-      remainingColumns.push(Object.assign({}, columnSettings, {
+      remainingColumns.push(_.assign({}, columnSettings, {
         remainingWidthUntilReachingMaximum
       }))
     }
