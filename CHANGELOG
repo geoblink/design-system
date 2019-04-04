@@ -1,3 +1,24 @@
+# 16.0.0
+
+Migration guide:
+
+1. SCSS imports of `dist/system/system.utils.scss` should now import `dist/system.utils.scss`
+2. SCSS imports of `dist/system/system.css` should now import `dist/system.css`
+3. JS imports of `dist/system/system.js` should now import `dist/system.js`
+
+Breaking:
+
+- New file structure. Generated bundled are available at:
+  - `node_modules/@geoblink/design-system/system.css`
+  - `node_modules/@geoblink/design-system/system.js`
+  - `node_modules/@geoblink/design-system/system.utils.scss`
+  - `node_modules/@geoblink/design-system/tokens/tokens.(json|map.scss|raw.json|scss)`
+
+Fixes:
+
+- Remove unneded files from dist bundle
+- Reduce bundle size to <240kb
+
 # 15.0.1
 
 Fixed:
