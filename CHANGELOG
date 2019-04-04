@@ -1,3 +1,9 @@
+# 16.0.0-beta.2
+
+Fixed:
+
+- `GeoTrimmedContent` don't attempt to remove tooltip DOM elements if content is not trimmed.
+
 # 16.0.0-beta.1
 
 Changed:
@@ -31,7 +37,7 @@ Fixed:
 
 - `GeoMarquee` wait for nextTick to get the width of the content.
 
-# 15.0.1
+# 15.0.1 (Backport)
 
 Fixed:
 
