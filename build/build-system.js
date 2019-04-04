@@ -37,7 +37,10 @@ rm(path.join(config.system.assetsRoot, config.system.assetsSubDirectory), err =>
       process.exit(1)
     }
 
-    cleanupSCSSAutomaticStyles()
+    writeStatsReport(stats)
+      .then(function () {
+        return cleanupSCSSAutomaticStyles()
+      })
       .then(function () {
         // eslint-disable-next-line no-console
         console.log(chalk.cyan('  Design System Library build complete.\n'))
@@ -57,6 +60,16 @@ rm(path.join(config.system.assetsRoot, config.system.assetsSubDirectory), err =>
       })
   })
 })
+
+async function writeStatsReport (stats) {
+  const spinner = ora('Writing webpack stats...')
+  spinner.start()
+
+  const jsonStats = stats.toJson()
+  await fs.writeFile(path.resolve(__dirname, '../webpack.stats.json'), JSON.stringify(jsonStats))
+
+  spinner.stop()
+}
 
 async function cleanupSCSSAutomaticStyles () {
   const spinner = ora('Cleaning up Design System SCSS...')
