@@ -50,72 +50,70 @@ const htmlHeadingTagToMarkdownNodeHTMLTag = {
   h6: MarkdownNodeHTMLTag.h6
 }
 
-export class MarkdownBlockNode {
-  /**
-   * @param {{type: MarkdownNodeType, tag: string, childNodes: MarkdownNode[]}} params
-   */
-  constructor (params) {
-    this.type = params.type
-    this.tag = params.tag
-    this.childNodes = params.childNodes
-  }
+/**
+ * @param {{type: MarkdownNodeType, tag: string, childNodes: MarkdownNode[]}} params
+ */
+export function MarkdownBlockNode (params) {
+  this.type = params.type
+  this.tag = params.tag
+  this.childNodes = params.childNodes
 }
 
-export class MarkdownBlockNodeWithTitle extends MarkdownBlockNode {
-  /**
-   * @param {{type: MarkdownNodeType, tag: string, childNodes: MarkdownNode[], title: string}} params
-   */
-  constructor (params) {
-    super(params)
-    this.title = params.title
-  }
+/**
+ * @param {{type: MarkdownNodeType, tag: string, childNodes: MarkdownNode[], title: string}} params
+ */
+export function MarkdownBlockNodeWithTitle (params) {
+  Object.getPrototypeOf(MarkdownBlockNodeWithTitle.prototype).constructor.call(this, params)
+  this.title = params.title
 }
+MarkdownBlockNodeWithTitle.prototype = Object.create(MarkdownBlockNode.prototype)
 
-export class MarkdownLinkBlockNode extends MarkdownBlockNodeWithTitle {
-  /**
-   * @param {{childNodes: MarkdownNode[], title: string, href: string}} params
-   */
-  constructor (params) {
-    super(Object.assign({}, params, {
+/**
+ * @param {{childNodes: MarkdownNode[], title: string, href: string}} params
+ */
+export function MarkdownLinkBlockNode (params) { // extends MarkdownBlockNodeWithTitle {
+  Object.getPrototypeOf(MarkdownLinkBlockNode.prototype).constructor.call(
+    this,
+    assign({}, params, {
       type: MarkdownNodeType.link,
       tag: MarkdownNodeHTMLTag.a
-    }))
-    this.href = params.href
-  }
+    })
+  )
+  this.href = params.href
 }
+MarkdownLinkBlockNode.prototype = Object.create(MarkdownBlockNodeWithTitle.prototype)
 
-export class MarkdownImageBlockNode extends MarkdownBlockNodeWithTitle {
-  /**
-   * @param {{childNodes: MarkdownNode[], title: string, alt: string, src: string}} params
-   */
-  constructor (params) {
-    super(Object.assign({}, params, {
+/**
+ * @param {{childNodes: MarkdownNode[], title: string, alt: string, src: string}} params
+ */
+export function MarkdownImageBlockNode (params) {
+  Object.getPrototypeOf(MarkdownImageBlockNode.prototype).constructor.call(
+    this,
+    assign({}, params, {
       type: MarkdownNodeType.image,
       tag: MarkdownNodeHTMLTag.img
-    }))
-    this.src = params.src
-    this.alt = params.alt
-  }
+    })
+  )
+
+  this.src = params.src
+  this.alt = params.alt
+}
+MarkdownImageBlockNode.prototype = Object.create(MarkdownBlockNodeWithTitle.prototype)
+
+/**
+ * @param {{content: string}} params
+ */
+export function MarkdownInlineNode (params) {
+  this.type = MarkdownNodeType.plainText
+  this.content = params.content
 }
 
-export class MarkdownInlineNode {
-  /**
-   * @param {{content: string}} params
-   */
-  constructor (params) {
-    this.type = MarkdownNodeType.plainText
-    this.content = params.content
-  }
-}
-
-export class MarkdownCodeBlockNode {
-  /**
-   * @param {{content: string}} params
-   */
-  constructor (params) {
-    this.type = MarkdownNodeType.code
-    this.content = params.content
-  }
+/**
+ * @param {{content: string}} params
+ */
+export function MarkdownCodeBlockNode (params) {
+  this.type = MarkdownNodeType.code
+  this.content = params.content
 }
 
 /**
