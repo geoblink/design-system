@@ -60,9 +60,8 @@ a better UX including chunked load and search capabilities.
       </geo-select>
     </div>
     <h3 class="element-demo__header">Select with marquee options</h3>
-    <div class="element-demo__block" style="justify-content: space-around; width: 400px;">
+    <div class="element-demo__block" style="justify-content: space-around;">
       <geo-select
-        style="width: 400px;"
         :options="marqueeOptions"
         :dropdown-icon="['fas', 'chevron-down']"
         :search-icon="['fas', 'search']"
