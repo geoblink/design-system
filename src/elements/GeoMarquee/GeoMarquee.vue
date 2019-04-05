@@ -67,8 +67,10 @@ export default {
     }
   },
   mounted () {
-    this.contentWidth = this.$refs['marquee-content'][0].getBoundingClientRect().width
-    this.containerWidth = this.$el.getBoundingClientRect().width
+    this.$nextTick().then(() => {
+      this.contentWidth = this.$refs['marquee-content'][0].getBoundingClientRect().width
+      this.containerWidth = this.$el.getBoundingClientRect().width
+    })
   },
   updated () {
     if (!this.$refs['marquee-content'][0] || !this.$el) return
