@@ -1,3 +1,9 @@
+# 15.0.2
+
+Fixed:
+
+- `GeoMarquee` wait for nextTick to get the width of the content.
+
 # 15.0.1
 
 Fixed:
