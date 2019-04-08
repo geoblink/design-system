@@ -628,7 +628,7 @@ export const lineSegmentsConfigSchema = {
 export const lineConfigSchema = {
   type: 'object',
   additionalProperties: false,
-  required: ['lineData', 'idHorizontalAxis', 'idVerticalAxis', 'lineWidth'],
+  required: ['lineData', 'dimension', 'idHorizontalAxis', 'idVerticalAxis', 'lineWidth'],
   properties: {
     lineData: {
       type: 'array',
@@ -645,6 +645,10 @@ export const lineConfigSchema = {
     },
     lineWidth: {
       type: 'number'
+    },
+    dimension: {
+      type: 'string',
+      enum: Object.values(DIMENSIONS)
     },
     interpolationFn: {},
     tooltip: {},

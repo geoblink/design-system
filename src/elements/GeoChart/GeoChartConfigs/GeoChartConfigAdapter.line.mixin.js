@@ -39,6 +39,7 @@ export default {
           lineData: singleLineGroupsConfig.lineData,
           lineWidth: singleLineGroupsConfig.lineWidth,
           interpolationFn: singleLineGroupsConfig.interpolationFn,
+          dimension: singleLineGroupsConfig.dimension,
           tooltip: tooltipConfig,
           cssClasses: singleLineGroupsConfig.cssClasses
         }

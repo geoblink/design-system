@@ -1,6 +1,9 @@
 /// <reference types="d3" />
 
 import _ from 'lodash'
+import {
+  isDimensionAxis
+} from '../GeoChartUtils/barsUtils'
 
 const d3 = (function () {
   try {
@@ -61,7 +64,6 @@ export function render (d3Instance, options, globalOptions) {
   const allGroups = newGroups.merge(updatedGroups)
 
   allGroups.each(function (singleGroupOptions, i) {
-    const group = d3.select(this)
     renderSingleGroup(newGroups, updatedGroups, singleGroupOptions, globalOptions)
   })
 }
@@ -78,26 +80,35 @@ export function render (d3Instance, options, globalOptions) {
  * @param {GeoChart.LineSegmentsGroupsGlobalConfig} globalOptions
  */
 function renderSingleGroup (newGroups, updatedGroups, singleGroupOptions, globalOptions) {
-  const axisForDimension = singleGroupOptions.axis.horizontal
-  const axisForNormalDimension = singleGroupOptions.axis.vertical
   const lineBaseClass = 'geo-chart-line-element'
-  const xScale = axisForDimension.scale.axisScale
-  const yScale = axisForNormalDimension.scale.axisScale
+  const isDimensionHorizontalAxis = isDimensionAxis(singleGroupOptions.axis.horizontal, singleGroupOptions)
+
+  const axisForDimension = isDimensionHorizontalAxis ? singleGroupOptions.axis.horizontal : singleGroupOptions.axis.vertical
+  const axisForNormalDimension = isDimensionHorizontalAxis ? singleGroupOptions.axis.vertical : singleGroupOptions.axis.horizontal
+
+  const xScale = isDimensionHorizontalAxis ? axisForDimension.scale.axisScale : axisForNormalDimension.scale.axisScale
+  const yScale = isDimensionHorizontalAxis ? axisForNormalDimension.scale.axisScale : axisForDimension.scale.axisScale
+
   const initialLine = d3.line()
     .x((d, i) => {
-      return xScale(d[axisForDimension.keyForValues])
+      const valueForScale = isDimensionHorizontalAxis
+        ? d[singleGroupOptions.axis.horizontal.keyForValues]
+        : singleGroupOptions.axis.horizontal.scale.valueForOrigin
+      return xScale(valueForScale)
     })
     .y((d, i) => {
-      return yScale(axisForNormalDimension.scale.valueForOrigin)
+      const valueForScale = isDimensionHorizontalAxis
+        ? singleGroupOptions.axis.vertical.scale.valueForOrigin
+        : d[singleGroupOptions.axis.vertical.keyForValues]
+      return yScale(valueForScale)
     })
-    .curve(singleGroupOptions.interpolationFn)
 
   const line = d3.line()
     .x((d, i) => {
-      return xScale(d[axisForDimension.keyForValues])
+      return xScale(d[singleGroupOptions.axis.horizontal.keyForValues])
     })
     .y((d, i) => {
-      return yScale(d[axisForNormalDimension.keyForValues])
+      return yScale(d[singleGroupOptions.axis.vertical.keyForValues])
     })
     .curve(singleGroupOptions.interpolationFn)
 

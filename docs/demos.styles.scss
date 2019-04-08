@@ -150,6 +150,12 @@ $colors: (
   }
 }
 
+@for $i from 0 through 15 {
+  .geo-chart-line-element--#{$i} {
+    stroke: map-get($colors, $i);
+  }
+}
+
 $rankLineColors: (
   0: $color-blue,
   1: $color-red,
