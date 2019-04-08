@@ -1,3 +1,9 @@
+# 16.0.0-beta.3
+
+Fixed:
+
+- `GeoMarquee` wait for nextTick to get the width of the content.
+
 # 16.0.0-beta.2
 
 Fixed:
@@ -31,7 +37,7 @@ Fixed:
 - Remove unneded files from dist bundle
 - Reduce bundle size to <240kb
 
-# 15.0.2
+# 15.0.2 (Backport)
 
 Fixed:
 
