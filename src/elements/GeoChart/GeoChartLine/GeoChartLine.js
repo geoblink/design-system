@@ -1,6 +1,11 @@
-/// <reference types="d3" />
+/// <reference types='d3' />
 
 import _ from 'lodash'
+
+import {
+  DIMENSIONS
+} from '../GeoChartAxis/GeoChartAxis'
+
 import {
   isDimensionAxis
 } from '../GeoChartUtils/barsUtils'
@@ -112,6 +117,23 @@ function renderSingleGroup (newGroups, updatedGroups, singleGroupOptions, global
     })
     .curve(singleGroupOptions.interpolationFn)
 
+  const margin = globalOptions.chart.margin
+  const overlayWidth = globalOptions.chart.size.width - margin.right - margin.left
+  const overlayHeight = globalOptions.chart.size.height - margin.top - margin.bottom
+  const focusGroup = getFocusGroup()
+
+  newGroups
+    .append('rect')
+    .attr('class', 'overlay')
+    .attr('width', overlayWidth > 0 ? overlayWidth : 0)
+    .attr('height', overlayHeight > 0 ? overlayHeight : 0)
+    .attr('transform', `translate(${margin.left}, ${margin.top})`)
+    .attr('fill', 'none')
+    .attr('pointer-events', 'all')
+    .on('mouseover', () => focusGroup.style('display', null))
+    .on('mouseout', () => focusGroup.style('display', 'none'))
+    .on('mousemove', positionTooltip)
+
   const newPaths = newGroups
     .append('path')
     .attr('fill', 'none')
@@ -143,5 +165,59 @@ function renderSingleGroup (newGroups, updatedGroups, singleGroupOptions, global
     }
 
     return defaultClasses.join(' ')
+  }
+
+  function getFocusGroup () {
+    var focus = newGroups.append('g')
+      .attr('class', 'focus')
+      .style('display', 'none')
+
+    focus.append('line')
+      .attr('class', 'x-hover-line hover-line')
+      .attr('stroke-width', '2px')
+      .attr('stroke', '#000')
+
+    focus.append('line')
+      .attr('class', 'y-hover-line hover-line')
+      .attr('stroke-width', '2px')
+      .attr('stroke', '#000')
+
+    focus.append('circle')
+      .attr('r', 4)
+
+    focus.append('text')
+      .attr('x', 15)
+      .attr('dy', '.31em')
+
+    return focus
+  }
+
+  function positionTooltip () {
+    const mouseCoord = singleGroupOptions.dimension === DIMENSIONS.horizontal ? 0 : 1
+    const x0 = xScale.invert(d3.mouse(this)[mouseCoord])
+    const bisect = d3.bisector((d) => d[axisForDimension.keyForValues]).left
+    const i = bisect(singleGroupOptions.lineData, x0, 1)
+    const d0 = singleGroupOptions.lineData[i - 1]
+    const d1 = singleGroupOptions.lineData[i]
+    const d = x0 - d0[axisForDimension.keyForValues] > d1[axisForDimension.keyForValues] - x0 ? d1 : d0
+    if (singleGroupOptions.dimension === DIMENSIONS.horizontal) {
+      handleHorizontalTooltipPositioning(d)
+    } else if (singleGroupOptions.dimension === DIMENSIONS.vertical) {
+      handleVerticalTooltipPositioning(d)
+    }
+  }
+
+  function handleHorizontalTooltipPositioning (d) {
+    focusGroup.attr('transform', `translate(${xScale(d[axisForDimension.keyForValues])}, ${yScale(d[axisForNormalDimension.keyForValues])})`)
+    focusGroup.select('text').text(() => singleGroupOptions.tooltip)
+    focusGroup.select('.x-hover-line').attr('y1', overlayHeight - yScale(d[axisForNormalDimension.keyForValues]) + margin.bottom)
+    focusGroup.select('.x-hover-line').attr('y2', overlayHeight - yScale(axisForNormalDimension.scale.valueForOrigin) + margin.bottom)
+  }
+
+  function handleVerticalTooltipPositioning (d) {
+    focusGroup.attr('transform', `translate(${xScale(d[axisForNormalDimension.keyForValues])}, ${yScale(d[axisForDimension.keyForValues])})`)
+    focusGroup.select('text').text(() => singleGroupOptions.tooltip)
+    focusGroup.select('.y-hover-line').attr('x1', 0)
+    focusGroup.select('.y-hover-line').attr('x2', overlayWidth - xScale(d[axisForNormalDimension.keyForValues]) + margin.left)
   }
 }
