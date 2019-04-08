@@ -10,11 +10,14 @@ eiusmod tempor incididunt ut labore et dolore magna aliqua.
         <geo-primary-button @click="randomizeData()">
           Randomize data
         </geo-primary-button>
+        <geo-secondary-button @click="toggleGraph()">
+          Toggle Graph
+        </geo-secondary-button>
       </div>
     </h3>
     <div class="element-demo__bordered-box element-demo__block--chart-container" style="resize: both;">
       <geo-chart
-        v-if="chartConfig"
+        v-if="chartConfig && isGraphVisible"
         :config="chartConfig"
       />
     </div>
@@ -29,7 +32,8 @@ export default {
   name: 'GeoChartLineDemo',
   data () {
     return {
-      lineData: _.times(25, (v) => ({ x: v, y: _.random(0, 20) }))
+      lineData: _.times(25, (v) => ({ x: v, y: _.random(0, 20) })),
+      isGraphVisible: true
     }
   },
   computed: {
@@ -47,8 +51,8 @@ export default {
           type: SCALE_TYPES.linear,
           valueForOrigin: 0,
           domain: {
-            start: 0,
-            end: 20
+            start: 20,
+            end: 0
           }
         }
       }
@@ -100,6 +104,9 @@ export default {
   methods: {
     randomizeData () {
       this.lineData = _.times(25, (v) => ({ x: v, y: _.random(0, 20) }))
+    },
+    toggleGraph () {
+      this.isGraphVisible = !this.isGraphVisible
     }
   }
 }

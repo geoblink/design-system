@@ -50,9 +50,6 @@ export function render (d3Instance, options, globalOptions) {
       `geo-chart-line-group geo-chart-line-group--${singleGroupOptions.id}`
     )
 
-  newGroups
-    .append('path')
-
   groups
     .exit()
     .transition()
@@ -65,7 +62,7 @@ export function render (d3Instance, options, globalOptions) {
 
   allGroups.each(function (singleGroupOptions, i) {
     const group = d3.select(this)
-    renderSingleGroup(group, singleGroupOptions, globalOptions)
+    renderSingleGroup(newGroups, updatedGroups, singleGroupOptions, globalOptions)
   })
 }
 
@@ -80,12 +77,21 @@ export function render (d3Instance, options, globalOptions) {
  * @param {GeoChart.singleLineSegmentsGroupsConfig<HorizontalDomain, VerticalDomain>} singleGroupOptions
  * @param {GeoChart.LineSegmentsGroupsGlobalConfig} globalOptions
  */
-function renderSingleGroup (group, singleGroupOptions, globalOptions) {
+function renderSingleGroup (newGroups, updatedGroups, singleGroupOptions, globalOptions) {
   const axisForDimension = singleGroupOptions.axis.horizontal
   const axisForNormalDimension = singleGroupOptions.axis.vertical
-
+  const lineBaseClass = 'geo-chart-line-element'
   const xScale = axisForDimension.scale.axisScale
   const yScale = axisForNormalDimension.scale.axisScale
+  const initialLine = d3.line()
+    .x((d, i) => {
+      return xScale(d[axisForDimension.keyForValues])
+    })
+    .y((d, i) => {
+      return yScale(axisForNormalDimension.scale.valueForOrigin)
+    })
+    .curve(singleGroupOptions.interpolationFn)
+
   const line = d3.line()
     .x((d, i) => {
       return xScale(d[axisForDimension.keyForValues])
@@ -95,10 +101,36 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions) {
     })
     .curve(singleGroupOptions.interpolationFn)
 
-  group
-    .select('path')
+  const newPaths = newGroups
+    .append('path')
     .attr('fill', 'none')
     .attr('stroke', '#000')
+    .attr('d', initialLine(singleGroupOptions.lineData))
+
+  const updatedPaths = updatedGroups
+    .selectAll(`path.${lineBaseClass}`)
+
+  const allPaths = newPaths.merge(updatedPaths)
+
+  allPaths
     .attr('stroke-width', singleGroupOptions.lineWidth)
+    .attr('class', getLineCssClasses)
+    .transition()
+    .duration(globalOptions.chart.animationsDurationInMilliseconds)
     .attr('d', line(singleGroupOptions.lineData))
+
+  function getLineCssClasses (d, i) {
+    const defaultClasses = [
+      lineBaseClass,
+      `geo-chart-line-element--${i}`,
+      `geo-chart-line-element--${singleGroupOptions.dimension}`
+    ]
+
+    if (singleGroupOptions.cssClasses) {
+      const customClasses = singleGroupOptions.cssClasses(defaultClasses, d, i)
+      return _.uniq([...customClasses, lineBaseClass]).join(' ')
+    }
+
+    return defaultClasses.join(' ')
+  }
 }
