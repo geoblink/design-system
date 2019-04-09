@@ -3,7 +3,9 @@
 import _ from 'lodash'
 
 import {
-  DIMENSIONS
+  DIMENSIONS,
+  POSITIONS,
+  getDrawingEnvironment
 } from '../GeoChartAxis/GeoChartAxis'
 
 import {
@@ -173,8 +175,15 @@ function renderSingleGroup (newGroups, updatedGroups, singleGroupOptions, global
     const group = d3.select(this)
     const focusGroup = group.selectAll('.focus')
     group
-      .on('mousemove', positionTooltipFactory(singleGroupOptions, {
-        xScale, yScale, axisForDimension, axisForNormalDimension, overlayHeight, overlayWidth, margin, focusGroup
+      .on('mousemove', positionTooltipFactory(singleGroupOptions, globalOptions, {
+        xScale,
+        yScale,
+        axisForDimension,
+        axisForNormalDimension,
+        overlayHeight,
+        overlayWidth,
+        margin,
+        focusGroup
       }))
   })
 
@@ -206,8 +215,15 @@ function renderSingleGroup (newGroups, updatedGroups, singleGroupOptions, global
   }
 }
 
-function positionTooltipFactory (singleGroupOptions, {
-  xScale, yScale, axisForDimension, axisForNormalDimension, overlayHeight, overlayWidth, margin, focusGroup
+function positionTooltipFactory (singleGroupOptions, globalOptions, {
+  xScale,
+  yScale,
+  axisForDimension,
+  axisForNormalDimension,
+  overlayHeight,
+  overlayWidth,
+  margin,
+  focusGroup
 }) {
   return function () {
     const mouseCoord = singleGroupOptions.dimension === DIMENSIONS.horizontal ? 0 : 1
@@ -218,32 +234,68 @@ function positionTooltipFactory (singleGroupOptions, {
     const d0 = singleGroupOptions.lineData[i - 1]
     const d1 = singleGroupOptions.lineData[i]
     const d = d0 && c0 - d0[axisForDimension.keyForValues] > d1 && d1[axisForDimension.keyForValues] - c0 ? d1 : d0
+    const { absolutePosition } = getDrawingEnvironment(axisForDimension, globalOptions)
+
+    focusGroup.select('text').text(() => singleGroupOptions.tooltip)
+
     if (singleGroupOptions.dimension === DIMENSIONS.horizontal) {
-      handleHorizontalTooltipPositioning(d, singleGroupOptions, {
-        focusGroup, axisForDimension, axisForNormalDimension, overlayHeight, margin, yScale, xScale
+      focusGroup.attr('transform', `translate(${xScale(d[axisForDimension.keyForValues])}, ${yScale(d[axisForNormalDimension.keyForValues])})`)
+      const { y1, y2 } = computeHorizontalTooltipPosition(d, singleGroupOptions, {
+        axisForNormalDimension,
+        overlayHeight,
+        margin,
+        yScale,
+        absolutePosition
       })
+      focusGroup.select('.x-hover-line').attr('y1', y1)
+      focusGroup.select('.x-hover-line').attr('y2', y2)
     } else if (singleGroupOptions.dimension === DIMENSIONS.vertical) {
-      handleVerticalTooltipPositioning(d, singleGroupOptions, {
-        focusGroup, axisForDimension, axisForNormalDimension, overlayWidth, margin, yScale, xScale
+      focusGroup.attr('transform', `translate(${xScale(d[axisForNormalDimension.keyForValues])}, ${yScale(d[axisForDimension.keyForValues])})`)
+      const { x1, x2 } = computeVerticalTooltipPosition(d, singleGroupOptions, {
+        axisForNormalDimension,
+        overlayWidth,
+        margin,
+        xScale,
+        absolutePosition
       })
+      focusGroup.select('.y-hover-line').attr('x1', x1)
+      focusGroup.select('.y-hover-line').attr('x2', x2)
     }
   }
 }
 
-function handleHorizontalTooltipPositioning (d, singleGroupOptions, {
-  focusGroup, axisForDimension, axisForNormalDimension, overlayHeight, margin, yScale, xScale
+function computeHorizontalTooltipPosition (d, singleGroupOptions, {
+  axisForNormalDimension,
+  overlayHeight,
+  margin,
+  yScale,
+  absolutePosition
 }) {
-  focusGroup.attr('transform', `translate(${xScale(d[axisForDimension.keyForValues])}, ${yScale(d[axisForNormalDimension.keyForValues])})`)
-  focusGroup.select('text').text(() => singleGroupOptions.tooltip)
-  focusGroup.select('.x-hover-line').attr('y1', overlayHeight - yScale(d[axisForNormalDimension.keyForValues]) + margin.bottom)
-  focusGroup.select('.x-hover-line').attr('y2', overlayHeight - yScale(axisForNormalDimension.scale.valueForOrigin) + margin.bottom)
+  const yScaleValue = yScale(d[axisForNormalDimension.keyForValues])
+  const yScaleValueAtOrigin = yScale(axisForNormalDimension.scale.valueForOrigin)
+  const y1 = absolutePosition.y <= yScaleValue
+    ? 0
+    : yScaleValueAtOrigin - yScaleValue
+  const y2 = yScaleValue <= yScaleValueAtOrigin
+    ? 0
+    : -(yScaleValue - yScaleValueAtOrigin)
+  return { y1, y2 }
 }
 
-function handleVerticalTooltipPositioning (d, singleGroupOptions, {
-  focusGroup, axisForDimension, axisForNormalDimension, overlayWidth, margin, yScale, xScale
+function computeVerticalTooltipPosition (d, singleGroupOptions, {
+  axisForNormalDimension,
+  overlayWidth,
+  margin,
+  xScale,
+  absolutePosition
 }) {
-  focusGroup.attr('transform', `translate(${xScale(d[axisForNormalDimension.keyForValues])}, ${yScale(d[axisForDimension.keyForValues])})`)
-  focusGroup.select('text').text(() => singleGroupOptions.tooltip)
-  focusGroup.select('.y-hover-line').attr('x1', 0)
-  focusGroup.select('.y-hover-line').attr('x2', overlayWidth - xScale(d[axisForNormalDimension.keyForValues]) + margin.left)
+  const xScaleValue = xScale(d[axisForNormalDimension.keyForValues])
+  const xScaleValueAtOrigin = xScale(axisForNormalDimension.scale.valueForOrigin)
+  const x1 = absolutePosition.x <= xScaleValue
+    ? 0
+    : xScaleValueAtOrigin - xScaleValue
+  const x2 = xScaleValue <= xScaleValueAtOrigin
+    ? 0
+    : -(xScaleValue - xScaleValueAtOrigin)
+  return { x1, x2 }
 }
