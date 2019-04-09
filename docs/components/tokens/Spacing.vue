@@ -1,19 +1,21 @@
 <template>
   <div class="spacing">
-    <div
-      v-for="(prop, index) in tokens"
-      v-if="prop.category === 'space'"
-      :key="index"
-      :style="{ lineHeight: prop.value, height: prop.value }"
-      class="space">
-      ${{ prop.name.replace(/_/g, "-") }} <span>({{ prop.value }})</span>
-    </div>
+    <template v-for="(prop, index) in tokens">
+      <div
+        v-if="prop.category === 'space'"
+        :key="index"
+        :style="{ lineHeight: prop.value, height: prop.value }"
+        class="space"
+      >
+        ${{ prop.name.replace(/_/g, "-") }} <span>({{ prop.value }})</span>
+      </div>
+    </template>
   </div>
 </template>
 
 <script>
 import designTokens from '@/assets/tokens/tokens.raw.json'
-import orderBy from 'lodash/orderBy'
+import { orderBy } from 'lodash'
 
 /**
  * A framework for creating a predictable and harmonious spacing system. These

@@ -1,24 +1,27 @@
 <template>
   <div class="colors">
-    <div
-      v-for="(prop, index) in tokens"
-      v-if="prop.type === 'color'"
-      :key="index"
-      :class="prop.category"
-      class="color">
+    <template v-for="(prop, index) in tokens">
       <div
-        :style="{ backgroundColor: prop.value }"
-        class="swatch" />
-      <h3>{{ prop.name.replace(/_/g, " ").replace(/color/g, "") }}</h3>
-      <span>RGB: {{ prop.value }}</span>
-      <span>SCSS: ${{ prop.name.replace(/_/g, "-") }}</span>
-    </div>
+        v-if="prop.type === 'color'"
+        :key="index"
+        :class="prop.category"
+        class="color"
+      >
+        <div
+          :style="{ backgroundColor: prop.value }"
+          class="swatch"
+        />
+        <h3>{{ prop.name.replace(/_/g, " ").replace(/color/g, "") }}</h3>
+        <span>RGB: {{ prop.value }}</span>
+        <span>SCSS: ${{ prop.name.replace(/_/g, "-") }}</span>
+      </div>
+    </template>
   </div>
 </template>
 
 <script>
 import designTokens from '@/assets/tokens/tokens.raw.json'
-import orderBy from 'lodash/orderBy'
+import { orderBy } from 'lodash'
 
 /**
  * The color palette comes with 5 different weights for each hue. These hues

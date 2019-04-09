@@ -9,9 +9,7 @@
 </template>
 
 <script>
-import filter from 'lodash/filter'
-import map from 'lodash/map'
-import reduce from 'lodash/reduce'
+import { filter, map, reduce, assign } from 'lodash'
 import cssSuffix from '../../mixins/cssModifierMixin'
 
 import GeoMarkdownContentNode from './GeoMarkdownContentNode.vue'
@@ -97,7 +95,7 @@ export default {
   },
   computed: {
     enabledParserFeatures () {
-      const features = Object.assign({
+      const features = assign({
         [MarkdownParserFeatures.emphasis]: true,
         [MarkdownParserFeatures.linkify]: true,
         [MarkdownParserFeatures.link]: true

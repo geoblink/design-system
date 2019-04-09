@@ -302,19 +302,21 @@ export default {
       this.forcedLayoutTableThrottled()
     },
 
-    async forcedLayoutTable () {
+    forcedLayoutTable () {
       const requiredObjects = [
         this.$refs.tableHeader,
         this.$refs.tableBody,
         this.$refs.tableContainer
       ]
       const hasAllRequiredObjects = _.reduce(requiredObjects, (accum, object) => accum && !!object, true)
-      if (!hasAllRequiredObjects) return
+      if (!hasAllRequiredObjects) return this.$nextTick()
 
       this.isAdjustingTable = true
-      await this.inferPageSize()
-      this.layoutColumns()
-      this.isAdjustingTable = false
+
+      return this.inferPageSize().then(() => {
+        this.layoutColumns()
+        this.isAdjustingTable = false
+      })
     },
 
     layoutColumns () {
@@ -386,52 +388,62 @@ export default {
       self.$refs.tableBody.style['padding-top'] = `${headerHeight}px`
     },
 
-    async inferPageSize () {
-      const self = this
+    inferPageSize () {
+      if (!this.automaticPageSize) return this.$nextTick()
+      if (!this.$refs.tableHeader) return this.$nextTick()
+      if (!this.$refs.tableContainer) return this.$nextTick()
+      if (_.isFinite(this.forcedPageSize)) return this.$nextTick()
+      if (this.isInferringPageSize) return this.$nextTick()
 
-      if (!self.automaticPageSize) return
-      if (!self.$refs.tableHeader) return
-      if (!self.$refs.tableContainer) return
-      if (_.isFinite(self.forcedPageSize)) return
-      if (self.isInferringPageSize) return
+      this.isInferringPageSize = true
+      this.internallyForcedCurrentPageStart = 0
+      this.inferredPageSize = 1
 
-      self.isInferringPageSize = true
-      self.internallyForcedCurrentPageStart = 0
-      self.inferredPageSize = 1
-      await self.$nextTick()
+      return this.$nextTick()
+        .then(() => {
+          return attemptToIncreaseInferredPageSize(this)
+        })
+        .then(() => {
+          this.applyComputedColumnsWidth()
+          return this.$nextTick()
+        })
+        .then(() => {
+          this.internallyForcedCurrentPageStart = -1
+          this.isInferringPageSize = false
 
-      while (self.inferredPageSize < self.sourceData.length) {
-        self.inferredPageSize += 1
-        await self.$nextTick()
-
-        const containerHeight = self.$refs.tableContainer
-          .getBoundingClientRect()
-          .height
-        const contentHeight = self.$refs.tableContainer.scrollHeight
-
-        const isVerticalScrollRequired = containerHeight < contentHeight
-
-        if (isVerticalScrollRequired) {
-          self.inferredPageSize -= 1
-          await self.$nextTick()
-          break
-        }
-      }
-
-      self.applyComputedColumnsWidth()
-      await self.$nextTick()
-      self.internallyForcedCurrentPageStart = -1
-      self.isInferringPageSize = false
-
-      /**
-       * Inferred page size changed.
-       *
-       * @event infer-page-size
-       * @type {number}
-       */
-      self.$emit('infer-page-size', self.inferredPageSize)
+          /**
+           * Inferred page size changed.
+           *
+           * @event infer-page-size
+           * @type {number}
+           */
+          this.$emit('infer-page-size', this.inferredPageSize)
+        })
     }
   }
+}
+
+function attemptToIncreaseInferredPageSize (vm) {
+  if (vm.inferredPageSize >= vm.sourceData.length) return
+
+  vm.inferredPageSize += 1
+
+  return vm.$nextTick()
+    .then(function () {
+      const containerHeight = vm.$refs.tableContainer
+        .getBoundingClientRect()
+        .height
+      const contentHeight = vm.$refs.tableContainer.scrollHeight
+
+      const isVerticalScrollRequired = containerHeight < contentHeight
+
+      if (isVerticalScrollRequired) {
+        vm.inferredPageSize -= 1
+        return vm.$nextTick()
+      }
+
+      return attemptToIncreaseInferredPageSize(vm)
+    })
 }
 
 /**

@@ -1,27 +1,22 @@
 {
   "name": "@geoblink/design-system",
-  "version": "15.0.2",
+  "version": "16.0.0-beta.3",
   "description": "Geoblink Design System for Vue.js",
   "author": "Geoblink <contact@geoblink.com>",
-  "main": "dist/system/system.js",
+  "main": "dist/system.js",
   "files": [
-    "dist/system",
-    "dist/assets"
+    "dist"
   ],
   "homepage": "https://geoblink.com",
   "license": "MIT",
   "scripts": {
-    "dev": "webpack-dev-server --inline --config ./build/webpack.dev.conf.js",
-    "start": "run-p styleguide theo:onchange theo dev",
+    "start": "run-p styleguide theo:onchange theo",
     "unit": "jest --config ./test/unit/jest.conf.js --coverage",
     "unit:watch": "jest --config ./test/unit/jest.conf.js --watch",
-    "build": "run-s theo node:build",
-    "build:app": "npm run build",
     "build:system": "run-s theo node:build:system",
     "build:docs": "run-s theo styleguide:build",
     "lint": "eslint '**/*.{js,vue}' --cache",
     "lint:fix": "eslint '**/*.{js,vue}' --cache --fix",
-    "node:build": "node ./build/build.js",
     "node:build:system": "node ./build/build-system.js",
     "styleguide": "vue-styleguidist server --config ./config/docs.config.js",
     "styleguide:build": "vue-styleguidist build --config ./config/docs.config.js",
@@ -71,14 +66,13 @@
     "vue-styleguidist/vue-docgen-api": "~2.3.14"
   },
   "dependencies": {
-    "webfontloader": "^1.6.28"
+    "d3": "^5.7.0"
   },
   "peerDependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.2",
     "@fortawesome/vue-fontawesome": "^0.1.1",
     "ajv": "^6.6.2",
     "ajv-errors": "^1.0.1",
-    "d3": "^5.7.0",
     "d3-tip": "^0.9.1",
     "lodash": "^4.17.10",
     "markdown-it": "^8.4.2",
@@ -148,6 +142,7 @@
     "onchange": "^4.1.0",
     "optimize-css-assets-webpack-plugin": "^5.0.1",
     "ora": "^3.0.0",
+    "peer-deps-externals-webpack-plugin": "^1.0.4",
     "portfinder": "^1.0.17",
     "postcss-import": "^12.0.0",
     "postcss-loader": "^3.0.0",
@@ -177,6 +172,7 @@
     "vue-styleguidist": "^2.0.2",
     "vue-template-compiler": "^2.5.17",
     "vuex": "^3.0.1",
+    "webfontloader": "^1.6.28",
     "webpack": "^4.17.2",
     "webpack-bundle-analyzer": "^2.13.1",
     "webpack-cli": "^3.1.0",

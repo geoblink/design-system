@@ -1,9 +1,9 @@
 @mixin geo-segmented-control-make($modifier-name) {
-  @include geo-segmented-control-item-make($modifier-name);
-
   $modifier-name-with-prefix: '';
 
   @if $modifier-name != '' {
+    @include geo-segmented-control-item-make($modifier-name);
+
     // sass-lint:disable space-around-operator
     $modifier-name-with-prefix: --#{$modifier-name};
   }

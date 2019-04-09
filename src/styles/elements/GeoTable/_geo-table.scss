@@ -3,16 +3,16 @@
   $modifier-name-with-prefix: '';
 
   @if $modifier-name != '' {
+    @include geo-table-header-row-make($modifier-name);
+    @include geo-table-header-row-cell-make($modifier-name);
+    @include geo-table-sort-make($modifier-name);
+    @include geo-table-body-row-make($modifier-name);
+    @include geo-table-body-row-cell-make($modifier-name);
+    @include geo-table-pagination-make($modifier-name);
+
     // sass-lint:disable space-around-operator
     $modifier-name-with-prefix: --#{$modifier-name};
   }
-
-  @include geo-table-header-row-make($modifier-name);
-  @include geo-table-header-row-cell-make($modifier-name);
-  @include geo-table-sort-make($modifier-name);
-  @include geo-table-body-row-make($modifier-name);
-  @include geo-table-body-row-cell-make($modifier-name);
-  @include geo-table-pagination-make($modifier-name);
 
   .geo-table#{$modifier-name-with-prefix} {
     @include font($body);
