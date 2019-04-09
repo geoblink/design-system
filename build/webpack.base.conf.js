@@ -10,13 +10,26 @@ function resolve (dir) {
   return path.join(__dirname, '..', dir)
 }
 
+const isProductionBuild = process.env.NODE_ENV === 'production'
+
+const plugins = [
+  new VueLoaderPlugin(),
+  new MiniCssExtractPlugin({
+    filename: utils.assetsSystemPath('[name].css')
+  })
+]
+
+if (isProductionBuild) {
+  plugins.push(new PeerDepsExternalsPlugin())
+}
+
 module.exports = {
-  mode: process.env.NODE_ENV === 'production' ? config.build.mode : config.dev.mode,
+  mode: isProductionBuild ? config.build.mode : config.dev.mode,
   context: path.resolve(__dirname, '../'),
   output: {
     path: config.build.assetsRoot,
     filename: '[name].js',
-    publicPath: process.env.NODE_ENV === 'production' ? config.build.assetsPublicPath : config.dev.assetsPublicPath
+    publicPath: isProductionBuild ? config.build.assetsPublicPath : config.dev.assetsPublicPath
   },
   resolve: {
     extensions: ['.js', '.vue', '.json'],
@@ -71,13 +84,7 @@ module.exports = {
       }
     ]
   },
-  plugins: [
-    new VueLoaderPlugin(),
-    new MiniCssExtractPlugin({
-      filename: utils.assetsSystemPath('[name].css')
-    }),
-    new PeerDepsExternalsPlugin()
-  ],
+  plugins,
   node: {
     // prevent webpack from injecting useless setImmediate polyfill because Vue
     // source contains it (although only uses it if it's native).
