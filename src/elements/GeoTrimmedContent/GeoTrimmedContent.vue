@@ -35,11 +35,16 @@ export default {
       return `geo-trimmed-content--${getNextInstanceId()}`
     }
   },
+  beforeMount () {
+    this.addTooltipHTMLContentNode()
+  },
   mounted () {
+    this.addTooltipHTMLContentNode()
     this.reloadRequiredWidth()
     this.reloadTooltipContent()
   },
   updated () {
+    this.addTooltipHTMLContentNode()
     this.reloadRequiredWidth()
     this.reloadTooltipContent()
   },
@@ -67,27 +72,23 @@ export default {
       if (!this.isContentTrimmed) return
       if (!this.$refs.content) return
 
-      const existingElement = this.getTooltipHTMLContentNode()
       this.tooltipHTML = this.$refs.content.innerHTML
+      const existingElement = document.getElementById(this.idTooltipContentNode)
       existingElement.innerHTML = this.tooltipHTML
     },
 
-    getTooltipHTMLContentNode () {
-      const existingElement = document.getElementById(this.idTooltipContentNode)
-      if (existingElement) return existingElement
+    addTooltipHTMLContentNode () {
+      const element = document.getElementById(this.idTooltipContentNode)
+      if (element) return
 
       const newElement = document.createElement('div')
       newElement.setAttribute('id', this.idTooltipContentNode)
       document.body.appendChild(newElement)
-
-      return newElement
     },
 
     removeTooltipHTMLContentNode () {
-      if (!this.isContentTrimmed) return
-
       const element = document.getElementById(this.idTooltipContentNode)
-      element.parentNode.removeChild(element)
+      if (element) element.parentNode.removeChild(element)
     }
   },
   render (createElement) {
