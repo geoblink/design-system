@@ -1,3 +1,9 @@
+# 16.0.0-beta.6
+
+Fixed:
+
+- `GeoTrimmedContent` avoid errors when trimming content which was initially visible.
+
 # 16.0.0-beta.5
 
 Fixed:
