@@ -4,7 +4,6 @@ import _ from 'lodash'
 
 import {
   DIMENSIONS,
-  POSITIONS,
   getDrawingEnvironment
 } from '../GeoChartAxis/GeoChartAxis'
 
@@ -49,6 +48,10 @@ export const INTERPOLATION_TYPES = {
  * @param {GeoChart.LineSegmentsGroupsGlobalConfig} globalOptions
  */
 export function render (d3Instance, options, globalOptions) {
+  const margin = globalOptions.chart.margin
+  const overlayWidth = globalOptions.chart.size.width - margin.right - margin.left
+  const overlayHeight = globalOptions.chart.size.height - margin.top - margin.bottom
+
   const groups = d3Instance
     .selectAll('g.geo-chart-line-group')
     .data(options)
@@ -60,6 +63,43 @@ export function render (d3Instance, options, globalOptions) {
       `geo-chart-line-group geo-chart-line-group--${singleGroupOptions.id}`
     )
 
+  d3Instance
+    .append('rect')
+    .attr('class', 'overlay')
+    .attr('fill', 'none')
+    .attr('pointer-events', 'all')
+
+  const newFocusGroups = d3Instance
+    .append('g')
+    .attr('class', 'focus')
+    .style('display', 'none')
+
+  newFocusGroups
+    .append('line')
+    .attr('class', 'x-hover-line hover-line')
+    .attr('stroke-width', '2px')
+    .attr('stroke', '#000')
+
+  newFocusGroups
+    .append('line')
+    .attr('class', 'y-hover-line hover-line')
+    .attr('stroke-width', '2px')
+    .attr('stroke', '#000')
+
+  newFocusGroups
+    .append('circle')
+    .attr('r', 4)
+
+  newFocusGroups
+    .append('text')
+    .attr('x', 15)
+    .attr('dy', '.31em')
+
+  const focusGroup = d3Instance.selectAll('.focus')
+  d3Instance
+    .on('mouseover', () => focusGroup.style('display', null))
+    .on('mouseout', () => focusGroup.style('display', 'none'))
+
   groups
     .exit()
     .transition()
@@ -70,8 +110,15 @@ export function render (d3Instance, options, globalOptions) {
   const updatedGroups = groups
   const allGroups = newGroups.merge(updatedGroups)
 
+  d3Instance
+    .selectAll('rect')
+    .attr('width', overlayWidth > 0 ? overlayWidth : 0)
+    .attr('height', overlayHeight > 0 ? overlayHeight : 0)
+    .attr('transform', `translate(${margin.left}, ${margin.top})`)
+
   allGroups.each(function (singleGroupOptions, i) {
-    renderSingleGroup(newGroups, updatedGroups, singleGroupOptions, globalOptions)
+    const group = d3.select(this)
+    renderSingleGroup(d3Instance, group, newGroups, updatedGroups, singleGroupOptions, globalOptions)
   })
 }
 
@@ -86,7 +133,7 @@ export function render (d3Instance, options, globalOptions) {
  * @param {GeoChart.singleLineSegmentsGroupsConfig<HorizontalDomain, VerticalDomain>} singleGroupOptions
  * @param {GeoChart.LineSegmentsGroupsGlobalConfig} globalOptions
  */
-function renderSingleGroup (newGroups, updatedGroups, singleGroupOptions, globalOptions) {
+function renderSingleGroup (d3Instance, group, newGroups, updatedGroups, singleGroupOptions, globalOptions) {
   const lineBaseClass = 'geo-chart-line-element'
   const isDimensionHorizontalAxis = isDimensionAxis(singleGroupOptions.axis.horizontal, singleGroupOptions)
 
@@ -123,69 +170,25 @@ function renderSingleGroup (newGroups, updatedGroups, singleGroupOptions, global
   const overlayWidth = globalOptions.chart.size.width - margin.right - margin.left
   const overlayHeight = globalOptions.chart.size.height - margin.top - margin.bottom
 
-  newGroups
-    .append('rect')
-    .attr('class', 'overlay')
-    .attr('fill', 'none')
-    .attr('pointer-events', 'all')
-
-  const allGroups = newGroups.merge(updatedGroups)
-
-  allGroups.selectAll('rect')
-    .attr('width', overlayWidth > 0 ? overlayWidth : 0)
-    .attr('height', overlayHeight > 0 ? overlayHeight : 0)
-    .attr('transform', `translate(${margin.left}, ${margin.top})`)
-
-  const newPaths = newGroups
+  const newPaths = group
     .append('path')
     .attr('fill', 'none')
     .attr('stroke', '#000')
     .attr('d', initialLine(singleGroupOptions.lineData))
 
-  const newFocusGroups = newGroups.append('g')
-    .attr('class', 'focus')
-    .style('display', 'none')
+  const focusGroup = d3Instance.selectAll('.focus')
 
-  newFocusGroups.append('line')
-    .attr('class', 'x-hover-line hover-line')
-    .attr('stroke-width', '2px')
-    .attr('stroke', '#000')
-
-  newFocusGroups.append('line')
-    .attr('class', 'y-hover-line hover-line')
-    .attr('stroke-width', '2px')
-    .attr('stroke', '#000')
-
-  newFocusGroups.append('circle')
-    .attr('r', 4)
-
-  newFocusGroups.append('text')
-    .attr('x', 15)
-    .attr('dy', '.31em')
-
-  newGroups.each(function () {
-    const group = d3.select(this)
-    const focusGroup = group.selectAll('.focus')
-    group
-      .on('mouseover', () => focusGroup.style('display', null))
-      .on('mouseout', () => focusGroup.style('display', 'none'))
-  })
-
-  allGroups.each(function () {
-    const group = d3.select(this)
-    const focusGroup = group.selectAll('.focus')
-    group
-      .on('mousemove', positionTooltipFactory(singleGroupOptions, globalOptions, {
-        xScale,
-        yScale,
-        axisForDimension,
-        axisForNormalDimension,
-        overlayHeight,
-        overlayWidth,
-        margin,
-        focusGroup
-      }))
-  })
+  d3Instance
+    .on('mousemove', positionTooltipFactory(singleGroupOptions, globalOptions, {
+      xScale,
+      yScale,
+      axisForDimension,
+      axisForNormalDimension,
+      overlayHeight,
+      overlayWidth,
+      margin,
+      focusGroup
+    }))
 
   const updatedPaths = updatedGroups
     .selectAll(`path.${lineBaseClass}`)
