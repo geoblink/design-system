@@ -36,6 +36,9 @@ export const INTERPOLATION_TYPES = {
   'd3.curveNatural': d3.curveNatural
 }
 
+const lineBaseClass = 'geo-chart-line-element'
+const FOCUS_GROUP_DEFAULT_CLASS = 'hover-overlay__focus'
+
 /**
  * @template GElement
  * @template Datum
@@ -48,9 +51,9 @@ export const INTERPOLATION_TYPES = {
  * @param {GeoChart.LineSegmentsGroupsGlobalConfig} globalOptions
  */
 export function render (d3Instance, options, globalOptions) {
-  const margin = globalOptions.chart.margin
-  const overlayWidth = globalOptions.chart.size.width - margin.right - margin.left
-  const overlayHeight = globalOptions.chart.size.height - margin.top - margin.bottom
+  d3Instance
+    .selectAll(`g.${FOCUS_GROUP_DEFAULT_CLASS}`)
+    .remove()
 
   const groups = d3Instance
     .selectAll('g.geo-chart-line-group')
@@ -63,15 +66,19 @@ export function render (d3Instance, options, globalOptions) {
       `geo-chart-line-group geo-chart-line-group--${singleGroupOptions.id}`
     )
 
-  d3Instance
-    .append('rect')
-    .attr('class', 'overlay')
-    .attr('fill', 'none')
-    .attr('pointer-events', 'all')
+  newGroups.each(function (singleGroupOptions, i) {
+    const group = d3.select(this)
+    group
+      .append('path')
+      .attr('fill', 'none')
+      .attr('stroke', '#000')
+      .attr('class', getLineCssClassesFactory(singleGroupOptions))
+      .attr('d', getInitialLine(singleGroupOptions))
+  })
 
   const newFocusGroups = d3Instance
     .append('g')
-    .attr('class', 'focus')
+    .attr('class', FOCUS_GROUP_DEFAULT_CLASS)
     .style('display', 'none')
 
   newFocusGroups
@@ -95,7 +102,7 @@ export function render (d3Instance, options, globalOptions) {
     .attr('x', 15)
     .attr('dy', '.31em')
 
-  const focusGroup = d3Instance.selectAll('.focus')
+  const focusGroup = d3Instance.selectAll(`g.${FOCUS_GROUP_DEFAULT_CLASS}`)
   d3Instance
     .on('mouseover', () => focusGroup.style('display', null))
     .on('mouseout', () => focusGroup.style('display', 'none'))
@@ -110,15 +117,9 @@ export function render (d3Instance, options, globalOptions) {
   const updatedGroups = groups
   const allGroups = newGroups.merge(updatedGroups)
 
-  d3Instance
-    .selectAll('rect')
-    .attr('width', overlayWidth > 0 ? overlayWidth : 0)
-    .attr('height', overlayHeight > 0 ? overlayHeight : 0)
-    .attr('transform', `translate(${margin.left}, ${margin.top})`)
-
   allGroups.each(function (singleGroupOptions, i) {
     const group = d3.select(this)
-    renderSingleGroup(d3Instance, group, newGroups, updatedGroups, singleGroupOptions, globalOptions)
+    renderSingleGroup(d3Instance, group, singleGroupOptions, globalOptions)
   })
 }
 
@@ -133,29 +134,12 @@ export function render (d3Instance, options, globalOptions) {
  * @param {GeoChart.singleLineSegmentsGroupsConfig<HorizontalDomain, VerticalDomain>} singleGroupOptions
  * @param {GeoChart.LineSegmentsGroupsGlobalConfig} globalOptions
  */
-function renderSingleGroup (d3Instance, group, newGroups, updatedGroups, singleGroupOptions, globalOptions) {
-  const lineBaseClass = 'geo-chart-line-element'
+function renderSingleGroup (d3Instance, group, singleGroupOptions, globalOptions) {
   const isDimensionHorizontalAxis = isDimensionAxis(singleGroupOptions.axis.horizontal, singleGroupOptions)
-
   const axisForDimension = isDimensionHorizontalAxis ? singleGroupOptions.axis.horizontal : singleGroupOptions.axis.vertical
   const axisForNormalDimension = isDimensionHorizontalAxis ? singleGroupOptions.axis.vertical : singleGroupOptions.axis.horizontal
-
   const xScale = isDimensionHorizontalAxis ? axisForDimension.scale.axisScale : axisForNormalDimension.scale.axisScale
   const yScale = isDimensionHorizontalAxis ? axisForNormalDimension.scale.axisScale : axisForDimension.scale.axisScale
-
-  const initialLine = d3.line()
-    .x((d, i) => {
-      const valueForScale = isDimensionHorizontalAxis
-        ? d[singleGroupOptions.axis.horizontal.keyForValues]
-        : singleGroupOptions.axis.horizontal.scale.valueForOrigin
-      return xScale(valueForScale)
-    })
-    .y((d, i) => {
-      const valueForScale = isDimensionHorizontalAxis
-        ? singleGroupOptions.axis.vertical.scale.valueForOrigin
-        : d[singleGroupOptions.axis.vertical.keyForValues]
-      return yScale(valueForScale)
-    })
 
   const line = d3.line()
     .x((d, i) => {
@@ -170,13 +154,7 @@ function renderSingleGroup (d3Instance, group, newGroups, updatedGroups, singleG
   const overlayWidth = globalOptions.chart.size.width - margin.right - margin.left
   const overlayHeight = globalOptions.chart.size.height - margin.top - margin.bottom
 
-  const newPaths = group
-    .append('path')
-    .attr('fill', 'none')
-    .attr('stroke', '#000')
-    .attr('d', initialLine(singleGroupOptions.lineData))
-
-  const focusGroup = d3Instance.selectAll('.focus')
+  const focusGroup = d3Instance.selectAll(`g.${FOCUS_GROUP_DEFAULT_CLASS}`)
 
   d3Instance
     .on('mousemove', positionTooltipFactory(singleGroupOptions, globalOptions, {
@@ -190,32 +168,13 @@ function renderSingleGroup (d3Instance, group, newGroups, updatedGroups, singleG
       focusGroup
     }))
 
-  const updatedPaths = updatedGroups
+  group
     .selectAll(`path.${lineBaseClass}`)
-
-  const allPaths = newPaths.merge(updatedPaths)
-
-  allPaths
     .attr('stroke-width', singleGroupOptions.lineWidth)
-    .attr('class', getLineCssClasses)
+    .attr('class', getLineCssClassesFactory(singleGroupOptions))
     .transition()
     .duration(globalOptions.chart.animationsDurationInMilliseconds)
     .attr('d', line(singleGroupOptions.lineData))
-
-  function getLineCssClasses (d, i) {
-    const defaultClasses = [
-      lineBaseClass,
-      `geo-chart-line-element--${i}`,
-      `geo-chart-line-element--${singleGroupOptions.dimension}`
-    ]
-
-    if (singleGroupOptions.cssClasses) {
-      const customClasses = singleGroupOptions.cssClasses(defaultClasses, d, i)
-      return _.uniq([...customClasses, lineBaseClass]).join(' ')
-    }
-
-    return defaultClasses.join(' ')
-  }
 }
 
 function positionTooltipFactory (singleGroupOptions, globalOptions, {
@@ -301,4 +260,51 @@ function computeVerticalTooltipPosition (d, singleGroupOptions, {
     ? 0
     : -(xScaleValue - xScaleValueAtOrigin)
   return { x1, x2 }
+}
+
+/**
+ * @template HorizontalDomain
+ * @template VerticalDomain
+ * @param {GeoChart.singleLineSegmentsGroupsConfig<HorizontalDomain, VerticalDomain>} singleGroupOptions
+ * @return {d3.Line<HorizontalDomain | VerticalDomain>}
+ */
+function getInitialLine (singleGroupOptions) {
+  const isDimensionHorizontalAxis = isDimensionAxis(singleGroupOptions.axis.horizontal, singleGroupOptions)
+
+  const axisForDimension = isDimensionHorizontalAxis ? singleGroupOptions.axis.horizontal : singleGroupOptions.axis.vertical
+  const axisForNormalDimension = isDimensionHorizontalAxis ? singleGroupOptions.axis.vertical : singleGroupOptions.axis.horizontal
+
+  const xScale = isDimensionHorizontalAxis ? axisForDimension.scale.axisScale : axisForNormalDimension.scale.axisScale
+  const yScale = isDimensionHorizontalAxis ? axisForNormalDimension.scale.axisScale : axisForDimension.scale.axisScale
+  const initialLine = d3.line()
+    .x((d, i) => {
+      const valueForScale = isDimensionHorizontalAxis
+        ? d[singleGroupOptions.axis.horizontal.keyForValues]
+        : singleGroupOptions.axis.horizontal.scale.valueForOrigin
+      return xScale(valueForScale)
+    })
+    .y((d, i) => {
+      const valueForScale = isDimensionHorizontalAxis
+        ? singleGroupOptions.axis.vertical.scale.valueForOrigin
+        : d[singleGroupOptions.axis.vertical.keyForValues]
+      return yScale(valueForScale)
+    })
+  return initialLine
+}
+
+function getLineCssClassesFactory (singleGroupOptions) {
+  return function (d, i) {
+    const defaultClasses = [
+      lineBaseClass,
+      `geo-chart-line-element--${i}`,
+      `geo-chart-line-element--${singleGroupOptions.dimension}`
+    ]
+
+    if (singleGroupOptions.cssClasses) {
+      const customClasses = singleGroupOptions.cssClasses(defaultClasses, d, i)
+      return _.uniq([...customClasses, lineBaseClass]).join(' ')
+    }
+
+    return defaultClasses.join(' ')
+  }
 }
