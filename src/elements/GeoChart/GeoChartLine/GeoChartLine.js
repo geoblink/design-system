@@ -83,29 +83,26 @@ export function render (d3Instance, options, globalOptions) {
 
   newFocusGroups
     .append('line')
-    .attr('class', 'x-hover-line hover-line')
+    .attr('class', 'hover-line')
     .attr('stroke-width', '2px')
     .attr('stroke', '#000')
 
-  newFocusGroups
-    .append('line')
-    .attr('class', 'y-hover-line hover-line')
-    .attr('stroke-width', '2px')
-    .attr('stroke', '#000')
+  // newFocusGroups
+  //   .append('circle')
+  //   .attr('r', 4)
 
-  newFocusGroups
-    .append('circle')
-    .attr('r', 4)
-
-  newFocusGroups
-    .append('text')
-    .attr('x', 15)
-    .attr('dy', '.31em')
+  // newFocusGroups
+  //   .append('text')
+  //   .attr('x', 15)
+  //   .attr('dy', '.31em')
 
   const focusGroup = d3Instance.selectAll(`g.${FOCUS_GROUP_DEFAULT_CLASS}`)
   d3Instance
     .on('mouseover', () => focusGroup.style('display', null))
     .on('mouseout', () => focusGroup.style('display', 'none'))
+    .on('mousemove', positionTooltipFactory(options, globalOptions, {
+      focusGroup
+    }))
 
   groups
     .exit()
@@ -150,24 +147,6 @@ function renderSingleGroup (d3Instance, group, singleGroupOptions, globalOptions
     })
     .curve(singleGroupOptions.interpolationFn)
 
-  const margin = globalOptions.chart.margin
-  const overlayWidth = globalOptions.chart.size.width - margin.right - margin.left
-  const overlayHeight = globalOptions.chart.size.height - margin.top - margin.bottom
-
-  const focusGroup = d3Instance.selectAll(`g.${FOCUS_GROUP_DEFAULT_CLASS}`)
-
-  d3Instance
-    .on('mousemove', positionTooltipFactory(singleGroupOptions, globalOptions, {
-      xScale,
-      yScale,
-      axisForDimension,
-      axisForNormalDimension,
-      overlayHeight,
-      overlayWidth,
-      margin,
-      focusGroup
-    }))
-
   group
     .selectAll(`path.${lineBaseClass}`)
     .attr('stroke-width', singleGroupOptions.lineWidth)
@@ -177,89 +156,146 @@ function renderSingleGroup (d3Instance, group, singleGroupOptions, globalOptions
     .attr('d', line(singleGroupOptions.lineData))
 }
 
-function positionTooltipFactory (singleGroupOptions, globalOptions, {
-  xScale,
-  yScale,
-  axisForDimension,
-  axisForNormalDimension,
-  overlayHeight,
-  overlayWidth,
-  margin,
+function positionTooltipFactory (options, globalOptions, {
   focusGroup
 }) {
   return function () {
-    const mouseCoord = singleGroupOptions.dimension === DIMENSIONS.horizontal ? 0 : 1
-    const scale = singleGroupOptions.dimension === DIMENSIONS.horizontal ? xScale : yScale
-    const c0 = scale.invert(d3.mouse(this)[mouseCoord])
-    const bisect = d3.bisector((d) => d[axisForDimension.keyForValues]).right
-    const i = bisect(singleGroupOptions.lineData, c0, 1)
-    const d0 = singleGroupOptions.lineData[i - 1]
-    const d1 = singleGroupOptions.lineData[i]
-    const d = d0 && c0 - d0[axisForDimension.keyForValues] > d1 && d1[axisForDimension.keyForValues] - c0 ? d1 : d0
+    const firstGroupOptions = options[0]
+    const {
+      axisForDimension,
+      axisForNormalDimension,
+      mouseCoord
+    } = {
+      [DIMENSIONS.horizontal]: {
+        axisForDimension: firstGroupOptions.axis.horizontal,
+        axisForNormalDimension: firstGroupOptions.axis.vertical,
+        mouseCoord: 0
+      },
+      [DIMENSIONS.vertical]: {
+        axisForDimension: firstGroupOptions.axis.vertical,
+        axisForNormalDimension: firstGroupOptions.axis.horizontal,
+        mouseCoord: 1
+      }
+    }[firstGroupOptions.dimension]
+
+    const mainDimensionValue = axisForDimension.scale.axisScale.invert(d3.mouse(this)[mouseCoord])
+    const getNearestIndexInMainAxisDomain = d3.bisector((d) => d[axisForDimension.keyForValues]).right
+
+    const closestItems = _.flatMap(options, function (singleGroupOptions) {
+      const index = getNearestIndexInMainAxisDomain(singleGroupOptions.lineData, mainDimensionValue, 1)
+      const leadingItem = singleGroupOptions.lineData[index - 1]
+      const trailingItem = singleGroupOptions.lineData[index]
+      // TODO: Invoke function to get nearest not null value
+      const leadingDistance = Math.abs(_.get(leadingItem, axisForDimension.keyForValues, Number.MAX_VALUE) - mainDimensionValue)
+      const trailingDistance = Math.abs(_.get(trailingItem, axisForDimension.keyForValues, Number.MAX_VALUE) - mainDimensionValue)
+
+      const leadingObject = leadingItem && {
+        item: leadingItem,
+        distance: leadingDistance,
+        normalValue: axisForNormalDimension.scale.axisScale(leadingItem[axisForNormalDimension.keyForValues]),
+        mainValue: axisForDimension.scale.axisScale(leadingItem[axisForDimension.keyForValues]),
+        singleGroupOptions
+      }
+      const trailingObject = trailingItem && {
+        item: trailingItem,
+        distance: trailingDistance,
+        normalValue: axisForNormalDimension.scale.axisScale(trailingItem[axisForNormalDimension.keyForValues]),
+        mainValue: axisForDimension.scale.axisScale(trailingItem[axisForDimension.keyForValues]),
+        singleGroupOptions
+      }
+
+      if (leadingObject && trailingObject) {
+        if (leadingDistance === trailingDistance) return [leadingObject, trailingObject]
+      }
+
+      return trailingDistance < leadingDistance
+        ? trailingObject && [trailingObject]
+        : leadingObject && [leadingObject]
+    })
+
+    const closestItem = _.minBy(closestItems, 'distance')
+    const linesWithData = _.filter(closestItems, { mainValue: closestItem.mainValue })
+
     const { absolutePosition } = getDrawingEnvironment(axisForDimension, globalOptions)
-
-    focusGroup.select('text').text(() => singleGroupOptions.tooltip)
-
-    if (singleGroupOptions.dimension === DIMENSIONS.horizontal) {
-      focusGroup.attr('transform', `translate(${xScale(d[axisForDimension.keyForValues])}, ${yScale(d[axisForNormalDimension.keyForValues])})`)
-      const { y1, y2 } = computeHorizontalTooltipPosition(d, singleGroupOptions, {
-        axisForNormalDimension,
-        overlayHeight,
-        margin,
-        yScale,
-        absolutePosition
-      })
-      focusGroup.select('.x-hover-line').attr('y1', y1)
-      focusGroup.select('.x-hover-line').attr('y2', y2)
-    } else if (singleGroupOptions.dimension === DIMENSIONS.vertical) {
-      focusGroup.attr('transform', `translate(${xScale(d[axisForNormalDimension.keyForValues])}, ${yScale(d[axisForDimension.keyForValues])})`)
-      const { x1, x2 } = computeVerticalTooltipPosition(d, singleGroupOptions, {
-        axisForNormalDimension,
-        overlayWidth,
-        margin,
-        xScale,
-        absolutePosition
-      })
-      focusGroup.select('.y-hover-line').attr('x1', x1)
-      focusGroup.select('.y-hover-line').attr('x2', x2)
+    const lineForMainAxis = {
+      normalValue: firstGroupOptions.dimension === DIMENSIONS.horizontal
+        ? absolutePosition.y
+        : absolutePosition.x
     }
+    const lowestAndHighestValuesInLines = d3.extent([...linesWithData, lineForMainAxis], (d, i) => d.normalValue)
+    const lowestNormalAxisValue = lowestAndHighestValuesInLines[0]
+    const highestNormalAxisValue = lowestAndHighestValuesInLines[1]
+
+    const { x1, y1, x2, y2, xTranslation, yTranslation } = {
+      [DIMENSIONS.horizontal]: {
+        x1: null,
+        y1: lowestNormalAxisValue,
+        x2: null,
+        y2: highestNormalAxisValue,
+        xTranslation: closestItem.mainValue,
+        yTranslation: 0
+      },
+      [DIMENSIONS.vertical]: {
+        x1: lowestNormalAxisValue,
+        y1: null,
+        x2: highestNormalAxisValue,
+        y2: null,
+        xTranslation: 0,
+        yTranslation: closestItem.mainValue
+      }
+    }[firstGroupOptions.dimension]
+
+    const circles = focusGroup
+      .selectAll('circle')
+      .data(linesWithData)
+
+    const newCircles = circles
+      .enter()
+      .append('circle')
+      .attr('r', 4)
+
+    const updatedCircles = circles
+    const allCircles = newCircles.merge(updatedCircles)
+
+    allCircles
+      .attr('cx', (d, i) => {
+        const { cx } = getCircleCoordinates(d, firstGroupOptions.dimension)
+        return cx
+      })
+      .attr('cy', (d, i) => {
+        const { cy } = getCircleCoordinates(d, firstGroupOptions.dimension)
+        return cy
+      })
+
+    function getCircleCoordinates (datum, dimension) {
+      const circleCoordinates = {
+        [DIMENSIONS.horizontal]: {
+          cx: 0,
+          cy: axisForNormalDimension.scale.axisScale(datum.item[axisForNormalDimension.keyForValues])
+        },
+        [DIMENSIONS.vertical]: {
+          cx: axisForNormalDimension.scale.axisScale(datum.item[axisForNormalDimension.keyForValues]),
+          cy: 0
+        }
+      }
+      return circleCoordinates[dimension]
+    }
+
+    circles
+      .exit()
+      .transition()
+      .duration(globalOptions.chart.animationsDurationInMilliseconds)
+      .remove()
+
+    // focusGroup.select('text').text(() => singleGroupOptions.tooltip)
+    focusGroup.attr('transform', `translate(${xTranslation}, ${yTranslation})`)
+    focusGroup
+      .select('.hover-line')
+      .attr('x1', x1)
+      .attr('y1', y1)
+      .attr('x2', x2)
+      .attr('y2', y2)
   }
-}
-
-function computeHorizontalTooltipPosition (d, singleGroupOptions, {
-  axisForNormalDimension,
-  overlayHeight,
-  margin,
-  yScale,
-  absolutePosition
-}) {
-  const yScaleValue = yScale(d[axisForNormalDimension.keyForValues])
-  const yScaleValueAtOrigin = yScale(axisForNormalDimension.scale.valueForOrigin)
-  const y1 = absolutePosition.y <= yScaleValue
-    ? 0
-    : yScaleValueAtOrigin - yScaleValue
-  const y2 = yScaleValue <= yScaleValueAtOrigin
-    ? 0
-    : -(yScaleValue - yScaleValueAtOrigin)
-  return { y1, y2 }
-}
-
-function computeVerticalTooltipPosition (d, singleGroupOptions, {
-  axisForNormalDimension,
-  overlayWidth,
-  margin,
-  xScale,
-  absolutePosition
-}) {
-  const xScaleValue = xScale(d[axisForNormalDimension.keyForValues])
-  const xScaleValueAtOrigin = xScale(axisForNormalDimension.scale.valueForOrigin)
-  const x1 = absolutePosition.x <= xScaleValue
-    ? 0
-    : xScaleValueAtOrigin - xScaleValue
-  const x2 = xScaleValue <= xScaleValueAtOrigin
-    ? 0
-    : -(xScaleValue - xScaleValueAtOrigin)
-  return { x1, x2 }
 }
 
 /**
