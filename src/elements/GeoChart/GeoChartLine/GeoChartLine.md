@@ -99,6 +99,7 @@ export default {
           dimension: BARS_DIMENSIONS.horizontal,
           lineData: this.lineData,
           lineWidth: 2,
+          hoverCircleRadius: 4,
           interpolationFn: INTERPOLATION_TYPES['d3.curveLinear']
         }]
       }
@@ -214,6 +215,7 @@ export default {
           dimension: BARS_DIMENSIONS.horizontal,
           lineData: this.lineData,
           lineWidth: 2,
+          hoverCircleRadius: 4,
           interpolationFn: INTERPOLATION_TYPES['d3.curveLinear']
         }]
       }
@@ -331,6 +333,7 @@ export default {
           dimension: BARS_DIMENSIONS.horizontal,
           lineData: this.lineData,
           lineWidth: 2,
+          hoverCircleRadius: 4,
           interpolationFn: INTERPOLATION_TYPES['d3.curveLinear']
         }]
       }
@@ -449,6 +452,7 @@ export default {
           dimension: BARS_DIMENSIONS.vertical,
           lineData: this.lineData,
           lineWidth: 2,
+          hoverCircleRadius: 4,
           interpolationFn: INTERPOLATION_TYPES['d3.curveLinear']
         }]
       }
@@ -567,6 +571,7 @@ export default {
           dimension: BARS_DIMENSIONS.vertical,
           lineData: this.lineData,
           lineWidth: 2,
+          hoverCircleRadius: 4,
           interpolationFn: INTERPOLATION_TYPES['d3.curveLinear']
         }]
       }
@@ -687,6 +692,7 @@ export default {
           dimension: BARS_DIMENSIONS.vertical,
           lineData: this.lineData,
           lineWidth: 2,
+          hoverCircleRadius: 4,
           interpolationFn: INTERPOLATION_TYPES['d3.curveLinear']
         }]
       }
@@ -804,6 +810,7 @@ export default {
             dimension: BARS_DIMENSIONS.horizontal,
             lineData: this.lineData,
             lineWidth: 2,
+            hoverCircleRadius: 4,
             interpolationFn: INTERPOLATION_TYPES['d3.curveLinear']
           },
           {
@@ -812,6 +819,7 @@ export default {
             dimension: BARS_DIMENSIONS.horizontal,
             lineData: this.lineData2,
             lineWidth: 4,
+            hoverCircleRadius: 4,
             interpolationFn: INTERPOLATION_TYPES['d3.curveLinear']
           }
         ]
@@ -933,7 +941,14 @@ export default {
             dimension: BARS_DIMENSIONS.horizontal,
             lineData: this.lineData,
             lineWidth: 2,
-            interpolationFn: INTERPOLATION_TYPES['d3.curveLinear']
+            hoverCircleRadius: 4,
+            interpolationFn: INTERPOLATION_TYPES['d3.curveLinear'],
+            tooltip: {
+              content: (d, i) => `x: ${d.item[this.numericalAxisConfig.keyForValues]} y: ${d.item[this.linearAxisConfig.keyForValues]} (position fixed)`,
+              offset: () => {
+                return { x: 0, y: -15 }
+              }
+            }
           },
           {
             idVerticalAxis: this.linearAxisConfig.id,
@@ -941,7 +956,14 @@ export default {
             dimension: BARS_DIMENSIONS.horizontal,
             lineData: this.lineData2,
             lineWidth: 4,
-            interpolationFn: INTERPOLATION_TYPES['d3.curveLinear']
+            hoverCircleRadius: 4,
+            interpolationFn: INTERPOLATION_TYPES['d3.curveLinear'],
+            tooltip: {
+              content: (d, i) => `x: ${d.item[this.numericalAxisConfig.keyForValues]} y: ${d.item[this.linearAxisConfig.keyForValues]} (position fixed)`,
+              offset: () => {
+                return { x: 0, y: -15 }
+              }
+            }
           }
         ]
       }

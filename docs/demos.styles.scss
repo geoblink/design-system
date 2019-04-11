@@ -162,6 +162,13 @@ $line-colors: (
   .geo-chart-line-group--#{$i} .geo-chart-line-element {
     stroke: map-get($line-colors, $i);
   }
+  .geo-chart-focus-group-element__hover-circle--#{$i} {
+    fill: map-get($line-colors, $i);
+  }
+
+  .geo-chart-focus-group-element__hover-circle--#{$i}:hover {
+    stroke: map-get($line-colors, $i);
+  }
 }
 
 $rankLineColors: (
@@ -182,6 +189,14 @@ $rankLineColors: (
   .geo-chart-line-segments__segment-stop--#{$i} {
     fill: map-get($rankLineColors, $i);
   }
+}
+
+.hover-overlay__focus .hover-line {
+  stroke: $color-grey;
+}
+
+.geo-chart-line-element__hover-circle:hover {
+  fill: #fff;
 }
 
 .geo-chart--hidden-axis .geo-chart-axis { display: none; }

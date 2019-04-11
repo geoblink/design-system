@@ -628,7 +628,7 @@ export const lineSegmentsConfigSchema = {
 export const lineConfigSchema = {
   type: 'object',
   additionalProperties: false,
-  required: ['lineData', 'dimension', 'idHorizontalAxis', 'idVerticalAxis', 'lineWidth'],
+  required: ['lineData', 'dimension', 'idHorizontalAxis', 'idVerticalAxis'],
   properties: {
     lineData: {
       type: 'array',
@@ -644,6 +644,9 @@ export const lineConfigSchema = {
       type: 'string'
     },
     lineWidth: {
+      type: 'number'
+    },
+    hoverCircleRadius: {
       type: 'number'
     },
     dimension: {

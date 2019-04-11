@@ -38,13 +38,14 @@ export default {
           axis,
           lineData: singleLineGroupsConfig.lineData,
           lineWidth: singleLineGroupsConfig.lineWidth,
+          hoverCircleRadius: singleLineGroupsConfig.hoverCircleRadius,
           interpolationFn: singleLineGroupsConfig.interpolationFn,
           dimension: singleLineGroupsConfig.dimension,
           tooltip: tooltipConfig,
           cssClasses: singleLineGroupsConfig.cssClasses
         }
       })
-      ChartLine.render(this.d3Instance, lineGroupsConfig, { chart })
+      ChartLine.render(this.d3Instance, this.d3TipInstance, lineGroupsConfig, { chart })
     }
   }
 }

@@ -10,6 +10,7 @@ import {
 import {
   isDimensionAxis
 } from '../GeoChartUtils/barsUtils'
+import { setupTooltipEventListeners } from '../GeoChartUtils/GeoChartTooltip'
 
 const d3 = (function () {
   try {
@@ -37,8 +38,10 @@ export const INTERPOLATION_TYPES = {
 }
 
 const lineBaseClass = 'geo-chart-line-element'
+const hoverCircleBaseClass = 'geo-chart-line-element__hover-circle'
 const FOCUS_GROUP_DEFAULT_CLASS = 'hover-overlay__focus'
-
+const DEFAULT_HOVER_CIRCLE_RADIUS = 4
+const DEFAULT_LINE_WIDTH = 2
 /**
  * @template GElement
  * @template Datum
@@ -47,10 +50,11 @@ const FOCUS_GROUP_DEFAULT_CLASS = 'hover-overlay__focus'
  * @template HorizontalDomain
  * @template VerticalDomain
  * @param {d3.Selection<GElement, Datum, PElement, PDatum>} d3Instance
+ * @param {d3.Selection<GElement, Datum, PElement, PDatum>} [d3TipInstance]
  * @param {Array<GeoChart.singleLineSegmentsGroupsConfig<HorizontalDomain, VerticalDomain>>} options
  * @param {GeoChart.LineSegmentsGroupsGlobalConfig} globalOptions
  */
-export function render (d3Instance, options, globalOptions) {
+export function render (d3Instance, d3TipInstance, options, globalOptions) {
   d3Instance
     .selectAll(`g.${FOCUS_GROUP_DEFAULT_CLASS}`)
     .remove()
@@ -87,20 +91,11 @@ export function render (d3Instance, options, globalOptions) {
     .attr('stroke-width', '2px')
     .attr('stroke', '#000')
 
-  // newFocusGroups
-  //   .append('circle')
-  //   .attr('r', 4)
-
-  // newFocusGroups
-  //   .append('text')
-  //   .attr('x', 15)
-  //   .attr('dy', '.31em')
-
   const focusGroup = d3Instance.selectAll(`g.${FOCUS_GROUP_DEFAULT_CLASS}`)
   d3Instance
     .on('mouseover', () => focusGroup.style('display', null))
     .on('mouseout', () => focusGroup.style('display', 'none'))
-    .on('mousemove', positionTooltipFactory(options, globalOptions, {
+    .on('mousemove', positionTooltipFactory(d3TipInstance, options, globalOptions, {
       focusGroup
     }))
 
@@ -127,6 +122,7 @@ export function render (d3Instance, options, globalOptions) {
  * @template PDatum
  * @template HorizontalDomain
  * @template VerticalDomain
+ * @param {d3.Selection<GElement, Datum, PElement, PDatum>} d3Instance
  * @param {d3.Selection<GElement, Datum, PElement, PDatum>} group
  * @param {GeoChart.singleLineSegmentsGroupsConfig<HorizontalDomain, VerticalDomain>} singleGroupOptions
  * @param {GeoChart.LineSegmentsGroupsGlobalConfig} globalOptions
@@ -149,14 +145,14 @@ function renderSingleGroup (d3Instance, group, singleGroupOptions, globalOptions
 
   group
     .selectAll(`path.${lineBaseClass}`)
-    .attr('stroke-width', singleGroupOptions.lineWidth)
+    .attr('stroke-width', singleGroupOptions.lineWidth || DEFAULT_LINE_WIDTH)
     .attr('class', getLineCssClassesFactory(singleGroupOptions))
     .transition()
     .duration(globalOptions.chart.animationsDurationInMilliseconds)
     .attr('d', line(singleGroupOptions.lineData))
 }
 
-function positionTooltipFactory (options, globalOptions, {
+function positionTooltipFactory (d3TipInstance, options, globalOptions, {
   focusGroup
 }) {
   return function () {
@@ -246,25 +242,38 @@ function positionTooltipFactory (options, globalOptions, {
     }[firstGroupOptions.dimension]
 
     const circles = focusGroup
-      .selectAll('circle')
+      .selectAll(`circle.${hoverCircleBaseClass}`)
       .data(linesWithData)
 
     const newCircles = circles
       .enter()
       .append('circle')
-      .attr('r', 4)
+      .attr('cursor', 'pointer')
 
     const updatedCircles = circles
     const allCircles = newCircles.merge(updatedCircles)
 
     allCircles
-      .attr('cx', (d, i) => {
-        const { cx } = getCircleCoordinates(d, firstGroupOptions.dimension)
-        return cx
-      })
-      .attr('cy', (d, i) => {
-        const { cy } = getCircleCoordinates(d, firstGroupOptions.dimension)
-        return cy
+      .attr('class', getHoverCirclesCssClasses)
+      .attr('r', (d) => d.singleGroupOptions.hoverCircleRadius || DEFAULT_HOVER_CIRCLE_RADIUS)
+      .attr('cx', (d) => getCircleCoordinates(d, firstGroupOptions.dimension).cx)
+      .attr('cy', (d) => getCircleCoordinates(d, firstGroupOptions.dimension).cy)
+      .each(function (d) {
+        const circle = d3.select(this)
+        setupTooltipEventListeners(circle, d3TipInstance, d.singleGroupOptions.tooltip)
+        circle
+          .on('mouseover', (d, i) => {
+            circle
+              .transition()
+              .duration(100)
+              .attr('stroke-width', d.singleGroupOptions.lineWidth)
+          })
+          .on('mouseout', (d) => {
+            circle
+              .transition()
+              .duration(100)
+              .attr('stroke-width', null)
+          })
       })
 
     function getCircleCoordinates (datum, dimension) {
@@ -287,7 +296,6 @@ function positionTooltipFactory (options, globalOptions, {
       .duration(globalOptions.chart.animationsDurationInMilliseconds)
       .remove()
 
-    // focusGroup.select('text').text(() => singleGroupOptions.tooltip)
     focusGroup.attr('transform', `translate(${xTranslation}, ${yTranslation})`)
     focusGroup
       .select('.hover-line')
@@ -332,7 +340,6 @@ function getLineCssClassesFactory (singleGroupOptions) {
   return function (d, i) {
     const defaultClasses = [
       lineBaseClass,
-      `geo-chart-line-element--${i}`,
       `geo-chart-line-element--${singleGroupOptions.dimension}`
     ]
 
@@ -343,4 +350,19 @@ function getLineCssClassesFactory (singleGroupOptions) {
 
     return defaultClasses.join(' ')
   }
+}
+
+function getHoverCirclesCssClasses (d, i) {
+  const defaultClasses = [
+    hoverCircleBaseClass,
+    `geo-chart-focus-group-element__hover-circle--${i}`,
+    `geo-chart-focus-group-element__hover-circle--${d.singleGroupOptions.dimension}`
+  ]
+
+  if (d.singleGroupOptions.cssClasses) {
+    const customClasses = d.singleGroupOptions.cssClasses(defaultClasses, d.item, i)
+    return _.uniq([...customClasses, hoverCircleBaseClass]).join(' ')
+  }
+
+  return defaultClasses.join(' ')
 }
