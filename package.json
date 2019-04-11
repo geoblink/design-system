@@ -66,22 +66,14 @@
     "vue-styleguidist/vue-docgen-api": "~2.3.14"
   },
   "dependencies": {
-<<<<<<< HEAD
-    "d3": "^5.7.0"
-=======
     "d3": "^5.7.0",
     "d3-tip": "^0.9.1"
->>>>>>> origin/master
   },
   "peerDependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.2",
     "@fortawesome/vue-fontawesome": "^0.1.1",
     "ajv": "^6.6.2",
     "ajv-errors": "^1.0.1",
-<<<<<<< HEAD
-    "d3-tip": "^0.9.1",
-=======
->>>>>>> origin/master
     "lodash": "^4.17.10",
     "markdown-it": "^8.4.2",
     "vue": "^2.5.16",
