@@ -1,9 +1,9 @@
 import { mount } from '@vue/test-utils'
-import GeoChartLine from '@/elements/GeoChartLine/GeoChartLine.vue'
+import GeoChart from '@/elements/GeoChart/GeoChart.vue'
 
 describe('GeoChartLine', () => {
   it('should render', function () {
-    const wrapper = mount(GeoChartLine)
+    const wrapper = mount(GeoChart)
     expect(wrapper.find('.geo-chart-line').exists()).toBe(true)
   })
 })
