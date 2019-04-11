@@ -743,12 +743,22 @@ export default {
   name: 'GeoChartLineDemo',
   data () {
     return {
-      lineData: _.times(25, (v) => ({ x: v, y: _.random(0, 20) })),
-      lineData2: _.times(25, (v) => ({ x: v, y: _.random(0, 20) })),
+      lineData: _.times(13, (v) => ({ x: v, y: _.random(0, 20) })),
+      lineData2: _.times(13, (v) => ({ x: v, y: _.random(0, 20) })),
+      lineData3: _.times(13, (v) => ({ x: v, y: _.random(0, 20) })),
       isGraphVisible: true
     }
   },
   computed: {
+    tooltipFunction () {
+      return {
+        content: (d, i) => `x: ${d.item[this.numericalAxisConfig.keyForValues]} y: ${d.item[this.linearAxisConfig.keyForValues]}`,
+        offset: () => {
+          return { x: 0, y: -15 }
+        }
+      }
+    },
+
     linearAxisConfig () {
       return {
         id: 'demo-linear-axis',
@@ -781,7 +791,7 @@ export default {
           valueForOrigin: 0,
           domain: {
             start: 0,
-            end: 25
+            end: 12
           }
         }
       }
@@ -810,17 +820,29 @@ export default {
             dimension: BARS_DIMENSIONS.horizontal,
             lineData: this.lineData,
             lineWidth: 2,
-            hoverCircleRadius: 4,
-            interpolationFn: INTERPOLATION_TYPES['d3.curveLinear']
+            hoverCircleRadius: 6,
+            interpolationFn: INTERPOLATION_TYPES['d3.curveCardinal'],
+            tooltip: this.tooltipFunction
           },
           {
             idVerticalAxis: this.linearAxisConfig.id,
             idHorizontalAxis: this.numericalAxisConfig.id,
             dimension: BARS_DIMENSIONS.horizontal,
             lineData: this.lineData2,
-            lineWidth: 4,
-            hoverCircleRadius: 4,
-            interpolationFn: INTERPOLATION_TYPES['d3.curveLinear']
+            lineWidth: 2,
+            hoverCircleRadius: 6,
+            interpolationFn: INTERPOLATION_TYPES['d3.curveCardinal'],
+            tooltip: this.tooltipFunction
+          },
+          {
+            idVerticalAxis: this.linearAxisConfig.id,
+            idHorizontalAxis: this.numericalAxisConfig.id,
+            dimension: BARS_DIMENSIONS.horizontal,
+            lineData: this.lineData3,
+            lineWidth: 2,
+            hoverCircleRadius: 6,
+            interpolationFn: INTERPOLATION_TYPES['d3.curveCardinal'],
+            tooltip: this.tooltipFunction
           }
         ]
       }
@@ -828,8 +850,9 @@ export default {
   },
   methods: {
     randomizeData () {
-      this.lineData = _.times(25, (v) => ({ x: v, y: _.random(0, 20) }))
-      this.lineData2 = _.times(25, (v) => ({ x: v, y: _.random(0, 20) }))
+      this.lineData = _.times(13, (v) => ({ x: v, y: _.random(0, 20) }))
+      this.lineData2 = _.times(13, (v) => ({ x: v, y: _.random(0, 20) }))
+      this.lineData3 = _.times(13, (v) => ({ x: v, y: _.random(0, 20) }))
     },
     toggleGraph () {
       this.isGraphVisible = !this.isGraphVisible
@@ -973,6 +996,140 @@ export default {
     randomizeData () {
       this.lineData = _.times(25, (v) => ({ x: v, y: _.random(0, 20) }))
       this.lineData2 = _.times(25, (v) => ({ x: v, y: _.random(-20, 0) }))
+    },
+    toggleGraph () {
+      this.isGraphVisible = !this.isGraphVisible
+    }
+  }
+}
+</script>
+```
+
+```vue
+<template>
+  <div class="element-demo">
+    <h3 class="element-demo__header">
+      Line chart (Horizontal - Bottom Axis) with Bars
+      <div class="element-demo__inline-input-group">
+        <geo-primary-button @click="randomizeData()">
+          Randomize data
+        </geo-primary-button>
+        <geo-secondary-button @click="toggleGraph()">
+          Toggle Graph
+        </geo-secondary-button>
+      </div>
+    </h3>
+    <div class="element-demo__bordered-box element-demo__block--chart-container" style="resize: both;">
+      <geo-chart
+        v-if="chartConfig && isGraphVisible"
+        :config="chartConfig"
+      />
+    </div>
+  </div>
+</template>
+
+<script>
+const { POSITIONS } = require('../GeoChartAxis/GeoChartAxis')
+const { SCALE_TYPES } = require('../GeoChartScale/GeoChartScale')
+const { INTERPOLATION_TYPES } = require('./GeoChartLine')
+const { DIMENSIONS: BARS_DIMENSIONS } = require('../GeoChartBars/GeoChartBars')
+
+export default {
+  name: 'GeoChartLineDemo',
+  data () {
+    return {
+      lineData: _.times(25, (v) => ({ x: v, y: _.random(0, 20) })),
+      isGraphVisible: true
+    }
+  },
+  computed: {
+    linearAxisConfig () {
+      return {
+        id: 'demo-linear-axis',
+        keyForValues: 'y',
+        ticks: {
+          count: 2
+        },
+        position: {
+          type: POSITIONS.left
+        },
+        scale: {
+          type: SCALE_TYPES.linear,
+          valueForOrigin: 0,
+          domain: {
+            start: 20,
+            end: 0
+          }
+        }
+      }
+    },
+    numericalAxisConfig () {
+      return {
+        id: 'demo-numerical-axis',
+        keyForValues: 'x',
+        position: {
+          type: POSITIONS.bottom
+        },
+        scale: {
+          type: SCALE_TYPES.linear,
+          valueForOrigin: 0,
+          domain: {
+            start: 0,
+            end: 25
+          }
+        }
+      }
+    },
+    chartConfig () {
+      if (!this.lineData) return null
+
+      return {
+        chart: {
+          margin: {
+            top: 30,
+            right: 30,
+            bottom: 30,
+            left: 30
+          },
+          animationsDurationInMilliseconds: 800
+        },
+        axisGroups: [
+          this.linearAxisConfig,
+          this.numericalAxisConfig
+        ],
+        lineGroups: [{
+          idVerticalAxis: this.linearAxisConfig.id,
+          idHorizontalAxis: this.numericalAxisConfig.id,
+          dimension: BARS_DIMENSIONS.horizontal,
+          lineData: this.lineData,
+          lineWidth: 2,
+          hoverCircleRadius: 4,
+          interpolationFn: INTERPOLATION_TYPES['d3.curveLinear'],
+          tooltip: {
+            content: (d, i) => `x: ${d.item[this.numericalAxisConfig.keyForValues]} y: ${d.item[this.linearAxisConfig.keyForValues]}`,
+            offset: () => {
+              return { x: 0, y: -15 }
+            }
+          }
+        }],
+        barGroups: [{
+          data: this.lineData,
+          dimension: BARS_DIMENSIONS.vertical,
+          idHorizontalAxis: this.numericalAxisConfig.id,
+          idVerticalAxis: this.linearAxisConfig.id,
+          tooltip: {
+            content: (d, i) => `x: ${d[this.numericalAxisConfig.keyForValues]} y: ${d[this.linearAxisConfig.keyForValues]}`,
+            offset: () => {
+              return { x: 0, y: -15 }
+            }
+          }
+        }]
+      }
+    }
+  },
+  methods: {
+    randomizeData () {
+      this.lineData = _.times(25, (v) => ({ x: v, y: _.random(0, 20) }))
     },
     toggleGraph () {
       this.isGraphVisible = !this.isGraphVisible
