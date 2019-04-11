@@ -39,10 +39,12 @@ export default {
     this.addTooltipHTMLContentNode()
   },
   mounted () {
+    this.addTooltipHTMLContentNode()
     this.reloadRequiredWidth()
     this.reloadTooltipContent()
   },
   updated () {
+    this.addTooltipHTMLContentNode()
     this.reloadRequiredWidth()
     this.reloadTooltipContent()
   },
@@ -76,16 +78,17 @@ export default {
     },
 
     addTooltipHTMLContentNode () {
+      const element = document.getElementById(this.idTooltipContentNode)
+      if (element) return
+
       const newElement = document.createElement('div')
       newElement.setAttribute('id', this.idTooltipContentNode)
       document.body.appendChild(newElement)
     },
 
     removeTooltipHTMLContentNode () {
-      if (!this.isContentTrimmed) return
-
       const element = document.getElementById(this.idTooltipContentNode)
-      element.parentNode.removeChild(element)
+      if (element) element.parentNode.removeChild(element)
     }
   },
   render (createElement) {

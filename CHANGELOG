@@ -1,3 +1,50 @@
+# 16.0.0
+
+Migration guide:
+
+1. SCSS imports of `dist/system/system.utils.scss` should now import `dist/system.utils.scss`
+2. SCSS imports of `dist/system/system.css` should now import `dist/system.css`
+3. JS imports of `dist/system/system.js` should now import `dist/system.js`
+
+Breaking:
+
+- New file structure. Generated bundled are available at:
+  - `node_modules/@geoblink/design-system/system.css`
+  - `node_modules/@geoblink/design-system/system.js`
+  - `node_modules/@geoblink/design-system/system.utils.scss`
+  - `node_modules/@geoblink/design-system/tokens/tokens.(json|map.scss|raw.json|scss)`
+
+Changed:
+
+- Add `d3` as direct dependency.
+- Add `d3-tip` as direct dependency.
+
+Fixed:
+
+- Remove unneded files from dist bundle
+- Reduce bundle size to <240kb
+- `GeoMarquee` wait for nextTick to get the width of the content.
+- `GeoTrimmedContent` don't attempt to remove tooltip DOM elements if content is not trimmed.
+- `GeoTrimmedContent` avoid errors when trimming content which was initially visible.
+
+# 16.0.0-beta.6
+
+Fixed:
+
+- `GeoTrimmedContent` avoid errors when trimming content which was initially visible.
+
+# 16.0.0-beta.5
+
+Fixed:
+
+- `GeoTrimmedContent` avoid errors when trimming content which was initially visible.
+
+# 16.0.0-beta.4
+
+Fixed:
+
+- `d3-tip` is now a dependency instead of a peerDependency.
+
 # 16.0.0-beta.3
 
 Fixed:
