@@ -944,7 +944,7 @@ export default {
             hoverCircleRadius: 4,
             interpolationFn: INTERPOLATION_TYPES['d3.curveLinear'],
             tooltip: {
-              content: (d, i) => `x: ${d.item[this.numericalAxisConfig.keyForValues]} y: ${d.item[this.linearAxisConfig.keyForValues]} (position fixed)`,
+              content: (d, i) => `x: ${d.item[this.numericalAxisConfig.keyForValues]} y: ${d.item[this.linearAxisConfig.keyForValues]}`,
               offset: () => {
                 return { x: 0, y: -15 }
               }
@@ -959,7 +959,7 @@ export default {
             hoverCircleRadius: 4,
             interpolationFn: INTERPOLATION_TYPES['d3.curveLinear'],
             tooltip: {
-              content: (d, i) => `x: ${d.item[this.numericalAxisConfig.keyForValues]} y: ${d.item[this.linearAxisConfig.keyForValues]} (position fixed)`,
+              content: (d, i) => `x: ${d.item[this.numericalAxisConfig.keyForValues]} y: ${d.item[this.linearAxisConfig.keyForValues]}`,
               offset: () => {
                 return { x: 0, y: -15 }
               }
