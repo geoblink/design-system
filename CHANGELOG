@@ -1,3 +1,15 @@
+# 16.0.1
+
+Fixed:
+
+- `GeoAlert` doesn't show underline decoration on alert actions.
+
+# 16.0.1-beta.0
+
+Fixed:
+
+- `GeoAlert` doesn't show underline decoration on alert actions.
+
 # 16.0.0
 
 Migration guide:
