@@ -42,6 +42,7 @@ const hoverCircleBaseClass = 'geo-chart-line-element__hover-circle'
 const FOCUS_GROUP_DEFAULT_CLASS = 'hover-overlay__focus'
 const DEFAULT_HOVER_CIRCLE_RADIUS = 4
 const DEFAULT_LINE_WIDTH = 2
+const DEFAULT_INTERPOLATION_FUNCTION = INTERPOLATION_TYPES['d3.curveLinear']
 /**
  * @template GElement
  * @template Datum
@@ -141,7 +142,7 @@ function renderSingleGroup (d3Instance, group, singleGroupOptions, globalOptions
     .y((d, i) => {
       return yScale(d[singleGroupOptions.axis.vertical.keyForValues])
     })
-    .curve(singleGroupOptions.interpolationFn)
+    .curve(singleGroupOptions.interpolationFn || DEFAULT_INTERPOLATION_FUNCTION)
 
   group
     .selectAll(`path.${lineBaseClass}`)
