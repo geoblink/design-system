@@ -4,7 +4,10 @@
   $modifier-name-with-prefix
 ) {
   background: $tint-color;
-  color: $text-color;
+
+  &, & p {
+    color: $text-color;
+  }
 
   .geo-alert__content__icon#{$modifier-name-with-prefix},
   .geo-alert__content__close-icon#{$modifier-name-with-prefix}:hover {
