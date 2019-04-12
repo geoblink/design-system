@@ -182,10 +182,8 @@ function positionTooltipFactory (d3TipInstance, options, globalOptions, {
       const index = getNearestIndexInMainAxisDomain(singleGroupOptions.lineData, mainDimensionValue, 1)
       const leadingItem = singleGroupOptions.lineData[index - 1]
       const trailingItem = singleGroupOptions.lineData[index]
-      // TODO: Invoke function to get nearest not null value
       const leadingDistance = Math.abs(_.get(leadingItem, axisForDimension.keyForValues, Number.MAX_VALUE) - mainDimensionValue)
       const trailingDistance = Math.abs(_.get(trailingItem, axisForDimension.keyForValues, Number.MAX_VALUE) - mainDimensionValue)
-
       const leadingObject = leadingItem && {
         item: leadingItem,
         distance: leadingDistance,
@@ -209,8 +207,8 @@ function positionTooltipFactory (d3TipInstance, options, globalOptions, {
         ? trailingObject && [trailingObject]
         : leadingObject && [leadingObject]
     })
-
     const closestItem = _.minBy(closestItems, 'distance')
+    if (!closestItem) return
     const linesWithData = _.filter(closestItems, { mainValue: closestItem.mainValue })
 
     const { absolutePosition } = getDrawingEnvironment(axisForDimension, globalOptions)
@@ -245,6 +243,10 @@ function positionTooltipFactory (d3TipInstance, options, globalOptions, {
     const circles = focusGroup
       .selectAll(`circle.${hoverCircleBaseClass}`)
       .data(linesWithData)
+
+    circles
+      .exit()
+      .remove()
 
     const newCircles = circles
       .enter()
@@ -290,12 +292,6 @@ function positionTooltipFactory (d3TipInstance, options, globalOptions, {
       }
       return circleCoordinates[dimension]
     }
-
-    circles
-      .exit()
-      .transition()
-      .duration(globalOptions.chart.animationsDurationInMilliseconds)
-      .remove()
 
     focusGroup.attr('transform', `translate(${xTranslation}, ${yTranslation})`)
     focusGroup

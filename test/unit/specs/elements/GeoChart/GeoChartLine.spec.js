@@ -1,4 +1,8 @@
+/*  globals afterEach beforeEach describe expect it */
 import _ from 'lodash'
+import * as d3 from 'd3'
+
+import * as sinon from 'sinon'
 
 import {
   flushD3Transitions,
@@ -32,7 +36,7 @@ describe('GeoChartLine', () => {
           valueForOrigin: 0,
           domain: {
             start: 0,
-            end: 20
+            end: 300
           }
         }
       },
@@ -48,51 +52,52 @@ describe('GeoChartLine', () => {
           valueForOrigin: 0,
           domain: {
             start: 0,
-            end: 25
-          }
-        }
-      }
-    },
-    vertical: {
-      linearAxisConfig: {
-        id: 'spec-linear-axis',
-        keyForValues: 'x',
-        ticks: {
-          count: 2
-        },
-        position: {
-          type: GeoChart.constants.POSITIONS.bottom
-        },
-        scale: {
-          type: GeoChart.constants.SCALE_TYPES.linear,
-          valueForOrigin: 0,
-          domain: {
-            start: 0,
-            end: 20
-          }
-        }
-      },
-
-      numericalAxisConfig: {
-        id: 'demo-numerical-axis',
-        keyForValues: 'y',
-        position: {
-          type: GeoChart.constants.POSITIONS.left
-        },
-        scale: {
-          type: GeoChart.constants.SCALE_TYPES.linear,
-          valueForOrigin: 0,
-          domain: {
-            start: 0,
-            end: 25
+            end: 300
           }
         }
       }
     }
+    // vertical: {
+    //   linearAxisConfig: {
+    //     id: 'spec-linear-axis',
+    //     keyForValues: 'x',
+    //     ticks: {
+    //       count: 2
+    //     },
+    //     position: {
+    //       type: GeoChart.constants.POSITIONS.bottom
+    //     },
+    //     scale: {
+    //       type: GeoChart.constants.SCALE_TYPES.linear,
+    //       valueForOrigin: 0,
+    //       domain: {
+    //         start: 0,
+    //         end: 300
+    //       }
+    //     }
+    //   },
+
+    //   numericalAxisConfig: {
+    //     id: 'demo-numerical-axis',
+    //     keyForValues: 'y',
+    //     position: {
+    //       type: GeoChart.constants.POSITIONS.left
+    //     },
+    //     scale: {
+    //       type: GeoChart.constants.SCALE_TYPES.linear,
+    //       valueForOrigin: 0,
+    //       domain: {
+    //         start: 0,
+    //         end: 300
+    //       }
+    //     }
+    //   }
+    // }
   }
   const stubGetBBox = stubGetBBoxFactory()
   const stubGetScreenCTM = stubGetScreenCTMFactory()
   const stubCreateSVGPoint = stubCreateSVGPointFactory()
+  const sandbox = sinon.createSandbox()
 
   beforeEach(function () {
     stubGetBBox.setup()
@@ -104,6 +109,7 @@ describe('GeoChartLine', () => {
     stubGetBBox.teardown()
     stubCreateSVGPoint.teardown()
     stubGetScreenCTM.teardown()
+    sandbox.restore()
   })
 
   afterEach(function () {
@@ -123,7 +129,7 @@ describe('GeoChartLine', () => {
             verticalAxis: linearAxisConfig,
             horizontalAxis: numericalAxisConfig,
             cssClassFn,
-            chartDimensionSpan: 500,
+            chartDimensionSpan: 300,
             chartNormalDimensionSpan: 300
           })
           break
@@ -132,7 +138,7 @@ describe('GeoChartLine', () => {
             dimension,
             verticalAxis: numericalAxisConfig,
             horizontalAxis: linearAxisConfig,
-            chartDimensionSpan: 500,
+            chartDimensionSpan: 300,
             chartNormalDimensionSpan: 300
           })
           break
@@ -183,6 +189,21 @@ describe('GeoChartLine', () => {
           cssClasses: cssClassFn
         }]
       }
+      it('Line with no data', () => {
+        linesConfig.lineGroups[0].lineData = []
+        const wrapper = mount(GeoChart, {
+          propsData: {
+            config: linesConfig
+          }
+        })
+
+        flushD3Transitions()
+        expect(wrapper.find('.geo-chart').exists()).toBe(true)
+        expect(wrapper.find('.geo-chart-line-group').exists()).toBe(true)
+        expect(wrapper.findAll('.geo-chart-line-element')).toHaveLength(linesConfig.lineGroups.length)
+        expect(wrapper.find('.geo-chart-line-element').attributes('d')).toBe(undefined)
+        wrapper.destroy()
+      })
       it('Should render one line', () => {
         const wrapper = mount(GeoChart, {
           propsData: {
@@ -258,7 +279,7 @@ describe('GeoChartLine', () => {
         wrapper.destroy()
       })
       describe('FocusGroup', () => {
-        it('Should display a line with two circles on multi-line graphs', () => {
+        it('Should display the focus group', () => {
           const wrapper = mount(GeoChart, {
             propsData: {
               config: linesConfig
@@ -269,6 +290,64 @@ describe('GeoChartLine', () => {
           wrapper.find('.geo-chart-line-group').trigger('mouseover')
           flushD3Transitions()
           expect(wrapper.find('.hover-overlay__focus').element.style.display).toBe('')
+          wrapper.find('.geo-chart-line-group').trigger('mouseout')
+          flushD3Transitions()
+          expect(wrapper.find('.hover-overlay__focus').element.style.display).toBe('none')
+          wrapper.destroy()
+        })
+
+        it('Should display the focus group with line and one circle per line group', () => {
+          sandbox.stub(d3, 'mouse').callsFake(function () {
+            return [10, 50]
+          })
+          const wrapper = mount(GeoChart, {
+            propsData: {
+              config: linesConfig
+            }
+          })
+          flushD3Transitions()
+          expect(wrapper.find('.hover-overlay__focus').element.style.display).toBe('none')
+          wrapper.find('.geo-chart-line-group').trigger('mouseover')
+          flushD3Transitions()
+          expect(wrapper.find('.hover-overlay__focus').element.style.display).toBe('')
+          wrapper.find('.geo-chart-line-group').trigger('mousemove')
+          flushD3Transitions()
+          expect(wrapper.findAll('.geo-chart-line-element__hover-circle')).toHaveLength(linesConfig.lineGroups.length)
+          wrapper.destroy()
+        })
+
+        it('Should display the focus group with a circle only if the hovered point has data', () => {
+          const lineData1 = [{ x: 0, y: 0 }, { x: 150, y: 150 }, { x: 300, y: 300 }]
+          const lineData2 = [{ x: 0, y: 0 }, { x: 300, y: 300 }]
+          let i = 0
+          sandbox.stub(d3, 'mouse').callsFake(function () {
+            if (i === 0) {
+              i++
+              return [0, 0]
+            }
+            return [150, 150]
+          })
+          linesConfig.lineGroups[0].lineData = lineData1
+          linesConfig.lineGroups[1].lineData = lineData2
+          const wrapper = mount(GeoChart, {
+            propsData: {
+              config: linesConfig,
+              height: '300px',
+              width: '300px'
+            }
+          })
+          flushD3Transitions()
+          expect(wrapper.find('.hover-overlay__focus').element.style.display).toBe('none')
+          wrapper.find('.geo-chart-line-group').trigger('mouseover')
+          flushD3Transitions()
+          expect(wrapper.find('.hover-overlay__focus').element.style.display).toBe('')
+          wrapper.find('.geo-chart-line-group').trigger('mousemove')
+          flushD3Transitions()
+          expect(wrapper.findAll('.geo-chart-line-element__hover-circle')).toHaveLength(2)
+          wrapper.find('.geo-chart-line-group').trigger('mousemove')
+          flushD3Transitions()
+          expect(wrapper.findAll('.geo-chart-line-element__hover-circle')).toHaveLength(1)
+          wrapper.destroy()
         })
       })
     })
