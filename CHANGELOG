@@ -3,6 +3,13 @@
 Fixed:
 
 - `GeoAlert` doesn't show underline decoration on alert actions.
+- `GeoAlert` forces proper color when using `GeoMarkdownContent` inside an alert.
+
+# 16.0.1-beta.1
+
+Fixed:
+
+- `GeoAlert` forces proper color when using `GeoMarkdownContent` inside an alert.
 
 # 16.0.1-beta.0
 
