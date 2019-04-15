@@ -175,35 +175,48 @@ function positionTooltipFactory (d3TipInstance, options, globalOptions, {
       }
     }[firstGroupOptions.dimension]
 
+    if (!_.isFunction(axisForDimension.scale.axisScale.invert)) {
+      axisForDimension.scale.axisScale.invert = (function () {
+        var domain = axisForDimension.scale.axisScale.domain()
+        var range = axisForDimension.scale.axisScale.range()
+        var scale = d3.scaleQuantize().domain(range).range(domain)
+        return function (x) {
+          return scale(x)
+        }
+      })()
+    }
     const mainDimensionValue = axisForDimension.scale.axisScale.invert(d3.mouse(this)[mouseCoord])
+    const mainDimensionValueInAxis = axisForDimension.scale.axisScale(mainDimensionValue)
     const getNearestIndexInMainAxisDomain = d3.bisector((d) => d[axisForDimension.keyForValues]).right
 
     const closestItems = _.flatMap(options, function (singleGroupOptions) {
       const index = getNearestIndexInMainAxisDomain(singleGroupOptions.lineData, mainDimensionValue, 1)
       const leadingItem = singleGroupOptions.lineData[index - 1]
       const trailingItem = singleGroupOptions.lineData[index]
-      const leadingDistance = Math.abs(_.get(leadingItem, axisForDimension.keyForValues, Number.MAX_VALUE) - mainDimensionValue)
-      const trailingDistance = Math.abs(_.get(trailingItem, axisForDimension.keyForValues, Number.MAX_VALUE) - mainDimensionValue)
+      const leadingDistance = _.get(leadingItem, axisForDimension.keyForValues, Number.MAX_VALUE)
+      const trailingDistance = _.get(trailingItem, axisForDimension.keyForValues, Number.MAX_VALUE)
+      const leadingDistanceValue = Math.abs(axisForDimension.scale.axisScale(leadingDistance) - mainDimensionValueInAxis)
+      const trailingDistanceValue = Math.abs(axisForDimension.scale.axisScale(trailingDistance) - mainDimensionValueInAxis)
       const leadingObject = leadingItem && {
         item: leadingItem,
-        distance: leadingDistance,
+        distance: leadingDistanceValue,
         normalValue: axisForNormalDimension.scale.axisScale(leadingItem[axisForNormalDimension.keyForValues]),
         mainValue: axisForDimension.scale.axisScale(leadingItem[axisForDimension.keyForValues]),
         singleGroupOptions
       }
       const trailingObject = trailingItem && {
         item: trailingItem,
-        distance: trailingDistance,
+        distance: trailingDistanceValue,
         normalValue: axisForNormalDimension.scale.axisScale(trailingItem[axisForNormalDimension.keyForValues]),
         mainValue: axisForDimension.scale.axisScale(trailingItem[axisForDimension.keyForValues]),
         singleGroupOptions
       }
 
       if (leadingObject && trailingObject) {
-        if (leadingDistance === trailingDistance) return [leadingObject, trailingObject]
+        if (leadingDistanceValue === trailingDistanceValue) return [leadingObject, trailingObject]
       }
 
-      return trailingDistance < leadingDistance
+      return trailingDistanceValue < leadingDistanceValue
         ? trailingObject && [trailingObject]
         : leadingObject && [leadingObject]
     })
