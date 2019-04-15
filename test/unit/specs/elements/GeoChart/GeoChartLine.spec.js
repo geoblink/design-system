@@ -20,7 +20,7 @@ const localVue = createLocalVue()
 localVue.component('geo-chart', GeoChart)
 
 describe('GeoChartLine', () => {
-  const axisDimensions = {
+  const axisNumericalDimensions = {
     horizontal: {
       linearAxisConfig: {
         id: 'spec-linear-axis',
@@ -94,6 +94,74 @@ describe('GeoChartLine', () => {
       }
     }
   }
+  const axisCategoricalDimensions = {
+    horizontal: {
+      linearAxisConfig: {
+        id: 'spec-linear-axis',
+        keyForValues: 'y',
+        ticks: {
+          count: 2
+        },
+        position: {
+          type: GeoChart.constants.POSITIONS.left
+        },
+        scale: {
+          type: GeoChart.constants.SCALE_TYPES.linear,
+          valueForOrigin: 0,
+          domain: {
+            start: 0,
+            end: 300
+          }
+        }
+      },
+
+      categoricalAxisConfig: {
+        id: 'spec-categorical-axis',
+        keyForValues: 'category',
+        position: {
+          type: GeoChart.constants.POSITIONS.bottom
+        },
+        scale: {
+          type: GeoChart.constants.SCALE_TYPES.categorical,
+          valueForOrigin: 'Category 0',
+          domain: _.times(5, (i) => `Category ${i}`)
+        }
+      }
+    },
+    vertical: {
+      linearAxisConfig: {
+        id: 'spec-linear-axis',
+        keyForValues: 'x',
+        ticks: {
+          count: 2
+        },
+        position: {
+          type: GeoChart.constants.POSITIONS.bottom
+        },
+        scale: {
+          type: GeoChart.constants.SCALE_TYPES.linear,
+          valueForOrigin: 0,
+          domain: {
+            start: 0,
+            end: 300
+          }
+        }
+      },
+
+      categoricalAxisConfig: {
+        id: 'spec-categorical-axis',
+        keyForValues: 'category',
+        position: {
+          type: GeoChart.constants.POSITIONS.left
+        },
+        scale: {
+          type: GeoChart.constants.SCALE_TYPES.categorical,
+          valueForOrigin: 'Category 0',
+          domain: _.times(5, (i) => `Category ${i}`)
+        }
+      }
+    }
+  }
   const stubGetBBox = stubGetBBoxFactory()
   const stubGetScreenCTM = stubGetScreenCTMFactory()
   const stubCreateSVGPoint = stubCreateSVGPointFactory()
@@ -117,38 +185,104 @@ describe('GeoChartLine', () => {
   })
 
   describe('#render', function () {
-    for (const dimension in axisDimensions) {
-      const linearAxisConfig = axisDimensions[dimension].linearAxisConfig
-      const numericalAxisConfig = axisDimensions[dimension].numericalAxisConfig
-      const cssClassFn = (original) => [...original, 'test-line-segments']
-
-      switch (dimension) {
-        case GeoChart.constants.BARS_DIMENSIONS.horizontal:
-          testDimension({
-            dimension,
-            verticalAxis: linearAxisConfig,
-            horizontalAxis: numericalAxisConfig,
-            cssClassFn,
-            chartDimensionSpan: 300,
-            chartNormalDimensionSpan: 300
-          })
-          break
-        case GeoChart.constants.BARS_DIMENSIONS.vertical:
-          testDimension({
-            dimension,
-            verticalAxis: numericalAxisConfig,
-            horizontalAxis: linearAxisConfig,
-            chartDimensionSpan: 300,
-            chartNormalDimensionSpan: 300
-          })
-          break
-        default:
-          console.error(`Unknown dimension: ${dimension}`)
+    describe('Line Chart with Numerical Axis', function () {
+      for (const dimension in axisNumericalDimensions) {
+        const linearAxisConfig = axisNumericalDimensions[dimension].linearAxisConfig
+        const numericalAxisConfig = axisNumericalDimensions[dimension].numericalAxisConfig
+        const cssClassFn = (original) => [...original, 'test-line-segments']
+        const getLineData = () => {
+          return _.sortBy(_.times(25, (i) => {
+            return {
+              [axisNumericalDimensions[dimension].numericalAxisConfig.keyForValues]: i,
+              [axisNumericalDimensions[dimension].linearAxisConfig.keyForValues]: _.random(0, axisNumericalDimensions[dimension].linearAxisConfig.scale.domain.end)
+            }
+          }), axisNumericalDimensions[dimension].numericalAxisConfig.keyForValues)
+        }
+        switch (dimension) {
+          case GeoChart.constants.BARS_DIMENSIONS.horizontal:
+            testDimension({
+              dimension,
+              verticalAxis: linearAxisConfig,
+              horizontalAxis: numericalAxisConfig,
+              cssClassFn,
+              chartDimensionSpan: 300,
+              chartNormalDimensionSpan: 300,
+              getLineData
+            })
+            break
+          case GeoChart.constants.BARS_DIMENSIONS.vertical:
+            testDimension({
+              dimension,
+              verticalAxis: numericalAxisConfig,
+              horizontalAxis: linearAxisConfig,
+              chartDimensionSpan: 300,
+              chartNormalDimensionSpan: 300,
+              getLineData
+            })
+            break
+          default:
+            console.error(`Unknown dimension: ${dimension}`)
+        }
       }
-    }
+    })
+    describe('Line Chart with Categorical Axis', function () {
+      for (const dimension in axisCategoricalDimensions) {
+        const linearAxisConfig = axisCategoricalDimensions[dimension].linearAxisConfig
+        const categoricalAxisConfig = axisCategoricalDimensions[dimension].categoricalAxisConfig
+        const cssClassFn = (original) => [...original, 'test-line-segments']
+        const getLineData = () => {
+          return _.map(categoricalAxisConfig.scale.domain, (category) => {
+            return {
+              [categoricalAxisConfig.keyForValues]: category,
+              [axisCategoricalDimensions[dimension].linearAxisConfig.keyForValues]: _.random(
+                axisCategoricalDimensions[dimension].linearAxisConfig.scale.domain.start,
+                axisCategoricalDimensions[dimension].linearAxisConfig.scale.domain.end,
+                false
+              )
+            }
+          })
+        }
+        switch (dimension) {
+          case GeoChart.constants.BARS_DIMENSIONS.horizontal:
+            testDimension({
+              dimension,
+              verticalAxis: linearAxisConfig,
+              horizontalAxis: categoricalAxisConfig,
+              cssClassFn,
+              chartDimensionSpan: 300,
+              chartNormalDimensionSpan: 300,
+              getLineData,
+              hasCategoricalAxis: true
+            })
+            break
+          case GeoChart.constants.BARS_DIMENSIONS.vertical:
+            testDimension({
+              dimension,
+              verticalAxis: categoricalAxisConfig,
+              horizontalAxis: linearAxisConfig,
+              chartDimensionSpan: 300,
+              chartNormalDimensionSpan: 300,
+              getLineData,
+              hasCategoricalAxis: true
+            })
+            break
+          default:
+            console.error(`Unknown dimension: ${dimension}`)
+        }
+      }
+    })
   })
 
-  function testDimension ({ dimension, verticalAxis, horizontalAxis, cssClassFn, chartDimensionSpan, chartNormalDimensionSpan }) {
+  function testDimension ({
+    dimension,
+    verticalAxis,
+    horizontalAxis,
+    cssClassFn,
+    chartDimensionSpan,
+    chartNormalDimensionSpan,
+    getLineData,
+    hasCategoricalAxis
+  }) {
     describe(`${dimension} line`, () => {
       const stubLodashDebounce = stubLodashDebounceFactory()
 
@@ -169,13 +303,7 @@ describe('GeoChartLine', () => {
 
       const idVerticalAxis = verticalAxis.id
       const idHorizontalAxis = horizontalAxis.id
-      const lineData = _.sortBy(_.times(25, (i) => {
-        return {
-          [axisDimensions[dimension].numericalAxisConfig.keyForValues]: i,
-          [axisDimensions[dimension].linearAxisConfig.keyForValues]: _.random(0, axisDimensions[dimension].linearAxisConfig.scale.domain.end)
-        }
-      }), axisDimensions[dimension].numericalAxisConfig.keyForValues)
-
+      const lineData = getLineData()
       const linesConfig = {
         axisGroups: [
           verticalAxis,
@@ -189,6 +317,19 @@ describe('GeoChartLine', () => {
           cssClasses: cssClassFn
         }]
       }
+      it('Should render one line', () => {
+        const wrapper = mount(GeoChart, {
+          propsData: {
+            config: linesConfig
+          }
+        })
+
+        flushD3Transitions()
+        expect(wrapper.find('.geo-chart').exists()).toBe(true)
+        expect(wrapper.find('.geo-chart-line-group').exists()).toBe(true)
+        expect(wrapper.findAll('.geo-chart-line-element')).toHaveLength(linesConfig.lineGroups.length)
+        wrapper.destroy()
+      })
       it('Line with no data', () => {
         linesConfig.lineGroups[0].lineData = []
         const wrapper = mount(GeoChart, {
@@ -202,19 +343,6 @@ describe('GeoChartLine', () => {
         expect(wrapper.find('.geo-chart-line-group').exists()).toBe(true)
         expect(wrapper.findAll('.geo-chart-line-element')).toHaveLength(linesConfig.lineGroups.length)
         expect(wrapper.find('.geo-chart-line-element').attributes('d')).toBe(undefined)
-        wrapper.destroy()
-      })
-      it('Should render one line', () => {
-        const wrapper = mount(GeoChart, {
-          propsData: {
-            config: linesConfig
-          }
-        })
-
-        flushD3Transitions()
-        expect(wrapper.find('.geo-chart').exists()).toBe(true)
-        expect(wrapper.find('.geo-chart-line-group').exists()).toBe(true)
-        expect(wrapper.findAll('.geo-chart-line-element')).toHaveLength(linesConfig.lineGroups.length)
         wrapper.destroy()
       })
       it('Should update data', () => {
@@ -231,12 +359,7 @@ describe('GeoChartLine', () => {
         expect(wrapper.findAll('.geo-chart-line-element')).toHaveLength(linesConfig.lineGroups.length)
         const pathD = wrapper.find('.geo-chart-line-element').attributes('d')
 
-        const lineData2 = _.sortBy(_.times(25, (i) => {
-          return {
-            [axisDimensions[dimension].numericalAxisConfig.keyForValues]: i,
-            [axisDimensions[dimension].linearAxisConfig.keyForValues]: _.random(-15, axisDimensions[dimension].linearAxisConfig.scale.domain.end)
-          }
-        }), axisDimensions[dimension].numericalAxisConfig.keyForValues)
+        const lineData2 = getLineData()
 
         const linesConfig2 = _.assign({}, linesConfig)
         linesConfig2.lineGroups[0].lineData = lineData2
@@ -254,12 +377,7 @@ describe('GeoChartLine', () => {
         wrapper.destroy()
       })
       it('Should render several lines', () => {
-        const secondLineData = _.sortBy(_.times(25, (i) => {
-          return {
-            [axisDimensions[dimension].numericalAxisConfig.keyForValues]: i,
-            [axisDimensions[dimension].linearAxisConfig.keyForValues]: _.random(-15, axisDimensions[dimension].linearAxisConfig.scale.domain.end)
-          }
-        }), axisDimensions[dimension].numericalAxisConfig.keyForValues)
+        const secondLineData = getLineData()
         linesConfig.lineGroups[1] = {
           lineData: secondLineData,
           dimension: dimension,
@@ -317,8 +435,12 @@ describe('GeoChartLine', () => {
         })
 
         it('Should display the focus group with a circle only if the hovered point has data', () => {
-          const lineData1 = [{ x: 0, y: 0 }, { x: 150, y: 150 }, { x: 300, y: 300 }]
-          const lineData2 = [{ x: 0, y: 0 }, { x: 300, y: 300 }]
+          const lineData1 = hasCategoricalAxis
+            ? [{ category: 'Category 0', y: 0 }, { category: 'Category 2', y: 150 }, { category: 'Category 4', y: 300 }]
+            : [{ x: 0, y: 0 }, { x: 150, y: 150 }, { x: 300, y: 300 }]
+          const lineData2 = hasCategoricalAxis
+            ? [{ category: 'Category 0', y: 0 }, { category: 'Category 4', y: 300 }]
+            : [{ x: 0, y: 0 }, { x: 300, y: 300 }]
           let i = 0
           sandbox.stub(d3, 'mouse').callsFake(function () {
             if (i === 0) {
