@@ -310,11 +310,15 @@ describe('GeoChartLine', () => {
           horizontalAxis
         ],
         lineGroups: [{
+          lineGroupId: 'line-id',
           lineData: lineData,
           dimension: dimension,
           idVerticalAxis: idVerticalAxis,
           idHorizontalAxis: idHorizontalAxis,
-          cssClasses: cssClassFn
+          cssClasses: cssClassFn,
+          trackByKey (d) {
+            return d.lineGroupId
+          }
         }]
       }
       it('Should render one line', () => {
@@ -446,8 +450,12 @@ describe('GeoChartLine', () => {
             if (i === 0) {
               i++
               return [0, 0]
+            } else if (i === 1) {
+              i++
+              return [150, 150]
+            } else if (i === 2) {
+              return [310, 310]
             }
-            return [150, 150]
           })
           linesConfig.lineGroups[0].lineData = lineData1
           linesConfig.lineGroups[1].lineData = lineData2
@@ -469,6 +477,9 @@ describe('GeoChartLine', () => {
           wrapper.find('.geo-chart-line-group').trigger('mousemove')
           flushD3Transitions()
           expect(wrapper.findAll('.geo-chart-line-element__hover-circle')).toHaveLength(1)
+          wrapper.find('.geo-chart-line-group').trigger('mousemove')
+          flushD3Transitions()
+          expect(wrapper.findAll('.geo-chart-line-element__hover-circle')).toHaveLength(2)
           wrapper.destroy()
         })
       })

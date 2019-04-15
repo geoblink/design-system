@@ -176,22 +176,11 @@ function positionTooltipFactory (d3TipInstance, options, globalOptions, {
       }
     }[firstGroupOptions.dimension]
 
-    if (!_.isFunction(axisForDimension.scale.axisScale.invert)) {
-      axisForDimension.scale.axisScale.invert = (function () {
-        var domain = axisForDimension.scale.axisScale.domain()
-        var range = axisForDimension.scale.axisScale.range()
-        var scale = d3.scaleQuantize().domain(range).range(domain)
-        return function (x) {
-          return scale(x)
-        }
-      })()
-    }
-
     const closestItems = getCoordClosestItems({
       axisForDimension,
       axisForNormalDimension,
       options,
-      mouseCoord
+      mousePoint: d3.mouse(this)[mouseCoord]
     })
 
     const closestItem = _.minBy(closestItems, 'distance')
@@ -274,8 +263,18 @@ function positionTooltipFactory (d3TipInstance, options, globalOptions, {
  * @param {object} params.options
 */
 
-function getCoordClosestItems ({ axisForDimension, axisForNormalDimension, mouseCoord, options }) {
-  const mainDimensionValue = axisForDimension.scale.axisScale.invert(d3.mouse(this)[mouseCoord])
+function getCoordClosestItems ({ axisForDimension, axisForNormalDimension, mousePoint, options }) {
+  if (!_.isFunction(axisForDimension.scale.axisScale.invert)) {
+    axisForDimension.scale.axisScale.invert = (function () {
+      var domain = axisForDimension.scale.axisScale.domain()
+      var range = axisForDimension.scale.axisScale.range()
+      var scale = d3.scaleQuantize().domain(range).range(domain)
+      return function (x) {
+        return scale(x)
+      }
+    })()
+  }
+  const mainDimensionValue = axisForDimension.scale.axisScale.invert(mousePoint)
   const mainDimensionValueInAxis = axisForDimension.scale.axisScale(mainDimensionValue)
   const getNearestIndexInMainAxisDomain = d3.bisector((d) => d[axisForDimension.keyForValues]).right
   return _.flatMap(options, function (singleGroupOptions) {
