@@ -1,5 +1,5 @@
 declare namespace GeoChart {
-  enum InterpolationTypes {
+  enum InterpolationType {
     'd3.curveLinear' = d3.curveLinear,
     'd3.curveStepBefore' = d3.curveStepBefore,
     'd3.curveStepAfter' = d3.curveStepAfter,
@@ -21,15 +21,17 @@ declare namespace GeoChart {
   }
   interface SingleLineGroupConfig<HorizontalDomain, VerticalDomain> {
     id: number
+    lineGroupId?: string,
     dimension: GeoChart.BarDimension
     axis: {
       horizontal: GeoChart.AxisConfig<HorizontalDomain, any>
       vertical: GeoChart.AxisConfig<VerticalDomain, any>
     }
     lineData: object[]
-    lineWidth: number,
-    interpolationFn: {},
-    tooltip: {
+    lineWidth?: number,
+    hoverCircleRadius?: number,
+    interpolationFn?: () => InterpolationType,
+    tooltip?: {
       getContent?: (item: object, index: number) => string | null | undefined
       getOffset?: (event: MouseEvent) => { x: number, y: number } | null | undefined
     }

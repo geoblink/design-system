@@ -966,6 +966,16 @@ export default {
         <geo-primary-button @click="randomizeData()">
           Randomize data
         </geo-primary-button>
+        <geo-primary-button @click="addLine()">
+          Add line
+        </geo-primary-button>
+        <geo-danger-button
+          v-for="lineGroup in extraLineGroups"
+          :key="lineGroup.lineGroupId"
+          @click="removeLine(lineGroup.lineGroupId)"
+        >
+          Remove line ({{ lineGroup.lineGroupId }})
+        </geo-danger-button>
         <geo-secondary-button @click="toggleGraph()">
           Toggle Graph
         </geo-secondary-button>
@@ -991,9 +1001,8 @@ export default {
   data () {
     return {
       lineData: _.times(13, (v) => ({ x: v, y: _.random(0, 20) })),
-      lineData2: _.times(13, (v) => ({ x: v, y: _.random(0, 20) })),
-      lineData3: _.times(13, (v) => ({ x: v, y: _.random(0, 20) })),
-      isGraphVisible: true
+      isGraphVisible: true,
+      extraLineGroups: []
     }
   },
   computed: {
@@ -1005,7 +1014,23 @@ export default {
         }
       }
     },
-
+    lineGroups () {
+      return [...this.defaultLineGroup, ...this.extraLineGroups]
+    },
+    defaultLineGroup () {
+      return [
+        {
+          idVerticalAxis: this.linearAxisConfig.id,
+          idHorizontalAxis: this.numericalAxisConfig.id,
+          dimension: BARS_DIMENSIONS.horizontal,
+          lineData: _.times(13, (v) => ({ x: v, y: _.random(0, 20) })),
+          lineWidth: 2,
+          hoverCircleRadius: 6,
+          interpolationFn: INTERPOLATION_TYPES['d3.curveCardinal'],
+          tooltip: this.tooltipFunction
+        }
+      ]
+    },
     linearAxisConfig () {
       return {
         id: 'demo-linear-axis',
@@ -1044,7 +1069,7 @@ export default {
       }
     },
     chartConfig () {
-      if (!this.lineData || !this.lineData2) return null
+      if (!this.lineData) return null
 
       return {
         chart: {
@@ -1060,49 +1085,37 @@ export default {
           this.linearAxisConfig,
           this.numericalAxisConfig
         ],
-        lineGroups: [
-          {
-            idVerticalAxis: this.linearAxisConfig.id,
-            idHorizontalAxis: this.numericalAxisConfig.id,
-            dimension: BARS_DIMENSIONS.horizontal,
-            lineData: this.lineData,
-            lineWidth: 2,
-            hoverCircleRadius: 6,
-            interpolationFn: INTERPOLATION_TYPES['d3.curveCardinal'],
-            tooltip: this.tooltipFunction
-          },
-          {
-            idVerticalAxis: this.linearAxisConfig.id,
-            idHorizontalAxis: this.numericalAxisConfig.id,
-            dimension: BARS_DIMENSIONS.horizontal,
-            lineData: this.lineData2,
-            lineWidth: 2,
-            hoverCircleRadius: 6,
-            interpolationFn: INTERPOLATION_TYPES['d3.curveCardinal'],
-            tooltip: this.tooltipFunction
-          },
-          {
-            idVerticalAxis: this.linearAxisConfig.id,
-            idHorizontalAxis: this.numericalAxisConfig.id,
-            dimension: BARS_DIMENSIONS.horizontal,
-            lineData: this.lineData3,
-            lineWidth: 2,
-            hoverCircleRadius: 6,
-            interpolationFn: INTERPOLATION_TYPES['d3.curveCardinal'],
-            tooltip: this.tooltipFunction
-          }
-        ]
+        lineGroups: this.lineGroups
       }
     }
   },
   methods: {
     randomizeData () {
       this.lineData = _.times(13, (v) => ({ x: v, y: _.random(0, 20) }))
-      this.lineData2 = _.times(13, (v) => ({ x: v, y: _.random(0, 20) }))
-      this.lineData3 = _.times(13, (v) => ({ x: v, y: _.random(0, 20) }))
     },
     toggleGraph () {
       this.isGraphVisible = !this.isGraphVisible
+    },
+    addLine () {
+      this.extraLineGroups.push({
+        lineGroupId: `Line-${this.extraLineGroups.length}`,
+        idVerticalAxis: this.linearAxisConfig.id,
+        idHorizontalAxis: this.numericalAxisConfig.id,
+        dimension: BARS_DIMENSIONS.horizontal,
+        lineData: _.times(13, (v) => ({ x: v, y: _.random(0, 20) })),
+        lineWidth: 2,
+        hoverCircleRadius: 6,
+        interpolationFn: INTERPOLATION_TYPES['d3.curveCardinal'],
+        tooltip: this.tooltipFunction,
+        trackByKey (d, i) {
+          return d.lineGroupId
+        }
+      })
+    },
+    removeLine (lineId) {
+      if (!this.extraLineGroups.length) return
+      const lineIndex = _.findIndex(this.extraLineGroups, { lineGroupId: lineId })
+      this.extraLineGroups.splice(lineIndex, 1)
     }
   }
 }

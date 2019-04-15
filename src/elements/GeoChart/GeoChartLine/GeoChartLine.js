@@ -21,7 +21,7 @@ const d3 = (function () {
 })()
 
 /**
- * @enum {GeoChart.InterpolationTypes}
+ * @enum {GeoChart.InterpolationType}
  */
 export const INTERPOLATION_TYPES = {
   'd3.curveLinear': d3.curveLinear,
@@ -62,7 +62,11 @@ export function render (d3Instance, d3TipInstance, options, globalOptions) {
 
   const groups = d3Instance
     .selectAll('g.geo-chart-line-group')
-    .data(options)
+    .data(options, (singleGroupOptions) => {
+      if (singleGroupOptions.trackByKey) {
+        return singleGroupOptions.trackByKey(singleGroupOptions)
+      }
+    })
 
   const newGroups = groups
     .enter()
@@ -79,8 +83,6 @@ export function render (d3Instance, d3TipInstance, options, globalOptions) {
   newFocusGroups
     .append('line')
     .attr('class', 'hover-line')
-    .attr('stroke-width', '2px')
-    .attr('stroke', '#000')
 
   const focusGroup = d3Instance.selectAll(`g.${FOCUS_GROUP_DEFAULT_CLASS}`)
   d3Instance
@@ -101,8 +103,6 @@ export function render (d3Instance, d3TipInstance, options, globalOptions) {
     const group = d3.select(this)
     group
       .append('path')
-      .attr('fill', 'none')
-      .attr('stroke', '#000')
       .attr('class', getLineCssClassesFactory(singleGroupOptions))
       .attr('d', getInitialLine(singleGroupOptions))
   })
@@ -186,42 +186,14 @@ function positionTooltipFactory (d3TipInstance, options, globalOptions, {
         }
       })()
     }
-    const mainDimensionValue = axisForDimension.scale.axisScale.invert(d3.mouse(this)[mouseCoord])
-    const mainDimensionValueInAxis = axisForDimension.scale.axisScale(mainDimensionValue)
-    const getNearestIndexInMainAxisDomain = d3.bisector((d) => d[axisForDimension.keyForValues]).right
 
-    const closestItems = _.flatMap(options, function (singleGroupOptions) {
-      const index = getNearestIndexInMainAxisDomain(singleGroupOptions.lineData, mainDimensionValue, 1)
-      const leadingItem = singleGroupOptions.lineData[index - 1]
-      const trailingItem = singleGroupOptions.lineData[index]
-      const leadingDistance = _.get(leadingItem, axisForDimension.keyForValues, Number.MAX_VALUE)
-      const trailingDistance = _.get(trailingItem, axisForDimension.keyForValues, Number.MAX_VALUE)
-      const leadingDistanceValue = Math.abs(axisForDimension.scale.axisScale(leadingDistance) - mainDimensionValueInAxis)
-      const trailingDistanceValue = Math.abs(axisForDimension.scale.axisScale(trailingDistance) - mainDimensionValueInAxis)
-      const bandwidth = axisForDimension.scale.axisScale.bandwidth ? axisForDimension.scale.axisScale.bandwidth() / 2 : 0
-      const leadingObject = leadingItem && {
-        item: leadingItem,
-        distance: leadingDistanceValue,
-        normalValue: axisForNormalDimension.scale.axisScale(leadingItem[axisForNormalDimension.keyForValues]),
-        mainValue: axisForDimension.scale.axisScale(leadingItem[axisForDimension.keyForValues]) + bandwidth,
-        singleGroupOptions
-      }
-      const trailingObject = trailingItem && {
-        item: trailingItem,
-        distance: trailingDistanceValue,
-        normalValue: axisForNormalDimension.scale.axisScale(trailingItem[axisForNormalDimension.keyForValues]),
-        mainValue: axisForDimension.scale.axisScale(trailingItem[axisForDimension.keyForValues]) + bandwidth,
-        singleGroupOptions
-      }
-
-      if (leadingObject && trailingObject) {
-        if (leadingDistanceValue === trailingDistanceValue) return [leadingObject, trailingObject]
-      }
-
-      return trailingDistanceValue < leadingDistanceValue
-        ? trailingObject && [trailingObject]
-        : leadingObject && [leadingObject]
+    const closestItems = getCoordClosestItems({
+      axisForDimension,
+      axisForNormalDimension,
+      options,
+      mouseCoord
     })
+
     const closestItem = _.minBy(closestItems, 'distance')
     if (!closestItem) return
     const linesWithData = _.filter(closestItems, { mainValue: closestItem.mainValue })
@@ -232,9 +204,7 @@ function positionTooltipFactory (d3TipInstance, options, globalOptions, {
         ? absolutePosition.y
         : absolutePosition.x
     }
-    const lowestAndHighestValuesInLines = d3.extent([...linesWithData, lineForMainAxis], (d, i) => d.normalValue)
-    const lowestNormalAxisValue = lowestAndHighestValuesInLines[0]
-    const highestNormalAxisValue = lowestAndHighestValuesInLines[1]
+    const [lowestNormalAxisValue, highestNormalAxisValue] = d3.extent([...linesWithData, lineForMainAxis], (d, i) => d.normalValue)
 
     const { x1, y1, x2, y2, xTranslation, yTranslation } = {
       [DIMENSIONS.horizontal]: {
@@ -255,67 +225,128 @@ function positionTooltipFactory (d3TipInstance, options, globalOptions, {
       }
     }[firstGroupOptions.dimension]
 
-    const circles = focusGroup
-      .selectAll(`circle.${hoverCircleBaseClass}`)
-      .data(linesWithData)
+    setHoverCircles()
+    setHoverLine()
 
-    circles
-      .exit()
-      .remove()
+    function setHoverCircles () {
+      const circles = focusGroup
+        .selectAll(`circle.${hoverCircleBaseClass}`)
+        .data(linesWithData)
 
-    const newCircles = circles
-      .enter()
-      .append('circle')
-      .attr('cursor', 'pointer')
+      circles
+        .exit()
+        .remove()
 
-    const updatedCircles = circles
-    const allCircles = newCircles.merge(updatedCircles)
+      const newCircles = circles
+        .enter()
+        .append('circle')
+        .attr('cursor', 'pointer')
+        .attr('stroke-width', (d) => d.singleGroupOptions.lineWidth)
 
-    allCircles
-      .attr('class', getHoverCirclesCssClasses)
-      .attr('r', (d) => d.singleGroupOptions.hoverCircleRadius || DEFAULT_HOVER_CIRCLE_RADIUS)
-      .attr('cx', (d) => getCircleCoordinates(d, firstGroupOptions.dimension).cx)
-      .attr('cy', (d) => getCircleCoordinates(d, firstGroupOptions.dimension).cy)
-      .each(function (d) {
-        const circle = d3.select(this)
-        setupTooltipEventListeners(circle, d3TipInstance, d.singleGroupOptions.tooltip)
-        circle
-          .on('mouseover', (d, i) => {
-            circle
-              .transition()
-              .duration(100)
-              .attr('stroke-width', d.singleGroupOptions.lineWidth)
-          })
-          .on('mouseout', (d) => {
-            circle
-              .transition()
-              .duration(100)
-              .attr('stroke-width', null)
-          })
-      })
+      const updatedCircles = circles
+      const allCircles = newCircles.merge(updatedCircles)
 
-    function getCircleCoordinates (datum, dimension) {
-      const circleCoordinates = {
-        [DIMENSIONS.horizontal]: {
-          cx: 0,
-          cy: axisForNormalDimension.scale.axisScale(datum.item[axisForNormalDimension.keyForValues])
-        },
-        [DIMENSIONS.vertical]: {
-          cx: axisForNormalDimension.scale.axisScale(datum.item[axisForNormalDimension.keyForValues]),
-          cy: 0
-        }
-      }
-      return circleCoordinates[dimension]
+      allCircles
+        .attr('class', getHoverCirclesCssClasses)
+        .attr('r', (d) => d.singleGroupOptions.hoverCircleRadius || DEFAULT_HOVER_CIRCLE_RADIUS)
+        .attr('cx', (d) => getCircleCoordinates(d, firstGroupOptions.dimension, axisForNormalDimension).cx)
+        .attr('cy', (d) => getCircleCoordinates(d, firstGroupOptions.dimension, axisForNormalDimension).cy)
+        .each((d) => setupCircleEvents(d, d3TipInstance))
     }
 
-    focusGroup.attr('transform', `translate(${xTranslation}, ${yTranslation})`)
-    focusGroup
-      .select('.hover-line')
-      .attr('x1', x1)
-      .attr('y1', y1)
-      .attr('x2', x2)
-      .attr('y2', y2)
+    function setHoverLine () {
+      focusGroup.attr('transform', `translate(${xTranslation}, ${yTranslation})`)
+      focusGroup
+        .select('.hover-line')
+        .attr('x1', x1)
+        .attr('y1', y1)
+        .attr('x2', x2)
+        .attr('y2', y2)
+    }
   }
+}
+
+/**
+ * @param {object} params
+ * @param {GeoChart.AxisConfig<Domain>} params.axisForDimension
+ * @param {GeoChart.AxisConfig<Domain>} params.axisForNormalDimension
+ * @param {number} params.mouseCoord
+ * @param {object} params.options
+*/
+
+function getCoordClosestItems ({ axisForDimension, axisForNormalDimension, mouseCoord, options }) {
+  const mainDimensionValue = axisForDimension.scale.axisScale.invert(d3.mouse(this)[mouseCoord])
+  const mainDimensionValueInAxis = axisForDimension.scale.axisScale(mainDimensionValue)
+  const getNearestIndexInMainAxisDomain = d3.bisector((d) => d[axisForDimension.keyForValues]).right
+  return _.flatMap(options, function (singleGroupOptions) {
+    const index = getNearestIndexInMainAxisDomain(singleGroupOptions.lineData, mainDimensionValue, 1)
+    const leadingItem = singleGroupOptions.lineData[index - 1]
+    const trailingItem = singleGroupOptions.lineData[index]
+    const leadingDistance = _.get(leadingItem, axisForDimension.keyForValues, Number.MAX_VALUE)
+    const trailingDistance = _.get(trailingItem, axisForDimension.keyForValues, Number.MAX_VALUE)
+    const leadingDistanceValue = Math.abs(axisForDimension.scale.axisScale(leadingDistance) - mainDimensionValueInAxis)
+    const trailingDistanceValue = Math.abs(axisForDimension.scale.axisScale(trailingDistance) - mainDimensionValueInAxis)
+    const bandwidth = axisForDimension.scale.axisScale.bandwidth ? axisForDimension.scale.axisScale.bandwidth() / 2 : 0
+
+    if (!leadingItem && !trailingItem) return
+
+    const leadingObject = leadingItem && {
+      item: leadingItem,
+      distance: leadingDistanceValue,
+      normalValue: axisForNormalDimension.scale.axisScale(leadingItem[axisForNormalDimension.keyForValues]),
+      mainValue: axisForDimension.scale.axisScale(leadingItem[axisForDimension.keyForValues]) + bandwidth,
+      singleGroupOptions
+    }
+
+    const trailingObject = trailingItem && {
+      item: trailingItem,
+      distance: trailingDistanceValue,
+      normalValue: axisForNormalDimension.scale.axisScale(trailingItem[axisForNormalDimension.keyForValues]),
+      mainValue: axisForDimension.scale.axisScale(trailingItem[axisForDimension.keyForValues]) + bandwidth,
+      singleGroupOptions
+    }
+
+    if (!leadingItem) {
+      return [trailingObject]
+    } else if (!trailingItem) {
+      return [leadingObject]
+    }
+
+    if (leadingDistanceValue === trailingDistanceValue) return [leadingObject, trailingObject]
+
+    return trailingDistanceValue < leadingDistanceValue
+      ? [trailingObject]
+      : [leadingObject]
+  })
+}
+
+/**
+ * @param {object} datum
+ * @enum {GeoChart.BarDimension}
+ * @param {GeoChart.AxisConfig<Domain>}
+ */
+function getCircleCoordinates (datum, dimension, axisForNormalDimension) {
+  const circleCoordinates = {
+    [DIMENSIONS.horizontal]: {
+      cx: 0,
+      cy: axisForNormalDimension.scale.axisScale(datum.item[axisForNormalDimension.keyForValues])
+    },
+    [DIMENSIONS.vertical]: {
+      cx: axisForNormalDimension.scale.axisScale(datum.item[axisForNormalDimension.keyForValues]),
+      cy: 0
+    }
+  }
+  return circleCoordinates[dimension]
+}
+
+/**
+ * @param {object} d
+ * @param {d3.Selection<GElement, Datum, PElement, PDatum>} d3TipInstance
+ */
+
+function setupCircleEvents (d, d3TipInstance) {
+  const circle = d3.select(this)
+  setupTooltipEventListeners(circle, d3TipInstance, d.singleGroupOptions.tooltip)
 }
 
 /**
@@ -345,6 +376,7 @@ function getInitialLine (singleGroupOptions) {
         : d[singleGroupOptions.axis.vertical.keyForValues]
       return yScale(valueForScale)
     })
+    .curve(singleGroupOptions.interpolationFn || DEFAULT_INTERPOLATION_FUNCTION)
   return initialLine(singleGroupOptions.lineData)
 }
 
@@ -355,12 +387,11 @@ function getLineCssClassesFactory (singleGroupOptions) {
       `geo-chart-line-element--${singleGroupOptions.dimension}`
     ]
 
-    if (singleGroupOptions.cssClasses) {
-      const customClasses = singleGroupOptions.cssClasses(defaultClasses, d, i)
-      return _.uniq([...customClasses, lineBaseClass]).join(' ')
-    }
+    const customClasses = _.isFunction(singleGroupOptions.cssClasses)
+      ? singleGroupOptions.cssClasses(defaultClasses, d, i)
+      : defaultClasses
 
-    return defaultClasses.join(' ')
+    return _.uniq([...customClasses, lineBaseClass]).join(' ')
   }
 }
 
@@ -371,10 +402,9 @@ function getHoverCirclesCssClasses (d, i) {
     `geo-chart-focus-group-element__hover-circle--${d.singleGroupOptions.dimension}`
   ]
 
-  if (d.singleGroupOptions.cssClasses) {
-    const customClasses = d.singleGroupOptions.cssClasses(defaultClasses, d.item, i)
-    return _.uniq([...customClasses, hoverCircleBaseClass]).join(' ')
-  }
+  const customClasses = _.isFunction(d.singleGroupOptions.cssClasses)
+    ? d.singleGroupOptions.cssClasses(defaultClasses, d.item, i)
+    : defaultClasses
 
-  return defaultClasses.join(' ')
+  return _.uniq([...customClasses, hoverCircleBaseClass]).join(' ')
 }

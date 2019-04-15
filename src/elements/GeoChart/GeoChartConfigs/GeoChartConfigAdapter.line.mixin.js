@@ -35,6 +35,7 @@ export default {
 
         return {
           id: index,
+          lineGroupId: singleLineGroupsConfig.lineGroupId,
           axis,
           lineData: singleLineGroupsConfig.lineData,
           lineWidth: singleLineGroupsConfig.lineWidth,
@@ -42,7 +43,8 @@ export default {
           interpolationFn: singleLineGroupsConfig.interpolationFn,
           dimension: singleLineGroupsConfig.dimension,
           tooltip: tooltipConfig,
-          cssClasses: singleLineGroupsConfig.cssClasses
+          cssClasses: singleLineGroupsConfig.cssClasses,
+          trackByKey: singleLineGroupsConfig.trackByKey
         }
       })
       ChartLine.render(this.d3Instance, this.d3TipInstance, lineGroupsConfig, { chart })

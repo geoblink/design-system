@@ -630,6 +630,9 @@ export const lineConfigSchema = {
   additionalProperties: false,
   required: ['lineData', 'dimension', 'idHorizontalAxis', 'idVerticalAxis'],
   properties: {
+    lineGroupId: {
+      type: 'string'
+    },
     lineData: {
       type: 'array',
       additionalItems: false,
@@ -661,7 +664,9 @@ export const lineConfigSchema = {
     // the bar of each item. Note that there might be some of the default classes
     // might be added regardless to your customization as they are required
     // internally.
-    cssClasses: {}
+    cssClasses: {},
+    // Function that returns the property that is needed by D3 to track data changes correctly
+    trackByKey: {}
   }
 }
 

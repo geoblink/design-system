@@ -158,9 +158,10 @@ $line-colors: (
   4: $color-yellow-darker,
 );
 
-@for $i from 0 through 15 {
+@for $i from 0 through 4 {
   .geo-chart-line-group--#{$i} .geo-chart-line-element {
     stroke: map-get($line-colors, $i);
+    fill: none;
   }
   .geo-chart-focus-group-element__hover-circle--#{$i} {
     fill: map-get($line-colors, $i);
@@ -193,6 +194,7 @@ $rankLineColors: (
 
 .hover-overlay__focus .hover-line {
   stroke: $color-grey;
+  stroke-width: 2px;
 }
 
 .geo-chart-line-element__hover-circle:hover {
