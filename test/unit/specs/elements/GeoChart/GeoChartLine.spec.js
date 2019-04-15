@@ -454,7 +454,7 @@ describe('GeoChartLine', () => {
               i++
               return [150, 150]
             } else if (i === 2) {
-              return [310, 310]
+              return [300, 300]
             }
           })
           linesConfig.lineGroups[0].lineData = lineData1

@@ -1,5 +1,47 @@
-`GeoChartLine` Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-eiusmod tempor incididunt ut labore et dolore magna aliqua.
+Use this chart to display information as a series of data points connected by straight line segments.
+This chart can be used in combination with [GeoChartBars](./#/Elements/Charts?id=geochartbars).
+
+To add line **groups** to a chart, add an array to `lineGroups` key of [GeoChart](./#/Elements/Charts?id=introduction)'s config.
+Each item of the array must be an object with the following:
+
+## Required properties
+
+- `lineData`: Array of objects, each one representing a with two values that will be converted into x,y point coordinates across the axes.
+- `dimension`: A value of `BARS_DIMENSIONS` named export (either `horizontal` or `vertical`).
+- `idHorizontalAxis`: The ID of the axis defining the `horizontal` dimension.
+- `idVerticalAxis`: The ID of the axis defining the `vertical` dimension.
+
+**Note:** `idHorizontalAxis` and `idVerticalAxis` must be IDs of registered axes. See [Axes](./#/Elements/Charts?id=axes) for more info.
+
+## Optional properties
+
+
+- `lineGroupId`: Unique ID for each line that can be used to track each one of them in case the user wants to add/remove lines from the chart.
+- `lineWidth`: Width in pixels of each one of the lines. If no width is provided, a default width of `2px` will be applied.
+- `hoverCircleRadius`: Radius in pixels of the circles that will be displayed when hovering on the graph. If no width is provided, a default width of `2px` will be applied.
+- `interpolationFn`: Choose one of the functions provided by D3 to handle the interpolation of the segments connecting each one of your data points. If no function is provided,
+a default `d3.curveLinear` will be applied.
+- `trackByKey`: Define this function to let D3 know which property of your data will be used to track changes in it.
+
+### Tooltips
+
+Each line can customize the tooltip displayed when it's hovered by setting the
+key `tooltip`. This key must store an object with the following shape:
+
+- `content`: **Required**. Function that takes as parameters the item
+corresponding to the line being customized and its position inside the data array.
+It's expected to return a HTML string that will be rendered inside a tooltip.
+- `offset`: *Optional*. Function that takes as parameter the event triggering the
+tooltip and is expected to return an object with an `x` and a `y` property, both
+storing numbers that will be used as offset of the tooltip with respect to event
+coordinates. By default tooltip will be positioned above cursor.
+
+### Customizing CSS classes
+
+Each line can customize its CSS classes by setting a function for key `cssClasses`.
+This function takes as parameters the array of classes that would be set by
+default, the item corresponding to the line being customized and its position
+inside the data array.
 
 ```vue
 <template>
