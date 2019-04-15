@@ -56,43 +56,43 @@ describe('GeoChartLine', () => {
           }
         }
       }
-    }
-    // vertical: {
-    //   linearAxisConfig: {
-    //     id: 'spec-linear-axis',
-    //     keyForValues: 'x',
-    //     ticks: {
-    //       count: 2
-    //     },
-    //     position: {
-    //       type: GeoChart.constants.POSITIONS.bottom
-    //     },
-    //     scale: {
-    //       type: GeoChart.constants.SCALE_TYPES.linear,
-    //       valueForOrigin: 0,
-    //       domain: {
-    //         start: 0,
-    //         end: 300
-    //       }
-    //     }
-    //   },
+    },
+    vertical: {
+      linearAxisConfig: {
+        id: 'spec-linear-axis',
+        keyForValues: 'x',
+        ticks: {
+          count: 2
+        },
+        position: {
+          type: GeoChart.constants.POSITIONS.bottom
+        },
+        scale: {
+          type: GeoChart.constants.SCALE_TYPES.linear,
+          valueForOrigin: 0,
+          domain: {
+            start: 0,
+            end: 300
+          }
+        }
+      },
 
-    //   numericalAxisConfig: {
-    //     id: 'demo-numerical-axis',
-    //     keyForValues: 'y',
-    //     position: {
-    //       type: GeoChart.constants.POSITIONS.left
-    //     },
-    //     scale: {
-    //       type: GeoChart.constants.SCALE_TYPES.linear,
-    //       valueForOrigin: 0,
-    //       domain: {
-    //         start: 0,
-    //         end: 300
-    //       }
-    //     }
-    //   }
-    // }
+      numericalAxisConfig: {
+        id: 'demo-numerical-axis',
+        keyForValues: 'y',
+        position: {
+          type: GeoChart.constants.POSITIONS.left
+        },
+        scale: {
+          type: GeoChart.constants.SCALE_TYPES.linear,
+          valueForOrigin: 0,
+          domain: {
+            start: 0,
+            end: 300
+          }
+        }
+      }
+    }
   }
   const stubGetBBox = stubGetBBoxFactory()
   const stubGetScreenCTM = stubGetScreenCTMFactory()

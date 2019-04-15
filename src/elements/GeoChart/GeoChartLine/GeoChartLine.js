@@ -71,16 +71,6 @@ export function render (d3Instance, d3TipInstance, options, globalOptions) {
       `geo-chart-line-group geo-chart-line-group--${singleGroupOptions.id}`
     )
 
-  newGroups.each(function (singleGroupOptions, i) {
-    const group = d3.select(this)
-    group
-      .append('path')
-      .attr('fill', 'none')
-      .attr('stroke', '#000')
-      .attr('class', getLineCssClassesFactory(singleGroupOptions))
-      .attr('d', getInitialLine(singleGroupOptions))
-  })
-
   const newFocusGroups = d3Instance
     .append('g')
     .attr('class', FOCUS_GROUP_DEFAULT_CLASS)
@@ -106,6 +96,16 @@ export function render (d3Instance, d3TipInstance, options, globalOptions) {
     .duration(globalOptions.chart.animationsDurationInMilliseconds)
     .style('opacity', 0)
     .remove()
+
+  newGroups.each(function (singleGroupOptions, i) {
+    const group = d3.select(this)
+    group
+      .append('path')
+      .attr('fill', 'none')
+      .attr('stroke', '#000')
+      .attr('class', getLineCssClassesFactory(singleGroupOptions))
+      .attr('d', getInitialLine(singleGroupOptions))
+  })
 
   const updatedGroups = groups
   const allGroups = newGroups.merge(updatedGroups)
@@ -137,7 +137,8 @@ function renderSingleGroup (d3Instance, group, singleGroupOptions, globalOptions
 
   const line = d3.line()
     .x((d, i) => {
-      return xScale(d[singleGroupOptions.axis.horizontal.keyForValues])
+      const bandwidth = xScale.bandwidth ? xScale.bandwidth() / 2 : 0
+      return xScale(d[singleGroupOptions.axis.horizontal.keyForValues]) + bandwidth
     })
     .y((d, i) => {
       return yScale(d[singleGroupOptions.axis.vertical.keyForValues])
@@ -197,18 +198,19 @@ function positionTooltipFactory (d3TipInstance, options, globalOptions, {
       const trailingDistance = _.get(trailingItem, axisForDimension.keyForValues, Number.MAX_VALUE)
       const leadingDistanceValue = Math.abs(axisForDimension.scale.axisScale(leadingDistance) - mainDimensionValueInAxis)
       const trailingDistanceValue = Math.abs(axisForDimension.scale.axisScale(trailingDistance) - mainDimensionValueInAxis)
+      const bandwidth = axisForDimension.scale.axisScale.bandwidth ? axisForDimension.scale.axisScale.bandwidth() / 2 : 0
       const leadingObject = leadingItem && {
         item: leadingItem,
         distance: leadingDistanceValue,
         normalValue: axisForNormalDimension.scale.axisScale(leadingItem[axisForNormalDimension.keyForValues]),
-        mainValue: axisForDimension.scale.axisScale(leadingItem[axisForDimension.keyForValues]),
+        mainValue: axisForDimension.scale.axisScale(leadingItem[axisForDimension.keyForValues]) + bandwidth,
         singleGroupOptions
       }
       const trailingObject = trailingItem && {
         item: trailingItem,
         distance: trailingDistanceValue,
         normalValue: axisForNormalDimension.scale.axisScale(trailingItem[axisForNormalDimension.keyForValues]),
-        mainValue: axisForDimension.scale.axisScale(trailingItem[axisForDimension.keyForValues]),
+        mainValue: axisForDimension.scale.axisScale(trailingItem[axisForDimension.keyForValues]) + bandwidth,
         singleGroupOptions
       }
 
@@ -343,7 +345,7 @@ function getInitialLine (singleGroupOptions) {
         : d[singleGroupOptions.axis.vertical.keyForValues]
       return yScale(valueForScale)
     })
-  return initialLine
+  return initialLine(singleGroupOptions.lineData)
 }
 
 function getLineCssClassesFactory (singleGroupOptions) {
