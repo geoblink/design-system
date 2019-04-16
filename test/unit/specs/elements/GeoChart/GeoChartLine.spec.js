@@ -456,7 +456,13 @@ describe('GeoChartLine', () => {
             }
           })
           linesConfig.lineGroups[0].lineData = lineData1
-          linesConfig.lineGroups[1].lineData = lineData2
+          linesConfig.lineGroups[1] = {
+            lineData: lineData2,
+            dimension: dimension,
+            idVerticalAxis: idVerticalAxis,
+            idHorizontalAxis: idHorizontalAxis
+          }
+
           const wrapper = mount(GeoChart, {
             propsData: {
               config: linesConfig,

@@ -157,43 +157,43 @@ function positionTooltipFactory (d3TipInstance, options, globalOptions, {
   focusGroup
 }) {
   return function () {
-    const firstGroupOptions = options[0]
-    const {
-      axisForDimension,
-      axisForNormalDimension,
-      mouseCoord
-    } = {
-      [DIMENSIONS.horizontal]: {
-        axisForDimension: firstGroupOptions.axis.horizontal,
-        axisForNormalDimension: firstGroupOptions.axis.vertical,
-        mouseCoord: 0
-      },
-      [DIMENSIONS.vertical]: {
-        axisForDimension: firstGroupOptions.axis.vertical,
-        axisForNormalDimension: firstGroupOptions.axis.horizontal,
-        mouseCoord: 1
-      }
-    }[firstGroupOptions.dimension]
+    const mouseCoords = d3.mouse(this)
+    const closestItems = _.flatMap(options, (singleGroupOptions) => {
+      const {
+        axisForDimension,
+        axisForNormalDimension,
+        mousePoint
+      } = {
+        [DIMENSIONS.horizontal]: {
+          axisForDimension: singleGroupOptions.axis.horizontal,
+          axisForNormalDimension: singleGroupOptions.axis.vertical,
+          mousePoint: mouseCoords[0]
+        },
+        [DIMENSIONS.vertical]: {
+          axisForDimension: singleGroupOptions.axis.vertical,
+          axisForNormalDimension: singleGroupOptions.axis.horizontal,
+          mousePoint: mouseCoords[1]
+        }
+      }[singleGroupOptions.dimension]
 
-    const closestItems = getCoordClosestItems({
-      axisForDimension,
-      axisForNormalDimension,
-      options,
-      mousePoint: d3.mouse(this)[mouseCoord]
+      return getCoordClosestItems({
+        axisForDimension,
+        axisForNormalDimension,
+        singleGroupOptions,
+        mousePoint
+      })
     })
 
     const closestItem = _.minBy(closestItems, 'distance')
     if (!closestItem) return
     const linesWithData = _.filter(closestItems, { mainValue: closestItem.mainValue })
+    setHoverCircles(d3TipInstance, focusGroup, linesWithData)
 
-    const { absolutePosition } = getDrawingEnvironment(axisForDimension, globalOptions)
     const lineForMainAxis = {
-      normalValue: firstGroupOptions.dimension === DIMENSIONS.horizontal
-        ? absolutePosition.y
-        : absolutePosition.x
+      normalValue: getMainAxisNormalDimensionValueInPx(options, globalOptions)
     }
+    const dimension = options[0].dimension
     const [lowestNormalAxisValue, highestNormalAxisValue] = d3.extent([...linesWithData, lineForMainAxis], (d, i) => d.normalValue)
-
     const coordsForDimension = {
       [DIMENSIONS.horizontal]: {
         x1: null,
@@ -211,11 +211,26 @@ function positionTooltipFactory (d3TipInstance, options, globalOptions, {
         xTranslation: 0,
         yTranslation: closestItem.mainValue
       }
-    }[firstGroupOptions.dimension]
-
-    setHoverCircles(d3TipInstance, firstGroupOptions, axisForNormalDimension, focusGroup, linesWithData)
+    }[dimension]
     setHoverLine(focusGroup, coordsForDimension)
   }
+}
+
+function getMainAxisNormalDimensionValueInPx (options, globalOptions) {
+  const {
+    axisForDimension
+  } = {
+    [DIMENSIONS.horizontal]: {
+      axisForDimension: options[0].axis.horizontal
+    },
+    [DIMENSIONS.vertical]: {
+      axisForDimension: options[0].axis.vertical
+    }
+  }[options[0].dimension]
+  const { absolutePosition } = getDrawingEnvironment(axisForDimension, globalOptions)
+  return options[0].dimension === DIMENSIONS.horizontal
+    ? absolutePosition.y
+    : absolutePosition.x
 }
 
 /**
@@ -225,11 +240,10 @@ function positionTooltipFactory (d3TipInstance, options, globalOptions, {
  * @template PDatum
  * @param {d3.Selection<GElement, Datum, PElement, PDatum>} d3TipInstance
  * @param {object} firstGroupOptions
- * @param {GeoChart.AxisConfig<Domain>} axisForNormalDimension
  * @param {d3.Selection<GElement, Datum, PElement, PDatum>} focusGroup
  * @param {object} linesWithData
  */
-function setHoverCircles (d3TipInstance, firstGroupOptions, axisForNormalDimension, focusGroup, linesWithData) {
+function setHoverCircles (d3TipInstance, focusGroup, linesWithData) {
   const circles = focusGroup
     .selectAll(`circle.${hoverCircleBaseClass}`)
     .data(linesWithData)
@@ -250,9 +264,9 @@ function setHoverCircles (d3TipInstance, firstGroupOptions, axisForNormalDimensi
   allCircles
     .attr('class', getHoverCirclesCssClasses)
     .attr('r', (d) => _.defaultTo(d.singleGroupOptions.hoverCircleRadius, DEFAULT_HOVER_CIRCLE_RADIUS))
-    .attr('cx', (d) => getCircleCoordinates(d, firstGroupOptions.dimension, axisForNormalDimension).cx)
-    .attr('cy', (d) => getCircleCoordinates(d, firstGroupOptions.dimension, axisForNormalDimension).cy)
-    .each((d) => setupCircleEvents(d, d3TipInstance))
+    .attr('cx', getCircleCoordinatesFactory('cx'))
+    .attr('cy', getCircleCoordinatesFactory('cy'))
+    .each(setupCircleEventsFactory(d3TipInstance))
 }
 
 /**
@@ -279,7 +293,7 @@ function setHoverLine (focusGroup, { xTranslation, yTranslation, x1, x2, y1, y2 
     .attr('y2', y2)
 }
 
-function getMockInvertFunctionFactory (axisForDimension) {
+function invertFunctionFactory (axisForDimension) {
   const domain = axisForDimension.scale.axisScale.domain()
   const range = axisForDimension.scale.axisScale.range()
   const scale = d3.scaleQuantize().domain(range).range(domain)
@@ -296,53 +310,60 @@ function getMockInvertFunctionFactory (axisForDimension) {
  * @param {object} params.options
 */
 
-function getCoordClosestItems ({ axisForDimension, axisForNormalDimension, mousePoint, options }) {
+function getCoordClosestItems ({ axisForDimension, axisForNormalDimension, mousePoint, singleGroupOptions }) {
   const invertFunction = _.isFunction(axisForDimension.scale.axisScale.invert)
     ? axisForDimension.scale.axisScale.invert
-    : getMockInvertFunctionFactory(axisForDimension)
+    : invertFunctionFactory(axisForDimension)
   const mainDimensionValue = invertFunction(mousePoint)
   const mainDimensionValueInAxis = axisForDimension.scale.axisScale(mainDimensionValue)
   const getNearestIndexInMainAxisDomain = d3.bisector((d) => d[axisForDimension.keyForValues]).right
-  return _.flatMap(options, function (singleGroupOptions) {
-    const index = getNearestIndexInMainAxisDomain(singleGroupOptions.lineData, mainDimensionValue, 1)
-    const leadingItem = singleGroupOptions.lineData[index - 1]
-    const trailingItem = singleGroupOptions.lineData[index]
-    const leadingDistance = _.get(leadingItem, axisForDimension.keyForValues, Number.MAX_VALUE)
-    const trailingDistance = _.get(trailingItem, axisForDimension.keyForValues, Number.MAX_VALUE)
-    const leadingDistanceValue = Math.abs(axisForDimension.scale.axisScale(leadingDistance) - mainDimensionValueInAxis)
-    const trailingDistanceValue = Math.abs(axisForDimension.scale.axisScale(trailingDistance) - mainDimensionValueInAxis)
-    const bandwidth = axisForDimension.scale.axisScale.bandwidth ? axisForDimension.scale.axisScale.bandwidth() / 2 : 0
+  const index = getNearestIndexInMainAxisDomain(singleGroupOptions.lineData, mainDimensionValue, 1)
+  const leadingItem = singleGroupOptions.lineData[index - 1]
+  const trailingItem = singleGroupOptions.lineData[index]
+  const leadingDistance = _.get(leadingItem, axisForDimension.keyForValues, Number.MAX_VALUE)
+  const trailingDistance = _.get(trailingItem, axisForDimension.keyForValues, Number.MAX_VALUE)
+  const leadingDistanceValue = Math.abs(axisForDimension.scale.axisScale(leadingDistance) - mainDimensionValueInAxis)
+  const trailingDistanceValue = Math.abs(axisForDimension.scale.axisScale(trailingDistance) - mainDimensionValueInAxis)
+  const bandwidth = axisForDimension.scale.axisScale.bandwidth ? axisForDimension.scale.axisScale.bandwidth() / 2 : 0
 
-    if (!leadingItem && !trailingItem) return
+  if (!leadingItem && !trailingItem) return
 
-    const leadingObject = leadingItem && {
-      item: leadingItem,
-      distance: leadingDistanceValue,
-      normalValue: axisForNormalDimension.scale.axisScale(leadingItem[axisForNormalDimension.keyForValues]),
-      mainValue: axisForDimension.scale.axisScale(leadingItem[axisForDimension.keyForValues]) + bandwidth,
-      singleGroupOptions
-    }
+  const leadingObject = leadingItem && {
+    item: leadingItem,
+    distance: leadingDistanceValue,
+    normalValue: axisForNormalDimension.scale.axisScale(leadingItem[axisForNormalDimension.keyForValues]),
+    mainValue: axisForDimension.scale.axisScale(leadingItem[axisForDimension.keyForValues]) + bandwidth,
+    singleGroupOptions
+  }
 
-    const trailingObject = trailingItem && {
-      item: trailingItem,
-      distance: trailingDistanceValue,
-      normalValue: axisForNormalDimension.scale.axisScale(trailingItem[axisForNormalDimension.keyForValues]),
-      mainValue: axisForDimension.scale.axisScale(trailingItem[axisForDimension.keyForValues]) + bandwidth,
-      singleGroupOptions
-    }
+  const trailingObject = trailingItem && {
+    item: trailingItem,
+    distance: trailingDistanceValue,
+    normalValue: axisForNormalDimension.scale.axisScale(trailingItem[axisForNormalDimension.keyForValues]),
+    mainValue: axisForDimension.scale.axisScale(trailingItem[axisForDimension.keyForValues]) + bandwidth,
+    singleGroupOptions
+  }
 
-    if (!leadingItem) {
-      return [trailingObject]
-    } else if (!trailingItem) {
-      return [leadingObject]
-    }
+  if (!leadingItem) {
+    return [trailingObject]
+  } else if (!trailingItem) {
+    return [leadingObject]
+  }
 
-    if (leadingDistanceValue === trailingDistanceValue) return [leadingObject, trailingObject]
+  if (leadingDistanceValue === trailingDistanceValue) return [leadingObject, trailingObject]
 
-    return trailingDistanceValue < leadingDistanceValue
-      ? [trailingObject]
-      : [leadingObject]
-  })
+  return trailingDistanceValue < leadingDistanceValue
+    ? [trailingObject]
+    : [leadingObject]
+}
+
+function getCircleCoordinatesFactory (coordinate) {
+  return function (d) {
+    const axisForNormalDimension = d.singleGroupOptions.dimension === DIMENSIONS.horizontal
+      ? d.singleGroupOptions.axis.vertical
+      : d.singleGroupOptions.axis.horizontal
+    return getCircleCoordinates(d, d.singleGroupOptions.dimension, axisForNormalDimension)[coordinate]
+  }
 }
 
 /**
@@ -363,19 +384,23 @@ function getCircleCoordinates (datum, dimension, axisForNormalDimension) {
   }
   return circleCoordinates[dimension]
 }
-
+/**
+ * @callback SetupCircleEvents
+ * @param {object} d
+ */
 /**
  * @template GElement
  * @template Datum
  * @template PElement
  * @template PDatum
- * @param {object} d
  * @param {d3.Selection<GElement, Datum, PElement, PDatum>} d3TipInstance
+ * @return {SetupCircleEvents}
  */
-
-function setupCircleEvents (d, d3TipInstance) {
-  const circle = d3.select(this)
-  setupTooltipEventListeners(circle, d3TipInstance, d.singleGroupOptions.tooltip)
+function setupCircleEventsFactory (d3TipInstance) {
+  return function (d) {
+    const circle = d3.select(this)
+    setupTooltipEventListeners(circle, d3TipInstance, d.singleGroupOptions.tooltip)
+  }
 }
 
 /**
