@@ -19,11 +19,11 @@ export default {
           vertical: this.axesConfigById[singleLineGroupsConfig.idVerticalAxis]
         }
         if (singleLineGroupsConfig.tooltip && !this.d3TipInstance) {
-          console.warn('GeoChart [component] :: d3-tip NPM package is required to use tooltips (attempted to use tooltips on a bar chart)')
+          console.warn('GeoChart [component] :: d3-tip NPM package is required to use tooltips (attempted to use tooltips on a line chart)')
         }
 
         if (singleLineGroupsConfig.tooltip && !_.isFunction(singleLineGroupsConfig.tooltip.content)) {
-          console.warn(`GeoChart [component] :: Attempted to use a non-function as bar chart tooltip content (used «${singleLineGroupsConfig.tooltip}»)`)
+          console.warn(`GeoChart [component] :: Attempted to use a non-function as line chart tooltip content (used «${singleLineGroupsConfig.tooltip}»)`)
         }
 
         const tooltipConfig = singleLineGroupsConfig.tooltip
@@ -35,7 +35,6 @@ export default {
 
         return {
           id: index,
-          lineGroupId: singleLineGroupsConfig.lineGroupId,
           axis,
           lineData: singleLineGroupsConfig.lineData,
           lineWidth: singleLineGroupsConfig.lineWidth,

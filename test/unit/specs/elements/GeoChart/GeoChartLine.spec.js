@@ -194,7 +194,7 @@ describe('GeoChartLine', () => {
           return _.sortBy(_.times(25, (i) => {
             return {
               [axisNumericalDimensions[dimension].numericalAxisConfig.keyForValues]: i,
-              [axisNumericalDimensions[dimension].linearAxisConfig.keyForValues]: _.random(0, axisNumericalDimensions[dimension].linearAxisConfig.scale.domain.end)
+              [axisNumericalDimensions[dimension].linearAxisConfig.keyForValues]: axisNumericalDimensions[dimension].linearAxisConfig.scale.domain.end / (i + 1)
             }
           }), axisNumericalDimensions[dimension].numericalAxisConfig.keyForValues)
         }
@@ -231,14 +231,10 @@ describe('GeoChartLine', () => {
         const categoricalAxisConfig = axisCategoricalDimensions[dimension].categoricalAxisConfig
         const cssClassFn = (original) => [...original, 'test-line-segments']
         const getLineData = () => {
-          return _.map(categoricalAxisConfig.scale.domain, (category) => {
+          return _.map(categoricalAxisConfig.scale.domain, (category, i) => {
             return {
               [categoricalAxisConfig.keyForValues]: category,
-              [axisCategoricalDimensions[dimension].linearAxisConfig.keyForValues]: _.random(
-                axisCategoricalDimensions[dimension].linearAxisConfig.scale.domain.start,
-                axisCategoricalDimensions[dimension].linearAxisConfig.scale.domain.end,
-                false
-              )
+              [axisCategoricalDimensions[dimension].linearAxisConfig.keyForValues]: axisCategoricalDimensions[dimension].linearAxisConfig.scale.domain.end / (i + 1)
             }
           })
         }
@@ -310,14 +306,13 @@ describe('GeoChartLine', () => {
           horizontalAxis
         ],
         lineGroups: [{
-          lineGroupId: 'line-id',
           lineData: lineData,
           dimension: dimension,
           idVerticalAxis: idVerticalAxis,
           idHorizontalAxis: idHorizontalAxis,
           cssClasses: cssClassFn,
           trackByKey (d) {
-            return d.lineGroupId
+            return d.id
           }
         }]
       }
@@ -408,13 +403,13 @@ describe('GeoChartLine', () => {
             }
           })
           flushD3Transitions()
-          expect(wrapper.find('.hover-overlay__focus').element.style.display).toBe('none')
+          expect(wrapper.find('.hover-overlay__focus').element.classList.contains('focus-group--hidden')).toBe(true)
           wrapper.find('.geo-chart-line-group').trigger('mouseover')
           flushD3Transitions()
-          expect(wrapper.find('.hover-overlay__focus').element.style.display).toBe('')
+          expect(wrapper.find('.hover-overlay__focus').element.classList.contains('focus-group--hidden')).toBe(false)
           wrapper.find('.geo-chart-line-group').trigger('mouseout')
           flushD3Transitions()
-          expect(wrapper.find('.hover-overlay__focus').element.style.display).toBe('none')
+          expect(wrapper.find('.hover-overlay__focus').element.classList.contains('focus-group--hidden')).toBe(true)
           wrapper.destroy()
         })
 
@@ -428,10 +423,10 @@ describe('GeoChartLine', () => {
             }
           })
           flushD3Transitions()
-          expect(wrapper.find('.hover-overlay__focus').element.style.display).toBe('none')
+          expect(wrapper.find('.hover-overlay__focus').element.classList.contains('focus-group--hidden')).toBe(true)
           wrapper.find('.geo-chart-line-group').trigger('mouseover')
           flushD3Transitions()
-          expect(wrapper.find('.hover-overlay__focus').element.style.display).toBe('')
+          expect(wrapper.find('.hover-overlay__focus').element.classList.contains('focus-group--hidden')).toBe(false)
           wrapper.find('.geo-chart-line-group').trigger('mousemove')
           flushD3Transitions()
           expect(wrapper.findAll('.geo-chart-line-element__hover-circle')).toHaveLength(linesConfig.lineGroups.length)
@@ -439,22 +434,25 @@ describe('GeoChartLine', () => {
         })
 
         it('Should display the focus group with a circle only if the hovered point has data', () => {
+          const originChartCoords = 0
+          const middleChartCoords = 150
+          const endChartCoords = 300
           const lineData1 = hasCategoricalAxis
-            ? [{ category: 'Category 0', y: 0 }, { category: 'Category 2', y: 150 }, { category: 'Category 4', y: 300 }]
-            : [{ x: 0, y: 0 }, { x: 150, y: 150 }, { x: 300, y: 300 }]
+            ? [{ category: 'Category 0', y: originChartCoords }, { category: 'Category 2', y: middleChartCoords }, { category: 'Category 4', y: endChartCoords }]
+            : [{ x: originChartCoords, y: originChartCoords }, { x: middleChartCoords, y: middleChartCoords }, { x: endChartCoords, y: endChartCoords }]
           const lineData2 = hasCategoricalAxis
-            ? [{ category: 'Category 0', y: 0 }, { category: 'Category 4', y: 300 }]
-            : [{ x: 0, y: 0 }, { x: 300, y: 300 }]
+            ? [{ category: 'Category 0', y: originChartCoords }, { category: 'Category 4', y: endChartCoords }]
+            : [{ x: originChartCoords, y: originChartCoords }, { x: endChartCoords, y: endChartCoords }]
           let i = 0
           sandbox.stub(d3, 'mouse').callsFake(function () {
             if (i === 0) {
               i++
-              return [0, 0]
+              return [originChartCoords, originChartCoords]
             } else if (i === 1) {
               i++
-              return [150, 150]
+              return [middleChartCoords, middleChartCoords]
             } else if (i === 2) {
-              return [300, 300]
+              return [endChartCoords, endChartCoords]
             }
           })
           linesConfig.lineGroups[0].lineData = lineData1
@@ -462,15 +460,15 @@ describe('GeoChartLine', () => {
           const wrapper = mount(GeoChart, {
             propsData: {
               config: linesConfig,
-              height: '300px',
-              width: '300px'
+              height: chartDimensionSpan,
+              width: chartDimensionSpan
             }
           })
           flushD3Transitions()
-          expect(wrapper.find('.hover-overlay__focus').element.style.display).toBe('none')
+          expect(wrapper.find('.hover-overlay__focus').element.classList.contains('focus-group--hidden')).toBe(true)
           wrapper.find('.geo-chart-line-group').trigger('mouseover')
           flushD3Transitions()
-          expect(wrapper.find('.hover-overlay__focus').element.style.display).toBe('')
+          expect(wrapper.find('.hover-overlay__focus').element.classList.contains('focus-group--hidden')).toBe(false)
           wrapper.find('.geo-chart-line-group').trigger('mousemove')
           flushD3Transitions()
           expect(wrapper.findAll('.geo-chart-line-element__hover-circle')).toHaveLength(2)

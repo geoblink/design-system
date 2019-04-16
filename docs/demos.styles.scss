@@ -192,13 +192,21 @@ $rankLineColors: (
   }
 }
 
+
+.focus-group {
+  display: block;
+  &--hidden {
+    display: none;
+  }
+}
+
 .hover-overlay__focus .hover-line {
   stroke: $color-grey;
   stroke-width: 2px;
 }
 
 .geo-chart-line-element__hover-circle:hover {
-  fill: #fff;
+  fill: $color-white;
 }
 
 .geo-chart--hidden-axis .geo-chart-axis { display: none; }

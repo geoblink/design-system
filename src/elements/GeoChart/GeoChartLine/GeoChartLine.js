@@ -24,17 +24,17 @@ const d3 = (function () {
  * @enum {GeoChart.InterpolationType}
  */
 export const INTERPOLATION_TYPES = {
-  'd3.curveLinear': d3.curveLinear,
-  'd3.curveStepBefore': d3.curveStepBefore,
-  'd3.curveStepAfter': d3.curveStepAfter,
-  'd3.curveBasis': d3.curveBasis,
-  'd3.curveBasisOpen': d3.curveBasisOpen,
-  'd3.curveBasisClosed': d3.curveBasisClosed,
-  'd3.curveBundle': d3.curveBundle,
-  'd3.curveCardinal': d3.curveCardinal,
-  'd3.curveCardinalOpen': d3.curveCardinalOpen,
-  'd3.curveCardinalClosed': d3.curveCardinalClosed,
-  'd3.curveNatural': d3.curveNatural
+  'curveLinear': d3.curveLinear,
+  'curveStepBefore': d3.curveStepBefore,
+  'curveStepAfter': d3.curveStepAfter,
+  'curveBasis': d3.curveBasis,
+  'curveBasisOpen': d3.curveBasisOpen,
+  'curveBasisClosed': d3.curveBasisClosed,
+  'curveBundle': d3.curveBundle,
+  'curveCardinal': d3.curveCardinal,
+  'curveCardinalOpen': d3.curveCardinalOpen,
+  'curveCardinalClosed': d3.curveCardinalClosed,
+  'curveNatural': d3.curveNatural
 }
 
 const lineBaseClass = 'geo-chart-line-element'
@@ -42,7 +42,7 @@ const hoverCircleBaseClass = 'geo-chart-line-element__hover-circle'
 const FOCUS_GROUP_DEFAULT_CLASS = 'hover-overlay__focus'
 const DEFAULT_HOVER_CIRCLE_RADIUS = 4
 const DEFAULT_LINE_WIDTH = 2
-const DEFAULT_INTERPOLATION_FUNCTION = INTERPOLATION_TYPES['d3.curveLinear']
+const DEFAULT_INTERPOLATION_FUNCTION = INTERPOLATION_TYPES.curveLinear
 /**
  * @template GElement
  * @template Datum
@@ -77,8 +77,7 @@ export function render (d3Instance, d3TipInstance, options, globalOptions) {
 
   const newFocusGroups = d3Instance
     .append('g')
-    .attr('class', FOCUS_GROUP_DEFAULT_CLASS)
-    .style('display', 'none')
+    .classed(`${FOCUS_GROUP_DEFAULT_CLASS} focus-group--hidden`, true)
 
   newFocusGroups
     .append('line')
@@ -86,8 +85,8 @@ export function render (d3Instance, d3TipInstance, options, globalOptions) {
 
   const focusGroup = d3Instance.selectAll(`g.${FOCUS_GROUP_DEFAULT_CLASS}`)
   d3Instance
-    .on('mouseover', () => focusGroup.style('display', null))
-    .on('mouseout', () => focusGroup.style('display', 'none'))
+    .on('mouseover', () => focusGroup.classed('focus-group--hidden', false))
+    .on('mouseout', () => focusGroup.classed('focus-group--hidden', true))
     .on('mousemove', positionTooltipFactory(d3TipInstance, options, globalOptions, {
       focusGroup
     }))
@@ -143,11 +142,11 @@ function renderSingleGroup (d3Instance, group, singleGroupOptions, globalOptions
     .y((d, i) => {
       return yScale(d[singleGroupOptions.axis.vertical.keyForValues])
     })
-    .curve(singleGroupOptions.interpolationFn || DEFAULT_INTERPOLATION_FUNCTION)
+    .curve(_.defaultTo(singleGroupOptions.interpolationFn, DEFAULT_INTERPOLATION_FUNCTION))
 
   group
     .selectAll(`path.${lineBaseClass}`)
-    .attr('stroke-width', singleGroupOptions.lineWidth || DEFAULT_LINE_WIDTH)
+    .attr('stroke-width', _.defaultTo(singleGroupOptions.lineWidth, DEFAULT_LINE_WIDTH))
     .attr('class', getLineCssClassesFactory(singleGroupOptions))
     .transition()
     .duration(globalOptions.chart.animationsDurationInMilliseconds)
@@ -195,7 +194,7 @@ function positionTooltipFactory (d3TipInstance, options, globalOptions, {
     }
     const [lowestNormalAxisValue, highestNormalAxisValue] = d3.extent([...linesWithData, lineForMainAxis], (d, i) => d.normalValue)
 
-    const { x1, y1, x2, y2, xTranslation, yTranslation } = {
+    const coordsForDimension = {
       [DIMENSIONS.horizontal]: {
         x1: null,
         y1: lowestNormalAxisValue,
@@ -214,45 +213,70 @@ function positionTooltipFactory (d3TipInstance, options, globalOptions, {
       }
     }[firstGroupOptions.dimension]
 
-    setHoverCircles()
-    setHoverLine()
-
-    function setHoverCircles () {
-      const circles = focusGroup
-        .selectAll(`circle.${hoverCircleBaseClass}`)
-        .data(linesWithData)
-
-      circles
-        .exit()
-        .remove()
-
-      const newCircles = circles
-        .enter()
-        .append('circle')
-        .attr('cursor', 'pointer')
-        .attr('stroke-width', (d) => d.singleGroupOptions.lineWidth)
-
-      const updatedCircles = circles
-      const allCircles = newCircles.merge(updatedCircles)
-
-      allCircles
-        .attr('class', getHoverCirclesCssClasses)
-        .attr('r', (d) => d.singleGroupOptions.hoverCircleRadius || DEFAULT_HOVER_CIRCLE_RADIUS)
-        .attr('cx', (d) => getCircleCoordinates(d, firstGroupOptions.dimension, axisForNormalDimension).cx)
-        .attr('cy', (d) => getCircleCoordinates(d, firstGroupOptions.dimension, axisForNormalDimension).cy)
-        .each((d) => setupCircleEvents(d, d3TipInstance))
-    }
-
-    function setHoverLine () {
-      focusGroup.attr('transform', `translate(${xTranslation}, ${yTranslation})`)
-      focusGroup
-        .select('.hover-line')
-        .attr('x1', x1)
-        .attr('y1', y1)
-        .attr('x2', x2)
-        .attr('y2', y2)
-    }
+    setHoverCircles(d3TipInstance, firstGroupOptions, axisForNormalDimension, focusGroup, linesWithData)
+    setHoverLine(focusGroup, coordsForDimension)
   }
+}
+
+/**
+ * @template GElement
+ * @template Datum
+ * @template PElement
+ * @template PDatum
+ * @param {d3.Selection<GElement, Datum, PElement, PDatum>} d3TipInstance
+ * @param {object} firstGroupOptions
+ * @param {GeoChart.AxisConfig<Domain>} axisForNormalDimension
+ * @param {d3.Selection<GElement, Datum, PElement, PDatum>} focusGroup
+ * @param {object} linesWithData
+ */
+function setHoverCircles (d3TipInstance, firstGroupOptions, axisForNormalDimension, focusGroup, linesWithData) {
+  const circles = focusGroup
+    .selectAll(`circle.${hoverCircleBaseClass}`)
+    .data(linesWithData)
+
+  circles
+    .exit()
+    .remove()
+
+  const newCircles = circles
+    .enter()
+    .append('circle')
+    .attr('cursor', 'pointer')
+    .attr('stroke-width', (d) => d.singleGroupOptions.lineWidth)
+
+  const updatedCircles = circles
+  const allCircles = newCircles.merge(updatedCircles)
+
+  allCircles
+    .attr('class', getHoverCirclesCssClasses)
+    .attr('r', (d) => _.defaultTo(d.singleGroupOptions.hoverCircleRadius, DEFAULT_HOVER_CIRCLE_RADIUS))
+    .attr('cx', (d) => getCircleCoordinates(d, firstGroupOptions.dimension, axisForNormalDimension).cx)
+    .attr('cy', (d) => getCircleCoordinates(d, firstGroupOptions.dimension, axisForNormalDimension).cy)
+    .each((d) => setupCircleEvents(d, d3TipInstance))
+}
+
+/**
+ * @template GElement
+ * @template Datum
+ * @template PElement
+ * @template PDatum
+ * @param {d3.Selection<GElement, Datum, PElement, PDatum>} focusGroup
+ * @param {object} coords
+ * @param {number} coords.xTranslation
+ * @param {number} coords.yTranslation
+ * @param {number} coords.x1
+ * @param {number} coords.x2
+ * @param {number} coords.y1
+ * @param {number} coords.y2
+ */
+function setHoverLine (focusGroup, { xTranslation, yTranslation, x1, x2, y1, y2 }) {
+  focusGroup.attr('transform', `translate(${xTranslation}, ${yTranslation})`)
+  focusGroup
+    .select('.hover-line')
+    .attr('x1', x1)
+    .attr('y1', y1)
+    .attr('x2', x2)
+    .attr('y2', y2)
 }
 
 /**
@@ -266,9 +290,9 @@ function positionTooltipFactory (d3TipInstance, options, globalOptions, {
 function getCoordClosestItems ({ axisForDimension, axisForNormalDimension, mousePoint, options }) {
   if (!_.isFunction(axisForDimension.scale.axisScale.invert)) {
     axisForDimension.scale.axisScale.invert = (function () {
-      var domain = axisForDimension.scale.axisScale.domain()
-      var range = axisForDimension.scale.axisScale.range()
-      var scale = d3.scaleQuantize().domain(range).range(domain)
+      const domain = axisForDimension.scale.axisScale.domain()
+      const range = axisForDimension.scale.axisScale.range()
+      const scale = d3.scaleQuantize().domain(range).range(domain)
       return function (x) {
         return scale(x)
       }
@@ -339,6 +363,10 @@ function getCircleCoordinates (datum, dimension, axisForNormalDimension) {
 }
 
 /**
+ * @template GElement
+ * @template Datum
+ * @template PElement
+ * @template PDatum
  * @param {object} d
  * @param {d3.Selection<GElement, Datum, PElement, PDatum>} d3TipInstance
  */
@@ -375,7 +403,7 @@ function getInitialLine (singleGroupOptions) {
         : d[singleGroupOptions.axis.vertical.keyForValues]
       return yScale(valueForScale)
     })
-    .curve(singleGroupOptions.interpolationFn || DEFAULT_INTERPOLATION_FUNCTION)
+    .curve(_.defaultTo(singleGroupOptions.interpolationFn, DEFAULT_INTERPOLATION_FUNCTION))
   return initialLine(singleGroupOptions.lineData)
 }
 

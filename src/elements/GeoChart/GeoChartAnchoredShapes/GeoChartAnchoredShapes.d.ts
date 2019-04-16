@@ -13,12 +13,12 @@ declare namespace GeoChart {
   }
 
   interface SingleAnchoredShapesGroupConfig<HorizontalDomain, VerticalDomain> {
-    id: number
-    dimension: GeoChart.BarDimension
+    id: number,
+    dimension: GeoChart.BarDimension,
     axis: {
       horizontal: GeoChart.AxisConfig<HorizontalDomain>
       vertical: GeoChart.AxisConfig<VerticalDomain>
-    }
+    },
     shapeData: object[],
     offset?: number,
     normalOffset?: number,
@@ -30,6 +30,7 @@ declare namespace GeoChart {
     text: {
       content: (item: object, index: number) => string[]
     },
-    cssClasses?: (defaultClasses: string[], item: object, index: number) => string[]
+    cssClasses?: (defaultClasses: string[], item: object, index: number) => string[],
+    trackByKey?: string
   }
 }

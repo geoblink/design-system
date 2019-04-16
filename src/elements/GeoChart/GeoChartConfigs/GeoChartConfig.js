@@ -630,9 +630,6 @@ export const lineConfigSchema = {
   additionalProperties: false,
   required: ['lineData', 'dimension', 'idHorizontalAxis', 'idVerticalAxis'],
   properties: {
-    lineGroupId: {
-      type: 'string'
-    },
     lineData: {
       type: 'array',
       additionalItems: false,
