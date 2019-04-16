@@ -223,10 +223,10 @@ module.exports = {
               content: '../src/elements/GeoChart/GeoChartLine/GeoChartLineHorizontal.md'
             }, {
               name: 'Vertical lines',
-              content: '../src/elements/GeoChart/GeoChartLine/GeoChartLineHorizontal.md'
+              content: '../src/elements/GeoChart/GeoChartLine/GeoChartLineVertical.md'
             }, {
               name: 'Categorical lines',
-              content: '../src/elements/GeoChart/GeoChartLine/GeoChartLineHorizontal.md'
+              content: '../src/elements/GeoChart/GeoChartLine/GeoChartLineCategorical.md'
             }]
           }]
         }
