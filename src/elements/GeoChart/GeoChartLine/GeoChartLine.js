@@ -279,6 +279,15 @@ function setHoverLine (focusGroup, { xTranslation, yTranslation, x1, x2, y1, y2 
     .attr('y2', y2)
 }
 
+function getMockInvertFunctionFactory (axisForDimension) {
+  const domain = axisForDimension.scale.axisScale.domain()
+  const range = axisForDimension.scale.axisScale.range()
+  const scale = d3.scaleQuantize().domain(range).range(domain)
+  return function (x) {
+    return scale(x)
+  }
+}
+
 /**
  * @param {object} params
  * @param {GeoChart.AxisConfig<Domain>} params.axisForDimension
@@ -288,17 +297,10 @@ function setHoverLine (focusGroup, { xTranslation, yTranslation, x1, x2, y1, y2 
 */
 
 function getCoordClosestItems ({ axisForDimension, axisForNormalDimension, mousePoint, options }) {
-  if (!_.isFunction(axisForDimension.scale.axisScale.invert)) {
-    axisForDimension.scale.axisScale.invert = (function () {
-      const domain = axisForDimension.scale.axisScale.domain()
-      const range = axisForDimension.scale.axisScale.range()
-      const scale = d3.scaleQuantize().domain(range).range(domain)
-      return function (x) {
-        return scale(x)
-      }
-    })()
-  }
-  const mainDimensionValue = axisForDimension.scale.axisScale.invert(mousePoint)
+  const invertFunction = _.isFunction(axisForDimension.scale.axisScale.invert)
+    ? axisForDimension.scale.axisScale.invert
+    : getMockInvertFunctionFactory(axisForDimension)
+  const mainDimensionValue = invertFunction(mousePoint)
   const mainDimensionValueInAxis = axisForDimension.scale.axisScale(mainDimensionValue)
   const getNearestIndexInMainAxisDomain = d3.bisector((d) => d[axisForDimension.keyForValues]).right
   return _.flatMap(options, function (singleGroupOptions) {
