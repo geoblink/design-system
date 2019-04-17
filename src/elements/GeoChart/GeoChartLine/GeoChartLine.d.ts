@@ -37,6 +37,6 @@ declare namespace GeoChart {
       getOffset?: (event: MouseEvent) => { x: number, y: number } | null | undefined
     },
     cssClasses?: (defaultClasses: string[], item: object, index: number) => string[],
-    trackByKey?: () => string
+    groupKey?: string
   }
 }
