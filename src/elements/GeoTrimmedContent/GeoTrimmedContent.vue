@@ -87,6 +87,8 @@ export default {
     },
 
     removeTooltipHTMLContentNode () {
+      if (!this.isContentTrimmed) return
+
       const element = document.getElementById(this.idTooltipContentNode)
       if (element) element.parentNode.removeChild(element)
     }

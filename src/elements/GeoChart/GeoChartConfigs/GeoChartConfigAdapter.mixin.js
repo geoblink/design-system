@@ -8,9 +8,10 @@ import * as ChartPie from '../GeoChartPie/GeoChartPie'
 import guidelinesAdapterMixin from './GeoChartConfigAdapter.guidelines.mixin'
 import lineSegmentsAdapterMixin from './GeoChartConfigAdapter.lineSegments.mixin'
 import anchoredShapesAdapterMixin from './GeoChartConfigAdapter.anchoredShapes.mixin'
+import lineAdapterMixin from './GeoChartConfigAdapter.line.mixin'
 
 export default {
-  mixins: [guidelinesAdapterMixin, lineSegmentsAdapterMixin, anchoredShapesAdapterMixin],
+  mixins: [guidelinesAdapterMixin, lineSegmentsAdapterMixin, anchoredShapesAdapterMixin, lineAdapterMixin],
   methods: {
     updateData () {
       if (!_.isEmpty(this.config.barGroups)) {
@@ -35,6 +36,10 @@ export default {
 
       if (!_.isEmpty(this.config.anchoredShapesGroups)) {
         this.updateAnchoredShapesGroups()
+      }
+
+      if (!_.isEmpty(this.config.lineGroups)) {
+        this.updateLineGroups()
       }
 
       if (this.d3TipInstance) {

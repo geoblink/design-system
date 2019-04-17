@@ -213,8 +213,23 @@ module.exports = {
           }, {
             name: 'Pie charts',
             content: '../src/elements/GeoChart/GeoChartPie/GeoChartPie.md'
+          }, {
+            name: 'Line charts',
+            sections: [{
+              name: 'Basic usage',
+              content: '../src/elements/GeoChart/GeoChartLine/GeoChartLineBasic.md'
+            }, {
+              name: 'Horizontal lines',
+              content: '../src/elements/GeoChart/GeoChartLine/GeoChartLineHorizontal.md'
+            }, {
+              name: 'Vertical lines',
+              content: '../src/elements/GeoChart/GeoChartLine/GeoChartLineVertical.md'
+            }, {
+              name: 'Categorical lines',
+              content: '../src/elements/GeoChart/GeoChartLine/GeoChartLineCategorical.md'
+            }]
           }]
-        },
+        }
         // hygen-component (reference for injection, do not remove)
       ]
     },

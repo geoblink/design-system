@@ -625,6 +625,50 @@ export const lineSegmentsConfigSchema = {
   }
 }
 
+export const lineConfigSchema = {
+  type: 'object',
+  additionalProperties: false,
+  required: ['lineData', 'dimension', 'idHorizontalAxis', 'idVerticalAxis'],
+  properties: {
+    lineData: {
+      type: 'array',
+      additionalItems: false,
+      items: {
+        type: 'object'
+      }
+    },
+    idHorizontalAxis: {
+      type: 'string'
+    },
+    idVerticalAxis: {
+      type: 'string'
+    },
+    lineWidth: {
+      type: 'number'
+    },
+    hoverCircleRadius: {
+      type: 'number'
+    },
+    dimension: {
+      type: 'string',
+      enum: Object.values(DIMENSIONS)
+    },
+    interpolationFn: {},
+    tooltip: {},
+    // Function taking as first parameter an array of CSS classes that would be
+    // set by default. Should return the array of CSS classes to be finally set.
+    // Use this function to customize which CSS classes are set to the rect for
+    // the bar of each item. Note that there might be some of the default classes
+    // might be added regardless to your customization as they are required
+    // internally.
+    cssClasses: {},
+    // Function that returns the property that is needed by D3 to track data changes correctly
+    groupKey: {
+      type: 'string'
+    }
+  }
+}
+
 export const anchoredShapesConfigSchema = {
   type: 'object',
   additionalProperties: false,
@@ -858,6 +902,11 @@ export const jsonSchema = {
       type: 'array',
       additionalItems: false,
       items: lineSegmentsConfigSchema
+    },
+    lineGroups: {
+      type: 'array',
+      additionalItems: false,
+      items: lineConfigSchema
     },
     anchoredShapesGroups: {
       type: 'array',

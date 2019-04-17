@@ -20,6 +20,7 @@ import * as ChartBars from './GeoChartBars/GeoChartBars'
 import * as ChartConfig from './GeoChartConfigs/GeoChartConfig'
 import * as ChartScale from './GeoChartScale/GeoChartScale'
 import { ANCHOR_POSITIONS, getTriangleShapePath } from './GeoChartAnchoredShapes/GeoChartAnchoredShapes'
+import { INTERPOLATION_TYPES } from './GeoChartLine/GeoChartLine'
 import configAdapterMixin from './GeoChartConfigs/GeoChartConfigAdapter.mixin'
 import { parseAxisConfig, getPositionOfAxis } from './GeoChartConfigs/GeoChartConfigAdapterUtils'
 
@@ -103,6 +104,7 @@ export default {
     POSITIONS: ChartAxis.POSITIONS,
     BARS_DIMENSIONS: ChartBars.DIMENSIONS,
     ANCHOR_POSITIONS,
+    INTERPOLATION_TYPES,
     getTriangleShapePath
   },
   mixins: [cssSuffix, configAdapterMixin],
@@ -239,6 +241,13 @@ export default {
     },
 
     'config.axisGroups': {
+      handler () {
+        this.debouncedRedraw()
+      },
+      deep: true
+    },
+
+    'config.lineGroups': {
       handler () {
         this.debouncedRedraw()
       },
