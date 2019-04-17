@@ -43,7 +43,7 @@ export default {
           dimension: singleLineGroupsConfig.dimension,
           tooltip: tooltipConfig,
           cssClasses: singleLineGroupsConfig.cssClasses,
-          trackByKey: singleLineGroupsConfig.trackByKey
+          groupKey: singleLineGroupsConfig.groupKey
         }
       })
       ChartLine.render(this.d3Instance, this.d3TipInstance, lineGroupsConfig, { chart })

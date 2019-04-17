@@ -23,6 +23,6 @@ declare namespace GeoChart {
     circleNaturalMargin?: number,
     normalValue: number,
     cssClasses?: (defaultClasses: string[], item: object, index: number) => string[],
-    trackByKey?: string,
+    trackByKey?: () => string
   }
 }

@@ -499,10 +499,10 @@ export default {
         </geo-primary-button>
         <geo-danger-button
           v-for="(lineGroup, index) in extraLineGroups"
-          :key="lineGroup.trackByKey(lineGroup, index)"
-          @click="removeLine(lineGroup.trackByKey(lineGroup, index))"
+          :key="lineGroup.groupKey"
+          @click="removeLine(lineGroup.groupKey)"
         >
-          Remove line ({{ lineGroup.trackByKey(lineGroup, index) }})
+          Remove line ({{ lineGroup.groupKey }})
         </geo-danger-button>
         <geo-secondary-button @click="toggleGraph()">
           Toggle Graph
@@ -531,7 +531,7 @@ export default {
       lineData: _.times(13, (v) => ({ x: v, y: _.random(0, 20) })),
       isGraphVisible: true,
       extraLineGroups: [],
-      lastAddedId: 0
+      lastAddedId: 1
     }
   },
   computed: {
@@ -556,10 +556,7 @@ export default {
           lineWidth: 2,
           hoverCircleRadius: 6,
           interpolationFn: INTERPOLATION_TYPES.curveCardinal,
-          tooltip: this.tooltipFunction,
-          trackByKey (d, i) {
-            return i
-          }
+          tooltip: this.tooltipFunction
         }
       ]
     },
@@ -639,16 +636,14 @@ export default {
         hoverCircleRadius: 6,
         interpolationFn: INTERPOLATION_TYPES.curveCardinal,
         tooltip: this.tooltipFunction,
-        trackByKey (d, i) {
-          return id
-        }
+        groupKey: `${id}`
       })
       this.lastAddedId++
     },
     removeLine (lineId) {
       if (!this.extraLineGroups.length) return
       const lineIndex = _.findIndex(this.extraLineGroups, function (lineGroup, i) {
-        return lineGroup.trackByKey(lineGroup, i) === lineId
+        return lineGroup.groupKey === lineId
       })
       this.extraLineGroups.splice(lineIndex, 1)
     }

@@ -31,6 +31,6 @@ declare namespace GeoChart {
       content: (item: object, index: number) => string[]
     },
     cssClasses?: (defaultClasses: string[], item: object, index: number) => string[],
-    trackByKey?: string
+    trackByKey?: () => string
   }
 }

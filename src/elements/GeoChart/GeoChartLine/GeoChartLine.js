@@ -62,10 +62,10 @@ export function render (d3Instance, d3TipInstance, options, globalOptions) {
 
   const groups = d3Instance
     .selectAll('g.geo-chart-line-group')
-    .data(options, (singleGroupOptions) => {
-      if (singleGroupOptions.trackByKey) {
-        return singleGroupOptions.trackByKey(singleGroupOptions)
-      }
+    .data(options, (singleGroupOptions, i) => {
+      return _.isNil(singleGroupOptions.groupKey)
+        ? i
+        : singleGroupOptions.groupKey
     })
 
   const newGroups = groups
@@ -82,14 +82,6 @@ export function render (d3Instance, d3TipInstance, options, globalOptions) {
   newFocusGroups
     .append('line')
     .attr('class', 'hover-line')
-
-  const focusGroup = d3Instance.selectAll(`g.${FOCUS_GROUP_DEFAULT_CLASS}`)
-  d3Instance
-    .on('mouseover', () => focusGroup.classed('focus-group--hidden', false))
-    .on('mouseout', () => focusGroup.classed('focus-group--hidden', true))
-    .on('mousemove', positionTooltipFactory(d3TipInstance, options, globalOptions, {
-      focusGroup
-    }))
 
   groups
     .exit()
@@ -111,7 +103,7 @@ export function render (d3Instance, d3TipInstance, options, globalOptions) {
 
   allGroups.each(function (singleGroupOptions, i) {
     const group = d3.select(this)
-    renderSingleGroup(d3Instance, group, singleGroupOptions, globalOptions)
+    renderSingleGroup(d3Instance, d3TipInstance, group, singleGroupOptions, options, globalOptions)
   })
 }
 
@@ -123,16 +115,33 @@ export function render (d3Instance, d3TipInstance, options, globalOptions) {
  * @template HorizontalDomain
  * @template VerticalDomain
  * @param {d3.Selection<GElement, Datum, PElement, PDatum>} d3Instance
+ * @param {d3.Selection<GElement, Datum, PElement, PDatum>} [d3TipInstance]
  * @param {d3.Selection<GElement, Datum, PElement, PDatum>} group
  * @param {GeoChart.singleLineSegmentsGroupsConfig<HorizontalDomain, VerticalDomain>} singleGroupOptions
+ * @param {Array<GeoChart.singleLineSegmentsGroupsConfig<HorizontalDomain, VerticalDomain>>} options
  * @param {GeoChart.LineSegmentsGroupsGlobalConfig} globalOptions
  */
-function renderSingleGroup (d3Instance, group, singleGroupOptions, globalOptions) {
+function renderSingleGroup (d3Instance, d3TipInstance, group, singleGroupOptions, options, globalOptions) {
   const isDimensionHorizontalAxis = isDimensionAxis(singleGroupOptions.axis.horizontal, singleGroupOptions)
   const axisForDimension = isDimensionHorizontalAxis ? singleGroupOptions.axis.horizontal : singleGroupOptions.axis.vertical
   const axisForNormalDimension = isDimensionHorizontalAxis ? singleGroupOptions.axis.vertical : singleGroupOptions.axis.horizontal
   const xScale = isDimensionHorizontalAxis ? axisForDimension.scale.axisScale : axisForNormalDimension.scale.axisScale
   const yScale = isDimensionHorizontalAxis ? axisForNormalDimension.scale.axisScale : axisForDimension.scale.axisScale
+
+  const invertFunction = _.isFunction(axisForDimension.scale.axisScale.invert)
+    ? axisForDimension.scale.axisScale.invert
+    : invertFunctionFactory(axisForDimension)
+
+  const focusGroup = d3Instance.selectAll(`g.${FOCUS_GROUP_DEFAULT_CLASS}`)
+  d3Instance
+    .on('mouseover', () => focusGroup.classed('focus-group--hidden', false))
+    .on('mouseout', () => focusGroup.classed('focus-group--hidden', true))
+    .on('mousemove', positionTooltipFactory(d3TipInstance, options, globalOptions, {
+      axisForDimension,
+      axisForNormalDimension,
+      focusGroup,
+      invertFunction
+    }))
 
   const line = d3.line()
     .x((d, i) => {
@@ -154,33 +163,24 @@ function renderSingleGroup (d3Instance, group, singleGroupOptions, globalOptions
 }
 
 function positionTooltipFactory (d3TipInstance, options, globalOptions, {
-  focusGroup
+  focusGroup,
+  invertFunction,
+  axisForDimension,
+  axisForNormalDimension
 }) {
   return function () {
     const mouseCoords = d3.mouse(this)
     const closestItems = _.flatMap(options, (singleGroupOptions) => {
-      const {
-        axisForDimension,
-        axisForNormalDimension,
-        mousePoint
-      } = {
-        [DIMENSIONS.horizontal]: {
-          axisForDimension: singleGroupOptions.axis.horizontal,
-          axisForNormalDimension: singleGroupOptions.axis.vertical,
-          mousePoint: mouseCoords[0]
-        },
-        [DIMENSIONS.vertical]: {
-          axisForDimension: singleGroupOptions.axis.vertical,
-          axisForNormalDimension: singleGroupOptions.axis.horizontal,
-          mousePoint: mouseCoords[1]
-        }
-      }[singleGroupOptions.dimension]
+      const mousePoint = singleGroupOptions.dimension === DIMENSIONS.horizontal
+        ? mouseCoords[0]
+        : mouseCoords[1]
 
       return getCoordClosestItems({
         axisForDimension,
         axisForNormalDimension,
         singleGroupOptions,
-        mousePoint
+        mousePoint,
+        invertFunction
       })
     })
 
@@ -310,10 +310,7 @@ function invertFunctionFactory (axisForDimension) {
  * @param {object} params.options
 */
 
-function getCoordClosestItems ({ axisForDimension, axisForNormalDimension, mousePoint, singleGroupOptions }) {
-  const invertFunction = _.isFunction(axisForDimension.scale.axisScale.invert)
-    ? axisForDimension.scale.axisScale.invert
-    : invertFunctionFactory(axisForDimension)
+function getCoordClosestItems ({ axisForDimension, axisForNormalDimension, mousePoint, singleGroupOptions, invertFunction }) {
   const mainDimensionValue = invertFunction(mousePoint)
   const mainDimensionValueInAxis = axisForDimension.scale.axisScale(mainDimensionValue)
   const getNearestIndexInMainAxisDomain = d3.bisector((d) => d[axisForDimension.keyForValues]).right

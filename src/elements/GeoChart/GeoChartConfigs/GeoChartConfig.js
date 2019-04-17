@@ -663,7 +663,9 @@ export const lineConfigSchema = {
     // internally.
     cssClasses: {},
     // Function that returns the property that is needed by D3 to track data changes correctly
-    trackByKey: {}
+    groupKey: {
+      type: 'string'
+    }
   }
 }
 
