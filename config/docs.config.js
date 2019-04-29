@@ -162,6 +162,11 @@ module.exports = {
           sectionDepth: 1
         },
         {
+          name: 'GeoSwitch',
+          components: '../src/elements/GeoSwitch/GeoSwitch*.vue',
+          sectionDepth: 1
+        },
+        {
           name: 'GeoTabBar',
           components: '../src/elements/GeoTabBar/GeoTabBar*.vue',
           sectionDepth: 1
@@ -171,6 +176,7 @@ module.exports = {
           components: '../src/elements/GeoTable/GeoTable*.vue',
           sectionDepth: 1
         },
+        // hygen-component (reference for injection, do not remove)
         {
           name: 'String Utils',
           components: () => [
@@ -230,7 +236,6 @@ module.exports = {
             }]
           }]
         }
-        // hygen-component (reference for injection, do not remove)
       ]
     },
     {
