@@ -13,7 +13,6 @@
     align-items: center;
     cursor: pointer;
     display: flex;
-    justify-content: flex-end;
 
     &.geo-switch#{$modifier-name-with-prefix}--disabled {
       cursor: not-allowed;
