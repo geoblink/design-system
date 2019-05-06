@@ -140,6 +140,13 @@
   resolved "https://registry.yarnpkg.com/@fortawesome/vue-fontawesome/-/vue-fontawesome-0.1.2.tgz#f993d7788bd6f031a1a20ff8f608ed0f36c83185"
   integrity sha512-K/3awMf8AZmTyiYfNVuTHAtjToro6tE/yNV8dsmFk/2v6CXj+6wGltMzX8VBF9vC9rz3iv1zTwMdwtYaQYrAmQ==
 
+"@geoblink/ajv-extra@^1.0.7":
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/@geoblink/ajv-extra/-/ajv-extra-1.0.7.tgz#66cf0a328c3e766b71c68f356c5565cb81c64bb3"
+  integrity sha512-uLzC5ZeAak4jI/g6xc58tB8ilpcCr/aEadmlmzxe8Ef+2Blhj8Wv1dWKeJ5PVBv1TeTEar/BKo6FNf7Xoxiofw==
+  dependencies:
+    ajv "^6.6.2"
+
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/@mrmlnc/readdir-enhanced/-/readdir-enhanced-2.2.1.tgz#524af240d1a360527b730475ecfa1344aa540dde"
