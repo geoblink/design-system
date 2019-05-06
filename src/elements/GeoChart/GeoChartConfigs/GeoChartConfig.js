@@ -249,34 +249,16 @@ export const barConfigJsonSchema = {
   additionalProperties: false,
   required: ['data', 'dimension', 'idHorizontalAxis', 'idVerticalAxis'],
   allOf: [{
-    oneOf: [{
-      not: {
-        anyOf: [
-          { required: ['normalOffset'] },
-          { required: ['naturalNormalOffset'] }
-        ]
-      }
+    atMostOneOf: [{
+      required: ['normalOffset']
     }, {
-      required: ['normalOffset'],
-      not: { required: ['naturalNormalOffset'] }
-    }, {
-      required: ['naturalNormalOffset'],
-      not: { required: ['normalOffset'] }
+      required: ['naturalNormalOffset']
     }]
   }, {
-    oneOf: [{
-      not: {
-        anyOf: [
-          { required: ['width'] },
-          { required: ['naturalWidth'] }
-        ]
-      }
+    atMostOneOf: [{
+      required: ['width']
     }, {
-      required: ['width'],
-      not: { required: ['naturalWidth'] }
-    }, {
-      required: ['naturalWidth'],
-      not: { required: ['width'] }
+      required: ['naturalWidth']
     }]
   }],
   properties: {
@@ -340,49 +322,22 @@ export const colorBarConfigJsonSchema = {
   additionalProperties: false,
   required: ['data', 'dimension', 'idHorizontalAxis', 'idVerticalAxis', 'normalValue'],
   allOf: [{
-    oneOf: [{
-      not: {
-        anyOf: [
-          { required: ['normalOffset'] },
-          { required: ['naturalNormalOffset'] }
-        ]
-      }
+    atMostOneOf: [{
+      required: ['normalOffset']
     }, {
-      required: ['normalOffset'],
-      not: { required: ['naturalNormalOffset'] }
-    }, {
-      required: ['naturalNormalOffset'],
-      not: { required: ['normalOffset'] }
+      required: ['naturalNormalOffset']
     }]
   }, {
-    oneOf: [{
-      not: {
-        anyOf: [
-          { required: ['width'] },
-          { required: ['naturalWidth'] }
-        ]
-      }
+    atMostOneOf: [{
+      required: ['width']
     }, {
-      required: ['width'],
-      not: { required: ['naturalWidth'] }
-    }, {
-      required: ['naturalWidth'],
-      not: { required: ['width'] }
+      required: ['naturalWidth']
     }]
   }, {
-    oneOf: [{
-      not: {
-        anyOf: [
-          { required: ['highlightedWidth'] },
-          { required: ['naturalHighlightedWidth'] }
-        ]
-      }
+    atMostOneOf: [{
+      required: ['highlightedWidth']
     }, {
-      required: ['highlightedWidth'],
-      not: { required: ['naturalHighlightedWidth'] }
-    }, {
-      required: ['naturalHighlightedWidth'],
-      not: { required: ['highlightedWidth'] }
+      required: ['naturalHighlightedWidth']
     }]
   }],
   properties: {
@@ -500,74 +455,35 @@ export const lineSegmentsConfigSchema = {
   type: 'object',
   additionalProperties: false,
   required: ['circleData', 'dimension', 'idHorizontalAxis', 'idVerticalAxis', 'normalValue'],
-  allOf: [
-    {
-      not: {
-        required: ['circleRadius', 'circleNaturalMargin']
-      }
-    },
-    {
-      oneOf: [{
-        not: {
-          anyOf: [
-            { required: ['normalOffset'] },
-            { required: ['naturalNormalOffset'] }
-          ]
-        }
-      }, {
-        required: ['normalOffset'],
-        not: { required: ['naturalNormalOffset'] }
-      }, {
-        required: ['naturalNormalOffset'],
-        not: { required: ['normalOffset'] }
-      }]
-    }, {
-      oneOf: [{
-        not: {
-          anyOf: [
-            { required: ['lineWidth'] },
-            { required: ['lineNaturalWidth'] }
-          ]
-        }
-      }, {
-        required: ['lineWidth'],
-        not: { required: ['lineNaturalWidth'] }
-      }, {
-        required: ['lineNaturalWidth'],
-        not: { required: ['lineWidth'] }
-      }]
-    }, {
-      oneOf: [{
-        not: {
-          anyOf: [
-            { required: ['circleRadius'] },
-            { required: ['circleNaturalRadius'] }
-          ]
-        }
-      }, {
-        required: ['circleRadius'],
-        not: { required: ['circleNaturalRadius'] }
-      }, {
-        required: ['circleNaturalRadius'],
-        not: { required: ['circleRadius'] }
-      }]
-    }, {
-      oneOf: [{
-        not: {
-          anyOf: [
-            { required: ['circleMargin'] },
-            { required: ['circleNaturalMargin'] }
-          ]
-        }
-      }, {
-        required: ['circleMargin'],
-        not: { required: ['circleNaturalMargin'] }
-      }, {
-        required: ['circleNaturalMargin'],
-        not: { required: ['circleMargin'] }
-      }]
+  allOf: [{
+    not: {
+      required: ['circleRadius', 'circleNaturalMargin']
     }
-  ],
+  }, {
+    atMostOneOf: [{
+      required: ['normalOffset']
+    }, {
+      required: ['naturalNormalOffset']
+    }]
+  }, {
+    atMostOneOf: [{
+      required: ['lineWidth']
+    }, {
+      required: ['lineNaturalWidth']
+    }]
+  }, {
+    atMostOneOf: [{
+      required: ['circleMargin']
+    }, {
+      required: ['circleNaturalMargin']
+    }]
+  }, {
+    atMostOneOf: [{
+      required: ['circleRadius']
+    }, {
+      required: ['circleNaturalRadius']
+    }]
+  }],
   properties: {
     circleData: {
       type: 'array',
@@ -682,24 +598,13 @@ export const anchoredShapesConfigSchema = {
     'getShapeSize',
     'getShapePath'
   ],
-  allOf: [
-    {
-      oneOf: [{
-        not: {
-          anyOf: [
-            { required: ['normalOffset'] },
-            { required: ['naturalNormalOffset'] }
-          ]
-        }
-      }, {
-        required: ['normalOffset'],
-        not: { required: ['naturalNormalOffset'] }
-      }, {
-        required: ['naturalNormalOffset'],
-        not: { required: ['normalOffset'] }
-      }]
-    }
-  ],
+  allOf: [{
+    atMostOneOf: [{
+      required: ['normalOffset']
+    }, {
+      required: ['naturalNormalOffset']
+    }]
+  }],
   properties: {
     shapeData: {
       type: 'array',
