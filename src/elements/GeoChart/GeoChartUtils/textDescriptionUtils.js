@@ -1,15 +1,41 @@
+/**
+ * @namespace {GeoChart}
+ * @enum {string}
+ */
 export const ALGORITHMS = {
   backPressure: 'backPressure',
   withoutReadjustment: 'withoutReadjustment'
 }
 
 /**
+ * @typedef {object} GeoChart.TextDescriptionUtilsTextElemConfig
+ * @property {number} height
+ * @property {number} preferredPosition This is the coordinate in the main
+ * direction of the middle point of the bbox
+ */
+
+/**
+ * @typedef {object} GeoChart.TextDescriptionUtilsGeneralConfig
+ * @property {number} margin // This is the number of pixels around the bounding
+ * box, in the case of 2 boxes one next to the other, margin will be applied twice
+ * @property {number} minY
+ * @property {number} maxY
+ */
+
+/**
+ * @typedef {number | null} GeoChart.TextDescriptionUtilsComputedLabelPosition
+ * This is the coordinate of the center of the bbox in the main direction once
+ * it has been adjusted.It 's null if it is not possible to place the label
+ */
+
+/**
  * This function receives a list of suggested positions and it readjusts them to
  * fit as many as possible.
  *
- * @param {Array<GeoChart.TextDescriptionUtilsTextElemConfig>} textElemsConfig Array must be sorted by preferredPosition in descending order
+ * @param {Array<GeoChart.TextDescriptionUtilsTextElemConfig>} textElemsConfig
+ * Array must be sorted by preferredPosition in descending order
  * @param {GeoChart.TextDescriptionUtilsGeneralConfig} generalConfig
- * @returns {Array<GeoChart.TextDescriptionUtilsComputedLabelPosition>} positions
+ * @returns {Array<GeoChart.TextDescriptionUtilsComputedLabelPosition>}
  */
 export function computeLabelPositionsWithBackPressure (textElemsConfig, generalConfig) {
   let maxY = generalConfig.maxY
@@ -78,12 +104,13 @@ export function computeLabelPositionsWithBackPressure (textElemsConfig, generalC
 }
 
 /**
- * This function receives a list of suggested positions and removes the necessary ones
- * to avoid overlapping
+ * This function receives a list of suggested positions and removes the necessary
+ * ones to avoid overlapping
  *
- * @param {Array<GeoChart.TextDescriptionUtilsTextElemConfig>} textElemsConfig Array must be sorted by preferredPosition in descending order
+ * @param {Array<GeoChart.TextDescriptionUtilsTextElemConfig>} textElemsConfig
+ * Array must be sorted by preferredPosition in descending order
  * @param {GeoChart.TextDescriptionUtilsGeneralConfig} generalConfig
- * @returns {Array<GeoChart.TextDescriptionUtilsComputedLabelPosition>} positions
+ * @returns {Array<GeoChart.TextDescriptionUtilsComputedLabelPosition>}
  */
 export function computeLabelPositionsWithoutReadjustment (textElemsConfig, generalConfig) {
   const positions = []

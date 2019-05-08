@@ -1,6 +1,6 @@
 {
   "name": "@geoblink/design-system",
-  "version": "17.0.0-beta.0",
+  "version": "17.0.0",
   "description": "Geoblink Design System for Vue.js",
   "author": "Geoblink <contact@geoblink.com>",
   "main": "dist/system.js",
@@ -15,6 +15,8 @@
     "unit:watch": "jest --config ./test/unit/jest.conf.js --watch",
     "build:system": "run-s theo node:build:system",
     "build:docs": "run-s theo styleguide:build",
+    "analyze": "run-s build:system bundle:analyze",
+    "bundle:analyze": "webpack-bundle-analyzer webpack.stats.json",
     "lint": "eslint '**/*.{js,vue}' --cache",
     "lint:fix": "eslint '**/*.{js,vue}' --cache --fix",
     "node:build:system": "node ./build/build-system.js",
@@ -63,7 +65,7 @@
   },
   "resolutions": {
     "merge": ">= 1.2.1",
-    "vue-styleguidist/vue-docgen-api": "~2.3.14"
+    "vue-styleguidist/vue-docgen-api": "^3.0.0"
   },
   "dependencies": {
     "d3": "^5.7.0",
@@ -89,6 +91,7 @@
     "@types/ajv": "^1.0.0",
     "@types/ajv-errors": "^1.0.2",
     "@types/d3": "^5.0.1",
+    "@types/d3-scale": "^2.1.1",
     "@types/d3-tip": "^3.5.5",
     "@types/lodash": "^4.14.118",
     "@types/markdown-it": "^0.0.7",
@@ -122,7 +125,7 @@
     "eslint-plugin-node": "^7.0.1",
     "eslint-plugin-promise": "^4.0.1",
     "eslint-plugin-standard": "^4.0.0",
-    "eslint-plugin-vue": "^4.7.1",
+    "eslint-plugin-vue": "^5.2.2",
     "file-loader": "^2.0.0",
     "friendly-errors-webpack-plugin": "^1.7.0",
     "fs-extra": "^7.0.1",
@@ -174,7 +177,7 @@
     "vuex": "^3.0.1",
     "webfontloader": "^1.6.28",
     "webpack": "^4.17.2",
-    "webpack-bundle-analyzer": "^2.13.1",
+    "webpack-bundle-analyzer": "^3.3.2",
     "webpack-cli": "^3.1.0",
     "webpack-dev-server": "^3.1.8",
     "webpack-merge": "^4.1.4",

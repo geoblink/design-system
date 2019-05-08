@@ -1,26 +1,36 @@
-Use this chart to display information as a series of data points connected by straight line segments.
-This chart can be used in combination with [GeoChartBars](./#/Elements/Charts?id=geochartbars).
+Use this chart to display information as a series of data points connected by
+straight line segments. This chart can be used in combination with
+[GeoChartBars](./#/Elements/Charts?id=geochartbars).
 
-To add line **groups** to a chart, add an array to `lineGroups` key of [GeoChart](./#/Elements/Charts?id=introduction)'s config.
-Each item of the array must be an object with the following:
+To add line **groups** to a chart, add an array to `lineGroups` key of
+[GeoChart](./#/Elements/Charts?id=introduction)'s config. Each item of the array
+must be an object with the following:
 
 ## Required properties
 
-- `lineData`: Array of objects, each one representing a with two values that will be converted into x,y point coordinates across the axes.
-- `dimension`: A value of `BARS_DIMENSIONS` named export (either `horizontal` or `vertical`).
+- `data`: Array of objects, each one representing an item with two values that
+will be converted into `x, y` point coordinates across the axes.
+- `mainDimension`: A value of `DIMENSIONS.DIMENSIONS_2D` named export (either
+`horizontal` or `vertical`).
 - `idHorizontalAxis`: The ID of the axis defining the `horizontal` dimension.
 - `idVerticalAxis`: The ID of the axis defining the `vertical` dimension.
 
-**Note:** `idHorizontalAxis` and `idVerticalAxis` must be IDs of registered axes. See [Axes](./#/Elements/Charts?id=axes) for more info.
+**Note:** `idHorizontalAxis` and `idVerticalAxis` must be IDs of registered axes.
+See [Axes](./#/Elements/Charts?id=axes) for more info.
 
 ## Optional properties
 
 
-- `lineWidth`: Width in pixels of each one of the lines. If no width is provided, a default width of `2px` will be applied.
-- `hoverCircleRadius`: Radius in pixels of the circles that will be displayed when hovering on the graph. If no width is provided, a default width of `2px` will be applied.
-- `interpolationFn`: Choose one of the functions provided by D3 to handle the interpolation of the segments connecting each one of your data points. If no function is provided,
-a default `d3.curveLinear` will be applied.
-- `trackByKey`: Define this function to let D3 know which property of your data will be used to track changes in it.
+- `lineWidth`: Width in pixels of each one of the lines. If no width is provided,
+a default width of `2px` will be applied.
+- `hoverCircleRadius`: Radius in pixels of the circles that will be displayed
+when hovering on the graph. If no width is provided, a default width of `2px`
+will be applied.
+- `interpolationFn`: Choose one of the functions provided by D3 to handle the
+interpolation of the segments connecting each one of your data points. Defaults
+to `d3.curveLinear`.
+- `trackByKey`: Define this function to let D3 know which property of your data
+will be used to track changes in it.
 
 ### Tooltips
 
@@ -63,10 +73,8 @@ inside the data array.
 </template>
 
 <script>
-const { POSITIONS } = require('../GeoChartAxis/GeoChartAxis')
-const { SCALE_TYPES } = require('../GeoChartScale/GeoChartScale')
+const CONSTANTS = require('../constants')
 const { INTERPOLATION_TYPES } = require('./GeoChartLine')
-const { DIMENSIONS: BARS_DIMENSIONS } = require('../GeoChartBars/GeoChartBars')
 
 export default {
   name: 'GeoChartLineDemo',
@@ -85,10 +93,10 @@ export default {
           count: 2
         },
         position: {
-          type: POSITIONS.left
+          type: CONSTANTS.AXIS.POSITIONS.left
         },
         scale: {
-          type: SCALE_TYPES.linear,
+          type: CONSTANTS.SCALES.SCALE_TYPES.linear,
           valueForOrigin: 0,
           domain: {
             start: 20,
@@ -102,10 +110,10 @@ export default {
         id: 'demo-numerical-axis',
         keyForValues: 'x',
         position: {
-          type: POSITIONS.bottom
+          type: CONSTANTS.AXIS.POSITIONS.bottom
         },
         scale: {
-          type: SCALE_TYPES.linear,
+          type: CONSTANTS.SCALES.SCALE_TYPES.linear,
           valueForOrigin: 0,
           domain: {
             start: 0,
@@ -134,8 +142,8 @@ export default {
         lineGroups: [{
           idVerticalAxis: this.linearAxisConfig.id,
           idHorizontalAxis: this.numericalAxisConfig.id,
-          dimension: BARS_DIMENSIONS.horizontal,
-          lineData: this.lineData,
+          mainDimension: CONSTANTS.DIMENSIONS.DIMENSIONS_2D.horizontal,
+          data: this.lineData,
           lineWidth: 2,
           hoverCircleRadius: 4,
           interpolationFn: INTERPOLATION_TYPES.curveLinear

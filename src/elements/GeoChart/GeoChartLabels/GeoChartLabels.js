@@ -17,11 +17,19 @@ const d3 = (function () {
  * @template Datum
  * @template PElement
  * @template PDatum
+ * @typedef {import('d3').Selection<GElement, Datum, PElement, PDatum>} d3.Selection
+ */
+
+/**
+ * @template GElement
+ * @template Datum
+ * @template PElement
+ * @template PDatum
  * @template HorizontalDomain
  * @template VerticalDomain
  * @param {d3.Selection<GElement, Datum, PElement, PDatum>} d3Instance
  * @param {Array<GeoChart.LabelGroupConfig<HorizontalDomain, VerticalDomain>>} options
- * @param {GeoChart.LabelGroupsGlobalConfig} globalOptions
+ * @param {GeoChart.GlobalOptions} globalOptions
  */
 export function render (d3Instance, options, globalOptions) {
   const groups = d3Instance
@@ -58,9 +66,9 @@ export function render (d3Instance, options, globalOptions) {
  * @template PDatum
  * @template HorizontalDomain
  * @template VerticalDomain
- * @param {d3.Selection<GElement, Datum, PElement, PDatum>} d3Instance
+ * @param {d3.Selection<GElement, Datum, PElement, PDatum>} group
  * @param {GeoChart.LabelGroupConfig<HorizontalDomain, VerticalDomain>} singleGroupOptions
- * @param {GeoChart.LabelGroupsGlobalConfig} globalOptions
+ * @param {GeoChart.GlobalOptions} globalOptions
  */
 function renderSingleGroup (group, singleGroupOptions, globalOptions) {
   const singleDataGroups = group
@@ -86,7 +94,7 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions) {
 
   allSingleDataGroups.each(function () {
     const labelsGroup = d3.select(this)
-    renderSingleLabel(labelsGroup, singleGroupOptions, globalOptions)
+    renderSingleLabelLine(labelsGroup, globalOptions)
   })
 
   allSingleDataGroups
@@ -109,11 +117,10 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions) {
  * @template PDatum
  * @template HorizontalDomain
  * @template VerticalDomain
- * @param {d3.Selection<GElement, Datum, PElement, PDatum>} d3Instance
- * @param {GeoChart.LabelGroupConfig<HorizontalDomain, VerticalDomain>} singleGroupOptions
- * @param {GeoChart.LabelGroupsGlobalConfig} globalOptions
+ * @param {d3.Selection<GElement, GeoChart.SingleLabelLineConfig, PElement, PDatum>} group
+ * @param {GeoChart.GlobalOptions} globalOptions
  */
-function renderSingleLabel (group, singleGroupOptions, globalOptions) {
+function renderSingleLabelLine (group, globalOptions) {
   const singleLabelGroupsBaseClass = 'geo-chart-labels-group__single-label'
 
   const singleLabelGroups = group
@@ -139,10 +146,11 @@ function renderSingleLabel (group, singleGroupOptions, globalOptions) {
 
   const newRects = newSingleLabelGroups
     .append('rect')
+  /** @type {unknown} */
   const updatedRects = updatedSingleLabelGroups
     .selectAll('rect')
   const allRects = newRects
-    .merge(updatedRects)
+    .merge((/** @type {d3.Selection<SVGRectElement, GeoChart.SingleLabelConfig, GElement, GeoChart.SingleLabelLineConfig>} */ (updatedRects)))
 
   allRects
     .attr('rx', d => d.cornerRadius)
@@ -151,10 +159,11 @@ function renderSingleLabel (group, singleGroupOptions, globalOptions) {
   const newTexts = newSingleLabelGroups
     .append('text')
     .attr('dominant-baseline', 'hanging')
+  /** @type {unknown} */
   const updatedTexts = updatedSingleLabelGroups
     .selectAll('text')
   const allTexts = newTexts
-    .merge(updatedTexts)
+    .merge((/** @type {d3.Selection<SVGTextElement, GeoChart.SingleLabelConfig, GElement, GeoChart.SingleLabelLineConfig>} */(updatedTexts)))
 
   allTexts
     .text(d => d.text)
@@ -224,6 +233,10 @@ function getItemSpanAtAxis (axisConfig, singleItem) {
 }
 
 /**
+ * @typedef {GeoChart.Margin} PaddingOrMargin
+ */
+
+/**
  * @typedef {object} PositioningAttributes
  * @property {number} xTranslation
  * @property {PaddingOrMargin} padding
@@ -238,11 +251,10 @@ function getItemSpanAtAxis (axisConfig, singleItem) {
 
 /**
  * @template GElement
- * @template Datum
  * @template PElement
  * @template PDatum
- * @param {d3.Selection<GElement, Datum, PElement, PDatum>} allSingleLabelGroups
- * @param {GeoChart.LabelGroupsGlobalConfig} globalOptions
+ * @param {d3.Selection<GElement, GeoChart.SingleLabelConfig, PElement, PDatum>} allSingleLabelGroups
+ * @param {GeoChart.GlobalOptions} globalOptions
  */
 function applyPositioningAttributes (allSingleLabelGroups, globalOptions) {
   const positioningAttributes = getPositioningAttributes(allSingleLabelGroups)
@@ -288,10 +300,9 @@ function applyPositioningAttributes (allSingleLabelGroups, globalOptions) {
 
 /**
  * @template GElement
- * @template Datum
  * @template PElement
  * @template PDatum
- * @param {d3.Selection<GElement, Datum, PElement, PDatum>} allRectAndTextGroups
+ * @param {d3.Selection<GElement, GeoChart.SingleLabelConfig, PElement, PDatum>} allRectAndTextGroups
  * @returns {PositioningAttributes[]}
  */
 function getPositioningAttributes (allRectAndTextGroups) {

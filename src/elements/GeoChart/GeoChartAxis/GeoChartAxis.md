@@ -15,8 +15,8 @@ Each **axis** **requires** these properties:
 identifier for this axis.
 - `keyForValues`: the key in each chart item where the value for this axis is
 stored.
-- `position`: the position of the axis. Should be a value of `POSITIONS` named
-export or a **relative position object** if you want an **anchored axis**.
+- `position`: the position of the axis. Should be a value of `AXIS.POSITIONS`
+named export or a **relative position object** if you want an **anchored axis**.
 - `scale`: the config object of the scale to be used by this axis. See
 [Scales](./#/Elements/Charts?id=scales) for more info.
 
@@ -36,7 +36,7 @@ provide both: a **value** and the ID of the **axis to which is relative**.
 So in order to use an anchored-positioned axis the position you must provide is
 an object with the following properties:
 
-- `type`: always set to `POSITIONS.anchoredToAxis`.
+- `type`: always set to `AXIS.POSITIONS.anchoredToAxis`.
 - `value`: the value to which is anchored.
 - `relativeToAxis`: the ID of the axis to which is anchored.
 
@@ -80,9 +80,7 @@ to be displayed as value for given tick.
 </template>
 
 <script>
-const d3 = require('d3')
-const { DIMENSIONS: BARS_DIMENSIONS } = require('../GeoChartBars/GeoChartBars')
-const { SCALE_TYPES } = require('../GeoChartScale/GeoChartScale')
+const CONSTANTS = require('../constants')
 
 export default {
   name: 'GeoChartAxisDemo',
@@ -93,11 +91,6 @@ export default {
     }
   },
   computed: {
-    POSITIONS () {
-      const { POSITIONS } = require('../GeoChartAxis/GeoChartAxis')
-      return POSITIONS
-    },
-
     categoricalDomain () {
       return _.times(5, i => `Category ${i}`)
     },
@@ -112,10 +105,10 @@ export default {
           count: 10
         },
         position: {
-          type: this.POSITIONS.left
+          type: CONSTANTS.AXIS.POSITIONS.left
         },
         scale: {
-          type: SCALE_TYPES.linear,
+          type: CONSTANTS.SCALES.SCALE_TYPES.linear,
           valueForOrigin: _.clamp(0, this.linearDomain.start, this.linearDomain.end),
           domain: this.linearDomain
         }
@@ -132,10 +125,10 @@ export default {
           count: 10
         },
         position: {
-          type: this.POSITIONS.right
+          type: CONSTANTS.AXIS.POSITIONS.right
         },
         scale: {
-          type: SCALE_TYPES.logarithmic,
+          type: CONSTANTS.SCALES.SCALE_TYPES.logarithmic,
           valueForOrigin: _.clamp(1, this.logarithmicDomain.start, this.logarithmicDomain.end),
           domain: this.logarithmicDomain,
           base: 2
@@ -150,10 +143,10 @@ export default {
         id: 'demo-categorical-axis',
         keyForValues: 'category',
         position: {
-          type: this.POSITIONS.top
+          type: CONSTANTS.AXIS.POSITIONS.top
         },
         scale: {
-          type: SCALE_TYPES.categorical,
+          type: CONSTANTS.SCALES.SCALE_TYPES.categorical,
           valueForOrigin: _.first(this.categoricalDomain),
           domain: this.categoricalDomain,
           padding: {
@@ -232,9 +225,7 @@ export default {
 </template>
 
 <script>
-const d3 = require('d3')
-const { DIMENSIONS: BARS_DIMENSIONS } = require('../GeoChartBars/GeoChartBars')
-const { SCALE_TYPES } = require('../GeoChartScale/GeoChartScale')
+const CONSTANTS = require('../constants')
 
 export default {
   name: 'GeoChartAxisDemo',
@@ -244,11 +235,6 @@ export default {
     }
   },
   computed: {
-    POSITIONS () {
-      const { POSITIONS } = require('../GeoChartAxis/GeoChartAxis')
-      return POSITIONS
-    },
-
     categoricalDomain () {
       return _.times(5, i => `Category ${i}`)
     },
@@ -273,10 +259,10 @@ export default {
           offset: -15
         },
         position: {
-          type: this.POSITIONS.left
+          type: CONSTANTS.AXIS.POSITIONS.left
         },
         scale: {
-          type: SCALE_TYPES.linear,
+          type: CONSTANTS.SCALES.SCALE_TYPES.linear,
           valueForOrigin: _.clamp(0, this.linearDomain.start, this.linearDomain.end),
           domain: this.linearDomain
         }
@@ -291,12 +277,12 @@ export default {
         id: 'demo-categorical-anchored-axis',
         keyForValues: 'category',
         position: {
-          type: this.POSITIONS.anchoredToAxis,
+          type: CONSTANTS.AXIS.POSITIONS.anchoredToAxis,
           value: this.anchoredToValue,
           relativeToAxis: this.linearAxisConfig.id
         },
         scale: {
-          type: SCALE_TYPES.categorical,
+          type: CONSTANTS.SCALES.SCALE_TYPES.categorical,
           valueForOrigin: _.first(this.categoricalDomain),
           domain: this.categoricalDomain,
           padding: {
@@ -363,18 +349,11 @@ export default {
 </template>
 
 <script>
-const d3 = require('d3')
-const { DIMENSIONS: BARS_DIMENSIONS } = require('../GeoChartBars/GeoChartBars')
-const { SCALE_TYPES } = require('../GeoChartScale/GeoChartScale')
+const CONSTANTS = require('../constants')
 
 export default {
   name: 'GeoChartAxisDemo',
   computed: {
-    POSITIONS () {
-      const { POSITIONS } = require('../GeoChartAxis/GeoChartAxis')
-      return POSITIONS
-    },
-
     chartConfig () {
       const domain = _.times(5, i => `Category ${i}`)
 
@@ -391,10 +370,10 @@ export default {
           id: 'demo-categorical-anchored-axis',
           keyForValues: 'category',
           position: {
-            type: this.POSITIONS.left
+            type: CONSTANTS.AXIS.POSITIONS.left
           },
           scale: {
-            type: SCALE_TYPES.categorical,
+            type: CONSTANTS.SCALES.SCALE_TYPES.categorical,
             valueForOrigin: _.first(domain),
             domain,
             padding: {

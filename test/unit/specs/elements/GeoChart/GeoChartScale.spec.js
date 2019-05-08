@@ -1,5 +1,5 @@
+import GeoChart from '@/elements/GeoChart/GeoChart.vue'
 import * as GeoChartScale from '@/elements/GeoChart/GeoChartScale/GeoChartScale.js'
-import * as GeoChartAxis from '@/elements/GeoChart/GeoChartAxis/GeoChartAxis.js'
 import * as GeoChartSizing from '@/elements/GeoChart/GeoChartUtils/GeoChartSizing.js'
 
 import * as _ from 'lodash'
@@ -8,19 +8,20 @@ import * as d3 from 'd3'
 describe('GeoChartScale', function () {
   describe('Constants', function () {
     it('should export SCALE_TYPES', function () {
-      expect(GeoChartScale).toHaveProperty('SCALE_TYPES')
+      expect(GeoChart.constants).toHaveProperty('SCALES')
+      expect(GeoChart.constants.SCALES).toHaveProperty('SCALE_TYPES')
     })
 
     it('should export linear scale', function () {
-      expect(GeoChartScale.SCALE_TYPES).toHaveProperty('linear')
+      expect(GeoChart.constants.SCALES.SCALE_TYPES).toHaveProperty('linear')
     })
 
     it('should export logarithmic scale', function () {
-      expect(GeoChartScale.SCALE_TYPES).toHaveProperty('logarithmic')
+      expect(GeoChart.constants.SCALES.SCALE_TYPES).toHaveProperty('logarithmic')
     })
 
     it('should export categorical scale', function () {
-      expect(GeoChartScale.SCALE_TYPES).toHaveProperty('categorical')
+      expect(GeoChart.constants.SCALES.SCALE_TYPES).toHaveProperty('categorical')
     })
 
     it('should export DEFAULT_LOGARITHMIC_SCALE_BASE', function () {
@@ -40,9 +41,9 @@ describe('GeoChartScale', function () {
     describe('Linear scales', function () {
       const linearScaleBaseConfig = {
         id: 0,
-        dimension: GeoChartAxis.DIMENSIONS.horizontal,
+        dimension: GeoChart.constants.DIMENSIONS.DIMENSIONS_2D.horizontal,
         scale: {
-          type: GeoChartScale.SCALE_TYPES.linear,
+          type: GeoChart.constants.SCALES.SCALE_TYPES.linear,
           valueForOrigin: 0,
           domain: {
             start: 0,
@@ -122,9 +123,9 @@ describe('GeoChartScale', function () {
     describe('Logarithmic scales', function () {
       const logarithmicScaleBaseConfig = {
         id: 0,
-        dimension: GeoChartAxis.DIMENSIONS.horizontal,
+        dimension: GeoChart.constants.DIMENSIONS.DIMENSIONS_2D.horizontal,
         scale: {
-          type: GeoChartScale.SCALE_TYPES.logarithmic,
+          type: GeoChart.constants.SCALES.SCALE_TYPES.logarithmic,
           valueForOrigin: 0,
           domain: {
             start: 10,
@@ -204,9 +205,9 @@ describe('GeoChartScale', function () {
     describe('Categorical scales', function () {
       const categoricalScaleBaseConfig = {
         id: 0,
-        dimension: GeoChartAxis.DIMENSIONS.horizontal,
+        dimension: GeoChart.constants.DIMENSIONS.DIMENSIONS_2D.horizontal,
         scale: {
-          type: GeoChartScale.SCALE_TYPES.categorical,
+          type: GeoChart.constants.SCALES.SCALE_TYPES.categorical,
           valueForOrigin: 0,
           domain: {
             start: 10,
@@ -277,7 +278,7 @@ describe('GeoChartScale', function () {
     it('should throw error when trying to get an unknown scale', function () {
       const unknownScaleBaseConfig = {
         id: 0,
-        dimension: GeoChartAxis.DIMENSIONS.horizontal,
+        dimension: GeoChart.constants.DIMENSIONS.DIMENSIONS_2D.horizontal,
         scale: {
           type: 'unknown',
           valueForOrigin: 0,
@@ -329,7 +330,7 @@ describe('GeoChartScale', function () {
       })
 
       it('should consider chart height in range of vertical axis', function () {
-        const dimension = GeoChartAxis.DIMENSIONS.vertical
+        const dimension = GeoChart.constants.DIMENSIONS.DIMENSIONS_2D.vertical
         const width = 200
         const height = 100
 
@@ -342,7 +343,7 @@ describe('GeoChartScale', function () {
       })
 
       it('should consider chart margin in range of vertical axis', function () {
-        const dimension = GeoChartAxis.DIMENSIONS.vertical
+        const dimension = GeoChart.constants.DIMENSIONS.DIMENSIONS_2D.vertical
         const topMargin = 75
         const bottomMargin = 50
         const width = 200

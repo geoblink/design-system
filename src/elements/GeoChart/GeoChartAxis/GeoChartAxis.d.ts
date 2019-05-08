@@ -1,9 +1,4 @@
 declare namespace GeoChart {
-  enum AxisDimension {
-    horizontal = 'horizontal',
-    vertical = 'vertical'
-  }
-
   enum AxisPositionType {
     bottom = 'bottom',
     top = 'top',
@@ -13,6 +8,15 @@ declare namespace GeoChart {
     horizontallyCenteredInTheMiddle = 'horizontallyCenteredInTheMiddle',
     anchoredToAxis = 'anchoredToAxis'
   }
+
+  type SimpleAxisPositionType = (
+    AxisPositionType.bottom |
+    AxisPositionType.top |
+    AxisPositionType.left |
+    AxisPositionType.right |
+    AxisPositionType.verticallyCenteredInTheMiddle |
+    AxisPositionType.horizontallyCenteredInTheMiddle
+  )
 
   interface AxisConfigScale<Domain> {
     valueForOrigin: Domain
@@ -27,14 +31,7 @@ declare namespace GeoChart {
   }
 
   interface AxisPositionConfigSimple {
-    type: (
-      AxisPositionType.bottom |
-      AxisPositionType.top |
-      AxisPositionType.left |
-      AxisPositionType.right |
-      AxisPositionType.verticallyCenteredInTheMiddle |
-      AxisPositionType.horizontallyCenteredInTheMiddle
-    )
+    type: SimpleAxisPositionType
   }
 
   interface AxisPositionConfigRelative<RelativeScaleDomain> {
@@ -71,14 +68,33 @@ declare namespace GeoChart {
     cssClasses?: (originalClasses: string[]) => string[]
     ticks: {
       count?: number
-      cssClasses?: (originalClasses: string[]) => string[]
+      cssClasses?: (originalClasses: string[], value: Domain, index: number) => string[]
       format?: (d: object, i: number) => {
         text: string
         cssClasses: string[]
       }[]
-      label?: {
-        maxWidth?: (drawingEnvironment: DrawingEnvironment) => number
-      }
+    },
+    label?: {
+      content: string
+      offset?: number
+      maxWidth?: (drawingEnvironment: DrawingEnvironment) => number
     }
+  }
+
+  interface BidimensionalGroupConfig<HorizontalDomain, VerticalDomain> {
+    id: string
+    mainDimension: GeoChart.DIMENSIONS.DIMENSIONS_2D
+    axis: {
+      horizontal: AxisConfig<HorizontalDomain, any>
+      vertical: AxisConfig<VerticalDomain, any>
+    }
+    data: object[]
+    cssClasses?: (defaultClasses: string[], item: object, index: number) => string[]
+  }
+
+  interface Axis {
+    id: string
+    dimension: DIMENSIONS_2D
+    scale: ScaleConfig
   }
 }

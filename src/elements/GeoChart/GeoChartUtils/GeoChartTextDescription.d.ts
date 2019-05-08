@@ -1,34 +1,26 @@
 declare namespace GeoChart {
-  type TextDescriptionOptions = {
-    margin: number
-    content: (item: object, index: number) => {
+  interface TextDescriptionOptions<Datum extends object> {
+    margin?: number
+    content: (item: Datum, index: number) => {
       text: string
       cssClass: string
       newLine: boolean
     }[]
-    cssClassesGroups: (defaultClasses: string[], item: object, index: number) => string[]
-    cssClassesTexts: (defaultClasses: string[], item: object, index: number) => string[]
+    cssClassesGroups?: (defaultClasses: string[], item: Datum, index: number) => string[]
+    cssClassesTexts?: (defaultClasses: string[], item: Datum, index: number) => string[]
   }
 
-  interface TextDescriptionSettingsData {
-    data: object[]
+  interface TextDescriptionSettingsData<Datum extends object> {
+    data: Datum[]
     keyForId: string
-    textOptions: GeoChart.TextDescriptionOptions
+    textOptions: GeoChart.TextDescriptionOptions<Datum>
     // y coordinate to position the text
-    getTextPositionMainDirection: (item: object, index: number) => number
+    getTextPositionMainDirection: (item: Datum, index: number) => number
     // [x, y] coordinates where the main group will be translated
     startPosition: number[]
     textAnchor: string
     minY: number
     maxY: number
     algorithm: GeoChart.TextDescriptionUtilsAlgorithms
-  }
-
-  interface TextDescriptionGlobalOptions {
-    chart: {
-      animationsDurationInMilliseconds: number
-      size: GeoChart.Size
-      margin: GeoChart.Margin
-    }
   }
 }

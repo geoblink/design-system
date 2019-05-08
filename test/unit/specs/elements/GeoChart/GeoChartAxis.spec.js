@@ -38,20 +38,18 @@ describe('GeoChartAxis', function () {
   })
 
   describe('Constants', function () {
-    it('should export DIMENSIONS', function () {
-      expect(GeoChartAxis).toHaveProperty('DIMENSIONS')
-    })
-
     it('should export POSITIONS', function () {
-      expect(GeoChartAxis).toHaveProperty('POSITIONS')
+      expect(GeoChart.constants).toHaveProperty('AXIS')
+      expect(GeoChart.constants.AXIS).toHaveProperty('POSITIONS')
     })
 
     it('should export SIMPLE_POSITIONS', function () {
-      expect(GeoChartAxis).toHaveProperty('SIMPLE_POSITIONS')
+      expect(GeoChart.constants).toHaveProperty('AXIS')
+      expect(GeoChart.constants.AXIS).toHaveProperty('SIMPLE_POSITIONS')
     })
 
     it('should not export «anchoredToAxis» as SIMPLE_POSITIONS', function () {
-      expect(GeoChartAxis.SIMPLE_POSITIONS).not.toMatchObject({
+      expect(GeoChart.constants.AXIS.SIMPLE_POSITIONS).not.toMatchObject({
         anchoredToAxis: 'anchoredToAxis'
       })
     })
@@ -60,66 +58,66 @@ describe('GeoChartAxis', function () {
   describe('#getAxisDimension', function () {
     it('should return horizontal dimension for vertically aligned axes', function () {
       expect(GeoChartAxis.getAxisDimension({
-        type: GeoChartAxis.POSITIONS.top
-      })).toBe(GeoChartAxis.DIMENSIONS.horizontal)
+        type: GeoChart.constants.AXIS.POSITIONS.top
+      })).toBe(GeoChart.constants.DIMENSIONS.DIMENSIONS_2D.horizontal)
       expect(GeoChartAxis.getAxisDimension({
-        type: GeoChartAxis.POSITIONS.bottom
-      })).toBe(GeoChartAxis.DIMENSIONS.horizontal)
+        type: GeoChart.constants.AXIS.POSITIONS.bottom
+      })).toBe(GeoChart.constants.DIMENSIONS.DIMENSIONS_2D.horizontal)
       expect(GeoChartAxis.getAxisDimension({
-        type: GeoChartAxis.POSITIONS.verticallyCenteredInTheMiddle
-      })).toBe(GeoChartAxis.DIMENSIONS.horizontal)
+        type: GeoChart.constants.AXIS.POSITIONS.verticallyCenteredInTheMiddle
+      })).toBe(GeoChart.constants.DIMENSIONS.DIMENSIONS_2D.horizontal)
     })
 
     it('should return vertical dimension for horizontally aligned axes', function () {
       expect(GeoChartAxis.getAxisDimension({
-        type: GeoChartAxis.POSITIONS.left
-      })).toBe(GeoChartAxis.DIMENSIONS.vertical)
+        type: GeoChart.constants.AXIS.POSITIONS.left
+      })).toBe(GeoChart.constants.DIMENSIONS.DIMENSIONS_2D.vertical)
       expect(GeoChartAxis.getAxisDimension({
-        type: GeoChartAxis.POSITIONS.right
-      })).toBe(GeoChartAxis.DIMENSIONS.vertical)
+        type: GeoChart.constants.AXIS.POSITIONS.right
+      })).toBe(GeoChart.constants.DIMENSIONS.DIMENSIONS_2D.vertical)
       expect(GeoChartAxis.getAxisDimension({
-        type: GeoChartAxis.POSITIONS.horizontallyCenteredInTheMiddle
-      })).toBe(GeoChartAxis.DIMENSIONS.vertical)
+        type: GeoChart.constants.AXIS.POSITIONS.horizontallyCenteredInTheMiddle
+      })).toBe(GeoChart.constants.DIMENSIONS.DIMENSIONS_2D.vertical)
     })
 
     it('should return normal dimension for anchored axes', function () {
       expect(GeoChartAxis.getAxisDimension({
-        type: GeoChartAxis.POSITIONS.anchoredToAxis,
+        type: GeoChart.constants.AXIS.POSITIONS.anchoredToAxis,
         relativeAxisPosition: {
-          type: GeoChartAxis.POSITIONS.top
+          type: GeoChart.constants.AXIS.POSITIONS.top
         }
-      })).toBe(GeoChartAxis.DIMENSIONS.vertical)
+      })).toBe(GeoChart.constants.DIMENSIONS.DIMENSIONS_2D.vertical)
       expect(GeoChartAxis.getAxisDimension({
-        type: GeoChartAxis.POSITIONS.anchoredToAxis,
+        type: GeoChart.constants.AXIS.POSITIONS.anchoredToAxis,
         relativeAxisPosition: {
-          type: GeoChartAxis.POSITIONS.bottom
+          type: GeoChart.constants.AXIS.POSITIONS.bottom
         }
-      })).toBe(GeoChartAxis.DIMENSIONS.vertical)
+      })).toBe(GeoChart.constants.DIMENSIONS.DIMENSIONS_2D.vertical)
       expect(GeoChartAxis.getAxisDimension({
-        type: GeoChartAxis.POSITIONS.anchoredToAxis,
+        type: GeoChart.constants.AXIS.POSITIONS.anchoredToAxis,
         relativeAxisPosition: {
-          type: GeoChartAxis.POSITIONS.verticallyCenteredInTheMiddle
+          type: GeoChart.constants.AXIS.POSITIONS.verticallyCenteredInTheMiddle
         }
-      })).toBe(GeoChartAxis.DIMENSIONS.vertical)
+      })).toBe(GeoChart.constants.DIMENSIONS.DIMENSIONS_2D.vertical)
 
       expect(GeoChartAxis.getAxisDimension({
-        type: GeoChartAxis.POSITIONS.anchoredToAxis,
+        type: GeoChart.constants.AXIS.POSITIONS.anchoredToAxis,
         relativeAxisPosition: {
-          type: GeoChartAxis.POSITIONS.left
+          type: GeoChart.constants.AXIS.POSITIONS.left
         }
-      })).toBe(GeoChartAxis.DIMENSIONS.horizontal)
+      })).toBe(GeoChart.constants.DIMENSIONS.DIMENSIONS_2D.horizontal)
       expect(GeoChartAxis.getAxisDimension({
-        type: GeoChartAxis.POSITIONS.anchoredToAxis,
+        type: GeoChart.constants.AXIS.POSITIONS.anchoredToAxis,
         relativeAxisPosition: {
-          type: GeoChartAxis.POSITIONS.right
+          type: GeoChart.constants.AXIS.POSITIONS.right
         }
-      })).toBe(GeoChartAxis.DIMENSIONS.horizontal)
+      })).toBe(GeoChart.constants.DIMENSIONS.DIMENSIONS_2D.horizontal)
       expect(GeoChartAxis.getAxisDimension({
-        type: GeoChartAxis.POSITIONS.anchoredToAxis,
+        type: GeoChart.constants.AXIS.POSITIONS.anchoredToAxis,
         relativeAxisPosition: {
-          type: GeoChartAxis.POSITIONS.horizontallyCenteredInTheMiddle
+          type: GeoChart.constants.AXIS.POSITIONS.horizontallyCenteredInTheMiddle
         }
-      })).toBe(GeoChartAxis.DIMENSIONS.horizontal)
+      })).toBe(GeoChart.constants.DIMENSIONS.DIMENSIONS_2D.horizontal)
     })
   })
 
@@ -132,7 +130,7 @@ describe('GeoChartAxis', function () {
         count: tickCount
       },
       scale: {
-        type: GeoChart.constants.SCALE_TYPES.linear,
+        type: GeoChart.constants.SCALES.SCALE_TYPES.linear,
         valueForOrigin: 10,
         domain: {
           start: 5,
@@ -176,7 +174,7 @@ describe('GeoChartAxis', function () {
           ticks: {
             count: 0
           },
-          position: { type: GeoChart.constants.POSITIONS.left }
+          position: { type: GeoChart.constants.AXIS.POSITIONS.left }
         })
         const wrapper = mount(GeoChart, {
           propsData: {
@@ -196,7 +194,7 @@ describe('GeoChartAxis', function () {
       it('should render ticks by default', function () {
         const axisConfig = _.omit(
           _.merge({}, linearAxisConfig, {
-            position: { type: GeoChart.constants.POSITIONS.left }
+            position: { type: GeoChart.constants.AXIS.POSITIONS.left }
           }),
           'ticks'
         )
@@ -223,7 +221,7 @@ describe('GeoChartAxis', function () {
             format: formatMock,
             count: 3
           },
-          position: { type: GeoChart.constants.POSITIONS.left }
+          position: { type: GeoChart.constants.AXIS.POSITIONS.left }
         })
         const wrapper = mount(GeoChart, {
           propsData: {
@@ -264,7 +262,7 @@ describe('GeoChartAxis', function () {
         const cssClassesMock = jest.fn(getCSSClasses)
         const axisConfig = _.merge({}, linearAxisConfig, {
           cssClasses: cssClassesMock,
-          position: { type: GeoChart.constants.POSITIONS.left }
+          position: { type: GeoChart.constants.AXIS.POSITIONS.left }
         })
         const wrapper = mount(GeoChart, {
           propsData: {
@@ -300,7 +298,7 @@ describe('GeoChartAxis', function () {
             cssClasses: cssClassesMock,
             count: tickCount
           },
-          position: { type: GeoChart.constants.POSITIONS.left }
+          position: { type: GeoChart.constants.AXIS.POSITIONS.left }
         })
         const wrapper = mount(GeoChart, {
           propsData: {
@@ -350,7 +348,7 @@ describe('GeoChartAxis', function () {
       it('should apply labels if provided in the axis config', function () {
         const axisConfig = _.omit(
           _.merge({}, linearAxisConfig, {
-            position: { type: GeoChart.constants.POSITIONS.left },
+            position: { type: GeoChart.constants.AXIS.POSITIONS.left },
             label: { content: 'Test label' }
           }),
           'ticks'
@@ -376,42 +374,42 @@ describe('GeoChartAxis', function () {
     describe('Simply-positioned axes', function () {
       describe('Left-positioned axes', function () {
         testAxis(
-          GeoChart.constants.POSITIONS.left,
+          GeoChart.constants.AXIS.POSITIONS.left,
           { xTranslation: leftMargin }
         )
       })
 
       describe('Right-positioned axes', function () {
         testAxis(
-          GeoChart.constants.POSITIONS.right,
+          GeoChart.constants.AXIS.POSITIONS.right,
           { xTranslation: chartWidth - rightMargin }
         )
       })
 
       describe('Horizontally-centered axes', function () {
         testAxis(
-          GeoChart.constants.POSITIONS.horizontallyCenteredInTheMiddle,
+          GeoChart.constants.AXIS.POSITIONS.horizontallyCenteredInTheMiddle,
           { xTranslation: (chartWidth - rightMargin + leftMargin) / 2 }
         )
       })
 
       describe('Top-positioned axes', function () {
         testAxis(
-          GeoChart.constants.POSITIONS.top,
+          GeoChart.constants.AXIS.POSITIONS.top,
           { yTranslation: topMargin }
         )
       })
 
       describe('Bottom-positioned axes', function () {
         testAxis(
-          GeoChart.constants.POSITIONS.bottom,
+          GeoChart.constants.AXIS.POSITIONS.bottom,
           { yTranslation: chartHeight - bottomMargin }
         )
       })
 
       describe('Vertically-centered axes', function () {
         testAxis(
-          GeoChart.constants.POSITIONS.verticallyCenteredInTheMiddle,
+          GeoChart.constants.AXIS.POSITIONS.verticallyCenteredInTheMiddle,
           { yTranslation: (chartHeight - bottomMargin + topMargin) / 2 }
         )
       })
@@ -533,7 +531,7 @@ describe('GeoChartAxis', function () {
           count: tickCount
         },
         scale: {
-          type: GeoChart.constants.SCALE_TYPES.linear,
+          type: GeoChart.constants.SCALES.SCALE_TYPES.linear,
           valueForOrigin: 15,
           domain: {
             start: -10,
@@ -548,7 +546,7 @@ describe('GeoChartAxis', function () {
           count: anchoredAxisTickCount
         },
         position: {
-          type: GeoChart.constants.POSITIONS.anchoredToAxis,
+          type: GeoChart.constants.AXIS.POSITIONS.anchoredToAxis,
           value: 0,
           relativeToAxis: baseAxisConfig.id
         },
@@ -570,19 +568,19 @@ describe('GeoChartAxis', function () {
 
         testAnchoredAxis(
           'Anchored to Left-positioned axis',
-          GeoChart.constants.POSITIONS.left,
+          GeoChart.constants.AXIS.POSITIONS.left,
           anchoredAxisPositioningParams
         )
 
         testAnchoredAxis(
           'Anchored to Right-positioned axis',
-          GeoChart.constants.POSITIONS.right,
+          GeoChart.constants.AXIS.POSITIONS.right,
           anchoredAxisPositioningParams
         )
 
         testAnchoredAxis(
           'Anchored to Horizontally-centered axis',
-          GeoChart.constants.POSITIONS.horizontallyCenteredInTheMiddle,
+          GeoChart.constants.AXIS.POSITIONS.horizontallyCenteredInTheMiddle,
           anchoredAxisPositioningParams
         )
       })
@@ -596,19 +594,19 @@ describe('GeoChartAxis', function () {
 
         testAnchoredAxis(
           'Anchored to Top-positioned axis',
-          GeoChart.constants.POSITIONS.top,
+          GeoChart.constants.AXIS.POSITIONS.top,
           anchoredAxisPositioningParams
         )
 
         testAnchoredAxis(
           'Anchored to Bottom-positioned axis',
-          GeoChart.constants.POSITIONS.bottom,
+          GeoChart.constants.AXIS.POSITIONS.bottom,
           anchoredAxisPositioningParams
         )
 
         testAnchoredAxis(
           'Anchored to Vertically-centered axis',
-          GeoChart.constants.POSITIONS.verticallyCenteredInTheMiddle,
+          GeoChart.constants.AXIS.POSITIONS.verticallyCenteredInTheMiddle,
           anchoredAxisPositioningParams
         )
       })
@@ -890,11 +888,11 @@ describe('GeoChartAxis', function () {
 
       it('should add new axis', function () {
         const initialAxis = _.merge({}, linearAxisConfig, {
-          position: { type: GeoChart.constants.POSITIONS.left }
+          position: { type: GeoChart.constants.AXIS.POSITIONS.left }
         })
         const newAxis = _.merge({}, linearAxisConfig, {
           id: 'new-axis',
-          position: { type: GeoChart.constants.POSITIONS.left }
+          position: { type: GeoChart.constants.AXIS.POSITIONS.left }
         })
 
         const wrapper = mount(GeoChart, {
@@ -929,13 +927,13 @@ describe('GeoChartAxis', function () {
           ticks: {
             count: 5
           },
-          position: { type: GeoChart.constants.POSITIONS.left }
+          position: { type: GeoChart.constants.AXIS.POSITIONS.left }
         })
         const updatedAxis = _.merge({}, linearAxisConfig, {
           ticks: {
             count: 1
           },
-          position: { type: GeoChart.constants.POSITIONS.right }
+          position: { type: GeoChart.constants.AXIS.POSITIONS.right }
         })
 
         const wrapper = mount(GeoChart, {
@@ -967,11 +965,11 @@ describe('GeoChartAxis', function () {
       it('should remove axis', function () {
         const firstAxis = _.merge({}, linearAxisConfig, {
           id: 'fist-axis',
-          position: { type: GeoChart.constants.POSITIONS.left }
+          position: { type: GeoChart.constants.AXIS.POSITIONS.left }
         })
         const secondAxis = _.merge({}, linearAxisConfig, {
           id: 'second-axis',
-          position: { type: GeoChart.constants.POSITIONS.right }
+          position: { type: GeoChart.constants.AXIS.POSITIONS.right }
         })
 
         const wrapper = mount(GeoChart, {

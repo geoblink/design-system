@@ -66,8 +66,6 @@ inside the data array.
 </template>
 
 <script>
-const d3 = require('d3')
-
 export default {
   name: 'GeoChartPieDemo',
   data () {

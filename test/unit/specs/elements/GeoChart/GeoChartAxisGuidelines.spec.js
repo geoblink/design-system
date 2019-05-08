@@ -43,7 +43,7 @@ describe('GeoChartAxisGuidelines', function () {
         count: tickCount
       },
       scale: {
-        type: GeoChart.constants.SCALE_TYPES.linear,
+        type: GeoChart.constants.SCALES.SCALE_TYPES.linear,
         valueForOrigin: 10,
         domain: {
           start: 5,
@@ -58,7 +58,7 @@ describe('GeoChartAxisGuidelines', function () {
           ticks: {
             count: 0
           },
-          position: { type: GeoChart.constants.POSITIONS.left }
+          position: { type: GeoChart.constants.AXIS.POSITIONS.left }
         })
         const wrapper = mount(GeoChart, {
           propsData: {
@@ -79,7 +79,7 @@ describe('GeoChartAxisGuidelines', function () {
       it('should render guidelines by default', function () {
         const axisConfig = _.omit(
           _.merge({}, linearAxisConfig, {
-            position: { type: GeoChart.constants.POSITIONS.left }
+            position: { type: GeoChart.constants.AXIS.POSITIONS.left }
           }),
           'ticks'
         )
@@ -104,7 +104,7 @@ describe('GeoChartAxisGuidelines', function () {
           ticks: {
             count: 3
           },
-          position: { type: GeoChart.constants.POSITIONS.top }
+          position: { type: GeoChart.constants.AXIS.POSITIONS.top }
         })
         const wrapper = mount(GeoChart, {
           propsData: {
@@ -131,7 +131,7 @@ describe('GeoChartAxisGuidelines', function () {
         const getCSSClasses = (originalClasses) => [customClass]
         const cssClassesMock = jest.fn(getCSSClasses)
         const axisConfig = _.merge({}, linearAxisConfig, {
-          position: { type: GeoChart.constants.POSITIONS.left }
+          position: { type: GeoChart.constants.AXIS.POSITIONS.left }
         })
         const wrapper = mount(GeoChart, {
           propsData: {
@@ -170,7 +170,7 @@ describe('GeoChartAxisGuidelines', function () {
           ticks: {
             count: tickCount
           },
-          position: { type: GeoChart.constants.POSITIONS.left }
+          position: { type: GeoChart.constants.AXIS.POSITIONS.left }
         })
         const wrapper = mount(GeoChart, {
           propsData: {
@@ -208,7 +208,7 @@ describe('GeoChartAxisGuidelines', function () {
 
       it('should render guidelines given an axisConfig', function () {
         const axisConfig = _.merge({}, linearAxisConfig, {
-          position: { type: GeoChart.constants.POSITIONS.left }
+          position: { type: GeoChart.constants.AXIS.POSITIONS.left }
         })
         const wrapper = mount(GeoChart, {
           propsData: {
@@ -228,7 +228,7 @@ describe('GeoChartAxisGuidelines', function () {
 
       it('should not display domain by default', function () {
         const axisConfig = _.merge({}, linearAxisConfig, {
-          position: { type: GeoChart.constants.POSITIONS.left }
+          position: { type: GeoChart.constants.AXIS.POSITIONS.left }
         })
         const wrapper = mount(GeoChart, {
           propsData: {
@@ -248,7 +248,7 @@ describe('GeoChartAxisGuidelines', function () {
 
       it('should display domain when passed outerLines to true', function () {
         const axisConfig = _.merge({}, linearAxisConfig, {
-          position: { type: GeoChart.constants.POSITIONS.left }
+          position: { type: GeoChart.constants.AXIS.POSITIONS.left }
         })
         const wrapper = mount(GeoChart, {
           propsData: {
@@ -273,7 +273,7 @@ describe('GeoChartAxisGuidelines', function () {
 
       it('should display more guidelines than axis ticks when forced count', function () {
         const axisConfig = _.merge({}, linearAxisConfig, {
-          position: { type: GeoChart.constants.POSITIONS.right }
+          position: { type: GeoChart.constants.AXIS.POSITIONS.right }
         })
         const wrapper = mount(GeoChart, {
           propsData: {
@@ -312,11 +312,11 @@ describe('GeoChartAxisGuidelines', function () {
 
       it('should add new guidelines', function () {
         const initialAxis = _.merge({}, linearAxisConfig, {
-          position: { type: GeoChart.constants.POSITIONS.left }
+          position: { type: GeoChart.constants.AXIS.POSITIONS.left }
         })
         const newAxis = _.merge({}, linearAxisConfig, {
           id: 'new-axis',
-          position: { type: GeoChart.constants.POSITIONS.left }
+          position: { type: GeoChart.constants.AXIS.POSITIONS.left }
         })
 
         const wrapper = mount(GeoChart, {
@@ -356,13 +356,13 @@ describe('GeoChartAxisGuidelines', function () {
           ticks: {
             count: 5
           },
-          position: { type: GeoChart.constants.POSITIONS.left }
+          position: { type: GeoChart.constants.AXIS.POSITIONS.left }
         })
         const updatedAxis = _.merge({}, linearAxisConfig, {
           ticks: {
             count: 1
           },
-          position: { type: GeoChart.constants.POSITIONS.right }
+          position: { type: GeoChart.constants.AXIS.POSITIONS.right }
         })
 
         const wrapper = mount(GeoChart, {
@@ -396,11 +396,11 @@ describe('GeoChartAxisGuidelines', function () {
       it('should remove guidelines', function () {
         const firstAxis = _.merge({}, linearAxisConfig, {
           id: 'fist-axis',
-          position: { type: GeoChart.constants.POSITIONS.left }
+          position: { type: GeoChart.constants.AXIS.POSITIONS.left }
         })
         const secondAxis = _.merge({}, linearAxisConfig, {
           id: 'second-axis',
-          position: { type: GeoChart.constants.POSITIONS.right }
+          position: { type: GeoChart.constants.AXIS.POSITIONS.right }
         })
 
         const wrapper = mount(GeoChart, {
