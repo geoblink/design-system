@@ -1,6 +1,9 @@
-/// <reference types="d3" />
+/// <reference path="../GeoChart.d.ts" />
 
 import _ from 'lodash'
+
+import * as axisUtils from '../GeoChartUtils/axisUtils'
+import * as dimensionUtils from '../GeoChartUtils/dimensionUtils'
 
 const d3 = (function () {
   try {
@@ -10,29 +13,18 @@ const d3 = (function () {
   }
 })()
 
-export const DIMENSIONS = {
-  horizontal: 'horizontal',
-  vertical: 'vertical'
-}
+/**
+ * @template GElement
+ * @template Datum
+ * @template PElement
+ * @template PDatum
+ * @typedef {import('d3').Selection<GElement, Datum, PElement, PDatum>} d3.Selection
+ */
 
-export const POSITIONS = {
-  bottom: 'bottom',
-  top: 'top',
-  left: 'left',
-  right: 'right',
-  verticallyCenteredInTheMiddle: 'verticallyCenteredInTheMiddle',
-  horizontallyCenteredInTheMiddle: 'horizontallyCenteredInTheMiddle',
-  anchoredToAxis: 'anchoredToAxis'
-}
-
-export const SIMPLE_POSITIONS = {
-  [POSITIONS.bottom]: POSITIONS.bottom,
-  [POSITIONS.top]: POSITIONS.top,
-  [POSITIONS.left]: POSITIONS.left,
-  [POSITIONS.right]: POSITIONS.right,
-  [POSITIONS.verticallyCenteredInTheMiddle]: POSITIONS.verticallyCenteredInTheMiddle,
-  [POSITIONS.horizontallyCenteredInTheMiddle]: POSITIONS.horizontallyCenteredInTheMiddle
-}
+/**
+ * @template Domain
+ * @typedef {import('d3').Axis<Domain>} d3.Axis
+ */
 
 /**
  * @template GElement
@@ -94,8 +86,10 @@ export function render (d3Instance, axesOptions, globalAxesConfig) {
  * @template Datum
  * @template PElement
  * @template PDatum
- * @param {d3.Selection<GElement, Datum, PElement, PDatum>} d3Instance
- * @param {GeoChart.AxisConfig<Domain>} singleAxisOptions
+ * @template Domain
+ * @template RelativeScaleDomain
+ * @param {d3.Selection<GElement, Datum, PElement, PDatum>} group
+ * @param {GeoChart.AxisConfig<Domain, RelativeScaleDomain>} singleAxisOptions
  * @param {GeoChart.GlobalAxesConfig} globalAxesConfig
  */
 function renderSingleAxis (group, singleAxisOptions, globalAxesConfig) {
@@ -116,10 +110,14 @@ function renderSingleAxis (group, singleAxisOptions, globalAxesConfig) {
     ? (...args) => [...forcedTickCSSClasses, ...singleAxisOptions.ticks.cssClasses(defaultTickCSSClasses, ...args)].join(' ')
     : [...forcedTickCSSClasses, ...defaultTickCSSClasses].join(' ')
 
-  const labelData = _.get(singleAxisOptions, 'label.content') ? [singleAxisOptions.label.content] : []
+  const labelContent = _.get(singleAxisOptions, 'label.content')
+  const labelData = !_.isNil(labelContent)
+    ? [labelContent]
+    : []
+
   if (labelData.length) {
     const labels = group
-      .selectAll(`text.geo-chart-axis-label--${singleAxisOptions.position.type}`)
+      .selectAll('text.geo-chart-axis-label')
       .data(labelData)
 
     const newLabels = labels
@@ -147,7 +145,9 @@ function renderSingleAxis (group, singleAxisOptions, globalAxesConfig) {
 }
 
 /**
- * @param {GeoChart.AxisConfig<Domain>} singleAxisOptions
+ * @template Domain
+ * @template RelativeScaleDomain
+ * @param {GeoChart.AxisConfig<Domain, RelativeScaleDomain>} singleAxisOptions
  * @param {GeoChart.GlobalAxesConfig} globalAxesConfig
  * @returns {GeoChart.DrawingEnvironment}
  */
@@ -208,24 +208,30 @@ export function getAxis (singleAxisOptions) {
 
   function getD3Axis () {
     switch (position.type) {
-      case POSITIONS.top:
+      case axisUtils.POSITIONS.top:
         return d3.axisTop(scale)
-      case POSITIONS.bottom:
+
+      case axisUtils.POSITIONS.bottom:
         return d3.axisBottom(scale)
-      case POSITIONS.verticallyCenteredInTheMiddle:
+
+      case axisUtils.POSITIONS.verticallyCenteredInTheMiddle:
         return d3.axisTop(scale)
-      case POSITIONS.left:
+
+      case axisUtils.POSITIONS.left:
         return d3.axisLeft(scale)
-      case POSITIONS.right:
+
+      case axisUtils.POSITIONS.right:
         return d3.axisRight(scale)
-      case POSITIONS.horizontallyCenteredInTheMiddle:
+
+      case axisUtils.POSITIONS.horizontallyCenteredInTheMiddle:
         return d3.axisLeft(scale)
-      case POSITIONS.anchoredToAxis: {
+
+      case axisUtils.POSITIONS.anchoredToAxis:
         const axisDimension = getAxisDimension(position)
-        return axisDimension === DIMENSIONS.horizontal
+        return axisDimension === dimensionUtils.DIMENSIONS_2D.horizontal
           ? d3.axisBottom(scale)
           : d3.axisLeft(scale)
-      }
+
       default:
         console.warn(`GeoChart (axis) [component] :: Tried to get axis for unknown position: ${position.type}`, singleAxisOptions)
     }
@@ -235,24 +241,26 @@ export function getAxis (singleAxisOptions) {
 /**
  * @template RelativeScaleDomain
  * @param {GeoChart.AxisPosition<RelativeScaleDomain>} position
- * @return {GeoChart.AxisDimension}
+ * @return {dimensionUtils.DIMENSIONS_2D}
  */
 export function getAxisDimension (position) {
   switch (position.type) {
-    case POSITIONS.top:
-    case POSITIONS.bottom:
-    case POSITIONS.verticallyCenteredInTheMiddle:
-      return DIMENSIONS.horizontal
-    case POSITIONS.left:
-    case POSITIONS.right:
-    case POSITIONS.horizontallyCenteredInTheMiddle:
-      return DIMENSIONS.vertical
-    case POSITIONS.anchoredToAxis: {
-      const anchoredAxisPosition = getAxisDimension(position.relativeAxisPosition)
-      return anchoredAxisPosition === DIMENSIONS.horizontal
-        ? DIMENSIONS.vertical
-        : DIMENSIONS.horizontal
-    }
+    case axisUtils.POSITIONS.top:
+    case axisUtils.POSITIONS.bottom:
+    case axisUtils.POSITIONS.verticallyCenteredInTheMiddle:
+      return dimensionUtils.DIMENSIONS_2D.horizontal
+
+    case axisUtils.POSITIONS.left:
+    case axisUtils.POSITIONS.right:
+    case axisUtils.POSITIONS.horizontallyCenteredInTheMiddle:
+      return dimensionUtils.DIMENSIONS_2D.vertical
+
+    case axisUtils.POSITIONS.anchoredToAxis:
+      const relativeAxisPosition = (/** @type {GeoChart.AxisPositionConfigRelative<RelativeScaleDomain>} */ (position))
+      const anchoredAxisPosition = getAxisDimension(relativeAxisPosition.relativeAxisPosition)
+      return anchoredAxisPosition === dimensionUtils.DIMENSIONS_2D.horizontal
+        ? dimensionUtils.DIMENSIONS_2D.vertical
+        : dimensionUtils.DIMENSIONS_2D.horizontal
   }
 
   console.warn(`GeoChart (axis) [component] :: Tried to get axis dimension for unknown position: ${position.type}`, position)
@@ -263,28 +271,33 @@ export function getAxisDimension (position) {
  * @param {GeoChart.AxisPosition<RelativeScaleDomain>} position
  * @param {GeoChart.Size} svgSize
  * @param {GeoChart.Margin} margin
- * @returns {string}
+ * @returns {number}
  */
 function getOriginXTranslation (position, svgSize, margin) {
   switch (position.type) {
-    case POSITIONS.top:
-    case POSITIONS.bottom:
-    case POSITIONS.verticallyCenteredInTheMiddle:
+    case axisUtils.POSITIONS.top:
+    case axisUtils.POSITIONS.bottom:
+    case axisUtils.POSITIONS.verticallyCenteredInTheMiddle:
       return 0
-    case POSITIONS.left:
+
+    case axisUtils.POSITIONS.left:
       return margin.left
-    case POSITIONS.right:
+
+    case axisUtils.POSITIONS.right:
       return svgSize.width - margin.right
-    case POSITIONS.horizontallyCenteredInTheMiddle:
+
+    case axisUtils.POSITIONS.horizontallyCenteredInTheMiddle:
       return margin.left + (svgSize.width - margin.left - margin.right) / 2
-    case POSITIONS.anchoredToAxis:
+
+    case axisUtils.POSITIONS.anchoredToAxis:
       const dimension = getAxisDimension(position)
 
       switch (dimension) {
-        case DIMENSIONS.horizontal:
+        case dimensionUtils.DIMENSIONS_2D.horizontal:
           return 0
-        case DIMENSIONS.vertical:
-          return position.scale.axisScale(position.value)
+        case dimensionUtils.DIMENSIONS_2D.vertical:
+          const relativeAxisPosition = (/** @type {GeoChart.AxisPositionConfigRelative<RelativeScaleDomain>} */ (position))
+          return relativeAxisPosition.scale.axisScale(relativeAxisPosition.value)
       }
 
       console.warn(`GeoChart (axis) [component] :: Tried to get X Translation for unknown dimension: ${dimension}`, position)
@@ -302,27 +315,32 @@ function getOriginXTranslation (position, svgSize, margin) {
  * @param {GeoChart.AxisPosition<RelativeScaleDomain>} position
  * @param {GeoChart.Size} svgSize
  * @param {GeoChart.Margin} [margin]
- * @returns {string}
+ * @returns {number}
  */
 function getOriginYTranslation (position, svgSize, margin) {
   switch (position.type) {
-    case POSITIONS.top:
+    case axisUtils.POSITIONS.top:
       return margin.top
-    case POSITIONS.bottom:
+
+    case axisUtils.POSITIONS.bottom:
       return svgSize.height - margin.bottom
-    case POSITIONS.verticallyCenteredInTheMiddle:
+
+    case axisUtils.POSITIONS.verticallyCenteredInTheMiddle:
       return (svgSize.height + margin.top - margin.bottom) / 2
-    case POSITIONS.left:
-    case POSITIONS.right:
-    case POSITIONS.horizontallyCenteredInTheMiddle:
+
+    case axisUtils.POSITIONS.left:
+    case axisUtils.POSITIONS.right:
+    case axisUtils.POSITIONS.horizontallyCenteredInTheMiddle:
       return 0
-    case POSITIONS.anchoredToAxis:
+
+    case axisUtils.POSITIONS.anchoredToAxis:
       const dimension = getAxisDimension(position)
 
       switch (dimension) {
-        case DIMENSIONS.horizontal:
-          return position.scale.axisScale(position.value)
-        case DIMENSIONS.vertical:
+        case dimensionUtils.DIMENSIONS_2D.horizontal:
+          const relativeAxisPosition = (/** @type {GeoChart.AxisPositionConfigRelative<RelativeScaleDomain>} */ (position))
+          return relativeAxisPosition.scale.axisScale(relativeAxisPosition.value)
+        case dimensionUtils.DIMENSIONS_2D.vertical:
           return 0
       }
 
@@ -343,32 +361,37 @@ function positionLabel (label, singleAxisOptions, globalAxesConfig) {
   const DEFAULT_LINE_HEIGHT = 18
   const axesMargin = globalAxesConfig.chart.margin
   const axesSize = globalAxesConfig.chart.size
+
   switch (axisType) {
-    case POSITIONS.bottom:
-    case POSITIONS.anchoredToAxis:
+    case axisUtils.POSITIONS.bottom:
+    case axisUtils.POSITIONS.anchoredToAxis:
       label
         .attr('x', (axesSize.width / 2) + (axesMargin.left - axesMargin.right) / 2)
-        .attr('dy', '' + axesMargin.bottom - labelExtraOffset - offset)
+        .attr('dy', `${axesMargin.bottom - labelExtraOffset - offset}`)
         .style('text-anchor', 'middle')
       break
-    case POSITIONS.top:
+
+    case axisUtils.POSITIONS.top:
       label
-        .attr('x', '' + axesSize.width)
-        .attr('dy', '' + (-axesMargin.top))
+        .attr('x', `${axesSize.width}`)
+        .attr('dy', `${-axesMargin.top}`)
       break
-    case POSITIONS.left:
+
+    case axisUtils.POSITIONS.left:
       label
-        .attr('x', '' + (-axesSize.height / 2))
-        .attr('dy', '' + (-axesMargin.left / 2 + offset))
+        .attr('x', `${-axesSize.height / 2}`)
+        .attr('dy', `${-axesMargin.left / 2 + offset}`)
         .attr('transform', 'rotate(-90)')
         .style('text-anchor', 'middle')
       break
-    case POSITIONS.right:
+
+    case axisUtils.POSITIONS.right:
       label
-        .attr('x', '' + (globalAxesConfig.chart))
-        .attr('dy', '' + (-axesMargin.right + DEFAULT_LINE_HEIGHT))
+        .attr('x', `${globalAxesConfig.chart}`)
+        .attr('dy', `${-axesMargin.right + DEFAULT_LINE_HEIGHT}`)
         .attr('transform', 'rotate(90)')
       break
+
     default:
       console.error(`Unknown position ${axisType}`)
       break

@@ -11,22 +11,27 @@ must be an object with the following...
 Each **group** **requires** these properties:
 
 - `data`: Collection being displayed (array).
-- `dimension`: A value of `BARS_DIMENSIONS` named export (either `horizontal` or `vertical`). The dimension in which the rectangle will grow depending on the value.
-- `idHorizontalAxis`: The ID of the axis defining the `horizontal` dimension. Will be used to compute proper origin and span of the bar the horizontal.
-- `idVerticalAxis`: The ID of the axis defining the `vertical` dimension. Will be used to compute proper origin and span of the bar the vertical.
+- `mainDimension`: A value of `DIMENSIONS.DIMENSIONS_2D` named export (either
+`horizontal` or `vertical`). The dimension in which the rectangle will grow
+depending on the value.
+- `idHorizontalAxis`: The ID of the axis defining the `horizontal` dimension.
+Will be used to compute proper origin and span of the bar the horizontal.
+- `idVerticalAxis`: The ID of the axis defining the `vertical` dimension. Will
+be used to compute proper origin and span of the bar the vertical.
 
-**Note:** `idHorizontalAxis` and `idVerticalAxis` must be IDs of registered axes. See [Axes](./#/Elements/Charts?id=axes) for more info.
+**Note:** `idHorizontalAxis` and `idVerticalAxis` must be IDs of registered axes.
+See [Axes](./#/Elements/Charts?id=axes) for more info.
 
 ## Optional properties
 
 Optionally you can configure each **group** with an **offset** and a **width**.
-These are useful when you want to display multiple collections which have repeated
-items for the **normal dimension**.
+These are useful when you want to display multiple collections which have
+repeated items for the **normal dimension**.
 
-> **Normal dimension** is the dimension perpendicular to the group's `dimension`.
+> **Normal dimension** is the dimension perpendicular to the group's `mainDimension`.
 >
-> For instance, if you set `dimension` to `horizontal` then the **normal dimension**
-> will be `vertical`.
+> For instance, if you set `mainDimension` to `horizontal` then the
+> **normal dimension** will be `vertical`.
 
 To allow maximum flexibility `GeoChart` does not prevent overlaps. To prevent
 bars from different **groups** from overlapping you'll have to set a **width**
@@ -112,10 +117,7 @@ inside the data array.
 </template>
 
 <script>
-const d3 = require('d3')
-const { POSITIONS } = require('../GeoChartAxis/GeoChartAxis')
-const { DIMENSIONS: BARS_DIMENSIONS } = require('./GeoChartBars')
-const { SCALE_TYPES } = require('../GeoChartScale/GeoChartScale')
+const CONSTANTS = require('../constants')
 
 export default {
   name: 'GeoChartBarsDemo',
@@ -134,10 +136,10 @@ export default {
           count: 10
         },
         position: {
-          type: POSITIONS.left
+          type: CONSTANTS.AXIS.POSITIONS.left
         },
         scale: {
-          type: SCALE_TYPES.linear,
+          type: CONSTANTS.SCALES.SCALE_TYPES.linear,
           valueForOrigin: 0,
           domain: {
             start: 500,
@@ -158,10 +160,10 @@ export default {
         id: 'demo-categorical-axis',
         keyForValues: 'category',
         position: {
-          type: POSITIONS.bottom
+          type: CONSTANTS.AXIS.POSITIONS.bottom
         },
         scale: {
-          type: SCALE_TYPES.categorical,
+          type: CONSTANTS.SCALES.SCALE_TYPES.categorical,
           valueForOrigin: _.first(this.categoricalDomain),
           domain: this.categoricalDomain,
           padding: {
@@ -195,7 +197,7 @@ export default {
         ],
         barGroups: [{
           data: this.chartData,
-          dimension: BARS_DIMENSIONS.vertical,
+          mainDimension: CONSTANTS.DIMENSIONS.DIMENSIONS_2D.vertical,
           idHorizontalAxis: this.categoricalAxisConfig.id,
           idVerticalAxis: this.linearAxisConfig.id
         }]
@@ -246,10 +248,7 @@ export default {
 </template>
 
 <script>
-const d3 = require('d3')
-const { POSITIONS } = require('../GeoChartAxis/GeoChartAxis')
-const { DIMENSIONS: BARS_DIMENSIONS } = require('../GeoChartBars/GeoChartBars')
-const { SCALE_TYPES } = require('../GeoChartScale/GeoChartScale')
+const CONSTANTS = require('../constants')
 
 export default {
   name: 'GeoChartBarsDemo',
@@ -274,10 +273,10 @@ export default {
           count: 10
         },
         position: {
-          type: POSITIONS.left
+          type: CONSTANTS.AXIS.POSITIONS.left
         },
         scale: {
-          type: SCALE_TYPES.linear,
+          type: CONSTANTS.SCALES.SCALE_TYPES.linear,
           valueForOrigin: 0,
           domain: {
             start: 60,
@@ -298,12 +297,12 @@ export default {
         id: 'demo-categorical-axis',
         keyForValues: this.categoricalAxisConfigKeyForValue,
         position: {
-          type: POSITIONS.anchoredToAxis,
+          type: CONSTANTS.AXIS.POSITIONS.anchoredToAxis,
           value: this.linearAxisConfig.scale.valueForOrigin,
           relativeToAxis: this.linearAxisConfig.id
         },
         scale: {
-          type: SCALE_TYPES.categorical,
+          type: CONSTANTS.SCALES.SCALE_TYPES.categorical,
           valueForOrigin: _.first(this.categoricalDomain),
           domain: this.categoricalDomain,
           padding: {
@@ -338,7 +337,7 @@ export default {
         ],
         barGroups: [{
           data: this.monthlyTemperatureOf2017,
-          dimension: BARS_DIMENSIONS.vertical,
+          mainDimension: CONSTANTS.DIMENSIONS.DIMENSIONS_2D.vertical,
           naturalWidth: 0.3,
           idHorizontalAxis: this.categoricalAxisConfig.id,
           idVerticalAxis: this.linearAxisConfig.id,
@@ -348,7 +347,7 @@ export default {
           }
         }, {
           data: this.monthlyTemperatureOf2018,
-          dimension: BARS_DIMENSIONS.vertical,
+          mainDimension: CONSTANTS.DIMENSIONS.DIMENSIONS_2D.vertical,
           naturalWidth: 0.3,
           naturalNormalOffset: 0.35,
           idHorizontalAxis: this.categoricalAxisConfig.id,
@@ -359,7 +358,7 @@ export default {
           cssClasses: (original) => [...original, 'fill-red']
         }, {
           data: this.monthlyTemperatureOf2019,
-          dimension: BARS_DIMENSIONS.vertical,
+          mainDimension: CONSTANTS.DIMENSIONS.DIMENSIONS_2D.vertical,
           naturalWidth: 0.3,
           naturalNormalOffset: 0.7,
           idHorizontalAxis: this.categoricalAxisConfig.id,
@@ -438,10 +437,7 @@ export default {
 </template>
 
 <script>
-const d3 = require('d3')
-const { POSITIONS } = require('../GeoChartAxis/GeoChartAxis')
-const { DIMENSIONS: BARS_DIMENSIONS } = require('../GeoChartBars/GeoChartBars')
-const { SCALE_TYPES } = require('../GeoChartScale/GeoChartScale')
+const CONSTANTS = require('../constants')
 
 export default {
   name: 'GeoChartBars',
@@ -462,10 +458,10 @@ export default {
           count: 3
         },
         position: {
-          type: POSITIONS.bottom
+          type: CONSTANTS.AXIS.POSITIONS.bottom
         },
         scale: {
-          type: SCALE_TYPES.linear,
+          type: CONSTANTS.SCALES.SCALE_TYPES.linear,
           valueForOrigin: 0,
           domain: {
             start: -300000,
@@ -483,10 +479,10 @@ export default {
           count: 3
         },
         position: {
-          type: POSITIONS.bottom
+          type: CONSTANTS.AXIS.POSITIONS.bottom
         },
         scale: {
-          type: SCALE_TYPES.linear,
+          type: CONSTANTS.SCALES.SCALE_TYPES.linear,
           valueForOrigin: 0,
           domain: {
             start: -1,
@@ -501,12 +497,12 @@ export default {
 
       const position = this.showAverageSales
         ? {
-          type: POSITIONS.anchoredToAxis,
+          type: CONSTANTS.AXIS.POSITIONS.anchoredToAxis,
           value: this.percentageAxisConfig.scale.valueForOrigin,
           relativeToAxis: this.percentageAxisConfig.id
         }
         : {
-          type: POSITIONS.anchoredToAxis,
+          type: CONSTANTS.AXIS.POSITIONS.anchoredToAxis,
           value: this.linearAxisConfig.scale.valueForOrigin,
           relativeToAxis: this.linearAxisConfig.id
         }
@@ -518,7 +514,7 @@ export default {
         keyForValues: 'point_of_sale',
         position,
         scale: {
-          type: SCALE_TYPES.categorical,
+          type: CONSTANTS.SCALES.SCALE_TYPES.categorical,
           valueForOrigin: _.first(domain),
           domain,
           padding: {
@@ -549,7 +545,7 @@ export default {
 
       const barGroups = [{
         data: this.thisYearSales,
-        dimension: BARS_DIMENSIONS.horizontal,
+        mainDimension: CONSTANTS.DIMENSIONS.DIMENSIONS_2D.horizontal,
         naturalWidth: 0.45,
         idHorizontalAxis,
         idVerticalAxis: this.categoricalAxisConfig.id,
@@ -562,7 +558,7 @@ export default {
       if (this.showAverageSales) {
         barGroups.push({
           data: this.averageSales,
-          dimension: BARS_DIMENSIONS.horizontal,
+          mainDimension: CONSTANTS.DIMENSIONS.DIMENSIONS_2D.horizontal,
           naturalWidth: 0.15,
           naturalNormalOffset: 0.55,
           idHorizontalAxis,
@@ -648,7 +644,7 @@ export default {
               [percentageAxisConfig.keyForValues]: _.random(
                 percentageAxisConfig.scale.domain.start,
                 percentageAxisConfig.scale.domain.end,
-                false
+                true
               ),
               [categoricalAxisConfig.keyForValues]: category,
               [linearAxisConfig.keyForValues]: _.random(

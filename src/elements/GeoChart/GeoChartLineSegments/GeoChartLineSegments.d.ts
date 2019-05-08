@@ -1,20 +1,5 @@
 declare namespace GeoChart {
-
-  interface LineSegmentsGroupsGlobalConfig {
-    chart: {
-      animationsDurationInMilliseconds: number
-      size: GeoChart.Size
-      margin: GeoChart.Margin
-    }
-  }
-  interface SingleLineSegmentsGroupConfig<HorizontalDomain, VerticalDomain> {
-    id: number
-    dimension: GeoChart.BarDimension
-    axis: {
-      horizontal: GeoChart.AxisConfig<HorizontalDomain, any>
-      vertical: GeoChart.AxisConfig<VerticalDomain, any>
-    }
-    circleData: object[]
+  interface SingleLineSegmentsGroupConfig<HorizontalDomain, VerticalDomain> extends BidimensionalGroupConfig<HorizontalDomain, VerticalDomain> {
     lineWidth?: number,
     lineNaturalWidth?: number,
     circleRadius?: number,
@@ -22,7 +7,6 @@ declare namespace GeoChart {
     circleMargin?: number,
     circleNaturalMargin?: number,
     normalValue: number,
-    cssClasses?: (defaultClasses: string[], item: object, index: number) => string[],
     trackByKey?: () => string
   }
 }

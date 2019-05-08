@@ -21,8 +21,8 @@ export default {
         return {
           id: index,
           axis,
-          circleData: singleLineSegmentsGroupsConfig.circleData,
-          dimension: singleLineSegmentsGroupsConfig.dimension,
+          data: singleLineSegmentsGroupsConfig.data,
+          mainDimension: singleLineSegmentsGroupsConfig.mainDimension,
           lineWidth: singleLineSegmentsGroupsConfig.lineWidth,
           lineNaturalWidth: singleLineSegmentsGroupsConfig.lineNaturalWidth,
           circleRadius: singleLineSegmentsGroupsConfig.circleRadius,

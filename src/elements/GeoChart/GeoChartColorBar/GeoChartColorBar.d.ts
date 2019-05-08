@@ -1,24 +1,5 @@
 declare namespace GeoChart {
-  enum BarDimension {
-    horizontal = 'horizontal',
-    vertical = 'vertical'
-  }
-
-  interface ColorBarGroupsGlobalConfig {
-    chart: {
-      animationsDurationInMilliseconds: number
-      size: GeoChart.Size
-      margin: GeoChart.Margin
-    }
-  }
-  interface SingleColorBarGroupConfig<HorizontalDomain, VerticalDomain> {
-    id: string
-    dimension: GeoChart.BarDimension
-    axis: {
-      horizontal: GeoChart.AxisConfig<HorizontalDomain, any>
-      vertical: GeoChart.AxisConfig<VerticalDomain, any>
-    }
-    data: object[]
+  interface SingleColorBarGroupConfig<HorizontalDomain, VerticalDomain> extends BidimensionalGroupConfig<HorizontalDomain, VerticalDomain> {
     normalOffset?: number
     naturalNormalOffset?: number
     width?: number
@@ -26,6 +7,5 @@ declare namespace GeoChart {
     highlightedWidth?: number
     naturalHighlightedWidth?: number
     normalValue: number
-    cssClasses?: (defaultClasses: string[], item: object, index: number) => string[]
   }
 }

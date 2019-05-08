@@ -1,10 +1,10 @@
 /// <reference types="d3" />
 
 import _ from 'lodash'
-import * as ChartAxis from '../GeoChartAxis/GeoChartAxis'
 
-const POSITIONS = ChartAxis.POSITIONS
-const DIMENSIONS = ChartAxis.DIMENSIONS
+import * as ChartAxis from '../GeoChartAxis/GeoChartAxis'
+import * as axisUtils from '../GeoChartUtils/axisUtils'
+import * as dimensionUtils from '../GeoChartUtils/dimensionUtils'
 
 const d3 = (function () {
   try {
@@ -19,11 +19,19 @@ const d3 = (function () {
  * @template Datum
  * @template PElement
  * @template PDatum
+ * @typedef {import('d3').Selection<GElement, Datum, PElement, PDatum>} d3.Selection
+ */
+
+/**
+ * @template GElement
+ * @template Datum
+ * @template PElement
+ * @template PDatum
  * @template Domain
  * @template RelativeScaleDomain
  * @param {d3.Selection<GElement, Datum, PElement, PDatum>} d3Instance
  * @param {Array<GeoChart.SingleAxisGuidelinesGroupConfig<Domain, RelativeScaleDomain>>} guidelinesOptions
- * @param {GeoChart.AxisGuidelinesGroupsGlobalConfig} globalOptions
+ * @param {GeoChart.GlobalOptions} globalOptions
  */
 export function render (d3Instance, guidelinesOptions, globalOptions) {
   const baseGuidelinesCSSClass = 'geo-chart-guidelines'
@@ -77,7 +85,7 @@ export function render (d3Instance, guidelinesOptions, globalOptions) {
  * @template RelativeScaleDomain
  * @param {d3.Selection<GElement, Datum, PElement, PDatum>} group
  * @param {GeoChart.SingleAxisGuidelinesGroupConfig<Domain, RelativeScaleDomain>} singleAxisGuidelinesOptions
- * @param {GeoChart.AxisGuidelinesGroupsGlobalConfig} globalOptions
+ * @param {GeoChart.GlobalOptions} globalOptions
  */
 function renderSingleAxisGuidelines (group, singleAxisGuidelinesOptions, globalOptions) {
   const axisConfigForGuidelines = getAxisConfigForGuidelines(singleAxisGuidelinesOptions.axisConfig)
@@ -144,20 +152,22 @@ function renderSingleAxisGuidelines (group, singleAxisGuidelinesOptions, globalO
  */
 function getGuidelinesPosition (singleAxisOptions) {
   switch (singleAxisOptions.position.type) {
-    case POSITIONS.top:
-    case POSITIONS.bottom:
-    case POSITIONS.verticallyCenteredInTheMiddle:
-      return POSITIONS.bottom
-    case POSITIONS.left:
-    case POSITIONS.right:
-    case POSITIONS.horizontallyCenteredInTheMiddle:
-      return POSITIONS.left
-    case POSITIONS.anchoredToAxis: {
-      const anchoredAxisPosition = ChartAxis.getAxisDimension(singleAxisOptions.position.relativeAxisPosition)
-      return anchoredAxisPosition === DIMENSIONS.horizontal
-        ? POSITIONS.left
-        : POSITIONS.bottom
-    }
+    case axisUtils.POSITIONS.top:
+    case axisUtils.POSITIONS.bottom:
+    case axisUtils.POSITIONS.verticallyCenteredInTheMiddle:
+      return axisUtils.POSITIONS.bottom
+
+    case axisUtils.POSITIONS.left:
+    case axisUtils.POSITIONS.right:
+    case axisUtils.POSITIONS.horizontallyCenteredInTheMiddle:
+      return axisUtils.POSITIONS.left
+
+    case axisUtils.POSITIONS.anchoredToAxis:
+      const anchoredAxis = (/** @type {GeoChart.AxisPositionConfigRelative<RelativeScaleDomain>} */(singleAxisOptions.position))
+      const anchoredAxisPosition = ChartAxis.getAxisDimension(anchoredAxis.relativeAxisPosition)
+      return anchoredAxisPosition === dimensionUtils.DIMENSIONS_2D.horizontal
+        ? axisUtils.POSITIONS.left
+        : axisUtils.POSITIONS.bottom
   }
 
   console.warn(`GeoChart (axis) [component] :: Tried to get axis dimension for unknown position: ${singleAxisOptions.position.type}`, singleAxisOptions.position)
@@ -172,9 +182,9 @@ function getGuidelinesPosition (singleAxisOptions) {
  */
 function getTickSize (position, svgSize, margin) {
   switch (position.type) {
-    case POSITIONS.bottom:
+    case axisUtils.POSITIONS.bottom:
       return -svgSize.height + margin.top + margin.bottom
-    case POSITIONS.left:
+    case axisUtils.POSITIONS.left:
       return -svgSize.width + margin.right + margin.left
   }
 

@@ -1,6 +1,8 @@
-import { POSITIONS } from '../GeoChartAxis/GeoChartAxis'
-import { DIMENSIONS } from '../GeoChartBars/GeoChartBars'
-import { SCALE_TYPES } from '../GeoChartScale/GeoChartScale'
+import _ from 'lodash'
+
+import * as axisUtils from '../GeoChartUtils/axisUtils'
+import * as dimensionUtils from '../GeoChartUtils/dimensionUtils'
+import * as scaleUtils from '../GeoChartUtils/scaleUtils'
 
 export const scaleLinearSchema = {
   type: 'object',
@@ -8,7 +10,7 @@ export const scaleLinearSchema = {
   required: ['type', 'valueForOrigin', 'domain'],
   properties: {
     type: {
-      const: SCALE_TYPES.linear
+      const: scaleUtils.SCALE_TYPES.linear
     },
     valueForOrigin: {
       type: 'number'
@@ -43,7 +45,7 @@ export const scaleLogarithmicSchema = {
   required: ['type', 'valueForOrigin', 'domain'],
   properties: {
     type: {
-      const: SCALE_TYPES.logarithmic
+      const: scaleUtils.SCALE_TYPES.logarithmic
     },
     valueForOrigin: {
       type: 'number'
@@ -84,7 +86,7 @@ export const scaleCategoricalSchema = {
   required: ['type', 'valueForOrigin', 'domain'],
   properties: {
     type: {
-      const: SCALE_TYPES.categorical
+      const: scaleUtils.SCALE_TYPES.categorical
     },
     valueForOrigin: {
       type: ['string', 'number']
@@ -131,12 +133,12 @@ export const axisConfigJsonSchema = {
           type: {
             type: 'string',
             enum: [
-              POSITIONS.top,
-              POSITIONS.bottom,
-              POSITIONS.horizontallyCenteredInTheMiddle,
-              POSITIONS.left,
-              POSITIONS.right,
-              POSITIONS.verticallyCenteredInTheMiddle
+              axisUtils.POSITIONS.top,
+              axisUtils.POSITIONS.bottom,
+              axisUtils.POSITIONS.horizontallyCenteredInTheMiddle,
+              axisUtils.POSITIONS.left,
+              axisUtils.POSITIONS.right,
+              axisUtils.POSITIONS.verticallyCenteredInTheMiddle
             ]
           }
         }
@@ -146,7 +148,7 @@ export const axisConfigJsonSchema = {
         required: ['type', 'value', 'relativeToAxis'],
         properties: {
           type: {
-            const: POSITIONS.anchoredToAxis
+            const: axisUtils.POSITIONS.anchoredToAxis
           },
           value: {
             type: 'number'
@@ -247,7 +249,7 @@ export const guidelineConfigJsonSchema = {
 export const barConfigJsonSchema = {
   type: 'object',
   additionalProperties: false,
-  required: ['data', 'dimension', 'idHorizontalAxis', 'idVerticalAxis'],
+  required: ['data', 'mainDimension', 'idHorizontalAxis', 'idVerticalAxis'],
   allOf: [{
     atMostOneOf: [{
       required: ['normalOffset']
@@ -281,9 +283,9 @@ export const barConfigJsonSchema = {
     naturalWidth: {
       type: 'number'
     },
-    dimension: {
+    mainDimension: {
       type: 'string',
-      enum: Object.values(DIMENSIONS)
+      enum: _.values(dimensionUtils.DIMENSIONS_2D)
     },
     idHorizontalAxis: {
       type: 'string'
@@ -320,7 +322,13 @@ export const barConfigJsonSchema = {
 export const colorBarConfigJsonSchema = {
   type: 'object',
   additionalProperties: false,
-  required: ['data', 'dimension', 'idHorizontalAxis', 'idVerticalAxis', 'normalValue'],
+  required: [
+    'data',
+    'mainDimension',
+    'idHorizontalAxis',
+    'idVerticalAxis',
+    'normalValue'
+  ],
   allOf: [{
     atMostOneOf: [{
       required: ['normalOffset']
@@ -360,9 +368,9 @@ export const colorBarConfigJsonSchema = {
     naturalWidth: {
       type: 'number'
     },
-    dimension: {
+    mainDimension: {
       type: 'string',
-      enum: Object.values(DIMENSIONS)
+      enum: _.values(dimensionUtils.DIMENSIONS_2D)
     },
     idHorizontalAxis: {
       type: 'string'
@@ -435,7 +443,8 @@ export const pieConfigJsonSchema = {
           type: 'number'
         },
         // Function taking as first parameter a single item of data array and as
-        // second parameter its index. Should return an array with options see GeoChart.TextDescriptionOptions.
+        // second parameter its index. Should return an array with options see
+        // GeoChart.TextDescriptionOptions.
         content: {},
         cssClassesGroups: {},
         cssClassesTexts: {}
@@ -454,7 +463,13 @@ export const pieConfigJsonSchema = {
 export const lineSegmentsConfigSchema = {
   type: 'object',
   additionalProperties: false,
-  required: ['circleData', 'dimension', 'idHorizontalAxis', 'idVerticalAxis', 'normalValue'],
+  required: [
+    'data',
+    'mainDimension',
+    'idHorizontalAxis',
+    'idVerticalAxis',
+    'normalValue'
+  ],
   allOf: [{
     not: {
       required: ['circleRadius', 'circleNaturalMargin']
@@ -485,7 +500,7 @@ export const lineSegmentsConfigSchema = {
     }]
   }],
   properties: {
-    circleData: {
+    data: {
       type: 'array',
       additionalItems: false,
       items: {
@@ -498,9 +513,9 @@ export const lineSegmentsConfigSchema = {
     naturalNormalOffset: {
       type: 'number'
     },
-    dimension: {
+    mainDimension: {
       type: 'string',
-      enum: Object.values(DIMENSIONS)
+      enum: _.values(dimensionUtils.DIMENSIONS_2D)
     },
     idHorizontalAxis: {
       type: 'string'
@@ -536,7 +551,8 @@ export const lineSegmentsConfigSchema = {
     // might be added regardless to your customization as they are required
     // internally.
     cssClasses: {},
-    // Function that returns the property that is needed by D3 to track data changes correctly
+    // Function that returns the property that is needed by D3 to track data
+    // changes correctly
     trackByKey: {}
   }
 }
@@ -544,9 +560,9 @@ export const lineSegmentsConfigSchema = {
 export const lineConfigSchema = {
   type: 'object',
   additionalProperties: false,
-  required: ['lineData', 'dimension', 'idHorizontalAxis', 'idVerticalAxis'],
+  required: ['data', 'mainDimension', 'idHorizontalAxis', 'idVerticalAxis'],
   properties: {
-    lineData: {
+    data: {
       type: 'array',
       additionalItems: false,
       items: {
@@ -565,9 +581,9 @@ export const lineConfigSchema = {
     hoverCircleRadius: {
       type: 'number'
     },
-    dimension: {
+    mainDimension: {
       type: 'string',
-      enum: Object.values(DIMENSIONS)
+      enum: _.values(dimensionUtils.DIMENSIONS_2D)
     },
     interpolationFn: {},
     tooltip: {},
@@ -578,7 +594,8 @@ export const lineConfigSchema = {
     // might be added regardless to your customization as they are required
     // internally.
     cssClasses: {},
-    // Function that returns the property that is needed by D3 to track data changes correctly
+    // Function that returns the property that is needed by D3 to track data
+    // changes correctly
     groupKey: {
       type: 'string'
     }
@@ -589,8 +606,8 @@ export const anchoredShapesConfigSchema = {
   type: 'object',
   additionalProperties: false,
   required: [
-    'shapeData',
-    'dimension',
+    'data',
+    'mainDimension',
     'idHorizontalAxis',
     'idVerticalAxis',
     'normalValue',
@@ -606,7 +623,7 @@ export const anchoredShapesConfigSchema = {
     }]
   }],
   properties: {
-    shapeData: {
+    data: {
       type: 'array',
       additionalItems: false,
       items: {
@@ -619,9 +636,9 @@ export const anchoredShapesConfigSchema = {
     naturalNormalOffset: {
       type: 'number'
     },
-    dimension: {
+    mainDimension: {
       type: 'string',
-      enum: [DIMENSIONS.horizontal]
+      enum: [dimensionUtils.DIMENSIONS_2D.horizontal]
     },
     idHorizontalAxis: {
       type: 'string'
@@ -641,23 +658,25 @@ export const anchoredShapesConfigSchema = {
     cssClasses: {},
     // Function that receives an item from the data and should return either
     // leading or trailing to determine the position
-    // of the shape in relation to the axis. Leading for left/above the axis and trailing
-    // for right/below it.
+    // of the shape in relation to the axis. Leading for left/above the axis and
+    // trailing for right/below it.
     getAnchorPosition: {},
-    // Function that returns an object with width and height values so the shape can be
-    // drawn with a polygon.
+    // Function that returns an object with width and height values so the shape
+    // can be drawn with a polygon.
     getShapeSize: {},
-    // Function that returns a path to render the desired shape. The DS integrates the function
-    // to render a triangle. The rest of the algorithms for the shapes should be provided
-    // by the developer.
+    // Function that returns a path to render the desired shape. The DS integrates
+    // the function to render a triangle. The rest of the algorithms for the shapes
+    // should be provided by the developer.
     getShapePath: {},
-    // Function that returns the property that is needed by D3 to track data changes correctly
+    // Function that returns the property that is needed by D3 to track data
+    // changes correctly
     trackByKey: {},
     text: {
       type: 'object',
       additionalProperties: false,
       properties: {
-        // Function that returns an array of objects, each one containing a text property and a cssClass property
+        // Function that returns an array of objects, each one containing a text
+        // property and a cssClass property
         content: {}
       }
     }

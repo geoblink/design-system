@@ -22,10 +22,8 @@
 </template>
 
 <script>
-const { POSITIONS } = require('../GeoChartAxis/GeoChartAxis')
-const { SCALE_TYPES } = require('../GeoChartScale/GeoChartScale')
+const CONSTANTS = require('../constants')
 const { INTERPOLATION_TYPES } = require('./GeoChartLine')
-const { DIMENSIONS: BARS_DIMENSIONS } = require('../GeoChartBars/GeoChartBars')
 
 export default {
   name: 'GeoChartLineDemo',
@@ -45,10 +43,10 @@ export default {
           count: 2
         },
         position: {
-          type: POSITIONS.left
+          type: CONSTANTS.AXIS.POSITIONS.left
         },
         scale: {
-          type: SCALE_TYPES.linear,
+          type: CONSTANTS.SCALES.SCALE_TYPES.linear,
           valueForOrigin: 0,
           domain: {
             start: 20,
@@ -64,10 +62,10 @@ export default {
         id: 'demo-categorical-axis',
         keyForValues: 'category',
         position: {
-          type: POSITIONS.bottom
+          type: CONSTANTS.AXIS.POSITIONS.bottom
         },
         scale: {
-          type: SCALE_TYPES.categorical,
+          type: CONSTANTS.SCALES.SCALE_TYPES.categorical,
           valueForOrigin: _.first(this.categoricalDomain),
           domain: this.categoricalDomain
         }
@@ -93,8 +91,8 @@ export default {
         lineGroups: [{
           idVerticalAxis: this.linearAxisConfig.id,
           idHorizontalAxis: this.categoricalAxisConfig.id,
-          dimension: BARS_DIMENSIONS.horizontal,
-          lineData: this.lineData,
+          mainDimension: CONSTANTS.DIMENSIONS.DIMENSIONS_2D.horizontal,
+          data: this.lineData,
           lineWidth: 2,
           hoverCircleRadius: 4,
           interpolationFn: INTERPOLATION_TYPES.curveLinear
