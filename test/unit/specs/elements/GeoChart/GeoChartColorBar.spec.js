@@ -24,10 +24,10 @@ const axisDimensions = {
         count: 2
       },
       position: {
-        type: GeoChart.constants.POSITIONS.left
+        type: GeoChart.constants.AXIS.POSITIONS.left
       },
       scale: {
-        type: GeoChart.constants.SCALE_TYPES.linear,
+        type: GeoChart.constants.SCALES.SCALE_TYPES.linear,
         valueForOrigin: 0,
         domain: {
           start: 0,
@@ -39,10 +39,10 @@ const axisDimensions = {
       id: 'spec-categorical-axis',
       keyForValues: 'category',
       position: {
-        type: GeoChart.constants.POSITIONS.bottom
+        type: GeoChart.constants.AXIS.POSITIONS.bottom
       },
       scale: {
-        type: GeoChart.constants.SCALE_TYPES.categorical,
+        type: GeoChart.constants.SCALES.SCALE_TYPES.categorical,
         valueForOrigin: _.first(mockDomain),
         domain: mockDomain
       }
@@ -56,10 +56,10 @@ const axisDimensions = {
         count: 2
       },
       position: {
-        type: GeoChart.constants.POSITIONS.bottom
+        type: GeoChart.constants.AXIS.POSITIONS.bottom
       },
       scale: {
-        type: GeoChart.constants.SCALE_TYPES.linear,
+        type: GeoChart.constants.SCALES.SCALE_TYPES.linear,
         valueForOrigin: 0,
         domain: {
           start: 0,
@@ -71,10 +71,10 @@ const axisDimensions = {
       id: 'spec-categorical-axis',
       keyForValues: 'category',
       position: {
-        type: GeoChart.constants.POSITIONS.left
+        type: GeoChart.constants.AXIS.POSITIONS.left
       },
       scale: {
-        type: GeoChart.constants.SCALE_TYPES.categorical,
+        type: GeoChart.constants.SCALES.SCALE_TYPES.categorical,
         valueForOrigin: _.first(mockDomain),
         domain: mockDomain
       }
@@ -115,14 +115,14 @@ describe('GeoChartColorBar', function () {
       const cssClassFn = (original) => [...original, 'test-color-bar']
 
       switch (dimension) {
-        case GeoChart.constants.BARS_DIMENSIONS.horizontal:
+        case GeoChart.constants.DIMENSIONS.DIMENSIONS_2D.horizontal:
           testDimension(dimension, linearAxisConfig, categoricalAxisConfig, highlightedSegments, cssClassFn)
           break
-        case GeoChart.constants.BARS_DIMENSIONS.vertical:
+        case GeoChart.constants.DIMENSIONS.DIMENSIONS_2D.vertical:
           testDimension(dimension, categoricalAxisConfig, linearAxisConfig, highlightedSegments, null)
           break
         default:
-          console.error(`Unknown dimension: ${dimension}`)
+          console.error(`Unknown mainDimension: ${dimension}`)
       }
     }
   })
@@ -150,7 +150,7 @@ describe('GeoChartColorBar', function () {
           width: 12,
           highlightedWidth: 16,
           data: highlightedSegments,
-          dimension: GeoChart.constants.BARS_DIMENSIONS[dimension],
+          mainDimension: GeoChart.constants.DIMENSIONS.DIMENSIONS_2D[dimension],
           idVerticalAxis: idVerticalAxis,
           idHorizontalAxis: idHorizontalAxis,
           cssClasses: cssClassFn

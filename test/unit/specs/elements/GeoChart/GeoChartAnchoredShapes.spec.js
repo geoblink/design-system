@@ -24,10 +24,10 @@ describe('GeoChartAnchoredShapes', function () {
         count: 2
       },
       position: {
-        type: GeoChart.constants.POSITIONS.left
+        type: GeoChart.constants.AXIS.POSITIONS.left
       },
       scale: {
-        type: GeoChart.constants.SCALE_TYPES.linear,
+        type: GeoChart.constants.SCALES.SCALE_TYPES.linear,
         valueForOrigin: 0,
         domain: {
           start: 0,
@@ -40,10 +40,10 @@ describe('GeoChartAnchoredShapes', function () {
       id: 'demo-numerical-axis',
       keyForValues: 'numerical',
       position: {
-        type: GeoChart.constants.POSITIONS.bottom
+        type: GeoChart.constants.AXIS.POSITIONS.bottom
       },
       scale: {
-        type: GeoChart.constants.SCALE_TYPES.linear,
+        type: GeoChart.constants.SCALES.SCALE_TYPES.linear,
         valueForOrigin: 0,
         domain: {
           start: 0,
@@ -73,9 +73,11 @@ describe('GeoChartAnchoredShapes', function () {
   })
 
   describe('Constants', function () {
-    it('should export ANCHOR_POSITIONS', function () {
-      expect(GeoChartAnchoredShapes).toHaveProperty('ANCHOR_POSITIONS')
+    it('should export ANCHOR_POSITIONS_1D', function () {
+      expect(GeoChart.constants).toHaveProperty('DIMENSIONS')
+      expect(GeoChart.constants.DIMENSIONS).toHaveProperty('ANCHOR_POSITIONS_1D')
     })
+
     it('Should export getTriangleShape', function () {
       expect(GeoChartAnchoredShapes).toHaveProperty('getTriangleShapePath')
     })
@@ -117,13 +119,13 @@ describe('GeoChartAnchoredShapes', function () {
       anchoredShapesGroups: [{
         normalValue: 0.5,
         normalOffset: 6,
-        shapeData: shapeData,
-        dimension: GeoChart.constants.BARS_DIMENSIONS.horizontal,
+        data: shapeData,
+        mainDimension: GeoChart.constants.DIMENSIONS.DIMENSIONS_2D.horizontal,
         idVerticalAxis: idVerticalAxis,
         idHorizontalAxis: idHorizontalAxis,
         cssClasses: cssClassFn,
         getAnchorPosition (d, i) {
-          return d.isUp ? GeoChart.constants.ANCHOR_POSITIONS.leading : GeoChart.constants.ANCHOR_POSITIONS.trailing
+          return d.isUp ? GeoChart.constants.DIMENSIONS.ANCHOR_POSITIONS_1D.leading : GeoChart.constants.DIMENSIONS.ANCHOR_POSITIONS_1D.trailing
         },
         getShapeSize () {
           return {
@@ -157,6 +159,7 @@ describe('GeoChartAnchoredShapes', function () {
         }
       }]
     }
+
     describe('Anchored Shape with no trackByKey property', function () {
       it('Should render even though no track data property is provided', function () {
         const config = _.cloneDeep(anchoredShapesConfig)
@@ -177,6 +180,7 @@ describe('GeoChartAnchoredShapes', function () {
         wrapper.destroy()
       })
     })
+
     describe('Anchored Shape with no text content', function () {
       it('Should not have text elements', function () {
         const config = _.cloneDeep(anchoredShapesConfig)
@@ -197,6 +201,7 @@ describe('GeoChartAnchoredShapes', function () {
         wrapper.destroy()
       })
     })
+
     describe('Horizontal Anchored shapes', () => {
       const stubLodashDebounce = stubLodashDebounceFactory()
       beforeEach(function () {
@@ -267,7 +272,7 @@ describe('GeoChartAnchoredShapes', function () {
           }
         ], axisDimensions.numericalAxisConfig.keyForValues)
         const anchoredShapesConfig2 = _.assign({}, anchoredShapesConfig)
-        anchoredShapesConfig2.anchoredShapesGroups[0].shapeData = shapeData2
+        anchoredShapesConfig2.anchoredShapesGroups[0].data = shapeData2
 
         wrapper.setProps({
           config: anchoredShapesConfig2
@@ -305,7 +310,7 @@ describe('GeoChartAnchoredShapes', function () {
           }
         ], axisDimensions.numericalAxisConfig.keyForValues)
         const anchoredShapesConfig3 = _.assign({}, anchoredShapesConfig)
-        anchoredShapesConfig3.anchoredShapesGroups[0].shapeData = shapeData3
+        anchoredShapesConfig3.anchoredShapesGroups[0].data = shapeData3
 
         wrapper.setProps({
           config: anchoredShapesConfig3

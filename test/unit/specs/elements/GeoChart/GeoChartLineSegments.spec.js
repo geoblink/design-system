@@ -23,10 +23,10 @@ describe('GeoChartLineSegments', function () {
           count: 2
         },
         position: {
-          type: GeoChart.constants.POSITIONS.left
+          type: GeoChart.constants.AXIS.POSITIONS.left
         },
         scale: {
-          type: GeoChart.constants.SCALE_TYPES.linear,
+          type: GeoChart.constants.SCALES.SCALE_TYPES.linear,
           valueForOrigin: 0,
           domain: {
             start: 0,
@@ -39,10 +39,10 @@ describe('GeoChartLineSegments', function () {
         id: 'demo-numerical-axis',
         keyForValues: 'numerical',
         position: {
-          type: GeoChart.constants.POSITIONS.bottom
+          type: GeoChart.constants.AXIS.POSITIONS.bottom
         },
         scale: {
-          type: GeoChart.constants.SCALE_TYPES.linear,
+          type: GeoChart.constants.SCALES.SCALE_TYPES.linear,
           valueForOrigin: 0,
           domain: {
             start: 0,
@@ -59,10 +59,10 @@ describe('GeoChartLineSegments', function () {
           count: 2
         },
         position: {
-          type: GeoChart.constants.POSITIONS.bottom
+          type: GeoChart.constants.AXIS.POSITIONS.bottom
         },
         scale: {
-          type: GeoChart.constants.SCALE_TYPES.linear,
+          type: GeoChart.constants.SCALES.SCALE_TYPES.linear,
           valueForOrigin: 0,
           domain: {
             start: 0,
@@ -75,10 +75,10 @@ describe('GeoChartLineSegments', function () {
         id: 'demo-numerical-axis',
         keyForValues: 'numerical',
         position: {
-          type: GeoChart.constants.POSITIONS.left
+          type: GeoChart.constants.AXIS.POSITIONS.left
         },
         scale: {
-          type: GeoChart.constants.SCALE_TYPES.linear,
+          type: GeoChart.constants.SCALES.SCALE_TYPES.linear,
           valueForOrigin: 0,
           domain: {
             start: 0,
@@ -115,10 +115,10 @@ describe('GeoChartLineSegments', function () {
       const cssClassFn = (original) => [...original, 'test-line-segments']
 
       switch (dimension) {
-        case GeoChart.constants.BARS_DIMENSIONS.horizontal:
+        case GeoChart.constants.DIMENSIONS.DIMENSIONS_2D.horizontal:
           testDimension(dimension, linearAxisConfig, numericalAxisConfig, cssClassFn)
           break
-        case GeoChart.constants.BARS_DIMENSIONS.vertical:
+        case GeoChart.constants.DIMENSIONS.DIMENSIONS_2D.vertical:
           testDimension(dimension, numericalAxisConfig, linearAxisConfig, null)
           break
         default:
@@ -154,8 +154,8 @@ describe('GeoChartLineSegments', function () {
         ],
         lineSegmentsGroups: [{
           normalValue: 0.5,
-          circleData: circleData,
-          dimension: dimension,
+          data: circleData,
+          mainDimension: dimension,
           lineWidth: 2,
           circleRadius: 3,
           circleMargin: 2,
@@ -167,6 +167,7 @@ describe('GeoChartLineSegments', function () {
           }
         }]
       }
+
       it('Should render line segments even though no track data property is provided', function () {
         const config = _.cloneDeep(lineSegmentsConfig)
         config.lineSegmentsGroups[0].trackByKey = null
@@ -184,6 +185,7 @@ describe('GeoChartLineSegments', function () {
         expect(wrapper.findAll('.geo-chart-line-segments__segment')).toHaveLength(circleData.length + 1)
         wrapper.destroy()
       })
+
       it('Should render the LineSegments', () => {
         const wrapper = mount(GeoChart, {
           propsData: {
@@ -199,6 +201,7 @@ describe('GeoChartLineSegments', function () {
         expect(wrapper.findAll('.geo-chart-line-segments__segment')).toHaveLength(circleData.length + 1)
         wrapper.destroy()
       })
+
       it('Should update data', () => {
         const wrapper = mount(GeoChart, {
           propsData: {
@@ -222,7 +225,7 @@ describe('GeoChartLineSegments', function () {
         }), axisDimensions[dimension].numericalAxisConfig.keyForValues)
 
         const lineSegmentsConfig2 = _.assign({}, lineSegmentsConfig)
-        lineSegmentsConfig2.lineSegmentsGroups[0].circleData = circleData2
+        lineSegmentsConfig2.lineSegmentsGroups[0].data = circleData2
 
         wrapper.setProps({
           config: lineSegmentsConfig2

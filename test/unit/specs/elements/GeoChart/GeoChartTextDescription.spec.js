@@ -9,7 +9,7 @@ import {
   getTransformTranslateMatches,
   stubCreateSVGPointFactory
 } from './GeoChart.spec-utils' // This has to be imported before D3
-import { ALGORITHMS } from '@/elements/GeoChart/GeoChartUtils/GeoChartTextDescriptionUtils.js'
+import { ALGORITHMS } from '@/elements/GeoChart/GeoChartUtils/textDescriptionUtils'
 import { setupTextDescriptions } from '@/elements/GeoChart/GeoChartUtils/GeoChartTextDescription'
 import { createLocalVue, mount } from '@vue/test-utils'
 import GeoChart from '@/elements/GeoChart/GeoChart.vue'
@@ -85,10 +85,10 @@ describe('GeoChartTextDescription.js', () => {
             id: 'dummy-axis',
             keyForValues: 'value',
             position: {
-              type: GeoChart.constants.POSITIONS.left
+              type: GeoChart.constants.AXIS.POSITIONS.left
             },
             scale: {
-              type: GeoChart.constants.SCALE_TYPES.linear,
+              type: GeoChart.constants.SCALES.SCALE_TYPES.linear,
               valueForOrigin: 0,
               domain: {
                 start: 0,
