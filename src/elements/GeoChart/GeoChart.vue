@@ -42,7 +42,7 @@ const d3Tip = (function () {
 
 const Ajv = (function () {
   try {
-    return require('ajv')
+    return require('@geoblink/ajv-extra')
   } catch (error) {
     return null
   }
