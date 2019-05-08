@@ -63,7 +63,7 @@
   },
   "resolutions": {
     "merge": ">= 1.2.1",
-    "vue-styleguidist/vue-docgen-api": "~2.3.14"
+    "vue-styleguidist/vue-docgen-api": "^3.0.0"
   },
   "dependencies": {
     "d3": "^5.7.0",
@@ -89,6 +89,7 @@
     "@types/ajv": "^1.0.0",
     "@types/ajv-errors": "^1.0.2",
     "@types/d3": "^5.0.1",
+    "@types/d3-scale": "^2.1.1",
     "@types/d3-tip": "^3.5.5",
     "@types/lodash": "^4.14.118",
     "@types/markdown-it": "^0.0.7",
@@ -122,7 +123,7 @@
     "eslint-plugin-node": "^7.0.1",
     "eslint-plugin-promise": "^4.0.1",
     "eslint-plugin-standard": "^4.0.0",
-    "eslint-plugin-vue": "^4.7.1",
+    "eslint-plugin-vue": "^5.2.2",
     "file-loader": "^2.0.0",
     "friendly-errors-webpack-plugin": "^1.7.0",
     "fs-extra": "^7.0.1",

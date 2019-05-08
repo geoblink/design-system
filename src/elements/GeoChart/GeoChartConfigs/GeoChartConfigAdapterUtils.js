@@ -1,11 +1,22 @@
 import _ from 'lodash'
 
-import * as ChartAxis from '../GeoChartAxis/GeoChartAxis'
+import * as axisUtils from '../GeoChartUtils/axisUtils'
 
 /**
- * @param {GeoChart} component
- * @param {object} axisUserConfig
- * @return {GeoChartAxis.AxisConfig}
+ * @template Domain
+ * @template RelativeScaleDomain
+ * @typedef {Object} GeoChartComponentInstance
+ * @property {Object<string, GeoChart.AxisConfigScale<Domain>>} scalesById
+ * @property {Object} config
+ * @property {Array<GeoChart.AxisConfig<Domain, RelativeScaleDomain>>} config.axisGroups
+ */
+
+/**
+ * @template Domain
+ * @template RelativeScaleDomain
+ * @param {GeoChartComponentInstance<Domain, RelativeScaleDomain>} component
+ * @param {Object} axisUserConfig
+ * @return {GeoChart.AxisConfig<Domain, RelativeScaleDomain>}
  */
 export function parseAxisConfig (component, axisUserConfig) {
   const scale = component.scalesById[axisUserConfig.id]
@@ -27,33 +38,37 @@ export function parseAxisConfig (component, axisUserConfig) {
 
 /**
  * @template Domain
- * @param {GeoChart.AxisConfig<Domain>} axisConfig
- * @param {object} object
- * @param {Array<d3.ScaleLinear|d3.ScaleBand|d3.ScaleLogarithmic>} object.scalesById
- * @param {Array<GeoChart.AxisConfig<Domain>>} object.axisGroups
- * @return {AxisPositionType}
+ * @template RelativeScaleDomain
+ * @param {Object} axisUserConfig
+ * @param {Object} globalConfig
+ * @param {Object<string, GeoChart.AxisConfigScale<Domain>>} globalConfig.scalesById
+ * @param {Array<GeoChart.AxisConfig<Domain, RelativeScaleDomain>>} globalConfig.axisGroups
+ * @return {GeoChart.AxisPosition<RelativeScaleDomain>}
  */
-export function getPositionOfAxis (axisConfig, { scalesById, axisGroups }) {
-  if (axisConfig.position.type === ChartAxis.POSITIONS.anchoredToAxis) {
-    const relativeAxisConfig = _.find(axisGroups, {
-      id: axisConfig.position.relativeToAxis
+export function getPositionOfAxis (axisUserConfig, globalConfig) {
+  if (axisUserConfig.position.type === axisUtils.POSITIONS.anchoredToAxis) {
+    const relativeAxisConfig = _.find(globalConfig.axisGroups, {
+      id: axisUserConfig.position.relativeToAxis
     })
 
     if (!relativeAxisConfig) {
-      throw new Error(`GeoChart [component] :: Tried to add an axis relative to unknown axis ${axisConfig.position.relativeToAxis}`)
+      throw new Error(`GeoChart [component] :: Tried to add an axis relative to unknown axis ${axisUserConfig.position.relativeToAxis}`)
     }
 
-    const scale = scalesById[axisConfig.position.relativeToAxis]
+    const scale = globalConfig.scalesById[axisUserConfig.position.relativeToAxis]
 
     return {
-      type: ChartAxis.POSITIONS.anchoredToAxis,
-      value: axisConfig.position.value,
+      type: axisUtils.POSITIONS.anchoredToAxis,
+      value: axisUserConfig.position.value,
       scale,
-      relativeAxisPosition: getPositionOfAxis(relativeAxisConfig, { scalesById, axisGroups })
+      relativeAxisPosition: getPositionOfAxis(relativeAxisConfig, {
+        scalesById: globalConfig.scalesById,
+        axisGroups: globalConfig.axisGroups
+      })
     }
   }
 
   return {
-    type: axisConfig.position.type
+    type: (/** @type {GeoChart.SimpleAxisPositionType} */ (axisUserConfig.position.type))
   }
 }

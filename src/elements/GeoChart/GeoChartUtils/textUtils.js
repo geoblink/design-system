@@ -1,9 +1,36 @@
+/**
+ * @template GElement
+ * @template Datum
+ * @template PElement
+ * @template PDatum
+ * @typedef {import('d3').Selection<GElement, Datum, PElement, PDatum>} d3.Selection
+ */
+
+/**
+ * @callback GetTextContent
+ * @param {Object} item
+ * @param {number} index
+ * @returns string[]
+ */
+
+/**
+ * @typedef {Object} TextOptions
+ * @property {GetTextContent} content
+ */
+
+/**
+ * @template GElement
+ * @template Datum
+ * @template PElement
+ * @template PDatum
+ * @param {d3.Selection<GElement, Datum, PElement, PDatum>} textElems
+ * @param {TextOptions} textOptions
+ * @param {GeoChart.GlobalOptions} globalOptions
+ */
 export function setTextContent (textElems, textOptions, globalOptions) {
   const tspans = textElems
     .selectAll('tspan')
-    .data(function (d, i) {
-      return textOptions.content(d, i)
-    })
+    .data((d, i) => textOptions.content(d, i))
 
   const newtspans = tspans
     .enter()

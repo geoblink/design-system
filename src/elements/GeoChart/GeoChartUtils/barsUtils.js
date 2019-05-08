@@ -1,106 +1,50 @@
-const _ = require('lodash')
+/// <reference path="../GeoChart.d.ts" />
 
-/**
- * @enum {GeoChart.BarDimension}
- */
-const DIMENSIONS = {
-  horizontal: 'horizontal',
-  vertical: 'vertical'
-}
+import _ from 'lodash'
 
-const DEFAULT_WIDTH = 10
+import * as axisUtils from './axisUtils'
+import * as dimensionUtils from './dimensionUtils'
+import * as numericUtils from './numericUtils'
+import * as scaleUtils from './scaleUtils'
 
-/**
- * Returns the position of given value in given axis.
- *
- * @template Domain
- * @param {GeoChart.AxisConfig<Domain>} axisConfig
- * @param {object} singleItem
- * @return {number}
- */
-export function getItemValueAtAxis (axisConfig, singleItem) {
-  const rawValue = singleItem[axisConfig.keyForValues]
-  return axisConfig.scale.axisScale(rawValue)
-}
+export const DEFAULT_WIDTH = 10
 
 /**
  * Returns the span (width or height) of given value in given axis, also
  * considering if there's a width overriden.
  *
  * @template Domain
+ * @template HorizontalDomain
+ * @template VerticalDomain
  * @param {GeoChart.AxisConfig<Domain>} axisConfig
  * @param {object} singleItem
- * @param {GeoChart.SingleColorBarGroupConfig<HorizontalDomain, VerticalDomain>} [options]
+ * @param {GeoChart.BidimensionalGroupConfig<HorizontalDomain, VerticalDomain>} [options]
  * @param {object} keysConfig
  * @param {string} keysConfig.keyForWidth
  * @param {string} keysConfig.keyForNaturalWidth
  * @return {number}
  */
-export function getItemSpanAtAxis (axisConfig, singleItem, options, { keyForWidth, keyForNaturalWidth }) {
-  if (!isDimensionAxis(axisConfig, options) && isForced(options, keyForWidth)) return options[keyForWidth]
-  if (isScaleBand(axisConfig.scale.axisScale)) {
+export function getItemSpanAtAxis (axisConfig, singleItem, options, keysConfig) {
+  if (
+    !axisUtils.isMainDimensionAxis(axisConfig, options) &&
+    numericUtils.isNumberForced(options, keysConfig.keyForWidth)
+  ) {
+    return options[keysConfig.keyForWidth]
+  }
+
+  if (scaleUtils.isScaleBand(axisConfig.scale.axisScale)) {
     const widthForOneNaturalUnit = axisConfig.scale.axisScale.bandwidth()
-    const naturalUnitsForWidth = isDimensionAxis(axisConfig, options)
+    const naturalUnitsForWidth = axisUtils.isMainDimensionAxis(axisConfig, options)
       ? 1
-      : _.get(options, keyForNaturalWidth, 1)
+      : _.get(options, keysConfig.keyForNaturalWidth, 1)
+
     return widthForOneNaturalUnit * naturalUnitsForWidth
   }
 
-  const positionAtAxisOrigin = axisConfig.scale.axisScale(axisConfig.scale.valueForOrigin)
-  const positionAtValue = getItemValueAtAxis(axisConfig, singleItem)
+  const spanEndPoint = getSpanEndPoint(axisConfig, singleItem, options, keysConfig)
+  const spanOriginPoint = getSpanOriginPoint(axisConfig, singleItem, options, keysConfig)
 
-  return Math.abs(getSpanEndPoint() - getSpanOriginPoint())
-
-  function getSpanOriginPoint () {
-    if (!isDimensionAxis(axisConfig, options)) {
-      if (isForced(options, keyForNaturalWidth)) {
-        return getItemValueAtAxis(axisConfig, {
-          [axisConfig.keyForValues]: _.get(singleItem, axisConfig.keyForValues) - options[keyForNaturalWidth] / 2
-        })
-      }
-
-      // By default bars will have a width of 10px in non-band scales so they
-      // start 5px below the anchor point.
-      return positionAtValue - _.get(options, keyForWidth, DEFAULT_WIDTH) / 2
-    }
-
-    return positionAtAxisOrigin
-  }
-
-  function getSpanEndPoint () {
-    if (!isDimensionAxis(axisConfig, options)) {
-      if (isForced(options, keyForNaturalWidth)) {
-        return getItemValueAtAxis(axisConfig, {
-          [axisConfig.keyForValues]: _.get(singleItem, axisConfig.keyForValues) + options[keyForNaturalWidth] / 2
-        })
-      }
-
-      // By default bars will have a width of 10px in non-band scales so they
-      // start 5px below the anchor point.
-      return positionAtValue + _.get(options, keyForWidth, DEFAULT_WIDTH) / 2
-    }
-
-    return positionAtValue
-  }
-}
-
-/**
- * @param {any} [options]
- * @param {string} [key]
- * @return {boolean}
- */
-export function isForced (options, key) {
-  return _.isFinite(_.get(options, key))
-}
-
-/**
- * @template Domain
- * @param {d3.AxisScale<Domain>} axisScale
- * @returns {boolean}
- * @see https://github.com/d3/d3-scale#scaleBand
- */
-function isScaleBand (axisScale) {
-  return !!axisScale.bandwidth
+  return Math.abs(spanEndPoint - spanOriginPoint)
 }
 
 /**
@@ -108,64 +52,72 @@ function isScaleBand (axisScale) {
  * @template HorizontalDomain
  * @template VerticalDomain
  * @param {GeoChart.AxisConfig<Domain>} axisConfig
- * @param {GeoChart.SingleBarGroupConfig<HorizontalDomain, VerticalDomain>} [options]
- * @return {boolean}
+ * @param {object} singleItem
+ * @param {GeoChart.BidimensionalGroupConfig<HorizontalDomain, VerticalDomain>} [options]
+ * @param {object} keysConfig
+ * @param {string} keysConfig.keyForWidth
+ * @param {string} keysConfig.keyForNaturalWidth
+ * @return {number}
  */
-export function isDimensionAxis (axisConfig, options) {
-  if (!options) return false
+function getSpanOriginPoint (axisConfig, singleItem, options, keysConfig) {
+  const positionAtAxisOrigin = axisConfig.scale.axisScale(axisConfig.scale.valueForOrigin)
+  const positionAtValue = axisUtils.getItemValueAtAxis(axisConfig, singleItem)
 
-  const axisForDimension = {
-    [DIMENSIONS.horizontal]: options.axis.horizontal,
-    [DIMENSIONS.vertical]: options.axis.vertical
+  if (!axisUtils.isMainDimensionAxis(axisConfig, options)) {
+    if (numericUtils.isNumberForced(options, keysConfig.keyForNaturalWidth)) {
+      return axisUtils.getItemValueAtAxis(axisConfig, {
+        [axisConfig.keyForValues]: _.get(singleItem, axisConfig.keyForValues) - options[keysConfig.keyForNaturalWidth] / 2
+      })
+    }
+
+    // By default bars will have a width of 10px in non-band scales so they
+    // start 5px below the anchor point.
+    return positionAtValue - _.get(options, keysConfig.keyForWidth, DEFAULT_WIDTH) / 2
   }
 
-  return axisForDimension[options.dimension] === axisConfig
+  return positionAtAxisOrigin
 }
 
 /**
  * @template Domain
- * @param {GeoChart.AxisConfig<Domain>} options
+ * @template HorizontalDomain
+ * @template VerticalDomain
+ * @param {GeoChart.AxisConfig<Domain>} axisConfig
+ * @param {object} singleItem
+ * @param {GeoChart.BidimensionalGroupConfig<HorizontalDomain, VerticalDomain>} [options]
+ * @param {object} keysConfig
+ * @param {string} keysConfig.keyForWidth
+ * @param {string} keysConfig.keyForNaturalWidth
+ * @return {number}
+ */
+function getSpanEndPoint (axisConfig, singleItem, options, keysConfig) {
+  const positionAtValue = axisUtils.getItemValueAtAxis(axisConfig, singleItem)
+
+  if (!axisUtils.isMainDimensionAxis(axisConfig, options)) {
+    if (numericUtils.isNumberForced(options, keysConfig.keyForNaturalWidth)) {
+      return axisUtils.getItemValueAtAxis(axisConfig, {
+        [axisConfig.keyForValues]: _.get(singleItem, axisConfig.keyForValues) + options[keysConfig.keyForNaturalWidth] / 2
+      })
+    }
+
+    // By default bars will have a width of 10px in non-band scales so they
+    // start 5px below the anchor point.
+    return positionAtValue + _.get(options, keysConfig.keyForWidth, DEFAULT_WIDTH) / 2
+  }
+
+  return positionAtValue
+}
+
+/**
+ * @template Domain
+ * @param {GeoChart.AxisConfig<Domain>} axisConfig
  * @param {object} singleItem
  * @return {boolean}
  */
 function isBarAxisLengthIncreasing (axisConfig, singleItem) {
   const originPosition = axisConfig.scale.axisScale(axisConfig.scale.valueForOrigin)
-  const valuePosition = getItemValueAtAxis(axisConfig, singleItem)
+  const valuePosition = axisUtils.getItemValueAtAxis(axisConfig, singleItem)
   return originPosition <= valuePosition
-}
-
-/**
- * @template Domain
- * @param {GeoChart.SingleBarGroupConfig<HorizontalDomain, VerticalDomain>} options
- * @param {object} keysConfig
- * @param {string} keysConfig.keyForNormalOffset
- * @param {string} keysConfig.keyForNaturalNormalOffset
- * @return {number}
- */
-export function getTranslationForNormalAxisFactory (options, { keyForNormalOffset, keyForNaturalNormalOffset }) {
-  return function (normalAxis, singleItem) {
-    // By default we don't want to add any additional translation to be bars
-    // apart from the one required to position it respect to their value in the
-    // normal axis
-    const naturalNormalOffset = isForced(options, keyForNaturalNormalOffset)
-      ? options.naturalNormalOffset
-      : 0
-    const positionOfItemValue = getItemValueAtAxis(normalAxis, singleItem)
-
-    if (isScaleBand(normalAxis.scale.axisScale)) {
-      const normalOffset = isForced(options, keyForNormalOffset)
-        ? options[keyForNormalOffset]
-        : naturalNormalOffset * normalAxis.scale.axisScale.bandwidth()
-
-      return positionOfItemValue + normalOffset
-    }
-
-    if (isForced(options, keyForNormalOffset)) return positionOfItemValue + options[keyForNormalOffset]
-
-    return getItemValueAtAxis(normalAxis, {
-      [normalAxis.keyForValues]: _.get(singleItem, normalAxis.keyForValues) + naturalNormalOffset
-    })
-  }
 }
 
 /**
@@ -185,6 +137,8 @@ export function getTranslationForNormalAxisFactory (options, { keyForNormalOffse
  */
 
 /**
+ * @template HorizontalDomain
+ * @template VerticalDomain
  * @param {GeoChart.SingleBarGroupConfig<HorizontalDomain, VerticalDomain>} options
  * @param {object} params
  * @param {string} params.keyForWidth
@@ -221,21 +175,21 @@ export function getItemTranslationFactory (options, {
     const isBarVerticalLengthIncreasing = isBarAxisLengthIncreasing(verticalAxis, singleItem)
 
     const horizontalAxisTranslationForDimension = {
-      [DIMENSIONS.horizontal]: isBarHorizontalLengthIncreasing
+      [dimensionUtils.DIMENSIONS_2D.horizontal]: isBarHorizontalLengthIncreasing
         ? originHorizontalPosition
         : originHorizontalPosition - valueHorizontalSpan,
-      [DIMENSIONS.vertical]: getTranslationForNormalAxis(horizontalAxis, singleItem)
+      [dimensionUtils.DIMENSIONS_2D.vertical]: getTranslationForNormalAxis(horizontalAxis, singleItem)
     }
 
     const verticalAxisTranslationForDimension = {
-      [DIMENSIONS.horizontal]: getTranslationForNormalAxis(verticalAxis, singleItem),
-      [DIMENSIONS.vertical]: isBarVerticalLengthIncreasing
+      [dimensionUtils.DIMENSIONS_2D.horizontal]: getTranslationForNormalAxis(verticalAxis, singleItem),
+      [dimensionUtils.DIMENSIONS_2D.vertical]: isBarVerticalLengthIncreasing
         ? originVerticalPosition
         : originVerticalPosition - valueVerticalSpan
     }
 
-    const horizontalAxisTranslation = horizontalAxisTranslationForDimension[options.dimension]
-    const verticalAxisTranslation = verticalAxisTranslationForDimension[options.dimension]
+    const horizontalAxisTranslation = horizontalAxisTranslationForDimension[options.mainDimension]
+    const verticalAxisTranslation = verticalAxisTranslationForDimension[options.mainDimension]
 
     if (!_.isFinite(horizontalAxisTranslation)) {
       throw new Error(`GeoChart (${componentName}) [component] :: Wrong translation in x-axis. Check that item ${index} has a proper value for key «${horizontalAxis.keyForValues}» (currently it is «${_.get(singleItem, horizontalAxis.keyForValues)}»). Alternatively, change the horizontal axis (currently set to «${horizontalAxis.id}»). This could also happen if the axis has an invalid valueForOrigin (currently it is «${horizontalAxis.scale.valueForOrigin}»).`)

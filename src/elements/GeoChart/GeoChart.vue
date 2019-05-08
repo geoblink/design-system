@@ -6,7 +6,7 @@
       [`geo-chart--debug${cssSuffix}`]: debug
     }"
   >
-    <svg ref="svgRoot"/>
+    <svg ref="svgRoot" />
   </div>
 </template>
 
@@ -14,12 +14,17 @@
 import _ from 'lodash'
 import OnResize from '../../directives/GeoOnResize'
 import cssSuffix from '../../mixins/cssModifierMixin'
+
 import * as ChartAxis from './GeoChartAxis/GeoChartAxis'
-import * as ChartSizing from './GeoChartUtils/GeoChartSizing'
-import * as ChartBars from './GeoChartBars/GeoChartBars'
 import * as ChartConfig from './GeoChartConfigs/GeoChartConfig'
 import * as ChartScale from './GeoChartScale/GeoChartScale'
-import { ANCHOR_POSITIONS, getTriangleShapePath } from './GeoChartAnchoredShapes/GeoChartAnchoredShapes'
+
+import * as axisUtils from './GeoChartUtils/axisUtils'
+import * as sizingUtils from './GeoChartUtils/GeoChartSizing'
+
+import * as CONSTANTS from './constants'
+
+import { getTriangleShapePath } from './GeoChartAnchoredShapes/GeoChartAnchoredShapes'
 import { INTERPOLATION_TYPES } from './GeoChartLine/GeoChartLine'
 import configAdapterMixin from './GeoChartConfigs/GeoChartConfigAdapter.mixin'
 import { parseAxisConfig, getPositionOfAxis } from './GeoChartConfigs/GeoChartConfigAdapterUtils'
@@ -99,14 +104,10 @@ export default {
   directives: {
     OnResize
   },
-  constants: {
-    SCALE_TYPES: ChartScale.SCALE_TYPES,
-    POSITIONS: ChartAxis.POSITIONS,
-    BARS_DIMENSIONS: ChartBars.DIMENSIONS,
-    ANCHOR_POSITIONS,
+  constants: _.assign({}, CONSTANTS, {
     INTERPOLATION_TYPES,
     getTriangleShapePath
-  },
+  }),
   mixins: [cssSuffix, configAdapterMixin],
   props: {
     /**
@@ -166,7 +167,7 @@ export default {
 
     scalesById () {
       const chartSize = this.svgSize
-      const chartMargin = _.get(this.config.chart, 'margin', ChartSizing.EMPTY_MARGIN)
+      const chartMargin = _.get(this.config.chart, 'margin', sizingUtils.EMPTY_MARGIN)
       const chart = {
         size: chartSize,
         margin: chartMargin
@@ -177,7 +178,7 @@ export default {
       const [
         simplePositionedScalesAxisGroups,
         advancedPositionedScalesAxisGroups
-      ] = _.partition(axisGroups, (axisConfig) => axisConfig.position.type in ChartAxis.SIMPLE_POSITIONS)
+      ] = _.partition(axisGroups, (axisConfig) => axisConfig.position.type in axisUtils.SIMPLE_POSITIONS)
 
       const simplePositionedScales = _.fromPairs(_.map(
         simplePositionedScalesAxisGroups,
@@ -295,7 +296,7 @@ export default {
       const axesConfig = _.values(this.axesConfigById)
 
       const chartSize = this.svgSize
-      const chartMargin = _.get(this.config.chart, 'margin', ChartSizing.EMPTY_MARGIN)
+      const chartMargin = _.get(this.config.chart, 'margin', sizingUtils.EMPTY_MARGIN)
       const globalAxesConfig = {
         chart: {
           animationsDurationInMilliseconds: this.animationsDurationInMilliseconds,

@@ -2,14 +2,11 @@
 
 import _ from 'lodash'
 
-import {
-  DIMENSIONS,
-  getDrawingEnvironment
-} from '../GeoChartAxis/GeoChartAxis'
+import { getDrawingEnvironment } from '../GeoChartAxis/GeoChartAxis'
 
-import {
-  isDimensionAxis
-} from '../GeoChartUtils/barsUtils'
+import * as axisUtils from '../GeoChartUtils/axisUtils'
+import * as dimensionUtils from '../GeoChartUtils/dimensionUtils'
+
 import { setupTooltipEventListeners } from '../GeoChartUtils/GeoChartTooltip'
 
 const d3 = (function () {
@@ -21,20 +18,55 @@ const d3 = (function () {
 })()
 
 /**
- * @enum {GeoChart.InterpolationType}
+ * @template GElement
+ * @template Datum
+ * @template PElement
+ * @template PDatum
+ * @typedef {import('d3').Selection<GElement, Datum, PElement, PDatum>} d3.Selection
+ */
+
+/**
+ * @template Domain
+ * @typedef {import('d3').Line<Domain>} d3.Line
+ */
+
+/**
+ * @typedef {import('d3').CurveGenerator} d3.CurveGenerator
+ */
+
+/**
+ * @template GElement
+ * @template Datum
+ * @typedef {import('d3').ValueFn<GElement, Datum, void>} d3.ValueFn
+ */
+
+/**
+ * @template GElement
+ * @template Datum
+ * @template PElement
+ * @template PDatum
+ * @typedef {Object} d3.Tooltip<GElement, Datum, PElement, PDatum>
+ * @property {d3.ValueFn<GElement, Datum>} show
+ * @property {d3.ValueFn<GElement, Datum>} hide
+ * @property {Function} offset
+ * @property {Function} html
+ */
+
+/**
+ * @typedef {{[key: string]: d3.CurveGenerator}} INTERPOLATION_TYPES
  */
 export const INTERPOLATION_TYPES = {
-  'curveLinear': d3.curveLinear,
-  'curveStepBefore': d3.curveStepBefore,
-  'curveStepAfter': d3.curveStepAfter,
-  'curveBasis': d3.curveBasis,
-  'curveBasisOpen': d3.curveBasisOpen,
-  'curveBasisClosed': d3.curveBasisClosed,
-  'curveBundle': d3.curveBundle,
-  'curveCardinal': d3.curveCardinal,
-  'curveCardinalOpen': d3.curveCardinalOpen,
-  'curveCardinalClosed': d3.curveCardinalClosed,
-  'curveNatural': d3.curveNatural
+  curveLinear: d3.curveLinear,
+  curveStepBefore: d3.curveStepBefore,
+  curveStepAfter: d3.curveStepAfter,
+  curveBasis: d3.curveBasis,
+  curveBasisOpen: d3.curveBasisOpen,
+  curveBasisClosed: d3.curveBasisClosed,
+  curveBundle: d3.curveBundle,
+  curveCardinal: d3.curveCardinal,
+  curveCardinalOpen: d3.curveCardinalOpen,
+  curveCardinalClosed: d3.curveCardinalClosed,
+  curveNatural: d3.curveNatural
 }
 
 const lineBaseClass = 'geo-chart-line-element'
@@ -51,9 +83,9 @@ const DEFAULT_INTERPOLATION_FUNCTION = INTERPOLATION_TYPES.curveLinear
  * @template HorizontalDomain
  * @template VerticalDomain
  * @param {d3.Selection<GElement, Datum, PElement, PDatum>} d3Instance
- * @param {d3.Selection<GElement, Datum, PElement, PDatum>} [d3TipInstance]
- * @param {Array<GeoChart.singleLineSegmentsGroupsConfig<HorizontalDomain, VerticalDomain>>} options
- * @param {GeoChart.LineSegmentsGroupsGlobalConfig} globalOptions
+ * @param {d3.Tooltip<GElement, Datum, PElement, PDatum>} [d3TipInstance]
+ * @param {Array<GeoChart.SingleLineGroupConfig<HorizontalDomain, VerticalDomain>>} options
+ * @param {GeoChart.GlobalOptions} globalOptions
  */
 export function render (d3Instance, d3TipInstance, options, globalOptions) {
   d3Instance
@@ -115,29 +147,37 @@ export function render (d3Instance, d3TipInstance, options, globalOptions) {
  * @template HorizontalDomain
  * @template VerticalDomain
  * @param {d3.Selection<GElement, Datum, PElement, PDatum>} d3Instance
- * @param {d3.Selection<GElement, Datum, PElement, PDatum>} [d3TipInstance]
- * @param {d3.Selection<GElement, Datum, PElement, PDatum>} group
- * @param {GeoChart.singleLineSegmentsGroupsConfig<HorizontalDomain, VerticalDomain>} singleGroupOptions
- * @param {Array<GeoChart.singleLineSegmentsGroupsConfig<HorizontalDomain, VerticalDomain>>} options
- * @param {GeoChart.LineSegmentsGroupsGlobalConfig} globalOptions
+ * @param {d3.Tooltip<GElement, Datum, PElement, PDatum>} [d3TipInstance]
+ * @param {d3.Selection<SVGElement, Datum, PElement, PDatum>} group
+ * @param {GeoChart.SingleLineGroupConfig<HorizontalDomain, VerticalDomain>} singleGroupOptions
+ * @param {Array<GeoChart.SingleLineGroupConfig<HorizontalDomain, VerticalDomain>>} options
+ * @param {GeoChart.GlobalOptions} globalOptions
  */
 function renderSingleGroup (d3Instance, d3TipInstance, group, singleGroupOptions, options, globalOptions) {
-  const isDimensionHorizontalAxis = isDimensionAxis(singleGroupOptions.axis.horizontal, singleGroupOptions)
-  const axisForDimension = isDimensionHorizontalAxis ? singleGroupOptions.axis.horizontal : singleGroupOptions.axis.vertical
-  const axisForNormalDimension = isDimensionHorizontalAxis ? singleGroupOptions.axis.vertical : singleGroupOptions.axis.horizontal
-  const xScale = isDimensionHorizontalAxis ? axisForDimension.scale.axisScale : axisForNormalDimension.scale.axisScale
-  const yScale = isDimensionHorizontalAxis ? axisForNormalDimension.scale.axisScale : axisForDimension.scale.axisScale
+  const isDimensionHorizontalAxis = axisUtils.isMainDimensionAxis(singleGroupOptions.axis.horizontal, singleGroupOptions)
+  const axisForMainDimension = isDimensionHorizontalAxis
+    ? singleGroupOptions.axis.horizontal
+    : singleGroupOptions.axis.vertical
+  const axisForNormalDimension = isDimensionHorizontalAxis
+    ? singleGroupOptions.axis.vertical
+    : singleGroupOptions.axis.horizontal
+  const xScale = isDimensionHorizontalAxis
+    ? axisForMainDimension.scale.axisScale
+    : axisForNormalDimension.scale.axisScale
+  const yScale = isDimensionHorizontalAxis
+    ? axisForNormalDimension.scale.axisScale
+    : axisForMainDimension.scale.axisScale
 
-  const invertFunction = _.isFunction(axisForDimension.scale.axisScale.invert)
-    ? axisForDimension.scale.axisScale.invert
-    : invertFunctionFactory(axisForDimension)
+  const invertFunction = _.isFunction(axisForMainDimension.scale.axisScale.invert)
+    ? axisForMainDimension.scale.axisScale.invert
+    : invertFunctionFactory(axisForMainDimension)
 
   const focusGroup = d3Instance.selectAll(`g.${FOCUS_GROUP_DEFAULT_CLASS}`)
   d3Instance
     .on('mouseover', () => focusGroup.classed('focus-group--hidden', false))
     .on('mouseout', () => focusGroup.classed('focus-group--hidden', true))
     .on('mousemove', positionTooltipFactory(d3TipInstance, options, globalOptions, {
-      axisForDimension,
+      axisForMainDimension,
       axisForNormalDimension,
       focusGroup,
       invertFunction
@@ -159,24 +199,48 @@ function renderSingleGroup (d3Instance, d3TipInstance, group, singleGroupOptions
     .attr('class', getLineCssClassesFactory(singleGroupOptions))
     .transition()
     .duration(globalOptions.chart.animationsDurationInMilliseconds)
-    .attr('d', line(singleGroupOptions.lineData))
+    .attr('d', line(singleGroupOptions.data))
 }
 
+/**
+ * @callback InvertFunction
+ * @param {any} item
+ * @returns {number}
+ */
+
+/**
+ * @template GElement
+ * @template Datum
+ * @template PElement
+ * @template PDatum
+ * @template HorizontalDomain
+ * @template VerticalDomain
+ * @template MainDimensionDomain
+ * @template NormalDimensionDomain
+ * @param {d3.Tooltip<GElement, Datum, PElement, PDatum>} [d3TipInstance]
+ * @param {Array<GeoChart.SingleLineGroupConfig<HorizontalDomain, VerticalDomain>>} options
+ * @param {GeoChart.GlobalOptions} globalOptions
+ * @param {Object} params
+ * @param {*} params.focusGroup
+ * @param {InvertFunction} params.invertFunction
+ * @param {GeoChart.AxisConfig<MainDimensionDomain>} params.axisForMainDimension
+ * @param {GeoChart.AxisConfig<NormalDimensionDomain>} params.axisForNormalDimension
+ */
 function positionTooltipFactory (d3TipInstance, options, globalOptions, {
   focusGroup,
   invertFunction,
-  axisForDimension,
+  axisForMainDimension,
   axisForNormalDimension
 }) {
   return function () {
     const mouseCoords = d3.mouse(this)
     const closestItems = _.flatMap(options, (singleGroupOptions) => {
-      const mousePoint = singleGroupOptions.dimension === DIMENSIONS.horizontal
+      const mousePoint = singleGroupOptions.mainDimension === dimensionUtils.DIMENSIONS_2D.horizontal
         ? mouseCoords[0]
         : mouseCoords[1]
 
       return getCoordClosestItems({
-        axisForDimension,
+        axisForMainDimension,
         axisForNormalDimension,
         singleGroupOptions,
         mousePoint,
@@ -186,16 +250,19 @@ function positionTooltipFactory (d3TipInstance, options, globalOptions, {
 
     const closestItem = _.minBy(closestItems, 'distance')
     if (!closestItem) return
-    const linesWithData = _.filter(closestItems, { mainValue: closestItem.mainValue })
+    const linesWithData = (/** @type {ItemWithDimensionPositioningInfo<HorizontalDomain, VerticalDomain>[]} */ (_.filter(closestItems, { mainValue: closestItem.mainValue })))
     setHoverCircles(d3TipInstance, focusGroup, linesWithData)
 
     const lineForMainAxis = {
       normalValue: getMainAxisNormalDimensionValueInPx(options, globalOptions)
     }
-    const dimension = options[0].dimension
-    const [lowestNormalAxisValue, highestNormalAxisValue] = d3.extent([...linesWithData, lineForMainAxis], (d, i) => d.normalValue)
+    const mainDimension = options[0].mainDimension
+    const [
+      lowestNormalAxisValue,
+      highestNormalAxisValue
+    ] = d3.extent([...linesWithData, lineForMainAxis], (d, i) => d.normalValue)
     const coordsForDimension = {
-      [DIMENSIONS.horizontal]: {
+      [dimensionUtils.DIMENSIONS_2D.horizontal]: {
         x1: null,
         y1: lowestNormalAxisValue,
         x2: null,
@@ -203,7 +270,7 @@ function positionTooltipFactory (d3TipInstance, options, globalOptions, {
         xTranslation: closestItem.mainValue,
         yTranslation: 0
       },
-      [DIMENSIONS.vertical]: {
+      [dimensionUtils.DIMENSIONS_2D.vertical]: {
         x1: lowestNormalAxisValue,
         y1: null,
         x2: highestNormalAxisValue,
@@ -211,24 +278,30 @@ function positionTooltipFactory (d3TipInstance, options, globalOptions, {
         xTranslation: 0,
         yTranslation: closestItem.mainValue
       }
-    }[dimension]
+    }[mainDimension]
     setHoverLine(focusGroup, coordsForDimension)
   }
 }
 
+/**
+ * @template HorizontalDomain
+ * @template VerticalDomain
+ * @param {Array<GeoChart.SingleLineGroupConfig<HorizontalDomain, VerticalDomain>>} options
+ * @param {GeoChart.GlobalOptions} globalOptions
+ */
 function getMainAxisNormalDimensionValueInPx (options, globalOptions) {
   const {
-    axisForDimension
+    axisForMainDimension
   } = {
-    [DIMENSIONS.horizontal]: {
-      axisForDimension: options[0].axis.horizontal
+    [dimensionUtils.DIMENSIONS_2D.horizontal]: {
+      axisForMainDimension: options[0].axis.horizontal
     },
-    [DIMENSIONS.vertical]: {
-      axisForDimension: options[0].axis.vertical
+    [dimensionUtils.DIMENSIONS_2D.vertical]: {
+      axisForMainDimension: options[0].axis.vertical
     }
-  }[options[0].dimension]
-  const { absolutePosition } = getDrawingEnvironment(axisForDimension, globalOptions)
-  return options[0].dimension === DIMENSIONS.horizontal
+  }[options[0].mainDimension]
+  const { absolutePosition } = getDrawingEnvironment(axisForMainDimension, globalOptions)
+  return options[0].mainDimension === dimensionUtils.DIMENSIONS_2D.horizontal
     ? absolutePosition.y
     : absolutePosition.x
 }
@@ -238,8 +311,7 @@ function getMainAxisNormalDimensionValueInPx (options, globalOptions) {
  * @template Datum
  * @template PElement
  * @template PDatum
- * @param {d3.Selection<GElement, Datum, PElement, PDatum>} d3TipInstance
- * @param {object} firstGroupOptions
+ * @param {d3.Tooltip<GElement, Datum, PElement, PDatum>} d3TipInstance
  * @param {d3.Selection<GElement, Datum, PElement, PDatum>} focusGroup
  * @param {object} linesWithData
  */
@@ -293,9 +365,14 @@ function setHoverLine (focusGroup, { xTranslation, yTranslation, x1, x2, y1, y2 
     .attr('y2', y2)
 }
 
-function invertFunctionFactory (axisForDimension) {
-  const domain = axisForDimension.scale.axisScale.domain()
-  const range = axisForDimension.scale.axisScale.range()
+/**
+ * @template Domain
+ * @param {GeoChart.AxisConfig<Domain>} axisForMainDimension
+ * @return {InvertFunction}
+ */
+function invertFunctionFactory (axisForMainDimension) {
+  const domain = axisForMainDimension.scale.axisScale.domain()
+  const range = axisForMainDimension.scale.axisScale.range()
   const scale = d3.scaleQuantize().domain(range).range(domain)
   return function (x) {
     return scale(x)
@@ -303,25 +380,41 @@ function invertFunctionFactory (axisForDimension) {
 }
 
 /**
- * @param {object} params
- * @param {GeoChart.AxisConfig<Domain>} params.axisForDimension
- * @param {GeoChart.AxisConfig<Domain>} params.axisForNormalDimension
- * @param {number} params.mouseCoord
- * @param {object} params.options
-*/
+ * @template HorizontalDomain
+ * @template VerticalDomain
+ * @typedef {Object} ItemWithDimensionPositioningInfo
+ * @property {[number, number]} item
+ * @property {number} distance
+ * @property {any} normalValue
+ * @property {any} mainValue
+ * @property {GeoChart.SingleLineGroupConfig<HorizontalDomain, VerticalDomain>} singleGroupOptions
+ */
 
-function getCoordClosestItems ({ axisForDimension, axisForNormalDimension, mousePoint, singleGroupOptions, invertFunction }) {
+/**
+ * @template MainDimensionDomain
+ * @template NormalDimensionDomain
+ * @template HorizontalDomain
+ * @template VerticalDomain
+ * @param {object} params
+ * @param {GeoChart.AxisConfig<MainDimensionDomain>} params.axisForMainDimension
+ * @param {GeoChart.AxisConfig<NormalDimensionDomain>} params.axisForNormalDimension
+ * @param {number} params.mousePoint
+ * @param {GeoChart.SingleLineGroupConfig<HorizontalDomain, VerticalDomain>} params.singleGroupOptions
+ * @param {InvertFunction} params.invertFunction
+ * @returns {ItemWithDimensionPositioningInfo<HorizontalDomain, VerticalDomain>[]}
+*/
+function getCoordClosestItems ({ axisForMainDimension, axisForNormalDimension, mousePoint, singleGroupOptions, invertFunction }) {
   const mainDimensionValue = invertFunction(mousePoint)
-  const mainDimensionValueInAxis = axisForDimension.scale.axisScale(mainDimensionValue)
-  const getNearestIndexInMainAxisDomain = d3.bisector((d) => d[axisForDimension.keyForValues]).right
-  const index = getNearestIndexInMainAxisDomain(singleGroupOptions.lineData, mainDimensionValue, 1)
-  const leadingItem = singleGroupOptions.lineData[index - 1]
-  const trailingItem = singleGroupOptions.lineData[index]
-  const leadingDistance = _.get(leadingItem, axisForDimension.keyForValues, Number.MAX_VALUE)
-  const trailingDistance = _.get(trailingItem, axisForDimension.keyForValues, Number.MAX_VALUE)
-  const leadingDistanceValue = Math.abs(axisForDimension.scale.axisScale(leadingDistance) - mainDimensionValueInAxis)
-  const trailingDistanceValue = Math.abs(axisForDimension.scale.axisScale(trailingDistance) - mainDimensionValueInAxis)
-  const bandwidth = axisForDimension.scale.axisScale.bandwidth ? axisForDimension.scale.axisScale.bandwidth() / 2 : 0
+  const mainDimensionValueInAxis = axisForMainDimension.scale.axisScale(mainDimensionValue)
+  const getNearestIndexInMainAxisDomain = d3.bisector((d) => d[axisForMainDimension.keyForValues]).right
+  const index = getNearestIndexInMainAxisDomain(singleGroupOptions.data, mainDimensionValue, 1)
+  const leadingItem = singleGroupOptions.data[index - 1]
+  const trailingItem = singleGroupOptions.data[index]
+  const leadingDistance = _.get(leadingItem, axisForMainDimension.keyForValues, Number.MAX_VALUE)
+  const trailingDistance = _.get(trailingItem, axisForMainDimension.keyForValues, Number.MAX_VALUE)
+  const leadingDistanceValue = Math.abs(axisForMainDimension.scale.axisScale(leadingDistance) - mainDimensionValueInAxis)
+  const trailingDistanceValue = Math.abs(axisForMainDimension.scale.axisScale(trailingDistance) - mainDimensionValueInAxis)
+  const bandwidth = axisForMainDimension.scale.axisScale.bandwidth ? axisForMainDimension.scale.axisScale.bandwidth() / 2 : 0
 
   if (!leadingItem && !trailingItem) return
 
@@ -329,7 +422,7 @@ function getCoordClosestItems ({ axisForDimension, axisForNormalDimension, mouse
     item: leadingItem,
     distance: leadingDistanceValue,
     normalValue: axisForNormalDimension.scale.axisScale(leadingItem[axisForNormalDimension.keyForValues]),
-    mainValue: axisForDimension.scale.axisScale(leadingItem[axisForDimension.keyForValues]) + bandwidth,
+    mainValue: axisForMainDimension.scale.axisScale(leadingItem[axisForMainDimension.keyForValues]) + bandwidth,
     singleGroupOptions
   }
 
@@ -337,7 +430,7 @@ function getCoordClosestItems ({ axisForDimension, axisForNormalDimension, mouse
     item: trailingItem,
     distance: trailingDistanceValue,
     normalValue: axisForNormalDimension.scale.axisScale(trailingItem[axisForNormalDimension.keyForValues]),
-    mainValue: axisForDimension.scale.axisScale(trailingItem[axisForDimension.keyForValues]) + bandwidth,
+    mainValue: axisForMainDimension.scale.axisScale(trailingItem[axisForMainDimension.keyForValues]) + bandwidth,
     singleGroupOptions
   }
 
@@ -354,33 +447,48 @@ function getCoordClosestItems ({ axisForDimension, axisForNormalDimension, mouse
     : [leadingObject]
 }
 
+/**
+ * @template HorizontalDomain
+ * @template VerticalDomain
+ * @callback GetCircleCoordinates
+ * @param {{item: object, singleGroupOptions: GeoChart.SingleLineGroupConfig<HorizontalDomain, VerticalDomain>}} d
+ */
+
+/**
+ * @template HorizontalDomain
+ * @template VerticalDomain
+ * @param {'cx' | 'cy'} coordinate
+ * @return {GetCircleCoordinates<HorizontalDomain, VerticalDomain>}
+ */
 function getCircleCoordinatesFactory (coordinate) {
   return function (d) {
-    const axisForNormalDimension = d.singleGroupOptions.dimension === DIMENSIONS.horizontal
+    const axisForNormalDimension = d.singleGroupOptions.mainDimension === dimensionUtils.DIMENSIONS_2D.horizontal
       ? d.singleGroupOptions.axis.vertical
       : d.singleGroupOptions.axis.horizontal
-    return getCircleCoordinates(d, d.singleGroupOptions.dimension, axisForNormalDimension)[coordinate]
+    return getCircleCoordinates(d, d.singleGroupOptions.mainDimension, axisForNormalDimension)[coordinate]
   }
 }
 
 /**
- * @param {object} datum
- * @enum {GeoChart.BarDimension}
- * @param {GeoChart.AxisConfig<Domain>}
+ * @template Domain
+ * @param {{item: object}} datum
+ * @enum {GeoChart.BarDimension} dimension
+ * @param {GeoChart.AxisConfig<Domain>} axisForNormalDimension
  */
 function getCircleCoordinates (datum, dimension, axisForNormalDimension) {
   const circleCoordinates = {
-    [DIMENSIONS.horizontal]: {
+    [dimensionUtils.DIMENSIONS_2D.horizontal]: {
       cx: 0,
       cy: axisForNormalDimension.scale.axisScale(datum.item[axisForNormalDimension.keyForValues])
     },
-    [DIMENSIONS.vertical]: {
+    [dimensionUtils.DIMENSIONS_2D.vertical]: {
       cx: axisForNormalDimension.scale.axisScale(datum.item[axisForNormalDimension.keyForValues]),
       cy: 0
     }
   }
   return circleCoordinates[dimension]
 }
+
 /**
  * @callback SetupCircleEvents
  * @param {object} d
@@ -390,7 +498,7 @@ function getCircleCoordinates (datum, dimension, axisForNormalDimension) {
  * @template Datum
  * @template PElement
  * @template PDatum
- * @param {d3.Selection<GElement, Datum, PElement, PDatum>} d3TipInstance
+ * @param {d3.Tooltip<GElement, Datum, PElement, PDatum>} d3TipInstance
  * @return {SetupCircleEvents}
  */
 function setupCircleEventsFactory (d3TipInstance) {
@@ -403,17 +511,17 @@ function setupCircleEventsFactory (d3TipInstance) {
 /**
  * @template HorizontalDomain
  * @template VerticalDomain
- * @param {GeoChart.singleLineSegmentsGroupsConfig<HorizontalDomain, VerticalDomain>} singleGroupOptions
- * @return {d3.Line<HorizontalDomain | VerticalDomain>}
+ * @param {GeoChart.SingleLineGroupConfig<HorizontalDomain, VerticalDomain>} singleGroupOptions
+ * @return {string}
  */
 function getInitialLine (singleGroupOptions) {
-  const isDimensionHorizontalAxis = isDimensionAxis(singleGroupOptions.axis.horizontal, singleGroupOptions)
+  const isDimensionHorizontalAxis = axisUtils.isMainDimensionAxis(singleGroupOptions.axis.horizontal, singleGroupOptions)
 
-  const axisForDimension = isDimensionHorizontalAxis ? singleGroupOptions.axis.horizontal : singleGroupOptions.axis.vertical
+  const axisForMainDimension = isDimensionHorizontalAxis ? singleGroupOptions.axis.horizontal : singleGroupOptions.axis.vertical
   const axisForNormalDimension = isDimensionHorizontalAxis ? singleGroupOptions.axis.vertical : singleGroupOptions.axis.horizontal
 
-  const xScale = isDimensionHorizontalAxis ? axisForDimension.scale.axisScale : axisForNormalDimension.scale.axisScale
-  const yScale = isDimensionHorizontalAxis ? axisForNormalDimension.scale.axisScale : axisForDimension.scale.axisScale
+  const xScale = isDimensionHorizontalAxis ? axisForMainDimension.scale.axisScale : axisForNormalDimension.scale.axisScale
+  const yScale = isDimensionHorizontalAxis ? axisForNormalDimension.scale.axisScale : axisForMainDimension.scale.axisScale
   const initialLine = d3.line()
     .x((d, i) => {
       const valueForScale = isDimensionHorizontalAxis
@@ -428,14 +536,20 @@ function getInitialLine (singleGroupOptions) {
       return yScale(valueForScale)
     })
     .curve(_.defaultTo(singleGroupOptions.interpolationFn, DEFAULT_INTERPOLATION_FUNCTION))
-  return initialLine(singleGroupOptions.lineData)
+
+  return initialLine(singleGroupOptions.data)
 }
 
+/**
+ * @template HorizontalDomain
+ * @template VerticalDomain
+ * @param {GeoChart.SingleLineGroupConfig<HorizontalDomain, VerticalDomain>} singleGroupOptions
+ */
 function getLineCssClassesFactory (singleGroupOptions) {
   return function (d, i) {
     const defaultClasses = [
       lineBaseClass,
-      `geo-chart-line-element--${singleGroupOptions.dimension}`
+      `geo-chart-line-element--${singleGroupOptions.mainDimension}`
     ]
 
     const customClasses = _.isFunction(singleGroupOptions.cssClasses)
@@ -446,11 +560,17 @@ function getLineCssClassesFactory (singleGroupOptions) {
   }
 }
 
+/**
+ * @template HorizontalDomain
+ * @template VerticalDomain
+ * @param {{singleGroupOptions: GeoChart.SingleLineGroupConfig<HorizontalDomain, VerticalDomain>, item: Object}} d
+ * @param {number} i
+ */
 function getHoverCirclesCssClasses (d, i) {
   const defaultClasses = [
     hoverCircleBaseClass,
     `geo-chart-focus-group-element__hover-circle--${i}`,
-    `geo-chart-focus-group-element__hover-circle--${d.singleGroupOptions.dimension}`
+    `geo-chart-focus-group-element__hover-circle--${d.singleGroupOptions.mainDimension}`
   ]
 
   const customClasses = _.isFunction(d.singleGroupOptions.cssClasses)

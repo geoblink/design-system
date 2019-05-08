@@ -1,6 +1,9 @@
+/// <reference path="./GeoChartTextDescription.d.ts" />
+
 import _ from 'lodash'
-import { computeLabelPositionsWithBackPressure, computeLabelPositionsWithoutReadjustment, ALGORITHMS } from './GeoChartTextDescriptionUtils'
-import { setTextContent } from '../GeoChartUtils/textUtils'
+
+import * as textDescriptionUtils from './textDescriptionUtils'
+import * as textUtils from './textUtils'
 
 const d3 = (function () {
   try {
@@ -10,12 +13,23 @@ const d3 = (function () {
   }
 })()
 
-const TSPAN_LINE_HEIGHT = 18
+/**
+ * @template GElement
+ * @template Datum
+ * @template PElement
+ * @template PDatum
+ * @typedef {import('d3').Selection<GElement, Datum, PElement, PDatum>} d3.Selection
+ */
+
+export const TSPAN_LINE_HEIGHT = 18
 
 /**
- * @param {Array<GeoChart.TextDescriptionSettingsData>} settingsData
- * @param {d3.Selection<GElement, Datum, PElement, PDatum>} d3Instance
- * @param {GeoChart.TextDescriptionGlobalOptions} globalOptions
+ * @template GElement
+ * @template PElement
+ * @template PDatum
+ * @param {Array<GeoChart.TextDescriptionSettingsData<Object>>} settingsData
+ * @param {d3.Selection<GElement, Object, PElement, PDatum>} d3Instance
+ * @param {GeoChart.GlobalOptions} globalOptions
  */
 export function setupTextDescriptions (settingsData, d3Instance, globalOptions) {
   const groups = d3Instance
@@ -48,16 +62,16 @@ export function setupTextDescriptions (settingsData, d3Instance, globalOptions) 
   })
 
   return dataWithPositions
+}
 
-  function getCSSClassesGroups (d, i) {
-    const defaultGroupCSSClasses = ['geo-chart-text-descriptions']
+function getCSSClassesGroups (d, i) {
+  const defaultGroupCSSClasses = ['geo-chart-text-descriptions']
 
-    const customCSSClasses = _.isFunction(d.textOptions.cssClassesGroups)
-      ? d.textOptions.cssClassesGroups(defaultGroupCSSClasses, d, i)
-      : defaultGroupCSSClasses
+  const customCSSClasses = _.isFunction(d.textOptions.cssClassesGroups)
+    ? d.textOptions.cssClassesGroups(defaultGroupCSSClasses, d, i)
+    : defaultGroupCSSClasses
 
-    return _.uniq([...customCSSClasses, defaultGroupCSSClasses]).join(' ')
-  }
+  return _.uniq([...customCSSClasses, defaultGroupCSSClasses]).join(' ')
 }
 
 function renderSingleGroup (group, singleOptions, globalOptions) {
@@ -92,7 +106,7 @@ function renderSingleGroup (group, singleOptions, globalOptions) {
 
   const allTextElems = newTextElems.merge(updatedTextElems)
 
-  setTextContent(allTextElems, textOptions, globalOptions)
+  textUtils.setTextContent(allTextElems, textOptions, globalOptions)
   setTextContentLineBreaks(allTextElems)
 
   const positions = computeLabelPositions(allTextElems)
@@ -110,18 +124,6 @@ function renderSingleGroup (group, singleOptions, globalOptions) {
   setTextElementsPosition(allTextElems)
 
   return dataWithPositions
-
-  function setTextContentLineBreaks (textElems) {
-    textElems.each(function (d, i) {
-      const tspans = d3.select(this).selectAll('tspan')
-      tspans.each(function (d, i) {
-        if (d.newLine) {
-          d3.select(this).attr('dy', TSPAN_LINE_HEIGHT * i)
-          d3.select(this).attr('x', 0)
-        }
-      })
-    })
-  }
 
   function setTextElementsPosition (textElems) {
     textElems.each(function (d, i) {
@@ -161,10 +163,10 @@ function renderSingleGroup (group, singleOptions, globalOptions) {
     })
 
     switch (singleOptions.algorithm) {
-      case ALGORITHMS.backPressure:
-        return computeLabelPositionsWithBackPressure(textElemsConfig, computeGeneralConfig)
-      case ALGORITHMS.withoutReadjustment:
-        return computeLabelPositionsWithoutReadjustment(textElemsConfig, computeGeneralConfig)
+      case textDescriptionUtils.ALGORITHMS.backPressure:
+        return textDescriptionUtils.computeLabelPositionsWithBackPressure(textElemsConfig, computeGeneralConfig)
+      case textDescriptionUtils.ALGORITHMS.withoutReadjustment:
+        return textDescriptionUtils.computeLabelPositionsWithoutReadjustment(textElemsConfig, computeGeneralConfig)
       default:
         console.warn(`GeoChart (GeoChartTextDescription) [component] :: Unknown algorithm: ${singleOptions.algorithm}`)
         break
@@ -180,4 +182,16 @@ function renderSingleGroup (group, singleOptions, globalOptions) {
 
     return customCSSClasses
   }
+}
+
+function setTextContentLineBreaks (textElems) {
+  textElems.each(function (d, i) {
+    const tspans = d3.select(this).selectAll('tspan')
+    tspans.each(function (d, i) {
+      if (d.newLine) {
+        d3.select(this).attr('dy', TSPAN_LINE_HEIGHT * i)
+        d3.select(this).attr('x', 0)
+      }
+    })
+  })
 }

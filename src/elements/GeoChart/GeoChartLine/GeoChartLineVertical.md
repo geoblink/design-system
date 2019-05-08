@@ -25,10 +25,8 @@
 </template>
 
 <script>
-const { POSITIONS } = require('../GeoChartAxis/GeoChartAxis')
-const { SCALE_TYPES } = require('../GeoChartScale/GeoChartScale')
+const CONSTANTS = require('../constants')
 const { INTERPOLATION_TYPES } = require('./GeoChartLine')
-const { DIMENSIONS: BARS_DIMENSIONS } = require('../GeoChartBars/GeoChartBars')
 
 export default {
   name: 'GeoChartLineDemo',
@@ -47,10 +45,10 @@ export default {
           count: 2
         },
         position: {
-          type: POSITIONS.bottom
+          type: CONSTANTS.AXIS.POSITIONS.bottom
         },
         scale: {
-          type: SCALE_TYPES.linear,
+          type: CONSTANTS.SCALES.SCALE_TYPES.linear,
           valueForOrigin: 0,
           domain: {
             start: 20,
@@ -64,10 +62,10 @@ export default {
         id: 'demo-numerical-axis',
         keyForValues: 'y',
         position: {
-          type: POSITIONS.right
+          type: CONSTANTS.AXIS.POSITIONS.right
         },
         scale: {
-          type: SCALE_TYPES.linear,
+          type: CONSTANTS.SCALES.SCALE_TYPES.linear,
           valueForOrigin: 0,
           domain: {
             start: 25,
@@ -96,8 +94,8 @@ export default {
         lineGroups: [{
           idVerticalAxis: this.numericalAxisConfig.id,
           idHorizontalAxis: this.linearAxisConfig.id,
-          dimension: BARS_DIMENSIONS.vertical,
-          lineData: this.lineData,
+          mainDimension: CONSTANTS.DIMENSIONS.DIMENSIONS_2D.vertical,
+          data: this.lineData,
           lineWidth: 2,
           hoverCircleRadius: 4,
           interpolationFn: INTERPOLATION_TYPES.curveLinear
@@ -144,10 +142,8 @@ export default {
 </template>
 
 <script>
-const { POSITIONS } = require('../GeoChartAxis/GeoChartAxis')
-const { SCALE_TYPES } = require('../GeoChartScale/GeoChartScale')
+const CONSTANTS = require('../constants')
 const { INTERPOLATION_TYPES } = require('./GeoChartLine')
-const { DIMENSIONS: BARS_DIMENSIONS } = require('../GeoChartBars/GeoChartBars')
 
 export default {
   name: 'GeoChartLineDemo',
@@ -166,10 +162,10 @@ export default {
           count: 2
         },
         position: {
-          type: POSITIONS.bottom
+          type: CONSTANTS.AXIS.POSITIONS.bottom
         },
         scale: {
-          type: SCALE_TYPES.linear,
+          type: CONSTANTS.SCALES.SCALE_TYPES.linear,
           valueForOrigin: 0,
           domain: {
             start: 0,
@@ -183,10 +179,10 @@ export default {
         id: 'demo-numerical-axis',
         keyForValues: 'y',
         position: {
-          type: POSITIONS.left
+          type: CONSTANTS.AXIS.POSITIONS.left
         },
         scale: {
-          type: SCALE_TYPES.linear,
+          type: CONSTANTS.SCALES.SCALE_TYPES.linear,
           valueForOrigin: 0,
           domain: {
             start: 25,
@@ -215,8 +211,8 @@ export default {
         lineGroups: [{
           idVerticalAxis: this.numericalAxisConfig.id,
           idHorizontalAxis: this.linearAxisConfig.id,
-          dimension: BARS_DIMENSIONS.vertical,
-          lineData: this.lineData,
+          mainDimension: CONSTANTS.DIMENSIONS.DIMENSIONS_2D.vertical,
+          data: this.lineData,
           lineWidth: 2,
           hoverCircleRadius: 4,
           interpolationFn: INTERPOLATION_TYPES.curveLinear
@@ -263,10 +259,8 @@ export default {
 </template>
 
 <script>
-const { POSITIONS } = require('../GeoChartAxis/GeoChartAxis')
-const { SCALE_TYPES } = require('../GeoChartScale/GeoChartScale')
+const CONSTANTS = require('../constants')
 const { INTERPOLATION_TYPES } = require('./GeoChartLine')
-const { DIMENSIONS: BARS_DIMENSIONS } = require('../GeoChartBars/GeoChartBars')
 
 export default {
   name: 'GeoChartLineDemo',
@@ -285,10 +279,10 @@ export default {
           count: 2
         },
         position: {
-          type: POSITIONS.bottom
+          type: CONSTANTS.AXIS.POSITIONS.bottom
         },
         scale: {
-          type: SCALE_TYPES.linear,
+          type: CONSTANTS.SCALES.SCALE_TYPES.linear,
           valueForOrigin: 0,
           domain: {
             start: -20,
@@ -302,12 +296,12 @@ export default {
         id: 'demo-numerical-axis',
         keyForValues: 'y',
         position: {
-          type: POSITIONS.anchoredToAxis,
+          type: CONSTANTS.AXIS.POSITIONS.anchoredToAxis,
           value: this.linearAxisConfig.scale.valueForOrigin,
           relativeToAxis: this.linearAxisConfig.id
         },
         scale: {
-          type: SCALE_TYPES.linear,
+          type: CONSTANTS.SCALES.SCALE_TYPES.linear,
           valueForOrigin: 0,
           domain: {
             start: 25,
@@ -336,8 +330,8 @@ export default {
         lineGroups: [{
           idVerticalAxis: this.numericalAxisConfig.id,
           idHorizontalAxis: this.linearAxisConfig.id,
-          dimension: BARS_DIMENSIONS.vertical,
-          lineData: this.lineData,
+          mainDimension: CONSTANTS.DIMENSIONS.DIMENSIONS_2D.vertical,
+          data: this.lineData,
           lineWidth: 2,
           hoverCircleRadius: 4,
           interpolationFn: INTERPOLATION_TYPES.curveLinear

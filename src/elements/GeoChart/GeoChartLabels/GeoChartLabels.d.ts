@@ -1,10 +1,24 @@
 declare namespace GeoChart {
-  interface LabelGroupsGlobalConfig {
-    chart: {
-      animationsDurationInMilliseconds: number
-      size: GeoChart.Size
-      margin: GeoChart.Margin
+  interface SingleLabelConfig {
+    text: string
+    padding?: {
+      top: number
+      right: number
+      bottom: number
+      left: number
     }
+    margin?: {
+      top: number
+      right: number
+      bottom: number
+      left: number
+    }
+    cornerRadius?: number
+    cssClasses?: (defaultClasses: string[], item: object, index: number) => string[]
+  }
+
+  interface SingleLabelLineConfig {
+    labels: SingleLabelConfig[]
   }
 
   interface LabelGroupConfig<HorizontalDomain, VerticalDomain> {
@@ -13,6 +27,6 @@ declare namespace GeoChart {
       horizontal: GeoChart.AxisConfig<HorizontalDomain>
       vertical: GeoChart.AxisConfig<VerticalDomain>
     }
-    data: object[]
+    data: SingleLabelLineConfig[]
   }
 }

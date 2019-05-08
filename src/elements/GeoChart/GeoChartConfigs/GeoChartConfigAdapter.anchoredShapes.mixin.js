@@ -21,8 +21,8 @@ export default {
         return {
           id: index,
           axis,
-          shapeData: singleAnchoredShapesGroupsConfig.shapeData,
-          dimension: singleAnchoredShapesGroupsConfig.dimension,
+          data: singleAnchoredShapesGroupsConfig.data,
+          mainDimension: singleAnchoredShapesGroupsConfig.mainDimension,
           offset: singleAnchoredShapesGroupsConfig.offset,
           normalOffset: singleAnchoredShapesGroupsConfig.normalOffset,
           naturalNormalOffset: singleAnchoredShapesGroupsConfig.naturalNormalOffset,

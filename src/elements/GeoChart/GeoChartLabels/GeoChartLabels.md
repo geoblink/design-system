@@ -56,10 +56,7 @@ be added regardless you not returning them.
 </template>
 
 <script>
-const d3 = require('d3')
-const { POSITIONS } = require('../GeoChartAxis/GeoChartAxis')
-const { DIMENSIONS: BARS_DIMENSIONS } = require('../GeoChartBars/GeoChartBars')
-const { SCALE_TYPES } = require('../GeoChartScale/GeoChartScale')
+const CONSTANTS = require('../constants')
 
 export default {
   name: 'GeoChartBarsDemo',
@@ -81,10 +78,10 @@ export default {
           count: 10
         },
         position: {
-          type: POSITIONS.bottom
+          type: CONSTANTS.AXIS.POSITIONS.bottom
         },
         scale: {
-          type: SCALE_TYPES.linear,
+          type: CONSTANTS.SCALES.SCALE_TYPES.linear,
           valueForOrigin: 0,
           domain: {
             start: 100,
@@ -101,7 +98,7 @@ export default {
         id: 'demo-categorical-axis',
         keyForValues: 'category',
         position: {
-          type: POSITIONS.anchoredToAxis,
+          type: CONSTANTS.AXIS.POSITIONS.anchoredToAxis,
           value: this.linearAxisConfig.scale.valueForOrigin,
           relativeToAxis: this.linearAxisConfig.id
         },
@@ -114,7 +111,7 @@ export default {
           }
         },
         scale: {
-          type: SCALE_TYPES.categorical,
+          type: CONSTANTS.SCALES.SCALE_TYPES.categorical,
           valueForOrigin: _.first(this.categoricalDomain),
           domain: this.categoricalDomain,
           padding: {
@@ -180,7 +177,7 @@ export default {
         ],
         barGroups: [{
           data: this.chartData,
-          dimension: BARS_DIMENSIONS.horizontal,
+          mainDimension: 'horizontal',
           idHorizontalAxis: this.linearAxisConfig.id,
           idVerticalAxis: this.categoricalAxisConfig.id
         }],

@@ -3,7 +3,7 @@
 import _ from 'lodash'
 import { setupTooltipEventListeners } from '../GeoChartUtils/GeoChartTooltip'
 import { setupTextDescriptions } from '../GeoChartUtils/GeoChartTextDescription'
-import { ALGORITHMS } from '../GeoChartUtils/GeoChartTextDescriptionUtils'
+import * as textDescriptionUtils from '../GeoChartUtils/textDescriptionUtils'
 
 const d3 = (function () {
   try {
@@ -18,8 +18,34 @@ const d3 = (function () {
  * @template Datum
  * @template PElement
  * @template PDatum
- * @param {d3.Selection<GElement, Datum, PElement, PDatum>} d3Instance
- * @param {d3.Selection<GElement, Datum, PElement, PDatum>} [d3TipInstance]
+ * @typedef {import('d3').Selection<GElement, Datum, PElement, PDatum>} d3.Selection
+ */
+
+/**
+ * @template GElement
+ * @template Datum
+ * @typedef {import('d3').ValueFn<GElement, Datum, void>} d3.ValueFn
+ */
+
+/**
+ * @template GElement
+ * @template Datum
+ * @template PElement
+ * @template PDatum
+ * @typedef {Object} d3.Tooltip<GElement, Datum, PElement, PDatum>
+ * @property {d3.ValueFn<GElement, Datum>} show
+ * @property {d3.ValueFn<GElement, Datum>} hide
+ * @property {Function} offset
+ * @property {Function} html
+ */
+
+/**
+ * @template GElement
+ * @template Datum
+ * @template PElement
+ * @template PDatum
+ * @param {d3.Selection<SVGElement, any, SVGElement, Datum>} d3Instance
+ * @param {d3.Tooltip<SVGElement, Datum, PElement, PDatum>} [d3TipInstance]
  * @param {GeoChart.PieConfig} options
  * @param {GeoChart.PieGlobalConfig} globalOptions
  */
@@ -51,8 +77,8 @@ export function render (d3Instance, d3TipInstance, options, globalOptions) {
  * @template PElement
  * @template PDatum
  * @param {d3.Selection<GElement, Datum, PElement, PDatum>} pie
- * @param {d3.Selection<GElement, Datum, PElement, PDatum>} d3Instance
- * @param {d3.Selection<GElement, Datum, PElement, PDatum>} [d3TipInstance]
+ * @param {d3.Selection<SVGElement, any, GElement, Datum>} d3Instance
+ * @param {d3.Tooltip<SVGElement, any, PElement, PDatum>} [d3TipInstance]
  * @param {GeoChart.PieConfig} singlePieOptions
  * @param {GeoChart.PieGlobalConfig} globalOptions
  */
@@ -70,8 +96,8 @@ function renderSinglePie (pie, d3Instance, d3TipInstance, singlePieOptions, glob
     // But if data is updated, we need to save the angles of the current slices to animate them later.
     .each(function (d, i) {
       if (i < singlePieOptions.data.length) {
-        pieScaleData[i].previousEndAngle = d.endAngle
-        pieScaleData[i].previousStartAngle = d.startAngle
+        _.set(pieScaleData[i], 'previousEndAngle', d.endAngle)
+        _.set(pieScaleData[i], 'previousStartAngle', d.startAngle)
       }
       pieWasEmpty = false
     })
@@ -100,7 +126,7 @@ function renderSinglePie (pie, d3Instance, d3TipInstance, singlePieOptions, glob
   setupTooltipEventListeners(allPieSegments, d3TipInstance, singlePieOptions.tooltip)
 
   if (singlePieOptions.text) {
-    renderTexts(allPieSegments, d3Instance, singlePieOptions, globalOptions, arc)
+    renderTexts(allPieSegments, d3Instance, singlePieOptions, globalOptions)
   }
 
   function getPieScale () {
@@ -173,7 +199,7 @@ function renderSinglePie (pie, d3Instance, d3TipInstance, singlePieOptions, glob
  * @template PElement
  * @template PDatum
  * @param {d3.Selection<GElement, Datum, PElement, PDatum>} allPieSegments
- * @param {d3.Selection<GElement, Datum, PElement, PDatum>} d3Instance
+ * @param {d3.Selection<SVGElement, Datum, PElement, PDatum>} d3Instance
  * @param {GeoChart.PieConfig} singlePieOptions
  * @param {GeoChart.PieGlobalConfig} globalOptions
  */
@@ -217,7 +243,7 @@ function renderTexts (allPieSegments, d3Instance, singlePieOptions, globalOption
     getTextPositionMainDirection: getTextPositionMainDirection,
     minY: -midChartHeight,
     maxY: midChartHeight,
-    algorithm: ALGORITHMS.withoutReadjustment
+    algorithm: textDescriptionUtils.ALGORITHMS.withoutReadjustment
   }
 
   const textDescriptionSettingsRight = _.assign({}, commonSettings, {
@@ -323,7 +349,7 @@ function renderTexts (allPieSegments, d3Instance, singlePieOptions, globalOption
       const outerPoint = [outerPointX + midChartWidth, outerPointY + midChartHeight]
       const textPoint = [xPos + xPosOffset, outerPointY + midChartHeight]
 
-      return [innerPoint, outerPoint, textPoint]
+      return [innerPoint, outerPoint, textPoint].join(',')
     }
   }
 }
