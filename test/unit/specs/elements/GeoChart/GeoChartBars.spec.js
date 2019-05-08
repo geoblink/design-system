@@ -12,8 +12,7 @@ import {
 import { createLocalVue, mount } from '@vue/test-utils'
 import GeoChart from '@/elements/GeoChart/GeoChart.vue'
 
-import * as GeoChartBars from '@/elements/GeoChart/GeoChartBars/GeoChartBars'
-import * as GeoChartAxis from '@/elements/GeoChart/GeoChartAxis/GeoChartAxis'
+import * as barsUtils from '@/elements/GeoChart/GeoChartUtils/barsUtils'
 
 const localVue = createLocalVue()
 localVue.component('geo-chart', GeoChart)
@@ -41,11 +40,12 @@ describe('GeoChartBars', function () {
 
   describe('Constants', function () {
     it('should export DIMENSIONS', function () {
-      expect(GeoChartBars).toHaveProperty('DIMENSIONS')
+      expect(GeoChart.constants).toHaveProperty('DIMENSIONS')
+      expect(GeoChart.constants.DIMENSIONS).toHaveProperty('DIMENSIONS_2D')
     })
 
     it('should export DEFAULT_WIDTH', function () {
-      expect(GeoChartBars).toHaveProperty('DEFAULT_WIDTH')
+      expect(barsUtils).toHaveProperty('DEFAULT_WIDTH')
     })
   })
 
@@ -54,7 +54,7 @@ describe('GeoChartBars', function () {
       id: 'sample-linear-axis',
       keyForValues: 'linear-value',
       scale: {
-        type: GeoChart.constants.SCALE_TYPES.linear,
+        type: GeoChart.constants.SCALES.SCALE_TYPES.linear,
         valueForOrigin: 500,
         domain: {
           start: -1000,
@@ -67,7 +67,7 @@ describe('GeoChartBars', function () {
       id: 'sample-logarithmic-axis',
       keyForValues: 'logarithmic-value',
       scale: {
-        type: GeoChart.constants.SCALE_TYPES.logarithmic,
+        type: GeoChart.constants.SCALES.SCALE_TYPES.logarithmic,
         valueForOrigin: 2,
         domain: {
           start: 1,
@@ -83,7 +83,7 @@ describe('GeoChartBars', function () {
       id: 'sample-categorical-axis',
       keyForValues: 'categorical-value',
       scale: {
-        type: GeoChart.constants.SCALE_TYPES.categorical,
+        type: GeoChart.constants.SCALES.SCALE_TYPES.categorical,
         valueForOrigin: _.first(categories),
         domain: categories
       }
@@ -93,7 +93,7 @@ describe('GeoChartBars', function () {
 
     describe('Vertical dimension', function () {
       testSpecificDimension({
-        dimension: GeoChartBars.DIMENSIONS.vertical,
+        dimension: GeoChart.constants.DIMENSIONS.DIMENSIONS_2D.vertical,
         dimensionAttribute: 'height',
         normalDimensionAttribute: 'width',
         chartDimensionSpan: 500,
@@ -103,7 +103,7 @@ describe('GeoChartBars', function () {
 
     describe('Horizontal dimension', function () {
       testSpecificDimension({
-        dimension: GeoChartBars.DIMENSIONS.horizontal,
+        dimension: GeoChart.constants.DIMENSIONS.DIMENSIONS_2D.horizontal,
         dimensionAttribute: 'width',
         normalDimensionAttribute: 'height',
         chartDimensionSpan: 500,
@@ -136,11 +136,11 @@ describe('GeoChartBars', function () {
         const positionInCategoriesList = categories.indexOf(naturalValue)
 
         switch (dimension) {
-          case GeoChartAxis.DIMENSIONS.vertical:
+          case GeoChart.constants.DIMENSIONS.DIMENSIONS_2D.vertical:
             return {
               x: (positionInCategoriesList + additionalOffset) * _.first(categoriesSpanInCanvasUnits)
             }
-          case GeoChartAxis.DIMENSIONS.horizontal:
+          case GeoChart.constants.DIMENSIONS.DIMENSIONS_2D.horizontal:
             return {
               y: (positionInCategoriesList + additionalOffset) * _.first(categoriesSpanInCanvasUnits)
             }
@@ -263,13 +263,13 @@ describe('GeoChartBars', function () {
           id: 'dimension-axis',
           keyForValues: keyForValuesInMainDimensionAxis,
           position: {
-            type: GeoChartAxis.POSITIONS.left
+            type: GeoChart.constants.AXIS.POSITIONS.left
           }
         })
 
         const categoricalNormalAxisConfig = _.merge({}, baseCategoricalAxisConfig, {
           position: {
-            type: GeoChartAxis.POSITIONS.bottom
+            type: GeoChart.constants.AXIS.POSITIONS.bottom
           }
         })
 
@@ -277,10 +277,10 @@ describe('GeoChartBars', function () {
           id: 'normal-linear-axis',
           keyForValues: 'normal-linear-axis-value',
           position: {
-            type: GeoChartAxis.POSITIONS.bottom
+            type: GeoChart.constants.AXIS.POSITIONS.bottom
           },
           scale: {
-            type: GeoChart.constants.SCALE_TYPES.linear,
+            type: GeoChart.constants.SCALES.SCALE_TYPES.linear,
             valueForOrigin: 300,
             domain: {
               start: -600,
@@ -299,11 +299,11 @@ describe('GeoChartBars', function () {
 
         const getLinearNormalAxisExpectedOffsetForNaturalValue = function (naturalValue, additionalOffset = 0) {
           switch (dimension) {
-            case GeoChartAxis.DIMENSIONS.vertical:
+            case GeoChart.constants.DIMENSIONS.DIMENSIONS_2D.vertical:
               return {
                 x: (naturalValue + additionalOffset - linearNormalAxisConfig.scale.domain.start) * chartWidth / linearNormalAxisDomainSpan
               }
-            case GeoChartAxis.DIMENSIONS.horizontal:
+            case GeoChart.constants.DIMENSIONS.DIMENSIONS_2D.horizontal:
               return {
                 y: (naturalValue + additionalOffset - linearNormalAxisConfig.scale.domain.start) * chartWidth / linearNormalAxisDomainSpan
               }
@@ -336,7 +336,7 @@ describe('GeoChartBars', function () {
           normalAxisConfig: linearNormalAxisConfig,
           firstBarGroupData: barGroupData,
           getExpectedOffsetForNaturalValue: getLinearNormalAxisExpectedOffsetForNaturalValue,
-          expectedForcedWidthByDefault: GeoChartBars.DEFAULT_WIDTH,
+          expectedForcedWidthByDefault: barsUtils.DEFAULT_WIDTH,
           chartHeight,
           chartWidth
         })
@@ -358,11 +358,11 @@ describe('GeoChartBars', function () {
       chartHeight,
       chartWidth
     }) {
-      const idHorizontalAxis = dimension === GeoChartBars.DIMENSIONS.horizontal
+      const idHorizontalAxis = dimension === GeoChart.constants.DIMENSIONS.DIMENSIONS_2D.horizontal
         ? dimensionAxisConfig.id
         : normalAxisConfig.id
 
-      const idVerticalAxis = dimension === GeoChartBars.DIMENSIONS.horizontal
+      const idVerticalAxis = dimension === GeoChart.constants.DIMENSIONS.DIMENSIONS_2D.horizontal
         ? normalAxisConfig.id
         : dimensionAxisConfig.id
 
@@ -374,7 +374,7 @@ describe('GeoChartBars', function () {
                 axisGroups: [dimensionAxisConfig, normalAxisConfig],
                 barGroups: [{
                   data: firstBarGroupData,
-                  dimension,
+                  mainDimension: dimension,
                   idHorizontalAxis,
                   idVerticalAxis
                 }]
@@ -399,7 +399,7 @@ describe('GeoChartBars', function () {
                 axisGroups: [dimensionAxisConfig, normalAxisConfig],
                 barGroups: [{
                   data: _.dropRight(firstBarGroupData),
-                  dimension,
+                  mainDimension: dimension,
                   idHorizontalAxis,
                   idVerticalAxis
                 }]
@@ -424,7 +424,7 @@ describe('GeoChartBars', function () {
                 axisGroups: [dimensionAxisConfig, normalAxisConfig],
                 barGroups: [{
                   data: firstBarGroupData,
-                  dimension,
+                  mainDimension: dimension,
                   idHorizontalAxis,
                   idVerticalAxis
                 }]
@@ -454,10 +454,10 @@ describe('GeoChartBars', function () {
             expect(transformMatches).toHaveLength(3)
 
             switch (dimension) {
-              case GeoChartBars.DIMENSIONS.horizontal:
+              case GeoChart.constants.DIMENSIONS.DIMENSIONS_2D.horizontal:
                 expect(parseFloat(transformMatches[1])).toBeCloseTo(dimensionAxisOffsetsInCanvasUnits[i], 2)
                 break
-              case GeoChartBars.DIMENSIONS.vertical:
+              case GeoChart.constants.DIMENSIONS.DIMENSIONS_2D.vertical:
                 expect(parseFloat(transformMatches[2])).toBeCloseTo(dimensionAxisOffsetsInCanvasUnits[i], 2)
                 break
             }
@@ -471,7 +471,7 @@ describe('GeoChartBars', function () {
                 axisGroups: [dimensionAxisConfig, normalAxisConfig],
                 barGroups: [{
                   data: firstBarGroupData,
-                  dimension,
+                  mainDimension: dimension,
                   idHorizontalAxis,
                   idVerticalAxis
                 }]
@@ -501,10 +501,10 @@ describe('GeoChartBars', function () {
               const expectedOffsetEnd = getExpectedOffsetForNaturalValue(_.get(firstBarGroupData[i], normalAxisConfig.keyForValues), 0.5)
 
               switch (dimension) {
-                case GeoChartBars.DIMENSIONS.vertical:
+                case GeoChart.constants.DIMENSIONS.DIMENSIONS_2D.vertical:
                   expect(actualValue).toBeCloseTo(expectedOffsetEnd.x - expectedOffsetStart.x, 2)
                   break
-                case GeoChartBars.DIMENSIONS.horizontal:
+                case GeoChart.constants.DIMENSIONS.DIMENSIONS_2D.horizontal:
                   expect(actualValue).toBeCloseTo(expectedOffsetEnd.y - expectedOffsetStart.y, 2)
                   break
               }
@@ -520,7 +520,7 @@ describe('GeoChartBars', function () {
                 axisGroups: [dimensionAxisConfig, normalAxisConfig],
                 barGroups: [{
                   data: firstBarGroupData,
-                  dimension,
+                  mainDimension: dimension,
                   idHorizontalAxis,
                   idVerticalAxis,
                   width: forcedWidthInNormalDimension
@@ -556,7 +556,7 @@ describe('GeoChartBars', function () {
                 axisGroups: [dimensionAxisConfig, normalAxisConfig],
                 barGroups: [{
                   data: firstBarGroupData,
-                  dimension,
+                  mainDimension: dimension,
                   idHorizontalAxis,
                   idVerticalAxis,
                   naturalWidth: forcedNaturalWidthInNormalDimension
@@ -584,10 +584,10 @@ describe('GeoChartBars', function () {
             const expectedOffsetEnd = getExpectedOffsetForNaturalValue(_.get(firstBarGroupData[i], normalAxisConfig.keyForValues))
 
             switch (dimension) {
-              case GeoChartBars.DIMENSIONS.vertical:
+              case GeoChart.constants.DIMENSIONS.DIMENSIONS_2D.vertical:
                 expect(actualValue).toBeCloseTo(expectedOffsetEnd.x - expectedOffsetStart.x, 2)
                 break
-              case GeoChartBars.DIMENSIONS.horizontal:
+              case GeoChart.constants.DIMENSIONS.DIMENSIONS_2D.horizontal:
                 expect(actualValue).toBeCloseTo(expectedOffsetEnd.y - expectedOffsetStart.y, 2)
                 break
             }
@@ -602,7 +602,7 @@ describe('GeoChartBars', function () {
                 axisGroups: [dimensionAxisConfig, normalAxisConfig],
                 barGroups: [{
                   data: firstBarGroupData,
-                  dimension,
+                  mainDimension: dimension,
                   idHorizontalAxis,
                   idVerticalAxis,
                   normalOffset: forcedOffset
@@ -648,7 +648,7 @@ describe('GeoChartBars', function () {
                 axisGroups: [dimensionAxisConfig, normalAxisConfig],
                 barGroups: [{
                   data: firstBarGroupData,
-                  dimension,
+                  mainDimension: dimension,
                   idHorizontalAxis,
                   idVerticalAxis,
                   naturalNormalOffset: forcedOffsetInNaturalUnits
@@ -693,7 +693,7 @@ describe('GeoChartBars', function () {
                 axisGroups: [dimensionAxisConfig, normalAxisConfig],
                 barGroups: [{
                   data: firstBarGroupData,
-                  dimension,
+                  mainDimension: dimension,
                   idHorizontalAxis,
                   idVerticalAxis,
                   cssClasses: function (originalClasses, d, i) {
@@ -737,12 +737,12 @@ describe('GeoChartBars', function () {
                 axisGroups: [dimensionAxisConfig, normalAxisConfig],
                 barGroups: [{
                   data: firstBarGroupData,
-                  dimension,
+                  mainDimension: dimension,
                   idHorizontalAxis,
                   idVerticalAxis
                 }, {
                   data: secondData,
-                  dimension,
+                  mainDimension: dimension,
                   idHorizontalAxis,
                   idVerticalAxis
                 }]
@@ -781,7 +781,7 @@ describe('GeoChartBars', function () {
                   axisGroups: [dimensionAxisConfig, normalAxisConfig],
                   barGroups: [{
                     data: firstBarGroupData,
-                    dimension,
+                    mainDimension: dimension,
                     idHorizontalAxis,
                     idVerticalAxis
                   }]
@@ -801,12 +801,12 @@ describe('GeoChartBars', function () {
                 axisGroups: [dimensionAxisConfig, normalAxisConfig],
                 barGroups: [{
                   data: firstBarGroupData,
-                  dimension,
+                  mainDimension: dimension,
                   idHorizontalAxis,
                   idVerticalAxis
                 }, {
                   data: secondData,
-                  dimension,
+                  mainDimension: dimension,
                   idHorizontalAxis,
                   idVerticalAxis
                 }]
@@ -826,7 +826,7 @@ describe('GeoChartBars', function () {
                   axisGroups: [dimensionAxisConfig, normalAxisConfig],
                   barGroups: [{
                     data: firstBarGroupData,
-                    dimension,
+                    mainDimension: dimension,
                     idHorizontalAxis,
                     idVerticalAxis
                   }]
@@ -846,7 +846,7 @@ describe('GeoChartBars', function () {
                 axisGroups: [dimensionAxisConfig, normalAxisConfig],
                 barGroups: [{
                   data: secondData,
-                  dimension,
+                  mainDimension: dimension,
                   idHorizontalAxis,
                   idVerticalAxis
                 }]
@@ -865,12 +865,12 @@ describe('GeoChartBars', function () {
                   axisGroups: [dimensionAxisConfig, normalAxisConfig],
                   barGroups: [{
                     data: firstBarGroupData,
-                    dimension,
+                    mainDimension: dimension,
                     idHorizontalAxis,
                     idVerticalAxis
                   }, {
                     data: secondData,
-                    dimension,
+                    mainDimension: dimension,
                     idHorizontalAxis,
                     idVerticalAxis
                   }]
@@ -890,7 +890,7 @@ describe('GeoChartBars', function () {
                 axisGroups: [dimensionAxisConfig, normalAxisConfig],
                 barGroups: [{
                   data: firstBarGroupData,
-                  dimension,
+                  mainDimension: dimension,
                   idHorizontalAxis,
                   idVerticalAxis
                 }]
@@ -912,7 +912,7 @@ describe('GeoChartBars', function () {
                   axisGroups: [dimensionAxisConfig, normalAxisConfig],
                   barGroups: [{
                     data: firstBarGroupData,
-                    dimension,
+                    mainDimension: dimension,
                     idHorizontalAxis,
                     idVerticalAxis,
                     tooltip: {
@@ -954,7 +954,7 @@ describe('GeoChartBars', function () {
                   axisGroups: [dimensionAxisConfig, normalAxisConfig],
                   barGroups: [{
                     data: firstBarGroupData,
-                    dimension,
+                    mainDimension: dimension,
                     idHorizontalAxis,
                     idVerticalAxis,
                     tooltip: {
