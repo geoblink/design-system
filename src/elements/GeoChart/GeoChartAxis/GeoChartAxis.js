@@ -111,7 +111,7 @@ function renderSingleAxis (group, singleAxisOptions, globalAxesConfig) {
     : [...forcedTickCSSClasses, ...defaultTickCSSClasses].join(' ')
 
   const labelContent = _.get(singleAxisOptions, 'label.content')
-  const labelData = _.filter([labelContent], d => _.isNil(d))
+  const labelData = _.filter([labelContent], d => !_.isNil(d))
 
   if (labelData.length) {
     const labels = group
@@ -385,7 +385,7 @@ function positionLabel (label, singleAxisOptions, globalAxesConfig) {
 
     case axisUtils.POSITIONS.right:
       label
-        .attr('x', `${globalAxesConfig.chart}`)
+        .attr('x', `${axesSize.width}`)
         .attr('dy', `${-axesMargin.right + DEFAULT_LINE_HEIGHT}`)
         .attr('transform', 'rotate(90)')
       break
