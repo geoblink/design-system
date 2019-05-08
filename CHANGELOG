@@ -1,3 +1,9 @@
+# 17.0.0-beta.3
+
+Fixes:
+
+- `GeoChart` fix errors in axis label positioning
+
 # 17.0.0-beta.2
 
 Breaking:
