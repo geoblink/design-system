@@ -94,7 +94,7 @@ module.exports = {
         {
           name: 'GeoBorderedBox',
           components: '../src/elements/GeoBorderedBox/GeoBorderedBox*.vue',
-          sectionDepth: 1
+          sectionDepth: 0
         },
         {
           name: 'GeoBorderedToken',
@@ -119,7 +119,7 @@ module.exports = {
         {
           name: 'GeoDropdown',
           components: '../src/elements/GeoDropdown/GeoDropdown*.vue',
-          sectionDepth: 1
+          sectionDepth: 0
         },
         {
           name: 'GeoFileUpload',
@@ -134,17 +134,17 @@ module.exports = {
         {
           name: 'GeoList',
           components: '../src/elements/GeoList/GeoList*.vue',
-          sectionDepth: 1
+          sectionDepth: 0
         },
         {
           name: 'GeoModal',
           components: '../src/elements/GeoModal/GeoModal*.vue',
-          sectionDepth: 1
+          sectionDepth: 0
         },
         {
           name: 'GeoNotificationBar',
           components: '../src/elements/GeoNotificationBar/GeoNotificationBar*.vue',
-          sectionDepth: 1
+          sectionDepth: 0
         },
         {
           name: 'GeoScrollableContainer',
@@ -159,17 +159,17 @@ module.exports = {
         {
           name: 'GeoSelect',
           components: '../src/elements/GeoSelect/GeoSelect*.vue',
-          sectionDepth: 1
+          sectionDepth: 0
         },
         {
           name: 'GeoTabBar',
           components: '../src/elements/GeoTabBar/GeoTabBar*.vue',
-          sectionDepth: 1
+          sectionDepth: 0
         },
         {
           name: 'GeoTable',
           components: '../src/elements/GeoTable/GeoTable*.vue',
-          sectionDepth: 1
+          sectionDepth: 0
         },
         {
           name: 'String Utils',
@@ -183,30 +183,39 @@ module.exports = {
         },
         {
           name: 'Charts',
+          sectionDepth: 1,
           sections: [{
             name: 'Introduction',
-            components: '../src/elements/GeoChart/GeoChart.vue'
+            components: '../src/elements/GeoChart/GeoChart.vue',
+            sectionDepth: 0
           }, {
             name: 'Axes',
-            content: '../src/elements/GeoChart/GeoChartAxis/GeoChartAxis.md'
+            content: '../src/elements/GeoChart/GeoChartAxis/GeoChartAxis.md',
+            sectionDepth: 0
           }, {
             name: 'Axes guidelines',
-            content: '../src/elements/GeoChart/GeoChartAxisGuidelines/GeoChartAxisGuidelines.md'
+            content: '../src/elements/GeoChart/GeoChartAxisGuidelines/GeoChartAxisGuidelines.md',
+            sectionDepth: 0
           }, {
             name: 'Scales',
-            content: '../src/elements/GeoChart/GeoChartScale/GeoChartScale.md'
+            content: '../src/elements/GeoChart/GeoChartScale/GeoChartScale.md',
+            sectionDepth: 0
           }, {
             name: 'Labels',
-            content: '../src/elements/GeoChart/GeoChartLabels/GeoChartLabels.md'
+            content: '../src/elements/GeoChart/GeoChartLabels/GeoChartLabels.md',
+            sectionDepth: 0
           }, {
             name: 'Bar charts',
-            content: '../src/elements/GeoChart/GeoChartBars/GeoChartBars.md'
+            content: '../src/elements/GeoChart/GeoChartBars/GeoChartBars.md',
+            sectionDepth: 0
           }, {
             name: 'Colored bar charts',
-            content: '../src/elements/GeoChart/GeoChartColorBar/GeoChartColorBar.md'
+            content: '../src/elements/GeoChart/GeoChartColorBar/GeoChartColorBar.md',
+            sectionDepth: 0
           }, {
             name: 'Line segments charts',
-            content: '../src/elements/GeoChart/GeoChartLineSegments/GeoChartLineSegments.md'
+            content: '../src/elements/GeoChart/GeoChartLineSegments/GeoChartLineSegments.md',
+            sectionDepth: 0
           }, {
             name: 'Anchored Shapes charts',
             content: '../src/elements/GeoChart/GeoChartAnchoredShapes/GeoChartAnchoredShapes.md'

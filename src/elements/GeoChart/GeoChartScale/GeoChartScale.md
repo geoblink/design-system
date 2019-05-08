@@ -3,12 +3,13 @@ context) into a range (using the units of our drawing canvas - an SVG). They
 are used in several internal parts of `GeoChart` but they are only defined on a
 per-[axis](./#/Elements/Charts?id=axes) basis.
 
-All the axis must have a `type` property which must be a value of `SCALE_TYPES`
-named export. Depending on the `type` they have additional requirements.
+All the axis must have a `type` property which must be a value of
+`SCALE.SCALE_TYPES` named export. Depending on the `type` they have additional
+requirements.
 
 ## Linear scales
 
-- `type`: must be `SCALE_TYPES.linear`.
+- `type`: must be `SCALE.SCALE_TYPES.linear`.
 - `domain`: must be either an array of numbers (the domain will be formed by all
 of those numbers) or an object with an `start` and an `end` property, both of
 them numbers. A domain may be decreasing.
@@ -37,7 +38,7 @@ probably by `0` but if you want to use Fahrenheit degrees it would be `32`.
 
 Almost identical to `linear` scales, but:
 
-- `type`: must be `SCALE_TYPES.logarithmic`.
+- `type`: must be `SCALE.SCALE_TYPES.logarithmic`.
 - `domain`: it's lowest end must be `> 0`.
 - `base`: (_optional_) the base of the logarithm, defaults to `10`.
 
@@ -59,7 +60,7 @@ Almost identical to `linear` scales, but:
 
 Similar to `linear` scales, but:
 
-- `type`: must be `SCALE_TYPES.categorical`.
+- `type`: must be `SCALE.SCALE_TYPES.categorical`.
 - `domain`: must be an array of values which can be either strings or numbers.
 - `valueForOrigin`: must be one of the values of `domain` array.
 

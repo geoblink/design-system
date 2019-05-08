@@ -1,13 +1,17 @@
-declare namespace GeoChart {
-  interface Size {
-    height: number
-    width: number
-  }
+import 'd3'
+import 'd3-tip'
 
-  interface Margin {
-    top: number
-    right: number
-    bottom: number
-    left: number
-  }
-}
+import './GeoChartAnchoredShapes/GeoChartAnchoredShapes'
+import './GeoChartAxis/GeoChartAxis'
+import './GeoChartAxisGuidelines/GeoChartAxisGuidelines'
+import './GeoChartBars/GeoChartBars'
+import './GeoChartColorBar/GeoChartColorBar'
+import './GeoChartLabels/GeoChartLabels'
+import './GeoChartLine/GeoChartLine'
+import './GeoChartLineSegments/GeoChartLineSegments'
+import './GeoChartPie/GeoChartPie'
+import './GeoChartScale/GeoChartScale'
+import './GeoChartUtils/GeoChartTextDescription'
+import './GeoChartDimensions'
+import './GeoChartGlobalOptions'
+import './GeoChartSizing'

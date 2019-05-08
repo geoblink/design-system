@@ -10,12 +10,12 @@ declare namespace GeoChart {
   }
 
   interface PieConfig {
-    data: object[]
+    data: { valueOf (): number }[]
     innerRadius: number
     outerRadius: number
     keyForValues: string
-    tooltip: {
-      getContent?: (item: object, index: number) => string | null | undefined
+    tooltip?: {
+      getContent: (item: object, index: number) => string | null | undefined
       getOffset?: (event: MouseEvent) => { x: number, y: number } | null | undefined
     }
     text: {

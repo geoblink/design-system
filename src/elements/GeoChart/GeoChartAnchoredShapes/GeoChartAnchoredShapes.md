@@ -1,31 +1,50 @@
 Anchored shapes charts are collections of shapes that are tied to a certain axis.
 This chart can be used in combination with [GeoChartLineSegments](./#/Elements/Charts?id=geochartlinesegments)
-to compare several values across an axis, each shape being the value that is being represented as the desired shape.
+to compare several values across an axis, each shape being the value that is
+being represented as the desired shape.
 
-To add anchored shapes **groups** to a chart, add an array to `anchoredShapesGroups` key of [GeoChart](./#/Elements/Charts?id=introduction)'s config. Each item of the array must be an object with the following:
+To add anchored shapes **groups** to a chart, add an array to `anchoredShapesGroups`
+key of [GeoChart](./#/Elements/Charts?id=introduction)'s config. Each item of the
+array must be an object with the following:
 
 ## Required properties
 
-- `shapeData`: Array of objects, each one representing a single shape that will be distributed across the axis.
-- `dimension`: A value of `BARS_DIMENSIONS` named export (either `horizontal` or `vertical`). The dimension in which the stacked rectangles will be positioned.
-- `idHorizontalAxis`: The ID of the axis defining the `horizontal` dimension. Will be used to compute proper origin and span of the bar if the dimension is horizontal or the width of each individual group if the dimension is vertical.
-- `idVerticalAxis`: The ID of the axis defining the `vertical` dimension. Will be used to compute proper origin and span of the bar if the dimension is vertical or the width of each individual group if the dimension is horizontal.
-- `normalValue`: Value to position the colorBar in the normal (numerical) axis. The value must be contained within the linear axis domain.
-- `getAnchorPosition`: Function to set the shape either on top/left (leading) or at the bottom/right (trailing) of the axis.
-- `getShapeSize`: Function to get the dimensions (width/height) of the desired shape.
-- `getShapePath`: Function to create the path of the shape. The returned value of this function should be valid as input for `svg` polygon data.
+- `data`: Array of objects, each one representing a single shape that will be
+distributed across the axis.
+- `mainDimension`: A value of `DIMENSIONS.DIMENSIONS_2D` named export (either
+`horizontal` or `vertical`). The dimension in which the stacked rectangles will
+be positioned.
+- `idHorizontalAxis`: The ID of the axis defining the `horizontal` dimension.
+Will be used to compute proper origin and span of the bar if the dimension is
+horizontal or the width of each individual group if the dimension is vertical.
+- `idVerticalAxis`: The ID of the axis defining the `vertical` dimension. Will
+be used to compute proper origin and span of the bar if the dimension is vertical
+or the width of each individual group if the dimension is horizontal.
+- `normalValue`: Value to position the colorBar in the normal (numerical) axis.
+The value must be contained within the linear axis domain.
+- `getAnchorPosition`: Function to set the shape either on top/left (`leading`)
+or at the bottom/right (`trailing`) of the axis. Should return a value of named
+export `DIMENSIONS.ANCHORED_POSITIONS_1D`.
+- `getShapeSize`: Function to get the dimensions (width/height) of the desired
+shape.
+- `getShapePath`: Function to create the path of the shape. The returned value
+of this function should be valid as input for `svg` polygon data.
 
-**Note:** `idHorizontalAxis` and `idVerticalAxis` must be IDs of registered axes. See [Axes](./#/Elements/Charts?id=axes) for more info.
+**Note:** `idHorizontalAxis` and `idVerticalAxis` must be IDs of registered axes.
+See [Axes](./#/Elements/Charts?id=axes) for more info.
 
 ## Optional properties
 
 - **Offset** defines the translation in the **normal dimension** that must be
-applied to the shapes in order to not overlap with the axis they're been positioned. (Can be set using **natural** units)
+applied to the shapes in order to not overlap with the axis they're been positioned.
+(Can be set using **natural** units)
 
-- **text** object takes a function (content) that lets you shape the format of each one of the labels that
-will be tied to your shapes. The function should return an array of objects, each one with the properties `text` and `cssClass`.
+- **text** object takes a function (content) that lets you shape the format of
+each one of the labels that will be tied to your shapes. The function should
+return an array of objects, each one with the properties `text` and `cssClass`.
 
-- **trackByKey** Define this function to let D3 know which property of your data will be used to track changes in it.
+- **trackByKey** Define this function to let D3 know which property of your data
+will be used to track changes in it.
 
 There are 2 exclusive properties available to customize the **offset**:
 
@@ -57,11 +76,8 @@ Doing so will throw an invalid config error.
 </template>
 
 <script>
-  const d3 = require('d3')
-  const { POSITIONS } = require('../GeoChartAxis/GeoChartAxis')
-  const { DIMENSIONS: BARS_DIMENSIONS } = require('../GeoChartBars/GeoChartBars')
-  const { SCALE_TYPES } = require('../GeoChartScale/GeoChartScale')
-  const { ANCHOR_POSITIONS, getTriangleShapePath } = require('./GeoChartAnchoredShapes')
+const CONSTANTS = require('../constants')
+const { getTriangleShapePath } = require('./GeoChartAnchoredShapes')
 
 export default {
   name: 'GeoChartAnchoredShapesDemo',
@@ -80,10 +96,10 @@ export default {
           count: 2
         },
         position: {
-          type: POSITIONS.left
+          type: CONSTANTS.AXIS.POSITIONS.left
         },
         scale: {
-          type: SCALE_TYPES.linear,
+          type: CONSTANTS.SCALES.SCALE_TYPES.linear,
           valueForOrigin: 0,
           domain: {
             start: 0,
@@ -98,10 +114,10 @@ export default {
         id: 'demo-numerical-axis',
         keyForValues: 'numerical',
         position: {
-          type: POSITIONS.bottom
+          type: CONSTANTS.AXIS.POSITIONS.bottom
         },
         scale: {
-          type: SCALE_TYPES.linear,
+          type: CONSTANTS.SCALES.SCALE_TYPES.linear,
           valueForOrigin: 0,
           domain: {
             start: 0,
@@ -151,12 +167,14 @@ export default {
         anchoredShapesGroups: [{
           normalValue: this.normalValue,
           naturalNormalOffset: .1,
-          shapeData: this.dataDistribution,
-          dimension: BARS_DIMENSIONS.horizontal,
+          data: this.dataDistribution,
+          mainDimension: CONSTANTS.DIMENSIONS.DIMENSIONS_2D.horizontal,
           idVerticalAxis: this.linearAxisConfig.id,
           idHorizontalAxis: this.numericalAxisConfig.id,
           getAnchorPosition (d, i) {
-            return d.isUp ? ANCHOR_POSITIONS.leading : ANCHOR_POSITIONS.trailing
+            return d.isUp
+              ? CONSTANTS.DIMENSIONS.ANCHOR_POSITIONS_1D.leading
+              : CONSTANTS.DIMENSIONS.ANCHOR_POSITIONS_1D.trailing
           },
           getShapeSize () {
             return {
@@ -223,11 +241,8 @@ export default {
 </template>
 
 <script>
-  const d3 = require('d3')
-  const { POSITIONS } = require('../GeoChartAxis/GeoChartAxis')
-  const { DIMENSIONS: BARS_DIMENSIONS } = require('../GeoChartBars/GeoChartBars')
-  const { SCALE_TYPES } = require('../GeoChartScale/GeoChartScale')
-  const { ANCHOR_POSITIONS, getTriangleShapePath }= require('./GeoChartAnchoredShapes')
+const CONSTANTS = require('../constants')
+const { getTriangleShapePath } = require('./GeoChartAnchoredShapes')
 
 export default {
   name: 'GeoChartAnchoredShapesDemo',
@@ -246,10 +261,10 @@ export default {
           count: 2
         },
         position: {
-          type: POSITIONS.left
+          type: CONSTANTS.AXIS.POSITIONS.left
         },
         scale: {
-          type: SCALE_TYPES.linear,
+          type: CONSTANTS.SCALES.SCALE_TYPES.linear,
           valueForOrigin: 0,
           domain: {
             start: 0,
@@ -264,14 +279,14 @@ export default {
         id: 'demo-numerical-axis',
         keyForValues: 'numerical',
         position: {
-          type: POSITIONS.bottom
+          type: CONSTANTS.AXIS.POSITIONS.bottom
         },
         scale: {
-          type: SCALE_TYPES.linear,
+          type: CONSTANTS.SCALES.SCALE_TYPES.linear,
           valueForOrigin: 0,
           domain: {
             start: 0,
-            end: 200
+            end: 250
           }
         }
       }
@@ -316,8 +331,8 @@ export default {
         ],
         lineSegmentsGroups: [{
           normalValue: this.normalValue,
-          circleData: this.dataDistribution,
-          dimension: BARS_DIMENSIONS.horizontal,
+          data: this.dataDistribution,
+          mainDimension: CONSTANTS.DIMENSIONS.DIMENSIONS_2D.horizontal,
           lineWidth: 2,
           circleRadius: 3,
           circleMargin: 4,
@@ -330,12 +345,14 @@ export default {
         anchoredShapesGroups: [{
           normalValue: this.normalValue,
           naturalNormalOffset: 0.03,
-          shapeData: this.dataDistribution,
-          dimension: BARS_DIMENSIONS.horizontal,
+          data: this.dataDistribution,
+          mainDimension: CONSTANTS.DIMENSIONS.DIMENSIONS_2D.horizontal,
           idVerticalAxis: this.linearAxisConfig.id,
           idHorizontalAxis: this.numericalAxisConfig.id,
           getAnchorPosition (d, i) {
-            return d.isUp ? ANCHOR_POSITIONS.leading : ANCHOR_POSITIONS.trailing
+            return d.isUp
+              ? CONSTANTS.DIMENSIONS.ANCHOR_POSITIONS_1D.leading
+              : CONSTANTS.DIMENSIONS.ANCHOR_POSITIONS_1D.trailing
           },
           trackByKey (d, i) {
             return d.id

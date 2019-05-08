@@ -2,15 +2,9 @@
 
 import _ from 'lodash'
 
-import {
-  DIMENSIONS
-} from '../GeoChartAxis/GeoChartAxis'
-import {
-  getItemSpanAtAxis,
-  getTranslationForNormalAxisFactory,
-  getItemTranslationFactory,
-  isDimensionAxis
-} from '../GeoChartUtils/barsUtils'
+import * as axisUtils from '../GeoChartUtils/axisUtils'
+import * as barsUtils from '../GeoChartUtils/barsUtils'
+import * as dimensionUtils from '../GeoChartUtils/dimensionUtils'
 
 const d3 = (function () {
   try {
@@ -25,11 +19,19 @@ const d3 = (function () {
  * @template Datum
  * @template PElement
  * @template PDatum
+ * @typedef {import('d3').Selection<GElement, Datum, PElement, PDatum>} d3.Selection
+ */
+
+/**
+ * @template GElement
+ * @template Datum
+ * @template PElement
+ * @template PDatum
  * @template HorizontalDomain
  * @template VerticalDomain
  * @param {d3.Selection<GElement, Datum, PElement, PDatum>} d3Instance
  * @param {Array<GeoChart.SingleColorBarGroupConfig<HorizontalDomain, VerticalDomain>>} options
- * @param {GeoChart.ColorBarGroupsGlobalConfig} globalOptions
+ * @param {GeoChart.GlobalOptions} globalOptions
  */
 export function render (d3Instance, options, globalOptions) {
   const groups = d3Instance
@@ -40,7 +42,7 @@ export function render (d3Instance, options, globalOptions) {
     .enter()
     .append('g')
     .attr('class', (singleGroupOptions, i) =>
-      `geo-chart-color-bar-group geo-chart-color-bar-group--${singleGroupOptions.id} geo-chart-color-bar-group--${singleGroupOptions.dimension}`
+      `geo-chart-color-bar-group geo-chart-color-bar-group--${singleGroupOptions.id} geo-chart-color-bar-group--${singleGroupOptions.mainDimension}`
     )
 
   groups
@@ -68,68 +70,68 @@ export function render (d3Instance, options, globalOptions) {
  * @template VerticalDomain
  * @param {d3.Selection<GElement, Datum, PElement, PDatum>} group
  * @param {GeoChart.SingleColorBarGroupConfig<HorizontalDomain, VerticalDomain>} singleGroupOptions
- * @param {GeoChart.ColorBarGroupsGlobalConfig} globalOptions
+ * @param {GeoChart.GlobalOptions} globalOptions
  */
 function renderSingleGroup (group, singleGroupOptions, globalOptions) {
-  const axisForNormalDimension = isDimensionAxis(singleGroupOptions.axis.horizontal, singleGroupOptions)
+  const axisForNormalDimension = axisUtils.isMainDimensionAxis(singleGroupOptions.axis.horizontal, singleGroupOptions)
     ? singleGroupOptions.axis.vertical
     : singleGroupOptions.axis.horizontal
 
-  const axisForDimension = isDimensionAxis(singleGroupOptions.axis.horizontal, singleGroupOptions)
+  const axisForMainDimension = axisUtils.isMainDimensionAxis(singleGroupOptions.axis.horizontal, singleGroupOptions)
     ? singleGroupOptions.axis.horizontal
     : singleGroupOptions.axis.vertical
 
   const getSegmentWidth = (d, i) => {
-    switch (singleGroupOptions.dimension) {
-      case DIMENSIONS.horizontal:
-        return getItemSpanAtAxis(axisForDimension, d, singleGroupOptions, {
+    switch (singleGroupOptions.mainDimension) {
+      case dimensionUtils.DIMENSIONS_2D.horizontal:
+        return barsUtils.getItemSpanAtAxis((/** @type {GeoChart.AxisConfig<HorizontalDomain>} */(axisForMainDimension)), d, singleGroupOptions, {
           keyForWidth: 'width',
           keyForNaturalWidth: 'naturalWidth'
         })
-      case DIMENSIONS.vertical:
-        return getItemSpanAtAxis(axisForNormalDimension, {
+      case dimensionUtils.DIMENSIONS_2D.vertical:
+        return barsUtils.getItemSpanAtAxis((/** @type {GeoChart.AxisConfig<VerticalDomain>} */(axisForNormalDimension)), {
           [axisForNormalDimension.keyForValues]: singleGroupOptions.normalValue
         }, singleGroupOptions, {
           keyForWidth: 'width',
           keyForNaturalWidth: 'naturalWidth'
         })
       default:
-        console.error(`GeoChartColorBar [component] :: Invalid axis dimension for getSegmentWidth: ${singleGroupOptions.dimension}`)
+        console.error(`GeoChartColorBar [component] :: Invalid axis main dimension for getSegmentWidth: ${singleGroupOptions.mainDimension}`)
     }
   }
   const getSegmentHeight = (d, i) => {
-    switch (singleGroupOptions.dimension) {
-      case DIMENSIONS.horizontal:
-        return getItemSpanAtAxis(axisForNormalDimension, {
+    switch (singleGroupOptions.mainDimension) {
+      case dimensionUtils.DIMENSIONS_2D.horizontal:
+        return barsUtils.getItemSpanAtAxis((/** @type {GeoChart.AxisConfig<HorizontalDomain>} */(axisForNormalDimension)), {
           [axisForNormalDimension.keyForValues]: singleGroupOptions.normalValue
         }, singleGroupOptions, {
           keyForWidth: 'width',
           keyForNaturalWidth: 'naturalWidth'
         })
-      case DIMENSIONS.vertical:
-        return getItemSpanAtAxis(axisForDimension, d, singleGroupOptions, {
+      case dimensionUtils.DIMENSIONS_2D.vertical:
+        return barsUtils.getItemSpanAtAxis((/** @type {GeoChart.AxisConfig<VerticalDomain>} */(axisForMainDimension)), d, singleGroupOptions, {
           keyForWidth: 'width',
           keyForNaturalWidth: 'naturalWidth'
         })
       default:
-        console.error(`GeoChartColorBar [component] :: Invalid axis dimension for getSegmentHeight: ${singleGroupOptions.dimension}`)
+        console.error(`GeoChartColorBar [component] :: Invalid axis main dimension for getSegmentHeight: ${singleGroupOptions.mainDimension}`)
     }
   }
 
   const colorBarContainer = renderColorBarContainer(group, singleGroupOptions, globalOptions, {
-    axisForDimension,
+    axisForMainDimension,
     axisForNormalDimension
   })
 
   renderColorBarSegments(colorBarContainer, singleGroupOptions, {
-    axisForDimension,
+    axisForMainDimension,
     axisForNormalDimension,
     getSegmentWidth,
     getSegmentHeight
   })
 
   renderColorBarHighlightedSegments(colorBarContainer, singleGroupOptions, globalOptions, {
-    axisForDimension,
+    axisForMainDimension,
     axisForNormalDimension,
     getSegmentWidth,
     getSegmentHeight
@@ -137,18 +139,18 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions) {
 }
 
 function renderColorBarContainer (group, singleGroupOptions, globalOptions, {
-  axisForDimension,
+  axisForMainDimension,
   axisForNormalDimension
 }) {
   const colorBarBaseClass = 'geo-chart-color-bar'
-  const getTranslation = getItemTranslationFactory(singleGroupOptions, {
+  const getTranslation = barsUtils.getItemTranslationFactory(singleGroupOptions, {
     keyForWidth: 'width',
     keyForNaturalWidth: 'naturalWidth',
     componentName: 'Color Bar',
     getOriginPositionAtAxis (axisConfig, singleItem) {
       return axisConfig.scale.axisScale(singleItem[axisConfig.keyForValues])
     },
-    getTranslationForNormalAxis: getTranslationForNormalAxisFactory(singleGroupOptions, {
+    getTranslationForNormalAxis: axisUtils.getTranslationForNormalAxisFactory(singleGroupOptions, {
       keyForNormalOffset: 'normalOffset',
       keyForNaturalNormalOffset: 'naturalNormalOffset'
     })
@@ -158,7 +160,7 @@ function renderColorBarContainer (group, singleGroupOptions, globalOptions, {
     .selectAll(`g.${colorBarBaseClass}`)
     .data([{
       [axisForNormalDimension.keyForValues]: singleGroupOptions.normalValue,
-      [axisForDimension.keyForValues]: axisForDimension.scale.valueForOrigin
+      [axisForMainDimension.keyForValues]: axisForMainDimension.scale.valueForOrigin
     }])
 
   const newColorBar = colorBar
@@ -195,7 +197,7 @@ function renderColorBarContainer (group, singleGroupOptions, globalOptions, {
     const defaultClasses = [
       colorBarBaseClass,
       `geo-chart-color-bar--${i}`,
-      `geo-chart-color-bar--${singleGroupOptions.dimension}`
+      `geo-chart-color-bar--${singleGroupOptions.mainDimension}`
     ]
 
     if (singleGroupOptions.cssClasses) {
@@ -208,22 +210,22 @@ function renderColorBarContainer (group, singleGroupOptions, globalOptions, {
 
   function getColorBarTransform (d, i) {
     const translation = getTranslation(d, i)
-    if (singleGroupOptions.dimension === DIMENSIONS.horizontal) {
+    if (singleGroupOptions.mainDimension === dimensionUtils.DIMENSIONS_2D.horizontal) {
       return `translate(0, ${translation.y})`
-    } else if (singleGroupOptions.dimension === DIMENSIONS.vertical) {
+    } else if (singleGroupOptions.mainDimension === dimensionUtils.DIMENSIONS_2D.vertical) {
       return `translate(${translation.x}, 0)`
     }
   }
 }
 
 function renderColorBarSegments (colorBarContainer, singleGroupOptions, {
-  axisForDimension,
+  axisForMainDimension,
   axisForNormalDimension,
   getSegmentWidth,
   getSegmentHeight
 }) {
   const segmentBaseClass = 'geo-chart-color-bar__segment'
-  const getSegmentTranslation = getItemTranslationFactory(singleGroupOptions, {
+  const getSegmentTranslation = barsUtils.getItemTranslationFactory(singleGroupOptions, {
     keyForWidth: 'width',
     keyForNaturalWidth: 'naturalWidth',
     componentName: 'Color Bar',
@@ -236,10 +238,10 @@ function renderColorBarSegments (colorBarContainer, singleGroupOptions, {
   const segments = colorBarContainer
     .select('g.geo-chart-color-bar__segment-container')
     .selectAll(`rect.${segmentBaseClass}`)
-    .data(_.map(axisForDimension.scale.axisScale.domain(), (d) => {
+    .data(_.map(axisForMainDimension.scale.axisScale.domain(), (d) => {
       return {
         [axisForNormalDimension.keyForValues]: singleGroupOptions.normalValue,
-        [axisForDimension.keyForValues]: d
+        [axisForMainDimension.keyForValues]: d
       }
     }))
 
@@ -272,12 +274,12 @@ function renderColorBarSegments (colorBarContainer, singleGroupOptions, {
   function getNewSegmentInitialTransform (d, i) {
     const translation = getSegmentTranslation(d, i)
     const originTranslation = getSegmentTranslation({
-      [axisForDimension.keyForValues]: axisForDimension.scale.valueForOrigin,
+      [axisForMainDimension.keyForValues]: axisForMainDimension.scale.valueForOrigin,
       [axisForNormalDimension.keyForValues]: singleGroupOptions.normalValue
     }, i)
-    if (singleGroupOptions.dimension === DIMENSIONS.horizontal) {
+    if (singleGroupOptions.mainDimension === dimensionUtils.DIMENSIONS_2D.horizontal) {
       return `translate(${originTranslation.x}, ${translation.y})`
-    } else if (singleGroupOptions.dimension === DIMENSIONS.vertical) {
+    } else if (singleGroupOptions.mainDimension === dimensionUtils.DIMENSIONS_2D.vertical) {
       return `translate(${translation.x}, ${originTranslation.y})`
     }
   }
@@ -286,7 +288,7 @@ function renderColorBarSegments (colorBarContainer, singleGroupOptions, {
     const defaultClasses = [
       segmentBaseClass,
       `geo-chart-color-bar__segment--${i}`,
-      `geo-chart-color-bar__segment--${singleGroupOptions.dimension}`
+      `geo-chart-color-bar__segment--${singleGroupOptions.mainDimension}`
     ]
 
     if (singleGroupOptions.cssClasses) {
@@ -299,49 +301,49 @@ function renderColorBarSegments (colorBarContainer, singleGroupOptions, {
 }
 
 function renderColorBarHighlightedSegments (colorBarContainer, singleGroupOptions, globalOptions, {
-  axisForDimension,
+  axisForMainDimension,
   axisForNormalDimension,
   getSegmentWidth,
   getSegmentHeight
 }) {
   const highlightedSegmentBaseClass = 'geo-chart-color-bar__highlighted-segment'
   const getHighlightedSegmentWidth = (d, i) => {
-    switch (singleGroupOptions.dimension) {
-      case DIMENSIONS.horizontal:
-        return getItemSpanAtAxis(axisForDimension, d, singleGroupOptions, {
+    switch (singleGroupOptions.mainDimension) {
+      case dimensionUtils.DIMENSIONS_2D.horizontal:
+        return barsUtils.getItemSpanAtAxis(axisForMainDimension, d, singleGroupOptions, {
           keyForWidth: 'highlightedWidth',
           keyForNaturalWidth: 'naturalHighlightedWidth'
         })
-      case DIMENSIONS.vertical:
-        return getItemSpanAtAxis(axisForNormalDimension, {
+      case dimensionUtils.DIMENSIONS_2D.vertical:
+        return barsUtils.getItemSpanAtAxis(axisForNormalDimension, {
           [axisForNormalDimension.keyForValues]: singleGroupOptions.normalValue
         }, singleGroupOptions, {
           keyForWidth: 'highlightedWidth',
           keyForNaturalWidth: 'naturalHighlightedWidth'
         })
       default:
-        console.error(`GeoChartColorBar [component] :: Invalid axis dimension for getHighlightedSegmentWidth: ${singleGroupOptions.dimension}`)
+        console.error(`GeoChartColorBar [component] :: Invalid axis main dimension for getHighlightedSegmentWidth: ${singleGroupOptions.mainDimension}`)
     }
   }
   const getHighlightedSegmentHeight = (d, i) => {
-    switch (singleGroupOptions.dimension) {
-      case DIMENSIONS.horizontal:
-        return getItemSpanAtAxis(axisForNormalDimension, {
+    switch (singleGroupOptions.mainDimension) {
+      case dimensionUtils.DIMENSIONS_2D.horizontal:
+        return barsUtils.getItemSpanAtAxis(axisForNormalDimension, {
           [axisForNormalDimension.keyForValues]: singleGroupOptions.normalValue
         }, singleGroupOptions, {
           keyForWidth: 'highlightedWidth',
           keyForNaturalWidth: 'naturalHighlightedWidth'
         })
-      case DIMENSIONS.vertical:
-        return getItemSpanAtAxis(axisForDimension, d, singleGroupOptions, {
+      case dimensionUtils.DIMENSIONS_2D.vertical:
+        return barsUtils.getItemSpanAtAxis(axisForMainDimension, d, singleGroupOptions, {
           keyForWidth: 'highlightedWidth',
           keyForNaturalWidth: 'naturalHighlightedWidth'
         })
       default:
-        console.error(`GeoChartColorBar [component] :: Invalid axis dimension for getHighlightedSegmentHeight: ${singleGroupOptions.dimension}`)
+        console.error(`GeoChartColorBar [component] :: Invalid axis main dimension for getHighlightedSegmentHeight: ${singleGroupOptions.mainDimension}`)
     }
   }
-  const getHighlightedSegmentTranslation = getItemTranslationFactory(singleGroupOptions, {
+  const getHighlightedSegmentTranslation = barsUtils.getItemTranslationFactory(singleGroupOptions, {
     keyForWidth: 'width',
     keyForNaturalWidth: 'naturalWidth',
     componentName: 'Color Bar',
@@ -362,7 +364,7 @@ function renderColorBarHighlightedSegments (colorBarContainer, singleGroupOption
     .data(_.map(singleGroupOptions.data, (d) => {
       return {
         [axisForNormalDimension.keyForValues]: singleGroupOptions.normalValue,
-        [axisForDimension.keyForValues]: d[axisForDimension.keyForValues]
+        [axisForMainDimension.keyForValues]: d[axisForMainDimension.keyForValues]
       }
     }))
 
@@ -398,11 +400,11 @@ function renderColorBarHighlightedSegments (colorBarContainer, singleGroupOption
     .remove()
 
   function getHighlightedSegmentBarCSSClasses (d, i) {
-    const highlightedSegmentIndex = _.indexOf(axisForDimension.scale.axisScale.domain(), d[axisForDimension.keyForValues])
+    const highlightedSegmentIndex = _.indexOf(axisForMainDimension.scale.axisScale.domain(), d[axisForMainDimension.keyForValues])
     const defaultClasses = [
       highlightedSegmentBaseClass,
       `geo-chart-color-bar__highlighted-segment--${highlightedSegmentIndex}`,
-      `geo-chart-color-bar__highlighted-segment--${singleGroupOptions.dimension}`
+      `geo-chart-color-bar__highlighted-segment--${singleGroupOptions.mainDimension}`
     ]
 
     if (singleGroupOptions.cssClasses) {

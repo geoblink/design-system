@@ -1,12 +1,11 @@
-/// <reference types="d3" />
+/// <reference path="../GeoChart.d.ts" />
 
 import _ from 'lodash'
 
-import {
-  getItemSpanAtAxis,
-  getItemTranslationFactory,
-  getTranslationForNormalAxisFactory
-} from '../GeoChartUtils/barsUtils'
+import * as axisUtils from '../GeoChartUtils/axisUtils'
+import * as barsUtils from '../GeoChartUtils/barsUtils'
+import * as dimensionUtils from '../GeoChartUtils/dimensionUtils'
+
 import '../GeoChartAxis/GeoChartAxis'
 import { setupTooltipEventListeners } from '../GeoChartUtils/GeoChartTooltip'
 
@@ -19,14 +18,30 @@ const d3 = (function () {
 })()
 
 /**
- * @enum {GeoChart.BarDimension}
+ * @template GElement
+ * @template Datum
+ * @template PElement
+ * @template PDatum
+ * @typedef {import('d3').Selection<GElement, Datum, PElement, PDatum>} d3.Selection
  */
-export const DIMENSIONS = {
-  horizontal: 'horizontal',
-  vertical: 'vertical'
-}
 
-export const DEFAULT_WIDTH = 10
+/**
+ * @template GElement
+ * @template Datum
+ * @typedef {import('d3').ValueFn<GElement, Datum, void>} d3.ValueFn
+ */
+
+/**
+ * @template GElement
+ * @template Datum
+ * @template PElement
+ * @template PDatum
+ * @typedef {Object} d3.Tooltip<GElement, Datum, PElement, PDatum>
+ * @property {d3.ValueFn<GElement, Datum>} show
+ * @property {d3.ValueFn<GElement, Datum>} hide
+ * @property {Function} offset
+ * @property {Function} html
+ */
 
 /**
  * @template GElement
@@ -36,9 +51,9 @@ export const DEFAULT_WIDTH = 10
  * @template HorizontalDomain
  * @template VerticalDomain
  * @param {d3.Selection<GElement, Datum, PElement, PDatum>} d3Instance
- * @param {d3.Selection<GElement, Datum, PElement, PDatum>} [d3TipInstance]
+ * @param {d3.Tooltip<SVGElement, Datum, PElement, PDatum>} [d3TipInstance]
  * @param {Array<GeoChart.SingleBarGroupConfig<HorizontalDomain, VerticalDomain>>} options
- * @param {GeoChart.BarGroupsGlobalConfig} globalOptions
+ * @param {GeoChart.GlobalOptions} globalOptions
  */
 export function render (d3Instance, d3TipInstance, options, globalOptions) {
   const groups = d3Instance
@@ -49,7 +64,7 @@ export function render (d3Instance, d3TipInstance, options, globalOptions) {
     .enter()
     .append('g')
     .attr('class', (singleGroupOptions, i) =>
-      `geo-chart-bars-group geo-chart-bars-group--${singleGroupOptions.id} geo-chart-bars-group--${singleGroupOptions.dimension}`
+      `geo-chart-bars-group geo-chart-bars-group--${singleGroupOptions.id} geo-chart-bars-group--${singleGroupOptions.mainDimension}`
     )
 
   groups
@@ -76,45 +91,45 @@ export function render (d3Instance, d3TipInstance, options, globalOptions) {
  * @template HorizontalDomain
  * @template VerticalDomain
  * @param {d3.Selection<GElement, Datum, PElement, PDatum>} group
- * @param {d3.Selection<GElement, Datum, PElement, PDatum>} [d3TipInstance]
+ * @param {d3.Tooltip<SVGElement, object, PElement, PDatum>} [d3TipInstance]
  * @param {GeoChart.SingleBarGroupConfig<HorizontalDomain, VerticalDomain>} singleGroupOptions
- * @param {GeoChart.BarGroupsGlobalConfig} globalOptions
+ * @param {GeoChart.GlobalOptions} globalOptions
  */
 function renderSingleGroup (group, d3TipInstance, singleGroupOptions, globalOptions) {
-  const getWidth = (d, i) => getItemSpanAtAxis(singleGroupOptions.axis.horizontal, d, singleGroupOptions, {
+  const getWidth = (d, i) => barsUtils.getItemSpanAtAxis(singleGroupOptions.axis.horizontal, d, singleGroupOptions, {
     keyForWidth: 'width',
     keyForNaturalWidth: 'naturalWidth'
   })
-  const getHeight = (d, i) => getItemSpanAtAxis(singleGroupOptions.axis.vertical, d, singleGroupOptions, {
+  const getHeight = (d, i) => barsUtils.getItemSpanAtAxis(singleGroupOptions.axis.vertical, d, singleGroupOptions, {
     keyForWidth: 'width',
     keyForNaturalWidth: 'naturalWidth'
   })
 
   const getNewItemInitialWidth = (d, i) => {
-    switch (singleGroupOptions.dimension) {
-      case DIMENSIONS.horizontal:
+    switch (singleGroupOptions.mainDimension) {
+      case dimensionUtils.DIMENSIONS_2D.horizontal:
         return 0
-      case DIMENSIONS.vertical:
+      case dimensionUtils.DIMENSIONS_2D.vertical:
         return getWidth(d, i)
     }
   }
   const getNewItemInitialHeight = (d, i) => {
-    switch (singleGroupOptions.dimension) {
-      case DIMENSIONS.horizontal:
+    switch (singleGroupOptions.mainDimension) {
+      case dimensionUtils.DIMENSIONS_2D.horizontal:
         return getHeight(d, i)
-      case DIMENSIONS.vertical:
+      case dimensionUtils.DIMENSIONS_2D.vertical:
         return 0
     }
   }
 
-  const getTranslation = getItemTranslationFactory(singleGroupOptions, {
+  const getTranslation = barsUtils.getItemTranslationFactory(singleGroupOptions, {
     keyForWidth: 'width',
     keyForNaturalWidth: 'naturalWidth',
     componentName: 'Bars',
     getOriginPositionAtAxis (axisConfig) {
       return axisConfig.scale.axisScale(axisConfig.scale.valueForOrigin)
     },
-    getTranslationForNormalAxis: getTranslationForNormalAxisFactory(singleGroupOptions, {
+    getTranslationForNormalAxis: axisUtils.getTranslationForNormalAxisFactory(singleGroupOptions, {
       keyForNormalOffset: 'normalOffset',
       keyForNaturalNormalOffset: 'naturalNormalOffset'
     })
@@ -183,10 +198,10 @@ function renderSingleGroup (group, d3TipInstance, singleGroupOptions, globalOpti
     }, i)
     const translation = getTranslation(d, i)
 
-    switch (singleGroupOptions.dimension) {
-      case DIMENSIONS.horizontal:
+    switch (singleGroupOptions.mainDimension) {
+      case dimensionUtils.DIMENSIONS_2D.horizontal:
         return `translate(${translationForItemAtOrigin.x}, ${translation.y})`
-      case DIMENSIONS.vertical:
+      case dimensionUtils.DIMENSIONS_2D.vertical:
         return `translate(${translation.x}, ${translationForItemAtOrigin.y})`
     }
   }
@@ -198,10 +213,10 @@ function renderSingleGroup (group, d3TipInstance, singleGroupOptions, globalOpti
       [singleGroupOptions.axis.vertical.keyForValues]: singleGroupOptions.axis.vertical.scale.valueForOrigin
     }, i)
 
-    switch (singleGroupOptions.dimension) {
-      case DIMENSIONS.horizontal:
+    switch (singleGroupOptions.mainDimension) {
+      case dimensionUtils.DIMENSIONS_2D.horizontal:
         return previousTransform.replace(/(.*\s*translate\()[^,]*(,.*)/gi, `$1${translationForItemAtOrigin.x}$2`)
-      case DIMENSIONS.vertical:
+      case dimensionUtils.DIMENSIONS_2D.vertical:
         return previousTransform.replace(/(.*\s*translate\([^,]*,)[^)]*(\).*)/gi, `$1${translationForItemAtOrigin.y}$2`)
     }
   }
@@ -210,7 +225,7 @@ function renderSingleGroup (group, d3TipInstance, singleGroupOptions, globalOpti
     const defaultClasses = [
       singleBarBaseClass,
       `geo-chart-bar--${i}`,
-      `geo-chart-bar--${singleGroupOptions.dimension}`
+      `geo-chart-bar--${singleGroupOptions.mainDimension}`
     ]
 
     if (singleGroupOptions.cssClasses) {

@@ -25,51 +25,6 @@ duration of the animations.
 ```vue
 <template>
   <div class="element-demo">
-    <h3 class="element-demo__header">Empty chart</h3>
-    <div class="element-demo__block">
-      <geo-chart
-        :config="config"
-        debug
-      />
-    </div>
-  </div>
-</template>
-
-<script>
-const d3 = require('d3')
-const { DIMENSIONS: BARS_DIMENSIONS } = require('./GeoChartBars/GeoChartBars')
-const { SCALE_TYPES } = require('./GeoChartScale/GeoChartScale')
-
-export default {
-  name: 'GeoChartDemo',
-  computed: {
-    config () {
-      return {
-        axisGroups: [{
-          id: 'horizontal',
-          keyForValues: 'x',
-          position: {
-            type: 'left'
-          },
-          scale: {
-            type: 'linear',
-            valueForOrigin: 0,
-            domain: {
-              start: 0,
-              end: 100
-            }
-          }
-        }]
-      }
-    }
-  }
-}
-</script>
-```
-
-```vue
-<template>
-  <div class="element-demo">
     <h3 class="element-demo__header">Chart</h3>
     <div class="element-demo__block">
       <div class="element-demo__bordered-box" style="resize: both;">
@@ -191,9 +146,7 @@ export default {
 </template>
 
 <script>
-const d3 = require('d3')
-const { DIMENSIONS: BARS_DIMENSIONS } = require('./GeoChartBars/GeoChartBars')
-const { SCALE_TYPES } = require('./GeoChartScale/GeoChartScale')
+const CONSTANTS = require('./constants')
 
 export default {
   name: 'GeoChartDemo',
@@ -213,7 +166,7 @@ export default {
           end: 100
         },
         ticks: 10,
-        position: 'top'
+        position: CONSTANTS.AXIS.POSITIONS.top
       },
       verticalAxis: {
         domain: {
@@ -221,15 +174,14 @@ export default {
           end: 100
         },
         ticks: 10,
-        position: 'right'
+        position: CONSTANTS.AXIS.POSITIONS.right
       },
       debug: true
     }
   },
   computed: {
     POSITIONS () {
-      const { POSITIONS } = require('./GeoChartAxis/GeoChartAxis')
-      return POSITIONS
+      return CONSTANTS.AXIS.POSITIONS
     },
 
     heightInPx () {
@@ -255,7 +207,7 @@ export default {
           },
 
           scale: {
-            type: SCALE_TYPES.linear,
+            type: CONSTANTS.SCALES.SCALE_TYPES.linear,
             valueForOrigin: Math.max(this.horizontalAxis.domain.start, 0),
             domain: {
               start: this.horizontalAxis.domain.start,
@@ -277,7 +229,7 @@ export default {
           },
 
           scale: {
-            type: SCALE_TYPES.linear,
+            type: CONSTANTS.SCALES.SCALE_TYPES.linear,
             valueForOrigin: Math.max(this.verticalAxis.domain.start, 0),
             domain: {
               start: this.verticalAxis.domain.start,

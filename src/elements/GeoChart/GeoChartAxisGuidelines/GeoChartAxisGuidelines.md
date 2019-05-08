@@ -1,24 +1,26 @@
-Axes guidelines are lines that you might want to show in each tick of an axis to ease the viewing
-of a chart. Multiple guidelines can be shown associated to different axes, or even to an axis that
-is not being displayed in the chart.
+Axes guidelines are lines that you might want to show in each tick of an axis to
+ease the viewing of a chart. Multiple guidelines can be shown associated to
+different axes, or even to an axis that is not being displayed in the chart.
 
-To register axes guidelines in [`GeoChart`](./#/Elements/Charts?id=introduction), add an array
-as value of `guidelinesGroups` key in the config object. Each item of the array must be
-an object with the following...
+To register axes guidelines in [`GeoChart`](./#/Elements/Charts?id=introduction),
+add an array as value of `guidelinesGroups` key in the config object. Each item
+of the array must be an object with the following...
 
 ## Required properties
 
-Each **axis guidelines** **requires** only one of these properties:
+Each **axis guideline** **requires** only one of these properties:
 
 - `idAxis`: The ID of the axis where we want to show guidelines.
-- `axisConfig`: Axis config (see [axes config](./#/Elements/Charts?id=axes)) to create guidelines
-based on a new configuration instead of an existing axis on the chart.
+- `axisConfig`: Axis config (see [axes config](./#/Elements/Charts?id=axes)) to
+create guidelines based on a new configuration instead of an existing axis on
+the chart.
 
 ## Customizing CSS classes
 
-CSS classes added to the axis guidelines can be customized using `cssClasses` key. Its value
-should be a function which takes as parameter the classes that would be set by
-default. The function should return the CSS final classes you want for that axis guidelines.
+CSS classes added to the axis guidelines can be customized using `cssClasses` key.
+Its value should be a function which takes as parameter the classes that would be
+set by default. The function should return the CSS final classes you want for
+that axis guidelines.
 
 > **Note:** even though you can disable some default CSS classes, of of them are
 > required internally and will be added regardless what you return in the
@@ -26,13 +28,14 @@ default. The function should return the CSS final classes you want for that axis
 
 ## Customizing guidelines
 
-Guidelines can be customized in several ways. To do so, add a key `guidelines` to the axis
-guidelines config object. The value for that key must be an object with the following
-properties, all of them optional:
+Guidelines can be customized in several ways. To do so, add a key `guidelines`
+to the axis guidelines config object. The value for that key must be an object
+with the following properties, all of them optional:
 
-- `count`: to customize the amount of guidelines displayed. Must be an integer number.
-- `outerLines`: boolean that indicates whether to show guidelines at the edges of the
-domain.
+- `count`: to customize the amount of guidelines displayed. Must be an integer
+number.
+- `outerLines`: boolean that indicates whether to show guidelines at the edges
+of the domain.
 
 ```vue
 <template>
@@ -53,9 +56,7 @@ domain.
 </template>
 
 <script>
-const d3 = require('d3')
-const { DIMENSIONS: BARS_DIMENSIONS } = require('../GeoChartBars/GeoChartBars')
-const { SCALE_TYPES } = require('../GeoChartScale/GeoChartScale')
+const CONSTANTS = require('../constants')
 
 export default {
   name: 'GeoChartAxisDemo',
@@ -65,11 +66,6 @@ export default {
     }
   },
   computed: {
-    POSITIONS () {
-      const { POSITIONS } = require('../GeoChartAxis/GeoChartAxis')
-      return POSITIONS
-    },
-
     categoricalDomain () {
       return _.times(5, i => `Category ${i}`)
     },
@@ -90,10 +86,10 @@ export default {
           count: 10
         },
         position: {
-          type: this.POSITIONS.left
+          type: CONSTANTS.AXIS.POSITIONS.left
         },
         scale: {
-          type: SCALE_TYPES.linear,
+          type: CONSTANTS.SCALES.SCALE_TYPES.linear,
           valueForOrigin: _.clamp(0, this.linearDomain.start, this.linearDomain.end),
           domain: this.linearDomain
         }
@@ -108,12 +104,12 @@ export default {
         id: 'demo-categorical-anchored-axis',
         keyForValues: 'category',
         position: {
-          type: this.POSITIONS.anchoredToAxis,
+          type: CONSTANTS.AXIS.POSITIONS.anchoredToAxis,
           value: this.anchoredToValue,
           relativeToAxis: this.linearAxisConfig.id
         },
         scale: {
-          type: SCALE_TYPES.categorical,
+          type: CONSTANTS.SCALES.SCALE_TYPES.categorical,
           valueForOrigin: _.first(this.categoricalDomain),
           domain: this.categoricalDomain,
           padding: {
@@ -237,9 +233,7 @@ export default {
 </template>
 
 <script>
-const d3 = require('d3')
-const { DIMENSIONS: BARS_DIMENSIONS } = require('../GeoChartBars/GeoChartBars')
-const { SCALE_TYPES } = require('../GeoChartScale/GeoChartScale')
+const CONSTANTS = require('../constants')
 
 export default {
   name: 'GeoChartAxisDemo',
@@ -253,11 +247,6 @@ export default {
     }
   },
   computed: {
-    POSITIONS () {
-      const { POSITIONS } = require('../GeoChartAxis/GeoChartAxis')
-      return POSITIONS
-    },
-
     categoricalDomain () {
       return _.times(5, i => `Category ${i}`)
     },
@@ -278,10 +267,10 @@ export default {
           count: 10
         },
         position: {
-          type: this.POSITIONS.left
+          type: CONSTANTS.AXIS.POSITIONS.left
         },
         scale: {
-          type: SCALE_TYPES.linear,
+          type: CONSTANTS.SCALES.SCALE_TYPES.linear,
           valueForOrigin: _.clamp(0, this.linearDomain.start, this.linearDomain.end),
           domain: this.linearDomain
         }
@@ -296,12 +285,12 @@ export default {
         id: 'demo-categorical-anchored-axis',
         keyForValues: 'category',
         position: {
-          type: this.POSITIONS.anchoredToAxis,
+          type: CONSTANTS.AXIS.POSITIONS.anchoredToAxis,
           value: this.anchoredToValue,
           relativeToAxis: this.linearAxisConfig.id
         },
         scale: {
-          type: SCALE_TYPES.categorical,
+          type: CONSTANTS.SCALES.SCALE_TYPES.categorical,
           valueForOrigin: _.first(this.categoricalDomain),
           domain: this.categoricalDomain,
           padding: {
@@ -402,9 +391,7 @@ export default {
 </template>
 
 <script>
-const d3 = require('d3')
-const { DIMENSIONS: BARS_DIMENSIONS } = require('../GeoChartBars/GeoChartBars')
-const { SCALE_TYPES } = require('../GeoChartScale/GeoChartScale')
+const CONSTANTS = require('../constants')
 
 export default {
   name: 'GeoChartAxisDemo',
@@ -414,11 +401,6 @@ export default {
     }
   },
   computed: {
-    POSITIONS () {
-      const { POSITIONS } = require('../GeoChartAxis/GeoChartAxis')
-      return POSITIONS
-    },
-
     categoricalDomain () {
       return _.times(5, i => `Category ${i}`)
     },
@@ -439,10 +421,10 @@ export default {
           count: 10
         },
         position: {
-          type: this.POSITIONS.left
+          type: CONSTANTS.AXIS.POSITIONS.left
         },
         scale: {
-          type: SCALE_TYPES.linear,
+          type: CONSTANTS.SCALES.SCALE_TYPES.linear,
           valueForOrigin: _.clamp(0, this.linearDomain.start, this.linearDomain.end),
           domain: this.linearDomain
         }
@@ -457,12 +439,12 @@ export default {
         id: 'demo-categorical-anchored-axis',
         keyForValues: 'category',
         position: {
-          type: this.POSITIONS.anchoredToAxis,
+          type: CONSTANTS.AXIS.POSITIONS.anchoredToAxis,
           value: this.anchoredToValue,
           relativeToAxis: this.linearAxisConfig.id
         },
         scale: {
-          type: SCALE_TYPES.categorical,
+          type: CONSTANTS.SCALES.SCALE_TYPES.categorical,
           valueForOrigin: _.first(this.categoricalDomain),
           domain: this.categoricalDomain,
           padding: {

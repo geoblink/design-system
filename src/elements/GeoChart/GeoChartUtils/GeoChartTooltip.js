@@ -7,13 +7,43 @@ const d3 = (function () {
 })()
 
 /**
+ * @template GElement
+ * @template Datum
+ * @template PElement
+ * @template PDatum
+ * @typedef {import('d3').Selection<GElement, Datum, PElement, PDatum>} d3.Selection
+ */
+
+/**
+ * @template GElement
+ * @template Datum
+ * @typedef {import('d3').ValueFn<GElement, Datum, void>} d3.ValueFn
+ */
+
+/**
+ * @template GElement
+ * @template Datum
+ * @template PElement
+ * @template PDatum
+ * @typedef {Object} d3.Tooltip<GElement, Datum, PElement, PDatum>
+ * @property {d3.ValueFn<GElement, Datum>} show
+ * @property {d3.ValueFn<GElement, Datum>} hide
+ * @property {Function} offset
+ * @property {Function} html
+ */
+
+/**
  * Sets up `d3TipInstance` to be displayed when `d3Element` is hovered.
  *
  * **Note:** If `d3TipInstance` or `getHTMLCode` are falsy, events set by a
  * previous call to this method with the same `d3Element` will be removed.
  *
+ * @template GElement
+ * @template Datum
+ * @template PElement
+ * @template PDatum
  * @param {d3.Selection<GElement, Datum, PElement, PDatum>} d3Element
- * @param {d3.Selection<GElement, Datum, PElement, PDatum>} [d3TipInstance]
+ * @param {d3.Tooltip<GElement, Datum, PElement, PDatum>} [d3TipInstance]
  * @param {object} [tooltipConfig]
  * @param {Function} tooltipConfig.getContent Function taking as parameters an
  * object and its positions in the data source and returning tooltip HTML code
@@ -33,7 +63,11 @@ export function setupTooltipEventListeners (d3Element, d3TipInstance, tooltipCon
 /**
  * Registers event listeners required to show tooltips when hovering element.
  *
- * @param {d3.Selection<GElement, Datum, PElement, PDatum>} d3TipInstance
+ * @template GElement
+ * @template Datum
+ * @template PElement
+ * @template PDatum
+ * @param {d3.Tooltip<GElement, Datum, PElement, PDatum>} d3TipInstance
  * @param {d3.Selection<GElement, Datum, PElement, PDatum>} d3Element
  * @param {object} [tooltipConfig]
  * @param {Function} tooltipConfig.getContent Function taking as parameters an
@@ -78,6 +112,10 @@ function getDefaultTooltipOffset () {
 /**
  * Cleans up previously set d3Tip-related event listeners.
  *
+ * @template GElement
+ * @template Datum
+ * @template PElement
+ * @template PDatum
  * @param {d3.Selection<GElement, Datum, PElement, PDatum>} d3Element
  */
 function removeD3TipEvents (d3Element) {
@@ -92,10 +130,12 @@ function removeD3TipEvents (d3Element) {
  * tooltip's content while avoiding boilerplate to style it up to look like a
  * `vue-directive-tooltip`.
  *
+ * @template GElement
+ * @template Datum
  * @param {Function} getHTMLCode Function taking as parameters an object and its
  * positions in the data source and returning tooltip HTML code to be rendered
  * when hovering its value in the chart.
- * @returns {Function} `d3Tip.html()`-compatible function.
+ * @returns {import('d3').ValueFn<GElement, Datum, string>} `d3Tip.html()`-compatible function.
  */
 function getTooltipHTMLEmbeddingFactory (getHTMLCode) {
   return function (d, i) {

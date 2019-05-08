@@ -36,11 +36,11 @@ export default {
         return {
           id: index,
           axis,
-          lineData: singleLineGroupsConfig.lineData,
+          data: singleLineGroupsConfig.data,
           lineWidth: singleLineGroupsConfig.lineWidth,
           hoverCircleRadius: singleLineGroupsConfig.hoverCircleRadius,
           interpolationFn: singleLineGroupsConfig.interpolationFn,
-          dimension: singleLineGroupsConfig.dimension,
+          mainDimension: singleLineGroupsConfig.mainDimension,
           tooltip: tooltipConfig,
           cssClasses: singleLineGroupsConfig.cssClasses,
           groupKey: singleLineGroupsConfig.groupKey

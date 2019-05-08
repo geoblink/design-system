@@ -1,16 +1,11 @@
-/// <reference types="d3" />
+/// <reference path="../GeoChart.d.ts" />
 
 import _ from 'lodash'
 
-import {
-  DIMENSIONS
-} from '../GeoChartAxis/GeoChartAxis'
-import {
-  isDimensionAxis,
-  isForced
-} from '../GeoChartUtils/barsUtils'
-
-import { setTextContent } from '../GeoChartUtils/textUtils'
+import * as axisUtils from '../GeoChartUtils/axisUtils'
+import * as dimensionUtils from '../GeoChartUtils/dimensionUtils'
+import * as numericUtils from '../GeoChartUtils/numericUtils'
+import * as textUtils from '../GeoChartUtils/textUtils'
 
 const d3 = (function () {
   try {
@@ -21,17 +16,27 @@ const d3 = (function () {
 })()
 
 /**
- * @enum {GeoChart.AnchorPosition}
+ * @template GElement
+ * @template Datum
+ * @template PElement
+ * @template PDatum
+ * @typedef {import('d3').Selection<GElement, Datum, PElement, PDatum>} d3.Selection
  */
-export const ANCHOR_POSITIONS = {
-  leading: 'leading',
-  trailing: 'trailing'
-}
 
+/**
+ * @template HorizontalDomain
+ * @template VerticalDomain
+ * @param {Object} d
+ * @param {number} i
+ * @param {Object} params
+ * @param {GeoChart.Size} params.size
+ * @param {number} params.shapeOffsetFromAxis
+ * @param {GeoChart.SingleAnchoredShapesGroupConfig<HorizontalDomain, VerticalDomain>} params.singleGroupOptions
+ */
 export const getTriangleShapePath = (d, i, { size, shapeOffsetFromAxis, singleGroupOptions }) => {
   const shapeAnchorPosition = singleGroupOptions.getAnchorPosition(d, i)
   const { width, height } = size
-  const sign = shapeAnchorPosition === ANCHOR_POSITIONS.leading ? -1 : 1
+  const sign = shapeAnchorPosition === dimensionUtils.ANCHOR_POSITIONS_1D.leading ? -1 : 1
   return [
     `${width / 2} ${sign * (height + shapeOffsetFromAxis)}`,
     `-${width / 2} ${sign * (height + shapeOffsetFromAxis)}`,
@@ -47,8 +52,8 @@ export const getTriangleShapePath = (d, i, { size, shapeOffsetFromAxis, singleGr
  * @template HorizontalDomain
  * @template VerticalDomain
  * @param {d3.Selection<GElement, Datum, PElement, PDatum>} d3Instance
- * @param {Array<GeoChart.singleAnchoredShapesGroupsConfig<HorizontalDomain, VerticalDomain>>} options
- * @param {GeoChart.AnchoredShapesGroupsGlobalConfig} globalOptions
+ * @param {Array<GeoChart.SingleAnchoredShapesGroupConfig<HorizontalDomain, VerticalDomain>>} options
+ * @param {GeoChart.GlobalOptions} globalOptions
  */
 export function render (d3Instance, options, globalOptions) {
   const groups = d3Instance
@@ -59,7 +64,7 @@ export function render (d3Instance, options, globalOptions) {
     .enter()
     .append('g')
     .attr('class', (singleGroupOptions, i) =>
-      `geo-chart-anchored-shapes-group geo-chart-anchored-shapes-group--${singleGroupOptions.id} geo-chart-anchored-shapes-group--${singleGroupOptions.dimension}`
+      `geo-chart-anchored-shapes-group geo-chart-anchored-shapes-group--${singleGroupOptions.id} geo-chart-anchored-shapes-group--${singleGroupOptions.mainDimension}`
     )
 
   const updatedGroups = groups
@@ -86,21 +91,21 @@ export function render (d3Instance, options, globalOptions) {
  * @template HorizontalDomain
  * @template VerticalDomain
  * @param {d3.Selection<GElement, Datum, PElement, PDatum>} group
- * @param {GeoChart.singleAnchoredShapesGroupsConfig<HorizontalDomain, VerticalDomain>} singleGroupOptions
- * @param {GeoChart.AnchoredShapesGroupsGlobalConfig} globalOptions
+ * @param {GeoChart.SingleAnchoredShapesGroupConfig<HorizontalDomain, VerticalDomain>} singleGroupOptions
+ * @param {GeoChart.GlobalOptions} globalOptions
  */
 function renderSingleGroup (group, singleGroupOptions, globalOptions) {
-  const axisForNormalDimension = isDimensionAxis(singleGroupOptions.axis.horizontal, singleGroupOptions)
+  const axisForNormalDimension = axisUtils.isMainDimensionAxis(singleGroupOptions.axis.horizontal, singleGroupOptions)
     ? singleGroupOptions.axis.vertical
     : singleGroupOptions.axis.horizontal
 
-  const axisForDimension = isDimensionAxis(singleGroupOptions.axis.horizontal, singleGroupOptions)
+  const axisForMainDimension = axisUtils.isMainDimensionAxis(singleGroupOptions.axis.horizontal, singleGroupOptions)
     ? singleGroupOptions.axis.horizontal
     : singleGroupOptions.axis.vertical
 
   const shapeTextGroup = group
     .selectAll('g.geo-chart-anchored-shapes-group__shape-text-element')
-    .data(singleGroupOptions.shapeData, singleGroupOptions.trackByKey)
+    .data(singleGroupOptions.data, singleGroupOptions.trackByKey)
 
   const newShapeTextGroup = shapeTextGroup
     .enter()
@@ -114,12 +119,12 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions) {
   const allShapeTextGroup = newShapeTextGroup.merge(updatedShapeTextGroup)
 
   renderAnchoredShapes(newShapeTextGroup, allShapeTextGroup, singleGroupOptions, globalOptions, {
-    axisForDimension,
+    axisForMainDimension,
     axisForNormalDimension
   })
 
   renderAnchoredTexts(newShapeTextGroup, allShapeTextGroup, singleGroupOptions, globalOptions, {
-    axisForDimension,
+    axisForMainDimension,
     axisForNormalDimension
   })
 
@@ -131,13 +136,29 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions) {
     .remove()
 }
 
+/**
+ * @template GElement
+ * @template PElement
+ * @template PDatum
+ * @template HorizontalDomain
+ * @template VerticalDomain
+ * @template MainDimensionDomain
+ * @template NormalDimensionDomain
+ * @param {d3.Selection<GElement, Object, PElement, PDatum>} newAnchoredShapesContainer
+ * @param {d3.Selection<GElement, Object, PElement, PDatum>} allAnchoredShapesContainer
+ * @param {GeoChart.SingleAnchoredShapesGroupConfig<HorizontalDomain, VerticalDomain>} singleGroupOptions
+ * @param {GeoChart.GlobalOptions} globalOptions
+ * @param {Object} params
+ * @param {GeoChart.AxisConfig<MainDimensionDomain, any>} params.axisForMainDimension
+ * @param {GeoChart.AxisConfig<NormalDimensionDomain, any>} params.axisForNormalDimension
+ */
 function renderAnchoredShapes (newAnchoredShapesContainer, allAnchoredShapesContainer, singleGroupOptions, globalOptions, {
-  axisForDimension,
+  axisForMainDimension,
   axisForNormalDimension
 }) {
-  if (singleGroupOptions.dimension === DIMENSIONS.vertical) {
+  if (singleGroupOptions.mainDimension === dimensionUtils.DIMENSIONS_2D.vertical) {
     // TODO: Add vertical behaviour to position text labels
-    throw new Error('GeoChart (Anchored Shapes) [component] :: Anchored shapes are not supported for vertical dimensions. If you want to display labels together with shapes, set dimension to «Horizontal» in your chart config.')
+    throw new Error('GeoChart (Anchored Shapes) [component] :: Anchored shapes are not supported for vertical main dimensions. If you want to display labels together with shapes, set main dimension to «horizontal» in your chart config.')
   }
   const anchoredShapesBaseClass = 'geo-chart-anchored-shapes__shape-element'
   const shapeOffsetFromAxis = getTranslationOffsetForNormalAxis(axisForNormalDimension, singleGroupOptions, globalOptions, {
@@ -149,7 +170,7 @@ function renderAnchoredShapes (newAnchoredShapesContainer, allAnchoredShapesCont
     .append('polygon')
     .attr('class', getAnchoredShapesStopsCssClasses)
     .attr('points', (d, i) => {
-      const size = singleGroupOptions.getShapeSize()
+      const size = singleGroupOptions.getShapeSize(d, i)
       return singleGroupOptions.getShapePath(d, i, {
         size, shapeOffsetFromAxis, singleGroupOptions
       })
@@ -162,7 +183,7 @@ function renderAnchoredShapes (newAnchoredShapesContainer, allAnchoredShapesCont
     .transition()
     .duration(globalOptions.chart.animationsDurationInMilliseconds)
     .attr('points', (d, i) => {
-      const size = singleGroupOptions.getShapeSize()
+      const size = singleGroupOptions.getShapeSize(d, i)
       return singleGroupOptions.getShapePath(d, i, {
         size, shapeOffsetFromAxis, singleGroupOptions
       })
@@ -170,35 +191,35 @@ function renderAnchoredShapes (newAnchoredShapesContainer, allAnchoredShapesCont
     .attr('transform', getAnchoredShapesTransform)
 
   function getAnchoredShapesTransform (d, i) {
-    const dimensionTranslation = axisForDimension.scale.axisScale(d[axisForDimension.keyForValues])
+    const dimensionTranslation = axisForMainDimension.scale.axisScale(d[axisForMainDimension.keyForValues])
     const normalDimensionTranslation = axisForNormalDimension.scale.axisScale(singleGroupOptions.normalValue)
     const translationForDimension = {
-      [DIMENSIONS.horizontal]: {
+      [dimensionUtils.DIMENSIONS_2D.horizontal]: {
         x: dimensionTranslation,
         y: normalDimensionTranslation
       },
-      [DIMENSIONS.vertical]: {
+      [dimensionUtils.DIMENSIONS_2D.vertical]: {
         x: normalDimensionTranslation,
         y: dimensionTranslation
       }
     }
-    const translation = translationForDimension[singleGroupOptions.dimension]
+    const translation = translationForDimension[singleGroupOptions.mainDimension]
     return `translate(${translation.x}, ${translation.y})`
   }
 
   function getAnchoredShapesInitialTransform (d, i) {
     const normalDimensionTranslation = axisForNormalDimension.scale.axisScale(singleGroupOptions.normalValue)
     const translationForDimension = {
-      [DIMENSIONS.horizontal]: {
+      [dimensionUtils.DIMENSIONS_2D.horizontal]: {
         x: 0,
         y: normalDimensionTranslation
       },
-      [DIMENSIONS.vertical]: {
+      [dimensionUtils.DIMENSIONS_2D.vertical]: {
         x: normalDimensionTranslation,
         y: 0
       }
     }
-    const translation = translationForDimension[singleGroupOptions.dimension]
+    const translation = translationForDimension[singleGroupOptions.mainDimension]
     return `translate(${translation.x}, ${translation.y})`
   }
 
@@ -206,7 +227,7 @@ function renderAnchoredShapes (newAnchoredShapesContainer, allAnchoredShapesCont
     const defaultClasses = [
       anchoredShapesBaseClass,
       `geo-chart-anchored-shapes__shape-element--${i}`,
-      `geo-chart-anchored-shapes__shape-element--${singleGroupOptions.dimension}`
+      `geo-chart-anchored-shapes__shape-element--${singleGroupOptions.mainDimension}`
     ]
 
     if (singleGroupOptions.cssClasses) {
@@ -218,12 +239,28 @@ function renderAnchoredShapes (newAnchoredShapesContainer, allAnchoredShapesCont
   }
 }
 
+/**
+ * @template GElement
+ * @template PElement
+ * @template PDatum
+ * @template HorizontalDomain
+ * @template VerticalDomain
+ * @template MainDimensionDomain
+ * @template NormalDimensionDomain
+ * @param {d3.Selection<GElement, Object, PElement, PDatum>} newAnchoredShapesContainer
+ * @param {d3.Selection<GElement, Object, PElement, PDatum>} allAnchoredShapesContainer
+ * @param {GeoChart.SingleAnchoredShapesGroupConfig<HorizontalDomain, VerticalDomain>} singleGroupOptions
+ * @param {GeoChart.GlobalOptions} globalOptions
+ * @param {Object} params
+ * @param {GeoChart.AxisConfig<MainDimensionDomain, any>} params.axisForMainDimension
+ * @param {GeoChart.AxisConfig<NormalDimensionDomain, any>} params.axisForNormalDimension
+ */
 function renderAnchoredTexts (newAnchoredShapesContainer, allAnchoredShapesContainer, singleGroupOptions, globalOptions, {
-  axisForDimension,
+  axisForMainDimension,
   axisForNormalDimension
 }) {
   if (!_.isFunction(_.get(singleGroupOptions, 'text.content'))) return
-  if (singleGroupOptions.dimension === DIMENSIONS.vertical) {
+  if (singleGroupOptions.mainDimension === dimensionUtils.DIMENSIONS_2D.vertical) {
     // TODO: Add vertical behaviour to position text labels
     throw new Error('GeoChart (Anchored Shapes) [component] :: Anchored texts are not supported for vertical dimensions. If you want to display labels together with shapes, set dimension to «Horizontal» in your chart config.')
   }
@@ -233,17 +270,20 @@ function renderAnchoredTexts (newAnchoredShapesContainer, allAnchoredShapesConta
     keyForNaturalNormalOffset: 'naturalNormalOffset'
   })
 
-  const anchoredTexts = newAnchoredShapesContainer
+  const newAnchoredTexts = newAnchoredShapesContainer
     .append('text')
     .attr('class', getAnchoredTextsStopsCssClasses)
     .attr('dominant-baseline', 'central')
     .attr('transform', getRankingLineInitialTransform)
     .attr('opacity', 0)
-
-  setTextContent(anchoredTexts, singleGroupOptions.text, globalOptions)
-
-  allAnchoredShapesContainer
+  const updatedAnchoredTexts = allAnchoredShapesContainer
     .select(`text.${anchoredTextsBaseClass}`)
+  const allAnchoredTexts = newAnchoredTexts
+    .merge(updatedAnchoredTexts)
+
+  textUtils.setTextContent(allAnchoredTexts, singleGroupOptions.text, globalOptions)
+
+  allAnchoredTexts
     .attr('class', getAnchoredTextsStopsCssClasses)
     .transition()
     .duration(globalOptions.chart.animationsDurationInMilliseconds)
@@ -278,8 +318,8 @@ function renderAnchoredTexts (newAnchoredShapesContainer, allAnchoredShapesConta
     let trailingDimensionTranslation
     const normalDimensionTranslation = axisForNormalDimension.scale.axisScale(singleGroupOptions.normalValue)
     const shapeAnchorPosition = singleGroupOptions.getAnchorPosition(d, i)
-    const shapeSize = singleGroupOptions.getShapeSize()
-    if (shapeAnchorPosition === ANCHOR_POSITIONS.leading) {
+    const shapeSize = singleGroupOptions.getShapeSize(d, i)
+    if (shapeAnchorPosition === dimensionUtils.ANCHOR_POSITIONS_1D.leading) {
       trailingDimensionTranslation = normalDimensionTranslation - (shapeOffsetFromAxis + shapeSize.height * 2)
     } else {
       trailingDimensionTranslation = normalDimensionTranslation + (shapeOffsetFromAxis + shapeSize.height / 2)
@@ -290,13 +330,13 @@ function renderAnchoredTexts (newAnchoredShapesContainer, allAnchoredShapesConta
   function getLeadingDimensionTranslation (d, i, width) {
     let leadingDimensionTranslation
     const chartInnerWidth = globalOptions.chart.size.width - globalOptions.chart.margin.left - globalOptions.chart.margin.right
-    const dimensionTranslation = axisForDimension.scale.axisScale(d[axisForDimension.keyForValues])
+    const dimensionTranslation = axisForMainDimension.scale.axisScale(d[axisForMainDimension.keyForValues])
     const isLabelTooLong = dimensionTranslation + width > chartInnerWidth
     const labelOffset = isLabelTooLong ? width : 0
     const hSign = isLabelTooLong ? 1 : -1
     const shapeAnchorPosition = singleGroupOptions.getAnchorPosition(d, i)
-    const shapeSize = singleGroupOptions.getShapeSize()
-    if (shapeAnchorPosition === ANCHOR_POSITIONS.leading) {
+    const shapeSize = singleGroupOptions.getShapeSize(d, i)
+    if (shapeAnchorPosition === dimensionUtils.ANCHOR_POSITIONS_1D.leading) {
       leadingDimensionTranslation = dimensionTranslation - labelOffset + hSign * shapeSize.width
     } else {
       leadingDimensionTranslation = dimensionTranslation - labelOffset - hSign * shapeSize.width
@@ -308,7 +348,7 @@ function renderAnchoredTexts (newAnchoredShapesContainer, allAnchoredShapesConta
     const defaultClasses = [
       anchoredTextsBaseClass,
       `geo-chart-anchored-shapes__text-element--${i}`,
-      `geo-chart-anchored-shapes__text-element--${singleGroupOptions.dimension}`
+      `geo-chart-anchored-shapes__text-element--${singleGroupOptions.mainDimension}`
     ]
 
     if (singleGroupOptions.cssClasses) {
@@ -320,12 +360,24 @@ function renderAnchoredTexts (newAnchoredShapesContainer, allAnchoredShapesConta
   }
 }
 
+/**
+ * @template Domain
+ * @template RelativeScaleDomain
+ * @template HorizontalDomain
+ * @template VerticalDomain
+ * @param {GeoChart.AxisConfig<Domain, RelativeScaleDomain>} normalAxis
+ * @param {GeoChart.SingleAnchoredShapesGroupConfig<HorizontalDomain, VerticalDomain>} options
+ * @param {GeoChart.GlobalOptions} globalOptions
+ * @param {Object} params
+ * @param {string} params.keyForNormalOffset
+ * @param {string} params.keyForNaturalNormalOffset
+ */
 function getTranslationOffsetForNormalAxis (normalAxis, options, globalOptions, {
   keyForNormalOffset,
   keyForNaturalNormalOffset
 }) {
-  const isNormalOffsetForced = isForced(options, keyForNormalOffset)
-  const isNaturalNormalOffsetForced = isForced(options, keyForNaturalNormalOffset)
+  const isNormalOffsetForced = numericUtils.isNumberForced(options, keyForNormalOffset)
+  const isNaturalNormalOffsetForced = numericUtils.isNumberForced(options, keyForNaturalNormalOffset)
 
   if (isNormalOffsetForced) {
     return options[keyForNormalOffset]
