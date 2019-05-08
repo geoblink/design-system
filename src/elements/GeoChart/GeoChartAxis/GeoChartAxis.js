@@ -111,9 +111,7 @@ function renderSingleAxis (group, singleAxisOptions, globalAxesConfig) {
     : [...forcedTickCSSClasses, ...defaultTickCSSClasses].join(' ')
 
   const labelContent = _.get(singleAxisOptions, 'label.content')
-  const labelData = !_.isNil(labelContent)
-    ? [labelContent]
-    : []
+  const labelData = _.filter([labelContent], d => _.isNil(d))
 
   if (labelData.length) {
     const labels = group
