@@ -29,10 +29,10 @@ describe('GeoChartLine', () => {
           count: 2
         },
         position: {
-          type: GeoChart.constants.POSITIONS.left
+          type: GeoChart.constants.AXIS.POSITIONS.left
         },
         scale: {
-          type: GeoChart.constants.SCALE_TYPES.linear,
+          type: GeoChart.constants.SCALES.SCALE_TYPES.linear,
           valueForOrigin: 0,
           domain: {
             start: 0,
@@ -45,10 +45,10 @@ describe('GeoChartLine', () => {
         id: 'demo-numerical-axis',
         keyForValues: 'x',
         position: {
-          type: GeoChart.constants.POSITIONS.bottom
+          type: GeoChart.constants.AXIS.POSITIONS.bottom
         },
         scale: {
-          type: GeoChart.constants.SCALE_TYPES.linear,
+          type: GeoChart.constants.SCALES.SCALE_TYPES.linear,
           valueForOrigin: 0,
           domain: {
             start: 0,
@@ -65,10 +65,10 @@ describe('GeoChartLine', () => {
           count: 2
         },
         position: {
-          type: GeoChart.constants.POSITIONS.bottom
+          type: GeoChart.constants.AXIS.POSITIONS.bottom
         },
         scale: {
-          type: GeoChart.constants.SCALE_TYPES.linear,
+          type: GeoChart.constants.SCALES.SCALE_TYPES.linear,
           valueForOrigin: 0,
           domain: {
             start: 0,
@@ -81,10 +81,10 @@ describe('GeoChartLine', () => {
         id: 'demo-numerical-axis',
         keyForValues: 'y',
         position: {
-          type: GeoChart.constants.POSITIONS.left
+          type: GeoChart.constants.AXIS.POSITIONS.left
         },
         scale: {
-          type: GeoChart.constants.SCALE_TYPES.linear,
+          type: GeoChart.constants.SCALES.SCALE_TYPES.linear,
           valueForOrigin: 0,
           domain: {
             start: 0,
@@ -103,10 +103,10 @@ describe('GeoChartLine', () => {
           count: 2
         },
         position: {
-          type: GeoChart.constants.POSITIONS.left
+          type: GeoChart.constants.AXIS.POSITIONS.left
         },
         scale: {
-          type: GeoChart.constants.SCALE_TYPES.linear,
+          type: GeoChart.constants.SCALES.SCALE_TYPES.linear,
           valueForOrigin: 0,
           domain: {
             start: 0,
@@ -119,10 +119,10 @@ describe('GeoChartLine', () => {
         id: 'spec-categorical-axis',
         keyForValues: 'category',
         position: {
-          type: GeoChart.constants.POSITIONS.bottom
+          type: GeoChart.constants.AXIS.POSITIONS.bottom
         },
         scale: {
-          type: GeoChart.constants.SCALE_TYPES.categorical,
+          type: GeoChart.constants.SCALES.SCALE_TYPES.categorical,
           valueForOrigin: 'Category 0',
           domain: _.times(5, (i) => `Category ${i}`)
         }
@@ -136,10 +136,10 @@ describe('GeoChartLine', () => {
           count: 2
         },
         position: {
-          type: GeoChart.constants.POSITIONS.bottom
+          type: GeoChart.constants.AXIS.POSITIONS.bottom
         },
         scale: {
-          type: GeoChart.constants.SCALE_TYPES.linear,
+          type: GeoChart.constants.SCALES.SCALE_TYPES.linear,
           valueForOrigin: 0,
           domain: {
             start: 0,
@@ -152,10 +152,10 @@ describe('GeoChartLine', () => {
         id: 'spec-categorical-axis',
         keyForValues: 'category',
         position: {
-          type: GeoChart.constants.POSITIONS.left
+          type: GeoChart.constants.AXIS.POSITIONS.left
         },
         scale: {
-          type: GeoChart.constants.SCALE_TYPES.categorical,
+          type: GeoChart.constants.SCALES.SCALE_TYPES.categorical,
           valueForOrigin: 'Category 0',
           domain: _.times(5, (i) => `Category ${i}`)
         }
@@ -199,7 +199,7 @@ describe('GeoChartLine', () => {
           }), axisNumericalDimensions[dimension].numericalAxisConfig.keyForValues)
         }
         switch (dimension) {
-          case GeoChart.constants.BARS_DIMENSIONS.horizontal:
+          case GeoChart.constants.DIMENSIONS.DIMENSIONS_2D.horizontal:
             testDimension({
               dimension,
               verticalAxis: linearAxisConfig,
@@ -210,7 +210,7 @@ describe('GeoChartLine', () => {
               getLineData
             })
             break
-          case GeoChart.constants.BARS_DIMENSIONS.vertical:
+          case GeoChart.constants.DIMENSIONS.DIMENSIONS_2D.vertical:
             testDimension({
               dimension,
               verticalAxis: numericalAxisConfig,
@@ -239,7 +239,7 @@ describe('GeoChartLine', () => {
           })
         }
         switch (dimension) {
-          case GeoChart.constants.BARS_DIMENSIONS.horizontal:
+          case GeoChart.constants.DIMENSIONS.DIMENSIONS_2D.horizontal:
             testDimension({
               dimension,
               verticalAxis: linearAxisConfig,
@@ -251,7 +251,7 @@ describe('GeoChartLine', () => {
               hasCategoricalAxis: true
             })
             break
-          case GeoChart.constants.BARS_DIMENSIONS.vertical:
+          case GeoChart.constants.DIMENSIONS.DIMENSIONS_2D.vertical:
             testDimension({
               dimension,
               verticalAxis: categoricalAxisConfig,
@@ -306,16 +306,15 @@ describe('GeoChartLine', () => {
           horizontalAxis
         ],
         lineGroups: [{
-          lineData: lineData,
-          dimension: dimension,
+          data: lineData,
+          mainDimension: dimension,
           idVerticalAxis: idVerticalAxis,
           idHorizontalAxis: idHorizontalAxis,
           cssClasses: cssClassFn,
-          trackByKey (d) {
-            return d.id
-          }
+          groupKey: 'first-group'
         }]
       }
+
       it('Should render one line', () => {
         const wrapper = mount(GeoChart, {
           propsData: {
@@ -329,8 +328,9 @@ describe('GeoChartLine', () => {
         expect(wrapper.findAll('.geo-chart-line-element')).toHaveLength(linesConfig.lineGroups.length)
         wrapper.destroy()
       })
+
       it('Line with no data', () => {
-        linesConfig.lineGroups[0].lineData = []
+        linesConfig.lineGroups[0].data = []
         const wrapper = mount(GeoChart, {
           propsData: {
             config: linesConfig
@@ -344,6 +344,7 @@ describe('GeoChartLine', () => {
         expect(wrapper.find('.geo-chart-line-element').attributes('d')).toBe(undefined)
         wrapper.destroy()
       })
+
       it('Should update data', () => {
         const wrapper = mount(GeoChart, {
           propsData: {
@@ -361,7 +362,7 @@ describe('GeoChartLine', () => {
         const lineData2 = getLineData()
 
         const linesConfig2 = _.assign({}, linesConfig)
-        linesConfig2.lineGroups[0].lineData = lineData2
+        linesConfig2.lineGroups[0].data = lineData2
 
         wrapper.setProps({
           config: linesConfig2
@@ -375,11 +376,12 @@ describe('GeoChartLine', () => {
         expect(pathD).not.toEqual(pathD2)
         wrapper.destroy()
       })
+
       it('Should render several lines', () => {
         const secondLineData = getLineData()
         linesConfig.lineGroups[1] = {
-          lineData: secondLineData,
-          dimension: dimension,
+          data: secondLineData,
+          mainDimension: dimension,
           idVerticalAxis: idVerticalAxis,
           idHorizontalAxis: idHorizontalAxis
         }
@@ -395,6 +397,7 @@ describe('GeoChartLine', () => {
         expect(wrapper.findAll('.geo-chart-line-element')).toHaveLength(linesConfig.lineGroups.length)
         wrapper.destroy()
       })
+
       describe('FocusGroup', () => {
         it('Should display the focus group', () => {
           const wrapper = mount(GeoChart, {
@@ -455,10 +458,10 @@ describe('GeoChartLine', () => {
               return [endChartCoords, endChartCoords]
             }
           })
-          linesConfig.lineGroups[0].lineData = lineData1
+          linesConfig.lineGroups[0].data = lineData1
           linesConfig.lineGroups[1] = {
-            lineData: lineData2,
-            dimension: dimension,
+            data: lineData2,
+            mainDimension: dimension,
             idVerticalAxis: idVerticalAxis,
             idHorizontalAxis: idHorizontalAxis
           }
