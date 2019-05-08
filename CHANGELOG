@@ -1,3 +1,25 @@
+# 17.0.0-beta.2
+
+Breaking:
+
+- Use `@geoblink/ajv-extra` instead of vanilla `ajv`
+- `GeoChart` `dimension` renamed to `mainDimension`
+  - `colorBarGroups`
+  - `barGroups`
+  - `lineSegmentsGroups`
+  - `lineGroups`
+  - `anchoredShapesGroups`
+
+- `GeoChart` renamed all `*Data` properties to `data`:
+  - `lineSegmentsGroups` `circleData` renamed to `data`
+  - `lineGroups` `lineData` renamed to `data`
+  - `anchoredShapesGroups` `shapeData` renamed to `data`
+
+- `GeoChart` `BARS_DIMENSIONS` named export renamed to `DIMENSIONS.DIMENSIONS_2D`
+- `GeoChart` `SCALE_TYPES` named export renamed to `CONSTANTS.SCALES.SCALE_TYPES`
+- `GeoChart` `POSITIONS` named export renamed to `AXIS.POSITIONS`
+- `GeoChart` new `DIMENSIONS.ANCHORED_POSITIONS_1D` named export
+
 # 17.0.0-beta.1
 
 Breaking:
