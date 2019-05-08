@@ -52,7 +52,6 @@ This function takes as parameters the array of classes that would be set by
 default, the item corresponding to the line being customized and its position
 inside the data array.
 
-<!--
 ```vue
 <template>
   <div class="element-demo">
@@ -160,4 +159,3 @@ export default {
 }
 </script>
 ```
--->
