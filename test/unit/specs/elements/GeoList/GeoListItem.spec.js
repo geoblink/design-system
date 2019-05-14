@@ -33,8 +33,10 @@ describe('GeoListItem', () => {
       stubs: {
         'font-awesome-icon': FontAwesomeIcon
       },
-      propsData: {
-        icon: ['fas', 'user']
+      context: {
+        props: {
+          icon: ['fas', 'user']
+        }
       }
     })
 
@@ -42,13 +44,17 @@ describe('GeoListItem', () => {
   })
 
   it('should emit click event', function () {
+    const clickListener = jest.fn()
     const wrapper = mount(GeoListItem, {
       slots: {
         default: ['Just some unique demo content']
+      },
+      listeners: {
+        click: clickListener
       }
     })
 
     wrapper.find('.geo-list-item').trigger('click')
-    expect(wrapper.emitted()['click']).toBeTruthy()
+    expect(clickListener).toHaveBeenCalled()
   })
 })

@@ -1,28 +1,28 @@
-<template>
+<template functional>
   <div
-    :class="`geo-list-item${cssSuffix}`"
-    @click="emitClick($event)"
+    :class="`geo-list-item${$options.helpers.getCSSSuffix(props.cssModifier)}`"
+    v-on="listeners"
   >
-    <div :class="`geo-list-item__icon-and-label${cssSuffix}`">
+    <div :class="`geo-list-item__icon-and-label${$options.helpers.getCSSSuffix(props.cssModifier)}`">
       <div
-        v-if="icon"
-        :class="`geo-list-item__icon-and-label__icon-container${cssSuffix}`"
+        v-if="props.icon"
+        :class="`geo-list-item__icon-and-label__icon-container${$options.helpers.getCSSSuffix(props.cssModifier)}`"
       >
         <font-awesome-icon
-          :icon="icon"
-          :class="`geo-list-item__icon-and-label__icon-container__icon${cssSuffix}`"
+          :icon="props.icon"
+          :class="`geo-list-item__icon-and-label__icon-container__icon${$options.helpers.getCSSSuffix(props.cssModifier)}`"
           aria-hidden
           fixed-width
         />
       </div>
-      <div :class="`geo-list-item__icon-and-label__label${cssSuffix}`">
+      <div :class="`geo-list-item__icon-and-label__label${$options.helpers.getCSSSuffix(props.cssModifier)}`">
         <!-- @slot Use this slot to customize rows's main content -->
         <slot />
       </div>
     </div>
     <div
-      v-if="hasTrailingAccessoryItems"
-      :class="`geo-list-item__trailing-accessory-items${cssSuffix}`"
+      v-if="$slots.trailingAccessoryItem"
+      :class="`geo-list-item__trailing-accessory-items${$options.helpers.getCSSSuffix(props.cssModifier)}`"
     >
       <!-- @slot Use this slot to add more items to the trailing edge of this row -->
       <slot name="trailingAccessoryItem" />
@@ -31,12 +31,15 @@
 </template>
 
 <script>
-import cssSuffix from '../../mixins/cssModifierMixin'
+import cssSuffix, { getCSSSuffix } from '../../mixins/cssModifierMixin'
 
 export default {
   name: 'GeoListItem',
-  status: 'missing-tests',
+  status: 'ready',
   release: '4.0.0',
+  helpers: {
+    getCSSSuffix
+  },
   mixins: [cssSuffix],
   props: {
     /**
@@ -50,27 +53,7 @@ export default {
       type: Array,
       required: false
     }
-  },
-  computed: {
-    hasTrailingAccessoryItems () {
-      return !!(this.$slots.trailingAccessoryItem && this.$slots.trailingAccessoryItem.length)
-    }
-  },
-  mounted () {
-    if (this.$slots && this.$slots.label) {
-      console.warn('GeoListItem [component] :: «label» named slot is deprecated. Use default slot instead.')
-    }
-  },
-  methods: {
-    emitClick ($event) {
-      /**
-       * User clicked this item.
-       *
-       * @event click
-       * @type {MouseEvent}
-       */
-      this.$emit('click', $event)
-    }
   }
 }
+
 </script>
