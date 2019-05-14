@@ -818,7 +818,7 @@ describe('GeoChartBars', function () {
             expect(wrapper.findAll('.geo-chart-bars-group')).toHaveLength(2)
           })
 
-          it('should update series', function () {
+          it('should update series', async function () {
             const secondData = _.dropRight(firstBarGroupData)
             const wrapper = mount(GeoChart, {
               propsData: {

@@ -144,6 +144,7 @@ function renderSingleGroup (group, d3TipInstance, singleGroupOptions, globalOpti
   const newBars = bars
     .enter()
     .append('rect')
+    .attr('class', getSingleBarCSSClasses)
     .attr('transform', getNewItemInitialTransform)
     .attr('width', getNewItemInitialWidth)
     .attr('height', getNewItemInitialHeight)
@@ -151,7 +152,6 @@ function renderSingleGroup (group, d3TipInstance, singleGroupOptions, globalOpti
   newBars
     .transition()
     .duration(globalOptions.chart.animationsDurationInMilliseconds)
-    .attr('class', getSingleBarCSSClasses)
     .attr('transform', getTransform)
     .attr('width', getWidth)
     .attr('height', getHeight)
