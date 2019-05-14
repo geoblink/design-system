@@ -309,16 +309,25 @@ export function getUnsaturatedColumnsConfig (columnSettings, index, columnsWidth
 }
 
 /**
- * @param {Vue} vueComponent
+ * @param {Vue|undefined} vueComponent
+ * @param {Element} element
  * @param {object} overrideSettings
  * @param {boolean} [overrideSettings.overridenIgnoreContentWidth]
  * @param {boolean} [overrideSettings.overridenGrowingDisabled]
  * @return {CellSizingConfig<Element>}
  */
-export function getVueComponentColumnSizingSettings (vueComponent, {
+export function getVueComponentColumnSizingSettings (vueComponent, element, {
   overridenIgnoreContentWidth,
   overridenGrowingDisabled
 } = {}) {
+  if (!vueComponent) {
+    return {
+      ignoreContentWidth: false,
+      growingDisabled: false,
+      element
+    }
+  }
+
   const ignoreContentWidth = _.isNil(overridenIgnoreContentWidth)
     ? vueComponent.ignoreContentWidth
     : overridenIgnoreContentWidth
@@ -333,7 +342,7 @@ export function getVueComponentColumnSizingSettings (vueComponent, {
     columnMinWidth: vueComponent.columnMinWidth,
     columnMaxWidth: vueComponent.columnMaxWidth,
     columnWidth: vueComponent.columnWidth,
-    element: vueComponent.$el
+    element
   }
 }
 
