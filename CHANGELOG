@@ -1,3 +1,13 @@
+# 18.0.0
+
+New:
+
+- `GeoTableBodyRowCell` refactored into a functional component
+
+Breaking:
+
+- `GeoTableBodyRowCell` children won't inherit `cssModifier` property
+
 # 17.0.0
 
 Breaking:
