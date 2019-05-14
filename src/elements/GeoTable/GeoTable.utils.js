@@ -309,39 +309,36 @@ export function getUnsaturatedColumnsConfig (columnSettings, index, columnsWidth
 }
 
 /**
- * @param {Vue|undefined} vueComponent
+ * @param {object} componentProperties
+ * @param {boolean} [componentProperties.ignoreContentWidth]
+ * @param {boolean} [componentProperties.growingDisabled]
+ * @param {number} [componentProperties.columnMinWidth]
+ * @param {number} [componentProperties.columnMaxWidth]
+ * @param {number} [componentProperties.columnWidth]
  * @param {Element} element
  * @param {object} overrideSettings
  * @param {boolean} [overrideSettings.overridenIgnoreContentWidth]
  * @param {boolean} [overrideSettings.overridenGrowingDisabled]
  * @return {CellSizingConfig<Element>}
  */
-export function getVueComponentColumnSizingSettings (vueComponent, element, {
+export function getVueComponentColumnSizingSettings (componentProperties, element, {
   overridenIgnoreContentWidth,
   overridenGrowingDisabled
 } = {}) {
-  if (!vueComponent) {
-    return {
-      ignoreContentWidth: false,
-      growingDisabled: false,
-      element
-    }
-  }
-
   const ignoreContentWidth = _.isNil(overridenIgnoreContentWidth)
-    ? vueComponent.ignoreContentWidth
+    ? componentProperties.ignoreContentWidth
     : overridenIgnoreContentWidth
 
   const growingDisabled = _.isNil(overridenGrowingDisabled)
-    ? vueComponent.growingDisabled
+    ? componentProperties.growingDisabled
     : overridenGrowingDisabled
 
   return {
     ignoreContentWidth,
     growingDisabled,
-    columnMinWidth: vueComponent.columnMinWidth,
-    columnMaxWidth: vueComponent.columnMaxWidth,
-    columnWidth: vueComponent.columnWidth,
+    columnMinWidth: componentProperties.columnMinWidth,
+    columnMaxWidth: componentProperties.columnMaxWidth,
+    columnWidth: componentProperties.columnWidth,
     element
   }
 }

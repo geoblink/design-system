@@ -498,7 +498,7 @@ function getCellSizingConfigForCell (vueComponent, overrideSettings) {
 
   return _.map(
     defaultSlotActualContent,
-    (vNode) => getVueComponentColumnSizingSettings(vNode.componentInstance, vNode.elm, overrideSettings)
+    (vNode) => getVueComponentColumnSizingSettings(vNode.componentInstance || vNode.context, vNode.elm, overrideSettings)
   )
 }
 
