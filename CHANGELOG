@@ -1,4 +1,11 @@
-# 18.0.0
+# 18.0.0-beta.1
+
+New:
+
+- `GeoListItem` refactored into a functional component
+- Upgraded internal Vue version to 2.5.22
+
+# 18.0.0-beta.0
 
 New:
 
