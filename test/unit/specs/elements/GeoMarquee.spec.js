@@ -41,7 +41,7 @@ describe('GeoMarquee', () => {
     expect(wrapper.vm.animationParams).toEqual({})
   })
 
-  it.only('should have animation params when the content is bigger than the container', async function () {
+  it('should have animation params when the content is bigger than the container', async function () {
     const wrapper = mount(GeoMarquee, {
       scopedSlots: {
         default: '<div slot-scope="{}">Marquee content</div>'
