@@ -7,10 +7,19 @@ localVue.component('geo-table-body-row-cell', GeoTableBodyRowCell)
 
 describe('GeoTableBodyRowCell', () => {
   it('should render component', function () {
-    const wrapper = mount(GeoTableBodyRowCell)
+    let slotScope
+    const wrapper = mount(GeoTableBodyRowCell, {
+      scopedSlots: {
+        default (params) {
+          slotScope = params
+        }
+      }
+    })
 
     const instance = wrapper.find('.geo-table-body-row-cell')
     expect(instance.exists()).toBe(true)
+
+    expect(slotScope).toHaveProperty('cssModifier')
   })
 
   it('should render content', function () {
@@ -26,15 +35,23 @@ describe('GeoTableBodyRowCell', () => {
   })
 
   it('should apply CSS suffix when the modifier is provided', function () {
+    let slotScope
     const wrapper = mount(GeoTableBodyRowCell, {
       context: {
         props: {
           cssModifier: 'demo-modifier'
+        }
+      },
+      scopedSlots: {
+        default (params) {
+          slotScope = params
         }
       }
     })
 
     const instance = wrapper.find('.geo-table-body-row-cell--demo-modifier')
     expect(instance.exists()).toBe(true)
+
+    expect(slotScope).toHaveProperty('cssModifier', 'demo-modifier')
   })
 })

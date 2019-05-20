@@ -1,3 +1,10 @@
+<template functional>
+  <div :class="`geo-table-body-row-cell${$options.helpers.getCSSSuffix(props.cssModifier)}`">
+    <!-- @slot Use this slot to customize cell's content -->
+    <slot :css-modifier="props.cssModifier" />
+  </div>
+</template>
+
 <script>
 import cssSuffix, { getCSSSuffix } from '../../mixins/cssModifierMixin'
 
@@ -5,12 +12,9 @@ export default {
   name: 'GeoTableBodyRowCell',
   status: 'ready',
   release: '10.1.0',
-  functional: true,
-  mixins: [cssSuffix],
-  render (createElement, context) {
-    return createElement('div', {
-      class: `geo-table-body-row-cell${getCSSSuffix(context.props.cssModifier)}`
-    }, context.children)
-  }
+  helpers: {
+    getCSSSuffix
+  },
+  mixins: [cssSuffix]
 }
 </script>
