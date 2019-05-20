@@ -71,6 +71,7 @@ export default {
   },
   mounted () {
     this.$nextTick().then(() => {
+      if (!this.$refs['marquee-content'][0] || !this.$el) return
       this.contentWidth = this.$refs['marquee-content'][0].getBoundingClientRect().width
       this.containerWidth = this.$el.getBoundingClientRect().width
     })
