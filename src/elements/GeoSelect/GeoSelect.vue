@@ -13,9 +13,10 @@
       :dropdown-icon="dropdownIcon"
       :css-modifier="`geo-select${cssSuffix}`"
       :is-empty="!value"
+      :disabled="disabled"
       @click="toggleSelect"
     >
-      <geo-marquee :css-modifier="`geo-select${cssSuffix}`">
+      <geo-marquee :css-modifier="toggleButtonMarqueeModifier">
         <template slot-scope="{}">
           {{ toggleButtonLabel }}
         </template>
@@ -349,6 +350,14 @@ export default {
       validator: function (value) {
         return value === undefined || value in Y_AXIS_POSITION
       }
+    },
+
+    /**
+     * Whether interaction with this select is disabled or not.
+     */
+    disabled: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
@@ -359,6 +368,12 @@ export default {
     }
   },
   computed: {
+    toggleButtonMarqueeModifier () {
+      return this.disabled
+        ? `geo-select--disabled${cssSuffix}`
+        : `geo-select${cssSuffix}`
+    },
+
     filteredOptions () {
       const self = this
       return _.flatMap(self.options, function (item) {
@@ -438,6 +453,8 @@ export default {
     },
 
     toggleSelect () {
+      if (this.disabled) return
+
       this.isOpened = !this.isOpened
     },
 

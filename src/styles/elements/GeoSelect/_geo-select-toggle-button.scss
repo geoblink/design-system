@@ -8,13 +8,14 @@
   }
 
   .geo-select-toggle-button#{$modifier-name-with-prefix} {
+    @include font($body);
+
     align-items: center;
     background: $color-white;
     border: 1px solid $color-grey;
     border-radius: $border-radius-default;
     cursor: pointer;
     display: flex;
-    font-family: $font-family-text;
     height: 40px;
     justify-content: space-between;
     padding: 0 10px;
@@ -31,9 +32,22 @@
   }
 
   .geo-select-toggle-button--empty#{$modifier-name-with-prefix} {
-    font-size: $font-size-regular;
     color: $color-grey-light;
     font-style: italic;
+  }
+
+  .geo-select-toggle-button--disabled#{$modifier-name-with-prefix} {
+    background: $color-white-dark;
+    color: $color-grey-light;
+    cursor: not-allowed;
+
+    &:hover, &:focus {
+      border-color: $color-grey;
+
+      .geo-select-toggle-button__toggle-icon#{$modifier-name-with-prefix} {
+        color: $color-grey-light;
+      }
+    }
   }
 
   .geo-select-toggle-button__toggle-icon#{$modifier-name-with-prefix} {

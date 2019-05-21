@@ -33,6 +33,7 @@ a better UX including chunked load and search capabilities.
     <h3 class="element-demo__header">Select with opt-groups</h3>
     <div class="element-demo__block" style="justify-content: space-around;">
       <geo-select
+        v-model="currentSelection[2]"
         :options="optGroupsList"
         :dropdown-icon="['fas', 'chevron-down']"
         :search-icon="['fas', 'search']"
@@ -41,7 +42,6 @@ a better UX including chunked load and search capabilities.
         css-modifier="select-demo"
         placeholder="Choose an option"
         search-input-placeholder="Search for an option"
-        v-model="currentSelection[2]"
       >
         <template slot="noResults">No Results found</template>
       </geo-select>
@@ -49,38 +49,51 @@ a better UX including chunked load and search capabilities.
     <h3 class="element-demo__header">Select with pagination</h3>
     <div class="element-demo__block" style="justify-content: space-around;">
       <geo-select
+        v-model="currentSelection[3]"
         :options="longList"
         :dropdown-icon="['fas', 'chevron-down']"
         :search-icon="['fas', 'search']"
         :page-size="20"
         css-modifier="select-demo"
         placeholder="Choose an option"
-        v-model="currentSelection[3]">
+      >
         <template slot="moreResultsTextContent">Load more results</template>
       </geo-select>
     </div>
     <h3 class="element-demo__header">Select with marquee options</h3>
     <div class="element-demo__block" style="justify-content: space-around;">
       <geo-select
+        v-model="currentSelection[4]"
         :options="marqueeOptions"
         :dropdown-icon="['fas', 'chevron-down']"
         :search-icon="['fas', 'search']"
         css-modifier="select-demo"
         placeholder="Choose an option"
-        v-model="currentSelection[4]">
-      </geo-select>
+      />
     </div>
     <h3 class="element-demo__header">Select with opt groups and marquee options</h3>
     <div class="element-demo__block" style="justify-content: space-around;">
       <geo-select
+        v-model="currentSelection[5]"
         :is-opt-select="true"
         :options="marqueeOptGroupsList"
         :dropdown-icon="['fas', 'chevron-down']"
         :search-icon="['fas', 'search']"
         css-modifier="select-demo"
         placeholder="Choose an option"
-        v-model="currentSelection[5]">
-      </geo-select>
+      />
+    </div>
+    <h3 class="element-demo__header">Disabled select</h3>
+    <div class="element-demo__block" style="justify-content: space-around;">
+      <geo-select
+        v-model="currentSelection[0]"
+        :options="itemsList"
+        :dropdown-icon="['fas', 'chevron-down']"
+        :search-icon="['fas', 'search']"
+        css-modifier="select-demo"
+        placeholder="Choose an option"
+        disabled
+      />
     </div>
   </div>
 </template>

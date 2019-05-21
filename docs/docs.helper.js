@@ -36,7 +36,8 @@ const iconsToMock = [
   'faStepBackward',
   'faStepForward',
   'faCaretUp',
-  'faCaretDown'
+  'faCaretDown',
+  'faLock'
 ]
 const mockedFalIcons = _.mapValues(_.pick(fas, iconsToMock), function (original) {
   return _.assign({}, original, {
