@@ -6,38 +6,41 @@
     :has-more-results="hasMoreResultsToLoad"
     :fixed-width="fixedWidth"
     @click-outside="closeSelect"
-    @load-more-results="loadNextPage">
+    @load-more-results="loadNextPage"
+  >
     <geo-select-toggle-button
       slot="toggleButton"
       :dropdown-icon="dropdownIcon"
       :css-modifier="`geo-select${cssSuffix}`"
       :is-empty="!value"
-      @click="toggleSelect">
+      @click="toggleSelect"
+    >
       <geo-marquee :css-modifier="`geo-select${cssSuffix}`">
-        <template slot-scope="{}">{{ toggleButtonLabel }}</template>
+        <template slot-scope="{}">
+          {{ toggleButtonLabel }}
+        </template>
       </geo-marquee>
     </geo-select-toggle-button>
     <geo-bordered-box-header-search-form
       v-if="searchable"
       slot="header"
+      v-model="searchPattern"
       :search-icon="searchIcon"
       :css-modifier="`geo-select${cssSuffix}`"
       :placeholder="searchInputPlaceholder"
-      v-model="searchPattern"
     />
     <template v-if="visibleOptions.length">
       <template v-if="isOptSelect">
         <geo-list-group
           v-for="(option, index) in visibleOptions"
-          :css-modifier="`geo-select${cssSuffix}`"
           :key="`${option.label}--${index}`"
+          :css-modifier="`geo-select${cssSuffix}`"
         >
           <template
             v-if="option.isOptGroupHeader"
             slot="title"
           >
-            <geo-marquee
-              :css-modifier="`geo-select${cssSuffix}`">
+            <geo-marquee :css-modifier="`geo-select${cssSuffix}`">
               <geo-highlighted-string
                 slot-scope="{}"
                 :css-modifier="`geo-select${cssSuffix}`"
@@ -47,11 +50,12 @@
             </geo-marquee>
           </template>
           <geo-list-item
-            v-for="(item, index) in option.items"
+            v-for="(item, itemIndex) in option.items"
             slot="item"
-            :key="`${item.label}--${index}`"
+            :key="`${item.label}--${itemIndex}`"
             :css-modifier="`geo-select${cssSuffix}`"
-            @click="changeCurrentSelection(item)">
+            @click="changeCurrentSelection(item)"
+          >
             <geo-marquee :css-modifier="`geo-select${cssSuffix}`">
               <geo-highlighted-string
                 slot-scope="{}"
@@ -65,10 +69,11 @@
       </template>
       <template v-else>
         <geo-list-item
-          v-for="(option, index) in visibleOptions"
-          :key="`${option.label}--${index}`"
+          v-for="(option, optionIndex) in visibleOptions"
+          :key="`${option.label}--${optionIndex}`"
           :css-modifier="`geo-select${cssSuffix}`"
-          @click="changeCurrentSelection(option)">
+          @click="changeCurrentSelection(option)"
+        >
           <geo-marquee :css-modifier="`geo-select${cssSuffix}`">
             <geo-highlighted-string
               slot-scope="{}"

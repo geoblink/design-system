@@ -9,13 +9,14 @@
       ref="marquee-content"
       :key="i"
       :class="`geo-marquee__text-content${cssSuffix}`"
-      :style="animationParams">
+      :style="animationParams"
+    >
       <!--
         @slot Use this slot to store the marquee content.
         Include `slot-scope="{}"` to prevent Vue from wrongly thinking this
         content should not be repeated.
       -->
-      <slot/>
+      <slot />
     </div>
   </div>
 </template>
@@ -49,11 +50,13 @@ export default {
     animationPlayState () {
       return this.isHovering ? 'running' : 'paused'
     },
+
     slotsNeeded () {
-      var contentWidth = this.contentWidth || 0
-      var containerWidth = this.containerWidth || 0
+      const contentWidth = this.contentWidth || 0
+      const containerWidth = this.containerWidth || 0
       return contentWidth > containerWidth ? [0, 1] : [0]
     },
+
     animationParams () {
       // We only want the animation if the content is wider than the container
       if (this.slotsNeeded.length === 1) return {}
@@ -68,6 +71,7 @@ export default {
   },
   mounted () {
     this.$nextTick().then(() => {
+      if (!this.$refs['marquee-content'][0] || !this.$el) return
       this.contentWidth = this.$refs['marquee-content'][0].getBoundingClientRect().width
       this.containerWidth = this.$el.getBoundingClientRect().width
     })

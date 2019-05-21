@@ -21,7 +21,7 @@ describe('GeoTable utils', function () {
   describe('#getColumnSizeRequirements', function () {
     it('should return an empty object when no rows are given', function () {
       const result = getColumnSizeRequirements([])
-      expect(result).toEqual({})
+      expect(result).toEqual([])
     })
 
     it('should return defaults when no column given', function () {
@@ -649,7 +649,7 @@ describe('GeoTable utils', function () {
 
       expect(newDistribution).toHaveProperty('remainingColumns', columnSettings)
       expect(newDistribution).toHaveProperty('remainingWidth', 0)
-      expect(newDistribution).toHaveProperty('columnsWidths', { })
+      expect(newDistribution).toHaveProperty('columnsWidths', [])
     })
 
     it('should distribute width among columns', function () {
@@ -671,7 +671,7 @@ describe('GeoTable utils', function () {
 
       expect(newDistribution).toHaveProperty('remainingColumns', [])
       expect(newDistribution).toHaveProperty('remainingWidth', 0)
-      expect(newDistribution).toHaveProperty('columnsWidths', { 0: 100, 2: 100, 3: 100 })
+      expect(newDistribution).toHaveProperty('columnsWidths', [100, undefined, 100, 100])
     })
 
     it('should distribute width among columns when there\'s not enough', function () {
@@ -705,7 +705,7 @@ describe('GeoTable utils', function () {
         index: 3
       }])
       expect(newDistribution).toHaveProperty('remainingWidth', 0)
-      expect(newDistribution).toHaveProperty('columnsWidths', { 0: 75, 2: 75, 3: 75 })
+      expect(newDistribution).toHaveProperty('columnsWidths', [75, undefined, 75, 75])
     })
 
     it('should distribute width among columns when there\'s not enough to give 1px to each column', function () {
@@ -739,7 +739,7 @@ describe('GeoTable utils', function () {
         index: 3
       }])
       expect(newDistribution).toHaveProperty('remainingWidth', 0)
-      expect(newDistribution).toHaveProperty('columnsWidths', { 0: 1, 2: 1 })
+      expect(newDistribution).toHaveProperty('columnsWidths', [1, undefined, 1])
     })
 
     it('should distribute width until reaching maximum width of first column', function () {
@@ -769,7 +769,7 @@ describe('GeoTable utils', function () {
         index: 0
       }])
       expect(newDistribution).toHaveProperty('remainingWidth', 210)
-      expect(newDistribution).toHaveProperty('columnsWidths', { 0: 30, 2: 30, 3: 30 })
+      expect(newDistribution).toHaveProperty('columnsWidths', [30, undefined, 30, 30])
     })
 
     it('should distribute width in integer amounts', function () {
@@ -803,7 +803,7 @@ describe('GeoTable utils', function () {
         index: 3
       }])
       expect(newDistribution).toHaveProperty('remainingWidth', 2)
-      expect(newDistribution).toHaveProperty('columnsWidths', { 0: 66, 2: 66, 3: 66 })
+      expect(newDistribution).toHaveProperty('columnsWidths', [66, undefined, 66, 66])
     })
   })
 
@@ -814,7 +814,10 @@ describe('GeoTable utils', function () {
       const instance = wrapper.find('.geo-table-header-row-cell--main')
       expect(instance.exists()).toBe(true)
 
-      const columnSizingSettings = getVueComponentColumnSizingSettings(instance.vm.$vnode.componentInstance)
+      const columnSizingSettings = getVueComponentColumnSizingSettings(
+        instance.vm.$vnode.componentInstance,
+        instance.vm.$el
+      )
       expect(columnSizingSettings).toHaveProperty('ignoreContentWidth', false)
       expect(columnSizingSettings).toHaveProperty('growingDisabled', false)
       expect(columnSizingSettings).toHaveProperty('columnMinWidth', undefined)
@@ -834,7 +837,10 @@ describe('GeoTable utils', function () {
         const instance = wrapper.find('.geo-table-header-row-cell--main')
         expect(instance.exists()).toBe(true)
 
-        const columnSizingSettings = getVueComponentColumnSizingSettings(instance.vm.$vnode.componentInstance)
+        const columnSizingSettings = getVueComponentColumnSizingSettings(
+          instance.vm.$vnode.componentInstance,
+          instance.vm.$el
+        )
         expect(columnSizingSettings).toHaveProperty('ignoreContentWidth', false)
       })
 
@@ -848,7 +854,10 @@ describe('GeoTable utils', function () {
         const instance = wrapper.find('.geo-table-header-row-cell--main')
         expect(instance.exists()).toBe(true)
 
-        const columnSizingSettings = getVueComponentColumnSizingSettings(instance.vm.$vnode.componentInstance)
+        const columnSizingSettings = getVueComponentColumnSizingSettings(
+          instance.vm.$vnode.componentInstance,
+          instance.vm.$el
+        )
         expect(columnSizingSettings).toHaveProperty('ignoreContentWidth', true)
       })
 
@@ -862,9 +871,11 @@ describe('GeoTable utils', function () {
         const instance = wrapper.find('.geo-table-header-row-cell--main')
         expect(instance.exists()).toBe(true)
 
-        const columnSizingSettings = getVueComponentColumnSizingSettings(instance.vm.$vnode.componentInstance, {
-          overridenIgnoreContentWidth: false
-        })
+        const columnSizingSettings = getVueComponentColumnSizingSettings(
+          instance.vm.$vnode.componentInstance,
+          instance.vm.$el,
+          { overridenIgnoreContentWidth: false }
+        )
         expect(columnSizingSettings).toHaveProperty('ignoreContentWidth', false)
       })
 
@@ -878,9 +889,11 @@ describe('GeoTable utils', function () {
         const instance = wrapper.find('.geo-table-header-row-cell--main')
         expect(instance.exists()).toBe(true)
 
-        const columnSizingSettings = getVueComponentColumnSizingSettings(instance.vm.$vnode.componentInstance, {
-          overridenIgnoreContentWidth: true
-        })
+        const columnSizingSettings = getVueComponentColumnSizingSettings(
+          instance.vm.$vnode.componentInstance,
+          instance.vm.$el,
+          { overridenIgnoreContentWidth: true }
+        )
         expect(columnSizingSettings).toHaveProperty('ignoreContentWidth', true)
       })
     })
@@ -896,7 +909,10 @@ describe('GeoTable utils', function () {
         const instance = wrapper.find('.geo-table-header-row-cell--main')
         expect(instance.exists()).toBe(true)
 
-        const columnSizingSettings = getVueComponentColumnSizingSettings(instance.vm.$vnode.componentInstance)
+        const columnSizingSettings = getVueComponentColumnSizingSettings(
+          instance.vm.$vnode.componentInstance,
+          instance.vm.$el
+        )
         expect(columnSizingSettings).toHaveProperty('growingDisabled', false)
       })
 
@@ -910,7 +926,10 @@ describe('GeoTable utils', function () {
         const instance = wrapper.find('.geo-table-header-row-cell--main')
         expect(instance.exists()).toBe(true)
 
-        const columnSizingSettings = getVueComponentColumnSizingSettings(instance.vm.$vnode.componentInstance)
+        const columnSizingSettings = getVueComponentColumnSizingSettings(
+          instance.vm.$vnode.componentInstance,
+          instance.vm.$el
+        )
         expect(columnSizingSettings).toHaveProperty('growingDisabled', true)
       })
 
@@ -924,9 +943,11 @@ describe('GeoTable utils', function () {
         const instance = wrapper.find('.geo-table-header-row-cell--main')
         expect(instance.exists()).toBe(true)
 
-        const columnSizingSettings = getVueComponentColumnSizingSettings(instance.vm.$vnode.componentInstance, {
-          overridenGrowingDisabled: false
-        })
+        const columnSizingSettings = getVueComponentColumnSizingSettings(
+          instance.vm.$vnode.componentInstance,
+          instance.vm.$el,
+          { overridenGrowingDisabled: false }
+        )
         expect(columnSizingSettings).toHaveProperty('growingDisabled', false)
       })
 
@@ -940,9 +961,11 @@ describe('GeoTable utils', function () {
         const instance = wrapper.find('.geo-table-header-row-cell--main')
         expect(instance.exists()).toBe(true)
 
-        const columnSizingSettings = getVueComponentColumnSizingSettings(instance.vm.$vnode.componentInstance, {
-          overridenGrowingDisabled: true
-        })
+        const columnSizingSettings = getVueComponentColumnSizingSettings(
+          instance.vm.$vnode.componentInstance,
+          instance.vm.$el,
+          { overridenGrowingDisabled: true }
+        )
         expect(columnSizingSettings).toHaveProperty('growingDisabled', true)
       })
     })
@@ -957,7 +980,10 @@ describe('GeoTable utils', function () {
       const instance = wrapper.find('.geo-table-header-row-cell--main')
       expect(instance.exists()).toBe(true)
 
-      const columnSizingSettings = getVueComponentColumnSizingSettings(instance.vm.$vnode.componentInstance)
+      const columnSizingSettings = getVueComponentColumnSizingSettings(
+        instance.vm.$vnode.componentInstance,
+        instance.vm.$el
+      )
       expect(columnSizingSettings).toHaveProperty('columnMinWidth', 10)
     })
 
@@ -971,7 +997,10 @@ describe('GeoTable utils', function () {
       const instance = wrapper.find('.geo-table-header-row-cell--main')
       expect(instance.exists()).toBe(true)
 
-      const columnSizingSettings = getVueComponentColumnSizingSettings(instance.vm.$vnode.componentInstance)
+      const columnSizingSettings = getVueComponentColumnSizingSettings(
+        instance.vm.$vnode.componentInstance,
+        instance.vm.$el
+      )
       expect(columnSizingSettings).toHaveProperty('columnMaxWidth', 10)
     })
 
@@ -985,7 +1014,10 @@ describe('GeoTable utils', function () {
       const instance = wrapper.find('.geo-table-header-row-cell--main')
       expect(instance.exists()).toBe(true)
 
-      const columnSizingSettings = getVueComponentColumnSizingSettings(instance.vm.$vnode.componentInstance)
+      const columnSizingSettings = getVueComponentColumnSizingSettings(
+        instance.vm.$vnode.componentInstance,
+        instance.vm.$el
+      )
       expect(columnSizingSettings).toHaveProperty('columnWidth', 10)
     })
   })

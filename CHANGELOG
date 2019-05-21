@@ -1,3 +1,58 @@
+# 18.0.0
+
+Breaking:
+
+- `GeoTableBodyRowCell` children won't inherit `cssModifier` property
+
+New:
+
+- `GeoTableBodyRowCell` refactored into a functional component
+- `GeoListItem` refactored into a functional component
+- Upgraded internal Vue version to 2.5.22
+
+
+Changed:
+
+- `GeoTableBodyRowCell` render function moved back to functional template
+
+Fixes:
+
+- `GeoMarquee` won't attempt to compute label size if element not added to DOM
+
+# 18.0.0-beta.3
+
+Fixes:
+
+- `GeoTableBodyRowCell` propagate HTML attributes to component's root
+- `GeoListItem` propagate HTML attributes to component's root
+
+# 18.0.0-beta.2
+
+Changed:
+
+- `GeoTableBodyRowCell` render function moved back to functional template
+
+Fixes:
+
+- `GeoMarquee` won't attempt to compute label size if element not added to DOM
+
+# 18.0.0-beta.1
+
+New:
+
+- `GeoListItem` refactored into a functional component
+- Upgraded internal Vue version to 2.5.22
+
+# 18.0.0-beta.0
+
+New:
+
+- `GeoTableBodyRowCell` refactored into a functional component
+
+Breaking:
+
+- `GeoTableBodyRowCell` children won't inherit `cssModifier` property
+
 # 17.0.0
 
 Breaking:

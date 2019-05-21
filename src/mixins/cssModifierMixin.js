@@ -1,3 +1,7 @@
+export function getCSSSuffix (cssModifier) {
+  return cssModifier ? `--${cssModifier}` : ''
+}
+
 /**
  * @mixin
  */
@@ -27,7 +31,7 @@ export default {
      * Use this property to append the cssModifier to the css classes
      */
     cssSuffix () {
-      return this.cssModifier ? `--${this.cssModifier}` : ''
+      return getCSSSuffix(this.cssModifier)
     }
   }
 }

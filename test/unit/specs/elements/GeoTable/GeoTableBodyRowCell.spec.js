@@ -24,7 +24,7 @@ describe('GeoTableBodyRowCell', () => {
 
   it('should render content', function () {
     const wrapper = mount(GeoTableBodyRowCell, {
-      scopedSlots: {
+      slots: {
         default: '<p>Demo content</p>'
       }
     })
@@ -37,8 +37,10 @@ describe('GeoTableBodyRowCell', () => {
   it('should apply CSS suffix when the modifier is provided', function () {
     let slotScope
     const wrapper = mount(GeoTableBodyRowCell, {
-      propsData: {
-        cssModifier: 'demo-modifier'
+      context: {
+        props: {
+          cssModifier: 'demo-modifier'
+        }
       },
       scopedSlots: {
         default (params) {

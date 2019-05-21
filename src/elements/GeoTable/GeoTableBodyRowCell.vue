@@ -1,17 +1,23 @@
-<template>
-  <div :class="`geo-table-body-row-cell${cssSuffix}`">
+<template functional>
+  <div
+    v-bind="data.attrs"
+    :class="`geo-table-body-row-cell${$options.helpers.getCSSSuffix(props.cssModifier)}`"
+  >
     <!-- @slot Use this slot to customize cell's content -->
-    <slot :css-modifier="cssModifier" />
+    <slot :css-modifier="props.cssModifier" />
   </div>
 </template>
 
 <script>
-import cssSuffix from '../../mixins/cssModifierMixin'
+import cssSuffix, { getCSSSuffix } from '../../mixins/cssModifierMixin'
 
 export default {
   name: 'GeoTableBodyRowCell',
   status: 'ready',
   release: '10.1.0',
+  helpers: {
+    getCSSSuffix
+  },
   mixins: [cssSuffix]
 }
 </script>

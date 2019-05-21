@@ -41,21 +41,41 @@ describe('GeoMarquee', () => {
     expect(wrapper.vm.animationParams).toEqual({})
   })
 
-  it('should have animation params when the content is bigger than the container', function () {
+  it('should have animation params when the content is bigger than the container', async function () {
     const wrapper = mount(GeoMarquee, {
       scopedSlots: {
         default: '<div slot-scope="{}">Marquee content</div>'
       }
     })
+
+    const baseBBox = {
+      width: 0,
+      height: 50,
+      x: 0,
+      y: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      top: 0
+    }
+
+    jest
+      .spyOn(Element.prototype, 'getBoundingClientRect')
+      .mockImplementation(function () {
+        if (this === wrapper.find('.geo-marquee__text-content').element) {
+          return Object.assign({}, baseBBox, { width: 150 })
+        }
+        return Object.assign({}, baseBBox, {
+          width: 50
+        })
+      })
+
     wrapper.setData({
       contentWidth: 150,
       containerWidth: 50
     })
     wrapper.trigger('mouseenter')
-    wrapper.setData({
-      contentWidth: 150,
-      containerWidth: 50
-    })
+
     expect(wrapper.vm.slotsNeeded).toEqual([0, 1])
     expect(wrapper.vm.animationParams.animationPlayState).toEqual('running')
     wrapper.trigger('mouseleave')

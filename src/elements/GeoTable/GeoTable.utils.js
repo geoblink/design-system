@@ -54,12 +54,12 @@ import _ from 'lodash'
  * @template TableContainerElement
  * @template CellElement
  * @param {Array<RowSizingConfig<CellElement>>} rowsSizingConfig
- * @param {GetElementWidth<CellElement>} getElementContentWidth
+ * @param {GetElementWidth<Element>} getElementContentWidth
  * @return {ColumnSizeRequirements[]}
  */
 export function getColumnSizeRequirements (rowsSizingConfig, getElementContentWidth) {
   /** @type {ColumnSizeRequirements[]} */
-  const columnsSizeRequirements = {}
+  const columnsSizeRequirements = []
 
   for (const singleRowSettings of rowsSizingConfig) {
     for (let columnIndex = 0; columnIndex < singleRowSettings.length; columnIndex++) {
@@ -134,7 +134,7 @@ export function getColumnSizeRequirements (rowsSizingConfig, getElementContentWi
 }
 
 /**
- * @param {ColumnSizeRequirements} columnSizeRequirements
+ * @param {ColumnSizeRequirements[]} columnSizeRequirements
  * @return {TableWidths}
  */
 export function getInitialTableWidthDistribution (columnSizeRequirements) {
@@ -153,7 +153,7 @@ export function getInitialTableWidthDistribution (columnSizeRequirements) {
  * @template TableContainerElement
  * @template CellElement
  * @param {TableSizingConfig<TableContainerElement, CellElement>} tableSizingConfig
- * @param {GetElementWidth<CellElement>} getElementContentWidth
+ * @param {GetElementWidth<Element>} getElementContentWidth
  * @return {TableWidths}
  */
 export function getAutomaticColumnsWidth (tableSizingConfig, getElementContentWidth) {
@@ -265,7 +265,7 @@ export function getSortedUnsaturatedColumnsConfig (columnsSettings, columnsWidth
 }
 
 /**
- * @param {ColumnSettings} columnSettings
+ * @param {ColumnSizeRequirements} columnSettings
  * @param {TableWidths} columnsWidths
  * @return {UnsaturatedColumnConfig}
  */
@@ -309,31 +309,37 @@ export function getUnsaturatedColumnsConfig (columnSettings, index, columnsWidth
 }
 
 /**
- * @param {Vue} vueComponent
+ * @param {object} componentProperties
+ * @param {boolean} [componentProperties.ignoreContentWidth]
+ * @param {boolean} [componentProperties.growingDisabled]
+ * @param {number} [componentProperties.columnMinWidth]
+ * @param {number} [componentProperties.columnMaxWidth]
+ * @param {number} [componentProperties.columnWidth]
+ * @param {Element} element
  * @param {object} overrideSettings
- * @param {boolean} overrideSettings.overridenIgnoreContentWidth
- * @param {boolean} overrideSettings.overridenGrowingDisabled
- * @return {CellSizingConfig}
+ * @param {boolean} [overrideSettings.overridenIgnoreContentWidth]
+ * @param {boolean} [overrideSettings.overridenGrowingDisabled]
+ * @return {CellSizingConfig<Element>}
  */
-export function getVueComponentColumnSizingSettings (vueComponent, {
+export function getVueComponentColumnSizingSettings (componentProperties, element, {
   overridenIgnoreContentWidth,
   overridenGrowingDisabled
 } = {}) {
   const ignoreContentWidth = _.isNil(overridenIgnoreContentWidth)
-    ? vueComponent.ignoreContentWidth
+    ? componentProperties.ignoreContentWidth
     : overridenIgnoreContentWidth
 
   const growingDisabled = _.isNil(overridenGrowingDisabled)
-    ? vueComponent.growingDisabled
+    ? componentProperties.growingDisabled
     : overridenGrowingDisabled
 
   return {
     ignoreContentWidth,
     growingDisabled,
-    columnMinWidth: vueComponent.columnMinWidth,
-    columnMaxWidth: vueComponent.columnMaxWidth,
-    columnWidth: vueComponent.columnWidth,
-    element: vueComponent.$el
+    columnMinWidth: componentProperties.columnMinWidth,
+    columnMaxWidth: componentProperties.columnMaxWidth,
+    columnWidth: componentProperties.columnWidth,
+    element
   }
 }
 
@@ -346,7 +352,7 @@ export function getColumnsWidthDistribution (columns, width) {
   let remainingWidth = width
 
   const remainingColumns = []
-  const columnsWidths = {}
+  const columnsWidths = []
 
   const maximumSingleColumnWidthIncrease = _.first(columns).remainingWidthUntilReachingMaximum
   const singleColumnWidthIncrease = Math.min(
