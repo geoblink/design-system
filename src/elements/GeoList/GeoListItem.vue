@@ -1,5 +1,6 @@
 <template functional>
   <div
+    v-bind="data.attrs"
     :class="`geo-list-item${$options.helpers.getCSSSuffix(props.cssModifier)}`"
     v-on="listeners"
   >

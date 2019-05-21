@@ -1,5 +1,8 @@
 <template functional>
-  <div :class="`geo-table-body-row-cell${$options.helpers.getCSSSuffix(props.cssModifier)}`">
+  <div
+    v-bind="data.attrs"
+    :class="`geo-table-body-row-cell${$options.helpers.getCSSSuffix(props.cssModifier)}`"
+  >
     <!-- @slot Use this slot to customize cell's content -->
     <slot :css-modifier="props.cssModifier" />
   </div>
