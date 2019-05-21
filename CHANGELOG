@@ -1,3 +1,10 @@
+# 18.0.0-beta.3
+
+Fixes:
+
+- `GeoTableBodyRowCell` propagate HTML attributes to component's root
+- `GeoListItem` propagate HTML attributes to component's root
+
 # 18.0.0-beta.2
 
 Changed:
