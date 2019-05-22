@@ -370,8 +370,8 @@ export default {
   computed: {
     toggleButtonMarqueeModifier () {
       return this.disabled
-        ? `geo-select--disabled${cssSuffix}`
-        : `geo-select${cssSuffix}`
+        ? `geo-select--disabled${this.cssSuffix}`
+        : `geo-select${this.cssSuffix}`
     },
 
     filteredOptions () {
