@@ -1,3 +1,9 @@
+# 18.0.1
+
+Fixes:
+
+- `GeoListItem` extend component classes to parent
+
 # 18.0.0
 
 Breaking:
@@ -9,7 +15,6 @@ New:
 - `GeoTableBodyRowCell` refactored into a functional component
 - `GeoListItem` refactored into a functional component
 - Upgraded internal Vue version to 2.5.22
-
 
 Changed:
 
