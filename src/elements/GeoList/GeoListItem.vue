@@ -1,7 +1,11 @@
 <template functional>
   <div
     v-bind="data.attrs"
-    :class="`geo-list-item${$options.helpers.getCSSSuffix(props.cssModifier)}`"
+    :class="[
+      data.class,
+      data.staticClass,
+      `geo-list-item${$options.helpers.getCSSSuffix(props.cssModifier)}`
+    ]"
     v-on="listeners"
   >
     <div :class="`geo-list-item__icon-and-label${$options.helpers.getCSSSuffix(props.cssModifier)}`">
