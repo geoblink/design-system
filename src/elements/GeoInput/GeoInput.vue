@@ -19,6 +19,7 @@
         :class="`geo-input__form${cssSuffix}`"
         @submit.prevent="emitSave($event)"
       >
+        <slot name="leadingAccessoryItem" />
         <input
           :value="value"
           :placeholder="placeholder"
@@ -28,6 +29,7 @@
           @click="emitClick($event)"
           @input="onInput($event)"
         >
+        <slot name="trailingAccessoryItem" />
       </form>
 
       <div

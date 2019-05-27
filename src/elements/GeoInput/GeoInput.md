@@ -58,6 +58,27 @@ Use `GeoInput` component when you need confirmation feedback from the user on in
         />
       </div>
     </div>
+    <h3 class="element-demo__header">Input with embeded icon</h3>
+    <div class="element-demo__block" style="justify-content: space-around;">
+      <div class="input-demo__container">
+        <geo-input
+          :cancel-icon="['fas', 'times']"
+          :save-icon="['fas', 'check']"
+          :showButtons="showButtons[3]"
+          placeholder="Placeholder"
+          @click="enterEditMode(3)"
+          @click-outside="hideButtons(3)"
+        >
+          <font-awesome-icon
+            class="u-typestyle-body-disclaimer-small u-margin-right-small"
+            slot="trailingAccessoryItem"
+            :icon="['fas', 'exclamation-triangle']"
+            aria-hidden
+            fixed-width
+          />
+        </geo-input>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -65,7 +86,7 @@ Use `GeoInput` component when you need confirmation feedback from the user on in
 export default {
   data () {
     return {
-      showButtons: [false, false, false],
+      showButtons: [false, false, false, false],
       isLoading: false,
       inputValue: ['', '']
     }
