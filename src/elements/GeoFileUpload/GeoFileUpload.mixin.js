@@ -2,7 +2,8 @@ const STATUS = {
   initial: 'initial',
   success: 'success',
   warning: 'warning',
-  error: 'error'
+  error: 'error',
+  loading: 'loading'
 }
 
 export { STATUS }
@@ -11,6 +12,12 @@ export { STATUS }
  * @mixin
  */
 export default {
+  props: {
+    loading: {
+      type: Boolean,
+      default: false
+    }
+  },
   data () {
     return {
       hasErrors: false,
@@ -20,6 +27,7 @@ export default {
   },
   computed: {
     $_GeoFileUpload_currentStatus () {
+      if (this.loading) return STATUS.loading
       if (this.hasErrors) return STATUS.error
       if (this.hasWarnings) return STATUS.warning
       if (this.fileName) return STATUS.success
