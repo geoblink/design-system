@@ -2,7 +2,8 @@
   <div
     :class="{
       [`geo-select-toggle-button${cssSuffix}`]: true,
-      [`geo-select-toggle-button--empty${cssSuffix}`]: isEmpty
+      [`geo-select-toggle-button--empty${cssSuffix}`]: isEmpty,
+      [`geo-select-toggle-button--disabled${cssSuffix}`]: disabled
     }"
     @click="handleClick($event)"
   >
@@ -12,7 +13,7 @@
     -->
     <slot />
     <font-awesome-icon
-      :icon="dropdownIcon"
+      :icon="dropdownIconForCurrentStatus"
       :class="{
         [`geo-select-toggle-button__toggle-icon${cssSuffix}`]: true
       }"
@@ -43,6 +44,19 @@ export default {
     },
 
     /**
+     * Font Awesome 5 icon to be displayed as dropdown toggle button.
+     *
+     * See [vue-fontawesome](https://www.npmjs.com/package/@fortawesome/vue-fontawesome#explicit-prefix-note-the-vue-bind-shorthand-because-this-uses-an-array)
+     * for more info about this.
+     */
+    dropdownDisabledIcon: {
+      type: Array,
+      default () {
+        return ['fal', 'lock']
+      }
+    },
+
+    /**
      * Whether there's a selected option or just the `GeoSelect` default
      * placeholder.
      *
@@ -51,10 +65,30 @@ export default {
     isEmpty: {
       type: Boolean,
       required: true
+    },
+
+    /**
+     * Whether interaction with this button is disabled or not.
+     *
+     * **Note:** It is used to toggle `geo-select__placeholder-box--disabled`
+     * class.
+     */
+    disabled: {
+      type: Boolean,
+      default: false
+    }
+  },
+  computed: {
+    dropdownIconForCurrentStatus () {
+      return this.disabled
+        ? this.dropdownDisabledIcon
+        : this.dropdownIcon
     }
   },
   methods: {
     handleClick ($event) {
+      if (this.disabled) return
+
       /**
        * Click on select event.
        *

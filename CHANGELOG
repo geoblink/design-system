@@ -1,3 +1,10 @@
+# 18.1.0
+
+New:
+
+- `GeoSelect` added `disabled` boolean property to allow disabling user interaction
+- `GeoSelectToggleButton` added `disabled` boolean property to allow disabling user interaction
+
 # 18.0.1
 
 Fixes:
