@@ -9,7 +9,15 @@
     @load-more-results="loadNextPage"
   >
     <!-- @slot _Optional_. Use this slot to customize toggle button. -->
-    <slot name="toggleButton">
+    <slot
+      name="toggleButton"
+      :dropdown-icon="dropdownIcon"
+      :css-modifier="`geo-select${cssSuffix}`"
+      :is-empty="!value"
+      :disabled="disabled"
+      :toggle-select="toggleSelect"
+      :label="toggleButtonLabel"
+    >
       <geo-select-toggle-button
         slot="toggleButton"
         :dropdown-icon="dropdownIcon"
