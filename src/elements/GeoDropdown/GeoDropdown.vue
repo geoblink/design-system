@@ -32,17 +32,14 @@ import ClickOutside from '../../directives/GeoClickOutside'
 import ScrollAnywhere from '../../directives/GeoScrollAnywhere'
 import getDOMElementOffset from '../../utils/getDOMElementOffset'
 import cssSuffix from '../../mixins/cssModifierMixin'
-import { X_AXIS_POSITION, Y_AXIS_POSITION } from './GeoDropdown.constants'
+import * as GeoDropdownConstants from './GeoDropdown.constants'
 import _ from 'lodash'
 
 export default {
   name: 'GeoDropdown',
   status: 'missing-tests',
   release: '4.0.0',
-  constants: {
-    X_AXIS_POSITION,
-    Y_AXIS_POSITION
-  },
+  constants: GeoDropdownConstants,
   directives: {
     ScrollAnywhere,
     ClickOutside
@@ -66,10 +63,10 @@ export default {
     preferredXAxisPosition: {
       type: String,
       default: function () {
-        return X_AXIS_POSITION.left
+        return GeoDropdownConstants.X_AXIS_POSITION.left
       },
       validator: function (value) {
-        return value in X_AXIS_POSITION
+        return value in GeoDropdownConstants.X_AXIS_POSITION
       }
     },
     /**
@@ -85,10 +82,10 @@ export default {
     preferredYAxisPosition: {
       type: String,
       default: function () {
-        return Y_AXIS_POSITION.bottom
+        return GeoDropdownConstants.Y_AXIS_POSITION.bottom
       },
       validator: function (value) {
-        return value in Y_AXIS_POSITION
+        return value in GeoDropdownConstants.Y_AXIS_POSITION
       }
     },
 
@@ -106,7 +103,7 @@ export default {
       type: String,
       required: false,
       validator: function (value) {
-        return value === undefined || value in Y_AXIS_POSITION
+        return value === undefined || value in GeoDropdownConstants.Y_AXIS_POSITION
       }
     },
 
@@ -278,7 +275,7 @@ export default {
         fitsTowardsPreferredXPosition,
         translationTowardsPreferredXPosition,
         translationTowardsFallbackXPosition
-      } = this.preferredXAxisPosition === X_AXIS_POSITION.right
+      } = this.preferredXAxisPosition === GeoDropdownConstants.X_AXIS_POSITION.right
         ? configTowardsLeft
         : configTowardsRight
 
@@ -288,7 +285,7 @@ export default {
         translationTowardsFallbackYPosition,
         popupMaxHeightTowardsPreferredYPosition,
         popupMaxHeightTowardsFallbackYPosition
-      } = this.preferredYAxisPosition === Y_AXIS_POSITION.top
+      } = this.preferredYAxisPosition === GeoDropdownConstants.Y_AXIS_POSITION.top
         ? configTowardsTop
         : configTowardsBottom
 
@@ -302,8 +299,8 @@ export default {
         : translationTowardsFallbackYPosition
 
       const forcedYAxisPositionToTranslationMapping = {
-        [Y_AXIS_POSITION.top]: configTowardsTop.translationTowardsPreferredYPosition,
-        [Y_AXIS_POSITION.bottom]: configTowardsBottom.translationTowardsPreferredYPosition
+        [GeoDropdownConstants.Y_AXIS_POSITION.top]: configTowardsTop.translationTowardsPreferredYPosition,
+        [GeoDropdownConstants.Y_AXIS_POSITION.bottom]: configTowardsBottom.translationTowardsPreferredYPosition
       }
 
       const translationY = forcedYAxisPositionToTranslationMapping[this.forceYAxisPosition] || automaticTranslationY
@@ -314,8 +311,8 @@ export default {
       const automaticPopupMaxHeight = fitsTowardsPreferredYPosition ? popupMaxHeightTowardsPreferredYPosition : popupMaxHeightTowardsFallbackYPosition
 
       const forcedYAxisPositionToMaxHeightMapping = {
-        [Y_AXIS_POSITION.top]: maxHeightAbove,
-        [Y_AXIS_POSITION.bottom]: maxHeightBelow
+        [GeoDropdownConstants.Y_AXIS_POSITION.top]: maxHeightAbove,
+        [GeoDropdownConstants.Y_AXIS_POSITION.bottom]: maxHeightBelow
       }
 
       const popupMaxHeight = forcedYAxisPositionToMaxHeightMapping[this.forceYAxisPosition] || automaticPopupMaxHeight

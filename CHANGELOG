@@ -1,3 +1,41 @@
+# 18.2.0
+
+New:
+
+- `GeoButton` added `link` variant.
+- `GeoDropdown` exported `geoDropdownMixinFactory` function which returns a mixin to reduce boilerplate when adding `GeoDropdown` components.
+- `GeoFileUpload` added `loading` status.
+
+# 18.2.0-beta.4
+
+New:
+
+- `GeoFileUpload` added `loading` status.
+
+# 18.2.0-beta.3
+
+Changed:
+
+- Merged master.
+
+# 18.2.0-beta.2
+
+New:
+
+- `GeoDropdown` exported `geoDropdownMixinFactory` function which returns a mixin to reduce boilerplate when adding `GeoDropdown` components.
+
+# 18.2.0-beta.1
+
+Fix:
+
+- `GeoLinkButton` fix flex content justification.
+
+# 18.2.0-beta.0
+
+New:
+
+- `GeoButton` added `link` variant.
+
 # 18.1.0
 
 New:

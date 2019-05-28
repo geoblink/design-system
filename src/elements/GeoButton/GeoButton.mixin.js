@@ -5,7 +5,8 @@ const TYPES = {
   primary: 'primary',
   secondary: 'secondary',
   tertiary: 'tertiary',
-  danger: 'danger'
+  danger: 'danger',
+  link: 'link'
 }
 
 const DEPRECATED_TYPES = {
