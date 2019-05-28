@@ -4,6 +4,7 @@ import GeoButton from '@/elements/GeoButton/GeoButton.vue'
 import GeoDangerButton from '@/elements/GeoButton/GeoDangerButton.vue'
 import GeoTertiaryButton from '@/elements/GeoButton/GeoTertiaryButton.vue'
 import GeoLinkButton from '@/elements/GeoButton/GeoLinkButton.vue'
+import GeoDangerLinkButton from '@/elements/GeoButton/GeoDangerLinkButton.vue'
 import GeoPrimaryButton from '@/elements/GeoButton/GeoPrimaryButton.vue'
 import GeoSecondaryButton from '@/elements/GeoButton/GeoSecondaryButton.vue'
 
@@ -14,6 +15,7 @@ localVue.component('geo-button', GeoButton)
 localVue.component('geo-danger-button', GeoDangerButton)
 localVue.component('geo-tertiary-button', GeoTertiaryButton)
 localVue.component('geo-link-button', GeoLinkButton)
+localVue.component('geo-danger-link-button', GeoDangerLinkButton)
 localVue.component('geo-primary-button', GeoPrimaryButton)
 localVue.component('geo-secondary-button', GeoSecondaryButton)
 
@@ -135,6 +137,16 @@ describe('GeoButton', () => {
     })
     expect(linkWrapper.vm.activityIndicatorVariant).toBe(undefined)
     expect(linkWrapper.find('.geo-activity-indicator').exists()).toBe(true)
+
+    const dangerLinkWrapper = mount(GeoButton, {
+      propsData: {
+        type: 'dangerLink',
+        loading: true
+      },
+      stubs: { GeoActivityIndicator }
+    })
+    expect(dangerLinkWrapper.vm.activityIndicatorVariant).toBe(undefined)
+    expect(dangerLinkWrapper.find('.geo-activity-indicator').exists()).toBe(true)
   })
 })
 
@@ -143,7 +155,8 @@ const taxonomyButtons = [
   GeoPrimaryButton,
   GeoSecondaryButton,
   GeoTertiaryButton,
-  GeoLinkButton
+  GeoLinkButton,
+  GeoDangerLinkButton
 ]
 
 describe('GeoButton Children', () => {
