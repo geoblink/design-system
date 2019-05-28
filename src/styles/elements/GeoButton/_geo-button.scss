@@ -246,6 +246,30 @@
   }
 }
 
+@mixin geo-button--link($css-suffix) {
+  @include geo-button-make-scheme((
+    normal-background-color: transparent,
+    normal-text-color: $color-blue,
+    normal-border-color: transparent,
+    disabled-text-color: $color-grey-light,
+    hover-decoration: underline
+  ), $css-suffix);
+
+  &#{$css-suffix} {
+    font-style: italic;
+    font-weight: $font-weight-regular;
+    font-size: $font-size-regular;
+    justify-content: flex-start;
+    letter-spacing: initial;
+    text-transform: initial;
+    transition: color $duration-quickly $easing-base;
+
+    .geo-button__label#{$css-suffix} {
+      padding: 0;
+    }
+  }
+}
+
 @mixin geo-button($css-suffix) {
   &#{$css-suffix} {
     align-items: center;
@@ -283,7 +307,9 @@
     }
   }
 
-  $this: &;
+  &--loading#{$css-suffix} {
+    cursor: progress;
+  }
 
   &--disabled#{$css-suffix} {
     cursor: not-allowed;
@@ -321,6 +347,10 @@
 
   .geo-button--destructive {
     @include geo-button--destructive($modifier-name-with-prefix);
+  }
+
+  .geo-button--link {
+    @include geo-button--link($modifier-name-with-prefix);
   }
 }
 

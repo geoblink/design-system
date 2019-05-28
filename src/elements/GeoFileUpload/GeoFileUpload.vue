@@ -12,21 +12,31 @@
     @drop.prevent="handleDrop($event)"
     @click="openPickDialog()"
   >
-    <font-awesome-icon
-      :icon="currentIcon"
-      :class="[
-        `geo-file-upload__upload-icon${cssSuffix}`,
-        `geo-file-upload__upload-icon--${status}${cssSuffix}`
-      ]"
-    />
-    <font-awesome-icon
-      :icon="uploadIcon"
-      :class="[
-        `geo-file-upload__upload-icon${cssSuffix}`,
-        `geo-file-upload__upload-icon--focused${cssSuffix}`,
-        `geo-file-upload__upload-icon--${status}--focused${cssSuffix}`
-      ]"
-    />
+    <div
+      v-if="isLoading"
+      :class="`geo-file-upload__loading-indicator${cssSuffix}`"
+    >
+      <slot name="loading">
+        <geo-activity-indicator />
+      </slot>
+    </div>
+    <template v-else>
+      <font-awesome-icon
+        :icon="currentIcon"
+        :class="[
+          `geo-file-upload__upload-icon${cssSuffix}`,
+          `geo-file-upload__upload-icon--${status}${cssSuffix}`
+        ]"
+      />
+      <font-awesome-icon
+        :icon="uploadIcon"
+        :class="[
+          `geo-file-upload__upload-icon${cssSuffix}`,
+          `geo-file-upload__upload-icon--focused${cssSuffix}`,
+          `geo-file-upload__upload-icon--${status}--focused${cssSuffix}`
+        ]"
+      />
+    </template>
 
     <div :class="`geo-file-upload__title${cssSuffix}`">
       <!-- @slot Use this slot to customize the title displayed below icon and above help lines. -->
@@ -46,6 +56,7 @@
     <input
       ref="input"
       :class="`geo-file-upload__input${cssSuffix}`"
+      :disabled="isLoading"
       type="file"
       @change="handleFilePick($event)"
     >
@@ -155,38 +166,56 @@ export default {
         [STATUS.warning]: this.warningIcon
       }
       return icons[this.status]
+    },
+
+    isLoading () {
+      return this.status === STATUS.loading
     }
   },
   methods: {
     handleDragenter ($event) {
+      if (this.isLoading) return
+
       this.focus()
     },
 
     handleDragleave ($event) {
+      if (this.isLoading) return
+
       this.unfocus()
     },
 
     handleDragover ($event) {
+      if (this.isLoading) return
+
       this.focus()
     },
 
     handleDragexit ($event) {
+      if (this.isLoading) return
+
       this.unfocus()
     },
 
     handleDrop ($event) {
+      if (this.isLoading) return
+
       // For now we are going to allow only one file at a time
       const file = _.get($event, 'dataTransfer.files[0]')
       if (file) this.pickFile(file)
     },
 
     handleFilePick ($event) {
+      if (this.isLoading) return
+
       // For now we are going to allow only one file at a time
       const file = _.get($event, 'target.files[0]')
       if (file) this.pickFile(file)
     },
 
     openPickDialog ($event) {
+      if (this.isLoading) return
+
       this.focus()
       /**
        * User clicked on the input.

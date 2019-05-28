@@ -2,6 +2,51 @@ import { mount } from '@vue/test-utils'
 import GeoDropdown from '@/elements/GeoDropdown/GeoDropdown.vue'
 
 describe('GeoDropdown', () => {
+  describe('Mixins', function () {
+    describe('#geoDropdownMixinFactory', function () {
+      it('Should export factory', function () {
+        expect(GeoDropdown).toHaveProperty('constants')
+        expect(GeoDropdown.constants).toHaveProperty('geoDropdownMixinFactory')
+        expect(GeoDropdown.constants.geoDropdownMixinFactory).toBeInstanceOf(Function)
+      })
+
+      it('Should return data object with boolean property', function () {
+        const mixin = GeoDropdown.constants.geoDropdownMixinFactory('demo')
+
+        expect(mixin).toHaveProperty('data')
+        expect(mixin.data).toBeInstanceOf(Function)
+
+        const data = mixin.data()
+
+        expect(data).toHaveProperty('isDemoDropdownOpened', false)
+      })
+
+      it('Should set data property to false when dismissed', function () {
+        const mixin = GeoDropdown.constants.geoDropdownMixinFactory('demo')
+        const data = mixin.data()
+        data['isDemoDropdownOpened'] = true
+
+        mixin.methods['dismissDemoDropdown'].apply(data)
+
+        expect(data).toHaveProperty('isDemoDropdownOpened', false)
+      })
+
+      it('Should toggle data property when toggled', function () {
+        const mixin = GeoDropdown.constants.geoDropdownMixinFactory('demo')
+        const data = mixin.data()
+
+        mixin.methods['toggleDemoDropdown'].apply(data)
+        expect(data).toHaveProperty('isDemoDropdownOpened', true)
+
+        mixin.methods['toggleDemoDropdown'].apply(data)
+        expect(data).toHaveProperty('isDemoDropdownOpened', false)
+
+        mixin.methods['toggleDemoDropdown'].apply(data)
+        expect(data).toHaveProperty('isDemoDropdownOpened', true)
+      })
+    })
+  })
+
   it('Should render toggle button', function () {
     const wrapper = mount(GeoDropdown, {
       propsData: {

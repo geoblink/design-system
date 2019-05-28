@@ -10,10 +10,6 @@ Only one file can be uploaded using this component.
     <div class="element-demo__block" style="justify-content: space-around;">
       <geo-file-upload
         :status="status"
-        :upload-icon="['fas', 'upload']"
-        :success-icon="['fas', 'check-circle']"
-        :error-icon="['fas', 'exclamation-triangle']"
-        :warning-icon="['fas', 'exclamation-triangle']"
         @pick-file="pickFile($event)"
       >
         <template slot="title">{{ pickerTitle }}</template>
@@ -32,23 +28,16 @@ Only one file can be uploaded using this component.
       <geo-file-upload
         status="initial"
         ref="focusedFileUpload"
-        :upload-icon="['fas', 'upload']"
       >
         <template slot="title">Drop the file here</template>
         <template slot="help">Only single files supported</template>
       </geo-file-upload>
-      <geo-file-upload
-        status="success"
-        :upload-icon="['fas', 'upload']"
-        :success-icon="['fas', 'check-circle']"
-      >
+      <geo-file-upload status="success">
         <template slot="title">my-file.txt</template>
         <template slot="help">Everything is in place!</template>
       </geo-file-upload>
       <geo-file-upload
         status="error"
-        :upload-icon="['fas', 'upload']"
-        :error-icon="['fas', 'exclamation-triangle']"
       >
         <template slot="title">my-file.exe</template>
         <template slot="help">The file is not valid!</template>
@@ -56,11 +45,13 @@ Only one file can be uploaded using this component.
       <geo-file-upload
         status="warning"
         :has-file="true"
-        :upload-icon="['fas', 'upload']"
-        :warning-icon="['fas', 'exclamation-triangle']"
       >
         <template slot="title">my-file.xlsx</template>
         <template slot="help">Something didn't work as expected</template>
+      </geo-file-upload>
+      <geo-file-upload status="loading">
+        <template slot="title">my-file.xlsx</template>
+        <template slot="help">Loading...</template>
       </geo-file-upload>
     </div>
   </div>
