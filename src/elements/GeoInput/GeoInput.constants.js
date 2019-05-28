@@ -1,6 +1,6 @@
-const TYPE = {
+const INPUT_TYPES = {
   table: 'table',
   normal: 'normal'
 }
 
-export { TYPE }
+export { INPUT_TYPES }
