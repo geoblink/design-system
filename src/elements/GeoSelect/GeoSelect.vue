@@ -304,8 +304,11 @@ export default {
     isOptSelect: {
       type: Boolean,
       default: false,
-      validator () {
+      validator (value) {
+        if (value) {
         console.warn('[GeoSelect] «isOptSelect» property is deprecated. Use «grouped» property instead.')
+        }
+
         return true
       }
     },
