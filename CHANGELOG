@@ -1,5 +1,10 @@
 # 18.4.0
 
+New:
+
+- `GeoDangerLinkButton` component
+- `GeoButton` `dangerLink` variant
+
 Changed:
 
 - `GeoSelect` expose slots to customize how items are displayed.
