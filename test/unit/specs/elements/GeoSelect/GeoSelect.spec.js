@@ -19,7 +19,8 @@ import { fas } from '@fortawesome/free-solid-svg-icons'
 
 const iconsToMock = [
   'faChevronUp',
-  'faChevronDown'
+  'faChevronDown',
+  'faLock'
 ]
 const mockedFalIcons = _.mapValues(_.pick(fas, iconsToMock), function (original) {
   return _.assign({}, original, {
@@ -107,6 +108,41 @@ describe('GeoSelect', () => {
         }
       }
     })
+    expect(wrapper.find('.geo-select__options-container--geo-select').exists()).toBe(true)
+  })
+
+  it('Should show element popup on click on toggle button', () => {
+    const wrapper = mount(GeoSelect, {
+      stubs: {
+        GeoSelectBase,
+        GeoSelectToggleButton,
+        GeoDropdown,
+        GeoBorderedBox,
+        GeoScrollableContainer,
+        GeoMarquee,
+        GeoHighlightedString,
+        GeoListItem,
+        'font-awesome-icon': FontAwesomeIcon
+      },
+      propsData: {
+        options: _.times(4, idx => {
+          return {
+            label: `${idx}`
+          }
+        }),
+        placeholder: 'Some Placeholder',
+        dropdownIcon: ['fas', 'chevron-down'],
+        forceYAxisPosition: Y_AXIS_POSITION.top,
+        pageSize: 4,
+        value: {
+          label: 'Item 0'
+        }
+      }
+    })
+    expect(wrapper.find('.geo-select-toggle-button--geo-select').exists()).toBe(true)
+
+    wrapper.find('.geo-select-toggle-button--geo-select').trigger('click')
+
     expect(wrapper.find('.geo-select__options-container--geo-select').exists()).toBe(true)
   })
 
@@ -304,5 +340,76 @@ describe('GeoSelect', () => {
     wrapper.find('.geo-bordered-box-header-search-form__input').element.value = 'Second Group'
     wrapper.find('.geo-bordered-box-header-search-form__input').trigger('keyup')
     expect(wrapper.findAll('.geo-list-item--geo-select').length).toBe(4)
+  })
+
+  describe('When disabled', () => {
+    it('Should pass disabled prop to toggle button', () => {
+      const wrapper = mount(GeoSelect, {
+        stubs: {
+          GeoSelectBase,
+          GeoSelectToggleButton,
+          GeoDropdown,
+          GeoBorderedBox,
+          GeoScrollableContainer,
+          GeoMarquee,
+          GeoHighlightedString,
+          GeoListItem,
+          'font-awesome-icon': FontAwesomeIcon
+        },
+        propsData: {
+          options: _.times(4, idx => {
+            return {
+              label: `${idx}`
+            }
+          }),
+          placeholder: 'Some Placeholder',
+          dropdownIcon: ['fas', 'chevron-down'],
+          forceYAxisPosition: Y_AXIS_POSITION.top,
+          pageSize: 4,
+          value: {
+            label: 'Item 0'
+          },
+          disabled: true
+        }
+      })
+      expect(wrapper.find('.geo-select-toggle-button--geo-select').exists()).toBe(true)
+      expect(wrapper.find('.geo-select-toggle-button--disabled--geo-select').exists()).toBe(true)
+    })
+
+    it('Should disable user interaction', () => {
+      const wrapper = mount(GeoSelect, {
+        stubs: {
+          GeoSelectBase,
+          GeoSelectToggleButton,
+          GeoDropdown,
+          GeoBorderedBox,
+          GeoScrollableContainer,
+          GeoMarquee,
+          GeoHighlightedString,
+          GeoListItem,
+          'font-awesome-icon': FontAwesomeIcon
+        },
+        propsData: {
+          options: _.times(4, idx => {
+            return {
+              label: `${idx}`
+            }
+          }),
+          placeholder: 'Some Placeholder',
+          dropdownIcon: ['fas', 'chevron-down'],
+          forceYAxisPosition: Y_AXIS_POSITION.top,
+          pageSize: 4,
+          value: {
+            label: 'Item 0'
+          },
+          disabled: true
+        }
+      })
+      expect(wrapper.find('.geo-select-toggle-button--geo-select').exists()).toBe(true)
+
+      wrapper.find('.geo-select-toggle-button--geo-select').trigger('click')
+
+      expect(wrapper.find('.geo-select__options-container--geo-select').exists()).toBe(false)
+    })
   })
 })

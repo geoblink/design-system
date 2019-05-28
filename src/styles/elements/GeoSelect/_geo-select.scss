@@ -14,7 +14,12 @@
   @include geo-bordered-box-header-search-form-make("geo-select#{$modifier-name-with-prefix}");
   @include geo-select-toggle-button-make("geo-select#{$modifier-name-with-prefix}");
   @include geo-marquee-make("geo-select#{$modifier-name-with-prefix}");
+  @include geo-marquee-make("geo-select--disabled#{$modifier-name-with-prefix}");
   @include geo-highlighted-string-make("geo-select#{$modifier-name-with-prefix}");
+
+  .geo-marquee--geo-select--disabled#{$modifier-name-with-prefix} {
+    cursor: not-allowed;
+  }
 
   .geo-list-item__icon-and-label--geo-select#{$modifier-name-with-prefix},
   .geo-list-item__icon-and-label__label--geo-select#{$modifier-name-with-prefix},
