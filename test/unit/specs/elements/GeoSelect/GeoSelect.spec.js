@@ -12,6 +12,7 @@ import GeoMarquee from '@/elements/GeoMarquee/GeoMarquee'
 import GeoHighlightedString from '@/elements/GeoHighlightedString/GeoHighlightedString.vue'
 import GeoListItem from '@/elements/GeoList/GeoListItem.vue'
 import GeoListGroup from '@/elements/GeoList/GeoListGroup.vue'
+import GeoTrimmedContent from '@/elements/GeoTrimmedContent/GeoTrimmedContent.vue'
 import _ from 'lodash'
 
 import { library } from '@fortawesome/fontawesome-svg-core'
@@ -30,20 +31,25 @@ const mockedFalIcons = _.mapValues(_.pick(fas, iconsToMock), function (original)
 
 library.add(fas, mockedFalIcons)
 
+const stubs = {
+  GeoSelectBase,
+  GeoSelectToggleButton,
+  GeoDropdown,
+  GeoBorderedBox,
+  GeoScrollableContainer,
+  GeoMarquee,
+  GeoHighlightedString,
+  GeoListItem,
+  GeoTrimmedContent,
+  GeoBorderedBoxHeaderSearchForm,
+  GeoListGroup,
+  'font-awesome-icon': FontAwesomeIcon
+}
+
 describe('GeoSelect', () => {
   it('Should render toggle button', () => {
     const wrapper = mount(GeoSelect, {
-      stubs: {
-        GeoSelectBase,
-        GeoSelectToggleButton,
-        GeoDropdown,
-        GeoBorderedBox,
-        GeoScrollableContainer,
-        GeoMarquee,
-        GeoHighlightedString,
-        GeoListItem,
-        'font-awesome-icon': FontAwesomeIcon
-      },
+      stubs,
       propsData: {
         options: _.times(4, idx => { return { label: `${idx}` } }),
         placeholder: 'Some Placeholder',
@@ -58,17 +64,7 @@ describe('GeoSelect', () => {
 
   it('Should not render element popup if not opened', () => {
     const wrapper = mount(GeoSelect, {
-      stubs: {
-        GeoSelectBase,
-        GeoSelectToggleButton,
-        GeoDropdown,
-        GeoBorderedBox,
-        GeoScrollableContainer,
-        GeoMarquee,
-        GeoHighlightedString,
-        GeoListItem,
-        'font-awesome-icon': FontAwesomeIcon
-      },
+      stubs,
       propsData: {
         options: _.times(4, idx => { return { label: `${idx}` } }),
         placeholder: 'Some Placeholder',
@@ -83,17 +79,7 @@ describe('GeoSelect', () => {
 
   it('Should render element popup if opened', () => {
     const wrapper = mount(GeoSelect, {
-      stubs: {
-        GeoSelectBase,
-        GeoSelectToggleButton,
-        GeoDropdown,
-        GeoBorderedBox,
-        GeoScrollableContainer,
-        GeoMarquee,
-        GeoHighlightedString,
-        GeoListItem,
-        'font-awesome-icon': FontAwesomeIcon
-      },
+      stubs,
       propsData: {
         options: _.times(4, idx => { return { label: `${idx}` } }),
         placeholder: 'Some Placeholder',
@@ -151,17 +137,7 @@ describe('GeoSelect', () => {
 
     afterEach(() => spy.mockReset())
     const wrapper = mount(GeoSelect, {
-      stubs: {
-        GeoSelectBase,
-        GeoSelectToggleButton,
-        GeoDropdown,
-        GeoBorderedBox,
-        GeoScrollableContainer,
-        GeoMarquee,
-        GeoHighlightedString,
-        GeoListItem,
-        'font-awesome-icon': FontAwesomeIcon
-      },
+      stubs,
       propsData: {
         options: _.times(4, idx => { return { label: `${idx}` } }),
         placeholder: 'Some Placeholder',
@@ -181,17 +157,7 @@ describe('GeoSelect', () => {
   it('Should execute load more results when given the event', (done) => {
     const mockScrollToLastEntry = jest.fn()
     const wrapper = mount(GeoSelect, {
-      stubs: {
-        GeoSelectBase,
-        GeoSelectToggleButton,
-        GeoDropdown,
-        GeoBorderedBox,
-        GeoScrollableContainer,
-        GeoMarquee,
-        GeoHighlightedString,
-        GeoListItem,
-        'font-awesome-icon': FontAwesomeIcon
-      },
+      stubs,
       propsData: {
         options: _.times(4, idx => { return { label: `${idx}` } }),
         placeholder: 'Some Placeholder'
@@ -207,17 +173,7 @@ describe('GeoSelect', () => {
 
   it('Should change selection when selecting one of the options', () => {
     const wrapper = mount(GeoSelect, {
-      stubs: {
-        GeoSelectBase,
-        GeoSelectToggleButton,
-        GeoDropdown,
-        GeoBorderedBox,
-        GeoScrollableContainer,
-        GeoMarquee,
-        GeoHighlightedString,
-        GeoListItem,
-        'font-awesome-icon': FontAwesomeIcon
-      },
+      stubs,
       propsData: {
         options: _.times(4, idx => { return { label: `${idx}` } }),
         placeholder: 'Some Placeholder',
@@ -234,18 +190,7 @@ describe('GeoSelect', () => {
 
   it('Should show/hide search box if given the prop', () => {
     const wrapper = mount(GeoSelect, {
-      stubs: {
-        GeoSelectBase,
-        GeoSelectToggleButton,
-        GeoDropdown,
-        GeoBorderedBox,
-        GeoBorderedBoxHeaderSearchForm,
-        GeoScrollableContainer,
-        GeoMarquee,
-        GeoHighlightedString,
-        GeoListItem,
-        'font-awesome-icon': FontAwesomeIcon
-      },
+      stubs,
       propsData: {
         options: _.times(4, idx => { return { label: `${idx}` } }),
         placeholder: 'Some Placeholder',
@@ -266,18 +211,7 @@ describe('GeoSelect', () => {
 
   it('Should filter the select options when typing on the search box', () => {
     const wrapper = mount(GeoSelect, {
-      stubs: {
-        GeoSelectBase,
-        GeoSelectToggleButton,
-        GeoDropdown,
-        GeoBorderedBox,
-        GeoBorderedBoxHeaderSearchForm,
-        GeoScrollableContainer,
-        GeoMarquee,
-        GeoHighlightedString,
-        GeoListItem,
-        'font-awesome-icon': FontAwesomeIcon
-      },
+      stubs,
       propsData: {
         options: _.times(4, idx => { return { label: `Item ${idx}` } }),
         placeholder: 'Some Placeholder',
@@ -299,19 +233,7 @@ describe('GeoSelect', () => {
 
   it('Should filter options in an opt-group select', () => {
     const wrapper = mount(GeoSelect, {
-      stubs: {
-        GeoSelectBase,
-        GeoSelectToggleButton,
-        GeoDropdown,
-        GeoBorderedBox,
-        GeoBorderedBoxHeaderSearchForm,
-        GeoScrollableContainer,
-        GeoMarquee,
-        GeoHighlightedString,
-        GeoListItem,
-        GeoListGroup,
-        'font-awesome-icon': FontAwesomeIcon
-      },
+      stubs,
       propsData: {
         options: [
           {

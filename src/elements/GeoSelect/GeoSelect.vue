@@ -8,82 +8,123 @@
     @click-outside="closeSelect"
     @load-more-results="loadNextPage"
   >
-    <geo-select-toggle-button
-      slot="toggleButton"
-      :dropdown-icon="dropdownIcon"
-      :css-modifier="`geo-select${cssSuffix}`"
-      :is-empty="!value"
-      :disabled="disabled"
-      @click="toggleSelect"
-    >
-      <geo-marquee :css-modifier="toggleButtonMarqueeModifier">
-        <template slot-scope="{}">
+    <!-- @slot _Optional_. Use this slot to customize toggle button. -->
+    <slot name="toggleButton">
+      <geo-select-toggle-button
+        slot="toggleButton"
+        :dropdown-icon="dropdownIcon"
+        :css-modifier="`geo-select${cssSuffix}`"
+        :is-empty="!value"
+        :disabled="disabled"
+        @click="toggleSelect"
+      >
+        <geo-trimmed-content :css-modifier="`geo-select${cssSuffix}`">
           {{ toggleButtonLabel }}
-        </template>
-      </geo-marquee>
-    </geo-select-toggle-button>
-    <geo-bordered-box-header-search-form
+        </geo-trimmed-content>
+      </geo-select-toggle-button>
+    </slot>
+
+    <!-- @slot _Optional_. Use this slot to customize search form. -->
+    <slot
       v-if="searchable"
-      slot="header"
-      v-model="searchPattern"
-      :search-icon="searchIcon"
-      :css-modifier="`geo-select${cssSuffix}`"
-      :placeholder="searchInputPlaceholder"
-    />
+      name="search-header"
+    >
+      <geo-bordered-box-header-search-form
+        v-if="searchable"
+        slot="header"
+        v-model="searchPattern"
+        :search-icon="searchIcon"
+        :css-modifier="`geo-select${cssSuffix}`"
+        :placeholder="searchInputPlaceholder"
+      />
+    </slot>
+
     <template v-if="visibleOptions.length">
       <template v-if="isOptSelect">
-        <geo-list-group
-          v-for="(option, index) in visibleOptions"
-          :key="`${option.label}--${index}`"
-          :css-modifier="`geo-select${cssSuffix}`"
-        >
-          <template
-            v-if="option.isOptGroupHeader"
-            slot="title"
-          >
-            <geo-marquee :css-modifier="`geo-select${cssSuffix}`">
-              <geo-highlighted-string
-                slot-scope="{}"
-                :css-modifier="`geo-select${cssSuffix}`"
-                :highlighted-chars="option.matches"
-                :reference-string="option.label"
-              />
-            </geo-marquee>
-          </template>
-          <geo-list-item
-            v-for="(item, itemIndex) in option.items"
-            slot="item"
-            :key="`${item.label}--${itemIndex}`"
+        <template v-for="(option, index) in visibleOptions">
+          <!--
+            @slot _Optional_. Use this slot to customize how groups are displayed
+            in grouped `GeoSelect`s
+          -->
+          <slot
+            name="group"
+            :option="option"
+            :index="index"
+            :suggested-key="`${option.label}--${index}`"
             :css-modifier="`geo-select${cssSuffix}`"
-            @click="changeCurrentSelection(item)"
           >
-            <geo-marquee :css-modifier="`geo-select${cssSuffix}`">
-              <geo-highlighted-string
-                slot-scope="{}"
+            <geo-list-group :css-modifier="`geo-select${cssSuffix}`">
+              <slot
+                v-if="option.isOptGroupHeader"
+                slot="title"
+                name="group-title"
+              >
+                <geo-marquee :css-modifier="`geo-select${cssSuffix}`">
+                  <geo-highlighted-string
+                    slot-scope="{}"
+                    :css-modifier="`geo-select${cssSuffix}`"
+                    :highlighted-chars="option.matches"
+                    :reference-string="option.label"
+                  />
+                </geo-marquee>
+              </slot>
+
+              <slot
+                v-for="(item, itemIndex) in option.items"
+                slot="item"
+                name="group-item"
+                :suggested-key="`${item.label}--${itemIndex}`"
                 :css-modifier="`geo-select${cssSuffix}`"
-                :highlighted-chars="item.matches"
-                :reference-string="item.label"
-              />
-            </geo-marquee>
-          </geo-list-item>
-        </geo-list-group>
+                :change-current-selection="changeCurrentSelection"
+              >
+                <geo-list-item
+                  :key="`${item.label}--${itemIndex}`"
+                  :css-modifier="`geo-select${cssSuffix}`"
+                  @click="changeCurrentSelection(item)"
+                >
+                  <geo-marquee :css-modifier="`geo-select${cssSuffix}`">
+                    <geo-highlighted-string
+                      slot-scope="{}"
+                      :css-modifier="`geo-select${cssSuffix}`"
+                      :highlighted-chars="item.matches"
+                      :reference-string="item.label"
+                    />
+                  </geo-marquee>
+                </geo-list-item>
+              </slot>
+            </geo-list-group>
+          </slot>
+        </template>
       </template>
       <template v-else>
-        <geo-list-item
-          v-for="(option, optionIndex) in visibleOptions"
-          :key="`${option.label}--${optionIndex}`"
-          :css-modifier="`geo-select${cssSuffix}`"
-          @click="changeCurrentSelection(option)"
-        >
-          <geo-marquee :css-modifier="`geo-select${cssSuffix}`">
-            <geo-highlighted-string
-              slot-scope="{}"
+        <template v-for="(option, optionIndex) in visibleOptions">
+          <!--
+            @slot _Optional_. Use this slot to customize how options are displayed
+            in non-grouped `GeoSelect`s
+          -->
+          <slot
+            :option="option"
+            :index="optionIndex"
+            :suggested-key="`${option.label}--${optionIndex}`"
+            :css-modifier="`geo-select${cssSuffix}`"
+            :change-current-selection="changeCurrentSelection"
+          >
+            <geo-list-item
+              :key="`${option.label}--${optionIndex}`"
               :css-modifier="`geo-select${cssSuffix}`"
-              :highlighted-chars="option.matches"
-              :reference-string="option.label"
-            />
-          </geo-marquee>
-        </geo-list-item>
+              @click="changeCurrentSelection(option)"
+            >
+              <geo-marquee :css-modifier="`geo-select${cssSuffix}`">
+                <geo-highlighted-string
+                  slot-scope="{}"
+                  :css-modifier="`geo-select${cssSuffix}`"
+                  :highlighted-chars="option.matches"
+                  :reference-string="option.label"
+                />
+              </geo-marquee>
+            </geo-list-item>
+          </slot>
+        </template>
       </template>
     </template>
     <geo-list-clear-item
