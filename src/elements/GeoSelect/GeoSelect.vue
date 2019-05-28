@@ -40,7 +40,7 @@
     </slot>
 
     <template v-if="visibleOptions.length">
-      <template v-if="isOptSelect">
+      <template v-if="isGroupedSelect">
         <template v-for="(option, index) in visibleOptions">
           <!--
             @slot _Optional_. Use this slot to customize how groups are displayed
@@ -282,11 +282,24 @@ export default {
     /**
      * Whether the `GeoSelect` is going to be grouped by optGroups or not.
      *
-     * **Note:** If set to true, the options array must be grouped with the items inside each one of the opt-groups
+     * **Note:** If set to true, the options array must be grouped with the
+     * items inside each one of the opt-groups
+     */
+    grouped: {
+      type: Boolean,
+      default: false
+    },
+
+    /**
+     * **Deprecated.** Use `grouped` prop.
      */
     isOptSelect: {
       type: Boolean,
-      default: false
+      default: false,
+      validator () {
+        console.warn('[GeoSelect] «isOptSelect» property is deprecated. Use «grouped» property instead.')
+        return true
+      }
     },
 
     /**
@@ -409,6 +422,10 @@ export default {
     }
   },
   computed: {
+    isGroupedSelect () {
+      return this.grouped || this.isOptSelect
+    },
+
     toggleButtonMarqueeModifier () {
       return this.disabled
         ? `geo-select--disabled${this.cssSuffix}`
