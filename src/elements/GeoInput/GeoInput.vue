@@ -63,14 +63,14 @@
 
 <script>
 import cssSuffix from '../../mixins/cssModifierMixin'
-import { INPUT_TYPES } from './GeoInput.constants'
+import { VARIANTS } from './GeoInput.constants'
 
 export default {
   name: 'GeoInput',
   status: 'ready',
   release: '6.1.0',
   mixins: [cssSuffix],
-  constants: { INPUT_TYPES },
+  constants: { VARIANTS },
   props: {
     /**
      * Input value.
@@ -130,18 +130,18 @@ export default {
     },
     /**
      * Defines the style of the input depending on where is goint to be use. `table` or `normal`
-     * Values available in `INPUT_TYPES`
-     * - `INPUT_TYPES.table`
-     * - `INPUT_TYPES.normal`
+     * Values available in `VARIANTS`
+     * - `VARIANTS.table`
+     * - `VARIANTS.normal`
      */
     inputType: {
       type: String,
       default: function () {
-        return INPUT_TYPES.table
+        return VARIANTS.table
       },
       validator: function (value) {
         // The value must match one of these strings
-        return value in INPUT_TYPES
+        return value in VARIANTS
       }
     }
   },
