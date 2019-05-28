@@ -82,6 +82,8 @@
                 slot="item"
                 name="group-item"
                 :suggested-key="`${item.label}--${itemIndex}`"
+                :item-index="itemIndex"
+                :item="item"
                 :css-modifier="`geo-select${cssSuffix}`"
                 :change-current-selection="changeCurrentSelection"
               >
@@ -306,7 +308,7 @@ export default {
       default: false,
       validator (value) {
         if (value) {
-        console.warn('[GeoSelect] «isOptSelect» property is deprecated. Use «grouped» property instead.')
+          console.warn('[GeoSelect] «isOptSelect» property is deprecated. Use «grouped» property instead.')
         }
 
         return true
