@@ -113,8 +113,8 @@
             in non-grouped `GeoSelect`s
           -->
           <slot
-            :option="option"
-            :index="optionIndex"
+            :item="option"
+            :item-index="optionIndex"
             :suggested-key="`${option.label}--${optionIndex}`"
             :css-modifier="`geo-select${cssSuffix}`"
             :change-current-selection="changeCurrentSelection"

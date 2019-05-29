@@ -95,6 +95,38 @@ a better UX including chunked load and search capabilities.
         disabled
       />
     </div>
+    <h3 class="element-demo__header">Custom select</h3>
+    <div class="element-demo__block" style="justify-content: space-around;">
+      <geo-select
+        v-model="currentSelection[6]"
+        :options="itemsList"
+        :dropdown-icon="['fas', 'chevron-down']"
+        :search-icon="['fas', 'search']"
+        css-modifier="select-demo"
+        placeholder="Choose an option"
+      >
+        <geo-select-toggle-button
+          slot="toggleButton"
+          slot-scope="{ dropdownIcon, cssModifier, isEmpty, disabled, toggleSelect, label }"
+          :dropdown-icon="dropdownIcon"
+          :css-modifier="cssModifier"
+          :is-empty="isEmpty"
+          :disabled="disabled"
+          @click="toggleSelect"
+        >
+          (Custom) {{ label }}
+        </geo-select-toggle-button>
+
+        <template slot-scope="{ item, suggestedKey, changeCurrentSelection }">
+          <geo-list-item
+            :key="suggestedKey"
+            @click="changeCurrentSelection(item)"
+          >
+            (Custom) {{ item.label }}
+          </geo-list-item>
+        </template>
+      </geo-select>
+    </div>
   </div>
 </template>
 
@@ -102,7 +134,7 @@ a better UX including chunked load and search capabilities.
 export default {
   data () {
     return {
-      currentSelection: [null, null, null, null, null, null],
+      currentSelection: [null, null, null, null, null, null, null],
       itemsList: _.times(4, idx => { return {label: `Item ${idx}`} }),
       marqueeOptions: _.times(4, idx => { return {label: `Super long name so it doesn't fit in the box ${idx}`} }),
       marqueeOptGroupsList: [
