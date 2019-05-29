@@ -1,3 +1,31 @@
+# 19.0.0
+
+Breaking:
+
+- `GeoInput` change name of `GeoInputConstants` from `INPUT_TYPES` to `VARIANTS`
+
+# 19.0.0-beta.1
+
+Breaking:
+
+- `GeoInput` change name of `GeoInputConstants` from `INPUT_TYPES` to `VARIANTS`
+
+# 19.0.0-beta.0
+
+Breaking:
+
+- `GeoInput` change name of `GeoInputConstants` TYPE
+
+# 18.3.0-beta.1
+
+- Incorporate previous versions changes
+
+# 18.3.0-beta.0
+
+New:
+
+- `GeoInput` add `leadingAccessoryItem` and `trailingAccessoryItem`
+
 # 18.2.0
 
 New:

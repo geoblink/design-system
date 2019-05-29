@@ -19,6 +19,7 @@
         :class="`geo-input__form${cssSuffix}`"
         @submit.prevent="emitSave($event)"
       >
+        <slot name="leadingAccessoryItem" />
         <input
           :value="value"
           :placeholder="placeholder"
@@ -28,6 +29,7 @@
           @click="emitClick($event)"
           @input="onInput($event)"
         >
+        <slot name="trailingAccessoryItem" />
       </form>
 
       <div
@@ -61,14 +63,14 @@
 
 <script>
 import cssSuffix from '../../mixins/cssModifierMixin'
-import { TYPE } from './GeoInput.constants'
+import { VARIANTS } from './GeoInput.constants'
 
 export default {
   name: 'GeoInput',
   status: 'ready',
   release: '6.1.0',
   mixins: [cssSuffix],
-  constants: { TYPE },
+  constants: { VARIANTS },
   props: {
     /**
      * Input value.
@@ -128,18 +130,18 @@ export default {
     },
     /**
      * Defines the style of the input depending on where is goint to be use. `table` or `normal`
-     * Values available in `TYPE`
-     * - `TYPE.table`
-     * - `TYPE.normal`
+     * Values available in `VARIANTS`
+     * - `VARIANTS.table`
+     * - `VARIANTS.normal`
      */
     inputType: {
       type: String,
       default: function () {
-        return TYPE.table
+        return VARIANTS.table
       },
       validator: function (value) {
         // The value must match one of these strings
-        return value in TYPE
+        return value in VARIANTS
       }
     }
   },
