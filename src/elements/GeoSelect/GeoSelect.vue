@@ -10,6 +10,7 @@
   >
     <!-- @slot _Optional_. Use this slot to customize toggle button. -->
     <slot
+      slot="toggleButton"
       name="toggleButton"
       :dropdown-icon="dropdownIcon"
       :css-modifier="`geo-select${cssSuffix}`"
@@ -19,7 +20,6 @@
       :label="toggleButtonLabel"
     >
       <geo-select-toggle-button
-        slot="toggleButton"
         :dropdown-icon="dropdownIcon"
         :css-modifier="`geo-select${cssSuffix}`"
         :is-empty="!value"
