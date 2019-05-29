@@ -99,17 +99,7 @@ describe('GeoSelect', () => {
 
   it('Should show element popup on click on toggle button', () => {
     const wrapper = mount(GeoSelect, {
-      stubs: {
-        GeoSelectBase,
-        GeoSelectToggleButton,
-        GeoDropdown,
-        GeoBorderedBox,
-        GeoScrollableContainer,
-        GeoMarquee,
-        GeoHighlightedString,
-        GeoListItem,
-        'font-awesome-icon': FontAwesomeIcon
-      },
+      stubs,
       propsData: {
         options: _.times(4, idx => {
           return {
@@ -251,7 +241,7 @@ describe('GeoSelect', () => {
         dropdownIcon: ['fas', 'chevron-down'],
         searchIcon: ['fas', 'search'],
         searchable: true,
-        isOptSelect: true
+        grouped: true
       },
       data () {
         return {
@@ -267,17 +257,7 @@ describe('GeoSelect', () => {
   describe('When disabled', () => {
     it('Should pass disabled prop to toggle button', () => {
       const wrapper = mount(GeoSelect, {
-        stubs: {
-          GeoSelectBase,
-          GeoSelectToggleButton,
-          GeoDropdown,
-          GeoBorderedBox,
-          GeoScrollableContainer,
-          GeoMarquee,
-          GeoHighlightedString,
-          GeoListItem,
-          'font-awesome-icon': FontAwesomeIcon
-        },
+        stubs,
         propsData: {
           options: _.times(4, idx => {
             return {
@@ -300,17 +280,7 @@ describe('GeoSelect', () => {
 
     it('Should disable user interaction', () => {
       const wrapper = mount(GeoSelect, {
-        stubs: {
-          GeoSelectBase,
-          GeoSelectToggleButton,
-          GeoDropdown,
-          GeoBorderedBox,
-          GeoScrollableContainer,
-          GeoMarquee,
-          GeoHighlightedString,
-          GeoListItem,
-          'font-awesome-icon': FontAwesomeIcon
-        },
+        stubs,
         propsData: {
           options: _.times(4, idx => {
             return {
