@@ -23,7 +23,13 @@ size and completion percentage of the spinner.
         <geo-activity-indicator variant="error" />
       </div>
       <div class="element-demo__bordered-box geo-activity-indicator-demo-box geo-activity-indicator-demo-box--warn">
-        <geo-activity-indicator variant="warn" />
+        <geo-activity-indicator variant="warn">
+          <font-awesome-icon
+            :icon="['far', 'lightbulb']"
+            aria-hidden
+            fixed-width
+          />
+        </geo-activity-indicator>
       </div>
       <div class="element-demo__bordered-box geo-activity-indicator-demo-box geo-activity-indicator-demo-box--progress">
         <geo-activity-indicator variant="progress" />

@@ -1,7 +1,7 @@
 <template>
+  <div :class="`geo-activity-indicator${cssSuffix}`">
   <svg
     :class="{
-      [`geo-activity-indicator${cssSuffix}`]: true,
       [`geo-activity-indicator--${variant}${cssSuffix}`]: true,
       [`geo-activity-indicator--${variant}--animated${cssSuffix}`]: isAnimated,
       [`geo-activity-indicator--animated${cssSuffix}`]: isAnimated
@@ -82,6 +82,11 @@
       />
     </g>
   </svg>
+    <div :class="`geo-activity-indicator__inset${cssSuffix}`">
+      <!-- @slot Use this slot to customize content displayed inside the indicator -->
+      <slot />
+    </div>
+  </div>
 </template>
 
 <script>
