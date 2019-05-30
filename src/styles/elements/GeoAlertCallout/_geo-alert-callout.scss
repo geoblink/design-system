@@ -1,12 +1,3 @@
-@mixin geo-alert-callout-make-scheme($tint-color) {
-  border-color: rgba($tint-color, 0.2);
-  background: rgba($tint-color, 0.1);
-
-  .geo-alert-callout__icon {
-    color: $tint-color;
-  }
-}
-
 @mixin geo-alert-callout-make($modifier-name) {
 
   $modifier-name-with-prefix: '';
@@ -41,19 +32,39 @@
   }
 
   .geo-alert-callout--info#{$modifier-name-with-prefix} {
-    @include geo-alert-callout-make-scheme($color-blue);
+    border-color: $color-blue-readable-border;
+    background: $color-blue-readable-background;
+
+    .geo-alert-callout__icon {
+      color: $color-blue;
+    }
   }
 
   .geo-alert-callout--success#{$modifier-name-with-prefix} {
-    @include geo-alert-callout-make-scheme($color-green);
+    border-color: $color-green-readable-border;
+    background: $color-green-readable-background;
+
+    .geo-alert-callout__icon {
+      color: $color-green;
+    }
   }
 
   .geo-alert-callout--warning#{$modifier-name-with-prefix} {
-    @include geo-alert-callout-make-scheme($color-yellow);
+    border-color: $color-yellow-readable-border;
+    background: $color-yellow-readable-background;
+
+    .geo-alert-callout__icon {
+      color: $color-yellow;
+    }
   }
 
   .geo-alert-callout--error#{$modifier-name-with-prefix} {
-    @include geo-alert-callout-make-scheme($color-red);
+    border-color: $color-red-readable-border;
+    background: $color-red-readable-background;
+
+    .geo-alert-callout__icon {
+      color: $color-red;
+    }
   }
 }
 
