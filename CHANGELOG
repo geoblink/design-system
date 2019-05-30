@@ -2,6 +2,7 @@
 
 New:
 
+- `GeoAlertCallout` component
 - `GeoDangerLinkButton` component
 - `GeoButton` `dangerLink` variant
 
