@@ -1,87 +1,87 @@
 <template>
   <div :class="`geo-activity-indicator${cssSuffix}`">
-  <svg
-    :class="{
-      [`geo-activity-indicator--${variant}${cssSuffix}`]: true,
-      [`geo-activity-indicator--${variant}--animated${cssSuffix}`]: isAnimated,
-      [`geo-activity-indicator--animated${cssSuffix}`]: isAnimated
-    }"
-    width="100%"
-    height="100%"
-    preserveAspectRatio="xMidYMid meet"
-    viewBox="0 0 100 100"
-    shape-rendering="geometricPrecision"
-  >
-    <defs>
-      <mask
-        :id="idCircleMask"
-        x="0"
-        y="0"
-        width="100"
-        height="100"
-        maskUnits="userSpaceOnUse"
-      >
-        <!--
-          The outer shape hides everything outside of the circle
-          This is necessary because the path used to create the bar does not
-          perfectly match the shape of a circle. We render the path larger than
-          needed and mask it's edges to create a perfect circle.
-        -->
-        <circle
-          cx="50"
-          cy="50"
-          r="51"
-          stroke-width="0"
-          fill="black"
-          opacity="1"
-        />
+    <svg
+      :class="{
+        [`geo-activity-indicator--${variant}${cssSuffix}`]: true,
+        [`geo-activity-indicator--${variant}--animated${cssSuffix}`]: isAnimated,
+        [`geo-activity-indicator--animated${cssSuffix}`]: isAnimated
+      }"
+      width="100%"
+      height="100%"
+      preserveAspectRatio="xMidYMid meet"
+      viewBox="0 0 100 100"
+      shape-rendering="geometricPrecision"
+    >
+      <defs>
+        <mask
+          :id="idCircleMask"
+          x="0"
+          y="0"
+          width="100"
+          height="100"
+          maskUnits="userSpaceOnUse"
+        >
+          <!--
+            The outer shape hides everything outside of the circle
+            This is necessary because the path used to create the bar does not
+            perfectly match the shape of a circle. We render the path larger than
+            needed and mask it's edges to create a perfect circle.
+          -->
+          <circle
+            cx="50"
+            cy="50"
+            r="51"
+            stroke-width="0"
+            fill="black"
+            opacity="1"
+          />
 
-        <!-- The middle shape defines the visible area -->
+          <!-- The middle shape defines the visible area -->
+          <circle
+            cx="50"
+            cy="50"
+            r="50"
+            stroke-width="0"
+            fill="white"
+            opacity="1"
+          />
+
+          <!--
+            The inner shape creates the hole in the center.
+            The value `r` defines the radius of the hole.
+          -->
+          <circle
+            cx="50"
+            cy="50"
+            :r="innerRadius"
+            stroke-width="0"
+            fill="black"
+            opacity="1"
+          />
+        </mask>
+      </defs>
+      <g :mask="`url(#${idCircleMask})`">
         <circle
+          :class="{
+            [`geo-activity-indicator__total-progress${cssSuffix}`]: true,
+            [`geo-activity-indicator__total-progress--${variant}${cssSuffix}`]: true
+          }"
           cx="50"
           cy="50"
           r="50"
           stroke-width="0"
-          fill="white"
           opacity="1"
         />
-
-        <!--
-          The inner shape creates the hole in the center.
-          The value `r` defines the radius of the hole.
-        -->
-        <circle
-          cx="50"
-          cy="50"
-          r="40"
-          stroke-width="0"
-          fill="black"
-          opacity="1"
+        <path
+          :d="completedPercentagePathData"
+          :class="{
+            [`geo-activity-indicator__completed-progress${cssSuffix}`]: true,
+            [`geo-activity-indicator__completed-progress--${variant}${cssSuffix}`]: true
+          }"
+          transform="translate(50, 50)"
         />
-      </mask>
-    </defs>
-    <g :mask="`url(#${idCircleMask})`">
-      <circle
-        :class="{
-          [`geo-activity-indicator__total-progress${cssSuffix}`]: true,
-          [`geo-activity-indicator__total-progress--${variant}${cssSuffix}`]: true
-        }"
-        cx="50"
-        cy="50"
-        r="50"
-        stroke-width="0"
-        opacity="1"
-      />
-      <path
-        :d="completedPercentagePathData"
-        :class="{
-          [`geo-activity-indicator__completed-progress${cssSuffix}`]: true,
-          [`geo-activity-indicator__completed-progress--${variant}${cssSuffix}`]: true
-        }"
-        transform="translate(50, 50)"
-      />
-    </g>
-  </svg>
+      </g>
+    </svg>
     <div :class="`geo-activity-indicator__inset${cssSuffix}`">
       <!-- @slot Use this slot to customize content displayed inside the indicator -->
       <slot />
@@ -187,6 +187,23 @@ export default {
       default: VARIANTS.default,
       validator (value) {
         return value in VARIANTS
+      }
+    },
+
+    /**
+     * Radius of the inner shape that creates the hole in the center.
+     *
+     * Modifying this value will define a thinner or thicker indicator,
+     * being 0 the minimun using the whole circle and 50 the maximum with
+     * 1px indicator.
+     */
+    innerRadius: {
+      type: Number,
+      default: 40,
+      validator (value) {
+        if (value < 0) throw new Error('GeoActivityIndicator innerRadius can\'t be negative')
+        if (value > 50) throw new Error('GeoActivityIndicator innerRadius can\'t be greater than the outer radius (50)')
+        return true
       }
     }
   },

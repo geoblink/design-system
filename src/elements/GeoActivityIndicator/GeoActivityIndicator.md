@@ -65,6 +65,18 @@ size and completion percentage of the spinner.
           >
         </label>
         <label class="element-demo__inline-input-group__field" style="margin-left: 8px">
+          Inner radius: <input
+            :style="{
+              'width': '40px'
+            }"
+            type="number"
+            min="0"
+            max="50"
+            step="1"
+            v-model.number="innerRadius"
+          >
+        </label>
+        <label class="element-demo__inline-input-group__field" style="margin-left: 8px">
           Completed percentage: <input
             :style="{
               'width': '40px'
@@ -95,6 +107,7 @@ size and completion percentage of the spinner.
       >
         <geo-activity-indicator
           :percentage="completedPercentage"
+          :inner-radius="innerRadius"
           :animated="animated"
           :variant="variant"
         />
@@ -110,7 +123,8 @@ export default {
       variant: 'default',
       customSize: 30,
       completedPercentage: 0.33,
-      animated: true
+      animated: true,
+      innerRadius: 40
     }
   },
   computed: {
