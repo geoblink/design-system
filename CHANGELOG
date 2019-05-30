@@ -1,4 +1,4 @@
-# 18.4.0
+# 19.1.0
 
 New:
 
@@ -9,6 +9,46 @@ New:
 Changed:
 
 - `GeoSelect` expose slots to customize how items are displayed.
+
+# 19.0.0
+
+Breaking:
+
+- `GeoInput` change name of `GeoInputConstants` from `INPUT_TYPES` to `VARIANTS`
+
+# 19.0.0-beta.1
+
+Breaking:
+
+- `GeoInput` change name of `GeoInputConstants` from `INPUT_TYPES` to `VARIANTS`
+
+# 19.0.0-beta.0
+
+Breaking:
+
+- `GeoInput` change name of `GeoInputConstants` TYPE
+
+# 18.4.0 (Backdrop)
+
+New:
+
+- `GeoAlertCallout` component
+- `GeoDangerLinkButton` component
+- `GeoButton` `dangerLink` variant
+
+Changed:
+
+- `GeoSelect` expose slots to customize how items are displayed.
+
+# 18.3.0-beta.1
+
+- Incorporate previous versions changes
+
+# 18.3.0-beta.0
+
+New:
+
+- `GeoInput` add `leadingAccessoryItem` and `trailingAccessoryItem`
 
 # 18.2.0
 

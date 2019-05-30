@@ -1,6 +1,6 @@
-const TYPE = {
+const VARIANTS = {
   table: 'table',
   normal: 'normal'
 }
 
-export { TYPE }
+export { VARIANTS }
