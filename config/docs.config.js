@@ -92,6 +92,11 @@ module.exports = {
           sectionDepth: 0
         },
         {
+          name: 'GeoAlertCallout',
+          components: '../src/elements/GeoAlertCallout/Geo*AlertCallout.vue',
+          sectionDepth: 0
+        },
+        {
           name: 'GeoBorderedBox',
           components: '../src/elements/GeoBorderedBox/GeoBorderedBox*.vue',
           sectionDepth: 0
