@@ -102,11 +102,6 @@ module.exports = {
           sectionDepth: 0
         },
         {
-          name: 'GeoPill',
-          components: '../src/elements/GeoPill/GeoPill.vue',
-          sectionDepth: 0
-        },
-        {
           name: 'GeoButton',
           components: '../src/elements/GeoButton/Geo*Button.vue',
           sectionDepth: 0
@@ -144,6 +139,11 @@ module.exports = {
         {
           name: 'GeoNotificationBar',
           components: '../src/elements/GeoNotificationBar/GeoNotificationBar*.vue',
+          sectionDepth: 0
+        },
+        {
+          name: 'GeoPill',
+          components: '../src/elements/GeoPill/GeoPill.vue',
           sectionDepth: 0
         },
         {
