@@ -2,10 +2,11 @@
   <div :class="`geo-select-more-results__container${cssSuffix}`">
     <div
       :class="`geo-select-more-results__text-content${cssSuffix}`"
-      @click="loadMoreResults">
+      @click="loadMoreResults"
+    >
       <span :class="`geo-select-more-results__text-content--more-results${cssSuffix}`">
         <!-- @slot Use this slot to customize the label of the button -->
-        <slot name="moreResultsContent"/>
+        <slot name="moreResultsContent" />
       </span>
     </div>
   </div>

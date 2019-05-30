@@ -49,10 +49,18 @@
     <table>
       <thead>
         <tr>
-          <th v-if="show === 'all'">Component Name</th>
-          <th v-if="show === 'elements'">Element Name</th>
-          <th v-if="show === 'patterns'">Pattern Name</th>
-          <th v-if="show === 'templates'">Template Name</th>
+          <th v-if="show === 'all'">
+            Component Name
+          </th>
+          <th v-if="show === 'elements'">
+            Element Name
+          </th>
+          <th v-if="show === 'patterns'">
+            Pattern Name
+          </th>
+          <th v-if="show === 'templates'">
+            Template Name
+          </th>
           <th>Released in</th>
           <th>Status</th>
         </tr>
@@ -61,17 +69,22 @@
         <tr
           v-for="(component, index) in components"
           :key="index"
-          class="component">
+          class="component"
+        >
           <td v-if="component.name">
             <code class="name">
               {{ component.name }}
             </code>
           </td>
-          <td v-else>N/A</td>
+          <td v-else>
+            N/A
+          </td>
           <td v-if="component.release">
             <pre>{{ component.release }}</pre>
           </td>
-          <td v-else>N/A</td>
+          <td v-else>
+            N/A
+          </td>
           <td v-if="component.status">
             <font-awesome-icon
               v-if="component.status === 'ready'"
@@ -112,7 +125,9 @@
               Use <code>{{ component.alternative }}</code> instead
             </span>
           </td>
-          <td v-else>—</td>
+          <td v-else>
+            —
+          </td>
         </tr>
       </tbody>
     </table>

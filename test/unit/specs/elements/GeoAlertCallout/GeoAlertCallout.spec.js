@@ -75,16 +75,6 @@ describe('GeoAlertCalloutCallout', () => {
     const spy = jest.spyOn(global.console, 'warn').mockImplementation(() => { })
     afterEach(() => spy.mockReset())
 
-    const wrapper = mount(GeoAlertCallout, {
-      propsData: {
-        variant: 'success',
-        icon: ['fas', 'thumbs-up']
-      },
-      stubs: {
-        'font-awesome-icon': FontAwesomeIcon
-      }
-    })
-
     const variantProp = GeoAlertCallout.props.variant
 
     expect(variantProp.required).toBeTruthy()
