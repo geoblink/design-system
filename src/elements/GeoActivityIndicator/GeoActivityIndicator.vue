@@ -63,8 +63,8 @@
       <g :mask="`url(#${idCircleMask})`">
         <circle
           :class="{
-            [`geo-activity-indicator__total-progress${cssSuffix}`]: true,
-            [`geo-activity-indicator__total-progress--${variant}${cssSuffix}`]: true
+            [`geo-activity-indicator__total${cssSuffix}`]: true,
+            [`geo-activity-indicator__total--${variant}${cssSuffix}`]: true
           }"
           cx="50"
           cy="50"
@@ -75,8 +75,8 @@
         <path
           :d="completedPercentagePathData"
           :class="{
-            [`geo-activity-indicator__completed-progress${cssSuffix}`]: true,
-            [`geo-activity-indicator__completed-progress--${variant}${cssSuffix}`]: true
+            [`geo-activity-indicator__completed-path${cssSuffix}`]: true,
+            [`geo-activity-indicator__completed-path--${variant}${cssSuffix}`]: true
           }"
           transform="translate(50, 50)"
         />
