@@ -1,5 +1,6 @@
 <template functional>
   <div
+    :ref="data.ref"
     v-bind="data.attrs"
     :class="[
       data.class,
