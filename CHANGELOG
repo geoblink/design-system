@@ -1,3 +1,15 @@
+# 19.1.1
+
+Fixes:
+
+- `GeoListItem` inherit refs as functional component
+
+# 19.1.1-beta.0
+
+Fixes:
+
+- Inherit refs in functional component `GeoListItem`
+
 # 19.0.0
 
 Breaking:
