@@ -5,6 +5,10 @@
 }
 
 @mixin geo-activity-indicator () {
+  height: 100%;
+  position: relative;
+  width: 100%;
+
   g {
     animation: geoActivityIndicatorSpin 1s linear infinite;
     animation-play-state: paused;
@@ -37,11 +41,11 @@
     $background: rgba($completed-percentage-background, 0.3);
   }
 
-  .geo-activity-indicator__total-progress--#{$variant-name}#{$modifier-name-with-prefix} {
+  .geo-activity-indicator__total--#{$variant-name}#{$modifier-name-with-prefix} {
     fill: $background;
   }
 
-  .geo-activity-indicator__completed-progress--#{$variant-name}#{$modifier-name-with-prefix} {
+  .geo-activity-indicator__completed-path--#{$variant-name}#{$modifier-name-with-prefix} {
     fill: $completed-percentage-background;
   }
 }
@@ -109,6 +113,13 @@
 
   .geo-activity-indicator--animated#{$modifier-name-with-prefix} {
     @include geo-activity-indicator--animated;
+  }
+
+  .geo-activity-indicator__inset#{$modifier-name-with-prefix} {
+    left: 50%;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
   }
 
   @include geo-activity-indicator-make-available-variants($modifier-name-with-prefix);

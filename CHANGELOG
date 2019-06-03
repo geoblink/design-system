@@ -1,3 +1,14 @@
+# 20.0.0
+
+Changed:
+
+- `GeoActivityIndicator` expose slot to add content in the middle of the indicator
+- `GeoActivityIndicator` customisable inner radius
+
+Breaking:
+
+- `GeoActivityIndicator` change inner class names
+
 # 19.1.2
 
 New:
