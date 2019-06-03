@@ -1,4 +1,12 @@
-# 20.0.1
+# 20.1.0
+
+New:
+
+- `GeoSegmentedControlItem` support for variant
+- `GeoInfoSegmentedControlItem`
+- `GeoSuccessSegmentedControlItem`
+- `GeoWarningSegmentedControlItem`
+- `GeoDangerSegmentedControlItem`
 
 Fixed:
 
