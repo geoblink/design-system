@@ -35,9 +35,30 @@
     }
   }
 
-  .geo-segmented-control-item--active#{$modifier-name-with-prefix} {
+  .geo-segmented-control-item--info--active#{$modifier-name-with-prefix} {
     &, &:hover {
       background: $color-blue;
+      color: $color-white;
+    }
+  }
+
+  .geo-segmented-control-item--success--active#{$modifier-name-with-prefix} {
+    &, &:hover {
+      background: $color-green;
+      color: $color-white;
+    }
+  }
+
+  .geo-segmented-control-item--warning--active#{$modifier-name-with-prefix} {
+    &, &:hover {
+      background: $color-yellow;
+      color: $color-white;
+    }
+  }
+
+  .geo-segmented-control-item--danger--active#{$modifier-name-with-prefix} {
+    &, &:hover {
+      background: $color-red;
       color: $color-white;
     }
   }
@@ -57,15 +78,57 @@
     font-weight: $font-weight-bold;
     height: 30px;
 
+  }
+
+  .geo-segmented-control-item--info--outline#{$modifier-name-with-prefix} {
     &:hover {
       color: $color-blue;
     }
   }
 
-  .geo-segmented-control-item--outline--active#{$modifier-name-with-prefix} {
+  .geo-segmented-control-item--info--outline--active#{$modifier-name-with-prefix} {
     &, &:hover {
       border-color: $color-blue;
       color: $color-blue;
+    }
+  }
+
+  .geo-segmented-control-item--success--outline#{$modifier-name-with-prefix} {
+    &:hover {
+      color: $color-green;
+    }
+  }
+
+  .geo-segmented-control-item--success--outline--active#{$modifier-name-with-prefix} {
+    &, &:hover {
+      border-color: $color-green;
+      color: $color-green;
+    }
+  }
+
+  .geo-segmented-control-item--warning--outline#{$modifier-name-with-prefix} {
+    &:hover {
+      color: $color-yellow;
+    }
+  }
+
+  .geo-segmented-control-item--warning--outline--active#{$modifier-name-with-prefix} {
+    &, &:hover {
+      border-color: $color-yellow;
+      color: $color-yellow;
+    }
+  }
+
+  .geo-segmented-control-item--danger--outline#{$modifier-name-with-prefix} {
+    &:hover {
+      color: $color-red;
+    }
+  }
+
+  .geo-segmented-control-item--danger--outline--active#{$modifier-name-with-prefix} {
+    &, &:hover {
+      border-color: $color-red;
+      color: $color-red;
     }
   }
 
