@@ -1,3 +1,15 @@
+# 19.1.2
+
+New:
+
+- `GeoAlertCallout` component
+- `GeoDangerLinkButton` component
+- `GeoButton` `dangerLink` variant
+
+Changed:
+
+- `GeoSelect` expose slots to customize how items are displayed.
+
 # 19.1.1
 
 Fixes:
