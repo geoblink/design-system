@@ -14,20 +14,36 @@ aliases:
     value: "#17293D"
   blue_light:
     value: "#6FA1D4"
+  blue_readable_background:
+    value: "#E7EFF6"
+  blue_readable_border:
+    value: "#BCD3E5"
   link:
     value: "#4A90E2"
   red:
     value: "#FF594F"
+  red_readable_background:
+    value: "#FFE6E5"
+  red_readable_border:
+    value: "#FFBCB8"
   green:
     value: "#3FAD4D"
   green_light:
     value: "#7ED321"
+  green_readable_background:
+    value: "#EBF6ED"
+  green_readable_border:
+    value: "#B7DFBC"
   green_notification:
     value: "#53C798"
   yellow_light:
     value: "#FFDB7C"
   yellow:
     value: "#EFAE00"
+  yellow_readable_background:
+    value: "#FFF6DE"
+  yellow_readable_border:
+    value: "#FFDB7C"
   yellow_highlight:
     value: "yellow"
   white:
@@ -65,6 +81,13 @@ props:
     value: "{!blue_light}"
     category: color_group_1
 
+  color_blue_readable_background:
+    value: "{!blue_readable_background}"
+    category: color_group_1
+  color_blue_readable_border:
+    value: "{!blue_readable_border}"
+    category: color_group_1
+
   color_link:
     value: "{!link}"
     category: color_group_1
@@ -79,6 +102,13 @@ props:
     value: "brightness({!red}, -40)"
     category: color_group_3
 
+  color_red_readable_background:
+    value: "{!red_readable_background}"
+    category: color_group_3
+  color_red_readable_border:
+    value: "{!red_readable_border}"
+    category: color_group_3
+
   color_yellow_light:
     value: "{!yellow_light}"
     category: color_group_4
@@ -90,6 +120,12 @@ props:
     category: color_group_4
   color_yellow_darker:
     value: "brightness({!yellow}, -40)"
+    category: color_group_4
+  color_yellow_readable_background:
+    value: "{!yellow_readable_background}"
+    category: color_group_4
+  color_yellow_readable_border:
+    value: "{!yellow_readable_border}"
     category: color_group_4
   color_yellow_highlight:
     value: "{!yellow_highlight}"
@@ -106,6 +142,12 @@ props:
     category: color_group_5
   color_green_darker:
     value: "brightness({!green}, -40)"
+    category: color_group_5
+  color_green_readable_background:
+    value: "{!green_readable_background}"
+    category: color_group_5
+  color_green_readable_border:
+    value: "{!green_readable_border}"
     category: color_group_5
   color_green_notification:
     value: "{!green_notification}"

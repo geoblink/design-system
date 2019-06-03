@@ -21,8 +21,8 @@
     {{ text }}
   </code>
   <component
-    v-else-if="isBlock"
     :is="htmlTag"
+    v-else-if="isBlock"
   >
     <geo-markdown-content-node
       v-for="(childNode, index) in childNodes"

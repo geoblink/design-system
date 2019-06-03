@@ -270,6 +270,30 @@
   }
 }
 
+@mixin geo-button--dangerLink($css-suffix) {
+  @include geo-button-make-scheme((
+    normal-background-color: transparent,
+    normal-text-color: $color-red,
+    normal-border-color: transparent,
+    disabled-text-color: $color-grey-light,
+    hover-decoration: underline
+  ), $css-suffix);
+
+  &#{$css-suffix} {
+    font-style: italic;
+    font-weight: $font-weight-regular;
+    font-size: $font-size-regular;
+    justify-content: flex-start;
+    letter-spacing: initial;
+    text-transform: initial;
+    transition: color $duration-quickly $easing-base;
+
+    .geo-button__label#{$css-suffix} {
+      padding: 0;
+    }
+  }
+}
+
 @mixin geo-button($css-suffix) {
   &#{$css-suffix} {
     align-items: center;
@@ -351,6 +375,10 @@
 
   .geo-button--link {
     @include geo-button--link($modifier-name-with-prefix);
+  }
+
+  .geo-button--dangerLink {
+    @include geo-button--dangerLink($modifier-name-with-prefix);
   }
 }
 

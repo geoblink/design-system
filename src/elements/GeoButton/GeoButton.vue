@@ -53,7 +53,8 @@ export default {
      * | primary   | [GeoPrimaryButton](./#/Elements/GeoButton?id=geoprimarybutton)     | Main action (saving changes) |
      * | secondary | [GeoSecondaryButton](./#/Elements/GeoButton?id=geosecondarybutton) | Auxiliar action (showing an options menu) |
      * | link      | [GeoLinkButton](./#/Elements/GeoButton?id=geolinkbutton)           | Alternative action to the main one (dismissing a form without saving changes) |
-     * | danger    | [GeoDangerButton](./#/Elements/GeoButton?id=geodabgerbutton)       | Dangerous actions (deleting data) |
+     * | dangerLink| [GeoDangerLinkButton](./#/Elements/GeoButton?id=geodangerlinkbutton)| Potentially wrong actions (choosing potentially wrong option) |
+     * | danger    | [GeoDangerButton](./#/Elements/GeoButton?id=geodangerbutton)       | Dangerous actions (deleting data) |
      *
      * Supported `type` values are exported under `TYPES` named export. See
      * [Component Constants](./#/Component%20Constants) for more info on how to

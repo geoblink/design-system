@@ -3,13 +3,17 @@
     <template v-for="(entry, index) in groups">
       <div
         v-if="entry.isHighlighted"
+        :key="index"
         :class="`highlighted-string--highlighted${cssSuffix}`"
-        :key="index"
-      >{{ entry.substring }}</div><div
+      >
+        {{ entry.substring }}
+      </div><div
         v-else
-        :class="`highlighted-string--normal${cssSuffix}`"
         :key="index"
-      >{{ entry.substring }}</div>
+        :class="`highlighted-string--normal${cssSuffix}`"
+      >
+        {{ entry.substring }}
+      </div>
     </template>
   </div>
 </template>

@@ -40,7 +40,7 @@
           :class="`geo-input__container__buttons__button${cssSuffix} geo-input__container__buttons__button--cancel${cssSuffix}`"
           @click="emitCancel($event)"
         >
-          <font-awesome-icon :icon="cancelIcon"/>
+          <font-awesome-icon :icon="cancelIcon" />
         </button>
         <button
           :class="`geo-input__container__buttons__button${cssSuffix} geo-input__container__buttons__button--save${cssSuffix}`"

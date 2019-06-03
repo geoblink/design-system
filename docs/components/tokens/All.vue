@@ -12,33 +12,45 @@
         <tr
           v-for="(token, index) in tokens"
           :key="index"
-          class="token">
+          class="token"
+        >
           <td v-if="token.name">
             <code class="name">
               ${{ token.name.replace(/_/g, "-") }}
             </code>
           </td>
-          <td v-else>N/A</td>
+          <td v-else>
+            N/A
+          </td>
           <td v-if="token.value">
             <div
               v-if="token.type === 'color'"
               :style="{ backgroundColor: token.value }"
-              class="example color" />
+              class="example color"
+            />
             <div
               v-if="token.category === 'border-radius'"
               :style="{ borderRadius: token.value }"
-              class="example border-radius" />
+              class="example border-radius"
+            />
             <div
               v-if="token.category === 'box-shadow'"
               :style="{ boxShadow: token.value }"
-              class="example box-shadow" />
+              class="example box-shadow"
+            />
             <code class="type">
               {{ token.value }}
             </code>
           </td>
-          <td v-else>N/A</td>
-          <td v-if="token.category">{{ token.category }}</td>
-          <td v-else>N/A</td>
+          <td v-else>
+            N/A
+          </td>
+          <td v-if="token.category">
+            {{ token.category }}
+          </td>
+          <td v-else>
+            N/A
+          </td>
         </tr>
       </tbody>
     </table>

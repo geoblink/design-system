@@ -8,7 +8,7 @@ row or more complex elements (like form inputs) to the trailing edge.
 <template>
   <div class="element-demo">
     <div class="element-demo__block" style="justify-content: space-around;">
-      <geo-list-item @click="handleclick($event)">
+      <geo-list-item ref="ref-demo" @click="handleclick($event)">
         My button
       </geo-list-item>
 

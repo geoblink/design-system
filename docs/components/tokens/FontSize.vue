@@ -2,7 +2,8 @@
   <div class="font-sizes__table">
     <div class="font-sizes__table__header">
       <div
-        class="font-sizes__table__header-cell font-sizes__table__header-cell--big">
+        class="font-sizes__table__header-cell font-sizes__table__header-cell--big"
+      >
         Typestyle
       </div>
       <div class="font-sizes__table__header-cell font-sizes__table__header-cell--small">
@@ -60,7 +61,8 @@
         :class="{
           ['font-sizes__table__row-cell__font-family']: true,
           [`font-sizes__table__row-cell__font-family--${font.fontFamily.toLowerCase()}`]: true
-      }">
+        }"
+      >
         {{ font.fontFamily }}
       </div>
     </div>
