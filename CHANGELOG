@@ -8,6 +8,10 @@ New:
 - `GeoWarningSegmentedControlItem`
 - `GeoDangerSegmentedControlItem`
 
+Changed:
+
+- `GeoBorderedBoxHeader` use `heading-small` for title style
+
 Fixed:
 
 - Use `600` as `font-weight` in `heading-small`
