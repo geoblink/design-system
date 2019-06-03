@@ -32,8 +32,8 @@
   }
 
   .geo-alert-callout--info#{$modifier-name-with-prefix} {
-    border-color: $color-blue-readable-border;
     background: $color-blue-readable-background;
+    border-color: $color-blue-readable-border;
 
     .geo-alert-callout__icon {
       color: $color-blue;
@@ -41,8 +41,8 @@
   }
 
   .geo-alert-callout--success#{$modifier-name-with-prefix} {
-    border-color: $color-green-readable-border;
     background: $color-green-readable-background;
+    border-color: $color-green-readable-border;
 
     .geo-alert-callout__icon {
       color: $color-green;
@@ -50,8 +50,8 @@
   }
 
   .geo-alert-callout--warning#{$modifier-name-with-prefix} {
-    border-color: $color-yellow-readable-border;
     background: $color-yellow-readable-background;
+    border-color: $color-yellow-readable-border;
 
     .geo-alert-callout__icon {
       color: $color-yellow;
@@ -59,8 +59,8 @@
   }
 
   .geo-alert-callout--error#{$modifier-name-with-prefix} {
-    border-color: $color-red-readable-border;
     background: $color-red-readable-background;
+    border-color: $color-red-readable-border;
 
     .geo-alert-callout__icon {
       color: $color-red;
