@@ -32,9 +32,11 @@ localVue.component('geo-alert-callout', GeoAlertCallout)
 describe('GeoAlertCalloutCallout', () => {
   it('should render alert component', function () {
     const wrapper = mount(GeoAlertCallout, {
-      propsData: {
-        variant: 'success',
-        icon: ['fas', 'thumbs-up']
+      context: {
+        props: {
+          variant: 'success',
+          icon: ['fas', 'thumbs-up']
+        }
       },
       stubs: {
         'font-awesome-icon': FontAwesomeIcon
@@ -46,9 +48,11 @@ describe('GeoAlertCalloutCallout', () => {
 
   it('should display correct icon', function () {
     const wrapper = mount(GeoAlertCallout, {
-      propsData: {
-        variant: 'success',
-        icon: ['fas', 'exclamation-triangle']
+      context: {
+        props: {
+          variant: 'success',
+          icon: ['fas', 'exclamation-triangle']
+        }
       },
       stubs: {
         'font-awesome-icon': FontAwesomeIcon
@@ -59,10 +63,12 @@ describe('GeoAlertCalloutCallout', () => {
 
   it('should apply a CSS suffix when the modifier is provided', function () {
     const wrapper = mount(GeoAlertCallout, {
-      propsData: {
-        variant: 'success',
-        icon: ['fas', 'thumbs-up'],
-        cssModifier: 'test-alert'
+      context: {
+        props: {
+          variant: 'success',
+          icon: ['fas', 'thumbs-up'],
+          cssModifier: 'test-alert'
+        }
       },
       stubs: {
         'font-awesome-icon': FontAwesomeIcon
@@ -143,8 +149,10 @@ describe('GeoAlertCallout Children', () => {
 
     it('should apply a CSS suffix when the modifier is provided', function () {
       const wrapper = mount(taxonomyAlert.component, {
-        propsData: {
-          cssModifier: 'test-alert'
+        context: {
+          props: {
+            cssModifier: 'test-alert'
+          }
         },
         stubs: {
           'font-awesome-icon': FontAwesomeIcon,
