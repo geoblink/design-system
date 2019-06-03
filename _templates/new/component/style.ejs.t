@@ -11,6 +11,10 @@ to: src/styles/elements/<%= name %>/_<%= h.changeCase.param(name) %>.scss
     $modifier-name-with-prefix: --#{$modifier-name};
   }
 
+  .<%= dashedName %>#{$modifier-name-with-prefix} {
+    // TODO: Put some SCSS code here
+  }
+
 }
 
 @include <%= dashedName %>-make('');

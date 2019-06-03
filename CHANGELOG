@@ -1,3 +1,15 @@
+# 19.1.2
+
+New:
+
+- `GeoAlertCallout` component
+- `GeoDangerLinkButton` component
+- `GeoButton` `dangerLink` variant
+
+Changed:
+
+- `GeoSelect` expose slots to customize how items are displayed.
+
 # 19.1.1
 
 Fixes:
@@ -9,6 +21,18 @@ Fixes:
 Fixes:
 
 - Inherit refs in functional component `GeoListItem`
+
+# 19.1.0
+
+New:
+
+- `GeoAlertCallout` component
+- `GeoDangerLinkButton` component
+- `GeoButton` `dangerLink` variant
+
+Changed:
+
+- `GeoSelect` expose slots to customize how items are displayed.
 
 # 19.0.0
 
@@ -27,6 +51,18 @@ Breaking:
 Breaking:
 
 - `GeoInput` change name of `GeoInputConstants` TYPE
+
+# 18.4.0 (Backdrop)
+
+New:
+
+- `GeoAlertCallout` component
+- `GeoDangerLinkButton` component
+- `GeoButton` `dangerLink` variant
+
+Changed:
+
+- `GeoSelect` expose slots to customize how items are displayed.
 
 # 18.3.0-beta.1
 

@@ -92,6 +92,11 @@ module.exports = {
           sectionDepth: 0
         },
         {
+          name: 'GeoAlertCallout',
+          components: '../src/elements/GeoAlertCallout/Geo*AlertCallout.vue',
+          sectionDepth: 0
+        },
+        {
           name: 'GeoBorderedBox',
           components: '../src/elements/GeoBorderedBox/GeoBorderedBox*.vue',
           sectionDepth: 0
@@ -99,11 +104,6 @@ module.exports = {
         {
           name: 'GeoBorderedToken',
           components: '../src/elements/GeoBorderedToken/GeoBorderedToken.vue',
-          sectionDepth: 0
-        },
-        {
-          name: 'GeoPill',
-          components: '../src/elements/GeoPill/GeoPill.vue',
           sectionDepth: 0
         },
         {
@@ -144,6 +144,11 @@ module.exports = {
         {
           name: 'GeoNotificationBar',
           components: '../src/elements/GeoNotificationBar/GeoNotificationBar*.vue',
+          sectionDepth: 0
+        },
+        {
+          name: 'GeoPill',
+          components: '../src/elements/GeoPill/GeoPill.vue',
           sectionDepth: 0
         },
         {

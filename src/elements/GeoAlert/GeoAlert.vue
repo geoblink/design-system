@@ -54,23 +54,6 @@ export default {
   },
   props: {
     /**
-     * Variant of the alert, supporting:
-     *
-     * - `success`
-     * - `info`
-     * - `warning`
-     * - `error`
-     * - `progress`
-     *
-     * Those values are exported under `VARIANTS` name. See
-     * [Component Constants](./#/Component%20Constants) for more info on how to
-     * use those constants in your code.
-     *
-     * Variant only affects default CSS styling and no icon nor behaviour is
-     * affected. However, using
-     */
-
-    /**
      * Predefined color scheme of the alert, allowing several common
      * out-of-the-box customizations.
      *
