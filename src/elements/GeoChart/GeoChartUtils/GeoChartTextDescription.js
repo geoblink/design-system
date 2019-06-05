@@ -40,9 +40,6 @@ export function setupTextDescriptions (settingsData, d3Instance, globalOptions) 
     .enter()
     .append('g')
     .attr('class', getCSSClassesGroups)
-    .attr('transform', (options, i) =>
-      `translate(${options.startPosition})`
-    )
 
   groups
     .exit()
@@ -53,6 +50,13 @@ export function setupTextDescriptions (settingsData, d3Instance, globalOptions) 
 
   const updatedGroups = groups
   const allGroups = newGroups.merge(updatedGroups)
+
+  allGroups
+    .transition()
+    .duration(globalOptions.chart.animationsDurationInMilliseconds)
+    .attr('transform', (options, i) =>
+      `translate(${options.startPosition})`
+    )
 
   const dataWithPositions = []
   allGroups.each(function (singleOptions, i) {
