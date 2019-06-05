@@ -1,5 +1,6 @@
 <template functional>
   <geo-segmented-control-item
+    :ref="data.ref"
     v-bind="data.attrs"
     :class="[
       data.class,
