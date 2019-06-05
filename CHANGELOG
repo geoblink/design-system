@@ -16,6 +16,12 @@ Fixed:
 
 - Use `600` as `font-weight` in `heading-small`
 
+# 20.1.0-beta.2
+
+Changed:
+
+- Pass `ref` to `GeoSegmentedControlItem` children components
+
 # 20.1.0-beta.1
 
 Changed:
