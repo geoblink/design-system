@@ -17,7 +17,7 @@ declare namespace GeoChart {
     // y coordinate to position the text
     getTextPositionMainDirection: (item: Datum, index: number) => number
     // [x, y] coordinates where the main group will be translated
-    startPosition: number[]
+    textOrigin: number[]
     textAnchor: string
     minY: number
     maxY: number

@@ -55,7 +55,7 @@ export function setupTextDescriptions (settingsData, d3Instance, globalOptions) 
     .transition()
     .duration(globalOptions.chart.animationsDurationInMilliseconds)
     .attr('transform', (options, i) =>
-      `translate(${options.startPosition})`
+      `translate(${options.textOrigin})`
     )
 
   const dataWithPositions = []
