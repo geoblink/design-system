@@ -16,6 +16,12 @@ Fixed:
 
 - Use `600` as `font-weight` in `heading-small`
 
+# 20.1.0-beta.4
+
+Fixed:
+
+- `GeoAlertCallout` prevent content from overflowing parent container
+
 # 20.1.0-beta.3
 
 Fixed:
