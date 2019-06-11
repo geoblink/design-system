@@ -39,7 +39,7 @@ describe('GeoChartTextDescription.js', () => {
     maxY: 300,
     algorithm: ALGORITHMS.withoutReadjustment,
     data: [{}],
-    startPosition: [100, 100],
+    textOrigin: [100, 100],
     textAnchor: 'start'
   }
 
@@ -138,7 +138,7 @@ describe('GeoChartTextDescription.js', () => {
     expect(wrapper.find('.geo-chart-text-descriptions text.my-text-class').exists()).toBe(true)
   })
 
-  it('should translate group to startPosition', function () {
+  it('should translate group to textOrigin', function () {
     expect(wrapper.find('.geo-chart').exists()).toBe(true)
     setupTextDescriptions([settings], wrapper.vm.d3Instance, { chart })
     flushD3Transitions()
@@ -147,8 +147,8 @@ describe('GeoChartTextDescription.js', () => {
     expect(descriptions.exists()).toBe(true)
 
     const transformMatches = getTransformTranslateMatches(descriptions)
-    expect(parseInt(transformMatches[1])).toBe(settings.startPosition[0])
-    expect(parseInt(transformMatches[2])).toBe(settings.startPosition[1])
+    expect(parseInt(transformMatches[1])).toBe(settings.textOrigin[0])
+    expect(parseInt(transformMatches[2])).toBe(settings.textOrigin[1])
   })
 
   it('should create one text and tspan as data items and content return items', function () {
