@@ -10,6 +10,7 @@
     :variant="$options.helpers.VARIANTS.error"
     v-on="listeners"
   >
+    <!-- @slot Use this slot to customize alert's content -->
     <slot />
   </geo-alert-callout>
 </template>

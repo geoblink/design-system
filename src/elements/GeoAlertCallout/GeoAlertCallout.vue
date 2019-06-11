@@ -16,6 +16,7 @@
     />
 
     <div class="geo-alert-callout__content">
+      <!-- @slot Use this slot to customize alert's content -->
       <slot />
     </div>
   </div>
