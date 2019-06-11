@@ -1,19 +1,17 @@
 <template>
+  <!-- eslint-disable vue/multiline-html-element-content-newline -->
   <div :class="`highlighted-string__container${cssSuffix}`">
     <template v-for="(entry, index) in groups">
       <div
         v-if="entry.isHighlighted"
         :key="index"
         :class="`highlighted-string--highlighted${cssSuffix}`"
-      >
-        {{ entry.substring }}
-      </div><div
+      >{{ entry.substring }}</div>
+      <div
         v-else
         :key="index"
         :class="`highlighted-string--normal${cssSuffix}`"
-      >
-        {{ entry.substring }}
-      </div>
+      >{{ entry.substring }}</div>
     </template>
   </div>
 </template>
