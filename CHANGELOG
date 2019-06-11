@@ -1,6 +1,6 @@
 # 20.1.1
 
-Changed:
+Fixed:
 - `GeoChartTextDescription` update textOrigin of all texts
 
 # 20.1.0
