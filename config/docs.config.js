@@ -158,7 +158,7 @@ module.exports = {
         },
         {
           name: 'GeoSegmentedControl',
-          components: '../src/elements/GeoSegmentedControl/GeoSegmentedControl*.vue',
+          components: '../src/elements/GeoSegmentedControl/Geo*SegmentedControl*.vue',
           sectionDepth: 0
         },
         {
