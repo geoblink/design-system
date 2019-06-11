@@ -8,6 +8,8 @@
   }
 
   .geo-bordered-box-header#{$modifier-name-with-prefix} {
+    @include font($heading-small);
+
     align-items: center;
     background: $color-white-dark;
     border-bottom: 1px solid $color-grey;
@@ -16,11 +18,8 @@
     flex-direction: row;
     flex-grow: 0;
     flex-shrink: 0;
-    font-family: $font-family-heading;
-    font-size: $font-size-regular;
     height: 40px;
     justify-content: space-between;
-    line-height: $line-height-base;
     padding: 0 7px 0 5px;
     white-space: nowrap;
 

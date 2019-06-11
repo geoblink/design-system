@@ -234,8 +234,8 @@ function renderTexts (allPieSegments, d3Instance, singlePieOptions, globalOption
   const textOffset = singlePieOptions.outerRadius + 20
   const midChartWidth = globalOptions.chart.chartWidth / 2
   const midChartHeight = globalOptions.chart.chartHeight / 2
-  const startPositionRight = [midChartWidth + textOffset, midChartHeight]
-  const startPositionLeft = [midChartWidth - textOffset, midChartHeight]
+  const textOriginRight = [midChartWidth + textOffset, midChartHeight]
+  const textOriginLeft = [midChartWidth - textOffset, midChartHeight]
 
   const commonSettings = {
     keyForId: keyForTextId,
@@ -248,13 +248,13 @@ function renderTexts (allPieSegments, d3Instance, singlePieOptions, globalOption
 
   const textDescriptionSettingsRight = _.assign({}, commonSettings, {
     data: rightGroup,
-    startPosition: startPositionRight,
+    textOrigin: textOriginRight,
     textAnchor: 'start'
   })
 
   const textDescriptionSettingsLeft = _.assign({}, commonSettings, {
     data: leftGroup,
-    startPosition: startPositionLeft,
+    textOrigin: textOriginLeft,
     textAnchor: 'end'
   })
 
@@ -336,7 +336,7 @@ function renderTexts (allPieSegments, d3Instance, singlePieOptions, globalOption
 
   function getPolylinePointsFactory (settings) {
     const spaceOffset = 5
-    const xPos = settings.startPosition[0]
+    const xPos = settings.textOrigin[0]
 
     return function (d) {
       // Space between the line and the text
