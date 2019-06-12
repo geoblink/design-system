@@ -151,7 +151,7 @@ export default {
   data () {
     return {
       isFocused: false,
-      isResetingInputFileField: false
+      isResettingInputFileField: false
     }
   },
   computed: {
@@ -207,9 +207,9 @@ export default {
     },
 
     handleFilePick ($event) {
-      if (this.isLoading || this.isResetingInputFileField) return
+      if (this.isLoading || this.isResettingInputFileField) return
 
-      this.isResetingInputFileField = true
+      this.isResettingInputFileField = true
 
       // For now we are going to allow only one file at a time
       const file = _.get($event, 'target.files[0]')
@@ -217,7 +217,7 @@ export default {
 
       this.$refs.input.value = null
 
-      this.isResetingInputFileField = false
+      this.isResettingInputFileField = false
     },
 
     openPickDialog ($event) {
