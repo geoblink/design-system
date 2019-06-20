@@ -1,3 +1,15 @@
+# 20.1.4
+
+New:
+
+- `$z-index-over-modal` add z-index variable to ensure it's always over the modal
+
+# 20.1.4-beta.0
+
+New:
+
+- `$z-index-over-modal` add z-index variable to ensure it's always over the modal
+
 # 20.1.3
 
 Fixed:
