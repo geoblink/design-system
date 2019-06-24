@@ -1,3 +1,15 @@
+# 20.1.5
+
+Changed:
+
+- `GeoTableBodyRowCell` inherit static classes
+
+# 20.1.5-beta.1
+
+Changed:
+
+- `GeoTableBodyRowCell` inherit static classes
+
 # 20.1.4
 
 New:
