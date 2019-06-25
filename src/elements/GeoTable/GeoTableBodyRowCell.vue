@@ -2,6 +2,7 @@
   <div
     v-bind="data.attrs"
     :class="[
+      data.class,
       data.staticClass,
       `geo-table-body-row-cell${$options.helpers.getCSSSuffix(props.cssModifier)}`
     ]"
