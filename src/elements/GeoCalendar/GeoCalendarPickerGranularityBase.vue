@@ -1,12 +1,12 @@
 <template>
   <div @click="handleClick">
     <slot />
-    <font-awesome-icon />
+    <font-awesome-icon :icon="['fas', 'arrow-right']" />
   </div>
 </template>
 
 <script>
-import geoCalendarUtils from './GeoCalendar.utils'
+import { PICKER_DATE_UNITS } from './GeoCalendar.utils'
 
 export default {
   name: 'GeoCalendarPickerGranularityBase',
@@ -20,9 +20,9 @@ export default {
       type: String,
       required: true,
       validator (value) {
-        if (value in geoCalendarUtils.PICKER_DATE_UNITS) return true
+        if (value in PICKER_DATE_UNITS) return true
 
-        const supportedValues = Object.values(geoCalendarUtils.PICKER_DATE_UNITS).map(i => `«${i}»`).join(', ')
+        const supportedValues = Object.values(PICKER_DATE_UNITS).map(i => `«${i}»`).join(', ')
         console.warn(`GeoCalendarPickerGranularityBase [component] :: Unsupported value («${value}») for «pickerDateUnit» property. Use one of ${supportedValues}`)
         return false
       }
