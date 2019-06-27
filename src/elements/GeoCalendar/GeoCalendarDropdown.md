@@ -6,14 +6,17 @@ eiusmod tempor incididunt ut labore et dolore magna aliqua.
   <div class="element-demo">
     <div class="element-demo__block">
       <geo-calendar-dropdown>
-        <geo-dropdown-regular-button
-          slot="toggleCalendarButton"
-          slot-scope="toggleMenu"
-          :icon="['fas', 'calendar']"
-          @click="toggleMenu"
+        <template
+          slot-scope="{ toggleCalendarPopup }"
+          slot="toggleButton"
         >
-          Calendar:
-        </geo-dropdown-regular-button>
+          <geo-dropdown-regular-button
+            :icon="['fas', 'calendar']"
+            @click="toggleCalendarPopup"
+          >
+            Calendar:
+          </geo-dropdown-regular-button>
+        </template>
         <span slot="calendarHeaderTitle">Calendar</span>
         <template slot="pickerGranularity">
           <geo-calendar-picker-granularity-day> Day </geo-calendar-picker-granularity-day>

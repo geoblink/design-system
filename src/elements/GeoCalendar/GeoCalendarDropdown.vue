@@ -1,11 +1,12 @@
 <template>
   <geo-dropdown
-    :opened="isCalendarOpened"
+    :opened="isCalendarPopupOpened"
     @click-outside="closeCalendar"
   >
     <slot
       slot="toggleButton"
-      name="toggleCalendarButton"
+      name="toggleButton"
+      :toggle-calendar-popup="toggleCalendarPopup"
     />
     <!-- TODO: Bind props to geoCalendar -->
     <geo-bordered-box slot="popupContent">
@@ -33,17 +34,17 @@ export default {
   name: 'GeoCalendarDropdown',
   data () {
     return {
-      isCalendarOpened: true
+      isCalendarPopupOpened: false
     }
   },
 
   methods: {
-    toggleMenu () {
-      this.isCalendarOpened = !this.isCalendarOpened
+    toggleCalendarPopup () {
+      this.isCalendarPopupOpened = !this.isCalendarPopupOpened
     },
 
     closeCalendar () {
-      this.isCalendarOpened = false
+      this.isCalendarPopupOpened = false
     }
   }
 }
