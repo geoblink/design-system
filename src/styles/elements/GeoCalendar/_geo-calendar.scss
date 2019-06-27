@@ -1,0 +1,16 @@
+@mixin geo-calendar-make($modifier-name) {
+
+  $modifier-name-with-prefix: '';
+
+  @if $modifier-name != '' {
+    // sass-lint:disable space-around-operator
+    $modifier-name-with-prefix: --#{$modifier-name};
+  }
+
+  .geo-calendar#{$modifier-name-with-prefix} {
+    // TODO: Put some SCSS code here
+  }
+
+}
+
+@include geo-calendar-make('');

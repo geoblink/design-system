@@ -112,6 +112,11 @@ module.exports = {
           sectionDepth: 0
         },
         {
+          name: 'GeoCalendar',
+          components: '../src/elements/GeoCalendar/GeoCalendar*.vue',
+          sectionDepth: 1
+        },
+        {
           name: 'GeoCircle',
           components: '../src/elements/GeoCircle/GeoCircle.vue',
           sectionDepth: 0
