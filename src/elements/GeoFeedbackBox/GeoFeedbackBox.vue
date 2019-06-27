@@ -1,30 +1,30 @@
 <template>
   <div
     :class="{
-      [`geo-alert${cssSuffix}`]: true,
-      [`geo-alert--floating${cssSuffix}`]: floating
+      [`geo-feedback-box${cssSuffix}`]: true,
+      [`geo-feedback-box--floating${cssSuffix}`]: floating
     }"
   >
     <div
       :class="{
-        [`geo-alert__content${cssSuffix}`]: true,
-        [`geo-alert__content--${variant}${cssSuffix}`]: variant
+        [`geo-feedback-box__content${cssSuffix}`]: true,
+        [`geo-feedback-box__content--${variant}${cssSuffix}`]: variant
       }"
     >
       <div
         v-if="hasLeadingAccessoryItem"
-        :class="`geo-alert__content__icon${cssSuffix}`"
+        :class="`geo-feedback-box__content__icon${cssSuffix}`"
       >
         <!-- @slot Use this slot to customize what's displayed before alert message -->
         <slot name="leadingAccessoryItem" />
       </div>
-      <div :class="`geo-alert__content__body${cssSuffix}`">
+      <div :class="`geo-feedback-box__content__body${cssSuffix}`">
         <!-- @slot Use this slot to show the alert message -->
         <slot name="content" />
       </div>
       <div
         v-if="hasActions"
-        :class="`geo-alert__content__actions${cssSuffix}`"
+        :class="`geo-feedback-box__content__actions${cssSuffix}`"
       >
         <!-- @slot Use this slot to show additional actions after alert message -->
         <slot name="actions" />
@@ -32,7 +32,7 @@
       <font-awesome-icon
         v-if="shouldShowCloseButton"
         :icon="closeIcon"
-        :class="`geo-alert__content__close-icon${cssSuffix}`"
+        :class="`geo-feedback-box__content__close-icon${cssSuffix}`"
         aria-hidden
         fixed-width
         @click="close($event)"
@@ -42,19 +42,19 @@
 </template>
 
 <script>
-import mixin, { VARIANTS, DEPRECATED_VARIANTS } from './GeoAlert.mixin'
+import mixin, { VARIANTS, DEPRECATED_VARIANTS } from './GeoFeedbackBox.mixin'
 
 export default {
-  name: 'GeoAlert',
+  name: 'GeoFeedbackBox',
   status: 'ready',
-  release: '1.0.0',
+  release: '21.0.0',
   mixins: [mixin],
   constants: {
     VARIANTS
   },
   props: {
     /**
-     * Predefined color scheme of the alert, allowing several common
+     * Predefined color scheme of the feedback box, allowing several common
      * out-of-the-box customizations.
      *
      * > **Note:** There are specific components to avoid explicitly writing
@@ -63,22 +63,22 @@ export default {
      * > **Note:** Specific components do not expose the `leftAccessoryItem`
      * > slot but an `icon` property which can be used to customized displayed
      * > icon. If you want to display something that's not an icon as
-     * > `leftAccessoryItem` you should use a `GeoAlert` with a proper
+     * > `leftAccessoryItem` you should use a `GeoFeedbackBox` with a proper
      * > `cssModifier`.
      *
-     * | variant  | Specific component                                            |
-     * |----------|---------------------------------------------------------------|
-     * | success  | [GeoSuccessAlert](./#/Elements/GeoAlert?id=geosuccessalert)   |
-     * | info     | [GeoInfoAlert](./#/Elements/GeoAlert?id=geoinfoalert)         |
-     * | warning  | [GeoWarningAlert](./#/Elements/GeoAlert?id=geowarningalert)   |
-     * | error    | [GeoErrorAlert](./#/Elements/GeoAlert?id=geoerroralert)       |
-     * | progress | [GeoProgressAlert](./#/Elements/GeoAlert?id=geoprogressalert) |
+     * | variant  | Specific component                                                              |
+     * |----------|---------------------------------------------------------------------------------|
+     * | success  | [GeoSuccessFeedbackBox](./#/Elements/GeoFeedbackBox?id=geosuccessfeedbackbox)   |
+     * | info     | [GeoInfoFeedbackBox](./#/Elements/GeoFeedbackBox?id=geoinfofeedbackbox)         |
+     * | warning  | [GeoWarningFeedbackBox](./#/Elements/GeoFeedbackBox?id=geowarningfeedbackbox)   |
+     * | error    | [GeoErrorFeedbackBox](./#/Elements/GeoFeedbackBox?id=geoerrorfeedbackbox)       |
+     * | progress | [GeoProgressFeedbackBox](./#/Elements/GeoFeedbackBox?id=geoprogressfeedbackbox) |
      *
      * Supported `variant` values are exported under `VARIANTS` named export.
      * See [Component Constants](./#/Component%20Constants) for more info on how
      * to use those constants in your code.
      *
-     * > **Note:** You can always override the color scheme of any `GeoAlert`
+     * > **Note:** You can always override the color scheme of any `GeoFeedbackBox`
      * > using `cssModifier` prop.
      */
     variant: {
@@ -88,12 +88,12 @@ export default {
         if (value in VARIANTS) return true
 
         if (value in DEPRECATED_VARIANTS) {
-          console.warn(`GeoAlert [component] :: «${value}» is a deprecated variant. Please, use «${DEPRECATED_VARIANTS[value]}» instead`)
+          console.warn(`GeoFeedbackBox [component] :: «${value}» is a deprecated variant. Please, use «${DEPRECATED_VARIANTS[value]}» instead`)
           return true
         }
 
         const supportedValues = Object.values(VARIANTS).map(i => `«${i}»`).join(', ')
-        console.warn(`GeoAlert [component] :: Unsupported value («${value}») for «variant» property. Use one of ${supportedValues}`)
+        console.warn(`GeoFeedbackBox [component] :: Unsupported value («${value}») for «variant» property. Use one of ${supportedValues}`)
         return false
       }
     }

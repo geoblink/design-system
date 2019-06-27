@@ -82,19 +82,24 @@ module.exports = {
       sectionDepth: 1,
       sections: [
         {
-          name: 'GeoActivityIndicator',
-          components: '../src/elements/GeoActivityIndicator/GeoActivityIndicator*.vue',
-          sectionDepth: 0
-        },
-        {
-          name: 'GeoAlert',
-          components: '../src/elements/GeoAlert/Geo*Alert.vue',
-          sectionDepth: 0
-        },
-        {
-          name: 'GeoAlertCallout',
-          components: '../src/elements/GeoAlertCallout/Geo*AlertCallout.vue',
-          sectionDepth: 0
+          name: 'Alerts & Feedback',
+          sectionDepth: 1,
+          sections: [
+            {
+              name: 'GeoActivityIndicator',
+              components: '../src/elements/GeoActivityIndicator/GeoActivityIndicator*.vue',
+              sectionDepth: 0
+            }, {
+              name: 'GeoFeedbackBox',
+              components: '../src/elements/GeoFeedbackBox/Geo*FeedbackBox.vue',
+              sectionDepth: 0
+            },
+            {
+              name: 'GeoAlertCallout',
+              components: '../src/elements/GeoAlertCallout/Geo*AlertCallout.vue',
+              sectionDepth: 0
+            }
+          ]
         },
         {
           name: 'GeoBorderedBox',
