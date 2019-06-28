@@ -49,11 +49,12 @@ describe('GeoListItem', () => {
       slots: {
         default: ['Just some unique demo content']
       },
-      listeners: {
-        click: clickListener
+      context: {
+        on: {
+          click: clickListener
+        }
       }
     })
-
     wrapper.find('.geo-list-item').trigger('click')
     expect(clickListener).toHaveBeenCalled()
   })
