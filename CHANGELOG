@@ -4,6 +4,12 @@ Breaking:
 
 - `GeoAlert` has been renamed to `GeoFeedbackBox` (this also affect all subcomponents)
 
+# 20.1.5
+
+Changed:
+
+- `GeoTableBodyRowCell` inherit static classes
+
 # 20.1.4
 
 New:
