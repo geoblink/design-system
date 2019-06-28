@@ -1,6 +1,7 @@
 <template>
   <geo-dropdown
     :opened="isCalendarPopupOpened"
+    :css-modifier="`geo-calendar__dropdown${cssSuffix}`"
     @click-outside="closeCalendar"
   >
     <slot
@@ -16,7 +17,13 @@
       >
         <slot name="calendarHeaderTitle" />
       </geo-bordered-box-header>
-      <geo-calendar>
+      <geo-calendar
+        :input-range-icon="inputRangeIcon"
+        :from-input-placeholder="fromInputPlaceholder"
+        :to-input-placeholder="toInputPlaceholder"
+        :earliest-date-placeholder="earliestDatePlaceholder"
+        :latest-date-placeholder="latestDatePlaceholder"
+      >
         <slot
           slot="pickerGranularity"
           name="pickerGranularity"
@@ -30,8 +37,38 @@
 </template>
 
 <script>
+import cssSuffix from '../../mixins/cssModifierMixin'
+
 export default {
   name: 'GeoCalendarDropdown',
+  mixins: [cssSuffix],
+  props: {
+    inputRangeIcon: {
+      type: Array,
+      required: false
+    },
+
+    fromInputPlaceholder: {
+      type: String,
+      required: false
+    },
+
+    toInputPlaceholder: {
+      type: String,
+      required: false
+    },
+
+    earliestDatePlaceholder: {
+      type: String,
+      required: false
+    },
+
+    latestDatePlaceholder: {
+      type: String,
+      required: false
+    }
+  },
+
   data () {
     return {
       isCalendarPopupOpened: false

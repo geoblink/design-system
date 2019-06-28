@@ -7,8 +7,19 @@
     $modifier-name-with-prefix: --#{$modifier-name};
   }
 
+  @include geo-dropdown-make('geo-calendar__dropdown#{$modifier-name-with-prefix}');
+
   .geo-calendar#{$modifier-name-with-prefix} {
-    // TODO: Put some SCSS code here
+    display: flex;
+  }
+
+  .geo-calendar__granularity-selectors {
+    box-sizing: border-box;
+    padding: $space-small;
+    width: 200px;
+  }
+  .geo-calendar__picker-controls {
+    padding: $space-base;
   }
 
 }

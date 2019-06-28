@@ -5,7 +5,13 @@ eiusmod tempor incididunt ut labore et dolore magna aliqua.
 <template>
   <div class="element-demo">
     <div class="element-demo__block">
-      <geo-calendar-dropdown>
+      <geo-calendar-dropdown
+        :input-range-icon="['fas', 'arrow-right']"
+        from-input-placeholder="From"
+        to-input-placeholder="To"
+        earliest-date-placeholder="Set earliest date"
+        latest-date-placeholder="Set latest date"
+      >
         <template
           slot-scope="{ toggleCalendarPopup }"
           slot="toggleButton"
@@ -19,12 +25,25 @@ eiusmod tempor incididunt ut labore et dolore magna aliqua.
         </template>
         <span slot="calendarHeaderTitle">Calendar</span>
         <template slot="pickerGranularity">
-          <geo-calendar-picker-granularity-day> Day </geo-calendar-picker-granularity-day>
-          <geo-calendar-picker-granularity-week> Week </geo-calendar-picker-granularity-week>
-          <geo-calendar-picker-granularity-month> Month </geo-calendar-picker-granularity-month>
-          <geo-calendar-picker-granularity-quarter> Quarter </geo-calendar-picker-granularity-quarter>
-          <geo-calendar-picker-granularity-year> Year </geo-calendar-picker-granularity-year>
+          <geo-calendar-picker-granularity-day :picker-granularity-icon="['fas', 'arrow-right']">
+            Day
+          </geo-calendar-picker-granularity-day>
+          <geo-calendar-picker-granularity-week :picker-granularity-icon="['fas', 'arrow-right']">
+            Week
+          </geo-calendar-picker-granularity-week>
+          <geo-calendar-picker-granularity-month :picker-granularity-icon="['fas', 'arrow-right']">
+            Month
+          </geo-calendar-picker-granularity-month>
+          <geo-calendar-picker-granularity-quarter :picker-granularity-icon="['fas', 'arrow-right']">
+            Quarter
+          </geo-calendar-picker-granularity-quarter>
+          <geo-calendar-picker-granularity-year :picker-granularity-icon="['fas', 'arrow-right']">
+            Year
+          </geo-calendar-picker-granularity-year>
         </template>
+        <geo-primary-button slot="calendarFooter">
+          APPLY DATE
+        </geo-primary-button>
       </geo-calendar-dropdown>
     </div>
   </div>

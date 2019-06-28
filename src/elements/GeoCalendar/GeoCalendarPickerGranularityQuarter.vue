@@ -1,5 +1,6 @@
 <template>
   <geo-calendar-picker-granularity-base
+    :picker-granularity-icon="pickerGranularityIcon"
     :is-valid="isValid"
     :picker-date-unit="pickerDateUnit"
     :granularity-id="granularityId"
@@ -16,6 +17,13 @@ export default {
   name: 'GeoCalendarPickerGranularityQuarter',
   components: {
     GeoCalendarPickerGranularityBase
+  },
+
+  props: {
+    pickerGranularityIcon: {
+      type: Array,
+      required: false
+    }
   },
 
   computed: {

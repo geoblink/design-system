@@ -1,7 +1,7 @@
 <template>
   <div @click="handleClick">
     <slot />
-    <font-awesome-icon :icon="['fas', 'arrow-right']" />
+    <font-awesome-icon :icon="pickerGranularityIcon" />
   </div>
 </template>
 
@@ -14,6 +14,13 @@ export default {
     isValid: {
       type: Function,
       required: true
+    },
+
+    pickerGranularityIcon: {
+      type: Array,
+      default () {
+        return ['fal', 'arrow-right']
+      }
     },
 
     pickerDateUnit: {

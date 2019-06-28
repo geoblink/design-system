@@ -33,6 +33,7 @@
       </form>
 
       <div
+        v-if="showButtons"
         slot="popupContent"
         :class="`geo-input__container__buttons${cssSuffix}`"
       >
