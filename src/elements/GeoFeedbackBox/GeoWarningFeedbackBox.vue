@@ -6,7 +6,7 @@ import mixin, { VARIANTS } from './GeoFeedbackBox.mixin'
 export default {
   name: 'GeoWarningFeedbackBox',
   status: 'ready',
-  release: '4.2.0',
+  release: '21.0.0',
   mixins: [mixin],
   props: {
     /**
