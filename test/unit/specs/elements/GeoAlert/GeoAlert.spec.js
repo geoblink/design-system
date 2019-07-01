@@ -1,10 +1,10 @@
 import _ from 'lodash'
 import { createLocalVue, mount } from '@vue/test-utils'
-import GeoAlertCallout from '@/elements/GeoAlertCallout/GeoAlertCallout.vue'
-import GeoErrorAlertCallout from '@/elements/GeoAlertCallout/GeoErrorAlertCallout.vue'
-import GeoInfoAlertCallout from '@/elements/GeoAlertCallout/GeoInfoAlertCallout.vue'
-import GeoSuccessAlertCallout from '@/elements/GeoAlertCallout/GeoSuccessAlertCallout.vue'
-import GeoWarningAlertCallout from '@/elements/GeoAlertCallout/GeoWarningAlertCallout.vue'
+import GeoAlert from '@/elements/GeoAlert/GeoAlert.vue'
+import GeoErrorAlert from '@/elements/GeoAlert/GeoErrorAlert.vue'
+import GeoInfoAlert from '@/elements/GeoAlert/GeoInfoAlert.vue'
+import GeoSuccessAlert from '@/elements/GeoAlert/GeoSuccessAlert.vue'
+import GeoWarningAlert from '@/elements/GeoAlert/GeoWarningAlert.vue'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fab } from '@fortawesome/free-brands-svg-icons'
@@ -27,11 +27,11 @@ library.add(mockedFalIcons)
 
 // create an extended `Vue` constructor
 const localVue = createLocalVue()
-localVue.component('geo-alert-callout', GeoAlertCallout)
+localVue.component('geo-alert', GeoAlert)
 
-describe('GeoAlertCalloutCallout', () => {
+describe('GeoAlert', () => {
   it('should render alert component', function () {
-    const wrapper = mount(GeoAlertCallout, {
+    const wrapper = mount(GeoAlert, {
       context: {
         props: {
           variant: 'success',
@@ -43,11 +43,11 @@ describe('GeoAlertCalloutCallout', () => {
       }
     })
 
-    expect(wrapper.find('.geo-alert-callout').exists()).toBe(true)
+    expect(wrapper.find('.geo-alert').exists()).toBe(true)
   })
 
   it('should display correct icon', function () {
-    const wrapper = mount(GeoAlertCallout, {
+    const wrapper = mount(GeoAlert, {
       context: {
         props: {
           variant: 'success',
@@ -62,7 +62,7 @@ describe('GeoAlertCalloutCallout', () => {
   })
 
   it('should apply a CSS suffix when the modifier is provided', function () {
-    const wrapper = mount(GeoAlertCallout, {
+    const wrapper = mount(GeoAlert, {
       context: {
         props: {
           variant: 'success',
@@ -74,64 +74,64 @@ describe('GeoAlertCalloutCallout', () => {
         'font-awesome-icon': FontAwesomeIcon
       }
     })
-    expect(wrapper.find('.geo-alert-callout--test-alert').exists()).toBe(true)
+    expect(wrapper.find('.geo-alert--test-alert').exists()).toBe(true)
   })
 
   it('Should check variant prop is valid', function () {
     const spy = jest.spyOn(global.console, 'warn').mockImplementation(() => { })
     afterEach(() => spy.mockReset())
 
-    const variantProp = GeoAlertCallout.props.variant
+    const variantProp = GeoAlert.props.variant
 
     expect(variantProp.required).toBeTruthy()
     expect(variantProp.type).toBe(String)
     expect(variantProp.validator && variantProp.validator('qwerty')).toBeFalsy()
-    expect(spy).toBeCalledWith(expect.stringContaining('GeoAlertCallout [component] :: Unsupported value («qwerty») for «variant» property.'))
+    expect(spy).toBeCalledWith(expect.stringContaining('GeoAlert [component] :: Unsupported value («qwerty») for «variant» property.'))
     expect(variantProp.validator && variantProp.validator('info')).toBeTruthy()
   })
 })
 
 const taxonomyAlerts = [
   {
-    component: GeoErrorAlertCallout,
+    component: GeoErrorAlert,
     variant: 'error',
     icon: 'exclamation-triangle'
   },
   {
-    component: GeoWarningAlertCallout,
+    component: GeoWarningAlert,
     variant: 'warning',
     icon: 'exclamation-triangle'
   },
   {
-    component: GeoInfoAlertCallout,
+    component: GeoInfoAlert,
     variant: 'info',
     icon: 'lightbulb'
   },
   {
-    component: GeoSuccessAlertCallout,
+    component: GeoSuccessAlert,
     variant: 'success',
     icon: 'thumbs-up'
   }
 ]
 
-describe('GeoAlertCallout Children', () => {
+describe('GeoAlert Children', () => {
   taxonomyAlerts.forEach((taxonomyAlert) => {
     it('should render alert component', function () {
       const wrapper = mount(taxonomyAlert.component, {
         stubs: {
           'font-awesome-icon': FontAwesomeIcon,
-          GeoAlertCallout
+          GeoAlert
         }
       })
 
-      expect(wrapper.find('.geo-alert-callout').exists()).toBe(true)
+      expect(wrapper.find('.geo-alert').exists()).toBe(true)
     })
 
     it('should display correct icon', function () {
       const wrapper = mount(taxonomyAlert.component, {
         stubs: {
           'font-awesome-icon': FontAwesomeIcon,
-          GeoAlertCallout
+          GeoAlert
         }
       })
       expect(wrapper.find(`.fa-${taxonomyAlert.icon}`).exists()).toBe(true)
@@ -141,10 +141,10 @@ describe('GeoAlertCallout Children', () => {
       const wrapper = mount(taxonomyAlert.component, {
         stubs: {
           'font-awesome-icon': FontAwesomeIcon,
-          GeoAlertCallout
+          GeoAlert
         }
       })
-      expect(wrapper.find(`.geo-alert-callout--${taxonomyAlert.variant}`).exists()).toBe(true)
+      expect(wrapper.find(`.geo-alert--${taxonomyAlert.variant}`).exists()).toBe(true)
     })
 
     it('should apply a CSS suffix when the modifier is provided', function () {
@@ -156,10 +156,10 @@ describe('GeoAlertCallout Children', () => {
         },
         stubs: {
           'font-awesome-icon': FontAwesomeIcon,
-          GeoAlertCallout
+          GeoAlert
         }
       })
-      expect(wrapper.find('.geo-alert-callout--test-alert').exists()).toBe(true)
+      expect(wrapper.find('.geo-alert--test-alert').exists()).toBe(true)
     })
   })
 })

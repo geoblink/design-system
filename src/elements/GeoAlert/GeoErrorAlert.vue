@@ -1,29 +1,29 @@
 <template functional>
-  <geo-alert-callout
+  <geo-alert
     v-bind="data.attrs"
     :class="[
       data.class,
       data.staticClass
     ]"
-    :icon="['fal', 'lightbulb']"
+    :icon="['fal', 'exclamation-triangle']"
     :css-modifier="props.cssModifier"
-    :variant="$options.helpers.VARIANTS.info"
+    :variant="$options.helpers.VARIANTS.error"
     v-on="listeners"
   >
     <!-- @slot Use this slot to customize alert's content -->
     <slot />
-  </geo-alert-callout>
+  </geo-alert>
 </template>
 
 <script>
 import cssSuffix from '../../mixins/cssModifierMixin'
 
-import { VARIANTS } from './GeoAlertCallout.constants'
+import { VARIANTS } from './GeoAlert.constants'
 
 export default {
-  name: 'GeoInfoAlertCallout',
+  name: 'GeoErrorAlert',
   status: 'ready',
-  release: '18.4.0',
+  release: '22.0.0',
   helpers: {
     VARIANTS
   },

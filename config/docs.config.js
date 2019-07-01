@@ -93,10 +93,9 @@ module.exports = {
               name: 'GeoFeedbackBox',
               components: '../src/elements/GeoFeedbackBox/Geo*FeedbackBox.vue',
               sectionDepth: 0
-            },
-            {
-              name: 'GeoAlertCallout',
-              components: '../src/elements/GeoAlertCallout/Geo*AlertCallout.vue',
+            }, {
+              name: 'GeoAlert',
+              components: '../src/elements/GeoAlert/Geo*Alert.vue',
               sectionDepth: 0
             }
           ]
