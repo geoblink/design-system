@@ -1,3 +1,9 @@
+# 21.0.0
+
+Breaking:
+
+- `GeoAlert` has been renamed to `GeoFeedbackBox` (this also affect all subcomponents)
+
 # 20.1.5
 
 Changed:
