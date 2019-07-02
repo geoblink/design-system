@@ -1,0 +1,95 @@
+@mixin geo-multi-select-make($modifier-name) {
+
+  $modifier-name-with-prefix: '';
+
+  @if $modifier-name != '' {
+    // sass-lint:disable space-around-operator
+    $modifier-name-with-prefix: --#{$modifier-name};
+  }
+
+  .geo-multi-select_label {
+    align-items: center;
+    display: flex;
+  }
+
+  .geo-multi-select_input {
+    margin-left: $space-small;
+  }
+
+  .geo-multi-select__pills-container {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: -$space-x-small;
+  }
+
+  .geo-multi-select__pill {
+    margin: 0 $space-x-small $space-x-small 0;
+
+    &:last-child {
+      margin-right: 0
+    }
+  }
+
+  .geo-multi-select__pill-remove {
+    color: $color-grey-light;
+    margin-left: $space-x-small;
+
+    &:hover {
+      color: $color-red;
+    }
+  }
+
+  @include geo-select-base-make("geo-multi-select#{$modifier-name-with-prefix}");
+  @include geo-list-item-make("geo-multi-select#{$modifier-name-with-prefix}");
+  @include geo-list-group-make("geo-multi-select#{$modifier-name-with-prefix}");
+  @include geo-list-clear-item-make("geo-multi-select#{$modifier-name-with-prefix}");
+  @include geo-bordered-box-header-search-form-make("geo-multi-select#{$modifier-name-with-prefix}");
+  @include geo-select-toggle-button-make("geo-multi-select#{$modifier-name-with-prefix}");
+  @include geo-marquee-make("geo-multi-select#{$modifier-name-with-prefix}");
+  @include geo-trimmed-content-make("geo-multi-select#{$modifier-name-with-prefix}");
+  @include geo-highlighted-string-make("geo-multi-select#{$modifier-name-with-prefix}");
+
+  .geo-marquee--geo-multi-select--disabled#{$modifier-name-with-prefix} {
+    cursor: not-allowed;
+  }
+
+  .geo-trimmed-content--geo-multi-select#{$modifier-name-with-prefix} {
+    width: calc(100% - 10px - 0.875em);
+  }
+
+  .geo-list-group__header__icon-and-label__label--geo-multi-select#{$modifier-name-with-prefix},
+  .geo-list-item__icon-and-label--geo-multi-select#{$modifier-name-with-prefix},
+  .geo-list-item__icon-and-label__label--geo-multi-select#{$modifier-name-with-prefix},
+  .geo-list-group__header__icon-and-label--geo-multi-select#{$modifier-name-with-prefix},
+  .geo-list-group__header__icon-and-label__label--geo-multi-select#{$modifier-name-with-prefix} {
+    width: 100%;
+
+    .geo-trimmed-content--geo-multi-select#{$modifier-name-with-prefix} {
+      width: 100%;
+    }
+  }
+
+  .geo-select-toggle-button--geo-multi-select#{$modifier-name-with-prefix} {
+    height: auto;
+    min-height: 30px;
+    padding: 5px 10px;
+  }
+
+  .geo-select-toggle-button__toggle-icon--geo-multi-select#{$modifier-name-with-prefix} {
+    transition: transform $duration-quickly $easing-base;
+  }
+
+
+  .geo-dropdown--is-open--geo-multi-select#{$modifier-name-with-prefix} .geo-select-toggle-button__toggle-icon--geo-multi-select#{$modifier-name-with-prefix} {
+    transform: rotateZ(180deg);
+  }
+
+  .geo-list-group--geo-multi-select#{$modifier-name-with-prefix} {
+    &:not(:first-child) {
+      border-top: 1px solid $color-grey;
+      margin-top: $space-small;
+    }
+  }
+}
+
+@include geo-multi-select-make('');

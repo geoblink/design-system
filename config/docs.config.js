@@ -167,7 +167,7 @@ module.exports = {
         },
         {
           name: 'GeoSelect',
-          components: '../src/elements/GeoSelect/GeoSelect*.vue',
+          components: '../src/elements/GeoSelect/Geo*Select*.vue',
           sectionDepth: 0
         },
         {
