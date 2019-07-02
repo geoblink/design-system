@@ -1,4 +1,4 @@
-@mixin geo-alert-callout-make($modifier-name) {
+@mixin geo-alert-make($modifier-name) {
 
   $modifier-name-with-prefix: '';
 
@@ -7,7 +7,7 @@
     $modifier-name-with-prefix: --#{$modifier-name};
   }
 
-  .geo-alert-callout#{$modifier-name-with-prefix} {
+  .geo-alert#{$modifier-name-with-prefix} {
     align-items: flex-start;
     border: 1px solid transparent;
     border-radius: $border-radius-default;
@@ -16,14 +16,14 @@
     padding: $space-x-small $space-small;
     width: 100%;
 
-    .geo-alert-callout__icon {
+    .geo-alert__icon {
       flex-grow: 0;
       flex-shrink: 0;
       font-size: $font-size-regular;
       margin: ($space-x-small - 2px) $space-small 0 0;
     }
 
-    .geo-alert-callout__content {
+    .geo-alert__content {
       @include font($body);
 
       flex-grow: 1;
@@ -32,41 +32,41 @@
     }
   }
 
-  .geo-alert-callout--info#{$modifier-name-with-prefix} {
+  .geo-alert--info#{$modifier-name-with-prefix} {
     background: $color-blue-readable-background;
     border-color: $color-blue-readable-border;
 
-    .geo-alert-callout__icon {
+    .geo-alert__icon {
       color: $color-blue;
     }
   }
 
-  .geo-alert-callout--success#{$modifier-name-with-prefix} {
+  .geo-alert--success#{$modifier-name-with-prefix} {
     background: $color-green-readable-background;
     border-color: $color-green-readable-border;
 
-    .geo-alert-callout__icon {
+    .geo-alert__icon {
       color: $color-green;
     }
   }
 
-  .geo-alert-callout--warning#{$modifier-name-with-prefix} {
+  .geo-alert--warning#{$modifier-name-with-prefix} {
     background: $color-yellow-readable-background;
     border-color: $color-yellow-readable-border;
 
-    .geo-alert-callout__icon {
+    .geo-alert__icon {
       color: $color-yellow;
     }
   }
 
-  .geo-alert-callout--error#{$modifier-name-with-prefix} {
+  .geo-alert--error#{$modifier-name-with-prefix} {
     background: $color-red-readable-background;
     border-color: $color-red-readable-border;
 
-    .geo-alert-callout__icon {
+    .geo-alert__icon {
       color: $color-red;
     }
   }
 }
 
-@include geo-alert-callout-make('');
+@include geo-alert-make('');

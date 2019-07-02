@@ -4,18 +4,18 @@
     :class="[
       data.class,
       data.staticClass,
-      `geo-alert-callout${$options.helpers.getCSSSuffix(props.cssModifier)}`,
-      `geo-alert-callout--${props.variant}${$options.helpers.getCSSSuffix(props.cssModifier)}`
+      `geo-alert${$options.helpers.getCSSSuffix(props.cssModifier)}`,
+      `geo-alert--${props.variant}${$options.helpers.getCSSSuffix(props.cssModifier)}`
     ]"
     v-on="listeners"
   >
     <font-awesome-icon
       :icon="props.icon"
-      class="geo-alert-callout__icon"
+      class="geo-alert__icon"
       fixed-width
     />
 
-    <div class="geo-alert-callout__content">
+    <div class="geo-alert__content">
       <!-- @slot Use this slot to customize alert's content -->
       <slot />
     </div>
@@ -25,12 +25,12 @@
 <script>
 import cssSuffix, { getCSSSuffix } from '../../mixins/cssModifierMixin'
 
-import { VARIANTS } from './GeoAlertCallout.constants'
+import { VARIANTS } from './GeoAlert.constants'
 
 export default {
-  name: 'GeoAlertCallout',
+  name: 'GeoAlert',
   status: 'ready',
-  release: '18.4.0',
+  release: '22.0.0',
   helpers: {
     getCSSSuffix
   },
@@ -51,17 +51,17 @@ export default {
      *
      * | variant  | Specific component                                            |
      * |----------|---------------------------------------------------------------|
-     * | success  | [GeoSuccessAlertCallout](./#/Elements/GeoAlertCallout?id=geosuccessalertcallout)   |
-     * | info     | [GeoInfoAlertCallout](./#/Elements/GeoAlertCallout?id=geoinfoalertcallout)         |
-     * | warning  | [GeoWarningAlertCallout](./#/Elements/GeoAlertCallout?id=geowarningalertcallout)   |
-     * | error    | [GeoErrorAlertCallout](./#/Elements/GeoAlertCallout?id=geoerroralertcallout)       |
+     * | success  | [GeoSuccessAlert](./#/Elements/GeoAlert?id=geosuccessalertcallout)   |
+     * | info     | [GeoInfoAlert](./#/Elements/GeoAlert?id=geoinfoalertcallout)         |
+     * | warning  | [GeoWarningAlert](./#/Elements/GeoAlert?id=geowarningalertcallout)   |
+     * | error    | [GeoErrorAlert](./#/Elements/GeoAlert?id=geoerroralertcallout)       |
      *
      * Supported `variant` values are exported under `VARIANTS` named export.
      * See [Component Constants](./#/Component%20Constants) for more info on how
      * to use those constants in your code.
      *
      * > **Note:** You can always override the color scheme of any
-     * > `GeoAlertCallout` using `cssModifier` prop.
+     * > `GeoAlert` using `cssModifier` prop.
      */
     variant: {
       type: String,
@@ -70,7 +70,7 @@ export default {
         if (value in VARIANTS) return true
 
         const supportedValues = Object.values(VARIANTS).map(i => `«${i}»`).join(', ')
-        console.warn(`GeoAlertCallout [component] :: Unsupported value («${value}») for «variant» property. Use one of ${supportedValues}`)
+        console.warn(`GeoAlert [component] :: Unsupported value («${value}») for «variant» property. Use one of ${supportedValues}`)
         return false
       }
     },

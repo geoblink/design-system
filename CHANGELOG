@@ -1,8 +1,14 @@
+# 22.0.0
+
+Breaking:
+
+`GeoAlertCallout` has been renamed to `GeoAlert` (this also affects all subcomponents)
+
 # 21.0.0
 
 Breaking:
 
-- `GeoAlert` has been renamed to `GeoFeedbackBox` (this also affect all subcomponents)
+- `GeoAlert` has been renamed to `GeoFeedbackBox` (this also affects all subcomponents)
 
 # 20.1.5
 
