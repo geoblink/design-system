@@ -71,7 +71,7 @@ eiusmod tempor incididunt ut labore et dolore magna aliqua.
 
 <script>
 
-const EN_LOCALE = require('date-fns/locale/es')
+const ES_LOCALE = require('date-fns/locale/es')
 
 export default {
   name: 'GeoCalendarDemo',
@@ -83,7 +83,7 @@ export default {
   },
   computed: {
     locale () {
-      return EN_LOCALE
+      return ES_LOCALE
     }
   },
   methods: {

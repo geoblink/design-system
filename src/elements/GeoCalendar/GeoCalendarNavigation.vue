@@ -2,16 +2,18 @@
   <div class="geo-calendar-navigation">
     <font-awesome-icon
       :icon="previousDateInSelectedGranularityIcon"
-      class="geo-calendar-navigation__previous-icon"
+      class="geo-calendar-navigation__nav-icon geo-calendar-navigation__nav-icon--previous"
       fixed-width
+      @click="goToPreviousPickerDate"
     />
     <div class="geo-calendar-navigation__dropdowns-container">
       <component :is="selectedGranularityNavigation" />
     </div>
     <font-awesome-icon
       :icon="nextDateInSelectedGranularityIcon"
-      class="geo-calendar-navigation__next-icon"
+      class="geo-calendar-navigation__nav-icon geo-calendar-navigation__nav-icon--next"
       fixed-width
+      @click="goToNextPickerDate"
     />
   </div>
 </template>
@@ -62,6 +64,16 @@ export default {
           break
       }
       return granularityNavigationComponent
+    }
+  },
+
+  methods: {
+    goToPreviousPickerDate () {
+      this.$emit('go-to-previous-picker-date')
+    },
+
+    goToNextPickerDate () {
+      this.$emit('go-to-next-picker-date')
     }
   }
 }

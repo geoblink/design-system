@@ -50,6 +50,12 @@
     margin: $space-base 0;
   }
 
+  .geo-calendar-navigation__nav-icon {
+    @include font($label-optional);
+
+    cursor: pointer;
+  }
+
   .geo-calendar-grid__weekdays-row-container {
     @include font($label-optional);
 
@@ -66,26 +72,34 @@
   .geo-calendar-grid__days-container {
     display: grid;
     margin-top: $space-small;
-    grid-row-gap: 15px;
+    grid-row-gap: 10px;
     justify-content: space-evenly;
   }
 
   .days-container__week-unit {
+    align-items: center;
     display: grid;
-    grid-template-columns: repeat(7, $space-base);
-    grid-template-rows: 15px;
+    grid-template-columns: repeat(7, 25px);
+    grid-template-rows: 25px;
     text-align: center;
-    grid-column-gap: 23px;
+    grid-column-gap: 18px;
   }
 
   .days-container__day-picker {
     @include font($body-small);
 
+    cursor: pointer;
+    line-height: 25px;
     position: relative;
+
+    &:hover {
+      background: rgba($color-blue, 0.1);
+      border-radius: 50%;
+    }
 
     &--today:after {
       background: $color-yellow;
-      bottom: -2px;
+      bottom: 4px;
       content: '';
       height: 2px;
       left: 0;
