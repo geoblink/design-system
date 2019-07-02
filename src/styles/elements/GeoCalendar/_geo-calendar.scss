@@ -55,7 +55,7 @@
 
     border-bottom: 1px solid $color-white-darker;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     padding-bottom: $space-x-small;
   }
 
@@ -63,14 +63,41 @@
     text-transform: capitalize;
   }
 
-  .geo-calendar-grid__days-month-container {
+  .geo-calendar-grid__days-container {
     display: grid;
+    margin-top: $space-small;
+    grid-row-gap: 15px;
+    justify-content: space-evenly;
   }
 
-  .days-month-container__week-unit {
+  .days-container__week-unit {
     display: grid;
-    grid-template-columns: repeat(7, 1fr);
+    grid-template-columns: repeat(7, $space-base);
+    grid-template-rows: 15px;
     text-align: center;
+    grid-column-gap: 23px;
+  }
+
+  .days-container__day-picker {
+    @include font($body-small);
+
+    position: relative;
+
+    &--today:after {
+      background: $color-yellow;
+      bottom: -2px;
+      content: '';
+      height: 2px;
+      left: 0;
+      margin: 0 auto;
+      position: absolute;
+      right: 0;
+      width: 16px;
+    }
+
+    &--out-of-boundaries {
+      color: $color-grey-light;
+    }
   }
 }
 

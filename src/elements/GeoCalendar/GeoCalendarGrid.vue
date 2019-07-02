@@ -9,16 +9,20 @@
         {{ day }}
       </span>
     </div>
-    <div class="geo-calendar-grid__days-month-container">
+    <div class="geo-calendar-grid__days-container">
       <div
-        v-for="(week, index) in fullDaysInDisplayedCalendar"
-        :key="index"
-        class="days-month-container__week-unit"
+        v-for="(week, weekIndex) in fullDaysInDisplayedCalendar"
+        :key="weekIndex"
+        class="days-container__week-unit"
       >
         <span
           v-for="day in week"
           :key="day"
-          class="days-month-container__day-picker"
+          :class="{
+            'days-container__day-picker--today': isToday(weekIndex, day),
+            'days-container__day-picker--out-of-boundaries': isDayOutOfBoundaries(weekIndex, day)
+          }"
+          class="days-container__day-picker"
         >
           {{ day }}
         </span>
@@ -40,7 +44,6 @@ import {
   startOfMonth,
   startOfWeek,
   subDays,
-  subMonths,
   getDaysInMonth
 } from 'date-fns'
 
@@ -54,12 +57,20 @@ export default {
   },
 
   computed: {
+    totalDaysInWeek () {
+      return 7
+    },
+
     today () {
-      return subMonths(new Date(), 2)
+      return new Date()
     },
 
     currentDayInWeek () {
       return getDay(this.today)
+    },
+
+    currentDayInMonth () {
+      return getDate(this.today)
     },
 
     startOfMonth () {
@@ -96,12 +107,32 @@ export default {
         ..._.map(daysBeforeStartOfMonth, getDate),
         ..._.times(getDaysInMonth(this.today), (d) => d + 1)
       )
-      return _.chunk(displayedDays, 7)
+
+      const remainingDaysForDisplayedGrid = (this.totalDaysInWeek * this.numberOfWeeksInMonth) - displayedDays.length
+      displayedDays.push(..._.times(remainingDaysForDisplayedGrid, (d) => d + 1))
+
+      return _.chunk(displayedDays, this.totalDaysInWeek)
     },
 
     weekDays () {
       // TODO: Handle start of week
       return _.map(this.orderedDaysOfWeek, (d) => format(d, 'ddd', { locale: this.locale }))
+    }
+  },
+
+  methods: {
+    isDayOutOfBoundaries (weekIndex, day) {
+      if (weekIndex === 0) {
+        return day > this.totalDaysInWeek
+      } else if (weekIndex === this.fullDaysInDisplayedCalendar.length - 1) {
+        return _.includes(this.fullDaysInDisplayedCalendar[0], day)
+      } else {
+        return false
+      }
+    },
+
+    isToday (weekIndex, day) {
+      return day === this.currentDayInMonth && !this.isDayOutOfBoundaries(weekIndex, day)
     }
   }
 }
