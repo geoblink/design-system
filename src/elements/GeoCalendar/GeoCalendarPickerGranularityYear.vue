@@ -4,6 +4,7 @@
     :is-valid="isValid"
     :picker-date-unit="pickerDateUnit"
     :granularity-id="granularityId"
+    @click.native="handleClick($event)"
   >
     <slot />
   </geo-calendar-picker-granularity-base>
@@ -38,6 +39,17 @@ export default {
 
     granularityId () {
       return GRANULARITY_IDS.year
+    }
+  },
+
+  methods: {
+    handleClick ($event) {
+      this.$emit('click', {
+        event: $event,
+        isValid: this.isValid,
+        pickerDateUnit: this.pickerDateUnit,
+        granularityId: this.granularityId
+      })
     }
   }
 }

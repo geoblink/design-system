@@ -8,20 +8,70 @@
   }
 
   @include geo-dropdown-make('geo-calendar__dropdown#{$modifier-name-with-prefix}');
+  @include geo-button-make('calendar-picker-button#{$modifier-name-with-prefix}');
 
   .geo-calendar#{$modifier-name-with-prefix} {
     display: flex;
   }
 
   .geo-calendar__granularity-selectors {
+    background: $color-white-dark;
+    border-right: 1px solid $color-grey;
     box-sizing: border-box;
     padding: $space-small;
     width: 200px;
   }
+
   .geo-calendar__picker-controls {
     padding: $space-base;
   }
 
+  .geo-calendar__input-ranges {
+    align-items: baseline;
+    border-bottom: 1px solid $color-grey;
+    display: flex;
+    padding-bottom: $space-base;
+  }
+
+  .geo-calendar__input {
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .geo-button--calendar-picker-button > .geo-button__label--calendar-picker-button {
+    padding-left: 0;
+  }
+
+  .geo-calendar-navigation {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    margin: $space-base 0;
+  }
+
+  .geo-calendar-grid__weekdays-row-container {
+    @include font($label-optional);
+
+    border-bottom: 1px solid $color-white-darker;
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: $space-x-small;
+  }
+
+  .weekdays-row__weekday-name {
+    text-transform: capitalize;
+  }
+
+  .geo-calendar-grid__days-month-container {
+    display: grid;
+  }
+
+  .days-month-container__week-unit {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    text-align: center;
+  }
 }
 
 @include geo-calendar-make('');

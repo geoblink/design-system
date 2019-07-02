@@ -19,10 +19,15 @@
       </geo-bordered-box-header>
       <geo-calendar
         :input-range-icon="inputRangeIcon"
+        :previous-date-in-selected-granularity-icon="previousDateInSelectedGranularityIcon"
+        :next-date-in-selected-granularity-icon="nextDateInSelectedGranularityIcon"
         :from-input-placeholder="fromInputPlaceholder"
         :to-input-placeholder="toInputPlaceholder"
         :earliest-date-placeholder="earliestDatePlaceholder"
         :latest-date-placeholder="latestDatePlaceholder"
+        :picker-date-unit="pickerDateUnit"
+        :granularity-id="granularityId"
+        :locale="locale"
       >
         <slot
           slot="pickerGranularity"
@@ -48,6 +53,16 @@ export default {
       required: false
     },
 
+    previousDateInSelectedGranularityIcon: {
+      type: Array,
+      required: false
+    },
+
+    nextDateInSelectedGranularityIcon: {
+      type: Array,
+      required: false
+    },
+
     fromInputPlaceholder: {
       type: String,
       required: false
@@ -66,6 +81,21 @@ export default {
     latestDatePlaceholder: {
       type: String,
       required: false
+    },
+
+    pickerDateUnit: {
+      type: String,
+      required: true
+    },
+
+    granularityId: {
+      type: String,
+      required: true
+    },
+
+    locale: {
+      type: Object,
+      required: true
     }
   },
 

@@ -12,8 +12,9 @@
           <geo-input
             :placeholder="fromInputPlaceholder"
             :show-buttons="false"
+            input-type="normal"
           />
-          <geo-tertiary-button>
+          <geo-tertiary-button css-modifier="calendar-picker-button">
             {{ earliestDatePlaceholder }}
           </geo-tertiary-button>
         </div>
@@ -25,14 +26,21 @@
           <geo-input
             :placeholder="toInputPlaceholder"
             :show-buttons="false"
+            input-type="normal"
           />
-          <geo-tertiary-button>
+          <geo-tertiary-button css-modifier="calendar-picker-button">
             {{ latestDatePlaceholder }}
           </geo-tertiary-button>
         </div>
       </div>
       <!-- TODO: Bind props to component -->
-      <geo-calendar-picker />
+      <geo-calendar-picker
+        :previous-date-in-selected-granularity-icon="previousDateInSelectedGranularityIcon"
+        :next-date-in-selected-granularity-icon="nextDateInSelectedGranularityIcon"
+        :picker-date-unit="pickerDateUnit"
+        :granularity-id="granularityId"
+        :locale="locale"
+      />
     </div>
   </div>
 </template>
@@ -50,6 +58,20 @@ export default {
       type: Array,
       default () {
         return ['fal', 'arrow-right']
+      }
+    },
+
+    previousDateInSelectedGranularityIcon: {
+      type: Array,
+      default () {
+        return ['fal', 'chevron-left']
+      }
+    },
+
+    nextDateInSelectedGranularityIcon: {
+      type: Array,
+      default () {
+        return ['fal', 'chevron-right']
       }
     },
 
@@ -71,6 +93,21 @@ export default {
     latestDatePlaceholder: {
       type: String,
       required: false
+    },
+
+    pickerDateUnit: {
+      type: String,
+      required: true
+    },
+
+    granularityId: {
+      type: String,
+      required: true
+    },
+
+    locale: {
+      type: Object,
+      required: true
     }
   },
   data () {
