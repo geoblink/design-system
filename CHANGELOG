@@ -1,3 +1,9 @@
+# 22.1.0
+
+New:
+
+`GeoDropdownRegularButton` add support for `active` and `disabled` props
+
 # 22.0.0
 
 Breaking:
