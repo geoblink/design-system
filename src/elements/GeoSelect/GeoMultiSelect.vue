@@ -83,7 +83,7 @@
     <!-- @slot _Optional_. Use this slot to customize search form. -->
     <slot
       v-if="searchable"
-      name="search-header"
+      name="searchHeader"
     >
       <geo-bordered-box-header-search-form
         v-if="searchable"
@@ -113,7 +113,7 @@
               <slot
                 v-if="option.isOptGroupHeader"
                 slot="title"
-                name="group-title"
+                name="groupTitle"
               >
                 <label class="geo-multi-select_label">
                   <geo-marquee :css-modifier="`geo-multi-select${cssSuffix}`">
@@ -138,7 +138,7 @@
               <slot
                 v-for="(item, itemIndex) in option.items"
                 slot="item"
-                name="group-item"
+                name="groupItem"
                 :suggested-key="`${item.label}--${itemIndex}`"
                 :item-index="itemIndex"
                 :item="item"
@@ -528,7 +528,7 @@ export default {
   },
   computed: {
     isGroupedSelect () {
-      return this.grouped || this.isOptSelect
+      return this.grouped
     },
 
     filteredOptions () {

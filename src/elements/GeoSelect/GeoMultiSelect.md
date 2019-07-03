@@ -5,7 +5,7 @@
 <template>
   <div class="element-demo">
     <h3 class="element-demo__header">Simple multi select</h3>
-    <div class="element-demo__block" style="justify-content: space-around;">
+    <div class="element-demo__block" style="margin: auto; width: 300px">
       <geo-multi-select
         :options="itemsList"
         :dropdown-icon="['fas', 'chevron-down']"
@@ -20,7 +20,7 @@
     Model: {{ selectedOptions[0] }}
 
     <h3 class="element-demo__header">Select with search</h3>
-    <div class="element-demo__block" style="justify-content: space-around;">
+    <div class="element-demo__block" style="margin: auto; width: 300px">
       <geo-multi-select
         :options="itemsList"
         :dropdown-icon="['fas', 'chevron-down']"
@@ -38,7 +38,7 @@
     Model: {{ selectedOptions[1] }}
 
     <h3 class="element-demo__header">Select with pagination</h3>
-    <div class="element-demo__block" style="justify-content: space-around;">
+    <div class="element-demo__block" style="margin: auto; width: 300px">
       <geo-multi-select
         :options="itemsLongList"
         :dropdown-icon="['fas', 'chevron-down']"
@@ -56,7 +56,7 @@
     Model: {{ selectedOptions[2] }}
 
     <h3 class="element-demo__header">Select with opt-groups</h3>
-    <div class="element-demo__block" style="justify-content: space-around;">
+    <div class="element-demo__block" style="margin: auto; width: 300px">
       <geo-multi-select
         :options="optGroupsList"
         :dropdown-icon="['fas', 'chevron-down']"

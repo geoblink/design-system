@@ -7,38 +7,6 @@
     $modifier-name-with-prefix: --#{$modifier-name};
   }
 
-  .geo-multi-select_label {
-    align-items: center;
-    display: flex;
-  }
-
-  .geo-multi-select_input {
-    margin-left: $space-small;
-  }
-
-  .geo-multi-select__pills-container {
-    display: flex;
-    flex-wrap: wrap;
-    margin-bottom: -$space-x-small;
-  }
-
-  .geo-multi-select__pill {
-    margin: 0 $space-x-small $space-x-small 0;
-
-    &:last-child {
-      margin-right: 0
-    }
-  }
-
-  .geo-multi-select__pill-remove {
-    color: $color-grey-light;
-    margin-left: $space-x-small;
-
-    &:hover {
-      color: $color-red;
-    }
-  }
-
   @include geo-select-base-make("geo-multi-select#{$modifier-name-with-prefix}");
   @include geo-list-item-make("geo-multi-select#{$modifier-name-with-prefix}");
   @include geo-list-group-make("geo-multi-select#{$modifier-name-with-prefix}");
@@ -48,6 +16,46 @@
   @include geo-marquee-make("geo-multi-select#{$modifier-name-with-prefix}");
   @include geo-trimmed-content-make("geo-multi-select#{$modifier-name-with-prefix}");
   @include geo-highlighted-string-make("geo-multi-select#{$modifier-name-with-prefix}");
+
+  .geo-dropdown--geo-multi-select#{$modifier-name-with-prefix} {
+    flex-grow: 1;
+
+    .geo-multi-select__pills-container {
+      display: flex;
+      flex-wrap: wrap;
+      margin-bottom: -$space-x-small;
+    }
+  
+    .geo-multi-select__pill {
+      height: 28px;
+      margin: 0 $space-x-small $space-x-small 0;
+  
+      &:last-child {
+        margin-right: 0
+      }
+    }
+  
+    .geo-multi-select__pill-remove {
+      color: $color-grey-light;
+      margin-left: $space-x-small;
+  
+      &:hover {
+        color: $color-red;
+      }
+    }
+  }
+
+  .geo-dropdown__popup--geo-multi-select#{$modifier-name-with-prefix} {
+    .geo-multi-select_label {
+      align-items: center;
+      display: flex;
+      font-weight: $font-weight-regular;
+    }
+  
+    .geo-multi-select_input {
+      margin-left: $space-small;
+    }
+  }
 
   .geo-marquee--geo-multi-select--disabled#{$modifier-name-with-prefix} {
     cursor: not-allowed;
@@ -70,9 +78,11 @@
   }
 
   .geo-select-toggle-button--geo-multi-select#{$modifier-name-with-prefix} {
+    box-sizing: border-box;
     height: auto;
-    min-height: 30px;
-    padding: 5px 10px;
+    min-height: $space-x-large;
+    padding: $space-x-small $space-small;
+    width: 100%;
   }
 
   .geo-select-toggle-button__toggle-icon--geo-multi-select#{$modifier-name-with-prefix} {
