@@ -644,7 +644,7 @@ export default {
 
     toggleGroup (option) {
       const emittedValue = this.isGroupChecked(option)
-        ? _.reject(this.value, (elem) => _.find(option.items, { item: { [this.keyForId]: elem[this.keyForId] }}))
+        ? _.reject(this.value, (elem) => _.find(option.items, { item: { [this.keyForId]: elem[this.keyForId] } }))
         : _.unionBy(this.value, _.map(option.items, 'item'), this.keyForId)
 
       this.changeModel(emittedValue)
