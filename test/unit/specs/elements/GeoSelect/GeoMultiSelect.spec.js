@@ -46,7 +46,9 @@ const stubs = {
 }
 
 const requiredProps = {
-  options: _.times(4, idx => { return { label: `Item ${idx}` } }),
+  options: _.times(4, idx => { return { label: `Item ${idx}`, id: idx } }),
+  keyForId: 'id',
+  keyForLabel: 'label',
   placeholder: 'Some Placeholder',
   dropdownIcon: ['fas', 'chevron-down']
 }
@@ -122,7 +124,7 @@ describe('GeoMultiSelect', () => {
     wrapper.find('.geo-multi-select_label').trigger('click')
     expect(wrapper.vm.isOpened).toBe(true)
     expect(wrapper.emitted().input).toBeTruthy()
-    expect(wrapper.emitted().input[0][0]).toEqual([{ label: 'Item 0' }])
+    expect(wrapper.emitted().input[0][0]).toEqual([{ label: 'Item 0', id: 0 }])
   })
 
   it('Should change model with multiple options', () => {
@@ -138,11 +140,12 @@ describe('GeoMultiSelect', () => {
 
     const allOptions = wrapper.findAll('.geo-multi-select_label')
     allOptions.at(0).trigger('click')
+    wrapper.setProps({ value: wrapper.emitted().input[0][0] })
     allOptions.at(1).trigger('click')
     expect(wrapper.emitted().input).toBeTruthy()
     expect(wrapper.emitted().input.length).toBe(2)
-    expect(wrapper.emitted().input[0][0]).toEqual([{ label: 'Item 0' }])
-    // expect(wrapper.emitted().input[1][0]).toEqual([{ label: 'Item 0' }, { label: 'Item 1' }])
+    expect(wrapper.emitted().input[0][0]).toEqual([{ label: 'Item 0', id: 0 }])
+    expect(wrapper.emitted().input[1][0]).toEqual([{ label: 'Item 0', id: 0 }, { label: 'Item 1', id: 1 }])
   })
 
   it('Should show/hide search box if given the prop', () => {
