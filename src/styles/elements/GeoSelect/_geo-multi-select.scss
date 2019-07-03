@@ -66,10 +66,6 @@
   .geo-list-group__header__icon-and-label--geo-multi-select#{$modifier-name-with-prefix},
   .geo-list-group__header__icon-and-label__label--geo-multi-select#{$modifier-name-with-prefix} {
     width: 100%;
-
-    .geo-trimmed-content--geo-multi-select#{$modifier-name-with-prefix} {
-      width: 100%;
-    }
   }
 
   .geo-select-toggle-button--geo-multi-select#{$modifier-name-with-prefix} {
