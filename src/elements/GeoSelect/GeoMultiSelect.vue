@@ -147,8 +147,8 @@
                 slot="item"
                 name="groupItem"
                 :suggested-key="`${item[keyForLabel]}--${itemIndex}`"
-                :item-index="itemIndex"
-                :item="item"
+                :option-index="itemIndex"
+                :option="item"
                 :css-modifier="`geo-multi-select${cssSuffix}`"
                 :selected-options="selectedOptions"
                 :toggle-option="toggleOption"
@@ -187,8 +187,8 @@
             in non-grouped `GeoMultiSelect`s
           -->
           <slot
-            :item="option"
-            :item-index="optionIndex"
+            :option="option"
+            :option-index="optionIndex"
             :suggested-key="`${option[keyForLabel]}--${optionIndex}`"
             :css-modifier="`geo-multi-select${cssSuffix}`"
             :selected-options="selectedOptions"
