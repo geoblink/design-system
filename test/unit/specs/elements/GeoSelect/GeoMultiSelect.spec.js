@@ -42,7 +42,7 @@ const stubs = {
   GeoTrimmedContent,
   GeoBorderedBoxHeaderSearchForm,
   GeoListGroup,
-  'font-awesome-icon': FontAwesomeIcon
+  FontAwesomeIcon
 }
 
 const requiredProps = {
@@ -91,6 +91,7 @@ describe('GeoMultiSelect', () => {
     })
 
     expect(wrapper.find('.geo-select-toggle-button--geo-multi-select').exists()).toBe(true)
+    expect(wrapper.find('.geo-select__options-container--geo-multi-select').exists()).toBe(false)
     wrapper.find('.geo-select-toggle-button--geo-multi-select').trigger('click')
     expect(wrapper.find('.geo-select__options-container--geo-multi-select').exists()).toBe(true)
   })
