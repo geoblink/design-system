@@ -619,7 +619,9 @@ export default {
   },
   methods: {
     defaultGetMatchesForItem (item, searchPattern) {
-      const matches = _.deburr(item[this.keyForLabel]).match(searchPattern)
+      const lowerDeburrLabel = _.deburr(item[this.keyForLabel]).toLowerCase()
+      const lowerDeburrSearchPattern = _.deburr(searchPattern).toLowerCase()
+      const matches = lowerDeburrLabel.match(lowerDeburrSearchPattern)
       if (matches) {
         return _.map(matches[0].split(''), function (char, i) {
           return i + matches.index
