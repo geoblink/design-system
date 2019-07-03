@@ -45,10 +45,15 @@
   }
 
   .geo-dropdown__popup--geo-multi-select#{$modifier-name-with-prefix} {
+    .geo-multi-select_label-group,
     .geo-multi-select_label {
       align-items: center;
       display: flex;
       font-weight: $font-weight-regular;
+    }
+
+    .geo-multi-select_label-group {
+      font-weight: $font-weight-semi-bold;
     }
   
     .geo-multi-select_input {

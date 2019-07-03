@@ -50,7 +50,7 @@
               :variant="geoPillVariant"
             >
               <div :style="pillLabelStyle">
-                <geo-trimmed-content>{{ option.label }}</geo-trimmed-content>
+                <geo-trimmed-content>{{ option[keyForLabel] }}</geo-trimmed-content>
               </div>
               <font-awesome-icon
                 :icon="pillCloseIcon"
@@ -115,7 +115,7 @@
             name="group"
             :option="option"
             :index="index"
-            :suggested-key="`${option.label}--${index}`"
+            :suggested-key="`${option[keyForLabel]}--${index}`"
             :css-modifier="`geo-multi-select${cssSuffix}`"
           >
             <geo-list-group :css-modifier="`geo-multi-select${cssSuffix}`">
@@ -124,13 +124,13 @@
                 slot="title"
                 name="groupTitle"
               >
-                <label class="geo-multi-select_label">
+                <label class="geo-multi-select_label geo-multi-select_label-group">
                   <geo-marquee :css-modifier="`geo-multi-select${cssSuffix}`">
                     <geo-highlighted-string
                       slot-scope="{}"
                       :css-modifier="`geo-multi-select${cssSuffix}`"
                       :highlighted-chars="option.matches"
-                      :reference-string="option.label"
+                      :reference-string="option[keyForLabel]"
                     />
                   </geo-marquee>
                   <input
@@ -148,7 +148,7 @@
                 v-for="(item, itemIndex) in option.items"
                 slot="item"
                 name="groupItem"
-                :suggested-key="`${item.label}--${itemIndex}`"
+                :suggested-key="`${item[keyForLabel]}--${itemIndex}`"
                 :item-index="itemIndex"
                 :item="item"
                 :css-modifier="`geo-multi-select${cssSuffix}`"
@@ -156,7 +156,7 @@
                 :toggle-option="toggleOption"
               >
                 <geo-list-item
-                  :key="`${item.label}--${itemIndex}`"
+                  :key="`${item[keyForLabel]}--${itemIndex}`"
                   :css-modifier="`geo-multi-select${cssSuffix}`"
                 >
                   <label class="geo-multi-select_label">
@@ -165,12 +165,12 @@
                         slot-scope="{}"
                         :css-modifier="`geo-multi-select${cssSuffix}`"
                         :highlighted-chars="item.matches"
-                        :reference-string="item.label"
+                        :reference-string="item[keyForLabel]"
                       />
                     </geo-marquee>
                     <input
                       slot="trailingAccessoryItem"
-                      :checked="selectedOptions[item.label]"
+                      :checked="selectedOptions[item.item[keyForId]]"
                       type="checkbox"
                       class="geo-multi-select_input"
                       @input="toggleOption(item)"
@@ -191,13 +191,13 @@
           <slot
             :item="option"
             :item-index="optionIndex"
-            :suggested-key="`${option.label}--${optionIndex}`"
+            :suggested-key="`${option[keyForLabel]}--${optionIndex}`"
             :css-modifier="`geo-multi-select${cssSuffix}`"
             :selected-options="selectedOptions"
             :toggle-option="toggleOption"
           >
             <geo-list-item
-              :key="`${option.label}--${optionIndex}`"
+              :key="`${option[keyForLabel]}--${optionIndex}`"
               :css-modifier="`geo-multi-select${cssSuffix}`"
             >
               <label class="geo-multi-select_label">
@@ -206,12 +206,12 @@
                     slot-scope="{}"
                     :css-modifier="`geo-multi-select${cssSuffix}`"
                     :highlighted-chars="option.matches"
-                    :reference-string="option.label"
+                    :reference-string="option[keyForLabel]"
                   />
                 </geo-marquee>
                 <input
                   slot="trailingAccessoryItem"
-                  :checked="selectedOptions[option.label]"
+                  :checked="selectedOptions[option.item[keyForId]]"
                   type="checkbox"
                   class="geo-multi-select_input"
                   @input="toggleOption(option)"
@@ -271,13 +271,9 @@ export default {
     /**
      * Array of options that will be displayed in the select component.
      *
-     * **Note:** In order for the options to be displayed properly, a property
-     * `label` must exist in every object of the array.
-     *
      * **Note:** If you want the `GeoMultiSelect` options to be displayed as
      * `optgroup`s, the property `isOptGroup` must be set to `true` in every
      * group header and its items must be provided in the `items` property.
-     * Those items must have a `label` property, too.
      */
     options: {
       type: Array,
@@ -293,28 +289,14 @@ export default {
             }
 
             if (item.isOptGroup) {
-              if (!isLabelAttributeValid(item)) {
-                console.warn(`GeoMultiSelect [component] :: group[${i}] must have a «label» attribute which is a string`)
-                return false
-              }
-
               if (!areChildrenValid(item, i)) {
                 return false
               }
-            }
-          } else {
-            if (!isLabelAttributeValid(item)) {
-              console.warn(`GeoMultiSelect [component] :: option[${i}] must have a «label» attribute which is a string`)
-              return false
             }
           }
         }
 
         return true
-
-        function isLabelAttributeValid (item) {
-          return _.isString(item.label)
-        }
 
         function areChildrenValid (parent, idParent) {
           const parentPath = `group[${idParent}]`
@@ -325,14 +307,6 @@ export default {
             return false
           }
 
-          for (let i = 0; i < items.length; i++) {
-            const item = items[i]
-            if (!isLabelAttributeValid(item)) {
-              console.warn(`GeoMultiSelect [component] :: ${parentPath}.items[${i}] must have a «label» attribute which is a string`)
-              return false
-            }
-          }
-
           return true
         }
       }
@@ -341,16 +315,26 @@ export default {
     /**
      * @model
      * Currently selected options. It is displayed as pills in the select.
-     *
-     * A `label` property must be present in each item of the prop in order to be displayed
-     * properly.
      */
     value: {
       type: Array,
-      required: false,
-      validator (value) {
-        return _.every(value, (elem) => _.isString(elem.label))
-      }
+      required: false
+    },
+
+    /**
+     * Key to access the id of each item. The value of this key must be unique.
+     */
+    keyForId: {
+      type: String,
+      required: true
+    },
+
+    /**
+     * Key to access the text of the options to display in the list.
+     */
+    keyForLabel: {
+      type: String,
+      required: true
     },
 
     /**
@@ -414,16 +398,7 @@ export default {
      * [fuzzaldrin-plus](https://www.npmjs.com/package/fuzzaldrin-plus).
      */
     getMatchesForItem: {
-      type: Function,
-      default (item, searchPattern) {
-        const matches = _.deburr(item.label).match(searchPattern)
-        if (matches) {
-          return _.map(matches[0].split(''), function (char, i) {
-            return i + matches.index
-          })
-        }
-        return []
-      }
+      type: Function
     },
 
     /**
@@ -551,7 +526,8 @@ export default {
             : itemWithMatches
         }
 
-        const matches = self.getMatchesForItem(itemWithMatches, self.deburredSearchPattern)
+        const searchFunction = self.getMatchesForItem || self.defaultGetMatchesForItem
+        const matches = searchFunction(itemWithMatches, self.deburredSearchPattern)
         itemWithMatches.matches = matches
 
         if (itemWithMatches.isOptGroupHeader) {
@@ -573,18 +549,19 @@ export default {
         return {
           matches: [],
           isOptGroupHeader,
-          label: item.label,
+          [self.keyForLabel]: item[self.keyForLabel],
           items: item.items,
           item
         }
       }
 
       function getOptGroupEntry (item) {
-        const matches = self.getMatchesForItem(item, self.deburredSearchPattern)
+        const searchFunction = self.getMatchesForItem || self.defaultGetMatchesForItem
+        const matches = searchFunction(item, self.deburredSearchPattern)
         return {
           matches,
           isOptGroupHeader: false,
-          label: item.label,
+          [self.keyForLabel]: item[self.keyForLabel],
           item
         }
       }
@@ -614,7 +591,7 @@ export default {
     },
 
     selectedOptions () {
-      return _.fromPairs(_.map(this.value, (elem) => [elem.label, true]))
+      return _.fromPairs(_.map(this.value, (elem) => [elem[this.keyForId], true]))
     },
 
     geoPillVariant () {
@@ -645,18 +622,28 @@ export default {
 
     isGroupChecked () {
       return function (group) {
-        return _.every(group.items, (item) => this.selectedOptions[item.label])
+        return _.every(group.items, (option) => this.selectedOptions[option.item[this.keyForId]])
       }
     },
 
     isSomeGroupOptionChecked () {
       return function (group) {
         if (this.isGroupChecked(group)) return false
-        return _.some(group.items, (item) => this.selectedOptions[item.label])
+        return _.some(group.items, (option) => this.selectedOptions[option.item[this.keyForId]])
       }
     }
   },
   methods: {
+    defaultGetMatchesForItem (item, searchPattern) {
+      const matches = _.deburr(item[this.keyForLabel]).match(searchPattern)
+      if (matches) {
+        return _.map(matches[0].split(''), function (char, i) {
+          return i + matches.index
+        })
+      }
+      return []
+    },
+
     closeSelect () {
       this.isOpened = false
     },
@@ -673,15 +660,15 @@ export default {
 
     toggleGroup (option) {
       const emittedValue = this.isGroupChecked(option)
-        ? _.reject(this.value, (elem) => _.find(option.items, { label: elem.label }))
-        : _.unionBy(this.value, _.map(option.items, 'item'), 'label')
+        ? _.reject(this.value, (elem) => _.find(option.items, { item: { [this.keyForId]: elem[this.keyForId] }}))
+        : _.unionBy(this.value, _.map(option.items, 'item'), this.keyForId)
 
       this.changeModel(emittedValue)
     },
 
     toggleOption (option) {
-      const emittedValue = this.selectedOptions[option.label]
-        ? _.reject(this.value, { label: option.label })
+      const emittedValue = this.selectedOptions[option.item[this.keyForId]]
+        ? _.reject(this.value, { [this.keyForId]: option.item[this.keyForId] })
         : [...this.value || [], option.item]
 
       this.changeModel(emittedValue)

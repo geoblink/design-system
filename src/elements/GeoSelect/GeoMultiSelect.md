@@ -10,6 +10,8 @@
         :options="itemsList"
         :dropdown-icon="['fas', 'chevron-down']"
         :pill-close-icon="['fas', 'times']"
+        key-for-id="id"
+        key-for-label="label"
         placeholder="Choose an option"
         v-model="selectedOptions[0]"
       >
@@ -27,6 +29,8 @@
         :search-icon="['fas', 'search']"
         :pill-close-icon="['fas', 'times']"
         :searchable="true"
+        key-for-id="id"
+        key-for-label="label"
         placeholder="Choose an option"
         search-input-placeholder="Search for an option"
         v-model="selectedOptions[1]"
@@ -45,6 +49,8 @@
         :pill-close-icon="['fas', 'times']"
         :pill-max-width="100"
         :page-size="10"
+        key-for-id="id"
+        key-for-label="label"
         placeholder="Choose an option"
         v-model="selectedOptions[2]"
       >
@@ -64,6 +70,8 @@
         :pill-close-icon="['fas', 'times']"
         :grouped="true"
         :searchable="true"
+        key-for-id="id"
+        key-for-label="label"
         placeholder="Choose an option"
         search-input-placeholder="Search for an option"
         v-model="selectedOptions[3]"
@@ -83,18 +91,18 @@ export default {
   data () {
     return {
       selectedOptions: [undefined, [], [], []],
-      itemsList: _.times(5, idx => { return {label: `Item ${idx}`} }),
-      itemsLongList: _.times(25, idx => { return {label: `${idx} Item with long label that doesn't fit in the select ${idx}`} }),
+      itemsList: _.times(5, idx => { return {label: `Item ${idx}`, id: idx} }),
+      itemsLongList: _.times(25, idx => { return {label: `${idx} Item with long label that doesn't fit in the select ${idx}`, id: idx} }),
       optGroupsList: [
         {
           isOptGroup: true,
           label: 'First Group',
-          items: _.times(4, idx => { return {label: `Item ${idx} first group`} }),
+          items: _.times(4, idx => { return {label: `Item ${idx}`, id: `First${idx}`} }),
         },
         {
           isOptGroup: true,
           label: 'Second Group',
-          items: _.times(4, idx => { return {label: `Item ${idx} second group`} }),
+          items: _.times(4, idx => { return {label: `Item ${idx}`, id: `Second${idx}`} }),
         },
       ]
     }
