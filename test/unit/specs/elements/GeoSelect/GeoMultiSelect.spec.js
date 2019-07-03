@@ -46,7 +46,7 @@ const stubs = {
 }
 
 const requiredProps = {
-  options: _.times(4, idx => { return { label: `${idx}` } }),
+  options: _.times(4, idx => { return { label: `Item ${idx}` } }),
   placeholder: 'Some Placeholder',
   dropdownIcon: ['fas', 'chevron-down']
 }
@@ -121,23 +121,27 @@ describe('GeoMultiSelect', () => {
     wrapper.find('.geo-multi-select_label').trigger('click')
     expect(wrapper.vm.isOpened).toBe(true)
     expect(wrapper.emitted().input).toBeTruthy()
-    expect(wrapper.emitted().input[0][0]).toEqual([{ label: '0' }])
+    expect(wrapper.emitted().input[0][0]).toEqual([{ label: 'Item 0' }])
   })
 
   it('Should change model with multiple options', () => {
     const wrapper = mount(GeoMultiSelect, {
       stubs,
-      propsData: requiredProps
+      propsData: requiredProps,
+      data () {
+        return {
+          isOpened: true
+        }
+      }
     })
 
-    wrapper.find('.geo-select-toggle-button--geo-multi-select').trigger('click')
     const allOptions = wrapper.findAll('.geo-multi-select_label')
     allOptions.at(0).trigger('click')
     allOptions.at(1).trigger('click')
     expect(wrapper.emitted().input).toBeTruthy()
     expect(wrapper.emitted().input.length).toBe(2)
-    expect(wrapper.emitted().input[0][0]).toEqual([{ label: '0' }])
-    // expect(wrapper.emitted().input[1][0]).toEqual([{ label: '0' }, { label: '1' }])
+    expect(wrapper.emitted().input[0][0]).toEqual([{ label: 'Item 0' }])
+    // expect(wrapper.emitted().input[1][0]).toEqual([{ label: 'Item 0' }, { label: 'Item 1' }])
   })
 
   it('Should show/hide search box if given the prop', () => {
@@ -156,5 +160,25 @@ describe('GeoMultiSelect', () => {
     expect(wrapper.find('.geo-bordered-box-header-search-form--geo-multi-select').exists()).toBe(true)
     wrapper.setProps({ searchable: false })
     expect(wrapper.find('.geo-bordered-box-header-search-form--geo-multi-select').exists()).toBe(false)
+  })
+
+  it('Should filter the select options when typing on the search box', () => {
+    const wrapper = mount(GeoMultiSelect, {
+      stubs,
+      propsData: _.assign(requiredProps, {
+        searchIcon: ['fas', 'search'],
+        searchable: true
+      }),
+      data () {
+        return {
+          isOpened: true
+        }
+      }
+    })
+    expect(wrapper.findAll('.geo-list-item--geo-multi-select').length).toBe(4)
+    wrapper.find('.geo-bordered-box-header-search-form__input').setValue('Item 1')
+    wrapper.find('.geo-bordered-box-header-search-form__input').trigger('keyup')
+    expect(wrapper.findAll('.geo-list-item--geo-multi-select').length).toBe(1)
+    expect(wrapper.find('.geo-list-item--geo-multi-select').text()).toEqual('Item 1')
   })
 })

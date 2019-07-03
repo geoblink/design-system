@@ -674,8 +674,6 @@ export default {
       const emittedValue = this.selectedOptions[option.label]
         ? _.reject(this.value, { label: option.label })
         : [...this.value || [], option.item]
-      
-      console.log(this.value)
 
       this.changeModel(emittedValue)
     },
@@ -693,7 +691,6 @@ export default {
        * @event input
        * @type {array}
        */
-      console.log(value)
       this.$emit('input', value)
     }
   }
