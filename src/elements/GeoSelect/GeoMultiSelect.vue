@@ -49,9 +49,7 @@
               class="geo-multi-select__pill"
               :variant="geoPillVariant"
             >
-              <div :style="pillLabelStyle">
-                <geo-trimmed-content>{{ option[keyForLabel] }}</geo-trimmed-content>
-              </div>
+              <geo-trimmed-content>{{ option[keyForLabel] }}</geo-trimmed-content>
               <font-awesome-icon
                 :icon="pillCloseIcon"
                 class="geo-multi-select__pill-remove"
@@ -461,14 +459,6 @@ export default {
     },
 
     /**
-     * Maximum allowed width for pills before using GeoTrimmedContent.
-     */
-    pillMaxWidth: {
-      type: Number,
-      default: 150
-    },
-
-    /**
      * Maximum amount of pills to be displayed in the select button.
      */
     visibleSelectedOptionsLimit: {
@@ -614,12 +604,6 @@ export default {
         : 0
     },
 
-    pillLabelStyle () {
-      return {
-        'max-width': `${this.pillMaxWidth}px`
-      }
-    },
-
     isGroupChecked () {
       return function (group) {
         return _.every(group.items, (option) => this.selectedOptions[option.item[this.keyForId]])
@@ -667,9 +651,10 @@ export default {
     },
 
     toggleOption (option) {
-      const emittedValue = this.selectedOptions[option.item[this.keyForId]]
-        ? _.reject(this.value, { [this.keyForId]: option.item[this.keyForId] })
-        : [...this.value || [], option.item]
+      const item = option.item || option
+      const emittedValue = this.selectedOptions[item[this.keyForId]]
+        ? _.reject(this.value, { [this.keyForId]: item[this.keyForId] })
+        : [...this.value || [], item]
 
       this.changeModel(emittedValue)
     },
