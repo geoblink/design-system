@@ -37,44 +37,53 @@
           v-else
           class="geo-multi-select__pills-container"
         >
-          <geo-pill
-            v-for="(option, index) in visibleSelectedOptions"
-            :key="index"
-            class="geo-multi-select__pill"
-            :variant="geoPillVariant"
+          <!-- @slot _Optional_. Use this slot to customize the content rendered inside the button. -->
+          <slot
+            name="buttonContent"
+            :visible-selected-options="visibleSelectedOptions"
+            :toggle-option="toggleOption"
           >
-            <div :style="pillLabelStyle">
-              <geo-trimmed-content>{{ option.label }}</geo-trimmed-content>
-            </div>
-            <font-awesome-icon
-              :icon="pillCloseIcon"
-              class="geo-multi-select__pill-remove"
-              fixed-width
-              @click.stop="toggleOption(option)"
-            />
-          </geo-pill>
+            <geo-pill
+              v-for="(option, index) in visibleSelectedOptions"
+              :key="index"
+              class="geo-multi-select__pill"
+              :variant="geoPillVariant"
+            >
+              <div :style="pillLabelStyle">
+                <geo-trimmed-content>{{ option.label }}</geo-trimmed-content>
+              </div>
+              <font-awesome-icon
+                :icon="pillCloseIcon"
+                class="geo-multi-select__pill-remove"
+                fixed-width
+                @click.stop="toggleOption(option)"
+              />
+            </geo-pill>
+          </slot>
 
+          <!-- @slot _Optional_. Use this slot to customize the buttons to show more/less pills. -->
           <slot
             name="toggleList"
             :hidden-options-size="numberOfHiddenSelectedOptions"
             :show-all="showAllSelectedOptions"
             :toggle-list="toggleList"
           >
-            <div v-if="hasMoreSelectedOptionsThanLimit">
-              <geo-link-button @click.stop="toggleList()">
-                <!-- @slot Use this slot to customize the text to show less pills. -->
-                <slot
-                  v-if="showAllSelectedOptions"
-                  name="showLessPills"
-                />
-                <!-- @slot Use this slot to customize the text to show more pills. -->
-                <slot
-                  v-else
-                  name="showMorePills"
-                  :hidden-options-size="numberOfHiddenSelectedOptions"
-                />
-              </geo-link-button>
-            </div>
+            <geo-link-button
+              v-if="hasMoreSelectedOptionsThanLimit"
+              @click.stop="toggleList()"
+            >
+              <!-- @slot Use this slot to customize the text to show less pills. -->
+              <slot
+                v-if="showAllSelectedOptions"
+                name="showLessPills"
+              />
+              <!-- @slot Use this slot to customize the text to show more pills. -->
+              <slot
+                v-else
+                name="showMorePills"
+                :hidden-options-size="numberOfHiddenSelectedOptions"
+              />
+            </geo-link-button>
           </slot>
         </div>
       </geo-select-toggle-button>
@@ -83,11 +92,11 @@
     <!-- @slot _Optional_. Use this slot to customize search form. -->
     <slot
       v-if="searchable"
+      slot="header"
       name="searchHeader"
+      :search-pattern="searchPattern"
     >
       <geo-bordered-box-header-search-form
-        v-if="searchable"
-        slot="header"
         v-model="searchPattern"
         :search-icon="searchIcon"
         :css-modifier="`geo-multi-select${cssSuffix}`"
@@ -242,8 +251,8 @@ import { VARIANTS as GeoPillVariants } from '../GeoPill/GeoPill'
 
 export default {
   name: 'GeoMultiSelect',
-  status: 'missing-tests',
-  release: '21.0.0',
+  status: 'ready',
+  release: '22.1.0',
   mixins: [cssSuffix],
   constants: {
     X_AXIS_POSITION,
