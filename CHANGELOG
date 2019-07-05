@@ -4,11 +4,17 @@ New:
 
 `GeoDropdownRegularButton` add support for `active` and `disabled` props
 
+# 22.1.0
+
+New:
+
+- `GeoMultiSelect` component
+
 # 22.0.0
 
 Breaking:
 
-`GeoAlertCallout` has been renamed to `GeoAlert` (this also affects all subcomponents)
+- `GeoAlertCallout` has been renamed to `GeoAlert` (this also affects all subcomponents)
 
 # 21.0.0
 
