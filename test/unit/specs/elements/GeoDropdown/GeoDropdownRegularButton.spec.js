@@ -7,7 +7,7 @@ import { fas } from '@fortawesome/free-solid-svg-icons'
 library.add(fas)
 
 describe('GeoDropdownRegularButton', () => {
-  it('should render icon when given', function () {
+  it('Should render icon when given', function () {
     const wrapper = mount(GeoDropdownRegularButton, {
       stubs: {
         'font-awesome-icon': FontAwesomeIcon
@@ -20,13 +20,13 @@ describe('GeoDropdownRegularButton', () => {
     expect(wrapper.find('.geo-dropdown__regular-button-container__icon').exists()).toBe(true)
   })
 
-  it('should not render icon if not given', function () {
+  it('Should not render icon if not given', function () {
     const wrapper = mount(GeoDropdownRegularButton, { })
 
     expect(wrapper.find('.geo-dropdown__regular-button-container__icon').exists()).toBe(false)
   })
 
-  it('should render default slot content when given', function () {
+  it('Should render default slot content when given', function () {
     const wrapper = mount(GeoDropdownRegularButton, {
       slots: {
         default: [`<span class="my-demo-content">Just some unique demo content</span>`]
@@ -36,16 +36,61 @@ describe('GeoDropdownRegularButton', () => {
     expect(wrapper.find('.geo-dropdown__regular-button-container__string .my-demo-content').exists()).toBe(true)
   })
 
-  it('should not render container if default slot if empty', function () {
+  it('Should not render container if default slot if empty', function () {
     const wrapper = mount(GeoDropdownRegularButton, { })
 
     expect(wrapper.find('.geo-dropdown__regular-button-container__string').exists()).toBe(false)
   })
 
-  it('should emit click event when clicked', function () {
+  it('Should emit click event when clicked', function () {
     const wrapper = mount(GeoDropdownRegularButton, { })
 
     wrapper.find('.geo-dropdown__regular-button-container').trigger('click')
     expect(wrapper.emitted()['click']).toBeTruthy()
+  })
+
+  it('Should not emit click event when disabled', function () {
+    const wrapper = mount(GeoDropdownRegularButton, {
+      propsData: {
+        disabled: true
+      }
+    })
+
+    wrapper.find('.geo-dropdown__regular-button-container').trigger('click')
+    expect(wrapper.emitted()['click']).toBeFalsy()
+  })
+
+  it('Should apply proper class when active', function () {
+    const wrapper = mount(GeoDropdownRegularButton, {
+      propsData: {
+        active: true
+      }
+    })
+
+    expect(wrapper.find('.geo-dropdown__regular-button-container--active').exists()).toBe(true)
+    expect(wrapper.find('.geo-dropdown__regular-button-container--disabled').exists()).toBe(false)
+  })
+
+  it('Should apply proper class when disabled', function () {
+    const wrapper = mount(GeoDropdownRegularButton, {
+      propsData: {
+        disabled: true
+      }
+    })
+
+    expect(wrapper.find('.geo-dropdown__regular-button-container--active').exists()).toBe(false)
+    expect(wrapper.find('.geo-dropdown__regular-button-container--disabled').exists()).toBe(true)
+  })
+
+  it('Should apply proper class when active and disabled', function () {
+    const wrapper = mount(GeoDropdownRegularButton, {
+      propsData: {
+        active: true,
+        disabled: true
+      }
+    })
+
+    expect(wrapper.find('.geo-dropdown__regular-button-container--active').exists()).toBe(true)
+    expect(wrapper.find('.geo-dropdown__regular-button-container--disabled').exists()).toBe(true)
   })
 })
