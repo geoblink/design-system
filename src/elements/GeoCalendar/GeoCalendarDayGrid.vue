@@ -1,5 +1,6 @@
 <template>
   <div class="geo-calendar-grid">
+    {{ currentDate }}
     <div class="geo-calendar-grid__weekdays-row-container">
       <span
         v-for="day in weekDays"
@@ -16,15 +17,15 @@
         class="days-container__week-unit"
       >
         <span
-          v-for="day in week"
-          :key="day"
+          v-for="(day, index) in week"
+          :key="`week-${weekIndex}_day${index}`"
           :class="{
-            'days-container__day-picker--today': isToday(weekIndex, day),
-            'days-container__day-picker--out-of-boundaries': isDayOutOfBoundaries(weekIndex, day)
+            'days-container__day-picker--today': isToday(day),
+            'days-container__day-picker--out-of-boundaries': isDayOutOfBoundaries(day)
           }"
           class="days-container__day-picker"
         >
-          {{ day }}
+          {{ getDate(day) }}
         </span>
       </div>
     </div>
@@ -44,6 +45,9 @@ import {
   startOfMonth,
   startOfWeek,
   subDays,
+  addDays,
+  isToday,
+  isSameMonth,
   getDaysInMonth
 } from 'date-fns'
 
@@ -67,6 +71,10 @@ export default {
   },
 
   computed: {
+    getDate () {
+      return getDate
+    },
+
     totalDaysInWeek () {
       return 7
     },
@@ -79,16 +87,16 @@ export default {
       return new Date(this.currentYear, this.currentMonth)
     },
 
-    currentDayInMonth () {
-      return getDate(this.today)
-    },
-
     startOfMonth () {
       return startOfMonth(this.currentDate)
     },
 
+    endOfMonth () {
+      return endOfMonth(this.currentDate)
+    },
+
     firstDayOfMonthInWeek () {
-      return getDay(this.startOfMonth,  { weekStartsOn: 1 })
+      return getDay(this.startOfMonth, { weekStartsOn: 1 })
     },
 
     orderedDaysOfWeek () {
@@ -96,8 +104,8 @@ export default {
     },
 
     numberOfWeeksInMonth () {
-      const daysInMonth = differenceInDays(endOfMonth(this.currentDate), this.startOfMonth)
-      const fullWeeksInMonth = differenceInWeeks(endOfMonth(this.currentDate), this.startOfMonth)
+      const daysInMonth = getDaysInMonth(this.currentDate)
+      const fullWeeksInMonth = differenceInWeeks(this.endOfMonth, this.startOfMonth, { weekStartsOn: 1 })
       const hasExtraWeek = daysInMonth % fullWeeksInMonth !== 0
       return hasExtraWeek ? fullWeeksInMonth + 1 : fullWeeksInMonth
     },
@@ -113,15 +121,22 @@ export default {
       const daysBeforeStartOfMonth = this.firstDayOfMonthInWeek > 1
         ? eachDay(this.displayedFirstDayInCalendar, subDays(this.startOfMonth, 1))
         : []
+      const daysInCurrentMonth = eachDay(startOfMonth(this.currentDate), this.endOfMonth)
       displayedDays.push(
-        ..._.map(daysBeforeStartOfMonth, getDate),
-        ..._.times(getDaysInMonth(this.currentDate), (d) => d + 1)
+        ...daysBeforeStartOfMonth,
+        ...daysInCurrentMonth
       )
 
-      const remainingDaysForDisplayedGrid = (this.totalDaysInWeek * this.numberOfWeeksInMonth) - displayedDays.length
-      displayedDays.push(..._.times(remainingDaysForDisplayedGrid, (d) => d + 1))
+      const groupedDaysByWeek = _.chunk(displayedDays, this.totalDaysInWeek)
 
-      return _.chunk(displayedDays, this.totalDaysInWeek)
+      const remainingDaysForDisplayedGrid = this.totalDaysInWeek - _.last(groupedDaysByWeek).length
+      const remainingDatesForGrid = remainingDaysForDisplayedGrid > 0
+        ? eachDay(addDays(this.endOfMonth, 1), addDays(this.endOfMonth, remainingDaysForDisplayedGrid))
+        : []
+
+      _.last(groupedDaysByWeek).push(...remainingDatesForGrid)
+
+      return groupedDaysByWeek
     },
 
     weekDays () {
@@ -131,18 +146,12 @@ export default {
   },
 
   methods: {
-    isDayOutOfBoundaries (weekIndex, day) {
-      if (weekIndex === 0) {
-        return day > this.totalDaysInWeek
-      } else if (weekIndex === this.fullDaysInDisplayedCalendar.length - 1) {
-        return _.includes(this.fullDaysInDisplayedCalendar[0], day)
-      } else {
-        return false
-      }
+    isDayOutOfBoundaries (day) {
+      return !isSameMonth(new Date(day), this.currentDate)
     },
 
-    isToday (weekIndex, day) {
-      return day === this.currentDayInMonth && !this.isDayOutOfBoundaries(weekIndex, day)
+    isToday (day) {
+      return isToday(day)
     }
   }
 }
