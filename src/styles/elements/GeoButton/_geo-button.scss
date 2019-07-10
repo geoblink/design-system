@@ -256,6 +256,7 @@
   ), $css-suffix);
 
   &#{$css-suffix} {
+    display: inline-flex;
     font-style: italic;
     font-weight: $font-weight-regular;
     font-size: $font-size-regular;
