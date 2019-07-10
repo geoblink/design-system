@@ -256,7 +256,7 @@
   ), $css-suffix);
 
   &#{$css-suffix} {
-    display: flex;
+    display: inline-flex;
     font-style: italic;
     font-weight: $font-weight-regular;
     font-size: $font-size-regular;
@@ -266,7 +266,6 @@
     transition: color $duration-quickly $easing-base;
 
     .geo-button__label#{$css-suffix} {
-      display: inline;
       padding: 0;
     }
   }
