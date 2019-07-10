@@ -11,13 +11,17 @@ supported properties and features.
   <div class="element-demo">
     <h3 class="element-demo__header">Complete flow</h3>
     <div class="element-demo__block">
-      <geo-link-button
-        :disabled="isDisabled"
-        :loading="isLoading"
-        @click="startLoading()"
-      >
-        Full flow
-      </geo-link-button>
+      <div>
+        All link buttons are inline with the previous
+        <geo-link-button
+          :disabled="isDisabled"
+          :loading="isLoading"
+          @click="startLoading()"
+        >
+          content
+        </geo-link-button>
+        and the content after them.
+      </div>
     </div>
     <h3 class="element-demo__header">Regular</h3>
     <div class="element-demo__block">
