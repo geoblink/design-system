@@ -1,31 +1,32 @@
-<template src="./GeoAlert.template.html" />
+<template functional>
+  <geo-alert
+    v-bind="data.attrs"
+    :class="[
+      data.class,
+      data.staticClass
+    ]"
+    :icon="['fal', 'lightbulb']"
+    :css-modifier="props.cssModifier"
+    :variant="$options.helpers.VARIANTS.info"
+    v-on="listeners"
+  >
+    <!-- @slot Use this slot to customize alert's content -->
+    <slot />
+  </geo-alert>
+</template>
 
 <script>
-import mixin, { VARIANTS } from './GeoAlert.mixin'
+import cssSuffix from '../../mixins/cssModifierMixin'
+
+import { VARIANTS } from './GeoAlert.constants'
 
 export default {
   name: 'GeoInfoAlert',
   status: 'ready',
-  release: '4.2.0',
-  mixins: [mixin],
-  props: {
-    /**
-     * Icon to be displayed before alert content.
-     *
-     * See [vue-fontawesome](https://www.npmjs.com/package/@fortawesome/vue-fontawesome#explicit-prefix-note-the-vue-bind-shorthand-because-this-uses-an-array)
-     * for more info about this.
-     */
-    icon: {
-      type: Array,
-      default () {
-        return ['fal', 'lightbulb']
-      }
-    }
+  release: '22.0.0',
+  helpers: {
+    VARIANTS
   },
-  computed: {
-    variant () {
-      return VARIANTS.info
-    }
-  }
+  mixins: [cssSuffix]
 }
 </script>

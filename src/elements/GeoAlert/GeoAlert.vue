@@ -1,57 +1,40 @@
-<template>
+<template functional>
   <div
-    :class="{
-      [`geo-alert${cssSuffix}`]: true,
-      [`geo-alert--floating${cssSuffix}`]: floating
-    }"
+    v-bind="data.attrs"
+    :class="[
+      data.class,
+      data.staticClass,
+      `geo-alert${$options.helpers.getCSSSuffix(props.cssModifier)}`,
+      `geo-alert--${props.variant}${$options.helpers.getCSSSuffix(props.cssModifier)}`
+    ]"
+    v-on="listeners"
   >
-    <div
-      :class="{
-        [`geo-alert__content${cssSuffix}`]: true,
-        [`geo-alert__content--${variant}${cssSuffix}`]: variant
-      }"
-    >
-      <div
-        v-if="hasLeadingAccessoryItem"
-        :class="`geo-alert__content__icon${cssSuffix}`"
-      >
-        <!-- @slot Use this slot to customize what's displayed before alert message -->
-        <slot name="leadingAccessoryItem" />
-      </div>
-      <div :class="`geo-alert__content__body${cssSuffix}`">
-        <!-- @slot Use this slot to show the alert message -->
-        <slot name="content" />
-      </div>
-      <div
-        v-if="hasActions"
-        :class="`geo-alert__content__actions${cssSuffix}`"
-      >
-        <!-- @slot Use this slot to show additional actions after alert message -->
-        <slot name="actions" />
-      </div>
-      <font-awesome-icon
-        v-if="shouldShowCloseButton"
-        :icon="closeIcon"
-        :class="`geo-alert__content__close-icon${cssSuffix}`"
-        aria-hidden
-        fixed-width
-        @click="close($event)"
-      />
+    <font-awesome-icon
+      :icon="props.icon"
+      class="geo-alert__icon"
+      fixed-width
+    />
+
+    <div class="geo-alert__content">
+      <!-- @slot Use this slot to customize alert's content -->
+      <slot />
     </div>
   </div>
 </template>
 
 <script>
-import mixin, { VARIANTS, DEPRECATED_VARIANTS } from './GeoAlert.mixin'
+import cssSuffix, { getCSSSuffix } from '../../mixins/cssModifierMixin'
+
+import { VARIANTS } from './GeoAlert.constants'
 
 export default {
   name: 'GeoAlert',
   status: 'ready',
-  release: '1.0.0',
-  mixins: [mixin],
-  constants: {
-    VARIANTS
+  release: '22.0.0',
+  helpers: {
+    getCSSSuffix
   },
+  mixins: [cssSuffix],
   props: {
     /**
      * Predefined color scheme of the alert, allowing several common
@@ -68,18 +51,17 @@ export default {
      *
      * | variant  | Specific component                                            |
      * |----------|---------------------------------------------------------------|
-     * | success  | [GeoSuccessAlert](./#/Elements/GeoAlert?id=geosuccessalert)   |
-     * | info     | [GeoInfoAlert](./#/Elements/GeoAlert?id=geoinfoalert)         |
-     * | warning  | [GeoWarningAlert](./#/Elements/GeoAlert?id=geowarningalert)   |
-     * | error    | [GeoErrorAlert](./#/Elements/GeoAlert?id=geoerroralert)       |
-     * | progress | [GeoProgressAlert](./#/Elements/GeoAlert?id=geoprogressalert) |
+     * | success  | [GeoSuccessAlert](./#/Elements/GeoAlert?id=geosuccessalertcallout)   |
+     * | info     | [GeoInfoAlert](./#/Elements/GeoAlert?id=geoinfoalertcallout)         |
+     * | warning  | [GeoWarningAlert](./#/Elements/GeoAlert?id=geowarningalertcallout)   |
+     * | error    | [GeoErrorAlert](./#/Elements/GeoAlert?id=geoerroralertcallout)       |
      *
      * Supported `variant` values are exported under `VARIANTS` named export.
      * See [Component Constants](./#/Component%20Constants) for more info on how
      * to use those constants in your code.
      *
-     * > **Note:** You can always override the color scheme of any `GeoAlert`
-     * > using `cssModifier` prop.
+     * > **Note:** You can always override the color scheme of any
+     * > `GeoAlert` using `cssModifier` prop.
      */
     variant: {
       type: String,
@@ -87,15 +69,22 @@ export default {
       validator (value) {
         if (value in VARIANTS) return true
 
-        if (value in DEPRECATED_VARIANTS) {
-          console.warn(`GeoAlert [component] :: «${value}» is a deprecated variant. Please, use «${DEPRECATED_VARIANTS[value]}» instead`)
-          return true
-        }
-
         const supportedValues = Object.values(VARIANTS).map(i => `«${i}»`).join(', ')
         console.warn(`GeoAlert [component] :: Unsupported value («${value}») for «variant» property. Use one of ${supportedValues}`)
         return false
       }
+    },
+
+    /**
+     * Font Awesome 5 icon to be displayed next to the content, on the leading
+     * edge.
+     *
+     * See [vue-fontawesome](https://www.npmjs.com/package/@fortawesome/vue-fontawesome#explicit-prefix-note-the-vue-bind-shorthand-because-this-uses-an-array)
+     * for more info about this.
+     */
+    icon: {
+      type: Array,
+      required: true
     }
   }
 }

@@ -1,11 +1,11 @@
 import sinon from 'sinon'
 import { createLocalVue, mount } from '@vue/test-utils'
-import GeoAlert from '@/elements/GeoAlert/GeoAlert.vue'
-import GeoErrorAlert from '@/elements/GeoAlert/GeoErrorAlert.vue'
-import GeoInfoAlert from '@/elements/GeoAlert/GeoInfoAlert.vue'
-import GeoProgressAlert from '@/elements/GeoAlert/GeoProgressAlert.vue'
-import GeoSuccessAlert from '@/elements/GeoAlert/GeoSuccessAlert.vue'
-import GeoWarningAlert from '@/elements/GeoAlert/GeoWarningAlert.vue'
+import GeoFeedbackBox from '@/elements/GeoFeedbackBox/GeoFeedbackBox.vue'
+import GeoErrorFeedbackBox from '@/elements/GeoFeedbackBox/GeoErrorFeedbackBox.vue'
+import GeoInfoFeedbackBox from '@/elements/GeoFeedbackBox/GeoInfoFeedbackBox.vue'
+import GeoProgressFeedbackBox from '@/elements/GeoFeedbackBox/GeoProgressFeedbackBox.vue'
+import GeoSuccessFeedbackBox from '@/elements/GeoFeedbackBox/GeoSuccessFeedbackBox.vue'
+import GeoWarningFeedbackBox from '@/elements/GeoFeedbackBox/GeoWarningFeedbackBox.vue'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fab } from '@fortawesome/free-brands-svg-icons'
@@ -15,11 +15,11 @@ import { far } from '@fortawesome/free-regular-svg-icons'
 library.add(fab, fas, far)
 // create an extended `Vue` constructor
 const localVue = createLocalVue()
-localVue.component('geo-alert', GeoAlert)
+localVue.component('geo-feedback-box', GeoFeedbackBox)
 
-describe('GeoAlert', () => {
+describe('GeoFeedbackBox', () => {
   it('should render alert component', function () {
-    const wrapper = mount(GeoAlert, {
+    const wrapper = mount(GeoFeedbackBox, {
       propsData: {
         variant: 'success'
       },
@@ -28,11 +28,11 @@ describe('GeoAlert', () => {
       }
     })
 
-    expect(wrapper.find('.geo-alert').exists()).toBe(true)
+    expect(wrapper.find('.geo-feedback-box').exists()).toBe(true)
   })
 
   it('should show the close button if close listener is provided', function () {
-    const wrapper = mount(GeoAlert, {
+    const wrapper = mount(GeoFeedbackBox, {
       propsData: {
         variant: 'success',
         closeIcon: ['fas', 'times']
@@ -44,13 +44,13 @@ describe('GeoAlert', () => {
         close: function () {}
       }
     })
-    expect(wrapper.find('.geo-alert').exists()).toBe(true)
-    expect(wrapper.find('.geo-alert__content__close-icon').exists()).toBe(true)
+    expect(wrapper.find('.geo-feedback-box').exists()).toBe(true)
+    expect(wrapper.find('.geo-feedback-box__content__close-icon').exists()).toBe(true)
     expect(wrapper.vm).toHaveProperty('shouldShowCloseButton', true)
   })
 
   it('shouldn\'t show the close button if close listener is not provided', function () {
-    const wrapper = mount(GeoAlert, {
+    const wrapper = mount(GeoFeedbackBox, {
       propsData: {
         variant: 'success'
       },
@@ -58,13 +58,13 @@ describe('GeoAlert', () => {
         'font-awesome-icon': FontAwesomeIcon
       }
     })
-    expect(wrapper.find('.geo-alert').exists()).toBe(true)
-    expect(wrapper.find('.geo-alert__content__close-icon').exists()).toBe(false)
+    expect(wrapper.find('.geo-feedback-box').exists()).toBe(true)
+    expect(wrapper.find('.geo-feedback-box__content__close-icon').exists()).toBe(false)
     expect(wrapper.vm).toHaveProperty('shouldShowCloseButton', false)
   })
 
   it('should emit a close event when clicking on the close button', function () {
-    const wrapper = mount(GeoAlert, {
+    const wrapper = mount(GeoFeedbackBox, {
       propsData: {
         variant: 'success',
         closeIcon: ['fas', 'times']
@@ -76,12 +76,12 @@ describe('GeoAlert', () => {
         close: function () {}
       }
     })
-    wrapper.find('.geo-alert__content__close-icon').trigger('click')
+    wrapper.find('.geo-feedback-box__content__close-icon').trigger('click')
     expect(wrapper.emitted().close).toBeTruthy()
   })
 
   it('should display actions when the slots are passed', function () {
-    const wrapper = mount(GeoAlert, {
+    const wrapper = mount(GeoFeedbackBox, {
       propsData: {
         variant: 'success'
       },
@@ -96,7 +96,7 @@ describe('GeoAlert', () => {
   })
 
   it('should display correct icon when passed as a slot', function () {
-    const wrapper = mount(GeoAlert, {
+    const wrapper = mount(GeoFeedbackBox, {
       propsData: {
         variant: 'success'
       },
@@ -117,11 +117,11 @@ describe('GeoAlert', () => {
   })
 
   it('should apply a CSS suffix when the modifier is provided', function () {
-    const wrapper = mount(GeoAlert, {
+    const wrapper = mount(GeoFeedbackBox, {
       propsData: {
         variant: 'success',
         closeIcon: ['fas', 'times'],
-        cssModifier: 'test-alert'
+        cssModifier: 'test-feedback-box'
       },
       stubs: {
         'font-awesome-icon': FontAwesomeIcon
@@ -130,11 +130,11 @@ describe('GeoAlert', () => {
         close: function () {}
       }
     })
-    expect(wrapper.find('.geo-alert__content__close-icon--test-alert').exists()).toBe(true)
+    expect(wrapper.find('.geo-feedback-box__content__close-icon--test-feedback-box').exists()).toBe(true)
   })
 
   it('should add extra class if floating is passed as true', function () {
-    const wrapper = mount(GeoAlert, {
+    const wrapper = mount(GeoFeedbackBox, {
       propsData: {
         variant: 'success',
         floating: true
@@ -144,11 +144,11 @@ describe('GeoAlert', () => {
       }
     })
 
-    expect(wrapper.find('.geo-alert--floating').exists()).toBe(true)
+    expect(wrapper.find('.geo-feedback-box--floating').exists()).toBe(true)
   })
 
   it('shouldn\'t add extra class if floating is not passed', function () {
-    const wrapper = mount(GeoAlert, {
+    const wrapper = mount(GeoFeedbackBox, {
       propsData: {
         variant: 'success'
       },
@@ -157,14 +157,14 @@ describe('GeoAlert', () => {
       }
     })
 
-    expect(wrapper.find('.geo-alert--floating').exists()).toBe(false)
+    expect(wrapper.find('.geo-feedback-box--floating').exists()).toBe(false)
   })
 
   it('Should check variant prop is valid', function () {
     const spy = jest.spyOn(global.console, 'warn').mockImplementation(() => { })
     afterEach(() => spy.mockReset())
 
-    const wrapper = mount(GeoAlert, {
+    const wrapper = mount(GeoFeedbackBox, {
       propsData: {
         variant: 'success'
       },
@@ -178,93 +178,93 @@ describe('GeoAlert', () => {
     expect(variantProp.required).toBeTruthy()
     expect(variantProp.type).toBe(String)
     expect(variantProp.validator && variantProp.validator('qwerty')).toBeFalsy()
-    expect(spy).toBeCalledWith(expect.stringContaining('GeoAlert [component] :: Unsupported value («qwerty») for «variant» property.'))
+    expect(spy).toBeCalledWith(expect.stringContaining('GeoFeedbackBox [component] :: Unsupported value («qwerty») for «variant» property.'))
     expect(variantProp.validator && variantProp.validator('info')).toBeTruthy()
   })
 })
 
-const taxonomyAlerts = [GeoErrorAlert, GeoInfoAlert, GeoProgressAlert, GeoSuccessAlert, GeoWarningAlert]
+const taxonomyFeedbackBoxs = [GeoErrorFeedbackBox, GeoInfoFeedbackBox, GeoProgressFeedbackBox, GeoSuccessFeedbackBox, GeoWarningFeedbackBox]
 
-describe('GeoAlert Children', () => {
-  taxonomyAlerts.forEach((taxonomyAlert) => {
+describe('GeoFeedbackBox Children', () => {
+  taxonomyFeedbackBoxs.forEach((taxonomyFeedbackBox) => {
     it('should render alert component', function () {
-      const wrapper = mount(taxonomyAlert, {
+      const wrapper = mount(taxonomyFeedbackBox, {
         propsData: {
           icon: ['far', 'image'],
           closeIcon: ['fas', 'times']
         },
         stubs: {
           'font-awesome-icon': FontAwesomeIcon,
-          GeoAlert
+          GeoFeedbackBox
         }
       })
 
-      expect(wrapper.find('.geo-alert').exists()).toBe(true)
+      expect(wrapper.find('.geo-feedback-box').exists()).toBe(true)
     })
 
     it('should show the close button if close listener is provided', function () {
-      const wrapper = mount(taxonomyAlert, {
+      const wrapper = mount(taxonomyFeedbackBox, {
         propsData: {
           icon: ['far', 'image'],
           closeIcon: ['fas', 'times']
         },
         stubs: {
           'font-awesome-icon': FontAwesomeIcon,
-          GeoAlert
+          GeoFeedbackBox
         },
         listeners: {
           close: function () {}
         }
       })
-      expect(wrapper.find('.geo-alert').exists()).toBe(true)
-      expect(wrapper.find('.geo-alert__content__close-icon').exists()).toBe(true)
+      expect(wrapper.find('.geo-feedback-box').exists()).toBe(true)
+      expect(wrapper.find('.geo-feedback-box__content__close-icon').exists()).toBe(true)
       expect(wrapper.vm).toHaveProperty('shouldShowCloseButton', true)
     })
 
     it('shouldn\'t show the close button if close listener is not provided', function () {
-      const wrapper = mount(taxonomyAlert, {
+      const wrapper = mount(taxonomyFeedbackBox, {
         propsData: {
           icon: ['far', 'image'],
           closeIcon: ['fas', 'times']
         },
         stubs: {
           'font-awesome-icon': FontAwesomeIcon,
-          GeoAlert
+          GeoFeedbackBox
         }
       })
-      expect(wrapper.find('.geo-alert').exists()).toBe(true)
+      expect(wrapper.find('.geo-feedback-box').exists()).toBe(true)
       expect(wrapper.vm).toHaveProperty('shouldShowCloseButton', false)
-      expect(wrapper.find('.geo-alert__content__close-icon').exists()).toBe(false)
+      expect(wrapper.find('.geo-feedback-box__content__close-icon').exists()).toBe(false)
     })
 
     it('should emit a close event when clicking on the close button', function () {
       const closeStub = sinon.spy()
-      const wrapper = mount(taxonomyAlert, {
+      const wrapper = mount(taxonomyFeedbackBox, {
         propsData: {
           icon: ['far', 'image'],
           closeIcon: ['fas', 'times']
         },
         stubs: {
           'font-awesome-icon': FontAwesomeIcon,
-          GeoAlert
+          GeoFeedbackBox
         },
         listeners: {
           close: closeStub
         }
       })
-      wrapper.find('.geo-alert__content__close-icon').trigger('click')
+      wrapper.find('.geo-feedback-box__content__close-icon').trigger('click')
       expect(closeStub).toHaveProperty('calledOnce', true)
     })
 
     it('should display actions when the slots are passed', function () {
-      const wrapper = mount(taxonomyAlert, {
+      const wrapper = mount(taxonomyFeedbackBox, {
         propsData: {
           icon: ['far', 'image'],
           closeIcon: ['fas', 'times']
         },
         stubs: {
           'font-awesome-icon': FontAwesomeIcon,
-          GeoAlert
+          GeoFeedbackBox
         },
         slots: {
           actions: '<a slot="actions">Run test action</a>'
@@ -274,14 +274,14 @@ describe('GeoAlert Children', () => {
     })
 
     it('should display correct icon when passed as a property', function () {
-      const wrapper = mount(taxonomyAlert, {
+      const wrapper = mount(taxonomyFeedbackBox, {
         propsData: {
           icon: ['far', 'image'],
           closeIcon: ['fas', 'times']
         },
         stubs: {
           'font-awesome-icon': FontAwesomeIcon,
-          GeoAlert
+          GeoFeedbackBox
         }
       })
       expect(wrapper.find('.fa-image').exists()).toBe(true)
@@ -289,25 +289,25 @@ describe('GeoAlert Children', () => {
 
     it('should apply a CSS suffix when the modifier is provided', function () {
       const closeStub = sinon.spy()
-      const wrapper = mount(taxonomyAlert, {
+      const wrapper = mount(taxonomyFeedbackBox, {
         propsData: {
           icon: ['far', 'image'],
           closeIcon: ['fas', 'times'],
-          cssModifier: 'test-alert'
+          cssModifier: 'test-feedback-box'
         },
         stubs: {
           'font-awesome-icon': FontAwesomeIcon,
-          GeoAlert
+          GeoFeedbackBox
         },
         listeners: {
           close: closeStub
         }
       })
-      expect(wrapper.find('.geo-alert__content__close-icon--test-alert').exists()).toBe(true)
+      expect(wrapper.find('.geo-feedback-box__content__close-icon--test-feedback-box').exists()).toBe(true)
     })
 
     it('should add extra class if floating is passed as true', function () {
-      const wrapper = mount(taxonomyAlert, {
+      const wrapper = mount(taxonomyFeedbackBox, {
         propsData: {
           icon: ['far', 'image'],
           closeIcon: ['fas', 'times'],
@@ -315,26 +315,26 @@ describe('GeoAlert Children', () => {
         },
         stubs: {
           'font-awesome-icon': FontAwesomeIcon,
-          GeoAlert
+          GeoFeedbackBox
         }
       })
 
-      expect(wrapper.find('.geo-alert--floating').exists()).toBe(true)
+      expect(wrapper.find('.geo-feedback-box--floating').exists()).toBe(true)
     })
 
     it('shouldn\'t add extra class if floating is not passed', function () {
-      const wrapper = mount(taxonomyAlert, {
+      const wrapper = mount(taxonomyFeedbackBox, {
         propsData: {
           icon: ['far', 'image'],
           closeIcon: ['fas', 'times']
         },
         stubs: {
           'font-awesome-icon': FontAwesomeIcon,
-          GeoAlert
+          GeoFeedbackBox
         }
       })
 
-      expect(wrapper.find('.geo-alert--floating').exists()).toBe(false)
+      expect(wrapper.find('.geo-feedback-box--floating').exists()).toBe(false)
     })
   })
 })

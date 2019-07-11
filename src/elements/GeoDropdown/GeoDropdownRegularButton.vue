@@ -1,6 +1,10 @@
 <template>
   <div
-    :class="`geo-dropdown__regular-button-container${cssSuffix}`"
+    :class="{
+      [`geo-dropdown__regular-button-container${cssSuffix}`]: true,
+      [`geo-dropdown__regular-button-container--active${cssSuffix}`]: active,
+      [`geo-dropdown__regular-button-container--disabled${cssSuffix}`]: disabled
+    }"
     @click="emitClick($event)"
   >
     <font-awesome-icon
@@ -25,7 +29,7 @@ import cssSuffix from '../../mixins/cssModifierMixin'
 
 export default {
   name: 'GeoDropdownRegularButton',
-  status: 'missing-tests',
+  status: 'ready',
   release: '4.0.0',
   mixins: [cssSuffix],
   props: {
@@ -39,6 +43,24 @@ export default {
     icon: {
       type: Array,
       required: false
+    },
+
+    /**
+     * Whether this button is disabled or not. Disabled buttons use a different
+     * color scheme and do not emit `click` events.
+     */
+    disabled: {
+      type: Boolean,
+      default: false
+    },
+
+    /**
+     * Whether this button is active or not. Active buttons are higlighted using
+     * a different color scheme.
+     */
+    active: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {
@@ -48,6 +70,8 @@ export default {
   },
   methods: {
     emitClick ($event) {
+      if (this.disabled) return
+
       /**
        * User clicked this button.
        *

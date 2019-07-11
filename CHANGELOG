@@ -1,3 +1,45 @@
+# 22.2.2
+
+Changed:
+
+- `GeoLinkButton` Use inline-flex instead of display: inline in button container
+
+# 22.2.1
+
+Changed:
+
+- `GeoLinkButton` has been made inline by default
+
+# 22.2.0
+
+New:
+
+`GeoDropdownRegularButton` add support for `active` and `disabled` props
+
+# 22.1.0
+
+New:
+
+- `GeoMultiSelect` component
+
+# 22.0.0
+
+Breaking:
+
+- `GeoAlertCallout` has been renamed to `GeoAlert` (this also affects all subcomponents)
+
+# 21.0.0
+
+Breaking:
+
+- `GeoAlert` has been renamed to `GeoFeedbackBox` (this also affects all subcomponents)
+
+# 20.1.5
+
+Changed:
+
+- `GeoTableBodyRowCell` inherit static classes
+
 # 20.1.4
 
 New:

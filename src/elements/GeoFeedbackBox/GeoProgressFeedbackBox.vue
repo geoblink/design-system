@@ -1,5 +1,5 @@
 <template>
-  <geo-alert
+  <geo-feedback-box
     v-bind="$props"
     :variant="variant"
     v-on="$listeners"
@@ -19,20 +19,20 @@
       slot="actions"
       name="actions"
     />
-  </geo-alert>
+  </geo-feedback-box>
 </template>
 
 <script>
-import mixin, { VARIANTS } from './GeoAlert.mixin'
+import mixin, { VARIANTS } from './GeoFeedbackBox.mixin'
 
 export default {
-  name: 'GeoProgressAlert',
+  name: 'GeoProgressFeedbackBox',
   status: 'ready',
-  release: '4.2.0',
+  release: '21.0.0',
   mixins: [mixin],
   props: {
     /**
-     * Icon to be displayed before alert content.
+     * Icon to be displayed before feedback box content.
      *
      * See [vue-fontawesome](https://www.npmjs.com/package/@fortawesome/vue-fontawesome#explicit-prefix-note-the-vue-bind-shorthand-because-this-uses-an-array)
      * for more info about this.
