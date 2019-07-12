@@ -9,9 +9,12 @@ eiusmod tempor incididunt ut labore et dolore magna aliqua.
         :input-range-icon="['fas', 'arrow-right']"
         :previous-date-in-selected-granularity-icon="['fas', 'chevron-left']"
         :next-date-in-selected-granularity-icon="['fas', 'chevron-right']"
+        :calendar-navigation-select-icon="['fas', 'chevron-down']"
         :picker-date-unit="selectedPickerDateUnit"
         :granularity-id="selectedGranularityId"
         :locale="locale"
+        :earliest-date="dataEarliestDate"
+        :latest-date="dataLatestDate"
         from-input-placeholder="From"
         to-input-placeholder="To"
         earliest-date-placeholder="Set earliest date"
@@ -70,15 +73,19 @@ eiusmod tempor incididunt ut labore et dolore magna aliqua.
 </template>
 
 <script>
-
 const ES_LOCALE = require('date-fns/locale/es')
+const subMonths = require('date-fns').subMonths
+const addMonths = require('date-fns').addMonths
+
 
 export default {
   name: 'GeoCalendarDemo',
   data () {
     return {
       selectedPickerDateUnit: 'day',
-      selectedGranularityId: 'day'
+      selectedGranularityId: 'day',
+      dataEarliestDate: subMonths(new Date(), 2),
+      dataLatestDate: addMonths(new Date(), 2)
     }
   },
   computed: {

@@ -4,6 +4,9 @@
     :locale="locale"
     :current-month="currentMonth"
     :current-year="currentYear"
+    :earliest-date="earliestDate"
+    :latest-date="latestDate"
+    @select-day="selectDay"
   />
   <geo-calendar-month-grid
     v-else-if="isMonthGrid"
@@ -39,6 +42,16 @@ export default {
     currentYear: {
       type: Number,
       required: true
+    },
+
+    earliestDate: {
+      type: Date,
+      required: true
+    },
+
+    latestDate: {
+      type: Date,
+      required: true
     }
   },
 
@@ -53,6 +66,12 @@ export default {
 
     isYearGrid () {
       return this.pickerDateUnit === PICKER_DATE_UNITS.year
+    }
+  },
+
+  methods: {
+    selectDay (day) {
+      this.$emit('select-day', day)
     }
   }
 }

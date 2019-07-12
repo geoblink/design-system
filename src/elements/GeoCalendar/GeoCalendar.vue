@@ -10,36 +10,50 @@
       <div class="geo-calendar__input-ranges">
         <div class="geo-calendar__input geo-calendar__input--start">
           <geo-input
+            v-model="formattedFromDate"
             :placeholder="fromInputPlaceholder"
             :show-buttons="false"
             input-type="normal"
           />
-          <geo-tertiary-button css-modifier="calendar-picker-button">
+          <geo-link-button
+            css-modifier="calendar-picker-button"
+            @click="setEarliestDate"
+          >
             {{ earliestDatePlaceholder }}
-          </geo-tertiary-button>
+          </geo-link-button>
         </div>
         <font-awesome-icon
           :icon="inputRangeIcon"
+          class="geo-calendar__input-range-icon"
           fixed-width
         />
         <div class="geo-calendar__input geo-calendar__input--end">
           <geo-input
+            v-model="formattedToDate"
             :placeholder="toInputPlaceholder"
             :show-buttons="false"
             input-type="normal"
           />
-          <geo-tertiary-button css-modifier="calendar-picker-button">
+          <geo-link-button
+            css-modifier="calendar-picker-button"
+            @click="setLatestDate"
+          >
             {{ latestDatePlaceholder }}
-          </geo-tertiary-button>
+          </geo-link-button>
         </div>
       </div>
       <!-- TODO: Bind props to component -->
       <geo-calendar-picker
+        ref="calendarPicker"
         :previous-date-in-selected-granularity-icon="previousDateInSelectedGranularityIcon"
         :next-date-in-selected-granularity-icon="nextDateInSelectedGranularityIcon"
+        :calendar-navigation-select-icon="calendarNavigationSelectIcon"
         :picker-date-unit="pickerDateUnit"
         :granularity-id="granularityId"
         :locale="locale"
+        :earliest-date="earliestDate"
+        :latest-date="latestDate"
+        @select-day="selectDay"
       />
     </div>
   </div>
@@ -47,6 +61,7 @@
 
 <script>
 import cssSuffix from '../../mixins/cssModifierMixin'
+import { format, isBefore } from 'date-fns'
 
 export default {
   name: 'GeoCalendar',
@@ -75,6 +90,13 @@ export default {
       }
     },
 
+    calendarNavigationSelectIcon: {
+      type: Array,
+      default () {
+        return ['fal', 'chevron-down']
+      }
+    },
+
     fromInputPlaceholder: {
       type: String,
       required: false
@@ -85,9 +107,19 @@ export default {
       required: false
     },
 
+    earliestDate: {
+      type: Date,
+      required: true
+    },
+
     earliestDatePlaceholder: {
       type: String,
       required: false
+    },
+
+    latestDate: {
+      type: Date,
+      required: true
     },
 
     latestDatePlaceholder: {
@@ -112,14 +144,39 @@ export default {
   },
   data () {
     return {
-
+      fromDate: null,
+      toDate: null
     }
   },
   computed: {
+    formattedFromDate () {
+      return this.fromDate ? this.formatDate(this.fromDate) : null
+    },
 
+    formattedToDate () {
+      return this.toDate ? this.formatDate(this.toDate) : null
+    }
   },
   methods: {
+    setEarliestDate () {
+      this.fromDate = this.formatDate(this.earliestDate)
+    },
 
+    setLatestDate () {
+      this.toDate = this.formatDate(this.latestDate)
+    },
+
+    selectDay (day) {
+      if (!this.fromDate || (this.fromDate && isBefore(day, this.fromDate))) {
+        this.fromDate = day
+      } else {
+        this.toDate = day
+      }
+    },
+
+    formatDate (date) {
+      return format(date, 'DD/MM/YYYY')
+    }
   }
 }
 </script>

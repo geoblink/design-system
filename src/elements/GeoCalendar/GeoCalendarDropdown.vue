@@ -10,7 +10,9 @@
       :toggle-calendar-popup="toggleCalendarPopup"
     />
     <!-- TODO: Bind props to geoCalendar -->
-    <geo-bordered-box slot="popupContent">
+    <geo-bordered-box
+      slot="popupContent"
+    >
       <geo-bordered-box-header
         :close-icon="['fas', 'times']"
         @close="closeCalendar"
@@ -18,12 +20,16 @@
         <slot name="calendarHeaderTitle" />
       </geo-bordered-box-header>
       <geo-calendar
+        ref="calendar"
         :input-range-icon="inputRangeIcon"
         :previous-date-in-selected-granularity-icon="previousDateInSelectedGranularityIcon"
         :next-date-in-selected-granularity-icon="nextDateInSelectedGranularityIcon"
+        :calendar-navigation-select-icon="calendarNavigationSelectIcon"
         :from-input-placeholder="fromInputPlaceholder"
         :to-input-placeholder="toInputPlaceholder"
+        :earliest-date="earliestDate"
         :earliest-date-placeholder="earliestDatePlaceholder"
+        :latest-date="latestDate"
         :latest-date-placeholder="latestDatePlaceholder"
         :picker-date-unit="pickerDateUnit"
         :granularity-id="granularityId"
@@ -63,6 +69,11 @@ export default {
       required: false
     },
 
+    calendarNavigationSelectIcon: {
+      type: Array,
+      required: false
+    },
+
     fromInputPlaceholder: {
       type: String,
       required: false
@@ -73,9 +84,19 @@ export default {
       required: false
     },
 
+    earliestDate: {
+      type: Date,
+      required: true
+    },
+
     earliestDatePlaceholder: {
       type: String,
       required: false
+    },
+
+    latestDate: {
+      type: Date,
+      required: true
     },
 
     latestDatePlaceholder: {
@@ -110,7 +131,9 @@ export default {
       this.isCalendarPopupOpened = !this.isCalendarPopupOpened
     },
 
-    closeCalendar () {
+    closeCalendar ($event) {
+      const popup = _.get(this.$refs.calendar, '$refs.calendarPicker.$refs.calendarNavigationWrapper.$refs.calendarNavigation.$refs.calendarNavigationSelect')
+      if (popup && popup.contains($event.target)) return
       this.isCalendarPopupOpened = false
     }
   }

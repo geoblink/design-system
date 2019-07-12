@@ -1,18 +1,27 @@
 <template>
   <div class="geo-calendar-picker">
     <geo-calendar-navigation
+      ref="calendarNavigationWrapper"
       :previous-date-in-selected-granularity-icon="previousDateInSelectedGranularityIcon"
       :next-date-in-selected-granularity-icon="nextDateInSelectedGranularityIcon"
+      :calendar-navigation-select-icon="calendarNavigationSelectIcon"
       :picker-date-unit="pickerDateUnit"
       :granularity-id="granularityId"
+      :locale="locale"
+      :current-month="currentMonth"
+      :current-year="currentYear"
       @go-to-previous-picker-date="goToPreviousPickerDate"
       @go-to-next-picker-date="goToNextPickerDate"
+      @select-month="selectMonth"
     />
     <geo-calendar-grid
       :locale="locale"
       :picker-date-unit="pickerDateUnit"
       :current-month="currentMonth"
       :current-year="currentYear"
+      :earliest-date="earliestDate"
+      :latest-date="latestDate"
+      @select-day="selectDay"
     />
   </div>
 </template>
@@ -37,6 +46,11 @@ export default {
       required: true
     },
 
+    calendarNavigationSelectIcon: {
+      type: Array,
+      required: true
+    },
+
     pickerDateUnit: {
       type: String,
       required: true
@@ -49,6 +63,16 @@ export default {
 
     locale: {
       type: Object,
+      required: true
+    },
+
+    earliestDate: {
+      type: Date,
+      required: true
+    },
+
+    latestDate: {
+      type: Date,
       required: true
     }
   },
@@ -94,6 +118,14 @@ export default {
           // TODO: Range of years
           break
       }
+    },
+
+    selectDay (day) {
+      this.$emit('select-day', day)
+    },
+
+    selectMonth (monthIndex) {
+      this.currentMonth = monthIndex
     }
   }
 }

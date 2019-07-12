@@ -1,6 +1,5 @@
 <template>
   <div class="geo-calendar-grid">
-    {{ currentDate }}
     <div class="geo-calendar-grid__weekdays-row-container">
       <span
         v-for="day in weekDays"
@@ -21,11 +20,14 @@
           :key="`week-${weekIndex}_day${index}`"
           :class="{
             'days-container__day-picker--today': isToday(day),
-            'days-container__day-picker--out-of-boundaries': isDayOutOfBoundaries(day)
+            'days-container__day-picker--out-of-boundaries': isDayOutOfBoundaries(day),
+            'days-container__day-picker--no-data': isDayWithoutData(day),
+            'days-container__day-picker--selected': day === currentSelectedDay
           }"
           class="days-container__day-picker"
+          @click="selectDay(day)"
         >
-          {{ getDate(day) }}
+          <span>{{ getDate(day) }}</span>
         </span>
       </div>
     </div>
@@ -47,7 +49,9 @@ import {
   addDays,
   isToday,
   isSameMonth,
-  getDaysInMonth
+  getDaysInMonth,
+  isAfter,
+  isBefore
 } from 'date-fns'
 
 export default {
@@ -66,6 +70,22 @@ export default {
     currentYear: {
       type: Number,
       required: true
+    },
+
+    earliestDate: {
+      type: Date,
+      required: true
+    },
+
+    latestDate: {
+      type: Date,
+      required: true
+    }
+  },
+
+  data () {
+    return {
+      currentSelectedDay: null
     }
   },
 
@@ -153,6 +173,16 @@ export default {
 
     isToday (day) {
       return isToday(day)
+    },
+
+    isDayWithoutData (day) {
+      return isBefore(day, this.earliestDate) || isAfter(day, this.latestDate)
+    },
+
+    selectDay (day) {
+      if (this.isDayWithoutData(day)) return
+      this.currentSelectedDay = day
+      this.$emit('select-day', day)
     }
   }
 }

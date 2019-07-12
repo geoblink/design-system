@@ -39,6 +39,12 @@
     flex-direction: column;
   }
 
+  .geo-calendar__input-range-icon {
+    @include font($label-optional);
+
+    margin: 0 $space-small;
+  }
+
   .geo-button--calendar-picker-button > .geo-button__label--calendar-picker-button {
     padding-left: 0;
   }
@@ -48,6 +54,31 @@
     display: flex;
     justify-content: space-between;
     margin: $space-base 0;
+  }
+
+  @include geo-select-base-make('calendar-navigation-day--month');
+  @include geo-button-make('calendar-navigation-toggle-button');
+
+  .geo-button--link--calendar-navigation-toggle-button {
+    font-weight: $font-weight-bold;
+  }
+
+  .geo-button__label--calendar-navigation-toggle-button {
+    align-items: flex-end;
+    display: flex;
+  }
+
+  .geo-calendar-navigation__selects-container {
+    align-items: center;
+    display: flex;
+    justify-content: space-evenly;
+    width: 50%;
+  }
+
+  .calendar-navigation-toggle-button-icon {
+    @include font($label-optional);
+
+    margin-left: $space-x-small;
   }
 
   .geo-calendar-navigation__nav-icon {
@@ -92,9 +123,10 @@
     line-height: 25px;
     position: relative;
 
-    &:hover {
+    &:hover:not(&--no-data):not(&--selected) {
       background: rgba($color-blue, 0.1);
       border-radius: 50%;
+      color: $color-grey-darker;
     }
 
     &--today:after {
@@ -111,6 +143,22 @@
 
     &--out-of-boundaries {
       color: $color-grey-light;
+    }
+
+    &--no-data {
+      color: $color-grey;
+      cursor: not-allowed;
+      text-decoration: line-through;
+
+      span {
+        pointer-events: none;
+      }
+    }
+
+    &--selected {
+      background: $color-blue;
+      border-radius: 50%;
+      color: $color-white;
     }
   }
 }

@@ -6,9 +6,15 @@
       fixed-width
       @click="goToPreviousPickerDate"
     />
-    <div class="geo-calendar-navigation__dropdowns-container">
-      <component :is="selectedGranularityNavigation" />
-    </div>
+    <component
+      :is="selectedGranularityNavigation"
+      ref="calendarNavigation"
+      :calendar-navigation-select-icon="calendarNavigationSelectIcon"
+      :current-month="currentMonth"
+      :current-year="currentYear"
+      :locale="locale"
+      @select-month="selectMonth"
+    />
     <font-awesome-icon
       :icon="nextDateInSelectedGranularityIcon"
       class="geo-calendar-navigation__nav-icon geo-calendar-navigation__nav-icon--next"
@@ -38,6 +44,11 @@ export default {
       required: true
     },
 
+    calendarNavigationSelectIcon: {
+      type: Array,
+      required: true
+    },
+
     pickerDateUnit: {
       type: String,
       required: true
@@ -45,6 +56,21 @@ export default {
 
     granularityId: {
       type: String,
+      required: true
+    },
+
+    locale: {
+      type: Object,
+      required: true
+    },
+
+    currentMonth: {
+      type: Number,
+      required: true
+    },
+
+    currentYear: {
+      type: Number,
       required: true
     }
   },
@@ -74,6 +100,10 @@ export default {
 
     goToNextPickerDate () {
       this.$emit('go-to-next-picker-date')
+    },
+
+    selectMonth (monthIndex) {
+      this.$emit('select-month', monthIndex)
     }
   }
 }
