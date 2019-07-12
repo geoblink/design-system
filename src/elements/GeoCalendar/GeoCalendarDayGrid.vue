@@ -34,7 +34,6 @@
 
 <script>
 import {
-  differenceInDays,
   differenceInWeeks,
   eachDay,
   endOfWeek,
@@ -96,7 +95,9 @@ export default {
     },
 
     firstDayOfMonthInWeek () {
-      return getDay(this.startOfMonth, { weekStartsOn: 1 })
+      // TODO: Take a look at this and find a better way of handling sundays 1st of month
+      const firstDayInWeek = getDay(this.startOfMonth)
+      return firstDayInWeek === 0 ? 7 : firstDayInWeek
     },
 
     orderedDaysOfWeek () {
@@ -156,4 +157,3 @@ export default {
   }
 }
 </script>
-
