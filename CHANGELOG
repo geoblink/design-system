@@ -1,3 +1,14 @@
+# 23.0.0
+
+Changed:
+- Added common mixin for `GeoSelect` and `GeoMultiSelect`.
+
+Breaking:
+
+- `GeoSelect` items no longuer need to have a property called `label` and now the 
+property to be used as label need to be passed with `keyForLabel`.
+- `GeoSelect` removed deprecated prop `isOptSelect`, `grouped` must be used.
+
 # 22.2.3
 
 Changed:
