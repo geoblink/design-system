@@ -47,17 +47,20 @@ const stubs = {
 }
 
 describe('GeoSelect', () => {
+  const defaultProps = {
+    options: _.times(4, idx => { return { label: `${idx}` } }),
+    placeholder: 'Some Placeholder',
+    dropdownIcon: ['fas', 'chevron-down'],
+    forceYAxisPosition: Y_AXIS_POSITION.top,
+    keyForLabel: 'label',
+    pageSize: 4,
+    value: { label: 'Item 0' }
+  }
+
   it('Should render toggle button', () => {
     const wrapper = mount(GeoSelect, {
       stubs,
-      propsData: {
-        options: _.times(4, idx => { return { label: `${idx}` } }),
-        placeholder: 'Some Placeholder',
-        dropdownIcon: ['fas', 'chevron-down'],
-        forceYAxisPosition: Y_AXIS_POSITION.top,
-        pageSize: 4,
-        value: { label: 'Item 0' }
-      }
+      propsData: defaultProps
     })
     expect(wrapper.find('.geo-select-toggle-button--geo-select').exists()).toBe(true)
   })
@@ -65,14 +68,7 @@ describe('GeoSelect', () => {
   it('Should not render element popup if not opened', () => {
     const wrapper = mount(GeoSelect, {
       stubs,
-      propsData: {
-        options: _.times(4, idx => { return { label: `${idx}` } }),
-        placeholder: 'Some Placeholder',
-        dropdownIcon: ['fas', 'chevron-down'],
-        forceYAxisPosition: Y_AXIS_POSITION.top,
-        pageSize: 4,
-        value: { label: 'Item 0' }
-      }
+      propsData: defaultProps
     })
     expect(wrapper.find('.geo-select__options-container--geo-select').exists()).toBe(false)
   })
@@ -80,14 +76,7 @@ describe('GeoSelect', () => {
   it('Should render element popup if opened', () => {
     const wrapper = mount(GeoSelect, {
       stubs,
-      propsData: {
-        options: _.times(4, idx => { return { label: `${idx}` } }),
-        placeholder: 'Some Placeholder',
-        dropdownIcon: ['fas', 'chevron-down'],
-        forceYAxisPosition: Y_AXIS_POSITION.top,
-        pageSize: 4,
-        value: { label: 'Item 0' }
-      },
+      propsData: defaultProps,
       data () {
         return {
           isOpened: true
@@ -100,20 +89,7 @@ describe('GeoSelect', () => {
   it('Should show element popup on click on toggle button', () => {
     const wrapper = mount(GeoSelect, {
       stubs,
-      propsData: {
-        options: _.times(4, idx => {
-          return {
-            label: `${idx}`
-          }
-        }),
-        placeholder: 'Some Placeholder',
-        dropdownIcon: ['fas', 'chevron-down'],
-        forceYAxisPosition: Y_AXIS_POSITION.top,
-        pageSize: 4,
-        value: {
-          label: 'Item 0'
-        }
-      }
+      propsData: defaultProps
     })
     expect(wrapper.find('.geo-select-toggle-button--geo-select').exists()).toBe(true)
 
@@ -122,36 +98,11 @@ describe('GeoSelect', () => {
     expect(wrapper.find('.geo-select__options-container--geo-select').exists()).toBe(true)
   })
 
-  it('Invalid default value for GeoSelect', () => {
-    const spy = jest.spyOn(console, 'error').mockImplementation(() => {})
-
-    afterEach(() => spy.mockReset())
-    const wrapper = mount(GeoSelect, {
-      stubs,
-      propsData: {
-        options: _.times(4, idx => { return { label: `${idx}` } }),
-        placeholder: 'Some Placeholder',
-        dropdownIcon: ['fas', 'chevron-down'],
-        value: { label: 45 }
-      },
-      data () {
-        return {
-          isOpened: true
-        }
-      }
-    })
-    expect(wrapper.find('.geo-select__options-container--geo-select').exists()).toBe(true)
-    expect(spy).toBeCalledWith(expect.stringContaining('[Vue warn]: Invalid prop'))
-  })
-
   it('Should execute load more results when given the event', (done) => {
     const mockScrollToLastEntry = jest.fn()
     const wrapper = mount(GeoSelect, {
       stubs,
-      propsData: {
-        options: _.times(4, idx => { return { label: `${idx}` } }),
-        placeholder: 'Some Placeholder'
-      }
+      propsData: defaultProps
     })
     wrapper.vm.$refs.selectBase.$emit('load-more-results', { scrollToLastEntry: mockScrollToLastEntry })
     // https://vue-test-utils.vuejs.org/guides/testing-async-components.html
@@ -164,11 +115,7 @@ describe('GeoSelect', () => {
   it('Should change selection when selecting one of the options', () => {
     const wrapper = mount(GeoSelect, {
       stubs,
-      propsData: {
-        options: _.times(4, idx => { return { label: `${idx}` } }),
-        placeholder: 'Some Placeholder',
-        dropdownIcon: ['fas', 'chevron-down']
-      }
+      propsData: defaultProps
     })
     wrapper.find('.geo-select-toggle-button--geo-select').trigger('click')
     expect(wrapper.vm.isOpened).toBe(true)
@@ -181,13 +128,10 @@ describe('GeoSelect', () => {
   it('Should show/hide search box if given the prop', () => {
     const wrapper = mount(GeoSelect, {
       stubs,
-      propsData: {
-        options: _.times(4, idx => { return { label: `${idx}` } }),
-        placeholder: 'Some Placeholder',
-        dropdownIcon: ['fas', 'chevron-down'],
+      propsData: _.assign({}, defaultProps, {
         searchIcon: ['fas', 'search'],
         searchable: true
-      },
+      }),
       data () {
         return {
           isOpened: true
@@ -202,13 +146,11 @@ describe('GeoSelect', () => {
   it('Should filter the select options when typing on the search box', () => {
     const wrapper = mount(GeoSelect, {
       stubs,
-      propsData: {
+      propsData: _.assign({}, defaultProps, {
         options: _.times(4, idx => { return { label: `Item ${idx}` } }),
-        placeholder: 'Some Placeholder',
-        dropdownIcon: ['fas', 'chevron-down'],
         searchIcon: ['fas', 'search'],
         searchable: true
-      },
+      }),
       data () {
         return {
           isOpened: true
@@ -224,7 +166,7 @@ describe('GeoSelect', () => {
   it('Should filter options in an opt-group select', () => {
     const wrapper = mount(GeoSelect, {
       stubs,
-      propsData: {
+      propsData: _.assign({}, defaultProps, {
         options: [
           {
             isOptGroup: true,
@@ -237,12 +179,10 @@ describe('GeoSelect', () => {
             items: _.times(4, idx => { return { label: `Item ${idx}` } })
           }
         ],
-        placeholder: 'Some Placeholder',
-        dropdownIcon: ['fas', 'chevron-down'],
         searchIcon: ['fas', 'search'],
         searchable: true,
         grouped: true
-      },
+      }),
       data () {
         return {
           isOpened: true
@@ -258,21 +198,9 @@ describe('GeoSelect', () => {
     it('Should pass disabled prop to toggle button', () => {
       const wrapper = mount(GeoSelect, {
         stubs,
-        propsData: {
-          options: _.times(4, idx => {
-            return {
-              label: `${idx}`
-            }
-          }),
-          placeholder: 'Some Placeholder',
-          dropdownIcon: ['fas', 'chevron-down'],
-          forceYAxisPosition: Y_AXIS_POSITION.top,
-          pageSize: 4,
-          value: {
-            label: 'Item 0'
-          },
+        propsData: _.assign({}, defaultProps, {
           disabled: true
-        }
+        })
       })
       expect(wrapper.find('.geo-select-toggle-button--geo-select').exists()).toBe(true)
       expect(wrapper.find('.geo-select-toggle-button--disabled--geo-select').exists()).toBe(true)
@@ -281,21 +209,9 @@ describe('GeoSelect', () => {
     it('Should disable user interaction', () => {
       const wrapper = mount(GeoSelect, {
         stubs,
-        propsData: {
-          options: _.times(4, idx => {
-            return {
-              label: `${idx}`
-            }
-          }),
-          placeholder: 'Some Placeholder',
-          dropdownIcon: ['fas', 'chevron-down'],
-          forceYAxisPosition: Y_AXIS_POSITION.top,
-          pageSize: 4,
-          value: {
-            label: 'Item 0'
-          },
+        propsData: _.assign({}, defaultProps, {
           disabled: true
-        }
+        })
       })
       expect(wrapper.find('.geo-select-toggle-button--geo-select').exists()).toBe(true)
 
