@@ -3,7 +3,7 @@
     <geo-select-base
       :opened="isMonthSelectionOpened"
       :fixed-width="false"
-      css-modifier="calendar-navigation-day--month"
+      css-modifier="calendar-navigation-day"
       @click-outside="closeMonthSelection"
     >
       <geo-link-button
@@ -22,7 +22,7 @@
         <geo-list-item
           v-for="monthObject in monthsInYear"
           :key="monthObject.monthIndex"
-          @click="changeCurrentMonth($event, monthObject.monthIndex)"
+          @click="changeCurrentMonth(monthObject.monthIndex)"
         >
           {{ monthObject.month }}
         </geo-list-item>
@@ -31,7 +31,7 @@
     <geo-select-base
       :opened="isYearSelectionOpened"
       :fixed-width="false"
-      css-modifier="calendar-navigation-day--year"
+      css-modifier="calendar-navigation-day"
       @click-outside="closeYearSelection"
     >
       <geo-link-button
@@ -41,6 +41,7 @@
       >
         {{ currentYear }}
         <font-awesome-icon
+          v-if="numYearsWithData"
           class="calendar-navigation-toggle-button-icon"
           fixed-width
           :icon="calendarNavigationSelectIcon"
@@ -48,9 +49,9 @@
       </geo-link-button>
       <div ref="calendarNavigationSelect">
         <geo-list-item
-          v-for="(year, index) in yearsList"
-          :key="index"
-          @click="changeCurrentSelection(0, option)"
+          v-for="year in yearsList"
+          :key="year"
+          @click="changeCurrentYear(year)"
         >
           {{ year }}
         </geo-list-item>
@@ -60,7 +61,7 @@
 </template>
 
 <script>
-import { eachDay, startOfYear, endOfYear, getMonth, format } from 'date-fns'
+import { eachDay, startOfYear, endOfYear, getMonth, format, differenceInCalendarYears, getYear } from 'date-fns'
 export default {
   name: 'GeoCalendarNavigationDay',
   props: {
@@ -76,6 +77,16 @@ export default {
 
     currentYear: {
       type: Number,
+      required: true
+    },
+
+    earliestDate: {
+      type: Date,
+      required: true
+    },
+
+    latestDate: {
+      type: Date,
       required: true
     },
 
@@ -111,8 +122,15 @@ export default {
       return this.monthsInYear[this.currentMonth].month
     },
 
+    numYearsWithData () {
+      return differenceInCalendarYears(this.latestDate, this.earliestDate) + 1
+    },
+
     yearsList () {
-      return []
+      let earliestYear = getYear(this.earliestDate)
+      return _.times(this.numYearsWithData, (i) => {
+        return earliestYear++
+      })
     }
   },
   methods: {
@@ -132,9 +150,14 @@ export default {
       this.isYearSelectionOpened = false
     },
 
-    changeCurrentMonth ($event, monthIndex) {
+    changeCurrentMonth (monthIndex) {
       this.closeMonthSelection()
       this.$emit('select-month', monthIndex)
+    },
+
+    changeCurrentYear (year) {
+      this.closeYearSelection()
+      this.$emit('select-year', year)
     }
   }
 }

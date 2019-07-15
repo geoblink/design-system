@@ -10,13 +10,17 @@
       :locale="locale"
       :current-month="currentMonth"
       :current-year="currentYear"
+      :earliest-date="earliestDate"
+      :latest-date="latestDate"
       @go-to-previous-picker-date="goToPreviousPickerDate"
       @go-to-next-picker-date="goToNextPickerDate"
       @select-month="selectMonth"
+      @select-year="selectYear"
     />
     <geo-calendar-grid
       :locale="locale"
       :picker-date-unit="pickerDateUnit"
+      :selected-day="selectedDay"
       :current-month="currentMonth"
       :current-year="currentYear"
       :earliest-date="earliestDate"
@@ -74,18 +78,43 @@ export default {
     latestDate: {
       type: Date,
       required: true
+    },
+
+    inputSelectedFromDate: {
+      type: Date,
+      required: false
+    },
+
+    inputSelectedToDate: {
+      type: Date,
+      required: false
     }
   },
   data () {
     return {
       currentMonth: getMonth(new Date()),
-      currentYear: getYear(new Date())
+      currentYear: getYear(new Date()),
+      selectedDay: null
     }
   },
 
   computed: {
     currentDate () {
       return new Date(this.currentYear, this.currentMonth)
+    }
+  },
+
+  watch: {
+    inputSelectedFromDate (inputDay) {
+      this.selectedDay = inputDay
+      this.currentMonth = getMonth(inputDay)
+      this.currentYear = getYear(inputDay)
+    },
+
+    inputSelectedToDate (inputDay) {
+      this.selectedDay = inputDay
+      this.currentMonth = getMonth(inputDay)
+      this.currentYear = getYear(inputDay)
     }
   },
 
@@ -121,11 +150,16 @@ export default {
     },
 
     selectDay (day) {
+      this.selectedDay = day
       this.$emit('select-day', day)
     },
 
     selectMonth (monthIndex) {
       this.currentMonth = monthIndex
+    },
+
+    selectYear (year) {
+      this.currentYear = year
     }
   }
 }

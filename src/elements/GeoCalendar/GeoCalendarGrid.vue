@@ -2,6 +2,7 @@
   <geo-calendar-day-grid
     v-if="isDayGrid"
     :locale="locale"
+    :selected-day="selectedDay"
     :current-month="currentMonth"
     :current-year="currentYear"
     :earliest-date="earliestDate"
@@ -32,6 +33,11 @@ export default {
     pickerDateUnit: {
       type: String,
       required: true
+    },
+
+    selectedDay: {
+      type: Date,
+      required: false
     },
 
     currentMonth: {

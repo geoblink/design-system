@@ -12,8 +12,11 @@
       :calendar-navigation-select-icon="calendarNavigationSelectIcon"
       :current-month="currentMonth"
       :current-year="currentYear"
+      :earliest-date="earliestDate"
+      :latest-date="latestDate"
       :locale="locale"
       @select-month="selectMonth"
+      @select-year="selectYear"
     />
     <font-awesome-icon
       :icon="nextDateInSelectedGranularityIcon"
@@ -72,6 +75,16 @@ export default {
     currentYear: {
       type: Number,
       required: true
+    },
+
+    earliestDate: {
+      type: Date,
+      required: true
+    },
+
+    latestDate: {
+      type: Date,
+      required: true
     }
   },
 
@@ -104,6 +117,10 @@ export default {
 
     selectMonth (monthIndex) {
       this.$emit('select-month', monthIndex)
+    },
+
+    selectYear (year) {
+      this.$emit('select-year', year)
     }
   }
 }

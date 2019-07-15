@@ -22,7 +22,7 @@
             'days-container__day-picker--today': isToday(day),
             'days-container__day-picker--out-of-boundaries': isDayOutOfBoundaries(day),
             'days-container__day-picker--no-data': isDayWithoutData(day),
-            'days-container__day-picker--selected': day === currentSelectedDay
+            'days-container__day-picker--selected': day === selectedDay
           }"
           class="days-container__day-picker"
           @click="selectDay(day)"
@@ -70,6 +70,11 @@ export default {
     currentYear: {
       type: Number,
       required: true
+    },
+
+    selectedDay: {
+      type: Date,
+      required: false
     },
 
     earliestDate: {
@@ -181,7 +186,6 @@ export default {
 
     selectDay (day) {
       if (this.isDayWithoutData(day)) return
-      this.currentSelectedDay = day
       this.$emit('select-day', day)
     }
   }

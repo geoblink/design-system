@@ -74,8 +74,8 @@ eiusmod tempor incididunt ut labore et dolore magna aliqua.
 
 <script>
 const ES_LOCALE = require('date-fns/locale/es')
-const subMonths = require('date-fns').subMonths
-const addMonths = require('date-fns').addMonths
+const subYears = require('date-fns').subYears
+const addYears = require('date-fns').addYears
 
 
 export default {
@@ -84,8 +84,8 @@ export default {
     return {
       selectedPickerDateUnit: 'day',
       selectedGranularityId: 'day',
-      dataEarliestDate: subMonths(new Date(), 2),
-      dataLatestDate: addMonths(new Date(), 2)
+      dataEarliestDate: subYears(new Date(), 4),
+      dataLatestDate: addYears(new Date(), 2)
     }
   },
   computed: {

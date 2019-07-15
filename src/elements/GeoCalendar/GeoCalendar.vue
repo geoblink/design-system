@@ -10,10 +10,13 @@
       <div class="geo-calendar__input-ranges">
         <div class="geo-calendar__input geo-calendar__input--start">
           <geo-input
-            v-model="formattedFromDate"
+            v-model="fromDate"
+            v-click-outside="setFromDate"
             :placeholder="fromInputPlaceholder"
             :show-buttons="false"
+            :is-focused="isFromDateInputFocused"
             input-type="normal"
+            @click="isFromDateInputFocused = true"
           />
           <geo-link-button
             css-modifier="calendar-picker-button"
@@ -29,10 +32,13 @@
         />
         <div class="geo-calendar__input geo-calendar__input--end">
           <geo-input
-            v-model="formattedToDate"
+            v-model="toDate"
+            v-click-outside="setToDate"
             :placeholder="toInputPlaceholder"
             :show-buttons="false"
+            :is-focused="isToDateInputFocused"
             input-type="normal"
+            @click="isToDateInputFocused = true"
           />
           <geo-link-button
             css-modifier="calendar-picker-button"
@@ -53,6 +59,8 @@
         :locale="locale"
         :earliest-date="earliestDate"
         :latest-date="latestDate"
+        :input-selected-from-date="parsedFromDate"
+        :input-selected-to-date="parsedToDate"
         @select-day="selectDay"
       />
     </div>
@@ -61,12 +69,16 @@
 
 <script>
 import cssSuffix from '../../mixins/cssModifierMixin'
-import { format, isBefore } from 'date-fns'
+import ClickOutside from '../../directives/GeoClickOutside'
+import { isBefore, format } from 'date-fns'
 
 export default {
   name: 'GeoCalendar',
   status: 'missing-tests',
   release: 'CHANGE ME',
+  directives: {
+    ClickOutside
+  },
   mixins: [cssSuffix],
   props: {
     inputRangeIcon: {
@@ -145,16 +157,11 @@ export default {
   data () {
     return {
       fromDate: null,
-      toDate: null
-    }
-  },
-  computed: {
-    formattedFromDate () {
-      return this.fromDate ? this.formatDate(this.fromDate) : null
-    },
-
-    formattedToDate () {
-      return this.toDate ? this.formatDate(this.toDate) : null
+      isFromDateInputFocused: false,
+      parsedFromDate: null,
+      toDate: null,
+      isToDateInputFocused: false,
+      parsedToDate: null
     }
   },
   methods: {
@@ -166,12 +173,30 @@ export default {
       this.toDate = this.formatDate(this.latestDate)
     },
 
+    setFromDate () {
+      if (!this.isFromDateInputFocused) return
+      this.isFromDateInputFocused = false
+      this.parsedFromDate = this.parseDate(this.fromDate)
+    },
+
+    setToDate () {
+      if (!this.isToDateInputFocused) return
+      this.isToDateInputFocused = false
+      this.parsedToDate = this.parseDate(this.toDate)
+    },
+
     selectDay (day) {
       if (!this.fromDate || (this.fromDate && isBefore(day, this.fromDate))) {
-        this.fromDate = day
+        this.fromDate = this.formatDate(day)
       } else {
-        this.toDate = day
+        this.toDate = this.formatDate(day)
       }
+    },
+
+    parseDate (date) {
+      if (!date) return
+      const [day, month, year] = date.split('/').map(n => parseInt(n))
+      return new Date(year, month - 1, day)
     },
 
     formatDate (date) {
@@ -179,4 +204,5 @@ export default {
     }
   }
 }
+
 </script>
