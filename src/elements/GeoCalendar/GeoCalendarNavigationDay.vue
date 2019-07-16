@@ -3,7 +3,7 @@
     <geo-select-base
       :opened="isMonthSelectionOpened"
       :fixed-width="false"
-      css-modifier="calendar-navigation-day"
+      css-modifier="calendar-navigation-selection"
       @click-outside="closeMonthSelection"
     >
       <geo-link-button
@@ -31,7 +31,7 @@
     <geo-select-base
       :opened="isYearSelectionOpened"
       :fixed-width="false"
-      css-modifier="calendar-navigation-day"
+      css-modifier="calendar-navigation-selection"
       @click-outside="closeYearSelection"
     >
       <geo-link-button

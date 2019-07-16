@@ -7,6 +7,15 @@
     $modifier-name-with-prefix: --#{$modifier-name};
   }
 
+  @include geo-dropdown-make('geo-calendar__dropdown#{$modifier-name-with-prefix}');
+  @include geo-button-make('calendar-picker-button#{$modifier-name-with-prefix}');
+  @include geo-select-base-make('calendar-navigation-selection');
+  @include geo-button-make('calendar-navigation-toggle-button');
+
+  .geo-calendar#{$modifier-name-with-prefix} {
+    display: flex;
+  }
+
   .geo-calendar-picker-granularity-unit {
     @include font($body-small);
 
@@ -25,13 +34,6 @@
 
   .geo-calendar-picker-granularity-unit__selector-icon {
     color: $color-grey-light;
-  }
-
-  @include geo-dropdown-make('geo-calendar__dropdown#{$modifier-name-with-prefix}');
-  @include geo-button-make('calendar-picker-button#{$modifier-name-with-prefix}');
-
-  .geo-calendar#{$modifier-name-with-prefix} {
-    display: flex;
   }
 
   .geo-calendar__granularity-selectors {
@@ -75,9 +77,6 @@
     justify-content: space-between;
     margin: $space-base 0;
   }
-
-  @include geo-select-base-make('calendar-navigation-day');
-  @include geo-button-make('calendar-navigation-toggle-button');
 
   .geo-button--link--calendar-navigation-toggle-button {
     font-weight: $font-weight-bold;
@@ -126,6 +125,26 @@
     margin-top: $space-small;
     grid-row-gap: 10px;
     justify-content: space-evenly;
+  }
+
+  .geo-calendar-grid__month-container {
+    display: grid;
+    grid-row-gap: calc(#{$space-large - $space-x-small});
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .month-container__month-unit {
+    @include font($body-small);
+
+    cursor: pointer;
+    padding: $space-x-small;
+    text-align: center;
+
+    &:hover:not(&--no-data):not(&--selected) {
+      background: rgba($color-blue, 0.1);
+      border-radius: 50vh;
+      color: $color-grey-darker;
+    }
   }
 
   .days-container__week-unit {
