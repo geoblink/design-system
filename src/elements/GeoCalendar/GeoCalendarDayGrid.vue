@@ -20,20 +20,23 @@
         @mouseenter="$set(weekUnits, weekIndex, true)"
         @mouseleave="$set(weekUnits, weekIndex, false)"
       >
-        <span
+        <div
           v-for="(day, index) in week"
           :key="`week-${weekIndex}_day${index}`"
           :class="{
             'days-container__day-picker--today': isToday(day),
             'days-container__day-picker--out-of-boundaries': isDayOutOfBoundaries(day),
             'days-container__day-picker--no-data': isDayWithoutData(day),
-            'days-container__day-picker--selected': isSelectedDay(day)
+            'days-container__day-picker--selected': isSelectedDay(day),
+            'days-container__day-picker--from-date': isEqual(day, selectedFromDay),
+            'days-container__day-picker--to-date': isEqual(day, selectedToDay),
+            'days-container__day-picker--within-range': isDayWithinRanges(day)
           }"
           class="days-container__day-picker"
           @click="selectDay(day)"
         >
-          <span>{{ getDate(day) }}</span>
-        </span>
+          <p>{{ getDate(day) }}</p>
+        </div>
       </div>
     </div>
   </div>
@@ -58,7 +61,8 @@ import {
   getDaysInMonth,
   isAfter,
   isBefore,
-  isEqual
+  isEqual,
+  isWithinRange
 } from 'date-fns'
 
 export default {
@@ -79,7 +83,12 @@ export default {
       required: true
     },
 
-    selectedDay: {
+    selectedFromDay: {
+      type: Date,
+      required: false
+    },
+
+    selectedToDay: {
       type: Date,
       required: false
     },
@@ -110,6 +119,10 @@ export default {
   computed: {
     getDate () {
       return getDate
+    },
+
+    isEqual () {
+      return isEqual
     },
 
     totalDaysInWeek () {
@@ -204,7 +217,14 @@ export default {
     },
 
     isSelectedDay (day) {
-      return isEqual(day, this.selectedDay)
+      return isEqual(day, this.selectedFromDay) || isEqual(day, this.selectedToDay)
+    },
+
+    isDayWithinRanges (day) {
+      return this.selectedFromDay &&
+        this.selectedToDay &&
+        (isWithinRange(day, this.selectedFromDay, this.selectedToDay) ||
+        (this.selectedFromDay === day || this.selectedToDay === day))
     },
 
     selectDay (day) {

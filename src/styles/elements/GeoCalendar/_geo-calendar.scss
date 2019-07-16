@@ -150,10 +150,9 @@
   .days-container__week-unit {
     align-items: center;
     display: grid;
-    grid-template-columns: repeat(7, 25px);
+    grid-template-columns: repeat(7, 45px);
     grid-template-rows: 25px;
     text-align: center;
-    grid-column-gap: 18px;
   }
 
   .days-container__week-unit--hovered-week {
@@ -169,9 +168,20 @@
     line-height: 25px;
     position: relative;
 
-    &:hover:not(&--no-data):not(&--selected) {
+    & > p {
+      margin: 0;
+      margin-left: 10px;
+      width: 25px;
+    }
+
+    &:hover:not(&--no-data):not(&--selected) > p {
       background: rgba($color-blue, 0.1);
       border-radius: 50%;
+      color: $color-grey-darker;
+    }
+
+    &--within-range {
+      background: rgba($color-blue, 0.1);
       color: $color-grey-darker;
     }
 
@@ -196,12 +206,25 @@
       cursor: not-allowed;
       text-decoration: line-through;
 
-      span {
+      p {
         pointer-events: none;
       }
     }
 
-    &--selected {
+    &--from-date {
+      border-top-left-radius: 50vh;
+      border-bottom-left-radius: 50vh;
+      padding-right: 20px;
+    }
+
+    &--to-date {
+      border-top-right-radius: 50vh;
+      border-bottom-right-radius: 50vh;
+      margin-right: 20px;
+      padding-left: 0;
+    }
+
+    &--selected > p {
       background: $color-blue;
       border-radius: 50%;
       color: $color-white;

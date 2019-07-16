@@ -20,7 +20,8 @@
     <geo-calendar-grid
       :locale="locale"
       :picker-date-unit="pickerDateUnit"
-      :selected-day="selectedDay"
+      :selected-from-day="selectedFromDay"
+      :selected-to-day="selectedToDay"
       :current-month="currentMonth"
       :current-year="currentYear"
       :earliest-date="earliestDate"
@@ -82,7 +83,12 @@ export default {
       required: true
     },
 
-    selectedDay: {
+    selectedFromDay: {
+      type: Date,
+      required: false
+    },
+
+    selectedToDay: {
       type: Date,
       required: false
     },

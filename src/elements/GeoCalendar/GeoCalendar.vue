@@ -60,7 +60,8 @@
         :latest-date="latestDate"
         :current-month="currentMonth"
         :current-year="currentYear"
-        :selected-day="selectedDay"
+        :selected-from-day="fromRawDate"
+        :selected-to-day="toRawDate"
         @select-day="selectDay"
         @select-month="selectMonth"
         @go-to-month="goToMonth"
@@ -164,8 +165,7 @@ export default {
       isFromDateInputFocused: false,
       isToDateInputFocused: false,
       currentMonth: getMonth(new Date()),
-      currentYear: getYear(new Date()),
-      selectedDay: null
+      currentYear: getYear(new Date())
     }
   },
   computed: {
@@ -178,7 +178,6 @@ export default {
         const parsedDate = this.parseDate(newFromDate)
         if (parsedDate && isValid(parsedDate) && this.isDateWithinBounds(parsedDate)) {
           this.fromRawDate = this.parseDate(newFromDate)
-          this.selectedDay = this.fromRawDate
           this.currentMonth = getMonth(this.fromRawDate)
           this.currentYear = getYear(this.fromRawDate)
         }
@@ -194,7 +193,6 @@ export default {
         const parsedDate = this.parseDate(newToDate)
         if (parsedDate && isValid(parsedDate) && this.isDateWithinBounds(parsedDate)) {
           this.toRawDate = this.parseDate(newToDate)
-          this.selectedDay = this.toRawDate
           this.currentMonth = getMonth(this.toRawDate)
           this.currentYear = getYear(this.toRawDate)
         }
@@ -206,7 +204,9 @@ export default {
     },
 
     isSettingFromInput () {
-      return !this.fromRawDate || (this.fromRawDate && isBefore(this.selectedDay, this.fromRawDate))
+      return (day) => {
+        return !this.fromRawDate || (this.fromRawDate && isBefore(day, this.fromRawDate))
+      }
     }
   },
   methods: {
@@ -219,28 +219,24 @@ export default {
     },
 
     selectDay (day) {
-      this.selectedDay = day
-      this.setDateInput()
+      this.setDateInput(day)
     },
 
     selectMonth (monthIndex) {
       this.currentMonth = monthIndex
       const firstDayOfMonth = new Date(this.currentYear, this.currentMonth)
       const lastDayOfMonth = endOfMonth(firstDayOfMonth)
-
-      if (!this.fromRawDate || (this.fromRawDate && this.currentMonth < getMonth(this.fromRawDate))) {
-        this.selectedDay = firstDayOfMonth
-      } else {
-        this.selectedDay = lastDayOfMonth
-      }
-      this.setDateInput()
+      const selectedDate = !this.fromRawDate || (this.fromRawDate && this.currentMonth < getMonth(this.fromRawDate))
+        ? firstDayOfMonth
+        : lastDayOfMonth
+      this.setDateInput(selectedDate)
     },
 
-    setDateInput () {
-      if (this.isSettingFromInput) {
-        this.fromRawDate = this.selectedDay
+    setDateInput (day) {
+      if (this.isSettingFromInput(day)) {
+        this.fromRawDate = day
       } else {
-        this.toRawDate = this.selectedDay
+        this.toRawDate = day
       }
     },
 
