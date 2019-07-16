@@ -22,7 +22,7 @@
         <geo-list-item
           v-for="monthObject in monthsInYear"
           :key="monthObject.monthIndex"
-          @click="changeCurrentMonth(monthObject.monthIndex)"
+          @click="goToMonth(monthObject.monthIndex)"
         >
           {{ monthObject.month }}
         </geo-list-item>
@@ -51,7 +51,7 @@
         <geo-list-item
           v-for="year in yearsList"
           :key="year"
-          @click="changeCurrentYear(year)"
+          @click="goToYear(year)"
         >
           {{ year }}
         </geo-list-item>
@@ -150,14 +150,14 @@ export default {
       this.isYearSelectionOpened = false
     },
 
-    changeCurrentMonth (monthIndex) {
+    goToMonth (monthIndex) {
       this.closeMonthSelection()
-      this.$emit('select-month', monthIndex)
+      this.$emit('go-to-month', monthIndex)
     },
 
-    changeCurrentYear (year) {
+    goToYear (year) {
       this.closeYearSelection()
-      this.$emit('select-year', year)
+      this.$emit('go-to-year', year)
     }
   }
 }

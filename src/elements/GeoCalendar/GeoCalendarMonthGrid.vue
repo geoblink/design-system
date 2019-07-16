@@ -5,6 +5,7 @@
         v-for="monthObject in monthsInYear"
         :key="monthObject.monthIndex"
         class="month-container__month-unit"
+        @click="selectMonth(monthObject.monthIndex)"
       >
         {{ monthObject.month }}
       </div>
@@ -38,8 +39,13 @@ export default {
           month: format(d, 'MMMM', { locale: this.locale })
         }
       })
-    },
+    }
+  },
+
+  methods: {
+    selectMonth (monthIndex) {
+      this.$emit('select-month', monthIndex)
+    }
   }
 }
 </script>
-

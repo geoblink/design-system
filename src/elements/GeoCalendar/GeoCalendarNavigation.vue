@@ -15,8 +15,8 @@
       :earliest-date="earliestDate"
       :latest-date="latestDate"
       :locale="locale"
-      @select-month="selectMonth"
-      @select-year="selectYear"
+      @go-to-month="goToMonth"
+      @go-to-year="goToYear"
     />
     <font-awesome-icon
       :icon="nextDateInSelectedGranularityIcon"
@@ -115,12 +115,12 @@ export default {
       this.$emit('go-to-next-picker-date')
     },
 
-    selectMonth (monthIndex) {
-      this.$emit('select-month', monthIndex)
+    goToMonth (monthIndex) {
+      this.$emit('go-to-month', monthIndex)
     },
 
-    selectYear (year) {
-      this.$emit('select-year', year)
+    goToYear (year) {
+      this.$emit('go-to-year', year)
     }
   }
 }

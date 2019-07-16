@@ -14,8 +14,8 @@
       :latest-date="latestDate"
       @go-to-previous-picker-date="goToPreviousPickerDate"
       @go-to-next-picker-date="goToNextPickerDate"
-      @select-month="selectMonth"
-      @select-year="selectYear"
+      @go-to-month="goToMonth"
+      @go-to-year="goToYear"
     />
     <geo-calendar-grid
       :locale="locale"
@@ -27,6 +27,7 @@
       :latest-date="latestDate"
       :granularity-id="granularityId"
       @select-day="selectDay"
+      @select-month="selectMonth"
     />
   </div>
 </template>
@@ -81,21 +82,19 @@ export default {
       required: true
     },
 
-    inputSelectedFromDate: {
+    selectedDay: {
       type: Date,
       required: false
     },
 
-    inputSelectedToDate: {
-      type: Date,
-      required: false
-    }
-  },
-  data () {
-    return {
-      currentMonth: getMonth(new Date()),
-      currentYear: getYear(new Date()),
-      selectedDay: null
+    currentMonth: {
+      type: Number,
+      required: true
+    },
+
+    currentYear: {
+      type: Number,
+      required: true
     }
   },
 
@@ -105,29 +104,20 @@ export default {
     }
   },
 
-  watch: {
-    inputSelectedFromDate (inputDay) {
-      this.selectedDay = inputDay
-      this.currentMonth = getMonth(inputDay)
-      this.currentYear = getYear(inputDay)
-    },
-
-    inputSelectedToDate (inputDay) {
-      this.selectedDay = inputDay
-      this.currentMonth = getMonth(inputDay)
-      this.currentYear = getYear(inputDay)
-    }
-  },
-
   methods: {
     goToPreviousPickerDate () {
       switch (this.pickerDateUnit) {
         case PICKER_DATE_UNITS.day:
-          if (this.currentMonth === 0) this.currentYear = getYear(subYears(this.currentDate, 1))
-          this.currentMonth = getMonth(subMonths(this.currentDate, 1))
+          if (this.currentMonth === 0) {
+            const previousYear = getYear(subYears(this.currentDate, 1))
+            this.goToYear(previousYear)
+          }
+          const previousMonth = getMonth(subMonths(this.currentDate, 1))
+          this.goToMonth(previousMonth)
           break
         case PICKER_DATE_UNITS.month:
-          this.currentYear = getYear(subYears(this.currentYear, 1))
+          const previousYear = getYear(subYears(this.currentDate, 1))
+          this.goToYear(previousYear)
           break
         case PICKER_DATE_UNITS.year:
           // TODO: Range of years
@@ -138,11 +128,16 @@ export default {
     goToNextPickerDate () {
       switch (this.pickerDateUnit) {
         case PICKER_DATE_UNITS.day:
-          if (this.currentMonth === 11) this.currentYear = getYear(addYears(this.currentDate, 1))
-          this.currentMonth = getMonth(addMonths(this.currentDate, 1))
+          if (this.currentMonth === 11) {
+            const nextYear = getYear(addYears(this.currentDate, 1))
+            this.goToYear(nextYear)
+          }
+          const nextMonth = getMonth(addMonths(this.currentDate, 1))
+          this.goToMonth(nextMonth)
           break
         case PICKER_DATE_UNITS.month:
-          this.currentYear = getYear(addYears(this.currentYear, 1))
+          const nextYear = getYear(addYears(this.currentDate, 1))
+          this.goToYear(nextYear)
           break
         case PICKER_DATE_UNITS.year:
           // TODO: Range of years
@@ -151,16 +146,19 @@ export default {
     },
 
     selectDay (day) {
-      this.selectedDay = day
       this.$emit('select-day', day)
     },
 
     selectMonth (monthIndex) {
-      this.currentMonth = monthIndex
+      this.$emit('select-month', monthIndex)
     },
 
-    selectYear (year) {
-      this.currentYear = year
+    goToMonth (monthIndex) {
+      this.$emit('go-to-month', monthIndex)
+    },
+
+    goToYear (year) {
+      this.$emit('go-to-year', year)
     }
   }
 }

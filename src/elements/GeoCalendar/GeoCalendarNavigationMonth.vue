@@ -23,7 +23,7 @@
         <geo-list-item
           v-for="year in yearsList"
           :key="year"
-          @click="changeCurrentYear(year)"
+          @click="goToYear(year)"
         >
           {{ year }}
         </geo-list-item>
@@ -90,9 +90,9 @@ export default {
       this.isYearSelectionOpened = false
     },
 
-    changeCurrentYear (year) {
+    goToYear (year) {
       this.closeYearSelection()
-      this.$emit('select-year', year)
+      this.$emit('go-to-year', year)
     }
   }
 }

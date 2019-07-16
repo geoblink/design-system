@@ -58,9 +58,13 @@
         :locale="locale"
         :earliest-date="earliestDate"
         :latest-date="latestDate"
-        :input-selected-from-date="fromRawDate"
-        :input-selected-to-date="toRawDate"
+        :current-month="currentMonth"
+        :current-year="currentYear"
+        :selected-day="selectedDay"
         @select-day="selectDay"
+        @select-month="selectMonth"
+        @go-to-month="goToMonth"
+        @go-to-year="goToYear"
       />
     </div>
   </div>
@@ -69,7 +73,7 @@
 <script>
 import cssSuffix from '../../mixins/cssModifierMixin'
 import ClickOutside from '../../directives/GeoClickOutside'
-import { isBefore, format, isValid, isAfter } from 'date-fns'
+import { isBefore, format, isValid, isAfter, getMonth, getYear, endOfMonth } from 'date-fns'
 
 export default {
   name: 'GeoCalendar',
@@ -158,7 +162,10 @@ export default {
       fromRawDate: null,
       toRawDate: null,
       isFromDateInputFocused: false,
-      isToDateInputFocused: false
+      isToDateInputFocused: false,
+      currentMonth: getMonth(new Date()),
+      currentYear: getYear(new Date()),
+      selectedDay: null
     }
   },
   computed: {
@@ -169,8 +176,11 @@ export default {
 
       set (newFromDate) {
         const parsedDate = this.parseDate(newFromDate)
-        if (isValid(parsedDate) && this.isDateWithinBounds(parsedDate)) {
+        if (parsedDate && isValid(parsedDate) && this.isDateWithinBounds(parsedDate)) {
           this.fromRawDate = this.parseDate(newFromDate)
+          this.selectedDay = this.fromRawDate
+          this.currentMonth = getMonth(this.fromRawDate)
+          this.currentYear = getYear(this.fromRawDate)
         }
       }
     },
@@ -182,14 +192,21 @@ export default {
 
       set (newToDate) {
         const parsedDate = this.parseDate(newToDate)
-        if (isValid(parsedDate) && this.isDateWithinBounds(parsedDate)) {
+        if (parsedDate && isValid(parsedDate) && this.isDateWithinBounds(parsedDate)) {
           this.toRawDate = this.parseDate(newToDate)
+          this.selectedDay = this.toRawDate
+          this.currentMonth = getMonth(this.toRawDate)
+          this.currentYear = getYear(this.toRawDate)
         }
       }
     },
 
     areSelectedBoundsValid () {
       return !!this.fromRawDate && !!this.toRawDate && !isAfter(this.fromRawDate, this.toRawDate)
+    },
+
+    isSettingFromInput () {
+      return !this.fromRawDate || (this.fromRawDate && isBefore(this.selectedDay, this.fromRawDate))
     }
   },
   methods: {
@@ -202,15 +219,33 @@ export default {
     },
 
     selectDay (day) {
-      if (!this.fromRawDate || (this.fromRawDate && isBefore(day, this.fromRawDate))) {
-        this.fromRawDate = day
+      this.selectedDay = day
+      this.setDateInput()
+    },
+
+    selectMonth (monthIndex) {
+      this.currentMonth = monthIndex
+      const firstDayOfMonth = new Date(this.currentYear, this.currentMonth)
+      const lastDayOfMonth = endOfMonth(firstDayOfMonth)
+
+      if (!this.fromRawDate || (this.fromRawDate && this.currentMonth < getMonth(this.fromRawDate))) {
+        this.selectedDay = firstDayOfMonth
       } else {
-        this.toRawDate = day
+        this.selectedDay = lastDayOfMonth
+      }
+      this.setDateInput()
+    },
+
+    setDateInput () {
+      if (this.isSettingFromInput) {
+        this.fromRawDate = this.selectedDay
+      } else {
+        this.toRawDate = this.selectedDay
       }
     },
 
     parseDate (date) {
-      if (!date) return
+      if (!date || !date.match(/\d{2}\/\d{2}\/\d{4}/)) return null
       const [day, month, year] = date.split('/').map(n => parseInt(n))
       return new Date(year, month - 1, day)
     },
@@ -226,6 +261,14 @@ export default {
 
     isDateWithinBounds (date) {
       return !isBefore(date, this.earliestDate) && !isAfter(date, this.latestDate)
+    },
+
+    goToMonth (monthIndex) {
+      this.currentMonth = monthIndex
+    },
+
+    goToYear (year) {
+      this.currentYear = year
     }
   }
 }

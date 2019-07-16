@@ -12,7 +12,7 @@
   />
   <geo-calendar-month-grid
     v-else-if="isMonthGrid"
-    :locale="locale"
+    @select-month="selectMonth"
   />
   <geo-calendar-year-grid
     v-else-if="isYearGrid"
@@ -84,6 +84,10 @@ export default {
   methods: {
     selectDay (day) {
       this.$emit('select-day', day)
+    },
+
+    selectMonth (monthIndex) {
+      this.$emit('select-month', monthIndex)
     }
   }
 }
