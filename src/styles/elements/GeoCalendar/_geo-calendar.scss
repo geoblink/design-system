@@ -123,7 +123,7 @@
   .geo-calendar-grid__days-container {
     display: grid;
     margin-top: $space-small;
-    grid-row-gap: 10px;
+    grid-row-gap: $space-small;
     justify-content: space-evenly;
   }
 
@@ -170,7 +170,7 @@
 
     & > p {
       margin: 0;
-      margin-left: 10px;
+      margin-left: $space-small;
       width: 25px;
     }
 
@@ -214,13 +214,15 @@
     &--from-date {
       border-top-left-radius: 50vh;
       border-bottom-left-radius: 50vh;
-      padding-right: 20px;
+      margin-left: $space-small;
+
+      & > p { margin-left: 0; }
     }
 
     &--to-date {
       border-top-right-radius: 50vh;
       border-bottom-right-radius: 50vh;
-      margin-right: 20px;
+      margin-right: $space-base;
       padding-left: 0;
     }
 
