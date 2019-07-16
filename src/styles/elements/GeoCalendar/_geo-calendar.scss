@@ -7,6 +7,26 @@
     $modifier-name-with-prefix: --#{$modifier-name};
   }
 
+  .geo-calendar-picker-granularity-unit {
+    @include font($body-small);
+
+    align-items: center;
+    border-radius: $border-radius-default;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    padding: $space-x-small $space-small;
+
+    &:hover {
+      background: $color-white-darker;
+      font-weight: $font-weight-bold;
+    }
+  }
+
+  .geo-calendar-picker-granularity-unit__selector-icon {
+    color: $color-grey-light;
+  }
+
   @include geo-dropdown-make('geo-calendar__dropdown#{$modifier-name-with-prefix}');
   @include geo-button-make('calendar-picker-button#{$modifier-name-with-prefix}');
 

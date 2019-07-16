@@ -76,6 +76,7 @@ eiusmod tempor incididunt ut labore et dolore magna aliqua.
 const ES_LOCALE = require('date-fns/locale/es')
 const subYears = require('date-fns').subYears
 const addYears = require('date-fns').addYears
+const startOfToday = require('date-fns').startOfToday
 
 
 export default {
@@ -84,8 +85,8 @@ export default {
     return {
       selectedPickerDateUnit: 'day',
       selectedGranularityId: 'day',
-      dataEarliestDate: subYears(new Date(), 4),
-      dataLatestDate: addYears(new Date(), 2)
+      dataEarliestDate: subYears(startOfToday(), 4),
+      dataLatestDate: addYears(startOfToday(), 2)
     }
   },
   computed: {

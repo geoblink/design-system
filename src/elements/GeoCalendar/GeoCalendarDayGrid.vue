@@ -22,7 +22,7 @@
             'days-container__day-picker--today': isToday(day),
             'days-container__day-picker--out-of-boundaries': isDayOutOfBoundaries(day),
             'days-container__day-picker--no-data': isDayWithoutData(day),
-            'days-container__day-picker--selected': day === selectedDay
+            'days-container__day-picker--selected': isSelectedDay(day)
           }"
           class="days-container__day-picker"
           @click="selectDay(day)"
@@ -51,7 +51,8 @@ import {
   isSameMonth,
   getDaysInMonth,
   isAfter,
-  isBefore
+  isBefore,
+  isEqual
 } from 'date-fns'
 
 export default {
@@ -182,6 +183,10 @@ export default {
 
     isDayWithoutData (day) {
       return isBefore(day, this.earliestDate) || isAfter(day, this.latestDate)
+    },
+
+    isSelectedDay (day) {
+      return isEqual(day, this.selectedDay)
     },
 
     selectDay (day) {

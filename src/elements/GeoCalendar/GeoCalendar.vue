@@ -6,12 +6,11 @@
       <!-- <slot name="aliases" /> -->
     </div>
     <div class="geo-calendar__picker-controls">
-      <!-- TODO Add Input ranges -->
       <div class="geo-calendar__input-ranges">
         <div class="geo-calendar__input geo-calendar__input--start">
           <geo-input
-            v-model="fromDate"
-            v-click-outside="setFromDate"
+            v-model="fromFormattedDate"
+            v-click-outside="unfocusDateInput"
             :placeholder="fromInputPlaceholder"
             :show-buttons="false"
             :is-focused="isFromDateInputFocused"
@@ -32,8 +31,8 @@
         />
         <div class="geo-calendar__input geo-calendar__input--end">
           <geo-input
-            v-model="toDate"
-            v-click-outside="setToDate"
+            v-model="toFormattedDate"
+            v-click-outside="unfocusDateInput"
             :placeholder="toInputPlaceholder"
             :show-buttons="false"
             :is-focused="isToDateInputFocused"
@@ -59,8 +58,8 @@
         :locale="locale"
         :earliest-date="earliestDate"
         :latest-date="latestDate"
-        :input-selected-from-date="parsedFromDate"
-        :input-selected-to-date="parsedToDate"
+        :input-selected-from-date="fromRawDate"
+        :input-selected-to-date="toRawDate"
         @select-day="selectDay"
       />
     </div>
@@ -70,7 +69,7 @@
 <script>
 import cssSuffix from '../../mixins/cssModifierMixin'
 import ClickOutside from '../../directives/GeoClickOutside'
-import { isBefore, format } from 'date-fns'
+import { isBefore, format, isValid, isAfter } from 'date-fns'
 
 export default {
   name: 'GeoCalendar',
@@ -156,40 +155,57 @@ export default {
   },
   data () {
     return {
-      fromDate: null,
+      fromRawDate: null,
+      toRawDate: null,
       isFromDateInputFocused: false,
-      parsedFromDate: null,
-      toDate: null,
-      isToDateInputFocused: false,
-      parsedToDate: null
+      isToDateInputFocused: false
+    }
+  },
+  computed: {
+    fromFormattedDate: {
+      get () {
+        return this.fromRawDate ? this.formatDate(this.fromRawDate) : null
+      },
+
+      set (newFromDate) {
+        const parsedDate = this.parseDate(newFromDate)
+        if (isValid(parsedDate) && this.isDateWithinBounds(parsedDate)) {
+          this.fromRawDate = this.parseDate(newFromDate)
+        }
+      }
+    },
+
+    toFormattedDate: {
+      get () {
+        return this.toRawDate ? this.formatDate(this.toRawDate) : null
+      },
+
+      set (newToDate) {
+        const parsedDate = this.parseDate(newToDate)
+        if (isValid(parsedDate) && this.isDateWithinBounds(parsedDate)) {
+          this.toRawDate = this.parseDate(newToDate)
+        }
+      }
+    },
+
+    areSelectedBoundsValid () {
+      return !!this.fromRawDate && !!this.toRawDate && !isAfter(this.fromRawDate, this.toRawDate)
     }
   },
   methods: {
     setEarliestDate () {
-      this.fromDate = this.formatDate(this.earliestDate)
+      this.fromRawDate = this.earliestDate
     },
 
     setLatestDate () {
-      this.toDate = this.formatDate(this.latestDate)
-    },
-
-    setFromDate () {
-      if (!this.isFromDateInputFocused) return
-      this.isFromDateInputFocused = false
-      this.parsedFromDate = this.parseDate(this.fromDate)
-    },
-
-    setToDate () {
-      if (!this.isToDateInputFocused) return
-      this.isToDateInputFocused = false
-      this.parsedToDate = this.parseDate(this.toDate)
+      this.toRawDate = this.latestDate
     },
 
     selectDay (day) {
-      if (!this.fromDate || (this.fromDate && isBefore(day, this.fromDate))) {
-        this.fromDate = this.formatDate(day)
+      if (!this.fromRawDate || (this.fromRawDate && isBefore(day, this.fromRawDate))) {
+        this.fromRawDate = day
       } else {
-        this.toDate = this.formatDate(day)
+        this.toRawDate = day
       }
     },
 
@@ -201,6 +217,15 @@ export default {
 
     formatDate (date) {
       return format(date, 'DD/MM/YYYY')
+    },
+
+    unfocusDateInput () {
+      this.isFromDateInputFocused = false
+      this.isToDateInputFocused = false
+    },
+
+    isDateWithinBounds (date) {
+      return !isBefore(date, this.earliestDate) && !isAfter(date, this.latestDate)
     }
   }
 }
