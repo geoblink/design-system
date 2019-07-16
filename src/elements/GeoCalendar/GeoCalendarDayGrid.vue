@@ -13,7 +13,12 @@
       <div
         v-for="(week, weekIndex) in fullDaysInDisplayedCalendar"
         :key="weekIndex"
-        class="days-container__week-unit"
+        :class="{
+          'days-container__week-unit': true,
+          'days-container__week-unit--hovered-week': isWeekHovered(weekIndex)
+        }"
+        @mouseenter="$set(weekUnits, weekIndex, true)"
+        @mouseleave="$set(weekUnits, weekIndex, false)"
       >
         <span
           v-for="(day, index) in week"
@@ -35,6 +40,7 @@
 </template>
 
 <script>
+import { GRANULARITY_IDS } from './GeoCalendar.utils'
 import {
   differenceInWeeks,
   eachDay,
@@ -86,12 +92,18 @@ export default {
     latestDate: {
       type: Date,
       required: true
+    },
+
+    granularityId: {
+      type: String,
+      required: true
     }
   },
 
   data () {
     return {
-      currentSelectedDay: null
+      isHoveringWeek: false,
+      weekUnits: []
     }
   },
 
@@ -169,6 +181,12 @@ export default {
     weekDays () {
       // TODO: Handle start of week
       return _.map(this.orderedDaysOfWeek, (d) => format(d, 'ddd', { locale: this.locale }))
+    },
+
+    isWeekHovered () {
+      return (weekIndex) => {
+        return this.weekUnits[weekIndex] && this.granularityId === GRANULARITY_IDS.week
+      }
     }
   },
 

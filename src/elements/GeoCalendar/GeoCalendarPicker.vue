@@ -25,6 +25,7 @@
       :current-year="currentYear"
       :earliest-date="earliestDate"
       :latest-date="latestDate"
+      :granularity-id="granularityId"
       @select-day="selectDay"
     />
   </div>

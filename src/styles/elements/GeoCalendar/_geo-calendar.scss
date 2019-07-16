@@ -137,6 +137,12 @@
     grid-column-gap: 18px;
   }
 
+  .days-container__week-unit--hovered-week {
+    background: rgba($color-blue, 0.1);
+    border-radius: 50vh;
+    color: $color-grey-darker;
+  }
+
   .days-container__day-picker {
     @include font($body-small);
 

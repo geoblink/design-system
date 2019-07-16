@@ -7,6 +7,7 @@
     :current-year="currentYear"
     :earliest-date="earliestDate"
     :latest-date="latestDate"
+    :granularity-id="granularityId"
     @select-day="selectDay"
   />
   <geo-calendar-month-grid
@@ -57,6 +58,11 @@ export default {
 
     latestDate: {
       type: Date,
+      required: true
+    },
+
+    granularityId: {
+      type: String,
       required: true
     }
   },
