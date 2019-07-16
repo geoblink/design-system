@@ -11,7 +11,6 @@
         :dropdown-icon="['fas', 'chevron-down']"
         :pill-close-icon="['fas', 'times']"
         key-for-id="id"
-        key-for-label="label"
         placeholder="Choose an option"
         v-model="selectedOptions[0]"
       >

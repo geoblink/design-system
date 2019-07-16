@@ -1,3 +1,7 @@
+# 23.0.1
+
+- `GeoSelect` `keyForLabel` with default as `label`
+
 # 23.0.0
 
 Changed:
