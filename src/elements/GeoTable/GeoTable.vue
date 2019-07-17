@@ -261,14 +261,10 @@ export default {
 
       const { xOffset, yOffset } = scroll
 
-      const containerHeight = this.$refs.tableContainer
-        .getBoundingClientRect()
-        .height
+      const containerHeight = this.$refs.tableContainer.offsetHeight
       const contentHeight = this.$refs.tableContainer.scrollHeight
 
-      const containerWidth = this.$refs.tableContainer
-        .getBoundingClientRect()
-        .width
+      const containerWidth = this.$refs.tableContainer.offsetWidth
       const contentWidth = this.$refs.tableContainer.scrollWidth
 
       const hasHorizontalScroll =
@@ -280,9 +276,7 @@ export default {
       const isScrolledToYEnd = yOffset + containerHeight === contentHeight
       const isScrolledToXEnd = !hasHorizontalScroll || xOffset + containerWidth === contentWidth
 
-      const headerHeight = this.$refs.tableHeader
-        .getBoundingClientRect()
-        .height
+      const headerHeight = this.$refs.tableHeader.offsetHeight
 
       this.$refs.tableHeader.style.transform = `translate(0px, ${yOffset}px)`
 
@@ -382,9 +376,7 @@ export default {
       self.$refs.tableHeader.style.width = `${_.max([tableContentWidth, tableContainerWidth])}px`
       self.$refs.tableBody.style.width = `${_.max([tableContentWidth, tableContainerWidth])}px`
       // We need this padding so sticky header doesn't cover any row
-      const headerHeight = self.$refs.tableHeader
-        .getBoundingClientRect()
-        .height
+      const headerHeight = self.$refs.tableHeader.offsetHeight
       self.$refs.tableBody.style['padding-top'] = `${headerHeight}px`
     },
 
@@ -430,9 +422,9 @@ function attemptToIncreaseInferredPageSize (vm) {
 
   return vm.$nextTick()
     .then(function () {
-      const containerHeight = vm.$refs.tableContainer
-        .getBoundingClientRect()
-        .height
+      // offsetHeight instead of getBoundingClientRect().height because 
+      // getBoundingClientRect returns wrong values when browser is zoomed
+      const containerHeight = vm.$refs.tableContainer.offsetHeight
       const contentHeight = vm.$refs.tableContainer.scrollHeight
 
       const isVerticalScrollRequired = containerHeight < contentHeight
