@@ -69,7 +69,7 @@ export default {
      */
     keyForLabel: {
       type: String,
-      required: true
+      default: 'label'
     },
 
     /**

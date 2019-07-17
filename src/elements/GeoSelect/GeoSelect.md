@@ -10,7 +10,6 @@ a better UX including chunked load and search capabilities.
         :options="itemsList"
         :dropdown-icon="['fas', 'chevron-down']"
         :search-icon="['fas', 'search']"
-        key-for-label="label"
         css-modifier="select-demo"
         placeholder="Choose an option"
         v-model="currentSelection[0]"
