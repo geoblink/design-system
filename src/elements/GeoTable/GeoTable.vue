@@ -422,7 +422,7 @@ function attemptToIncreaseInferredPageSize (vm) {
 
   return vm.$nextTick()
     .then(function () {
-      // offsetHeight instead of getBoundingClientRect().height because 
+      // offsetHeight instead of getBoundingClientRect().height because
       // getBoundingClientRect returns wrong values when browser is zoomed
       const containerHeight = vm.$refs.tableContainer.offsetHeight
       const contentHeight = vm.$refs.tableContainer.scrollHeight
