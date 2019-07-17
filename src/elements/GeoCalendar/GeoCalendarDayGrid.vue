@@ -35,7 +35,9 @@
           class="days-container__day-picker"
           @click="selectDay(day)"
         >
-          <p>{{ getDate(day) }}</p>
+          <p class="day-picker__day-number">
+            {{ getDate(day) }}
+          </p>
         </div>
       </div>
     </div>
@@ -62,7 +64,8 @@ import {
   isAfter,
   isBefore,
   isEqual,
-  isWithinRange
+  isWithinRange,
+  startOfDay
 } from 'date-fns'
 
 export default {
@@ -229,7 +232,14 @@ export default {
 
     selectDay (day) {
       if (this.isDayWithoutData(day)) return
-      this.$emit('select-day', day)
+      if (this.granularityId === GRANULARITY_IDS.day) {
+        this.$emit('select-day', day)
+      } else if (this.granularityId === GRANULARITY_IDS.week) {
+        this.$emit('select-week', {
+          fromDate: startOfWeek(day, { weekStartsOn: 1 }),
+          toDate: startOfDay(endOfWeek(day, { weekStartsOn: 1 }))
+        })
+      }
     }
   }
 }

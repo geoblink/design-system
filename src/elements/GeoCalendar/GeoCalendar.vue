@@ -63,6 +63,7 @@
         :selected-from-day="fromRawDate"
         :selected-to-day="toRawDate"
         @select-day="selectDay"
+        @select-week="selectWeek"
         @select-month="selectMonth"
         @go-to-month="goToMonth"
         @go-to-year="goToYear"
@@ -176,7 +177,8 @@ export default {
 
       set (newFromDate) {
         const parsedDate = this.parseDate(newFromDate)
-        if (parsedDate && isValid(parsedDate) && this.isDateWithinBounds(parsedDate)) {
+        if (parsedDate === '') this.fromRawDate = null
+        if (this.isValidFromDate(parsedDate)) {
           this.fromRawDate = this.parseDate(newFromDate)
           this.currentMonth = getMonth(this.fromRawDate)
           this.currentYear = getYear(this.fromRawDate)
@@ -191,7 +193,8 @@ export default {
 
       set (newToDate) {
         const parsedDate = this.parseDate(newToDate)
-        if (parsedDate && isValid(parsedDate) && this.isDateWithinBounds(parsedDate)) {
+        if (parsedDate === '') this.toRawDate = null
+        if (this.isValidToDate(parsedDate)) {
           this.toRawDate = this.parseDate(newToDate)
           this.currentMonth = getMonth(this.toRawDate)
           this.currentYear = getYear(this.toRawDate)
@@ -207,6 +210,24 @@ export default {
       return (day) => {
         return !this.fromRawDate || (this.fromRawDate && isBefore(day, this.fromRawDate))
       }
+    },
+
+    isValidDate () {
+      return (date) => date && isValid(date) && this.isDateWithinBounds(date)
+    },
+
+    isValidFromDate () {
+      return (date) => this.isValidDate(date) && (this.toRawDate && isBefore(date, this.toRawDate))
+    },
+
+    isValidToDate () {
+      return (date) => this.isValidDate(date) && (this.toRawDate && isAfter(date, this.fromRawDate))
+    }
+  },
+  watch: {
+    granularityId () {
+      this.fromRawDate = null
+      this.toRawDate = null
     }
   },
   methods: {
@@ -220,6 +241,11 @@ export default {
 
     selectDay (day) {
       this.setDateInput(day)
+    },
+
+    selectWeek ({ fromDate, toDate }) {
+      this.fromRawDate = fromDate
+      this.toRawDate = toDate
     },
 
     selectMonth (monthIndex) {

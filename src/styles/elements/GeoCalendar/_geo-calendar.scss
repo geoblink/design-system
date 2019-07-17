@@ -141,7 +141,7 @@
     text-align: center;
 
     &:hover:not(&--no-data):not(&--selected) {
-      background: rgba($color-blue, 0.1);
+      background: $color-blue-readable-background;
       border-radius: 50vh;
       color: $color-grey-darker;
     }
@@ -151,12 +151,12 @@
     align-items: center;
     display: grid;
     grid-template-columns: repeat(7, 45px);
-    grid-template-rows: 25px;
+    grid-template-rows: 20px;
     text-align: center;
   }
 
   .days-container__week-unit--hovered-week {
-    background: rgba($color-blue, 0.1);
+    background: $color-blue-readable-background;
     border-radius: 50vh;
     color: $color-grey-darker;
   }
@@ -165,29 +165,38 @@
     @include font($body-small);
 
     cursor: pointer;
-    line-height: 25px;
-    position: relative;
+    line-height: 20px;
 
-    & > p {
+    .day-picker__day-number {
       margin: 0;
       margin-left: $space-small;
+      position: relative;
       width: 25px;
+      z-index: 2;
     }
 
-    &:hover:not(&--no-data):not(&--selected) > p {
-      background: rgba($color-blue, 0.1);
+    &:hover:not(&--no-data):not(&--selected) .day-picker__day-number:before {
+      background: $color-blue-readable-background;
       border-radius: 50%;
       color: $color-grey-darker;
+      content: '';
+      display: block;
+      height: 25px;
+      mix-blend-mode: color-burn;
+      position: absolute;
+      top: -3px;
+      width: 25px;
+      z-index: 1;
     }
 
     &--within-range {
-      background: rgba($color-blue, 0.1);
+      background: $color-blue-readable-background;
       color: $color-grey-darker;
     }
 
-    &--today:after {
+    &--today .day-picker__day-number:after {
       background: $color-yellow;
-      bottom: 4px;
+      bottom: 2px;
       content: '';
       height: 2px;
       left: 0;
@@ -206,7 +215,7 @@
       cursor: not-allowed;
       text-decoration: line-through;
 
-      p {
+      .day-picker__day-number {
         pointer-events: none;
       }
     }
@@ -216,7 +225,9 @@
       border-bottom-left-radius: 50vh;
       margin-left: $space-small;
 
-      & > p { margin-left: 0; }
+      .day-picker__day-number {
+        margin-left: 0;
+      }
     }
 
     &--to-date {
@@ -226,11 +237,24 @@
       padding-left: 0;
     }
 
-    &--selected > p {
-      background: $color-blue;
-      border-radius: 50%;
+    &--selected .day-picker__day-number {
       color: $color-white;
+      position: relative;
+
+      &:before {
+        background: $color-blue;
+        border-radius: 50%;
+        content: '';
+        display: block;
+        height: 25px;
+        mix-blend-mode: overlay;
+        position: absolute;
+        top: -3px;
+        width: 25px;
+        z-index: 1;
+      }
     }
+
   }
 }
 

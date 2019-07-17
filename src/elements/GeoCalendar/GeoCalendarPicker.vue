@@ -28,6 +28,7 @@
       :latest-date="latestDate"
       :granularity-id="granularityId"
       @select-day="selectDay"
+      @select-week="selectWeek"
       @select-month="selectMonth"
     />
   </div>
@@ -153,6 +154,10 @@ export default {
 
     selectDay (day) {
       this.$emit('select-day', day)
+    },
+
+    selectWeek ({ fromDate, toDate }) {
+      this.$emit('select-week', { fromDate, toDate })
     },
 
     selectMonth (monthIndex) {

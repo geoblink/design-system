@@ -10,6 +10,7 @@
     :latest-date="latestDate"
     :granularity-id="granularityId"
     @select-day="selectDay"
+    @select-week="selectWeek"
   />
   <geo-calendar-month-grid
     v-else-if="isMonthGrid"
@@ -90,6 +91,10 @@ export default {
   methods: {
     selectDay (day) {
       this.$emit('select-day', day)
+    },
+
+    selectWeek ({ fromDate, toDate }) {
+      this.$emit('select-week', { fromDate, toDate })
     },
 
     selectMonth (monthIndex) {
