@@ -1,10 +1,20 @@
+# 23.0.2
+
+Changed:
+
+- `GeoTable` now uses `offsetHeight`/`offsetWidth` for calculations instead 
+of getBoundingClientRect()
+
 # 23.0.1
+
+Changed:
 
 - `GeoSelect` `keyForLabel` with default as `label`
 
 # 23.0.0
 
 Changed:
+
 - Added common mixin for `GeoSelect` and `GeoMultiSelect`.
 
 Breaking:
