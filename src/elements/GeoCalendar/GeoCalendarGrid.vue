@@ -14,6 +14,9 @@
   />
   <geo-calendar-month-grid
     v-else-if="isMonthGrid"
+    :selected-from-day="selectedFromDay"
+    :selected-to-day="selectedToDay"
+    :current-year="currentYear"
     @select-month="selectMonth"
   />
   <geo-calendar-year-grid

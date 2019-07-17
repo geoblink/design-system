@@ -19,6 +19,8 @@ eiusmod tempor incididunt ut labore et dolore magna aliqua.
         to-input-placeholder="To"
         earliest-date-placeholder="Set earliest date"
         latest-date-placeholder="Set latest date"
+        @set-from-date="setFromDate"
+        @set-to-date="setToDate"
       >
         <template
           slot-scope="{ toggleCalendarPopup }"
@@ -35,36 +37,44 @@ eiusmod tempor incididunt ut labore et dolore magna aliqua.
         <template slot="pickerGranularity">
           <geo-calendar-picker-granularity-day
             :picker-granularity-icon="['fas', 'arrow-right']"
+            :is-active="selectedGranularityId === GRANULARITY_IDS.day"
             @click="setGranularityData($event)"
           >
             Day
           </geo-calendar-picker-granularity-day>
           <geo-calendar-picker-granularity-week
             :picker-granularity-icon="['fas', 'arrow-right']"
+            :is-active="selectedGranularityId === GRANULARITY_IDS.week"
             @click="setGranularityData($event)"
           >
             Week
           </geo-calendar-picker-granularity-week>
           <geo-calendar-picker-granularity-month
             :picker-granularity-icon="['fas', 'arrow-right']"
+            :is-active="selectedGranularityId === GRANULARITY_IDS.month"
             @click="setGranularityData($event)"
           >
             Month
           </geo-calendar-picker-granularity-month>
           <geo-calendar-picker-granularity-quarter
             :picker-granularity-icon="['fas', 'arrow-right']"
+            :is-active="selectedGranularityId === GRANULARITY_IDS.quarter"
             @click="setGranularityData($event)"
           >
             Quarter
           </geo-calendar-picker-granularity-quarter>
           <geo-calendar-picker-granularity-year
             :picker-granularity-icon="['fas', 'arrow-right']"
+            :is-active="selectedGranularityId === GRANULARITY_IDS.year"
             @click="setGranularityData($event)"
           >
             Year
           </geo-calendar-picker-granularity-year>
         </template>
-        <geo-primary-button slot="calendarFooter">
+        <geo-primary-button
+          slot="calendarFooter"
+          :disabled="!(selectedFromDate && selectedToDate)"
+        >
           APPLY DATE
         </geo-primary-button>
       </geo-calendar-dropdown>
@@ -77,6 +87,7 @@ const ES_LOCALE = require('date-fns/locale/es')
 const subYears = require('date-fns').subYears
 const addYears = require('date-fns').addYears
 const startOfToday = require('date-fns').startOfToday
+const { GRANULARITY_IDS } = require('./GeoCalendar.utils')
 
 
 export default {
@@ -86,18 +97,34 @@ export default {
       selectedPickerDateUnit: 'day',
       selectedGranularityId: 'day',
       dataEarliestDate: subYears(startOfToday(), 4),
-      dataLatestDate: addYears(startOfToday(), 2)
+      dataLatestDate: addYears(startOfToday(), 2),
+      selectedFromDate: null,
+      selectedToDate: null
     }
   },
   computed: {
     locale () {
       return ES_LOCALE
+    },
+
+    GRANULARITY_IDS () {
+      return GRANULARITY_IDS
     }
   },
   methods: {
     setGranularityData (granularityData) {
       this.selectedPickerDateUnit = granularityData.pickerDateUnit
       this.selectedGranularityId = granularityData.granularityId
+      this.selectedFromDate = null
+      this.selectedToDate = null
+    },
+
+    setFromDate (fromDate) {
+      this.selectedFromDate = fromDate
+    },
+
+    setToDate (toDate) {
+      this.selectedToDate = toDate
     }
   }
 }

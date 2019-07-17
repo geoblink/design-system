@@ -4,7 +4,10 @@
       <div
         v-for="monthObject in monthsInYear"
         :key="monthObject.monthIndex"
-        class="month-container__month-unit"
+        :class="{
+          'month-container__month-unit': true,
+          'month-container__month-unit--selected': isDateInMonth(monthObject.monthIndex)
+        }"
         @click="selectMonth(monthObject.monthIndex)"
       >
         {{ monthObject.month }}
@@ -19,11 +22,28 @@ import {
   endOfYear,
   format,
   getMonth,
-  startOfYear
+  startOfYear,
+  getYear
 } from 'date-fns'
 
 export default {
   name: 'GeoCalendarMonthGrid',
+  props: {
+    currentYear: {
+      type: Number,
+      required: true
+    },
+
+    selectedFromDay: {
+      type: Date,
+      required: false
+    },
+
+    selectedToDay: {
+      type: Date,
+      required: false
+    }
+  },
   computed: {
     dayPerMonthInYear () {
       const today = new Date()
@@ -39,6 +59,22 @@ export default {
           month: format(d, 'MMMM', { locale: this.locale })
         }
       })
+    },
+
+    isDateInMonth () {
+      return (monthIndex) => {
+        return (
+          (
+            this.selectedFromDay &&
+            getMonth(this.selectedFromDay) === monthIndex &&
+            getYear(this.selectedFromDay) === this.currentYear
+          ) || (
+            this.selectedToDay &&
+            getMonth(this.selectedToDay) === monthIndex &&
+            getYear(this.selectedToDay) === this.currentYear
+          )
+        )
+      }
     }
   },
 

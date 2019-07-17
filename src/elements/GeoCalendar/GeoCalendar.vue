@@ -11,6 +11,7 @@
           <geo-input
             v-model="fromFormattedDate"
             v-click-outside="unfocusDateInput"
+            css-modifier="geo-calendar"
             :placeholder="fromInputPlaceholder"
             :show-buttons="false"
             :is-focused="isFromDateInputFocused"
@@ -33,6 +34,7 @@
           <geo-input
             v-model="toFormattedDate"
             v-click-outside="unfocusDateInput"
+            css-modifier="geo-calendar"
             :placeholder="toInputPlaceholder"
             :show-buttons="false"
             :is-focused="isToDateInputFocused"
@@ -246,6 +248,8 @@ export default {
     selectWeek ({ fromDate, toDate }) {
       this.fromRawDate = fromDate
       this.toRawDate = toDate
+      this.$emit('set-from-date', { fromDate })
+      this.$emit('set-to-date', { toDate })
     },
 
     selectMonth (monthIndex) {
@@ -261,8 +265,14 @@ export default {
     setDateInput (day) {
       if (this.isSettingFromInput(day)) {
         this.fromRawDate = day
+        this.$emit('set-from-date', {
+          fromDate: this.fromRawDate
+        })
       } else {
         this.toRawDate = day
+        this.$emit('set-to-date', {
+          toDate: this.toRawDate
+        })
       }
     },
 

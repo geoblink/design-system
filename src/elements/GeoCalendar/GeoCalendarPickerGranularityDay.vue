@@ -4,6 +4,7 @@
     :is-valid="isValid"
     :picker-date-unit="pickerDateUnit"
     :granularity-id="granularityId"
+    :is-active="isActive"
     @click.native="handleClick($event)"
   >
     <slot />
@@ -24,6 +25,11 @@ export default {
     pickerGranularityIcon: {
       type: Array,
       required: false
+    },
+
+    isActive: {
+      type: Boolean,
+      required: true
     }
   },
 

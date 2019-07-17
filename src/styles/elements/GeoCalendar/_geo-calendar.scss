@@ -11,250 +11,275 @@
   @include geo-button-make('calendar-picker-button#{$modifier-name-with-prefix}');
   @include geo-select-base-make('calendar-navigation-selection');
   @include geo-button-make('calendar-navigation-toggle-button');
+  @include geo-input-make('geo-calendar');
 
   .geo-calendar#{$modifier-name-with-prefix} {
     display: flex;
-  }
 
-  .geo-calendar-picker-granularity-unit {
-    @include font($body-small);
+    .geo-calendar-picker-granularity-unit {
+      @include font($body-small);
 
-    align-items: center;
-    border-radius: $border-radius-default;
-    cursor: pointer;
-    display: flex;
-    justify-content: space-between;
-    padding: $space-x-small $space-small;
+      align-items: center;
+      border-radius: $border-radius-default;
+      color: $color-grey-dark;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      padding: $space-x-small $space-small;
 
-    &:hover {
-      background: $color-white-darker;
+      &:not(.geo-calendar-picker-granularity-unit--active):hover {
+        background: $color-white-darker;
+        font-weight: $font-weight-bold;
+      }
+
+      &--active {
+        background: $color-blue;
+        color: $color-white;
+      }
+    }
+
+    .geo-calendar-picker-granularity-unit__selector-icon {
+      color: $color-grey-light;
+    }
+
+    .geo-calendar__granularity-selectors {
+      background: $color-white-dark;
+      border-right: 1px solid $color-grey;
+      box-sizing: border-box;
+      flex-grow: 1;
+      flex-shrink: 0;
+      padding: $space-small;
+    }
+
+    .geo-calendar__picker-controls {
+      padding: $space-base;
+      width: 275px;
+    }
+
+    .geo-calendar__input-ranges {
+      align-items: baseline;
+      border-bottom: 1px solid $color-grey;
+      display: flex;
+      padding-bottom: $space-base;
+    }
+
+    .geo-calendar__input {
+      align-items: flex-start;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .geo-input__container--geo-calendar {
+      height: 30px;
+    }
+
+    .geo-input__form__input--geo-calendar {
+      @include font($body-small);
+
+      height: 28px;
+    }
+
+    .geo-calendar__input-range-icon {
+      @include font($label-optional);
+
+      margin: 0 $space-small;
+    }
+
+    .geo-button--calendar-picker-button > .geo-button__label--calendar-picker-button {
+      padding-left: 0;
+    }
+
+    .geo-calendar-navigation {
+      align-items: center;
+      display: flex;
+      justify-content: space-between;
+      margin: $space-base 0;
+    }
+
+    .geo-button--link--calendar-navigation-toggle-button {
       font-weight: $font-weight-bold;
     }
-  }
 
-  .geo-calendar-picker-granularity-unit__selector-icon {
-    color: $color-grey-light;
-  }
+    .geo-button__label--calendar-navigation-toggle-button {
+      align-items: flex-end;
+      display: flex;
+      text-transform: capitalize;
+    }
 
-  .geo-calendar__granularity-selectors {
-    background: $color-white-dark;
-    border-right: 1px solid $color-grey;
-    box-sizing: border-box;
-    padding: $space-small;
-    width: 200px;
-  }
+    .geo-calendar-navigation__selects-container {
+      align-items: center;
+      display: flex;
+      justify-content: space-evenly;
+      width: 50%;
+    }
 
-  .geo-calendar__picker-controls {
-    padding: $space-base;
-  }
+    .calendar-navigation-toggle-button-icon {
+      @include font($label-optional);
 
-  .geo-calendar__input-ranges {
-    align-items: baseline;
-    border-bottom: 1px solid $color-grey;
-    display: flex;
-    padding-bottom: $space-base;
-  }
+      margin-left: $space-x-small;
+    }
 
-  .geo-calendar__input {
-    align-items: flex-start;
-    display: flex;
-    flex-direction: column;
-  }
+    .geo-calendar-navigation__nav-icon {
+      @include font($label-optional);
 
-  .geo-calendar__input-range-icon {
-    @include font($label-optional);
+      cursor: pointer;
+    }
 
-    margin: 0 $space-small;
-  }
+    .geo-calendar-grid__weekdays-row-container {
+      @include font($label-optional);
 
-  .geo-button--calendar-picker-button > .geo-button__label--calendar-picker-button {
-    padding-left: 0;
-  }
+      border-bottom: 1px solid $color-white-darker;
+      display: flex;
+      justify-content: space-around;
+      padding-bottom: $space-x-small;
+    }
 
-  .geo-calendar-navigation {
-    align-items: center;
-    display: flex;
-    justify-content: space-between;
-    margin: $space-base 0;
-  }
+    .weekdays-row__weekday-name {
+      text-transform: capitalize;
+    }
 
-  .geo-button--link--calendar-navigation-toggle-button {
-    font-weight: $font-weight-bold;
-  }
+    .geo-calendar-grid__days-container {
+      display: grid;
+      margin-top: $space-small;
+      grid-row-gap: $space-small;
+      justify-content: space-evenly;
+    }
 
-  .geo-button__label--calendar-navigation-toggle-button {
-    align-items: flex-end;
-    display: flex;
-    text-transform: capitalize;
-  }
+    .geo-calendar-grid__month-container {
+      display: grid;
+      grid-row-gap: calc(#{$space-large - $space-x-small});
+      grid-template-columns: repeat(3, 1fr);
+    }
 
-  .geo-calendar-navigation__selects-container {
-    align-items: center;
-    display: flex;
-    justify-content: space-evenly;
-    width: 50%;
-  }
+    .month-container__month-unit {
+      @include font($body-small);
 
-  .calendar-navigation-toggle-button-icon {
-    @include font($label-optional);
+      cursor: pointer;
+      padding: $space-x-small;
+      text-align: center;
 
-    margin-left: $space-x-small;
-  }
+      &:hover:not(.month-container__month-unit--no-data):not(.month-container__month-unit--selected) {
+        background: $color-blue-readable-background;
+        border-radius: 50vh;
+        color: $color-grey-darker;
+      }
 
-  .geo-calendar-navigation__nav-icon {
-    @include font($label-optional);
+      &--selected {
+        background: $color-blue;
+        border-radius: 50vh;
+        color: $color-white;
+      }
+    }
 
-    cursor: pointer;
-  }
+    .days-container__week-unit {
+      align-items: center;
+      display: grid;
+      grid-template-columns: repeat(7, 40px);
+      grid-template-rows: 20px;
+      text-align: center;
+    }
 
-  .geo-calendar-grid__weekdays-row-container {
-    @include font($label-optional);
-
-    border-bottom: 1px solid $color-white-darker;
-    display: flex;
-    justify-content: space-around;
-    padding-bottom: $space-x-small;
-  }
-
-  .weekdays-row__weekday-name {
-    text-transform: capitalize;
-  }
-
-  .geo-calendar-grid__days-container {
-    display: grid;
-    margin-top: $space-small;
-    grid-row-gap: $space-small;
-    justify-content: space-evenly;
-  }
-
-  .geo-calendar-grid__month-container {
-    display: grid;
-    grid-row-gap: calc(#{$space-large - $space-x-small});
-    grid-template-columns: repeat(3, 1fr);
-  }
-
-  .month-container__month-unit {
-    @include font($body-small);
-
-    cursor: pointer;
-    padding: $space-x-small;
-    text-align: center;
-
-    &:hover:not(&--no-data):not(&--selected) {
+    .days-container__week-unit--hovered-week {
       background: $color-blue-readable-background;
       border-radius: 50vh;
       color: $color-grey-darker;
     }
-  }
 
-  .days-container__week-unit {
-    align-items: center;
-    display: grid;
-    grid-template-columns: repeat(7, 45px);
-    grid-template-rows: 20px;
-    text-align: center;
-  }
+    .days-container__day-picker {
+      @include font($body-small);
 
-  .days-container__week-unit--hovered-week {
-    background: $color-blue-readable-background;
-    border-radius: 50vh;
-    color: $color-grey-darker;
-  }
-
-  .days-container__day-picker {
-    @include font($body-small);
-
-    cursor: pointer;
-    line-height: 20px;
-
-    .day-picker__day-number {
-      margin: 0;
-      margin-left: $space-small;
-      position: relative;
-      width: 25px;
-      z-index: 2;
-    }
-
-    &:hover:not(&--no-data):not(&--selected) .day-picker__day-number:before {
-      background: $color-blue-readable-background;
-      border-radius: 50%;
-      color: $color-grey-darker;
-      content: '';
-      display: block;
-      height: 25px;
-      mix-blend-mode: color-burn;
-      position: absolute;
-      top: -3px;
-      width: 25px;
-      z-index: 1;
-    }
-
-    &--within-range {
-      background: $color-blue-readable-background;
-      color: $color-grey-darker;
-    }
-
-    &--today .day-picker__day-number:after {
-      background: $color-yellow;
-      bottom: 2px;
-      content: '';
-      height: 2px;
-      left: 0;
-      margin: 0 auto;
-      position: absolute;
-      right: 0;
-      width: 16px;
-    }
-
-    &--out-of-boundaries {
-      color: $color-grey-light;
-    }
-
-    &--no-data {
-      color: $color-grey;
-      cursor: not-allowed;
-      text-decoration: line-through;
+      cursor: pointer;
+      line-height: 20px;
 
       .day-picker__day-number {
-        pointer-events: none;
+        margin: 0;
+        margin-left: $space-small;
+        position: relative;
+        width: 25px;
+        z-index: 2;
       }
-    }
 
-    &--from-date {
-      border-top-left-radius: 50vh;
-      border-bottom-left-radius: 50vh;
-      margin-left: $space-small;
-
-      .day-picker__day-number {
-        margin-left: 0;
-      }
-    }
-
-    &--to-date {
-      border-top-right-radius: 50vh;
-      border-bottom-right-radius: 50vh;
-      margin-right: $space-base;
-      padding-left: 0;
-    }
-
-    &--selected .day-picker__day-number {
-      color: $color-white;
-      position: relative;
-
-      &:before {
-        background: $color-blue;
+      &:hover:not(.days-container__day-picker--no-data):not(.days-container__day-picker--selected) .day-picker__day-number:before {
+        background: $color-blue-readable-background;
         border-radius: 50%;
+        color: $color-grey-darker;
         content: '';
         display: block;
         height: 25px;
-        mix-blend-mode: overlay;
+        mix-blend-mode: color-burn;
         position: absolute;
         top: -3px;
         width: 25px;
         z-index: 1;
       }
-    }
 
+      &--within-range {
+        background: $color-blue-readable-background;
+        color: $color-grey-darker;
+      }
+
+      &--today .day-picker__day-number:after {
+        background: $color-yellow;
+        bottom: 2px;
+        content: '';
+        height: 2px;
+        left: 0;
+        margin: 0 auto;
+        position: absolute;
+        right: 0;
+        width: 16px;
+      }
+
+      &--out-of-boundaries {
+        color: $color-grey-light;
+      }
+
+      &--no-data {
+        color: $color-grey;
+        cursor: not-allowed;
+        text-decoration: line-through;
+
+        .day-picker__day-number {
+          pointer-events: none;
+        }
+      }
+
+      &--from-date {
+        border-top-left-radius: 50vh;
+        border-bottom-left-radius: 50vh;
+        margin-left: $space-small;
+
+        .day-picker__day-number {
+          margin-left: 0;
+        }
+      }
+
+      &--to-date {
+        border-top-right-radius: 50vh;
+        border-bottom-right-radius: 50vh;
+        margin-right: $space-base;
+        padding-left: 0;
+      }
+
+      &--selected .day-picker__day-number {
+        color: $color-white;
+        position: relative;
+
+        &:before {
+          background: $color-blue;
+          border-radius: 50%;
+          content: '';
+          display: block;
+          height: 25px;
+          mix-blend-mode: overlay;
+          position: absolute;
+          top: -3px;
+          width: 25px;
+          z-index: 1;
+        }
+      }
+
+    }
   }
 }
 

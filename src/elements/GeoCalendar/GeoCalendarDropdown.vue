@@ -12,6 +12,7 @@
     <!-- TODO: Bind props to geoCalendar -->
     <geo-bordered-box
       slot="popupContent"
+      :css-modifier="`geo-calendar__dropdown${cssSuffix}`"
     >
       <geo-bordered-box-header
         :close-icon="['fas', 'times']"
@@ -34,6 +35,8 @@
         :picker-date-unit="pickerDateUnit"
         :granularity-id="granularityId"
         :locale="locale"
+        @set-from-date="setFromDate"
+        @set-to-date="setToDate"
       >
         <slot
           slot="pickerGranularity"
@@ -135,6 +138,14 @@ export default {
       const popup = _.get(this.$refs.calendar, '$refs.calendarPicker.$refs.calendarNavigationWrapper.$refs.calendarNavigation.$refs.calendarNavigationSelect')
       if (popup && popup.contains($event.target)) return
       this.isCalendarPopupOpened = false
+    },
+
+    setFromDate ({ fromDate }) {
+      this.$emit('set-from-date', { fromDate })
+    },
+
+    setToDate (toDate) {
+      this.$emit('set-to-date', { toDate })
     }
   }
 }
