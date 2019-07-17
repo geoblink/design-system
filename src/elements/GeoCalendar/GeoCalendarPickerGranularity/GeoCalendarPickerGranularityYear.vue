@@ -13,7 +13,7 @@
 
 <script>
 import GeoCalendarPickerGranularityBase from './GeoCalendarPickerGranularityBase'
-import { PICKER_DATE_UNITS, GRANULARITY_IDS } from './GeoCalendar.utils'
+import { PICKER_DATE_UNITS, GRANULARITY_IDS } from '../GeoCalendar.utils'
 
 export default {
   name: 'GeoCalendarPickerGranularityYear',

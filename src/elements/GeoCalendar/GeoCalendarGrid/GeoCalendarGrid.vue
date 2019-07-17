@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import { PICKER_DATE_UNITS } from './GeoCalendar.utils'
+import { PICKER_DATE_UNITS } from '../GeoCalendar.utils'
 
 export default {
   name: 'GeoCalendarGrid',

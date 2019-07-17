@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import { GRANULARITY_IDS } from './GeoCalendar.utils'
+import { GRANULARITY_IDS } from '../GeoCalendar.utils'
 import {
   eachDay,
   endOfYear,

@@ -13,10 +13,10 @@
 
 <script>
 import GeoCalendarPickerGranularityBase from './GeoCalendarPickerGranularityBase'
-import { PICKER_DATE_UNITS, GRANULARITY_IDS } from './GeoCalendar.utils'
+import { PICKER_DATE_UNITS, GRANULARITY_IDS } from '../GeoCalendar.utils'
 
 export default {
-  name: 'GeoCalendarPickerGranularityDay',
+  name: 'GeoCalendarPickerGranularityMonth',
   components: {
     GeoCalendarPickerGranularityBase
   },
@@ -40,11 +40,11 @@ export default {
     },
 
     pickerDateUnit () {
-      return PICKER_DATE_UNITS.day
+      return PICKER_DATE_UNITS.month
     },
 
     granularityId () {
-      return GRANULARITY_IDS.day
+      return GRANULARITY_IDS.month
     }
   },
 
