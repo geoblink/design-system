@@ -6,9 +6,13 @@
         :key="monthObject.monthIndex"
         :class="{
           'month-container__month-unit': true,
-          'month-container__month-unit--selected': isDateInMonth(monthObject.monthIndex)
+          'month-container__month-unit--selected': isDateInMonth(monthObject.monthIndex),
+          'month-container__month-unit--no-data': isMonthWithoutData(monthObject.monthIndex),
+          'month-container__month-unit--hovered-quarter': isMonthWithinHoveredQuarter(monthObject.monthIndex),
         }"
         @click="selectMonth(monthObject.monthIndex)"
+        @mouseenter="highlightQuarter(monthObject.monthIndex)"
+        @mouseleave="resetHighlightQuarter(monthObject.monthIndex)"
       >
         {{ monthObject.month }}
       </div>
@@ -17,13 +21,15 @@
 </template>
 
 <script>
+import { GRANULARITY_IDS } from './GeoCalendar.utils'
 import {
   eachDay,
   endOfYear,
   format,
   getMonth,
   startOfYear,
-  getYear
+  getYear,
+  getQuarter
 } from 'date-fns'
 
 export default {
@@ -42,8 +48,30 @@ export default {
     selectedToDay: {
       type: Date,
       required: false
+    },
+
+    earliestDate: {
+      type: Date,
+      required: true
+    },
+
+    latestDate: {
+      type: Date,
+      required: true
+    },
+
+    granularityId: {
+      type: String,
+      required: true
     }
   },
+
+  data () {
+    return {
+      hoveredQuarter: null
+    }
+  },
+
   computed: {
     dayPerMonthInYear () {
       const today = new Date()
@@ -75,12 +103,44 @@ export default {
           )
         )
       }
+    },
+
+    isMonthWithoutData () {
+      return (monthIndex) => {
+        return (
+          (
+            getMonth(this.earliestDate) > monthIndex &&
+            getYear(this.earliestDate) === this.currentYear
+          ) || (
+            getMonth(this.latestDate) < monthIndex &&
+            getYear(this.latestDate) === this.currentYear
+          )
+        )
+      }
+    },
+
+    isMonthWithinHoveredQuarter () {
+      return (monthIndex) => getQuarter(new Date(this.currentYear, monthIndex)) === this.hoveredQuarter
     }
   },
 
   methods: {
     selectMonth (monthIndex) {
-      this.$emit('select-month', monthIndex)
+      if (this.granularityId === GRANULARITY_IDS.month) {
+        this.$emit('select-month', monthIndex)
+      } else {
+        this.$emit('select-quarter', monthIndex)
+      }
+    },
+
+    highlightQuarter (monthIndex) {
+      if (this.granularityId !== GRANULARITY_IDS.quarter) return
+      this.hoveredQuarter = getQuarter(new Date(this.currentYear, monthIndex))
+    },
+
+    resetHighlightQuarter (monthIndex) {
+      if (this.granularityId !== GRANULARITY_IDS.quarter) return
+      this.hoveredQuarter = null
     }
   }
 }

@@ -67,6 +67,7 @@
         @select-day="selectDay"
         @select-week="selectWeek"
         @select-month="selectMonth"
+        @select-quarter="selectQuarter"
         @go-to-month="goToMonth"
         @go-to-year="goToYear"
       />
@@ -77,7 +78,7 @@
 <script>
 import cssSuffix from '../../mixins/cssModifierMixin'
 import ClickOutside from '../../directives/GeoClickOutside'
-import { isBefore, format, isValid, isAfter, getMonth, getYear, endOfMonth } from 'date-fns'
+import { isBefore, format, isValid, isAfter, getMonth, getYear, endOfMonth, startOfQuarter, endOfQuarter } from 'date-fns'
 
 export default {
   name: 'GeoCalendar',
@@ -260,6 +261,13 @@ export default {
         ? firstDayOfMonth
         : lastDayOfMonth
       this.setDateInput(selectedDate)
+    },
+
+    selectQuarter (monthIndex) {
+      this.fromRawDate = startOfQuarter(new Date(this.currentYear, monthIndex))
+      this.toRawDate = endOfQuarter(new Date(this.currentYear, monthIndex))
+      this.$emit('set-from-date', { fromDate: this.fromRawDate })
+      this.$emit('set-to-date', { toDate: this.toRawDate })
     },
 
     setDateInput (day) {

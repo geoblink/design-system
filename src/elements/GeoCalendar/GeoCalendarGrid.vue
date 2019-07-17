@@ -17,7 +17,11 @@
     :selected-from-day="selectedFromDay"
     :selected-to-day="selectedToDay"
     :current-year="currentYear"
+    :earliest-date="earliestDate"
+    :latest-date="latestDate"
+    :granularity-id="granularityId"
     @select-month="selectMonth"
+    @select-quarter="selectQuarter"
   />
   <geo-calendar-year-grid
     v-else-if="isYearGrid"
@@ -102,6 +106,10 @@ export default {
 
     selectMonth (monthIndex) {
       this.$emit('select-month', monthIndex)
+    },
+
+    selectQuarter (monthIndex) {
+      this.$emit('select-quarter', monthIndex)
     }
   }
 }

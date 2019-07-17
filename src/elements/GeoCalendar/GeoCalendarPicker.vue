@@ -30,6 +30,7 @@
       @select-day="selectDay"
       @select-week="selectWeek"
       @select-month="selectMonth"
+      @select-quarter="selectQuarter"
     />
   </div>
 </template>
@@ -162,6 +163,10 @@ export default {
 
     selectMonth (monthIndex) {
       this.$emit('select-month', monthIndex)
+    },
+
+    selectQuarter (monthIndex) {
+      this.$emit('select-quarter', monthIndex)
     },
 
     goToMonth (monthIndex) {

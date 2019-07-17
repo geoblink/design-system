@@ -147,6 +147,7 @@
 
     .geo-calendar-grid__month-container {
       display: grid;
+      grid-column-gap: calc(#{$space-base - $space-x-small});
       grid-row-gap: calc(#{$space-large - $space-x-small});
       grid-template-columns: repeat(3, 1fr);
     }
@@ -158,7 +159,8 @@
       padding: $space-x-small;
       text-align: center;
 
-      &:hover:not(.month-container__month-unit--no-data):not(.month-container__month-unit--selected) {
+      &:hover:not(.month-container__month-unit--no-data):not(.month-container__month-unit--selected),
+      &--hovered-quarter {
         background: $color-blue-readable-background;
         border-radius: 50vh;
         color: $color-grey-darker;
@@ -168,6 +170,16 @@
         background: $color-blue;
         border-radius: 50vh;
         color: $color-white;
+      }
+
+      &--no-data {
+        color: $color-grey;
+        cursor: not-allowed;
+        text-decoration: line-through;
+
+        .day-picker__day-number {
+          pointer-events: none;
+        }
       }
     }
 

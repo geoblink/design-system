@@ -144,7 +144,7 @@ export default {
       this.$emit('set-from-date', { fromDate })
     },
 
-    setToDate (toDate) {
+    setToDate ({ toDate }) {
       this.$emit('set-to-date', { toDate })
     }
   }

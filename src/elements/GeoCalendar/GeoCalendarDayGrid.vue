@@ -203,33 +203,35 @@ export default {
       return (weekIndex) => {
         return this.weekUnits[weekIndex] && this.granularityId === GRANULARITY_IDS.week
       }
+    },
+
+    isDayOutOfBoundaries () {
+      return (day) => !isSameMonth(new Date(day), this.currentDate)
+    },
+
+    isToday () {
+      return (day) => isToday(day)
+    },
+
+    isDayWithoutData () {
+      return (day) => isBefore(day, this.earliestDate) || isAfter(day, this.latestDate)
+    },
+
+    isSelectedDay () {
+      return (day) => isEqual(day, this.selectedFromDay) || isEqual(day, this.selectedToDay)
+    },
+
+    isDayWithinRanges () {
+      return (day) => {
+        return this.selectedFromDay &&
+          this.selectedToDay &&
+          (isWithinRange(day, this.selectedFromDay, this.selectedToDay) ||
+          (this.selectedFromDay === day || this.selectedToDay === day))
+      }
     }
   },
 
   methods: {
-    isDayOutOfBoundaries (day) {
-      return !isSameMonth(new Date(day), this.currentDate)
-    },
-
-    isToday (day) {
-      return isToday(day)
-    },
-
-    isDayWithoutData (day) {
-      return isBefore(day, this.earliestDate) || isAfter(day, this.latestDate)
-    },
-
-    isSelectedDay (day) {
-      return isEqual(day, this.selectedFromDay) || isEqual(day, this.selectedToDay)
-    },
-
-    isDayWithinRanges (day) {
-      return this.selectedFromDay &&
-        this.selectedToDay &&
-        (isWithinRange(day, this.selectedFromDay, this.selectedToDay) ||
-        (this.selectedFromDay === day || this.selectedToDay === day))
-    },
-
     selectDay (day) {
       if (this.isDayWithoutData(day)) return
       if (this.granularityId === GRANULARITY_IDS.day) {
