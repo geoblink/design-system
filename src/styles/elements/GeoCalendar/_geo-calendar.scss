@@ -25,6 +25,7 @@
       cursor: pointer;
       display: flex;
       justify-content: space-between;
+      margin-bottom: $space-x-small;
       padding: $space-x-small $space-small;
 
       &:not(.geo-calendar-picker-granularity-unit--active):hover {
@@ -53,7 +54,7 @@
 
     .geo-calendar__picker-controls {
       padding: $space-base;
-      width: 275px;
+      width: 315px;
     }
 
     .geo-calendar__input-ranges {
@@ -147,7 +148,6 @@
 
     .geo-calendar-grid__month-container {
       display: grid;
-      grid-column-gap: calc(#{$space-base - $space-x-small});
       grid-row-gap: calc(#{$space-large - $space-x-small});
       grid-template-columns: repeat(3, 1fr);
     }
@@ -155,21 +155,41 @@
     .month-container__month-unit {
       @include font($body-small);
 
+      border: 1px solid transparent;
       cursor: pointer;
       padding: $space-x-small;
       text-align: center;
 
-      &:hover:not(.month-container__month-unit--no-data):not(.month-container__month-unit--selected),
+      &:hover:not(.month-container__month-unit--no-data):not(.month-container__month-unit--selected) .month-unit__month-name,
       &--hovered-quarter {
         background: $color-blue-readable-background;
+        border: 1px solid $color-blue;
         border-radius: 50vh;
         color: $color-grey-darker;
       }
 
-      &--selected {
+
+      &--within-range {
+        background: $color-blue-readable-background;
+      }
+
+      &--selected .month-unit__month-name {
         background: $color-blue;
         border-radius: 50vh;
         color: $color-white;
+      }
+
+      &--from-date {
+        border-top-left-radius: 50vh;
+        border-bottom-left-radius: 50vh;
+        // margin-left: 9px;
+      }
+
+      &--to-date {
+        border-top-right-radius: 50vh;
+        border-bottom-right-radius: 50vh;
+        // margin: 0 10px 0 -7px;
+        // padding-left: 10px;
       }
 
       &--no-data {
@@ -177,7 +197,7 @@
         cursor: not-allowed;
         text-decoration: line-through;
 
-        .day-picker__day-number {
+        .month-unit__month-name {
           pointer-events: none;
         }
       }
@@ -186,8 +206,8 @@
     .days-container__week-unit {
       align-items: center;
       display: grid;
-      grid-template-columns: repeat(7, 40px);
-      grid-template-rows: 20px;
+      grid-template-columns: repeat(7, 45px);
+      grid-template-rows: 27px;
       text-align: center;
     }
 
@@ -201,28 +221,23 @@
       @include font($body-small);
 
       cursor: pointer;
-      line-height: 20px;
+      line-height: 25px;
+      position: relative;
 
       .day-picker__day-number {
+        border: 1px solid transparent;
+        box-sizing: border-box;
         margin: 0;
-        margin-left: $space-small;
-        position: relative;
-        width: 25px;
-        z-index: 2;
       }
 
-      &:hover:not(.days-container__day-picker--no-data):not(.days-container__day-picker--selected) .day-picker__day-number:before {
+      &:hover:not(.days-container__day-picker--no-data):not(.days-container__day-picker--selected) .day-picker__day-number {
         background: $color-blue-readable-background;
+        border: 1px solid $color-blue;
         border-radius: 50%;
+        box-sizing: content-box;
         color: $color-grey-darker;
-        content: '';
-        display: block;
-        height: 25px;
-        mix-blend-mode: color-burn;
-        position: absolute;
-        top: -3px;
+        margin: 0 auto;
         width: 25px;
-        z-index: 1;
       }
 
       &--within-range {
@@ -230,16 +245,16 @@
         color: $color-grey-darker;
       }
 
-      &--today .day-picker__day-number:after {
+      &--today:after {
         background: $color-yellow;
-        bottom: 2px;
+        bottom: 4px;
         content: '';
         height: 2px;
         left: 0;
         margin: 0 auto;
         position: absolute;
         right: 0;
-        width: 16px;
+        width: 15px;
       }
 
       &--out-of-boundaries {
@@ -259,36 +274,28 @@
       &--from-date {
         border-top-left-radius: 50vh;
         border-bottom-left-radius: 50vh;
-        margin-left: $space-small;
+        margin-left: 9px;
 
         .day-picker__day-number {
-          margin-left: 0;
+          margin-left: 0 !important;
         }
       }
 
       &--to-date {
         border-top-right-radius: 50vh;
         border-bottom-right-radius: 50vh;
-        margin-right: $space-base;
-        padding-left: 0;
+        margin: 0 10px 0 -7px;
+        padding-left: 10px;
       }
 
       &--selected .day-picker__day-number {
+        box-sizing: content-box;
         color: $color-white;
-        position: relative;
-
-        &:before {
-          background: $color-blue;
-          border-radius: 50%;
-          content: '';
-          display: block;
-          height: 25px;
-          mix-blend-mode: overlay;
-          position: absolute;
-          top: -3px;
-          width: 25px;
-          z-index: 1;
-        }
+        background: $color-blue;
+        border-radius: 50%;
+        height: 25px;
+        margin-left: 6px;
+        width: 25px;
       }
 
     }

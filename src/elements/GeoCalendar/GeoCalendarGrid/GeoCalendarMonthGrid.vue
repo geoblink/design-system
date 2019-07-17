@@ -7,14 +7,19 @@
         :class="{
           'month-container__month-unit': true,
           'month-container__month-unit--selected': isDateInMonth(monthObject.monthIndex),
+          'month-container__month-unit--within-range': isDateWithinSelectedMonths(monthObject.monthIndex),
           'month-container__month-unit--no-data': isMonthWithoutData(monthObject.monthIndex),
+          'month-container__month-unit--from-date': getMonth(selectedFromDay) === monthObject.monthIndex,
+          'month-container__month-unit--to-date': getMonth(selectedToDay) === monthObject.monthIndex,
           'month-container__month-unit--hovered-quarter': isMonthWithinHoveredQuarter(monthObject.monthIndex),
         }"
         @click="selectMonth(monthObject.monthIndex)"
         @mouseenter="highlightQuarter(monthObject.monthIndex)"
         @mouseleave="resetHighlightQuarter(monthObject.monthIndex)"
       >
-        {{ monthObject.month }}
+        <span class="month-unit__month-name">
+          {{ monthObject.month }}
+        </span>
       </div>
     </div>
   </div>
@@ -29,7 +34,10 @@ import {
   getMonth,
   startOfYear,
   getYear,
-  getQuarter
+  getQuarter,
+  isAfter,
+  isBefore,
+  addMonths
 } from 'date-fns'
 
 export default {
@@ -73,6 +81,10 @@ export default {
   },
 
   computed: {
+    getMonth () {
+      return getMonth
+    },
+
     dayPerMonthInYear () {
       const today = new Date()
       const daysInYear = eachDay(startOfYear(today), endOfYear(today))
@@ -105,15 +117,27 @@ export default {
       }
     },
 
+    isDateWithinSelectedMonths () {
+      return (monthIndex) => {
+        return (
+          (
+            this.selectedFromDay &&
+            isAfter(addMonths(new Date(this.currentYear, monthIndex), 1), this.selectedFromDay)
+          ) && (
+            this.selectedToDay &&
+            isBefore(new Date(this.currentYear, monthIndex), this.selectedToDay)
+          )
+        )
+      }
+    },
+
     isMonthWithoutData () {
       return (monthIndex) => {
         return (
           (
-            getMonth(this.earliestDate) > monthIndex &&
-            getYear(this.earliestDate) === this.currentYear
+            isBefore(new Date(this.earliestDate, monthIndex), this.selectedFromDay)
           ) || (
-            getMonth(this.latestDate) < monthIndex &&
-            getYear(this.latestDate) === this.currentYear
+            isAfter(new Date(this.latest, monthIndex), this.selectedToDay)
           )
         )
       }
