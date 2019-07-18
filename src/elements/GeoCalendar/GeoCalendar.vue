@@ -11,10 +11,10 @@
           <geo-input
             v-model="fromFormattedDate"
             v-click-outside="unfocusDateInput"
-            css-modifier="geo-calendar"
+            :is-focused="isFromDateInputFocused"
             :placeholder="fromInputPlaceholder"
             :show-buttons="false"
-            :is-focused="isFromDateInputFocused"
+            css-modifier="geo-calendar"
             input-type="normal"
             @click="isFromDateInputFocused = true"
           />
@@ -34,10 +34,10 @@
           <geo-input
             v-model="toFormattedDate"
             v-click-outside="unfocusDateInput"
-            css-modifier="geo-calendar"
+            :is-focused="isToDateInputFocused"
             :placeholder="toInputPlaceholder"
             :show-buttons="false"
-            :is-focused="isToDateInputFocused"
+            css-modifier="geo-calendar"
             input-type="normal"
             @click="isToDateInputFocused = true"
           />
@@ -52,24 +52,24 @@
       <!-- TODO: Bind props to component -->
       <geo-calendar-picker
         ref="calendarPicker"
-        :previous-date-in-selected-granularity-icon="previousDateInSelectedGranularityIcon"
-        :next-date-in-selected-granularity-icon="nextDateInSelectedGranularityIcon"
         :calendar-navigation-select-icon="calendarNavigationSelectIcon"
-        :picker-date-unit="pickerDateUnit"
-        :granularity-id="granularityId"
-        :locale="locale"
-        :earliest-date="earliestDate"
-        :latest-date="latestDate"
         :current-month="currentMonth"
         :current-year="currentYear"
+        :earliest-date="earliestDate"
+        :granularity-id="granularityId"
+        :latest-date="latestDate"
+        :next-date-in-selected-granularity-icon="nextDateInSelectedGranularityIcon"
+        :locale="locale"
+        :picker-date-unit="pickerDateUnit"
+        :previous-date-in-selected-granularity-icon="previousDateInSelectedGranularityIcon"
         :selected-from-day="fromRawDate"
         :selected-to-day="toRawDate"
-        @select-day="selectDay"
-        @select-week="selectWeek"
-        @select-month="selectMonth"
-        @select-quarter="selectQuarter"
         @go-to-month="goToMonth"
         @go-to-year="goToYear"
+        @select-day="selectDay"
+        @select-month="selectMonth"
+        @select-quarter="selectQuarter"
+        @select-week="selectWeek"
       />
     </div>
   </div>
@@ -78,7 +78,17 @@
 <script>
 import cssSuffix from '../../mixins/cssModifierMixin'
 import ClickOutside from '../../directives/GeoClickOutside'
-import { isBefore, format, isValid, isAfter, getMonth, getYear, endOfMonth, startOfQuarter, endOfQuarter } from 'date-fns'
+import {
+  endOfMonth,
+  endOfQuarter,
+  format,
+  getMonth,
+  getYear,
+  isAfter,
+  isBefore,
+  isValid,
+  startOfQuarter
+} from 'date-fns'
 
 export default {
   name: 'GeoCalendar',
@@ -89,42 +99,11 @@ export default {
   },
   mixins: [cssSuffix],
   props: {
-    inputRangeIcon: {
-      type: Array,
-      default () {
-        return ['fal', 'arrow-right']
-      }
-    },
-
-    previousDateInSelectedGranularityIcon: {
-      type: Array,
-      default () {
-        return ['fal', 'chevron-left']
-      }
-    },
-
-    nextDateInSelectedGranularityIcon: {
-      type: Array,
-      default () {
-        return ['fal', 'chevron-right']
-      }
-    },
-
     calendarNavigationSelectIcon: {
       type: Array,
       default () {
         return ['fal', 'chevron-down']
       }
-    },
-
-    fromInputPlaceholder: {
-      type: String,
-      required: false
-    },
-
-    toInputPlaceholder: {
-      type: String,
-      required: false
     },
 
     earliestDate: {
@@ -137,6 +116,23 @@ export default {
       required: false
     },
 
+    fromInputPlaceholder: {
+      type: String,
+      required: false
+    },
+
+    granularityId: {
+      type: String,
+      required: true
+    },
+
+    inputRangeIcon: {
+      type: Array,
+      default () {
+        return ['fal', 'arrow-right']
+      }
+    },
+
     latestDate: {
       type: Date,
       required: true
@@ -147,19 +143,33 @@ export default {
       required: false
     },
 
+    locale: {
+      type: Object,
+      required: true
+    },
+
+    nextDateInSelectedGranularityIcon: {
+      type: Array,
+      default () {
+        return ['fal', 'chevron-right']
+      }
+    },
+
     pickerDateUnit: {
       type: String,
       required: true
     },
 
-    granularityId: {
-      type: String,
-      required: true
+    previousDateInSelectedGranularityIcon: {
+      type: Array,
+      default () {
+        return ['fal', 'chevron-left']
+      }
     },
 
-    locale: {
-      type: Object,
-      required: true
+    toInputPlaceholder: {
+      type: String,
+      required: false
     }
   },
   data () {
@@ -173,6 +183,10 @@ export default {
     }
   },
   computed: {
+    areSelectedBoundsValid () {
+      return !!this.fromRawDate && !!this.toRawDate && !isAfter(this.fromRawDate, this.toRawDate)
+    },
+
     fromFormattedDate: {
       get () {
         return this.fromRawDate ? this.formatDate(this.fromRawDate) : null
@@ -205,8 +219,8 @@ export default {
       }
     },
 
-    areSelectedBoundsValid () {
-      return !!this.fromRawDate && !!this.toRawDate && !isAfter(this.fromRawDate, this.toRawDate)
+    isDateWithinBounds () {
+      return (date) => !isBefore(date, this.earliestDate) && !isAfter(date, this.latestDate)
     },
 
     isSettingFromInput () {
@@ -234,23 +248,26 @@ export default {
     }
   },
   methods: {
-    setEarliestDate () {
-      this.fromRawDate = this.earliestDate
+    formatDate (date) {
+      return format(date, 'DD/MM/YYYY')
     },
 
-    setLatestDate () {
-      this.toRawDate = this.latestDate
+    goToMonth (monthIndex) {
+      this.currentMonth = monthIndex
+    },
+
+    goToYear (year) {
+      this.currentYear = year
+    },
+
+    parseDate (date) {
+      if (!date || !date.match(/\d{2}\/\d{2}\/\d{4}/)) return null
+      const [day, month, year] = date.split('/').map(n => parseInt(n))
+      return new Date(year, month - 1, day)
     },
 
     selectDay (day) {
       this.setDateInput(day)
-    },
-
-    selectWeek ({ fromDate, toDate }) {
-      this.fromRawDate = fromDate
-      this.toRawDate = toDate
-      this.$emit('set-from-date', { fromDate })
-      this.$emit('set-to-date', { toDate })
     },
 
     selectMonth (monthIndex) {
@@ -270,6 +287,13 @@ export default {
       this.$emit('set-to-date', { toDate: this.toRawDate })
     },
 
+    selectWeek ({ fromDate, toDate }) {
+      this.fromRawDate = fromDate
+      this.toRawDate = toDate
+      this.$emit('set-from-date', { fromDate })
+      this.$emit('set-to-date', { toDate })
+    },
+
     setDateInput (day) {
       if (this.isSettingFromInput(day)) {
         this.fromRawDate = day
@@ -284,31 +308,17 @@ export default {
       }
     },
 
-    parseDate (date) {
-      if (!date || !date.match(/\d{2}\/\d{2}\/\d{4}/)) return null
-      const [day, month, year] = date.split('/').map(n => parseInt(n))
-      return new Date(year, month - 1, day)
+    setEarliestDate () {
+      this.fromRawDate = this.earliestDate
     },
 
-    formatDate (date) {
-      return format(date, 'DD/MM/YYYY')
+    setLatestDate () {
+      this.toRawDate = this.latestDate
     },
 
     unfocusDateInput () {
       this.isFromDateInputFocused = false
       this.isToDateInputFocused = false
-    },
-
-    isDateWithinBounds (date) {
-      return !isBefore(date, this.earliestDate) && !isAfter(date, this.latestDate)
-    },
-
-    goToMonth (monthIndex) {
-      this.currentMonth = monthIndex
-    },
-
-    goToYear (year) {
-      this.currentYear = year
     }
   }
 }

@@ -37,33 +37,8 @@ import GeoCalendarNavigationYear from './GeoCalendarNavigationYear'
 export default {
   name: 'GeoCalendarNavigation',
   props: {
-    previousDateInSelectedGranularityIcon: {
-      type: Array,
-      required: true
-    },
-
-    nextDateInSelectedGranularityIcon: {
-      type: Array,
-      required: true
-    },
-
     calendarNavigationSelectIcon: {
       type: Array,
-      required: true
-    },
-
-    pickerDateUnit: {
-      type: String,
-      required: true
-    },
-
-    granularityId: {
-      type: String,
-      required: true
-    },
-
-    locale: {
-      type: Object,
       required: true
     },
 
@@ -82,8 +57,33 @@ export default {
       required: true
     },
 
+    granularityId: {
+      type: String,
+      required: true
+    },
+
     latestDate: {
       type: Date,
+      required: true
+    },
+
+    locale: {
+      type: Object,
+      required: true
+    },
+
+    nextDateInSelectedGranularityIcon: {
+      type: Array,
+      required: true
+    },
+
+    previousDateInSelectedGranularityIcon: {
+      type: Array,
+      required: true
+    },
+
+    pickerDateUnit: {
+      type: String,
       required: true
     }
   },
@@ -107,12 +107,12 @@ export default {
   },
 
   methods: {
-    goToPreviousPickerDate () {
-      this.$emit('go-to-previous-picker-date')
-    },
-
     goToNextPickerDate () {
       this.$emit('go-to-next-picker-date')
+    },
+
+    goToPreviousPickerDate () {
+      this.$emit('go-to-previous-picker-date')
     },
 
     goToMonth (monthIndex) {

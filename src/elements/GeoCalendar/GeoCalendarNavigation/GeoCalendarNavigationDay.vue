@@ -102,6 +102,10 @@ export default {
     }
   },
   computed: {
+    currentSelectedMonth () {
+      return this.monthsInYear[this.currentMonth].month
+    },
+
     dayPerMonthInYear () {
       const today = new Date()
       const daysInYear = eachDay(startOfYear(today), endOfYear(today))
@@ -118,10 +122,6 @@ export default {
       })
     },
 
-    currentSelectedMonth () {
-      return this.monthsInYear[this.currentMonth].month
-    },
-
     numYearsWithData () {
       return differenceInCalendarYears(this.latestDate, this.earliestDate) + 1
     },
@@ -134,14 +134,6 @@ export default {
     }
   },
   methods: {
-    toggleMonthSelection () {
-      this.isMonthSelectionOpened = !this.isMonthSelectionOpened
-    },
-
-    toggleYearSelection () {
-      this.isYearSelectionOpened = !this.isYearSelectionOpened
-    },
-
     closeMonthSelection () {
       this.isMonthSelectionOpened = false
     },
@@ -158,6 +150,14 @@ export default {
     goToYear (year) {
       this.closeYearSelection()
       this.$emit('go-to-year', year)
+    },
+
+    toggleMonthSelection () {
+      this.isMonthSelectionOpened = !this.isMonthSelectionOpened
+    },
+
+    toggleYearSelection () {
+      this.isYearSelectionOpened = !this.isYearSelectionOpened
     }
   }
 }

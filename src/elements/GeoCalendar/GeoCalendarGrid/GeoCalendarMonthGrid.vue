@@ -35,16 +35,16 @@
 <script>
 import { GRANULARITY_IDS } from '../GeoCalendar.utils'
 import {
+  addMonths,
   eachDay,
   endOfYear,
   format,
   getMonth,
-  startOfYear,
-  getYear,
   getQuarter,
+  getYear,
   isAfter,
   isBefore,
-  addMonths
+  startOfYear
 } from 'date-fns'
 
 export default {
@@ -52,6 +52,21 @@ export default {
   props: {
     currentYear: {
       type: Number,
+      required: true
+    },
+
+    earliestDate: {
+      type: Date,
+      required: true
+    },
+
+    granularityId: {
+      type: String,
+      required: true
+    },
+
+    latestDate: {
+      type: Date,
       required: true
     },
 
@@ -63,21 +78,6 @@ export default {
     selectedToDay: {
       type: Date,
       required: false
-    },
-
-    earliestDate: {
-      type: Date,
-      required: true
-    },
-
-    latestDate: {
-      type: Date,
-      required: true
-    },
-
-    granularityId: {
-      type: String,
-      required: true
     }
   },
 
@@ -92,10 +92,6 @@ export default {
       return this.granularityId === GRANULARITY_IDS.quarter
     },
 
-    getMonth () {
-      return getMonth
-    },
-
     dayPerMonthInYear () {
       const today = new Date()
       const daysInYear = eachDay(startOfYear(today), endOfYear(today))
@@ -103,13 +99,8 @@ export default {
       return uniqDaysPerMonth
     },
 
-    monthsByQuarters () {
-      return _.chunk(_.map(this.dayPerMonthInYear, (d) => {
-        return {
-          index: getMonth(d),
-          name: format(d, 'MMMM', { locale: this.locale })
-        }
-      }), 3)
+    getMonth () {
+      return getMonth
     },
 
     isDateInMonth () {
@@ -142,6 +133,10 @@ export default {
       }
     },
 
+    isMonthWithinHoveredQuarter () {
+      return (monthIndex) => getQuarter(new Date(this.currentYear, monthIndex)) === this.hoveredQuarter
+    },
+
     isMonthWithoutData () {
       return (monthIndex) => {
         return (
@@ -154,8 +149,13 @@ export default {
       }
     },
 
-    isMonthWithinHoveredQuarter () {
-      return (monthIndex) => getQuarter(new Date(this.currentYear, monthIndex)) === this.hoveredQuarter
+    monthsByQuarters () {
+      return _.chunk(_.map(this.dayPerMonthInYear, (d) => {
+        return {
+          index: getMonth(d),
+          name: format(d, 'MMMM', { locale: this.locale })
+        }
+      }), 3)
     }
   },
 

@@ -1,7 +1,7 @@
 <template>
   <geo-dropdown
-    :opened="isCalendarPopupOpened"
     :css-modifier="`geo-calendar__dropdown${cssSuffix}`"
+    :opened="isCalendarPopupOpened"
     @click-outside="closeCalendar"
   >
     <slot
@@ -22,19 +22,19 @@
       </geo-bordered-box-header>
       <geo-calendar
         ref="calendar"
-        :input-range-icon="inputRangeIcon"
-        :previous-date-in-selected-granularity-icon="previousDateInSelectedGranularityIcon"
-        :next-date-in-selected-granularity-icon="nextDateInSelectedGranularityIcon"
         :calendar-navigation-select-icon="calendarNavigationSelectIcon"
-        :from-input-placeholder="fromInputPlaceholder"
-        :to-input-placeholder="toInputPlaceholder"
         :earliest-date="earliestDate"
         :earliest-date-placeholder="earliestDatePlaceholder"
+        :from-input-placeholder="fromInputPlaceholder"
+        :granularity-id="granularityId"
+        :input-range-icon="inputRangeIcon"
         :latest-date="latestDate"
         :latest-date-placeholder="latestDatePlaceholder"
-        :picker-date-unit="pickerDateUnit"
-        :granularity-id="granularityId"
         :locale="locale"
+        :next-date-in-selected-granularity-icon="nextDateInSelectedGranularityIcon"
+        :picker-date-unit="pickerDateUnit"
+        :previous-date-in-selected-granularity-icon="previousDateInSelectedGranularityIcon"
+        :to-input-placeholder="toInputPlaceholder"
         @set-from-date="setFromDate"
         @set-to-date="setToDate"
       >
@@ -57,33 +57,8 @@ export default {
   name: 'GeoCalendarDropdown',
   mixins: [cssSuffix],
   props: {
-    inputRangeIcon: {
-      type: Array,
-      required: false
-    },
-
-    previousDateInSelectedGranularityIcon: {
-      type: Array,
-      required: false
-    },
-
-    nextDateInSelectedGranularityIcon: {
-      type: Array,
-      required: false
-    },
-
     calendarNavigationSelectIcon: {
       type: Array,
-      required: false
-    },
-
-    fromInputPlaceholder: {
-      type: String,
-      required: false
-    },
-
-    toInputPlaceholder: {
-      type: String,
       required: false
     },
 
@@ -97,6 +72,21 @@ export default {
       required: false
     },
 
+    fromInputPlaceholder: {
+      type: String,
+      required: false
+    },
+
+    granularityId: {
+      type: String,
+      required: true
+    },
+
+    inputRangeIcon: {
+      type: Array,
+      required: false
+    },
+
     latestDate: {
       type: Date,
       required: true
@@ -107,19 +97,29 @@ export default {
       required: false
     },
 
+    locale: {
+      type: Object,
+      required: true
+    },
+
+    nextDateInSelectedGranularityIcon: {
+      type: Array,
+      required: false
+    },
+
     pickerDateUnit: {
       type: String,
       required: true
     },
 
-    granularityId: {
-      type: String,
-      required: true
+    previousDateInSelectedGranularityIcon: {
+      type: Array,
+      required: false
     },
 
-    locale: {
-      type: Object,
-      required: true
+    toInputPlaceholder: {
+      type: String,
+      required: false
     }
   },
 
@@ -130,10 +130,6 @@ export default {
   },
 
   methods: {
-    toggleCalendarPopup () {
-      this.isCalendarPopupOpened = !this.isCalendarPopupOpened
-    },
-
     closeCalendar ($event) {
       const popup = _.get(this.$refs.calendar, '$refs.calendarPicker.$refs.calendarNavigationWrapper.$refs.calendarNavigation.$refs.calendarNavigationSelect')
       if (popup && popup.contains($event.target)) return
@@ -146,6 +142,10 @@ export default {
 
     setToDate ({ toDate }) {
       this.$emit('set-to-date', { toDate })
+    },
+
+    toggleCalendarPopup () {
+      this.isCalendarPopupOpened = !this.isCalendarPopupOpened
     }
   }
 }

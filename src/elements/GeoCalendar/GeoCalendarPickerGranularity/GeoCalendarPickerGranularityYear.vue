@@ -1,10 +1,10 @@
 <template>
   <geo-calendar-picker-granularity-base
-    :picker-granularity-icon="pickerGranularityIcon"
-    :is-valid="isValid"
-    :picker-date-unit="pickerDateUnit"
     :granularity-id="granularityId"
     :is-active="isActive"
+    :is-valid="isValid"
+    :picker-granularity-icon="pickerGranularityIcon"
+    :picker-date-unit="pickerDateUnit"
     @click.native="handleClick($event)"
   >
     <slot />
@@ -22,18 +22,22 @@ export default {
   },
 
   props: {
-    pickerGranularityIcon: {
-      type: Array,
-      required: false
-    },
-
     isActive: {
       type: Boolean,
       required: true
+    },
+
+    pickerGranularityIcon: {
+      type: Array,
+      required: false
     }
   },
 
   computed: {
+    granularityId () {
+      return GRANULARITY_IDS.year
+    },
+
     isValid (date) {
       // TODO Implement validation
       return function () {}
@@ -41,10 +45,6 @@ export default {
 
     pickerDateUnit () {
       return PICKER_DATE_UNITS.year
-    },
-
-    granularityId () {
-      return GRANULARITY_IDS.year
     }
   },
 

@@ -180,9 +180,10 @@
         border: 1px solid transparent;
         box-sizing: border-box;
         margin: 0;
+        position: relative;
       }
 
-      &:hover:not(.days-container__day-picker--no-data):not(.days-container__day-picker--selected) .day-picker__day-number {
+      &:hover:not(.days-container__day-picker--no-data):not(.days-container__day-picker--selected)  .day-picker__day-number {
         background: $color-blue-readable-background;
         border: 1px solid $color-blue;
         border-radius: 50%;
@@ -197,7 +198,7 @@
         color: $color-grey-darker;
       }
 
-      &--today:after {
+      &--today .day-picker__day-number:after {
         background: $color-yellow;
         bottom: 4px;
         content: '';

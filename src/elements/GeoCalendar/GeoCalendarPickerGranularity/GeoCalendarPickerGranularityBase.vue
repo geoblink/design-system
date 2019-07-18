@@ -20,15 +20,16 @@
 export default {
   name: 'GeoCalendarPickerGranularityBase',
   props: {
+    isActive: {
+      type: Boolean,
+      required: true
+    },
+
     pickerGranularityIcon: {
       type: Array,
       default () {
         return ['fal', 'arrow-right']
       }
-    },
-    isActive: {
-      type: Boolean,
-      required: true
     }
   },
 

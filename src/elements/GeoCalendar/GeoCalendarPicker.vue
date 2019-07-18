@@ -2,31 +2,31 @@
   <div class="geo-calendar-picker">
     <geo-calendar-navigation
       ref="calendarNavigationWrapper"
-      :previous-date-in-selected-granularity-icon="previousDateInSelectedGranularityIcon"
-      :next-date-in-selected-granularity-icon="nextDateInSelectedGranularityIcon"
       :calendar-navigation-select-icon="calendarNavigationSelectIcon"
-      :picker-date-unit="pickerDateUnit"
-      :granularity-id="granularityId"
-      :locale="locale"
       :current-month="currentMonth"
       :current-year="currentYear"
       :earliest-date="earliestDate"
+      :granularity-id="granularityId"
       :latest-date="latestDate"
-      @go-to-previous-picker-date="goToPreviousPickerDate"
+      :locale="locale"
+      :next-date-in-selected-granularity-icon="nextDateInSelectedGranularityIcon"
+      :picker-date-unit="pickerDateUnit"
+      :previous-date-in-selected-granularity-icon="previousDateInSelectedGranularityIcon"
       @go-to-next-picker-date="goToNextPickerDate"
+      @go-to-previous-picker-date="goToPreviousPickerDate"
       @go-to-month="goToMonth"
       @go-to-year="goToYear"
     />
     <geo-calendar-grid
+      :current-month="currentMonth"
+      :current-year="currentYear"
+      :earliest-date="earliestDate"
+      :granularity-id="granularityId"
+      :latest-date="latestDate"
       :locale="locale"
       :picker-date-unit="pickerDateUnit"
       :selected-from-day="selectedFromDay"
       :selected-to-day="selectedToDay"
-      :current-month="currentMonth"
-      :current-year="currentYear"
-      :earliest-date="earliestDate"
-      :latest-date="latestDate"
-      :granularity-id="granularityId"
       @select-day="selectDay"
       @select-week="selectWeek"
       @select-month="selectMonth"
@@ -39,23 +39,53 @@
 import { PICKER_DATE_UNITS } from './GeoCalendar.utils'
 
 import {
-  getMonth, getYear, addMonths, subMonths, subYears, addYears
+  addMonths,
+  addYears,
+  getMonth,
+  getYear,
+  subMonths,
+  subYears
 } from 'date-fns'
 
 export default {
   name: 'GeoCalendarPicker',
   props: {
-    previousDateInSelectedGranularityIcon: {
+    calendarNavigationSelectIcon: {
       type: Array,
+      required: true
+    },
+
+    currentMonth: {
+      type: Number,
+      required: true
+    },
+
+    currentYear: {
+      type: Number,
+      required: true
+    },
+
+    earliestDate: {
+      type: Date,
+      required: true
+    },
+
+    granularityId: {
+      type: String,
+      required: true
+    },
+
+    latestDate: {
+      type: Date,
+      required: true
+    },
+
+    locale: {
+      type: Object,
       required: true
     },
 
     nextDateInSelectedGranularityIcon: {
-      type: Array,
-      required: true
-    },
-
-    calendarNavigationSelectIcon: {
       type: Array,
       required: true
     },
@@ -65,23 +95,8 @@ export default {
       required: true
     },
 
-    granularityId: {
-      type: String,
-      required: true
-    },
-
-    locale: {
-      type: Object,
-      required: true
-    },
-
-    earliestDate: {
-      type: Date,
-      required: true
-    },
-
-    latestDate: {
-      type: Date,
+    previousDateInSelectedGranularityIcon: {
+      type: Array,
       required: true
     },
 
@@ -93,16 +108,6 @@ export default {
     selectedToDay: {
       type: Date,
       required: false
-    },
-
-    currentMonth: {
-      type: Number,
-      required: true
-    },
-
-    currentYear: {
-      type: Number,
-      required: true
     }
   },
 
@@ -113,26 +118,6 @@ export default {
   },
 
   methods: {
-    goToPreviousPickerDate () {
-      switch (this.pickerDateUnit) {
-        case PICKER_DATE_UNITS.day:
-          if (this.currentMonth === 0) {
-            const previousYear = getYear(subYears(this.currentDate, 1))
-            this.goToYear(previousYear)
-          }
-          const previousMonth = getMonth(subMonths(this.currentDate, 1))
-          this.goToMonth(previousMonth)
-          break
-        case PICKER_DATE_UNITS.month:
-          const previousYear = getYear(subYears(this.currentDate, 1))
-          this.goToYear(previousYear)
-          break
-        case PICKER_DATE_UNITS.year:
-          // TODO: Range of years
-          break
-      }
-    },
-
     goToNextPickerDate () {
       switch (this.pickerDateUnit) {
         case PICKER_DATE_UNITS.day:
@@ -153,12 +138,36 @@ export default {
       }
     },
 
-    selectDay (day) {
-      this.$emit('select-day', day)
+    goToPreviousPickerDate () {
+      switch (this.pickerDateUnit) {
+        case PICKER_DATE_UNITS.day:
+          if (this.currentMonth === 0) {
+            const previousYear = getYear(subYears(this.currentDate, 1))
+            this.goToYear(previousYear)
+          }
+          const previousMonth = getMonth(subMonths(this.currentDate, 1))
+          this.goToMonth(previousMonth)
+          break
+        case PICKER_DATE_UNITS.month:
+          const previousYear = getYear(subYears(this.currentDate, 1))
+          this.goToYear(previousYear)
+          break
+        case PICKER_DATE_UNITS.year:
+          // TODO: Range of years
+          break
+      }
     },
 
-    selectWeek ({ fromDate, toDate }) {
-      this.$emit('select-week', { fromDate, toDate })
+    goToMonth (monthIndex) {
+      this.$emit('go-to-month', monthIndex)
+    },
+
+    goToYear (year) {
+      this.$emit('go-to-year', year)
+    },
+
+    selectDay (day) {
+      this.$emit('select-day', day)
     },
 
     selectMonth (monthIndex) {
@@ -169,12 +178,8 @@ export default {
       this.$emit('select-quarter', monthIndex)
     },
 
-    goToMonth (monthIndex) {
-      this.$emit('go-to-month', monthIndex)
-    },
-
-    goToYear (year) {
-      this.$emit('go-to-year', year)
+    selectWeek ({ fromDate, toDate }) {
+      this.$emit('select-week', { fromDate, toDate })
     }
   }
 }

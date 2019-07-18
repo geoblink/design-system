@@ -69,7 +69,6 @@ export default {
     }
   },
   computed: {
-
     numYearsWithData () {
       return differenceInCalendarYears(this.latestDate, this.earliestDate) + 1
     },
@@ -82,10 +81,6 @@ export default {
     }
   },
   methods: {
-    toggleYearSelection () {
-      this.isYearSelectionOpened = !this.isYearSelectionOpened
-    },
-
     closeYearSelection () {
       this.isYearSelectionOpened = false
     },
@@ -93,6 +88,10 @@ export default {
     goToYear (year) {
       this.closeYearSelection()
       this.$emit('go-to-year', year)
+    },
+
+    toggleYearSelection () {
+      this.isYearSelectionOpened = !this.isYearSelectionOpened
     }
   }
 }

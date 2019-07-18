@@ -48,35 +48,32 @@
 <script>
 import { GRANULARITY_IDS } from '../GeoCalendar.utils'
 import {
+  addDays,
   differenceInWeeks,
   eachDay,
   endOfWeek,
   endOfMonth,
   format,
-  getDay,
   getDate,
-  startOfMonth,
-  startOfWeek,
-  subDays,
-  addDays,
-  isToday,
-  isSameMonth,
+  getDay,
   getDaysInMonth,
   isAfter,
   isBefore,
   isEqual,
+  isSameMonth,
+  isToday,
   isWithinRange,
-  startOfDay
+  startOfDay,
+  startOfMonth,
+  startOfWeek,
+  subDays
 } from 'date-fns'
+
+const TOTAL_DAYS_IN_WEEK = 7
 
 export default {
   name: 'GeoCalendarDayGrid',
   props: {
-    locale: {
-      type: Object,
-      required: true
-    },
-
     currentMonth: {
       type: Number,
       required: true
@@ -84,6 +81,26 @@ export default {
 
     currentYear: {
       type: Number,
+      required: true
+    },
+
+    earliestDate: {
+      type: Date,
+      required: true
+    },
+
+    granularityId: {
+      type: String,
+      required: true
+    },
+
+    latestDate: {
+      type: Date,
+      required: true
+    },
+
+    locale: {
+      type: Object,
       required: true
     },
 
@@ -95,21 +112,6 @@ export default {
     selectedToDay: {
       type: Date,
       required: false
-    },
-
-    earliestDate: {
-      type: Date,
-      required: true
-    },
-
-    latestDate: {
-      type: Date,
-      required: true
-    },
-
-    granularityId: {
-      type: String,
-      required: true
     }
   },
 
@@ -121,28 +123,14 @@ export default {
   },
 
   computed: {
-    getDate () {
-      return getDate
-    },
-
-    isEqual () {
-      return isEqual
-    },
-
-    totalDaysInWeek () {
-      return 7
-    },
-
-    today () {
-      return new Date()
-    },
-
     currentDate () {
       return new Date(this.currentYear, this.currentMonth)
     },
 
-    startOfMonth () {
-      return startOfMonth(this.currentDate)
+    displayedFirstDayInCalendar () {
+      return this.firstDayOfMonthInWeek > 1
+        ? subDays(startOfMonth(this.currentDate), this.firstDayOfMonthInWeek - 1)
+        : this.startOfMonth
     },
 
     endOfMonth () {
@@ -153,23 +141,6 @@ export default {
       // TODO: Take a look at this and find a better way of handling sundays 1st of month
       const firstDayInWeek = getDay(this.startOfMonth)
       return firstDayInWeek === 0 ? 7 : firstDayInWeek
-    },
-
-    orderedDaysOfWeek () {
-      return eachDay(startOfWeek(this.currentDate, { weekStartsOn: 1 }), endOfWeek(this.currentDate, { weekStartsOn: 1 }))
-    },
-
-    numberOfWeeksInMonth () {
-      const daysInMonth = getDaysInMonth(this.currentDate)
-      const fullWeeksInMonth = differenceInWeeks(this.endOfMonth, this.startOfMonth, { weekStartsOn: 1 })
-      const hasExtraWeek = daysInMonth % fullWeeksInMonth !== 0
-      return hasExtraWeek ? fullWeeksInMonth + 1 : fullWeeksInMonth
-    },
-
-    displayedFirstDayInCalendar () {
-      return this.firstDayOfMonthInWeek > 1
-        ? subDays(startOfMonth(this.currentDate), this.firstDayOfMonthInWeek - 1)
-        : this.startOfMonth
     },
 
     fullDaysInDisplayedCalendar () {
@@ -183,9 +154,9 @@ export default {
         ...daysInCurrentMonth
       )
 
-      const groupedDaysByWeek = _.chunk(displayedDays, this.totalDaysInWeek)
+      const groupedDaysByWeek = _.chunk(displayedDays, TOTAL_DAYS_IN_WEEK)
 
-      const remainingDaysForDisplayedGrid = this.totalDaysInWeek - _.last(groupedDaysByWeek).length
+      const remainingDaysForDisplayedGrid = TOTAL_DAYS_IN_WEEK - _.last(groupedDaysByWeek).length
       const remainingDatesForGrid = remainingDaysForDisplayedGrid > 0
         ? eachDay(addDays(this.endOfMonth, 1), addDays(this.endOfMonth, remainingDaysForDisplayedGrid))
         : []
@@ -195,31 +166,12 @@ export default {
       return groupedDaysByWeek
     },
 
-    weekDays () {
-      // TODO: Handle start of week
-      return _.map(this.orderedDaysOfWeek, (d) => format(d, 'ddd', { locale: this.locale }))
-    },
-
-    isWeekHovered () {
-      return (weekIndex) => {
-        return this.weekUnits[weekIndex] && this.granularityId === GRANULARITY_IDS.week
-      }
+    getDate () {
+      return getDate
     },
 
     isDayOutOfBoundaries () {
       return (day) => !isSameMonth(new Date(day), this.currentDate)
-    },
-
-    isToday () {
-      return (day) => isToday(day)
-    },
-
-    isDayWithoutData () {
-      return (day) => isBefore(day, this.earliestDate) || isAfter(day, this.latestDate)
-    },
-
-    isSelectedDay () {
-      return (day) => isEqual(day, this.selectedFromDay) || isEqual(day, this.selectedToDay)
     },
 
     isDayWithinRanges () {
@@ -231,10 +183,56 @@ export default {
       }
     },
 
+    isDayWithoutData () {
+      return (day) => isBefore(day, this.earliestDate) || isAfter(day, this.latestDate)
+    },
+
+    isEqual () {
+      return isEqual
+    },
+
+    isSelectedDay () {
+      return (day) => isEqual(day, this.selectedFromDay) || isEqual(day, this.selectedToDay)
+    },
+
+    isToday () {
+      return (day) => isToday(day)
+    },
+
+    isWeekHovered () {
+      return (weekIndex) => {
+        return this.weekUnits[weekIndex] && this.granularityId === GRANULARITY_IDS.week
+      }
+    },
+
     isWeekWithoutData () {
       return (weekIndex) => {
         return _.reduce(this.fullDaysInDisplayedCalendar[weekIndex], (accum, day) => accum || this.isDayWithoutData(day), false)
       }
+    },
+
+    numberOfWeeksInMonth () {
+      const daysInMonth = getDaysInMonth(this.currentDate)
+      const fullWeeksInMonth = differenceInWeeks(this.endOfMonth, this.startOfMonth, { weekStartsOn: 1 })
+      const hasExtraWeek = daysInMonth % fullWeeksInMonth !== 0
+      return hasExtraWeek ? fullWeeksInMonth + 1 : fullWeeksInMonth
+    },
+
+    orderedDaysOfWeek () {
+      return eachDay(startOfWeek(this.currentDate, { weekStartsOn: 1 }), endOfWeek(this.currentDate, { weekStartsOn: 1 }))
+    },
+
+    startOfMonth () {
+      return startOfMonth(this.currentDate)
+    },
+
+    today () {
+      return new Date()
+    },
+
+    weekDays () {
+      // TODO: Handle start of week
+      return _.map(this.orderedDaysOfWeek, (d) => format(d, 'ddd', { locale: this.locale }))
     }
   },
 
