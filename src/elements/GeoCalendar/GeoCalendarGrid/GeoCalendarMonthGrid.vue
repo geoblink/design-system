@@ -1,25 +1,32 @@
 <template>
   <div class="geo-calendar-grid">
-    <div class="geo-calendar-grid__month-container">
+    <div class="geo-calendar-grid__months-container">
       <div
-        v-for="monthObject in monthsInYear"
-        :key="monthObject.monthIndex"
+        v-for="(quarter, index) in monthsByQuarters"
+        :key="index"
         :class="{
-          'month-container__month-unit': true,
-          'month-container__month-unit--selected': isDateInMonth(monthObject.monthIndex),
-          'month-container__month-unit--within-range': isDateWithinSelectedMonths(monthObject.monthIndex),
-          'month-container__month-unit--no-data': isMonthWithoutData(monthObject.monthIndex),
-          'month-container__month-unit--from-date': getMonth(selectedFromDay) === monthObject.monthIndex,
-          'month-container__month-unit--to-date': getMonth(selectedToDay) === monthObject.monthIndex,
-          'month-container__month-unit--hovered-quarter': isMonthWithinHoveredQuarter(monthObject.monthIndex),
+          'months-container__quarter': true,
+          'months-container__quarter-actionable': canQuarterBeHighlighted
         }"
-        @click="selectMonth(monthObject.monthIndex)"
-        @mouseenter="highlightQuarter(monthObject.monthIndex)"
-        @mouseleave="resetHighlightQuarter(monthObject.monthIndex)"
       >
-        <span class="month-unit__month-name">
-          {{ monthObject.month }}
-        </span>
+        <div
+          v-for="month in quarter"
+          :key="month.index"
+          :class="{
+            'quarter__month-unit': true,
+            'quarter__month-unit--selected': isDateInMonth(month.index),
+            'quarter__month-unit--within-range': isDateWithinSelectedMonths(month.index),
+            'quarter__month-unit--no-data': isMonthWithoutData(month.index),
+            'quarter__month-unit--hovered-quarter': isMonthWithinHoveredQuarter(month.index),
+            'quarter__month-unit--from-date': getMonth(selectedFromDay) === month.index,
+            'quarter__month-unit--to-date': getMonth(selectedToDay) === month.index
+          }"
+          @click="selectMonth(month.index)"
+        >
+          <p class="month-unit__month-name">
+            {{ month.name }}
+          </p>
+        </div>
       </div>
     </div>
   </div>
@@ -81,6 +88,10 @@ export default {
   },
 
   computed: {
+    canQuarterBeHighlighted () {
+      return this.granularityId === GRANULARITY_IDS.quarter
+    },
+
     getMonth () {
       return getMonth
     },
@@ -92,13 +103,13 @@ export default {
       return uniqDaysPerMonth
     },
 
-    monthsInYear () {
-      return _.map(this.dayPerMonthInYear, (d) => {
+    monthsByQuarters () {
+      return _.chunk(_.map(this.dayPerMonthInYear, (d) => {
         return {
-          monthIndex: getMonth(d),
-          month: format(d, 'MMMM', { locale: this.locale })
+          index: getMonth(d),
+          name: format(d, 'MMMM', { locale: this.locale })
         }
-      })
+      }), 3)
     },
 
     isDateInMonth () {
@@ -155,16 +166,6 @@ export default {
       } else {
         this.$emit('select-quarter', monthIndex)
       }
-    },
-
-    highlightQuarter (monthIndex) {
-      if (this.granularityId !== GRANULARITY_IDS.quarter) return
-      this.hoveredQuarter = getQuarter(new Date(this.currentYear, monthIndex))
-    },
-
-    resetHighlightQuarter (monthIndex) {
-      if (this.granularityId !== GRANULARITY_IDS.quarter) return
-      this.hoveredQuarter = null
     }
   }
 }

@@ -146,75 +146,27 @@
       justify-content: space-evenly;
     }
 
-    .geo-calendar-grid__month-container {
-      display: grid;
-      grid-row-gap: calc(#{$space-large - $space-x-small});
-      grid-template-columns: repeat(3, 1fr);
-    }
-
-    .month-container__month-unit {
-      @include font($body-small);
-
-      border: 1px solid transparent;
-      cursor: pointer;
-      padding: $space-x-small;
-      text-align: center;
-
-      &:hover:not(.month-container__month-unit--no-data):not(.month-container__month-unit--selected) .month-unit__month-name,
-      &--hovered-quarter {
-        background: $color-blue-readable-background;
-        border: 1px solid $color-blue;
-        border-radius: 50vh;
-        color: $color-grey-darker;
-      }
-
-
-      &--within-range {
-        background: $color-blue-readable-background;
-      }
-
-      &--selected .month-unit__month-name {
-        background: $color-blue;
-        border-radius: 50vh;
-        color: $color-white;
-      }
-
-      &--from-date {
-        border-top-left-radius: 50vh;
-        border-bottom-left-radius: 50vh;
-        // margin-left: 9px;
-      }
-
-      &--to-date {
-        border-top-right-radius: 50vh;
-        border-bottom-right-radius: 50vh;
-        // margin: 0 10px 0 -7px;
-        // padding-left: 10px;
-      }
-
-      &--no-data {
-        color: $color-grey;
-        cursor: not-allowed;
-        text-decoration: line-through;
-
-        .month-unit__month-name {
-          pointer-events: none;
-        }
-      }
-    }
-
     .days-container__week-unit {
       align-items: center;
       display: grid;
       grid-template-columns: repeat(7, 45px);
       grid-template-rows: 27px;
       text-align: center;
-    }
 
-    .days-container__week-unit--hovered-week {
-      background: $color-blue-readable-background;
-      border-radius: 50vh;
-      color: $color-grey-darker;
+      &--hovered-week {
+        background: $color-blue-readable-background;
+        border-radius: 50vh;
+        color: $color-grey-darker;
+      }
+
+      &--no-data {
+        color: $color-grey;
+        cursor: not-allowed;
+
+        .days-container__day-picker {
+          pointer-events: none;
+        }
+      }
     }
 
     .days-container__day-picker {
@@ -298,6 +250,75 @@
         width: 25px;
       }
 
+    }
+
+    .geo-calendar-grid__months-container {
+      display: grid;
+      grid-row-gap: calc(#{$space-large - $space-x-small});
+    }
+
+    .months-container__quarter {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .months-container__quarter--highlighted,
+    .months-container__quarter-actionable:hover {
+      background: $color-blue-readable-background;
+      border-radius: 50vh;
+      color: $color-grey-darker;
+    }
+
+    .quarter__month-unit {
+      @include font($body-small);
+
+      border: 1px solid transparent;
+      cursor: pointer;
+      text-align: center;
+
+      .month-unit__month-name {
+        border: 1px solid transparent;
+        margin: 0;
+        padding: $space-x-small $space-base;
+      }
+
+      &:hover:not(.quarter__month-unit--no-data):not(.quarter__month-unit--selected) .month-unit__month-name {
+        background: $color-blue-readable-background;
+        border: 1px solid $color-blue;
+        border-radius: 50vh;
+        color: $color-grey-darker;
+      }
+
+
+      &--within-range {
+        background: $color-blue-readable-background;
+      }
+
+      &--selected .month-unit__month-name {
+        background: $color-blue;
+        border-radius: 50vh;
+        color: $color-white;
+      }
+
+      &--from-date {
+        border-top-left-radius: 50vh;
+        border-bottom-left-radius: 50vh;
+      }
+
+      &--to-date {
+        border-top-right-radius: 50vh;
+        border-bottom-right-radius: 50vh;
+      }
+
+      &--no-data {
+        color: $color-grey;
+        cursor: not-allowed;
+        text-decoration: line-through;
+
+        .month-unit__month-name {
+          pointer-events: none;
+        }
+      }
     }
   }
 }

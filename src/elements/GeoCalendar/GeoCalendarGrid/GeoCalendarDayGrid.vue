@@ -15,7 +15,8 @@
         :key="weekIndex"
         :class="{
           'days-container__week-unit': true,
-          'days-container__week-unit--hovered-week': isWeekHovered(weekIndex)
+          'days-container__week-unit--hovered-week': isWeekHovered(weekIndex),
+          'days-container__week-unit--no-data': isWeekHovered(weekIndex) && isWeekWithoutData(weekIndex)
         }"
         @mouseenter="$set(weekUnits, weekIndex, true)"
         @mouseleave="$set(weekUnits, weekIndex, false)"
@@ -24,6 +25,7 @@
           v-for="(day, index) in week"
           :key="`week-${weekIndex}_day${index}`"
           :class="{
+            'days-container__day-picker': true,
             'days-container__day-picker--today': isToday(day),
             'days-container__day-picker--out-of-boundaries': isDayOutOfBoundaries(day),
             'days-container__day-picker--no-data': isDayWithoutData(day),
@@ -32,7 +34,6 @@
             'days-container__day-picker--to-date': isEqual(day, selectedToDay),
             'days-container__day-picker--within-range': isDayWithinRanges(day)
           }"
-          class="days-container__day-picker"
           @click="selectDay(day)"
         >
           <p class="day-picker__day-number">
@@ -227,6 +228,12 @@ export default {
           this.selectedToDay &&
           (isWithinRange(day, this.selectedFromDay, this.selectedToDay) ||
           (this.selectedFromDay === day || this.selectedToDay === day))
+      }
+    },
+
+    isWeekWithoutData () {
+      return (weekIndex) => {
+        return _.reduce(this.fullDaysInDisplayedCalendar[weekIndex], (accum, day) => accum || this.isDayWithoutData(day), false)
       }
     }
   },
