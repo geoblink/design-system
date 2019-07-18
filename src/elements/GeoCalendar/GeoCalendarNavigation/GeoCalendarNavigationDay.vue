@@ -61,40 +61,20 @@
 </template>
 
 <script>
-import { eachDay, startOfYear, endOfYear, getMonth, format, differenceInCalendarYears, getYear } from 'date-fns'
+import {
+  differenceInCalendarYears,
+  eachDay,
+  endOfYear,
+  format,
+  getMonth,
+  getYear,
+  startOfYear
+} from 'date-fns'
+const GeoCalendarNavigationMixin = require('./GeoCalendarNavigation.mixin')
+
 export default {
   name: 'GeoCalendarNavigationDay',
-  props: {
-    calendarNavigationSelectIcon: {
-      type: Array,
-      required: true
-    },
-
-    currentMonth: {
-      type: Number,
-      required: true
-    },
-
-    currentYear: {
-      type: Number,
-      required: true
-    },
-
-    earliestDate: {
-      type: Date,
-      required: true
-    },
-
-    latestDate: {
-      type: Date,
-      required: true
-    },
-
-    locale: {
-      type: Object,
-      required: true
-    }
-  },
+  mixins: [GeoCalendarNavigationMixin],
   data () {
     return {
       isMonthSelectionOpened: false,
@@ -144,11 +124,23 @@ export default {
 
     goToMonth (monthIndex) {
       this.closeMonthSelection()
+      /**
+       * User displays a different month in the current grid
+       *
+       * @event go-to-month
+       * @type {Number}
+       */
       this.$emit('go-to-month', monthIndex)
     },
 
     goToYear (year) {
       this.closeYearSelection()
+      /**
+       * User displays a different year in the current grid
+       *
+       * @event go-to-year
+       * @type {Number}
+       */
       this.$emit('go-to-year', year)
     },
 

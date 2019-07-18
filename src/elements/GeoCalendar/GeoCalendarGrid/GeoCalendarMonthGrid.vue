@@ -18,8 +18,8 @@
             'quarter__month-unit--within-range': isDateWithinSelectedMonths(month.index),
             'quarter__month-unit--no-data': isMonthWithoutData(month.index),
             'quarter__month-unit--hovered-quarter': isMonthWithinHoveredQuarter(month.index),
-            'quarter__month-unit--from-date': getMonth(selectedFromDay) === month.index,
-            'quarter__month-unit--to-date': getMonth(selectedToDay) === month.index
+            'quarter__month-unit--from-date': isDayWithinMonth(month.index, selectedFromDay),
+            'quarter__month-unit--to-date': isDayWithinMonth(month.index, selectedToDay)
           }"
           @click="selectMonth(month.index)"
         >
@@ -44,43 +44,14 @@ import {
   getYear,
   isAfter,
   isBefore,
-  startOfYear
+  startOfYear,
+  startOfDay
 } from 'date-fns'
+const GeoCalendarGridMixin = require('./GeoCalendarGrid.mixin')
 
 export default {
   name: 'GeoCalendarMonthGrid',
-  props: {
-    currentYear: {
-      type: Number,
-      required: true
-    },
-
-    earliestDate: {
-      type: Date,
-      required: true
-    },
-
-    granularityId: {
-      type: String,
-      required: true
-    },
-
-    latestDate: {
-      type: Date,
-      required: true
-    },
-
-    selectedFromDay: {
-      type: Date,
-      required: false
-    },
-
-    selectedToDay: {
-      type: Date,
-      required: false
-    }
-  },
-
+  mixins: [GeoCalendarGridMixin],
   data () {
     return {
       hoveredQuarter: null
@@ -97,10 +68,6 @@ export default {
       const daysInYear = eachDay(startOfYear(today), endOfYear(today))
       const uniqDaysPerMonth = _.uniqBy(daysInYear, (day) => getMonth(day))
       return uniqDaysPerMonth
-    },
-
-    getMonth () {
-      return getMonth
     },
 
     isDateInMonth () {
@@ -127,10 +94,14 @@ export default {
             isAfter(addMonths(new Date(this.currentYear, monthIndex), 1), this.selectedFromDay)
           ) && (
             this.selectedToDay &&
-            isBefore(new Date(this.currentYear, monthIndex), this.selectedToDay)
+            isBefore(startOfDay(new Date(this.currentYear, monthIndex)), this.selectedToDay)
           )
         )
       }
+    },
+
+    isDayWithinMonth () {
+      return (monthIndex, day) => getMonth(day) === monthIndex && getYear(day) === this.currentYear
     },
 
     isMonthWithinHoveredQuarter () {
@@ -162,8 +133,20 @@ export default {
   methods: {
     selectMonth (monthIndex) {
       if (this.granularityId === GRANULARITY_IDS.month) {
+        /**
+         * User selects a particular month within the month grid
+         *
+         * @event select-month
+         * @type {Number}
+         */
         this.$emit('select-month', monthIndex)
       } else {
+        /**
+         * User selects a particular quarter within the month grid
+         *
+         * @event select-quarter
+         * @type {Number}
+         */
         this.$emit('select-quarter', monthIndex)
       }
     }

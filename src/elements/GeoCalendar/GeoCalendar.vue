@@ -1,6 +1,7 @@
 <template>
   <div :class="`geo-calendar${cssSuffix}`">
     <div class="geo-calendar__granularity-selectors">
+      <!-- @slot Use this slot to customize the sidebar with the different granularities handled by the calendar -->
       <slot name="pickerGranularity" />
       <!-- TODO: Put aliases in different slot -->
       <!-- <slot name="aliases" /> -->
@@ -49,7 +50,6 @@
           </geo-link-button>
         </div>
       </div>
-      <!-- TODO: Bind props to component -->
       <geo-calendar-picker
         ref="calendarPicker"
         :calendar-navigation-select-icon="calendarNavigationSelectIcon"
@@ -99,6 +99,9 @@ export default {
   },
   mixins: [cssSuffix],
   props: {
+    /**
+     * Icon used for the selects in the navigation menu
+     */
     calendarNavigationSelectIcon: {
       type: Array,
       default () {
@@ -106,26 +109,48 @@ export default {
       }
     },
 
+    /**
+     * Earliest date that can be selected
+     */
     earliestDate: {
       type: Date,
       required: true
     },
 
+    /**
+     * Text displayed in the link button to select the earliest date available
+     */
     earliestDatePlaceholder: {
       type: String,
       required: false
     },
 
+    /**
+     * Text displayed on the input that contains the selected 'from' date
+     */
     fromInputPlaceholder: {
       type: String,
       required: false
     },
 
+    /**
+     * Current granularity being displayed on the calendar. `day`, `week`, `month`, `quarter`, `year`
+     * Values available in `GRANULARITY_IDS`:
+     *
+     * - `GRANULARITY_IDS.day`
+     * - `GRANULARITY_IDS.week`
+     * - `GRANULARITY_IDS.month`
+     * - `GRANULARITY_IDS.quarter`
+     * - `GRANULARITY_IDS.year`
+     */
     granularityId: {
       type: String,
       required: true
     },
 
+    /**
+     * Icon displayed as a separator between the two date inputs
+     */
     inputRangeIcon: {
       type: Array,
       default () {
@@ -133,21 +158,33 @@ export default {
       }
     },
 
+    /**
+     * Latest date that can be selected
+     */
     latestDate: {
       type: Date,
       required: true
     },
 
+    /**
+     * Text displayed in the link button to select the latest date available
+     */
     latestDatePlaceholder: {
       type: String,
       required: false
     },
 
+    /**
+     * Object provided by date-fns specifying the locale being used
+     */
     locale: {
       type: Object,
       required: true
     },
 
+    /**
+     * Icon displayed to navigate forward through different time units
+     */
     nextDateInSelectedGranularityIcon: {
       type: Array,
       default () {
@@ -155,11 +192,22 @@ export default {
       }
     },
 
+    /**
+     * Type of grid being displayed. `day`, `month` or `year`
+     * Values available in PICKER_DATE_UNITS:
+     *
+     * - `PICKER_DATE_UNITS.day`
+     * - `PICKER_DATE_UNITS.month`
+     * - `PICKER_DATE_UNITS.year`
+     */
     pickerDateUnit: {
       type: String,
       required: true
     },
 
+    /**
+     * Icon displayed to navigate backwards through different time units
+     */
     previousDateInSelectedGranularityIcon: {
       type: Array,
       default () {
@@ -167,6 +215,9 @@ export default {
       }
     },
 
+    /**
+     * Text displayed on the input that contains the selected 'to' date
+     */
     toInputPlaceholder: {
       type: String,
       required: false
@@ -193,8 +244,11 @@ export default {
       },
 
       set (newFromDate) {
+        if (newFromDate === '') {
+          this.fromRawDate = null
+          return this.setFromDate({ fromDate: null })
+        }
         const parsedDate = this.parseDate(newFromDate)
-        if (parsedDate === '') this.fromRawDate = null
         if (this.isValidFromDate(parsedDate)) {
           this.fromRawDate = this.parseDate(newFromDate)
           this.currentMonth = getMonth(this.fromRawDate)
@@ -209,8 +263,11 @@ export default {
       },
 
       set (newToDate) {
+        if (newToDate === '') {
+          this.toRawDate = null
+          return this.setToDate({ toDate: null })
+        }
         const parsedDate = this.parseDate(newToDate)
-        if (parsedDate === '') this.toRawDate = null
         if (this.isValidToDate(parsedDate)) {
           this.toRawDate = this.parseDate(newToDate)
           this.currentMonth = getMonth(this.toRawDate)
@@ -283,37 +340,53 @@ export default {
     selectQuarter (monthIndex) {
       this.fromRawDate = startOfQuarter(new Date(this.currentYear, monthIndex))
       this.toRawDate = endOfQuarter(new Date(this.currentYear, monthIndex))
-      this.$emit('set-from-date', { fromDate: this.fromRawDate })
-      this.$emit('set-to-date', { toDate: this.toRawDate })
+      this.setFromDate({ fromDate: this.fromRawDate })
+      this.setToDate({ toDate: this.toRawDate })
     },
 
     selectWeek ({ fromDate, toDate }) {
       this.fromRawDate = fromDate
       this.toRawDate = toDate
-      this.$emit('set-from-date', { fromDate })
-      this.$emit('set-to-date', { toDate })
+      this.setFromDate({ fromDate })
+      this.setToDate({ toDate })
     },
 
     setDateInput (day) {
       if (this.isSettingFromInput(day)) {
         this.fromRawDate = day
-        this.$emit('set-from-date', {
-          fromDate: this.fromRawDate
-        })
+        this.setFromDate({ fromDate: this.fromRawDate })
       } else {
         this.toRawDate = day
-        this.$emit('set-to-date', {
-          toDate: this.toRawDate
-        })
+        this.setToDate({ toDate: this.toRawDate })
       }
     },
 
     setEarliestDate () {
-      this.fromRawDate = this.earliestDate
+      this.setDateInput(this.earliestDate)
+    },
+
+    setFromDate ({ fromDate }) {
+      /**
+       * User set an initial date.
+       *
+       * @event set-from-date
+       * @type {Date}
+       */
+      this.$emit('set-from-date', { fromDate })
     },
 
     setLatestDate () {
-      this.toRawDate = this.latestDate
+      this.setDateInput(this.latestDate)
+    },
+
+    setToDate ({ toDate }) {
+      /**
+       * User set an end date.
+       *
+       * @event set-to-date
+       * @type {Date}
+       */
+      this.$emit('set-to-date', { toDate })
     },
 
     unfocusDateInput () {

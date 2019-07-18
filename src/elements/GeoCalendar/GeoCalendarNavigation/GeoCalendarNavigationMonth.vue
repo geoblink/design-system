@@ -34,35 +34,11 @@
 
 <script>
 import { differenceInCalendarYears, getYear } from 'date-fns'
+const GeoCalendarNavigationMixin = require('./GeoCalendarNavigation.mixin')
 
 export default {
   name: 'GeoCalendarNavigationMonth',
-  props: {
-    calendarNavigationSelectIcon: {
-      type: Array,
-      required: true
-    },
-
-    currentYear: {
-      type: Number,
-      required: true
-    },
-
-    earliestDate: {
-      type: Date,
-      required: true
-    },
-
-    latestDate: {
-      type: Date,
-      required: true
-    },
-
-    locale: {
-      type: Object,
-      required: true
-    }
-  },
+  mixins: [GeoCalendarNavigationMixin],
   data () {
     return {
       isYearSelectionOpened: false
@@ -87,6 +63,12 @@ export default {
 
     goToYear (year) {
       this.closeYearSelection()
+      /**
+       * User displays a different year in the current grid
+       *
+       * @event go-to-year
+       * @type {Number}
+       */
       this.$emit('go-to-year', year)
     },
 

@@ -68,50 +68,28 @@ import {
   startOfWeek,
   subDays
 } from 'date-fns'
+const GeoCalendarGridMixin = require('./GeoCalendarGrid.mixin')
 
 const TOTAL_DAYS_IN_WEEK = 7
 
 export default {
   name: 'GeoCalendarDayGrid',
+  mixins: [GeoCalendarGridMixin],
   props: {
+    /**
+     * Number of the month within a year that is currently being displayed in the grid(ie: `0 -> january`, `11 -> december`)
+     */
     currentMonth: {
       type: Number,
       required: true
     },
 
-    currentYear: {
-      type: Number,
-      required: true
-    },
-
-    earliestDate: {
-      type: Date,
-      required: true
-    },
-
-    granularityId: {
-      type: String,
-      required: true
-    },
-
-    latestDate: {
-      type: Date,
-      required: true
-    },
-
+    /**
+     * Object provided by date-fns specifying the locale being used
+     */
     locale: {
       type: Object,
       required: true
-    },
-
-    selectedFromDay: {
-      type: Date,
-      required: false
-    },
-
-    selectedToDay: {
-      type: Date,
-      required: false
     }
   },
 
@@ -240,8 +218,20 @@ export default {
     selectDay (day) {
       if (this.isDayWithoutData(day)) return
       if (this.granularityId === GRANULARITY_IDS.day) {
+        /**
+         * User selects a particular day within the day grid
+         *
+         * @event select-day
+         * @type {Date}
+         */
         this.$emit('select-day', day)
       } else if (this.granularityId === GRANULARITY_IDS.week) {
+        /**
+         * User selects a particular week within the day grid
+         *
+         * @event select-week
+         * @type {{ fromDate: Date, toDate: Date}}
+         */
         this.$emit('select-week', {
           fromDate: startOfWeek(day, { weekStartsOn: 1 }),
           toDate: startOfDay(endOfWeek(day, { weekStartsOn: 1 }))
