@@ -156,6 +156,7 @@ export default {
       return (day) => {
         return this.selectedFromDay &&
           this.selectedToDay &&
+          isBefore(this.selectedFromDay, this.selectedToDay) &&
           (isWithinRange(day, this.selectedFromDay, this.selectedToDay) ||
           (this.selectedFromDay === day || this.selectedToDay === day))
       }

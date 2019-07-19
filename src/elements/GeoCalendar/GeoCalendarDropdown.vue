@@ -37,6 +37,9 @@
         :picker-date-unit="pickerDateUnit"
         :previous-date-in-selected-granularity-icon="previousDateInSelectedGranularityIcon"
         :to-input-placeholder="toInputPlaceholder"
+        :error-message-invalid-date-format="errorMessageInvalidDateFormat"
+        :error-message-invalid-from-date-range="errorMessageInvalidFromDateRange"
+        :error-message-invalid-to-date-range="errorMessageInvalidToDateRange"
         @set-from-date="setFromDate"
         @set-to-date="setToDate"
       >
@@ -83,6 +86,30 @@ export default {
     earliestDatePlaceholder: {
       type: String,
       required: false
+    },
+
+    /**
+     * Error displayed when the format of one of the input dates is wrong
+     */
+    errorMessageInvalidDateFormat: {
+      type: String,
+      required: true
+    },
+
+    /**
+     * Error displayed when the start date is set after the end date
+     */
+    errorMessageInvalidFromDateRange: {
+      type: String,
+      required: true
+    },
+
+    /**
+     * Error displayed when the end date is set before the start date
+     */
+    errorMessageInvalidToDateRange: {
+      type: String,
+      required: true
     },
 
     /**

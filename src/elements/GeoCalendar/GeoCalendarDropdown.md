@@ -15,6 +15,9 @@ eiusmod tempor incididunt ut labore et dolore magna aliqua.
         :locale="locale"
         :earliest-date="dataEarliestDate"
         :latest-date="dataLatestDate"
+        error-message-invalid-date-format="The inserted date is not valid"
+        error-message-invalid-from-date-range="The initial date cannot be after the end date"
+        error-message-invalid-to-date-range="The end date cannot be before the initial date"
         from-input-placeholder="From"
         to-input-placeholder="To"
         earliest-date-placeholder="Set earliest date"
@@ -73,7 +76,7 @@ eiusmod tempor incididunt ut labore et dolore magna aliqua.
         </template>
         <geo-primary-button
           slot="calendarFooter"
-          :disabled="!(selectedFromDate && selectedToDate)"
+          :disabled="isDateRangeNotValid"
         >
           APPLY DATE
         </geo-primary-button>
@@ -87,6 +90,8 @@ const ES_LOCALE = require('date-fns/locale/es')
 const subYears = require('date-fns').subYears
 const addYears = require('date-fns').addYears
 const startOfToday = require('date-fns').startOfToday
+const isAfter = require('date-fns').isAfter
+const isValid = require('date-fns').isValid
 const { GRANULARITY_IDS } = require('./GeoCalendar.utils')
 
 
@@ -109,6 +114,12 @@ export default {
 
     GRANULARITY_IDS () {
       return GRANULARITY_IDS
+    },
+
+    isDateRangeNotValid () {
+      return !(this.selectedFromDate && this.selectedToDate) ||
+        isAfter(this.selectedFromDate, this.selectedToDate)
+
     }
   },
   methods: {

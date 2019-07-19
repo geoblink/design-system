@@ -70,6 +70,13 @@
       flex-direction: column;
     }
 
+    .input-label--error {
+      @include font($label);
+
+      color: $color-red;
+      margin-top: $space-x-small;
+    }
+
     .geo-input__container--geo-calendar {
       height: 30px;
     }

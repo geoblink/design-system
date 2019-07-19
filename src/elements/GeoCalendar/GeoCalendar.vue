@@ -19,6 +19,20 @@
             input-type="normal"
             @click="isFromDateInputFocused = true"
           />
+          <!-- TODO: CORE-7312 This should be part of the DS when input results in error -->
+          <label
+            v-if="showFromFormatError"
+            class="input-label--error"
+          >
+            {{ errorMessageInvalidDateFormat }}
+          </label>
+          <!-- TODO: CORE-7312 This should be part of the DS when input results in error -->
+          <label
+            v-if="isFromDateAfterToDate"
+            class="input-label--error"
+          >
+            {{ errorMessageInvalidFromDateRange }}
+          </label>
           <geo-link-button
             css-modifier="calendar-picker-button"
             @click="setEarliestDate"
@@ -42,6 +56,20 @@
             input-type="normal"
             @click="isToDateInputFocused = true"
           />
+          <!-- TODO: CORE-7312 This should be part of the DS when input results in error -->
+          <label
+            v-if="showToFormatError"
+            class="input-label--error"
+          >
+            {{ errorMessageInvalidDateFormat }}
+          </label>
+          <!-- TODO: CORE-7312 This should be part of the DS when input results in error -->
+          <label
+            v-if="isToDateBeforeFromDate"
+            class="input-label--error"
+          >
+            {{ errorMessageInvalidToDateRange }}
+          </label>
           <geo-link-button
             css-modifier="calendar-picker-button"
             @click="setLatestDate"
@@ -123,6 +151,30 @@ export default {
     earliestDatePlaceholder: {
       type: String,
       required: false
+    },
+
+    /**
+     * Error displayed when the format of one of the input dates is wrong
+     */
+    errorMessageInvalidDateFormat: {
+      type: String,
+      required: true
+    },
+
+    /**
+     * Error displayed when the start date is set after the end date
+     */
+    errorMessageInvalidFromDateRange: {
+      type: String,
+      required: true
+    },
+
+    /**
+     * Error displayed when the end date is set before the start date
+     */
+    errorMessageInvalidToDateRange: {
+      type: String,
+      required: true
     },
 
     /**
@@ -230,7 +282,9 @@ export default {
       isFromDateInputFocused: false,
       isToDateInputFocused: false,
       currentMonth: getMonth(new Date()),
-      currentYear: getYear(new Date())
+      currentYear: getYear(new Date()),
+      showFromFormatError: false,
+      showToFormatError: false
     }
   },
   computed: {
@@ -245,14 +299,20 @@ export default {
 
       set (newFromDate) {
         if (newFromDate === '') {
+          this.showFromFormatError = false
           this.fromRawDate = null
           return this.setFromDate({ fromDate: null })
         }
         const parsedDate = this.parseDate(newFromDate)
-        if (this.isValidFromDate(parsedDate)) {
+        if (this.isValidDate(parsedDate)) {
+          this.showFromFormatError = false
           this.fromRawDate = this.parseDate(newFromDate)
           this.currentMonth = getMonth(this.fromRawDate)
           this.currentYear = getYear(this.fromRawDate)
+          this.setFromDate({ fromDate: this.fromRawDate })
+        } else {
+          this.showFromFormatError = true
+          this.setFromDate({ fromDate: null })
         }
       }
     },
@@ -265,13 +325,19 @@ export default {
       set (newToDate) {
         if (newToDate === '') {
           this.toRawDate = null
+          this.showToFormatError = false
           return this.setToDate({ toDate: null })
         }
         const parsedDate = this.parseDate(newToDate)
-        if (this.isValidToDate(parsedDate)) {
+        if (this.isValidDate(parsedDate)) {
+          this.showToFormatError = false
           this.toRawDate = this.parseDate(newToDate)
           this.currentMonth = getMonth(this.toRawDate)
           this.currentYear = getYear(this.toRawDate)
+          this.setToDate({ toDate: this.toRawDate })
+        } else {
+          this.showToFormatError = true
+          this.setToDate({ toDate: null })
         }
       }
     },
@@ -280,22 +346,22 @@ export default {
       return (date) => !isBefore(date, this.earliestDate) && !isAfter(date, this.latestDate)
     },
 
+    isFromDateAfterToDate () {
+      return this.fromRawDate && this.toRawDate && isAfter(this.fromRawDate, this.toRawDate)
+    },
+
     isSettingFromInput () {
       return (day) => {
         return !this.fromRawDate || (this.fromRawDate && isBefore(day, this.fromRawDate))
       }
     },
 
+    isToDateBeforeFromDate () {
+      return this.fromRawDate && this.toRawDate && isBefore(this.toRawDate, this.fromRawDate)
+    },
+
     isValidDate () {
       return (date) => date && isValid(date) && this.isDateWithinBounds(date)
-    },
-
-    isValidFromDate () {
-      return (date) => this.isValidDate(date) && (this.toRawDate && isBefore(date, this.toRawDate))
-    },
-
-    isValidToDate () {
-      return (date) => this.isValidDate(date) && (this.toRawDate && isAfter(date, this.fromRawDate))
     }
   },
   watch: {
@@ -362,7 +428,9 @@ export default {
     },
 
     setEarliestDate () {
-      this.setDateInput(this.earliestDate)
+      this.showFromFormatError = false
+      this.fromRawDate = this.earliestDate
+      this.setFromDate({ fromDate: this.earliestDate })
     },
 
     setFromDate ({ fromDate }) {
@@ -376,7 +444,9 @@ export default {
     },
 
     setLatestDate () {
-      this.setDateInput(this.latestDate)
+      this.showToFormatError = false
+      this.toRawDate = this.latestDate
+      this.setToDate({ toDate: this.latestDate })
     },
 
     setToDate ({ toDate }) {
