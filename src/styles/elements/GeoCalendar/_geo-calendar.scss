@@ -264,10 +264,19 @@
     }
 
     .months-container__quarter--highlighted,
-    .months-container__quarter-actionable:hover {
+    .months-container__quarter--actionable:hover {
       background: $color-blue-readable-background;
       border-radius: 50vh;
       color: $color-grey-darker;
+    }
+
+    .months-container__quarter--no-data {
+      color: $color-grey;
+      cursor: not-allowed;
+
+      .quarter__month-unit {
+        pointer-events: none;
+      }
     }
 
     .quarter__month-unit {
@@ -280,7 +289,7 @@
       .month-unit__month-name {
         border: 1px solid transparent;
         margin: 0;
-        padding: $space-x-small $space-base;
+        padding: 3px 0;
       }
 
       &:hover:not(.quarter__month-unit--no-data):not(.quarter__month-unit--selected) .month-unit__month-name {
@@ -289,7 +298,6 @@
         border-radius: 50vh;
         color: $color-grey-darker;
       }
-
 
       &--within-range {
         background: $color-blue-readable-background;

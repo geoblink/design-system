@@ -6,7 +6,8 @@
         :key="index"
         :class="{
           'months-container__quarter': true,
-          'months-container__quarter-actionable': canQuarterBeHighlighted
+          'months-container__quarter--actionable': canQuarterBeHighlighted,
+          'months-container__quarter--no-data': isSomeMonthInQuarterWithoutData(quarter)
         }"
       >
         <div
@@ -112,12 +113,16 @@ export default {
       return (monthIndex) => {
         return (
           (
-            isBefore(new Date(this.earliestDate, monthIndex), this.selectedFromDay)
+            isBefore(new Date(this.currentYear, monthIndex), this.earliestDate)
           ) || (
-            isAfter(new Date(this.latest, monthIndex), this.selectedToDay)
+            isAfter(new Date(this.currentYear, monthIndex), this.latestDate)
           )
         )
       }
+    },
+
+    isSomeMonthInQuarterWithoutData () {
+      return (quarter) => _.reduce(quarter, (accum, month) => accum || this.isMonthWithoutData(month.index), false)
     },
 
     monthsByQuarters () {
@@ -132,6 +137,7 @@ export default {
 
   methods: {
     selectMonth (monthIndex) {
+      if (this.isMonthWithoutData(monthIndex)) return
       if (this.granularityId === GRANULARITY_IDS.month) {
         /**
          * User selects a particular month within the month grid

@@ -75,7 +75,7 @@ eiusmod tempor incididunt ut labore et dolore magna aliqua.
           slot="calendarFooter"
           :disabled="!(selectedFromDate && selectedToDate)"
         >
-          APPLY DATE {{!!selectedFromDate}} {{!!selectedToDate}}
+          APPLY DATE
         </geo-primary-button>
       </geo-calendar-dropdown>
     </div>
@@ -120,12 +120,10 @@ export default {
     },
 
     setFromDate ({ fromDate }) {
-      debugger
       this.selectedFromDate = fromDate
     },
 
     setToDate ({ toDate }) {
-      debugger
       this.selectedToDate = toDate
     }
   }
