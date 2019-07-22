@@ -384,6 +384,10 @@ export default {
     },
 
     parseDate (date) {
+      // TODO: Change when date-fns v2 is release as stable version
+      // This should be provided by date-fns, but only is available in alpha and beta versions
+      // https://github.com/date-fns/date-fns/issues/942
+      // https://github.com/date-fns/date-fns/issues/1064
       if (!date || !date.match(/\d{2}\/\d{2}\/\d{4}/)) return null
       const [day, month, year] = date.split('/').map(n => parseInt(n))
       return new Date(year, month - 1, day)
