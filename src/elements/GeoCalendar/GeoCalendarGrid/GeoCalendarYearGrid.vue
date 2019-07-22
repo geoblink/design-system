@@ -1,7 +1,7 @@
 <template>
   <div class="geo-calendar-grid">
     <div class="geo-calendar-grid__year-container">
-
+      Year grid
     </div>
   </div>
 </template>
@@ -11,4 +11,3 @@ export default {
   name: 'GeoCalendarYearGrid'
 }
 </script>
-

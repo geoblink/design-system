@@ -61,6 +61,7 @@
 </template>
 
 <script>
+import _ from 'lodash'
 import {
   differenceInCalendarYears,
   eachDay,

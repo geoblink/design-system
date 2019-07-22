@@ -33,6 +33,7 @@
 </template>
 
 <script>
+import _ from 'lodash'
 import { differenceInCalendarYears, getYear } from 'date-fns'
 const GeoCalendarNavigationMixin = require('./GeoCalendarNavigation.mixin')
 

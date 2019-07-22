@@ -35,6 +35,7 @@
 
 <script>
 import { GRANULARITY_IDS } from '../GeoCalendar.utils'
+import _ from 'lodash'
 import {
   addMonths,
   eachDay,
