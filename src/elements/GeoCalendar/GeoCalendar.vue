@@ -11,7 +11,7 @@
         <div class="geo-calendar__input geo-calendar__input--start">
           <geo-input
             v-model="fromFormattedDate"
-            v-click-outside="unfocusDateInput"
+            v-click-outside="unfocusFromDateInput"
             :is-focused="isFromDateInputFocused"
             :placeholder="fromInputPlaceholder"
             :show-buttons="false"
@@ -48,7 +48,7 @@
         <div class="geo-calendar__input geo-calendar__input--end">
           <geo-input
             v-model="toFormattedDate"
-            v-click-outside="unfocusDateInput"
+            v-click-outside="unfocusToDateInput"
             :is-focused="isToDateInputFocused"
             :placeholder="toInputPlaceholder"
             :show-buttons="false"
@@ -298,11 +298,6 @@ export default {
       },
 
       set (newFromDate) {
-        if (newFromDate === '') {
-          this.showFromFormatError = false
-          this.fromRawDate = null
-          return this.setFromDate({ fromDate: null })
-        }
         const parsedDate = this.parseDate(newFromDate)
         if (this.isValidDate(parsedDate)) {
           this.showFromFormatError = false
@@ -311,7 +306,12 @@ export default {
           this.currentYear = getYear(this.fromRawDate)
           this.setFromDate({ fromDate: this.fromRawDate })
         } else {
-          this.showFromFormatError = true
+          if (newFromDate === '') {
+            this.showFromFormatError = false
+            this.fromRawDate = null
+          } else {
+            this.showFromFormatError = true
+          }
           this.setFromDate({ fromDate: null })
         }
       }
@@ -323,11 +323,6 @@ export default {
       },
 
       set (newToDate) {
-        if (newToDate === '') {
-          this.toRawDate = null
-          this.showToFormatError = false
-          return this.setToDate({ toDate: null })
-        }
         const parsedDate = this.parseDate(newToDate)
         if (this.isValidDate(parsedDate)) {
           this.showToFormatError = false
@@ -336,7 +331,12 @@ export default {
           this.currentYear = getYear(this.toRawDate)
           this.setToDate({ toDate: this.toRawDate })
         } else {
-          this.showToFormatError = true
+          if (newToDate === '') {
+            this.showToFormatError = false
+            this.toRawDate = null
+          } else {
+            this.showToFormatError = true
+          }
           this.setToDate({ toDate: null })
         }
       }
@@ -459,8 +459,11 @@ export default {
       this.$emit('set-to-date', { toDate })
     },
 
-    unfocusDateInput () {
+    unfocusFromDateInput () {
       this.isFromDateInputFocused = false
+    },
+
+    unfocusToDateInput () {
       this.isToDateInputFocused = false
     }
   }
