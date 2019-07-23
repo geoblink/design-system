@@ -49,6 +49,8 @@ import {
 
 export default {
   name: 'GeoCalendarPicker',
+  status: 'missing-tests',
+  release: '22.3.0',
   props: {
     /**
      * Icon used for the selects in the navigation menu

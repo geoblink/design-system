@@ -53,6 +53,8 @@ const GeoCalendarGridMixin = require('./GeoCalendarGrid.mixin')
 
 export default {
   name: 'GeoCalendarMonthGrid',
+  status: 'missing-tests',
+  release: '22.3.0',
   mixins: [GeoCalendarGridMixin],
   data () {
     return {

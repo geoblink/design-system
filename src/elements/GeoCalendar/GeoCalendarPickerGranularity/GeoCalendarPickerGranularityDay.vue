@@ -17,6 +17,8 @@ import { PICKER_DATE_UNITS, GRANULARITY_IDS } from '../GeoCalendar.utils'
 
 export default {
   name: 'GeoCalendarPickerGranularityDay',
+  status: 'missing-tests',
+  release: '22.3.0',
   components: {
     GeoCalendarPickerGranularityBase
   },

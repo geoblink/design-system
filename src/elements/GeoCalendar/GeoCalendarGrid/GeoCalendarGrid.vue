@@ -34,6 +34,8 @@ import { PICKER_DATE_UNITS } from '../GeoCalendar.utils'
 
 export default {
   name: 'GeoCalendarGrid',
+  status: 'missing-tests',
+  release: '22.3.0',
   props: {
     /**
      * Number of the month within a year that is currently being displayed in the grid(ie: `0 -> january`, `11 -> december`)

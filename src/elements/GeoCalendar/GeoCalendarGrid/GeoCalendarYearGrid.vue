@@ -8,6 +8,8 @@
 
 <script>
 export default {
-  name: 'GeoCalendarYearGrid'
+  name: 'GeoCalendarYearGrid',
+  status: 'missing-tests',
+  release: '22.3.0'
 }
 </script>

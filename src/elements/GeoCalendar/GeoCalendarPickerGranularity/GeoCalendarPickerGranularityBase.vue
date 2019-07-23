@@ -19,6 +19,8 @@
 <script>
 export default {
   name: 'GeoCalendarPickerGranularityBase',
+  status: 'missing-tests',
+  release: '22.3.0',
   props: {
     isActive: {
       type: Boolean,

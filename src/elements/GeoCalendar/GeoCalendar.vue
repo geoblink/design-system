@@ -121,7 +121,7 @@ import {
 export default {
   name: 'GeoCalendar',
   status: 'missing-tests',
-  release: 'CHANGE ME',
+  release: '22.3.0',
   directives: {
     ClickOutside
   },
@@ -384,7 +384,7 @@ export default {
     },
 
     parseDate (date) {
-      // TODO: Change when date-fns v2 is release as stable version
+      // TODO: CORE-7324 Change when date-fns v2 is release as stable version
       // This should be provided by date-fns, but only is available in alpha and beta versions
       // https://github.com/date-fns/date-fns/issues/942
       // https://github.com/date-fns/date-fns/issues/1064

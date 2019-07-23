@@ -75,6 +75,8 @@ const TOTAL_DAYS_IN_WEEK = 7
 
 export default {
   name: 'GeoCalendarDayGrid',
+  status: 'missing-tests',
+  release: '22.3.0',
   mixins: [GeoCalendarGridMixin],
   props: {
     /**

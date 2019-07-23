@@ -63,6 +63,8 @@ import cssSuffix from '../../mixins/cssModifierMixin'
 
 export default {
   name: 'GeoCalendarDropdown',
+  status: 'missing-tests',
+  release: '22.3.0',
   mixins: [cssSuffix],
   props: {
     /**

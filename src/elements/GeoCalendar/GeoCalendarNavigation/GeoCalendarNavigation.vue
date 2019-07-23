@@ -38,6 +38,8 @@ const GeoCalendarNavigationMixin = require('./GeoCalendarNavigation.mixin')
 
 export default {
   name: 'GeoCalendarNavigation',
+  status: 'missing-tests',
+  release: '22.3.0',
   mixins: [GeoCalendarNavigationMixin],
   props: {
     /**
