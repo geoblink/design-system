@@ -8,6 +8,11 @@ import GeoTableBodyRow from '@/elements/GeoTable/GeoTableBodyRow'
 import GeoTableBodyRowCell from '@/elements/GeoTable/GeoTableBodyRowCell'
 import GeoTablePagination from '@/elements/GeoTable/GeoTablePagination'
 
+import {
+  DATA_KEYS as INFER_PAGE_SIZE_DATA_KEYS,
+  INFERRED_PAGE_SIZE_CHANGED_EVENT_NAME
+} from '@/mixins/inferPageSizeMixin'
+
 // create an extended `Vue` constructor
 const localVue = createLocalVue()
 localVue.component('geo-table', GeoTable)
@@ -457,13 +462,13 @@ describe('GeoTable', () => {
 
       await wrapper.vm.forcedLayoutTable()
 
-      while (wrapper.vm.isInferringPageSize) {
+      while (wrapper.vm[INFER_PAGE_SIZE_DATA_KEYS.isInferringPageSize]) {
         await delayPromise(0)
       }
 
-      expect(wrapper.vm.isInferringPageSize).toBe(false)
-      expect(wrapper.find('.geo-table').emitted('infer-page-size')).toHaveLength(1)
-      expect(wrapper.find('.geo-table').emitted('infer-page-size')[0]).toEqual([numRows])
+      expect(wrapper.vm[INFER_PAGE_SIZE_DATA_KEYS.isInferringPageSize]).toBe(false)
+      expect(wrapper.find('.geo-table').emitted(INFERRED_PAGE_SIZE_CHANGED_EVENT_NAME)).toHaveLength(1)
+      expect(wrapper.find('.geo-table').emitted(INFERRED_PAGE_SIZE_CHANGED_EVENT_NAME)[0]).toEqual([numRows])
     })
 
     describe('When there is no forced page size', function () {
