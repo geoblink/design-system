@@ -1,0 +1,112 @@
+<template>
+  <div
+    :class="{
+      'days-container__day-picker': true,
+      'days-container__day-picker--today': isToday,
+      'days-container__day-picker--out-of-boundaries': isDayOutOfBoundaries,
+      'days-container__day-picker--no-data': isDayWithoutData,
+      'days-container__day-picker--selected': isSelectedDay,
+      'days-container__day-picker--from-date': isEqual(day, selectedFromDay),
+      'days-container__day-picker--to-date': isEqual(day, selectedToDay),
+      'days-container__day-picker--within-range': isDayWithinRanges
+    }"
+    @click="selectDay"
+  >
+    <p class="day-picker__day-number">
+      {{ dayNumber }}
+    </p>
+  </div>
+</template>
+
+<script>
+import GeoCalendarGridMixin from './GeoCalendarGrid.mixin'
+
+import {
+  isToday,
+  isSameMonth,
+  isBefore,
+  isAfter,
+  isEqual,
+  isWithinRange,
+  getDate
+} from 'date-fns'
+
+export default {
+  name: 'GeoCalendarDayGridDayUnit',
+  mixins: [
+    GeoCalendarGridMixin
+  ],
+  props: {
+    currentDate: {
+      type: Date,
+      required: true
+    },
+
+    day: {
+      type: Date,
+      required: true
+    },
+    /**
+     * Earliest date that can be selected
+     */
+    earliestDate: {
+      type: Date,
+      required: false
+    },
+
+    /**
+     * Latest date that can be selected
+     */
+    latestDate: {
+      type: Date,
+      required: false
+    }
+  },
+
+  computed: {
+    dayNumber () {
+      return getDate(this.day)
+    },
+
+    isEqual () {
+      return isEqual
+    },
+
+    isToday () {
+      return isToday(this.day)
+    },
+
+    isDayOutOfBoundaries () {
+      return !isSameMonth(new Date(this.day), this.currentDate)
+    },
+
+    isDayWithinRanges () {
+      return this.selectedFromDay &&
+        this.selectedToDay &&
+        isBefore(this.selectedFromDay, this.selectedToDay) &&
+        (isWithinRange(this.day, this.selectedFromDay, this.selectedToDay) ||
+        (this.selectedFromDay === this.day || this.selectedToDay === this.day))
+    },
+
+    isDayWithoutData () {
+      return isBefore(this.day, this.earliestDate) || isAfter(this.day, this.latestDate)
+    },
+
+    isSelectedDay () {
+      return isEqual(this.day, this.selectedFromDay) || isEqual(this.day, this.selectedToDay)
+    }
+  },
+
+  methods: {
+    selectDay () {
+      /**
+       * User selects a particular day of the month within the grid
+       *
+       * @event select-day-unit
+       * @type {Date}
+       */
+      this.$emit('select-day-unit', this.day)
+    }
+  }
+}
+</script>

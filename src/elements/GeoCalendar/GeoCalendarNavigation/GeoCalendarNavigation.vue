@@ -80,19 +80,12 @@ export default {
 
   computed: {
     selectedGranularityNavigation () {
-      let granularityNavigationComponent
-      switch (this.pickerDateUnit) {
-        case PICKER_DATE_UNITS.day:
-          granularityNavigationComponent = GeoCalendarNavigationDay
-          break
-        case PICKER_DATE_UNITS.month:
-          granularityNavigationComponent = GeoCalendarNavigationMonth
-          break
-        case PICKER_DATE_UNITS.year:
-          granularityNavigationComponent = GeoCalendarNavigationYear
-          break
+      const componentForGranularity = {
+        [PICKER_DATE_UNITS.day]: GeoCalendarNavigationDay,
+        [PICKER_DATE_UNITS.month]: GeoCalendarNavigationMonth,
+        [PICKER_DATE_UNITS.year]: GeoCalendarNavigationYear
       }
-      return granularityNavigationComponent
+      return componentForGranularity[this.pickerDateUnit]
     }
   },
 
