@@ -100,7 +100,7 @@ import _ from 'lodash'
 import OnResize from '../../directives/GeoOnResize'
 import cssSuffix from '../../mixins/cssModifierMixin'
 import inferPageSize, {
-  DATA_KEYS as INFER_PAGE_SIZE_DATA_KEYS, DATA_KEYS
+  DATA_KEYS as INFER_PAGE_SIZE_DATA_KEYS
 } from '../../mixins/inferPageSizeMixin'
 import throttle from '../../utils/throttle'
 
@@ -219,7 +219,7 @@ export default {
     this.layoutTableIfPossible()
   },
   updated () {
-    if (this[DATA_KEYS.isInferringPageSize]) return
+    if (this[INFER_PAGE_SIZE_DATA_KEYS.isInferringPageSize]) return
 
     this.layoutTableIfPossible()
   },
