@@ -113,7 +113,7 @@ export default {
        * User selects a particular week within the day grid
        *
        * @event select-week
-       * @type {{ fromDate: Date, toDate: Date}}
+       * @type {{ fromDate: Date, toDate: Date }}
        */
       this.$emit('select-week', { fromDate, toDate })
     }

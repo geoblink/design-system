@@ -19,13 +19,10 @@
             input-type="normal"
             @click="focusFromDateInput"
           />
+          <!-- @slot Use this slot to customize the message shown when there is an error in one of the selected dates -->
           <slot
             v-if="showFromFormatError"
             name="formatError"
-          />
-          <slot
-            v-else-if="isFromDateAfterToDate"
-            name="fromDateAfterToDate"
           />
           <geo-link-button
             css-modifier="calendar-picker-button"
@@ -50,13 +47,10 @@
             input-type="normal"
             @click="focusToDateInput"
           />
+          <!-- @slot Use this slot to customize the message shown when there is an error in one of the selected dates -->
           <slot
             v-if="showToFormatError"
             name="formatError"
-          />
-          <slot
-            v-else-if="isToDateBeforeFromDate"
-            name="toDateAfterToDate"
           />
           <geo-link-button
             css-modifier="calendar-picker-button"
@@ -66,6 +60,11 @@
           </geo-link-button>
         </div>
       </div>
+      <!-- @slot Use this slot to customize the message shown when the initial date is after the end date -->
+      <slot
+        v-if="areDatesNotConsecutive"
+        name="datesNotConsecutive"
+      />
       <geo-calendar-picker
         ref="calendarPicker"
         :calendar-navigation-select-icon="calendarNavigationSelectIcon"
@@ -194,7 +193,7 @@ export default {
       return (date) => !isBefore(date, this.earliestDate) && !isAfter(date, this.latestDate)
     },
 
-    isFromDateAfterToDate () {
+    areDatesNotConsecutive () {
       return this.fromRawDate && this.toRawDate && isAfter(this.fromRawDate, this.toRawDate)
     },
 
@@ -202,10 +201,6 @@ export default {
       return (day) => {
         return !this.fromRawDate || (this.fromRawDate && isBefore(day, this.fromRawDate))
       }
-    },
-
-    isToDateBeforeFromDate () {
-      return this.fromRawDate && this.toRawDate && isBefore(this.toRawDate, this.fromRawDate)
     },
 
     isValidDate () {

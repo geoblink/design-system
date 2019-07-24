@@ -45,17 +45,15 @@
           slot="pickerGranularity"
           name="pickerGranularity"
         />
+        <!-- @slot Use this slot to customize the message shown when there is an error in one of the selected dates -->
         <slot
           slot="formatError"
           name="formatError"
         />
+        <!-- @slot Use this slot to customize the message shown when the initial date is after the end date -->
         <slot
-          slot="fromDateAfterToDate"
-          name="fromDateAfterToDate"
-        />
-        <slot
-          slot="toDateAfterToDate"
-          name="toDateAfterToDate"
+          slot="datesNotConsecutive"
+          name="datesNotConsecutive"
         />
       </geo-calendar>
       <geo-bordered-box-footer>

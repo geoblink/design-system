@@ -1,13 +1,13 @@
 <template>
   <div class="geo-calendar-grid">
     <div class="geo-calendar-grid__weekdays-row-container">
-      <span
+      <p
         v-for="day in weekDays"
         :key="day"
         class="weekdays-row__weekday-name"
       >
         {{ day }}
-      </span>
+      </p>
     </div>
     <div class="geo-calendar-grid__days-container">
       <geo-calendar-day-grid-week-unit
@@ -130,7 +130,7 @@ export default {
        * User selects a particular week within the day grid
        *
        * @event select-week
-       * @type {{ fromDate: Date, toDate: Date}}
+       * @type {{ fromDate: Date, toDate: Date }}
        */
       this.$emit('select-week', $event)
     }

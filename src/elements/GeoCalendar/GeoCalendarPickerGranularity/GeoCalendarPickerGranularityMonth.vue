@@ -2,7 +2,6 @@
   <geo-calendar-picker-granularity-base
     :granularity-id="granularityId"
     :is-active="isActive"
-    :is-valid="isValid"
     :picker-granularity-icon="pickerGranularityIcon"
     :picker-date-unit="pickerDateUnit"
     @click.native="handleClick($event)"
@@ -12,52 +11,21 @@
 </template>
 
 <script>
-import GeoCalendarPickerGranularityBase from './GeoCalendarPickerGranularityBase'
 import { PICKER_DATE_UNITS, GRANULARITY_IDS } from '../GeoCalendar.utils'
+import GeoCalendarPickerGranularityMixin from './GeoCalendarPickerGranularity.mixin'
 
 export default {
   name: 'GeoCalendarPickerGranularityMonth',
   status: 'missing-tests',
   release: '22.3.0',
-  components: {
-    GeoCalendarPickerGranularityBase
-  },
-
-  props: {
-    isActive: {
-      type: Boolean,
-      required: true
-    },
-
-    pickerGranularityIcon: {
-      type: Array,
-      required: false
-    }
-  },
-
+  mixins: [GeoCalendarPickerGranularityMixin],
   computed: {
     granularityId () {
       return GRANULARITY_IDS.month
     },
 
-    isValid (date) {
-      // TODO Implement validation
-      return function () {}
-    },
-
     pickerDateUnit () {
       return PICKER_DATE_UNITS.month
-    }
-  },
-
-  methods: {
-    handleClick ($event) {
-      this.$emit('click', {
-        event: $event,
-        isValid: this.isValid,
-        pickerDateUnit: this.pickerDateUnit,
-        granularityId: this.granularityId
-      })
     }
   }
 }

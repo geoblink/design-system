@@ -1,5 +1,5 @@
 <template>
-  <div
+  <button
     :class="{
       'days-container__day-picker': true,
       'days-container__day-picker--today': isToday,
@@ -12,10 +12,10 @@
     }"
     @click="selectDay"
   >
-    <p class="day-picker__day-number">
+    <div class="day-picker__day-number">
       {{ dayNumber }}
-    </p>
-  </div>
+    </div>
+  </button>
 </template>
 
 <script>
@@ -37,15 +37,22 @@ export default {
     GeoCalendarGridMixin
   ],
   props: {
+    /**
+     * Current month in year being displayed on the grid
+     */
     currentDate: {
       type: Date,
       required: true
     },
 
+    /**
+     * Minimal date unit being displayed in the grid
+     */
     day: {
       type: Date,
       required: true
     },
+
     /**
      * Earliest date that can be selected
      */

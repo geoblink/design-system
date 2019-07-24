@@ -10,7 +10,7 @@
           'months-container__quarter--no-data': isSomeMonthInQuarterWithoutData(quarter)
         }"
       >
-        <div
+        <button
           v-for="month in quarter"
           :key="month.index"
           :class="{
@@ -18,16 +18,15 @@
             'quarter__month-unit--selected': isDateInMonth(month.index),
             'quarter__month-unit--within-range': isDateWithinSelectedMonths(month.index),
             'quarter__month-unit--no-data': isMonthWithoutData(month.index),
-            'quarter__month-unit--hovered-quarter': isMonthWithinHoveredQuarter(month.index),
             'quarter__month-unit--from-date': isDayWithinMonth(month.index, selectedFromDay),
             'quarter__month-unit--to-date': isDayWithinMonth(month.index, selectedToDay)
           }"
           @click="selectMonth(month.index)"
         >
-          <p class="month-unit__month-name">
+          <div class="month-unit__month-name">
             {{ month.name }}
-          </p>
-        </div>
+          </div>
+        </button>
       </div>
     </div>
   </div>
@@ -63,11 +62,6 @@ export default {
     GeoCalendarDateIndicatorsMixin,
     GeoCalendarGranularityIdMixin
   ],
-  data () {
-    return {
-      hoveredQuarter: null
-    }
-  },
 
   computed: {
     canQuarterBeHighlighted () {
@@ -113,10 +107,6 @@ export default {
 
     isDayWithinMonth () {
       return (monthIndex, day) => getMonth(day) === monthIndex && getYear(day) === this.currentYear
-    },
-
-    isMonthWithinHoveredQuarter () {
-      return (monthIndex) => getQuarter(new Date(this.currentYear, monthIndex)) === this.hoveredQuarter
     },
 
     isMonthWithoutData () {

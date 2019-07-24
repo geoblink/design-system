@@ -1,6 +1,9 @@
 @mixin geo-calendar-make($modifier-name) {
 
   $modifier-name-with-prefix: '';
+  $day-unit-size: 25px;
+  $border-radius-selected-date-unit: 50vh;
+  $calendar-input-height: 30px;
 
   @if $modifier-name != '' {
     // sass-lint:disable space-around-operator
@@ -31,16 +34,26 @@
       &:not(.geo-calendar-picker-granularity-unit--active):hover {
         background: $color-white-darker;
         font-weight: $font-weight-bold;
+
+        .geo-calendar-picker-granularity-unit__selector-icon {
+          display: inline;
+        }
       }
 
       &--active {
         background: $color-blue;
         color: $color-white;
+
+        .geo-calendar-picker-granularity-unit__selector-icon {
+          color: $color-white-dark;
+          display: inline;
+        }
       }
     }
 
     .geo-calendar-picker-granularity-unit__selector-icon {
       color: $color-grey-light;
+      display: none;
     }
 
     .geo-calendar__granularity-selectors {
@@ -78,13 +91,13 @@
     }
 
     .geo-input__container--geo-calendar {
-      height: 30px;
+      height: $calendar-input-height;
     }
 
     .geo-input__form__input--geo-calendar {
       @include font($body-small);
 
-      height: 28px;
+      height: calc(#{$calendar-input-height} - 2px); //2px of border in the inner input
     }
 
     .geo-calendar__input-range-icon {
@@ -150,19 +163,18 @@
       display: grid;
       margin-top: $space-small;
       grid-row-gap: $space-small;
-      justify-content: space-evenly;
     }
 
     .days-container__week-unit {
       align-items: center;
       display: grid;
-      grid-template-columns: repeat(7, 45px);
-      grid-template-rows: 27px;
+      grid-template-columns: repeat(7, 1fr);
+      grid-template-rows: calc(#{$day-unit-size} + 2px);
       text-align: center;
 
-      &--hovered-week {
+      &:hover.days-container__week-unit--is-week-granularity {
         background: $color-blue-readable-background;
-        border-radius: 50vh;
+        border-radius: $border-radius-selected-date-unit;
         color: $color-grey-darker;
       }
 
@@ -179,14 +191,17 @@
     .days-container__day-picker {
       @include font($body-small);
 
+      background: unset;
+      border: unset;
       cursor: pointer;
-      line-height: 25px;
+      height: 100%;
+      line-height: $day-unit-size;
+      outline: 0;
+      padding: unset;
       position: relative;
 
       .day-picker__day-number {
-        border: 1px solid transparent;
         box-sizing: border-box;
-        margin: 0;
         position: relative;
       }
 
@@ -197,7 +212,7 @@
         box-sizing: content-box;
         color: $color-grey-darker;
         margin: 0 auto;
-        width: 25px;
+        width: $day-unit-size;
       }
 
       &--within-range {
@@ -232,9 +247,10 @@
       }
 
       &--from-date {
-        border-top-left-radius: 50vh;
-        border-bottom-left-radius: 50vh;
-        margin-left: 9px;
+        border-top-left-radius: $border-radius-selected-date-unit;
+        border-bottom-left-radius: $border-radius-selected-date-unit;
+        margin-left: $space-small;
+        padding-left: 0;
 
         .day-picker__day-number {
           margin-left: 0 !important;
@@ -242,10 +258,10 @@
       }
 
       &--to-date {
-        border-top-right-radius: 50vh;
-        border-bottom-right-radius: 50vh;
-        margin: 0 10px 0 -7px;
-        padding-left: 10px;
+        border-top-right-radius: $border-radius-selected-date-unit;
+        border-bottom-right-radius: $border-radius-selected-date-unit;
+        margin-right: $space-small;
+        padding-right: 0;
       }
 
       &--selected .day-picker__day-number {
@@ -253,9 +269,9 @@
         color: $color-white;
         background: $color-blue;
         border-radius: 50%;
-        height: 25px;
-        margin-left: 6px;
-        width: 25px;
+        height: $day-unit-size;
+        margin-left: $space-small;
+        width: $day-unit-size;
       }
 
     }
@@ -273,7 +289,7 @@
     .months-container__quarter--highlighted,
     .months-container__quarter--actionable:hover {
       background: $color-blue-readable-background;
-      border-radius: 50vh;
+      border-radius: $border-radius-selected-date-unit;
       color: $color-grey-darker;
     }
 
@@ -289,8 +305,12 @@
     .quarter__month-unit {
       @include font($body-small);
 
-      border: 1px solid transparent;
+      background: unset;
+      border: unset;
       cursor: pointer;
+      height: 100%;
+      outline: 0;
+      padding: unset;
       text-align: center;
 
       .month-unit__month-name {
@@ -302,7 +322,7 @@
       &:hover:not(.quarter__month-unit--no-data):not(.quarter__month-unit--selected) .month-unit__month-name {
         background: $color-blue-readable-background;
         border: 1px solid $color-blue;
-        border-radius: 50vh;
+        border-radius: $border-radius-selected-date-unit;
         color: $color-grey-darker;
       }
 
@@ -312,18 +332,18 @@
 
       &--selected .month-unit__month-name {
         background: $color-blue;
-        border-radius: 50vh;
+        border-radius: $border-radius-selected-date-unit;
         color: $color-white;
       }
 
       &--from-date {
-        border-top-left-radius: 50vh;
-        border-bottom-left-radius: 50vh;
+        border-top-left-radius: $border-radius-selected-date-unit;
+        border-bottom-left-radius: $border-radius-selected-date-unit;
       }
 
       &--to-date {
-        border-top-right-radius: 50vh;
-        border-bottom-right-radius: 50vh;
+        border-top-right-radius: $border-radius-selected-date-unit;
+        border-bottom-right-radius: $border-radius-selected-date-unit;
       }
 
       &--no-data {

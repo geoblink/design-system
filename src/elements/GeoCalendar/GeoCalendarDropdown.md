@@ -80,17 +80,10 @@ eiusmod tempor incididunt ut labore et dolore magna aliqua.
         </p>
         <!-- TODO: CORE-7312 This should be part of the DS when input results in error -->
         <p
-          slot="fromDateAfterToDate"
+          slot="datesNotConsecutive"
           class="geo-calendar__input__date-feedback--error"
         >
           The initial date cannot be after the end date
-        </p>
-        <!-- TODO: CORE-7312 This should be part of the DS when input results in error -->
-        <p
-          slot="toDateAfterToDate"
-          class="geo-calendar__input__date-feedback--error"
-        >
-          The end date cannot be before the initial date
         </p>
         <geo-primary-button
           slot="calendarFooter"

@@ -1,23 +1,4 @@
-<template>
-  <div
-    :class="{
-      'geo-calendar-picker-granularity-unit': true,
-      'geo-calendar-picker-granularity-unit--active': isActive
-    }"
-  >
-    <slot />
-    <font-awesome-icon
-      class="geo-calendar-picker-granularity-unit__selector-icon"
-      :icon="pickerGranularityIcon"
-    />
-  </div>
-</template>
-
-<script>
 export default {
-  name: 'GeoCalendarPickerGranularityBase',
-  status: 'missing-tests',
-  release: '22.3.0',
   props: {
     /**
      * Is current granularity selector active
@@ -35,10 +16,22 @@ export default {
      */
     pickerGranularityIcon: {
       type: Array,
-      default () {
-        return ['fal', 'arrow-right']
-      }
+      required: true
+    }
+  },
+  methods: {
+    handleClick ($event) {
+      /**
+       * User picks a granularity
+       *
+       * @event click
+       * @type {MouseEvent}
+       */
+      this.$emit('click', {
+        event: $event,
+        pickerDateUnit: this.pickerDateUnit,
+        granularityId: this.granularityId
+      })
     }
   }
 }
-</script>

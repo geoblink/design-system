@@ -2,11 +2,9 @@
   <div
     :class="{
       'days-container__week-unit': true,
-      'days-container__week-unit--hovered-week': isWeekHovered,
-      'days-container__week-unit--no-data': isWeekHovered && isWeekWithoutData
+      'days-container__week-unit--no-data': isWeekWithoutData,
+      'days-container__week-unit--is-week-granularity': isWeekGranularity
     }"
-    @mouseenter="$set(weekUnits, weekIndex, true)"
-    @mouseleave="$set(weekUnits, weekIndex, false)"
   >
     <geo-calendar-day-grid-day-unit
       v-for="(day, index) in week"
@@ -39,6 +37,9 @@ export default {
   name: 'GeoCalendarDayGridWeekUnit',
   mixins: [GeoCalendarGridMixin, GeoCalendarGranularityIdMixin],
   props: {
+    /**
+     * Current month in year being displayed on the grid
+     */
     currentDate: {
       type: Date,
       required: true
@@ -60,31 +61,34 @@ export default {
       required: false
     },
 
+    /**
+     * Array of days pertaining to a certain week within a month
+     */
     week: {
       type: Array,
       required: true
     },
 
+    /**
+     * Index of the week within the current month
+     */
     weekIndex: {
       type: Number,
       required: true
     },
 
+    /**
+     * Array of dates pertaining to the current month being displayed.
+     */
     fullMonthCalendar: {
       type: Array,
       required: true
     }
   },
 
-  data () {
-    return {
-      weekUnits: []
-    }
-  },
-
   computed: {
-    isWeekHovered () {
-      return this.weekUnits[this.weekIndex] && this.granularityId === GRANULARITY_IDS.week
+    isWeekGranularity () {
+      return this.granularityId === GRANULARITY_IDS.week
     },
 
     isWeekWithoutData () {
@@ -112,7 +116,7 @@ export default {
          * User selects a particular week within the day grid
          *
          * @event select-week
-         * @type {{ fromDate: Date, toDate: Date}}
+         * @type {{ fromDate: Date, toDate: Date }}
          */
         this.$emit('select-week', {
           fromDate: startOfWeek(day, { weekStartsOn: 1 }),
