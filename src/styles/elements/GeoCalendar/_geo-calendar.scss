@@ -278,7 +278,7 @@
 
     .geo-calendar-grid__months-container {
       display: grid;
-      grid-row-gap: calc(#{$space-large - $space-x-small});
+      grid-row-gap: calc(#{$space-base - $space-x-small});
     }
 
     .months-container__quarter {

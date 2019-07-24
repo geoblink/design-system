@@ -114,8 +114,8 @@ export default {
       selectedGranularityId: 'day',
       dataEarliestDate: subYears(startOfToday(), 4),
       dataLatestDate: addYears(startOfToday(), 2),
-      selectedFromDate: null,
-      selectedToDate: null
+      selectedFromDay: null,
+      selectedToDay: null
     }
   },
   computed: {
@@ -128,8 +128,8 @@ export default {
     },
 
     isDateRangeNotValid () {
-      return !(this.selectedFromDate && this.selectedToDate) ||
-        isAfter(this.selectedFromDate, this.selectedToDate)
+      return !(this.selectedFromDay && this.selectedToDay) ||
+        isAfter(this.selectedFromDay, this.selectedToDay)
 
     }
   },
@@ -137,16 +137,16 @@ export default {
     setGranularityData (granularityData) {
       this.selectedPickerDateUnit = granularityData.pickerDateUnit
       this.selectedGranularityId = granularityData.granularityId
-      this.selectedFromDate = null
-      this.selectedToDate = null
+      this.selectedFromDay = null
+      this.selectedToDay = null
     },
 
     setFromDate ({ fromDate }) {
-      this.selectedFromDate = fromDate
+      this.selectedFromDay = fromDate
     },
 
     setToDate ({ toDate }) {
-      this.selectedToDate = toDate
+      this.selectedToDay = toDate
     }
   }
 }

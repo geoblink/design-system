@@ -35,6 +35,7 @@ import { PICKER_DATE_UNITS } from '../GeoCalendar.utils'
 import GeoCalendarDateIndicatorsMixin from '../GeoCalendarDateIndicators.mixin'
 import GeoCalendarGranularityIdMixin from '../GeoCalendarGranularityId.mixin'
 import GeoCalendarPickerDateUnitMixin from '../GeoCalendarPickerDateUnit.mixin'
+import GeoCalendarGridMixin from './GeoCalendarGrid.mixin'
 
 export default {
   name: 'GeoCalendarGrid',
@@ -43,25 +44,9 @@ export default {
   mixins: [
     GeoCalendarDateIndicatorsMixin,
     GeoCalendarGranularityIdMixin,
-    GeoCalendarPickerDateUnitMixin
+    GeoCalendarPickerDateUnitMixin,
+    GeoCalendarGridMixin
   ],
-  props: {
-    /**
-     * Selected initial date
-     */
-    selectedFromDay: {
-      type: Date,
-      required: false
-    },
-
-    /**
-     * Selected end date
-     */
-    selectedToDay: {
-      type: Date,
-      required: false
-    }
-  },
 
   computed: {
     isDayGrid () {
