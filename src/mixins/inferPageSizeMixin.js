@@ -8,7 +8,7 @@ export const DATA_KEYS = {
   inferredPageSize: 'geoblinkDesignSystem_inferPageSizeMixin_inferredPageSize'
 }
 
-export const INFERRED_PAGE_SIZE_CHANGED_EVENT_NAME = 'inferred-page-size-changed'
+export const INFERRED_PAGE_SIZE_CHANGED_EVENT_NAME = 'infer-page-size'
 
 /**
  * @callback InferPageSizeStepCallback
