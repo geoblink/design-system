@@ -31,30 +31,6 @@ export default {
     },
 
     /**
-     * Error displayed when the format of one of the input dates is wrong
-     */
-    errorMessageInvalidDateFormat: {
-      type: String,
-      required: true
-    },
-
-    /**
-     * Error displayed when the start date is set after the end date
-     */
-    errorMessageInvalidFromDateRange: {
-      type: String,
-      required: true
-    },
-
-    /**
-     * Error displayed when the end date is set before the start date
-     */
-    errorMessageInvalidToDateRange: {
-      type: String,
-      required: true
-    },
-
-    /**
      * Text displayed on the input that contains the selected 'from' date
      */
     fromInputPlaceholder: {

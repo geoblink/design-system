@@ -19,20 +19,14 @@
             input-type="normal"
             @click="focusFromDateInput"
           />
-          <!-- TODO: CORE-7312 This should be part of the DS when input results in error -->
-          <p
+          <slot
             v-if="showFromFormatError"
-            class="geo-calendar__input__date-feedback--error"
-          >
-            {{ errorMessageInvalidDateFormat }}
-          </p>
-          <!-- TODO: CORE-7312 This should be part of the DS when input results in error -->
-          <p
+            name="formatError"
+          />
+          <slot
             v-else-if="isFromDateAfterToDate"
-            class="geo-calendar__input__date-feedback--error"
-          >
-            {{ errorMessageInvalidFromDateRange }}
-          </p>
+            name="fromDateAfterToDate"
+          />
           <geo-link-button
             css-modifier="calendar-picker-button"
             @click="setEarliestDate"
@@ -56,20 +50,14 @@
             input-type="normal"
             @click="focusToDateInput"
           />
-          <!-- TODO: CORE-7312 This should be part of the DS when input results in error -->
-          <label
+          <slot
             v-if="showToFormatError"
-            class="geo-calendar__input__date-feedback--error"
-          >
-            {{ errorMessageInvalidDateFormat }}
-          </label>
-          <!-- TODO: CORE-7312 This should be part of the DS when input results in error -->
-          <label
+            name="formatError"
+          />
+          <slot
             v-else-if="isToDateBeforeFromDate"
-            class="geo-calendar__input__date-feedback--error"
-          >
-            {{ errorMessageInvalidToDateRange }}
-          </label>
+            name="toDateAfterToDate"
+          />
           <geo-link-button
             css-modifier="calendar-picker-button"
             @click="setLatestDate"

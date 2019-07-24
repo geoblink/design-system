@@ -15,9 +15,6 @@ eiusmod tempor incididunt ut labore et dolore magna aliqua.
         :locale="locale"
         :earliest-date="dataEarliestDate"
         :latest-date="dataLatestDate"
-        error-message-invalid-date-format="The inserted date is not valid"
-        error-message-invalid-from-date-range="The initial date cannot be after the end date"
-        error-message-invalid-to-date-range="The end date cannot be before the initial date"
         from-input-placeholder="From"
         to-input-placeholder="To"
         earliest-date-placeholder="Set earliest date"
@@ -74,6 +71,27 @@ eiusmod tempor incididunt ut labore et dolore magna aliqua.
             Year
           </geo-calendar-picker-granularity-year>
         </template>
+        <!-- TODO: CORE-7312 This should be part of the DS when input results in error -->
+        <p
+          slot="formatError"
+          class="geo-calendar__input__date-feedback--error"
+        >
+          The inserted date is not valid
+        </p>
+        <!-- TODO: CORE-7312 This should be part of the DS when input results in error -->
+        <p
+          slot="fromDateAfterToDate"
+          class="geo-calendar__input__date-feedback--error"
+        >
+          The initial date cannot be after the end date
+        </p>
+        <!-- TODO: CORE-7312 This should be part of the DS when input results in error -->
+        <p
+          slot="toDateAfterToDate"
+          class="geo-calendar__input__date-feedback--error"
+        >
+          The end date cannot be before the initial date
+        </p>
         <geo-primary-button
           slot="calendarFooter"
           :disabled="isDateRangeNotValid"

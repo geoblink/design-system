@@ -37,9 +37,6 @@
         :picker-date-unit="pickerDateUnit"
         :previous-date-in-selected-granularity-icon="previousDateInSelectedGranularityIcon"
         :to-input-placeholder="toInputPlaceholder"
-        :error-message-invalid-date-format="errorMessageInvalidDateFormat"
-        :error-message-invalid-from-date-range="errorMessageInvalidFromDateRange"
-        :error-message-invalid-to-date-range="errorMessageInvalidToDateRange"
         @set-from-date="setFromDate"
         @set-to-date="setToDate"
       >
@@ -47,6 +44,18 @@
         <slot
           slot="pickerGranularity"
           name="pickerGranularity"
+        />
+        <slot
+          slot="formatError"
+          name="formatError"
+        />
+        <slot
+          slot="fromDateAfterToDate"
+          name="fromDateAfterToDate"
+        />
+        <slot
+          slot="toDateAfterToDate"
+          name="toDateAfterToDate"
         />
       </geo-calendar>
       <geo-bordered-box-footer>
