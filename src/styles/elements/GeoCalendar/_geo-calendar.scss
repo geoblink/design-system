@@ -70,7 +70,7 @@
       flex-direction: column;
     }
 
-    .input-label--error {
+    .geo-calendar__input__date-feedback--error {
       @include font($label);
 
       color: $color-red;

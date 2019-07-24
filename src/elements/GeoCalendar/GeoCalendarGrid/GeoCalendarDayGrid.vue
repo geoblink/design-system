@@ -69,7 +69,9 @@ import {
   startOfWeek,
   subDays
 } from 'date-fns'
-const GeoCalendarGridMixin = require('./GeoCalendarGrid.mixin')
+import GeoCalendarDateIndicatorsMixin from '../GeoCalendarDateIndicators.mixin'
+import GeoCalendarGranularityIdMixin from '../GeoCalendarGranularityId.mixin'
+import GeoCalendarGridMixin from './GeoCalendarGrid.mixin'
 
 const TOTAL_DAYS_IN_WEEK = 7
 
@@ -77,28 +79,13 @@ export default {
   name: 'GeoCalendarDayGrid',
   status: 'missing-tests',
   release: '22.3.0',
-  mixins: [GeoCalendarGridMixin],
-  props: {
-    /**
-     * Number of the month within a year that is currently being displayed in the grid(ie: `0 -> january`, `11 -> december`)
-     */
-    currentMonth: {
-      type: Number,
-      required: true
-    },
-
-    /**
-     * Object provided by date-fns specifying the locale being used
-     */
-    locale: {
-      type: Object,
-      required: true
-    }
-  },
-
+  mixins: [
+    GeoCalendarGridMixin,
+    GeoCalendarDateIndicatorsMixin,
+    GeoCalendarGranularityIdMixin
+  ],
   data () {
     return {
-      isHoveringWeek: false,
       weekUnits: []
     }
   },

@@ -49,13 +49,20 @@ import {
   startOfYear,
   startOfDay
 } from 'date-fns'
-const GeoCalendarGridMixin = require('./GeoCalendarGrid.mixin')
+
+import GeoCalendarDateIndicatorsMixin from '../GeoCalendarDateIndicators.mixin'
+import GeoCalendarGranularityIdMixin from '../GeoCalendarGranularityId.mixin'
+import GeoCalendarGridMixin from './GeoCalendarGrid.mixin'
 
 export default {
   name: 'GeoCalendarMonthGrid',
   status: 'missing-tests',
   release: '22.3.0',
-  mixins: [GeoCalendarGridMixin],
+  mixins: [
+    GeoCalendarGridMixin,
+    GeoCalendarDateIndicatorsMixin,
+    GeoCalendarGranularityIdMixin
+  ],
   data () {
     return {
       hoveredQuarter: null

@@ -78,7 +78,7 @@ eiusmod tempor incididunt ut labore et dolore magna aliqua.
           slot="calendarFooter"
           :disabled="isDateRangeNotValid"
         >
-          APPLY DATE
+          apply date
         </geo-primary-button>
       </geo-calendar-dropdown>
     </div>

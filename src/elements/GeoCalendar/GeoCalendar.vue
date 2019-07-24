@@ -17,22 +17,22 @@
             :show-buttons="false"
             css-modifier="geo-calendar"
             input-type="normal"
-            @click="isFromDateInputFocused = true"
+            @click="focusFromDateInput"
           />
           <!-- TODO: CORE-7312 This should be part of the DS when input results in error -->
-          <label
+          <p
             v-if="showFromFormatError"
-            class="input-label--error"
+            class="geo-calendar__input__date-feedback--error"
           >
             {{ errorMessageInvalidDateFormat }}
-          </label>
+          </p>
           <!-- TODO: CORE-7312 This should be part of the DS when input results in error -->
-          <label
-            v-if="isFromDateAfterToDate"
-            class="input-label--error"
+          <p
+            v-else-if="isFromDateAfterToDate"
+            class="geo-calendar__input__date-feedback--error"
           >
             {{ errorMessageInvalidFromDateRange }}
-          </label>
+          </p>
           <geo-link-button
             css-modifier="calendar-picker-button"
             @click="setEarliestDate"
@@ -54,19 +54,19 @@
             :show-buttons="false"
             css-modifier="geo-calendar"
             input-type="normal"
-            @click="isToDateInputFocused = true"
+            @click="focusToDateInput"
           />
           <!-- TODO: CORE-7312 This should be part of the DS when input results in error -->
           <label
             v-if="showToFormatError"
-            class="input-label--error"
+            class="geo-calendar__input__date-feedback--error"
           >
             {{ errorMessageInvalidDateFormat }}
           </label>
           <!-- TODO: CORE-7312 This should be part of the DS when input results in error -->
           <label
-            v-if="isToDateBeforeFromDate"
-            class="input-label--error"
+            v-else-if="isToDateBeforeFromDate"
+            class="geo-calendar__input__date-feedback--error"
           >
             {{ errorMessageInvalidToDateRange }}
           </label>
@@ -118,6 +118,10 @@ import {
   startOfQuarter
 } from 'date-fns'
 
+import GeoCalendarRootMixin from './GeoCalendarRoot.mixin'
+import GeoCalendarGranularityIdMixin from './GeoCalendarGranularityId.mixin'
+import GeoCalendarPickerDateUnitMixin from './GeoCalendarPickerDateUnit.mixin'
+
 export default {
   name: 'GeoCalendar',
   status: 'missing-tests',
@@ -125,156 +129,12 @@ export default {
   directives: {
     ClickOutside
   },
-  mixins: [cssSuffix],
-  props: {
-    /**
-     * Icon used for the selects in the navigation menu
-     */
-    calendarNavigationSelectIcon: {
-      type: Array,
-      default () {
-        return ['fal', 'chevron-down']
-      }
-    },
-
-    /**
-     * Earliest date that can be selected
-     */
-    earliestDate: {
-      type: Date,
-      required: true
-    },
-
-    /**
-     * Text displayed in the link button to select the earliest date available
-     */
-    earliestDatePlaceholder: {
-      type: String,
-      required: false
-    },
-
-    /**
-     * Error displayed when the format of one of the input dates is wrong
-     */
-    errorMessageInvalidDateFormat: {
-      type: String,
-      required: true
-    },
-
-    /**
-     * Error displayed when the start date is set after the end date
-     */
-    errorMessageInvalidFromDateRange: {
-      type: String,
-      required: true
-    },
-
-    /**
-     * Error displayed when the end date is set before the start date
-     */
-    errorMessageInvalidToDateRange: {
-      type: String,
-      required: true
-    },
-
-    /**
-     * Text displayed on the input that contains the selected 'from' date
-     */
-    fromInputPlaceholder: {
-      type: String,
-      required: false
-    },
-
-    /**
-     * Current granularity being displayed on the calendar. `day`, `week`, `month`, `quarter`, `year`
-     * Values available in `GRANULARITY_IDS`:
-     *
-     * - `GRANULARITY_IDS.day`
-     * - `GRANULARITY_IDS.week`
-     * - `GRANULARITY_IDS.month`
-     * - `GRANULARITY_IDS.quarter`
-     * - `GRANULARITY_IDS.year`
-     */
-    granularityId: {
-      type: String,
-      required: true
-    },
-
-    /**
-     * Icon displayed as a separator between the two date inputs
-     */
-    inputRangeIcon: {
-      type: Array,
-      default () {
-        return ['fal', 'arrow-right']
-      }
-    },
-
-    /**
-     * Latest date that can be selected
-     */
-    latestDate: {
-      type: Date,
-      required: true
-    },
-
-    /**
-     * Text displayed in the link button to select the latest date available
-     */
-    latestDatePlaceholder: {
-      type: String,
-      required: false
-    },
-
-    /**
-     * Object provided by date-fns specifying the locale being used
-     */
-    locale: {
-      type: Object,
-      required: true
-    },
-
-    /**
-     * Icon displayed to navigate forward through different time units
-     */
-    nextDateInSelectedGranularityIcon: {
-      type: Array,
-      default () {
-        return ['fal', 'chevron-right']
-      }
-    },
-
-    /**
-     * Type of grid being displayed. `day`, `month` or `year`
-     * Values available in PICKER_DATE_UNITS:
-     *
-     * - `PICKER_DATE_UNITS.day`
-     * - `PICKER_DATE_UNITS.month`
-     * - `PICKER_DATE_UNITS.year`
-     */
-    pickerDateUnit: {
-      type: String,
-      required: true
-    },
-
-    /**
-     * Icon displayed to navigate backwards through different time units
-     */
-    previousDateInSelectedGranularityIcon: {
-      type: Array,
-      default () {
-        return ['fal', 'chevron-left']
-      }
-    },
-
-    /**
-     * Text displayed on the input that contains the selected 'to' date
-     */
-    toInputPlaceholder: {
-      type: String,
-      required: false
-    }
-  },
+  mixins: [
+    GeoCalendarPickerDateUnitMixin,
+    GeoCalendarGranularityIdMixin,
+    GeoCalendarRootMixin,
+    cssSuffix
+  ],
   data () {
     return {
       fromRawDate: null,
@@ -463,8 +323,16 @@ export default {
       this.$emit('set-to-date', { toDate })
     },
 
+    focusFromDateInput () {
+      this.isFromDateInputFocused = true
+    },
+
     unfocusFromDateInput () {
       this.isFromDateInputFocused = false
+    },
+
+    focusToDateInput () {
+      this.isToDateInputFocused = true
     },
 
     unfocusToDateInput () {

@@ -29,21 +29,37 @@
 
 <script>
 import { PICKER_DATE_UNITS } from '../GeoCalendar.utils'
+import GeoCalendarDateIndicatorsMixin from '../GeoCalendarDateIndicators.mixin'
+import GeoCalendarPickerDateUnitMixin from '../GeoCalendarPickerDateUnit.mixin'
 
 import GeoCalendarNavigationDay from './GeoCalendarNavigationDay'
 import GeoCalendarNavigationMonth from './GeoCalendarNavigationMonth'
 import GeoCalendarNavigationYear from './GeoCalendarNavigationYear'
 
-const GeoCalendarNavigationMixin = require('./GeoCalendarNavigation.mixin')
-
 export default {
   name: 'GeoCalendarNavigation',
   status: 'missing-tests',
   release: '22.3.0',
-  mixins: [GeoCalendarNavigationMixin],
+  mixins: [
+    GeoCalendarDateIndicatorsMixin,
+    GeoCalendarPickerDateUnitMixin
+  ],
   props: {
     /**
-     * Icon displayed to navigate forward through different time units
+     * Font Awesome 5 icon to be displayed in the selects of the navigation menu.
+     *
+     * See [vue-fontawesome](https://www.npmjs.com/package/@fortawesome/vue-fontawesome#explicit-prefix-note-the-vue-bind-shorthand-because-this-uses-an-array)
+     * for more info about this.
+     */
+    calendarNavigationSelectIcon: {
+      type: Array,
+      required: true
+    },
+    /**
+     * Font Awesome 5 icon to navigate forward through different time units
+     *
+     * See [vue-fontawesome](https://www.npmjs.com/package/@fortawesome/vue-fontawesome#explicit-prefix-note-the-vue-bind-shorthand-because-this-uses-an-array)
+     * for more info about this.
      */
     nextDateInSelectedGranularityIcon: {
       type: Array,
@@ -51,20 +67,10 @@ export default {
     },
 
     /**
-     * Type of grid being displayed. `day`, `month` or `year`
-     * Values available in PICKER_DATE_UNITS:
+     * Font Awesome 5 icon to navigate backwards through different time units
      *
-     * - `PICKER_DATE_UNITS.day`
-     * - `PICKER_DATE_UNITS.month`
-     * - `PICKER_DATE_UNITS.year`
-     */
-    pickerDateUnit: {
-      type: String,
-      required: true
-    },
-
-    /**
-     * Icon displayed to navigate backwards through different time units
+     * See [vue-fontawesome](https://www.npmjs.com/package/@fortawesome/vue-fontawesome#explicit-prefix-note-the-vue-bind-shorthand-because-this-uses-an-array)
+     * for more info about this.
      */
     previousDateInSelectedGranularityIcon: {
       type: Array,

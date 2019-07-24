@@ -35,13 +35,25 @@
 <script>
 import _ from 'lodash'
 import { differenceInCalendarYears, getYear } from 'date-fns'
-const GeoCalendarNavigationMixin = require('./GeoCalendarNavigation.mixin')
+import GeoCalendarDateIndicators from '../GeoCalendarDateIndicators.mixin'
 
 export default {
   name: 'GeoCalendarNavigationMonth',
   status: 'missing-tests',
   release: '22.3.0',
-  mixins: [GeoCalendarNavigationMixin],
+  mixins: [GeoCalendarDateIndicators],
+  props: {
+    /**
+     * Font Awesome 5 icon to be displayed in the selects of the navigation menu.
+     *
+     * See [vue-fontawesome](https://www.npmjs.com/package/@fortawesome/vue-fontawesome#explicit-prefix-note-the-vue-bind-shorthand-because-this-uses-an-array)
+     * for more info about this.
+     */
+    calendarNavigationSelectIcon: {
+      type: Array,
+      required: true
+    }
+  },
   data () {
     return {
       isYearSelectionOpened: false
