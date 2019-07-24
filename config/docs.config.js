@@ -183,7 +183,28 @@ module.exports = {
         {
           name: 'GeoTable',
           components: '../src/elements/GeoTable/GeoTable*.vue',
-          sectionDepth: 0
+          sectionDepth: 1,
+          sections: [{
+            name: 'Introduction',
+            content: '../src/elements/GeoTable/GeoTable.md',
+            sectionDepth: 0
+          }, {
+            name: 'Headers',
+            content: '../src/elements/GeoTable/GeoTable.headers.md',
+            sectionDepth: 0
+          }, {
+            name: 'Body',
+            content: '../src/elements/GeoTable/GeoTable.body.md',
+            sectionDepth: 0
+          }, {
+            name: 'Pagination & sorting',
+            content: '../src/elements/GeoTable/GeoTable.pagination.md',
+            sectionDepth: 0
+          }, {
+            name: 'Empty state',
+            content: '../src/elements/GeoTable/GeoTable.empty.md',
+            sectionDepth: 0
+          }]
         },
         // hygen-component (reference for injection, do not remove)
         {
