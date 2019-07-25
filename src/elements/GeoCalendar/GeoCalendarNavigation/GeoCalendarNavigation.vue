@@ -2,7 +2,11 @@
   <div class="geo-calendar-navigation">
     <font-awesome-icon
       :icon="previousDateInSelectedGranularityIcon"
-      class="geo-calendar-navigation__nav-icon geo-calendar-navigation__nav-icon--previous"
+      :class="{
+        'geo-calendar-navigation__nav-icon': true,
+        'geo-calendar-navigation__nav-icon--previous': true,
+        'geo-calendar-navigation__nav-icon--disabled': isPreviousPickerDateSelectorDisabled
+      }"
       fixed-width
       @click="goToPreviousPickerDate"
     />
@@ -12,15 +16,23 @@
       :calendar-navigation-select-icon="calendarNavigationSelectIcon"
       :current-month="currentMonth"
       :current-year="currentYear"
+      :current-initial-year-in-range="currentInitialYearInRange"
+      :current-end-year-in-range="currentEndYearInRange"
+      :is-disabled="isPreviousPickerDateSelectorDisabled && isNextPickerDateSelectorDisabled"
       :earliest-date="earliestDate"
       :latest-date="latestDate"
       :locale="locale"
       @go-to-month="goToMonth"
       @go-to-year="goToYear"
+      @go-to-year-range="goToYearRange"
     />
     <font-awesome-icon
       :icon="nextDateInSelectedGranularityIcon"
-      class="geo-calendar-navigation__nav-icon geo-calendar-navigation__nav-icon--next"
+      :class="{
+        'geo-calendar-navigation__nav-icon': true,
+        'geo-calendar-navigation__nav-icon--next': true,
+        'geo-calendar-navigation__nav-icon--disabled': isNextPickerDateSelectorDisabled
+      }"
       fixed-width
       @click="goToNextPickerDate"
     />
@@ -54,6 +66,22 @@ export default {
     calendarNavigationSelectIcon: {
       type: Array,
       required: true
+    },
+
+    /**
+     * Whether is it possible to go forward in the calendar selected granularity
+     */
+    isNextPickerDateSelectorDisabled: {
+      type: Boolean,
+      required: false
+    },
+
+    /**
+     * Whether is it possible to go backwards in the calendar selected granularity
+     */
+    isPreviousPickerDateSelectorDisabled: {
+      type: Boolean,
+      required: false
     },
     /**
      * Font Awesome 5 icon to navigate forward through different time units
@@ -125,9 +153,19 @@ export default {
        * User displays a different year in the current grid
        *
        * @event go-to-year
-       * @type {Number}
+       * @type {Array}
        */
       this.$emit('go-to-year', year)
+    },
+
+    goToYearRange (yearRange) {
+      /**
+       * User displays a different year range in the current grid
+       *
+       * @event go-to-year-range
+       * @type {Array}
+       */
+      this.$emit('go-to-year-range', yearRange)
     }
   }
 }

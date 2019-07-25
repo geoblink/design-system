@@ -62,6 +62,7 @@
 
 <script>
 import _ from 'lodash'
+import { YEAR_GRID_CONSTRAINTS } from '../GeoCalendar.utils'
 import {
   differenceInCalendarYears,
   eachDay,
@@ -97,6 +98,14 @@ export default {
     }
   },
   computed: {
+    earliestYearInSelect () {
+      return this.earliestDate || new Date(YEAR_GRID_CONSTRAINTS.MIN_YEAR, 0)
+    },
+
+    latestYearInSelect () {
+      return this.latestDate || new Date(YEAR_GRID_CONSTRAINTS.MAX_YEAR, 31)
+    },
+
     currentSelectedMonth () {
       return this.monthsInYear[this.currentMonth].month
     },
@@ -118,11 +127,11 @@ export default {
     },
 
     numYearsWithData () {
-      return differenceInCalendarYears(this.latestDate, this.earliestDate) + 1
+      return differenceInCalendarYears(this.latestYearInSelect, this.earliestYearInSelect) + 1
     },
 
     yearsList () {
-      let earliestYear = getYear(this.earliestDate)
+      let earliestYear = getYear(this.earliestYearInSelect)
       return _.times(this.numYearsWithData, (i) => {
         return earliestYear++
       })

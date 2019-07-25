@@ -1,11 +1,127 @@
 <template>
   <div class="geo-calendar-navigation__selects-container geo-calendar-navigation--year">
-    Year
+    <geo-select-base
+      :opened="isYearRangeSelectionOpened"
+      :fixed-width="false"
+      css-modifier="calendar-navigation-selection"
+      @click-outside="closeYearRangeSelection"
+    >
+      <geo-link-button
+        slot="toggleButton"
+        css-modifier="calendar-navigation-toggle-button"
+        @click="toggleYearRangeSelection"
+      >
+        {{ yearsInRanges[currentGridYearIndex][0] }} - {{ yearsInRanges[currentGridYearIndex][1] }}
+        <font-awesome-icon
+          v-if="!isDisabled"
+          class="geo-calendar-navigation-toggle-button-icon"
+          fixed-width
+          :icon="calendarNavigationSelectIcon"
+        />
+      </geo-link-button>
+      <div ref="calendarNavigationSelect">
+        <geo-list-item
+          v-for="yearRange in yearsInRanges"
+          :key="`${yearRange[0]}--${yearRange[1]}`"
+          @click="selectYearRange(yearRange)"
+        >
+          {{ yearRange[0] }} - {{ yearRange[1] }}
+        </geo-list-item>
+      </div>
+    </geo-select-base>
   </div>
 </template>
 
 <script>
-export default {
+import _ from 'lodash'
+import GeoCalendarDateIndicators from '../GeoCalendarDateIndicators.mixin'
+import { differenceInCalendarYears, getYear, subYears, addYears } from 'date-fns'
+import { YEAR_GRID_CONSTRAINTS } from '../GeoCalendar.utils'
 
+export default {
+  name: 'GeoCalendarNavigationYear',
+  status: 'missing-tests',
+  release: '22.3.0',
+  mixins: [GeoCalendarDateIndicators],
+  props: {
+    /**
+     * Font Awesome 5 icon to be displayed in the selects of the navigation menu.
+     *
+     * See [vue-fontawesome](https://www.npmjs.com/package/@fortawesome/vue-fontawesome#explicit-prefix-note-the-vue-bind-shorthand-because-this-uses-an-array)
+     * for more info about this.
+     */
+    calendarNavigationSelectIcon: {
+      type: Array,
+      required: true
+    },
+
+    /**
+     * Whether more options in the select can be selected.
+     * If the range with data fits in one grid this should be disabled
+     */
+    isDisabled: {
+      type: Boolean,
+      required: true
+    }
+  },
+
+  data () {
+    return {
+      isYearRangeSelectionOpened: false
+    }
+  },
+
+  computed: {
+    earliestDateInCalendar () {
+      return subYears(this.earliestDate, YEAR_GRID_CONSTRAINTS.YEARS_IN_GRID) || new Date(YEAR_GRID_CONSTRAINTS.MIN_YEAR, 0)
+    },
+
+    latestDateInCalendar () {
+      return addYears(this.latestDate, YEAR_GRID_CONSTRAINTS.YEARS_IN_GRID) || new Date(YEAR_GRID_CONSTRAINTS.MAX_YEAR, 0)
+    },
+
+    numberOfYearsWithinConstraints () {
+      return differenceInCalendarYears(this.latestDateInCalendar, this.earliestDateInCalendar)
+    },
+
+    totalYearsGrid () {
+      let earliestYearInCalendar = getYear(this.earliestDateInCalendar)
+      return _.chunk(_.times(this.numberOfYearsWithinConstraints, () => {
+        return earliestYearInCalendar++
+      }), 16)
+    },
+
+    yearsInRanges () {
+      return _.map(this.totalYearsGrid, (yearGrid) => [_.first(yearGrid), _.last(yearGrid)])
+    },
+
+    currentGridYearIndex () {
+      return _.findIndex(this.totalYearsGrid, (yearGrid) => _.includes(yearGrid, this.currentInitialYearInRange || this.currentYear))
+    }
+  },
+  mounted () {
+    this.selectYearRange(this.yearsInRanges[this.currentGridYearIndex])
+  },
+  methods: {
+    closeYearRangeSelection () {
+      this.isYearRangeSelectionOpened = false
+    },
+
+    selectYearRange (yearRange) {
+      this.closeYearRangeSelection()
+      /**
+       * User displays a different year in the current grid
+       *
+       * @event go-to-year-range
+       * @type {Array}
+       */
+      this.$emit('go-to-year-range', yearRange)
+    },
+
+    toggleYearRangeSelection () {
+      if (this.isDisabled) return
+      this.isYearRangeSelectionOpened = !this.isYearRangeSelectionOpened
+    }
+  }
 }
 </script>

@@ -5,6 +5,7 @@
         v-for="(quarter, index) in monthsByQuarters"
         :key="index"
         :quarter="quarter"
+        :current-month="currentMonth"
         :current-year="currentYear"
         :earliest-date="earliestDate"
         :granularity-id="granularityId"

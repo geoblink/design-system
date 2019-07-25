@@ -36,6 +36,7 @@
 import _ from 'lodash'
 import { differenceInCalendarYears, getYear } from 'date-fns'
 import GeoCalendarDateIndicators from '../GeoCalendarDateIndicators.mixin'
+import { YEAR_GRID_CONSTRAINTS } from '../GeoCalendar.utils'
 
 export default {
   name: 'GeoCalendarNavigationMonth',
@@ -60,12 +61,20 @@ export default {
     }
   },
   computed: {
+    earliestYearInSelect () {
+      return this.earliestDate || new Date(YEAR_GRID_CONSTRAINTS.MIN_YEAR, 0)
+    },
+
+    latestYearInSelect () {
+      return this.latestDate || new Date(YEAR_GRID_CONSTRAINTS.MAX_YEAR, 31)
+    },
+
     numYearsWithData () {
-      return differenceInCalendarYears(this.latestDate, this.earliestDate) + 1
+      return differenceInCalendarYears(this.latestYearInSelect, this.earliestYearInSelect) + 1
     },
 
     yearsList () {
-      let earliestYear = getYear(this.earliestDate)
+      let earliestYear = getYear(this.earliestYearInSelect)
       return _.times(this.numYearsWithData, (i) => {
         return earliestYear++
       })

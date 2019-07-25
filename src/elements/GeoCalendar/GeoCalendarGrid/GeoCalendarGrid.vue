@@ -26,7 +26,16 @@
   />
   <geo-calendar-year-grid
     v-else-if="isYearGrid"
-    :locale="locale"
+    :current-month="currentMonth"
+    :current-year="currentYear"
+    :current-initial-year-in-range="currentInitialYearInRange"
+    :current-end-year-in-range="currentEndYearInRange"
+    :earliest-date="earliestDate"
+    :granularity-id="granularityId"
+    :latest-date="latestDate"
+    :selected-from-day="selectedFromDay"
+    :selected-to-day="selectedToDay"
+    @select-year="selectYear"
   />
 </template>
 
@@ -101,6 +110,16 @@ export default {
        * @type {{ fromDate: Date, toDate: Date }}
        */
       this.$emit('select-week', { fromDate, toDate })
+    },
+
+    selectYear (year) {
+      /**
+       * User selects a particular year within the years grid
+       *
+       * @event select-year
+       * @type {Number}
+       */
+      this.$emit('select-year', year)
     }
   }
 }

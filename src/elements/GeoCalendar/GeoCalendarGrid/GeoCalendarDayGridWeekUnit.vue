@@ -2,7 +2,7 @@
   <div
     :class="{
       'geo-calendar-days-container__week-unit': true,
-      'geo-calendar-days-container__week-unit--no-data': isWeekWithoutData,
+      'geo-calendar-days-container__week-unit--no-data': isWeekGranularity && isWeekWithoutData,
       'geo-calendar-days-container__week-unit--is-week-granularity': isWeekGranularity
     }"
   >

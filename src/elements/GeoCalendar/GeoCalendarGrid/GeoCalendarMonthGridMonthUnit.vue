@@ -28,12 +28,14 @@ import {
 
 import GeoCalendarGridMixin from './GeoCalendarGrid.mixin'
 import GeoCalendarGranularityIdMixin from '../GeoCalendarGranularityId.mixin'
+import GeoCalendarDateIndicatorsMixin from '../GeoCalendarDateIndicators.mixin'
 
 export default {
   name: 'GeoCalendarMonthGridMonthUnit',
   mixins: [
     GeoCalendarGridMixin,
-    GeoCalendarGranularityIdMixin
+    GeoCalendarGranularityIdMixin,
+    GeoCalendarDateIndicatorsMixin
   ],
   props: {
     /**
@@ -42,14 +44,6 @@ export default {
      */
     month: {
       type: Object,
-      required: true
-    },
-
-    /**
-     * Year that is currently being displayed in the grid
-     */
-    currentYear: {
-      type: Number,
       required: true
     }
   },
@@ -90,13 +84,8 @@ export default {
     },
 
     isMonthWithoutData () {
-      return (
-        (
-          isBefore(new Date(this.currentYear, this.monthIndex), this.earliestDate)
-        ) || (
-          isAfter(new Date(this.currentYear, this.monthIndex), this.latestDate)
-        )
-      )
+      return isBefore(new Date(this.currentYear, this.monthIndex), this.earliestDate) ||
+        isAfter(new Date(this.currentYear, this.monthIndex), this.latestDate)
     },
 
     isDayWithinFromMonth () {

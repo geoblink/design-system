@@ -25,6 +25,7 @@
             name="formatError"
           />
           <geo-link-button
+            v-if="earliestDate"
             css-modifier="calendar-picker-button"
             @click="setEarliestDate"
           >
@@ -53,6 +54,7 @@
             name="formatError"
           />
           <geo-link-button
+            v-if="latestDate"
             css-modifier="calendar-picker-button"
             @click="setLatestDate"
           >
@@ -70,6 +72,8 @@
         :calendar-navigation-select-icon="calendarNavigationSelectIcon"
         :current-month="currentMonth"
         :current-year="currentYear"
+        :current-initial-year-in-range="currentInitialYearInRange"
+        :current-end-year-in-range="currentEndYearInRange"
         :earliest-date="earliestDate"
         :granularity-id="granularityId"
         :latest-date="latestDate"
@@ -81,10 +85,12 @@
         :selected-to-day="toRawDate"
         @go-to-month="goToMonth"
         @go-to-year="goToYear"
+        @go-to-year-range="goToYearRange"
         @select-day="selectDay"
         @select-month="selectMonth"
         @select-quarter="selectQuarter"
         @select-week="selectWeek"
+        @select-year="selectYear"
       />
     </div>
   </div>
@@ -102,7 +108,8 @@ import {
   isAfter,
   isBefore,
   isValid,
-  startOfQuarter
+  startOfQuarter,
+  endOfYear
 } from 'date-fns'
 
 import GeoCalendarRootMixin from './GeoCalendarRoot.mixin'
@@ -133,7 +140,9 @@ export default {
       currentMonth: null,
       currentYear: null,
       showFromFormatError: false,
-      showToFormatError: false
+      showToFormatError: false,
+      currentInitialYearInRange: null,
+      currentEndYearInRange: null
     }
   },
 
@@ -236,6 +245,10 @@ export default {
       this.currentYear = year
     },
 
+    goToYearRange (yearRange) {
+      [this.currentInitialYearInRange, this.currentEndYearInRange] = yearRange
+    },
+
     parseDate (date) {
       // TODO: CORE-7324 Change when date-fns v2 is release as stable version
       // This should be provided by date-fns, but only is available in alpha and beta versions
@@ -272,6 +285,16 @@ export default {
       this.toRawDate = toDate
       this.setFromDate({ fromDate })
       this.setToDate({ toDate })
+    },
+
+    selectYear (year) {
+      this.currentYear = year
+      const firstDayOfYear = new Date(this.currentYear, 0)
+      const lastDayOfYear = endOfYear(new Date(this.currentYear, 0))
+      const selectedDate = !this.fromRawDate || (this.fromRawDate && this.currentYear < getYear(this.fromRawDate))
+        ? firstDayOfYear
+        : lastDayOfYear
+      this.setDateInput(selectedDate)
     },
 
     setDateInput (day) {

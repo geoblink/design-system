@@ -3,14 +3,17 @@
     :class="{
       'geo-calendar-months-container__quarter': true,
       'geo-calendar-months-container__quarter--actionable': canQuarterBeHighlighted,
-      'geo-calendar-months-container__quarter--no-data': isSomeMonthInQuarterWithoutData
+      'geo-calendar-months-container__quarter--no-data': canQuarterBeHighlighted && isSomeMonthInQuarterWithoutData
     }"
   >
     <geo-calendar-month-grid-month-unit
       v-for="month in quarter"
       :key="month.index"
+      :current-month="currentMonth"
       :current-year="currentYear"
+      :earliest-date="earliestDate"
       :granularity-id="granularityId"
+      :latest-date="latestDate"
       :month="month"
       :selected-from-day="selectedFromDay"
       :selected-to-day="selectedToDay"
@@ -24,6 +27,7 @@ import _ from 'lodash'
 import { GRANULARITY_IDS } from '../GeoCalendar.utils'
 import GeoCalendarGridMixin from './GeoCalendarGrid.mixin'
 import GeoCalendarGranularityIdMixin from '../GeoCalendarGranularityId.mixin'
+import GeoCalendarDateIndicatorsMixin from '../GeoCalendarDateIndicators.mixin'
 
 import {
   isBefore,
@@ -34,33 +38,10 @@ export default {
   name: 'GeoCalendarMonthGridQuarterUnit',
   mixins: [
     GeoCalendarGridMixin,
-    GeoCalendarGranularityIdMixin
+    GeoCalendarGranularityIdMixin,
+    GeoCalendarDateIndicatorsMixin
   ],
   props: {
-    /**
-     * Year that is currently being displayed in the grid
-     */
-    currentYear: {
-      type: Number,
-      required: true
-    },
-
-    /**
-     * Earliest date that can be selected
-     */
-    earliestDate: {
-      type: Date,
-      required: false
-    },
-
-    /**
-     * Latest date that can be selected
-     */
-    latestDate: {
-      type: Date,
-      required: false
-    },
-
     /**
      * Array of months by quarter
      */

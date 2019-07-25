@@ -19,6 +19,7 @@
   .geo-calendar#{$modifier-name-with-prefix} {
     display: flex;
 
+    // GEO CALENDAR GRANULARITY SIDEBAR
     .geo-calendar-picker-granularity-unit {
       @include font($body-small);
 
@@ -65,6 +66,7 @@
       padding: $space-small;
     }
 
+    // GEO CALENDAR INPUT CONTROLS
     .geo-calendar__picker-controls {
       padding: $space-base;
       width: 315px;
@@ -110,6 +112,7 @@
       padding-left: 0;
     }
 
+    // GEO CALENDAR NAVIGATION STYLES
     .geo-calendar-navigation {
       align-items: center;
       display: flex;
@@ -144,8 +147,15 @@
       @include font($label-optional);
 
       cursor: pointer;
+
+      &--disabled {
+        color: $color-grey;
+        cursor: not-allowed;
+        text-decoration: line-through;
+      }
     }
 
+    // DAYS GRID VIEW
     .geo-calendar-grid__weekdays-row-container {
       @include font($label-optional);
 
@@ -276,6 +286,7 @@
 
     }
 
+    // MONTHS GRID VIEW
     .geo-calendar-grid__months-container {
       display: grid;
       grid-row-gap: calc(#{$space-base - $space-x-small});
@@ -352,6 +363,68 @@
         text-decoration: line-through;
 
         .month-unit__month-name {
+          pointer-events: none;
+        }
+      }
+    }
+
+    // YEARS GRID VIEW
+    .geo-calendar-grid__year-container {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-row-gap: $space-base;
+    }
+
+    .geo-calendar-years__year-unit {
+      @include font($body-small);
+
+      background: unset;
+      border: unset;
+      cursor: pointer;
+      height: 100%;
+      outline: 0;
+      padding: unset;
+      text-align: center;
+
+      .year-unit__year-number {
+        border: 1px solid transparent;
+        margin: 0;
+        padding: 3px 0;
+      }
+
+      &:hover:not(.geo-calendar-years__year-unit--selected):not(.geo-calendar-years__year-unit--no-data) .year-unit__year-number {
+        background: $color-blue-readable-background;
+        border: 1px solid $color-blue;
+        border-radius: $border-radius-selected-date-unit;
+        color: $color-grey-darker;
+      }
+
+      &--within-range {
+        background: $color-blue-readable-background;
+      }
+
+      &--selected .year-unit__year-number {
+        background: $color-blue;
+        border-radius: $border-radius-selected-date-unit;
+        color: $color-white;
+      }
+
+      &--from-date {
+        border-top-left-radius: $border-radius-selected-date-unit;
+        border-bottom-left-radius: $border-radius-selected-date-unit;
+      }
+
+      &--to-date {
+        border-top-right-radius: $border-radius-selected-date-unit;
+        border-bottom-right-radius: $border-radius-selected-date-unit;
+      }
+
+      &--no-data {
+        color: $color-grey;
+        cursor: not-allowed;
+        text-decoration: line-through;
+
+        .year-unit__year-number {
           pointer-events: none;
         }
       }

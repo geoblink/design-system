@@ -5,7 +5,11 @@
       :calendar-navigation-select-icon="calendarNavigationSelectIcon"
       :current-month="currentMonth"
       :current-year="currentYear"
+      :current-initial-year-in-range="currentInitialYearInRange"
+      :current-end-year-in-range="currentEndYearInRange"
       :earliest-date="earliestDate"
+      :is-next-picker-date-selector-disabled="!canSelectNextDates"
+      :is-previous-picker-date-selector-disabled="!canSelectPastDates"
       :latest-date="latestDate"
       :locale="locale"
       :next-date-in-selected-granularity-icon="nextDateInSelectedGranularityIcon"
@@ -15,10 +19,13 @@
       @go-to-previous-picker-date="goToPreviousPickerDate"
       @go-to-month="goToMonth"
       @go-to-year="goToYear"
+      @go-to-year-range="goToYearRange"
     />
     <geo-calendar-grid
       :current-month="currentMonth"
       :current-year="currentYear"
+      :current-initial-year-in-range="currentInitialYearInRange"
+      :current-end-year-in-range="currentEndYearInRange"
       :earliest-date="earliestDate"
       :granularity-id="granularityId"
       :latest-date="latestDate"
@@ -30,12 +37,13 @@
       @select-week="selectWeek"
       @select-month="selectMonth"
       @select-quarter="selectQuarter"
+      @select-year="selectYear"
     />
   </div>
 </template>
 
 <script>
-import { PICKER_DATE_UNITS } from './GeoCalendar.utils'
+import { PICKER_DATE_UNITS, YEAR_GRID_CONSTRAINTS } from './GeoCalendar.utils'
 import GeoCalendarDateIndicators from './GeoCalendarDateIndicators.mixin'
 import GeoCalendarGranularityIdMixin from './GeoCalendarGranularityId.mixin'
 import GeoCalendarPickerDateUnitMixin from './GeoCalendarPickerDateUnit.mixin'
@@ -46,7 +54,9 @@ import {
   getMonth,
   getYear,
   subMonths,
-  subYears
+  subYears,
+  isBefore,
+  isAfter
 } from 'date-fns'
 
 export default {
@@ -112,46 +122,86 @@ export default {
   computed: {
     currentDate () {
       return new Date(this.currentYear, this.currentMonth)
+    },
+
+    canSelectNextDates () {
+      if (!this.latestDate) return true
+      let canSelectNextDates
+      switch (this.pickerDateUnit) {
+        case PICKER_DATE_UNITS.day:
+        case PICKER_DATE_UNITS.month:
+          canSelectNextDates = isBefore(addMonths(new Date(this.currentYear, this.currentMonth), 1), this.latestDate)
+          break
+        case PICKER_DATE_UNITS.year:
+          canSelectNextDates = isBefore(new Date(this.currentEndYearInRange, this.currentMonth), this.latestDate || YEAR_GRID_CONSTRAINTS.MAX_YEAR)
+      }
+      return canSelectNextDates
+    },
+
+    canSelectPastDates () {
+      if (!this.earliestDate) return true
+      let canSelectPastDates
+      switch (this.pickerDateUnit) {
+        case PICKER_DATE_UNITS.day:
+        case PICKER_DATE_UNITS.month:
+          canSelectPastDates = isAfter(new Date(this.currentYear, this.currentMonth), this.earliestDate)
+          break
+        case PICKER_DATE_UNITS.year:
+          canSelectPastDates = isAfter(subYears(new Date(this.currentInitialYearInRange, this.currentMonth), 1), this.earliestDate || YEAR_GRID_CONSTRAINTS.MIN_YEAR)
+      }
+      return canSelectPastDates
     }
   },
 
   methods: {
     goToNextPickerDate () {
+      if (!this.canSelectNextDates) return
+      let nextYear
+      let nextMonth
       switch (this.pickerDateUnit) {
         case PICKER_DATE_UNITS.day:
           if (this.currentMonth === 11) {
-            const nextYear = getYear(addYears(this.currentDate, 1))
-            this.goToYear(nextYear)
+            nextYear = getYear(addYears(this.currentDate, 1))
+            this.Range(nextYear)
           }
-          const nextMonth = getMonth(addMonths(this.currentDate, 1))
+          nextMonth = getMonth(addMonths(this.currentDate, 1))
           this.goToMonth(nextMonth)
           break
         case PICKER_DATE_UNITS.month:
-          const nextYear = getYear(addYears(this.currentDate, 1))
+          nextYear = getYear(addYears(this.currentDate, 1))
           this.goToYear(nextYear)
           break
         case PICKER_DATE_UNITS.year:
-          // TODO: Range of years
+          const nextInitialYearInRange = this.currentInitialYearInRange + YEAR_GRID_CONSTRAINTS.YEARS_IN_GRID
+          const nextLastYearInRange = this.currentEndYearInRange + YEAR_GRID_CONSTRAINTS.YEARS_IN_GRID
+          if (nextInitialYearInRange > getYear(this.latestDate)) return
+          this.goToYearRange([nextInitialYearInRange, nextLastYearInRange])
           break
       }
     },
 
     goToPreviousPickerDate () {
+      if (!this.canSelectPastDates) return
+      let previousYear
+      let previousMonth
       switch (this.pickerDateUnit) {
         case PICKER_DATE_UNITS.day:
           if (this.currentMonth === 0) {
-            const previousYear = getYear(subYears(this.currentDate, 1))
+            previousYear = getYear(subYears(this.currentDate, 1))
             this.goToYear(previousYear)
           }
-          const previousMonth = getMonth(subMonths(this.currentDate, 1))
+          previousMonth = getMonth(subMonths(this.currentDate, 1))
           this.goToMonth(previousMonth)
           break
         case PICKER_DATE_UNITS.month:
-          const previousYear = getYear(subYears(this.currentDate, 1))
+          previousYear = getYear(subYears(this.currentDate, 1))
           this.goToYear(previousYear)
           break
         case PICKER_DATE_UNITS.year:
-          // TODO: Range of years
+          const previousInitialYearInRange = this.currentInitialYearInRange - YEAR_GRID_CONSTRAINTS.YEARS_IN_GRID
+          const previousLastYearInRange = this.currentEndYearInRange - YEAR_GRID_CONSTRAINTS.YEARS_IN_GRID
+          if (previousLastYearInRange < getYear(this.earliestDate)) return
+          this.goToYearRange([previousInitialYearInRange, previousLastYearInRange])
           break
       }
     },
@@ -174,6 +224,16 @@ export default {
        * @type {Number}
        */
       this.$emit('go-to-year', year)
+    },
+
+    goToYearRange (yearRange) {
+      /**
+       * User displays a different year range in the current grid
+       *
+       * @event go-to-year-range
+       * @type {Array}
+       */
+      this.$emit('go-to-year-range', yearRange)
     },
 
     selectDay (day) {
@@ -214,6 +274,16 @@ export default {
        * @type {{ fromDate: Date, toDate: Date }}
        */
       this.$emit('select-week', { fromDate, toDate })
+    },
+
+    selectYear (year) {
+      /**
+       * User selects a particular year within the years grid
+       *
+       * @event select-year
+       * @type {Number}
+       */
+      this.$emit('select-year', year)
     }
   }
 }
