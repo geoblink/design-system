@@ -11,7 +11,7 @@
         css-modifier="calendar-navigation-toggle-button"
         @click="toggleYearRangeSelection"
       >
-        {{ yearsInRanges[currentGridYearIndex][0] }} - {{ yearsInRanges[currentGridYearIndex][1] }}
+        {{ displayedInitialYearInRange }} - {{ displayedEndYearInRange }}
         <font-awesome-icon
           v-if="!isDisabled"
           class="geo-calendar-navigation-toggle-button-icon"
@@ -67,17 +67,23 @@ export default {
 
   data () {
     return {
-      isYearRangeSelectionOpened: false
+      isYearRangeSelectionOpened: false,
+      displayedInitialYearInRange: null,
+      displayedEndYearInRange: null
     }
   },
 
   computed: {
     earliestDateInCalendar () {
-      return subYears(this.earliestDate, YEAR_GRID_CONSTRAINTS.YEARS_IN_GRID) || new Date(YEAR_GRID_CONSTRAINTS.MIN_YEAR, 0)
+      return this.earliestDate
+        ? subYears(this.earliestDate, YEAR_GRID_CONSTRAINTS.YEARS_IN_GRID)
+        : new Date(YEAR_GRID_CONSTRAINTS.MIN_YEAR, 0)
     },
 
     latestDateInCalendar () {
-      return addYears(this.latestDate, YEAR_GRID_CONSTRAINTS.YEARS_IN_GRID) || new Date(YEAR_GRID_CONSTRAINTS.MAX_YEAR, 0)
+      return this.latestDate
+        ? addYears(this.latestDate, YEAR_GRID_CONSTRAINTS.YEARS_IN_GRID)
+        : new Date(YEAR_GRID_CONSTRAINTS.MAX_YEAR, 0)
     },
 
     numberOfYearsWithinConstraints () {
@@ -99,8 +105,20 @@ export default {
       return _.findIndex(this.totalYearsGrid, (yearGrid) => _.includes(yearGrid, this.currentInitialYearInRange || this.currentYear))
     }
   },
+  watch: {
+    currentInitialYearInRange (value) {
+      this.displayedInitialYearInRange = value
+    },
+
+    currentEndYearInRange (value) {
+      this.displayedEndYearInRange = value
+    }
+  },
   mounted () {
-    this.selectYearRange(this.yearsInRanges[this.currentGridYearIndex])
+    const initialYearRange = this.yearsInRanges[this.currentGridYearIndex]
+    this.displayedInitialYearInRange = initialYearRange[0]
+    this.displayedEndYearInRange = initialYearRange[1]
+    this.selectYearRange(initialYearRange)
   },
   methods: {
     closeYearRangeSelection () {
