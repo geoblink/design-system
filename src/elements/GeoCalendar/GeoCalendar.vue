@@ -116,24 +116,27 @@ export default {
   directives: {
     ClickOutside
   },
+
   mixins: [
     GeoCalendarPickerDateUnitMixin,
     GeoCalendarGranularityIdMixin,
     GeoCalendarRootMixin,
     cssSuffix
   ],
+
   data () {
     return {
       fromRawDate: null,
       toRawDate: null,
       isFromDateInputFocused: false,
       isToDateInputFocused: false,
-      currentMonth: getMonth(new Date()),
-      currentYear: getYear(new Date()),
+      currentMonth: null,
+      currentYear: null,
       showFromFormatError: false,
       showToFormatError: false
     }
   },
+
   computed: {
     areSelectedBoundsValid () {
       return !!this.fromRawDate && !!this.toRawDate && !isAfter(this.fromRawDate, this.toRawDate)
@@ -207,12 +210,19 @@ export default {
       return (date) => date && isValid(date) && this.isDateWithinBounds(date)
     }
   },
+
   watch: {
     granularityId () {
       this.fromRawDate = null
       this.toRawDate = null
     }
   },
+
+  beforeMount () {
+    this.currentMonth = getMonth(this.initialDateInGrid)
+    this.currentYear = getYear(this.initialDateInGrid)
+  },
+
   methods: {
     formatDate (date) {
       return format(date, 'DD/MM/YYYY')

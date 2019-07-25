@@ -1,9 +1,9 @@
 <template>
   <div
     :class="{
-      'months-container__quarter': true,
-      'months-container__quarter--actionable': canQuarterBeHighlighted,
-      'months-container__quarter--no-data': isSomeMonthInQuarterWithoutData
+      'geo-calendar-months-container__quarter': true,
+      'geo-calendar-months-container__quarter--actionable': canQuarterBeHighlighted,
+      'geo-calendar-months-container__quarter--no-data': isSomeMonthInQuarterWithoutData
     }"
   >
     <geo-calendar-month-grid-month-unit

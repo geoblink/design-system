@@ -115,7 +115,8 @@ export default {
       dataEarliestDate: subYears(startOfToday(), 4),
       dataLatestDate: addYears(startOfToday(), 2),
       selectedFromDay: null,
-      selectedToDay: null
+      selectedToDay: null,
+      initialDateInGrid: subYears(new Date(), 3)
     }
   },
   computed: {

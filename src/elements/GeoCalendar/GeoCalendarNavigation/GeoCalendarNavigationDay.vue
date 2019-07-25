@@ -13,7 +13,7 @@
       >
         {{ currentSelectedMonth }}
         <font-awesome-icon
-          class="calendar-navigation-toggle-button-icon"
+          class="geo-calendar-navigation-toggle-button-icon"
           fixed-width
           :icon="calendarNavigationSelectIcon"
         />
@@ -42,7 +42,7 @@
         {{ currentYear }}
         <font-awesome-icon
           v-if="numYearsWithData"
-          class="calendar-navigation-toggle-button-icon"
+          class="geo-calendar-navigation-toggle-button-icon"
           fixed-width
           :icon="calendarNavigationSelectIcon"
         />

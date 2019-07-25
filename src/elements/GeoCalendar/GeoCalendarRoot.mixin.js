@@ -39,6 +39,17 @@ export default {
     },
 
     /**
+     * Providing this prop will set the initial displayed grid in the desired date (Month and year).
+     * If nothing is set, the grid will display the month and year from today's date
+     */
+    initialDateInGrid: {
+      type: Date,
+      default () {
+        return new Date()
+      }
+    },
+
+    /**
      * Font Awesome 5 icon to be displayed as a separator between the two date inputs
      *
      * See [vue-fontawesome](https://www.npmjs.com/package/@fortawesome/vue-fontawesome#explicit-prefix-note-the-vue-bind-shorthand-because-this-uses-an-array)

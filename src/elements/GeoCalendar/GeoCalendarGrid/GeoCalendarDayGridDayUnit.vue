@@ -1,18 +1,18 @@
 <template>
   <button
     :class="{
-      'days-container__day-picker': true,
-      'days-container__day-picker--today': isToday,
-      'days-container__day-picker--out-of-boundaries': isDayOutOfBoundaries,
-      'days-container__day-picker--no-data': isDayWithoutData,
-      'days-container__day-picker--selected': isSelectedDay,
-      'days-container__day-picker--from-date': isEqual(day, selectedFromDay),
-      'days-container__day-picker--to-date': isEqual(day, selectedToDay),
-      'days-container__day-picker--within-range': isDayWithinRanges
+      'geo-calendar-days-container__day-picker': true,
+      'geo-calendar-days-container__day-picker--today': isToday,
+      'geo-calendar-days-container__day-picker--out-of-boundaries': isDayOutOfBoundaries,
+      'geo-calendar-days-container__day-picker--no-data': isDayWithoutData,
+      'geo-calendar-days-container__day-picker--selected': isSelectedDay,
+      'geo-calendar-days-container__day-picker--from-date': isEqual(day, selectedFromDay),
+      'geo-calendar-days-container__day-picker--to-date': isEqual(day, selectedToDay),
+      'geo-calendar-days-container__day-picker--within-range': isDayWithinRanges
     }"
     @click="selectDay"
   >
-    <div class="day-picker__day-number">
+    <div class="geo-calendar-day-picker__day-number">
       {{ dayNumber }}
     </div>
   </button>

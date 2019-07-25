@@ -1,12 +1,12 @@
 <template>
   <button
     :class="{
-      'quarter__month-unit': true,
-      'quarter__month-unit--selected': isDateInMonth,
-      'quarter__month-unit--within-range': isDateWithinSelectedMonths,
-      'quarter__month-unit--no-data': isMonthWithoutData,
-      'quarter__month-unit--from-date': isDayWithinFromMonth,
-      'quarter__month-unit--to-date': isDayWithinToMonth
+      'geo-calendar-quarter__month-unit': true,
+      'geo-calendar-quarter__month-unit--selected': isDateInMonth,
+      'geo-calendar-quarter__month-unit--within-range': isDateWithinSelectedMonths,
+      'geo-calendar-quarter__month-unit--no-data': isMonthWithoutData,
+      'geo-calendar-quarter__month-unit--from-date': isDayWithinFromMonth,
+      'geo-calendar-quarter__month-unit--to-date': isDayWithinToMonth
     }"
     @click="selectMonth"
   >

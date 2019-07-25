@@ -4,7 +4,7 @@
       <p
         v-for="day in weekDays"
         :key="day"
-        class="weekdays-row__weekday-name"
+        class="geo-calendar-weekdays-row__weekday-name"
       >
         {{ day }}
       </p>

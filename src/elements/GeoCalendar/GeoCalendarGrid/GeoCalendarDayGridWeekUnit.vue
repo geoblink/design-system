@@ -1,9 +1,9 @@
 <template>
   <div
     :class="{
-      'days-container__week-unit': true,
-      'days-container__week-unit--no-data': isWeekWithoutData,
-      'days-container__week-unit--is-week-granularity': isWeekGranularity
+      'geo-calendar-days-container__week-unit': true,
+      'geo-calendar-days-container__week-unit--no-data': isWeekWithoutData,
+      'geo-calendar-days-container__week-unit--is-week-granularity': isWeekGranularity
     }"
   >
     <geo-calendar-day-grid-day-unit

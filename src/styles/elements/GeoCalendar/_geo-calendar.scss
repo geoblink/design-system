@@ -134,7 +134,7 @@
       width: 50%;
     }
 
-    .calendar-navigation-toggle-button-icon {
+    .geo-calendar-navigation-toggle-button-icon {
       @include font($label-optional);
 
       margin-left: $space-x-small;
@@ -155,7 +155,7 @@
       padding-bottom: $space-x-small;
     }
 
-    .weekdays-row__weekday-name {
+    .geo-calendar-weekdays-row__weekday-name {
       text-transform: capitalize;
     }
 
@@ -165,14 +165,14 @@
       grid-row-gap: $space-small;
     }
 
-    .days-container__week-unit {
+    .geo-calendar-days-container__week-unit {
       align-items: center;
       display: grid;
       grid-template-columns: repeat(7, 1fr);
       grid-template-rows: calc(#{$day-unit-size} + 2px);
       text-align: center;
 
-      &:hover.days-container__week-unit--is-week-granularity {
+      &:hover.geo-calendar-days-container__week-unit--is-week-granularity {
         background: $color-blue-readable-background;
         border-radius: $border-radius-selected-date-unit;
         color: $color-grey-darker;
@@ -182,13 +182,13 @@
         color: $color-grey;
         cursor: not-allowed;
 
-        .days-container__day-picker {
+        .geo-calendar-days-container__day-picker {
           pointer-events: none;
         }
       }
     }
 
-    .days-container__day-picker {
+    .geo-calendar-days-container__day-picker {
       @include font($body-small);
 
       background: unset;
@@ -200,12 +200,12 @@
       padding: unset;
       position: relative;
 
-      .day-picker__day-number {
+      .geo-calendar-day-picker__day-number {
         box-sizing: border-box;
         position: relative;
       }
 
-      &:hover:not(.days-container__day-picker--no-data):not(.days-container__day-picker--selected)  .day-picker__day-number {
+      &:hover:not(.geo-calendar-days-container__day-picker--no-data):not(.geo-calendar-days-container__day-picker--selected)  .geo-calendar-day-picker__day-number {
         background: $color-blue-readable-background;
         border: 1px solid $color-blue;
         border-radius: 50%;
@@ -220,7 +220,7 @@
         color: $color-grey-darker;
       }
 
-      &--today .day-picker__day-number:after {
+      &--today .geo-calendar-day-picker__day-number:after {
         background: $color-yellow;
         bottom: 4px;
         content: '';
@@ -241,7 +241,7 @@
         cursor: not-allowed;
         text-decoration: line-through;
 
-        .day-picker__day-number {
+        .geo-calendar-day-picker__day-number {
           pointer-events: none;
         }
       }
@@ -252,7 +252,7 @@
         margin-left: $space-small;
         padding-left: 0;
 
-        .day-picker__day-number {
+        .geo-calendar-day-picker__day-number {
           margin-left: 0 !important;
         }
       }
@@ -264,7 +264,7 @@
         padding-right: 0;
       }
 
-      &--selected .day-picker__day-number {
+      &--selected .geo-calendar-day-picker__day-number {
         box-sizing: content-box;
         color: $color-white;
         background: $color-blue;
@@ -281,28 +281,28 @@
       grid-row-gap: calc(#{$space-base - $space-x-small});
     }
 
-    .months-container__quarter {
+    .geo-calendar-months-container__quarter {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
     }
 
-    .months-container__quarter--highlighted,
-    .months-container__quarter--actionable:hover {
+    .geo-calendar-months-container__quarter--highlighted,
+    .geo-calendar-months-container__quarter--actionable:hover {
       background: $color-blue-readable-background;
       border-radius: $border-radius-selected-date-unit;
       color: $color-grey-darker;
     }
 
-    .months-container__quarter--no-data {
+    .geo-calendar-months-container__quarter--no-data {
       color: $color-grey;
       cursor: not-allowed;
 
-      .quarter__month-unit {
+      .geo-calendar-quarter__month-unit {
         pointer-events: none;
       }
     }
 
-    .quarter__month-unit {
+    .geo-calendar-quarter__month-unit {
       @include font($body-small);
 
       background: unset;
@@ -319,7 +319,7 @@
         padding: 3px 0;
       }
 
-      &:hover:not(.quarter__month-unit--no-data):not(.quarter__month-unit--selected) .month-unit__month-name {
+      &:hover:not(.geo-calendar-quarter__month-unit--no-data):not(.geo-calendar-quarter__month-unit--selected) .month-unit__month-name {
         background: $color-blue-readable-background;
         border: 1px solid $color-blue;
         border-radius: $border-radius-selected-date-unit;

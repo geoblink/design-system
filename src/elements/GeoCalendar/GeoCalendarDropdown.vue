@@ -29,6 +29,7 @@
         :earliest-date-placeholder="earliestDatePlaceholder"
         :from-input-placeholder="fromInputPlaceholder"
         :granularity-id="granularityId"
+        :initial-date-in-grid="initialDateInGrid"
         :input-range-icon="inputRangeIcon"
         :latest-date="latestDate"
         :latest-date-placeholder="latestDatePlaceholder"
