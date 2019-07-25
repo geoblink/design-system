@@ -28,6 +28,7 @@ import {
   startOfDay,
   endOfWeek
 } from 'date-fns'
+import _ from 'lodash'
 
 import { GRANULARITY_IDS } from '../GeoCalendar.utils'
 import GeoCalendarGranularityIdMixin from '../GeoCalendarGranularityId.mixin'

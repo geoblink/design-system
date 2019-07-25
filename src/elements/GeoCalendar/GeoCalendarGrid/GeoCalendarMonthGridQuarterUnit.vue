@@ -20,6 +20,7 @@
 </template>
 
 <script>
+import _ from 'lodash'
 import { GRANULARITY_IDS } from '../GeoCalendar.utils'
 import GeoCalendarGridMixin from './GeoCalendarGrid.mixin'
 import GeoCalendarGranularityIdMixin from '../GeoCalendarGranularityId.mixin'
