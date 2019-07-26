@@ -3,6 +3,11 @@ import _ from 'lodash'
 const PREVIOUS_STATE_KEY = '$_geoblinkDesignSystem_debugUpdatedHookMixin_previousState'
 /**
  * @mixin
+ *
+ * This mixin will any changes that triggers `updated` lifecycle hook. Use it do
+ * find out which property is responsible for unexpected render cycles.
+ *
+ * **Note:** This should not be used in production.
  */
 export default {
   updated () {
