@@ -4,6 +4,7 @@
       :opened="isYearSelectionOpened"
       :fixed-width="false"
       css-modifier="calendar-navigation-selection"
+      data-ut="year-select"
       @click-outside="closeYearSelection"
     >
       <geo-link-button
@@ -66,7 +67,7 @@ export default {
     },
 
     latestYearInSelect () {
-      return this.latestDate || new Date(YEAR_GRID_CONSTRAINTS.MAX_YEAR, 31)
+      return this.latestDate || new Date(YEAR_GRID_CONSTRAINTS.MAX_YEAR, 0)
     },
 
     numYearsWithData () {

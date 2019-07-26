@@ -119,6 +119,7 @@ export default {
 
   methods: {
     goToNextPickerDate () {
+      if (this.isNextPickerDateSelectorDisabled) return
       /**
        * User clicks to navigate forward on time
        *
@@ -129,6 +130,7 @@ export default {
     },
 
     goToPreviousPickerDate () {
+      if (this.isPreviousPickerDateSelectorDisabled) return
       /**
        * User clicks to navigate backwards on time
        *

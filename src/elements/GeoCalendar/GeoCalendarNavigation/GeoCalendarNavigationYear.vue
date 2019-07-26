@@ -4,6 +4,7 @@
       :opened="isYearRangeSelectionOpened"
       :fixed-width="false"
       css-modifier="calendar-navigation-selection"
+      data-ut="year-range-select"
       @click-outside="closeYearRangeSelection"
     >
       <geo-link-button
