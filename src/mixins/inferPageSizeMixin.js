@@ -36,15 +36,15 @@ export const INFERRED_PAGE_SIZE_CHANGED_EVENT_NAME = 'infer-page-size'
  * @typedef {object} InferPageSizeParams
  * @property {number} sourceDataLength Total amount of data that can be provided
  * at most, ignoring any pagination constraint
- * @property {InferPageSizeStepCallback} [params.before] Function to be
+ * @property {InferPageSizeStepCallback} [before] Function to be
  * called immediately before starting iteration of the algorithm but after
  * running any pending tick
- * @property {InferPageSizeStepCallback} [params.after] Function to be
+ * @property {InferPageSizeStepCallback} [after] Function to be
  * called immediately after each iteration of the algorithm but before running
  * any pending tick
- * @property {InferPageSizeStepCallback} [params.beforeEach] Function to be
+ * @property {InferPageSizeStepCallback} [beforeEach] Function to be
  * called before each iteration of the algorithm.
- * @property {InferPageSizeStepCallback} [params.afterEach] Function to be
+ * @property {InferPageSizeStepCallback} [afterEach] Function to be
  * called after each iteration of the algorithm.
  * @property {GetHeight} getContainerHeight Function returning the height of the
  * container where content is displayed. It should be smaller than content
