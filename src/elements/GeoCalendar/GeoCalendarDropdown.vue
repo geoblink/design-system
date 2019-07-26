@@ -71,11 +71,13 @@ import cssSuffix from '../../mixins/cssModifierMixin'
 import GeoCalendarRootMixin from './GeoCalendarRoot.mixin'
 import GeoCalendarGranularityIdMixin from './GeoCalendarGranularityId.mixin'
 import GeoCalendarPickerDateUnitMixin from './GeoCalendarPickerDateUnit.mixin'
+import * as GeoCalendarConstants from './GeoCalendar.utils'
 
 export default {
   name: 'GeoCalendarDropdown',
   status: 'missing-tests',
   release: '22.3.0',
+  constants: GeoCalendarConstants,
   mixins: [
     GeoCalendarPickerDateUnitMixin,
     GeoCalendarGranularityIdMixin,
