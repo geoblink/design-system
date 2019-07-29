@@ -99,6 +99,9 @@ import _ from 'lodash'
 
 import OnResize from '../../directives/GeoOnResize'
 import cssSuffix from '../../mixins/cssModifierMixin'
+import inferPageSize, {
+  DATA_KEYS as INFER_PAGE_SIZE_DATA_KEYS
+} from '../../mixins/inferPageSizeMixin'
 import throttle from '../../utils/throttle'
 
 import {
@@ -114,7 +117,7 @@ export default {
   release: '10.1.0',
   constants: { DEFAULT_PAGESIZE },
   directives: { OnResize },
-  mixins: [cssSuffix],
+  mixins: [cssSuffix, inferPageSize],
   props: {
     /**
      * Source data feeding this table.
@@ -164,13 +167,6 @@ export default {
   },
   data () {
     return {
-      internallyForcedCurrentPageStart: -1, // Used to force table to display first page during page size inference
-      inferredPageSize: null
-      // This is intentionally non-reactive to avoid triggering update hook
-      // isAdjustingTable: false
-      // This is intentionally non-reactive to avoid triggering infinite loops
-      // when inferring page size stops
-      // isInferringPageSize: false
       // This is intentionally non-reactive to avoid triggering infinite loops
       // when computing column's width
       // columnsWidths: {}
@@ -182,8 +178,8 @@ export default {
     },
 
     currentPageStart () {
-      return this.internallyForcedCurrentPageStart >= 0
-        ? this.internallyForcedCurrentPageStart
+      return this[INFER_PAGE_SIZE_DATA_KEYS.internallyForcedCurrentPageStart] >= 0
+        ? this[INFER_PAGE_SIZE_DATA_KEYS.internallyForcedCurrentPageStart]
         : this.currentPage * this.pageSize
     },
 
@@ -206,8 +202,8 @@ export default {
     pageSize () {
       return _.isFinite(this.forcedPageSize)
         ? this.forcedPageSize
-        : _.isFinite(this.inferredPageSize)
-          ? this.inferredPageSize
+        : _.isFinite(this[INFER_PAGE_SIZE_DATA_KEYS.inferredPageSize])
+          ? this[INFER_PAGE_SIZE_DATA_KEYS.inferredPageSize]
           : DEFAULT_PAGESIZE
     },
 
@@ -223,7 +219,7 @@ export default {
     this.layoutTableIfPossible()
   },
   updated () {
-    if (this.isAdjustingTable) return
+    if (this[INFER_PAGE_SIZE_DATA_KEYS.isInferringPageSize]) return
 
     this.layoutTableIfPossible()
   },
@@ -305,12 +301,22 @@ export default {
       const hasAllRequiredObjects = _.reduce(requiredObjects, (accum, object) => accum && !!object, true)
       if (!hasAllRequiredObjects) return this.$nextTick()
 
-      this.isAdjustingTable = true
+      const isAutomaticPageSizeDisabled = !this.automaticPageSize
+      const isPageSizeForced = this.forcedPageSize
 
-      return this.inferPageSize().then(() => {
-        this.layoutColumns()
-        this.isAdjustingTable = false
-      })
+      const automaticPageInferenceFinishedPromise = isAutomaticPageSizeDisabled || isPageSizeForced
+        ? this.$nextTick()
+        : this.inferPageSize({
+          sourceDataLength: this.sourceData.length,
+          // getBoundingClientRect returns wrong values when browser is zoomed
+          getContainerHeight: () => this.$refs.tableContainer.offsetHeight,
+          getContentHeight: () => this.$refs.tableContainer.scrollHeight,
+          after: () => this.applyComputedColumnsWidth()
+        })
+
+      return automaticPageInferenceFinishedPromise
+        ? automaticPageInferenceFinishedPromise.then(() => this.layoutColumns())
+        : null
     },
 
     layoutColumns () {
@@ -378,64 +384,8 @@ export default {
       // We need this padding so sticky header doesn't cover any row
       const headerHeight = self.$refs.tableHeader.offsetHeight
       self.$refs.tableBody.style['padding-top'] = `${headerHeight}px`
-    },
-
-    inferPageSize () {
-      if (!this.automaticPageSize) return this.$nextTick()
-      if (!this.$refs.tableHeader) return this.$nextTick()
-      if (!this.$refs.tableContainer) return this.$nextTick()
-      if (_.isFinite(this.forcedPageSize)) return this.$nextTick()
-      if (this.isInferringPageSize) return this.$nextTick()
-
-      this.isInferringPageSize = true
-      this.internallyForcedCurrentPageStart = 0
-      this.inferredPageSize = 1
-
-      return this.$nextTick()
-        .then(() => {
-          return attemptToIncreaseInferredPageSize(this)
-        })
-        .then(() => {
-          this.applyComputedColumnsWidth()
-          return this.$nextTick()
-        })
-        .then(() => {
-          this.internallyForcedCurrentPageStart = -1
-          this.isInferringPageSize = false
-
-          /**
-           * Inferred page size changed.
-           *
-           * @event infer-page-size
-           * @type {number}
-           */
-          this.$emit('infer-page-size', this.inferredPageSize)
-        })
     }
   }
-}
-
-function attemptToIncreaseInferredPageSize (vm) {
-  if (vm.inferredPageSize >= vm.sourceData.length) return
-
-  vm.inferredPageSize += 1
-
-  return vm.$nextTick()
-    .then(function () {
-      // offsetHeight instead of getBoundingClientRect().height because
-      // getBoundingClientRect returns wrong values when browser is zoomed
-      const containerHeight = vm.$refs.tableContainer.offsetHeight
-      const contentHeight = vm.$refs.tableContainer.scrollHeight
-
-      const isVerticalScrollRequired = containerHeight < contentHeight
-
-      if (isVerticalScrollRequired) {
-        vm.inferredPageSize -= 1
-        return vm.$nextTick()
-      }
-
-      return attemptToIncreaseInferredPageSize(vm)
-    })
 }
 
 /**
