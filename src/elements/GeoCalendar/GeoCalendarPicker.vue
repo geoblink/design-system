@@ -149,7 +149,7 @@ export default {
           canSelectNextDates = isBefore(addMonths(new Date(this.currentYear, this.currentMonth), 1), this.latestDate)
           break
         case PICKER_DATE_UNITS.year:
-          canSelectNextDates = isBefore(new Date(this.currentEndYearInRange, this.currentMonth), this.latestDate || YEAR_GRID_CONSTRAINTS.MAX_YEAR)
+          canSelectNextDates = isBefore(new Date(this.currentEndYearInRange, this.currentMonth), this.latestDate)
       }
       return canSelectNextDates
     },
@@ -163,7 +163,7 @@ export default {
           canSelectPastDates = isAfter(new Date(this.currentYear, this.currentMonth), this.earliestDate)
           break
         case PICKER_DATE_UNITS.year:
-          canSelectPastDates = isAfter(subYears(new Date(this.currentInitialYearInRange, this.currentMonth), 1), this.earliestDate || YEAR_GRID_CONSTRAINTS.MIN_YEAR)
+          canSelectPastDates = isAfter(subYears(new Date(this.currentInitialYearInRange, this.currentMonth), 1), this.earliestDate)
       }
       return canSelectPastDates
     }
@@ -178,7 +178,7 @@ export default {
         case PICKER_DATE_UNITS.day:
           if (this.currentMonth === 11) {
             nextYear = getYear(addYears(this.currentDate, 1))
-            this.Range(nextYear)
+            this.goToYear(nextYear)
           }
           nextMonth = getMonth(addMonths(this.currentDate, 1))
           this.goToMonth(nextMonth)

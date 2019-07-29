@@ -19,7 +19,9 @@ describe('GeoCalendarNavigationYear', () => {
         isDisabled: false,
         calendarNavigationSelectIcon: ['fas', 'chevron-down'],
         currentMonth: 6,
-        currentYear: 2019
+        currentYear: 2019,
+        currentInitialYearInRange: 2018,
+        currentEndYearInRange: 2033
       }
     })
     expect(wrapper.find('.geo-calendar-navigation__selects-container').exists()).toBe(true)
@@ -43,7 +45,7 @@ describe('GeoCalendarNavigationYear', () => {
         currentMonth: 6,
         currentYear: 2019,
         isDisabled: false,
-        currentInitialYearRange: 2018,
+        currentInitialYearInRange: 2018,
         currentEndYearInRange: 2033
       }
     })

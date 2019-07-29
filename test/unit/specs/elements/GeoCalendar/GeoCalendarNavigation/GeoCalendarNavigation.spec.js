@@ -22,7 +22,9 @@ describe('GeoCalendarNavigation', () => {
       previousDateInSelectedGranularityIcon: ['fas', 'chevron-left'],
       currentMonth: 6,
       currentYear: 2019,
-      pickerDateUnit: PICKER_DATE_UNITS.day
+      pickerDateUnit: PICKER_DATE_UNITS.day,
+      currentInitialYearInRange: 2018,
+      currentEndYearInRange: 2033
     }
   })
 

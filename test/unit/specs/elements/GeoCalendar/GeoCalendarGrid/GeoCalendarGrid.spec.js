@@ -72,8 +72,8 @@ describe('GeoCalendarGrid', () => {
           pickerDateUnit: PICKER_DATE_UNITS.day,
           granularityId: GRANULARITY_IDS.day
         })
-        const geoCalendarDayGrid = wrapper.find(GeoCalendarDayGrid)
-        geoCalendarDayGrid.vm.$emit('select-day', today)
+        const geoCalendarDayGridWrapper = wrapper.find(GeoCalendarDayGrid)
+        geoCalendarDayGridWrapper.vm.$emit('select-day', today)
         expect(wrapper.emitted()['select-day']).toBeDefined()
         expect(wrapper.emitted()['select-day'][0][0]).toBe(today)
       })
@@ -83,11 +83,11 @@ describe('GeoCalendarGrid', () => {
           pickerDateUnit: PICKER_DATE_UNITS.day,
           granularityId: GRANULARITY_IDS.week
         })
-        const geoCalendarDayGrid = wrapper.find(GeoCalendarDayGrid)
+        const geoCalendarDayGridWrapper = wrapper.find(GeoCalendarDayGrid)
         const weekStart = startOfWeek(today, { weekStartsOn: 1 })
         const weekEnd = startOfDay(endOfWeek(today, { weekStartsOn: 1 }))
 
-        geoCalendarDayGrid.vm.$emit('select-week', {
+        geoCalendarDayGridWrapper.vm.$emit('select-week', {
           fromDate: weekStart,
           toDate: weekEnd
         })
@@ -106,9 +106,9 @@ describe('GeoCalendarGrid', () => {
           pickerDateUnit: PICKER_DATE_UNITS.month,
           granularityId: GRANULARITY_IDS.month
         })
-        const geoCalendarMonthGrid = wrapper.find(GeoCalendarMonthGrid)
+        const geoCalendarMonthGridWrapper = wrapper.find(GeoCalendarMonthGrid)
 
-        geoCalendarMonthGrid.vm.$emit('select-month', 6)
+        geoCalendarMonthGridWrapper.vm.$emit('select-month', 6)
         expect(wrapper.emitted()['select-month']).toBeDefined()
         expect(wrapper.emitted()['select-month'][0][0]).toBe(6)
       })
@@ -118,9 +118,9 @@ describe('GeoCalendarGrid', () => {
           pickerDateUnit: PICKER_DATE_UNITS.month,
           granularityId: GRANULARITY_IDS.quarter
         })
-        const geoCalendarMonthGrid = wrapper.find(GeoCalendarMonthGrid)
+        const geoCalendarMonthGridWrapper = wrapper.find(GeoCalendarMonthGrid)
 
-        geoCalendarMonthGrid.vm.$emit('select-quarter', 6)
+        geoCalendarMonthGridWrapper.vm.$emit('select-quarter', 6)
         expect(wrapper.emitted()['select-quarter']).toBeDefined()
         expect(wrapper.emitted()['select-quarter'][0][0]).toBe(6)
       })
@@ -132,9 +132,9 @@ describe('GeoCalendarGrid', () => {
           pickerDateUnit: PICKER_DATE_UNITS.year,
           granularityId: GRANULARITY_IDS.year
         })
-        const geoCalendarYearGrid = wrapper.find(GeoCalendarYearGrid)
+        const geoCalendarYearGridWrapper = wrapper.find(GeoCalendarYearGrid)
 
-        geoCalendarYearGrid.vm.$emit('select-year', 2021)
+        geoCalendarYearGridWrapper.vm.$emit('select-year', 2021)
         expect(wrapper.emitted()['select-year']).toBeDefined()
         expect(wrapper.emitted()['select-year'][0][0]).toBe(2021)
       })

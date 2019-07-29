@@ -57,6 +57,22 @@ export default {
     },
 
     /**
+     * Initial year within the actual grid year range
+     */
+    currentInitialYearInRange: {
+      type: Number,
+      required: true
+    },
+
+    /**
+     * End year within the actual grid year range
+     */
+    currentEndYearInRange: {
+      type: Number,
+      required: true
+    },
+
+    /**
      * Whether more options in the select can be selected.
      * If the range with data fits in one grid this should be disabled
      */

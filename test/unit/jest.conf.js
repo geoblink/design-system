@@ -19,8 +19,7 @@ module.exports = {
   collectCoverageFrom: [
     '<rootDir>/src/util/**/*.{js,vue}',
     // '<rootDir>/src/elements/**/*.{js,vue}',
-    // '<rootDir>/src/elements/GeoCalendar/**/*.{js,vue}',
-    '<rootDir>/src/elements/GeoCalendar/GeoCalendarGrid/**/*.{js,vue}',
+    '<rootDir>/src/elements/GeoCalendar/GeoCalendarPicker.{js,vue}',
     '<rootDir>/docs/**/*.{js,vue}',
     '!<rootDir>/node_modules/**',
     '!<rootDir>/src/system.js',
