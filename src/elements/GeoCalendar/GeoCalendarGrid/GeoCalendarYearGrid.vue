@@ -31,6 +31,24 @@ export default {
     GeoCalendarDateIndicatorsMixin
   ],
 
+  props: {
+    /**
+     * Initial year within the actual grid year range
+     */
+    currentInitialYearInRange: {
+      type: Number,
+      required: true
+    },
+
+    /**
+     * End year within the actual grid year range
+     */
+    currentEndYearInRange: {
+      type: Number,
+      required: true
+    }
+  },
+
   computed: {
     numberOfYearsWithinConstraints () {
       return (this.currentEndYearInRange - this.currentInitialYearInRange) + 1

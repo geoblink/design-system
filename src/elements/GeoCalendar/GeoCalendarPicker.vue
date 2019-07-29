@@ -81,6 +81,22 @@ export default {
     },
 
     /**
+     * Initial year within the actual grid year range
+     */
+    currentInitialYearInRange: {
+      type: Number,
+      required: true
+    },
+
+    /**
+     * End year within the actual grid year range
+     */
+    currentEndYearInRange: {
+      type: Number,
+      required: true
+    },
+
+    /**
      * Font Awesome 5 icon to navigate forward through different time units
      *
      * See [vue-fontawesome](https://www.npmjs.com/package/@fortawesome/vue-fontawesome#explicit-prefix-note-the-vue-bind-shorthand-because-this-uses-an-array)

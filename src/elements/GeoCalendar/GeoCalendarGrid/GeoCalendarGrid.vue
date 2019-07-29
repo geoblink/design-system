@@ -57,6 +57,24 @@ export default {
     GeoCalendarGridMixin
   ],
 
+  props: {
+    /**
+     * Initial year within the actual grid year range
+     */
+    currentInitialYearInRange: {
+      type: Number,
+      required: true
+    },
+
+    /**
+     * End year within the actual grid year range
+     */
+    currentEndYearInRange: {
+      type: Number,
+      required: true
+    }
+  },
+
   computed: {
     isDayGrid () {
       return this.pickerDateUnit === PICKER_DATE_UNITS.day

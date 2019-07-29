@@ -141,8 +141,8 @@ export default {
       currentYear: null,
       showFromFormatError: false,
       showToFormatError: false,
-      currentInitialYearInRange: null,
-      currentEndYearInRange: null
+      currentInitialYearInRange: 0,
+      currentEndYearInRange: 0
     }
   },
 

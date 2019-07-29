@@ -9,7 +9,7 @@
         {{ day }}
       </p>
     </div>
-    <div class="geo-calendar-grid__days-container">
+    <div class="geo-calendar-grid__day-container">
       <geo-calendar-day-grid-week-unit
         v-for="(week, weekIndex) in fullDaysInDisplayedCalendar"
         :key="weekIndex"

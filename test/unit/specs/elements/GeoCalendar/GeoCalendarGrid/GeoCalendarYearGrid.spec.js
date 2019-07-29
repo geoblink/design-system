@@ -1,9 +1,34 @@
 import { mount } from '@vue/test-utils'
-import GeoCalendar from '@/elements/GeoCalendar/GeoCalendarGrid/GeoCalendarYearGrid.vue'
+import GeoCalendarYearGrid from '@/elements/GeoCalendar/GeoCalendarGrid/GeoCalendarYearGrid.vue'
+import GeoCalendarYearGridYearUnit from '@/elements/GeoCalendar/GeoCalendarGrid/GeoCalendarYearGridYearUnit.vue'
+import { getMonth, getYear } from 'date-fns'
 
-describe('GeoCalendar', () => {
+describe('GeoCalendarYearGrid', () => {
+  const today = new Date()
+  const currentMonth = getMonth(today)
+  const currentYear = getYear(today)
+
+  const wrapper = mount(GeoCalendarYearGrid, {
+    stubs: {
+      GeoCalendarYearGridYearUnit
+    },
+    propsData: {
+      currentInitialYearInRange: 2015,
+      currentEndYearInRange: 2030,
+      currentMonth,
+      currentYear
+    }
+  })
+
   it('should render', function () {
-    const wrapper = mount(GeoCalendar)
-    expect(wrapper.find('.geo-calendar').exists()).toBe(true)
+    expect(wrapper.find('.geo-calendar-grid').exists()).toBe(true)
+    expect(wrapper.find('.geo-calendar-grid__year-container').exists()).toBe(true)
+  })
+
+  it('Should emit event when receiving a year', () => {
+    const childYear = wrapper.find(GeoCalendarYearGridYearUnit)
+    childYear.vm.$emit('select-year-unit', 2020)
+    expect(wrapper.emitted()['select-year']).toBeDefined()
+    expect(wrapper.emitted()['select-year'][0][0]).toBe(2020)
   })
 })

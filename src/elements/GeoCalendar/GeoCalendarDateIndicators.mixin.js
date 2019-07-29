@@ -20,22 +20,6 @@ export default {
     },
 
     /**
-     * Initial year within the actual grid year range
-     */
-    currentInitialYearInRange: {
-      type: Number,
-      required: false
-    },
-
-    /**
-     * End year within the actual grid year range
-     */
-    currentEndYearInRange: {
-      type: Number,
-      required: false
-    },
-
-    /**
      * Earliest date that can be selected
      */
     earliestDate: {

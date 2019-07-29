@@ -69,6 +69,22 @@ export default {
     },
 
     /**
+     * Initial year within the actual grid year range
+     */
+    currentInitialYearInRange: {
+      type: Number,
+      required: true
+    },
+
+    /**
+     * End year within the actual grid year range
+     */
+    currentEndYearInRange: {
+      type: Number,
+      required: true
+    },
+
+    /**
      * Whether is it possible to go forward in the calendar selected granularity
      */
     isNextPickerDateSelectorDisabled: {

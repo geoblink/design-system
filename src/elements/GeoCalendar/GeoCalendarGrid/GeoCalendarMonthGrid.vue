@@ -1,6 +1,6 @@
 <template>
   <div class="geo-calendar-grid">
-    <div class="geo-calendar-grid__months-container">
+    <div class="geo-calendar-grid__month-container">
       <geo-calendar-month-grid-quarter-unit
         v-for="(quarter, index) in monthsByQuarters"
         :key="index"
