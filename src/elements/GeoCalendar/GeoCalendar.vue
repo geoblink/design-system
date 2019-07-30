@@ -3,8 +3,7 @@
     <div class="geo-calendar__granularity-selectors">
       <!-- @slot Use this slot to customize the sidebar with the different granularities handled by the calendar -->
       <slot name="pickerGranularity" />
-      <!-- TODO: Put aliases in different slot -->
-      <!-- <slot name="aliases" /> -->
+      <!-- TODO: CORE-7338 Put aliases in different slot -->
     </div>
     <div class="geo-calendar__picker-controls">
       <div class="geo-calendar__input-ranges">
@@ -147,10 +146,6 @@ export default {
   },
 
   computed: {
-    areSelectedBoundsValid () {
-      return !!this.fromRawDate && !!this.toRawDate && !isAfter(this.fromRawDate, this.toRawDate)
-    },
-
     fromFormattedDate: {
       get () {
         return this.fromRawDate ? this.formatDate(this.fromRawDate) : null
