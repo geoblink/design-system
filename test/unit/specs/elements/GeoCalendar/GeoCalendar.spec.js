@@ -173,7 +173,7 @@ describe('GeoCalendar', () => {
         expect(wrapper.emitted()['set-from-date']).toBeDefined()
         expect(wrapper.emitted()['set-from-date'][0][0]).toEqual({ fromDate: today })
 
-        wrapper.vm.unfocusFromDateInput()
+        wrapper.vm.unblurFromDateInput()
         expect(wrapper.vm.isFromDateInputFocused).toBe(false)
       })
 
@@ -214,7 +214,7 @@ describe('GeoCalendar', () => {
         expect(wrapper.emitted()['set-to-date']).toBeDefined()
         expect(wrapper.emitted()['set-to-date'][0][0]).toEqual({ toDate: today })
 
-        wrapper.vm.unfocusToDateInput()
+        wrapper.vm.unblurToDateInput()
         expect(wrapper.vm.isToDateInputFocused).toBe(false)
       })
 

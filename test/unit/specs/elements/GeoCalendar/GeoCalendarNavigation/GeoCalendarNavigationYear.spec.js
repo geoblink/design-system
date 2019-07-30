@@ -53,19 +53,19 @@ describe('GeoCalendarNavigationYear', () => {
         const wrapper = getWrappedComponent()
         const yearSelectItemsLength = wrapper.findAll('[data-ut="year-range-select"] .geo-list-item').length
         expect(yearSelectItemsLength).toEqual(Math.ceil((YEAR_GRID_CONSTRAINTS.MAX_YEAR - YEAR_GRID_CONSTRAINTS.MIN_YEAR + 2) / YEAR_GRID_CONSTRAINTS.YEARS_IN_GRID))
-        expect(wrapper.findAll('[data-ut="year-range-select"] .geo-list-item').at(0).text()).toEqual(`${YEAR_GRID_CONSTRAINTS.MIN_YEAR} - ${(YEAR_GRID_CONSTRAINTS.MIN_YEAR - 1) + 16}`)
+        expect(wrapper.findAll('[data-ut="year-range-select"] .geo-list-item').at(0).text()).toEqual(`${YEAR_GRID_CONSTRAINTS.MIN_YEAR} - ${(YEAR_GRID_CONSTRAINTS.MIN_YEAR - 1) + YEAR_GRID_CONSTRAINTS.YEARS_IN_GRID}`)
         expect(wrapper.findAll('[data-ut="year-range-select"] .geo-list-item').at(yearSelectItemsLength - 1).text()).toEqual(`${YEAR_GRID_CONSTRAINTS.MAX_YEAR - 1} - ${YEAR_GRID_CONSTRAINTS.MAX_YEAR - 1}`)
       })
 
       it('Constraints - Should have as many ranges as there can be between earliestDate and latestDate', () => {
         const wrapper = getWrappedComponent()
         wrapper.setProps({
-          earliestDate: subYears(new Date(), 16),
-          latestDate: addYears(new Date(), 16)
+          earliestDate: subYears(new Date(), YEAR_GRID_CONSTRAINTS.YEARS_IN_GRID),
+          latestDate: addYears(new Date(), YEAR_GRID_CONSTRAINTS.YEARS_IN_GRID)
         })
         const yearSelectItemsLength = wrapper.findAll('[data-ut="year-range-select"] .geo-list-item').length
-        expect(yearSelectItemsLength).toEqual(Math.ceil(((getYear(wrapper.vm.latestDate) + 16) - (getYear(wrapper.vm.earliestDate) - 16)) / 16))
-        expect(wrapper.findAll('[data-ut="year-range-select"] .geo-list-item').at(0).text()).toEqual(`${getYear(wrapper.vm.earliestDate) - 16} - ${getYear(wrapper.vm.earliestDate) - 1}`)
+        expect(yearSelectItemsLength).toEqual(Math.ceil(((getYear(wrapper.vm.latestDate) + YEAR_GRID_CONSTRAINTS.YEARS_IN_GRID) - (getYear(wrapper.vm.earliestDate) - YEAR_GRID_CONSTRAINTS.YEARS_IN_GRID)) / YEAR_GRID_CONSTRAINTS.YEARS_IN_GRID))
+        expect(wrapper.findAll('[data-ut="year-range-select"] .geo-list-item').at(0).text()).toEqual(`${getYear(wrapper.vm.earliestDate) - YEAR_GRID_CONSTRAINTS.YEARS_IN_GRID} - ${getYear(wrapper.vm.earliestDate) - 1}`)
         expect(wrapper.findAll('[data-ut="year-range-select"] .geo-list-item').at(yearSelectItemsLength - 1).text()).toEqual(`${getYear(wrapper.vm.latestDate)} - ${getYear(wrapper.vm.latestDate) + 15}`)
       })
     })
@@ -89,8 +89,8 @@ function getWrappedComponent () {
       currentMonth: 6,
       currentYear: 2019,
       isDisabled: false,
-      currentInitialYearInRange: 2018,
-      currentEndYearInRange: 2033
+      currentInitialYearInRange: 0,
+      currentEndYearInRange: 0
     }
   })
 }

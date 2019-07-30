@@ -7,16 +7,16 @@
     </div>
     <div class="geo-calendar__picker-controls">
       <div class="geo-calendar__input-ranges">
-        <div class="geo-calendar__input geo-calendar__input--start">
+        <div>
           <geo-input
             v-model="fromFormattedDate"
-            v-click-outside="unfocusFromDateInput"
+            v-click-outside="unblurFromDateInput"
             :is-focused="isFromDateInputFocused"
             :placeholder="fromInputPlaceholder"
             :show-buttons="false"
             css-modifier="geo-calendar"
             input-type="normal"
-            @click="focusFromDateInput"
+            @click="blurFromDateInput"
           />
           <!-- @slot Use this slot to customize the message shown when there is an error in one of the selected dates -->
           <slot
@@ -24,7 +24,7 @@
             name="formatError"
           />
           <geo-link-button
-            v-if="earliestDate"
+            v-if="showSetEarliestDateButton"
             css-modifier="calendar-picker-button"
             @click="setEarliestDate"
           >
@@ -36,16 +36,16 @@
           class="geo-calendar__input-range-icon"
           fixed-width
         />
-        <div class="geo-calendar__input geo-calendar__input--end">
+        <div>
           <geo-input
             v-model="toFormattedDate"
-            v-click-outside="unfocusToDateInput"
+            v-click-outside="unblurToDateInput"
             :is-focused="isToDateInputFocused"
             :placeholder="toInputPlaceholder"
             :show-buttons="false"
             css-modifier="geo-calendar"
             input-type="normal"
-            @click="focusToDateInput"
+            @click="blurToDateInput"
           />
           <!-- @slot Use this slot to customize the message shown when there is an error in one of the selected dates -->
           <slot
@@ -53,7 +53,7 @@
             name="formatError"
           />
           <geo-link-button
-            v-if="latestDate"
+            v-if="showSetLatestDateButton"
             css-modifier="calendar-picker-button"
             @click="setLatestDate"
           >
@@ -98,6 +98,7 @@
 <script>
 import cssSuffix from '../../mixins/cssModifierMixin'
 import ClickOutside from '../../directives/GeoClickOutside'
+import { GRANULARITY_IDS } from './GeoCalendar.utils'
 import {
   endOfMonth,
   endOfQuarter,
@@ -193,6 +194,22 @@ export default {
           }
           this.setToDate({ toDate: null })
         }
+      }
+    },
+
+    showSetEarliestDateButton () {
+      return this.earliestDate && this.isGranularityWithoutRangeConstraints
+    },
+
+    showSetLatestDateButton () {
+      return this.latestDate && this.isGranularityWithoutRangeConstraints
+    },
+
+    isGranularityWithoutRangeConstraints () {
+      return this.granularityId in {
+        [GRANULARITY_IDS.day]: GRANULARITY_IDS.day,
+        [GRANULARITY_IDS.month]: GRANULARITY_IDS.month,
+        [GRANULARITY_IDS.year]: GRANULARITY_IDS.year
       }
     },
 
@@ -303,6 +320,7 @@ export default {
     },
 
     setEarliestDate () {
+      if (!this.earliestDate) return
       this.showFromFormatError = false
       this.fromRawDate = this.earliestDate
       this.setFromDate({ fromDate: this.earliestDate })
@@ -319,6 +337,7 @@ export default {
     },
 
     setLatestDate () {
+      if (!this.latestDate) return
       this.showToFormatError = false
       this.toRawDate = this.latestDate
       this.setToDate({ toDate: this.latestDate })
@@ -334,19 +353,19 @@ export default {
       this.$emit('set-to-date', { toDate })
     },
 
-    focusFromDateInput () {
+    blurFromDateInput () {
       this.isFromDateInputFocused = true
     },
 
-    unfocusFromDateInput () {
+    unblurFromDateInput () {
       this.isFromDateInputFocused = false
     },
 
-    focusToDateInput () {
+    blurToDateInput () {
       this.isToDateInputFocused = true
     },
 
-    unfocusToDateInput () {
+    unblurToDateInput () {
       this.isToDateInputFocused = false
     }
   }

@@ -66,19 +66,19 @@ describe('GeoCalendarMonthGridMonthUnit', () => {
       expect(wrapper.vm.isDateWithinSelectedMonths).toBe(false)
     })
 
-    it('isMonthWithoutData', () => {
+    it('isMonthUnavailable', () => {
       wrapper.setProps({
         earliestDate: addMonths(today, 3)
       })
-      expect(wrapper.find('.geo-calendar-quarter__month-unit--no-data').exists()).toBe(true)
-      expect(wrapper.vm.isMonthWithoutData).toBe(true)
+      expect(wrapper.find('.geo-calendar-quarter__month-unit--unavailable').exists()).toBe(true)
+      expect(wrapper.vm.isMonthUnavailable).toBe(true)
 
       wrapper.setProps({
         earliestDate: subMonths(today, 3),
         latestDate: addMonths(today, 1)
       })
-      expect(wrapper.find('.geo-calendar-quarter__month-unit--no-data').exists()).toBe(false)
-      expect(wrapper.vm.isMonthWithoutData).toBe(false)
+      expect(wrapper.find('.geo-calendar-quarter__month-unit--unavailable').exists()).toBe(false)
+      expect(wrapper.vm.isMonthUnavailable).toBe(false)
     })
 
     it('isMonthWithinFromMonth', () => {

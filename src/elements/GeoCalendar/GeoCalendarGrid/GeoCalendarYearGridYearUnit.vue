@@ -4,7 +4,7 @@
       'geo-calendar-years__year-unit': true,
       'geo-calendar-years__year-unit--selected': isDateInYear,
       'geo-calendar-years__year-unit--within-range': isDateWithinSelectedYears,
-      'geo-calendar-years__year-unit--no-data': isYearWithoutData,
+      'geo-calendar-years__year-unit--unavailable': isYearUnavailable,
       'geo-calendar-years__year-unit--from-date': isDayWithinFromYear,
       'geo-calendar-years__year-unit--to-date': isDayWithinToYear
     }"
@@ -67,7 +67,7 @@ export default {
       )
     },
 
-    isYearWithoutData () {
+    isYearUnavailable () {
       return (
         (
           isBefore(addYears(new Date(this.year, 0), 1), this.earliestDate)
@@ -88,7 +88,7 @@ export default {
 
   methods: {
     selectYear () {
-      if (this.isYearWithoutData) return
+      if (this.isYearUnavailable) return
       this.$emit('select-year-unit', this.year)
     }
   }

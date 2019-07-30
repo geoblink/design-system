@@ -4,7 +4,7 @@
       'geo-calendar-quarter__month-unit': true,
       'geo-calendar-quarter__month-unit--selected': isDateInMonth,
       'geo-calendar-quarter__month-unit--within-range': isDateWithinSelectedMonths,
-      'geo-calendar-quarter__month-unit--no-data': isMonthWithoutData,
+      'geo-calendar-quarter__month-unit--unavailable': isMonthUnavailable,
       'geo-calendar-quarter__month-unit--from-date': isDayWithinFromMonth,
       'geo-calendar-quarter__month-unit--to-date': isDayWithinToMonth
     }"
@@ -83,7 +83,7 @@ export default {
       )
     },
 
-    isMonthWithoutData () {
+    isMonthUnavailable () {
       return isBefore(new Date(this.currentYear, this.monthIndex), this.earliestDate) ||
         isAfter(new Date(this.currentYear, this.monthIndex), this.latestDate)
     },

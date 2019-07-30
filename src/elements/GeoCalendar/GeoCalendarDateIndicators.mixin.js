@@ -1,7 +1,7 @@
 export default {
   props: {
     /**
-     * Number of the month within a year that is currently being displayed in the grid(ie: `0 -> january`, `11 -> december`)
+     * Number of the month within a year that is currently being displayed in the grid (ie: `0 -> january`, `11 -> december`)
      */
     currentMonth: {
       type: Number,

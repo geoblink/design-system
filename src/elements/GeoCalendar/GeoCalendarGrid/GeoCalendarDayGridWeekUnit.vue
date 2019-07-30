@@ -2,7 +2,7 @@
   <div
     :class="{
       'geo-calendar-days-container__week-unit': true,
-      'geo-calendar-days-container__week-unit--no-data': isWeekGranularity && isWeekWithoutData,
+      'geo-calendar-days-container__week-unit--unavailable': isWeekGranularity && isWeekUnavailable,
       'geo-calendar-days-container__week-unit--is-week-granularity': isWeekGranularity
     }"
   >
@@ -92,18 +92,18 @@ export default {
       return this.granularityId === GRANULARITY_IDS.week
     },
 
-    isWeekWithoutData () {
-      return _.reduce(this.fullMonthCalendar[this.weekIndex], (accum, day) => accum || this.isDayWithoutData(day), false)
+    isWeekUnavailable () {
+      return _.reduce(this.fullMonthCalendar[this.weekIndex], (accum, day) => accum || this.isDayUnavailable(day), false)
     }
   },
 
   methods: {
-    isDayWithoutData (day) {
+    isDayUnavailable (day) {
       return isBefore(day, this.earliestDate) || isAfter(day, this.latestDate)
     },
 
     selectDay (day) {
-      if (this.isDayWithoutData(day)) return
+      if (this.isDayUnavailable(day)) return
       if (this.granularityId === GRANULARITY_IDS.day) {
         /**
          * User selects a particular day within the day grid

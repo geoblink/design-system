@@ -4,7 +4,7 @@
       'geo-calendar-days-container__day-picker': true,
       'geo-calendar-days-container__day-picker--today': isToday,
       'geo-calendar-days-container__day-picker--out-of-boundaries': isDayOutOfBoundaries,
-      'geo-calendar-days-container__day-picker--no-data': isDayWithoutData,
+      'geo-calendar-days-container__day-picker--unavailable': isDayUnavailable,
       'geo-calendar-days-container__day-picker--selected': isSelectedDay,
       'geo-calendar-days-container__day-picker--from-date': isEqual(day, selectedFromDay),
       'geo-calendar-days-container__day-picker--to-date': isEqual(day, selectedToDay),
@@ -95,7 +95,7 @@ export default {
         (this.selectedFromDay === this.day || this.selectedToDay === this.day))
     },
 
-    isDayWithoutData () {
+    isDayUnavailable () {
       return isBefore(this.day, this.earliestDate) || isAfter(this.day, this.latestDate)
     },
 

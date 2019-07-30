@@ -54,22 +54,22 @@ describe('GeoCalendarYearGridYearUnit', () => {
       expect(wrapper.vm.isDateWithinSelectedYears).toBe(false)
     })
 
-    it('isYearWithoutData', () => {
+    it('isYearUnavailable', () => {
       wrapper.setProps({
         earliestDate: subYears(today, 1),
         latestDate: addYears(today, 1)
       })
 
-      expect(wrapper.find('.geo-calendar-years__year-unit--no-data').exists()).toBe(false)
-      expect(wrapper.vm.isYearWithoutData).toBe(false)
+      expect(wrapper.find('.geo-calendar-years__year-unit--unavailable').exists()).toBe(false)
+      expect(wrapper.vm.isYearUnavailable).toBe(false)
 
       wrapper.setProps({
         earliestDate: addYears(today, 1),
         latestDate: addYears(today, 2)
       })
 
-      expect(wrapper.find('.geo-calendar-years__year-unit--no-data').exists()).toBe(true)
-      expect(wrapper.vm.isYearWithoutData).toBe(true)
+      expect(wrapper.find('.geo-calendar-years__year-unit--unavailable').exists()).toBe(true)
+      expect(wrapper.vm.isYearUnavailable).toBe(true)
     })
 
     it('isDayWithinFromYear', () => {

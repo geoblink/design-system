@@ -40,13 +40,13 @@ describe('GeoCalendarMonthGridQuarterUnit', () => {
       expect(wrapper.vm.canQuarterBeHighlighted).toBe(true)
     })
 
-    it('Quarter without data', () => {
+    it('isSomeMonthInQuarterUnavailable', () => {
       wrapper.setProps({
         earliestDate: subMonths(new Date(), 5),
         latestDate: subMonths(new Date(), 4)
       })
-      expect(wrapper.find('.geo-calendar-months-container__quarter--no-data').exists()).toBe(true)
-      expect(wrapper.vm.isSomeMonthInQuarterWithoutData).toBe(true)
+      expect(wrapper.find('.geo-calendar-months-container__quarter--unavailable').exists()).toBe(true)
+      expect(wrapper.vm.isSomeMonthInQuarterUnavailable).toBe(true)
     })
 
     it('Does not emit any event if the received month has no data', () => {

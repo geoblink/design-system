@@ -111,7 +111,7 @@ export default {
       let earliestYearInCalendar = getYear(this.earliestDateInCalendar)
       return _.chunk(_.times(this.numberOfYearsWithinConstraints, () => {
         return earliestYearInCalendar++
-      }), 16)
+      }), YEAR_GRID_CONSTRAINTS.YEARS_IN_GRID)
     },
 
     yearsInRanges () {
@@ -119,7 +119,7 @@ export default {
     },
 
     currentGridYearIndex () {
-      return _.findIndex(this.totalYearsGrid, (yearGrid) => _.includes(yearGrid, this.currentInitialYearInRange))
+      return _.findIndex(this.totalYearsGrid, (yearGrid) => _.includes(yearGrid, this.currentInitialYearInRange || this.currentYear))
     }
   },
   watch: {

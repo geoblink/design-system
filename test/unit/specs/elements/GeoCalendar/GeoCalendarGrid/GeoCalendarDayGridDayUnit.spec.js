@@ -73,19 +73,19 @@ describe('GeoCalendarDayGridDayUnit', () => {
       expect(wrapper.vm.isDayOutOfBoundaries).toBe(false)
     })
 
-    it('isDayWithoutData', () => {
+    it('isDayUnavailable', () => {
       wrapper.setProps({
         earliestDate: subDays(today, 2),
         day: subDays(today, 3)
       })
-      expect(wrapper.find('.geo-calendar-days-container__day-picker--no-data').exists()).toBe(true)
-      expect(wrapper.vm.isDayWithoutData).toBe(true)
+      expect(wrapper.find('.geo-calendar-days-container__day-picker--unavailable').exists()).toBe(true)
+      expect(wrapper.vm.isDayUnavailable).toBe(true)
 
       wrapper.setProps({
         day: today
       })
-      expect(wrapper.find('.geo-calendar-days-container__day-picker--no-data').exists()).toBe(false)
-      expect(wrapper.vm.isDayWithoutData).toBe(false)
+      expect(wrapper.find('.geo-calendar-days-container__day-picker--unavailable').exists()).toBe(false)
+      expect(wrapper.vm.isDayUnavailable).toBe(false)
     })
 
     it('isSelectedDay', () => {

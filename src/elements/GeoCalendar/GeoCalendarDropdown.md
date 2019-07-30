@@ -4,6 +4,17 @@ eiusmod tempor incididunt ut labore et dolore magna aliqua.
 ```vue
 <template>
   <div class="element-demo">
+    <h3 class="element-demo__header">
+      GeoCalendarDropdown
+      <div>
+        <label for="toggle-earliest-date">Toggle earliestDate</label>
+        <input type="checkbox" id="toggle-earliest-date" name="toggle-earliest-date" v-model="hasEarliestDateConstraints">
+      </div>
+      <div>
+        <label for="toggle-latest-date">Toggle latestDate</label>
+        <input type="checkbox" id="toggle-latest-date" name="toggle-latest-date" v-model="hasLatestDateConstraints">
+      </div>
+    </h3>
     <div class="element-demo__block">
       <geo-calendar-dropdown
         :input-range-icon="['fas', 'arrow-right']"
@@ -33,7 +44,7 @@ eiusmod tempor incididunt ut labore et dolore magna aliqua.
             Calendar:
           </geo-dropdown-regular-button>
         </template>
-        <span slot="calendarHeaderTitle">Calendar</span>
+        <template slot="calendarHeaderTitle">Calendar</template>
         <template slot="pickerGranularity">
           <geo-calendar-picker-granularity-day
             :picker-granularity-icon="['fas', 'arrow-right']"
@@ -112,14 +123,22 @@ export default {
     return {
       selectedPickerDateUnit: 'day',
       selectedGranularityId: 'day',
-      dataEarliestDate: subYears(startOfToday(), 4),
-      dataLatestDate: addYears(startOfToday(), 2),
       selectedFromDay: null,
       selectedToDay: null,
-      initialDateInGrid: subYears(new Date(), 3)
+      initialDateInGrid: subYears(new Date(), 3),
+      hasEarliestDateConstraints: true,
+      hasLatestDateConstraints: true
     }
   },
   computed: {
+    dataEarliestDate () {
+      return this.hasEarliestDateConstraints ? subYears(startOfToday(), 4) : undefined
+    },
+
+    dataLatestDate () {
+      return this.hasLatestDateConstraints ? addYears(startOfToday(), 2) : undefined
+    },
+
     locale () {
       return ES_LOCALE
     },

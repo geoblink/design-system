@@ -10,7 +10,6 @@
       name="toggleButton"
       :toggle-calendar-popup="toggleCalendarPopup"
     />
-    <!-- TODO: Bind props to geoCalendar -->
     <geo-bordered-box
       slot="popupContent"
       :css-modifier="`geo-calendar__dropdown${cssSuffix}`"

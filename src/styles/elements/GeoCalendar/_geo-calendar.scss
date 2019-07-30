@@ -188,7 +188,7 @@
         color: $color-grey-darker;
       }
 
-      &--no-data {
+      &--unavailable {
         color: $color-grey;
         cursor: not-allowed;
 
@@ -215,7 +215,7 @@
         position: relative;
       }
 
-      &:hover:not(.geo-calendar-days-container__day-picker--no-data):not(.geo-calendar-days-container__day-picker--selected)  .geo-calendar-day-picker__day-number {
+      &:hover:not(.geo-calendar-days-container__day-picker--unavailable):not(.geo-calendar-days-container__day-picker--selected)  .geo-calendar-day-picker__day-number {
         background: $color-blue-readable-background;
         border: 1px solid $color-blue;
         border-radius: 50%;
@@ -231,10 +231,11 @@
       }
 
       &--today .geo-calendar-day-picker__day-number:after {
+        $today-mark-height: 2px;
         background: $color-yellow;
-        bottom: 4px;
+        bottom: $today-mark-height * 2;
         content: '';
-        height: 2px;
+        height: $today-mark-height;
         left: 0;
         margin: 0 auto;
         position: absolute;
@@ -246,7 +247,7 @@
         color: $color-grey-light;
       }
 
-      &--no-data {
+      &--unavailable {
         color: $color-grey;
         cursor: not-allowed;
         text-decoration: line-through;
@@ -304,7 +305,7 @@
       color: $color-grey-darker;
     }
 
-    .geo-calendar-months-container__quarter--no-data {
+    .geo-calendar-months-container__quarter--unavailable {
       color: $color-grey;
       cursor: not-allowed;
 
@@ -330,7 +331,7 @@
         padding: 3px 0;
       }
 
-      &:hover:not(.geo-calendar-quarter__month-unit--no-data):not(.geo-calendar-quarter__month-unit--selected) .month-unit__month-name {
+      &:hover:not(.geo-calendar-quarter__month-unit--unavailable):not(.geo-calendar-quarter__month-unit--selected) .month-unit__month-name {
         background: $color-blue-readable-background;
         border: 1px solid $color-blue;
         border-radius: $border-radius-selected-date-unit;
@@ -357,7 +358,7 @@
         border-bottom-right-radius: $border-radius-selected-date-unit;
       }
 
-      &--no-data {
+      &--unavailable {
         color: $color-grey;
         cursor: not-allowed;
         text-decoration: line-through;
@@ -392,7 +393,7 @@
         padding: 3px 0;
       }
 
-      &:hover:not(.geo-calendar-years__year-unit--selected):not(.geo-calendar-years__year-unit--no-data) .year-unit__year-number {
+      &:hover:not(.geo-calendar-years__year-unit--selected):not(.geo-calendar-years__year-unit--unavailable) .year-unit__year-number {
         background: $color-blue-readable-background;
         border: 1px solid $color-blue;
         border-radius: $border-radius-selected-date-unit;
@@ -419,7 +420,7 @@
         border-bottom-right-radius: $border-radius-selected-date-unit;
       }
 
-      &--no-data {
+      &--unavailable {
         color: $color-grey;
         cursor: not-allowed;
         text-decoration: line-through;

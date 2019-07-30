@@ -25,7 +25,7 @@ describe('GeoCalendarDayGridWeekUnit', () => {
 
     it('Should add proper classes', () => {
       expect(wrapper.find('.geo-calendar-days-container__week-unit--is-week-granularity').exists()).toBe(true)
-      expect(wrapper.find('.geo-calendar-days-container__week-unit--no-data').exists()).toBe(true)
+      expect(wrapper.find('.geo-calendar-days-container__week-unit--unavailable').exists()).toBe(true)
     })
 
     it('Should select week if there is data', () => {

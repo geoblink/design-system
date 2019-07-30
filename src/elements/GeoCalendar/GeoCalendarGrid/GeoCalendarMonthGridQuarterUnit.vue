@@ -3,7 +3,7 @@
     :class="{
       'geo-calendar-months-container__quarter': true,
       'geo-calendar-months-container__quarter--actionable': canQuarterBeHighlighted,
-      'geo-calendar-months-container__quarter--no-data': canQuarterBeHighlighted && isSomeMonthInQuarterWithoutData
+      'geo-calendar-months-container__quarter--unavailable': canQuarterBeHighlighted && isSomeMonthInQuarterUnavailable
     }"
   >
     <geo-calendar-month-grid-month-unit
@@ -52,8 +52,8 @@ export default {
   },
 
   computed: {
-    isSomeMonthInQuarterWithoutData () {
-      return _.reduce(this.quarter, (accum, month) => accum || this.isMonthWithoutData(month.index), false)
+    isSomeMonthInQuarterUnavailable () {
+      return _.reduce(this.quarter, (accum, month) => accum || this.isMonthUnavailable(month.index), false)
     },
 
     canQuarterBeHighlighted () {
@@ -62,7 +62,7 @@ export default {
   },
 
   methods: {
-    isMonthWithoutData (monthIndex) {
+    isMonthUnavailable (monthIndex) {
       return (
         (
           isBefore(new Date(this.currentYear, monthIndex), this.earliestDate)
@@ -73,7 +73,7 @@ export default {
     },
 
     selectMonth (monthIndex) {
-      if (this.isMonthWithoutData(monthIndex)) return
+      if (this.isMonthUnavailable(monthIndex)) return
       if (this.granularityId === GRANULARITY_IDS.month) {
         /**
          * User selects a particular month within the month grid
