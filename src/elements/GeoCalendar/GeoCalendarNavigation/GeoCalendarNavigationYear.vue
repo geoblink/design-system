@@ -119,7 +119,7 @@ export default {
     },
 
     currentGridYearIndex () {
-      return _.findIndex(this.totalYearsGrid, (yearGrid) => _.includes(yearGrid, this.currentInitialYearInRange || this.currentYear))
+      return _.findIndex(this.totalYearsGrid, (yearGrid) => _.includes(yearGrid, this.currentInitialYearInRange))
     }
   },
   watch: {
@@ -132,10 +132,10 @@ export default {
     }
   },
   mounted () {
-    const initialYearRange = this.yearsInRanges[this.currentGridYearIndex]
-    this.displayedInitialYearInRange = initialYearRange[0]
-    this.displayedEndYearInRange = initialYearRange[1]
-    this.selectYearRange(initialYearRange)
+    const initialYearInRange = this.yearsInRanges[this.currentGridYearIndex]
+    this.displayedInitialYearInRange = initialYearInRange[0]
+    this.displayedEndYearInRange = initialYearInRange[1]
+    this.selectYearRange(initialYearInRange)
   },
   methods: {
     closeYearRangeSelection () {

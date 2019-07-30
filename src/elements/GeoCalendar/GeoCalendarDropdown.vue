@@ -25,6 +25,7 @@
       <geo-calendar
         ref="calendar"
         :calendar-navigation-select-icon="calendarNavigationSelectIcon"
+        :css-modifier="cssModifier"
         :earliest-date="earliestDate"
         :earliest-date-placeholder="earliestDatePlaceholder"
         :from-input-placeholder="fromInputPlaceholder"
