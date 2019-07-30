@@ -6,7 +6,7 @@ import GeoCalendarDayGridDayUnit from '@/elements/GeoCalendar/GeoCalendarGrid/Ge
 import { addDays, endOfMonth, startOfMonth, differenceInCalendarDays, subDays, startOfWeek, endOfWeek, startOfDay, addMonths, subMonths } from 'date-fns'
 
 describe('GeoCalendarDayGridWeekUnit', () => {
-  const today = new Date()
+  const today = new Date(2019, 6, 30) // Fixed date to avoid future errors with random dates
   const wrapper = getWrappedComponent()
 
   it('should render', function () {
@@ -69,7 +69,7 @@ describe('GeoCalendarDayGridWeekUnit', () => {
 })
 
 function getWrappedComponent (granularityId) {
-  const today = new Date()
+  const today = new Date(2019, 6, 30) // Fixed date to avoid future errors with random dates
   const week = _.times(7, (day) => {
     return addDays(today, day)
   })

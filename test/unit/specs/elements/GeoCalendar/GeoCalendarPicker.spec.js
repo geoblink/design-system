@@ -42,7 +42,7 @@ describe('GeoCalendarPicker', () => {
     })
 
     it('selectWeek', () => {
-      const today = new Date()
+      const today = new Date(2019, 6, 30) // Fixed date to avoid future errors with random dates
       const weekStart = startOfWeek(today, { weekStartsOn: 1 })
       const weekEnd = startOfDay(endOfWeek(today, { weekStartsOn: 1 }))
       geoCalendarGridWrapper.vm.$emit('select-week', {
@@ -111,7 +111,7 @@ describe('GeoCalendarPicker', () => {
 
       it('Cannot navigate any further', () => {
         const wrapper = getWrappedComponent()
-        const today = new Date()
+        const today = new Date(2019, 6, 30) // Fixed date to avoid future errors with random dates
         const geoCalendarNavigationWrapper = wrapper.find(GeoCalendarNavigation)
         wrapper.setProps({
           earliestDate: startOfMonth(today),
@@ -128,7 +128,7 @@ describe('GeoCalendarPicker', () => {
 
     describe('MONTHS granularity', () => {
       const wrapper = getWrappedComponent()
-      const today = new Date()
+      const today = new Date(2019, 6, 30) // Fixed date to avoid future errors with random dates
       const geoCalendarNavigationWrapper = wrapper.find(GeoCalendarNavigation)
       wrapper.setProps({
         granularityId: GRANULARITY_IDS.month,
@@ -176,7 +176,7 @@ describe('GeoCalendarPicker', () => {
       })
 
       it('Cannot navigate any further', () => {
-        const today = new Date()
+        const today = new Date(2019, 6, 30) // Fixed date to avoid future errors with random dates
         wrapper.setProps({
           earliestDate: subDays(today, 5),
           latestDate: addDays(today, 5),
@@ -203,7 +203,7 @@ describe('GeoCalendarPicker', () => {
   })
 
   describe('Cannot navigate further if constraints are met', () => {
-    const today = new Date()
+    const today = new Date(2019, 6, 30) // Fixed date to avoid future errors with random dates
     const wrapper = getWrappedComponent()
     wrapper.setProps({
       earliestDate: startOfMonth(today),
@@ -230,7 +230,7 @@ describe('GeoCalendarPicker', () => {
 })
 
 function getWrappedComponent () {
-  const today = new Date()
+  const today = new Date(2019, 6, 30) // Fixed date to avoid future errors with random dates
   const currentMonth = getMonth(today)
   const currentYear = getYear(today)
 

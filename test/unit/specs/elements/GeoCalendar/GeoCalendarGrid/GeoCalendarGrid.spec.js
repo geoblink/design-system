@@ -7,7 +7,7 @@ import GeoCalendarYearGrid from '@/elements/GeoCalendar/GeoCalendarGrid/GeoCalen
 import { getMonth, getYear, startOfWeek, startOfDay, endOfWeek } from 'date-fns'
 
 describe('GeoCalendarGrid', () => {
-  const today = new Date()
+  const today = new Date(2019, 6, 30) // Fixed date to avoid future errors with random dates
   const currentMonth = getMonth(today)
   const currentYear = getYear(today)
 
@@ -65,7 +65,7 @@ describe('GeoCalendarGrid', () => {
     })
 
     describe('DAY datePickerUnit', () => {
-      const today = new Date()
+      const today = new Date(2019, 6, 30) // Fixed date to avoid future errors with random dates
 
       it('Selects a day', () => {
         wrapper.setProps({

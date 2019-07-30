@@ -4,7 +4,7 @@ import GeoCalendarYearGridYearUnit from '@/elements/GeoCalendar/GeoCalendarGrid/
 import { getMonth, getYear } from 'date-fns'
 
 describe('GeoCalendarYearGrid', () => {
-  const today = new Date()
+  const today = new Date(2019, 6, 30) // Fixed date to avoid future errors with random dates
   const currentMonth = getMonth(today)
   const currentYear = getYear(today)
 

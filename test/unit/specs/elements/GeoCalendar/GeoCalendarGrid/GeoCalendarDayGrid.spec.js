@@ -55,7 +55,7 @@ describe('GeoCalendarDayGrid', () => {
   })
 
   describe('Events (day/week)', () => {
-    const today = new Date()
+    const today = new Date(2019, 6, 30) // Fixed date to avoid future errors with random dates
     const childWeek = wrapper.find(GeoCalendarDayGridWeekUnit)
     it('Emits select-day event when clicked on a day', () => {
       childWeek.vm.$emit('select-day', today)
