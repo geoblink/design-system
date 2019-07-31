@@ -4,7 +4,33 @@ import GeoCalendarGrid from '@/elements/GeoCalendar/GeoCalendarGrid/GeoCalendarG
 import GeoCalendarDayGrid from '@/elements/GeoCalendar/GeoCalendarGrid/GeoCalendarDayGrid.vue'
 import GeoCalendarMonthGrid from '@/elements/GeoCalendar/GeoCalendarGrid/GeoCalendarMonthGrid.vue'
 import GeoCalendarYearGrid from '@/elements/GeoCalendar/GeoCalendarGrid/GeoCalendarYearGrid.vue'
-import { getMonth, getYear, startOfWeek, startOfDay, endOfWeek } from 'date-fns'
+import GeoCalendarGridMixin from '@/elements/GeoCalendar/GeoCalendarGrid/GeoCalendarGrid.mixin'
+import { getMonth, getYear, startOfWeek, startOfDay, endOfWeek, addDays } from 'date-fns'
+
+describe('Mixins', () => {
+  describe('GeoCalendarGrid.mixin', () => {
+    it('Should export props object', () => {
+      expect(GeoCalendarGridMixin).toHaveProperty('props')
+    })
+
+    it('Should have selectedFromDay and selectedToDay properties', () => {
+      expect(GeoCalendarGridMixin.props).toHaveProperty('selectedFromDay')
+      expect(GeoCalendarGridMixin.props).toHaveProperty('selectedToDay')
+    })
+
+    it('Should have correct validation params', () => {
+      expect(GeoCalendarGridMixin.props.selectedFromDay).toHaveProperty('type')
+      expect(GeoCalendarGridMixin.props.selectedFromDay.type).toBe(Date)
+      expect(GeoCalendarGridMixin.props.selectedFromDay).toHaveProperty('required')
+      expect(GeoCalendarGridMixin.props.selectedFromDay.required).toBe(false)
+
+      expect(GeoCalendarGridMixin.props.selectedToDay).toHaveProperty('type')
+      expect(GeoCalendarGridMixin.props.selectedToDay.type).toBe(Date)
+      expect(GeoCalendarGridMixin.props.selectedToDay).toHaveProperty('required')
+      expect(GeoCalendarGridMixin.props.selectedToDay.required).toBe(false)
+    })
+  })
+})
 
 describe('GeoCalendarGrid', () => {
   const today = new Date(2019, 6, 30) // Fixed date to avoid future errors with random dates
@@ -70,7 +96,9 @@ describe('GeoCalendarGrid', () => {
       it('Selects a day', () => {
         wrapper.setProps({
           pickerDateUnit: PICKER_DATE_UNITS.day,
-          granularityId: GRANULARITY_IDS.day
+          granularityId: GRANULARITY_IDS.day,
+          selectedFromDay: today,
+          selectedToDay: addDays(today, 10)
         })
         const geoCalendarDayGridWrapper = wrapper.find(GeoCalendarDayGrid)
         geoCalendarDayGridWrapper.vm.$emit('select-day', today)

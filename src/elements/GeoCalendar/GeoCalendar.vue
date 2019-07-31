@@ -16,7 +16,7 @@
             :show-buttons="false"
             css-modifier="geo-calendar"
             input-type="normal"
-            @click="unblurFromDateInput"
+            @click="focusFromDateInput"
           />
           <!-- @slot Use this slot to customize the message shown when there is an error in one of the selected dates -->
           <slot
@@ -48,7 +48,7 @@
             :show-buttons="false"
             css-modifier="geo-calendar"
             input-type="normal"
-            @click="unblurToDateInput"
+            @click="focusToDateInput"
           />
           <!-- @slot Use this slot to customize the message shown when there is an error in one of the selected dates -->
           <slot
@@ -186,8 +186,8 @@ export default {
         const isInputDateValid = this.isValidDate(parsedDate)
 
         if (isInputDateValid && this.fromRawDate && isAfter(this.fromRawDate, parsedDate)) {
-          this.fromFormattedDate = this.showToFormatError
-          this.toFormattedDate = newToDate
+          this.toFormattedDate = this.fromFormattedDate
+          this.fromFormattedDate = newToDate
           return
         }
 
@@ -372,7 +372,7 @@ export default {
       this.isFromDateInputFocused = false
     },
 
-    unblurFromDateInput () {
+    focusFromDateInput () {
       this.isFromDateInputFocused = true
     },
 
@@ -380,7 +380,7 @@ export default {
       this.isToDateInputFocused = false
     },
 
-    unblurToDateInput () {
+    focusToDateInput () {
       this.isToDateInputFocused = true
     }
   }

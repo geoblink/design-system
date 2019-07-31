@@ -3,7 +3,7 @@ import { GRANULARITY_IDS, PICKER_DATE_UNITS } from '@/elements/GeoCalendar/GeoCa
 import GeoCalendarPicker from '@/elements/GeoCalendar/GeoCalendarPicker.vue'
 import GeoCalendarNavigation from '@/elements/GeoCalendar/GeoCalendarNavigation/GeoCalendarNavigation.vue'
 import GeoCalendarGrid from '@/elements/GeoCalendar/GeoCalendarGrid/GeoCalendarGrid.vue'
-import { getMonth, getYear, subDays, startOfWeek, startOfDay, endOfWeek, subMonths, addMonths, endOfMonth, startOfMonth, startOfYear, endOfYear, addDays, subYears, addYears } from 'date-fns'
+import { getMonth, getYear, subDays, startOfWeek, startOfDay, endOfWeek, endOfMonth, startOfMonth, addDays, addYears } from 'date-fns'
 
 describe('GeoCalendarPicker', () => {
   const wrapper = getWrappedComponent()
@@ -198,6 +198,24 @@ describe('GeoCalendarPicker', () => {
         expect(wrapper.emitted()['go-to-year-range'][3]).toBeUndefined()
         geoCalendarNavigationWrapper.vm.$emit('go-to-next-picker-date')
         expect(wrapper.emitted()['go-to-year-range'][3]).toBeUndefined()
+      })
+    })
+    describe('Wrong pickerDateUnit', () => {
+      it('Should throw error if provided wrong pickerDateUnit prop', () => {
+        const today = new Date(2019, 6, 30) // Fixed date to avoid future errors with random dates
+        const wrapper = getWrappedComponent()
+        wrapper.setProps({
+          pickerDateUnit: 'wrong picker date unit',
+          earliestDate: startOfMonth(today),
+          latestDate: endOfMonth(today)
+        })
+        expect(function () {
+          return wrapper.vm.canSelectNextDates
+        }).toThrowError()
+
+        expect(function () {
+          return wrapper.vm.canSelectPastDates
+        }).toThrowError()
       })
     })
   })

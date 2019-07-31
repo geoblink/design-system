@@ -5,9 +5,34 @@ import GeoInput from '@/elements/GeoInput/GeoInput.vue'
 import GeoLinkButton from '@/elements/GeoButton/GeoLinkButton.vue'
 import GeoButton from '@/elements/GeoButton/GeoButton.vue'
 import GeoCalendarPicker from '@/elements/GeoCalendar/GeoCalendarPicker.vue'
+import GeoCalendarGranularityIdMixin from '@/elements/GeoCalendar/GeoCalendarGranularityId.mixin'
 import { addDays, startOfQuarter, endOfQuarter, startOfWeek, endOfWeek, subYears, addYears, subMonths, endOfMonth, endOfYear } from 'date-fns'
 
 const today = new Date(2019, 6, 30) // Fixed date to avoid future errors with random dates
+
+describe('Mixins', () => {
+  describe('GeoCalendarGranularityId.mixin', () => {
+    it('Should export props object', () => {
+      expect(GeoCalendarGranularityIdMixin).toHaveProperty('props')
+    })
+
+    it('Should have granularityId property', () => {
+      expect(GeoCalendarGranularityIdMixin.props).toHaveProperty('granularityId')
+    })
+
+    it('Should have correct validation params', () => {
+      expect(GeoCalendarGranularityIdMixin.props.granularityId).toHaveProperty('type')
+      expect(GeoCalendarGranularityIdMixin.props.granularityId.type).toBe(String)
+      expect(GeoCalendarGranularityIdMixin.props.granularityId).toHaveProperty('required')
+      expect(GeoCalendarGranularityIdMixin.props.granularityId.required).toBe(true)
+    })
+
+    it('Should validate provided granularities', () => {
+      expect(GeoCalendarGranularityIdMixin.props.granularityId.validator(GRANULARITY_IDS.day)).toBe(true)
+      expect(GeoCalendarGranularityIdMixin.props.granularityId.validator('Random granularity')).toBe(false)
+    })
+  })
+})
 
 describe('GeoCalendar', () => {
   it('Should render', () => {
@@ -259,6 +284,31 @@ describe('GeoCalendar', () => {
         expect(wrapper.emitted()['set-from-date'][0][0]).toEqual({ fromDate: initialDate })
         expect(wrapper.emitted()['set-to-date'][0][0]).toEqual({ toDate: endDate })
       })
+
+      it('Should swap dates if fromDate is after toDate or viceversa', () => {
+        const wrapper = getWrappedComponent()
+        wrapper.setData({
+          fromFormattedDate: '10/04/2019',
+          toFormattedDate: '05/04/2019'
+        })
+        expect(wrapper.vm.fromFormattedDate).toBe('05/04/2019')
+        expect(wrapper.vm.toFormattedDate).toBe('10/04/2019')
+
+        wrapper.setData({
+          fromFormattedDate: '',
+          toFormattedDate: ''
+        })
+        wrapper.setData({
+          toFormattedDate: '05/04/2019'
+        })
+        expect(wrapper.vm.toFormattedDate).toBe('05/04/2019')
+
+        wrapper.setData({
+          fromFormattedDate: '10/04/2019'
+        })
+        expect(wrapper.vm.fromFormattedDate).toBe('05/04/2019')
+        expect(wrapper.vm.toFormattedDate).toBe('10/04/2019')
+      })
     })
   })
 
@@ -267,6 +317,22 @@ describe('GeoCalendar', () => {
       it('Should not render the buttons', () => {
         const wrapper = getWrappedComponent()
         expect(wrapper.find('.geo-button--link--calendar-picker-button').exists()).toBe(false)
+      })
+
+      it('Should not do anything if executing the method', () => {
+        const wrapper = getWrappedComponent()
+        wrapper.vm.selectDay(today)
+        wrapper.vm.selectDay(addDays(today, 15))
+
+        expect(wrapper.find('.geo-button--link--calendar-picker-button').exists()).toBe(false)
+        expect(wrapper.vm.fromRawDate).toEqual(today)
+        expect(wrapper.vm.toRawDate).toEqual(addDays(today, 15))
+
+        wrapper.vm.setEarliestDate()
+        wrapper.vm.setLatestDate()
+
+        expect(wrapper.vm.fromRawDate).toEqual(today)
+        expect(wrapper.vm.toRawDate).toEqual(addDays(today, 15))
       })
     })
 
