@@ -390,7 +390,8 @@ export default {
       this.showFromFormatError = false
       this.currentMonth = getMonth(this.earliestDate)
       this.currentYear = getYear(this.earliestDate)
-      this.selectDay(this.earliestDate)
+      this.fromRawDate = this.earliestDate
+      this.setFromDate({ fromDate: this.fromRawDate })
     },
 
     setFromDate ({ fromDate }) {
@@ -408,7 +409,8 @@ export default {
       this.showToFormatError = false
       this.currentMonth = getMonth(this.latestDate)
       this.currentYear = getYear(this.latestDate)
-      this.selectDay(this.latestDate)
+      this.toRawDate = this.latestDate
+      this.setToDate({ toDate: this.toRawDate })
     },
 
     setToDate ({ toDate }) {
