@@ -110,7 +110,9 @@ import {
   isBefore,
   isValid,
   startOfQuarter,
-  endOfYear
+  endOfYear,
+  startOfMonth,
+  startOfYear
 } from 'date-fns'
 
 import GeoCalendarRootMixin from './GeoCalendarRoot.mixin'
@@ -143,7 +145,8 @@ export default {
       showFromFormatError: false,
       showToFormatError: false,
       currentInitialYearInRange: 0,
-      currentEndYearInRange: 0
+      currentEndYearInRange: 0,
+      isRangeStartLastFocused: false
     }
   },
 
@@ -273,13 +276,29 @@ export default {
     selectDay (day) {
       const hasRangeStart = !!this.fromRawDate
       const isDayBeforeRangeStart = hasRangeStart && isBefore(day, this.fromRawDate)
-      const isSettingRangeStart = !hasRangeStart || isDayBeforeRangeStart
+      const isSettingRangeStart = !hasRangeStart || isDayBeforeRangeStart || this.isRangeStartLastFocused
+
+      const isSwappingFromDate = hasRangeStart && isSettingRangeStart && isAfter(day, this.toRawDate)
+      const isSwappingToDate = !isSettingRangeStart && isBefore(day, this.fromRawDate)
 
       if (isSettingRangeStart) {
-        this.fromRawDate = day
+        if (isSwappingFromDate) {
+          this.fromRawDate = this.toRawDate
+          this.toRawDate = day
+          this.setToDate({ toDate: this.toRawDate })
+        } else {
+          this.fromRawDate = day
+        }
         this.setFromDate({ fromDate: this.fromRawDate })
+        this.focusToDateInput()
       } else {
-        this.toRawDate = day
+        if (isSwappingToDate) {
+          this.toRawDate = this.fromRawDate
+          this.fromRawDate = day
+          this.setFromDate({ fromDate: this.fromRawDate })
+        } else {
+          this.toRawDate = day
+        }
         this.setToDate({ toDate: this.toRawDate })
       }
     },
@@ -291,13 +310,29 @@ export default {
 
       const hasRangeStart = !!this.fromRawDate
       const isMonthBeforeRangeStart = hasRangeStart && this.currentMonth < getMonth(this.fromRawDate)
-      const isSettingRangeStart = !hasRangeStart || isMonthBeforeRangeStart
+      const isSettingRangeStart = !hasRangeStart || isMonthBeforeRangeStart || this.isRangeStartLastFocused
+
+      const isSwappingFromDate = hasRangeStart && isSettingRangeStart && isAfter(lastDayOfMonth, this.toRawDate)
+      const isSwappingToDate = !isSettingRangeStart && isBefore(firstDayOfMonth, this.fromRawDate)
 
       if (isSettingRangeStart) {
-        this.fromRawDate = firstDayOfMonth
+        if (isSwappingFromDate) {
+          this.fromRawDate = startOfMonth(this.toRawDate)
+          this.toRawDate = lastDayOfMonth
+          this.setToDate({ toDate: this.toRawDate })
+        } else {
+          this.fromRawDate = firstDayOfMonth
+        }
         this.setFromDate({ fromDate: this.fromRawDate })
+        this.focusToDateInput()
       } else {
-        this.toRawDate = lastDayOfMonth
+        if (isSwappingToDate) {
+          this.toRawDate = endOfMonth(this.fromRawDate)
+          this.fromRawDate = firstDayOfMonth
+          this.setFromDate({ fromDate: this.fromRawDate })
+        } else {
+          this.toRawDate = lastDayOfMonth
+        }
         this.setToDate({ toDate: this.toRawDate })
       }
     },
@@ -323,13 +358,29 @@ export default {
 
       const hasRangeStart = !!this.fromRawDate
       const isYearBeforeRangeStart = hasRangeStart && this.currentYear < getYear(this.fromRawDate)
-      const isSettingRangeStart = !hasRangeStart || isYearBeforeRangeStart
+      const isSettingRangeStart = !hasRangeStart || isYearBeforeRangeStart || this.isRangeStartLastFocused
+
+      const isSwappingFromDate = hasRangeStart && isSettingRangeStart && isAfter(lastDayOfYear, this.toRawDate)
+      const isSwappingToDate = !isSettingRangeStart && isBefore(firstDayOfYear, this.fromRawDate)
 
       if (isSettingRangeStart) {
-        this.fromRawDate = firstDayOfYear
+        if (isSwappingFromDate) {
+          this.fromRawDate = startOfYear(this.toRawDate)
+          this.toRawDate = lastDayOfYear
+          this.setToDate({ toDate: this.toRawDate })
+        } else {
+          this.fromRawDate = firstDayOfYear
+        }
         this.setFromDate({ fromDate: this.fromRawDate })
+        this.focusToDateInput()
       } else {
-        this.toRawDate = lastDayOfYear
+        if (isSwappingToDate) {
+          this.toRawDate = endOfYear(this.fromRawDate)
+          this.fromRawDate = firstDayOfYear
+          this.setFromDate({ fromDate: this.fromRawDate })
+        } else {
+          this.toRawDate = lastDayOfYear
+        }
         this.setToDate({ toDate: this.toRawDate })
       }
     },
@@ -337,8 +388,9 @@ export default {
     setEarliestDate () {
       if (!this.earliestDate) return
       this.showFromFormatError = false
-      this.fromRawDate = this.earliestDate
-      this.setFromDate({ fromDate: this.earliestDate })
+      this.currentMonth = getMonth(this.earliestDate)
+      this.currentYear = getYear(this.earliestDate)
+      this.selectDay(this.earliestDate)
     },
 
     setFromDate ({ fromDate }) {
@@ -354,8 +406,9 @@ export default {
     setLatestDate () {
       if (!this.latestDate) return
       this.showToFormatError = false
-      this.toRawDate = this.latestDate
-      this.setToDate({ toDate: this.latestDate })
+      this.currentMonth = getMonth(this.latestDate)
+      this.currentYear = getYear(this.latestDate)
+      this.selectDay(this.latestDate)
     },
 
     setToDate ({ toDate }) {
@@ -374,6 +427,7 @@ export default {
 
     focusFromDateInput () {
       this.isFromDateInputFocused = true
+      this.isRangeStartLastFocused = true
     },
 
     blurToDateInput () {
@@ -382,6 +436,7 @@ export default {
 
     focusToDateInput () {
       this.isToDateInputFocused = true
+      this.isRangeStartLastFocused = false
     }
   }
 }
