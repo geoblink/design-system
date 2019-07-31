@@ -17,7 +17,7 @@
 export default {
   name: 'GeoCalendarPickerGranularityBase',
   status: 'missing-tests',
-  release: '22.3.0',
+  release: '23.2.0',
   props: {
     /**
      * Is current granularity selector active

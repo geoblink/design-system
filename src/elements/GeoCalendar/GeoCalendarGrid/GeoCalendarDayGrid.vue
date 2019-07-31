@@ -50,7 +50,7 @@ import GeoCalendarGridMixin from './GeoCalendarGrid.mixin'
 export default {
   name: 'GeoCalendarDayGrid',
   status: 'missing-tests',
-  release: '22.3.0',
+  release: '23.2.0',
   mixins: [
     GeoCalendarGridMixin,
     GeoCalendarDateIndicatorsMixin,

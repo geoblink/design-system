@@ -75,7 +75,7 @@ import { MONTH_GRID_CONSTANTS } from '../GeoCalendar.utils'
 export default {
   name: 'GeoCalendarNavigationDay',
   status: 'missing-tests',
-  release: '22.3.0',
+  release: '23.2.0',
   mixins: [
     GeoCalendarDateIndicators,
     GeoCalendarNavigationYearMixin

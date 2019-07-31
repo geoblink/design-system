@@ -120,7 +120,7 @@ import GeoCalendarPickerDateUnitMixin from './GeoCalendarPickerDateUnit.mixin'
 export default {
   name: 'GeoCalendar',
   status: 'missing-tests',
-  release: '22.3.0',
+  release: '23.2.0',
   directives: {
     ClickOutside
   },

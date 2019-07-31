@@ -51,7 +51,7 @@ import GeoCalendarNavigationYear from './GeoCalendarNavigationYear'
 export default {
   name: 'GeoCalendarNavigation',
   status: 'missing-tests',
-  release: '22.3.0',
+  release: '23.2.0',
   mixins: [
     GeoCalendarDateIndicatorsMixin,
     GeoCalendarPickerDateUnitMixin

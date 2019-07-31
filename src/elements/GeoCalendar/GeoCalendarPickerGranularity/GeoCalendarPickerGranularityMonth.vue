@@ -17,7 +17,7 @@ import GeoCalendarPickerGranularityMixin from './GeoCalendarPickerGranularity.mi
 export default {
   name: 'GeoCalendarPickerGranularityMonth',
   status: 'missing-tests',
-  release: '22.3.0',
+  release: '23.2.0',
   mixins: [GeoCalendarPickerGranularityMixin],
   computed: {
     granularityId () {
