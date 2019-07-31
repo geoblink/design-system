@@ -1,3 +1,45 @@
+# 23.1.0
+
+New:
+
+- `debugUpdatedHookMixin`, mixin to log which property triggered an `updated` hook
+- `inferPageSizeMixin`, mixin with an algorithm to infer page size of collection-based components
+
+Changed:
+
+- Refactored `GeoTable` to use new `inferPageSizeMixin` mixin
+
+# 23.0.2
+
+Changed:
+
+- `GeoTable` now uses `offsetHeight`/`offsetWidth` for calculations instead
+of getBoundingClientRect()
+
+# 23.0.1
+
+Changed:
+
+- `GeoSelect` `keyForLabel` with default as `label`
+
+# 23.0.0
+
+Changed:
+
+- Added common mixin for `GeoSelect` and `GeoMultiSelect`.
+
+Breaking:
+
+- `GeoSelect` items no longuer need to have a property called `label` and now the
+property to be used as label need to be passed with `keyForLabel`.
+- `GeoSelect` removed deprecated prop `isOptSelect`, `grouped` must be used.
+
+# 22.2.4
+
+Changed:
+
+- `GeoAlert` export variants as constants.
+
 # 22.2.3
 
 Changed:

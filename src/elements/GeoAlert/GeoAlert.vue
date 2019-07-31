@@ -31,6 +31,9 @@ export default {
   name: 'GeoAlert',
   status: 'ready',
   release: '22.0.0',
+  constants: {
+    VARIANTS
+  },
   helpers: {
     getCSSSuffix
   },
