@@ -14,10 +14,11 @@
       :earliest-date="earliestDate"
       :granularity-id="granularityId"
       :latest-date="latestDate"
-      :month="month"
+      :month-name="month.name"
+      :month-index="month.index"
       :selected-from-day="selectedFromDay"
       :selected-to-day="selectedToDay"
-      @select-month-unit="selectMonth"
+      @select-month-unit="selectMonth($event)"
     />
   </div>
 </template>

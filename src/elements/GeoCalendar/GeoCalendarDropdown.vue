@@ -26,13 +26,11 @@
         :calendar-navigation-select-icon="calendarNavigationSelectIcon"
         :css-modifier="cssModifier"
         :earliest-date="earliestDate"
-        :earliest-date-placeholder="earliestDatePlaceholder"
         :from-input-placeholder="fromInputPlaceholder"
         :granularity-id="granularityId"
         :initial-date-in-grid="initialDateInGrid"
         :input-range-icon="inputRangeIcon"
         :latest-date="latestDate"
-        :latest-date-placeholder="latestDatePlaceholder"
         :locale="locale"
         :next-date-in-selected-granularity-icon="nextDateInSelectedGranularityIcon"
         :picker-date-unit="pickerDateUnit"
@@ -51,10 +49,15 @@
           slot="formatError"
           name="formatError"
         />
-        <!-- @slot Use this slot to customize the message shown when the initial date is after the end date -->
+        <!-- @slot Use this slot to customize the text in the button used to apply your earliest available date in the fromDate input  -->
         <slot
-          slot="datesNotConsecutive"
-          name="datesNotConsecutive"
+          slot="earliestDatePlaceholder"
+          name="earliestDatePlaceholder"
+        />
+        <!-- @slot Use this slot to customize the text in the button used to apply your latest available date in the toDate input  -->
+        <slot
+          slot="latestDatePlaceholder"
+          name="latestDatePlaceholder"
         />
       </geo-calendar>
       <geo-bordered-box-footer>
@@ -98,6 +101,9 @@ export default {
     },
 
     handleClickOutside ($event) {
+      // The calendar itself has two selects to navigate through months and years.
+      // When clicking on one of those, we have to intercept that click to check that we haven't actually clicked outside the calendar popup
+      // and accidentally close it when we're just selecting a different month or year to go to.
       const popup = _.get(this.$refs.calendar, '$refs.calendarPicker.$refs.calendarNavigationWrapper.$refs.calendarNavigation.$refs.calendarNavigationSelect')
       if (popup && popup.contains($event.target)) return
       this.closeCalendar()

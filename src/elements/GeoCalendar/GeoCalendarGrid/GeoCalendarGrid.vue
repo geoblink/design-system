@@ -9,8 +9,8 @@
     :locale="locale"
     :selected-from-day="selectedFromDay"
     :selected-to-day="selectedToDay"
-    @select-day="selectDay"
-    @select-week="selectWeek"
+    @select-day="selectDay($event)"
+    @select-week="selectWeek($event)"
   />
   <geo-calendar-month-grid
     v-else-if="isMonthGrid"
@@ -22,7 +22,7 @@
     :selected-from-day="selectedFromDay"
     :selected-to-day="selectedToDay"
     @select-month="selectMonth"
-    @select-quarter="selectQuarter"
+    @select-quarter="selectQuarter($event)"
   />
   <geo-calendar-year-grid
     v-else-if="isYearGrid"
@@ -35,7 +35,7 @@
     :latest-date="latestDate"
     :selected-from-day="selectedFromDay"
     :selected-to-day="selectedToDay"
-    @select-year="selectYear"
+    @select-year="selectYear($event)"
   />
 </template>
 

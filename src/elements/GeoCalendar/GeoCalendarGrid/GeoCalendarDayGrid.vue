@@ -22,8 +22,8 @@
         :selected-to-day="selectedToDay"
         :week="week"
         :week-index="weekIndex"
-        @select-day="selectDay"
-        @select-week="selectWeek"
+        @select-day="selectDay($event)"
+        @select-week="selectWeek($event)"
       />
     </div>
   </div>
@@ -42,11 +42,10 @@ import {
   startOfWeek,
   subDays
 } from 'date-fns'
+import { DAY_GRID_CONSTANTS } from '../GeoCalendar.utils'
 import GeoCalendarDateIndicatorsMixin from '../GeoCalendarDateIndicators.mixin'
 import GeoCalendarGranularityIdMixin from '../GeoCalendarGranularityId.mixin'
 import GeoCalendarGridMixin from './GeoCalendarGrid.mixin'
-
-const TOTAL_DAYS_IN_WEEK = 7
 
 export default {
   name: 'GeoCalendarDayGrid',
@@ -64,7 +63,7 @@ export default {
     },
 
     displayedFirstDayInCalendar () {
-      return this.firstDayOfMonthInWeek > 1
+      return this.firstDayOfMonthInWeek > DAY_GRID_CONSTANTS.MONDAY_INDEX_IN_WEEK
         ? subDays(startOfMonth(this.currentDate), this.firstDayOfMonthInWeek - 1)
         : this.startOfMonth
     },
@@ -74,13 +73,13 @@ export default {
     },
 
     firstDayOfMonthInWeek () {
-      const firstDayInWeek = getDay(this.startOfMonth)
-      return firstDayInWeek === 0 ? 7 : firstDayInWeek
+      const dayPositionInWeek = getDay(this.startOfMonth)
+      return dayPositionInWeek === 0 ? DAY_GRID_CONSTANTS.TOTAL_DAYS_IN_WEEK : dayPositionInWeek
     },
 
     fullDaysInDisplayedCalendar () {
       const displayedDays = []
-      const daysBeforeStartOfMonth = this.firstDayOfMonthInWeek > 1
+      const daysBeforeStartOfMonth = this.firstDayOfMonthInWeek > DAY_GRID_CONSTANTS.MONDAY_INDEX_IN_WEEK
         ? eachDay(this.displayedFirstDayInCalendar, subDays(this.startOfMonth, 1))
         : []
       const daysInCurrentMonth = eachDay(startOfMonth(this.currentDate), this.endOfMonth)
@@ -89,9 +88,9 @@ export default {
         ...daysInCurrentMonth
       )
 
-      const groupedDaysByWeek = _.chunk(displayedDays, TOTAL_DAYS_IN_WEEK)
+      const groupedDaysByWeek = _.chunk(displayedDays, DAY_GRID_CONSTANTS.TOTAL_DAYS_IN_WEEK)
 
-      const remainingDaysForDisplayedGrid = TOTAL_DAYS_IN_WEEK - _.last(groupedDaysByWeek).length
+      const remainingDaysForDisplayedGrid = DAY_GRID_CONSTANTS.TOTAL_DAYS_IN_WEEK - _.last(groupedDaysByWeek).length
       const remainingDatesForGrid = remainingDaysForDisplayedGrid > 0
         ? eachDay(addDays(this.endOfMonth, 1), addDays(this.endOfMonth, remainingDaysForDisplayedGrid))
         : []

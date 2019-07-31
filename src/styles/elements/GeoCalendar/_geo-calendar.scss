@@ -16,6 +16,8 @@
   @include geo-button-make('calendar-navigation-toggle-button');
   @include geo-input-make('geo-calendar');
 
+  // TODO CORE-7347 - Refactor CSS Code so it passes down cssModifier to all child components
+
   .geo-calendar#{$modifier-name-with-prefix} {
     display: flex;
 
@@ -198,16 +200,20 @@
       }
     }
 
-    .geo-calendar-days-container__day-picker {
-      @include font($body-small);
-
-      background: unset;
-      border: unset;
+    %time-unit-button-reset {
+      background: none;
+      border: inherit;
       cursor: pointer;
       height: 100%;
-      line-height: $day-unit-size;
       outline: 0;
-      padding: unset;
+      padding: inherit;
+    }
+
+    .geo-calendar-days-container__day-picker {
+      @include font($body-small);
+      @extend %time-unit-button-reset;
+
+      line-height: $day-unit-size;
       position: relative;
 
       .geo-calendar-day-picker__day-number {
@@ -264,8 +270,9 @@
         padding-left: 0;
 
         .geo-calendar-day-picker__day-number {
-          margin-left: 0 !important;
+          margin-left: 0;
         }
+
       }
 
       &--to-date {
@@ -273,6 +280,10 @@
         border-bottom-right-radius: $border-radius-selected-date-unit;
         margin-right: $space-small;
         padding-right: 0;
+
+        .geo-calendar-day-picker__day-number {
+          margin-left: $space-small;
+        }
       }
 
       &--selected .geo-calendar-day-picker__day-number {
@@ -281,7 +292,6 @@
         background: $color-blue;
         border-radius: 50%;
         height: $day-unit-size;
-        margin-left: $space-small;
         width: $day-unit-size;
       }
 
@@ -316,14 +326,7 @@
 
     .geo-calendar-quarter__month-unit {
       @include font($body-small);
-
-      background: unset;
-      border: unset;
-      cursor: pointer;
-      height: 100%;
-      outline: 0;
-      padding: unset;
-      text-align: center;
+      @extend %time-unit-button-reset;
 
       .month-unit__month-name {
         border: 1px solid transparent;
@@ -378,14 +381,7 @@
 
     .geo-calendar-years__year-unit {
       @include font($body-small);
-
-      background: unset;
-      border: unset;
-      cursor: pointer;
-      height: 100%;
-      outline: 0;
-      padding: unset;
-      text-align: center;
+      @extend %time-unit-button-reset;
 
       .year-unit__year-number {
         border: 1px solid transparent;

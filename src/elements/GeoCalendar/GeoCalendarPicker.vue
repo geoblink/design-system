@@ -33,17 +33,17 @@
       :picker-date-unit="pickerDateUnit"
       :selected-from-day="selectedFromDay"
       :selected-to-day="selectedToDay"
-      @select-day="selectDay"
-      @select-week="selectWeek"
+      @select-day="selectDay($event)"
+      @select-week="selectWeek($event)"
       @select-month="selectMonth"
-      @select-quarter="selectQuarter"
-      @select-year="selectYear"
+      @select-quarter="selectQuarter($event)"
+      @select-year="selectYear($event)"
     />
   </div>
 </template>
 
 <script>
-import { PICKER_DATE_UNITS, YEAR_GRID_CONSTRAINTS } from './GeoCalendar.utils'
+import { PICKER_DATE_UNITS, YEAR_GRID_CONSTANTS } from './GeoCalendar.utils'
 import GeoCalendarDateIndicators from './GeoCalendarDateIndicators.mixin'
 import GeoCalendarGranularityIdMixin from './GeoCalendarGranularityId.mixin'
 import GeoCalendarPickerDateUnitMixin from './GeoCalendarPickerDateUnit.mixin'
@@ -142,54 +142,51 @@ export default {
 
     canSelectNextDates () {
       if (!this.latestDate) return true
-      let canSelectNextDates
       switch (this.pickerDateUnit) {
         case PICKER_DATE_UNITS.day:
         case PICKER_DATE_UNITS.month:
-          canSelectNextDates = isBefore(addMonths(new Date(this.currentYear, this.currentMonth), 1), this.latestDate)
-          break
+          return isBefore(addMonths(new Date(this.currentYear, this.currentMonth), 1), this.latestDate)
         case PICKER_DATE_UNITS.year:
-          canSelectNextDates = isBefore(new Date(this.currentEndYearInRange, this.currentMonth), this.latestDate)
+          return isBefore(new Date(this.currentEndYearInRange, this.currentMonth), this.latestDate)
+        default:
+          throw new Error(`Unknown pickerDateUnit «${this.pickerDateUnit}»`)
       }
-      return canSelectNextDates
     },
 
     canSelectPastDates () {
       if (!this.earliestDate) return true
-      let canSelectPastDates
       switch (this.pickerDateUnit) {
         case PICKER_DATE_UNITS.day:
         case PICKER_DATE_UNITS.month:
-          canSelectPastDates = isAfter(new Date(this.currentYear, this.currentMonth), this.earliestDate)
-          break
+          return isAfter(new Date(this.currentYear, this.currentMonth), this.earliestDate)
         case PICKER_DATE_UNITS.year:
-          canSelectPastDates = isAfter(subYears(new Date(this.currentInitialYearInRange, this.currentMonth), 1), this.earliestDate)
+          return isAfter(subYears(new Date(this.currentInitialYearInRange, this.currentMonth), 1), this.earliestDate)
+        default:
+          throw new Error(`Unknown pickerDateUnit «${this.pickerDateUnit}»`)
       }
-      return canSelectPastDates
     }
   },
 
   methods: {
     goToNextPickerDate () {
       if (!this.canSelectNextDates) return
-      let nextYear
-      let nextMonth
       switch (this.pickerDateUnit) {
-        case PICKER_DATE_UNITS.day:
+        case PICKER_DATE_UNITS.day: {
           if (this.currentMonth === 11) {
-            nextYear = getYear(addYears(this.currentDate, 1))
+            const nextYear = getYear(addYears(this.currentDate, 1))
             this.goToYear(nextYear)
           }
-          nextMonth = getMonth(addMonths(this.currentDate, 1))
+          const nextMonth = getMonth(addMonths(this.currentDate, 1))
           this.goToMonth(nextMonth)
           break
+        }
         case PICKER_DATE_UNITS.month:
-          nextYear = getYear(addYears(this.currentDate, 1))
+          const nextYear = getYear(addYears(this.currentDate, 1))
           this.goToYear(nextYear)
           break
         case PICKER_DATE_UNITS.year:
-          const nextInitialYearInRange = this.currentInitialYearInRange + YEAR_GRID_CONSTRAINTS.YEARS_IN_GRID
-          const nextLastYearInRange = this.currentEndYearInRange + YEAR_GRID_CONSTRAINTS.YEARS_IN_GRID
+          const nextInitialYearInRange = this.currentInitialYearInRange + YEAR_GRID_CONSTANTS.YEARS_IN_GRID
+          const nextLastYearInRange = this.currentEndYearInRange + YEAR_GRID_CONSTANTS.YEARS_IN_GRID
           if (nextInitialYearInRange > getYear(this.latestDate)) return
           this.goToYearRange([nextInitialYearInRange, nextLastYearInRange])
           break
@@ -198,24 +195,23 @@ export default {
 
     goToPreviousPickerDate () {
       if (!this.canSelectPastDates) return
-      let previousYear
-      let previousMonth
       switch (this.pickerDateUnit) {
-        case PICKER_DATE_UNITS.day:
+        case PICKER_DATE_UNITS.day: {
           if (this.currentMonth === 0) {
-            previousYear = getYear(subYears(this.currentDate, 1))
+            const previousYear = getYear(subYears(this.currentDate, 1))
             this.goToYear(previousYear)
           }
-          previousMonth = getMonth(subMonths(this.currentDate, 1))
+          const previousMonth = getMonth(subMonths(this.currentDate, 1))
           this.goToMonth(previousMonth)
           break
+        }
         case PICKER_DATE_UNITS.month:
-          previousYear = getYear(subYears(this.currentDate, 1))
+          const previousYear = getYear(subYears(this.currentDate, 1))
           this.goToYear(previousYear)
           break
         case PICKER_DATE_UNITS.year:
-          const previousInitialYearInRange = this.currentInitialYearInRange - YEAR_GRID_CONSTRAINTS.YEARS_IN_GRID
-          const previousLastYearInRange = this.currentEndYearInRange - YEAR_GRID_CONSTRAINTS.YEARS_IN_GRID
+          const previousInitialYearInRange = this.currentInitialYearInRange - YEAR_GRID_CONSTANTS.YEARS_IN_GRID
+          const previousLastYearInRange = this.currentEndYearInRange - YEAR_GRID_CONSTANTS.YEARS_IN_GRID
           if (previousLastYearInRange < getYear(this.earliestDate)) return
           this.goToYearRange([previousInitialYearInRange, previousLastYearInRange])
           break

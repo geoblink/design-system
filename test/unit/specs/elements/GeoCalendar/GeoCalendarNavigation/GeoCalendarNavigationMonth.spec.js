@@ -3,7 +3,7 @@ import GeoCalendarNavigationMonth from '@/elements/GeoCalendar/GeoCalendarNaviga
 import GeoListItem from '@/elements/GeoList/GeoListItem'
 import GeoLinkButton from '@/elements/GeoButton/GeoLinkButton'
 import GeoButton from '@/elements/GeoButton/GeoButton'
-import { YEAR_GRID_CONSTRAINTS } from '@/elements/GeoCalendar/Geocalendar.utils'
+import { YEAR_GRID_CONSTANTS } from '@/elements/GeoCalendar/Geocalendar.utils'
 import { getYear, subYears, addYears } from 'date-fns'
 
 describe('GeoCalendarNavigationMonth', () => {
@@ -39,10 +39,10 @@ describe('GeoCalendarNavigationMonth', () => {
         currentYear: 2019
       }
     })
-    it(`Should set earliest and latest date as ${YEAR_GRID_CONSTRAINTS.MIN_YEAR} and ${YEAR_GRID_CONSTRAINTS.MAX_YEAR} if no constraints are set`, () => {
-      expect(getYear(wrapper.vm.earliestYearInSelect)).toEqual(YEAR_GRID_CONSTRAINTS.MIN_YEAR)
-      expect(getYear(wrapper.vm.latestYearInSelect)).toEqual(YEAR_GRID_CONSTRAINTS.MAX_YEAR)
-      expect(wrapper.vm.numYearsWithData).toEqual((YEAR_GRID_CONSTRAINTS.MAX_YEAR - YEAR_GRID_CONSTRAINTS.MIN_YEAR) + 1)
+    it(`Should set earliest and latest date as ${YEAR_GRID_CONSTANTS.MIN_YEAR} and ${YEAR_GRID_CONSTANTS.MAX_YEAR} if no constraints are set`, () => {
+      expect(getYear(wrapper.vm.earliestYearInSelect)).toEqual(YEAR_GRID_CONSTANTS.MIN_YEAR)
+      expect(getYear(wrapper.vm.latestYearInSelect)).toEqual(YEAR_GRID_CONSTANTS.MAX_YEAR)
+      expect(wrapper.vm.numYearsWithData).toEqual((YEAR_GRID_CONSTANTS.MAX_YEAR - YEAR_GRID_CONSTANTS.MIN_YEAR) + 1)
     })
 
     it('Should set earliest and latest date as the provided props if these constraints are set', () => {
@@ -85,11 +85,11 @@ describe('GeoCalendarNavigationMonth', () => {
     })
 
     describe('Year selection constraints', () => {
-      it(`No constraints - Should have as many items as years between ${YEAR_GRID_CONSTRAINTS.MIN_YEAR} and ${YEAR_GRID_CONSTRAINTS.MAX_YEAR}`, () => {
+      it(`No constraints - Should have as many items as years between ${YEAR_GRID_CONSTANTS.MIN_YEAR} and ${YEAR_GRID_CONSTANTS.MAX_YEAR}`, () => {
         const yearSelectItemsLength = wrapper.findAll('[data-ut="year-select"] .geo-list-item').length
-        expect(yearSelectItemsLength).toEqual((YEAR_GRID_CONSTRAINTS.MAX_YEAR - YEAR_GRID_CONSTRAINTS.MIN_YEAR) + 1)
-        expect(wrapper.findAll('[data-ut="year-select"] .geo-list-item').at(0).text()).toEqual(`${YEAR_GRID_CONSTRAINTS.MIN_YEAR}`)
-        expect(wrapper.findAll('[data-ut="year-select"] .geo-list-item').at(yearSelectItemsLength - 1).text()).toEqual(`${YEAR_GRID_CONSTRAINTS.MAX_YEAR}`)
+        expect(yearSelectItemsLength).toEqual((YEAR_GRID_CONSTANTS.MAX_YEAR - YEAR_GRID_CONSTANTS.MIN_YEAR) + 1)
+        expect(wrapper.findAll('[data-ut="year-select"] .geo-list-item').at(0).text()).toEqual(`${YEAR_GRID_CONSTANTS.MIN_YEAR}`)
+        expect(wrapper.findAll('[data-ut="year-select"] .geo-list-item').at(yearSelectItemsLength - 1).text()).toEqual(`${YEAR_GRID_CONSTANTS.MAX_YEAR}`)
       })
 
       it('Constraints - Should have as many items as years between earliestDate and latestDate', () => {

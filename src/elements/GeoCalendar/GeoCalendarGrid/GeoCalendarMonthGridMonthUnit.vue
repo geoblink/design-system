@@ -39,22 +39,26 @@ export default {
   ],
   props: {
     /**
-     * Month object containing its name and the index within the year.
-     * ie: { name: September, index: 8 }
+     * Month name.
+     * ie: 'September'
      */
-    month: {
-      type: Object,
+    monthName: {
+      type: String,
+      required: true
+    },
+
+    /**
+     * Month index within the year (0 - 11).
+     */
+    monthIndex: {
+      type: Number,
       required: true
     }
   },
 
   computed: {
-    monthName () {
-      return this.month.name
-    },
-
-    monthIndex () {
-      return this.month.index
+    currentDate () {
+      return new Date(this.currentYear, this.monthIndex)
     },
 
     isDateInMonth () {
@@ -75,17 +79,17 @@ export default {
       return (
         (
           this.selectedFromDay &&
-          isAfter(addMonths(new Date(this.currentYear, this.monthIndex), 1), this.selectedFromDay)
+          isAfter(addMonths(this.currentDate, 1), this.selectedFromDay)
         ) && (
           this.selectedToDay &&
-          isBefore(startOfDay(new Date(this.currentYear, this.monthIndex)), this.selectedToDay)
+          isBefore(startOfDay(this.currentDate), this.selectedToDay)
         )
       )
     },
 
     isMonthUnavailable () {
-      return isBefore(new Date(this.currentYear, this.monthIndex), this.earliestDate) ||
-        isAfter(new Date(this.currentYear, this.monthIndex), this.latestDate)
+      return isBefore(this.currentDate, this.earliestDate) ||
+        isAfter(this.currentDate, this.latestDate)
     },
 
     isDayWithinFromMonth () {

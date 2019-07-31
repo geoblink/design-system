@@ -13,7 +13,7 @@
         :selected-from-day="selectedFromDay"
         :selected-to-day="selectedToDay"
         @select-month="selectMonth"
-        @select-quarter="selectQuarter"
+        @select-quarter="selectQuarter($event)"
       />
     </div>
   </div>
@@ -22,16 +22,14 @@
 <script>
 import _ from 'lodash'
 import {
-  eachDay,
-  endOfYear,
   format,
-  getMonth,
-  startOfYear
+  getMonth
 } from 'date-fns'
 
 import GeoCalendarDateIndicatorsMixin from '../GeoCalendarDateIndicators.mixin'
 import GeoCalendarGranularityIdMixin from '../GeoCalendarGranularityId.mixin'
 import GeoCalendarGridMixin from './GeoCalendarGrid.mixin'
+import { MONTH_GRID_CONSTANTS } from '../GeoCalendar.utils'
 
 export default {
   name: 'GeoCalendarMonthGrid',
@@ -44,18 +42,12 @@ export default {
   ],
 
   computed: {
-    dayPerMonthInYear () {
-      const today = new Date()
-      const daysInYear = eachDay(startOfYear(today), endOfYear(today))
-      const uniqDaysPerMonth = _.uniqBy(daysInYear, (day) => getMonth(day))
-      return uniqDaysPerMonth
-    },
-
     monthsByQuarters () {
-      return _.chunk(_.map(this.dayPerMonthInYear, (d) => {
+      return _.chunk(_.times(MONTH_GRID_CONSTANTS.NUMBER_OF_MONTHS_IN_GREGORIAN_CALENDAR, (i) => {
+        const date = new Date(this.currentYear, i)
         return {
-          index: getMonth(d),
-          name: format(d, 'MMMM', { locale: this.locale })
+          index: getMonth(date),
+          name: format(date, 'MMMM', { locale: this.locale })
         }
       }), 3)
     }

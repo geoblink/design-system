@@ -37,7 +37,7 @@
 import _ from 'lodash'
 import GeoCalendarDateIndicators from '../GeoCalendarDateIndicators.mixin'
 import { differenceInCalendarYears, getYear, subYears, addYears } from 'date-fns'
-import { YEAR_GRID_CONSTRAINTS } from '../GeoCalendar.utils'
+import { YEAR_GRID_CONSTANTS } from '../GeoCalendar.utils'
 
 export default {
   name: 'GeoCalendarNavigationYear',
@@ -93,14 +93,14 @@ export default {
   computed: {
     earliestDateInCalendar () {
       return this.earliestDate
-        ? subYears(this.earliestDate, YEAR_GRID_CONSTRAINTS.YEARS_IN_GRID)
-        : new Date(YEAR_GRID_CONSTRAINTS.MIN_YEAR, 0)
+        ? subYears(this.earliestDate, YEAR_GRID_CONSTANTS.YEARS_IN_GRID)
+        : new Date(YEAR_GRID_CONSTANTS.MIN_YEAR, 0)
     },
 
     latestDateInCalendar () {
       return this.latestDate
-        ? addYears(this.latestDate, YEAR_GRID_CONSTRAINTS.YEARS_IN_GRID)
-        : new Date(YEAR_GRID_CONSTRAINTS.MAX_YEAR, 0)
+        ? addYears(this.latestDate, YEAR_GRID_CONSTANTS.YEARS_IN_GRID)
+        : new Date(YEAR_GRID_CONSTANTS.MAX_YEAR, 0)
     },
 
     numberOfYearsWithinConstraints () {
@@ -111,7 +111,7 @@ export default {
       let earliestYearInCalendar = getYear(this.earliestDateInCalendar)
       return _.chunk(_.times(this.numberOfYearsWithinConstraints, () => {
         return earliestYearInCalendar++
-      }), YEAR_GRID_CONSTRAINTS.YEARS_IN_GRID)
+      }), YEAR_GRID_CONSTANTS.YEARS_IN_GRID)
     },
 
     yearsInRanges () {

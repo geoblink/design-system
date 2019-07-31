@@ -22,10 +22,10 @@
       <div ref="calendarNavigationSelect">
         <geo-list-item
           v-for="monthObject in monthsInYear"
-          :key="monthObject.monthIndex"
-          @click="goToMonth(monthObject.monthIndex)"
+          :key="monthObject.index"
+          @click="goToMonth(monthObject.index)"
         >
-          {{ monthObject.month }}
+          {{ monthObject.name }}
         </geo-list-item>
       </div>
     </geo-select-base>
@@ -64,23 +64,22 @@
 
 <script>
 import _ from 'lodash'
-import { YEAR_GRID_CONSTRAINTS } from '../GeoCalendar.utils'
 import {
-  differenceInCalendarYears,
-  eachDay,
-  endOfYear,
   format,
-  getMonth,
-  getYear,
-  startOfYear
+  getMonth
 } from 'date-fns'
 import GeoCalendarDateIndicators from '../GeoCalendarDateIndicators.mixin'
+import GeoCalendarNavigationYearMixin from './GeoCalendarNavigationYear.mixin'
+import { MONTH_GRID_CONSTANTS } from '../GeoCalendar.utils'
 
 export default {
   name: 'GeoCalendarNavigationDay',
   status: 'missing-tests',
   release: '22.3.0',
-  mixins: [GeoCalendarDateIndicators],
+  mixins: [
+    GeoCalendarDateIndicators,
+    GeoCalendarNavigationYearMixin
+  ],
   props: {
     /**
      * Font Awesome 5 icon to be displayed in the selects of the navigation menu.
@@ -95,57 +94,27 @@ export default {
   },
   data () {
     return {
-      isMonthSelectionOpened: false,
-      isYearSelectionOpened: false
+      isMonthSelectionOpened: false
     }
   },
   computed: {
-    earliestYearInSelect () {
-      return this.earliestDate || new Date(YEAR_GRID_CONSTRAINTS.MIN_YEAR, 0)
-    },
-
-    latestYearInSelect () {
-      return this.latestDate || new Date(YEAR_GRID_CONSTRAINTS.MAX_YEAR, 0)
-    },
-
     currentSelectedMonth () {
-      return this.monthsInYear[this.currentMonth].month
-    },
-
-    dayPerMonthInYear () {
-      const today = new Date()
-      const daysInYear = eachDay(startOfYear(today), endOfYear(today))
-      const uniqDaysPerMonth = _.uniqBy(daysInYear, (day) => getMonth(day))
-      return uniqDaysPerMonth
+      return this.monthsInYear[this.currentMonth].name
     },
 
     monthsInYear () {
-      return _.map(this.dayPerMonthInYear, (d) => {
+      return _.times(MONTH_GRID_CONSTANTS.NUMBER_OF_MONTHS_IN_GREGORIAN_CALENDAR, (i) => {
+        const date = new Date(this.currentYear, i)
         return {
-          monthIndex: getMonth(d),
-          month: format(d, 'MMMM', { locale: this.locale })
+          index: getMonth(date),
+          name: format(date, 'MMMM', { locale: this.locale })
         }
-      })
-    },
-
-    numYearsWithData () {
-      return differenceInCalendarYears(this.latestYearInSelect, this.earliestYearInSelect) + 1
-    },
-
-    yearsList () {
-      let earliestYear = getYear(this.earliestYearInSelect)
-      return _.times(this.numYearsWithData, (i) => {
-        return earliestYear++
       })
     }
   },
   methods: {
     closeMonthSelection () {
       this.isMonthSelectionOpened = false
-    },
-
-    closeYearSelection () {
-      this.isYearSelectionOpened = false
     },
 
     goToMonth (monthIndex) {
@@ -159,23 +128,8 @@ export default {
       this.$emit('go-to-month', monthIndex)
     },
 
-    goToYear (year) {
-      this.closeYearSelection()
-      /**
-       * User displays a different year in the current grid
-       *
-       * @event go-to-year
-       * @type {Number}
-       */
-      this.$emit('go-to-year', year)
-    },
-
     toggleMonthSelection () {
       this.isMonthSelectionOpened = !this.isMonthSelectionOpened
-    },
-
-    toggleYearSelection () {
-      this.isYearSelectionOpened = !this.isYearSelectionOpened
     }
   }
 }

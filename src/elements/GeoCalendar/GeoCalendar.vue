@@ -10,13 +10,13 @@
         <div>
           <geo-input
             v-model="fromFormattedDate"
-            v-click-outside="unblurFromDateInput"
+            v-click-outside="blurFromDateInput"
             :is-focused="isFromDateInputFocused"
             :placeholder="fromInputPlaceholder"
             :show-buttons="false"
             css-modifier="geo-calendar"
             input-type="normal"
-            @click="blurFromDateInput"
+            @click="unblurFromDateInput"
           />
           <!-- @slot Use this slot to customize the message shown when there is an error in one of the selected dates -->
           <slot
@@ -28,7 +28,10 @@
             css-modifier="calendar-picker-button"
             @click="setEarliestDate"
           >
-            {{ earliestDatePlaceholder }}
+            <!-- @slot Use this slot to customize the text in the button used to apply your earliest available date in the fromDate input  -->
+            <slot
+              name="earliestDatePlaceholder"
+            />
           </geo-link-button>
         </div>
         <font-awesome-icon
@@ -39,13 +42,13 @@
         <div>
           <geo-input
             v-model="toFormattedDate"
-            v-click-outside="unblurToDateInput"
+            v-click-outside="blurToDateInput"
             :is-focused="isToDateInputFocused"
             :placeholder="toInputPlaceholder"
             :show-buttons="false"
             css-modifier="geo-calendar"
             input-type="normal"
-            @click="blurToDateInput"
+            @click="unblurToDateInput"
           />
           <!-- @slot Use this slot to customize the message shown when there is an error in one of the selected dates -->
           <slot
@@ -57,15 +60,13 @@
             css-modifier="calendar-picker-button"
             @click="setLatestDate"
           >
-            {{ latestDatePlaceholder }}
+            <!-- @slot Use this slot to customize the text in the button used to apply your latest available date in the toDate input  -->
+            <slot
+              name="latestDatePlaceholder"
+            />
           </geo-link-button>
         </div>
       </div>
-      <!-- @slot Use this slot to customize the message shown when the initial date is after the end date -->
-      <slot
-        v-if="areDatesNotConsecutive"
-        name="datesNotConsecutive"
-      />
       <geo-calendar-picker
         ref="calendarPicker"
         :calendar-navigation-select-icon="calendarNavigationSelectIcon"
@@ -85,11 +86,11 @@
         @go-to-month="goToMonth"
         @go-to-year="goToYear"
         @go-to-year-range="goToYearRange"
-        @select-day="selectDay"
+        @select-day="selectDay($event)"
         @select-month="selectMonth"
-        @select-quarter="selectQuarter"
-        @select-week="selectWeek"
-        @select-year="selectYear"
+        @select-quarter="selectQuarter($event)"
+        @select-week="selectWeek($event)"
+        @select-year="selectYear($event)"
       />
     </div>
   </div>
@@ -154,21 +155,24 @@ export default {
 
       set (newFromDate) {
         const parsedDate = this.parseDate(newFromDate)
-        if (this.isValidDate(parsedDate)) {
+        const isInputDateValid = this.isValidDate(parsedDate)
+
+        if (isInputDateValid && this.toRawDate && isBefore(this.toRawDate, parsedDate)) {
+          this.fromFormattedDate = this.toFormattedDate
+          this.toFormattedDate = newFromDate
+          return
+        }
+
+        if (isInputDateValid) {
           this.showFromFormatError = false
-          this.fromRawDate = this.parseDate(newFromDate)
+          this.fromRawDate = parsedDate
           this.currentMonth = getMonth(this.fromRawDate)
           this.currentYear = getYear(this.fromRawDate)
-          this.setFromDate({ fromDate: this.fromRawDate })
         } else {
-          if (newFromDate === '') {
-            this.showFromFormatError = false
-            this.fromRawDate = null
-          } else {
-            this.showFromFormatError = true
-          }
-          this.setFromDate({ fromDate: null })
+          this.showFromFormatError = newFromDate !== ''
+          this.fromRawDate = null
         }
+        this.setFromDate({ fromDate: this.fromRawDate })
       }
     },
 
@@ -179,21 +183,24 @@ export default {
 
       set (newToDate) {
         const parsedDate = this.parseDate(newToDate)
-        if (this.isValidDate(parsedDate)) {
+        const isInputDateValid = this.isValidDate(parsedDate)
+
+        if (isInputDateValid && this.fromRawDate && isAfter(this.fromRawDate, parsedDate)) {
+          this.fromFormattedDate = this.showToFormatError
+          this.toFormattedDate = newToDate
+          return
+        }
+
+        if (isInputDateValid) {
           this.showToFormatError = false
-          this.toRawDate = this.parseDate(newToDate)
+          this.toRawDate = parsedDate
           this.currentMonth = getMonth(this.toRawDate)
           this.currentYear = getYear(this.toRawDate)
-          this.setToDate({ toDate: this.toRawDate })
         } else {
-          if (newToDate === '') {
-            this.showToFormatError = false
-            this.toRawDate = null
-          } else {
-            this.showToFormatError = true
-          }
-          this.setToDate({ toDate: null })
+          this.showToFormatError = newToDate !== ''
+          this.toRawDate = null
         }
+        this.setToDate({ toDate: this.toRawDate })
       }
     },
 
@@ -215,16 +222,6 @@ export default {
 
     isDateWithinBounds () {
       return (date) => !isBefore(date, this.earliestDate) && !isAfter(date, this.latestDate)
-    },
-
-    areDatesNotConsecutive () {
-      return this.fromRawDate && this.toRawDate && isAfter(this.fromRawDate, this.toRawDate)
-    },
-
-    isSettingFromInput () {
-      return (day) => {
-        return !this.fromRawDate || (this.fromRawDate && isBefore(day, this.fromRawDate))
-      }
     },
 
     isValidDate () {
@@ -266,23 +263,43 @@ export default {
       // This should be provided by date-fns, but only is available in alpha and beta versions
       // https://github.com/date-fns/date-fns/issues/942
       // https://github.com/date-fns/date-fns/issues/1064
-      if (!date || !date.match(/\d{2}\/\d{2}\/\d{4}/)) return null
-      const [day, month, year] = date.split('/').map(n => parseInt(n))
-      return new Date(year, month - 1, day)
+      if (!date) return null
+      const matches = /(\d{1,2})[^\d](\d{1,2})[^\d](\d{2,4})$/gi.exec(date)
+      if (!matches) return null
+      const [, day, month, year] = matches
+      return new Date(parseInt(year), parseInt(month) - 1, parseInt(day))
     },
 
     selectDay (day) {
-      this.setDateInput(day)
+      const hasRangeStart = !!this.fromRawDate
+      const isDayBeforeRangeStart = hasRangeStart && isBefore(day, this.fromRawDate)
+      const isSettingRangeStart = !hasRangeStart || isDayBeforeRangeStart
+
+      if (isSettingRangeStart) {
+        this.fromRawDate = day
+        this.setFromDate({ fromDate: this.fromRawDate })
+      } else {
+        this.toRawDate = day
+        this.setToDate({ toDate: this.toRawDate })
+      }
     },
 
     selectMonth (monthIndex) {
       this.currentMonth = monthIndex
       const firstDayOfMonth = new Date(this.currentYear, this.currentMonth)
       const lastDayOfMonth = endOfMonth(firstDayOfMonth)
-      const selectedDate = !this.fromRawDate || (this.fromRawDate && this.currentMonth < getMonth(this.fromRawDate))
-        ? firstDayOfMonth
-        : lastDayOfMonth
-      this.setDateInput(selectedDate)
+
+      const hasRangeStart = !!this.fromRawDate
+      const isMonthBeforeRangeStart = hasRangeStart && this.currentMonth < getMonth(this.fromRawDate)
+      const isSettingRangeStart = !hasRangeStart || isMonthBeforeRangeStart
+
+      if (isSettingRangeStart) {
+        this.fromRawDate = firstDayOfMonth
+        this.setFromDate({ fromDate: this.fromRawDate })
+      } else {
+        this.toRawDate = lastDayOfMonth
+        this.setToDate({ toDate: this.toRawDate })
+      }
     },
 
     selectQuarter (monthIndex) {
@@ -303,18 +320,16 @@ export default {
       this.currentYear = year
       const firstDayOfYear = new Date(this.currentYear, 0)
       const lastDayOfYear = endOfYear(new Date(this.currentYear, 0))
-      const selectedDate = !this.fromRawDate || (this.fromRawDate && this.currentYear < getYear(this.fromRawDate))
-        ? firstDayOfYear
-        : lastDayOfYear
-      this.setDateInput(selectedDate)
-    },
 
-    setDateInput (day) {
-      if (this.isSettingFromInput(day)) {
-        this.fromRawDate = day
+      const hasRangeStart = !!this.fromRawDate
+      const isYearBeforeRangeStart = hasRangeStart && this.currentYear < getYear(this.fromRawDate)
+      const isSettingRangeStart = !hasRangeStart || isYearBeforeRangeStart
+
+      if (isSettingRangeStart) {
+        this.fromRawDate = firstDayOfYear
         this.setFromDate({ fromDate: this.fromRawDate })
       } else {
-        this.toRawDate = day
+        this.toRawDate = lastDayOfYear
         this.setToDate({ toDate: this.toRawDate })
       }
     },
@@ -354,19 +369,19 @@ export default {
     },
 
     blurFromDateInput () {
-      this.isFromDateInputFocused = true
-    },
-
-    unblurFromDateInput () {
       this.isFromDateInputFocused = false
     },
 
+    unblurFromDateInput () {
+      this.isFromDateInputFocused = true
+    },
+
     blurToDateInput () {
-      this.isToDateInputFocused = true
+      this.isToDateInputFocused = false
     },
 
     unblurToDateInput () {
-      this.isToDateInputFocused = false
+      this.isToDateInputFocused = true
     }
   }
 }

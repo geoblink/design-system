@@ -11,7 +11,10 @@ export default {
      */
     calendarNavigationSelectIcon: {
       type: Array,
-      required: false
+      required: false,
+      default () {
+        return ['fal', 'chevron-down']
+      }
     },
 
     /**
@@ -19,14 +22,6 @@ export default {
      */
     earliestDate: {
       type: Date,
-      required: false
-    },
-
-    /**
-     * Text displayed in the link button to select the earliest date available
-     */
-    earliestDatePlaceholder: {
-      type: String,
       required: false
     },
 
@@ -57,7 +52,10 @@ export default {
      */
     inputRangeIcon: {
       type: Array,
-      required: false
+      required: false,
+      default () {
+        return ['fal', 'arrow-right']
+      }
     },
 
     /**
@@ -65,14 +63,6 @@ export default {
      */
     latestDate: {
       type: Date,
-      required: false
-    },
-
-    /**
-     * Text displayed in the link button to select the latest date available
-     */
-    latestDatePlaceholder: {
-      type: String,
       required: false
     },
 
@@ -95,7 +85,10 @@ export default {
      */
     nextDateInSelectedGranularityIcon: {
       type: Array,
-      required: false
+      required: false,
+      default () {
+        return ['fal', 'chevron-right']
+      }
     },
 
     /**
@@ -106,7 +99,10 @@ export default {
      */
     previousDateInSelectedGranularityIcon: {
       type: Array,
-      required: false
+      required: false,
+      default () {
+        return ['fal', 'chevron-left']
+      }
     },
 
     /**

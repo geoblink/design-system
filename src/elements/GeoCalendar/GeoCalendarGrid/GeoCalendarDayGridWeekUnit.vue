@@ -8,29 +8,28 @@
   >
     <geo-calendar-day-grid-day-unit
       v-for="(day, index) in week"
-      :key="`week-${weekIndex}_day${index}`"
+      :key="`week-${weekIndex}_day-${index}`"
       :day="day"
       :current-date="currentDate"
       :earliest-date="earliestDate"
       :latest-date="latestDate"
       :selected-from-day="selectedFromDay"
       :selected-to-day="selectedToDay"
-      @select-day-unit="selectDay"
+      @select-day-unit="selectDay($event)"
     />
   </div>
 </template>
 
 <script>
 import {
-  isAfter,
-  isBefore,
   startOfWeek,
   startOfDay,
   endOfWeek
 } from 'date-fns'
+
 import _ from 'lodash'
 
-import { GRANULARITY_IDS } from '../GeoCalendar.utils'
+import { GRANULARITY_IDS, isDayUnavailable } from '../GeoCalendar.utils'
 import GeoCalendarGranularityIdMixin from '../GeoCalendarGranularityId.mixin'
 import GeoCalendarGridMixin from './GeoCalendarGrid.mixin'
 
@@ -93,17 +92,13 @@ export default {
     },
 
     isWeekUnavailable () {
-      return _.reduce(this.fullMonthCalendar[this.weekIndex], (accum, day) => accum || this.isDayUnavailable(day), false)
+      return _.reduce(this.fullMonthCalendar[this.weekIndex], (accum, day) => accum || isDayUnavailable(this, day), false)
     }
   },
 
   methods: {
-    isDayUnavailable (day) {
-      return isBefore(day, this.earliestDate) || isAfter(day, this.latestDate)
-    },
-
     selectDay (day) {
-      if (this.isDayUnavailable(day)) return
+      if (isDayUnavailable(this, day)) return
       if (this.granularityId === GRANULARITY_IDS.day) {
         /**
          * User selects a particular day within the day grid

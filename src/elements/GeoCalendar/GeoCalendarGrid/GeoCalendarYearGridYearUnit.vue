@@ -43,6 +43,10 @@ export default {
   },
 
   computed: {
+    currentFormattedYear () {
+      return new Date(this.year, 0)
+    },
+
     isDateInYear () {
       return (
         (
@@ -59,10 +63,10 @@ export default {
       return (
         (
           this.selectedFromDay &&
-          isAfter(addYears(new Date(this.year, 0), 1), this.selectedFromDay)
+          isAfter(addYears(this.currentFormattedYear, 1), this.selectedFromDay)
         ) && (
           this.selectedToDay &&
-          isBefore(new Date(this.year, 0), this.selectedToDay)
+          isBefore(this.currentFormattedYear, this.selectedToDay)
         )
       )
     },
@@ -70,9 +74,9 @@ export default {
     isYearUnavailable () {
       return (
         (
-          isBefore(addYears(new Date(this.year, 0), 1), this.earliestDate)
+          isBefore(addYears(this.currentFormattedYear, 1), this.earliestDate)
         ) || (
-          isAfter(new Date(this.year, 0), this.latestDate)
+          isAfter(this.currentFormattedYear, this.latestDate)
         )
       )
     },

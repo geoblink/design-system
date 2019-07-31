@@ -73,9 +73,9 @@ function getWrappedComponent (granularityId) {
     },
     propsData: {
       quarter: [
-        { index: 6, month: 'July' },
-        { index: 7, month: 'August' },
-        { index: 8, month: 'September' }
+        { index: 6, name: 'July' },
+        { index: 7, name: 'August' },
+        { index: 8, name: 'September' }
       ],
       currentMonth: 6,
       currentYear: 2019,

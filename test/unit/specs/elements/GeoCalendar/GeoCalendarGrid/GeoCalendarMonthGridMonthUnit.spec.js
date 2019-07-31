@@ -7,12 +7,14 @@ describe('GeoCalendarMonthGridMonthUnit', () => {
   const today = new Date(2019, 7, 29)
   const currentMonth = getMonth(today)
   const currentYear = getYear(today)
-  const monthUnit = { name: 'July', index: 7 }
+  const monthName = 'July'
+  const monthIndex = 7
 
   it('should render', function () {
     const wrapper = mount(GeoCalendarMonthGridMonthUnit, {
       propsData: {
-        month: monthUnit,
+        monthName,
+        monthIndex,
         currentMonth,
         currentYear,
         granularityId: GRANULARITY_IDS.month
@@ -28,7 +30,8 @@ describe('GeoCalendarMonthGridMonthUnit', () => {
   describe('Computed properties', () => {
     const wrapper = mount(GeoCalendarMonthGridMonthUnit, {
       propsData: {
-        month: monthUnit,
+        monthName,
+        monthIndex,
         currentMonth,
         currentYear,
         granularityId: GRANULARITY_IDS.month
@@ -114,7 +117,8 @@ describe('GeoCalendarMonthGridMonthUnit', () => {
     it('Emits event when clicking on month', () => {
       const wrapper = mount(GeoCalendarMonthGridMonthUnit, {
         propsData: {
-          month: monthUnit,
+          monthName,
+          monthIndex,
           currentMonth,
           currentYear,
           granularityId: GRANULARITY_IDS.month

@@ -1,23 +1,13 @@
 import { mount } from '@vue/test-utils'
 import GeoCalendarDayGrid from '@/elements/GeoCalendar/GeoCalendarGrid/GeoCalendarDayGrid.vue'
 import GeoCalendarDayGridWeekUnit from '@/elements/GeoCalendar/GeoCalendarGrid/GeoCalendarDayGridWeekUnit.vue'
+import GeoCalendarDayGridDayUnit from '@/elements/GeoCalendar/GeoCalendarGrid/GeoCalendarDayGridDayUnit.vue'
 import { GRANULARITY_IDS } from '@/elements/GeoCalendar/GeoCalendar.utils'
 import { startOfWeek, startOfDay, endOfWeek } from 'date-fns'
 
 describe('GeoCalendarDayGrid', () => {
-  const wrapper = mount(GeoCalendarDayGrid, {
-    stubs: {
-      GeoCalendarDayGridWeekUnit,
-      GeoCalendarDayGridDayUnit: true
-    },
-    propsData: {
-      currentMonth: 6,
-      currentYear: 2019,
-      granularityId: GRANULARITY_IDS.day
-    }
-  })
-
   it('should render', function () {
+    const wrapper = getWrappedComponent()
     expect(wrapper.find('.geo-calendar-grid').exists()).toBe(true)
     expect(wrapper.find('.geo-calendar-grid__weekdays-row-container').exists()).toBe(true)
     expect(wrapper.find('.geo-calendar-grid__day-container').exists()).toBe(true)
@@ -25,18 +15,13 @@ describe('GeoCalendarDayGrid', () => {
   })
 
   describe('Edge months', () => {
-    const wrapper = mount(GeoCalendarDayGrid, {
-      stubs: {
-        GeoCalendarDayGridWeekUnit,
-        GeoCalendarDayGridDayUnit: true
-      },
-      propsData: {
-        currentMonth: 11,
-        currentYear: 2019,
-        granularityId: GRANULARITY_IDS.day
-      }
-    })
     it('Should render (1st day of month is Sunday)', function () {
+      const wrapper = getWrappedComponent()
+      wrapper.setProps({
+        currentMonth: 11
+      })
+
+      expect(wrapper.findAll('.geo-calendar-days-container__week-unit .geo-calendar-day-picker__day-number').at(6).text()).toBe('1')
       expect(wrapper.find('.geo-calendar-grid').exists()).toBe(true)
       expect(wrapper.find('.geo-calendar-grid__weekdays-row-container').exists()).toBe(true)
       expect(wrapper.find('.geo-calendar-grid__day-container').exists()).toBe(true)
@@ -44,9 +29,11 @@ describe('GeoCalendarDayGrid', () => {
     })
 
     it('Should render (1st day of month is saturday)', function () {
+      const wrapper = getWrappedComponent()
       wrapper.setProps({
         currentMonth: 5
       })
+      expect(wrapper.findAll('.geo-calendar-days-container__week-unit .geo-calendar-day-picker__day-number').at(5).text()).toBe('1')
       expect(wrapper.find('.geo-calendar-grid').exists()).toBe(true)
       expect(wrapper.find('.geo-calendar-grid__weekdays-row-container').exists()).toBe(true)
       expect(wrapper.find('.geo-calendar-grid__day-container').exists()).toBe(true)
@@ -56,14 +43,17 @@ describe('GeoCalendarDayGrid', () => {
 
   describe('Events (day/week)', () => {
     const today = new Date(2019, 6, 30) // Fixed date to avoid future errors with random dates
-    const childWeek = wrapper.find(GeoCalendarDayGridWeekUnit)
     it('Emits select-day event when clicked on a day', () => {
+      const wrapper = getWrappedComponent()
+      const childWeek = wrapper.find(GeoCalendarDayGridWeekUnit)
       childWeek.vm.$emit('select-day', today)
       expect(wrapper.emitted()['select-day']).toBeDefined()
       expect(wrapper.emitted()['select-day'][0][0]).toBe(today)
     })
 
     it('Emits select-week event when clicked on a week', () => {
+      const wrapper = getWrappedComponent()
+      const childWeek = wrapper.find(GeoCalendarDayGridWeekUnit)
       const weekStart = startOfWeek(today, { weekStartsOn: 1 })
       const weekEnd = startOfDay(endOfWeek(today, { weekStartsOn: 1 }))
 
@@ -79,3 +69,17 @@ describe('GeoCalendarDayGrid', () => {
     })
   })
 })
+
+function getWrappedComponent () {
+  return mount(GeoCalendarDayGrid, {
+    stubs: {
+      GeoCalendarDayGridWeekUnit,
+      GeoCalendarDayGridDayUnit
+    },
+    propsData: {
+      currentMonth: 6,
+      currentYear: 2019,
+      granularityId: GRANULARITY_IDS.day
+    }
+  })
+}

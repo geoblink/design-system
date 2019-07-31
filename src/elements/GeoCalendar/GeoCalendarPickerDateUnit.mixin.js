@@ -1,5 +1,7 @@
 import { PICKER_DATE_UNITS } from './GeoCalendar.utils'
-
+/**
+ * @mixin
+ */
 export default {
   props: {
     /**
@@ -14,7 +16,10 @@ export default {
       type: String,
       required: true,
       validator (value) {
-        return value in PICKER_DATE_UNITS
+        if (value in PICKER_DATE_UNITS) return true
+        const supportedPickerDateUnits = Object.values(PICKER_DATE_UNITS).map(i => `«${i}»`).join(', ')
+        console.warn(`GeoCalendar [component] :: Unsupported value («${value}») for pickerDateUnit property. Use one of ${supportedPickerDateUnits}`)
+        return false
       }
     }
   }

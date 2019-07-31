@@ -3,7 +3,7 @@ import GeoCalendarNavigationYear from '@/elements/GeoCalendar/GeoCalendarNavigat
 import GeoListItem from '@/elements/GeoList/GeoListItem'
 import GeoLinkButton from '@/elements/GeoButton/GeoLinkButton'
 import GeoButton from '@/elements/GeoButton/GeoButton'
-import { YEAR_GRID_CONSTRAINTS } from '@/elements/GeoCalendar/Geocalendar.utils'
+import { YEAR_GRID_CONSTANTS } from '@/elements/GeoCalendar/Geocalendar.utils'
 import { subYears, addYears, getYear } from 'date-fns'
 
 describe('GeoCalendarNavigationYear', () => {
@@ -49,23 +49,23 @@ describe('GeoCalendarNavigationYear', () => {
     })
 
     describe('Year range selection constraints', () => {
-      it(`No constraints - Should have as many ranges as there can be between ${YEAR_GRID_CONSTRAINTS.MIN_YEAR} and ${YEAR_GRID_CONSTRAINTS.MAX_YEAR}`, () => {
+      it(`No constraints - Should have as many ranges as there can be between ${YEAR_GRID_CONSTANTS.MIN_YEAR} and ${YEAR_GRID_CONSTANTS.MAX_YEAR}`, () => {
         const wrapper = getWrappedComponent()
         const yearSelectItemsLength = wrapper.findAll('[data-ut="year-range-select"] .geo-list-item').length
-        expect(yearSelectItemsLength).toEqual(Math.ceil((YEAR_GRID_CONSTRAINTS.MAX_YEAR - YEAR_GRID_CONSTRAINTS.MIN_YEAR + 2) / YEAR_GRID_CONSTRAINTS.YEARS_IN_GRID))
-        expect(wrapper.findAll('[data-ut="year-range-select"] .geo-list-item').at(0).text()).toEqual(`${YEAR_GRID_CONSTRAINTS.MIN_YEAR} - ${(YEAR_GRID_CONSTRAINTS.MIN_YEAR - 1) + YEAR_GRID_CONSTRAINTS.YEARS_IN_GRID}`)
-        expect(wrapper.findAll('[data-ut="year-range-select"] .geo-list-item').at(yearSelectItemsLength - 1).text()).toEqual(`${YEAR_GRID_CONSTRAINTS.MAX_YEAR - 1} - ${YEAR_GRID_CONSTRAINTS.MAX_YEAR - 1}`)
+        expect(yearSelectItemsLength).toEqual(Math.ceil((YEAR_GRID_CONSTANTS.MAX_YEAR - YEAR_GRID_CONSTANTS.MIN_YEAR + 2) / YEAR_GRID_CONSTANTS.YEARS_IN_GRID))
+        expect(wrapper.findAll('[data-ut="year-range-select"] .geo-list-item').at(0).text()).toEqual(`${YEAR_GRID_CONSTANTS.MIN_YEAR} - ${(YEAR_GRID_CONSTANTS.MIN_YEAR - 1) + YEAR_GRID_CONSTANTS.YEARS_IN_GRID}`)
+        expect(wrapper.findAll('[data-ut="year-range-select"] .geo-list-item').at(yearSelectItemsLength - 1).text()).toEqual(`${YEAR_GRID_CONSTANTS.MAX_YEAR - 1} - ${YEAR_GRID_CONSTANTS.MAX_YEAR - 1}`)
       })
 
       it('Constraints - Should have as many ranges as there can be between earliestDate and latestDate', () => {
         const wrapper = getWrappedComponent()
         wrapper.setProps({
-          earliestDate: subYears(new Date(), YEAR_GRID_CONSTRAINTS.YEARS_IN_GRID),
-          latestDate: addYears(new Date(), YEAR_GRID_CONSTRAINTS.YEARS_IN_GRID)
+          earliestDate: subYears(new Date(), YEAR_GRID_CONSTANTS.YEARS_IN_GRID),
+          latestDate: addYears(new Date(), YEAR_GRID_CONSTANTS.YEARS_IN_GRID)
         })
         const yearSelectItemsLength = wrapper.findAll('[data-ut="year-range-select"] .geo-list-item').length
-        expect(yearSelectItemsLength).toEqual(Math.ceil(((getYear(wrapper.vm.latestDate) + YEAR_GRID_CONSTRAINTS.YEARS_IN_GRID) - (getYear(wrapper.vm.earliestDate) - YEAR_GRID_CONSTRAINTS.YEARS_IN_GRID)) / YEAR_GRID_CONSTRAINTS.YEARS_IN_GRID))
-        expect(wrapper.findAll('[data-ut="year-range-select"] .geo-list-item').at(0).text()).toEqual(`${getYear(wrapper.vm.earliestDate) - YEAR_GRID_CONSTRAINTS.YEARS_IN_GRID} - ${getYear(wrapper.vm.earliestDate) - 1}`)
+        expect(yearSelectItemsLength).toEqual(Math.ceil(((getYear(wrapper.vm.latestDate) + YEAR_GRID_CONSTANTS.YEARS_IN_GRID) - (getYear(wrapper.vm.earliestDate) - YEAR_GRID_CONSTANTS.YEARS_IN_GRID)) / YEAR_GRID_CONSTANTS.YEARS_IN_GRID))
+        expect(wrapper.findAll('[data-ut="year-range-select"] .geo-list-item').at(0).text()).toEqual(`${getYear(wrapper.vm.earliestDate) - YEAR_GRID_CONSTANTS.YEARS_IN_GRID} - ${getYear(wrapper.vm.earliestDate) - 1}`)
         expect(wrapper.findAll('[data-ut="year-range-select"] .geo-list-item').at(yearSelectItemsLength - 1).text()).toEqual(`${getYear(wrapper.vm.latestDate)} - ${getYear(wrapper.vm.latestDate) + 15}`)
       })
     })

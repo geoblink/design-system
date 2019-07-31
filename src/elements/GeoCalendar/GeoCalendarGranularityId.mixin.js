@@ -1,5 +1,7 @@
 import { GRANULARITY_IDS } from './GeoCalendar.utils'
-
+/**
+ * @mixin
+ */
 export default {
   props: {
     /**
@@ -16,7 +18,10 @@ export default {
       type: String,
       required: true,
       validator (value) {
-        return value in GRANULARITY_IDS
+        if (value in GRANULARITY_IDS) return true
+        const supportedGranularities = Object.values(GRANULARITY_IDS).map(i => `«${i}»`).join(', ')
+        console.warn(`GeoCalendar [component] :: Unsupported value («${value}») for granularityId property. Use one of ${supportedGranularities}`)
+        return false
       }
     }
   }

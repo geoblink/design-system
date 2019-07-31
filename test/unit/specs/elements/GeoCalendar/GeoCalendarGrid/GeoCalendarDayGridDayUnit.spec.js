@@ -3,7 +3,9 @@ import { addDays, getDate, subMonths, subDays, isEqual } from 'date-fns'
 import GeoCalendarDayGridDayUnit from '@/elements/GeoCalendar/GeoCalendarGrid/GeoCalendarDayGridDayUnit.vue'
 
 describe('GeoCalendarDayGridDayUnit', () => {
-  const today = new Date(2019, 6, 30) // Fixed date to avoid future errors with random dates
+  // When working with day units we need the actual tested day to be `today`
+  // since some of the properties use date-fns functionalities than rely on the fact that it is, in fact, today
+  const today = new Date()
 
   it('Should render', function () {
     const wrapper = mount(GeoCalendarDayGridDayUnit, {

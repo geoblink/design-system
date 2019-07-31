@@ -28,8 +28,6 @@ eiusmod tempor incididunt ut labore et dolore magna aliqua.
         :locale="locale"
         from-input-placeholder="From"
         to-input-placeholder="To"
-        earliest-date-placeholder="Set earliest date"
-        latest-date-placeholder="Set latest date"
         @set-from-date="setFromDate"
         @set-to-date="setToDate"
       >
@@ -89,13 +87,12 @@ eiusmod tempor incididunt ut labore et dolore magna aliqua.
         >
           The inserted date is not valid
         </p>
-        <!-- TODO: CORE-7312 This should be part of the DS when input results in error -->
-        <p
-          slot="datesNotConsecutive"
-          class="geo-calendar__input__date-feedback--error"
-        >
-          The initial date cannot be after the end date
-        </p>
+        <template slot="earliestDatePlaceholder">
+          Set earliest date
+        </template>
+        <template slot="latestDatePlaceholder">
+          Set latest date
+        </template>
         <geo-primary-button
           slot="calendarFooter"
           :disabled="isDateRangeNotValid"

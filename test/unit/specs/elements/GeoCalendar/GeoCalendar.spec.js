@@ -173,7 +173,7 @@ describe('GeoCalendar', () => {
         expect(wrapper.emitted()['set-from-date']).toBeDefined()
         expect(wrapper.emitted()['set-from-date'][0][0]).toEqual({ fromDate: today })
 
-        wrapper.vm.unblurFromDateInput()
+        wrapper.vm.blurFromDateInput()
         expect(wrapper.vm.isFromDateInputFocused).toBe(false)
       })
 
@@ -214,7 +214,7 @@ describe('GeoCalendar', () => {
         expect(wrapper.emitted()['set-to-date']).toBeDefined()
         expect(wrapper.emitted()['set-to-date'][0][0]).toEqual({ toDate: today })
 
-        wrapper.vm.unblurToDateInput()
+        wrapper.vm.blurToDateInput()
         expect(wrapper.vm.isToDateInputFocused).toBe(false)
       })
 
@@ -275,9 +275,7 @@ describe('GeoCalendar', () => {
         const wrapper = getWrappedComponent()
         wrapper.setProps({
           earliestDate: subYears(today, 1),
-          earliestDatePlaceholder: 'Earliest date',
-          latestDate: addYears(today, 1),
-          latestDatePlaceholder: 'Latest date'
+          latestDate: addYears(today, 1)
         })
         expect(wrapper.find('.geo-button--link--calendar-picker-button').exists()).toBe(true)
         expect(wrapper.findAll('.geo-button--link--calendar-picker-button').at(0).text()).toBe('Earliest date')
@@ -290,9 +288,7 @@ describe('GeoCalendar', () => {
         const latestDate = addYears(today, 1)
         wrapper.setProps({
           earliestDate: earliestDate,
-          earliestDatePlaceholder: 'Earliest date',
-          latestDate: latestDate,
-          latestDatePlaceholder: 'Latest date'
+          latestDate: latestDate
         })
         wrapper.findAll(GeoLinkButton).at(0).vm.$emit('click')
         expect(wrapper.vm.fromRawDate).toEqual(earliestDate)
@@ -365,6 +361,10 @@ function getWrappedComponent () {
       'geo-calendar-navigation': true,
       'geo-calendar-grid': true,
       'geo-dropdown': true
+    },
+    slots: {
+      earliestDatePlaceholder: 'Earliest date',
+      latestDatePlaceholder: 'Latest date'
     },
     data () {
       return {
