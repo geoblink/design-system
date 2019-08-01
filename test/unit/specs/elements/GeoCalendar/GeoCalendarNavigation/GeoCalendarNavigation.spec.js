@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils'
-import { PICKER_DATE_UNITS } from '@/elements/GeoCalendar/GeoCalendar.utils'
+import { PICKER_DATE_UNITS } from '@/elements/GeoCalendar/GeoCalendar.utils.js'
 import GeoCalendarNavigation from '@/elements/GeoCalendar/GeoCalendarNavigation/GeoCalendarNavigation.vue'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core'

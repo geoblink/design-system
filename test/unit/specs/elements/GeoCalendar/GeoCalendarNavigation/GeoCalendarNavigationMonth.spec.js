@@ -3,7 +3,7 @@ import GeoCalendarNavigationMonth from '@/elements/GeoCalendar/GeoCalendarNaviga
 import GeoListItem from '@/elements/GeoList/GeoListItem'
 import GeoLinkButton from '@/elements/GeoButton/GeoLinkButton'
 import GeoButton from '@/elements/GeoButton/GeoButton'
-import { YEAR_GRID_CONSTANTS } from '@/elements/GeoCalendar/Geocalendar.utils'
+import { YEAR_GRID_CONSTANTS } from '@/elements/GeoCalendar/GeoCalendar.utils.js'
 import { getYear, subYears, addYears } from 'date-fns'
 
 describe('GeoCalendarNavigationMonth', () => {

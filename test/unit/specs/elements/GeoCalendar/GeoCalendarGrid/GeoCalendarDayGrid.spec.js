@@ -2,7 +2,7 @@ import { mount } from '@vue/test-utils'
 import GeoCalendarDayGrid from '@/elements/GeoCalendar/GeoCalendarGrid/GeoCalendarDayGrid.vue'
 import GeoCalendarDayGridWeekUnit from '@/elements/GeoCalendar/GeoCalendarGrid/GeoCalendarDayGridWeekUnit.vue'
 import GeoCalendarDayGridDayUnit from '@/elements/GeoCalendar/GeoCalendarGrid/GeoCalendarDayGridDayUnit.vue'
-import { GRANULARITY_IDS } from '@/elements/GeoCalendar/GeoCalendar.utils'
+import { GRANULARITY_IDS } from '@/elements/GeoCalendar/GeoCalendar.utils.js'
 import { startOfWeek, startOfDay, endOfWeek } from 'date-fns'
 
 describe('GeoCalendarDayGrid', () => {

@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils'
 import _ from 'lodash'
-import { GRANULARITY_IDS } from '@/elements/GeoCalendar/GeoCalendar.utils'
+import { GRANULARITY_IDS } from '@/elements/GeoCalendar/GeoCalendar.utils.js'
 import GeoCalendarDayGridWeekUnit from '@/elements/GeoCalendar/GeoCalendarGrid/GeoCalendarDayGridWeekUnit.vue'
 import GeoCalendarDayGridDayUnit from '@/elements/GeoCalendar/GeoCalendarGrid/GeoCalendarDayGridDayUnit.vue'
 import { addDays, endOfMonth, startOfMonth, differenceInCalendarDays, subDays, startOfWeek, endOfWeek, startOfDay, addMonths, subMonths } from 'date-fns'

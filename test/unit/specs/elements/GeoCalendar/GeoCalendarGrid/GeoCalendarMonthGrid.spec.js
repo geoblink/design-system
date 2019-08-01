@@ -1,7 +1,7 @@
 import { mount } from '@vue/test-utils'
 import GeoCalendarMonthGrid from '@/elements/GeoCalendar/GeoCalendarGrid/GeoCalendarMonthGrid.vue'
 import GeoCalendarMonthGridQuarterUnit from '@/elements/GeoCalendar/GeoCalendarGrid/GeoCalendarMonthGridQuarterUnit.vue'
-import { GRANULARITY_IDS } from '@/elements/GeoCalendar/GeoCalendar.utils'
+import { GRANULARITY_IDS } from '@/elements/GeoCalendar/GeoCalendar.utils.js'
 
 describe('GeoCalendarMonthGrid', () => {
   const wrapper = mount(GeoCalendarMonthGrid, {

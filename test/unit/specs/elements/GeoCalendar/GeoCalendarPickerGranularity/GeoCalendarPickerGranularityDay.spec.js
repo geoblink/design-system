@@ -1,7 +1,7 @@
 import { mount } from '@vue/test-utils'
 import GeoCalendarPickerGranularityDay from '@/elements/GeoCalendar/GeoCalendarPickerGranularity/GeoCalendarPickerGranularityDay.vue'
 import GeoCalendarPickerGranularityBase from '@/elements/GeoCalendar/GeoCalendarPickerGranularity/GeoCalendarPickerGranularityBase.vue'
-import { PICKER_DATE_UNITS, GRANULARITY_IDS } from '@/elements/GeoCalendar/Geocalendar.utils'
+import { PICKER_DATE_UNITS, GRANULARITY_IDS } from '@/elements/GeoCalendar/GeoCalendar.utils.js'
 
 describe('GeoCalendarPickerGranularityDay', () => {
   it('should render', function () {

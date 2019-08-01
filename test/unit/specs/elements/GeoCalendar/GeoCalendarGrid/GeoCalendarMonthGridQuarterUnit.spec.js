@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils'
-import { GRANULARITY_IDS } from '@/elements/GeoCalendar/GeoCalendar.utils'
+import { GRANULARITY_IDS } from '@/elements/GeoCalendar/GeoCalendar.utils.js'
 import GeoCalendarMonthGridQuarterUnit from '@/elements/GeoCalendar/GeoCalendarGrid/GeoCalendarMonthGridQuarterUnit.vue'
 import GeoCalendarMonthGridMonthUnit from '@/elements/GeoCalendar/GeoCalendarGrid/GeoCalendarMonthGridMonthUnit.vue'
 import { addMonths, subMonths } from 'date-fns'

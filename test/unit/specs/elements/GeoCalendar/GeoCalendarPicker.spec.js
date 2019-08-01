@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils'
-import { GRANULARITY_IDS, PICKER_DATE_UNITS } from '@/elements/GeoCalendar/GeoCalendar.utils'
+import { GRANULARITY_IDS, PICKER_DATE_UNITS } from '@/elements/GeoCalendar/GeoCalendar.utils.js'
 import GeoCalendarPicker from '@/elements/GeoCalendar/GeoCalendarPicker.vue'
 import GeoCalendarNavigation from '@/elements/GeoCalendar/GeoCalendarNavigation/GeoCalendarNavigation.vue'
 import GeoCalendarGrid from '@/elements/GeoCalendar/GeoCalendarGrid/GeoCalendarGrid.vue'
