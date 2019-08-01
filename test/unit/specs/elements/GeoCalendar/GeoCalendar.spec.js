@@ -84,8 +84,8 @@ describe('GeoCalendar', () => {
       calendarPicker.$emit('select-day', selectedDay)
       expect(wrapper.vm.fromRawDate).toBe(selectedDay)
       expect(wrapper.vm.fromFormattedDate).toBe('03/08/2019')
-      expect(wrapper.emitted()['set-from-date']).toBeDefined()
-      expect(wrapper.emitted()['set-from-date'][0][0]).toEqual({ fromDate: selectedDay })
+      expect(wrapper.emitted()['emit-from-date']).toBeDefined()
+      expect(wrapper.emitted()['emit-from-date'][0][0]).toEqual({ fromDate: selectedDay })
     })
 
     describe('selectMonth', () => {
@@ -97,8 +97,8 @@ describe('GeoCalendar', () => {
         const currentDate = new Date(Date.UTC(wrapper.vm.currentYear, wrapper.vm.currentMonth))
         expect(wrapper.vm.fromRawDate).toEqual(currentDate)
         expect(wrapper.vm.fromFormattedDate).toBe('01/09/2019')
-        expect(wrapper.emitted()['set-from-date']).toBeDefined()
-        expect(wrapper.emitted()['set-from-date'][0][0]).toEqual({ fromDate: currentDate })
+        expect(wrapper.emitted()['emit-from-date']).toBeDefined()
+        expect(wrapper.emitted()['emit-from-date'][0][0]).toEqual({ fromDate: currentDate })
       })
 
       it('Sets last day of month in to input', () => {
@@ -112,8 +112,8 @@ describe('GeoCalendar', () => {
         const currentDate = endOfMonth(new Date(Date.UTC(wrapper.vm.currentYear, wrapper.vm.currentMonth)))
         expect(wrapper.vm.toRawDate).toEqual(currentDate)
         expect(wrapper.vm.toFormattedDate).toBe('30/09/2019')
-        expect(wrapper.emitted()['set-to-date']).toBeDefined()
-        expect(wrapper.emitted()['set-to-date'][0][0]).toEqual({ toDate: currentDate })
+        expect(wrapper.emitted()['emit-to-date']).toBeDefined()
+        expect(wrapper.emitted()['emit-to-date'][0][0]).toEqual({ toDate: currentDate })
       })
     })
 
@@ -127,10 +127,10 @@ describe('GeoCalendar', () => {
       expect(wrapper.vm.toRawDate).toEqual(toDate)
       expect(wrapper.vm.fromFormattedDate).toBe('01/04/2019')
       expect(wrapper.vm.toFormattedDate).toBe('30/06/2019')
-      expect(wrapper.emitted()['set-from-date']).toBeDefined()
-      expect(wrapper.emitted()['set-to-date']).toBeDefined()
-      expect(wrapper.emitted()['set-from-date'][0][0]).toEqual({ fromDate })
-      expect(wrapper.emitted()['set-to-date'][0][0]).toEqual({ toDate })
+      expect(wrapper.emitted()['emit-from-date']).toBeDefined()
+      expect(wrapper.emitted()['emit-to-date']).toBeDefined()
+      expect(wrapper.emitted()['emit-from-date'][0][0]).toEqual({ fromDate })
+      expect(wrapper.emitted()['emit-to-date'][0][0]).toEqual({ toDate })
     })
 
     it('selectWeek', () => {
@@ -146,10 +146,10 @@ describe('GeoCalendar', () => {
       expect(wrapper.vm.toRawDate).toBe(weekEnd)
       expect(wrapper.vm.fromFormattedDate).toBe('28/07/2019')
       expect(wrapper.vm.toFormattedDate).toBe('03/08/2019')
-      expect(wrapper.emitted()['set-from-date']).toBeDefined()
-      expect(wrapper.emitted()['set-to-date']).toBeDefined()
-      expect(wrapper.emitted()['set-from-date'][0][0]).toEqual({ fromDate: weekStart })
-      expect(wrapper.emitted()['set-to-date'][0][0]).toEqual({ toDate: weekEnd })
+      expect(wrapper.emitted()['emit-from-date']).toBeDefined()
+      expect(wrapper.emitted()['emit-to-date']).toBeDefined()
+      expect(wrapper.emitted()['emit-from-date'][0][0]).toEqual({ fromDate: weekStart })
+      expect(wrapper.emitted()['emit-to-date'][0][0]).toEqual({ toDate: weekEnd })
     })
 
     describe('selectYear', () => {
@@ -161,8 +161,8 @@ describe('GeoCalendar', () => {
         const startOfYear = new Date(2020, 0)
         expect(wrapper.vm.fromRawDate).toEqual(startOfYear)
         expect(wrapper.vm.fromFormattedDate).toBe('01/01/2020')
-        expect(wrapper.emitted()['set-from-date']).toBeDefined()
-        expect(wrapper.emitted()['set-from-date'][0][0]).toEqual({ fromDate: startOfYear })
+        expect(wrapper.emitted()['emit-from-date']).toBeDefined()
+        expect(wrapper.emitted()['emit-from-date'][0][0]).toEqual({ fromDate: startOfYear })
       })
 
       it('Sets last day of year in to input', () => {
@@ -176,8 +176,8 @@ describe('GeoCalendar', () => {
         const currentDate = endOfYear(new Date(wrapper.vm.currentYear, wrapper.vm.currentMonth))
         expect(wrapper.vm.toRawDate).toEqual(currentDate)
         expect(wrapper.vm.toFormattedDate).toBe('31/12/2020')
-        expect(wrapper.emitted()['set-to-date']).toBeDefined()
-        expect(wrapper.emitted()['set-to-date'][0][0]).toEqual({ toDate: currentDate })
+        expect(wrapper.emitted()['emit-to-date']).toBeDefined()
+        expect(wrapper.emitted()['emit-to-date'][0][0]).toEqual({ toDate: currentDate })
       })
     })
   })
@@ -200,10 +200,10 @@ describe('GeoCalendar', () => {
         expect(wrapper.vm.toRawDate).toBe(invalidFromDateRange)
         expect(wrapper.vm.fromFormattedDate).toBe('03/08/2019')
         expect(wrapper.vm.toFormattedDate).toBe('08/08/2019')
-        expect(wrapper.emitted()['set-from-date']).toBeDefined()
-        expect(wrapper.emitted()['set-to-date']).toBeDefined()
-        expect(wrapper.emitted()['set-from-date'][2][0]).toEqual({ fromDate: endDate })
-        expect(wrapper.emitted()['set-to-date'][2][0]).toEqual({ toDate: invalidFromDateRange })
+        expect(wrapper.emitted()['emit-from-date']).toBeDefined()
+        expect(wrapper.emitted()['emit-to-date']).toBeDefined()
+        expect(wrapper.emitted()['emit-from-date'][2][0]).toEqual({ fromDate: endDate })
+        expect(wrapper.emitted()['emit-to-date'][2][0]).toEqual({ toDate: invalidFromDateRange })
       })
     })
 
@@ -228,10 +228,10 @@ describe('GeoCalendar', () => {
         expect(wrapper.vm.toRawDate).toEqual(endOfMonth(invalidFromDateRange))
         expect(wrapper.vm.fromFormattedDate).toBe('01/11/2019')
         expect(wrapper.vm.toFormattedDate).toBe('30/04/2020')
-        expect(wrapper.emitted()['set-from-date']).toBeDefined()
-        expect(wrapper.emitted()['set-to-date']).toBeDefined()
-        expect(wrapper.emitted()['set-from-date'][2][0]).toEqual({ fromDate: startOfMonth(endDate) })
-        expect(wrapper.emitted()['set-to-date'][2][0]).toEqual({ toDate: endOfMonth(invalidFromDateRange) })
+        expect(wrapper.emitted()['emit-from-date']).toBeDefined()
+        expect(wrapper.emitted()['emit-to-date']).toBeDefined()
+        expect(wrapper.emitted()['emit-from-date'][2][0]).toEqual({ fromDate: startOfMonth(endDate) })
+        expect(wrapper.emitted()['emit-to-date'][2][0]).toEqual({ toDate: endOfMonth(invalidFromDateRange) })
       })
     })
 
@@ -256,10 +256,10 @@ describe('GeoCalendar', () => {
         expect(wrapper.vm.toRawDate).toEqual(endOfYear(invalidFromDateRange))
         expect(wrapper.vm.fromFormattedDate).toBe('01/01/2023')
         expect(wrapper.vm.toFormattedDate).toBe('31/12/2028')
-        expect(wrapper.emitted()['set-from-date']).toBeDefined()
-        expect(wrapper.emitted()['set-to-date']).toBeDefined()
-        expect(wrapper.emitted()['set-from-date'][2][0]).toEqual({ fromDate: startOfYear(endDate) })
-        expect(wrapper.emitted()['set-to-date'][2][0]).toEqual({ toDate: endOfYear(invalidFromDateRange) })
+        expect(wrapper.emitted()['emit-from-date']).toBeDefined()
+        expect(wrapper.emitted()['emit-to-date']).toBeDefined()
+        expect(wrapper.emitted()['emit-from-date'][2][0]).toEqual({ fromDate: startOfYear(endDate) })
+        expect(wrapper.emitted()['emit-to-date'][2][0]).toEqual({ toDate: endOfYear(invalidFromDateRange) })
       })
     })
   })
@@ -277,8 +277,8 @@ describe('GeoCalendar', () => {
 
         expect(wrapper.vm.isFromDateInputFocused).toBe(true)
         expect(wrapper.vm.fromRawDate).toEqual(today)
-        expect(wrapper.emitted()['set-from-date']).toBeDefined()
-        expect(wrapper.emitted()['set-from-date'][0][0]).toEqual({ fromDate: today })
+        expect(wrapper.emitted()['emit-from-date']).toBeDefined()
+        expect(wrapper.emitted()['emit-from-date'][0][0]).toEqual({ fromDate: today })
 
         wrapper.vm.blurFromDateInput()
         expect(wrapper.vm.isFromDateInputFocused).toBe(false)
@@ -294,8 +294,8 @@ describe('GeoCalendar', () => {
         expect(wrapper.vm.isFromDateInputFocused).toBe(true)
         expect(wrapper.vm.fromRawDate).toBe(null)
         expect(wrapper.vm.showFromFormatError).toBe(true)
-        expect(wrapper.emitted()['set-from-date']).toBeDefined()
-        expect(wrapper.emitted()['set-from-date'][0][0]).toEqual({ fromDate: null })
+        expect(wrapper.emitted()['emit-from-date']).toBeDefined()
+        expect(wrapper.emitted()['emit-from-date'][0][0]).toEqual({ fromDate: null })
 
         wrapper.setData({
           fromFormattedDate: ''
@@ -303,8 +303,8 @@ describe('GeoCalendar', () => {
 
         expect(wrapper.vm.showFromFormatError).toBe(false)
         expect(wrapper.vm.fromRawDate).toBe(null)
-        expect(wrapper.emitted()['set-from-date']).toBeDefined()
-        expect(wrapper.emitted()['set-from-date'][1][0]).toEqual({ fromDate: null })
+        expect(wrapper.emitted()['emit-from-date']).toBeDefined()
+        expect(wrapper.emitted()['emit-from-date'][1][0]).toEqual({ fromDate: null })
       })
     })
 
@@ -318,8 +318,8 @@ describe('GeoCalendar', () => {
         })
         expect(wrapper.vm.isToDateInputFocused).toBe(true)
         expect(wrapper.vm.toRawDate).toEqual(today)
-        expect(wrapper.emitted()['set-to-date']).toBeDefined()
-        expect(wrapper.emitted()['set-to-date'][0][0]).toEqual({ toDate: today })
+        expect(wrapper.emitted()['emit-to-date']).toBeDefined()
+        expect(wrapper.emitted()['emit-to-date'][0][0]).toEqual({ toDate: today })
 
         wrapper.vm.blurToDateInput()
         expect(wrapper.vm.isToDateInputFocused).toBe(false)
@@ -335,8 +335,8 @@ describe('GeoCalendar', () => {
         expect(wrapper.vm.isToDateInputFocused).toBe(true)
         expect(wrapper.vm.toRawDate).toBe(null)
         expect(wrapper.vm.showToFormatError).toBe(true)
-        expect(wrapper.emitted()['set-to-date']).toBeDefined()
-        expect(wrapper.emitted()['set-to-date'][0][0]).toEqual({ toDate: null })
+        expect(wrapper.emitted()['emit-to-date']).toBeDefined()
+        expect(wrapper.emitted()['emit-to-date'][0][0]).toEqual({ toDate: null })
 
         wrapper.setData({
           toFormattedDate: ''
@@ -344,8 +344,8 @@ describe('GeoCalendar', () => {
 
         expect(wrapper.vm.showToFormatError).toBe(false)
         expect(wrapper.vm.toRawDate).toBe(null)
-        expect(wrapper.emitted()['set-to-date']).toBeDefined()
-        expect(wrapper.emitted()['set-to-date'][1][0]).toEqual({ toDate: null })
+        expect(wrapper.emitted()['emit-to-date']).toBeDefined()
+        expect(wrapper.emitted()['emit-to-date'][1][0]).toEqual({ toDate: null })
       })
     })
 
@@ -361,12 +361,12 @@ describe('GeoCalendar', () => {
         expect(wrapper.vm.toRawDate).toBe(endDate)
         expect(wrapper.vm.fromFormattedDate).toBe('30/07/2019')
         expect(wrapper.vm.toFormattedDate).toBe('03/08/2019')
-        expect(wrapper.emitted()['set-from-date']).toBeDefined()
-        expect(wrapper.emitted()['set-to-date']).toBeDefined()
-        expect(wrapper.emitted()['set-from-date'][0][0]).toEqual({ fromDate: initialDate })
-        expect(wrapper.emitted()['set-to-date'][0][0]).toEqual({ toDate: null })
-        expect(wrapper.emitted()['set-from-date'][1][0]).toEqual({ fromDate: initialDate })
-        expect(wrapper.emitted()['set-to-date'][1][0]).toEqual({ toDate: endDate })
+        expect(wrapper.emitted()['emit-from-date']).toBeDefined()
+        expect(wrapper.emitted()['emit-to-date']).toBeDefined()
+        expect(wrapper.emitted()['emit-from-date'][0][0]).toEqual({ fromDate: initialDate })
+        expect(wrapper.emitted()['emit-to-date'][0][0]).toEqual({ toDate: null })
+        expect(wrapper.emitted()['emit-from-date'][1][0]).toEqual({ fromDate: initialDate })
+        expect(wrapper.emitted()['emit-to-date'][1][0]).toEqual({ toDate: endDate })
       })
 
       it('Should swap dates if fromDate is after toDate or viceversa', () => {
@@ -443,14 +443,14 @@ describe('GeoCalendar', () => {
         wrapper.findAll(GeoLinkButton).at(0).vm.$emit('click')
         expect(wrapper.vm.fromRawDate).toEqual(earliestDate)
         expect(wrapper.vm.fromFormattedDate).toEqual('30/07/2018')
-        expect(wrapper.emitted()['set-from-date']).toBeDefined()
-        expect(wrapper.emitted()['set-from-date'][0][0]).toEqual({ fromDate: earliestDate })
+        expect(wrapper.emitted()['emit-from-date']).toBeDefined()
+        expect(wrapper.emitted()['emit-from-date'][0][0]).toEqual({ fromDate: earliestDate })
 
         wrapper.findAll(GeoLinkButton).at(1).vm.$emit('click')
         expect(wrapper.vm.toRawDate).toEqual(latestDate)
         expect(wrapper.vm.toFormattedDate).toEqual('30/07/2020')
-        expect(wrapper.emitted()['set-to-date']).toBeDefined()
-        expect(wrapper.emitted()['set-to-date'][0][0]).toEqual({ toDate: latestDate })
+        expect(wrapper.emitted()['emit-to-date']).toBeDefined()
+        expect(wrapper.emitted()['emit-to-date'][0][0]).toEqual({ toDate: latestDate })
       })
     })
   })

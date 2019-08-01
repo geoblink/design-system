@@ -30,12 +30,12 @@ describe('GeoCalendarDropdown', () => {
       const wrapper = getWrappedComponent()
       wrapper.find('.calendar-toggle').vm.$emit('click')
       const geoCalendarWrapper = wrapper.find(GeoCalendar)
-      geoCalendarWrapper.vm.$emit('set-from-date', {
+      geoCalendarWrapper.vm.$emit('emit-from-date', {
         fromDate: today
       })
 
-      expect(wrapper.emitted()['set-from-date']).toBeDefined()
-      expect(wrapper.emitted()['set-from-date'][0][0]).toEqual({
+      expect(wrapper.emitted()['emit-from-date']).toBeDefined()
+      expect(wrapper.emitted()['emit-from-date'][0][0]).toEqual({
         fromDate: today
       })
     })
@@ -44,12 +44,12 @@ describe('GeoCalendarDropdown', () => {
       const wrapper = getWrappedComponent()
       wrapper.find('.calendar-toggle').vm.$emit('click')
       const geoCalendarWrapper = wrapper.find(GeoCalendar)
-      geoCalendarWrapper.vm.$emit('set-to-date', {
+      geoCalendarWrapper.vm.$emit('emit-to-date', {
         toDate: today
       })
 
-      expect(wrapper.emitted()['set-to-date']).toBeDefined()
-      expect(wrapper.emitted()['set-to-date'][0][0]).toEqual({
+      expect(wrapper.emitted()['emit-to-date']).toBeDefined()
+      expect(wrapper.emitted()['emit-to-date'][0][0]).toEqual({
         toDate: today
       })
     })
@@ -61,30 +61,30 @@ describe('GeoCalendarDropdown', () => {
       wrapper.find('.calendar-toggle').vm.$emit('click')
       const geoCalendarWrapper = wrapper.find(GeoCalendar)
 
-      geoCalendarWrapper.vm.$emit('set-from-date', {
+      geoCalendarWrapper.vm.$emit('emit-from-date', {
         fromDate: today
       })
-      geoCalendarWrapper.vm.$emit('set-to-date', {
+      geoCalendarWrapper.vm.$emit('emit-to-date', {
         toDate: today
       })
 
-      expect(wrapper.emitted()['set-from-date']).toBeDefined()
-      expect(wrapper.emitted()['set-from-date'][0][0]).toEqual({
+      expect(wrapper.emitted()['emit-from-date']).toBeDefined()
+      expect(wrapper.emitted()['emit-from-date'][0][0]).toEqual({
         fromDate: today
       })
 
-      expect(wrapper.emitted()['set-to-date']).toBeDefined()
-      expect(wrapper.emitted()['set-to-date'][0][0]).toEqual({
+      expect(wrapper.emitted()['emit-to-date']).toBeDefined()
+      expect(wrapper.emitted()['emit-to-date'][0][0]).toEqual({
         toDate: today
       })
 
       wrapper.find(GeoDropdown).vm.$emit('click-outside')
       expect(wrapper.vm.isCalendarPopupOpened).toBe(false)
       expect(wrapper.find('.geo-calendar').exists()).toBe(false)
-      expect(wrapper.emitted()['set-from-date'][1][0]).toEqual({
+      expect(wrapper.emitted()['emit-from-date'][1][0]).toEqual({
         fromDate: null
       })
-      expect(wrapper.emitted()['set-to-date'][1][0]).toEqual({
+      expect(wrapper.emitted()['emit-to-date'][1][0]).toEqual({
         toDate: null
       })
     })

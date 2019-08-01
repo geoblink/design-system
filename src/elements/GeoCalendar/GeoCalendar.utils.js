@@ -29,6 +29,11 @@ export const MONTH_GRID_CONSTANTS = {
   NUMBER_OF_MONTHS_IN_GREGORIAN_CALENDAR: 12
 }
 
+export const FOCUSABLE_INPUT_FIELDS = {
+  FROM_DATE: 'FROM_DATE',
+  TO_DATE: 'TO_DATE'
+}
+
 export const isDayUnavailable = (vm, day) => {
   return isBefore(day, vm.earliestDate) || isAfter(day, vm.latestDate)
 }

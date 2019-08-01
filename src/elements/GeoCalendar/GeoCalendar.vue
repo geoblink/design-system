@@ -99,7 +99,7 @@
 <script>
 import cssSuffix from '../../mixins/cssModifierMixin'
 import ClickOutside from '../../directives/GeoClickOutside'
-import { GRANULARITY_IDS } from './GeoCalendar.utils'
+import { GRANULARITY_IDS, FOCUSABLE_INPUT_FIELDS } from './GeoCalendar.utils'
 import {
   endOfMonth,
   endOfQuarter,
@@ -146,7 +146,7 @@ export default {
       showToFormatError: false,
       currentInitialYearInRange: 0,
       currentEndYearInRange: 0,
-      isFromDateInputLastFocused: false
+      lastInputFieldExplicitlyFocused: null
     }
   },
 
@@ -175,7 +175,7 @@ export default {
           this.showFromFormatError = newFromDate !== ''
           this.fromRawDate = null
         }
-        this.setFromDate({ fromDate: this.fromRawDate })
+        this.emitFromDate({ fromDate: this.fromRawDate })
       }
     },
 
@@ -203,7 +203,7 @@ export default {
           this.showToFormatError = newToDate !== ''
           this.toRawDate = null
         }
-        this.setToDate({ toDate: this.toRawDate })
+        this.emitToDate({ toDate: this.toRawDate })
       }
     },
 
@@ -276,7 +276,7 @@ export default {
     selectDay (day) {
       const hasFromDate = !!this.fromRawDate
       const isDayBeforeFromDate = hasFromDate && isBefore(day, this.fromRawDate)
-      const isSettingFromDate = !hasFromDate || isDayBeforeFromDate || this.isFromDateInputLastFocused
+      const isSettingFromDate = !hasFromDate || isDayBeforeFromDate || this.lastInputFieldExplicitlyFocused === FOCUSABLE_INPUT_FIELDS.FROM_DATE
 
       const unverifiedRangeSettings = {
         whenSettingFromDate: {
@@ -307,8 +307,8 @@ export default {
       this.fromRawDate = validatedRange.start
       this.toRawDate = validatedRange.end
 
-      this.setFromDate({ fromDate: this.fromRawDate })
-      this.setToDate({ toDate: this.toRawDate })
+      this.emitFromDate({ fromDate: this.fromRawDate })
+      this.emitToDate({ toDate: this.toRawDate })
 
       if (isSettingFromDate) {
         this.focusToDateInput()
@@ -322,7 +322,7 @@ export default {
 
       const hasFromDate = !!this.fromRawDate
       const isMonthBeforeRangeStart = hasFromDate && this.currentMonth < getMonth(this.fromRawDate)
-      const isSettingFromDate = !hasFromDate || isMonthBeforeRangeStart || this.isFromDateInputLastFocused
+      const isSettingFromDate = !hasFromDate || isMonthBeforeRangeStart || this.lastInputFieldExplicitlyFocused === FOCUSABLE_INPUT_FIELDS.FROM_DATE
 
       const unverifiedRangeSettings = {
         whenSettingFromDate: {
@@ -353,8 +353,8 @@ export default {
       this.fromRawDate = validatedRange.start
       this.toRawDate = validatedRange.end
 
-      this.setFromDate({ fromDate: this.fromRawDate })
-      this.setToDate({ toDate: this.toRawDate })
+      this.emitFromDate({ fromDate: this.fromRawDate })
+      this.emitToDate({ toDate: this.toRawDate })
 
       if (isSettingFromDate) {
         this.focusToDateInput()
@@ -364,15 +364,15 @@ export default {
     selectQuarter (monthIndex) {
       this.fromRawDate = startOfQuarter(new Date(this.currentYear, monthIndex))
       this.toRawDate = endOfQuarter(new Date(this.currentYear, monthIndex))
-      this.setFromDate({ fromDate: this.fromRawDate })
-      this.setToDate({ toDate: this.toRawDate })
+      this.emitFromDate({ fromDate: this.fromRawDate })
+      this.emitToDate({ toDate: this.toRawDate })
     },
 
     selectWeek ({ fromDate, toDate }) {
       this.fromRawDate = fromDate
       this.toRawDate = toDate
-      this.setFromDate({ fromDate })
-      this.setToDate({ toDate })
+      this.emitFromDate({ fromDate })
+      this.emitToDate({ toDate })
     },
 
     selectYear (year) {
@@ -382,7 +382,7 @@ export default {
 
       const hasFromDate = !!this.fromRawDate
       const isYearBeforeRangeStart = hasFromDate && this.currentYear < getYear(this.fromRawDate)
-      const isSettingFromDate = !hasFromDate || isYearBeforeRangeStart || this.isFromDateInputLastFocused
+      const isSettingFromDate = !hasFromDate || isYearBeforeRangeStart || this.lastInputFieldExplicitlyFocused === FOCUSABLE_INPUT_FIELDS.FROM_DATE
 
       const unverifiedRangeSettings = {
         whenSettingFromDate: {
@@ -413,8 +413,8 @@ export default {
       this.fromRawDate = validatedRange.start
       this.toRawDate = validatedRange.end
 
-      this.setFromDate({ fromDate: this.fromRawDate })
-      this.setToDate({ toDate: this.toRawDate })
+      this.emitFromDate({ fromDate: this.fromRawDate })
+      this.emitToDate({ toDate: this.toRawDate })
 
       if (isSettingFromDate) {
         this.focusToDateInput()
@@ -427,17 +427,17 @@ export default {
       this.currentMonth = getMonth(this.earliestDate)
       this.currentYear = getYear(this.earliestDate)
       this.fromRawDate = this.earliestDate
-      this.setFromDate({ fromDate: this.fromRawDate })
+      this.emitFromDate({ fromDate: this.fromRawDate })
     },
 
-    setFromDate ({ fromDate }) {
+    emitFromDate ({ fromDate }) {
       /**
        * User set an initial date.
        *
-       * @event set-from-date
+       * @event emit-from-date
        * @type {Date}
        */
-      this.$emit('set-from-date', { fromDate })
+      this.$emit('emit-from-date', { fromDate })
     },
 
     setLatestDate () {
@@ -446,17 +446,17 @@ export default {
       this.currentMonth = getMonth(this.latestDate)
       this.currentYear = getYear(this.latestDate)
       this.toRawDate = this.latestDate
-      this.setToDate({ toDate: this.toRawDate })
+      this.emitToDate({ toDate: this.toRawDate })
     },
 
-    setToDate ({ toDate }) {
+    emitToDate ({ toDate }) {
       /**
        * User set an end date.
        *
-       * @event set-to-date
+       * @event emit-to-date
        * @type {Date}
        */
-      this.$emit('set-to-date', { toDate })
+      this.$emit('emit-to-date', { toDate })
     },
 
     blurFromDateInput () {
@@ -465,7 +465,7 @@ export default {
 
     focusFromDateInput () {
       this.isFromDateInputFocused = true
-      this.isFromDateInputLastFocused = true
+      this.lastInputFieldExplicitlyFocused = FOCUSABLE_INPUT_FIELDS.FROM_DATE
     },
 
     blurToDateInput () {
@@ -474,7 +474,7 @@ export default {
 
     focusToDateInput () {
       this.isToDateInputFocused = true
-      this.isFromDateInputLastFocused = false
+      this.lastInputFieldExplicitlyFocused = FOCUSABLE_INPUT_FIELDS.TO_DATE
     }
   }
 }

@@ -36,8 +36,8 @@
         :picker-date-unit="pickerDateUnit"
         :previous-date-in-selected-granularity-icon="previousDateInSelectedGranularityIcon"
         :to-input-placeholder="toInputPlaceholder"
-        @set-from-date="setFromDate"
-        @set-to-date="setToDate"
+        @emit-from-date="emitFromDate"
+        @emit-to-date="emitToDate"
       >
         <!-- @slot Use this slot to customize the sidebar with the different granularities handled by the calendar -->
         <slot
@@ -110,28 +110,28 @@ export default {
     },
 
     resetDates () {
-      this.setFromDate({ fromDate: null })
-      this.setToDate({ toDate: null })
+      this.emitFromDate({ fromDate: null })
+      this.emitToDate({ toDate: null })
     },
 
-    setFromDate ({ fromDate }) {
+    emitFromDate ({ fromDate }) {
       /**
-       * User set an initial date.
+       * User sets an initial date.
        *
-       * @event set-from-date
+       * @event emit-from-date
        * @type {Date}
        */
-      this.$emit('set-from-date', { fromDate })
+      this.$emit('emit-from-date', { fromDate })
     },
 
-    setToDate ({ toDate }) {
+    emitToDate ({ toDate }) {
       /**
        * User set an end date.
        *
-       * @event set-to-date
+       * @event emit-to-date
        * @type {Date}
        */
-      this.$emit('set-to-date', { toDate })
+      this.$emit('emit-to-date', { toDate })
     },
 
     toggleCalendarPopup () {

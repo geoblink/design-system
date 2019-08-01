@@ -28,8 +28,8 @@ eiusmod tempor incididunt ut labore et dolore magna aliqua.
         :locale="locale"
         from-input-placeholder="From"
         to-input-placeholder="To"
-        @set-from-date="setFromDate"
-        @set-to-date="setToDate"
+        @emit-from-date="setFromDate"
+        @emit-to-date="setToDate"
       >
         <template
           slot-scope="{ toggleCalendarPopup }"
