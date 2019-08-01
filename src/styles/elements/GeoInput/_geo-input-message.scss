@@ -1,0 +1,26 @@
+@mixin geo-input-message-make($modifier-name) {
+
+  $modifier-name-with-prefix: '';
+
+  @if $modifier-name != '' {
+    // sass-lint:disable space-around-operator
+    $modifier-name-with-prefix: --#{$modifier-name};
+  }
+
+  .geo-input-message#{$modifier-name-with-prefix} {
+    @include font($body-small);
+    color: $color-grey-light;
+    margin-top: $space-x-small;
+  }
+
+  .geo-input-message--error#{$modifier-name-with-prefix} {
+    color: $color-red;
+  }
+
+  .geo-input-message--success#{$modifier-name-with-prefix} {
+    color: $color-green;
+  }
+
+}
+
+@include geo-input-message-make('');

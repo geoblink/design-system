@@ -228,6 +228,11 @@ module.exports = {
             sectionDepth: 0
           }]
         },
+        {
+          name: 'GeoInput',
+          components: '../src/elements/GeoInput/GeoInput*.vue',
+          sectionDepth: 1
+        },
         // hygen-component (reference for injection, do not remove)
         {
           name: 'String Utils',
