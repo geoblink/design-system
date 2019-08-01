@@ -28,8 +28,11 @@ describe('Mixins', () => {
     })
 
     it('Should validate provided granularities', () => {
+      const consoleWarnSpy = jest.spyOn(global.console, 'warn').mockImplementation(() => { })
       expect(GeoCalendarGranularityIdMixin.props.granularityId.validator(GRANULARITY_IDS.day)).toBe(true)
       expect(GeoCalendarGranularityIdMixin.props.granularityId.validator('Random granularity')).toBe(false)
+      expect(consoleWarnSpy).toHaveBeenCalled()
+      consoleWarnSpy.mockRestore()
     })
   })
 })

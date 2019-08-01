@@ -202,6 +202,8 @@ describe('GeoCalendarPicker', () => {
     })
     describe('Wrong pickerDateUnit', () => {
       it('Should throw error if provided wrong pickerDateUnit prop', () => {
+        const consoleWarnSpy = jest.spyOn(global.console, 'warn').mockImplementation(() => { })
+        const consoleErrorSpy = jest.spyOn(global.console, 'error').mockImplementation(() => { })
         const today = new Date(2019, 6, 30) // Fixed date to avoid future errors with random dates
         const wrapper = getWrappedComponent()
         wrapper.setProps({
@@ -209,6 +211,8 @@ describe('GeoCalendarPicker', () => {
           earliestDate: startOfMonth(today),
           latestDate: endOfMonth(today)
         })
+        expect(consoleWarnSpy).toHaveBeenCalled()
+        expect(consoleErrorSpy).toHaveBeenCalled()
         expect(function () {
           return wrapper.vm.canSelectNextDates
         }).toThrowError()
@@ -216,6 +220,9 @@ describe('GeoCalendarPicker', () => {
         expect(function () {
           return wrapper.vm.canSelectPastDates
         }).toThrowError()
+
+        consoleWarnSpy.mockRestore()
+        consoleErrorSpy.mockRestore()
       })
     })
   })
