@@ -146,7 +146,7 @@ export default {
       showToFormatError: false,
       currentInitialYearInRange: 0,
       currentEndYearInRange: 0,
-      isRangeStartLastFocused: false
+      isFromDateInputLastFocused: false
     }
   },
 
@@ -274,66 +274,90 @@ export default {
     },
 
     selectDay (day) {
-      const hasRangeStart = !!this.fromRawDate
-      const isDayBeforeRangeStart = hasRangeStart && isBefore(day, this.fromRawDate)
-      const isSettingRangeStart = !hasRangeStart || isDayBeforeRangeStart || this.isRangeStartLastFocused
+      const hasFromDate = !!this.fromRawDate
+      const isDayBeforeFromDate = hasFromDate && isBefore(day, this.fromRawDate)
+      const isSettingFromDate = !hasFromDate || isDayBeforeFromDate || this.isFromDateInputLastFocused
 
-      const isSwappingFromDate = hasRangeStart && isSettingRangeStart && isAfter(day, this.toRawDate)
-      const isSwappingToDate = !isSettingRangeStart && isBefore(day, this.fromRawDate)
-
-      if (isSettingRangeStart) {
-        if (isSwappingFromDate) {
-          this.fromRawDate = this.toRawDate
-          this.toRawDate = day
-          this.setToDate({ toDate: this.toRawDate })
-        } else {
-          this.fromRawDate = day
+      const unverifiedRangeSettings = {
+        whenSettingFromDate: {
+          start: day,
+          end: this.toRawDate
+        },
+        whenSettingToDate: {
+          start: this.fromRawDate,
+          end: day
         }
-        this.setFromDate({ fromDate: this.fromRawDate })
+      }
+
+      const unverifiedRange = isSettingFromDate
+        ? unverifiedRangeSettings.whenSettingFromDate
+        : unverifiedRangeSettings.whenSettingToDate
+
+      const isRangeValid = unverifiedRange.end
+        ? isBefore(unverifiedRange.start, unverifiedRange.end)
+        : true
+
+      const validatedRange = isRangeValid
+        ? unverifiedRange
+        : {
+          start: unverifiedRange.end,
+          end: unverifiedRange.start
+        }
+
+      this.fromRawDate = validatedRange.start
+      this.toRawDate = validatedRange.end
+
+      this.setFromDate({ fromDate: this.fromRawDate })
+      this.setToDate({ toDate: this.toRawDate })
+
+      if (isSettingFromDate) {
         this.focusToDateInput()
-      } else {
-        if (isSwappingToDate) {
-          this.toRawDate = this.fromRawDate
-          this.fromRawDate = day
-          this.setFromDate({ fromDate: this.fromRawDate })
-        } else {
-          this.toRawDate = day
-        }
-        this.setToDate({ toDate: this.toRawDate })
       }
     },
 
     selectMonth (monthIndex) {
       this.currentMonth = monthIndex
-      const firstDayOfMonth = new Date(this.currentYear, this.currentMonth)
+      const firstDayOfMonth = new Date(Date.UTC(this.currentYear, this.currentMonth))
       const lastDayOfMonth = endOfMonth(firstDayOfMonth)
 
-      const hasRangeStart = !!this.fromRawDate
-      const isMonthBeforeRangeStart = hasRangeStart && this.currentMonth < getMonth(this.fromRawDate)
-      const isSettingRangeStart = !hasRangeStart || isMonthBeforeRangeStart || this.isRangeStartLastFocused
+      const hasFromDate = !!this.fromRawDate
+      const isMonthBeforeRangeStart = hasFromDate && this.currentMonth < getMonth(this.fromRawDate)
+      const isSettingFromDate = !hasFromDate || isMonthBeforeRangeStart || this.isFromDateInputLastFocused
 
-      const isSwappingFromDate = hasRangeStart && isSettingRangeStart && isAfter(lastDayOfMonth, this.toRawDate)
-      const isSwappingToDate = !isSettingRangeStart && isBefore(firstDayOfMonth, this.fromRawDate)
-
-      if (isSettingRangeStart) {
-        if (isSwappingFromDate) {
-          this.fromRawDate = startOfMonth(this.toRawDate)
-          this.toRawDate = lastDayOfMonth
-          this.setToDate({ toDate: this.toRawDate })
-        } else {
-          this.fromRawDate = firstDayOfMonth
+      const unverifiedRangeSettings = {
+        whenSettingFromDate: {
+          start: firstDayOfMonth,
+          end: this.toRawDate
+        },
+        whenSettingToDate: {
+          start: this.fromRawDate,
+          end: lastDayOfMonth
         }
-        this.setFromDate({ fromDate: this.fromRawDate })
+      }
+
+      const unverifiedRange = isSettingFromDate
+        ? unverifiedRangeSettings.whenSettingFromDate
+        : unverifiedRangeSettings.whenSettingToDate
+
+      const isRangeValid = unverifiedRange.end
+        ? isBefore(unverifiedRange.start, unverifiedRange.end)
+        : true
+
+      const validatedRange = isRangeValid
+        ? unverifiedRange
+        : {
+          start: startOfMonth(unverifiedRange.end),
+          end: endOfMonth(unverifiedRange.start)
+        }
+
+      this.fromRawDate = validatedRange.start
+      this.toRawDate = validatedRange.end
+
+      this.setFromDate({ fromDate: this.fromRawDate })
+      this.setToDate({ toDate: this.toRawDate })
+
+      if (isSettingFromDate) {
         this.focusToDateInput()
-      } else {
-        if (isSwappingToDate) {
-          this.toRawDate = endOfMonth(this.fromRawDate)
-          this.fromRawDate = firstDayOfMonth
-          this.setFromDate({ fromDate: this.fromRawDate })
-        } else {
-          this.toRawDate = lastDayOfMonth
-        }
-        this.setToDate({ toDate: this.toRawDate })
       }
     },
 
@@ -356,32 +380,44 @@ export default {
       const firstDayOfYear = new Date(this.currentYear, 0)
       const lastDayOfYear = endOfYear(new Date(this.currentYear, 0))
 
-      const hasRangeStart = !!this.fromRawDate
-      const isYearBeforeRangeStart = hasRangeStart && this.currentYear < getYear(this.fromRawDate)
-      const isSettingRangeStart = !hasRangeStart || isYearBeforeRangeStart || this.isRangeStartLastFocused
+      const hasFromDate = !!this.fromRawDate
+      const isYearBeforeRangeStart = hasFromDate && this.currentYear < getYear(this.fromRawDate)
+      const isSettingFromDate = !hasFromDate || isYearBeforeRangeStart || this.isFromDateInputLastFocused
 
-      const isSwappingFromDate = hasRangeStart && isSettingRangeStart && isAfter(lastDayOfYear, this.toRawDate)
-      const isSwappingToDate = !isSettingRangeStart && isBefore(firstDayOfYear, this.fromRawDate)
-
-      if (isSettingRangeStart) {
-        if (isSwappingFromDate) {
-          this.fromRawDate = startOfYear(this.toRawDate)
-          this.toRawDate = lastDayOfYear
-          this.setToDate({ toDate: this.toRawDate })
-        } else {
-          this.fromRawDate = firstDayOfYear
+      const unverifiedRangeSettings = {
+        whenSettingFromDate: {
+          start: firstDayOfYear,
+          end: this.toRawDate
+        },
+        whenSettingToDate: {
+          start: this.fromRawDate,
+          end: lastDayOfYear
         }
-        this.setFromDate({ fromDate: this.fromRawDate })
+      }
+
+      const unverifiedRange = isSettingFromDate
+        ? unverifiedRangeSettings.whenSettingFromDate
+        : unverifiedRangeSettings.whenSettingToDate
+
+      const isRangeValid = unverifiedRange.end
+        ? isBefore(unverifiedRange.start, unverifiedRange.end)
+        : true
+
+      const validatedRange = isRangeValid
+        ? unverifiedRange
+        : {
+          start: startOfYear(unverifiedRange.end),
+          end: endOfYear(unverifiedRange.start)
+        }
+
+      this.fromRawDate = validatedRange.start
+      this.toRawDate = validatedRange.end
+
+      this.setFromDate({ fromDate: this.fromRawDate })
+      this.setToDate({ toDate: this.toRawDate })
+
+      if (isSettingFromDate) {
         this.focusToDateInput()
-      } else {
-        if (isSwappingToDate) {
-          this.toRawDate = endOfYear(this.fromRawDate)
-          this.fromRawDate = firstDayOfYear
-          this.setFromDate({ fromDate: this.fromRawDate })
-        } else {
-          this.toRawDate = lastDayOfYear
-        }
-        this.setToDate({ toDate: this.toRawDate })
       }
     },
 
@@ -429,7 +465,7 @@ export default {
 
     focusFromDateInput () {
       this.isFromDateInputFocused = true
-      this.isRangeStartLastFocused = true
+      this.isFromDateInputLastFocused = true
     },
 
     blurToDateInput () {
@@ -438,7 +474,7 @@ export default {
 
     focusToDateInput () {
       this.isToDateInputFocused = true
-      this.isRangeStartLastFocused = false
+      this.isFromDateInputLastFocused = false
     }
   }
 }

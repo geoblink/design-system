@@ -4,6 +4,8 @@ import GeoCalendarMonthGridQuarterUnit from '@/elements/GeoCalendar/GeoCalendarG
 import GeoCalendarMonthGridMonthUnit from '@/elements/GeoCalendar/GeoCalendarGrid/GeoCalendarMonthGridMonthUnit.vue'
 import { addMonths, subMonths } from 'date-fns'
 
+const today = new Date(2019, 6, 30) // Fixed date to avoid future errors with random dates
+
 describe('GeoCalendarMonthGridQuarterUnit', () => {
   it('should render', function () {
     const wrapper = getWrappedComponent(GRANULARITY_IDS.month)
@@ -15,7 +17,7 @@ describe('GeoCalendarMonthGridQuarterUnit', () => {
     const childMonth = wrapper.find(GeoCalendarMonthGridMonthUnit)
     it('Does not emit any event if the received month has no data', () => {
       wrapper.setProps({
-        earliestDate: addMonths(new Date(), 1)
+        earliestDate: addMonths(today, 1)
       })
       childMonth.vm.$emit('select-month-unit', 6)
       expect(wrapper.emitted('select-month')).toBeUndefined()
@@ -23,7 +25,7 @@ describe('GeoCalendarMonthGridQuarterUnit', () => {
 
     it('Emits event when the received month has data', () => {
       wrapper.setProps({
-        earliestDate: subMonths(new Date(), 1)
+        earliestDate: subMonths(today, 1)
       })
       childMonth.vm.$emit('select-month-unit', 6)
       expect(wrapper.emitted('select-month')).toBeDefined()
@@ -42,8 +44,8 @@ describe('GeoCalendarMonthGridQuarterUnit', () => {
 
     it('isSomeMonthInQuarterUnavailable', () => {
       wrapper.setProps({
-        earliestDate: subMonths(new Date(), 5),
-        latestDate: subMonths(new Date(), 4)
+        earliestDate: subMonths(today, 5),
+        latestDate: subMonths(today, 4)
       })
       expect(wrapper.find('.geo-calendar-months-container__quarter--unavailable').exists()).toBe(true)
       expect(wrapper.vm.isSomeMonthInQuarterUnavailable).toBe(true)
@@ -56,8 +58,8 @@ describe('GeoCalendarMonthGridQuarterUnit', () => {
 
     it('Emits event when the received month has data', () => {
       wrapper.setProps({
-        earliestDate: subMonths(new Date(), 2),
-        latestDate: addMonths(new Date(), 3)
+        earliestDate: subMonths(today, 2),
+        latestDate: addMonths(today, 3)
       })
       childMonth.vm.$emit('select-month-unit', 6)
       expect(wrapper.emitted()['select-quarter']).toBeDefined()

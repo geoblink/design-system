@@ -6,7 +6,7 @@ import GeoLinkButton from '@/elements/GeoButton/GeoLinkButton.vue'
 import GeoButton from '@/elements/GeoButton/GeoButton.vue'
 import GeoCalendarPicker from '@/elements/GeoCalendar/GeoCalendarPicker.vue'
 import GeoCalendarGranularityIdMixin from '@/elements/GeoCalendar/GeoCalendarGranularityId.mixin'
-import { addDays, startOfQuarter, endOfQuarter, startOfWeek, endOfWeek, subYears, addYears, subMonths, endOfMonth, endOfYear } from 'date-fns'
+import { addDays, startOfQuarter, endOfQuarter, startOfWeek, endOfWeek, subYears, addYears, subMonths, endOfMonth, endOfYear, getMonth, addMonths, startOfMonth, getYear, startOfYear } from 'date-fns'
 
 const today = new Date(2019, 6, 30) // Fixed date to avoid future errors with random dates
 
@@ -94,7 +94,7 @@ describe('GeoCalendar', () => {
         const calendarPicker = wrapper.vm.$refs.calendarPicker
         calendarPicker.$emit('select-month', 8)
         expect(wrapper.vm.currentMonth).toBe(8)
-        const currentDate = new Date(wrapper.vm.currentYear, wrapper.vm.currentMonth)
+        const currentDate = new Date(Date.UTC(wrapper.vm.currentYear, wrapper.vm.currentMonth))
         expect(wrapper.vm.fromRawDate).toEqual(currentDate)
         expect(wrapper.vm.fromFormattedDate).toBe('01/09/2019')
         expect(wrapper.emitted()['set-from-date']).toBeDefined()
@@ -109,7 +109,7 @@ describe('GeoCalendar', () => {
         const calendarPicker = wrapper.vm.$refs.calendarPicker
         calendarPicker.$emit('select-month', 8)
         expect(wrapper.vm.currentMonth).toBe(8)
-        const currentDate = endOfMonth(new Date(wrapper.vm.currentYear, wrapper.vm.currentMonth))
+        const currentDate = endOfMonth(new Date(Date.UTC(wrapper.vm.currentYear, wrapper.vm.currentMonth)))
         expect(wrapper.vm.toRawDate).toEqual(currentDate)
         expect(wrapper.vm.toFormattedDate).toBe('30/09/2019')
         expect(wrapper.emitted()['set-to-date']).toBeDefined()
@@ -178,6 +178,88 @@ describe('GeoCalendar', () => {
         expect(wrapper.vm.toFormattedDate).toBe('31/12/2020')
         expect(wrapper.emitted()['set-to-date']).toBeDefined()
         expect(wrapper.emitted()['set-to-date'][0][0]).toEqual({ toDate: currentDate })
+      })
+    })
+  })
+
+  describe('Invalid ranges', () => {
+    describe('selectDay', () => {
+      it('Should swap days when range is invalid', () => {
+        const wrapper = getWrappedComponent()
+        const initialDate = today
+        const endDate = addDays(today, 4)
+        const invalidFromDateRange = addDays(endDate, 5)
+        const geoFromInput = wrapper.findAll(GeoInput).at(0)
+
+        wrapper.vm.selectDay(initialDate)
+        wrapper.vm.selectDay(endDate)
+        geoFromInput.vm.$emit('click')
+
+        wrapper.vm.selectDay(invalidFromDateRange)
+        expect(wrapper.vm.fromRawDate).toBe(endDate)
+        expect(wrapper.vm.toRawDate).toBe(invalidFromDateRange)
+        expect(wrapper.vm.fromFormattedDate).toBe('03/08/2019')
+        expect(wrapper.vm.toFormattedDate).toBe('08/08/2019')
+        expect(wrapper.emitted()['set-from-date']).toBeDefined()
+        expect(wrapper.emitted()['set-to-date']).toBeDefined()
+        expect(wrapper.emitted()['set-from-date'][2][0]).toEqual({ fromDate: endDate })
+        expect(wrapper.emitted()['set-to-date'][2][0]).toEqual({ toDate: invalidFromDateRange })
+      })
+    })
+
+    describe('selectMonth', () => {
+      it('Should swap months when range is invalid', () => {
+        const wrapper = getWrappedComponent()
+        const initialMonth = getMonth(today)
+        const endDate = addMonths(today, 4)
+        const invalidFromDateRange = addMonths(endDate, 5)
+        const geoFromInput = wrapper.findAll(GeoInput).at(0)
+
+        wrapper.vm.selectMonth(initialMonth)
+        wrapper.vm.selectMonth(getMonth(endDate))
+        geoFromInput.vm.$emit('click')
+
+        wrapper.setData({
+          currentYear: getYear(invalidFromDateRange)
+        })
+
+        wrapper.vm.selectMonth(getMonth(invalidFromDateRange))
+        expect(wrapper.vm.fromRawDate).toEqual(startOfMonth(endDate))
+        expect(wrapper.vm.toRawDate).toEqual(endOfMonth(invalidFromDateRange))
+        expect(wrapper.vm.fromFormattedDate).toBe('01/11/2019')
+        expect(wrapper.vm.toFormattedDate).toBe('30/04/2020')
+        expect(wrapper.emitted()['set-from-date']).toBeDefined()
+        expect(wrapper.emitted()['set-to-date']).toBeDefined()
+        expect(wrapper.emitted()['set-from-date'][2][0]).toEqual({ fromDate: startOfMonth(endDate) })
+        expect(wrapper.emitted()['set-to-date'][2][0]).toEqual({ toDate: endOfMonth(invalidFromDateRange) })
+      })
+    })
+
+    describe('selectYear', () => {
+      it('Should swap years when range is invalid', () => {
+        const wrapper = getWrappedComponent()
+        const initialYear = getYear(today)
+        const endDate = addYears(today, 4)
+        const invalidFromDateRange = addYears(endDate, 5)
+        const geoFromInput = wrapper.findAll(GeoInput).at(0)
+
+        wrapper.vm.selectYear(initialYear)
+        wrapper.vm.selectYear(getYear(endDate))
+        geoFromInput.vm.$emit('click')
+
+        wrapper.setData({
+          currentYear: getYear(invalidFromDateRange)
+        })
+
+        wrapper.vm.selectYear(getYear(invalidFromDateRange))
+        expect(wrapper.vm.fromRawDate).toEqual(startOfYear(endDate))
+        expect(wrapper.vm.toRawDate).toEqual(endOfYear(invalidFromDateRange))
+        expect(wrapper.vm.fromFormattedDate).toBe('01/01/2023')
+        expect(wrapper.vm.toFormattedDate).toBe('31/12/2028')
+        expect(wrapper.emitted()['set-from-date']).toBeDefined()
+        expect(wrapper.emitted()['set-to-date']).toBeDefined()
+        expect(wrapper.emitted()['set-from-date'][2][0]).toEqual({ fromDate: startOfYear(endDate) })
+        expect(wrapper.emitted()['set-to-date'][2][0]).toEqual({ toDate: endOfYear(invalidFromDateRange) })
       })
     })
   })
@@ -282,7 +364,9 @@ describe('GeoCalendar', () => {
         expect(wrapper.emitted()['set-from-date']).toBeDefined()
         expect(wrapper.emitted()['set-to-date']).toBeDefined()
         expect(wrapper.emitted()['set-from-date'][0][0]).toEqual({ fromDate: initialDate })
-        expect(wrapper.emitted()['set-to-date'][0][0]).toEqual({ toDate: endDate })
+        expect(wrapper.emitted()['set-to-date'][0][0]).toEqual({ toDate: null })
+        expect(wrapper.emitted()['set-from-date'][1][0]).toEqual({ fromDate: initialDate })
+        expect(wrapper.emitted()['set-to-date'][1][0]).toEqual({ toDate: endDate })
       })
 
       it('Should swap dates if fromDate is after toDate or viceversa', () => {
@@ -438,8 +522,8 @@ function getWrappedComponent () {
         toRawDate: null,
         isFromDateInputFocused: false,
         isToDateInputFocused: false,
-        currentMonth: null,
-        currentYear: null,
+        currentMonth: 6,
+        currentYear: 2019,
         showFromFormatError: false,
         showToFormatError: false,
         currentInitialYearInRange: 0,
