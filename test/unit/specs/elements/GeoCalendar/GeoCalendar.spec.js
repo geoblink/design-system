@@ -192,7 +192,7 @@ describe('GeoCalendar', () => {
         const initialDate = today
         const endDate = addDays(today, 4)
         const invalidFromDateRange = addDays(endDate, 5)
-        const geoFromInput = wrapper.findAll(GeoInput).at(0)
+        const geoFromInput = wrapper.findAll(GeoEditableInput).at(0)
 
         wrapper.vm.selectDay(initialDate)
         wrapper.vm.selectDay(endDate)
@@ -216,7 +216,7 @@ describe('GeoCalendar', () => {
         const initialMonth = getMonth(today)
         const endDate = addMonths(today, 4)
         const invalidFromDateRange = addMonths(endDate, 5)
-        const geoFromInput = wrapper.findAll(GeoInput).at(0)
+        const geoFromInput = wrapper.findAll(GeoEditableInput).at(0)
 
         wrapper.vm.selectMonth(initialMonth)
         wrapper.vm.selectMonth(getMonth(endDate))
@@ -244,7 +244,7 @@ describe('GeoCalendar', () => {
         const initialYear = getYear(today)
         const endDate = addYears(today, 4)
         const invalidFromDateRange = addYears(endDate, 5)
-        const geoFromInput = wrapper.findAll(GeoInput).at(0)
+        const geoFromInput = wrapper.findAll(GeoEditableInput).at(0)
 
         wrapper.vm.selectYear(initialYear)
         wrapper.vm.selectYear(getYear(endDate))
