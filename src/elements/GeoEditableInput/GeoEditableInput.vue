@@ -1,22 +1,22 @@
 <template>
   <div
     :class="{
-      [`geo-input__container${cssSuffix}`]: true,
-      [`geo-input__container-${inputType}${cssSuffix}`]: true,
-      [`geo-input__container--disabled${cssSuffix}`]: disabled,
-      [`geo-input__container-${inputType}--edit${cssSuffix}`]: showButtons || isFocused
+      [`geo-editable-input__container${cssSuffix}`]: true,
+      [`geo-editable-input__container-${inputType}${cssSuffix}`]: true,
+      [`geo-editable-input__container--disabled${cssSuffix}`]: disabled,
+      [`geo-editable-input__container-${inputType}--edit${cssSuffix}`]: showButtons || isFocused
     }"
   >
     <geo-dropdown
       ref="dropdown"
       :opened="showButtons"
-      :css-modifier="`geo-input--${inputType}${cssSuffix}`"
+      :css-modifier="`geo-editable-input--${inputType}${cssSuffix}`"
       preferred-x-axis-position="right"
       @click-outside="handleClickOutside($event)"
     >
       <form
         slot="toggleButton"
-        :class="`geo-input__form${cssSuffix}`"
+        :class="`geo-editable-input__form${cssSuffix}`"
         @submit.prevent="emitSave($event)"
       >
         <slot name="leadingAccessoryItem" />
@@ -24,7 +24,7 @@
           :value="value"
           :placeholder="placeholder"
           :disabled="disabled"
-          :class="`geo-input__form__input${cssSuffix}`"
+          :class="`geo-editable-input__form__input${cssSuffix}`"
           type="text"
           @click="emitClick($event)"
           @input="onInput($event)"
@@ -35,21 +35,21 @@
       <div
         v-if="showButtons"
         slot="popupContent"
-        :class="`geo-input__container__buttons${cssSuffix}`"
+        :class="`geo-editable-input__container__buttons${cssSuffix}`"
       >
         <button
-          :class="`geo-input__container__buttons__button${cssSuffix} geo-input__container__buttons__button--cancel${cssSuffix}`"
+          :class="`geo-editable-input__container__buttons__button${cssSuffix} geo-editable-input__container__buttons__button--cancel${cssSuffix}`"
           @click="emitCancel($event)"
         >
           <font-awesome-icon :icon="cancelIcon" />
         </button>
         <button
-          :class="`geo-input__container__buttons__button${cssSuffix} geo-input__container__buttons__button--save${cssSuffix}`"
+          :class="`geo-editable-input__container__buttons__button${cssSuffix} geo-editable-input__container__buttons__button--save${cssSuffix}`"
           @click="emitSave($event)"
         >
           <geo-activity-indicator
             v-if="loading"
-            :css-modifier="`geo-input${cssSuffix}`"
+            :css-modifier="`geo-editable-input${cssSuffix}`"
             variant="dark-transparent"
           />
           <font-awesome-icon
@@ -64,10 +64,10 @@
 
 <script>
 import cssSuffix from '../../mixins/cssModifierMixin'
-import { VARIANTS } from './GeoInput.constants'
+import { VARIANTS } from './GeoEditableInput.constants'
 
 export default {
-  name: 'GeoInput',
+  name: 'GeoEditableInput',
   status: 'ready',
   release: '6.1.0',
   mixins: [cssSuffix],
@@ -156,7 +156,7 @@ export default {
   methods: {
     handleClickOutside ($event) {
       /**
-       * Click outside GeoInput event
+       * Click outside GeoEditableInput event
        *
        * @event click-outside
        * @type {MouseEvent}

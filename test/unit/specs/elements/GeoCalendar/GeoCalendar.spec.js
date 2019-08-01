@@ -1,7 +1,7 @@
 import { mount, shallowMount } from '@vue/test-utils'
 import { PICKER_DATE_UNITS, GRANULARITY_IDS } from '@/elements/GeoCalendar/GeoCalendar.utils.js'
 import GeoCalendar from '@/elements/GeoCalendar/GeoCalendar.vue'
-import GeoInput from '@/elements/GeoInput/GeoInput.vue'
+import GeoEditableInput from '@/elements/GeoEditableInput/GeoEditableInput.vue'
 import GeoLinkButton from '@/elements/GeoButton/GeoLinkButton.vue'
 import GeoButton from '@/elements/GeoButton/GeoButton.vue'
 import GeoCalendarPicker from '@/elements/GeoCalendar/GeoCalendarPicker.vue'
@@ -272,7 +272,7 @@ describe('GeoCalendar', () => {
       it('Sets input', () => {
         const wrapper = getWrappedComponent()
 
-        const geoFromInput = wrapper.findAll(GeoInput).at(0)
+        const geoFromInput = wrapper.findAll(GeoEditableInput).at(0)
         geoFromInput.vm.$emit('click')
         wrapper.setData({
           fromFormattedDate: '30/07/2019'
@@ -289,7 +289,7 @@ describe('GeoCalendar', () => {
 
       it('Sets wrong date', () => {
         const wrapper = getWrappedComponent()
-        const geoFromInput = wrapper.findAll(GeoInput).at(0)
+        const geoFromInput = wrapper.findAll(GeoEditableInput).at(0)
         geoFromInput.vm.$emit('click')
         wrapper.setData({
           fromFormattedDate: 'rrr'
@@ -314,7 +314,7 @@ describe('GeoCalendar', () => {
     describe('To date input', () => {
       it('Sets input', () => {
         const wrapper = getWrappedComponent()
-        const geoFromInput = wrapper.findAll(GeoInput).at(1)
+        const geoFromInput = wrapper.findAll(GeoEditableInput).at(1)
         geoFromInput.vm.$emit('click')
         wrapper.setData({
           toFormattedDate: '30/07/2019'
@@ -330,7 +330,7 @@ describe('GeoCalendar', () => {
 
       it('Sets wrong date', () => {
         const wrapper = getWrappedComponent()
-        const geoFromInput = wrapper.findAll(GeoInput).at(1)
+        const geoFromInput = wrapper.findAll(GeoEditableInput).at(1)
         geoFromInput.vm.$emit('click')
         wrapper.setData({
           toFormattedDate: 'rrr'
@@ -462,7 +462,7 @@ describe('GeoCalendar', () => {
     it('Should set currentMonth and currentYear according to initialDateInGridProp ', () => {
       const wrapper = shallowMount(GeoCalendar, {
         stubs: [
-          'geo-input',
+          'geo-editable-input',
           'font-awesome-icon',
           'geo-calendar-picker'
         ],
@@ -506,7 +506,7 @@ describe('GeoCalendar', () => {
 function getWrappedComponent () {
   return mount(GeoCalendar, {
     stubs: {
-      GeoInput,
+      GeoEditableInput,
       GeoCalendarPicker,
       GeoLinkButton,
       GeoButton,
