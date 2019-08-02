@@ -1,7 +1,7 @@
 import { createLocalVue, mount } from '@vue/test-utils'
 import GeoActivityIndicator from '@/elements/GeoActivityIndicator/GeoActivityIndicator.vue'
 import GeoDropdown from '@/elements/GeoDropdown/GeoDropdown.vue'
-import GeoInput from '@/elements/GeoInput/GeoInput.vue'
+import GeoEditableInput from '@/elements/GeoEditableInput/GeoEditableInput.vue'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fas } from '@fortawesome/free-solid-svg-icons'
@@ -11,11 +11,11 @@ library.add(fas)
 const localVue = createLocalVue()
 localVue.component('geo-activity-indicator', GeoActivityIndicator)
 localVue.component('geo-dropdown', GeoDropdown)
-localVue.component('geo-input', GeoInput)
+localVue.component('geo-editable-input', GeoEditableInput)
 
-describe('GeoInput', () => {
+describe('GeoEditableInput', () => {
   it('Should render input component', function () {
-    const wrapper = mount(GeoInput, {
+    const wrapper = mount(GeoEditableInput, {
       propsData: {
         showButtons: false,
         cancelIcon: ['fas', 'times'],
@@ -27,11 +27,11 @@ describe('GeoInput', () => {
       }
     })
 
-    expect(wrapper.find('.geo-input__form__input').exists()).toBe(true)
+    expect(wrapper.find('.geo-editable-input__form__input').exists()).toBe(true)
   })
 
   it('Should emit an event on click', function (done) {
-    const wrapper = mount(GeoInput, {
+    const wrapper = mount(GeoEditableInput, {
       propsData: {
         showButtons: false,
         cancelIcon: ['fas', 'times'],
@@ -43,7 +43,7 @@ describe('GeoInput', () => {
       }
     })
 
-    wrapper.find('.geo-input__form__input').trigger('click')
+    wrapper.find('.geo-editable-input__form__input').trigger('click')
     setTimeout(function () {
       try {
         expect(wrapper.emitted()['click']).toBeTruthy()
@@ -55,7 +55,7 @@ describe('GeoInput', () => {
   })
 
   it('Should not emit the event on click when disabled', function (done) {
-    const wrapper = mount(GeoInput, {
+    const wrapper = mount(GeoEditableInput, {
       propsData: {
         showButtons: false,
         cancelIcon: ['fas', 'times'],
@@ -68,7 +68,7 @@ describe('GeoInput', () => {
       }
     })
 
-    wrapper.find('.geo-input__form__input').trigger('click')
+    wrapper.find('.geo-editable-input__form__input').trigger('click')
     setTimeout(function () {
       try {
         expect(wrapper.emitted()['click']).toBeFalsy()
@@ -80,7 +80,7 @@ describe('GeoInput', () => {
   })
 
   it('Should not render buttons if they are hidden', function () {
-    const wrapper = mount(GeoInput, {
+    const wrapper = mount(GeoEditableInput, {
       propsData: {
         showButtons: false,
         cancelIcon: ['fas', 'times'],
@@ -92,12 +92,12 @@ describe('GeoInput', () => {
       }
     })
 
-    expect(wrapper.find('.geo-input__container__buttons__button--save').exists()).toBe(false)
-    expect(wrapper.find('.geo-input__container__buttons__button--cancel').exists()).toBe(false)
+    expect(wrapper.find('.geo-editable-input__container__buttons__button--save').exists()).toBe(false)
+    expect(wrapper.find('.geo-editable-input__container__buttons__button--cancel').exists()).toBe(false)
   })
 
   it('Should emit an event on click save button', function (done) {
-    const wrapper = mount(GeoInput, {
+    const wrapper = mount(GeoEditableInput, {
       propsData: {
         showButtons: true,
         cancelIcon: ['fas', 'times'],
@@ -109,7 +109,7 @@ describe('GeoInput', () => {
       }
     })
 
-    wrapper.find('.geo-input__container__buttons__button--save').trigger('click')
+    wrapper.find('.geo-editable-input__container__buttons__button--save').trigger('click')
     setTimeout(function () {
       try {
         expect(wrapper.emitted()['save']).toBeTruthy()
@@ -121,7 +121,7 @@ describe('GeoInput', () => {
   })
 
   it('Should emit an event on click cancel button', function (done) {
-    const wrapper = mount(GeoInput, {
+    const wrapper = mount(GeoEditableInput, {
       propsData: {
         showButtons: true,
         cancelIcon: ['fas', 'times'],
@@ -133,7 +133,7 @@ describe('GeoInput', () => {
       }
     })
 
-    wrapper.find('.geo-input__container__buttons__button--cancel').trigger('click')
+    wrapper.find('.geo-editable-input__container__buttons__button--cancel').trigger('click')
     setTimeout(function () {
       try {
         expect(wrapper.emitted()['cancel']).toBeTruthy()
@@ -145,7 +145,7 @@ describe('GeoInput', () => {
   })
 
   it('Should show GeoActivityIndicator when it is loading', function (done) {
-    const wrapper = mount(GeoInput, {
+    const wrapper = mount(GeoEditableInput, {
       propsData: {
         showButtons: true,
         cancelIcon: ['fas', 'times'],
@@ -169,7 +169,7 @@ describe('GeoInput', () => {
   })
 
   it('Should emit input event when added a value', function (done) {
-    const wrapper = mount(GeoInput, {
+    const wrapper = mount(GeoEditableInput, {
       propsData: {
         showButtons: false,
         cancelIcon: ['fas', 'times'],

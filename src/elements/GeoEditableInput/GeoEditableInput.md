@@ -1,4 +1,4 @@
-Use `GeoInput` component when you need confirmation feedback from the user on individual input and not in a global form.
+Use `GeoEditableInput` component when you need confirmation feedback from the user on individual input and not in a global form.
 
 ```vue
 <template>
@@ -6,7 +6,7 @@ Use `GeoInput` component when you need confirmation feedback from the user on in
     <h3 class="element-demo__header">Input table</h3>
     <div class="element-demo__block" style="justify-content: space-around;">
       <div class="input-demo__container">
-        <geo-input
+        <geo-editable-input
           v-model="inputValue[0]"
           :cancel-icon="['fas', 'times']"
           :save-icon="['fas', 'check']"
@@ -26,7 +26,7 @@ Use `GeoInput` component when you need confirmation feedback from the user on in
     <h3 class="element-demo__header">Input normal</h3>
     <div class="element-demo__block" style="justify-content: space-around;">
       <div class="input-demo__container">
-        <geo-input
+        <geo-editable-input
           v-model="inputValue[1]"
           :cancel-icon="['fas', 'times']"
           :save-icon="['fas', 'check']"
@@ -47,7 +47,7 @@ Use `GeoInput` component when you need confirmation feedback from the user on in
     <h3 class="element-demo__header">Input disabled</h3>
     <div class="element-demo__block" style="justify-content: space-around;">
       <div class="input-demo__container">
-        <geo-input
+        <geo-editable-input
           :cancel-icon="['fas', 'times']"
           :save-icon="['fas', 'check']"
           :showButtons="showButtons[2]"
@@ -61,7 +61,7 @@ Use `GeoInput` component when you need confirmation feedback from the user on in
     <h3 class="element-demo__header">Input with embeded icon</h3>
     <div class="element-demo__block" style="justify-content: space-around;">
       <div class="input-demo__container">
-        <geo-input
+        <geo-editable-input
           :cancel-icon="['fas', 'times']"
           :save-icon="['fas', 'check']"
           :showButtons="showButtons[3]"
@@ -76,7 +76,7 @@ Use `GeoInput` component when you need confirmation feedback from the user on in
             aria-hidden
             fixed-width
           />
-        </geo-input>
+        </geo-editable-input>
       </div>
     </div>
   </div>

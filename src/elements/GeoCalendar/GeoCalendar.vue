@@ -8,7 +8,7 @@
     <div class="geo-calendar__picker-controls">
       <div class="geo-calendar__input-ranges">
         <div>
-          <geo-input
+          <geo-editable-input
             v-model="fromFormattedDate"
             v-click-outside="blurFromDateInput"
             :is-focused="isFromDateInputFocused"
@@ -40,7 +40,7 @@
           fixed-width
         />
         <div>
-          <geo-input
+          <geo-editable-input
             v-model="toFormattedDate"
             v-click-outside="blurToDateInput"
             :is-focused="isToDateInputFocused"
