@@ -8,7 +8,7 @@
       'geo-calendar-quarter__month-unit--from-date': isDayWithinFromMonth,
       'geo-calendar-quarter__month-unit--to-date': isDayWithinToMonth
     }"
-    @click="selectMonth"
+    @click="selectMonth($event)"
   >
     <div class="month-unit__month-name">
       {{ monthName }}

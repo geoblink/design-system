@@ -10,7 +10,7 @@
       'geo-calendar-days-container__day-picker--to-date': isEqual(day, selectedToDay),
       'geo-calendar-days-container__day-picker--within-range': isDayWithinRanges
     }"
-    @click="selectDay"
+    @click="selectDay($event)"
   >
     <div class="geo-calendar-day-picker__day-number">
       {{ dayNumber }}
