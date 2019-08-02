@@ -8,7 +8,7 @@
       'geo-calendar-years__year-unit--from-date': isDayWithinFromYear,
       'geo-calendar-years__year-unit--to-date': isDayWithinToYear
     }"
-    @click="selectYear"
+    @click="selectYear($event)"
   >
     <div class="year-unit__year-number">
       {{ year }}
