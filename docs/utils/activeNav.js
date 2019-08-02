@@ -50,7 +50,7 @@ export default {
 
         const navLinks = sidebar.querySelectorAll('nav > ul > li > a')
         const subNavLinks = sidebar.querySelectorAll('nav > ul > li ul a')
-        const currentPage = sidebar.querySelector("a[href='" + currentURL + "']")
+        const currentPage = sidebar.querySelector(`a[href="${currentURL}"]`)
         const search = sidebar.querySelector("div[class^='rsg--search'] input")
         const self = this
 
