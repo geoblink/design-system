@@ -1,0 +1,112 @@
+def BITBUCKET_BUILD_INTERNAL_KEY = 'geoblink-design-system.ci.publish-docs'
+def BITBUCKET_BUILD_DISPLAY_NAME = 'Publish documentation'
+def BITBUCKET_REPO_SLUG = 'geoblink-design-system'
+
+def getIsRunningOnMasterBranchCommit () {
+  def masterCommitHash = sh(
+    script: 'git rev-parse origin/master',
+    returnStdout: true
+  ).trim()
+
+  return masterCommitHash == env.GIT_COMMIT
+}
+
+pipeline {
+
+  agent any
+
+  options {
+    // Prepend timestamps to all logged lines
+    timestamps()
+    // Only keep the 50 most recent builds
+    buildDiscarder(logRotator(numToKeepStr:'50'))
+    // Abort the job if it takes more than 5 minutes
+    timeout(time: 5, unit: 'MINUTES')
+  }
+
+  parameters {
+    string(
+      name: 'GIT_BRANCH',
+      defaultValue: 'master',
+      description: 'Pipeline from this branch will be executed',
+      trim: true
+    )
+    string(
+      name: 'DOCS_S3_BUCKET',
+      defaultValue: 'geoblink-app-docs',
+      description: 'AWS S3 Bucket where documentation will be published',
+      trim: true
+    )
+  }
+
+  stages {
+    stage("Metadata setup") {
+      steps {
+        script {
+          def gitReference = params.GIT_BRANCH?.trim()
+            ? params.GIT_BRANCH
+            : getIsRunningOnMasterBranchCommit()
+              ? 'master'
+              : env.GIT_COMMIT
+
+          currentBuild.description = "${gitReference}"
+
+          bitbucketStatusNotify(
+            buildState: 'INPROGRESS',
+            buildKey: BITBUCKET_BUILD_INTERNAL_KEY,
+            buildName: BITBUCKET_BUILD_DISPLAY_NAME,
+            repoSlug: BITBUCKET_REPO_SLUG,
+            commitId: "${env.GIT_COMMIT}"
+          )
+        }
+      }
+    }
+
+    stage("Build & publish docs") {
+      steps {
+        withCredentials([usernamePassword(
+          credentialsId: 'geoblink-app-docs-writer',
+          usernameVariable: 'AWS_ACCESS_KEY_ID',
+          passwordVariable: 'AWS_SECRET_ACCESS_KEY'
+        )]) {
+          withCredentials([string(
+            credentialsId: 'npm-token-readonly',
+            variable: 'NPM_TOKEN'
+          )]) {
+            script {
+              def versionAlias = getIsRunningOnMasterBranchCommit()
+                ? ' master'
+                : ''
+
+              sh 'yarn --frozen-lockfile'
+              sh 'yarn build:docs'
+              sh "node jenkins/publishDocs.js ${params.DOCS_S3_BUCKET} ${versionAlias}"
+            }
+          }
+        }
+      }
+    }
+  }
+
+  post {
+    success {
+      bitbucketStatusNotify(
+        buildState: 'SUCCESSFUL',
+        buildKey: BITBUCKET_BUILD_INTERNAL_KEY,
+        buildName: BITBUCKET_BUILD_DISPLAY_NAME,
+        repoSlug: BITBUCKET_REPO_SLUG,
+        commitId: "${env.GIT_COMMIT}"
+      )
+    }
+
+    failure {
+      bitbucketStatusNotify(
+        buildState: 'FAILED',
+        buildKey: BITBUCKET_BUILD_INTERNAL_KEY,
+        buildName: BITBUCKET_BUILD_DISPLAY_NAME,
+        repoSlug: BITBUCKET_REPO_SLUG,
+        commitId: "${env.GIT_COMMIT}"
+      )
+    }
+  }
+}
