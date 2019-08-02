@@ -4,7 +4,7 @@
       [`geo-input__container${cssSuffix}`]: true,
       [`geo-input__container-${inputType}${cssSuffix}`]: true,
       [`geo-input__container--disabled${cssSuffix}`]: disabled,
-      [`geo-input__container-${inputType}--edit${cssSuffix}`]: showButtons
+      [`geo-input__container-${inputType}--edit${cssSuffix}`]: showButtons || isFocused
     }"
   >
     <geo-dropdown
@@ -33,6 +33,7 @@
       </form>
 
       <div
+        v-if="showButtons"
         slot="popupContent"
         :class="`geo-input__container__buttons${cssSuffix}`"
       >
@@ -106,6 +107,13 @@ export default {
     loading: {
       type: Boolean,
       default: false
+    },
+    /**
+     * Whether the input is focused or not.
+     */
+    isFocused: {
+      type: Boolean,
+      required: false
     },
     /**
      * Font Awesome 5 icon to be displayed.

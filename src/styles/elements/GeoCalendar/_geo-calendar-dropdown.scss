@@ -1,0 +1,28 @@
+@mixin geo-calendar-dropdown-make($modifier-name) {
+
+  $modifier-name-with-prefix: '';
+
+  @if $modifier-name != '' {
+    // sass-lint:disable space-around-operator
+    $modifier-name-with-prefix: --#{$modifier-name};
+  }
+
+  @include geo-dropdown-make('geo-calendar__dropdown#{$modifier-name-with-prefix}');
+  @include geo-bordered-box-make('geo-calendar__dropdown#{$modifier-name-with-prefix}');
+
+  .geo-calendar-dropdown#{$modifier-name-with-prefix} {
+    // TODO: Put some SCSS code here
+  }
+
+  .geo-dropdown__popup--geo-calendar__dropdown#{$modifier-name-with-prefix} {
+    width: 515px;
+
+  }
+
+  .geo-bordered-box--geo-calendar__dropdown#{$modifier-name-with-prefix} {
+    box-sizing: border-box;
+  }
+
+}
+
+@include geo-calendar-dropdown-make('');

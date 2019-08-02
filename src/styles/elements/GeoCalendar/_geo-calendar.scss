@@ -1,0 +1,432 @@
+@mixin geo-calendar-make($modifier-name) {
+
+  $modifier-name-with-prefix: '';
+  $day-unit-size: 25px;
+  $border-radius-selected-date-unit: 50vh;
+  $calendar-input-height: 30px;
+
+  @if $modifier-name != '' {
+    // sass-lint:disable space-around-operator
+    $modifier-name-with-prefix: --#{$modifier-name};
+  }
+
+  @include geo-dropdown-make('geo-calendar__dropdown#{$modifier-name-with-prefix}');
+  @include geo-button-make('calendar-picker-button#{$modifier-name-with-prefix}');
+  @include geo-select-base-make('calendar-navigation-selection');
+  @include geo-button-make('calendar-navigation-toggle-button');
+  @include geo-input-make('geo-calendar');
+
+  // TODO CORE-7347 - Refactor CSS Code so it passes down cssModifier to all child components
+
+  .geo-calendar#{$modifier-name-with-prefix} {
+    display: flex;
+
+    // GEO CALENDAR GRANULARITY SIDEBAR
+    .geo-calendar-picker-granularity-unit {
+      @include font($body-small);
+
+      align-items: center;
+      border-radius: $border-radius-default;
+      color: $color-grey-dark;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: $space-x-small;
+      padding: $space-x-small $space-small;
+
+      &:not(.geo-calendar-picker-granularity-unit--active):hover {
+        background: $color-white-darker;
+        font-weight: $font-weight-bold;
+
+        .geo-calendar-picker-granularity-unit__selector-icon {
+          display: inline;
+        }
+      }
+
+      &--active {
+        background: $color-blue;
+        color: $color-white;
+
+        .geo-calendar-picker-granularity-unit__selector-icon {
+          color: $color-white-dark;
+          display: inline;
+        }
+      }
+    }
+
+    .geo-calendar-picker-granularity-unit__selector-icon {
+      color: $color-grey-light;
+      display: none;
+    }
+
+    .geo-calendar__granularity-selectors {
+      background: $color-white-dark;
+      border-right: 1px solid $color-grey;
+      box-sizing: border-box;
+      flex-grow: 1;
+      flex-shrink: 0;
+      padding: $space-small;
+    }
+
+    // GEO CALENDAR INPUT CONTROLS
+    .geo-calendar__picker-controls {
+      padding: $space-base;
+      width: 315px;
+    }
+
+    .geo-calendar__input-ranges {
+      align-items: baseline;
+      border-bottom: 1px solid $color-grey;
+      display: flex;
+      padding-bottom: $space-base;
+    }
+
+    .geo-calendar__input {
+      align-items: flex-start;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .geo-calendar__input__date-feedback--error {
+      @include font($label);
+
+      color: $color-red;
+      margin-top: $space-x-small;
+    }
+
+    .geo-input__container--geo-calendar {
+      height: $calendar-input-height;
+    }
+
+    .geo-input__form__input--geo-calendar {
+      @include font($body-small);
+
+      height: calc(#{$calendar-input-height} - 2px); //2px of border in the inner input
+    }
+
+    .geo-calendar__input-range-icon {
+      @include font($label-optional);
+
+      margin: 0 $space-small;
+    }
+
+    .geo-button--calendar-picker-button > .geo-button__label--calendar-picker-button {
+      padding-left: 0;
+    }
+
+    // GEO CALENDAR NAVIGATION STYLES
+    .geo-calendar-navigation {
+      align-items: center;
+      display: flex;
+      justify-content: space-between;
+      margin: $space-base 0;
+    }
+
+    .geo-button--link--calendar-navigation-toggle-button {
+      font-weight: $font-weight-bold;
+    }
+
+    .geo-button__label--calendar-navigation-toggle-button {
+      align-items: flex-end;
+      display: flex;
+      text-transform: capitalize;
+    }
+
+    .geo-calendar-navigation__selects-container {
+      align-items: center;
+      display: flex;
+      justify-content: space-evenly;
+      width: 50%;
+    }
+
+    .geo-calendar-navigation-toggle-button-icon {
+      @include font($label-optional);
+
+      margin-left: $space-x-small;
+    }
+
+    .geo-calendar-navigation__nav-icon {
+      @include font($label-optional);
+
+      cursor: pointer;
+
+      &--disabled {
+        color: $color-grey;
+        cursor: not-allowed;
+        text-decoration: line-through;
+      }
+    }
+
+    // DAYS GRID VIEW
+    .geo-calendar-grid__weekdays-row-container {
+      @include font($label-optional);
+
+      border-bottom: 1px solid $color-white-darker;
+      display: flex;
+      justify-content: space-around;
+      padding-bottom: $space-x-small;
+    }
+
+    .geo-calendar-weekdays-row__weekday-name {
+      text-transform: capitalize;
+    }
+
+    .geo-calendar-grid__day-container {
+      display: grid;
+      margin-top: $space-small;
+      grid-row-gap: $space-small;
+    }
+
+    .geo-calendar-days-container__week-unit {
+      align-items: center;
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      grid-template-rows: calc(#{$day-unit-size} + 2px);
+      text-align: center;
+
+      &:hover.geo-calendar-days-container__week-unit--is-week-granularity {
+        background: $color-blue-readable-background;
+        border-radius: $border-radius-selected-date-unit;
+        color: $color-grey-darker;
+      }
+
+      &--unavailable {
+        color: $color-grey;
+        cursor: not-allowed;
+
+        .geo-calendar-days-container__day-picker {
+          pointer-events: none;
+        }
+      }
+    }
+
+    %time-unit-button-reset {
+      background: none;
+      border: inherit;
+      cursor: pointer;
+      height: 100%;
+      outline: 0;
+      padding: inherit;
+    }
+
+    .geo-calendar-days-container__day-picker {
+      @include font($body-small);
+      @extend %time-unit-button-reset;
+
+      line-height: $day-unit-size;
+      position: relative;
+
+      .geo-calendar-day-picker__day-number {
+        box-sizing: border-box;
+        position: relative;
+      }
+
+      &:hover:not(.geo-calendar-days-container__day-picker--unavailable):not(.geo-calendar-days-container__day-picker--selected)  .geo-calendar-day-picker__day-number {
+        background: $color-blue-readable-background;
+        border: 1px solid $color-blue;
+        border-radius: 50%;
+        box-sizing: content-box;
+        color: $color-grey-darker;
+        margin: 0 auto;
+        width: $day-unit-size;
+      }
+
+      &--within-range {
+        background: $color-blue-readable-background;
+        color: $color-grey-darker;
+      }
+
+      &--today .geo-calendar-day-picker__day-number:after {
+        $today-mark-height: 2px;
+        background: $color-yellow;
+        bottom: $today-mark-height * 2;
+        content: '';
+        height: $today-mark-height;
+        left: 0;
+        margin: 0 auto;
+        position: absolute;
+        right: 0;
+        width: 15px;
+      }
+
+      &--out-of-boundaries {
+        color: $color-grey-light;
+      }
+
+      &--unavailable {
+        color: $color-grey;
+        cursor: not-allowed;
+        text-decoration: line-through;
+
+        .geo-calendar-day-picker__day-number {
+          pointer-events: none;
+        }
+      }
+
+      &--from-date {
+        border-top-left-radius: $border-radius-selected-date-unit;
+        border-bottom-left-radius: $border-radius-selected-date-unit;
+        margin-left: $space-small;
+        padding-left: 0;
+
+        .geo-calendar-day-picker__day-number {
+          margin-left: 0;
+        }
+
+      }
+
+      &--to-date {
+        border-top-right-radius: $border-radius-selected-date-unit;
+        border-bottom-right-radius: $border-radius-selected-date-unit;
+        margin-right: $space-small;
+        padding-right: 0;
+
+        .geo-calendar-day-picker__day-number {
+          margin-left: $space-small;
+        }
+      }
+
+      &--selected .geo-calendar-day-picker__day-number {
+        box-sizing: content-box;
+        color: $color-white;
+        background: $color-blue;
+        border-radius: 50%;
+        height: $day-unit-size;
+        width: $day-unit-size;
+      }
+
+    }
+
+    // MONTHS GRID VIEW
+    .geo-calendar-grid__month-container {
+      display: grid;
+      grid-row-gap: calc(#{$space-base - $space-x-small});
+    }
+
+    .geo-calendar-months-container__quarter {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .geo-calendar-months-container__quarter--highlighted,
+    .geo-calendar-months-container__quarter--actionable:hover {
+      background: $color-blue-readable-background;
+      border-radius: $border-radius-selected-date-unit;
+      color: $color-grey-darker;
+    }
+
+    .geo-calendar-months-container__quarter--unavailable {
+      color: $color-grey;
+      cursor: not-allowed;
+
+      .geo-calendar-quarter__month-unit {
+        pointer-events: none;
+      }
+    }
+
+    .geo-calendar-quarter__month-unit {
+      @include font($body-small);
+      @extend %time-unit-button-reset;
+
+      .month-unit__month-name {
+        border: 1px solid transparent;
+        margin: 0;
+        padding: 3px 0;
+      }
+
+      &:hover:not(.geo-calendar-quarter__month-unit--unavailable):not(.geo-calendar-quarter__month-unit--selected) .month-unit__month-name {
+        background: $color-blue-readable-background;
+        border: 1px solid $color-blue;
+        border-radius: $border-radius-selected-date-unit;
+        color: $color-grey-darker;
+      }
+
+      &--within-range {
+        background: $color-blue-readable-background;
+      }
+
+      &--selected .month-unit__month-name {
+        background: $color-blue;
+        border-radius: $border-radius-selected-date-unit;
+        color: $color-white;
+      }
+
+      &--from-date {
+        border-top-left-radius: $border-radius-selected-date-unit;
+        border-bottom-left-radius: $border-radius-selected-date-unit;
+      }
+
+      &--to-date {
+        border-top-right-radius: $border-radius-selected-date-unit;
+        border-bottom-right-radius: $border-radius-selected-date-unit;
+      }
+
+      &--unavailable {
+        color: $color-grey;
+        cursor: not-allowed;
+        text-decoration: line-through;
+
+        .month-unit__month-name {
+          pointer-events: none;
+        }
+      }
+    }
+
+    // YEARS GRID VIEW
+    .geo-calendar-grid__year-container {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-row-gap: $space-base;
+    }
+
+    .geo-calendar-years__year-unit {
+      @include font($body-small);
+      @extend %time-unit-button-reset;
+
+      .year-unit__year-number {
+        border: 1px solid transparent;
+        margin: 0;
+        padding: 3px 0;
+      }
+
+      &:hover:not(.geo-calendar-years__year-unit--selected):not(.geo-calendar-years__year-unit--unavailable) .year-unit__year-number {
+        background: $color-blue-readable-background;
+        border: 1px solid $color-blue;
+        border-radius: $border-radius-selected-date-unit;
+        color: $color-grey-darker;
+      }
+
+      &--within-range {
+        background: $color-blue-readable-background;
+      }
+
+      &--selected .year-unit__year-number {
+        background: $color-blue;
+        border-radius: $border-radius-selected-date-unit;
+        color: $color-white;
+      }
+
+      &--from-date {
+        border-top-left-radius: $border-radius-selected-date-unit;
+        border-bottom-left-radius: $border-radius-selected-date-unit;
+      }
+
+      &--to-date {
+        border-top-right-radius: $border-radius-selected-date-unit;
+        border-bottom-right-radius: $border-radius-selected-date-unit;
+      }
+
+      &--unavailable {
+        color: $color-grey;
+        cursor: not-allowed;
+        text-decoration: line-through;
+
+        .year-unit__year-number {
+          pointer-events: none;
+        }
+      }
+    }
+  }
+}
+
+@include geo-calendar-make('');

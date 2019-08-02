@@ -116,6 +116,28 @@ module.exports = {
           sectionDepth: 0
         },
         {
+          name: 'GeoCalendar',
+          components: '../src/elements/GeoCalendar/GeoCalendar*.vue',
+          sectionDepth: 1,
+          sections: [
+            {
+              name: 'GeoCalendarGrid',
+              components: '../src/elements/GeoCalendar/GeoCalendarGrid/GeoCalendar*.vue',
+              sectionDepth: 0
+            },
+            {
+              name: 'GeoCalendarNavigation',
+              components: '../src/elements/GeoCalendar/GeoCalendarNavigation/GeoCalendar*.vue',
+              sectionDepth: 0
+            },
+            {
+              name: 'GeoCalendarPickerGranularity',
+              components: '../src/elements/GeoCalendar/GeoCalendarPickerGranularity/GeoCalendar*.vue',
+              sectionDepth: 0
+            }
+          ]
+        },
+        {
           name: 'GeoCircle',
           components: '../src/elements/GeoCircle/GeoCircle.vue',
           sectionDepth: 0
