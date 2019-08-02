@@ -69,7 +69,7 @@ import { VARIANTS } from './GeoEditableInput.constants'
 export default {
   name: 'GeoEditableInput',
   status: 'ready',
-  release: '6.1.0',
+  release: '24.0.0',
   mixins: [cssSuffix],
   constants: { VARIANTS },
   props: {
