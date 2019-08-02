@@ -69,12 +69,9 @@ const plugins = [
       to: config.system.assetsSubDirectory,
       ignore: ['.*', '*.png', '*.svg', '*.ico']
     }
-  ])
+  ]),
+  new PeerDepsExternalsPlugin()
 ]
-
-if (isProductionBuild) {
-  plugins.push(new PeerDepsExternalsPlugin())
-}
 
 const webpackConfig = merge(baseWebpackConfig, {
   externals: {
