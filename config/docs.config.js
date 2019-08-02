@@ -153,8 +153,8 @@ module.exports = {
           sectionDepth: 0
         },
         {
-          name: 'GeoInput',
-          components: '../src/elements/GeoInput/GeoInput*.vue',
+          name: 'GeoEditableInput',
+          components: '../src/elements/GeoEditableInput/GeoEditableInput*.vue',
           sectionDepth: 0
         },
         {

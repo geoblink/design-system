@@ -14,7 +14,7 @@
   @include geo-button-make('calendar-picker-button#{$modifier-name-with-prefix}');
   @include geo-select-base-make('calendar-navigation-selection');
   @include geo-button-make('calendar-navigation-toggle-button');
-  @include geo-input-make('geo-calendar');
+  @include geo-editable-input-make('geo-calendar');
 
   // TODO CORE-7347 - Refactor CSS Code so it passes down cssModifier to all child components
 
@@ -94,11 +94,11 @@
       margin-top: $space-x-small;
     }
 
-    .geo-input__container--geo-calendar {
+    .geo-editable-input__container--geo-calendar {
       height: $calendar-input-height;
     }
 
-    .geo-input__form__input--geo-calendar {
+    .geo-editable-input__form__input--geo-calendar {
       @include font($body-small);
 
       height: calc(#{$calendar-input-height} - 2px); //2px of border in the inner input
