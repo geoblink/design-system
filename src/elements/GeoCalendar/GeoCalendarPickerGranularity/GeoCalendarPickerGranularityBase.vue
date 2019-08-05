@@ -35,9 +35,7 @@ export default {
      */
     pickerGranularityIcon: {
       type: Array,
-      default () {
-        return ['fal', 'arrow-right']
-      }
+      required: true
     }
   }
 }

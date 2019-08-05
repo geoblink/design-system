@@ -16,7 +16,10 @@ export default {
      */
     pickerGranularityIcon: {
       type: Array,
-      required: true
+      required: false,
+      default () {
+        return ['fal', 'arrow-right']
+      }
     }
   },
   methods: {
