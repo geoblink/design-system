@@ -38,7 +38,7 @@ import cssSuffix from '../../mixins/cssModifierMixin'
 export default {
   name: 'GeoInput',
   status: 'ready',
-  release: 'CHANGE ME',
+  release: '24.1.0',
   mixins: [cssSuffix],
   props: {
     /**

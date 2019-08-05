@@ -21,7 +21,7 @@ import { VARIANTS } from './GeoInputMessage.constants'
 export default {
   name: 'GeoInputMessage',
   status: 'ready',
-  release: 'CHANGE ME',
+  release: '24.1.0',
   constants: {
     VARIANTS
   },

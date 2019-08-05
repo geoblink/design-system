@@ -19,7 +19,7 @@ import cssSuffix, { getCSSSuffix } from '../../mixins/cssModifierMixin'
 export default {
   name: 'GeoInputLabel',
   status: 'ready',
-  release: 'CHANGE ME',
+  release: '24.1.0',
   helpers: {
     getCSSSuffix
   },
