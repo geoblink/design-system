@@ -18,6 +18,36 @@ export default {
     },
 
     /**
+     * Font Awesome 5 icon to be displayed in `GeoBorderedBoxHeader` in order to close the calendar.
+     *
+     * See [vue-fontawesome](https://www.npmjs.com/package/@fortawesome/vue-fontawesome#explicit-prefix-note-the-vue-bind-shorthand-because-this-uses-an-array)
+     * for more info about this.
+     */
+    closeCalendarIcon: {
+      type: Array,
+      required: false,
+      default () {
+        return ['fal', 'times']
+      }
+    },
+
+    /**
+     * Default date to be displayed as an initial date in the calendar. If it's not provided, the initial range will be empty.
+     */
+    defaultFromDate: {
+      type: Date,
+      required: false
+    },
+
+    /**
+     * Default date to be displayed as an end date in the calendar. If it's not provided, the end range will be empty.
+     */
+    defaultToDate: {
+      type: Date,
+      required: false
+    },
+
+    /**
      * Earliest date that can be selected
      */
     earliestDate: {

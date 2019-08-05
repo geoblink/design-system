@@ -15,7 +15,7 @@
       :css-modifier="`geo-calendar__dropdown${cssSuffix}`"
     >
       <geo-bordered-box-header
-        :close-icon="['fas', 'times']"
+        :close-icon="closeCalendarIcon"
         @close="closeCalendar"
       >
         <!-- @slot Use this slot to customize the text displayed on the calendar's header -->
@@ -26,6 +26,8 @@
         :calendar-navigation-select-icon="calendarNavigationSelectIcon"
         :css-modifier="cssModifier"
         :earliest-date="earliestDate"
+        :default-from-date="defaultFromDate"
+        :default-to-date="defaultToDate"
         :from-input-placeholder="fromInputPlaceholder"
         :granularity-id="granularityId"
         :initial-date-in-grid="initialDateInGrid"
@@ -97,7 +99,6 @@ export default {
   methods: {
     closeCalendar () {
       this.isCalendarPopupOpened = false
-      this.resetDates()
     },
 
     handleClickOutside ($event) {
@@ -107,11 +108,6 @@ export default {
       const popup = _.get(this.$refs.calendar, '$refs.calendarPicker.$refs.calendarNavigationWrapper.$refs.calendarNavigation.$refs.calendarNavigationSelect')
       if (popup && popup.contains($event.target)) return
       this.closeCalendar()
-    },
-
-    resetDates () {
-      this.emitFromDate({ fromDate: null })
-      this.emitToDate({ toDate: null })
     },
 
     emitFromDate ({ fromDate }) {
