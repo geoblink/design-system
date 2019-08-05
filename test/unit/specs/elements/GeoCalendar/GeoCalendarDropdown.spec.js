@@ -1,9 +1,11 @@
 import { mount } from '@vue/test-utils'
 import { PICKER_DATE_UNITS, GRANULARITY_IDS } from '@/elements/GeoCalendar/GeoCalendar.utils.js'
-import GeoCalendarDropdown from '@/elements/GeoCalendar/GeoCalendarDropdown.vue'
+import GeoCalendarDropdown from '@/elements/GeoCalendar/GeoCalendarDropdown'
 import GeoBorderedBox from '@/elements/GeoBorderedBox/GeoBorderedBox'
 import GeoCalendar from '@/elements/GeoCalendar/GeoCalendar'
 import GeoDropdown from '@/elements/GeoDropdown/GeoDropdown'
+import GeoPrimaryButton from '@/elements/GeoButton/GeoPrimaryButton'
+import GeoButton from '@/elements/GeoButton/GeoButton'
 
 describe('GeoCalendarDropdown', () => {
   const today = new Date(2019, 6, 30) // Fixed date to avoid future errors with random dates
@@ -53,10 +55,8 @@ describe('GeoCalendarDropdown', () => {
         toDate: today
       })
     })
-  })
 
-  describe('Reset dates', () => {
-    it('Reset dates when closing the calendar', () => {
+    it('Emits when applying dates', function () {
       const wrapper = getWrappedComponent()
       wrapper.find('.calendar-toggle').vm.$emit('click')
       const geoCalendarWrapper = wrapper.find(GeoCalendar)
@@ -68,25 +68,9 @@ describe('GeoCalendarDropdown', () => {
         toDate: today
       })
 
-      expect(wrapper.emitted()['emit-from-date']).toBeDefined()
-      expect(wrapper.emitted()['emit-from-date'][0][0]).toEqual({
-        fromDate: today
-      })
-
-      expect(wrapper.emitted()['emit-to-date']).toBeDefined()
-      expect(wrapper.emitted()['emit-to-date'][0][0]).toEqual({
-        toDate: today
-      })
-
-      wrapper.find(GeoDropdown).vm.$emit('click-outside')
-      expect(wrapper.vm.isCalendarPopupOpened).toBe(false)
+      wrapper.find('.calendar-apply-ranges').trigger('click')
+      expect(wrapper.emitted()['apply-range-selection']).toBeDefined()
       expect(wrapper.find('.geo-calendar').exists()).toBe(false)
-      expect(wrapper.emitted()['emit-from-date'][1][0]).toEqual({
-        fromDate: null
-      })
-      expect(wrapper.emitted()['emit-to-date'][1][0]).toEqual({
-        toDate: null
-      })
     })
   })
 })
@@ -108,7 +92,18 @@ function getWrappedComponent () {
                       >
                         Calendar:
                       </geo-dropdown-regular-button>
-                    </template>`
+                    </template>`,
+      calendarFooter: `<template
+                        slot-scope="{ applyRangeSelection }"
+                        slot="calendarFooter"
+                      >
+                        <geo-primary-button
+                          class="calendar-apply-ranges"
+                          @click="applyRangeSelection"
+                        >
+                          Apply Dates
+                        </geo-primary-button>
+                      </template>`
     },
     stubs: {
       GeoBorderedBox,
@@ -118,8 +113,10 @@ function getWrappedComponent () {
       'font-awesome-icon': true,
       'geo-calendar-picker': true,
       'geo-dropdown-regular-button': true,
+      GeoButton,
       GeoCalendar,
-      GeoDropdown
+      GeoDropdown,
+      GeoPrimaryButton
     },
     propsData: {
       pickerDateUnit: PICKER_DATE_UNITS.day,

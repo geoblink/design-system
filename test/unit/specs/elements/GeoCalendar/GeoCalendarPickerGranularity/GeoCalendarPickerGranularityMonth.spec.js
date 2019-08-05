@@ -16,8 +16,7 @@ describe('GeoCalendarPickerGranularityMonth', () => {
       propsData: {
         isActive: false,
         pickerDateUnit: PICKER_DATE_UNITS.month,
-        granularityId: GRANULARITY_IDS.month,
-        pickerGranularityIcon: ['fas', 'arrow-right']
+        granularityId: GRANULARITY_IDS.month
       }
     })
     expect(wrapper.find('.geo-calendar-picker-granularity-unit').exists()).toBe(true)
