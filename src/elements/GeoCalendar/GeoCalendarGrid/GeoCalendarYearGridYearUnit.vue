@@ -28,7 +28,7 @@ import {
 
 export default {
   name: 'GeoCalendarYearGridYearUnit',
-  status: 'missing-tests',
+  status: 'ready',
   release: '23.2.0',
   mixins: [
     GeoCalendarGridMixin,

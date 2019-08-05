@@ -33,7 +33,7 @@ import { MONTH_GRID_CONSTANTS } from '../GeoCalendar.utils'
 
 export default {
   name: 'GeoCalendarMonthGrid',
-  status: 'missing-tests',
+  status: 'ready',
   release: '23.2.0',
   mixins: [
     GeoCalendarGridMixin,

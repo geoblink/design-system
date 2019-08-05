@@ -83,7 +83,7 @@ import * as GeoCalendarConstants from './GeoCalendar.utils'
 
 export default {
   name: 'GeoCalendarDropdown',
-  status: 'missing-tests',
+  status: 'ready',
   release: '23.2.0',
   constants: GeoCalendarConstants,
   mixins: [

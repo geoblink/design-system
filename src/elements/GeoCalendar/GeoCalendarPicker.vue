@@ -61,7 +61,7 @@ import {
 
 export default {
   name: 'GeoCalendarPicker',
-  status: 'missing-tests',
+  status: 'ready',
   release: '23.2.0',
   mixins: [
     GeoCalendarDateIndicators,

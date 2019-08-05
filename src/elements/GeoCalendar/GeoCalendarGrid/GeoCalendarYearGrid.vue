@@ -24,7 +24,7 @@ import GeoCalendarGridMixin from './GeoCalendarGrid.mixin'
 
 export default {
   name: 'GeoCalendarYearGrid',
-  status: 'missing-tests',
+  status: 'ready',
   release: '23.2.0',
   mixins: [
     GeoCalendarGridMixin,
