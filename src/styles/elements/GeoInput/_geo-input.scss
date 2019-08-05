@@ -1,0 +1,83 @@
+@mixin geo-input-make($modifier-name) {
+
+  $modifier-name-with-prefix: '';
+
+  @if $modifier-name != '' {
+    // sass-lint:disable space-around-operator
+    $modifier-name-with-prefix: --#{$modifier-name};
+  }
+
+  .geo-input#{$modifier-name-with-prefix} {
+    width: 100%;
+
+    .geo-input__input-wrapper {
+      align-items: center;
+      display: flex;
+      position: relative;
+      width: 100%;
+    }
+
+    .geo-input__input {
+      @include font($body);
+
+      border: 1px solid $color-grey;
+      border-radius: $border-radius-default;
+      box-sizing: border-box;
+      height: $space-x-large;
+      outline: none;
+      padding: $space-small;
+      width: 100%;
+
+      &:focus, &[focus] {
+        border: 1px solid $color-blue;
+        box-shadow: $box-shadow-focus;
+      }
+
+      &:invalid {
+        border: 1px solid $color-red;
+        box-shadow: none;
+      }
+
+      &::placeholder {
+        color: $color-grey-light;
+      }
+    }
+
+    .geo-input__icon {
+      color: $color-grey-light;
+      position: absolute;
+      right: $space-small;
+    }
+  }
+  
+  .geo-input--success#{$modifier-name-with-prefix} {
+    .geo-input__input {
+      &, &:focus {
+        border: 1px solid $color-green;
+        box-shadow: none;
+      }
+    }
+  }
+
+  .geo-input--error#{$modifier-name-with-prefix} {
+    .geo-input__input {
+      &, &:focus {
+        border: 1px solid $color-red;
+        box-shadow: none;
+      }
+    }
+  }
+
+  .geo-input--disabled#{$modifier-name-with-prefix} {
+    .geo-input__input {
+      padding-right: $space-large;
+      
+      &, &:focus {
+        background-color: $color-white-dark;
+        color: $color-grey-light;
+      }
+    }
+  }
+}
+
+@include geo-input-make('');
