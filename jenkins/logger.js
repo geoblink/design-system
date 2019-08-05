@@ -11,7 +11,7 @@ const color = {
 module.exports = {
   color,
   raw,
-  getRedactedSensibleValue,
+  getRedactedSensitiveValue,
   error,
   errorAndExit,
   success,
@@ -21,25 +21,27 @@ module.exports = {
 }
 
 /**
- * @param {string} sensibleValue
+ * @param {string} sensitive
  * @returns {string}
  */
-function getRedactedSensibleValue (sensibleValue, trailingLengthToBeDisplayed) {
-  const redactedValue = []
+function getRedactedSensitiveValue (sensitive, trailingLengthToBeDisplayed) {
+  const sensitiveArray = sensitive.split('')
 
-  if (sensibleValue.length <= trailingLengthToBeDisplayed) {
-    while (redactedValue.length < sensibleValue.length) {
-      redactedValue.push('*')
-    }
-  } else {
-    while (redactedValue.length < sensibleValue.length - trailingLengthToBeDisplayed) {
-      redactedValue.push('*')
-    }
+  if (sensitive.length > trailingLengthToBeDisplayed) {
+    const hiddenPart = sensitiveArray
+      .slice(0, sensitive.length - trailingLengthToBeDisplayed)
+      .map(() => '*')
+      .join('')
+    const visiblePart = sensitiveArray
+      .slice(sensitive.length - trailingLengthToBeDisplayed)
+      .join('')
 
-    redactedValue.push(...sensibleValue.slice(redactedValue.length))
+    return `${hiddenPart}${visiblePart}`
   }
 
-  return redactedValue.join('')
+  return sensitiveArray
+    .map(() => '*')
+    .join('')
 }
 
 /**
