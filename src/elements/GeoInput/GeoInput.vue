@@ -91,8 +91,8 @@ export default {
   },
   computed: {
     listeners () {
-      const { input, ...listeners } = this.$listeners
-      return listeners
+      // input is omitted because we create our own to work with v-model
+      return _.omit(this.$listeners, 'input')
     }
   },
   methods: {
