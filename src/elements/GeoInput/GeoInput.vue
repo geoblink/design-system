@@ -2,8 +2,7 @@
   <label
     :class="{
       [`geo-input${cssSuffix}`]: true,
-      [`geo-input--success${cssSuffix}`]: success,
-      [`geo-input--error${cssSuffix}`]: error,
+      [`geo-input--${statusClass}${cssSuffix}`]: statusClass,
       [`geo-input--disabled${cssSuffix}`]: disabled
     }"
   >
@@ -93,6 +92,13 @@ export default {
     listeners () {
       // input is omitted because we create our own to work with v-model
       return _.omit(this.$listeners, 'input')
+    },
+    
+    statusClass () {
+      if (this.error && this.success) console.warn('GeoInput [component] :: error and success state are true at the same time, GeoInput will be shown as error.')
+      if (this.error) return 'error'
+      if (this.success) return 'success'
+      return null
     }
   },
   methods: {
