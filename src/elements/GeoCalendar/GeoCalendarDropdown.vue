@@ -64,7 +64,10 @@
       </geo-calendar>
       <geo-bordered-box-footer>
         <!-- @slot Use this slot to customize the footer of the calendar -->
-        <slot name="calendarFooter" />
+        <slot
+          name="calendarFooter"
+          :apply-range-selection="applyRangeSelection"
+        />
       </geo-bordered-box-footer>
     </geo-bordered-box>
   </geo-dropdown>
@@ -132,6 +135,11 @@ export default {
 
     toggleCalendarPopup () {
       this.isCalendarPopupOpened = !this.isCalendarPopupOpened
+    },
+
+    applyRangeSelection () {
+      this.closeCalendar()
+      this.$emit('apply-range-selection')
     }
   }
 }
