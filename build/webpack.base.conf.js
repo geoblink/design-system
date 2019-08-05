@@ -3,7 +3,6 @@ const path = require('path')
 const utils = require('./utils')
 const config = require('../config')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const PeerDepsExternalsPlugin = require('peer-deps-externals-webpack-plugin')
 const { VueLoaderPlugin } = require('vue-loader')
 
 function resolve (dir) {
@@ -18,10 +17,6 @@ const plugins = [
     filename: utils.assetsSystemPath('[name].css')
   })
 ]
-
-if (isProductionBuild) {
-  plugins.push(new PeerDepsExternalsPlugin())
-}
 
 module.exports = {
   mode: isProductionBuild ? config.build.mode : config.dev.mode,

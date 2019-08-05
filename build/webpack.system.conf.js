@@ -5,6 +5,7 @@ const path = require('path')
 const config = require('../config')
 const merge = require('webpack-merge')
 const baseWebpackConfig = require('./webpack.base.conf')
+const PeerDepsExternalsPlugin = require('peer-deps-externals-webpack-plugin')
 const MergeWebpackPlugin = require('webpack-merge-and-include-globally')
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
@@ -30,6 +31,48 @@ const elementsSCSS = fs
   )
   .reduce((collector, entry) => [...collector, ...entry], [])
 
+const plugins = [
+  // http://vuejs.github.io/vue-loader/en/workflow/production.html
+  new webpack.DefinePlugin({
+    'process.env': env
+  }),
+  new UglifyJsPlugin({
+    sourceMap: config.system.productionSourceMap,
+    parallel: true
+  }),
+  // Compress extracted CSS. We are using this plugin so that possible
+  // duplicated CSS from different components can be deduped.
+  new OptimizeCSSPlugin({
+    cssProcessorOptions: { parser: SafeParser }
+  }),
+  // keep module.id stable when vendor modules does not change
+  new webpack.HashedModuleIdsPlugin(),
+  // enable scope hoisting
+  new webpack.optimize.ModuleConcatenationPlugin(),
+  // Copy and merge Sass tokens and system utilities as well
+  new MergeWebpackPlugin({
+    files: {
+      [utils.assetsSystemPath('system.utils.scss')]: [
+        './src/assets/tokens/tokens.scss',
+        './src/styles/_spacing.scss',
+        './src/styles/_fontsMaps.scss',
+        './src/styles/_mixins.scss',
+        './src/styles/_functions.scss',
+        ...elementsSCSS
+      ]
+    }
+  }),
+  // copy custom static assets
+  new CopyWebpackPlugin([
+    {
+      from: path.resolve(__dirname, '../src/assets'),
+      to: config.system.assetsSubDirectory,
+      ignore: ['.*', '*.png', '*.svg', '*.ico']
+    }
+  ]),
+  new PeerDepsExternalsPlugin()
+]
+
 const webpackConfig = merge(baseWebpackConfig, {
   externals: {
     lodash: 'lodash',
@@ -49,51 +92,7 @@ const webpackConfig = merge(baseWebpackConfig, {
     library: '[name]',
     libraryTarget: 'umd'
   },
-  plugins: [
-    // http://vuejs.github.io/vue-loader/en/workflow/production.html
-    new webpack.DefinePlugin({
-      'process.env': env
-    }),
-    new UglifyJsPlugin({
-      uglifyOptions: {
-        compress: {
-          warnings: false
-        }
-      },
-      sourceMap: config.system.productionSourceMap,
-      parallel: true
-    }),
-    // Compress extracted CSS. We are using this plugin so that possible
-    // duplicated CSS from different components can be deduped.
-    new OptimizeCSSPlugin({
-      cssProcessorOptions: { parser: SafeParser }
-    }),
-    // keep module.id stable when vendor modules does not change
-    new webpack.HashedModuleIdsPlugin(),
-    // enable scope hoisting
-    new webpack.optimize.ModuleConcatenationPlugin(),
-    // Copy and merge Sass tokens and system utilities as well
-    new MergeWebpackPlugin({
-      files: {
-        [utils.assetsSystemPath('system.utils.scss')]: [
-          './src/assets/tokens/tokens.scss',
-          './src/styles/_spacing.scss',
-          './src/styles/_fontsMaps.scss',
-          './src/styles/_mixins.scss',
-          './src/styles/_functions.scss',
-          ...elementsSCSS
-        ]
-      }
-    }),
-    // copy custom static assets
-    new CopyWebpackPlugin([
-      {
-        from: path.resolve(__dirname, '../src/assets'),
-        to: config.system.assetsSubDirectory,
-        ignore: ['.*', '*.png', '*.svg', '*.ico']
-      }
-    ])
-  ]
+  plugins
 })
 
 if (config.system.productionGzip) {
