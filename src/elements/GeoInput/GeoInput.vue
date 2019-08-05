@@ -32,6 +32,7 @@
 </template>
 
 <script>
+import _ from 'lodash'
 import cssSuffix from '../../mixins/cssModifierMixin'
 
 export default {
@@ -93,7 +94,7 @@ export default {
       // input is omitted because we create our own to work with v-model
       return _.omit(this.$listeners, 'input')
     },
-    
+
     statusClass () {
       if (this.error && this.success) console.warn('GeoInput [component] :: error and success state are true at the same time, GeoInput will be shown as error.')
       if (this.error) return 'error'
