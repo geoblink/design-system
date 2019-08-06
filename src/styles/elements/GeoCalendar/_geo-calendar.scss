@@ -261,13 +261,15 @@
       &--from-date {
         border-top-left-radius: $border-radius-selected-date-unit;
         border-bottom-left-radius: $border-radius-selected-date-unit;
-        margin-left: $space-small;
         padding-left: 0;
 
         .geo-calendar-day-picker__day-number {
           margin-left: 0;
         }
+      }
 
+      &--from-date:not(.geo-calendar-days-container__day-picker--to-date) {
+        margin-left: $space-small;
       }
 
       &--to-date {
