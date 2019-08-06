@@ -20,12 +20,11 @@
 
 <script>
 import GeoCalendarGridMixin from './GeoCalendarGrid.mixin'
-import { isBefore, isEqual, isAfter } from '../GeoCalendar.utils'
+import { isBefore, isEqual, isAfter, isWithinRange } from '../GeoCalendar.utils'
 
 import {
   isToday,
   isSameMonth,
-  isWithinRange,
   getDate
 } from 'date-fns'
 
