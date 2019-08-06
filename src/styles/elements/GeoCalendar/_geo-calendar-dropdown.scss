@@ -9,7 +9,7 @@
 
   @include geo-dropdown-make('geo-calendar__dropdown#{$modifier-name-with-prefix}');
   @include geo-bordered-box-make('geo-calendar__dropdown#{$modifier-name-with-prefix}');
-  @include geo-calendar-make($modifier-name-with-prefix);
+  @include geo-calendar-make($modifier-name);
 
   .geo-dropdown__popup--geo-calendar__dropdown#{$modifier-name-with-prefix} {
     width: 515px;
