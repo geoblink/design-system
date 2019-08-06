@@ -1,4 +1,4 @@
-import { isBefore, isAfter } from 'date-fns'
+import { isBefore, isAfter, startOfDay, isEqual } from 'date-fns'
 
 export const PICKER_DATE_UNITS = {
   day: 'day',
@@ -35,5 +35,19 @@ export const FOCUSABLE_INPUT_FIELDS = {
 }
 
 export const isDayUnavailable = (vm, day) => {
-  return isBefore(day, vm.earliestDate) || isAfter(day, vm.latestDate)
+  return isBeforeOverride(day, vm.earliestDate) || isAfterOverride(day, vm.latestDate)
 }
+
+const isBeforeOverride = (dateRef, dateToCompare) => {
+  return isBefore(startOfDay(dateRef), startOfDay(dateToCompare))
+}
+
+const isAfterOverride = (dateRef, dateToCompare) => {
+  return isAfter(startOfDay(dateRef), startOfDay(dateToCompare))
+}
+
+const isEqualOverride = (dateRef, dateToCompare) => {
+  return isEqual(startOfDay(dateRef), startOfDay(dateToCompare))
+}
+
+export { isBeforeOverride as isBefore, isAfterOverride as isAfter, isEqualOverride as isEqual }

@@ -99,15 +99,13 @@
 <script>
 import cssSuffix from '../../mixins/cssModifierMixin'
 import ClickOutside from '../../directives/GeoClickOutside'
-import { GRANULARITY_IDS, FOCUSABLE_INPUT_FIELDS } from './GeoCalendar.utils'
+import { GRANULARITY_IDS, FOCUSABLE_INPUT_FIELDS, isBefore, isAfter } from './GeoCalendar.utils'
 import {
   endOfMonth,
   endOfQuarter,
   format,
   getMonth,
   getYear,
-  isAfter,
-  isBefore,
   isValid,
   startOfQuarter,
   endOfYear,
