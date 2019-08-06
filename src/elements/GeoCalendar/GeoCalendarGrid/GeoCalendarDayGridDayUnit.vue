@@ -101,11 +101,11 @@ export default {
     },
 
     isDayWithinRanges () {
-      return this.selectedFromDay &&
-        this.selectedToDay &&
-        isBefore(this.selectedFromDay, this.selectedToDay) &&
-        (isWithinRange(this.day, this.selectedFromDay, this.selectedToDay) ||
-        (this.selectedFromDay === this.day || this.selectedToDay === this.day))
+      return this.selectedFromDayStart &&
+        this.selectedToDayStart &&
+        isBefore(this.selectedFromDayStart, this.selectedToDayStart) &&
+        (isWithinRange(this.day, this.selectedFromDayStart, this.selectedToDayStart) ||
+        (this.selectedFromDayStart === this.day || this.selectedToDayStart === this.dayStart))
     },
 
     isDayUnavailable () {
