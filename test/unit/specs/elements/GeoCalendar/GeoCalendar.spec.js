@@ -459,7 +459,7 @@ describe('GeoCalendar', () => {
   })
 
   describe('Initial Date', () => {
-    it('Should set currentMonth and currentYear according to initialDateInGridProp ', () => {
+    it('Should set currentMonth and currentYear according to initialDateInGrid prop ', () => {
       const wrapper = shallowMount(GeoCalendar, {
         stubs: [
           'geo-editable-input',
@@ -479,6 +479,30 @@ describe('GeoCalendar', () => {
 
       expect(wrapper.vm.currentMonth).toBe(3)
       expect(wrapper.vm.currentYear).toBe(2014)
+    })
+
+    it('Should set currentMonth and currentYear according to defaultToDate prop', () => {
+      const wrapper = shallowMount(GeoCalendar, {
+        stubs: [
+          'geo-editable-input',
+          'font-awesome-icon',
+          'geo-calendar-picker'
+        ],
+        propsData: {
+          calendarNavigationSelectIcon: ['fas', 'arrow-left'],
+          nextDateInSelectedGranularityIcon: ['fas', 'arrow-left'],
+          previousDateInSelectedGranularityIcon: ['fas', 'arrow-left'],
+          pickerDateUnit: PICKER_DATE_UNITS.day,
+          granularityId: GRANULARITY_IDS.day,
+          locale: {},
+          initialDateInGrid: subYears(subMonths(today, 3), 5),
+          defaultFromDate: subYears(subMonths(today, 3), 5),
+          defaultToDate: subYears(subMonths(today, 3), 4)
+        }
+      })
+
+      expect(wrapper.vm.currentMonth).toBe(3)
+      expect(wrapper.vm.currentYear).toBe(2015)
     })
   })
 
