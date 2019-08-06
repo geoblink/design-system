@@ -240,8 +240,12 @@ export default {
   },
 
   beforeMount () {
-    this.currentMonth = getMonth(this.initialDateInGrid)
-    this.currentYear = getYear(this.initialDateInGrid)
+    this.currentMonth = this.defaultToDate
+      ? getMonth(this.defaultToDate)
+      : getMonth(this.initialDateInGrid)
+    this.currentYear = this.defaultToDate
+      ? getYear(this.defaultToDate)
+      : getYear(this.initialDateInGrid)
     this.fromRawDate = this.defaultFromDate || null
     this.toRawDate = this.defaultToDate || null
   },

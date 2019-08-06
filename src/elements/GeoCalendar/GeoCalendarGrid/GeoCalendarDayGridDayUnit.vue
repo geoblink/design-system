@@ -6,8 +6,8 @@
       'geo-calendar-days-container__day-picker--out-of-boundaries': isDayOutOfBoundaries,
       'geo-calendar-days-container__day-picker--unavailable': isDayUnavailable,
       'geo-calendar-days-container__day-picker--selected': isSelectedDay,
-      'geo-calendar-days-container__day-picker--from-date': isEqual(day, selectedFromDay),
-      'geo-calendar-days-container__day-picker--to-date': isEqual(day, selectedToDay),
+      'geo-calendar-days-container__day-picker--from-date': isEqual(dayStart, selectedFromDayStart),
+      'geo-calendar-days-container__day-picker--to-date': isEqual(dayStart, selectedToDayStart),
       'geo-calendar-days-container__day-picker--within-range': isDayWithinRanges
     }"
     @click="selectDay($event)"
@@ -28,7 +28,8 @@ import {
   isAfter,
   isEqual,
   isWithinRange,
-  getDate
+  getDate,
+  startOfDay
 } from 'date-fns'
 
 export default {
@@ -87,6 +88,18 @@ export default {
       return !isSameMonth(new Date(this.day), this.currentDate)
     },
 
+    selectedFromDayStart () {
+      return startOfDay(this.selectedFromDay)
+    },
+
+    selectedToDayStart () {
+      return startOfDay(this.selectedToDay)
+    },
+
+    dayStart () {
+      return startOfDay(this.day)
+    },
+
     isDayWithinRanges () {
       return this.selectedFromDay &&
         this.selectedToDay &&
@@ -100,7 +113,7 @@ export default {
     },
 
     isSelectedDay () {
-      return isEqual(this.day, this.selectedFromDay) || isEqual(this.day, this.selectedToDay)
+      return isEqual(this.dayStart, this.selectedFromDayStart) || isEqual(this.dayStart, this.selectedToDayStart)
     }
   },
 
