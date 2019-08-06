@@ -64,6 +64,7 @@
 
     // GEO CALENDAR INPUT CONTROLS
     .geo-calendar__picker-controls {
+      box-sizing: content-box;
       padding: $space-base;
       width: 315px;
     }
