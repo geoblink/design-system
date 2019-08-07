@@ -31,7 +31,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/viljamis/vue-design-system.git"
+    "url": "git+https://bitbucket.org/geoblink/geoblink-design-system.git"
   },
   "keywords": [
     "vue design system",
