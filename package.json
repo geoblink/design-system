@@ -41,10 +41,6 @@
     "design",
     "system"
   ],
-  "resolutions": {
-    "merge": ">= 1.2.1",
-    "vue-styleguidist/vue-docgen-api": "^3.0.0"
-  },
   "dependencies": {
     "d3": "^5.7.0",
     "d3-tip": "^0.9.1",
