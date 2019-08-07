@@ -41,25 +41,6 @@
     "design",
     "system"
   ],
-  "babel": {
-    "presets": [
-      "@babel/preset-env"
-    ],
-    "plugins": [
-      "@babel/plugin-syntax-dynamic-import",
-      "@babel/plugin-transform-runtime"
-    ],
-    "env": {
-      "test": {
-        "presets": [
-          "@babel/preset-env"
-        ],
-        "plugins": [
-          "@babel/plugin-syntax-dynamic-import"
-        ]
-      }
-    }
-  },
   "resolutions": {
     "merge": ">= 1.2.1",
     "vue-styleguidist/vue-docgen-api": "^3.0.0"
