@@ -275,6 +275,88 @@ describe('GeoChartScale', function () {
       })
     })
 
+    describe('Time scales', function () {
+      const today = new Date()
+      const startDate = new Date('2019-01-01')
+      const endDate = new Date('2019-03-01')
+      const timeScaleBaseConfig = {
+        id: 0,
+        dimension: GeoChart.constants.DIMENSIONS.DIMENSIONS_2D.horizontal,
+        scale: {
+          type: GeoChart.constants.SCALES.SCALE_TYPES.time,
+          valueForOrigin: today,
+          domain: {
+            start: today,
+            end: today
+          }
+        }
+      }
+
+      it('should return a valid scale', function () {
+        const valueForOrigin = new Date()
+
+        const scale = GeoChartScale.getNewScale(
+          _.merge({}, timeScaleBaseConfig, { scale: { valueForOrigin } }),
+          chartBaseConfig
+        )
+
+        expect(scale).toHaveProperty('valueForOrigin', valueForOrigin)
+        expect(scale).toHaveProperty('axisScale')
+        expect(scale.axisScale).toBeInstanceOf(Function)
+        expect(Object.getPrototypeOf(scale.axisScale)).toBe(Object.getPrototypeOf(d3.scaleLinear))
+      })
+
+      testRange(timeScaleBaseConfig)
+
+      it('should set domain using start and end', function () {
+        const domain = {
+          start: startDate,
+          end: endDate
+        }
+        const scale = GeoChartScale.getNewScale(
+          _.merge({}, timeScaleBaseConfig, { scale: { domain } }),
+          chartBaseConfig
+        )
+
+        expect(scale.axisScale.domain()).toEqual([domain.start, domain.end])
+      })
+
+      it('should set domain using list of dates', function () {
+        const domain = [startDate, endDate]
+        const domainWithMiddle = [startDate, new Date('2019-02-01'), endDate]
+
+        const scale = GeoChartScale.getNewScale(
+          _.merge({}, timeScaleBaseConfig, { scale: { domain } }),
+          chartBaseConfig
+        )
+
+        expect(scale.axisScale.domain()).toEqual(domain)
+
+        const scaleWithMiddle = GeoChartScale.getNewScale(
+          _.merge({}, timeScaleBaseConfig, { scale: { domain: domainWithMiddle } }),
+          chartBaseConfig
+        )
+
+        expect(scaleWithMiddle.axisScale.domain()).toEqual(domainWithMiddle)
+      })
+
+      it('should throw error when using an invalid domain', function () {
+        const domain = {
+          start: startDate
+        }
+
+        expect(function () {
+          const config = _.cloneDeep(timeScaleBaseConfig)
+          config.scale.domain = domain
+
+          return GeoChartScale.getNewScale(
+            config,
+            chartBaseConfig
+          )
+        }).toThrowError()
+      })
+    })
+
     it('should throw error when trying to get an unknown scale', function () {
       const unknownScaleBaseConfig = {
         id: 0,
