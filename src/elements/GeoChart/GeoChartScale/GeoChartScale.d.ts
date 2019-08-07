@@ -13,7 +13,6 @@ declare namespace GeoChart {
     timeYear = 'timeYear'
   }
 
-
   interface ScaleNumericalRangeDomain {
     start: number
     end: number
