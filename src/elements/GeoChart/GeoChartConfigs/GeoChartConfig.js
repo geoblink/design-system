@@ -131,7 +131,8 @@ export const scaleTimeSchema = {
         scaleUtils.NICE_TYPES.timeDay,
         scaleUtils.NICE_TYPES.timeWeek,
         scaleUtils.NICE_TYPES.timeMonth,
-        scaleUtils.NICE_TYPES.timeYear
+        scaleUtils.NICE_TYPES.timeYear,
+        null
       ]
     },
     domain: {
