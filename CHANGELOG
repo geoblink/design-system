@@ -1,3 +1,9 @@
+# 24.2.0
+
+New:
+
+- `GeoChart` `SCALE_TYPES` new supported scale `CONSTANTS.SCALES.SCALE_TYPES.time`
+
 # 24.1.1
 
 Changed:

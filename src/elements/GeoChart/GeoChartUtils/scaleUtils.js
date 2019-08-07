@@ -6,7 +6,18 @@ import _ from 'lodash'
 export const SCALE_TYPES = {
   linear: 'linear',
   logarithmic: 'logarithmic',
-  categorical: 'categorical'
+  categorical: 'categorical',
+  time: 'time'
+}
+
+/**
+ * @enum {string}
+ */
+export const NICE_TYPES = {
+  timeDay: 'timeDay',
+  timeWeek: 'timeWeek',
+  timeMonth: 'timeMonth',
+  timeYear: 'timeYear'
 }
 
 /**

@@ -253,6 +253,9 @@ module.exports = [
           }, {
             name: 'Categorical lines',
             content: '../src/elements/GeoChart/GeoChartLine/GeoChartLineCategorical.md'
+          }, {
+            name: 'Time lines',
+            content: '../src/elements/GeoChart/GeoChartLine/GeoChartLineTime.md'
           }]
         }]
       }

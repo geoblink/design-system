@@ -2,8 +2,17 @@ declare namespace GeoChart {
   enum ScaleType {
     linear = 'linear',
     logarithmic = 'logarithmic',
-    categorical = 'categorical'
+    categorical = 'categorical',
+    time = 'time'
   }
+
+  enum NiceType {
+    timeDay = 'timeDay',
+    timeWeek = 'timeWeek',
+    timeMonth = 'timeMonth',
+    timeYear = 'timeYear'
+  }
+
 
   interface ScaleNumericalRangeDomain {
     start: number
@@ -31,5 +40,5 @@ declare namespace GeoChart {
 
   type ScaleConfig = NumericalScaleConfig | BandScaleConfig
 
-  type AxisScale = d3.ScaleLinear<number, number> | d3.ScaleLogarithmic<number, number> | d3.ScaleBand<string>
+  type AxisScale = d3.ScaleLinear<number, number> | d3.ScaleLogarithmic<number, number> | d3.ScaleBand<string> | d3.ScaleTime<number, number>
 }

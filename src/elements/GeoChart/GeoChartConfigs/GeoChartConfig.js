@@ -113,6 +113,54 @@ export const scaleCategoricalSchema = {
   }
 }
 
+export const scaleTimeSchema = {
+  type: 'object',
+  additionalProperties: false,
+  required: ['type', 'valueForOrigin', 'domain'],
+  properties: {
+    type: {
+      const: scaleUtils.SCALE_TYPES.time
+    },
+    valueForOrigin: {
+      // Must be a Date object
+      type: 'object'
+    },
+    nice: {
+      type: 'string',
+      enum: [
+        scaleUtils.NICE_TYPES.timeDay,
+        scaleUtils.NICE_TYPES.timeWeek,
+        scaleUtils.NICE_TYPES.timeMonth,
+        scaleUtils.NICE_TYPES.timeYear
+      ]
+    },
+    domain: {
+      oneOf: [{
+        type: 'object',
+        additionalProperties: false,
+        required: ['start', 'end'],
+        properties: {
+          start: {
+            // Must be a Date object
+            type: 'object'
+          },
+          end: {
+            // Must be a Date object
+            type: 'object'
+          }
+        }
+      }, {
+        type: 'array',
+        additionalItems: false,
+        items: {
+          // Must be a Date object
+          type: 'object'
+        }
+      }]
+    }
+  }
+}
+
 export const axisConfigJsonSchema = {
   type: 'object',
   additionalProperties: false,
@@ -164,7 +212,8 @@ export const axisConfigJsonSchema = {
       oneOf: [
         scaleLinearSchema,
         scaleLogarithmicSchema,
-        scaleCategoricalSchema
+        scaleCategoricalSchema,
+        scaleTimeSchema
       ]
     },
     // Function taking as first parameter an array of CSS classes that would

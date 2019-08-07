@@ -74,6 +74,10 @@ export function getNewScale (axisConfig, chart) {
     throw new Error(`GeoChart (scale) [component] :: Wrong domain config for scale of axis ${axisConfig.id}`)
   }
 
+  if (scaleConfig.nice) {
+    axisScale.nice(getNiceFunction(scaleConfig))
+  }
+
   return {
     axisScale,
     valueForOrigin: scaleConfig.valueForOrigin
@@ -95,7 +99,28 @@ function scaleFactory (scaleConfig) {
     }
     case scaleUtils.SCALE_TYPES.categorical:
       return d3.scaleBand()
+    case scaleUtils.SCALE_TYPES.time:
+      return d3.scaleTime()
   }
 
   throw new Error(`GeoChart (scale) [component] :: Trying to get scale of unknown type: ${scaleConfig.type}`)
+}
+
+/**
+ * @param {GeoChart.ScaleConfig} scaleConfig
+ * @returns {d3.CountableTimeInterval}
+ */
+function getNiceFunction (scaleConfig) {
+  switch (scaleConfig.nice) {
+    case scaleUtils.NICE_TYPES.timeDay:
+      return d3.timeDay
+    case scaleUtils.NICE_TYPES.timeWeek:
+      return d3.timeWeek
+    case scaleUtils.NICE_TYPES.timeMonth:
+      return d3.timeMonth
+    case scaleUtils.NICE_TYPES.timeYear:
+      return d3.timeYear
+  }
+
+  throw new Error(`GeoChart (scale) [component] :: Trying to get nice function of unknown type: ${scaleConfig.nice}`)
 }
