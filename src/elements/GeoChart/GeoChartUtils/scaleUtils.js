@@ -1,7 +1,7 @@
 import _ from 'lodash'
 
 /**
- * @enum {string}
+ * @enum {GeoChart.ScaleType}
  */
 export const SCALE_TYPES = {
   linear: 'linear',
@@ -11,7 +11,7 @@ export const SCALE_TYPES = {
 }
 
 /**
- * @enum {string}
+ * @enum {GeoChart.NiceType}
  */
 export const NICE_TYPES = {
   timeDay: 'timeDay',
