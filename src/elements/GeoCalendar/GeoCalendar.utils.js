@@ -35,28 +35,28 @@ export const FOCUSABLE_INPUT_FIELDS = {
 }
 
 export const isDayUnavailable = (vm, day) => {
-  return isBeforeOverride(day, vm.earliestDate) || isAfterOverride(day, vm.latestDate)
+  return isBeforeDay(day, vm.earliestDate) || isAfterDay(day, vm.latestDate)
 }
 
-const isBeforeOverride = (dateRef, dateToCompare) => {
+const isBeforeDay = (dateRef, dateToCompare) => {
   return isBefore(startOfDay(dateRef), startOfDay(dateToCompare))
 }
 
-const isAfterOverride = (dateRef, dateToCompare) => {
+const isAfterDay = (dateRef, dateToCompare) => {
   return isAfter(startOfDay(dateRef), startOfDay(dateToCompare))
 }
 
-const isEqualOverride = (dateRef, dateToCompare) => {
+const isEqualDay = (dateRef, dateToCompare) => {
   return isEqual(startOfDay(dateRef), startOfDay(dateToCompare))
 }
 
-const isWithinRangeOverride = (dateRef, rangeStartDate, rangeEndDate) => {
+const isDayWithinRange = (dateRef, rangeStartDate, rangeEndDate) => {
   return isWithinRange(startOfDay(dateRef), startOfDay(rangeStartDate), startOfDay(rangeEndDate))
 }
 
 export {
-  isBeforeOverride as isBefore,
-  isAfterOverride as isAfter,
-  isEqualOverride as isEqual,
-  isWithinRangeOverride as isWithinRange
+  isBeforeDay as isBefore,
+  isAfterDay as isAfter,
+  isEqualDay as isEqual,
+  isDayWithinRange as isWithinRange
 }
