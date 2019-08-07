@@ -126,7 +126,7 @@ export const scaleTimeSchema = {
       type: 'object'
     },
     nice: {
-      type: 'string',
+      type: ['string', 'null'],
       enum: [
         scaleUtils.NICE_TYPES.timeDay,
         scaleUtils.NICE_TYPES.timeWeek,
@@ -227,7 +227,7 @@ export const axisConfigJsonSchema = {
       additionalProperties: false,
       properties: {
         count: {
-          type: 'integer',
+          type: ['integer', 'null'],
           minimum: 0
         },
         // Function taking as first parameter an array of CSS classes that would
