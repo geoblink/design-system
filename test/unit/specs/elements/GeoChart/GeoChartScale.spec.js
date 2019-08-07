@@ -303,7 +303,7 @@ describe('GeoChartScale', function () {
         expect(scale).toHaveProperty('valueForOrigin', valueForOrigin)
         expect(scale).toHaveProperty('axisScale')
         expect(scale.axisScale).toBeInstanceOf(Function)
-        expect(Object.getPrototypeOf(scale.axisScale)).toBe(Object.getPrototypeOf(d3.scaleLinear))
+        expect(Object.getPrototypeOf(scale.axisScale)).toBe(Object.getPrototypeOf(d3.scaleTime))
       })
 
       testRange(timeScaleBaseConfig)
