@@ -19,16 +19,16 @@
 <script>
 import GeoCalendarGridMixin from './GeoCalendarGrid.mixin'
 import GeoCalendarDateIndicatorsMixin from '../GeoCalendarDateIndicators.mixin'
+import { isBefore, isAfter } from '../GeoCalendar.utils'
+
 import {
   getYear,
-  isAfter,
-  isBefore,
   addYears
 } from 'date-fns'
 
 export default {
   name: 'GeoCalendarYearGridYearUnit',
-  status: 'missing-tests',
+  status: 'ready',
   release: '23.2.0',
   mixins: [
     GeoCalendarGridMixin,

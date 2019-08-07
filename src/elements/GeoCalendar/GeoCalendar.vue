@@ -99,15 +99,13 @@
 <script>
 import cssSuffix from '../../mixins/cssModifierMixin'
 import ClickOutside from '../../directives/GeoClickOutside'
-import { GRANULARITY_IDS, FOCUSABLE_INPUT_FIELDS } from './GeoCalendar.utils'
+import { GRANULARITY_IDS, FOCUSABLE_INPUT_FIELDS, isBefore, isAfter } from './GeoCalendar.utils'
 import {
   endOfMonth,
   endOfQuarter,
   format,
   getMonth,
   getYear,
-  isAfter,
-  isBefore,
   isValid,
   startOfQuarter,
   endOfYear,
@@ -121,7 +119,7 @@ import GeoCalendarPickerDateUnitMixin from './GeoCalendarPickerDateUnit.mixin'
 
 export default {
   name: 'GeoCalendar',
-  status: 'missing-tests',
+  status: 'ready',
   release: '23.2.0',
   directives: {
     ClickOutside
@@ -240,8 +238,14 @@ export default {
   },
 
   beforeMount () {
-    this.currentMonth = getMonth(this.initialDateInGrid)
-    this.currentYear = getYear(this.initialDateInGrid)
+    this.currentMonth = this.defaultToDate
+      ? getMonth(this.defaultToDate)
+      : getMonth(this.initialDateInGrid)
+    this.currentYear = this.defaultToDate
+      ? getYear(this.defaultToDate)
+      : getYear(this.initialDateInGrid)
+    this.fromRawDate = this.defaultFromDate || null
+    this.toRawDate = this.defaultToDate || null
   },
 
   methods: {

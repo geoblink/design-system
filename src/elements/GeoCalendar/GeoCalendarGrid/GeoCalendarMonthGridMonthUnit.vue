@@ -21,14 +21,15 @@ import {
   addMonths,
   getMonth,
   getYear,
-  isAfter,
-  isBefore,
-  startOfDay
+  startOfDay,
+  endOfMonth,
+  startOfMonth
 } from 'date-fns'
 
 import GeoCalendarGridMixin from './GeoCalendarGrid.mixin'
 import GeoCalendarGranularityIdMixin from '../GeoCalendarGranularityId.mixin'
 import GeoCalendarDateIndicatorsMixin from '../GeoCalendarDateIndicators.mixin'
+import { isBefore, isAfter } from '../GeoCalendar.utils'
 
 export default {
   name: 'GeoCalendarMonthGridMonthUnit',
@@ -88,7 +89,7 @@ export default {
     },
 
     isMonthUnavailable () {
-      return isBefore(this.currentDate, this.earliestDate) ||
+      return isBefore(this.currentDate, startOfMonth(this.earliestDate)) ||
         isAfter(this.currentDate, this.latestDate)
     },
 

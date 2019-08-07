@@ -16,7 +16,7 @@
 <script>
 export default {
   name: 'GeoCalendarPickerGranularityBase',
-  status: 'missing-tests',
+  status: 'ready',
   release: '23.2.0',
   props: {
     /**
@@ -35,9 +35,7 @@ export default {
      */
     pickerGranularityIcon: {
       type: Array,
-      default () {
-        return ['fal', 'arrow-right']
-      }
+      required: true
     }
   }
 }

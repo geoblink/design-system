@@ -15,7 +15,7 @@
       :css-modifier="`geo-calendar__dropdown${cssSuffix}`"
     >
       <geo-bordered-box-header
-        :close-icon="['fas', 'times']"
+        :close-icon="closeCalendarIcon"
         @close="closeCalendar"
       >
         <!-- @slot Use this slot to customize the text displayed on the calendar's header -->
@@ -26,6 +26,8 @@
         :calendar-navigation-select-icon="calendarNavigationSelectIcon"
         :css-modifier="cssModifier"
         :earliest-date="earliestDate"
+        :default-from-date="defaultFromDate"
+        :default-to-date="defaultToDate"
         :from-input-placeholder="fromInputPlaceholder"
         :granularity-id="granularityId"
         :initial-date-in-grid="initialDateInGrid"
@@ -62,7 +64,10 @@
       </geo-calendar>
       <geo-bordered-box-footer>
         <!-- @slot Use this slot to customize the footer of the calendar -->
-        <slot name="calendarFooter" />
+        <slot
+          name="calendarFooter"
+          :apply-range-selection="applyRangeSelection"
+        />
       </geo-bordered-box-footer>
     </geo-bordered-box>
   </geo-dropdown>
@@ -78,7 +83,7 @@ import * as GeoCalendarConstants from './GeoCalendar.utils'
 
 export default {
   name: 'GeoCalendarDropdown',
-  status: 'missing-tests',
+  status: 'ready',
   release: '23.2.0',
   constants: GeoCalendarConstants,
   mixins: [
@@ -97,7 +102,6 @@ export default {
   methods: {
     closeCalendar () {
       this.isCalendarPopupOpened = false
-      this.resetDates()
     },
 
     handleClickOutside ($event) {
@@ -107,11 +111,6 @@ export default {
       const popup = _.get(this.$refs.calendar, '$refs.calendarPicker.$refs.calendarNavigationWrapper.$refs.calendarNavigation.$refs.calendarNavigationSelect')
       if (popup && popup.contains($event.target)) return
       this.closeCalendar()
-    },
-
-    resetDates () {
-      this.emitFromDate({ fromDate: null })
-      this.emitToDate({ toDate: null })
     },
 
     emitFromDate ({ fromDate }) {
@@ -136,6 +135,11 @@ export default {
 
     toggleCalendarPopup () {
       this.isCalendarPopupOpened = !this.isCalendarPopupOpened
+    },
+
+    applyRangeSelection () {
+      this.closeCalendar()
+      this.$emit('apply-range-selection')
     }
   }
 }

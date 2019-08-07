@@ -55,10 +55,14 @@ The displayed grid for each granularity will depend on the provided `pickerDateU
     </h3>
     <div class="element-demo__block">
       <geo-calendar-dropdown
+        css-modifier="calendar-demo"
         :input-range-icon="['fas', 'arrow-right']"
         :previous-date-in-selected-granularity-icon="['fas', 'chevron-left']"
         :next-date-in-selected-granularity-icon="['fas', 'chevron-right']"
         :calendar-navigation-select-icon="['fas', 'chevron-down']"
+        :close-calendar-icon="['fas', 'times']"
+        :default-from-date="selectedFromDay"
+        :default-to-date="selectedToDay"
         :earliest-date="dataEarliestDate"
         :latest-date="dataLatestDate"
         :picker-date-unit="selectedPickerDateUnit"
@@ -68,6 +72,7 @@ The displayed grid for each granularity will depend on the provided `pickerDateU
         to-input-placeholder="To"
         @emit-from-date="setFromDate"
         @emit-to-date="setToDate"
+        @apply-range-selection="applyDates"
       >
         <template
           slot-scope="{ toggleCalendarPopup }"
@@ -131,12 +136,17 @@ The displayed grid for each granularity will depend on the provided `pickerDateU
         <template slot="latestDatePlaceholder">
           Set latest date
         </template>
-        <geo-primary-button
+        <template
+          slot-scope="{ applyRangeSelection }"
           slot="calendarFooter"
-          :disabled="isDateRangeNotValid"
         >
-          apply date
-        </geo-primary-button>
+          <geo-primary-button
+            :disabled="isDateRangeNotValid"
+            @click="applyRangeSelection"
+          >
+            apply date
+          </geo-primary-button>
+        </template>
       </geo-calendar-dropdown>
     </div>
   </div>
@@ -145,7 +155,11 @@ The displayed grid for each granularity will depend on the provided `pickerDateU
 <script>
 const ES_LOCALE = require('date-fns/locale/es')
 const subYears = require('date-fns').subYears
+const subMonths = require('date-fns').subMonths
+const addMonths = require('date-fns').addMonths
 const addYears = require('date-fns').addYears
+const addDays = require('date-fns').addDays
+const subDays = require('date-fns').subDays
 const startOfToday = require('date-fns').startOfToday
 const isAfter = require('date-fns').isAfter
 const isValid = require('date-fns').isValid
@@ -202,7 +216,9 @@ export default {
 
     setToDate ({ toDate }) {
       this.selectedToDay = toDate
-    }
+    },
+
+    applyDates () {}
   }
 }
 </script>

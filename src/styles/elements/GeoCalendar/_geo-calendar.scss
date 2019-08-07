@@ -10,12 +10,6 @@
     $modifier-name-with-prefix: --#{$modifier-name};
   }
 
-  @include geo-dropdown-make('geo-calendar__dropdown#{$modifier-name-with-prefix}');
-  @include geo-button-make('calendar-picker-button#{$modifier-name-with-prefix}');
-  @include geo-select-base-make('calendar-navigation-selection');
-  @include geo-button-make('calendar-navigation-toggle-button');
-  @include geo-editable-input-make('geo-calendar');
-
   // TODO CORE-7347 - Refactor CSS Code so it passes down cssModifier to all child components
 
   .geo-calendar#{$modifier-name-with-prefix} {
@@ -70,6 +64,7 @@
 
     // GEO CALENDAR INPUT CONTROLS
     .geo-calendar__picker-controls {
+      box-sizing: content-box;
       padding: $space-base;
       width: 315px;
     }
@@ -266,13 +261,15 @@
       &--from-date {
         border-top-left-radius: $border-radius-selected-date-unit;
         border-bottom-left-radius: $border-radius-selected-date-unit;
-        margin-left: $space-small;
         padding-left: 0;
 
         .geo-calendar-day-picker__day-number {
           margin-left: 0;
         }
+      }
 
+      &--from-date:not(.geo-calendar-days-container__day-picker--to-date) {
+        margin-left: $space-small;
       }
 
       &--to-date {
@@ -428,5 +425,3 @@
     }
   }
 }
-
-@include geo-calendar-make('');

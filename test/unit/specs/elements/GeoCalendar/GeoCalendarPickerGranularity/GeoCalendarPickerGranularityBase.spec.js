@@ -6,7 +6,8 @@ describe('GeoCalendarPickerGranularityBase', () => {
     const wrapper = mount(GeoCalendarPickerGranularityBase, {
       stubs: ['font-awesome-icon'],
       propsData: {
-        isActive: false
+        isActive: false,
+        pickerGranularityIcon: ['fas', 'arrow-right']
       }
     })
     expect(wrapper.find('.geo-calendar-picker-granularity-unit').exists()).toBe(true)
@@ -17,7 +18,8 @@ describe('GeoCalendarPickerGranularityBase', () => {
     const wrapper = mount(GeoCalendarPickerGranularityBase, {
       stubs: ['font-awesome-icon'],
       propsData: {
-        isActive: false
+        isActive: false,
+        pickerGranularityIcon: ['fas', 'arrow-right']
       }
     })
     expect(wrapper.find('.geo-calendar-picker-granularity-unit--active').exists()).toBe(false)

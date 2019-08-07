@@ -25,15 +25,10 @@
 
 <script>
 import _ from 'lodash'
-import { GRANULARITY_IDS } from '../GeoCalendar.utils'
+import { GRANULARITY_IDS, isBefore, isAfter } from '../GeoCalendar.utils'
 import GeoCalendarGridMixin from './GeoCalendarGrid.mixin'
 import GeoCalendarGranularityIdMixin from '../GeoCalendarGranularityId.mixin'
 import GeoCalendarDateIndicatorsMixin from '../GeoCalendarDateIndicators.mixin'
-
-import {
-  isBefore,
-  isAfter
-} from 'date-fns'
 
 export default {
   name: 'GeoCalendarMonthGridQuarterUnit',

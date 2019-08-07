@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import { PICKER_DATE_UNITS, YEAR_GRID_CONSTANTS } from './GeoCalendar.utils'
+import { PICKER_DATE_UNITS, YEAR_GRID_CONSTANTS, isBefore, isAfter } from './GeoCalendar.utils'
 import GeoCalendarDateIndicators from './GeoCalendarDateIndicators.mixin'
 import GeoCalendarGranularityIdMixin from './GeoCalendarGranularityId.mixin'
 import GeoCalendarPickerDateUnitMixin from './GeoCalendarPickerDateUnit.mixin'
@@ -54,14 +54,12 @@ import {
   getMonth,
   getYear,
   subMonths,
-  subYears,
-  isBefore,
-  isAfter
+  subYears
 } from 'date-fns'
 
 export default {
   name: 'GeoCalendarPicker',
-  status: 'missing-tests',
+  status: 'ready',
   release: '23.2.0',
   mixins: [
     GeoCalendarDateIndicators,
