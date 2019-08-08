@@ -8026,11 +8026,6 @@ merge2@^1.2.3:
   resolved "https://registry.yarnpkg.com/merge2/-/merge2-1.2.4.tgz#c9269589e6885a60cf80605d9522d4b67ca646e3"
   integrity sha512-FYE8xI+6pjFOhokZu0We3S5NKCirLbCzSh2Usf3qEyr4X8U+0jNg9P8RZ4qz+V2UoECLVwSyzU3LxXBaLGtD3A==
 
-"merge@>= 1.2.1":
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/merge/-/merge-1.2.1.tgz#38bebf80c3220a8a487b6fcfb3941bb11720c145"
-  integrity sha512-VjFo4P5Whtj4vsLzsYBu5ayHhoHJ0UqNm7ibvShmbmoz7tGi0vXaoJbGdB+GmDMLUdg8DpQXEIeVDAe8MaABvQ==
-
 methods@~1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/methods/-/methods-1.1.2.tgz#5529a4d67654134edcc5266656835b0f851afcee"
@@ -11944,10 +11939,10 @@ vue-directive-tooltip@^1.4.5:
   dependencies:
     popper.js "1.15.0"
 
-vue-docgen-api@^3.0.0:
-  version "3.17.0"
-  resolved "https://registry.yarnpkg.com/vue-docgen-api/-/vue-docgen-api-3.17.0.tgz#b944e9feb0c3c2b2ebe304d39aedc2eb8ea237f8"
-  integrity sha512-7zKzC9GJ4W+ZSUjA/ooYbXYyR7W71WDY0tnEV6fUVQ3etYQEMYOJSHN3jbgjD19U0ZVCOMoKtfKSzKSmUAPqFQ==
+vue-docgen-api@^3.19.5:
+  version "3.19.5"
+  resolved "https://registry.yarnpkg.com/vue-docgen-api/-/vue-docgen-api-3.19.5.tgz#8c49d04d739ae47eef8911f18dc3661463d57c71"
+  integrity sha512-a+fN+Fy1LSf6yJrGyIIocpwodZg/Osjx5/kJbk5UVt2gK8TaKyvJph7JJiU9cQrLNlX+bXTCor2xIBpWnLAAoQ==
   dependencies:
     "@babel/parser" "^7.2.3"
     "@babel/types" "^7.0.0"
