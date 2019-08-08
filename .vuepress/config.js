@@ -40,6 +40,12 @@ module.exports = {
     componentsDocumentations,
     componentsExamples
   },
+  plugins: [
+    ['live', {
+      // optional: use layout to customize how the live editor is going to look like
+      layout: path.resolve(__dirname, "./components/ComponentDemo.vue")
+    }]
+  ],
   configureWebpack: {
     resolve: {
       alias: {

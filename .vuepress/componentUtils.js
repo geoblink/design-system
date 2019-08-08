@@ -38,7 +38,7 @@ export function getVuepressPageSettingsForExample (originalPage, customPage) {
     key: originalPage.key,
     headers: originalPage.headers,
     frontmatter: originalPage.frontmatter,
-    title: originalPage.title,
+    title: `${originalPage.title} (Example)`,
     path: customPage.customRegularPath,
     regularPath: customPage.customRegularPath,
     relativePath: customPage.originalRelativePath
