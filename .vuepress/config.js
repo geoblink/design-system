@@ -89,12 +89,12 @@ function getComponentsExamples () {
   const componentsExamples = _.map(componentsMarkdownDocumentationsPaths, function (pathToComponentExample) {
     const internalPath = pathToComponentExample
       .replace(`${componentsPath}/`, '')
-      .replace(/\.md$/, '')
+      .replace(/\.examples.md$/, '')
+
 
     return {
-      originalRegularPath: `/src/elements/${internalPath}.html`,
-      customRegularPath: `/examples/${internalPath}.html`,
-      originalRelativePath: `src/elements/${internalPath}.md`,
+      originalRegularPath: `/src/elements/${internalPath}.examples.html`,
+      originalRelativePath: `src/elements/${internalPath}.examples.md`,
       internalPath
     }
   })

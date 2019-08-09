@@ -60,18 +60,24 @@ function renameComponentExamplesPages (siteData) {
     const pageInfo = siteData.pages[i]
 
     if (!(pageInfo.regularPath in componentExamplesInternalPaths)) continue
+    if (pageInfo.title) continue
 
     const componentInternalPath = pageInfo.regularPath
       .replace('/src/elements/', '')
-      .replace(/Docs\.[^.]*$/, '')
+      .replace(/\.examples\.[^.]*$/, '')
+
     const component = componentsDocumentations[componentInternalPath]
     const componentDisplayName = component && component.documentation.displayName
 
-    const parentComponentInternalPath = _.times(2, componentInternalPath.split('/')[0]).join('/')
+    const parentComponentInternalPath = _.times(2, () => componentInternalPath.split('/')[0]).join('/')
     const parentComponent = componentsDocumentations[parentComponentInternalPath]
     const parentComponentDisplayName = parentComponent && parentComponent.documentation.displayName
 
-    pageInfo.title = `${pageInfo.title || componentDisplayName || parentComponentDisplayName} (Examples)`
+    const displayablePath = componentDisplayName
+      ? componentDisplayName
+      : `${parentComponentDisplayName} » ${componentInternalPath.split('/').slice(-1)[0]}`
+
+    pageInfo.title = `${displayablePath} (Examples)`
   }
 }
 
