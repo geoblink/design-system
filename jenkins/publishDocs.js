@@ -18,7 +18,7 @@ const region = CONSTANTS.region
 
 logSettings()
 
-const docsLocalPath = path.resolve(__dirname, '../dist/docs')
+const docsLocalPath = path.resolve(__dirname, '../.vuepress/dist')
 const packageVersion = packageInfo.version
 const packageVersionTargetPrefix = `design-system/${packageVersion}`
 
