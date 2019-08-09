@@ -19,6 +19,7 @@
     "lint": "eslint '**/*.{js,vue}' --cache",
     "lint:fix": "eslint '**/*.{js,vue}' --cache --fix",
     "build": "run-s theo:build node:build:system",
+    "build:docs": "run-s theo:build docs:build",
     "node:build:system": "node ./build/build-system.js",
     "theo:build": "theo ./src/tokens/tokens.yml --setup .theo.setup.js --transform web --format map.scss,scss,raw.json,json --dest ./.vuepress/public/tokens",
     "theo:watch": "onchange './src/tokens/*.yml' -- run-s theo:build",
