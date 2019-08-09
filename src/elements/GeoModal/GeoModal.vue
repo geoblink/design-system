@@ -48,6 +48,7 @@
 import OnResize from '../../directives/GeoOnResize'
 import ScrollAnywhere from '../../directives/GeoScrollAnywhere'
 import cssSuffix from '../../mixins/cssModifierMixin'
+import { getDocument } from '../../utils/ssrProxy'
 
 export default {
   name: 'GeoModal',
@@ -67,7 +68,7 @@ export default {
     attachTo: {
       type: null, // There's no built in type for HTMLElement.
       default () {
-        return document.body
+        return getDocument().body
       }
     },
 
@@ -111,7 +112,7 @@ export default {
   },
   computed: {
     modalStyle () {
-      if (this.attachTo === document.body) {
+      if (this.attachTo === getDocument().body) {
         return {
           position: 'fixed'
         }
@@ -172,7 +173,7 @@ export default {
     },
 
     setAttachToElementPosition () {
-      if (this.attachTo === document.body) return
+      if (this.attachTo === getDocument().body) return
 
       const currentPosition = getComputedStyle(this.attachTo).getPropertyValue('position')
       if (currentPosition === 'static') {

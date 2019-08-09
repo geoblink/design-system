@@ -99,7 +99,7 @@ export default {
   },
   computed: {
     currentSelectedMonth () {
-      return this.monthsInYear[this.currentMonth].name
+      return _.get(this.monthsInYear, this.currentMonth, 'name')
     },
 
     monthsInYear () {

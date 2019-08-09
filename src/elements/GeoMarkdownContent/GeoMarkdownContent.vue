@@ -131,7 +131,9 @@ export default {
         return []
       }
 
-      return getMarkdownNodes(this.markdown, this.values, this.parser)
+      return this.markdown
+        ? getMarkdownNodes(this.markdown, this.values, this.parser)
+        : []
     }
   }
 }

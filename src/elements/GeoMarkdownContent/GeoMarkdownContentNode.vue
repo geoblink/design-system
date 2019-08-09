@@ -34,6 +34,7 @@
 </template>
 
 <script>
+import _ from 'lodash'
 import { MarkdownNodeType } from './GeoMarkdownParser'
 
 export default {
@@ -48,7 +49,7 @@ export default {
   },
   computed: {
     isPlainText () {
-      return this.node.type === MarkdownNodeType.plainText
+      return _.get(this.node, 'type') === MarkdownNodeType.plainText
     },
 
     isBlock () {
@@ -56,15 +57,15 @@ export default {
     },
 
     isLink () {
-      return this.node.type === MarkdownNodeType.link
+      return _.get(this.node, 'type') === MarkdownNodeType.link
     },
 
     isImage () {
-      return this.node.type === MarkdownNodeType.image
+      return _.get(this.node, 'type') === MarkdownNodeType.image
     },
 
     isCodeBlock () {
-      return this.node.type === MarkdownNodeType.code
+      return _.get(this.node, 'type') === MarkdownNodeType.code
     },
 
     text () {
@@ -72,44 +73,44 @@ export default {
         [MarkdownNodeType.plainText]: true,
         [MarkdownNodeType.code]: true
       }
-      return this.node.type in plainTextNodeTypes
-        ? this.node.content
+      return _.get(this.node, 'type') in plainTextNodeTypes
+        ? _.get(this.node, 'content')
         : null
     },
 
     childNodes () {
       return this.isBlock
-        ? this.node.childNodes
+        ? _.get(this.node, 'childNodes')
         : null
     },
 
     htmlTag () {
       return this.isBlock
-        ? this.node.tag
+        ? _.get(this.node, 'tag')
         : null
     },
 
     href () {
       return this.isLink
-        ? this.node.href
+        ? _.get(this.node, 'href')
         : null
     },
 
     title () {
       return this.isLink || this.isImage
-        ? this.node.title
+        ? _.get(this.node, 'title')
         : null
     },
 
     src () {
       return this.isImage
-        ? this.node.src
+        ? _.get(this.node, 'src')
         : null
     },
 
     alt () {
       return this.isImage
-        ? this.node.alt
+        ? _.get(this.node, 'alt')
         : null
     }
   }
