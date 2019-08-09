@@ -17,7 +17,7 @@ export function getVuepressPageSettingsForComponent (params) {
     path: `/components/${params.path}.html`,
     regularPath: `/components/${params.path}.html`,
     relativePath: `components/${params.path}`,
-    title: params.definition.name
+    title: `${params.definition.name} (Documentation)`
   }
 }
 

@@ -37,44 +37,55 @@ export default ({ Vue, router, siteData }) => {
   Vue.component('font-awesome-icon', FontAwesomeIcon)
   Vue.use(GeoblinkDesignSystem)
 
+  renameComponentExamplesPages(siteData)
+  addComponentDocumentationRoutes(router, siteData)
+  addComponentDocumentationPages(siteData)
+}
+
+/**
+ * @param {any} siteData
+ */
+function renameComponentExamplesPages (siteData) {
   const {
     componentsDocumentations,
     componentsExamples
   } = siteData.themeConfig
 
-  // Remove default pages corresponding component examples
-
-  const regularPathsToBeIgnored = {}
+  const componentExamplesInternalPaths = {}
   for (const singleComponentExample of componentsExamples) {
-    regularPathsToBeIgnored[singleComponentExample.originalRegularPath] = { }
+    componentExamplesInternalPaths[singleComponentExample.originalRegularPath] = true
   }
 
-  for (let i = 0; i < siteData.pages.length;) {
+  for (let i = 0; i < siteData.pages.length; i++) {
     const pageInfo = siteData.pages[i]
-    if (pageInfo.regularPath in regularPathsToBeIgnored) {
-      const parentComponentName = pageInfo.regularPath.replace('/src/elements/', '').split('.')[0]
-      const parentComponent = componentsDocumentations[parentComponentName]
 
-      regularPathsToBeIgnored[pageInfo.regularPath] = {
-        key: pageInfo.key,
-        title: pageInfo.title || (parentComponent && parentComponent.documentation.displayName),
-        frontmatter: pageInfo.frontmatter,
-        headers: pageInfo.headers
-      }
+    if (!(pageInfo.regularPath in componentExamplesInternalPaths)) continue
 
-      siteData.pages.splice(i, 1)
-    } else {
-      i++
-    }
+    const componentInternalPath = pageInfo.regularPath
+      .replace('/src/elements/', '')
+      .replace(/Docs\.[^.]*$/, '')
+    const component = componentsDocumentations[componentInternalPath]
+    const componentDisplayName = component && component.documentation.displayName
+
+    const parentComponentInternalPath = _.times(2, componentInternalPath.split('/')[0]).join('/')
+    const parentComponent = componentsDocumentations[parentComponentInternalPath]
+    const parentComponentDisplayName = parentComponent && parentComponent.documentation.displayName
+
+    pageInfo.title = `${pageInfo.title || componentDisplayName || parentComponentDisplayName} (Examples)`
   }
+}
 
-  // Add a dynamic route to be able to show component's documentation automatically
+/**
+ * @param {any} router
+ * @param {any} siteData
+ */
+function addComponentDocumentationRoutes (router, siteData) {
   router.addRoutes([{
     path: '/components/*',
     component: ComponentDocumentation,
     props (route) {
       const componentPath = route.params.pathMatch.replace(/\.[^.]*$/, '')
-      const { documentation, examples } = componentsDocumentations[componentPath]
+      const { documentation, examples } = siteData.themeConfig.componentsDocumentations[componentPath]
 
       return {
         componentPath,
@@ -84,8 +95,14 @@ export default ({ Vue, router, siteData }) => {
       }
     }
   }])
+}
 
-  // Add component documentation dynamic page to search index
+/**
+ * @param {any} siteData
+ */
+function addComponentDocumentationPages (siteData) {
+  const { componentsDocumentations } = siteData.themeConfig
+
   for (const componentPath of Object.keys(componentsDocumentations)) {
     const { documentation } = componentsDocumentations[componentPath]
     const componentDefinition = components[documentation.displayName]
@@ -96,16 +113,6 @@ export default ({ Vue, router, siteData }) => {
         definition: componentDefinition,
         documentation
       })
-    )
-  }
-
-  // Add pages corresponding to component examples
-  for (const singleComponentExample of componentsExamples) {
-    siteData.pages.push(
-      componentUtils.getVuepressPageSettingsForExample(
-        regularPathsToBeIgnored[singleComponentExample.originalRegularPath],
-        singleComponentExample
-      )
     )
   }
 }
