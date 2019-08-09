@@ -9,10 +9,17 @@ const base = process.env.VUEPRESS_BASE || '/'
 
 const componentsDocumentations = getComponentsDefinitions()
 const componentsExamples = getComponentsExamples()
-const componentsSectionItems = _.map(componentsDocumentations, function ({ documentation, path }) {
+
+const groupedComponentsDocumentations = _.groupBy(componentsDocumentations, 'group')
+const componentsSectionItems = _.map(groupedComponentsDocumentations, function (items, groupName) {
   return {
-    text: documentation.displayName,
-    link: `/components/${path}`
+    text: groupName,
+    items: _.map(items, function ({ documentation, path }) {
+      return {
+        text: documentation.displayName,
+        link: `/components/${path}`
+      }
+    })
   }
 })
 
@@ -72,9 +79,12 @@ function getComponentsDefinitions () {
 
       const examples = examplesByInternalPath[relativePath]
 
+      const group = relativePath.split('/')[0]
+
       return [relativePath, {
         path: relativePath,
         documentation: vueDocs.parse(pathToComponentDefinition),
+        group,
         examples
       }]
     })
