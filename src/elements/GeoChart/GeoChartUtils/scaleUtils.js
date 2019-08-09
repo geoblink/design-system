@@ -1,12 +1,23 @@
 import _ from 'lodash'
 
 /**
- * @enum {string}
+ * @enum {GeoChart.ScaleType}
  */
 export const SCALE_TYPES = {
   linear: 'linear',
   logarithmic: 'logarithmic',
-  categorical: 'categorical'
+  categorical: 'categorical',
+  time: 'time'
+}
+
+/**
+ * @enum {GeoChart.NiceType}
+ */
+export const NICE_TYPES = {
+  timeDay: 'timeDay',
+  timeWeek: 'timeWeek',
+  timeMonth: 'timeMonth',
+  timeYear: 'timeYear'
 }
 
 /**

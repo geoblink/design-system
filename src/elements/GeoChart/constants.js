@@ -20,3 +20,7 @@ export const DIMENSIONS = {
 export const SCALES = {
   SCALE_TYPES: scaleUtils.SCALE_TYPES
 }
+
+export const NICES = {
+  NICE_TYPES: scaleUtils.NICE_TYPES
+}

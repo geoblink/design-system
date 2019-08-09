@@ -85,3 +85,29 @@ properties are optional:
   }
 }
 ```
+
+## Time scales
+
+Similar to `linear` scales, but:
+
+- `type`: must be `SCALE.SCALE_TYPES.time`.
+- `domain`: must be either an array of dates (the domain will be formed by all
+of those dates) or an object with an `start` and an `end` property, both of
+them dates. A domain may be decreasing.
+- `valueForOrigin`: must be one of the values of `domain` array.
+
+### Optional properties
+
+- `nice`: function that will modify the domain to one that the ticks fit nicely
+in the graph. Must be one of `SCALE.NICE_TYPES`
+
+### Example
+
+```json
+{
+  "type": "time",
+  "domain": [new Date("2019-01-01"), new Date("2019-12-01")],
+  "valueForOrigin": new Date("2019-01-01"),
+  "nice": "timeMonth"
+}
+```
