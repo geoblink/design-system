@@ -4,7 +4,7 @@ read only row-like container for [GeoSelect](/#/Elements/GeoSelect?id=geoselect-
 It's specially designed to be used to display special messages like
 *No results found*.
 
-```jsx
+```jsx live
 <div class="element-demo">
   <h3 class="element-demo__header">Read only entry with only content</h3>
   <div class="element-demo__block" style="justify-content: space-around;">

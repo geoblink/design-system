@@ -1,9 +1,9 @@
-`GeoInputMessage` is component designed to fit nicely as a help message for 
+`GeoInputMessage` is component designed to fit nicely as a help message for
 `GeoInput`.
 You can customize the color to change the intention of the message using
 different variants like `success` or `error`.
 
-```vue
+```vue live
 <template>
   <div class="element-demo">
     <h3 class="element-demo__header">Default message</h3>

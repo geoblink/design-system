@@ -1,7 +1,7 @@
 `GeoSuccessSegmentedControlItem` is a component designed to nicely fit as one of
 the options of a [`GeoSegmentedControl`](./#/Elements/GeoSegmentedControl?id=geosegmentedcontrol-1).
 
-```vue
+```vue live
 <template>
   <div class="element-demo">
     <h3 class="element-demo__header">Regular style</h3>

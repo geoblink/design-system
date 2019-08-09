@@ -1,7 +1,7 @@
 `GeoMultiSelect` is a component aimed to allow multiple options selection in a
 `<select>` like UI including chunked load and search capabilities.
 
-```vue
+```vue live
 <template>
   <div class="element-demo">
     <h3 class="element-demo__header">Simple multi select</h3>

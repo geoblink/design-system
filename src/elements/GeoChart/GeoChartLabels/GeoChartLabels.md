@@ -34,7 +34,7 @@ that would be added by default to the group containing the text. Must return
 the array of final CSS classes that container must have. Required classes will
 be added regardless you not returning them.
 
-```vue
+```vue live
 <template>
   <div class="element-demo">
     <h3 class="element-demo__header">

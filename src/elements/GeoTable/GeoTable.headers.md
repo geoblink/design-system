@@ -5,7 +5,7 @@ as required. Header rows can be set up using `header` named slot. To set up a
 header row, put a [GeoTableHeaderRow](./#/Elements/GeoTable?id=geotableheaderrow)
 component as content of `header` named slot.
 
-```
+```jsx live
 <div class="element-demo">
   <h3 class="element-demo__header">Single header row</h3>
   <div class="element-demo__block">
@@ -24,7 +24,7 @@ component as content of `header` named slot.
 
 It is possible to show multiple header rows in a single table:
 
-```
+```jsx live
 <div class="element-demo">
   <h3 class="element-demo__header">Multiple header rows</h3>
   <div class="element-demo__block">
@@ -62,7 +62,7 @@ header cells opt out from this behaviour with property `ignoreContentWidth`.
 To opt out of `GeoTable` automatic growing for some column, set property
 `growingDisabled` to `true`.
 
-```vue
+```vue live
 <template>
   <div class="element-demo">
     <h3 class="element-demo__header">

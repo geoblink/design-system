@@ -5,7 +5,7 @@ and that no raw HTML can be injected into the application.
 > **Note:** This component requires installing
 [`markdown-it`](https://www.npmjs.com/package/markdown-it) NPM package.
 
-```vue
+```vue live
 <template>
   <div class="element-demo">
     <h3 class="element-demo__header">Default features</h3>

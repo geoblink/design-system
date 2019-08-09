@@ -3,7 +3,7 @@
 Each instance of this component represents a single `cell` of a table and
 features a slot to render any kind of content.
 
-```
+```jsx live
 <div class="element-demo">
   <h3 class="element-demo__header">Isolated cells</h3>
   <div class="element-demo__block">

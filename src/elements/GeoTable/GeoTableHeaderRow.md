@@ -6,7 +6,7 @@ features a slot to render the cells of the table's header.
 Although not required, it is encouraged to use [GeoTableHeaderRowCell](./#/Elements/GeoTable?id=geotableheaderrowcell)
 instances as content of this component's slot.
 
-```vue
+```vue live
 <template>
   <div class="element-demo">
     <h3 class="element-demo__header">Isolated row (default variant)</h3>

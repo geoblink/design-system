@@ -1,7 +1,7 @@
 `GeoPill` is a component which just renders some inline content inside a round
 bordered pill.
 
-```jsx
+```jsx live
 <div class="element-demo">
   <h3 class="element-demo__header">Default variant</h3>
   <div class="element-demo__block" style="justify-content: space-around;">

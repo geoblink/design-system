@@ -1,7 +1,7 @@
 `GeoSelect` is a replacement for plain HTML `<select>` tag aimed to offer
 a better UX including chunked load and search capabilities.
 
-```vue
+```vue live
 <template>
   <div class="element-demo">
     <h3 class="element-demo__header">Simple select</h3>

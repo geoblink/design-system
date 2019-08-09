@@ -3,7 +3,7 @@ underlying UI while forcing them to focus attention in modal's child component.
 
 Use it together with [`GeoBorderedBox`]() to offer a modal window experience.
 
-```vue
+```vue live
 <template>
   <div class="element-demo">
     <h3 class="element-demo__header">Body-attached modal</h3>

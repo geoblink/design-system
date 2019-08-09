@@ -2,14 +2,13 @@ Use `GeoButton` to add button-like elements to your app with a single tag,
 being able to customize its color scheme to show the user the intention of the
 element.
 
-```vue
+```vue live
 <template>
   <div class="element-demo">
     <h3 class="element-demo__header">Full flow</h3>
     <div class="element-demo__block">
       <geo-button
         :disabled="isDisabled"
-        css-modifier="test-css-modifier"
         :loading="isLoading"
         type="primary"
         @click="startLoading()"
@@ -18,7 +17,6 @@ element.
       </geo-button>
       <geo-button
         :disabled="isDisabled"
-        css-modifier="test-css-modifier"
         :loading="isLoading"
         type="secondary"
         @click="startLoading()"
@@ -27,7 +25,6 @@ element.
       </geo-button>
       <geo-button
         :disabled="isDisabled"
-        css-modifier="test-css-modifier"
         :loading="isLoading"
         type="tertiary"
         @click="startLoading()"
@@ -36,7 +33,6 @@ element.
       </geo-button>
       <geo-button
         :disabled="isDisabled"
-        css-modifier="test-css-modifier"
         :loading="isLoading"
         type="danger"
         @click="startLoading()"
@@ -45,7 +41,6 @@ element.
       </geo-button>
       <geo-button
         :disabled="isDisabled"
-        css-modifier="test-css-modifier"
         :loading="isLoading"
         type="link"
         @click="startLoading()"
@@ -54,7 +49,6 @@ element.
       </geo-button>
       <geo-button
         :disabled="isDisabled"
-        css-modifier="test-css-modifier"
         :loading="isLoading"
         type="dangerLink"
         @click="startLoading()"
@@ -82,7 +76,7 @@ element.
     </div>
     <h3 class="element-demo__header">Disabled</h3>
     <div class="element-demo__block">
-      <geo-button disabled type="primary" css-modifier="test-css-modifier">Primary</geo-button>
+      <geo-button disabled type="primary">Primary</geo-button>
       <geo-button disabled type="secondary">Secondary</geo-button>
       <geo-button disabled type="tertiary">Tertiary</geo-button>
       <geo-button disabled type="danger">Danger</geo-button>

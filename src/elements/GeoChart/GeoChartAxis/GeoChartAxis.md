@@ -61,7 +61,7 @@ properties, all of them optional:
 domain and as second parameter its index. Should return a string with the text
 to be displayed as value for given tick.
 
-```vue
+```vue live
 <template>
   <div class="element-demo">
     <h3 class="element-demo__header">
@@ -206,7 +206,7 @@ export default {
 </script>
 ```
 
-```vue
+```vue live
 <template>
   <div class="element-demo">
     <h3 class="element-demo__header">
@@ -335,7 +335,7 @@ export default {
 </script>
 ```
 
-```vue
+```vue live
 <template>
   <div class="element-demo">
     <h3 class="element-demo__header">Custom ticks</h3>

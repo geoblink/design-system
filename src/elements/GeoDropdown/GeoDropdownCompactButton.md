@@ -8,7 +8,7 @@ to reflect state changes other than linked popup being displayed.
 See [GeoDropdownRegularButton](./#/Elements/GeoDropdown?id=geodropdownregularbutton)
 for a button designed to display more info.
 
-```jsx
+```jsx live
 <div class="element-demo">
   <div class="element-demo__block" style="justify-content: space-around;">
     <geo-dropdown-compact-button :icon="['fas', 'ellipsis-v']" />

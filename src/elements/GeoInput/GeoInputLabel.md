@@ -1,7 +1,7 @@
-`GeoInputLabel` is component designed to fit nicely as a label for 
+`GeoInputLabel` is component designed to fit nicely as a label for
 `GeoInput`.
 
-```vue
+```vue live
 <template>
   <div class="element-demo">
     <h3 class="element-demo__header">Input label</h3>

@@ -1,4 +1,4 @@
-```vue
+```vue live
 <template>
   <div class="element-demo">
     <h3 class="element-demo__header">

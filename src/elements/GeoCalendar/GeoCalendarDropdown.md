@@ -39,7 +39,7 @@ The displayed grid for each granularity will depend on the provided `pickerDateU
 - `granularityId`: Current selected granularity (see above).
 - `pickerDateUnit`: Current selected date unit. (see above).
 
-```vue
+```vue live
 <template>
   <div class="element-demo">
     <h3 class="element-demo__header">

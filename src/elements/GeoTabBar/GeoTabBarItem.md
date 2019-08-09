@@ -1,7 +1,7 @@
 `GeoTabBarItem` is a component suited to be displayed inside a
 [GeoTabBar](/#/Elements/GeoTabBar?id=geotabbar-1), to display a a single tab.
 
-```jsx
+```jsx live
 <div class="element-demo">
   <div class="element-demo__block" style="justify-content: space-around;">
     <geo-tab-bar-item>

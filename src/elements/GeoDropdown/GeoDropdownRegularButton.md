@@ -6,7 +6,7 @@ single element of a collection but with a specific feature or an entire collecti
 As it can display single-line text it can be used to toggle popups which manage
 complex state changes which are not directly evident like multi-select options.
 
-```vue
+```vue live
 <template>
   <div class="element-demo">
     <h3 class="element-demo__header">Normal state</h3>

@@ -37,7 +37,7 @@ number.
 - `outerLines`: boolean that indicates whether to show guidelines at the edges
 of the domain.
 
-```vue
+```vue live
 <template>
   <div class="element-demo">
     <h3 class="element-demo__header">
@@ -175,7 +175,7 @@ export default {
 </script>
 ```
 
-```vue
+```vue live
 <template>
   <div class="element-demo">
     <h3 class="element-demo__header">
@@ -372,7 +372,7 @@ export default {
 </script>
 ```
 
-```vue
+```vue live
 <template>
   <div class="element-demo">
     <h3 class="element-demo__header">

@@ -3,7 +3,7 @@ result of an action that has not been performed yet or insights to help them
 properly finish a task. You can customize the color to change the intention of
 the feedback.
 
-```
+```jsx live
 <div class="element-demo">
   <h3 class="element-demo__header">Simple</h3>
   <div class="element-demo__block">

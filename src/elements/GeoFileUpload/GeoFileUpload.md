@@ -3,7 +3,7 @@ It supports drag & drop and different status variants.
 
 Only one file can be uploaded using this component.
 
-```vue
+```vue live
 <template>
   <div class="element-demo">
     <h3 class="element-demo__header">Full flow</h3>

@@ -3,7 +3,7 @@
 It displays controls for paginated content, including shortcuts to display first
 and last page of content, as well as a currently visible range.
 
-```vue
+```vue live
 <template>
   <div class="element-demo">
     <h3 class="element-demo__header">Default pagination</h3>
@@ -71,7 +71,7 @@ accordingly.
 the last one (`false`) or not (`true`). Useful to show or hide last page
 shortcut accordingly.
 
-```vue
+```vue live
 <template>
   <div class="element-demo">
     <h3 class="element-demo__header">Custom actions</h3>
@@ -152,7 +152,7 @@ shortcut accordingly.
 - `rangeStart`: `number`. Index of the first item being displayed.
 - `rangeEnd`: `number`. Index of the last item being displayed.
 
-```vue
+```vue live
 <template>
   <div class="element-demo">
     <h3 class="element-demo__header">Custom displayed range</h3>

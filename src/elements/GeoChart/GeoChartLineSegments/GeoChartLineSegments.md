@@ -85,7 +85,7 @@ There are 2 exclusive properties available to customize the **circleMargin**:
 `circleRadius` and `circleNaturalRadius`, or `circleMargin` and `circleNaturalMargin`.
 Doing so will throw an invalid config error.
 
-```vue
+```vue live
 <template>
   <div class="element-demo">
     <h3 class="element-demo__header">
@@ -208,7 +208,7 @@ export default {
 </script>
 ```
 
-```vue
+```vue live
 <template>
   <div class="element-demo">
     <h3 class="element-demo__header">

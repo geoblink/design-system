@@ -2,7 +2,7 @@
 users on an ongoing request or background task. You can customize the color,
 size and completion percentage of the spinner.
 
-```vue
+```vue live
 <template>
   <div class="element-demo">
     <h3 class="element-demo__header">Simple</h3>

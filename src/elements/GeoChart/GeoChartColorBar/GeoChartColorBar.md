@@ -91,7 +91,7 @@ There are 2 exclusive properties available to customize the **offset**:
 and `naturalHighlightedWidth`, or `normalOffset` and `naturalNormalOffset`.
 Doing so will throw an invalid config error.
 
-```vue
+```vue live
 <template>
   <div class="element-demo">
     <h3 class="element-demo__header">
@@ -207,7 +207,7 @@ export default {
 </script>
 ```
 
-```vue
+```vue live
 <template>
   <div class="element-demo">
     <h3 class="element-demo__header">
@@ -325,7 +325,7 @@ export default {
 </script>
 ```
 
-```vue
+```vue live
 <template>
   <div class="element-demo">
     <h3 class="element-demo__header">
@@ -443,7 +443,7 @@ export default {
 </script>
 ```
 
-```vue
+```vue live
 <template>
   <div class="element-demo">
     <h3 class="element-demo__header">

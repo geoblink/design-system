@@ -1,7 +1,7 @@
 `GeoNotificationBar` is a component designed to show a notification message
 to the user. It can be customized with different icons, action buttons or close event.
 
-```
+```jsx live
 <div class="element-demo">
   <h3 class="element-demo__header">Simple</h3>
   <div class="element-demo__block">

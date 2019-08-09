@@ -1,7 +1,7 @@
 `GeoTabBar` is a component designed to display a collection of tabs horizontally,
 specially aimed for pages where there are multiple independent modules.
 
-```vue
+```vue live
 <template>
   <div class="element-demo">
     <div class="element-demo__block">

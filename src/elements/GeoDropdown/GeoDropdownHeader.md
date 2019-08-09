@@ -4,7 +4,7 @@
 It supports displaying a special *close* button and allows setting an optional
 clickable icon in the leading edge of the header.
 
-```jsx
+```jsx live
 <div class="element-demo">
   <div class="element-demo__block" style="justify-content: space-around;">
     <geo-dropdown-header>

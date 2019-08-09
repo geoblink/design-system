@@ -1,6 +1,6 @@
 Use `GeoEditableInput` component when you need confirmation feedback from the user on individual input and not in a global form.
 
-```vue
+```vue live
 <template>
   <div class="element-demo">
     <h3 class="element-demo__header">Input table</h3>

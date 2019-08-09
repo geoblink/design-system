@@ -4,7 +4,7 @@ properly in a [GeoBorderedBox](./#/Elements/GeoBorderedBox).
 It can be customized in several ways, adding icons to the leading edge of the
 row or more complex elements (like form inputs) to the trailing edge.
 
-```jsx
+```jsx live
 <div class="element-demo">
   <div class="element-demo__block" style="justify-content: space-around;">
     <div class="element-demo__item">

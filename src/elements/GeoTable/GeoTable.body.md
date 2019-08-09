@@ -15,7 +15,7 @@ relative to the beginning of currently displayed page, not the absolute position
 of the item in `sourceData`.
 - `cssModifier`: the CSS Modifier applied to the table.
 
-```vue
+```vue live
 <template>
   <div class="element-demo">
     <h3 class="element-demo__header">
@@ -81,7 +81,7 @@ export default {
 </script>
 ```
 
-```vue
+```vue live
 <template>
   <div class="element-demo">
     <h3 class="element-demo__header">

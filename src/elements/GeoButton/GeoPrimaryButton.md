@@ -5,7 +5,7 @@ Primary buttons are normally used to trigger main actions like saving changes.
 See [GeoButton](./#/Elements/GeoButton) for a complete list of
 supported properties and features.
 
-```vue
+```vue live
 <template>
   <div class="element-demo">
     <h3 class="element-demo__header">Complete flow</h3>

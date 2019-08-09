@@ -3,7 +3,7 @@
 Each instance of this component represents a single `cell` of a table's column
 header and features a slot to render any kind of content.
 
-```vue
+```vue live
 <template>
   <div class="element-demo">
     <h3 class="element-demo__header">Isolated cells (default variant)</h3>

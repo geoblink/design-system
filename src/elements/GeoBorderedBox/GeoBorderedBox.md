@@ -2,7 +2,7 @@
 actions inside a boxed environment. Use it in dropdowns or modals to offer a
 consistent experience.
 
-```vue
+```vue live
 <template>
   <div class="element-demo">
     <h3 class="element-demo__header">

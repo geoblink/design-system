@@ -2,7 +2,7 @@
 [GeoTable](./#/Elements/GeoTable?id=geotable-1) header. It's designed to display
 buttons to sort data in a table by their values in a specific column.
 
-```vue
+```vue live
 <template>
   <div class="element-demo">
     <h3 class="element-demo__header">
@@ -56,7 +56,7 @@ the sorting direction is ascending or descending (respectively).
 Additionally, a property `action` is also passed. It's the method to be called
 to sort the data in each direction.
 
-```vue
+```vue live
 <template>
   <div class="element-demo">
     <h3 class="element-demo__header">

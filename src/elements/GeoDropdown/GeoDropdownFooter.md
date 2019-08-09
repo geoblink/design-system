@@ -2,7 +2,7 @@
 [GeoDropdown](./#/Elements/GeoDropdown?id=geodropdown-1). Use it whenever you
 want to display some special content at the end like a *Save changes* buttton.
 
-```jsx
+```jsx live
 <div class="element-demo">
   <div class="element-demo__block" style="justify-content: space-around;">
     <geo-dropdown-footer>

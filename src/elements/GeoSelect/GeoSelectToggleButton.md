@@ -2,7 +2,7 @@
 `<select>` input, displaying a placeholder when no value is chosen and featuring
 a trailing chevron.
 
-```jsx
+```jsx live
 <div class="element-demo">
   <h3 class="element-demo__header">Empty geo select toggle button</h3>
   <div class="element-demo__block" style="justify-content: space-around;">

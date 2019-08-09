@@ -3,7 +3,7 @@ the options of a [`GeoSegmentedControl`](./#/Elements/GeoSegmentedControl?id=geo
 
 Use this variant when the option is dangerous or wrong.
 
-```vue
+```vue live
 <template>
   <div class="element-demo">
     <h3 class="element-demo__header">Regular style</h3>

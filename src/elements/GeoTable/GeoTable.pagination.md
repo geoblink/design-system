@@ -9,7 +9,7 @@ with a different value using `forced-page-size` property. Additionally, `GeoTabl
 **can infer the amount of rows to be displayed** if you prefer so. Setting
 `automatic-page-size` property to `true` will opt in to this feature.
 
-```vue
+```vue live
 <template>
   <div class="element-demo">
     <h3 class="element-demo__header">
@@ -128,7 +128,7 @@ export default {
 </script>
 ```
 
-```vue
+```vue live
 <template>
   <div class="element-demo">
     <h3 class="element-demo__header">
@@ -231,7 +231,7 @@ export default {
 </script>
 ```
 
-```vue
+```vue live
 <template>
   <div class="element-demo">
     <h3 class="element-demo__header">

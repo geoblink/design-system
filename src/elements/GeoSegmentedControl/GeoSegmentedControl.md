@@ -3,7 +3,7 @@ of them functioning as a discrete button.
 
 It's designed to work nicely with [`GeoSegmentedControlItem`](./#/Elements/GeoSegmentedControl?id=geosegmentedcontrolitem) out of the box.
 
-```vue
+```vue live
 <template>
   <div class="element-demo">
     <h3 class="element-demo__header">Regular style</h3>

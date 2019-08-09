@@ -4,7 +4,7 @@ fit nicely in a [GeoBorderedBox](/#/Elements/GeoBorderedBox?id=geoborderedbox-1)
 **Note:** this component is not responsible of filtering displayed elements but
 [GeoSelect](/#/Elements/GeoSelect?id=geoselect-1) is.
 
-```jsx
+```jsx live
 <div class="element-demo">
   <div class="element-demo__block" style="justify-content: space-around;">
     <geo-bordered-box-header-search-form

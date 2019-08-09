@@ -2,7 +2,7 @@
 that is too long to display at once. It provides a button to load more items from that list.
 It's useful to be used altogether with the [GeoDropdown](./#/Elements/GeoDropdown?id=geodropdown) and the [GeoSelect](./#/Elements/GeoSelect?id=geoselect).
 
-```vue
+```vue live
 <template>
   <div class="element-demo">
     <div class="element-demo__block" style="justify-content: space-around;">

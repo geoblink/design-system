@@ -7,7 +7,7 @@ the task at hand.
 See [GeoFeedbackBox](./#/Elements/GeoFeedbackBox) for a complete list of supported properties
 and features.
 
-```vue
+```vue live
 <template>
   <div class="element-demo">
     <h3 class="element-demo__header">Simple</h3>

@@ -5,7 +5,7 @@ Use this component if you want to build a custom experience. If you just need a
 drop-in replacement for HTML `<select>` tag you might probably want to use
 [GeoSelect](/#/Elements/GeoSelect?id=geoselect-1) component.
 
-```vue
+```vue live
 <template>
   <div class="element-demo">
     <h3 class="element-demo__header">Simple select</h3>

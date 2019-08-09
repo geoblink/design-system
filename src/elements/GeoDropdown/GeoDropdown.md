@@ -6,7 +6,7 @@ The popup is smartly repositioned when it does not fit below the toggle button
 and is pinned to right side of the button when its content overflows viewport
 if pinned to left side.
 
-```vue
+```vue live
 <template>
   <div class="element-demo">
     <h3 class="element-demo__header">Simple menu</h3>

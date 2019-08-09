@@ -22,7 +22,7 @@ duration of the animations.
 > We encourage you take a look at `GeoChartConfig.js` for more info about global
 > settings.
 
-```vue
+```vue live
 <template>
   <div class="element-demo">
     <h3 class="element-demo__header">Chart</h3>

@@ -1,7 +1,7 @@
 `GeoCircle` is a component which just renders a small colored circle. It's aimed
 to display steps in a wizard.
 
-```jsx
+```jsx live
 <div class="element-demo">
   <div class="element-demo__block" style="justify-content: space-around;">
     <geo-circle />

@@ -52,7 +52,7 @@ This function takes as parameters the array of classes that would be set by
 default, the item corresponding to the line being customized and its position
 inside the data array.
 
-```vue
+```vue live
 <template>
   <div class="element-demo">
     <h3 class="element-demo__header">

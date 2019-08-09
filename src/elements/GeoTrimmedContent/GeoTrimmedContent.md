@@ -1,7 +1,7 @@
 `GeoTrimmedContent` is a component used to trim long strings which don't fit in a
 single line, and displaying a tooltip to read the whole content.
 
-```jsx
+```jsx live
 <div class="element-demo">
   <h3 class="element-demo__header">Long content</h3>
   <div class="element-demo__block">

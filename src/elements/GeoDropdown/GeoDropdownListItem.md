@@ -4,7 +4,7 @@ properly in a [GeoDropdown](./#/Elements/GeoDropdown?id=geodropdown-1).
 It can be customized in several ways, adding icons to the leading edge of the
 row or more complex elements (like form inputs) to the trailing edge.
 
-```jsx
+```jsx live
 <div class="element-demo">
 <h3 class="element-demo__header">Simple items</h3>
   <div class="element-demo__block" style="justify-content: space-around;">

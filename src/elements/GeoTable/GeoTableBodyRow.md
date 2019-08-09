@@ -6,7 +6,7 @@ features a slot to render the cells of the table.
 Although not required, it is encouraged to use [GeoTableBodyRowCell](./#/Elements/GeoTable?id=geotablebodyrowcell)
 instances as content of this component's slot.
 
-```
+```jsx live
 <div class="element-demo">
   <h3 class="element-demo__header">Isolated rows</h3>
   <div class="element-demo__block">

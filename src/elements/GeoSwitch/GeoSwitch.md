@@ -1,7 +1,7 @@
 `GeoSwitch` is a component aimed to replace inputs of type `checkbox`. It offers
 a similar API with a modern design.
 
-```vue
+```vue live
 <template>
   <div class="element-demo">
     <h3 class="element-demo__header">Simple switch</h3>

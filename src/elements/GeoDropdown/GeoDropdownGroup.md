@@ -4,7 +4,7 @@ showing any kind of content inside the group, althought using
 [GeoDropdownListItem](/#/Elements/GeoDropdown?id=geodropdownlistitem)
 is advised.
 
-```jsx
+```jsx live
 <div class="element-demo">
   <div class="element-demo__block" style="justify-content: space-around;">
     <geo-dropdown-group>
