@@ -11,8 +11,6 @@
   "license": "MIT",
   "scripts": {
     "start": "run-p theo:watch theo:build docs",
-    "build:system": "run-s theo:build node:build:system",
-    "build:docs": "run-s theo:build styleguide:build",
     "docs": "vuepress dev --open",
     "docs:dev": "vuepress dev",
     "docs:build": "vuepress build",
