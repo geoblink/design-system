@@ -79,7 +79,6 @@ pipeline {
                 : ''
 
               sh 'yarn --frozen-lockfile'
-              sh 'yarn build:docs'
               sh "node jenkins/publishDocs.js ${params.DOCS_S3_BUCKET} ${versionAlias}"
             }
           }
