@@ -22,7 +22,6 @@ import {
   getMonth,
   getYear,
   startOfDay,
-  endOfMonth,
   startOfMonth
 } from 'date-fns'
 

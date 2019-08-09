@@ -52,7 +52,7 @@ export default {
   name: 'GeoTableSort',
   status: 'ready',
   release: '10.1.0',
-  mixins: [ cssSuffix ],
+  mixins: [cssSuffix],
   constants: { SORTING_DIRECTIONS },
   props: {
     /**
