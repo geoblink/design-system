@@ -14,8 +14,8 @@
         />
 
         <Badge
-          v-if="releaseText"
-          :text="releaseText"
+          v-if="releaseBadgeText"
+          :text="releaseBadgeText"
         />
       </h2>
 
@@ -95,7 +95,7 @@ export default {
       }
     },
 
-    releaseText () {
+    releaseBadgeText () {
       if (this.isDeprecated) return null
 
       return this.componentDefinition.release
