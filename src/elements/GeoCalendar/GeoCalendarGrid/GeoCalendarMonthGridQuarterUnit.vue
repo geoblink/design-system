@@ -29,7 +29,7 @@ import { GRANULARITY_IDS, isBefore, isAfter } from '../GeoCalendar.utils'
 import GeoCalendarGridMixin from './GeoCalendarGrid.mixin'
 import GeoCalendarGranularityIdMixin from '../GeoCalendarGranularityId.mixin'
 import GeoCalendarDateIndicatorsMixin from '../GeoCalendarDateIndicators.mixin'
-import { startOfMonth } from 'date-fns';
+import { startOfMonth } from 'date-fns'
 
 export default {
   name: 'GeoCalendarMonthGridQuarterUnit',
