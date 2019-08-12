@@ -29,6 +29,7 @@ module.exports = {
   head: [
     ['link', { rel: 'icon', href: '/assets/img/favicon.ico' }]
   ],
+  globalLayout: path.resolve(__dirname, 'components/ComponentExampleLayout.vue'),
   themeConfig: {
     logo: `/assets/img/logo.svg`,
     nav: [

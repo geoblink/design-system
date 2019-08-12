@@ -1,4 +1,5 @@
-import _ from 'lodash'
+import './styles/index.scss'
+
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
@@ -8,6 +9,9 @@ import { far } from '@fortawesome/free-regular-svg-icons'
 
 import ComponentDocumentation from './components/ComponentDocumentation.vue'
 import GeoblinkDesignSystem, { components } from '../src/system'
+import '../src/utils/webFontLoader'
+
+const _ = require('@geoblink/lodash-mixins').default(require('lodash'))
 
 const componentUtils = require('./componentUtils')
 
@@ -38,6 +42,7 @@ export default ({ Vue, router, siteData }) => {
   Vue.use(GeoblinkDesignSystem)
 
   renameComponentExamplesPages(siteData)
+  siteData.themeConfig.componentExamplesByPath = getComponentExamplePages(siteData)
   addComponentDocumentationRoutes(router, siteData)
   addComponentDocumentationPages(siteData)
 }
@@ -62,9 +67,7 @@ function renameComponentExamplesPages (siteData) {
     if (!(pageInfo.regularPath in componentExamplesInternalPaths)) continue
     if (pageInfo.title) continue
 
-    const componentInternalPath = pageInfo.regularPath
-      .replace('/src/elements/', '')
-      .replace(/\.examples\.[^.]*$/, '')
+    const componentInternalPath = componentUtils.getComponentInternalPathForExample(pageInfo.regularPath)
 
     const component = componentsDocumentations[componentInternalPath]
     const componentDisplayName = component && component.documentation.displayName
@@ -79,6 +82,27 @@ function renameComponentExamplesPages (siteData) {
 
     pageInfo.title = `${displayablePath} (Examples)`
   }
+}
+
+/**
+ * @param {any} siteData
+ * @returns {Object<string, any>}
+ */
+function getComponentExamplePages (siteData) {
+  const {
+    componentsExamples
+  } = siteData.themeConfig
+
+  const componentExamplesInternalPaths = {}
+  for (const singleComponentExample of componentsExamples) {
+    componentExamplesInternalPaths[singleComponentExample.originalRegularPath] = true
+  }
+
+  const examplesPages = _.filter(siteData.pages, function (pageInfo) {
+    return pageInfo.regularPath in componentExamplesInternalPaths
+  })
+
+  return _.fromPairsMap(examplesPages, (pageInfo) => [pageInfo.regularPath, pageInfo])
 }
 
 /**
@@ -111,13 +135,11 @@ function addComponentDocumentationPages (siteData) {
 
   for (const componentPath of Object.keys(componentsDocumentations)) {
     const { documentation } = componentsDocumentations[componentPath]
-    const componentDefinition = components[documentation.displayName]
 
     siteData.pages.push(
       componentUtils.getVuepressPageSettingsForComponent({
         path: componentPath,
-        definition: componentDefinition,
-        documentation
+        name: documentation.displayName
       })
     )
   }

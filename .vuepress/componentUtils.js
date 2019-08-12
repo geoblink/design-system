@@ -1,23 +1,22 @@
 /**
  * @param {object} params
  * @param {string} params.path
- * @param {any} params.definition
- * @param {any} params.documentation
+ * @param {string} params.name
  */
 export function getVuepressPageSettingsForComponent (params) {
   return {
     frontmatter: {
-      title: params.definition.name
+      title: params.name
     },
     headers: [{
       level: 1,
-      slug: params.definition.name,
-      title: params.definition.name
+      slug: params.name,
+      title: params.name
     }],
     path: `/components/${params.path}.html`,
     regularPath: `/components/${params.path}.html`,
     relativePath: `components/${params.path}`,
-    title: `${params.definition.name} (Documentation)`
+    title: `${params.name} (Documentation)`
   }
 }
 
@@ -43,4 +42,15 @@ export function getVuepressPageSettingsForExample (originalPage, customPage) {
     regularPath: customPage.customRegularPath,
     relativePath: customPage.originalRelativePath
   }
+}
+
+/**
+ * @param {string} examplePagePath Path to example page, with or without leading slash
+ * @returns {string}
+ */
+export function getComponentInternalPathForExample (examplePagePath) {
+  const componentInternalPath = examplePagePath
+    .replace('/src/elements/', '')
+    .replace(/\.[^/]*$/, '')
+  return componentInternalPath
 }

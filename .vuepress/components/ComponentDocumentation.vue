@@ -1,5 +1,23 @@
 <template>
   <Layout>
+    <ul
+      v-if="componentExamplesItems.length"
+      slot="sidebar-bottom"
+      class="sidebar-links"
+    >
+      <li
+        v-for="(item, i) in componentExamplesItems"
+        :key="i"
+      >
+        <router-link
+          :to="item.to"
+          class="sidebar-link"
+        >
+          {{ item.title }}
+        </router-link>
+      </li>
+    </ul>
+
     <div
       slot="page-top"
       class="theme-default-content"
@@ -23,7 +41,6 @@
         {{ componentDocumentation.description }}
       </p>
 
-      <pre><code>{{ JSON.stringify(componentExamples, undefined, 2) }}</code></pre>
       <pre><code>{{ JSON.stringify(componentDefinition, undefined, 2) }}</code></pre>
       <pre><code>{{ JSON.stringify(componentDocumentation, undefined, 2) }}</code></pre>
     </div>
@@ -31,6 +48,7 @@
 </template>
 
 <script>
+const _ = require('lodash')
 const componentUtils = require('../componentUtils')
 
 export default {
@@ -60,8 +78,7 @@ export default {
     $page () {
       return componentUtils.getVuepressPageSettingsForComponent({
         path: this.componentPath,
-        definition: this.componentDefinition,
-        documentation: this.componentDocumentation
+        name: this.componentDefinition.displayName
       })
     },
 
@@ -101,6 +118,18 @@ export default {
       return this.componentDefinition.release
         ? `${this.componentDefinition.release}+`
         : 'Unreleased'
+    },
+
+    componentExamplesItems () {
+      const { componentExamplesByPath } = this.$site.themeConfig
+      return _.map(this.componentExamples, function (example) {
+        const examplePageInfo = componentExamplesByPath[example.originalRegularPath]
+
+        return {
+          title: examplePageInfo.title,
+          to: example.originalRegularPath
+        }
+      })
     }
   }
 }
