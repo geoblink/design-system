@@ -78,7 +78,7 @@ export default {
         case 'deprecated':
           return 'Deprecated'
         default:
-          return null
+          throw new Error(`Unknown component status for component ${this.componentDefinition.name}: ${this.componentDefinition.status}`)
       }
     },
 
@@ -91,7 +91,7 @@ export default {
         case 'deprecated':
           return 'error'
         default:
-          return null
+          throw new Error(`Unknown component status for component ${this.componentDefinition.name}: ${this.componentDefinition.status}`)
       }
     },
 
