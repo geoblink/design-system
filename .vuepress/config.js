@@ -42,7 +42,7 @@ module.exports = {
     sidebar: 'auto',
     lastUpdated: 'Last Updated',
     repo: 'https://bitbucket.org/geoblink/geoblink-design-system',
-    docsDir: 'e2e',
+    docsDir: 'src/elements',
     editLinks: true,
     componentsDocumentations,
     componentsExamples
@@ -72,21 +72,21 @@ function getComponentsDocumentations () {
   )
 
   const componentsDefinitions = _.fromPairsMap(componentsDefinitionsPaths, function (pathToComponentDefinition) {
-      const relativePath = pathToComponentDefinition
-        .replace(`${componentsPath}/`, '')
-        .replace(/\.vue$/, '')
+    const relativePath = pathToComponentDefinition
+      .replace(`${componentsPath}/`, '')
+      .replace(/\.vue$/, '')
 
-      const examples = examplesByInternalPath[relativePath]
+    const examples = examplesByInternalPath[relativePath]
 
-      const group = relativePath.split('/')[0]
+    const group = relativePath.split('/')[0]
 
-      return [relativePath, {
-        path: relativePath,
-        documentation: vueDocs.parse(pathToComponentDefinition),
-        group,
-        examples
-      }]
-    })
+    return [relativePath, {
+      path: relativePath,
+      documentation: vueDocs.parse(pathToComponentDefinition),
+      group,
+      examples
+    }]
+  })
 
   return componentsDefinitions
 }
