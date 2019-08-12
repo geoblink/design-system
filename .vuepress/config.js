@@ -7,7 +7,7 @@ const componentsPath = path.resolve(__dirname, '../src/elements')
 
 const base = process.env.VUEPRESS_BASE || '/'
 
-const componentsDocumentations = getComponentsDefinitions()
+const componentsDocumentations = getComponentsDocumentations()
 const componentsExamples = getComponentsExamples()
 
 const groupedComponentsDocumentations = _.groupBy(componentsDocumentations, 'group')
@@ -62,7 +62,7 @@ module.exports = {
   }
 }
 
-function getComponentsDefinitions () {
+function getComponentsDocumentations () {
   const componentsDefinitionsPaths = glob.sync(`${componentsPath}/**/*.vue`)
   const componentsExamples = getComponentsExamples()
 
