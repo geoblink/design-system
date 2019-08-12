@@ -842,6 +842,11 @@
   dependencies:
     ajv "^6.6.2"
 
+"@geoblink/lodash-mixins@^1.4.3":
+  version "1.4.3"
+  resolved "https://registry.yarnpkg.com/@geoblink/lodash-mixins/-/lodash-mixins-1.4.3.tgz#70f8bac02106193ccfbab0dac3a7c69ecbdfac5d"
+  integrity sha512-G2ytXackpixyLpltfX3cfC2ix1SWuBnnGjLktlEuxfS1qObGI9Z5F042xTNd3VQxinEO91LM2Ty9pSFW18MpHw==
+
 "@jest/console@^24.7.1":
   version "24.7.1"
   resolved "https://registry.yarnpkg.com/@jest/console/-/console-24.7.1.tgz#32a9e42535a97aedfe037e725bd67e954b459545"

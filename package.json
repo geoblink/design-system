@@ -70,6 +70,7 @@
     "@fortawesome/free-solid-svg-icons": "^5.4.1",
     "@fortawesome/vue-fontawesome": "^0.1.1",
     "@geoblink/ajv-extra": "^1.0.7",
+    "@geoblink/lodash-mixins": "^1.4.3",
     "@types/ajv-errors": "^1.0.2",
     "@types/d3": "^5.0.1",
     "@types/d3-scale": "^2.1.1",

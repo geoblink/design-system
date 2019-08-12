@@ -1,7 +1,7 @@
 const path = require('path')
 const glob = require('glob')
 const vueDocs = require('vue-docgen-api')
-const _ = require('lodash')
+const _ = require('@geoblink/lodash-mixins').default(require('lodash'))
 
 const componentsPath = path.resolve(__dirname, '../src/elements')
 
@@ -71,8 +71,7 @@ function getComponentsDocumentations () {
     example => example.internalPath.replace(/\.[^.]*$/, '')
   )
 
-  const componentsDefinitions = _.fromPairs(
-    _.map(componentsDefinitionsPaths, function (pathToComponentDefinition) {
+  const componentsDefinitions = _.fromPairsMap(componentsDefinitionsPaths, function (pathToComponentDefinition) {
       const relativePath = pathToComponentDefinition
         .replace(`${componentsPath}/`, '')
         .replace(/\.vue$/, '')
@@ -88,7 +87,6 @@ function getComponentsDocumentations () {
         examples
       }]
     })
-  )
 
   return componentsDefinitions
 }
