@@ -15,9 +15,9 @@ describe('GeoCalendarYearGridYearUnit', () => {
   })
 
   it('should render', function () {
-    expect(wrapper.find('.geo-calendar-years__year-unit').exists()).toBe(true)
-    expect(wrapper.find('.year-unit__year-number').exists()).toBe(true)
-    expect(wrapper.find('.year-unit__year-number').text()).toBe('2019')
+    expect(wrapper.find('.geo-calendar-grid__date-picker-unit').exists()).toBe(true)
+    expect(wrapper.find('.geo-calendar-date-picker-unit__placeholder').exists()).toBe(true)
+    expect(wrapper.find('.geo-calendar-date-picker-unit__placeholder').text()).toBe('2019')
   })
 
   describe('Computed properties', () => {
@@ -25,14 +25,14 @@ describe('GeoCalendarYearGridYearUnit', () => {
       wrapper.setProps({
         selectedFromDay: today
       })
-      expect(wrapper.find('.geo-calendar-years__year-unit--selected').exists()).toBe(true)
+      expect(wrapper.find('.geo-calendar-grid__date-picker-unit--selected').exists()).toBe(true)
       expect(wrapper.vm.isDateInYear).toBe(true)
 
       wrapper.setProps({
         selectedFromDay: subYears(today, 1),
         selectedToDay: addYears(today, 1)
       })
-      expect(wrapper.find('.geo-calendar-years__year-unit--selected').exists()).toBe(false)
+      expect(wrapper.find('.geo-calendar-grid__date-picker-unit--selected').exists()).toBe(false)
       expect(wrapper.vm.isDateInYear).toBe(false)
     })
 
@@ -42,7 +42,7 @@ describe('GeoCalendarYearGridYearUnit', () => {
         selectedToDay: addYears(today, 2)
       })
 
-      expect(wrapper.find('.geo-calendar-years__year-unit--within-range').exists()).toBe(true)
+      expect(wrapper.find('.geo-calendar-grid__date-picker-unit--within-range').exists()).toBe(true)
       expect(wrapper.vm.isDateWithinSelectedYears).toBe(true)
 
       wrapper.setProps({
@@ -50,7 +50,7 @@ describe('GeoCalendarYearGridYearUnit', () => {
         selectedToDay: addYears(today, 2)
       })
 
-      expect(wrapper.find('.geo-calendar-years__year-unit--within-range').exists()).toBe(false)
+      expect(wrapper.find('.geo-calendar-grid__date-picker-unit--within-range').exists()).toBe(false)
       expect(wrapper.vm.isDateWithinSelectedYears).toBe(false)
     })
 
@@ -60,7 +60,7 @@ describe('GeoCalendarYearGridYearUnit', () => {
         latestDate: addYears(today, 1)
       })
 
-      expect(wrapper.find('.geo-calendar-years__year-unit--unavailable').exists()).toBe(false)
+      expect(wrapper.find('.geo-calendar-grid__date-picker-unit--unavailable').exists()).toBe(false)
       expect(wrapper.vm.isYearUnavailable).toBe(false)
 
       wrapper.setProps({
@@ -68,7 +68,7 @@ describe('GeoCalendarYearGridYearUnit', () => {
         latestDate: addYears(today, 2)
       })
 
-      expect(wrapper.find('.geo-calendar-years__year-unit--unavailable').exists()).toBe(true)
+      expect(wrapper.find('.geo-calendar-grid__date-picker-unit--unavailable').exists()).toBe(true)
       expect(wrapper.vm.isYearUnavailable).toBe(true)
     })
 
@@ -77,7 +77,7 @@ describe('GeoCalendarYearGridYearUnit', () => {
         selectedFromDay: today
       })
 
-      expect(wrapper.find('.geo-calendar-years__year-unit--from-date').exists()).toBe(true)
+      expect(wrapper.find('.geo-calendar-grid__date-picker-unit--from-date').exists()).toBe(true)
       expect(wrapper.vm.isDayWithinFromYear).toBe(true)
     })
 
@@ -86,7 +86,7 @@ describe('GeoCalendarYearGridYearUnit', () => {
         selectedToDay: today
       })
 
-      expect(wrapper.find('.geo-calendar-years__year-unit--to-date').exists()).toBe(true)
+      expect(wrapper.find('.geo-calendar-grid__date-picker-unit--to-date').exists()).toBe(true)
       expect(wrapper.vm.isDayWithinToYear).toBe(true)
     })
   })
@@ -98,7 +98,7 @@ describe('GeoCalendarYearGridYearUnit', () => {
         latestDate: addYears(today, 2)
       })
 
-      wrapper.find('.geo-calendar-years__year-unit').trigger('click')
+      wrapper.find('.geo-calendar-grid__date-picker-unit').trigger('click')
       expect(wrapper.emitted()['select-year-unit']).toBeUndefined()
     })
 
@@ -107,7 +107,7 @@ describe('GeoCalendarYearGridYearUnit', () => {
         earliestDate: subYears(today, 1)
       })
 
-      wrapper.find('.geo-calendar-years__year-unit').trigger('click')
+      wrapper.find('.geo-calendar-grid__date-picker-unit').trigger('click')
       expect(wrapper.emitted()['select-year-unit']).toBeDefined()
       expect(wrapper.emitted()['select-year-unit'][0][0]).toBe(currentYear)
     })

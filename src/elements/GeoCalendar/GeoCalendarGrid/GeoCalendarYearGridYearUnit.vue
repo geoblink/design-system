@@ -2,15 +2,16 @@
   <button
     :class="{
       'geo-calendar-years__year-unit': true,
-      'geo-calendar-years__year-unit--selected': isDateInYear,
-      'geo-calendar-years__year-unit--within-range': isDateWithinSelectedYears,
-      'geo-calendar-years__year-unit--unavailable': isYearUnavailable,
-      'geo-calendar-years__year-unit--from-date': isDayWithinFromYear,
-      'geo-calendar-years__year-unit--to-date': isDayWithinToYear
+      'geo-calendar-grid__date-picker-unit': true,
+      'geo-calendar-grid__date-picker-unit--selected': isDateInYear,
+      'geo-calendar-grid__date-picker-unit--within-range': isDateWithinSelectedYears,
+      'geo-calendar-grid__date-picker-unit--unavailable': isYearUnavailable,
+      'geo-calendar-grid__date-picker-unit--from-date': isDayWithinFromYear,
+      'geo-calendar-grid__date-picker-unit--to-date': isDayWithinToYear
     }"
     @click="selectYear($event)"
   >
-    <div class="year-unit__year-number">
+    <div class="geo-calendar-date-picker-unit__placeholder">
       {{ year }}
     </div>
   </button>

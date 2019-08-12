@@ -2,15 +2,16 @@
   <button
     :class="{
       'geo-calendar-quarter__month-unit': true,
-      'geo-calendar-quarter__month-unit--selected': isDateInMonth,
-      'geo-calendar-quarter__month-unit--within-range': isDateWithinSelectedMonths,
-      'geo-calendar-quarter__month-unit--unavailable': isMonthUnavailable,
-      'geo-calendar-quarter__month-unit--from-date': isDayWithinFromMonth,
-      'geo-calendar-quarter__month-unit--to-date': isDayWithinToMonth
+      'geo-calendar-grid__date-picker-unit': true,
+      'geo-calendar-grid__date-picker-unit--selected': isDateInMonth,
+      'geo-calendar-grid__date-picker-unit--within-range': isDateWithinSelectedMonths,
+      'geo-calendar-grid__date-picker-unit--unavailable': isMonthUnavailable,
+      'geo-calendar-grid__date-picker-unit--from-date': isDayWithinFromMonth,
+      'geo-calendar-grid__date-picker-unit--to-date': isDayWithinToMonth
     }"
     @click="selectMonth($event)"
   >
-    <div class="month-unit__month-name">
+    <div class="geo-calendar-date-picker-unit__placeholder">
       {{ monthName }}
     </div>
   </button>
