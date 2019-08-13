@@ -65,11 +65,20 @@ module.exports = {
 
 function getComponentsDocumentations () {
   const componentsDefinitionsPaths = glob.sync(`${componentsPath}/**/*.vue`)
+  const existingComponentPaths = _.fromPairsMap(componentsDefinitionsPaths, (componentPath) => [componentPath, true])
   const componentsExamples = getComponentsExamples()
 
   const examplesByInternalPath = _.groupBy(
     componentsExamples,
-    example => example.internalPath.replace(/\.[^.]*$/, '')
+    (example) => {
+      const parentComponentInternalPath = example.internalPath.replace(/\.[^.]*$/, '')
+      const rootComponentName = _.first(parentComponentInternalPath.split('/'))
+      const rootComponentInternalPath = `${rootComponentName}/${rootComponentName}`
+
+      return parentComponentInternalPath in existingComponentPaths
+        ? parentComponentInternalPath
+        : rootComponentInternalPath
+    }
   )
 
   const componentsDocumentations = _.fromPairsMap(componentsDefinitionsPaths, function (pathToComponentDefinition) {
@@ -99,7 +108,6 @@ function getComponentsExamples () {
     const internalPath = pathToComponentExample
       .replace(`${componentsPath}/`, '')
       .replace(/\.examples.md$/, '')
-
 
     return {
       originalRegularPath: `/src/elements/${internalPath}.examples.html`,

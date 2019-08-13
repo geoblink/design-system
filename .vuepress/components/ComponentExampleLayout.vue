@@ -45,7 +45,13 @@ export default {
         componentsDocumentations
       } = this.$site.themeConfig
 
-      return componentsDocumentations[internalPath]
+      const parentComponent = componentsDocumentations[internalPath]
+
+      const rootComponentName = _.first(internalPath.split('/'))
+      const rootComponentInternalPath = `${rootComponentName}/${rootComponentName}`
+      const rootComponent = componentsDocumentations[rootComponentInternalPath]
+
+      return parentComponent || rootComponent
     },
 
     parentComponentDocumentation () {
@@ -73,7 +79,9 @@ export default {
 
       const { componentExamplesByPath } = this.$site.themeConfig
 
-      const otherExamples = _.reject(this.parentComponentDocumentationPage.examples, { originalRegularPath: this.$page.regularPath })
+      const otherExamples = _.reject(this.parentComponentDocumentationPage.examples, {
+        originalRegularPath: this.$page.regularPath
+      })
 
       const examplesLinkItems = _.map(otherExamples, function (example) {
         const examplePageInfo = componentExamplesByPath[example.originalRegularPath]
