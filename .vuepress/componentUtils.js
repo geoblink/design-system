@@ -158,7 +158,7 @@ export function getComponentEvents (componentDefinition) {
   return _.map(componentDefinition.events, function (eventMetadata, eventName) {
     return {
       name: eventName,
-      types: eventMetadata.type.names,
+      types: _.get(eventMetadata.type, 'names'),
       description: eventMetadata.description
     }
   })

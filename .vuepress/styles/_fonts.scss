@@ -1,0 +1,76 @@
+@import "../public/tokens/tokens.scss";
+@import "../../src/styles/fontsMaps.scss";
+@import "../../src/styles/mixins.scss";
+
+@each $font-mixin-name, $value in $fontMap {
+  .font-#{$font-mixin-name} {
+    @include font(#{$font-mixin-name});
+  }
+}
+
+/* STYLES
+--------------------------------------------- */
+
+.font-sizes__table {
+  position: relative;
+  width: 100%;
+}
+.font-sizes__table__header {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 0 0 25px;
+}
+
+.font-sizes__table__header-cell {
+  color: $color_grey_light;
+  font-family: $font_family_heading;
+  font-size: 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+
+  &--big {
+    width: 35%;
+  }
+  &--small {
+    width: 10%;
+  }
+}
+
+.font-sizes__table__row {
+  align-items: center;
+  border-bottom: 1px solid $color_grey;
+  display: flex;
+  justify-content: space-between;
+  padding: 35px 0 20px 25px;
+
+  &--grey-bg {
+    background: #F4F6F8;
+  }
+}
+
+.font-sizes__table__row-cell {
+  &--big {
+    width: 35%;
+  }
+
+  &--small {
+    width: 10%;
+  }
+}
+
+.font-sizes__table__row-cell__font-family {
+  color: #919EAB;
+  position: absolute;
+  text-transform: uppercase;
+  transform: rotate(90deg);
+
+  &--montserrat {
+    top: 33%;
+    right: -90px;
+  }
+
+  &--lato {
+    top: 78%;
+    right: -45px;
+  }
+}

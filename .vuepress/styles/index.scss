@@ -1,8 +1,14 @@
-@import '../public/tokens//tokens.scss';
+@import '../public/tokens/tokens.scss';
 @import './component-documentation';
+@import './fonts';
+@import './colors';
 
 .u-cursor--pointer {
   cursor: pointer;
+}
+
+.design-token-section {
+  margin-bottom: $space-xx-large;
 }
 
 .element-demo {
