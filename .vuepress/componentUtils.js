@@ -13,6 +13,13 @@ import _ from 'lodash'
  */
 
 /**
+ * @typedef {Object} ComponentEvent
+ * @property {string} description
+ * @property {object} type
+ * @property {Array<string>} type.names
+ */
+
+/**
  * @typedef {Object} ComponentDefinition
  * @property {object} [constants]
  */
@@ -20,6 +27,7 @@ import _ from 'lodash'
 /**
  * @typedef {Object} ComponentDocumentation
  * @property {Object<string, ComponentProperty>} [props]
+ * @property {Object<string, ComponentEvent>} [events]
  */
 
 /**
@@ -32,6 +40,7 @@ import _ from 'lodash'
 export function getVuepressPageSettingsForComponent (params) {
   const hasConstants = !!getComponentConstants(params.definition).length
   const hasProperties = !!getComponentProperties(params.documentation).length
+  const hasEvents = !!getComponentEvents(params.documentation).length
 
   const headers = [{
     level: 1,
@@ -52,6 +61,14 @@ export function getVuepressPageSettingsForComponent (params) {
       level: 2,
       slug: 'properties',
       title: 'Properties'
+    })
+  }
+
+  if (hasEvents) {
+    headers.push({
+      level: 2,
+      slug: 'events',
+      title: 'Events'
     })
   }
 
@@ -79,23 +96,36 @@ export function getComponentConstants (componentDefinition) {
 
 /**
  * @param {ComponentDocumentation} componentDefinition
- * @returns {Array<{name: string, type: string, }>}
+ * @returns {Array<{name: string, type: string}>}
  */
 export function getComponentProperties (componentDefinition) {
   return _.map(componentDefinition.props, function (prop) {
-      const defaultValueMetadata = getPropertyDefaultValueMetadata(prop.defaultValue)
+    const defaultValueMetadata = getPropertyDefaultValueMetadata(prop.defaultValue)
 
-      return {
-        name: prop.name,
-        type: prop.type.name,
-        isDefaultValueAFunction: _.get(defaultValueMetadata, 'isFunction'),
-        defaultValue: _.get(defaultValueMetadata, 'value'),
-        required: !!prop.required,
-        description: prop.description
-      }
-    })
+    return {
+      name: prop.name,
+      type: prop.type.name,
+      isDefaultValueAFunction: _.get(defaultValueMetadata, 'isFunction'),
+      defaultValue: _.get(defaultValueMetadata, 'value'),
+      required: !!prop.required,
+      description: prop.description
+    }
+  })
 }
 
+/**
+ * @param {ComponentDocumentation} componentDefinition
+ * @returns {Array<{name: string, types: Array<string>, description: string}>}
+ */
+export function getComponentEvents (componentDefinition) {
+  return _.map(componentDefinition.events, function (eventMetadata, eventName) {
+    return {
+      name: eventName,
+      types: eventMetadata.type.names,
+      description: eventMetadata.description
+    }
+  })
+}
 
 /**
  * @template T

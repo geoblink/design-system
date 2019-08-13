@@ -77,7 +77,7 @@
 import { MarkdownParserFeatures } from '../../src/elements/GeoMarkdownContent/GeoMarkdownParser'
 
 export default {
-  name: 'ComponentDocumentationProperties',
+  name: 'ComponentDocumentationPropertiesRow',
   props: {
     name: {
       type: String,

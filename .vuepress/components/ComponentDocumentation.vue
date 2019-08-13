@@ -51,6 +51,11 @@
         :component-properties="componentProperties"
       />
 
+      <component-documentation-events
+        v-if="componentEvents.length"
+        :component-events="componentEvents"
+      />
+
       <pre><code>{{ JSON.stringify(componentDefinition, undefined, 2) }}</code></pre>
       <pre><code>{{ JSON.stringify(componentDocumentation, undefined, 2) }}</code></pre>
     </div>
@@ -63,12 +68,14 @@ const componentUtils = require('../componentUtils')
 
 import ComponentDocumentationConstants from './ComponentDocumentationConstants.vue'
 import ComponentDocumentationProperties from './ComponentDocumentationProperties.vue'
+import ComponentDocumentationEvents from './ComponentDocumentationEvents.vue'
 
 export default {
   name: 'ComponentDocumentation',
   components: {
     ComponentDocumentationConstants,
-    ComponentDocumentationProperties
+    ComponentDocumentationProperties,
+    ComponentDocumentationEvents
   },
   props: {
     componentPath: {
@@ -151,17 +158,17 @@ export default {
       })
     },
 
-    componentProperties () {
-      return componentUtils.getComponentProperties(this.componentDocumentation)
-    },
-
     componentConstants () {
       return componentUtils.getComponentConstants(this.componentDefinition)
     },
 
-    componentEvents () {
-
+    componentProperties () {
+      return componentUtils.getComponentProperties(this.componentDocumentation)
     },
+
+    componentEvents () {
+      return componentUtils.getComponentEvents(this.componentDocumentation)
+    }
   }
 }
 </script>
