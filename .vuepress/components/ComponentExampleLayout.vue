@@ -38,7 +38,7 @@ export default {
       return componentUtils.getComponentInternalPathForExample(this.$page.regularPath)
     },
 
-    parentComponentDocumentation () {
+    parentComponentDocumentationPage () {
       const internalPath = this.internalPath
 
       const {
@@ -48,13 +48,17 @@ export default {
       return componentsDocumentations[internalPath]
     },
 
+    parentComponentDocumentation () {
+      return this.parentComponentDocumentationPage.documentation
+    },
+
     componentDocumentationItem () {
-      if (!this.parentComponentDocumentation) return null
+      if (!this.parentComponentDocumentationPage) return null
 
       const vuepressPageForParentComponent = componentUtils.getVuepressPageSettingsForComponent({
-        path: this.parentComponentDocumentation.path,
-        name: this.parentComponentDocumentation.documentation.displayName,
-        definition: components[documentation.displayName],
+        path: this.parentComponentDocumentationPage.path,
+        name: this.parentComponentDocumentation.displayName,
+        definition: components[this.parentComponentDocumentation.displayName],
         documentation: this.parentComponentDocumentation
       })
 
@@ -65,11 +69,11 @@ export default {
     },
 
     componentExamplesItems () {
-      if (!this.parentComponentDocumentation) return null
+      if (!this.parentComponentDocumentationPage) return null
 
       const { componentExamplesByPath } = this.$site.themeConfig
 
-      const otherExamples = _.reject(this.parentComponentDocumentation.examples, { originalRegularPath: this.$page.regularPath })
+      const otherExamples = _.reject(this.parentComponentDocumentationPage.examples, { originalRegularPath: this.$page.regularPath })
 
       const examplesLinkItems = _.map(otherExamples, function (example) {
         const examplePageInfo = componentExamplesByPath[example.originalRegularPath]
@@ -84,7 +88,7 @@ export default {
     },
 
     sidebarSections () {
-      if (!this.parentComponentDocumentation) return null
+      if (!this.parentComponentDocumentationPage) return null
 
       return [{
         slot: 'sidebar-top',

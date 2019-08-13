@@ -17,76 +17,35 @@
           <th>Prop name</th>
           <th>Type</th>
           <th>Default value</th>
+          <th>Description</th>
         </tr>
       </thead>
-      <tbody>
-        <template v-for="(prop, index) in componentProperties">
-          <tr
-            :key="`metadata-${prop.name}`"
-            :class="{
-              'c-component-documentation__even-row': index % 2 == 0,
-              'c-component-documentation__odd-row': index % 2 == 1
-            }"
-          >
-            <td>
-              <code>
-                <strong
-                  v-if="prop.required"
-                  title="Required"
-                >
-                  {{ prop.name }}
-                </strong>
-                <em
-                  v-else
-                  title="Optional"
-                >
-                  {{ prop.name }}
-                </em>
-              </code>
-            </td>
-            <td>
-              <code title="Property value type">{{ prop.type }}</code>
-            </td>
-            <td>
-              <template v-if="prop.defaultValue">
-                <pre
-                  v-if="prop.isDefaultValueAFunction"
-                  title="Default value is the result of running this function"
-                ><code>{{ prop.defaultValue }}</code></pre>
-                <code
-                  v-else
-                  title="Default value"
-                >
-                  {{ prop.defaultValue }}
-                </code>
-              </template>
-            </td>
-          </tr>
-          <tr
-            :key="`description-${prop.name}`"
-            :class="{
-              'c-component-documentation__even-row': index % 2 == 0,
-              'c-component-documentation__odd-row': index % 2 == 1
-            }"
-          >
-            <td colspan="3">
-              <geo-markdown-content
-                :markdown="prop.description"
-                :features="markdownDescriptionFeatures"
-              />
-            </td>
-          </tr>
-        </template>
-      </tbody>
+
+      <component-documentation-properties-row
+        v-for="(prop, index) in componentProperties"
+        :key="prop.name"
+        :odd="index % 2 === 1"
+        :name="prop.name"
+        :description="prop.description"
+        :type="prop.type"
+        :required="prop.required"
+        :default-value="prop.defaultValue"
+        :is-default-value-a-function="prop.isDefaultValueAFunction"
+      />
     </table>
   </div>
 </template>
 
 <script>
+import ComponentDocumentationPropertiesRow from './ComponentDocumentationPropertiesRow.vue'
+
 import { MarkdownParserFeatures } from '../../src/elements/GeoMarkdownContent/GeoMarkdownParser'
 
 export default {
   name: 'ComponentDocumentationProperties',
+  components: {
+    ComponentDocumentationPropertiesRow
+  },
   props: {
     componentProperties: {
       type: Array,

@@ -22,7 +22,7 @@
       slot="page-top"
       class="theme-default-content"
     >
-      <h2>
+      <h1>
         {{ componentDefinition.name }}
 
         <Badge
@@ -35,7 +35,7 @@
           v-if="releaseBadgeText"
           :text="releaseBadgeText"
         />
-      </h2>
+      </h1>
 
       <p v-if="componentDocumentation.description">
         {{ componentDocumentation.description }}
