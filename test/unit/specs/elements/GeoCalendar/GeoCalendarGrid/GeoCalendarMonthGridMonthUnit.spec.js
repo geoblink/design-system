@@ -21,8 +21,8 @@ describe('GeoCalendarMonthGridMonthUnit', () => {
       }
     })
     expect(wrapper.find('.geo-calendar-grid__date-picker-unit').exists()).toBe(true)
-    expect(wrapper.find('.geo-calendar-date-picker-unit__placeholder').exists()).toBe(true)
-    expect(wrapper.find('.geo-calendar-date-picker-unit__placeholder').text()).toBe('July')
+    expect(wrapper.find('.geo-calendar-grid__date-picker-unit__placeholder').exists()).toBe(true)
+    expect(wrapper.find('.geo-calendar-grid__date-picker-unit__placeholder').text()).toBe('July')
     expect(wrapper.vm.monthName).toBe('July')
     expect(wrapper.vm.monthIndex).toBe(7)
   })

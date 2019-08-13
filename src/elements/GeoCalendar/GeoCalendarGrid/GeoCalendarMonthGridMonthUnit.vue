@@ -1,7 +1,7 @@
 <template>
   <button
     :class="{
-      'geo-calendar-quarter__month-unit': true,
+      'geo-calendar-grid__month-unit': true,
       'geo-calendar-grid__date-picker-unit': true,
       'geo-calendar-grid__date-picker-unit--selected': isDateInMonth,
       'geo-calendar-grid__date-picker-unit--within-range': isDateWithinSelectedMonths,
@@ -11,7 +11,7 @@
     }"
     @click="selectMonth($event)"
   >
-    <div class="geo-calendar-date-picker-unit__placeholder">
+    <div class="geo-calendar-grid__date-picker-unit__placeholder">
       {{ monthName }}
     </div>
   </button>

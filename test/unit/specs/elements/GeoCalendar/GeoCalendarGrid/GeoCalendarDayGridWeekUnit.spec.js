@@ -10,7 +10,7 @@ describe('GeoCalendarDayGridWeekUnit', () => {
   const wrapper = getWrappedComponent()
 
   it('should render', function () {
-    expect(wrapper.find('.geo-calendar-days-container__week-unit').exists()).toBe(true)
+    expect(wrapper.find('.geo-calendar-grid__week-unit').exists()).toBe(true)
   })
 
   describe('Week granularity', () => {
@@ -24,8 +24,8 @@ describe('GeoCalendarDayGridWeekUnit', () => {
     const dayChild = wrapper.find(GeoCalendarDayGridDayUnit)
 
     it('Should add proper classes', () => {
-      expect(wrapper.find('.geo-calendar-days-container__week-unit--is-week-granularity').exists()).toBe(true)
-      expect(wrapper.find('.geo-calendar-days-container__week-unit--unavailable').exists()).toBe(true)
+      expect(wrapper.find('.geo-calendar-grid__week-unit--is-week-granularity').exists()).toBe(true)
+      expect(wrapper.find('.geo-calendar-grid__week-unit--unavailable').exists()).toBe(true)
     })
 
     it('Should select week if there is data', () => {

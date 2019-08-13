@@ -1,9 +1,9 @@
 <template>
   <div
     :class="{
-      'geo-calendar-months-container__quarter': true,
-      'geo-calendar-months-container__quarter--actionable': canQuarterBeHighlighted,
-      'geo-calendar-months-container__quarter--unavailable': canQuarterBeHighlighted && isSomeMonthInQuarterUnavailable
+      'geo-calendar-grid__quarter-unit': true,
+      'geo-calendar-grid__quarter-unit--actionable': canQuarterBeHighlighted,
+      'geo-calendar-grid__quarter-unit--unavailable': canQuarterBeHighlighted && isSomeMonthInQuarterUnavailable
     }"
   >
     <geo-calendar-month-grid-month-unit

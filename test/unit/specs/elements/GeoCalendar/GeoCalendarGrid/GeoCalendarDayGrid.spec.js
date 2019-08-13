@@ -21,7 +21,7 @@ describe('GeoCalendarDayGrid', () => {
         currentMonth: 11
       })
 
-      expect(wrapper.findAll('.geo-calendar-days-container__week-unit .geo-calendar-date-picker-unit__placeholder').at(6).text()).toBe('1')
+      expect(wrapper.findAll('.geo-calendar-grid__week-unit .geo-calendar-grid__date-picker-unit__placeholder').at(6).text()).toBe('1')
       expect(wrapper.find('.geo-calendar-grid').exists()).toBe(true)
       expect(wrapper.find('.geo-calendar-grid__weekdays-row-container').exists()).toBe(true)
       expect(wrapper.find('.geo-calendar-grid__day-container').exists()).toBe(true)
@@ -33,7 +33,7 @@ describe('GeoCalendarDayGrid', () => {
       wrapper.setProps({
         currentMonth: 5
       })
-      expect(wrapper.findAll('.geo-calendar-days-container__week-unit .geo-calendar-date-picker-unit__placeholder').at(5).text()).toBe('1')
+      expect(wrapper.findAll('.geo-calendar-grid__week-unit .geo-calendar-grid__date-picker-unit__placeholder').at(5).text()).toBe('1')
       expect(wrapper.find('.geo-calendar-grid').exists()).toBe(true)
       expect(wrapper.find('.geo-calendar-grid__weekdays-row-container').exists()).toBe(true)
       expect(wrapper.find('.geo-calendar-grid__day-container').exists()).toBe(true)

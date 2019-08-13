@@ -1,7 +1,7 @@
 <template>
   <button
     :class="{
-      'geo-calendar-days__day-unit': true,
+      'geo-calendar-grid__day-unit': true,
       'geo-calendar-grid__date-picker-unit': true,
       'geo-calendar-grid__date-picker-unit--today': isToday,
       'geo-calendar-grid__date-picker-unit--out-of-boundaries': isDayOutOfBoundaries,
@@ -13,7 +13,7 @@
     }"
     @click="selectDay($event)"
   >
-    <div class="geo-calendar-date-picker-unit__placeholder">
+    <div class="geo-calendar-grid__date-picker-unit__placeholder">
       {{ dayNumber }}
     </div>
   </button>

@@ -1,7 +1,7 @@
 <template>
   <button
     :class="{
-      'geo-calendar-years__year-unit': true,
+      'geo-calendar-grid__year-unit': true,
       'geo-calendar-grid__date-picker-unit': true,
       'geo-calendar-grid__date-picker-unit--selected': isDateInYear,
       'geo-calendar-grid__date-picker-unit--within-range': isDateWithinSelectedYears,
@@ -11,7 +11,7 @@
     }"
     @click="selectYear($event)"
   >
-    <div class="geo-calendar-date-picker-unit__placeholder">
+    <div class="geo-calendar-grid__date-picker-unit__placeholder">
       {{ year }}
     </div>
   </button>

@@ -15,8 +15,8 @@ describe('GeoCalendarDayGridDayUnit', () => {
       }
     })
     expect(wrapper.find('.geo-calendar-grid__date-picker-unit').exists()).toBe(true)
-    expect(wrapper.find('.geo-calendar-date-picker-unit__placeholder').exists()).toBe(true)
-    expect(wrapper.find('.geo-calendar-date-picker-unit__placeholder').text()).toBe(`${wrapper.vm.dayNumber}`)
+    expect(wrapper.find('.geo-calendar-grid__date-picker-unit__placeholder').exists()).toBe(true)
+    expect(wrapper.find('.geo-calendar-grid__date-picker-unit__placeholder').text()).toBe(`${wrapper.vm.dayNumber}`)
   })
 
   it('Should print the correct day number', () => {
@@ -27,7 +27,7 @@ describe('GeoCalendarDayGridDayUnit', () => {
       }
     })
     expect(wrapper.vm.dayNumber).toBe(getDate(addDays(today, 5)))
-    expect(wrapper.find('.geo-calendar-date-picker-unit__placeholder').text()).toBe(`${wrapper.vm.dayNumber}`)
+    expect(wrapper.find('.geo-calendar-grid__date-picker-unit__placeholder').text()).toBe(`${wrapper.vm.dayNumber}`)
   })
 
   it('Emits event when clicking on one day', () => {
