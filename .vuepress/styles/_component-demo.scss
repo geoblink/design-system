@@ -1,0 +1,75 @@
+.c-component-demo {
+  .c-component-demo__preview {
+    margin-top: $space-large;
+    position: relative;
+    width: 100%;
+
+    &::before {
+      @include font($heading-small);
+
+      align-items: center;
+      bottom: 100%;
+      background: $color-yellow-light;
+      border-top-left-radius: $border-radius-default;
+      border-top-right-radius: $border-radius-default;
+      content: 'Example';
+      display: flex;
+      flex-direction: row;
+      height: $space-base;
+      padding: 0 $space-x-small;
+      position: absolute;
+      text-transform: uppercase;
+      left: 0;
+    }
+  }
+
+  .c-component-demo__resizable-content {
+    border-top-right-radius: $border-radius-default;
+    border: 1px solid $color-yellow-light;
+    overflow: auto;
+    padding: $space-base;
+    resize: both;
+  }
+
+  .c-component-demo__code {
+    border: 1px solid $color-yellow-light;
+    border-bottom-left-radius: $border-radius-default;
+    border-bottom-right-radius: $border-radius-default;
+    border-top-width: 0;
+  }
+
+  .c-component-demo__code-editor {
+    pre,
+    pre[class*="language-"] {
+      border-radius: 0;
+      margin: 0 -1px;
+    }
+  }
+
+  .c-component-demo__pre-code-actions,
+  .c-component-demo__post-code-actions {
+    background: $color-yellow-readable-background;
+
+    button {
+      @include font($heading);
+
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: $space-small;
+      text-transform: uppercase;
+      width: 100%;
+
+      &:hover {
+        background: rgba(0, 0, 0, .05);
+      }
+    }
+  }
+
+  .c-component-demo__post-code-actions {
+    button {
+      border-bottom-left-radius: $border-radius-default;
+      border-bottom-right-radius: $border-radius-default;
+    }
+  }
+}
