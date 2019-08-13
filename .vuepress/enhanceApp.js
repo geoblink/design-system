@@ -9,7 +9,12 @@ import { far } from '@fortawesome/free-regular-svg-icons'
 
 import ComponentDocumentation from './components/ComponentDocumentation.vue'
 import GeoblinkDesignSystem, { components } from '../src/system'
-import '../src/utils/webFontLoader'
+
+// We only want to load this in client-side rendering.
+if (typeof window !== 'undefined') {
+  require('../src/utils/webFontLoader')
+}
+
 
 const _ = require('@geoblink/lodash-mixins').default(require('lodash'))
 

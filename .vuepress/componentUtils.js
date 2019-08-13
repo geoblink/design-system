@@ -206,6 +206,8 @@ export function getVuepressPageSettingsForExample (originalPage, customPage) {
  * @returns {string}
  */
 export function getComponentInternalPathForExample (examplePagePath) {
+  if (!examplePagePath) return null
+
   const componentInternalPath = examplePagePath
     .replace('/src/elements/', '')
     .replace(/\.[^/]*$/, '')
