@@ -1,7 +1,3 @@
-Use `GeoButton` to add button-like elements to your app with a single tag,
-being able to customize its color scheme to show the user the intention of the
-element.
-
 ```vue live
 <template>
   <div class="element-demo">

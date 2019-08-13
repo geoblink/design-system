@@ -17,9 +17,8 @@
     :title="title"
     :alt="alt"
   >
-  <code v-else-if="isCodeBlock">
-    {{ text }}
-  </code>
+  <pre v-else-if="isCodeBlock"><code>{{ text }}</code></pre>
+  <code v-else-if="isInlineCode">{{ text }}</code>
   <component
     :is="htmlTag"
     v-else-if="isBlock"
@@ -65,13 +64,18 @@ export default {
     },
 
     isCodeBlock () {
-      return _.get(this.node, 'type') === MarkdownNodeType.code
+      return _.get(this.node, 'type') === MarkdownNodeType.codeBlock
+    },
+
+    isInlineCode () {
+      return _.get(this.node, 'type') === MarkdownNodeType.inlineCode
     },
 
     text () {
       const plainTextNodeTypes = {
         [MarkdownNodeType.plainText]: true,
-        [MarkdownNodeType.code]: true
+        [MarkdownNodeType.codeBlock]: true,
+        [MarkdownNodeType.inlineCode]: true
       }
       return _.get(this.node, 'type') in plainTextNodeTypes
         ? _.get(this.node, 'content')

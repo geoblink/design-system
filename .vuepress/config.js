@@ -29,6 +29,7 @@ module.exports = {
   head: [
     ['link', { rel: 'icon', href: '/assets/img/favicon.ico' }]
   ],
+  globalLayout: path.resolve(__dirname, 'components/ComponentExampleLayout.vue'),
   themeConfig: {
     logo: `/assets/img/logo.svg`,
     nav: [
@@ -71,7 +72,7 @@ function getComponentsDocumentations () {
     example => example.internalPath.replace(/\.[^.]*$/, '')
   )
 
-  const componentsDefinitions = _.fromPairsMap(componentsDefinitionsPaths, function (pathToComponentDefinition) {
+  const componentsDocumentations = _.fromPairsMap(componentsDefinitionsPaths, function (pathToComponentDefinition) {
     const relativePath = pathToComponentDefinition
       .replace(`${componentsPath}/`, '')
       .replace(/\.vue$/, '')
@@ -88,7 +89,7 @@ function getComponentsDocumentations () {
     }]
   })
 
-  return componentsDefinitions
+  return componentsDocumentations
 }
 
 function getComponentsExamples () {
