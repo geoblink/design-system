@@ -135,11 +135,14 @@ function addComponentDocumentationPages (siteData) {
 
   for (const componentPath of Object.keys(componentsDocumentations)) {
     const { documentation } = componentsDocumentations[componentPath]
+    const definition = components[documentation.displayName]
 
     siteData.pages.push(
       componentUtils.getVuepressPageSettingsForComponent({
         path: componentPath,
-        name: documentation.displayName
+        name: documentation.displayName,
+        definition,
+        documentation
       })
     )
   }

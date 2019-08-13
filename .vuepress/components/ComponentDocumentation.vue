@@ -1,5 +1,5 @@
 <template>
-  <Layout>
+  <Layout class="c-component-documentation">
     <ul
       v-if="componentExamplesItems.length"
       slot="sidebar-bottom"
@@ -41,6 +41,16 @@
         {{ componentDocumentation.description }}
       </p>
 
+      <component-documentation-constants
+        v-if="componentConstants.length"
+        :component-constants="componentConstants"
+      />
+
+      <component-documentation-properties
+        v-if="componentProperties.length"
+        :component-properties="componentProperties"
+      />
+
       <pre><code>{{ JSON.stringify(componentDefinition, undefined, 2) }}</code></pre>
       <pre><code>{{ JSON.stringify(componentDocumentation, undefined, 2) }}</code></pre>
     </div>
@@ -51,8 +61,15 @@
 const _ = require('lodash')
 const componentUtils = require('../componentUtils')
 
+import ComponentDocumentationConstants from './ComponentDocumentationConstants.vue'
+import ComponentDocumentationProperties from './ComponentDocumentationProperties.vue'
+
 export default {
   name: 'ComponentDocumentation',
+  components: {
+    ComponentDocumentationConstants,
+    ComponentDocumentationProperties
+  },
   props: {
     componentPath: {
       type: String,
@@ -78,7 +95,9 @@ export default {
     $page () {
       return componentUtils.getVuepressPageSettingsForComponent({
         path: this.componentPath,
-        name: this.componentDefinition.displayName
+        name: this.componentDefinition.displayName,
+        definition: this.componentDefinition,
+        documentation: this.componentDocumentation
       })
     },
 
@@ -130,8 +149,19 @@ export default {
           to: example.originalRegularPath
         }
       })
-    }
+    },
+
+    componentProperties () {
+      return componentUtils.getComponentProperties(this.componentDocumentation)
+    },
+
+    componentConstants () {
+      return componentUtils.getComponentConstants(this.componentDefinition)
+    },
+
+    componentEvents () {
+
+    },
   }
 }
 </script>
-

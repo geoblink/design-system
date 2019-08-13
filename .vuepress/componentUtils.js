@@ -1,23 +1,126 @@
+import _ from 'lodash'
+
+/**
+ * @typedef {Object} ComponentProperty
+ * @property {string} name
+ * @property {string} description
+ * @property {object} type
+ * @property {string} type.name
+ * @property {boolean} required
+ * @property {object} defaultValue
+ * @property {boolean} defaultValue.func
+ * @property {string} defaultValue.value
+ */
+
+/**
+ * @typedef {Object} ComponentDefinition
+ * @property {object} [constants]
+ */
+
+/**
+ * @typedef {Object} ComponentDocumentation
+ * @property {Object<string, ComponentProperty>} [props]
+ */
+
 /**
  * @param {object} params
  * @param {string} params.path
  * @param {string} params.name
+ * @param {ComponentDefinition} params.definition
+ * @param {ComponentDocumentation} params.documentation
  */
 export function getVuepressPageSettingsForComponent (params) {
+  const hasConstants = !!getComponentConstants(params.definition).length
+  const hasProperties = !!getComponentProperties(params.documentation).length
+
+  const headers = [{
+    level: 1,
+    slug: params.name,
+    title: params.name
+  }]
+
+  if (hasConstants) {
+    headers.push({
+      level: 2,
+      slug: 'constants',
+      title: 'Constants'
+    })
+  }
+
+  if (hasProperties) {
+    headers.push({
+      level: 2,
+      slug: 'properties',
+      title: 'Properties'
+    })
+  }
+
   return {
     frontmatter: {
       title: params.name
     },
-    headers: [{
-      level: 1,
-      slug: params.name,
-      title: params.name
-    }],
+    headers,
     path: `/components/${params.path}.html`,
     regularPath: `/components/${params.path}.html`,
     relativePath: `components/${params.path}`,
     title: `${params.name} (Documentation)`
   }
+}
+
+/**
+ * @param {ComponentDefinition} componentDefinition
+ * @returns {Array<{name: string, definition: any}>}
+ */
+export function getComponentConstants (componentDefinition) {
+  return _.map(componentDefinition.constants, function (definition, name) {
+    return { name, definition }
+  })
+}
+
+/**
+ * @param {ComponentDocumentation} componentDefinition
+ * @returns {Array<{name: string, type: string, }>}
+ */
+export function getComponentProperties (componentDefinition) {
+  return _.map(componentDefinition.props, function (prop) {
+      const defaultValueMetadata = getPropertyDefaultValueMetadata(prop.defaultValue)
+
+      return {
+        name: prop.name,
+        type: prop.type.name,
+        isDefaultValueAFunction: _.get(defaultValueMetadata, 'isFunction'),
+        defaultValue: _.get(defaultValueMetadata, 'value'),
+        required: !!prop.required,
+        description: prop.description
+      }
+    })
+}
+
+
+/**
+ * @template T
+ * @param {object} [property]
+ * @param {boolean} property.func
+ * @param {T} property.value
+ * @returns {{value: string, isFunction: boolean}}
+ */
+function getPropertyDefaultValueMetadata (property) {
+  if (!property) return null
+  if (property.func) {
+    return {
+      isFunction: true,
+      value: property.value.toString()
+    }
+  }
+
+  return {
+    isFunction: false,
+    value: `${property.value}`
+  }
+}
+
+export function componentHasEvents () {
+
 }
 
 /**

@@ -72,7 +72,7 @@ function getComponentsDocumentations () {
     example => example.internalPath.replace(/\.[^.]*$/, '')
   )
 
-  const componentsDefinitions = _.fromPairsMap(componentsDefinitionsPaths, function (pathToComponentDefinition) {
+  const componentsDocumentations = _.fromPairsMap(componentsDefinitionsPaths, function (pathToComponentDefinition) {
     const relativePath = pathToComponentDefinition
       .replace(`${componentsPath}/`, '')
       .replace(/\.vue$/, '')
@@ -89,7 +89,7 @@ function getComponentsDocumentations () {
     }]
   })
 
-  return componentsDefinitions
+  return componentsDocumentations
 }
 
 function getComponentsExamples () {

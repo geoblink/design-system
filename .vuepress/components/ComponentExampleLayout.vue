@@ -29,6 +29,8 @@
 const _ = require('lodash')
 const componentUtils = require('../componentUtils')
 
+import { components } from '../../src/system'
+
 export default {
   name: 'ComponentExampleLayout',
   computed: {
@@ -47,9 +49,13 @@ export default {
     },
 
     componentDocumentationItem () {
+      if (!this.parentComponentDocumentation) return null
+
       const vuepressPageForParentComponent = componentUtils.getVuepressPageSettingsForComponent({
         path: this.parentComponentDocumentation.path,
-        name: this.parentComponentDocumentation.documentation.displayName
+        name: this.parentComponentDocumentation.documentation.displayName,
+        definition: components[documentation.displayName],
+        documentation: this.parentComponentDocumentation
       })
 
       return {
@@ -59,6 +65,8 @@ export default {
     },
 
     componentExamplesItems () {
+      if (!this.parentComponentDocumentation) return null
+
       const { componentExamplesByPath } = this.$site.themeConfig
 
       const otherExamples = _.reject(this.parentComponentDocumentation.examples, { originalRegularPath: this.$page.regularPath })
@@ -76,6 +84,8 @@ export default {
     },
 
     sidebarSections () {
+      if (!this.parentComponentDocumentation) return null
+
       return [{
         slot: 'sidebar-top',
         items: [this.componentDocumentationItem]
