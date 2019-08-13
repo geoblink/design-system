@@ -2,7 +2,6 @@ import { assign } from 'lodash'
 import VariableInterpolationPlugin from './VariableInterpolationPlugin'
 
 /**
- * @typedef MarkdownNodeType
  * @readonly
  * @enum {string}
  */
@@ -18,10 +17,21 @@ export const MarkdownNodeType = {
   unorderedList: 'unorderedList',
   listItem: 'listItem',
   blockquote: 'blockquote',
-  code: 'code',
+  codeBlock: 'codeBlock',
+  inlineCode: 'inlineCode',
+  table: 'table',
+  thead: 'thead',
+  tr: 'tr',
+  th: 'th',
+  tbody: 'tbody',
+  td: 'td',
   plainText: 'plainText'
 }
 
+/**
+ * @readonly
+ * @enum {string}
+ */
 export const MarkdownNodeHTMLTag = {
   p: 'p',
   a: 'a',
@@ -38,9 +48,21 @@ export const MarkdownNodeHTMLTag = {
   ul: 'ul',
   ol: 'ol',
   li: 'li',
-  blockquote: 'blockquote'
+  blockquote: 'blockquote',
+  code: 'code',
+  pre: 'pre',
+  table: 'table',
+  thead: 'thead',
+  tr: 'tr',
+  th: 'th',
+  tbody: 'tbody',
+  td: 'td'
 }
 
+/**
+ * @readonly
+ * @enum {string}
+ */
 const htmlHeadingTagToMarkdownNodeHTMLTag = {
   h1: MarkdownNodeHTMLTag.h1,
   h2: MarkdownNodeHTMLTag.h2,
@@ -51,7 +73,10 @@ const htmlHeadingTagToMarkdownNodeHTMLTag = {
 }
 
 /**
- * @param {{type: MarkdownNodeType, tag: string, childNodes: MarkdownNode[]}} params
+ * @param {object} params
+ * @param {MarkdownNodeType} params.type
+ * @param {string} params.tag
+ * @param {Array<MarkdownNode>} params.childNodes
  */
 export function MarkdownBlockNode (params) {
   this.type = params.type
@@ -109,23 +134,15 @@ export function MarkdownInlineNode (params) {
 }
 
 /**
- * @param {{content: string}} params
- */
-export function MarkdownCodeBlockNode (params) {
-  this.type = MarkdownNodeType.code
-  this.content = params.content
-}
-
-/**
- * @typedef {(MarkdownBlockNode | MarkdownInlineNode | MarkdownCodeBlockNode)} MarkdownNode
+ * @typedef {(MarkdownBlockNode | MarkdownInlineNode)} MarkdownNode
  */
 
 /**
- * @typedef MarkdownParserFeatures
  * @readonly
  * @enum {string}
  */
 export const MarkdownParserFeatures = {
+  backticks: 'backticks',
   smartquotes: 'smartquotes',
   replacements: 'replacements',
   linkify: 'linkify',
@@ -138,7 +155,8 @@ export const MarkdownParserFeatures = {
   list: 'list',
   blockquote: 'blockquote',
   code: 'code',
-  fence: 'fence'
+  fence: 'fence',
+  table: 'table'
 }
 
 /**
@@ -162,22 +180,37 @@ const closingTagTokenTypes = {
   bullet_list_close: 'bullet_list_close',
   ordered_list_close: 'ordered_list_close',
   list_item_close: 'list_item_close',
-  blockquote_close: 'blockquote_close'
+  blockquote_close: 'blockquote_close',
+  table_close: 'table_close',
+  thead_close: 'thead_close',
+  tr_close: 'tr_close',
+  th_close: 'th_close',
+  tbody_close: 'tbody_close',
+  td_close: 'td_close'
 }
 
 /**
  * @callback NodeParsingFunction
  * @param {NodeParsingInput} params
  * @return {NodeParsingOutput}
- *
- * @typedef {{ tokens: Token[], position: number }} NodeParsingInput
- * @typedef {{ nodes: MarkdownNode[], positionsAdvanced: number }} NodeParsingOutput
+ */
+
+/**
+ * @typedef {Object} NodeParsingInput
+ * @property {Array<Token>} tokens
+ * @property {number} position
+ */
+
+/**
+ * @typedef {Object} NodeParsingOutput
+ * @property {Array<MarkdownNode>} nodes
+ * @property {number} parsedLength
  */
 
 /**
  * @type {NodeParsingOutput}
  */
-const SKIP_NODE_OUTPUT = { nodes: [], positionsAdvanced: 1 }
+const SKIP_NODE_OUTPUT = { nodes: [], parsedLength: 1 }
 
 /**
  * @type {Object.<string, NodeParsingFunction>}
@@ -196,20 +229,27 @@ const nodeTypeParsers = {
   ordered_list_open: parseOrderedListToken,
   list_item_open: parseListItemToken,
   blockquote_open: parseBlockquoteToken,
-  code_block: parseCodeToken,
-  fence: parseCodeToken
+  code_block: parseCodeBlockToken,
+  fence: parseCodeBlockToken,
+  code_inline: parseCodeInlineToken,
+  table_open: parseTableOpenToken,
+  thead_open: parseTheadOpenToken,
+  tr_open: parseTrOpenToken,
+  th_open: parseThOpenToken,
+  tbody_open: parseTbodyOpenToken,
+  td_open: parseTdOpenToken
 }
 
 /**
- * @param {Token[]} tokens
- * @returns {MarkdownNode[]}
+ * @param {Array<Token>} tokens
+ * @returns {Array<MarkdownNode>}
  */
 function parseASTList (tokens) {
   return parseASTListRecursive(tokens, 0).nodes
 }
 
 /**
- * @param {Token[]} tokens
+ * @param {Array<Token>} tokens
  * @param {number} start
  * @returns {NodeParsingOutput}
  */
@@ -227,9 +267,9 @@ function parseASTListRecursive (tokens, start) {
       }
     }
 
-    const { nodes, positionsAdvanced } = result
+    const { nodes, parsedLength } = result
     resultingNodes.push(...nodes)
-    start += positionsAdvanced
+    start += parsedLength
   }
 
   return {
@@ -270,7 +310,7 @@ function parseTextToken ({ tokens, position }) {
 
   return {
     nodes: [node],
-    positionsAdvanced: 1
+    parsedLength: 1
   }
 }
 
@@ -285,7 +325,7 @@ function parseInlineToken ({ tokens, position }) {
 
   return {
     nodes: childrenMetadata.nodes,
-    positionsAdvanced: 1
+    parsedLength: 1
   }
 }
 
@@ -303,7 +343,7 @@ function parseParagraphToken ({ tokens, position }) {
 
   return {
     nodes: [node],
-    positionsAdvanced: 1 + childrenMetadata.parsedLength + 1
+    parsedLength: 1 + childrenMetadata.parsedLength + 1
   }
 }
 
@@ -325,7 +365,7 @@ function parseLinkToken ({ tokens, position }) {
 
   return {
     nodes: [node],
-    positionsAdvanced: 1 + childrenMetadata.parsedLength + 1
+    parsedLength: 1 + childrenMetadata.parsedLength + 1
   }
 }
 
@@ -347,7 +387,7 @@ function parseImageToken ({ tokens, position }) {
 
   return {
     nodes: [node],
-    positionsAdvanced: 1
+    parsedLength: 1
   }
 }
 
@@ -462,22 +502,122 @@ function parseBlockquoteToken ({ tokens, position }) {
  * @param {NodeParsingInput} params
  * @returns {NodeParsingOutput}
  */
-function parseCodeToken ({ tokens, position }) {
+function parseCodeBlockToken ({ tokens, position }) {
   const token = tokens[position]
 
   const node = {
-    type: MarkdownNodeType.code,
+    type: MarkdownNodeType.codeBlock,
     content: token.content
   }
 
   return {
     nodes: [node],
-    positionsAdvanced: 1
+    parsedLength: 1
   }
 }
 
 /**
- * @param {{tokens: Token[], position: number, markdownNodeType: MarkdownNodeType, markdownNodeHTMLTag, MarkdownNodeHTMLTag}} params
+ * @param {NodeParsingInput} params
+ * @returns {NodeParsingOutput}
+ */
+function parseCodeInlineToken ({ tokens, position }) {
+  const token = tokens[position]
+
+  const node = {
+    type: MarkdownNodeType.inlineCode,
+    content: token.content
+  }
+
+  return {
+    nodes: [node],
+    parsedLength: 1
+  }
+}
+
+/**
+ * @param {NodeParsingInput} params
+ * @returns {NodeParsingOutput}
+ */
+function parseTableOpenToken ({ tokens, position }) {
+  return parseHTMLTagWithoutAttributesToken({
+    tokens,
+    position,
+    markdownNodeType: MarkdownNodeType.table,
+    markdownNodeHTMLTag: MarkdownNodeHTMLTag.table
+  })
+}
+
+/**
+ * @param {NodeParsingInput} params
+ * @returns {NodeParsingOutput}
+ */
+function parseTheadOpenToken ({ tokens, position }) {
+  return parseHTMLTagWithoutAttributesToken({
+    tokens,
+    position,
+    markdownNodeType: MarkdownNodeType.thead,
+    markdownNodeHTMLTag: MarkdownNodeHTMLTag.thead
+  })
+}
+
+/**
+ * @param {NodeParsingInput} params
+ * @returns {NodeParsingOutput}
+ */
+function parseTrOpenToken ({ tokens, position }) {
+  return parseHTMLTagWithoutAttributesToken({
+    tokens,
+    position,
+    markdownNodeType: MarkdownNodeType.tr,
+    markdownNodeHTMLTag: MarkdownNodeHTMLTag.tr
+  })
+}
+
+/**
+ * @param {NodeParsingInput} params
+ * @returns {NodeParsingOutput}
+ */
+function parseThOpenToken ({ tokens, position }) {
+  return parseHTMLTagWithoutAttributesToken({
+    tokens,
+    position,
+    markdownNodeType: MarkdownNodeType.th,
+    markdownNodeHTMLTag: MarkdownNodeHTMLTag.th
+  })
+}
+
+/**
+ * @param {NodeParsingInput} params
+ * @returns {NodeParsingOutput}
+ */
+function parseTbodyOpenToken ({ tokens, position }) {
+  return parseHTMLTagWithoutAttributesToken({
+    tokens,
+    position,
+    markdownNodeType: MarkdownNodeType.tbody,
+    markdownNodeHTMLTag: MarkdownNodeHTMLTag.tbody
+  })
+}
+
+/**
+ * @param {NodeParsingInput} params
+ * @returns {NodeParsingOutput}
+ */
+function parseTdOpenToken ({ tokens, position }) {
+  return parseHTMLTagWithoutAttributesToken({
+    tokens,
+    position,
+    markdownNodeType: MarkdownNodeType.td,
+    markdownNodeHTMLTag: MarkdownNodeHTMLTag.td
+  })
+}
+
+/**
+ * @param {object} params
+ * @param {Array<Token>} params.tokens
+ * @param {number} params.position
+ * @param {MarkdownNodeType} params.markdownNodeType
+ * @param {MarkdownNodeHTMLTag} params.markdownNodeHTMLTag
  * @returns {NodeParsingOutput}
  */
 function parseHTMLTagWithoutAttributesToken ({
@@ -495,6 +635,6 @@ function parseHTMLTagWithoutAttributesToken ({
 
   return {
     nodes: [node],
-    positionsAdvanced: 1 + childrenMetadata.parsedLength + 1
+    parsedLength: 1 + childrenMetadata.parsedLength + 1
   }
 }

@@ -57,7 +57,10 @@ export default {
      */
     values: {
       type: Object,
-      required: false
+      required: false,
+      default () {
+        return {}
+      }
     },
 
     /**
