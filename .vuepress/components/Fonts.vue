@@ -89,14 +89,14 @@ export default {
     }
   },
   props: {
-    fontTokens: {
+    tokens: {
       type: Array,
       required: true
     }
   },
   computed: {
-    tokens () {
-      return _.map(this.fontTokens, (obj, index) => {
+    styledTokens () {
+      return _.map(this.tokens, (obj, index) => {
         const styles = this.styles[index] || {}
         const fontFamily = _.includes(styles.fontFamily, 'Lato')
           ? 'Lato'
@@ -108,7 +108,7 @@ export default {
     },
 
     sortedTokens () {
-      return _.orderBy(this.tokens, ['order'], ['desc'])
+      return _.orderBy(this.styledTokens, ['order'], ['desc'])
     },
 
     firstMontserratFontIndex () {

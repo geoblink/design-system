@@ -3,7 +3,7 @@
     <h2>Color Palette</h2>
     <div class="colors">
       <color-token
-        v-for="(prop, index) in orderedColorTokens"
+        v-for="(prop, index) in orderedTokens"
         :key="index"
         :color="prop"
       />
@@ -24,14 +24,14 @@ const _ = require('lodash')
 export default {
   name: 'Colors',
   props: {
-    colorTokens: {
+    tokens: {
       type: Array,
       required: true
     }
   },
   computed: {
-    orderedColorTokens () {
-      return _.orderBy(this.colorTokens, ['category', 'name'], ['asc', 'asc'])
+    orderedTokens () {
+      return _.orderBy(this.tokens, ['category', 'name'], ['asc', 'asc'])
     }
   }
 }
