@@ -74,7 +74,7 @@
 </template>
 
 <script>
-import { MarkdownParserFeatures } from '../../src/elements/GeoMarkdownContent/GeoMarkdownParser'
+import { AllMarkdownParserFeatures } from '../../src/elements/GeoMarkdownContent/GeoMarkdownParser'
 
 export default {
   name: 'ComponentDocumentationPropertiesRow',
@@ -121,21 +121,7 @@ export default {
   },
   computed: {
     markdownDescriptionFeatures () {
-      return {
-        [MarkdownParserFeatures.smartquotes]: true,
-        [MarkdownParserFeatures.replacements]: true,
-        [MarkdownParserFeatures.emphasis]: true,
-        [MarkdownParserFeatures.strikethrough]: true,
-        [MarkdownParserFeatures.linkify]: true,
-        [MarkdownParserFeatures.link]: true,
-        [MarkdownParserFeatures.list]: true,
-        [MarkdownParserFeatures.lheading]: true,
-        [MarkdownParserFeatures.code]: true,
-        [MarkdownParserFeatures.fence]: true,
-        [MarkdownParserFeatures.blockquote]: true,
-        [MarkdownParserFeatures.table]: true,
-        [MarkdownParserFeatures.backticks]: true,
-      }
+      return AllMarkdownParserFeatures
     }
   },
   methods: {

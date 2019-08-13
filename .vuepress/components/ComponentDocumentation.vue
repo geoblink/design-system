@@ -37,9 +37,11 @@
         />
       </h1>
 
-      <p v-if="componentDocumentation.description">
-        {{ componentDocumentation.description }}
-      </p>
+      <geo-markdown-content
+        v-if="componentDocumentation.description"
+        :markdown="componentDocumentation.description"
+        :features="markdownDescriptionFeatures"
+      />
 
       <component-documentation-constants
         v-if="componentConstants.length"
@@ -56,8 +58,10 @@
         :component-events="componentEvents"
       />
 
-      <pre><code>{{ JSON.stringify(componentDefinition, undefined, 2) }}</code></pre>
-      <pre><code>{{ JSON.stringify(componentDocumentation, undefined, 2) }}</code></pre>
+      <component-documentation-slots
+        v-if="componentSlots.length"
+        :component-slots="componentSlots"
+      />
     </div>
   </Layout>
 </template>
@@ -66,16 +70,20 @@
 const _ = require('lodash')
 const componentUtils = require('../componentUtils')
 
+import { AllMarkdownParserFeatures } from '../../src/elements/GeoMarkdownContent/GeoMarkdownParser'
+
 import ComponentDocumentationConstants from './ComponentDocumentationConstants.vue'
 import ComponentDocumentationProperties from './ComponentDocumentationProperties.vue'
 import ComponentDocumentationEvents from './ComponentDocumentationEvents.vue'
+import ComponentDocumentationSlots from './ComponentDocumentationSlots.vue'
 
 export default {
   name: 'ComponentDocumentation',
   components: {
     ComponentDocumentationConstants,
     ComponentDocumentationProperties,
-    ComponentDocumentationEvents
+    ComponentDocumentationEvents,
+    ComponentDocumentationSlots
   },
   props: {
     componentPath: {
@@ -168,6 +176,14 @@ export default {
 
     componentEvents () {
       return componentUtils.getComponentEvents(this.componentDocumentation)
+    },
+
+    componentSlots () {
+      return componentUtils.getComponentSlots(this.componentDocumentation)
+    },
+
+    markdownDescriptionFeatures () {
+      return AllMarkdownParserFeatures
     }
   }
 }

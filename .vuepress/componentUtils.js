@@ -20,6 +20,11 @@ import _ from 'lodash'
  */
 
 /**
+ * @typedef {Object} ComponentSlot
+ * @property {string} description
+ */
+
+/**
  * @typedef {Object} ComponentDefinition
  * @property {object} [constants]
  */
@@ -28,6 +33,7 @@ import _ from 'lodash'
  * @typedef {Object} ComponentDocumentation
  * @property {Object<string, ComponentProperty>} [props]
  * @property {Object<string, ComponentEvent>} [events]
+ * @property {Object<string, ComponentSlot>} [slots]
  */
 
 /**
@@ -41,6 +47,7 @@ export function getVuepressPageSettingsForComponent (params) {
   const hasConstants = !!getComponentConstants(params.definition).length
   const hasProperties = !!getComponentProperties(params.documentation).length
   const hasEvents = !!getComponentEvents(params.documentation).length
+  const hasSlots = !!getComponentSlots(params.documentation).length
 
   const headers = [{
     level: 1,
@@ -69,6 +76,14 @@ export function getVuepressPageSettingsForComponent (params) {
       level: 2,
       slug: 'events',
       title: 'Events'
+    })
+  }
+
+  if (hasSlots) {
+    headers.push({
+      level: 2,
+      slug: 'slots',
+      title: 'Slots'
     })
   }
 
@@ -114,20 +129,6 @@ export function getComponentProperties (componentDefinition) {
 }
 
 /**
- * @param {ComponentDocumentation} componentDefinition
- * @returns {Array<{name: string, types: Array<string>, description: string}>}
- */
-export function getComponentEvents (componentDefinition) {
-  return _.map(componentDefinition.events, function (eventMetadata, eventName) {
-    return {
-      name: eventName,
-      types: eventMetadata.type.names,
-      description: eventMetadata.description
-    }
-  })
-}
-
-/**
  * @template T
  * @param {object} [property]
  * @param {boolean} property.func
@@ -149,8 +150,31 @@ function getPropertyDefaultValueMetadata (property) {
   }
 }
 
-export function componentHasEvents () {
+/**
+ * @param {ComponentDocumentation} componentDefinition
+ * @returns {Array<{name: string, types: Array<string>, description: string}>}
+ */
+export function getComponentEvents (componentDefinition) {
+  return _.map(componentDefinition.events, function (eventMetadata, eventName) {
+    return {
+      name: eventName,
+      types: eventMetadata.type.names,
+      description: eventMetadata.description
+    }
+  })
+}
 
+/**
+ * @param {ComponentDocumentation} componentDefinition
+ * @returns {Array<{name: string, description: string}>}
+ */
+export function getComponentSlots (componentDefinition) {
+  return _.map(componentDefinition.slots, function (slotMetadata, slotName) {
+    return {
+      name: slotName,
+      description: slotMetadata.description
+    }
+  })
 }
 
 /**

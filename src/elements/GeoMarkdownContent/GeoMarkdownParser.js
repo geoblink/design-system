@@ -1,4 +1,4 @@
-import { assign } from 'lodash'
+import { assign, mapValues } from 'lodash'
 import VariableInterpolationPlugin from './VariableInterpolationPlugin'
 
 /**
@@ -158,6 +158,8 @@ export const MarkdownParserFeatures = {
   fence: 'fence',
   table: 'table'
 }
+
+export const AllMarkdownParserFeatures = mapValues(MarkdownParserFeatures, () => true)
 
 /**
  * @param {string} markdownText
