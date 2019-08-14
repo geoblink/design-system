@@ -82,10 +82,10 @@ function renameComponentExamplesPages (siteData) {
     const parentComponentDisplayName = parentComponent && parentComponent.documentation.displayName
 
     const displayablePath = componentDisplayName
-      ? componentDisplayName
-      : `${parentComponentDisplayName} » ${componentInternalPath.split('/').slice(-1)[0]}`
+      ? `${componentDisplayName} (Examples)`
+      : `${parentComponentDisplayName} (Examples) » ${componentInternalPath.split('/').slice(-1)[0]}`
 
-    pageInfo.title = `${displayablePath} (Examples)`
+    pageInfo.title = displayablePath
   }
 }
 
