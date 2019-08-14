@@ -39,15 +39,15 @@ export default {
     },
 
     parentComponentDocumentationPage () {
-      const internalPath = this.internalPath
+      if (!this.internalPath) return null
 
       const {
         componentsDocumentations
       } = this.$site.themeConfig
 
-      const parentComponent = componentsDocumentations[internalPath]
+      const parentComponent = componentsDocumentations[this.internalPath]
 
-      const rootComponentName = _.first(internalPath.split('/'))
+      const rootComponentName = _.first(this.internalPath.split('/'))
       const rootComponentInternalPath = `${rootComponentName}/${rootComponentName}`
       const rootComponent = componentsDocumentations[rootComponentInternalPath]
 

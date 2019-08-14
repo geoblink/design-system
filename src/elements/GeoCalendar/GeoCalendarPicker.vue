@@ -1,5 +1,5 @@
 <template>
-  <div class="geo-calendar-picker">
+  <div :class="`geo-calendar-picker${cssSuffix}`">
     <geo-calendar-navigation
       ref="calendarNavigationWrapper"
       :calendar-navigation-select-icon="calendarNavigationSelectIcon"
@@ -22,6 +22,7 @@
       @go-to-year-range="goToYearRange"
     />
     <geo-calendar-grid
+      :css-modifier="cssModifier"
       :current-month="currentMonth"
       :current-year="currentYear"
       :current-initial-year-in-range="currentInitialYearInRange"
@@ -43,6 +44,7 @@
 </template>
 
 <script>
+import cssSuffix from '../../mixins/cssModifierMixin'
 import { PICKER_DATE_UNITS, YEAR_GRID_CONSTANTS, isBefore, isAfter } from './GeoCalendar.utils'
 import GeoCalendarDateIndicators from './GeoCalendarDateIndicators.mixin'
 import GeoCalendarGranularityIdMixin from './GeoCalendarGranularityId.mixin'
@@ -64,7 +66,8 @@ export default {
   mixins: [
     GeoCalendarDateIndicators,
     GeoCalendarGranularityIdMixin,
-    GeoCalendarPickerDateUnitMixin
+    GeoCalendarPickerDateUnitMixin,
+    cssSuffix
   ],
   props: {
     /**

@@ -1,18 +1,19 @@
 <template>
   <button
     :class="{
-      'geo-calendar-days-container__day-picker': true,
-      'geo-calendar-days-container__day-picker--today': isToday,
-      'geo-calendar-days-container__day-picker--out-of-boundaries': isDayOutOfBoundaries,
-      'geo-calendar-days-container__day-picker--unavailable': isDayUnavailable,
-      'geo-calendar-days-container__day-picker--selected': isSelectedDay,
-      'geo-calendar-days-container__day-picker--from-date': isEqual(day, selectedFromDay),
-      'geo-calendar-days-container__day-picker--to-date': isEqual(day, selectedToDay),
-      'geo-calendar-days-container__day-picker--within-range': isDayWithinRanges
+      'geo-calendar-grid__day-unit': true,
+      'geo-calendar-grid__date-picker-unit': true,
+      'geo-calendar-grid__date-picker-unit--today': isToday,
+      'geo-calendar-grid__date-picker-unit--out-of-boundaries': isDayOutOfBoundaries,
+      'geo-calendar-grid__date-picker-unit--unavailable': isDayUnavailable,
+      'geo-calendar-grid__date-picker-unit--selected': isSelectedDay,
+      'geo-calendar-grid__date-picker-unit--from-date': isEqual(day, selectedFromDay),
+      'geo-calendar-grid__date-picker-unit--to-date': isEqual(day, selectedToDay),
+      'geo-calendar-grid__date-picker-unit--within-range': isDayWithinRanges
     }"
     @click="selectDay($event)"
   >
-    <div class="geo-calendar-day-picker__day-number">
+    <div class="geo-calendar-grid__date-picker-unit__placeholder">
       {{ dayNumber }}
     </div>
   </button>

@@ -14,9 +14,9 @@ describe('GeoCalendarDayGridDayUnit', () => {
         day: addDays(today, 5)
       }
     })
-    expect(wrapper.find('.geo-calendar-days-container__day-picker').exists()).toBe(true)
-    expect(wrapper.find('.geo-calendar-day-picker__day-number').exists()).toBe(true)
-    expect(wrapper.find('.geo-calendar-day-picker__day-number').text()).toBe(`${wrapper.vm.dayNumber}`)
+    expect(wrapper.find('.geo-calendar-grid__date-picker-unit').exists()).toBe(true)
+    expect(wrapper.find('.geo-calendar-grid__date-picker-unit__placeholder').exists()).toBe(true)
+    expect(wrapper.find('.geo-calendar-grid__date-picker-unit__placeholder').text()).toBe(`${wrapper.vm.dayNumber}`)
   })
 
   it('Should print the correct day number', () => {
@@ -27,7 +27,7 @@ describe('GeoCalendarDayGridDayUnit', () => {
       }
     })
     expect(wrapper.vm.dayNumber).toBe(getDate(addDays(today, 5)))
-    expect(wrapper.find('.geo-calendar-day-picker__day-number').text()).toBe(`${wrapper.vm.dayNumber}`)
+    expect(wrapper.find('.geo-calendar-grid__date-picker-unit__placeholder').text()).toBe(`${wrapper.vm.dayNumber}`)
   })
 
   it('Emits event when clicking on one day', () => {
@@ -37,7 +37,7 @@ describe('GeoCalendarDayGridDayUnit', () => {
         day: today
       }
     })
-    wrapper.find('.geo-calendar-days-container__day-picker').trigger('click')
+    wrapper.find('.geo-calendar-grid__date-picker-unit').trigger('click')
     expect(wrapper.emitted()['select-day-unit'][0][0]).toBe(today)
   })
 
@@ -50,14 +50,14 @@ describe('GeoCalendarDayGridDayUnit', () => {
     })
 
     it('isToday', () => {
-      expect(wrapper.find('.geo-calendar-days-container__day-picker--today').exists()).toBe(true)
+      expect(wrapper.find('.geo-calendar-grid__date-picker-unit--today').exists()).toBe(true)
       expect(wrapper.vm.isToday).toBe(true)
 
       wrapper.setProps({
         day: addDays(today, 1)
       })
 
-      expect(wrapper.find('.geo-calendar-days-container__day-picker--today').exists()).toBe(false)
+      expect(wrapper.find('.geo-calendar-grid__date-picker-unit--today').exists()).toBe(false)
       expect(wrapper.vm.isToday).toBe(false)
     })
 
@@ -65,13 +65,13 @@ describe('GeoCalendarDayGridDayUnit', () => {
       wrapper.setProps({
         day: subMonths(today, 1)
       })
-      expect(wrapper.find('.geo-calendar-days-container__day-picker--out-of-boundaries').exists()).toBe(true)
+      expect(wrapper.find('.geo-calendar-grid__date-picker-unit--out-of-boundaries').exists()).toBe(true)
       expect(wrapper.vm.isDayOutOfBoundaries).toBe(true)
 
       wrapper.setProps({
         day: today
       })
-      expect(wrapper.find('.geo-calendar-days-container__day-picker--out-of-boundaries').exists()).toBe(false)
+      expect(wrapper.find('.geo-calendar-grid__date-picker-unit--out-of-boundaries').exists()).toBe(false)
       expect(wrapper.vm.isDayOutOfBoundaries).toBe(false)
     })
 
@@ -80,13 +80,13 @@ describe('GeoCalendarDayGridDayUnit', () => {
         earliestDate: subDays(today, 2),
         day: subDays(today, 3)
       })
-      expect(wrapper.find('.geo-calendar-days-container__day-picker--unavailable').exists()).toBe(true)
+      expect(wrapper.find('.geo-calendar-grid__date-picker-unit--unavailable').exists()).toBe(true)
       expect(wrapper.vm.isDayUnavailable).toBe(true)
 
       wrapper.setProps({
         day: today
       })
-      expect(wrapper.find('.geo-calendar-days-container__day-picker--unavailable').exists()).toBe(false)
+      expect(wrapper.find('.geo-calendar-grid__date-picker-unit--unavailable').exists()).toBe(false)
       expect(wrapper.vm.isDayUnavailable).toBe(false)
     })
 
@@ -95,20 +95,20 @@ describe('GeoCalendarDayGridDayUnit', () => {
         day: subDays(today, 4),
         selectedFromDay: subDays(today, 4)
       })
-      expect(wrapper.find('.geo-calendar-days-container__day-picker--selected').exists()).toBe(true)
+      expect(wrapper.find('.geo-calendar-grid__date-picker-unit--selected').exists()).toBe(true)
       expect(wrapper.vm.isSelectedDay).toBe(true)
 
       wrapper.setProps({
         day: today,
         selectedToDay: today
       })
-      expect(wrapper.find('.geo-calendar-days-container__day-picker--selected').exists()).toBe(true)
+      expect(wrapper.find('.geo-calendar-grid__date-picker-unit--selected').exists()).toBe(true)
       expect(wrapper.vm.isSelectedDay).toBe(true)
 
       wrapper.setProps({
         day: subDays(today, 1)
       })
-      expect(wrapper.find('.geo-calendar-days-container__day-picker--selected').exists()).toBe(false)
+      expect(wrapper.find('.geo-calendar-grid__date-picker-unit--selected').exists()).toBe(false)
       expect(wrapper.vm.isSelectedDay).toBe(false)
     })
 
@@ -117,7 +117,7 @@ describe('GeoCalendarDayGridDayUnit', () => {
         day: today,
         selectedFromDay: today
       })
-      expect(wrapper.find('.geo-calendar-days-container__day-picker--from-date').exists()).toBe(true)
+      expect(wrapper.find('.geo-calendar-grid__date-picker-unit--from-date').exists()).toBe(true)
       expect(isEqual(wrapper.vm.day, wrapper.vm.selectedFromDay)).toBe(true)
     })
 
@@ -127,7 +127,7 @@ describe('GeoCalendarDayGridDayUnit', () => {
         selectedFromDay: null,
         selectedToDay: addDays(today, 4)
       })
-      expect(wrapper.find('.geo-calendar-days-container__day-picker--to-date').exists()).toBe(true)
+      expect(wrapper.find('.geo-calendar-grid__date-picker-unit--to-date').exists()).toBe(true)
       expect(isEqual(wrapper.vm.day, wrapper.vm.selectedToDay)).toBe(true)
     })
 
@@ -137,14 +137,14 @@ describe('GeoCalendarDayGridDayUnit', () => {
         selectedFromDay: subDays(today, 10),
         selectedToDay: addDays(today, 10)
       })
-      expect(wrapper.find('.geo-calendar-days-container__day-picker--within-range').exists()).toBe(true)
+      expect(wrapper.find('.geo-calendar-grid__date-picker-unit--within-range').exists()).toBe(true)
       expect(wrapper.vm.isDayWithinRanges).toBe(true)
 
       wrapper.setProps({
         selectedFromDay: addDays(today, 10),
         selectedToDay: addDays(today, 20)
       })
-      expect(wrapper.find('.geo-calendar-days-container__day-picker--within-range').exists()).toBe(false)
+      expect(wrapper.find('.geo-calendar-grid__date-picker-unit--within-range').exists()).toBe(false)
       expect(wrapper.vm.isDayWithinRanges).toBe(false)
     })
   })

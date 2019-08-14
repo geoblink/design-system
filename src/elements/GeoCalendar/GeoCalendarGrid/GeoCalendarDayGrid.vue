@@ -1,5 +1,5 @@
 <template>
-  <div class="geo-calendar-grid">
+  <div :class="`geo-calendar-grid${cssSuffix}`">
     <div class="geo-calendar-grid__weekdays-row-container">
       <p
         v-for="day in weekDays"
@@ -30,6 +30,7 @@
 </template>
 
 <script>
+import cssSuffix from '../../../mixins/cssModifierMixin'
 import _ from 'lodash'
 import {
   addDays,
@@ -54,7 +55,8 @@ export default {
   mixins: [
     GeoCalendarGridMixin,
     GeoCalendarDateIndicatorsMixin,
-    GeoCalendarGranularityIdMixin
+    GeoCalendarGranularityIdMixin,
+    cssSuffix
   ],
 
   computed: {
