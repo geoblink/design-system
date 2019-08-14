@@ -20,9 +20,9 @@ describe('GeoCalendarMonthGridMonthUnit', () => {
         granularityId: GRANULARITY_IDS.month
       }
     })
-    expect(wrapper.find('.geo-calendar-quarter__month-unit').exists()).toBe(true)
-    expect(wrapper.find('.month-unit__month-name').exists()).toBe(true)
-    expect(wrapper.find('.month-unit__month-name').text()).toBe('July')
+    expect(wrapper.find('.geo-calendar-grid__date-picker-unit').exists()).toBe(true)
+    expect(wrapper.find('.geo-calendar-grid__date-picker-unit__placeholder').exists()).toBe(true)
+    expect(wrapper.find('.geo-calendar-grid__date-picker-unit__placeholder').text()).toBe('July')
     expect(wrapper.vm.monthName).toBe('July')
     expect(wrapper.vm.monthIndex).toBe(7)
   })
@@ -42,14 +42,14 @@ describe('GeoCalendarMonthGridMonthUnit', () => {
       wrapper.setProps({
         selectedFromDay: subDays(today, 5)
       })
-      expect(wrapper.find('.geo-calendar-quarter__month-unit--selected').exists()).toBe(true)
+      expect(wrapper.find('.geo-calendar-grid__date-picker-unit--selected').exists()).toBe(true)
       expect(wrapper.vm.isDateInMonth).toBe(true)
 
       wrapper.setProps({
         selectedFromDay: subMonths(today, 2),
         selectedToDay: addMonths(today, 2)
       })
-      expect(wrapper.find('.geo-calendar-quarter__month-unit--selected').exists()).toBe(false)
+      expect(wrapper.find('.geo-calendar-grid__date-picker-unit--selected').exists()).toBe(false)
       expect(wrapper.vm.isDateInMonth).toBe(false)
     })
 
@@ -58,14 +58,14 @@ describe('GeoCalendarMonthGridMonthUnit', () => {
         selectedFromDay: subMonths(today, 2),
         selectedToDay: addMonths(today, 1)
       })
-      expect(wrapper.find('.geo-calendar-quarter__month-unit--within-range').exists()).toBe(true)
+      expect(wrapper.find('.geo-calendar-grid__date-picker-unit--within-range').exists()).toBe(true)
       expect(wrapper.vm.isDateWithinSelectedMonths).toBe(true)
 
       wrapper.setProps({
         selectedFromDay: addMonths(today, 1),
         selectedToDay: addMonths(today, 2)
       })
-      expect(wrapper.find('.geo-calendar-quarter__month-unit--within-range').exists()).toBe(false)
+      expect(wrapper.find('.geo-calendar-grid__date-picker-unit--within-range').exists()).toBe(false)
       expect(wrapper.vm.isDateWithinSelectedMonths).toBe(false)
     })
 
@@ -73,14 +73,14 @@ describe('GeoCalendarMonthGridMonthUnit', () => {
       wrapper.setProps({
         earliestDate: addMonths(today, 3)
       })
-      expect(wrapper.find('.geo-calendar-quarter__month-unit--unavailable').exists()).toBe(true)
+      expect(wrapper.find('.geo-calendar-grid__date-picker-unit--unavailable').exists()).toBe(true)
       expect(wrapper.vm.isMonthUnavailable).toBe(true)
 
       wrapper.setProps({
         earliestDate: subMonths(today, 3),
         latestDate: addMonths(today, 1)
       })
-      expect(wrapper.find('.geo-calendar-quarter__month-unit--unavailable').exists()).toBe(false)
+      expect(wrapper.find('.geo-calendar-grid__date-picker-unit--unavailable').exists()).toBe(false)
       expect(wrapper.vm.isMonthUnavailable).toBe(false)
     })
 
@@ -88,13 +88,13 @@ describe('GeoCalendarMonthGridMonthUnit', () => {
       wrapper.setProps({
         selectedFromDay: today
       })
-      expect(wrapper.find('.geo-calendar-quarter__month-unit--from-date').exists()).toBe(true)
+      expect(wrapper.find('.geo-calendar-grid__date-picker-unit--from-date').exists()).toBe(true)
       expect(wrapper.vm.isDayWithinFromMonth).toBe(true)
 
       wrapper.setProps({
         selectedFromDay: addMonths(today, 1)
       })
-      expect(wrapper.find('.geo-calendar-quarter__month-unit--from-date').exists()).toBe(false)
+      expect(wrapper.find('.geo-calendar-grid__date-picker-unit--from-date').exists()).toBe(false)
       expect(wrapper.vm.isDayWithinFromMonth).toBe(false)
     })
 
@@ -102,13 +102,13 @@ describe('GeoCalendarMonthGridMonthUnit', () => {
       wrapper.setProps({
         selectedToDay: today
       })
-      expect(wrapper.find('.geo-calendar-quarter__month-unit--to-date').exists()).toBe(true)
+      expect(wrapper.find('.geo-calendar-grid__date-picker-unit--to-date').exists()).toBe(true)
       expect(wrapper.vm.isDayWithinToMonth).toBe(true)
 
       wrapper.setProps({
         selectedToDay: subMonths(today, 1)
       })
-      expect(wrapper.find('.geo-calendar-quarter__month-unit--to-date').exists()).toBe(false)
+      expect(wrapper.find('.geo-calendar-grid__date-picker-unit--to-date').exists()).toBe(false)
       expect(wrapper.vm.isDayWithinToMonth).toBe(false)
     })
   })
@@ -124,7 +124,7 @@ describe('GeoCalendarMonthGridMonthUnit', () => {
           granularityId: GRANULARITY_IDS.month
         }
       })
-      wrapper.find('.geo-calendar-quarter__month-unit').trigger('click')
+      wrapper.find('.geo-calendar-grid__date-picker-unit').trigger('click')
       expect(wrapper.emitted()['select-month-unit']).toBeDefined()
       expect(wrapper.emitted()['select-month-unit'][0][0]).toBe(7)
     })

@@ -9,7 +9,7 @@ const today = new Date(2019, 6, 30) // Fixed date to avoid future errors with ra
 describe('GeoCalendarMonthGridQuarterUnit', () => {
   it('should render', function () {
     const wrapper = getWrappedComponent(GRANULARITY_IDS.month)
-    expect(wrapper.find('.geo-calendar-months-container__quarter').exists()).toBe(true)
+    expect(wrapper.find('.geo-calendar-grid__quarter-unit').exists()).toBe(true)
   })
 
   describe('Month granularity', () => {
@@ -38,7 +38,7 @@ describe('GeoCalendarMonthGridQuarterUnit', () => {
     const childMonth = wrapper.find(GeoCalendarMonthGridMonthUnit)
 
     it('Adds proper classes', () => {
-      expect(wrapper.find('.geo-calendar-months-container__quarter--actionable').exists()).toBe(true)
+      expect(wrapper.find('.geo-calendar-grid__quarter-unit--actionable').exists()).toBe(true)
       expect(wrapper.vm.canQuarterBeHighlighted).toBe(true)
     })
 
@@ -47,7 +47,7 @@ describe('GeoCalendarMonthGridQuarterUnit', () => {
         earliestDate: subMonths(today, 5),
         latestDate: subMonths(today, 4)
       })
-      expect(wrapper.find('.geo-calendar-months-container__quarter--unavailable').exists()).toBe(true)
+      expect(wrapper.find('.geo-calendar-grid__quarter-unit--unavailable').exists()).toBe(true)
       expect(wrapper.vm.isSomeMonthInQuarterUnavailable).toBe(true)
     })
 

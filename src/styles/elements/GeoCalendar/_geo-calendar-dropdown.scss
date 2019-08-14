@@ -10,6 +10,8 @@
   @include geo-dropdown-make('geo-calendar__dropdown#{$modifier-name-with-prefix}');
   @include geo-bordered-box-make('geo-calendar__dropdown#{$modifier-name-with-prefix}');
   @include geo-calendar-make($modifier-name);
+  @include geo-calendar-picker-make($modifier-name);
+  @include geo-calendar-grid-make($modifier-name);
   @include geo-button-make('calendar-picker-button');
   @include geo-select-base-make('calendar-navigation-selection');
   @include geo-button-make('calendar-navigation-toggle-button');

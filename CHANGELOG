@@ -1,3 +1,9 @@
+# 24.2.1
+
+Changed:
+
+`GeoCalendar` CSS refactor. Partitioned stylesheet in several files and pass `cssModifier` down to child components
+
 # 24.2.0
 
 New:

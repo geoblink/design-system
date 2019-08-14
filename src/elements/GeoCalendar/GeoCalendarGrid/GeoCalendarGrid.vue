@@ -1,6 +1,7 @@
 <template>
   <geo-calendar-day-grid
     v-if="isDayGrid"
+    :css-modifier="cssModifier"
     :current-month="currentMonth"
     :current-year="currentYear"
     :earliest-date="earliestDate"
@@ -14,6 +15,7 @@
   />
   <geo-calendar-month-grid
     v-else-if="isMonthGrid"
+    :css-modifier="cssModifier"
     :current-month="currentMonth"
     :current-year="currentYear"
     :earliest-date="earliestDate"
@@ -26,6 +28,7 @@
   />
   <geo-calendar-year-grid
     v-else-if="isYearGrid"
+    :css-modifier="cssModifier"
     :current-month="currentMonth"
     :current-year="currentYear"
     :current-initial-year-in-range="currentInitialYearInRange"
@@ -40,6 +43,7 @@
 </template>
 
 <script>
+import cssSuffix from '../../../mixins/cssModifierMixin'
 import { PICKER_DATE_UNITS } from '../GeoCalendar.utils'
 import GeoCalendarDateIndicatorsMixin from '../GeoCalendarDateIndicators.mixin'
 import GeoCalendarGranularityIdMixin from '../GeoCalendarGranularityId.mixin'
@@ -54,7 +58,8 @@ export default {
     GeoCalendarDateIndicatorsMixin,
     GeoCalendarGranularityIdMixin,
     GeoCalendarPickerDateUnitMixin,
-    GeoCalendarGridMixin
+    GeoCalendarGridMixin,
+    cssSuffix
   ],
 
   props: {
