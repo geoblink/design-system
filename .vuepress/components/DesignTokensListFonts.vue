@@ -1,26 +1,26 @@
 <template>
-  <div>
+  <div class="c-design-tokens-list-fonts">
     <h2>Font Sizes</h2>
-    <div class="font-sizes__table">
-      <div class="font-sizes__table__header">
+    <div class="c-design-tokens-list-fonts__table">
+      <div class="c-design-tokens-list-fonts__table-header">
         <div
-          class="font-sizes__table__header-cell font-sizes__table__header-cell--big"
+          class="c-design-tokens-list-fonts__table-header-cell c-design-tokens-list-fonts__table-header-cell--big"
         >
           Typestyle
         </div>
-        <div class="font-sizes__table__header-cell font-sizes__table__header-cell--small">
+        <div class="c-design-tokens-list-fonts__table-header-cell c-design-tokens-list-fonts__table-header-cell">
           Font
         </div>
-        <div class="font-sizes__table__header-cell font-sizes__table__header-cell--small">
+        <div class="c-design-tokens-list-fonts__table-header-cell c-design-tokens-list-fonts__table-header-cell">
           Weight
         </div>
-        <div class="font-sizes__table__header-cell font-sizes__table__header-cell--small">
+        <div class="c-design-tokens-list-fonts__table-header-cell c-design-tokens-list-fonts__table-header-cell">
           Size
         </div>
-        <div class="font-sizes__table__header-cell font-sizes__table__header-cell--small">
+        <div class="c-design-tokens-list-fonts__table-header-cell c-design-tokens-list-fonts__table-header-cell">
           Line Height
         </div>
-        <div class="font-sizes__table__header-cell font-sizes__table__header-cell--small">
+        <div class="c-design-tokens-list-fonts__table-header-cell c-design-tokens-list-fonts__table-header-cell">
           Letter Spacing
         </div>
       </div>
@@ -28,41 +28,41 @@
         v-for="(font, index) in sortedTokens"
         :key="index"
         :class="{
-          ['font-sizes__table__row']: true,
-          ['font-sizes__table__row--grey-bg']: font.fontFamily.includes('Lato')
+          ['c-design-tokens-list-fonts__table-body-row']: true,
+          ['c-design-tokens-list-fonts__table-body-row--grey-bg']: font.fontFamily.includes('Lato')
         }"
       >
         <div
           ref="fontSamples"
           :class="{
             'font': true,
-            'font-sizes__table__row-cell': true,
-            'font-sizes__table__row-cell--big': true,
+            'c-design-tokens-list-fonts__table-body-row-cell': true,
+            'c-design-tokens-list-fonts__table-body-row-cell--big': true,
             [`font-${font.value}`]: true
           }"
         >
           <span>${{ font.value }}</span>
         </div>
-        <div class="font-sizes__table__row-cell font-sizes__table__row-cell--small">
+        <div class="c-design-tokens-list-fonts__table-body-row-cell c-design-tokens-list-fonts__table-body-row-cell">
           {{ font.fontFamily }}
         </div>
-        <div class="font-sizes__table__row-cell font-sizes__table__row-cell--small">
+        <div class="c-design-tokens-list-fonts__table-body-row-cell c-design-tokens-list-fonts__table-body-row-cell">
           {{ font.styles.fontWeight }}
         </div>
-        <div class="font-sizes__table__row-cell font-sizes__table__row-cell--small">
+        <div class="c-design-tokens-list-fonts__table-body-row-cell c-design-tokens-list-fonts__table-body-row-cell">
           {{ font.styles.fontSize }}
         </div>
-        <div class="font-sizes__table__row-cell font-sizes__table__row-cell--small">
+        <div class="c-design-tokens-list-fonts__table-body-row-cell c-design-tokens-list-fonts__table-body-row-cell">
           {{ font.styles.lineHeight }}
         </div>
-        <div class="font-sizes__table__row-cell font-sizes__table__row-cell--small">
+        <div class="c-design-tokens-list-fonts__table-body-row-cell c-design-tokens-list-fonts__table-body-row-cell">
           {{ font.styles.letterSpacing }}
         </div>
         <div
           v-if="index === firstMontserratFontIndex || index === firstLatoFontIndex"
           :class="{
-            ['font-sizes__table__row-cell__font-family']: true,
-            [`font-sizes__table__row-cell__font-family--${font.fontFamily.toLowerCase()}`]: true
+            ['c-design-tokens-list-fonts__table-font-family-header']: true,
+            [`c-design-tokens-list-fonts__table-font-family-header--${font.fontFamily.toLowerCase()}`]: true
           }"
         >
           {{ font.fontFamily }}
@@ -75,12 +75,6 @@
 <script>
 const _ = require('lodash')
 
-/**
- * This typographic scale makes it easier to achieve visual harmony in the
- * interface. It’s purposefully designed to keep the number of separate font
- * sizes to a minimum. To edit font-sizes, see
- * [/src/tokens/font-size.yml](https://github.com/viljamis/vue-design-system/blob/master/src/tokens/font-size.yml).
- */
 export default {
   name: 'DesignTokensListFonts',
   data () {

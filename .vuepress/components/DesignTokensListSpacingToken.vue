@@ -4,13 +4,13 @@
       lineHeight: spacingValue,
       height: spacingValue
     }"
-    class="spacing-token"
+    class="c-design-tokens-list-spacing__token"
   >
     <p :class="{
-      'spacing-description': true,
-      'spacing-description--offset': ['5px', '10px'].includes(spacingValue)
+      'c-design-tokens-list-spacing__description': true,
+      'c-design-tokens-list-spacing__description--offset': ['5px', '10px'].includes(spacingValue)
     }">
-      <span class="spacing-name">{{ spacingName }}</span> <span>({{ spacingValue }})</span>
+      <span class="c-design-tokens-list-spacing__name">{{ spacingName }}</span> <span>({{ spacingValue }})</span>
     </p>
   </div>
 </template>

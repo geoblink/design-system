@@ -1,10 +1,10 @@
 <template>
   <div>
     <h2>Spacing</h2>
-    <div class="spacing">
-      <spacing-token
-        v-for="(prop, index) in tokens"
-        :key="index"
+    <div class="c-design-tokens-list-spacing__list">
+      <design-tokens-list-spacing-token
+        v-for="prop in tokens"
+        :key="prop.value"
         :spacing="prop"
       />
     </div>
@@ -12,14 +12,6 @@
 </template>
 
 <script>
-
-/**
- * A framework for creating a predictable and harmonious spacing system. These
- * tokens are used for padding, margins, and position together with
- * [spacing utilities](https://github.com/viljamis/vue-design-system/wiki/spacing).
- * To edit spacing, see
- * [/src/tokens/spacing.yml](https://github.com/viljamis/vue-design-system/blob/master/src/tokens/spacing.yml).
- */
 export default {
   name: 'DesignTokensListSpacing',
   props: {

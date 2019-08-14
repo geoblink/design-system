@@ -1,5 +1,5 @@
 <template>
-  <div class="all-tokens">
+  <div class="c-design-tokens-list-all-tokens">
     <table>
       <thead>
         <tr>
@@ -22,6 +22,7 @@
           <td v-else>
             N/A
           </td>
+
           <td v-if="token.value">
             <div class="token-item-row__value">
               <div
@@ -47,6 +48,7 @@
           <td v-else>
             N/A
           </td>
+
           <td v-if="token.category">
             {{ token.category }}
           </td>

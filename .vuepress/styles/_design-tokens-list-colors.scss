@@ -1,4 +1,4 @@
-.colors {
+.c-design-tokens-list-colors__color-tokens-list {
   display: grid;
   display: -ms-grid;
   grid-template-columns: repeat(3, 1fr);
@@ -9,33 +9,34 @@
   -ms-grid-template-columns: repeat(4, 1fr);
 }
 
-.color-token {
+.c-design-tokens-list-color-token {
   border-radius: 3px;
   box-shadow: 0 0 0 1px rgba(63, 63, 68, 0.05), 0 1px 3px 0 rgba(63, 63, 68, 0.15);
 }
 
-.color-token__background {
+.c-design-tokens-list-color-token__background {
   border-bottom: 1px solid $color-white-dark;
   height: 75px;
 }
 
-.color-token__description {
+.c-design-tokens-list-color-token__description {
   padding: $space-base $space-small;
 }
 
-.color-token__name {
+.c-design-tokens-list-color-token__name {
   @include reset;
   @include font($heading);
+
   text-transform: capitalize;
   padding-bottom: $space-small;
 }
 
-.color-token__code,
-.color-token__variable {
+.c-design-tokens-list-color-token__code,
+.c-design-tokens-list-color-token__variable {
   @include reset;
   @include font($label-optional);
 }
 
-.color-token__code {
+.c-design-tokens-list-color-token__code {
   padding-bottom: $space-small;
 }

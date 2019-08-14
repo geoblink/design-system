@@ -4,19 +4,19 @@
     <h4>Design tokens are the atoms of the system as <a href="https://www.lightningdesignsystem.com/design-tokens/">Salesforce</a> describes them. In Geoblink Design System they are used instead of hard coded values to ensure a better consistency across any platform.</h4>
     <design-tokens-list-colors
       :tokens="colorTokens"
-      class="design-token-section"
+      class="c-design-tokens-list__section"
     />
     <design-tokens-list-fonts
       :tokens="fontTokens"
-      class="design-token-section"
+      class="c-design-tokens-list__section"
     />
     <design-tokens-list-spacing
       :tokens="spacingTokens"
-      class="design-token-section"
+      class="c-design-tokens-list__section"
     />
     <design-tokens-list-all-tokens
       :tokens="tokensProps"
-      class="design-token-section"
+      class="c-design-tokens-list__section"
     />
   </div>
 </template>

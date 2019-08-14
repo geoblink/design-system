@@ -1,18 +1,18 @@
 <template>
   <div
     :class="color.category"
-    class="color-token"
+    class="c-design-tokens-list-color-token"
   >
     <div
       :style="{
         backgroundColor: color.value
       }"
-      class="color-token__background"
+      class="c-design-tokens-list-color-token__background"
     />
-    <div class="color-token__description">
-      <h3 class="color-token__name">{{ colorName }}</h3>
-      <p class="color-token__code"><strong>RGB:</strong> {{ rgbColor }}</p>
-      <p class="color-token__variable"><strong>SCSS:</strong> ${{ scssVariable }}</p>
+    <div class="c-design-tokens-list-color-token__description">
+      <h3 class="c-design-tokens-list-color-token__name">{{ colorName }}</h3>
+      <p class="c-design-tokens-list-color-token__code"><strong>RGB:</strong> {{ rgbColor }}</p>
+      <p class="c-design-tokens-list-color-token__variable"><strong>SCSS:</strong> ${{ scssVariable }}</p>
     </div>
   </div>
 </template>

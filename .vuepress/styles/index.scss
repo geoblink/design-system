@@ -3,16 +3,16 @@
 @import '../../src/styles/fontsMaps';
 @import './component-demo';
 @import './component-documentation';
-@import './fonts';
-@import './colors';
-@import './spacing';
-@import './all-tokens';
+@import './design-tokens-list-fonts';
+@import './design-tokens-list-colors';
+@import './design-tokens-list-spacing';
+@import './design-tokens-list-all-tokens';
 
 .u-cursor--pointer {
   cursor: pointer;
 }
 
-.design-token-section {
+.c-design-tokens-list__section {
   margin-bottom: $space-xx-large;
 }
 

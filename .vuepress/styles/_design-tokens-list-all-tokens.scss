@@ -1,20 +1,24 @@
-.all-tokens {
+.c-design-tokens-list-all-tokens {
   @include reset;
+
   font-family: $font-family-heading;
   font-weight: $font-weight-regular;
   line-height: $line-height-heading;
   color: $color_dark;
   margin-bottom: $space-small;
   font-style: normal;
+
   @media (max-width: 1000px) {
     overflow-x: auto;
   }
+
   table {
     border-collapse: collapse;
     border-spacing: 0;
     display: table;
     width: 100%;
   }
+
   thead th {
     padding: $space-small $space-large $space-small $space-small;
     background: $color-blue-readable-background;
@@ -40,6 +44,7 @@
       border-bottom-right-radius: $border-radius-default;
     }
   }
+
   tr {
     border-bottom: 1px solid #dfe3e6;
     &:last-child {
