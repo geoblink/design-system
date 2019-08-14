@@ -74,16 +74,28 @@ export default {
       }
     },
 
-    componentExamplesItems () {
+    componentExamples () {
       if (!this.parentComponentDocumentationPage) return null
 
-      const { componentExamplesByPath } = this.$site.themeConfig
+      return this.parentComponentDocumentationPage.examples
+    },
 
-      const otherExamples = _.reject(this.parentComponentDocumentationPage.examples, {
+    componentOtherExamples () {
+      if (!this.componentExamples) return null
+
+      const otherExamples = _.reject(this.componentExamples, {
         originalRegularPath: this.$page.regularPath
       })
 
-      const examplesLinkItems = _.map(otherExamples, function (example) {
+      return otherExamples
+    },
+
+    componentExamplesItems () {
+      if (!this.componentOtherExamples) return null
+
+      const { componentExamplesByPath } = this.$site.themeConfig
+
+      const examplesLinkItems = _.map(this.componentOtherExamples, function (example) {
         const examplePageInfo = componentExamplesByPath[example.originalRegularPath]
 
         return {
@@ -96,7 +108,7 @@ export default {
     },
 
     sidebarSections () {
-      if (!this.parentComponentDocumentationPage) return null
+      if (!this.componentExamplesItems) return null
 
       return [{
         slot: 'sidebar-top',

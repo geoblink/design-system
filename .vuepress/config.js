@@ -65,7 +65,13 @@ module.exports = {
 
 function getComponentsDocumentations () {
   const componentsDefinitionsPaths = glob.sync(`${componentsPath}/**/*.vue`)
-  const existingComponentPaths = _.fromPairsMap(componentsDefinitionsPaths, (componentPath) => [componentPath, true])
+  const existingComponentAbsolutePaths = _.fromPairsMap(componentsDefinitionsPaths, (componentPath) => [componentPath, true])
+  const existingComponentInternalPaths = _.mapKeys(
+    existingComponentAbsolutePaths,
+    (exists, absolutePath) => absolutePath
+      .replace(`${componentsPath}/`, '')
+      .replace(/\.vue$/, '')
+  )
   const componentsExamples = getComponentsExamples()
 
   const examplesByInternalPath = _.groupBy(
@@ -75,25 +81,25 @@ function getComponentsDocumentations () {
       const rootComponentName = _.first(parentComponentInternalPath.split('/'))
       const rootComponentInternalPath = `${rootComponentName}/${rootComponentName}`
 
-      return parentComponentInternalPath in existingComponentPaths
+      return parentComponentInternalPath in existingComponentInternalPaths
         ? parentComponentInternalPath
         : rootComponentInternalPath
     }
   )
 
   const componentsDocumentations = _.fromPairsMap(componentsDefinitionsPaths, function (pathToComponentDefinition) {
-    const relativePath = pathToComponentDefinition
+    const internalPath = pathToComponentDefinition
       .replace(`${componentsPath}/`, '')
       .replace(/\.vue$/, '')
 
-    const examples = examplesByInternalPath[relativePath]
+    const examples = examplesByInternalPath[internalPath]
 
-    const group = relativePath.split('/')[0]
+    const rootComponentName = internalPath.split('/')[0]
 
-    return [relativePath, {
-      path: relativePath,
+    return [internalPath, {
+      path: internalPath,
       documentation: vueDocs.parse(pathToComponentDefinition),
-      group,
+      group: rootComponentName,
       examples
     }]
   })
