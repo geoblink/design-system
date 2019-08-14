@@ -133,7 +133,7 @@ export function getComponentProperties (componentDefinition) {
  * @param {object} [property]
  * @param {boolean} property.func
  * @param {T} property.value
- * @returns {{value: string, isFunction: boolean}}
+ * @returns {{value: T | string, isFunction: boolean}}
  */
 function getPropertyDefaultValueMetadata (property) {
   if (!property) return null
@@ -146,7 +146,7 @@ function getPropertyDefaultValueMetadata (property) {
 
   return {
     isFunction: false,
-    value: `${property.value}`
+    value: property.value
   }
 }
 

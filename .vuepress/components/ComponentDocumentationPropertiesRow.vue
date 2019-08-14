@@ -31,10 +31,7 @@
             v-if="isDefaultValueAFunction"
             title="Default value is the result of running this function"
           ><code>{{ defaultValue }}</code></pre>
-          <code
-            v-else
-            title="Default value"
-          >
+          <code v-else>
             {{ defaultValue }}
           </code>
         </template>
