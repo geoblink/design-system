@@ -1,22 +1,19 @@
 @import '../public/tokens/tokens.scss';
+
 @import '../../src/styles/mixins';
 @import '../../src/styles/fontsMaps';
+
 @import './component-demo';
 @import './component-documentation';
+@import './design-tokens-list';
 @import './design-tokens-list-fonts';
 @import './design-tokens-list-colors';
 @import './design-tokens-list-spacing';
 @import './design-tokens-list-all-tokens';
 @import './element-demo';
+
 @import './color-utils';
-
-.u-cursor--pointer {
-  cursor: pointer;
-}
-
-.c-design-tokens-list__section {
-  margin-bottom: $space-xx-large;
-}
+@import './cursor-utils';
 
 .element-demo {
 

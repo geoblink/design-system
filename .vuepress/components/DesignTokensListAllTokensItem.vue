@@ -1,36 +1,31 @@
 <template>
-  <tr
-    class="token-item-row"
-  >
+  <tr class="c-design-tokens-list-all-tokens-token-item-row">
     <td v-if="token.name">
-      <code class="token-item-row__name">
-        {{ tokenName }}
-      </code>
+      <code>{{ tokenName }}</code>
     </td>
     <td v-else>
       N/A
     </td>
 
     <td v-if="tokenValue">
-      <div class="token-item-row__value">
+      <div class="c-design-tokens-list-all-tokens-token-item-row__value">
         <div
           v-if="token.type === 'color'"
           :style="{ backgroundColor: tokenValue }"
-          class="token-item-row__example token-item-row__example--color"
+          class="c-design-tokens-list-all-tokens-token-item-row__example c-design-tokens-list-all-tokens-token-item-row__example--color"
         />
         <div
-          v-if="tokenCategory === 'border-radius'"
+          v-else-if="tokenCategory === 'border-radius'"
           :style="{ borderRadius: tokenValue }"
-          class="token-item-row__example token-item-row__example--border-radius"
+          class="c-design-tokens-list-all-tokens-token-item-row__example"
         />
         <div
-          v-if="tokenCategory === 'box-shadow'"
+          v-else-if="tokenCategory === 'box-shadow'"
           :style="{ boxShadow: tokenValue }"
-          class="token-item-row__example token-item-row__example--box-shadow"
+          class="c-design-tokens-list-all-tokens-token-item-row__example"
         />
-        <code>
-          {{ tokenValue }}
-        </code>
+
+        <code>{{ tokenValue }}</code>
       </div>
     </td>
     <td v-else>
@@ -66,7 +61,7 @@ export default {
     },
 
     tokenName () {
-      return `$${this.token.name.replace(/_/g, '-')}`
+      return `\$${this.token.name.replace(/_/g, '-')}`
     }
   }
 }

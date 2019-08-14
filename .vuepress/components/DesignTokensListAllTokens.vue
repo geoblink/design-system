@@ -1,5 +1,5 @@
 <template>
-  <div class="c-design-tokens-list-all-tokens">
+  <div class="c-design-tokens-list__section c-design-tokens-list-all-tokens">
     <table>
       <thead>
         <tr>
@@ -21,18 +21,14 @@
 
 <script>
 import _ from 'lodash'
+import TokensMixin from './tokens.mixin'
 
 export default {
   name: 'DesignTokensListAllTokens',
-  props: {
-    tokens: {
-      type: Object,
-      required: true
-    }
-  },
+  mixins: [TokensMixin],
   computed: {
     orderedTokens () {
-      return _.orderBy(this.tokens, ['category', 'name'], ['asc', 'asc'])
+      return _.orderBy(this.allTokensProps, ['category', 'name'], ['asc', 'asc'])
     }
   }
 }

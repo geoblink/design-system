@@ -8,14 +8,17 @@
   >
     <p :class="{
       'c-design-tokens-list-spacing__description': true,
-      'c-design-tokens-list-spacing__description--offset': ['5px', '10px'].includes(spacingValue)
+      'c-design-tokens-list-spacing__description--offset': isSpacingValueTooSmallToContainLabel
     }">
-      <span class="c-design-tokens-list-spacing__name">{{ spacingName }}</span> <span>({{ spacingValue }})</span>
+      <span class="c-design-tokens-list-spacing__name">{{ spacingName }}</span>
+      <span>({{ spacingValue }})</span>
     </p>
   </div>
 </template>
 
 <script>
+import _ from 'lodash'
+
 export default {
   name: 'SpacingToken',
   props: {
@@ -32,6 +35,10 @@ export default {
 
     spacingValue () {
       return this.spacing.value
+    },
+
+    isSpacingValueTooSmallToContainLabel () {
+      return _.includes(['5px', '10px'], this.spacingValue)
     }
   }
 }

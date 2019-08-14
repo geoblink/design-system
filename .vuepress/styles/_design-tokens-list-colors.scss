@@ -2,16 +2,18 @@
   display: grid;
   display: -ms-grid;
   grid-template-columns: repeat(3, 1fr);
-  grid-column-gap: 20px;
-  grid-row-gap: 20px;
-  -ms-grid-column-gap: 20px;
-  -ms-grid-row-gap: 20px;
-  -ms-grid-template-columns: repeat(4, 1fr);
+  grid-column-gap: $space-base;
+  grid-row-gap: $space-base;
+  -ms-grid-column-gap: $space-base;
+  -ms-grid-row-gap: $space-base;
+  -ms-grid-template-columns: repeat(3, 1fr);
 }
 
 .c-design-tokens-list-color-token {
-  border-radius: 3px;
+  border-radius: $border-radius-default;
   box-shadow: 0 0 0 1px rgba(63, 63, 68, 0.05), 0 1px 3px 0 rgba(63, 63, 68, 0.15);
+  cursor: pointer;
+  overflow: hidden;
 }
 
 .c-design-tokens-list-color-token__background {

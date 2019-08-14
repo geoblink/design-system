@@ -89,6 +89,7 @@
     "chalk": "^2.4.2",
     "codemirror": "^5.48.2",
     "compression-webpack-plugin": "^3.0.0",
+    "copy-to-clipboard": "^3.2.0",
     "copy-webpack-plugin": "^5.0.4",
     "d3": "^5.7.0",
     "d3-tip": "^0.9.1",

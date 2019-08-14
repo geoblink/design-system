@@ -1,79 +1,27 @@
 .c-design-tokens-list-all-tokens {
   @include reset;
 
-  font-family: $font-family-heading;
-  font-weight: $font-weight-regular;
-  line-height: $line-height-heading;
-  color: $color_dark;
-  margin-bottom: $space-small;
-  font-style: normal;
-
-  @media (max-width: 1000px) {
-    overflow-x: auto;
-  }
-
   table {
-    border-collapse: collapse;
-    border-spacing: 0;
     display: table;
     width: 100%;
   }
 
-  thead th {
-    padding: $space-small $space-large $space-small $space-small;
-    background: $color-blue-readable-background;
-    font-size: $font-size-small;
-    font-weight: $font-weight-bold;
-    color: $color-blue;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    font-weight: $font-weight-semi-bold;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-align: left;
-    // Chrome has a bug related to thead, this only works on th:
-    position: -webkit-sticky;
-    position: sticky;
-    top: -1px;
-    &:first-child {
-      border-top-left-radius: $border-radius-default;
-      border-bottom-left-radius: $border-radius-default;
-    }
-    &:last-child {
-      border-top-right-radius: $border-radius-default;
-      border-bottom-right-radius: $border-radius-default;
-    }
-  }
-
-  tr {
-    border-bottom: 1px solid #dfe3e6;
-    &:last-child {
-      border: 0;
-    }
-  }
-
-  td {
-    font-size: $font-size-small;
-    padding: $space-small $space-large $space-small $space-small;
-    &:first-child {
-      font-weight: $font-weight-bold;
-      white-space: nowrap;
-    }
-  }
-
-  .token-item-row__value {
+  .c-design-tokens-list-all-tokens-token-item-row__value {
+    align-items: center;
     display: flex;
-    line-height: $line-height-small;
-    max-width: calc(100% - #{$space-base});
+    flex-direction: row;
   }
 
-  .token-item-row__example {
+  .c-design-tokens-list-all-tokens-token-item-row__example {
     border-radius: $border-radius-default;
     background: $color-white;
     box-shadow: $box-shadow-small-inset, $box-shadow-small-inset, $box-shadow-small-inset;
-    margin-right: $space-x-small;
-    margin-top: $space-x-small;
-    width: $space-small;
-    height: $space-small;
+    margin-right: $space-small;
+    width: $space-base;
+    height: $space-base;
+  }
+
+  .c-design-tokens-list-all-tokens-token-item-row__example--color {
+    box-shadow: none;
   }
 }

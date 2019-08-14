@@ -2,6 +2,7 @@
   <div
     :class="color.category"
     class="c-design-tokens-list-color-token"
+    @click="copyVariableName()"
   >
     <div
       :style="{
@@ -9,6 +10,7 @@
       }"
       class="c-design-tokens-list-color-token__background"
     />
+
     <div class="c-design-tokens-list-color-token__description">
       <h3 class="c-design-tokens-list-color-token__name">{{ colorName }}</h3>
       <p class="c-design-tokens-list-color-token__code"><strong>RGB:</strong> {{ rgbColor }}</p>
@@ -18,6 +20,8 @@
 </template>
 
 <script>
+const copy = require('copy-to-clipboard')
+
 export default {
   name: 'DesignTokensListColorToken',
   props: {
@@ -26,7 +30,6 @@ export default {
       required: true
     }
   },
-
   computed: {
     colorName () {
       return this.color.name.replace(/_/g, ' ').replace(/color/g, '')
@@ -38,6 +41,11 @@ export default {
 
     scssVariable () {
       return this.color.name.replace(/_/g, '-')
+    }
+  },
+  methods: {
+    copyVariableName () {
+      copy(`\$${this.scssVariable}`)
     }
   }
 }
