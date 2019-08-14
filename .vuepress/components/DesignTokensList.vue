@@ -14,7 +14,10 @@
       :tokens="spacingTokens"
       class="design-token-section"
     />
-    <pre><code>{{ JSON.stringify(tokensByCategory, undefined, 2) }}</code></pre>
+    <all-tokens
+      :tokens="tokensProps"
+      class="design-token-section"
+    />
   </div>
 </template>
 
