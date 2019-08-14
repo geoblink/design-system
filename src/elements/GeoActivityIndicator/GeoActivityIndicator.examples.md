@@ -1,119 +1,215 @@
-`GeoActivityIndicator` acts as a loading spinner to give visual feedback to
-users on an ongoing request or background task. You can customize the color,
-size and completion percentage of the spinner.
-
-```vue live
-<template>
-  <div class="element-demo">
-    <h3 class="element-demo__header">Simple</h3>
-    <div class="element-demo__block" style="justify-content: space-around;">
-      <div class="element-demo__bordered-box geo-activity-indicator-demo-box">
+```jsx live
+<div class="element-demo">
+  <element-demo name="Simple">
+    <element-demo-horizontal-layout>
+      <element-demo-box>
         <geo-activity-indicator />
-      </div>
-      <div class="element-demo__bordered-box geo-activity-indicator-demo-box geo-activity-indicator-demo-box--primary">
+      </element-demo-box>
+
+      <element-demo-box class="u-background--primary">
         <geo-activity-indicator variant="primary" />
-      </div>
-      <div class="element-demo__bordered-box geo-activity-indicator-demo-box geo-activity-indicator-demo-box--info">
+      </element-demo-box>
+
+      <element-demo-box class="u-background--info">
         <geo-activity-indicator variant="info" />
-      </div>
-      <div class="element-demo__bordered-box geo-activity-indicator-demo-box geo-activity-indicator-demo-box--success">
+      </element-demo-box>
+
+      <element-demo-box class="u-background--success">
         <geo-activity-indicator variant="success" />
-      </div>
-      <div class="element-demo__bordered-box geo-activity-indicator-demo-box geo-activity-indicator-demo-box--error">
+      </element-demo-box>
+
+      <element-demo-box class="u-background--error">
         <geo-activity-indicator variant="error" />
-      </div>
-      <div class="element-demo__bordered-box geo-activity-indicator-demo-box geo-activity-indicator-demo-box--warn">
-        <geo-activity-indicator variant="warn">
+      </element-demo-box>
+
+      <element-demo-box class="u-background--warn">
+        <geo-activity-indicator variant="warn" />
+      </element-demo-box>
+
+      <element-demo-box class="u-background--progress">
+        <geo-activity-indicator variant="progress" />
+      </element-demo-box>
+
+      <element-demo-box class="u-background--dark-transparent">
+        <geo-activity-indicator variant="dark-transparent" />
+      </element-demo-box>
+    </element-demo-horizontal-layout>
+  </element-demo>
+</div>
+```
+
+```jsx live
+<div>
+  <element-demo name="With icon">
+    <element-demo-horizontal-layout>
+      <element-demo-box>
+        <geo-activity-indicator>
+          <font-awesome-icon
+            :icon="['far', 'lightbulb']"
+            class="u-color--primary"
+            aria-hidden
+            fixed-width
+          />
+        </geo-activity-indicator>
+      </element-demo-box>
+
+      <element-demo-box class="u-background--primary">
+        <geo-activity-indicator variant="primary">
+          <font-awesome-icon
+            :icon="['far', 'lightbulb']"
+            class="u-color--info"
+            aria-hidden
+            fixed-width
+          />
+        </geo-activity-indicator>
+      </element-demo-box>
+
+      <element-demo-box class="u-background--info">
+        <geo-activity-indicator variant="info">
+          <font-awesome-icon
+            :icon="['far', 'lightbulb']"
+            class="u-color--primary"
+            aria-hidden
+            fixed-width
+          />
+        </geo-activity-indicator>
+      </element-demo-box>
+
+      <element-demo-box class="u-background--success">
+        <geo-activity-indicator variant="success">
           <font-awesome-icon
             :icon="['far', 'lightbulb']"
             aria-hidden
             fixed-width
           />
         </geo-activity-indicator>
-      </div>
-      <div class="element-demo__bordered-box geo-activity-indicator-demo-box geo-activity-indicator-demo-box--progress">
-        <geo-activity-indicator variant="progress" />
-      </div>
-      <div class="element-demo__bordered-box geo-activity-indicator-demo-box geo-activity-indicator-demo-box--dark-transparent">
-        <geo-activity-indicator variant="dark-transparent" />
-      </div>
-    </div>
-    <h3 class="element-demo__header">
-      Customizable
-      <div class="element-demo__inline-input-group">
-        <label class="element-demo__inline-input-group__field">
-          Variant: <select
-            v-model="variant"
-          >
-            <option value="default">Default</option>
-            <option value="primary">Primary</option>
-            <option value="info">Info</option>
-            <option value="success">Success</option>
-            <option value="error">Error</option>
-            <option value="warn">Warn</option>
-            <option value="progress">Progress</option>
-            <option value="dark-transparent">Dark + Transparent</option>
-          </select>
-        </label>
-        <label class="element-demo__inline-input-group__field">
-          Height: <input
-            :style="{
-              width: '40px'
-            }"
-            type="number"
-            v-model="customSize"
-          >
-        </label>
-        <label class="element-demo__inline-input-group__field" style="margin-left: 8px">
-          Inner radius: <input
-            :style="{
-              'width': '40px'
-            }"
-            type="number"
-            min="0"
-            max="50"
-            step="1"
-            v-model.number="innerRadius"
-          >
-        </label>
-        <label class="element-demo__inline-input-group__field" style="margin-left: 8px">
-          Completed percentage: <input
-            :style="{
-              'width': '40px'
-            }"
-            type="number"
-            min="0"
-            max="1"
-            step="0.01"
-            v-model.number="completedPercentage"
-          >
-        </label>
-        <label class="element-demo__inline-input-group__field" style="margin-left: 8px">
-          Animated: <input
-            type="checkbox"
-            v-model="animated"
-          >
-        </label>
-      </div>
-    </h3>
-    <div class="element-demo__block">
-      <div
-        :class="demoBoxVariantClass"
-        :style="{
-          height: customSizePxString,
-          width: customSizePxString
-        }"
-        class="element-demo__bordered-box geo-activity-indicator-demo-box"
-      >
-        <geo-activity-indicator
-          :percentage="completedPercentage"
-          :inner-radius="innerRadius"
-          :animated="animated"
-          :variant="variant"
-        />
-      </div>
-    </div>
-  </div>
+      </element-demo-box>
+
+      <element-demo-box class="u-background--error">
+        <geo-activity-indicator variant="error">
+          <font-awesome-icon
+            :icon="['far', 'lightbulb']"
+            aria-hidden
+            fixed-width
+          />
+        </geo-activity-indicator>
+      </element-demo-box>
+
+      <element-demo-box class="u-background--warn">
+        <geo-activity-indicator variant="warn">
+          <font-awesome-icon
+            :icon="['far', 'lightbulb']"
+            class="u-color--white"
+            aria-hidden
+            fixed-width
+          />
+        </geo-activity-indicator>
+      </element-demo-box>
+
+      <element-demo-box class="u-background--progress">
+        <geo-activity-indicator variant="progress">
+          <font-awesome-icon
+            :icon="['far', 'lightbulb']"
+            class="u-color--info"
+            aria-hidden
+            fixed-width
+          />
+        </geo-activity-indicator>
+      </element-demo-box>
+
+      <element-demo-box class="u-background--dark-transparent">
+        <geo-activity-indicator variant="dark-transparent">
+          <font-awesome-icon
+            :icon="['far', 'lightbulb']"
+            class="u-color--white"
+            aria-hidden
+            fixed-width
+          />
+        </geo-activity-indicator>
+      </element-demo-box>
+    </element-demo-horizontal-layout>
+  </element-demo>
+</div>
+```
+
+```vue live
+<template>
+  <element-demo name="Customizable">
+    <element-demo-actions>
+      <label>
+        Variant: <select
+          v-model="variant"
+        >
+          <option value="default">Default</option>
+          <option value="primary">Primary</option>
+          <option value="info">Info</option>
+          <option value="success">Success</option>
+          <option value="error">Error</option>
+          <option value="warn">Warn</option>
+          <option value="progress">Progress</option>
+          <option value="dark-transparent">Dark + Transparent</option>
+        </select>
+      </label>
+
+      <label>
+        Height: <input
+          :style="{
+            width: '40px'
+          }"
+          type="number"
+          v-model="customSize"
+        >
+      </label>
+
+      <label>
+        Inner radius: <input
+          :style="{
+            'width': '40px'
+          }"
+          type="number"
+          min="0"
+          max="50"
+          step="1"
+          v-model.number="innerRadius"
+        >
+      </label>
+
+      <label>
+        Completed percentage: <input
+          :style="{
+            'width': '40px'
+          }"
+          type="number"
+          min="0"
+          max="1"
+          step="0.01"
+          v-model.number="completedPercentage"
+        >
+      </label>
+
+      <label>
+        Animated: <input
+          type="checkbox"
+          v-model="animated"
+        >
+      </label>
+    </element-demo-actions>
+
+    <element-demo-box
+      :style="{
+        height: customSizePxString,
+        width: customSizePxString
+      }"
+    >
+      <geo-activity-indicator
+        :percentage="completedPercentage"
+        :inner-radius="innerRadius"
+        :animated="animated"
+        :variant="variant"
+      />
+    </element-demo-box>
+
+  </element-demo>
 </template>
 
 <script>
@@ -142,40 +238,4 @@ export default {
   }
 }
 </script>
-
-<style>
-.geo-activity-indicator-demo-box {
-  display: block;
-  height: 100px;
-  width: 100px;
-}
-
-.geo-activity-indicator-demo-box--primary {
-  background: #1464A5;
-}
-
-.geo-activity-indicator-demo-box--info {
-  background: #6FA1D4;
-}
-
-.geo-activity-indicator-demo-box--success {
-  background: #3FAD4D;
-}
-
-.geo-activity-indicator-demo-box--error {
-  background: #FF594F;
-}
-
-.geo-activity-indicator-demo-box--warn {
-  background: #EFAE00;
-}
-
-.geo-activity-indicator-demo-box--progress {
-  background: #17293D;
-}
-
-.geo-activity-indicator-demo-box--dark-transparent {
-  background: rgba(0, 0, 0, .8);
-}
-</style>
 ```
