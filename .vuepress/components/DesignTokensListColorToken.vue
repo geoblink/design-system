@@ -19,7 +19,7 @@
 
 <script>
 export default {
-  name: 'ColorToken',
+  name: 'DesignTokensListColorToken',
   props: {
     color: {
       type: Object,

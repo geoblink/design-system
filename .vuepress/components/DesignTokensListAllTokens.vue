@@ -63,7 +63,7 @@
 import _ from 'lodash'
 
 export default {
-  name: 'AllTokens',
+  name: 'DesignTokensListAllTokens',
   props: {
     tokens: {
       type: Object,

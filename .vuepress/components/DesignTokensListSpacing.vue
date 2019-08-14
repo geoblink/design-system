@@ -21,7 +21,7 @@
  * [/src/tokens/spacing.yml](https://github.com/viljamis/vue-design-system/blob/master/src/tokens/spacing.yml).
  */
 export default {
-  name: 'Spacing',
+  name: 'DesignTokensListSpacing',
   props: {
     tokens: {
       type: Array,

@@ -82,7 +82,7 @@ const _ = require('lodash')
  * [/src/tokens/font-size.yml](https://github.com/viljamis/vue-design-system/blob/master/src/tokens/font-size.yml).
  */
 export default {
-  name: 'Fonts',
+  name: 'DesignTokensListFonts',
   data () {
     return {
       styles: []

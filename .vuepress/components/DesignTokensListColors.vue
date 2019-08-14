@@ -2,7 +2,7 @@
   <div>
     <h2>Color Palette</h2>
     <div class="colors">
-      <color-token
+      <design-tokens-list-color-token
         v-for="(prop, index) in orderedTokens"
         :key="index"
         :color="prop"
@@ -22,7 +22,7 @@ const _ = require('lodash')
  * [/src/tokens/color.yml](https://github.com/viljamis/vue-design-system/blob/master/src/tokens/color.yml).
  */
 export default {
-  name: 'Colors',
+  name: 'DesignTokensListColors',
   props: {
     tokens: {
       type: Array,
