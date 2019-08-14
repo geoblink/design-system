@@ -48,12 +48,10 @@
 }
 
 .c-design-tokens-list-fonts__table-body-row-cell {
+  width: 10%;
+
   &--big {
     width: 35%;
-  }
-
-  &--small {
-    width: 10%;
   }
 }
 
