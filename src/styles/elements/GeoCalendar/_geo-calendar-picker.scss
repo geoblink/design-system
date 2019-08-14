@@ -42,12 +42,12 @@
       @include font($label-optional);
 
       cursor: pointer;
+    }
 
-      &--disabled {
-        color: $color-grey;
-        cursor: not-allowed;
-        text-decoration: line-through;
-      }
+    .geo-calendar-navigation--disabled {
+      color: $color-grey;
+      cursor: not-allowed;
+      text-decoration: line-through;
     }
   }
 }
