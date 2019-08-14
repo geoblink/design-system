@@ -1,0 +1,53 @@
+@mixin geo-calendar-picker-make($modifier-name) {
+  $modifier-name-with-prefix: '';
+
+  @if $modifier-name != '' {
+    // sass-lint:disable space-around-operator
+    $modifier-name-with-prefix: --#{$modifier-name};
+  }
+
+  .geo-calendar-picker#{$modifier-name-with-prefix} {
+    // GEO CALENDAR NAVIGATION STYLES
+    .geo-calendar-navigation {
+      align-items: center;
+      display: flex;
+      justify-content: space-between;
+      margin: $space-base 0;
+    }
+
+    .geo-button--link--calendar-navigation-toggle-button {
+      font-weight: $font-weight-bold;
+    }
+
+    .geo-button__label--calendar-navigation-toggle-button {
+      align-items: flex-end;
+      display: flex;
+      text-transform: capitalize;
+    }
+
+    .geo-calendar-navigation__selects-container {
+      align-items: center;
+      display: flex;
+      justify-content: space-evenly;
+      width: 50%;
+    }
+
+    .geo-calendar-navigation-toggle-button-icon {
+      @include font($label-optional);
+
+      margin-left: $space-x-small;
+    }
+
+    .geo-calendar-navigation__nav-icon {
+      @include font($label-optional);
+
+      cursor: pointer;
+    }
+
+    .geo-calendar-navigation--disabled {
+      color: $color-grey;
+      cursor: not-allowed;
+      text-decoration: line-through;
+    }
+  }
+}

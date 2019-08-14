@@ -1,9 +1,9 @@
 <template>
   <div
     :class="{
-      'geo-calendar-months-container__quarter': true,
-      'geo-calendar-months-container__quarter--actionable': canQuarterBeHighlighted,
-      'geo-calendar-months-container__quarter--unavailable': canQuarterBeHighlighted && isSomeMonthInQuarterUnavailable
+      'geo-calendar-grid__quarter-unit': true,
+      'geo-calendar-grid__quarter-unit--actionable': canQuarterBeHighlighted,
+      'geo-calendar-grid__quarter-unit--unavailable': canQuarterBeHighlighted && isSomeMonthInQuarterUnavailable
     }"
   >
     <geo-calendar-month-grid-month-unit
@@ -29,6 +29,7 @@ import { GRANULARITY_IDS, isBefore, isAfter } from '../GeoCalendar.utils'
 import GeoCalendarGridMixin from './GeoCalendarGrid.mixin'
 import GeoCalendarGranularityIdMixin from '../GeoCalendarGranularityId.mixin'
 import GeoCalendarDateIndicatorsMixin from '../GeoCalendarDateIndicators.mixin'
+import { startOfMonth } from 'date-fns'
 
 export default {
   name: 'GeoCalendarMonthGridQuarterUnit',
@@ -61,7 +62,7 @@ export default {
     isMonthUnavailable (monthIndex) {
       return (
         (
-          isBefore(new Date(this.currentYear, monthIndex), this.earliestDate)
+          isBefore(new Date(this.currentYear, monthIndex), startOfMonth(this.earliestDate))
         ) || (
           isAfter(new Date(this.currentYear, monthIndex), this.latestDate)
         )

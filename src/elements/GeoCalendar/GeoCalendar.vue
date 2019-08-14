@@ -70,6 +70,7 @@
       <geo-calendar-picker
         ref="calendarPicker"
         :calendar-navigation-select-icon="calendarNavigationSelectIcon"
+        :css-modifier="cssModifier"
         :current-month="currentMonth"
         :current-year="currentYear"
         :current-initial-year-in-range="currentInitialYearInRange"
