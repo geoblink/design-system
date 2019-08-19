@@ -13,13 +13,18 @@
             :placeholder="fromInputPlaceholder"
             css-modifier="geo-calendar"
             type="text"
+            :error="showFromFormatError"
             @focus="focusFromDateInput"
+            @blur="applyFromFormattedDate"
           />
           <!-- @slot Use this slot to customize the message shown when there is an error in one of the selected dates -->
-          <slot
+          <geo-input-message
             v-if="showFromFormatError"
-            name="formatError"
-          />
+            slot="message"
+            variant="error"
+          >
+            <slot name="formatError" />
+          </geo-input-message>
           <geo-link-button
             v-if="showSetEarliestDateButton"
             css-modifier="calendar-picker-button"
@@ -43,12 +48,16 @@
             css-modifier="geo-calendar"
             type="text"
             @focus="focusToDateInput"
+            @blur="applyToFormattedDate"
           />
           <!-- @slot Use this slot to customize the message shown when there is an error in one of the selected dates -->
-          <slot
+          <geo-input-message
             v-if="showToFormatError"
-            name="formatError"
-          />
+            slot="message"
+            variant="error"
+          >
+            <slot name="formatError" />
+          </geo-input-message>
           <geo-link-button
             v-if="showSetLatestDateButton"
             css-modifier="calendar-picker-button"
@@ -129,6 +138,8 @@ export default {
 
   data () {
     return {
+      fromFormattedDate: null,
+      toFormattedDate: null,
       fromRawDate: null,
       toRawDate: null,
       currentMonth: null,
@@ -142,62 +153,6 @@ export default {
   },
 
   computed: {
-    fromFormattedDate: {
-      get () {
-        return this.fromRawDate ? this.formatDate(this.fromRawDate) : null
-      },
-
-      set (newFromDate) {
-        const parsedDate = this.parseDate(newFromDate)
-        const isInputDateValid = this.isValidDate(parsedDate)
-
-        if (isInputDateValid && this.toRawDate && isBefore(this.toRawDate, parsedDate)) {
-          this.fromFormattedDate = this.toFormattedDate
-          this.toFormattedDate = newFromDate
-          return
-        }
-
-        if (isInputDateValid) {
-          this.showFromFormatError = false
-          this.fromRawDate = parsedDate
-          this.currentMonth = getMonth(this.fromRawDate)
-          this.currentYear = getYear(this.fromRawDate)
-        } else {
-          this.showFromFormatError = newFromDate !== ''
-          this.fromRawDate = null
-        }
-        this.emitFromDate({ fromDate: this.fromRawDate })
-      }
-    },
-
-    toFormattedDate: {
-      get () {
-        return this.toRawDate ? this.formatDate(this.toRawDate) : null
-      },
-
-      set (newToDate) {
-        const parsedDate = this.parseDate(newToDate)
-        const isInputDateValid = this.isValidDate(parsedDate)
-
-        if (isInputDateValid && this.fromRawDate && isAfter(this.fromRawDate, parsedDate)) {
-          this.toFormattedDate = this.fromFormattedDate
-          this.fromFormattedDate = newToDate
-          return
-        }
-
-        if (isInputDateValid) {
-          this.showToFormatError = false
-          this.toRawDate = parsedDate
-          this.currentMonth = getMonth(this.toRawDate)
-          this.currentYear = getYear(this.toRawDate)
-        } else {
-          this.showToFormatError = newToDate !== ''
-          this.toRawDate = null
-        }
-        this.emitToDate({ toDate: this.toRawDate })
-      }
-    },
-
     showSetEarliestDateButton () {
       return this.earliestDate && this.isGranularityWithoutRangeConstraints
     },
@@ -242,6 +197,48 @@ export default {
   },
 
   methods: {
+    applyFromFormattedDate () {
+      const parsedDate = this.parseDate(this.fromFormattedDate)
+      const isInputDateValid = this.isValidDate(parsedDate)
+
+      if (isInputDateValid && this.toRawDate && isBefore(this.toRawDate, parsedDate)) {
+        [this.fromFormattedDate, this.toFormattedDate] = [this.toFormattedDate, this.fromFormattedDate]
+        return
+      }
+
+      if (isInputDateValid) {
+        this.showFromFormatError = false
+        this.fromRawDate = parsedDate
+        this.currentMonth = getMonth(this.fromRawDate)
+        this.currentYear = getYear(this.fromRawDate)
+      } else {
+        this.showFromFormatError = this.fromRawDate !== ''
+        this.fromRawDate = null
+      }
+      this.emitFromDate({ fromDate: this.fromRawDate })
+    },
+
+    applyToFormattedDate () {
+      const parsedDate = this.parseDate(this.toFormattedDate)
+      const isInputDateValid = this.isValidDate(parsedDate)
+
+      if (isInputDateValid && this.fromRawDate && isAfter(this.fromRawDate, parsedDate)) {
+        [this.toFormattedDate, this.fromFormattedDate] = [this.fromFormattedDate, this.toFormattedDate]
+        return
+      }
+
+      if (isInputDateValid) {
+        this.showToFormatError = false
+        this.toRawDate = parsedDate
+        this.currentMonth = getMonth(this.toRawDate)
+        this.currentYear = getYear(this.toRawDate)
+      } else {
+        this.showToFormatError = this.toFormattedDate !== ''
+        this.toRawDate = null
+      }
+      this.emitToDate({ toDate: this.toRawDate })
+    },
+
     formatDate (date) {
       return format(date, 'DD/MM/YYYY')
     },
