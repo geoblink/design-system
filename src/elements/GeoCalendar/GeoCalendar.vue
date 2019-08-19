@@ -8,15 +8,12 @@
     <div class="geo-calendar__picker-controls">
       <div class="geo-calendar__input-ranges">
         <div>
-          <geo-editable-input
+          <geo-input
             v-model="fromFormattedDate"
-            v-click-outside="blurFromDateInput"
-            :is-focused="isFromDateInputFocused"
             :placeholder="fromInputPlaceholder"
-            :show-buttons="false"
             css-modifier="geo-calendar"
-            input-type="normal"
-            @click="focusFromDateInput"
+            type="text"
+            @focus="focusFromDateInput"
           />
           <!-- @slot Use this slot to customize the message shown when there is an error in one of the selected dates -->
           <slot
@@ -40,15 +37,12 @@
           fixed-width
         />
         <div>
-          <geo-editable-input
+          <geo-input
             v-model="toFormattedDate"
-            v-click-outside="blurToDateInput"
-            :is-focused="isToDateInputFocused"
             :placeholder="toInputPlaceholder"
-            :show-buttons="false"
             css-modifier="geo-calendar"
-            input-type="normal"
-            @click="focusToDateInput"
+            type="text"
+            @focus="focusToDateInput"
           />
           <!-- @slot Use this slot to customize the message shown when there is an error in one of the selected dates -->
           <slot
@@ -137,8 +131,6 @@ export default {
     return {
       fromRawDate: null,
       toRawDate: null,
-      isFromDateInputFocused: false,
-      isToDateInputFocused: false,
       currentMonth: null,
       currentYear: null,
       showFromFormatError: false,
@@ -464,21 +456,11 @@ export default {
       this.$emit('emit-to-date', { toDate })
     },
 
-    blurFromDateInput () {
-      this.isFromDateInputFocused = false
-    },
-
     focusFromDateInput () {
-      this.isFromDateInputFocused = true
       this.lastInputFieldExplicitlyFocused = FOCUSABLE_INPUT_FIELDS.FROM_DATE
     },
 
-    blurToDateInput () {
-      this.isToDateInputFocused = false
-    },
-
     focusToDateInput () {
-      this.isToDateInputFocused = true
       this.lastInputFieldExplicitlyFocused = FOCUSABLE_INPUT_FIELDS.TO_DATE
     }
   }
