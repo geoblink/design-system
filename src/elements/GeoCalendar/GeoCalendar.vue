@@ -273,7 +273,7 @@ export default {
       // https://github.com/date-fns/date-fns/issues/942
       // https://github.com/date-fns/date-fns/issues/1064
       if (!date) return null
-      const matches = /(\d{1,2})[^\d](\d{1,2})[^\d](\d{2,4})$/gi.exec(date)
+      const matches = /(0[1-9]|1[0-9]|2[0-9]|3[0-1])[^\d](0[1-9]|1[0-2])[^\d](\d{4})$/gi.exec(date)
       if (!matches) return null
       const [, day, month, year] = matches
       return new Date(parseInt(year), parseInt(month) - 1, parseInt(day))
