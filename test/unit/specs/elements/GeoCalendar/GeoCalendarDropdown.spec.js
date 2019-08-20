@@ -109,7 +109,7 @@ function getWrappedComponent () {
       GeoBorderedBox,
       'geo-bordered-box-header': true,
       'geo-bordered-box-footer': true,
-      'geo-editable-input': true,
+      'geo-input': true,
       'font-awesome-icon': true,
       'geo-calendar-picker': true,
       'geo-dropdown-regular-button': true,

@@ -8,6 +8,8 @@
     <div class="geo-calendar__picker-controls">
       <div class="geo-calendar__input-ranges">
         <div>
+          <!-- blur event won't be fired if we handle the mousedown event that would trigger it  -->
+          <!-- select-x events from calendar-picker will consume the mousedown event so no blur will be triggered when you click on a datePickerUnit on the grid -->
           <geo-input
             v-model="fromFormattedDate"
             :placeholder="fromInputPlaceholder"
@@ -42,6 +44,8 @@
           fixed-width
         />
         <div>
+          <!-- blur event won't be fired if we handle the mousedown event that would trigger it  -->
+          <!-- select-x events from calendar-picker will consume the mousedown event so no blur will be triggered when you click on a datePickerUnit on the grid -->
           <geo-input
             v-model="toFormattedDate"
             :placeholder="toInputPlaceholder"
@@ -102,7 +106,6 @@
 
 <script>
 import cssSuffix from '../../mixins/cssModifierMixin'
-import ClickOutside from '../../directives/GeoClickOutside'
 import { GRANULARITY_IDS, FOCUSABLE_INPUT_FIELDS, isBefore, isAfter } from './GeoCalendar.utils'
 import {
   endOfMonth,
@@ -125,10 +128,6 @@ export default {
   name: 'GeoCalendar',
   status: 'ready',
   release: '23.2.0',
-  directives: {
-    ClickOutside
-  },
-
   mixins: [
     GeoCalendarPickerDateUnitMixin,
     GeoCalendarGranularityIdMixin,
@@ -205,50 +204,30 @@ export default {
       const parsedDate = this.parseDate(this.fromFormattedDate)
       const isInputDateValid = this.isValidDate(parsedDate)
 
-      if (isInputDateValid && this.toRawDate && isBefore(this.toRawDate, parsedDate)) {
-        this.fromRawDate = parsedDate
-        ;[this.fromFormattedDate, this.toFormattedDate] = [this.toFormattedDate, this.fromFormattedDate]
-        ;[this.fromRawDate, this.toRawDate] = [this.toRawDate, this.fromRawDate]
-        this.emitFromDate({ fromDate: this.fromRawDate })
-        this.emitToDate({ toDate: this.toRawDate })
-        return
-      }
-
       if (isInputDateValid) {
-        this.showFromFormatError = false
         this.fromRawDate = parsedDate
+        this.showFromFormatError = false
         this.currentMonth = getMonth(this.fromRawDate)
         this.currentYear = getYear(this.fromRawDate)
       } else {
-        this.showFromFormatError = this.fromRawDate !== ''
-        this.fromRawDate = null
+        this.showFromFormatError = this.fromFormattedDate !== ''
       }
-      this.emitFromDate({ fromDate: this.fromRawDate })
+      this.selectDay(parsedDate)
     },
 
     applyToFormattedDate () {
       const parsedDate = this.parseDate(this.toFormattedDate)
       const isInputDateValid = this.isValidDate(parsedDate)
 
-      if (isInputDateValid && this.fromRawDate && isAfter(this.fromRawDate, parsedDate)) {
-        this.toRawDate = parsedDate
-        ;[this.toFormattedDate, this.fromFormattedDate] = [this.fromFormattedDate, this.toFormattedDate]
-        ;[this.toRawDate, this.fromRawDate] = [this.fromRawDate, this.toRawDate]
-        this.emitFromDate({ fromDate: this.fromRawDate })
-        this.emitToDate({ toDate: this.toRawDate })
-        return
-      }
-
       if (isInputDateValid) {
-        this.showToFormatError = false
         this.toRawDate = parsedDate
+        this.showToFormatError = false
         this.currentMonth = getMonth(this.toRawDate)
         this.currentYear = getYear(this.toRawDate)
       } else {
         this.showToFormatError = this.toFormattedDate !== ''
-        this.toRawDate = null
       }
-      this.emitToDate({ toDate: this.toRawDate })
+      this.selectDay(parsedDate)
     },
 
     formatDate (date) {
