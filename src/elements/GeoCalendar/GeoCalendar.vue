@@ -138,8 +138,8 @@ export default {
 
   data () {
     return {
-      fromFormattedDate: null,
-      toFormattedDate: null,
+      fromFormattedDate: '',
+      toFormattedDate: '',
       fromRawDate: null,
       toRawDate: null,
       currentMonth: null,
@@ -180,8 +180,12 @@ export default {
 
   watch: {
     granularityId () {
+      this.fromFormattedDate = ''
       this.fromRawDate = null
+      this.toFormattedDate = ''
       this.toRawDate = null
+      this.emitFromDate({ fromDate: this.fromRawDate })
+      this.emitToDate({ toDate: this.toRawDate })
     }
   },
 
@@ -202,7 +206,11 @@ export default {
       const isInputDateValid = this.isValidDate(parsedDate)
 
       if (isInputDateValid && this.toRawDate && isBefore(this.toRawDate, parsedDate)) {
-        [this.fromFormattedDate, this.toFormattedDate] = [this.toFormattedDate, this.fromFormattedDate]
+        this.fromRawDate = parsedDate
+        ;[this.fromFormattedDate, this.toFormattedDate] = [this.toFormattedDate, this.fromFormattedDate]
+        ;[this.fromRawDate, this.toRawDate] = [this.toRawDate, this.fromRawDate]
+        this.emitFromDate({ fromDate: this.fromRawDate })
+        this.emitToDate({ toDate: this.toRawDate })
         return
       }
 
@@ -223,7 +231,11 @@ export default {
       const isInputDateValid = this.isValidDate(parsedDate)
 
       if (isInputDateValid && this.fromRawDate && isAfter(this.fromRawDate, parsedDate)) {
-        [this.toFormattedDate, this.fromFormattedDate] = [this.fromFormattedDate, this.toFormattedDate]
+        this.toRawDate = parsedDate
+        ;[this.toFormattedDate, this.fromFormattedDate] = [this.fromFormattedDate, this.toFormattedDate]
+        ;[this.toRawDate, this.fromRawDate] = [this.fromRawDate, this.toRawDate]
+        this.emitFromDate({ fromDate: this.fromRawDate })
+        this.emitToDate({ toDate: this.toRawDate })
         return
       }
 
@@ -301,6 +313,9 @@ export default {
       this.fromRawDate = validatedRange.start
       this.toRawDate = validatedRange.end
 
+      this.fromFormattedDate = this.fromRawDate ? this.formatDate(this.fromRawDate) : null
+      this.toFormattedDate = this.toRawDate ? this.formatDate(this.toRawDate) : null
+
       this.emitFromDate({ fromDate: this.fromRawDate })
       this.emitToDate({ toDate: this.toRawDate })
 
@@ -347,6 +362,9 @@ export default {
       this.fromRawDate = validatedRange.start
       this.toRawDate = validatedRange.end
 
+      this.fromFormattedDate = this.fromRawDate ? this.formatDate(this.fromRawDate) : null
+      this.toFormattedDate = this.toRawDate ? this.formatDate(this.toRawDate) : null
+
       this.emitFromDate({ fromDate: this.fromRawDate })
       this.emitToDate({ toDate: this.toRawDate })
 
@@ -358,6 +376,8 @@ export default {
     selectQuarter (monthIndex) {
       this.fromRawDate = startOfQuarter(new Date(this.currentYear, monthIndex))
       this.toRawDate = endOfQuarter(new Date(this.currentYear, monthIndex))
+      this.fromFormattedDate = this.fromRawDate ? this.formatDate(this.fromRawDate) : null
+      this.toFormattedDate = this.toRawDate ? this.formatDate(this.toRawDate) : null
       this.emitFromDate({ fromDate: this.fromRawDate })
       this.emitToDate({ toDate: this.toRawDate })
     },
@@ -365,6 +385,8 @@ export default {
     selectWeek ({ fromDate, toDate }) {
       this.fromRawDate = fromDate
       this.toRawDate = toDate
+      this.fromFormattedDate = this.fromRawDate ? this.formatDate(this.fromRawDate) : null
+      this.toFormattedDate = this.toRawDate ? this.formatDate(this.toRawDate) : null
       this.emitFromDate({ fromDate })
       this.emitToDate({ toDate })
     },
@@ -407,6 +429,9 @@ export default {
       this.fromRawDate = validatedRange.start
       this.toRawDate = validatedRange.end
 
+      this.fromFormattedDate = this.fromRawDate ? this.formatDate(this.fromRawDate) : null
+      this.toFormattedDate = this.toRawDate ? this.formatDate(this.toRawDate) : null
+
       this.emitFromDate({ fromDate: this.fromRawDate })
       this.emitToDate({ toDate: this.toRawDate })
 
@@ -421,6 +446,7 @@ export default {
       this.currentMonth = getMonth(this.earliestDate)
       this.currentYear = getYear(this.earliestDate)
       this.fromRawDate = this.earliestDate
+      this.fromFormattedDate = this.formatDate(this.fromRawDate)
       this.emitFromDate({ fromDate: this.fromRawDate })
     },
 
@@ -440,6 +466,7 @@ export default {
       this.currentMonth = getMonth(this.latestDate)
       this.currentYear = getYear(this.latestDate)
       this.toRawDate = this.latestDate
+      this.toFormattedDate = this.formatDate(this.toRawDate)
       this.emitToDate({ toDate: this.toRawDate })
     },
 
