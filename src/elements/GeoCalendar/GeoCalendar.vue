@@ -27,10 +27,12 @@
           >
             <slot name="formatError" />
           </geo-input-message>
+          <!-- mousedown event is used because it is fired before blur event on GeoInput -->
+          <!-- blur event won't be fired but that's fine because we want this handler to prevail over the blur one -->
           <geo-link-button
             v-if="showSetEarliestDateButton"
             css-modifier="calendar-picker-button"
-            @click="setEarliestDate"
+            @mousedown.native="setEarliestDate"
           >
             <!-- @slot Use this slot to customize the text in the button used to apply your earliest available date in the fromDate input  -->
             <slot
@@ -51,6 +53,7 @@
             :placeholder="toInputPlaceholder"
             css-modifier="geo-calendar"
             type="text"
+            :error="showFromFormatError"
             @focus="focusToDateInput"
             @blur="applyToFormattedDate"
           />
@@ -62,10 +65,12 @@
           >
             <slot name="formatError" />
           </geo-input-message>
+          <!-- mousedown event is used because it is fired before blur event on GeoInput -->
+          <!-- blur event won't be fired but that's fine because we want this handler to prevail over the blur one -->
           <geo-link-button
             v-if="showSetLatestDateButton"
             css-modifier="calendar-picker-button"
-            @click="setLatestDate"
+            @mousedown.native="setLatestDate"
           >
             <!-- @slot Use this slot to customize the text in the button used to apply your latest available date in the toDate input  -->
             <slot
@@ -197,6 +202,7 @@ export default {
       : getYear(this.initialDateInGrid)
     this.fromRawDate = this.defaultFromDate || null
     this.toRawDate = this.defaultToDate || null
+    this.setFormattedDates()
   },
 
   methods: {
@@ -292,8 +298,7 @@ export default {
       this.fromRawDate = validatedRange.start
       this.toRawDate = validatedRange.end
 
-      this.fromFormattedDate = this.fromRawDate ? this.formatDate(this.fromRawDate) : null
-      this.toFormattedDate = this.toRawDate ? this.formatDate(this.toRawDate) : null
+      this.setFormattedDates()
 
       this.emitFromDate({ fromDate: this.fromRawDate })
       this.emitToDate({ toDate: this.toRawDate })
@@ -341,8 +346,7 @@ export default {
       this.fromRawDate = validatedRange.start
       this.toRawDate = validatedRange.end
 
-      this.fromFormattedDate = this.fromRawDate ? this.formatDate(this.fromRawDate) : null
-      this.toFormattedDate = this.toRawDate ? this.formatDate(this.toRawDate) : null
+      this.setFormattedDates()
 
       this.emitFromDate({ fromDate: this.fromRawDate })
       this.emitToDate({ toDate: this.toRawDate })
@@ -355,8 +359,7 @@ export default {
     selectQuarter (monthIndex) {
       this.fromRawDate = startOfQuarter(new Date(this.currentYear, monthIndex))
       this.toRawDate = endOfQuarter(new Date(this.currentYear, monthIndex))
-      this.fromFormattedDate = this.fromRawDate ? this.formatDate(this.fromRawDate) : null
-      this.toFormattedDate = this.toRawDate ? this.formatDate(this.toRawDate) : null
+      this.setFormattedDates()
       this.emitFromDate({ fromDate: this.fromRawDate })
       this.emitToDate({ toDate: this.toRawDate })
     },
@@ -364,8 +367,7 @@ export default {
     selectWeek ({ fromDate, toDate }) {
       this.fromRawDate = fromDate
       this.toRawDate = toDate
-      this.fromFormattedDate = this.fromRawDate ? this.formatDate(this.fromRawDate) : null
-      this.toFormattedDate = this.toRawDate ? this.formatDate(this.toRawDate) : null
+      this.setFormattedDates()
       this.emitFromDate({ fromDate })
       this.emitToDate({ toDate })
     },
@@ -408,8 +410,7 @@ export default {
       this.fromRawDate = validatedRange.start
       this.toRawDate = validatedRange.end
 
-      this.fromFormattedDate = this.fromRawDate ? this.formatDate(this.fromRawDate) : null
-      this.toFormattedDate = this.toRawDate ? this.formatDate(this.toRawDate) : null
+      this.setFormattedDates()
 
       this.emitFromDate({ fromDate: this.fromRawDate })
       this.emitToDate({ toDate: this.toRawDate })
@@ -437,6 +438,11 @@ export default {
        * @type {Date}
        */
       this.$emit('emit-from-date', { fromDate })
+    },
+
+    setFormattedDates () {
+      this.fromFormattedDate = this.fromRawDate ? this.formatDate(this.fromRawDate) : null
+      this.toFormattedDate = this.toRawDate ? this.formatDate(this.toRawDate) : null
     },
 
     setLatestDate () {
