@@ -1,3 +1,7 @@
+---
+title: Line chart (horizontal)
+---
+
 ```vue live
 <template>
   <div class="element-demo">

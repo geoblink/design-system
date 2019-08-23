@@ -1,3 +1,6 @@
+---
+title: Pie chart
+---
 
 ## Required properties
 

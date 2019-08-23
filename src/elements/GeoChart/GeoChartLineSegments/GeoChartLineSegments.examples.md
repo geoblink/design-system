@@ -1,3 +1,7 @@
+---
+title: Line segments chart
+---
+
 Line segments charts are collections of grouped segments intersected by circles across an axis.
 This chart can be used in combination with [GeoChartAnchoredShapes](./#/Elements/Charts?id=geochartanchoredshapes)
 to compare several values across an axis, each stop being the relative position

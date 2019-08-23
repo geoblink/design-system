@@ -1,3 +1,7 @@
+---
+title: Chart Scales
+---
+
 Scales provide a way to map values from a domain (using units from a specific
 context) into a range (using the units of our drawing canvas - an SVG). They
 are used in several internal parts of `GeoChart` but they are only defined on a

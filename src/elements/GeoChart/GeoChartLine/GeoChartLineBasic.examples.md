@@ -1,3 +1,7 @@
+---
+title: Line chart (basic)
+---
+
 Use this chart to display information as a series of data points connected by
 straight line segments. This chart can be used in combination with
 [GeoChartBars](./#/Elements/Charts?id=geochartbars).

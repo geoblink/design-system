@@ -1,3 +1,7 @@
+---
+title: Line chart (categorical)
+---
+
 ```vue live
 <template>
   <div class="element-demo">

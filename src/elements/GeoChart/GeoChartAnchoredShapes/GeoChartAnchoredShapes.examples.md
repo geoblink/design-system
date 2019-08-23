@@ -1,3 +1,7 @@
+---
+title: Anchored shapes
+---
+
 Anchored shapes charts are collections of shapes that are tied to a certain axis.
 This chart can be used in combination with [GeoChartLineSegments](./#/Elements/Charts?id=geochartlinesegments)
 to compare several values across an axis, each shape being the value that is

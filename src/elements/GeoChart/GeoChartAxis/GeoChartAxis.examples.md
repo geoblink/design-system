@@ -1,3 +1,7 @@
+---
+title: Chart axes
+---
+
 Axes are not only used to be rendered in the charts but also as a wrapper on top
 of scales. Some charts (like [bar charts](./#/Elements/Charts?id=bar-charts))
 might require references to some axes. Those references must match an axis
