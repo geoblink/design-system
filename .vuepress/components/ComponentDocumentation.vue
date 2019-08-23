@@ -1,23 +1,5 @@
 <template>
   <Layout class="c-component-documentation">
-    <ul
-      v-if="componentExamplesItems.length"
-      slot="sidebar-bottom"
-      class="sidebar-links"
-    >
-      <li
-        v-for="(item, i) in componentExamplesItems"
-        :key="i"
-      >
-        <router-link
-          :to="item.to"
-          class="sidebar-link"
-        >
-          {{ item.title }}
-        </router-link>
-      </li>
-    </ul>
-
     <div
       slot="page-top"
       class="theme-default-content"
@@ -43,11 +25,6 @@
         :features="markdownDescriptionFeatures"
       />
 
-      <component-documentation-constants
-        v-if="componentConstants.length"
-        :component-constants="componentConstants"
-      />
-
       <component-documentation-properties
         v-if="componentProperties.length"
         :component-properties="componentProperties"
@@ -61,6 +38,16 @@
       <component-documentation-slots
         v-if="componentSlots.length"
         :component-slots="componentSlots"
+      />
+
+      <component-documentation-constants
+        v-if="componentConstants.length"
+        :component-constants="componentConstants"
+      />
+
+      <component-documentation-examples-collection
+        v-if="componentExamples.length"
+        :examples="componentExamples"
       />
     </div>
   </Layout>
@@ -86,6 +73,11 @@ export default {
     ComponentDocumentationSlots
   },
   props: {
+    overridenPageSettings: {
+      type: Object,
+      required: true
+    },
+
     componentPath: {
       type: String,
       required: true
@@ -108,12 +100,7 @@ export default {
   },
   computed: {
     $page () {
-      return componentUtils.getVuepressPageSettingsForComponent({
-        path: this.componentPath,
-        name: this.componentDefinition.displayName,
-        definition: this.componentDefinition,
-        documentation: this.componentDocumentation
-      })
+      return this.overridenPageSettings
     },
 
     isDeprecated () {
@@ -152,18 +139,6 @@ export default {
       return this.componentDefinition.release
         ? `${this.componentDefinition.release}+`
         : 'Unreleased'
-    },
-
-    componentExamplesItems () {
-      const { componentExamplesByPath } = this.$site.themeConfig
-      return _.map(this.componentExamples, function (example) {
-        const examplePageInfo = componentExamplesByPath[example.originalRegularPath]
-
-        return {
-          title: examplePageInfo.title,
-          to: example.originalRegularPath
-        }
-      })
     },
 
     componentConstants () {

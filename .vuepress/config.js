@@ -87,6 +87,14 @@ function getComponentsDocumentations () {
     }
   )
 
+  /**
+   * @typedef {Object} ComponentDocumentation
+   * @property {string} path
+   * @property {ComponentDoc} documentation
+   * @property {string} group
+   * @property {Array<ComponentExample>} examples
+   */
+
   const componentsDocumentations = _.fromPairsMap(componentsDefinitionsPaths, function (pathToComponentDefinition) {
     const internalPath = pathToComponentDefinition
       .replace(`${componentsPath}/`, '')
@@ -106,6 +114,13 @@ function getComponentsDocumentations () {
 
   return componentsDocumentations
 }
+
+/**
+ * @typedef {Object} ComponentExample
+ * @property {string} originalRegularPath
+ * @property {string} originalRelativePath
+ * @property {string} internalPath
+ */
 
 function getComponentsExamples () {
   const componentsMarkdownDocumentationsPaths = glob.sync(`${componentsPath}/**/*.md`)

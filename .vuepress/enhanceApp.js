@@ -15,7 +15,6 @@ if (typeof window !== 'undefined') {
   require('../src/utils/webFontLoader')
 }
 
-
 const _ = require('@geoblink/lodash-mixins').default(require('lodash'))
 
 const componentUtils = require('./componentUtils')
@@ -46,109 +45,132 @@ export default ({ Vue, router, siteData }) => {
   Vue.component('font-awesome-icon', FontAwesomeIcon)
   Vue.use(GeoblinkDesignSystem)
 
-  renameComponentExamplesPages(siteData)
   siteData.themeConfig.componentExamplesByPath = getComponentExamplePages(siteData)
   addComponentDocumentationRoutes(router, siteData)
   addComponentDocumentationPages(siteData)
+  removeComponentExamplesFromSearch(siteData)
 }
 
 /**
  * @param {any} siteData
  */
-function renameComponentExamplesPages (siteData) {
+function removeComponentExamplesFromSearch (siteData) {
   const {
     componentsDocumentations,
     componentsExamples
   } = siteData.themeConfig
 
+  const pagesByRegularPath = _.fromPairsMap(siteData.pages, (page) => [page.regularPath, page])
+
   const componentExamplesInternalPaths = {}
   for (const singleComponentExample of componentsExamples) {
-    componentExamplesInternalPaths[singleComponentExample.originalRegularPath] = true
+    const componentOfExample = getComponentOfExample(singleComponentExample.internalPath, componentsDocumentations)
+    componentExamplesInternalPaths[singleComponentExample.originalRegularPath] = componentOfExample
   }
 
   for (let i = 0; i < siteData.pages.length; i++) {
     const pageInfo = siteData.pages[i]
 
     if (!(pageInfo.regularPath in componentExamplesInternalPaths)) continue
-    if (pageInfo.title) continue
 
-    const componentInternalPath = componentUtils.getComponentInternalPathForExample(pageInfo.regularPath)
+    const componentRegularPath = `/src/elements/${componentExamplesInternalPaths[pageInfo.regularPath].path}.html`
+    const componentPage = pagesByRegularPath[componentRegularPath]
 
-    const component = componentsDocumentations[componentInternalPath]
-    const componentDisplayName = component && component.documentation.displayName
-
-    const parentComponentInternalPath = _.times(2, () => componentInternalPath.split('/')[0]).join('/')
-    const parentComponent = componentsDocumentations[parentComponentInternalPath]
-    const parentComponentDisplayName = parentComponent && parentComponent.documentation.displayName
-
-    const displayablePath = componentDisplayName
-      ? `${componentDisplayName} (Examples)`
-      : `${parentComponentDisplayName} (Examples) » ${componentInternalPath.split('/').slice(-1)[0]}`
-
-    pageInfo.title = displayablePath
+    siteData.pages[i] = componentPage
   }
 }
 
 /**
- * @param {any} siteData
- * @returns {Object<string, any>}
+ * @param {any} $site
+ * @returns {Object<string, import('./componentUtils').VuePressPage>}
  */
-function getComponentExamplePages (siteData) {
+function getComponentExamplePages ($site) {
   const {
     componentsExamples
-  } = siteData.themeConfig
+  } = $site.themeConfig
 
   const componentExamplesInternalPaths = {}
   for (const singleComponentExample of componentsExamples) {
     componentExamplesInternalPaths[singleComponentExample.originalRegularPath] = true
   }
 
-  const examplesPages = _.filter(siteData.pages, function (pageInfo) {
+  const examplesPages = _.filter($site.pages, function (pageInfo) {
     return pageInfo.regularPath in componentExamplesInternalPaths
   })
 
-  return _.fromPairsMap(examplesPages, (pageInfo) => [pageInfo.regularPath, pageInfo])
+  return _.fromPairsMap(examplesPages, (pageInfo) => [pageInfo.regularPath, _.cloneDeep(pageInfo)])
 }
 
 /**
  * @param {any} router
- * @param {any} siteData
+ * @param {any} $site
  */
-function addComponentDocumentationRoutes (router, siteData) {
+function addComponentDocumentationRoutes (router, $site) {
   router.addRoutes([{
     path: '/components/*',
     component: ComponentDocumentation,
     props (route) {
       const componentPath = route.params.pathMatch.replace(/\.[^.]*$/, '')
-      const { documentation, examples } = siteData.themeConfig.componentsDocumentations[componentPath]
+      const { documentation, examples } = $site.themeConfig.componentsDocumentations[componentPath]
+      const definition = components[documentation.displayName]
 
       return {
+        overridenPageSettings: componentUtils.getVuepressPageSettingsForComponent({
+          path: componentPath,
+          name: documentation.displayName,
+          definition,
+          documentation,
+          examples,
+          $site
+        }),
         componentPath,
         componentDefinition: components[documentation.displayName],
         componentDocumentation: documentation,
-        componentExamples: examples
+        componentExamples: componentUtils.getComponentExamples(examples, $site.themeConfig.componentExamplesByPath)
       }
     }
   }])
 }
 
 /**
- * @param {any} siteData
+ * @param {any} $site
  */
-function addComponentDocumentationPages (siteData) {
-  const { componentsDocumentations } = siteData.themeConfig
+function addComponentDocumentationPages ($site) {
+  const { componentsDocumentations } = $site.themeConfig
 
   for (const componentPath of Object.keys(componentsDocumentations)) {
-    const { documentation } = componentsDocumentations[componentPath]
+    const { documentation, examples } = componentsDocumentations[componentPath]
     const definition = components[documentation.displayName]
 
-    siteData.pages.push(
+    $site.pages.push(
       componentUtils.getVuepressPageSettingsForComponent({
         path: componentPath,
         name: documentation.displayName,
         definition,
-        documentation
+        documentation,
+        examples,
+        $site
       })
     )
   }
+}
+
+/**
+ * @param {string} exampleInternalPath
+ * @param {Object<string, ComponentDocumentation>} components
+ * @returns {ComponentDocumentation|null}
+ */
+function getComponentOfExample (exampleInternalPath, components) {
+  if (components[exampleInternalPath]) return components[exampleInternalPath]
+
+  const internalPathSegments = exampleInternalPath.split('/')
+  const parentInternalPathSegments = _.dropRight(internalPathSegments, 1)
+
+  if (parentInternalPathSegments.length === 1) {
+    parentInternalPathSegments.push(parentInternalPathSegments[0])
+    const parentInternalPath = parentInternalPathSegments.join('/')
+    return components[parentInternalPath] || null
+  }
+
+  return getComponentOfExample(parentInternalPathSegments.join('/'), components)
 }

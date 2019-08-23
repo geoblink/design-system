@@ -65,7 +65,9 @@ export default {
         path: this.parentComponentDocumentationPage.path,
         name: this.parentComponentDocumentation.displayName,
         definition: components[this.parentComponentDocumentation.displayName],
-        documentation: this.parentComponentDocumentation
+        documentation: this.parentComponentDocumentation,
+        examples: this.componentExamples,
+        $site: this.$site
       })
 
       return {

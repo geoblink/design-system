@@ -19,13 +19,12 @@
         </tr>
       </thead>
       <tbody>
-        <tr
+        <component-documentation-constants-row
           v-for="constantMetadata in componentConstants"
           :key="constantMetadata.name"
-        >
-          <td :id="`constant-${constantMetadata.name}`"><code>{{ constantMetadata.name }}</code></td>
-          <td><pre><code>{{ constantMetadata.definition }}</code></pre></td>
-        </tr>
+          :name="constantMetadata.name"
+          :definition="constantMetadata.definition"
+        />
       </tbody>
     </table>
   </div>

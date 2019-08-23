@@ -1,6 +1,35 @@
 import _ from 'lodash'
 
 /**
+ * @typedef {Object} VuePressHeader
+ * @property {number} level
+ * @property {string} title
+ * @property {string} slug
+ * @property {string} [type]
+ * @property {Array<VuePressHeader>} [children]
+ */
+
+/**
+ * @typedef {Object} VuePressPage
+ * @property {object} frontmatter
+ * @property {string} [frontmatter.layout]
+ * @property {string} [title]
+ * @property {Array<VuePressHeader>} headers
+ * @property {string} key
+ * @property {string} lastUpdated
+ * @property {string} path
+ * @property {string} regularPath
+ * @property {string} relativePath
+ */
+
+/**
+ * @typedef {Object} ComponentExample
+ * @property {string} internalPath
+ * @property {string} originalRegularPath
+ * @property {string} originalRelativePath
+ */
+
+/**
  * @typedef {Object} ComponentProperty
  * @property {string} name
  * @property {string} description
@@ -42,26 +71,21 @@ import _ from 'lodash'
  * @param {string} params.name
  * @param {ComponentDefinition} params.definition
  * @param {ComponentDocumentation} params.documentation
+ * @param {Array<ComponentExample>} params.examples
+ * @param {any} params.$site
  */
 export function getVuepressPageSettingsForComponent (params) {
-  const hasConstants = !!getComponentConstants(params.definition).length
   const hasProperties = !!getComponentProperties(params.documentation).length
   const hasEvents = !!getComponentEvents(params.documentation).length
   const hasSlots = !!getComponentSlots(params.documentation).length
+  const hasConstants = !!getComponentConstants(params.definition).length
+  const examples = getComponentExamples(params.examples, params.$site.themeConfig.componentExamplesByPath)
 
   const headers = [{
     level: 1,
     slug: params.name,
     title: params.name
   }]
-
-  if (hasConstants) {
-    headers.push({
-      level: 2,
-      slug: 'constants',
-      title: 'Constants'
-    })
-  }
 
   if (hasProperties) {
     headers.push({
@@ -85,6 +109,43 @@ export function getVuepressPageSettingsForComponent (params) {
       slug: 'slots',
       title: 'Slots'
     })
+  }
+
+  if (hasConstants) {
+    headers.push({
+      level: 2,
+      slug: 'constants',
+      title: 'Constants'
+    })
+  }
+
+  if (examples.length) {
+    const examplesGroupHeader = {
+      level: 2,
+      slug: 'examples',
+      title: 'Examples',
+      children: [],
+      type: 'link'
+    }
+
+    if (examples.length > 1) {
+      const examplePagesWithTitle = _.filter(examples, 'title')
+
+      for (const examplePage of examplePagesWithTitle) {
+        const parentHeader = {
+          level: examplesGroupHeader.level + 1,
+          slug: `example-${examplePage.key}`,
+          title: examplePage.title,
+          children: getPageHeaderChildrenHierarchy(examplePage.headers || [], 1)
+        }
+
+        examplesGroupHeader.type = 'group'
+        examplesGroupHeader.children.push(parentHeader)
+      }
+
+    }
+
+    headers.push(examplesGroupHeader)
   }
 
   return {
@@ -178,30 +239,6 @@ export function getComponentSlots (componentDefinition) {
 }
 
 /**
- * @param {object} originalPage
- * @param {string} originalPage.key
- * @param {Array<object>} originalPage.headers
- * @param {string} originalPage.title
- * @param {object} originalPage.frontmatter
- * @param {object} customPage
- * @param {string} customPage.originalRegularPath
- * @param {string} customPage.customRegularPath
- * @param {string} customPage.originalRelativePath
- * @param {string} customPage.internalPath
- */
-export function getVuepressPageSettingsForExample (originalPage, customPage) {
-  return {
-    key: originalPage.key,
-    headers: originalPage.headers,
-    frontmatter: originalPage.frontmatter,
-    title: `${originalPage.title} (Example)`,
-    path: customPage.customRegularPath,
-    regularPath: customPage.customRegularPath,
-    relativePath: customPage.originalRelativePath
-  }
-}
-
-/**
  * @param {string} examplePagePath Path to example page, with or without leading slash
  * @returns {string}
  */
@@ -212,4 +249,53 @@ export function getComponentInternalPathForExample (examplePagePath) {
     .replace('/src/elements/', '')
     .replace(/\.[^/]*$/, '')
   return componentInternalPath
+}
+
+/**
+ * @param {Array<ComponentExample>} examples
+ * @param {Object<string, VuePressPage>} componentExamplesByPath
+ * @returns {Array<VuePressPage>}
+ */
+export function getComponentExamples (examples, componentExamplesByPath) {
+  return _.map(examples, (singleExample) => componentExamplesByPath[singleExample.originalRegularPath])
+}
+
+/**
+ * @param {Array<VuePressHeader>} headers
+ * @param {number} parentHeaderLevel
+ * @return {Array<VuePressHeader>}
+ */
+function getPageHeaderChildrenHierarchy (headers, parentHeaderLevel) {
+  const collectedHeaders = /** @type {Array<VuePressHeader>} */ ([])
+
+  for (let index = 0; index < headers.length; index++) {
+    const singleHeader = headers[index]
+
+    // If we find a header that is upper than current parent, finish since this
+    // current parent header is a child of that header
+    if (singleHeader.level <= parentHeaderLevel) break
+    // If we find a header that is not immediate child of current parent,
+    // ignore it since it will be included as child of one of the immediate ones
+    if (singleHeader.level > parentHeaderLevel + 1) continue
+
+    const newEntry = {
+      title: singleHeader.title,
+      slug: singleHeader.slug,
+      type: singleHeader.type,
+      children: singleHeader.children,
+      level: singleHeader.level
+    }
+
+    if (!newEntry.children) {
+      newEntry.children = getPageHeaderChildrenHierarchy(headers.slice(index + 1), newEntry.level)
+    }
+
+    newEntry.type = newEntry.children.length
+      ? 'group'
+      : 'link'
+
+    collectedHeaders.push(newEntry)
+  }
+
+  return collectedHeaders
 }
