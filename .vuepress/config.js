@@ -1,5 +1,3 @@
-import { components as componentDefinitions } from '../src/system'
-
 const path = require('path')
 const glob = require('glob')
 const vueDocs = require('vue-docgen-api')
@@ -16,7 +14,7 @@ const groupedComponentsDocumentations = _.groupBy(componentsDocumentations, 'gro
 const componentsSectionItems = _.map(groupedComponentsDocumentations, function (items, groupName) {
   return {
     text: groupName,
-    items: _.map(items, function ({ documentation, path }) {
+    items: _.mapNonNil(items, function ({ documentation, path }) {
       return {
         text: documentation.displayName,
         link: `/components/${path}`
@@ -103,8 +101,6 @@ function getComponentsDocumentations () {
     const internalPath = pathToComponentDefinition
       .replace(`${componentsPath}/`, '')
       .replace(/\.vue$/, '')
-
-    if (componentDefinitions[internalPath].internal) return null
 
     const examples = examplesByInternalPath[internalPath]
 
