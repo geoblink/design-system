@@ -108,29 +108,27 @@ export default {
     },
 
     statusBadgeText () {
-      switch (this.componentDefinition.status) {
-        case 'ready':
-          return 'Ready'
-        case 'missing-tests':
-          return 'Missing tests'
-        case 'deprecated':
-          return 'Deprecated'
-        default:
-          throw new Error(`Unknown component status for component ${this.componentDefinition.name}: ${this.componentDefinition.status}`)
+      const badgeTextByStatus = {
+        ready: 'Ready',
+        'missing-tests': 'Missing tests',
+        'deprecated': 'Deprecated'
       }
+
+      if (this.componentDefinition.status in badgeTextByStatus) return badgeTextByStatus[this.componentDefinition.status]
+
+      throw new Error(`Unknown component status for component ${this.componentDefinition.name}: ${this.componentDefinition.status}`)
     },
 
     statusBadgeType () {
-      switch (this.componentDefinition.status) {
-        case 'ready':
-          return 'tip'
-        case 'missing-tests':
-          return 'warn'
-        case 'deprecated':
-          return 'error'
-        default:
-          throw new Error(`Unknown component status for component ${this.componentDefinition.name}: ${this.componentDefinition.status}`)
+      const badgeTypeByStatus = {
+        ready: 'tip',
+        'missing-tests': 'warn',
+        'deprecated': 'error'
       }
+
+      if (this.componentDefinition.status in badgeTypeByStatus) return badgeTypeByStatus[this.componentDefinition.status]
+
+      throw new Error(`Unknown component status for component ${this.componentDefinition.name}: ${this.componentDefinition.status}`)
     },
 
     releaseBadgeText () {

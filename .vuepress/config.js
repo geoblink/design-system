@@ -1,3 +1,5 @@
+import { components as componentDefinitions } from '../src/system'
+
 const path = require('path')
 const glob = require('glob')
 const vueDocs = require('vue-docgen-api')
@@ -29,15 +31,17 @@ module.exports = {
   head: [
     ['link', { rel: 'icon', href: '/assets/img/favicon.ico' }]
   ],
-  globalLayout: path.resolve(__dirname, 'components/ComponentExampleLayout.vue'),
   themeConfig: {
     logo: `/assets/img/logo.svg`,
     nav: [
       { text: 'Home', link: '/' },
       { text: 'Design tokens', link: '/docs/design-tokens' },
       {
-        text: 'Components',
-        items: componentsSectionItems
+        text: 'Elements',
+        items: [{
+          text: 'All elements',
+          link: '/docs/elements'
+        }, ...componentsSectionItems]
       }
     ],
     sidebar: 'auto',
@@ -95,10 +99,12 @@ function getComponentsDocumentations () {
    * @property {Array<ComponentExample>} examples
    */
 
-  const componentsDocumentations = _.fromPairsMap(componentsDefinitionsPaths, function (pathToComponentDefinition) {
+  const componentsDocumentations = _.fromPairsMapNonNil(componentsDefinitionsPaths, function (pathToComponentDefinition) {
     const internalPath = pathToComponentDefinition
       .replace(`${componentsPath}/`, '')
       .replace(/\.vue$/, '')
+
+    if (componentDefinitions[internalPath].internal) return null
 
     const examples = examplesByInternalPath[internalPath]
 

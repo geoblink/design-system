@@ -1,4 +1,6 @@
-### Elements are the smallest basic structures of an user interface. They cannot be broken down any further. Buttons, links, and inputs are good examples. Elements utilize decisions made on the design token level.
+::: tip
+Elements are the smallest basic structures of an user interface. They cannot be broken down any further. Buttons, links, and inputs are good examples. Elements utilize decisions made on the design token level.
+:::
 
 To add a new <code>Element</code>, create a new [Single File Component](https://vuejs.org/v2/guide/single-file-components.html) in [src/elements](https://github.com/geoblink/design-system/blob/master/src/elements).
 
@@ -7,8 +9,7 @@ To do so you should add a `SCSS` file in [/src/styles/elements](https://github.c
 That file will be automatically exported when building the design system so those mixins will be available later on.
 Finally you should import that file in [src/styles/styles.scss](https://github.com/geoblink/design-system/blob/master/src/styles/styles.scss) so it's available in the component.
 
-## Overview
+# All elements
 
-```
-<components show="elements" />
-```
+<all-elements-list />
+
