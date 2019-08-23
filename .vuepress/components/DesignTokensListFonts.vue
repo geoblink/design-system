@@ -29,7 +29,7 @@
           ['c-design-tokens-list-fonts__table-body-row']: true,
           ['c-design-tokens-list-fonts__table-body-row--grey-bg']: font.fontFamily.includes('Lato')
         }"
-        @click="copyVariableName(font.value)"
+        @click="copyVariableName(font.variableName)"
       >
         <div
           ref="fontSamples"
@@ -40,7 +40,7 @@
             [`font-${font.value}`]: true
           }"
         >
-          <span>${{ font.value.replace('_', '-') }}</span>
+          <span>{{ font.variableName }}</span>
         </div>
         <div class="c-design-tokens-list-fonts__table-body-row-cell">
           {{ font.fontFamily }}
@@ -99,7 +99,11 @@ export default {
     },
 
     sortedTokens () {
-      return _.orderBy(this.styledTokens, ['order'], ['desc'])
+      return _.map(_.orderBy(this.styledTokens, ['order'], ['desc']), function (token) {
+        return _.assign({
+          variableName: `\$${token.value.replace('_', '-')}`
+        }, token )
+      })
     },
 
     firstMontserratFontIndex () {
@@ -119,7 +123,7 @@ export default {
     },
 
     copyVariableName (name) {
-      copy(`\$${name.replace('_', '-')}`)
+      copy(name)
     }
   }
 }
