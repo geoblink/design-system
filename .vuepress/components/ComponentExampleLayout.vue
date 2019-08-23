@@ -97,8 +97,9 @@ export default {
 
       const { componentExamplesByPath } = this.$site.themeConfig
 
-      const examplesLinkItems = _.map(this.componentOtherExamples, function (example) {
+      const examplesLinkItems = _.mapNonNil(this.componentOtherExamples, function (example) {
         const examplePageInfo = componentExamplesByPath[example.originalRegularPath]
+        if (!examplePageInfo) return null
 
         return {
           title: examplePageInfo.title,
