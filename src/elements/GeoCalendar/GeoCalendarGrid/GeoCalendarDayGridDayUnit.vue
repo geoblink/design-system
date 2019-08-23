@@ -31,6 +31,7 @@ import {
 
 export default {
   name: 'GeoCalendarDayGridDayUnit',
+  internal: true,
   mixins: [
     GeoCalendarGridMixin
   ],
