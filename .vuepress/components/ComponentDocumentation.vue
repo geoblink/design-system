@@ -59,19 +59,8 @@ const componentUtils = require('../componentUtils')
 
 import { AllMarkdownParserFeatures } from '../../src/elements/GeoMarkdownContent/GeoMarkdownParser'
 
-import ComponentDocumentationConstants from './ComponentDocumentationConstants.vue'
-import ComponentDocumentationProperties from './ComponentDocumentationProperties.vue'
-import ComponentDocumentationEvents from './ComponentDocumentationEvents.vue'
-import ComponentDocumentationSlots from './ComponentDocumentationSlots.vue'
-
 export default {
   name: 'ComponentDocumentation',
-  components: {
-    ComponentDocumentationConstants,
-    ComponentDocumentationProperties,
-    ComponentDocumentationEvents,
-    ComponentDocumentationSlots
-  },
   props: {
     overridenPageSettings: {
       type: Object,
