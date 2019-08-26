@@ -33,6 +33,7 @@ module.exports = {
     logo: `/assets/img/logo.svg`,
     nav: [
       { text: 'Home', link: '/' },
+      { text: 'Changelog', link: '/changelog' },
       { text: 'Design tokens', link: '/docs/design-tokens' },
       {
         text: 'Elements',
