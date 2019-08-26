@@ -51,25 +51,6 @@ export default {
       type: Array,
       required: true
     }
-  },
-  computed: {
-    markdownDescriptionFeatures () {
-      return {
-        [MarkdownParserFeatures.smartquotes]: true,
-        [MarkdownParserFeatures.replacements]: true,
-        [MarkdownParserFeatures.emphasis]: true,
-        [MarkdownParserFeatures.strikethrough]: true,
-        [MarkdownParserFeatures.linkify]: true,
-        [MarkdownParserFeatures.link]: true,
-        [MarkdownParserFeatures.list]: true,
-        [MarkdownParserFeatures.lheading]: true,
-        [MarkdownParserFeatures.code]: true,
-        [MarkdownParserFeatures.fence]: true,
-        [MarkdownParserFeatures.blockquote]: true,
-        [MarkdownParserFeatures.table]: true,
-        [MarkdownParserFeatures.backticks]: true,
-      }
-    }
   }
 }
 </script>
