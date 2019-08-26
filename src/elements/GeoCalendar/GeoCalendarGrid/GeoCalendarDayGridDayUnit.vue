@@ -1,4 +1,6 @@
 <template>
+  <!-- mousedown event is used because it is fired before blur event on GeoInput -->
+  <!-- blur event won't be fired but that's fine because we want this handler to prevail over the blur one -->
   <button
     :class="{
       'geo-calendar-grid__day-unit': true,
@@ -11,7 +13,7 @@
       'geo-calendar-grid__date-picker-unit--to-date': isEqual(day, selectedToDay),
       'geo-calendar-grid__date-picker-unit--within-range': isDayWithinRanges
     }"
-    @click="selectDay($event)"
+    @mousedown="selectDay($event)"
   >
     <div class="geo-calendar-grid__date-picker-unit__placeholder">
       {{ dayNumber }}

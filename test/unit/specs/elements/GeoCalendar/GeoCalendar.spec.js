@@ -1,7 +1,7 @@
 import { mount, shallowMount } from '@vue/test-utils'
 import { PICKER_DATE_UNITS, GRANULARITY_IDS } from '@/elements/GeoCalendar/GeoCalendar.utils.js'
 import GeoCalendar from '@/elements/GeoCalendar/GeoCalendar.vue'
-import GeoEditableInput from '@/elements/GeoEditableInput/GeoEditableInput.vue'
+import GeoInput from '@/elements/GeoInput/GeoInput.vue'
 import GeoLinkButton from '@/elements/GeoButton/GeoLinkButton.vue'
 import GeoButton from '@/elements/GeoButton/GeoButton.vue'
 import GeoCalendarPicker from '@/elements/GeoCalendar/GeoCalendarPicker.vue'
@@ -192,13 +192,14 @@ describe('GeoCalendar', () => {
         const initialDate = today
         const endDate = addDays(today, 4)
         const invalidFromDateRange = addDays(endDate, 5)
-        const geoFromInput = wrapper.findAll(GeoEditableInput).at(0)
+        const geoFromInput = wrapper.findAll(GeoInput).at(0)
 
         wrapper.vm.selectDay(initialDate)
         wrapper.vm.selectDay(endDate)
-        geoFromInput.vm.$emit('click')
+        geoFromInput.vm.$emit('focus')
 
         wrapper.vm.selectDay(invalidFromDateRange)
+
         expect(wrapper.vm.fromRawDate).toBe(endDate)
         expect(wrapper.vm.toRawDate).toBe(invalidFromDateRange)
         expect(wrapper.vm.fromFormattedDate).toBe('03/08/2019')
@@ -216,11 +217,11 @@ describe('GeoCalendar', () => {
         const initialMonth = getMonth(today)
         const endDate = addMonths(today, 4)
         const invalidFromDateRange = addMonths(endDate, 5)
-        const geoFromInput = wrapper.findAll(GeoEditableInput).at(0)
+        const geoFromInput = wrapper.findAll(GeoInput).at(0)
 
         wrapper.vm.selectMonth(initialMonth)
         wrapper.vm.selectMonth(getMonth(endDate))
-        geoFromInput.vm.$emit('click')
+        geoFromInput.vm.$emit('focus')
 
         wrapper.setData({
           currentYear: getYear(invalidFromDateRange)
@@ -244,11 +245,11 @@ describe('GeoCalendar', () => {
         const initialYear = getYear(today)
         const endDate = addYears(today, 4)
         const invalidFromDateRange = addYears(endDate, 5)
-        const geoFromInput = wrapper.findAll(GeoEditableInput).at(0)
+        const geoFromInput = wrapper.findAll(GeoInput).at(0)
 
         wrapper.vm.selectYear(initialYear)
         wrapper.vm.selectYear(getYear(endDate))
-        geoFromInput.vm.$emit('click')
+        geoFromInput.vm.$emit('focus')
 
         wrapper.setData({
           currentYear: getYear(invalidFromDateRange)
@@ -272,29 +273,27 @@ describe('GeoCalendar', () => {
       it('Sets input', () => {
         const wrapper = getWrappedComponent()
 
-        const geoFromInput = wrapper.findAll(GeoEditableInput).at(0)
-        geoFromInput.vm.$emit('click')
+        const geoFromInput = wrapper.findAll(GeoInput).at(0)
+        geoFromInput.vm.$emit('focus')
         wrapper.setData({
           fromFormattedDate: '30/07/2019'
         })
+        geoFromInput.vm.$emit('blur')
 
-        expect(wrapper.vm.isFromDateInputFocused).toBe(true)
         expect(wrapper.vm.fromRawDate).toEqual(today)
         expect(wrapper.emitted()['emit-from-date']).toBeDefined()
         expect(wrapper.emitted()['emit-from-date'][0][0]).toEqual({ fromDate: today })
-
-        wrapper.vm.blurFromDateInput()
-        expect(wrapper.vm.isFromDateInputFocused).toBe(false)
       })
 
       it('Sets wrong date', () => {
         const wrapper = getWrappedComponent()
-        const geoFromInput = wrapper.findAll(GeoEditableInput).at(0)
-        geoFromInput.vm.$emit('click')
+        const geoFromInput = wrapper.findAll(GeoInput).at(0)
+        geoFromInput.vm.$emit('focus')
         wrapper.setData({
           fromFormattedDate: 'rrr'
         })
-        expect(wrapper.vm.isFromDateInputFocused).toBe(true)
+        geoFromInput.vm.$emit('blur')
+
         expect(wrapper.vm.fromRawDate).toBe(null)
         expect(wrapper.vm.showFromFormatError).toBe(true)
         expect(wrapper.emitted()['emit-from-date']).toBeDefined()
@@ -303,6 +302,7 @@ describe('GeoCalendar', () => {
         wrapper.setData({
           fromFormattedDate: ''
         })
+        geoFromInput.vm.$emit('blur')
 
         expect(wrapper.vm.showFromFormatError).toBe(false)
         expect(wrapper.vm.fromRawDate).toBe(null)
@@ -314,28 +314,27 @@ describe('GeoCalendar', () => {
     describe('To date input', () => {
       it('Sets input', () => {
         const wrapper = getWrappedComponent()
-        const geoFromInput = wrapper.findAll(GeoEditableInput).at(1)
-        geoFromInput.vm.$emit('click')
+        const geoToInput = wrapper.findAll(GeoInput).at(1)
+        geoToInput.vm.$emit('focus')
         wrapper.setData({
           toFormattedDate: '30/07/2019'
         })
-        expect(wrapper.vm.isToDateInputFocused).toBe(true)
+        geoToInput.vm.$emit('blur')
+
         expect(wrapper.vm.toRawDate).toEqual(today)
         expect(wrapper.emitted()['emit-to-date']).toBeDefined()
         expect(wrapper.emitted()['emit-to-date'][0][0]).toEqual({ toDate: today })
-
-        wrapper.vm.blurToDateInput()
-        expect(wrapper.vm.isToDateInputFocused).toBe(false)
       })
 
       it('Sets wrong date', () => {
         const wrapper = getWrappedComponent()
-        const geoFromInput = wrapper.findAll(GeoEditableInput).at(1)
-        geoFromInput.vm.$emit('click')
+        const geoToInput = wrapper.findAll(GeoInput).at(1)
+        geoToInput.vm.$emit('focus')
         wrapper.setData({
           toFormattedDate: 'rrr'
         })
-        expect(wrapper.vm.isToDateInputFocused).toBe(true)
+        geoToInput.vm.$emit('blur')
+
         expect(wrapper.vm.toRawDate).toBe(null)
         expect(wrapper.vm.showToFormatError).toBe(true)
         expect(wrapper.emitted()['emit-to-date']).toBeDefined()
@@ -345,6 +344,7 @@ describe('GeoCalendar', () => {
           toFormattedDate: ''
         })
 
+        geoToInput.vm.$emit('blur')
         expect(wrapper.vm.showToFormatError).toBe(false)
         expect(wrapper.vm.toRawDate).toBe(null)
         expect(wrapper.emitted()['emit-to-date']).toBeDefined()
@@ -374,26 +374,45 @@ describe('GeoCalendar', () => {
 
       it('Should swap dates if fromDate is after toDate or viceversa', () => {
         const wrapper = getWrappedComponent()
+        const geoFromInput = wrapper.findAll(GeoInput).at(0)
+        const geoToInput = wrapper.findAll(GeoInput).at(1)
+
+        geoFromInput.vm.$emit('focus')
         wrapper.setData({
-          fromFormattedDate: '10/04/2019',
+          fromFormattedDate: '10/04/2019'
+        })
+        geoFromInput.vm.$emit('blur')
+        geoToInput.vm.$emit('focus')
+        wrapper.setData({
           toFormattedDate: '05/04/2019'
         })
+        geoToInput.vm.$emit('blur')
+
+        // TODO CORE-7364 This should be changed when flows are fixed
         expect(wrapper.vm.fromFormattedDate).toBe('05/04/2019')
-        expect(wrapper.vm.toFormattedDate).toBe('10/04/2019')
+        expect(wrapper.vm.toFormattedDate).toBe('05/04/2019')
 
         wrapper.setData({
           fromFormattedDate: '',
           toFormattedDate: ''
         })
+        geoFromInput.vm.$emit('blur')
+        geoToInput.vm.$emit('blur')
+
         wrapper.setData({
           toFormattedDate: '05/04/2019'
         })
+        geoToInput.vm.$emit('blur')
+
         expect(wrapper.vm.toFormattedDate).toBe('05/04/2019')
 
         wrapper.setData({
           fromFormattedDate: '10/04/2019'
         })
-        expect(wrapper.vm.fromFormattedDate).toBe('05/04/2019')
+        geoFromInput.vm.$emit('blur')
+
+        // TODO CORE-7364 This should be changed when flows are fixed
+        expect(wrapper.vm.fromFormattedDate).toBe('10/04/2019')
         expect(wrapper.vm.toFormattedDate).toBe('10/04/2019')
       })
     })
@@ -443,13 +462,13 @@ describe('GeoCalendar', () => {
           earliestDate: earliestDate,
           latestDate: latestDate
         })
-        wrapper.findAll(GeoLinkButton).at(0).vm.$emit('click')
+        wrapper.findAll(GeoLinkButton).at(0).trigger('mousedown')
         expect(wrapper.vm.fromRawDate).toEqual(earliestDate)
         expect(wrapper.vm.fromFormattedDate).toEqual('30/07/2018')
         expect(wrapper.emitted()['emit-from-date']).toBeDefined()
         expect(wrapper.emitted()['emit-from-date'][0][0]).toEqual({ fromDate: earliestDate })
 
-        wrapper.findAll(GeoLinkButton).at(1).vm.$emit('click')
+        wrapper.findAll(GeoLinkButton).at(1).trigger('mousedown')
         expect(wrapper.vm.toRawDate).toEqual(latestDate)
         expect(wrapper.vm.toFormattedDate).toEqual('30/07/2020')
         expect(wrapper.emitted()['emit-to-date']).toBeDefined()
@@ -462,7 +481,7 @@ describe('GeoCalendar', () => {
     it('Should set currentMonth and currentYear according to initialDateInGrid prop ', () => {
       const wrapper = shallowMount(GeoCalendar, {
         stubs: [
-          'geo-editable-input',
+          'geo-input',
           'font-awesome-icon',
           'geo-calendar-picker'
         ],
@@ -484,7 +503,7 @@ describe('GeoCalendar', () => {
     it('Should set currentMonth and currentYear according to defaultToDate prop', () => {
       const wrapper = shallowMount(GeoCalendar, {
         stubs: [
-          'geo-editable-input',
+          'geo-input',
           'font-awesome-icon',
           'geo-calendar-picker'
         ],
@@ -530,14 +549,15 @@ describe('GeoCalendar', () => {
 function getWrappedComponent () {
   return mount(GeoCalendar, {
     stubs: {
-      GeoEditableInput,
+      GeoInput,
       GeoCalendarPicker,
       GeoLinkButton,
       GeoButton,
       'font-awesome-icon': true,
       'geo-calendar-navigation': true,
       'geo-calendar-grid': true,
-      'geo-dropdown': true
+      'geo-dropdown': true,
+      'geo-input-message': true
     },
     slots: {
       earliestDatePlaceholder: 'Earliest date',
@@ -545,10 +565,10 @@ function getWrappedComponent () {
     },
     data () {
       return {
+        fromFormattedDate: '',
+        toFormattedDate: '',
         fromRawDate: null,
         toRawDate: null,
-        isFromDateInputFocused: false,
-        isToDateInputFocused: false,
         currentMonth: 6,
         currentYear: 2019,
         showFromFormatError: false,

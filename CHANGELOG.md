@@ -4,11 +4,19 @@ title: Changelog
 
 # Changelog
 
+## 24.2.2
+
+Changed:
+
+- `GeoCalendar` uses now `GeoInputs` for the navigation.
+- Changes on `GeoCalendar` navigations happen on blur and not on input.
+- `GeoCalendar` regex for navigation inputs only accepts numbers from 01 to 31 in days and from 01 to 12 in months.
+
 ## 24.2.1
 
 Changed:
 
-`GeoCalendar` CSS refactor. Partitioned stylesheet in several files and pass `cssModifier` down to child components
+- `GeoCalendar` CSS refactor. Partitioned stylesheet in several files and pass `cssModifier` down to child components
 
 ## 24.2.0
 
