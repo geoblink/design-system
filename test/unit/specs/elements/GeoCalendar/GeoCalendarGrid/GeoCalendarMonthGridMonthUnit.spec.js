@@ -124,7 +124,7 @@ describe('GeoCalendarMonthGridMonthUnit', () => {
           granularityId: GRANULARITY_IDS.month
         }
       })
-      wrapper.find('.geo-calendar-grid__date-picker-unit').trigger('click')
+      wrapper.find('.geo-calendar-grid__date-picker-unit').trigger('mousedown')
       expect(wrapper.emitted()['select-month-unit']).toBeDefined()
       expect(wrapper.emitted()['select-month-unit'][0][0]).toBe(7)
     })

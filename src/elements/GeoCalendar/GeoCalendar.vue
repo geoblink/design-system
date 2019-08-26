@@ -8,25 +8,31 @@
     <div class="geo-calendar__picker-controls">
       <div class="geo-calendar__input-ranges">
         <div>
-          <geo-editable-input
+          <!-- blur event won't be fired if we handle the mousedown event that would trigger it  -->
+          <!-- select-x events from calendar-picker will consume the mousedown event so no blur will be triggered when you click on a datePickerUnit on the grid -->
+          <geo-input
             v-model="fromFormattedDate"
-            v-click-outside="blurFromDateInput"
-            :is-focused="isFromDateInputFocused"
             :placeholder="fromInputPlaceholder"
-            :show-buttons="false"
             css-modifier="geo-calendar"
-            input-type="normal"
-            @click="focusFromDateInput"
+            type="text"
+            :error="showFromFormatError"
+            @focus="focusFromDateInput"
+            @blur="applyFromFormattedDate"
           />
           <!-- @slot Use this slot to customize the message shown when there is an error in one of the selected dates -->
-          <slot
+          <geo-input-message
             v-if="showFromFormatError"
-            name="formatError"
-          />
+            slot="message"
+            variant="error"
+          >
+            <slot name="formatError" />
+          </geo-input-message>
+          <!-- mousedown event is used because it is fired before blur event on GeoInput -->
+          <!-- blur event won't be fired but that's fine because we want this handler to prevail over the blur one -->
           <geo-link-button
             v-if="showSetEarliestDateButton"
             css-modifier="calendar-picker-button"
-            @click="setEarliestDate"
+            @mousedown.native="setEarliestDate"
           >
             <!-- @slot Use this slot to customize the text in the button used to apply your earliest available date in the fromDate input  -->
             <slot
@@ -40,25 +46,31 @@
           fixed-width
         />
         <div>
-          <geo-editable-input
+          <!-- blur event won't be fired if we handle the mousedown event that would trigger it  -->
+          <!-- select-x events from calendar-picker will consume the mousedown event so no blur will be triggered when you click on a datePickerUnit on the grid -->
+          <geo-input
             v-model="toFormattedDate"
-            v-click-outside="blurToDateInput"
-            :is-focused="isToDateInputFocused"
             :placeholder="toInputPlaceholder"
-            :show-buttons="false"
             css-modifier="geo-calendar"
-            input-type="normal"
-            @click="focusToDateInput"
+            type="text"
+            :error="showFromFormatError"
+            @focus="focusToDateInput"
+            @blur="applyToFormattedDate"
           />
           <!-- @slot Use this slot to customize the message shown when there is an error in one of the selected dates -->
-          <slot
+          <geo-input-message
             v-if="showToFormatError"
-            name="formatError"
-          />
+            slot="message"
+            variant="error"
+          >
+            <slot name="formatError" />
+          </geo-input-message>
+          <!-- mousedown event is used because it is fired before blur event on GeoInput -->
+          <!-- blur event won't be fired but that's fine because we want this handler to prevail over the blur one -->
           <geo-link-button
             v-if="showSetLatestDateButton"
             css-modifier="calendar-picker-button"
-            @click="setLatestDate"
+            @mousedown.native="setLatestDate"
           >
             <!-- @slot Use this slot to customize the text in the button used to apply your latest available date in the toDate input  -->
             <slot
@@ -99,7 +111,6 @@
 
 <script>
 import cssSuffix from '../../mixins/cssModifierMixin'
-import ClickOutside from '../../directives/GeoClickOutside'
 import { GRANULARITY_IDS, FOCUSABLE_INPUT_FIELDS, isBefore, isAfter } from './GeoCalendar.utils'
 import {
   endOfMonth,
@@ -122,10 +133,6 @@ export default {
   name: 'GeoCalendar',
   status: 'ready',
   release: '23.2.0',
-  directives: {
-    ClickOutside
-  },
-
   mixins: [
     GeoCalendarPickerDateUnitMixin,
     GeoCalendarGranularityIdMixin,
@@ -135,10 +142,10 @@ export default {
 
   data () {
     return {
+      fromFormattedDate: '',
+      toFormattedDate: '',
       fromRawDate: null,
       toRawDate: null,
-      isFromDateInputFocused: false,
-      isToDateInputFocused: false,
       currentMonth: null,
       currentYear: null,
       showFromFormatError: false,
@@ -150,62 +157,6 @@ export default {
   },
 
   computed: {
-    fromFormattedDate: {
-      get () {
-        return this.fromRawDate ? this.formatDate(this.fromRawDate) : null
-      },
-
-      set (newFromDate) {
-        const parsedDate = this.parseDate(newFromDate)
-        const isInputDateValid = this.isValidDate(parsedDate)
-
-        if (isInputDateValid && this.toRawDate && isBefore(this.toRawDate, parsedDate)) {
-          this.fromFormattedDate = this.toFormattedDate
-          this.toFormattedDate = newFromDate
-          return
-        }
-
-        if (isInputDateValid) {
-          this.showFromFormatError = false
-          this.fromRawDate = parsedDate
-          this.currentMonth = getMonth(this.fromRawDate)
-          this.currentYear = getYear(this.fromRawDate)
-        } else {
-          this.showFromFormatError = newFromDate !== ''
-          this.fromRawDate = null
-        }
-        this.emitFromDate({ fromDate: this.fromRawDate })
-      }
-    },
-
-    toFormattedDate: {
-      get () {
-        return this.toRawDate ? this.formatDate(this.toRawDate) : null
-      },
-
-      set (newToDate) {
-        const parsedDate = this.parseDate(newToDate)
-        const isInputDateValid = this.isValidDate(parsedDate)
-
-        if (isInputDateValid && this.fromRawDate && isAfter(this.fromRawDate, parsedDate)) {
-          this.toFormattedDate = this.fromFormattedDate
-          this.fromFormattedDate = newToDate
-          return
-        }
-
-        if (isInputDateValid) {
-          this.showToFormatError = false
-          this.toRawDate = parsedDate
-          this.currentMonth = getMonth(this.toRawDate)
-          this.currentYear = getYear(this.toRawDate)
-        } else {
-          this.showToFormatError = newToDate !== ''
-          this.toRawDate = null
-        }
-        this.emitToDate({ toDate: this.toRawDate })
-      }
-    },
-
     showSetEarliestDateButton () {
       return this.earliestDate && this.isGranularityWithoutRangeConstraints
     },
@@ -233,8 +184,12 @@ export default {
 
   watch: {
     granularityId () {
+      this.fromFormattedDate = ''
       this.fromRawDate = null
+      this.toFormattedDate = ''
       this.toRawDate = null
+      this.emitFromDate({ fromDate: this.fromRawDate })
+      this.emitToDate({ toDate: this.toRawDate })
     }
   },
 
@@ -247,9 +202,40 @@ export default {
       : getYear(this.initialDateInGrid)
     this.fromRawDate = this.defaultFromDate || null
     this.toRawDate = this.defaultToDate || null
+    this.setFormattedDates()
   },
 
   methods: {
+    applyFromFormattedDate () {
+      const parsedDate = this.parseDate(this.fromFormattedDate)
+      const isInputDateValid = this.isValidDate(parsedDate)
+
+      if (isInputDateValid) {
+        this.fromRawDate = parsedDate
+        this.showFromFormatError = false
+        this.currentMonth = getMonth(this.fromRawDate)
+        this.currentYear = getYear(this.fromRawDate)
+      } else {
+        this.showFromFormatError = this.fromFormattedDate !== ''
+      }
+      this.selectDay(parsedDate)
+    },
+
+    applyToFormattedDate () {
+      const parsedDate = this.parseDate(this.toFormattedDate)
+      const isInputDateValid = this.isValidDate(parsedDate)
+
+      if (isInputDateValid) {
+        this.toRawDate = parsedDate
+        this.showToFormatError = false
+        this.currentMonth = getMonth(this.toRawDate)
+        this.currentYear = getYear(this.toRawDate)
+      } else {
+        this.showToFormatError = this.toFormattedDate !== ''
+      }
+      this.selectDay(parsedDate)
+    },
+
     formatDate (date) {
       return format(date, 'DD/MM/YYYY')
     },
@@ -272,7 +258,7 @@ export default {
       // https://github.com/date-fns/date-fns/issues/942
       // https://github.com/date-fns/date-fns/issues/1064
       if (!date) return null
-      const matches = /(\d{1,2})[^\d](\d{1,2})[^\d](\d{2,4})$/gi.exec(date)
+      const matches = /(0[1-9]|1[0-9]|2[0-9]|3[0-1])[^\d](0[1-9]|1[0-2])[^\d](\d{4})$/gi.exec(date)
       if (!matches) return null
       const [, day, month, year] = matches
       return new Date(parseInt(year), parseInt(month) - 1, parseInt(day))
@@ -311,6 +297,8 @@ export default {
 
       this.fromRawDate = validatedRange.start
       this.toRawDate = validatedRange.end
+
+      this.setFormattedDates()
 
       this.emitFromDate({ fromDate: this.fromRawDate })
       this.emitToDate({ toDate: this.toRawDate })
@@ -358,6 +346,8 @@ export default {
       this.fromRawDate = validatedRange.start
       this.toRawDate = validatedRange.end
 
+      this.setFormattedDates()
+
       this.emitFromDate({ fromDate: this.fromRawDate })
       this.emitToDate({ toDate: this.toRawDate })
 
@@ -369,6 +359,7 @@ export default {
     selectQuarter (monthIndex) {
       this.fromRawDate = startOfQuarter(new Date(this.currentYear, monthIndex))
       this.toRawDate = endOfQuarter(new Date(this.currentYear, monthIndex))
+      this.setFormattedDates()
       this.emitFromDate({ fromDate: this.fromRawDate })
       this.emitToDate({ toDate: this.toRawDate })
     },
@@ -376,6 +367,7 @@ export default {
     selectWeek ({ fromDate, toDate }) {
       this.fromRawDate = fromDate
       this.toRawDate = toDate
+      this.setFormattedDates()
       this.emitFromDate({ fromDate })
       this.emitToDate({ toDate })
     },
@@ -418,6 +410,8 @@ export default {
       this.fromRawDate = validatedRange.start
       this.toRawDate = validatedRange.end
 
+      this.setFormattedDates()
+
       this.emitFromDate({ fromDate: this.fromRawDate })
       this.emitToDate({ toDate: this.toRawDate })
 
@@ -432,6 +426,7 @@ export default {
       this.currentMonth = getMonth(this.earliestDate)
       this.currentYear = getYear(this.earliestDate)
       this.fromRawDate = this.earliestDate
+      this.fromFormattedDate = this.formatDate(this.fromRawDate)
       this.emitFromDate({ fromDate: this.fromRawDate })
     },
 
@@ -445,12 +440,18 @@ export default {
       this.$emit('emit-from-date', { fromDate })
     },
 
+    setFormattedDates () {
+      this.fromFormattedDate = this.fromRawDate ? this.formatDate(this.fromRawDate) : null
+      this.toFormattedDate = this.toRawDate ? this.formatDate(this.toRawDate) : null
+    },
+
     setLatestDate () {
       if (!this.latestDate) return
       this.showToFormatError = false
       this.currentMonth = getMonth(this.latestDate)
       this.currentYear = getYear(this.latestDate)
       this.toRawDate = this.latestDate
+      this.toFormattedDate = this.formatDate(this.toRawDate)
       this.emitToDate({ toDate: this.toRawDate })
     },
 
@@ -464,21 +465,11 @@ export default {
       this.$emit('emit-to-date', { toDate })
     },
 
-    blurFromDateInput () {
-      this.isFromDateInputFocused = false
-    },
-
     focusFromDateInput () {
-      this.isFromDateInputFocused = true
       this.lastInputFieldExplicitlyFocused = FOCUSABLE_INPUT_FIELDS.FROM_DATE
     },
 
-    blurToDateInput () {
-      this.isToDateInputFocused = false
-    },
-
     focusToDateInput () {
-      this.isToDateInputFocused = true
       this.lastInputFieldExplicitlyFocused = FOCUSABLE_INPUT_FIELDS.TO_DATE
     }
   }
