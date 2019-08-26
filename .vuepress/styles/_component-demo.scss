@@ -42,7 +42,7 @@
     pre,
     pre[class*="language-"] {
       border-radius: 0;
-      margin: 0 -1px;
+      margin: 0 -1px; // This is to avoid orange border around code editor
     }
   }
 
