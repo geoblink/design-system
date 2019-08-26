@@ -1,0 +1,104 @@
+.u-geo-chart--hidden-axis .geo-chart-axis {
+  display: none;
+}
+
+// This can't be applied directly in the demo
+.geo-chart-bar {
+  fill: $color-blue-light;
+}
+
+.rect-stroke-red-and-text-fill-black {
+  rect {
+    stroke: $color-red;
+  }
+
+  text {
+    fill: $color-black;
+  }
+}
+
+$colors: (0: $color-green,
+  1: $color-green-dark,
+  2: $color-green-darker,
+  3: $color-green-light,
+  4: $color-green-notification,
+  5: $color-blue-dark,
+  6: $color-blue,
+  7: $color-blue-light,
+  8: $color-link,
+  9: $color-red,
+  10: $color-yellow,
+  11: $color-yellow-light,
+  12: $color-red-dark,
+  13: $color-grey-light,
+  14: $color-yellow-darker,
+  15: $color-red-darker);
+
+@for $i from 0 through 15 {
+
+  .geo-chart-color-bar__segment--#{$i},
+  .geo-chart-color-bar__highlighted-segment--#{$i},
+  .geo-chart-pie-slice--#{$i},
+  .geo-chart-line-segments__segment--#{$i},
+  .geo-chart-line-segments__segment-stop--#{$i} {
+    fill: map-get($colors, $i);
+  }
+}
+
+$line-colors: (0: #469990,
+  1: #D8563F,
+  2: #4364D8,
+  3: $color-red,
+  4: $color-yellow-darker,
+);
+
+@for $i from 0 through 4 {
+  .geo-chart-line-group--#{$i} .geo-chart-line-element {
+    stroke: map-get($line-colors, $i);
+    fill: none;
+  }
+
+  .geo-chart-focus-group-element__hover-circle--#{$i} {
+    fill: map-get($line-colors, $i);
+  }
+
+  .geo-chart-focus-group-element__hover-circle--#{$i}:hover {
+    stroke: map-get($line-colors, $i);
+  }
+}
+
+$rankLineColors: (0: $color-blue,
+  1: $color-red,
+  2: $color-green,
+  3: $color-white-darker);
+
+.geo-chart-anchored-shapes__text-element {
+  font-family: $font-family-text;
+  font-size: $font-size-small;
+}
+
+@for $i from 0 through 3 {
+
+  .geo-chart-anchored-shapes-group__shape-text-element--#{$i}>.geo-chart-anchored-shapes__shape-element,
+  .geo-chart-line-segments__segment--#{$i},
+  .geo-chart-line-segments__segment-stop--#{$i} {
+    fill: map-get($rankLineColors, $i);
+  }
+}
+
+.focus-group {
+  display: block;
+
+  &--hidden {
+    display: none;
+  }
+}
+
+.hover-overlay__focus .hover-line {
+  stroke: $color-grey;
+  stroke-width: 2px;
+}
+
+.geo-chart-line-element__hover-circle:hover {
+  fill: $color-white;
+}

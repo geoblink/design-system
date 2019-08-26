@@ -72,7 +72,7 @@ Doing so will throw an invalid config error.
     <div class="element-demo__block element-demo__block--chart-container">
       <geo-chart
         v-if="chartConfig"
-        css-modifier="hidden-axis"
+        class="u-geo-chart--hidden-axis"
         :config="chartConfig"
       />
     </div>
@@ -237,7 +237,7 @@ export default {
     <div class="element-demo__block element-demo__block--chart-container">
       <geo-chart
         v-if="chartConfig"
-        css-modifier="hidden-axis"
+        class="u-geo-chart--hidden-axis"
         :config="chartConfig"
       />
     </div>

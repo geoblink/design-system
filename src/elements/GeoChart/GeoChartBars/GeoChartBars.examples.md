@@ -355,7 +355,7 @@ export default {
           tooltip: {
             content: (d, i) => `${d[this.categoricalAxisConfig.keyForValues]} 2018 :: ${d[this.linearAxisConfig.keyForValues]}`
           },
-          cssClasses: (original) => [...original, 'fill-red']
+          cssClasses: (original) => [...original, 'u-fill--red']
         }, {
           data: this.monthlyTemperatureOf2019,
           mainDimension: CONSTANTS.DIMENSIONS.DIMENSIONS_2D.vertical,
@@ -366,7 +366,7 @@ export default {
           tooltip: {
             content: (d, i) => `${d[this.categoricalAxisConfig.keyForValues]} 2019 :: ${d[this.linearAxisConfig.keyForValues]}`
           },
-          cssClasses: (original) => [...original, 'fill-green']
+          cssClasses: (original) => [...original, 'u-fill--green']
         }],
         guidelinesGroups: [
           { idAxis: this.linearAxisConfig.id }
