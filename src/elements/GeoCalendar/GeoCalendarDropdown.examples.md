@@ -55,7 +55,6 @@ The displayed grid for each granularity will depend on the provided `pickerDateU
     </h3>
     <div class="element-demo__block">
       <geo-calendar-dropdown
-        css-modifier="calendar-demo"
         :input-range-icon="['fas', 'arrow-right']"
         :previous-date-in-selected-granularity-icon="['fas', 'chevron-left']"
         :next-date-in-selected-granularity-icon="['fas', 'chevron-right']"

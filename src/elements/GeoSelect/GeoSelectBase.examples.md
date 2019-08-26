@@ -13,19 +13,21 @@ drop-in replacement for HTML `<select>` tag you might probably want to use
       <geo-select-base
         :opened="isOpened[0]"
         :fixed-width="false"
-        css-modifier="select-demo"
-        @click-outside="closeSelect(0)">
+        @click-outside="closeSelect(0)"
+      >
         <geo-select-toggle-button
           slot="toggleButton"
           :dropdown-icon="['fas', 'chevron-down']"
           :is-empty="!this.currentSelection[0]"
-          @click="toggleSelect(0)">
+          @click="toggleSelect(0)"
+        >
           {{selectLabels[0]}}
         </geo-select-toggle-button>
         <geo-list-item
           v-for="(option, index) in itemsList"
           :key="index"
-          @click="changeCurrentSelection(0, option)">
+          @click="changeCurrentSelection(0, option)"
+        >
           {{option.label}} {{option.label}} {{option.label}} {{option.label}} {{option.label}} {{option.label}} {{option.label}} {{option.label}}
         </geo-list-item>
       </geo-select-base>
@@ -34,25 +36,28 @@ drop-in replacement for HTML `<select>` tag you might probably want to use
     <div class="element-demo__block" style="justify-content: space-around;">
       <geo-select-base
         :opened="isOpened[1]"
-        css-modifier="select-demo"
-        @click-outside="closeSelect(1)">
+        @click-outside="closeSelect(1)"
+      >
         <geo-select-toggle-button
           slot="toggleButton"
           :dropdown-icon="['fas', 'chevron-down']"
           :is-empty="!this.currentSelection[1]"
-          @click="toggleSelect(1)">
+          @click="toggleSelect(1)"
+        >
           {{selectLabels[1]}}
         </geo-select-toggle-button>
         <geo-bordered-box-header-search-form
           slot="header"
           :search-icon="['fas', 'search']"
           v-model="searchPatterns[1]"
-          placeholder="Search..." />
+          placeholder="Search..."
+        />
         <template v-if="filteredItemsList.length">
           <geo-list-item
             v-for="(option, index) in filteredItemsList"
             :key="index"
-            @click="changeCurrentSelection(1, option)">
+            @click="changeCurrentSelection(1, option)"
+          >
             <geo-highlighted-string
               :highlighted-chars="option.matches"
               :reference-string="option.label"
@@ -68,20 +73,22 @@ drop-in replacement for HTML `<select>` tag you might probably want to use
     <div class="element-demo__block" style="justify-content: space-around;">
       <geo-select-base
         :opened="isOpened[2]"
-        css-modifier="select-demo"
-        @click-outside="closeSelect(2)">
+        @click-outside="closeSelect(2)"
+      >
         <geo-select-toggle-button
           slot="toggleButton"
           :dropdown-icon="['fas', 'chevron-down']"
           :is-empty="!this.currentSelection[2]"
-          @click="toggleSelect(2)">
+          @click="toggleSelect(2)"
+        >
           {{selectLabels[2]}}
         </geo-select-toggle-button>
         <geo-bordered-box-header-search-form
           slot="header"
           :search-icon="['fas', 'search']"
           v-model="searchPatterns[2]"
-          placeholder="Search..." />
+          placeholder="Search..."
+        />
         <template v-if="filteredOptGroupsItems.length">
           <geo-list-group
             v-for="(optGroup, index) in filteredOptGroupsItems"
@@ -101,7 +108,8 @@ drop-in replacement for HTML `<select>` tag you might probably want to use
               slot="item"
               v-for="(option, index) in optGroup.items"
               :key="index"
-              @click="changeCurrentSelection(2, option)">
+              @click="changeCurrentSelection(2, option)"
+            >
               <geo-highlighted-string
                 :highlighted-chars="option.matches"
                 :reference-string="option.label"
@@ -119,23 +127,27 @@ drop-in replacement for HTML `<select>` tag you might probably want to use
       <geo-select-base
         :opened="isOpened[3]"
         :has-more-results="hasMoreResultsToLoad"
-        css-modifier="select-demo"
         @click-outside="closeSelect(3)"
-        @load-more-results="loadNextPage($event)">
+        @load-more-results="loadNextPage($event)"
+      >
         <geo-select-toggle-button
           slot="toggleButton"
           :dropdown-icon="['fas', 'chevron-down']"
           :is-empty="!this.currentSelection[3]"
-          @click="toggleSelect(3)">
+          @click="toggleSelect(3)"
+        >
           {{selectLabels[3]}}
         </geo-select-toggle-button>
         <geo-list-item
           v-for="(option, index) in chunkedLongList"
           :key="index"
-          @click="changeCurrentSelection(3, option)">
+          @click="changeCurrentSelection(3, option)"
+        >
           {{option.label}}
         </geo-list-item>
-        <template slot="moreResultsTextContent">Load more results</template>
+        <template slot="moreResultsTextContent">
+          Load more results
+        </template>
       </geo-select-base>
     </div>
   </div>

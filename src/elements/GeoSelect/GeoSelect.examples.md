@@ -10,7 +10,6 @@ a better UX including chunked load and search capabilities.
         :options="itemsList"
         :dropdown-icon="['fas', 'chevron-down']"
         :search-icon="['fas', 'search']"
-        css-modifier="select-demo"
         placeholder="Choose an option"
         v-model="currentSelection[0]"
       />
@@ -23,7 +22,6 @@ a better UX including chunked load and search capabilities.
         :search-icon="['fas', 'search']"
         :searchable="true"
         key-for-label="label"
-        css-modifier="select-demo"
         placeholder="Choose an option"
         search-input-placeholder="Search for an option"
         v-model="currentSelection[1]"
@@ -41,7 +39,6 @@ a better UX including chunked load and search capabilities.
         :grouped="true"
         :searchable="true"
         key-for-label="label"
-        css-modifier="select-demo"
         placeholder="Choose an option"
         search-input-placeholder="Search for an option"
       >
@@ -57,7 +54,6 @@ a better UX including chunked load and search capabilities.
         :search-icon="['fas', 'search']"
         :page-size="20"
         key-for-label="label"
-        css-modifier="select-demo"
         placeholder="Choose an option"
       >
         <template slot="moreResultsTextContent">Load more results</template>
@@ -71,7 +67,6 @@ a better UX including chunked load and search capabilities.
         :dropdown-icon="['fas', 'chevron-down']"
         :search-icon="['fas', 'search']"
         key-for-label="label"
-        css-modifier="select-demo"
         placeholder="Choose an option"
       />
     </div>
@@ -84,7 +79,6 @@ a better UX including chunked load and search capabilities.
         :dropdown-icon="['fas', 'chevron-down']"
         :search-icon="['fas', 'search']"
         key-for-label="label"
-        css-modifier="select-demo"
         placeholder="Choose an option"
       />
     </div>
@@ -96,7 +90,6 @@ a better UX including chunked load and search capabilities.
         :dropdown-icon="['fas', 'chevron-down']"
         :search-icon="['fas', 'search']"
         key-for-label="label"
-        css-modifier="select-demo"
         placeholder="Choose an option"
         disabled
       />
@@ -109,7 +102,6 @@ a better UX including chunked load and search capabilities.
         :dropdown-icon="['fas', 'chevron-down']"
         :search-icon="['fas', 'search']"
         key-for-label="label"
-        css-modifier="select-demo"
         placeholder="Choose an option"
       >
         <geo-select-toggle-button
