@@ -42,6 +42,8 @@ const mockedFalIcons = _.mapValues(_.pick(fas, iconsToMock), function (original)
 library.add(fab, fas, far, mockedFalIcons)
 
 export default ({ Vue, router, siteData }) => {
+  router.mode = 'hash' // To fix permalinks in S3
+
   Vue.component('font-awesome-icon', FontAwesomeIcon)
   Vue.use(GeoblinkDesignSystem)
 
