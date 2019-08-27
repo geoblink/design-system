@@ -33,9 +33,9 @@ row or more complex elements (like form inputs) to the trailing edge.
 
       <geo-bordered-box>
         <geo-list-item>
-          Botswana
+          My button
           <template slot="description">
-            Botswana, a landlocked country in Southern Africa, has a landscape defined by the Kalahari Desert and the Okavango Delta.
+            My button description. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.
           </template>
         </geo-list-item>
         <geo-list-item>
@@ -51,7 +51,7 @@ row or more complex elements (like form inputs) to the trailing edge.
             aria-hidden
             fixed-width
           />
-          <template slot="description">Item legend</template>
+          <template slot="description">Item description</template>
         </geo-list-item>
       </geo-bordered-box>
     </div>
