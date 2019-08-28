@@ -19,6 +19,7 @@ yarn-error.log*
 
 # Ignore compiled tokens
 .vuepress/public/tokens/
+src/assets/tokens/
 
 # Ignore webpack stats
 webpack.stats.json
