@@ -1,0 +1,27 @@
+.c-design-tokens-list-all-tokens {
+  @include reset;
+
+  table {
+    display: table;
+    width: 100%;
+  }
+
+  .c-design-tokens-list-all-tokens-token-item-row__value {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+  }
+
+  .c-design-tokens-list-all-tokens-token-item-row__example {
+    border-radius: $border-radius-default;
+    background: $color-white;
+    box-shadow: $box-shadow-small-inset, $box-shadow-small-inset, $box-shadow-small-inset;
+    margin-right: $space-small;
+    width: $space-base;
+    height: $space-base;
+  }
+
+  .c-design-tokens-list-all-tokens-token-item-row__example--color {
+    box-shadow: none;
+  }
+}

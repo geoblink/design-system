@@ -1,0 +1,63 @@
+.u-background--primary {
+  background: $color-blue;
+}
+
+.u-background--info {
+  background: $color-blue-light;
+}
+
+.u-background--success {
+  background: $color-green;
+}
+
+.u-background--error {
+  background: $color-red;
+}
+
+.u-background--warn {
+  background: $color-yellow;
+}
+
+.u-background--progress {
+  background: $color-blue-dark;
+}
+
+.u-background--dark-transparent {
+  background: rgba(0, 0, 0, .8);
+}
+
+.u-color--white {
+  color: $color-white;
+}
+
+.u-color--primary {
+  color: $color-blue;
+}
+
+.u-color--info {
+  color: $color-blue-light;
+}
+
+.u-color--success {
+  color: $color-green;
+}
+
+.u-color--error {
+  color: $color-red;
+}
+
+.u-color--warn {
+  color: $color-yellow;
+}
+
+.u-color--progress {
+  color: $color-blue-dark;
+}
+
+.u-fill--red {
+  fill: $color-red;
+}
+
+.u-fill--green {
+  fill: $color-green;
+}

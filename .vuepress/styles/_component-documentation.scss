@@ -1,0 +1,16 @@
+$odd-row-background: #f6f8fa;
+
+.c-component-documentation {
+  .c-component-documentation__even-row {
+    background: $color-white;
+  }
+
+  .c-component-documentation__odd-row {
+    background: $odd-row-background;
+  }
+
+  table {
+    display: table;
+    width: 100%;
+  }
+}

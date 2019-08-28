@@ -1,0 +1,19 @@
+.c-design-tokens-list-spacing__token {
+  @include font($label-optional);
+
+  align-items: center;
+  background: $color-white-dark;
+  box-shadow: inset 0 2px 5px 0 rgba(0, 0, 0, 0.3);
+  border-radius: $border-radius-default;
+  display: flex;
+  justify-content: center;
+  margin-bottom: $space-base;
+}
+
+.c-design-tokens-list-spacing__name {
+  color: $color-grey-darker;
+}
+
+.c-design-tokens-list-spacing__description--offset {
+  margin-top: 40px;
+}

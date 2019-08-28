@@ -20,7 +20,7 @@ describe('GeoBorderedBoxHeaderSearchForm', () => {
   })
 
   it('Should fail validation if passed an incorrect value', () => {
-    let spy = jest.spyOn(global.console, 'error').mockImplementation(() => { })
+    const spy = jest.spyOn(global.console, 'error').mockImplementation(() => { })
     afterEach(() => spy.mockReset())
 
     const wrapper = mount(GeoBorderedBoxHeaderSearchForm, {

@@ -33,6 +33,11 @@
 <script>
 import mixin, { TYPES, DEPRECATED_TYPES } from './GeoButton.mixin'
 
+/**
+ * Use `GeoButton` to add button-like elements to your app with a single tag,
+ * being able to customize its color scheme to show the user the intention of
+ * the element.
+ */
 export default {
   name: 'GeoButton',
   status: 'ready',

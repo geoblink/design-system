@@ -20,8 +20,8 @@ pipeline {
     timestamps()
     // Only keep the 50 most recent builds
     buildDiscarder(logRotator(numToKeepStr:'50'))
-    // Abort the job if it takes more than 5 minutes
-    timeout(time: 5, unit: 'MINUTES')
+    // Abort the job if it takes more than 10 minutes
+    timeout(time: 10, unit: 'MINUTES')
   }
 
   parameters {
@@ -79,7 +79,6 @@ pipeline {
                 : ''
 
               sh 'yarn --frozen-lockfile'
-              sh 'yarn build:docs'
               sh "node jenkins/publishDocs.js ${params.DOCS_S3_BUCKET} ${versionAlias}"
             }
           }

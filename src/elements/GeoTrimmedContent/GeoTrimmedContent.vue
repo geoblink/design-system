@@ -10,7 +10,7 @@ export default {
   status: 'ready',
   release: '10.1.0',
   directives: { OnResize, Tooltip },
-  mixins: [ cssSuffix ],
+  mixins: [cssSuffix],
   data () {
     return {
       htmlElement: null,

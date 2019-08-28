@@ -133,7 +133,7 @@ function renderSingleGroup (group, singleOptions, globalOptions) {
     textElems.each(function (d, i) {
       const textElem = d3.select(this)
       if (positions[i]) {
-        let y = positions[i]
+        const y = positions[i]
         textElem
           .transition()
           .duration(globalOptions.chart.animationsDurationInMilliseconds)

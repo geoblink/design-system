@@ -113,6 +113,11 @@ const VARIANTS = {
 
 export { VARIANTS }
 
+/**
+ * `GeoActivityIndicator` acts as a loading spinner to give visual feedback to
+ * users on an ongoing request or background task. You can customize the color,
+ * size and completion percentage of the spinner.
+ */
 export default {
   name: 'GeoActivityIndicator',
   status: 'ready',

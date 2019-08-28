@@ -76,8 +76,6 @@ export function flushD3Transitions () {
     stubRequestAnimationFrame.fire()
     d3.timerFlush()
     stubRequestAnimationFrame.fire()
-  } catch (error) {
-    throw error
   } finally {
     sandbox.restore()
     svgElementPrototypeTransformStub.teardown()
