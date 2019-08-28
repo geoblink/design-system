@@ -15,7 +15,7 @@ module.exports = {
   snapshotSerializers: ['<rootDir>/node_modules/jest-serializer-vue'],
   setupFiles: ['<rootDir>/test/unit/setup'],
   coverageDirectory: '<rootDir>/test/unit/coverage',
-  coverageReporters: [ 'json', 'text', 'html' ],
+  coverageReporters: ['json', 'text', 'html'],
   collectCoverageFrom: [
     '<rootDir>/src/util/**/*.{js,vue}',
     '<rootDir>/src/elements/**/*.{js,vue}',

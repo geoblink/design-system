@@ -92,6 +92,8 @@ export default {
 
       const groupedDaysByWeek = _.chunk(displayedDays, DAY_GRID_CONSTANTS.TOTAL_DAYS_IN_WEEK)
 
+      if (!groupedDaysByWeek.length) return groupedDaysByWeek
+
       const remainingDaysForDisplayedGrid = DAY_GRID_CONSTANTS.TOTAL_DAYS_IN_WEEK - _.last(groupedDaysByWeek).length
       const remainingDatesForGrid = remainingDaysForDisplayedGrid > 0
         ? eachDay(addDays(this.endOfMonth, 1), addDays(this.endOfMonth, remainingDaysForDisplayedGrid))

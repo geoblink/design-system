@@ -35,6 +35,7 @@ import GeoCalendarGridMixin from './GeoCalendarGrid.mixin'
 
 export default {
   name: 'GeoCalendarDayGridWeekUnit',
+  internal: true,
   mixins: [GeoCalendarGridMixin, GeoCalendarGranularityIdMixin],
   props: {
     /**

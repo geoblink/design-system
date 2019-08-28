@@ -35,6 +35,7 @@ import { isBefore, isAfter } from '../GeoCalendar.utils'
 
 export default {
   name: 'GeoCalendarMonthGridMonthUnit',
+  internal: true,
   mixins: [
     GeoCalendarGridMixin,
     GeoCalendarGranularityIdMixin,

@@ -33,6 +33,7 @@ import { startOfMonth } from 'date-fns'
 
 export default {
   name: 'GeoCalendarMonthGridQuarterUnit',
+  internal: true,
   mixins: [
     GeoCalendarGridMixin,
     GeoCalendarGranularityIdMixin,

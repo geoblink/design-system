@@ -58,13 +58,15 @@ export default {
   },
   computed: {
     groups () {
-      const self = this
+      if (!this.referenceString) return []
+
       const groups = []
-      const matchedChars = [].concat(self.highlightedChars)
+
+      const matchedChars = [].concat(this.highlightedChars)
 
       let groupEnd
       let isHighlighted
-      for (let i = 0; i < self.referenceString.length;) {
+      for (let i = 0; i < this.referenceString.length;) {
         if (matchedChars[0] === i) {
           matchedChars.shift()
 
@@ -76,13 +78,13 @@ export default {
 
           isHighlighted = true
         } else {
-          groupEnd = matchedChars[0] || self.referenceString.length
+          groupEnd = matchedChars[0] || this.referenceString.length
           isHighlighted = false
         }
 
         groups.push({
           isHighlighted: isHighlighted,
-          substring: self.referenceString.substring(i, groupEnd)
+          substring: this.referenceString.substring(i, groupEnd)
         })
 
         i = groupEnd

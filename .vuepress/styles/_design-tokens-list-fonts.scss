@@ -1,0 +1,74 @@
+@import "../public/tokens/tokens.scss";
+@import "../../src/styles/fontsMaps.scss";
+@import "../../src/styles/mixins.scss";
+
+@each $font-mixin-name, $value in $fontMap {
+  .font-#{$font-mixin-name} {
+    @include font(#{$font-mixin-name});
+  }
+}
+
+/* STYLES
+--------------------------------------------- */
+
+.c-design-tokens-list-fonts__table {
+  position: relative;
+  width: 100%;
+}
+
+.c-design-tokens-list-fonts__table-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 0 0 25px;
+}
+
+.c-design-tokens-list-fonts__table-header-cell {
+  color: $color_grey_light;
+  font-family: $font_family_heading;
+  font-size: 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  width: 10%;
+
+  &--big {
+    width: 35%;
+  }
+}
+
+.c-design-tokens-list-fonts__table-body-row {
+  align-items: center;
+  border-bottom: 1px solid $color_grey;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  padding: 35px 0 20px 25px;
+
+  &--grey-bg {
+    background: #F4F6F8;
+  }
+}
+
+.c-design-tokens-list-fonts__table-body-row-cell {
+  width: 10%;
+
+  &--big {
+    width: 35%;
+  }
+}
+
+.c-design-tokens-list-fonts__table-font-family-header {
+  color: #919EAB;
+  position: absolute;
+  text-transform: uppercase;
+  transform: rotate(90deg);
+
+  &--montserrat {
+    top: 33%;
+    right: -90px;
+  }
+
+  &--lato {
+    top: 78%;
+    right: -45px;
+  }
+}

@@ -57,10 +57,10 @@ export function computeLabelPositionsWithBackPressure (textElemsConfig, generalC
       let j = i
       tentativeChangePositions[j] = generalConfig.minY // position has to be at least minY
       for (j = i - 1; j >= 0; j--) {
-        let currentPosition = positions[j]
-        let backPressurePosition = tentativeChangePositions[j + 1]
-        let backPressureHeightWithMargin = textElemsConfig[j + 1].height + 2 * generalConfig.margin
-        let upperBackPressureY = backPressurePosition + backPressureHeightWithMargin
+        const currentPosition = positions[j]
+        const backPressurePosition = tentativeChangePositions[j + 1]
+        const backPressureHeightWithMargin = textElemsConfig[j + 1].height + 2 * generalConfig.margin
+        const upperBackPressureY = backPressurePosition + backPressureHeightWithMargin
         if (upperBackPressureY < currentPosition) {
           isBackFixed = true
           break
@@ -70,7 +70,7 @@ export function computeLabelPositionsWithBackPressure (textElemsConfig, generalC
       }
       // We moved everything and last one is correct
       if (j === -1 && !isBackFixed) {
-        let firstElementHeightWithMargin = textElemsConfig[0].height + 2 * generalConfig.margin
+        const firstElementHeightWithMargin = textElemsConfig[0].height + 2 * generalConfig.margin
         if (tentativeChangePositions[0] + firstElementHeightWithMargin < initialMaxY) {
           isBackFixed = true
         }
