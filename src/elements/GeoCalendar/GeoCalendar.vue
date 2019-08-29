@@ -198,6 +198,7 @@ export default {
       this.toRawDate = null
       this.emitFromDate({ fromDate: this.fromRawDate })
       this.emitToDate({ toDate: this.toRawDate })
+      this.lastInputFieldExplicitlyFocused = FOCUSABLE_INPUT_FIELDS.FROM_DATE
     }
   },
 
@@ -214,7 +215,7 @@ export default {
   },
 
   methods: {
-    applyFromFormattedDate ($event) {
+    applyFromFormattedDate () {
       if (this.fromFormattedDate === '') {
         this.fromRawDate = null
         this.emitFromDate({ fromDate: this.fromRawDate })
@@ -231,10 +232,10 @@ export default {
       } else {
         this.showFromFormatError = this.fromFormattedDate !== ''
       }
-      this.selectDay({ $event, day: parsedDate })
+      this.selectDay(parsedDate)
     },
 
-    applyToFormattedDate ($event) {
+    applyToFormattedDate () {
       if (this.toFormattedDate === '') {
         this.toRawDate = null
         this.emitToDate({ toDate: this.toRawDate })
@@ -322,10 +323,6 @@ export default {
 
       this.emitFromDate({ fromDate: this.fromRawDate })
       this.emitToDate({ toDate: this.toRawDate })
-
-      if (isSettingFromDate) {
-        this.focusToDateInput()
-      }
     },
 
     selectMonth (monthIndex) {
@@ -372,10 +369,6 @@ export default {
 
       this.emitFromDate({ fromDate: this.fromRawDate })
       this.emitToDate({ toDate: this.toRawDate })
-
-      if (isSettingFromDate) {
-        this.focusToDateInput()
-      }
     },
 
     selectQuarter (monthIndex) {
@@ -438,10 +431,6 @@ export default {
 
       this.emitFromDate({ fromDate: this.fromRawDate })
       this.emitToDate({ toDate: this.toRawDate })
-
-      if (isSettingFromDate) {
-        this.focusToDateInput()
-      }
     },
 
     setEarliestDate () {
