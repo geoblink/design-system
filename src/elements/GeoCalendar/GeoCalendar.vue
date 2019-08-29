@@ -1,11 +1,19 @@
 <template>
   <div :class="`geo-calendar${cssSuffix}`">
-    <div class="geo-calendar__granularity-selectors">
+    <div
+      v-if="$slots.pickerGranularity"
+      class="geo-calendar__granularity-selectors"
+    >
       <!-- @slot Use this slot to customize the sidebar with the different granularities handled by the calendar -->
       <slot name="pickerGranularity" />
       <!-- TODO: CORE-7338 Put aliases in different slot -->
     </div>
-    <div class="geo-calendar__picker-controls">
+    <div
+      :class="{
+        'geo-calendar__picker-controls': true,
+        'geo-calendar__picker-controls--width-100-percent': !$slots.pickerGranularity
+      }"
+    >
       <div class="geo-calendar__input-ranges">
         <div>
           <!-- blur event won't be fired if we handle the mousedown event that would trigger it  -->

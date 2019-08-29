@@ -65,12 +65,17 @@
       box-sizing: content-box;
       padding: $space-base;
       width: 315px;
+
+      &--width-100-percent {
+        width: 100%;
+      }
     }
 
     .geo-calendar__input-ranges {
       align-items: baseline;
       border-bottom: 1px solid $color-grey;
       display: flex;
+      justify-content: space-evenly;
       padding-bottom: $space-base;
     }
 
