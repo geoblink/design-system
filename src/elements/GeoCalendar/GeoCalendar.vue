@@ -214,7 +214,12 @@ export default {
   },
 
   methods: {
-    applyFromFormattedDate () {
+    applyFromFormattedDate ($event) {
+      if (this.fromFormattedDate === '') {
+        this.fromRawDate = null
+        this.emitFromDate({ fromDate: this.fromRawDate })
+        return
+      }
       const parsedDate = this.parseDate(this.fromFormattedDate)
       const isInputDateValid = this.isValidDate(parsedDate)
 
@@ -226,10 +231,15 @@ export default {
       } else {
         this.showFromFormatError = this.fromFormattedDate !== ''
       }
-      this.selectDay(parsedDate)
+      this.selectDay({ $event, day: parsedDate })
     },
 
-    applyToFormattedDate () {
+    applyToFormattedDate ($event) {
+      if (this.toFormattedDate === '') {
+        this.toRawDate = null
+        this.emitToDate({ toDate: this.toRawDate })
+        return
+      }
       const parsedDate = this.parseDate(this.toFormattedDate)
       const isInputDateValid = this.isValidDate(parsedDate)
 
@@ -275,7 +285,9 @@ export default {
     selectDay (day) {
       const hasFromDate = !!this.fromRawDate
       const isDayBeforeFromDate = hasFromDate && isBefore(day, this.fromRawDate)
-      const isSettingFromDate = !hasFromDate || isDayBeforeFromDate || this.lastInputFieldExplicitlyFocused === FOCUSABLE_INPUT_FIELDS.FROM_DATE
+      const isSettingFromDate = this.lastInputFieldExplicitlyFocused === FOCUSABLE_INPUT_FIELDS.TO_DATE
+        ? false
+        : !hasFromDate || isDayBeforeFromDate || this.lastInputFieldExplicitlyFocused === FOCUSABLE_INPUT_FIELDS.FROM_DATE
 
       const unverifiedRangeSettings = {
         whenSettingFromDate: {
@@ -323,7 +335,9 @@ export default {
 
       const hasFromDate = !!this.fromRawDate
       const isMonthBeforeRangeStart = hasFromDate && this.currentMonth < getMonth(this.fromRawDate)
-      const isSettingFromDate = !hasFromDate || isMonthBeforeRangeStart || this.lastInputFieldExplicitlyFocused === FOCUSABLE_INPUT_FIELDS.FROM_DATE
+      const isSettingFromDate = this.lastInputFieldExplicitlyFocused === FOCUSABLE_INPUT_FIELDS.TO_DATE
+        ? false
+        : !hasFromDate || isMonthBeforeRangeStart || this.lastInputFieldExplicitlyFocused === FOCUSABLE_INPUT_FIELDS.FROM_DATE
 
       const unverifiedRangeSettings = {
         whenSettingFromDate: {
@@ -387,7 +401,9 @@ export default {
 
       const hasFromDate = !!this.fromRawDate
       const isYearBeforeRangeStart = hasFromDate && this.currentYear < getYear(this.fromRawDate)
-      const isSettingFromDate = !hasFromDate || isYearBeforeRangeStart || this.lastInputFieldExplicitlyFocused === FOCUSABLE_INPUT_FIELDS.FROM_DATE
+      const isSettingFromDate = this.lastInputFieldExplicitlyFocused === FOCUSABLE_INPUT_FIELDS.TO_DATE
+        ? false
+        : !hasFromDate || isYearBeforeRangeStart || this.lastInputFieldExplicitlyFocused === FOCUSABLE_INPUT_FIELDS.FROM_DATE
 
       const unverifiedRangeSettings = {
         whenSettingFromDate: {
