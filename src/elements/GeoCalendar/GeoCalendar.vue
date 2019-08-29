@@ -23,6 +23,7 @@
             :placeholder="fromInputPlaceholder"
             css-modifier="geo-calendar"
             type="text"
+            :focus="isFromInputFocused"
             :error="showFromFormatError"
             @focus="focusFromDateInput"
             @blur="applyFromFormattedDate"
@@ -61,6 +62,7 @@
             :placeholder="toInputPlaceholder"
             css-modifier="geo-calendar"
             type="text"
+            :focus="isToInputFocused"
             :error="showFromFormatError"
             @focus="focusToDateInput"
             @blur="applyToFormattedDate"
@@ -158,6 +160,8 @@ export default {
       currentYear: null,
       showFromFormatError: false,
       showToFormatError: false,
+      isFromInputFocused: false,
+      isToInputFocused: false,
       currentInitialYearInRange: 0,
       currentEndYearInRange: 0,
       lastInputFieldExplicitlyFocused: null
@@ -216,6 +220,8 @@ export default {
 
   methods: {
     applyFromFormattedDate () {
+      this.isFromInputFocused = false
+
       if (this.fromFormattedDate === '') {
         this.fromRawDate = null
         this.emitFromDate({ fromDate: this.fromRawDate })
@@ -236,6 +242,8 @@ export default {
     },
 
     applyToFormattedDate () {
+      this.isToInputFocused = false
+
       if (this.toFormattedDate === '') {
         this.toRawDate = null
         this.emitToDate({ toDate: this.toRawDate })
@@ -286,7 +294,7 @@ export default {
     selectDay (day) {
       const hasFromDate = !!this.fromRawDate
       const isDayBeforeFromDate = hasFromDate && isBefore(day, this.fromRawDate)
-      const isSettingFromDate = this.lastInputFieldExplicitlyFocused === FOCUSABLE_INPUT_FIELDS.TO_DATE
+      const isSettingFromDate = this.isToInputFocused
         ? false
         : !hasFromDate || isDayBeforeFromDate || this.lastInputFieldExplicitlyFocused === FOCUSABLE_INPUT_FIELDS.FROM_DATE
 
@@ -480,10 +488,12 @@ export default {
 
     focusFromDateInput () {
       this.lastInputFieldExplicitlyFocused = FOCUSABLE_INPUT_FIELDS.FROM_DATE
+      this.isFromInputFocused = true
     },
 
     focusToDateInput () {
       this.lastInputFieldExplicitlyFocused = FOCUSABLE_INPUT_FIELDS.TO_DATE
+      this.isToInputFocused = true
     }
   }
 }
