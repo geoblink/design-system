@@ -43,6 +43,16 @@ describe('GeoListItem', () => {
     expect(wrapper.find('svg[data-prefix="fas"][data-icon="user"]').exists()).toBe(true)
   })
 
+  it('should render description', function () {
+    const wrapper = mount(GeoListItem, {
+      slots: {
+        description: [`<span class="my-demo-description">Description</span>`]
+      }
+    })
+
+    expect(wrapper.find('.my-demo-description').exists()).toBe(true)
+  })
+
   it('should emit click event', function () {
     const clickListener = jest.fn()
     const wrapper = mount(GeoListItem, {

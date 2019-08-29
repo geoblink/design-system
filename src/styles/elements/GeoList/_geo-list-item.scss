@@ -8,26 +8,37 @@
   }
 
   .geo-list-item#{$modifier-name-with-prefix} {
-    align-items: center;
     background: $color-white;
     border-radius: $border-radius-default;
     color: $color-grey-dark;
     cursor: pointer;
     display: flex;
-    flex-direction: row;
-    flex-shrink: 0;
+    flex-direction: column;
     font-family: $font-family-text;
     font-size: $font-size-regular;
     min-height: 30px;
-    justify-content: space-between;
+    justify-content: center;
     line-height: $line-height-base;
     margin: 5px;
     padding: 0 7px 0 5px;
-    white-space: nowrap;
 
     &:hover {
       background: $color-white-dark;
     }
+  }
+
+  .geo-list-item__label-and-accessory-container#{$modifier-name-with-prefix} {
+    display: flex;
+    flex-direction: row;
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+
+  .geo-list-item__description#{$modifier-name-with-prefix} {
+    @include font($body-small);
+
+    color: $color-grey-light;
+    margin-top: $space-x-small;
   }
 
   .geo-list-item__icon-and-label#{$modifier-name-with-prefix} {

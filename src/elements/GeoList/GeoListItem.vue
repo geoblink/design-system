@@ -9,29 +9,38 @@
     ]"
     v-on="listeners"
   >
-    <div :class="`geo-list-item__icon-and-label${$options.helpers.getCSSSuffix(props.cssModifier)}`">
-      <div
-        v-if="props.icon"
-        :class="`geo-list-item__icon-and-label__icon-container${$options.helpers.getCSSSuffix(props.cssModifier)}`"
-      >
-        <font-awesome-icon
-          :icon="props.icon"
-          :class="`geo-list-item__icon-and-label__icon-container__icon${$options.helpers.getCSSSuffix(props.cssModifier)}`"
-          aria-hidden
-          fixed-width
-        />
+    <div :class="`geo-list-item__label-and-accessory-container${$options.helpers.getCSSSuffix(props.cssModifier)}`">
+      <div :class="`geo-list-item__icon-and-label${$options.helpers.getCSSSuffix(props.cssModifier)}`">
+        <div
+          v-if="props.icon"
+          :class="`geo-list-item__icon-and-label__icon-container${$options.helpers.getCSSSuffix(props.cssModifier)}`"
+        >
+          <font-awesome-icon
+            :icon="props.icon"
+            :class="`geo-list-item__icon-and-label__icon-container__icon${$options.helpers.getCSSSuffix(props.cssModifier)}`"
+            aria-hidden
+            fixed-width
+          />
+        </div>
+        <div :class="`geo-list-item__icon-and-label__label${$options.helpers.getCSSSuffix(props.cssModifier)}`">
+          <!-- @slot Use this slot to customize rows's main content -->
+          <slot />
+        </div>
       </div>
-      <div :class="`geo-list-item__icon-and-label__label${$options.helpers.getCSSSuffix(props.cssModifier)}`">
-        <!-- @slot Use this slot to customize rows's main content -->
-        <slot />
+      <div
+        v-if="$slots.trailingAccessoryItem"
+        :class="`geo-list-item__trailing-accessory-items${$options.helpers.getCSSSuffix(props.cssModifier)}`"
+      >
+        <!-- @slot Use this slot to add more items to the trailing edge of this row -->
+        <slot name="trailingAccessoryItem" />
       </div>
     </div>
     <div
-      v-if="$slots.trailingAccessoryItem"
-      :class="`geo-list-item__trailing-accessory-items${$options.helpers.getCSSSuffix(props.cssModifier)}`"
+      v-if="$slots.description"
+      :class="`geo-list-item__description${$options.helpers.getCSSSuffix(props.cssModifier)}`"
     >
-      <!-- @slot Use this slot to add more items to the trailing edge of this row -->
-      <slot name="trailingAccessoryItem" />
+      <!-- @slot Use this slot to add a description for the item -->
+      <slot name="description" />
     </div>
   </div>
 </template>
