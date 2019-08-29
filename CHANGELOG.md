@@ -4,6 +4,12 @@ title: Changelog
 
 # Changelog
 
+## 24.4.0
+
+New:
+
+- `GeoTooltip` component
+
 ## 24.3.0
 
 New:
