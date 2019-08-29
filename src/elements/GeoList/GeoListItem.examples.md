@@ -32,7 +32,12 @@ row or more complex elements (like form inputs) to the trailing edge.
       </geo-list-item>
 
       <geo-bordered-box>
-        <geo-list-item>My button</geo-list-item>
+        <geo-list-item>
+          My button
+          <template slot="description">
+            My button description. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.
+          </template>
+        </geo-list-item>
         <geo-list-item>
           Enable option
           <input slot="trailingAccessoryItem" type="checkbox">
@@ -46,6 +51,7 @@ row or more complex elements (like form inputs) to the trailing edge.
             aria-hidden
             fixed-width
           />
+          <template slot="description">Item description</template>
         </geo-list-item>
       </geo-bordered-box>
     </div>

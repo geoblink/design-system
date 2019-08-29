@@ -4,6 +4,12 @@ title: Changelog
 
 # Changelog
 
+## 24.3.0
+
+New:
+
+- `GeoListItem` new slot `description`.
+
 ## 24.2.2
 
 Changed:
