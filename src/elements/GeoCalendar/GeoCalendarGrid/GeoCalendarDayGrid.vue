@@ -22,6 +22,7 @@
         :selected-to-day="selectedToDay"
         :week="week"
         :week-index="weekIndex"
+        @highlight-input="highlightInput($event)"
         @select-day="selectDay($event)"
         @select-week="selectWeek($event)"
       />
@@ -136,6 +137,10 @@ export default {
        * @type {{ fromDate: Date, toDate: Date }}
        */
       this.$emit('select-week', $event)
+    },
+
+    highlightInput (day) {
+      this.$emit('highlight-input', day)
     }
   }
 }

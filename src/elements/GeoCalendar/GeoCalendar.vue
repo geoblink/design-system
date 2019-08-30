@@ -118,6 +118,7 @@
         @select-quarter="selectQuarter($event)"
         @select-week="selectWeek($event)"
         @select-year="selectYear($event)"
+        @highlight-input="highlightInput($event)"
       />
     </div>
   </div>
@@ -526,6 +527,25 @@ export default {
           start: this.fromRawDate,
           end: lastDay
         }
+      }
+    },
+
+    highlightInput (day) {
+      this.lastInputFieldExplicitlyFocused = null
+      const hasFromDate = !!this.fromRawDate
+      const isDayBeforeFromDate = hasFromDate && isBefore(day, this.fromRawDate)
+      const distanceToFromDate = Math.abs(differenceInDays(day, this.fromRawDate))
+      const distanceToToDate = Math.abs(differenceInDays(day, this.toRawDate))
+
+      const isSettingFromDate = !hasFromDate ||
+        isDayBeforeFromDate ||
+        this.lastInputFieldExplicitlyFocused === FOCUSABLE_INPUT_FIELDS.FROM_DATE ||
+        distanceToFromDate < distanceToToDate
+
+      if (isSettingFromDate) {
+        this.lastInputFieldExplicitlyFocused = FOCUSABLE_INPUT_FIELDS.FROM_DATE
+      } else {
+        this.lastInputFieldExplicitlyFocused = FOCUSABLE_INPUT_FIELDS.TO_DATE
       }
     }
   }

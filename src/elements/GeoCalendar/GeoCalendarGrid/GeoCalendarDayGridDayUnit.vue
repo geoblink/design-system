@@ -15,6 +15,7 @@
       'geo-calendar-grid__date-picker-unit--within-range': isDayWithinRanges
     }"
     @mousedown.prevent="selectDay($event)"
+    @mouseover="highlightPotentialDateInput($event)"
   >
     <div class="geo-calendar-grid__date-picker-unit__placeholder">
       {{ dayNumber }}
@@ -115,6 +116,10 @@ export default {
        * @type {Date}
        */
       this.$emit('select-day-unit', this.day)
+    },
+
+    highlightPotentialDateInput () {
+      this.$emit('highlight-input', this.day)
     }
   }
 }

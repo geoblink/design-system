@@ -12,6 +12,7 @@
     :selected-to-day="selectedToDay"
     @select-day="selectDay($event)"
     @select-week="selectWeek($event)"
+    @highlight-input="highlightInput($event)"
   />
   <geo-calendar-month-grid
     v-else-if="isMonthGrid"
@@ -143,6 +144,10 @@ export default {
        * @type {Number}
        */
       this.$emit('select-year', year)
+    },
+
+    highlightInput (day) {
+      this.$emit('highlight-input', day)
     }
   }
 }

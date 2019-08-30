@@ -16,6 +16,7 @@
       :selected-from-day="selectedFromDay"
       :selected-to-day="selectedToDay"
       @select-day-unit="selectDay($event)"
+      @highlight-input="highlightInput($event)"
     />
   </div>
 </template>
@@ -120,6 +121,10 @@ export default {
           toDate: startOfDay(endOfWeek(day, { weekStartsOn: 1 }))
         })
       }
+    },
+
+    highlightInput (day) {
+      this.$emit('highlight-input', day)
     }
   }
 }

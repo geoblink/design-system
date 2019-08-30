@@ -39,6 +39,7 @@
       @select-month="selectMonth"
       @select-quarter="selectQuarter($event)"
       @select-year="selectYear($event)"
+      @highlight-input="highlightInput($event)"
     />
   </div>
 </template>
@@ -297,6 +298,10 @@ export default {
        * @type {Number}
        */
       this.$emit('select-year', year)
+    },
+
+    highlightInput (day) {
+      this.$emit('highlight-input', day)
     }
   }
 }
