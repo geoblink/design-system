@@ -304,16 +304,7 @@ export default {
           this.lastInputFieldExplicitlyFocused === FOCUSABLE_INPUT_FIELDS.FROM_DATE ||
           distanceToFromDate < distanceToToDate
 
-      const unverifiedRangeSettings = {
-        whenSettingFromDate: {
-          start: day,
-          end: this.toRawDate
-        },
-        whenSettingToDate: {
-          start: this.fromRawDate,
-          end: day
-        }
-      }
+      const unverifiedRangeSettings = this.getUnverifiedRangeSettings(day, day)
 
       const unverifiedRange = isSettingFromDate
         ? unverifiedRangeSettings.whenSettingFromDate
@@ -362,16 +353,7 @@ export default {
           this.lastInputFieldExplicitlyFocused === FOCUSABLE_INPUT_FIELDS.FROM_DATE ||
           distanceToFromDate < distanceToToDate
 
-      const unverifiedRangeSettings = {
-        whenSettingFromDate: {
-          start: firstDayOfMonth,
-          end: this.toRawDate
-        },
-        whenSettingToDate: {
-          start: this.fromRawDate,
-          end: lastDayOfMonth
-        }
-      }
+      const unverifiedRangeSettings = this.getUnverifiedRangeSettings(firstDayOfMonth, lastDayOfMonth)
 
       const unverifiedRange = isSettingFromDate
         ? unverifiedRangeSettings.whenSettingFromDate
@@ -437,16 +419,7 @@ export default {
           this.lastInputFieldExplicitlyFocused === FOCUSABLE_INPUT_FIELDS.FROM_DATE ||
           distanceToFromDate < distanceToToDate
 
-      const unverifiedRangeSettings = {
-        whenSettingFromDate: {
-          start: firstDayOfYear,
-          end: this.toRawDate
-        },
-        whenSettingToDate: {
-          start: this.fromRawDate,
-          end: lastDayOfYear
-        }
-      }
+      const unverifiedRangeSettings = this.getUnverifiedRangeSettings(firstDayOfYear, lastDayOfYear)
 
       const unverifiedRange = isSettingFromDate
         ? unverifiedRangeSettings.whenSettingFromDate
@@ -541,6 +514,19 @@ export default {
 
     focusToDateInput () {
       this.lastInputFieldExplicitlyFocused = FOCUSABLE_INPUT_FIELDS.TO_DATE
+    },
+
+    getUnverifiedRangeSettings (firstDay, lastDay) {
+      return {
+        whenSettingFromDate: {
+          start: firstDay,
+          end: this.toRawDate
+        },
+        whenSettingToDate: {
+          start: this.fromRawDate,
+          end: lastDay
+        }
+      }
     }
   }
 }
