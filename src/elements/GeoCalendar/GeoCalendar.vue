@@ -19,7 +19,7 @@
           <!-- blur event won't be fired if we handle the mousedown event that would trigger it  -->
           <!-- select-x events from calendar-picker will consume the mousedown event so no blur will be triggered when you click on a datePickerUnit on the grid -->
           <geo-input
-            v-model="fromFormattedDate"
+            :value="fromFormattedDate"
             :placeholder="fromInputPlaceholder"
             css-modifier="geo-calendar"
             type="text"
@@ -36,12 +36,10 @@
           >
             <slot name="formatError" />
           </geo-input-message>
-          <!-- mousedown event is used because it is fired before blur event on GeoInput -->
-          <!-- blur event won't be fired but that's fine because we want this handler to prevail over the blur one -->
           <geo-link-button
             v-if="showSetEarliestDateButton"
             css-modifier="calendar-picker-button"
-            @mousedown.native="setEarliestDate"
+            @click="setEarliestDate"
           >
             <!-- @slot Use this slot to customize the text in the button used to apply your earliest available date in the fromDate input  -->
             <slot
@@ -55,15 +53,13 @@
           fixed-width
         />
         <div>
-          <!-- blur event won't be fired if we handle the mousedown event that would trigger it  -->
-          <!-- select-x events from calendar-picker will consume the mousedown event so no blur will be triggered when you click on a datePickerUnit on the grid -->
           <geo-input
-            v-model="toFormattedDate"
+            :value="toFormattedDate"
             :placeholder="toInputPlaceholder"
             css-modifier="geo-calendar"
             type="text"
             :focus="isToInputFocused"
-            :error="showFromFormatError"
+            :error="showToFormatError"
             @focus="focusToDateInput"
             @blur="applyToFormattedDate"
           />
@@ -75,12 +71,10 @@
           >
             <slot name="formatError" />
           </geo-input-message>
-          <!-- mousedown event is used because it is fired before blur event on GeoInput -->
-          <!-- blur event won't be fired but that's fine because we want this handler to prevail over the blur one -->
           <geo-link-button
             v-if="showSetLatestDateButton"
             css-modifier="calendar-picker-button"
-            @mousedown.native="setLatestDate"
+            @click="setLatestDate"
           >
             <!-- @slot Use this slot to customize the text in the button used to apply your latest available date in the toDate input  -->
             <slot
@@ -222,7 +216,7 @@ export default {
     applyFromFormattedDate () {
       this.isFromInputFocused = false
 
-      if (this.fromFormattedDate === '') {
+      if (!this.fromFormattedDate) {
         this.fromRawDate = null
         this.emitFromDate({ fromDate: this.fromRawDate })
         return
@@ -244,7 +238,7 @@ export default {
     applyToFormattedDate () {
       this.isToInputFocused = false
 
-      if (this.toFormattedDate === '') {
+      if (!this.toFormattedDate) {
         this.toRawDate = null
         this.emitToDate({ toDate: this.toRawDate })
         return
@@ -294,7 +288,7 @@ export default {
     selectDay (day) {
       const hasFromDate = !!this.fromRawDate
       const isDayBeforeFromDate = hasFromDate && isBefore(day, this.fromRawDate)
-      const isSettingFromDate = this.isToInputFocused
+      const isSettingFromDate = this.lastInputFieldExplicitlyFocused === FOCUSABLE_INPUT_FIELDS.TO_DATE
         ? false
         : !hasFromDate || isDayBeforeFromDate || this.lastInputFieldExplicitlyFocused === FOCUSABLE_INPUT_FIELDS.FROM_DATE
 
@@ -331,6 +325,7 @@ export default {
 
       this.emitFromDate({ fromDate: this.fromRawDate })
       this.emitToDate({ toDate: this.toRawDate })
+      this.lastInputFieldExplicitlyFocused = null
     },
 
     selectMonth (monthIndex) {

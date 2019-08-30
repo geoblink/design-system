@@ -462,13 +462,13 @@ describe('GeoCalendar', () => {
           earliestDate: earliestDate,
           latestDate: latestDate
         })
-        wrapper.findAll(GeoLinkButton).at(0).trigger('mousedown')
+        wrapper.findAll(GeoLinkButton).at(0).trigger('click')
         expect(wrapper.vm.fromRawDate).toEqual(earliestDate)
         expect(wrapper.vm.fromFormattedDate).toEqual('30/07/2018')
         expect(wrapper.emitted()['emit-from-date']).toBeDefined()
         expect(wrapper.emitted()['emit-from-date'][0][0]).toEqual({ fromDate: earliestDate })
 
-        wrapper.findAll(GeoLinkButton).at(1).trigger('mousedown')
+        wrapper.findAll(GeoLinkButton).at(1).trigger('click')
         expect(wrapper.vm.toRawDate).toEqual(latestDate)
         expect(wrapper.vm.toFormattedDate).toEqual('30/07/2020')
         expect(wrapper.emitted()['emit-to-date']).toBeDefined()

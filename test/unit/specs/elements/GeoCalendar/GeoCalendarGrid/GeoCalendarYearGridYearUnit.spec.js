@@ -98,7 +98,7 @@ describe('GeoCalendarYearGridYearUnit', () => {
         latestDate: addYears(today, 2)
       })
 
-      wrapper.find('.geo-calendar-grid__date-picker-unit').trigger('mousedown')
+      wrapper.find('.geo-calendar-grid__date-picker-unit').trigger('click')
       expect(wrapper.emitted()['select-year-unit']).toBeUndefined()
     })
 
@@ -107,7 +107,7 @@ describe('GeoCalendarYearGridYearUnit', () => {
         earliestDate: subYears(today, 1)
       })
 
-      wrapper.find('.geo-calendar-grid__date-picker-unit').trigger('mousedown')
+      wrapper.find('.geo-calendar-grid__date-picker-unit').trigger('click')
       expect(wrapper.emitted()['select-year-unit']).toBeDefined()
       expect(wrapper.emitted()['select-year-unit'][0][0]).toBe(currentYear)
     })
