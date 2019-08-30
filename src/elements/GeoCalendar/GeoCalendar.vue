@@ -16,6 +16,8 @@
     >
       <div class="geo-calendar__input-ranges">
         <div>
+          <!-- blur event won't be fired if we handle the mousedown event that would trigger it  -->
+          <!-- select-x events from calendar-picker will consume the mousedown event so no blur will be triggered when you click on a datePickerUnit on the grid -->
           <geo-input
             :value="fromFormattedDate"
             :placeholder="fromInputPlaceholder"
@@ -25,6 +27,7 @@
             :error="showFromFormatError"
             @focus="focusFromDateInput"
             @blur="applyFromFormattedDate"
+            @delete-value="deleteFromFormattedDate"
           />
           <!-- @slot Use this slot to customize the message shown when there is an error in one of the selected dates -->
           <geo-input-message
@@ -34,10 +37,13 @@
           >
             <slot name="formatError" />
           </geo-input-message>
+          <!-- mousedown event is used because it is fired before blur event on GeoInput -->
+          <!-- blur event won't be fired but that's fine because we want this handler to prevail over the blur one -->
+          <!-- https://forum.vuejs.org/t/blur-before-click-only-on-safari/21598/7 -->
           <geo-link-button
             v-if="showSetEarliestDateButton"
             css-modifier="calendar-picker-button"
-            @click="setEarliestDate"
+            @mousedown.prevent="setEarliestDate"
           >
             <!-- @slot Use this slot to customize the text in the button used to apply your earliest available date in the fromDate input  -->
             <slot
@@ -51,6 +57,8 @@
           fixed-width
         />
         <div>
+          <!-- blur event won't be fired if we handle the mousedown event that would trigger it  -->
+          <!-- select-x events from calendar-picker will consume the mousedown event so no blur will be triggered when you click on a datePickerUnit on the grid -->
           <geo-input
             :value="toFormattedDate"
             :placeholder="toInputPlaceholder"
@@ -60,6 +68,7 @@
             :error="showToFormatError"
             @focus="focusToDateInput"
             @blur="applyToFormattedDate($event)"
+            @delete-value="deleteToFormattedDate"
           />
           <!-- @slot Use this slot to customize the message shown when there is an error in one of the selected dates -->
           <geo-input-message
@@ -69,10 +78,13 @@
           >
             <slot name="formatError" />
           </geo-input-message>
+          <!-- mousedown event is used because it is fired before blur event on GeoInput -->
+          <!-- blur event won't be fired but that's fine because we want this handler to prevail over the blur one -->
+          <!-- https://forum.vuejs.org/t/blur-before-click-only-on-safari/21598/7 -->
           <geo-link-button
             v-if="showSetLatestDateButton"
             css-modifier="calendar-picker-button"
-            @click="setLatestDate"
+            @mousedown.prevent="setLatestDate"
           >
             <!-- @slot Use this slot to customize the text in the button used to apply your latest available date in the toDate input  -->
             <slot
@@ -188,12 +200,8 @@ export default {
 
   watch: {
     granularityId () {
-      this.fromFormattedDate = ''
-      this.fromRawDate = null
-      this.toFormattedDate = ''
-      this.toRawDate = null
-      this.emitFromDate({ fromDate: this.fromRawDate })
-      this.emitToDate({ toDate: this.toRawDate })
+      this.deleteFromFormattedDate()
+      this.deleteToFormattedDate()
       this.lastInputFieldExplicitlyFocused = FOCUSABLE_INPUT_FIELDS.FROM_DATE
     }
   },
@@ -284,7 +292,6 @@ export default {
     },
 
     selectDay (day) {
-      console.log(day)
       const hasFromDate = !!this.fromRawDate
       const isDayBeforeFromDate = hasFromDate && isBefore(day, this.fromRawDate)
       const isSettingFromDate = this.lastInputFieldExplicitlyFocused === FOCUSABLE_INPUT_FIELDS.TO_DATE
@@ -324,7 +331,6 @@ export default {
 
       this.emitFromDate({ fromDate: this.fromRawDate })
       this.emitToDate({ toDate: this.toRawDate })
-      this.lastInputFieldExplicitlyFocused = null
     },
 
     selectMonth (monthIndex) {
@@ -458,6 +464,20 @@ export default {
     setFormattedDates () {
       this.fromFormattedDate = this.fromRawDate ? this.formatDate(this.fromRawDate) : null
       this.toFormattedDate = this.toRawDate ? this.formatDate(this.toRawDate) : null
+    },
+
+    deleteFromFormattedDate () {
+      this.fromFormattedDate = ''
+      this.isFromInputFocused = false
+      this.fromRawDate = null
+      this.emitFromDate({ fromDate: this.fromRawDate })
+    },
+
+    deleteToFormattedDate () {
+      this.toFormattedDate = ''
+      this.isToInputFocused = false
+      this.toRawDate = null
+      this.emitToDate({ toDate: this.toRawDate })
     },
 
     setLatestDate () {

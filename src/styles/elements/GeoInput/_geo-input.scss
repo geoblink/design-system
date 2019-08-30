@@ -17,6 +17,10 @@
       width: 100%;
     }
 
+    .geo-input__input-wrapper:hover .geo-input__icon--delete {
+      display: inline;
+    }
+
     .geo-input__input {
       @include font($body);
 
@@ -47,9 +51,15 @@
       color: $color-grey-light;
       position: absolute;
       right: $space-small;
+
+      &--delete {
+        color: $color-red;
+        cursor: pointer;
+        display: none;
+      }
     }
   }
-  
+
   .geo-input--success#{$modifier-name-with-prefix} {
     .geo-input__input {
       &, &:focus {
@@ -71,7 +81,7 @@
   .geo-input--disabled#{$modifier-name-with-prefix} {
     .geo-input__input {
       padding-right: $space-large;
-      
+
       &, &:focus {
         background-color: $color-white-dark;
         color: $color-grey-light;

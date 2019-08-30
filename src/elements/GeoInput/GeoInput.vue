@@ -19,6 +19,12 @@
         @input="onInput($event)"
       >
       <font-awesome-icon
+        :icon="deleteInputValueIcon"
+        fixed-with
+        class="geo-input__icon geo-input__icon--delete"
+        @click="deleteValue"
+      />
+      <font-awesome-icon
         v-if="disabled"
         :icon="disabledIcon"
         fixed-with
@@ -87,6 +93,13 @@ export default {
       default () {
         return ['fal', 'lock-alt']
       }
+    },
+
+    deleteInputValueIcon: {
+      type: Array,
+      default () {
+        return ['fas', 'times-circle']
+      }
     }
   },
   computed: {
@@ -111,6 +124,15 @@ export default {
        * @type {KeyboardEvent}
        */
       this.$emit('input', $event.target.value)
+    },
+
+    deleteValue () {
+      /**
+       * User typed on the input box.
+       *
+       * @event delete-value
+       */
+      this.$emit('delete-value')
     }
   }
 }
