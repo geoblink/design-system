@@ -110,7 +110,6 @@ export default {
        * @event input
        * @type {KeyboardEvent}
        */
-      debugger
       this.$emit('input', $event.target.value)
     }
   }

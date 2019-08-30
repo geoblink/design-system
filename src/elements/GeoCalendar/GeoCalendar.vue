@@ -16,8 +16,6 @@
     >
       <div class="geo-calendar__input-ranges">
         <div>
-          <!-- blur event won't be fired if we handle the mousedown event that would trigger it  -->
-          <!-- select-x events from calendar-picker will consume the mousedown event so no blur will be triggered when you click on a datePickerUnit on the grid -->
           <geo-input
             :value="fromFormattedDate"
             :placeholder="fromInputPlaceholder"
@@ -61,7 +59,7 @@
             :focus="isToInputFocused"
             :error="showToFormatError"
             @focus="focusToDateInput"
-            @blur="applyToFormattedDate"
+            @blur="applyToFormattedDate($event)"
           />
           <!-- @slot Use this slot to customize the message shown when there is an error in one of the selected dates -->
           <geo-input-message
@@ -286,6 +284,7 @@ export default {
     },
 
     selectDay (day) {
+      console.log(day)
       const hasFromDate = !!this.fromRawDate
       const isDayBeforeFromDate = hasFromDate && isBefore(day, this.fromRawDate)
       const isSettingFromDate = this.lastInputFieldExplicitlyFocused === FOCUSABLE_INPUT_FIELDS.TO_DATE
