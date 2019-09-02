@@ -27,7 +27,7 @@
     "theo:watch": "onchange './src/tokens/*.yml' -- run-s theo:build",
     "test": "run-s theo:build:system test:unit",
     "test:unit": "jest --config ./test/unit/jest.conf.js --coverage",
-    "test:watch": "run-s theo:watch test:unit:watch",
+    "test:watch": "run-p theo:watch test:unit:watch",
     "test:unit:watch": "jest --config ./test/unit/jest.conf.js --watch",
     "prepublishOnly": "run-s lint test build",
     "new:component": "hygen new component"
