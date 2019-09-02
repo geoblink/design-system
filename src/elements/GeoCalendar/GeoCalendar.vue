@@ -19,7 +19,7 @@
           <!-- blur event won't be fired if we handle the mousedown event that would trigger it  -->
           <!-- select-x events from calendar-picker will consume the mousedown event so no blur will be triggered when you click on a datePickerUnit on the grid -->
           <geo-input
-            :value="fromFormattedDate"
+            v-model="fromFormattedDate"
             :placeholder="fromInputPlaceholder"
             css-modifier="geo-calendar"
             type="text"
@@ -43,7 +43,7 @@
           <geo-link-button
             v-if="showSetEarliestDateButton"
             css-modifier="calendar-picker-button"
-            @mousedown.prevent="setEarliestDate"
+            @click="setEarliestDate"
           >
             <!-- @slot Use this slot to customize the text in the button used to apply your earliest available date in the fromDate input  -->
             <slot
@@ -60,7 +60,7 @@
           <!-- blur event won't be fired if we handle the mousedown event that would trigger it  -->
           <!-- select-x events from calendar-picker will consume the mousedown event so no blur will be triggered when you click on a datePickerUnit on the grid -->
           <geo-input
-            :value="toFormattedDate"
+            v-model="toFormattedDate"
             :placeholder="toInputPlaceholder"
             css-modifier="geo-calendar"
             type="text"
@@ -84,7 +84,7 @@
           <geo-link-button
             v-if="showSetLatestDateButton"
             css-modifier="calendar-picker-button"
-            @mousedown.prevent="setLatestDate"
+            @click="setLatestDate"
           >
             <!-- @slot Use this slot to customize the text in the button used to apply your latest available date in the toDate input  -->
             <slot
@@ -230,6 +230,7 @@ export default {
     applyFromFormattedDate () {
       if (!this.fromFormattedDate) {
         this.fromRawDate = null
+        this.showFromFormatError = false
         this.emitFromDate({ fromDate: this.fromRawDate })
         return
       }
@@ -250,6 +251,7 @@ export default {
     applyToFormattedDate () {
       if (!this.toFormattedDate) {
         this.toRawDate = null
+        this.showToFormatError = false
         this.emitToDate({ toDate: this.toRawDate })
         return
       }
@@ -299,7 +301,7 @@ export default {
       const hasFromDate = !!this.fromRawDate
       const isDayBeforeFromDate = hasFromDate && isBefore(day, this.fromRawDate)
       const distanceToFromDate = Math.abs(differenceInDays(day, this.fromRawDate))
-      const distanceToToDate = Math.abs(differenceInDays(day, this.toRawDate))
+      const distanceToToDate = this.toRawDate ? Math.abs(differenceInDays(day, this.toRawDate)) : 0
 
       const isSettingFromDate = this.lastInputFieldExplicitlyFocused === this.FOCUSABLE_INPUT_FIELDS.TO_DATE
         ? false
@@ -349,7 +351,7 @@ export default {
       const isMonthBeforeRangeStart = hasFromDate && this.currentMonth < getMonth(this.fromRawDate)
 
       const distanceToFromDate = Math.abs(differenceInMonths(firstDayOfMonth, this.fromRawDate))
-      const distanceToToDate = Math.abs(differenceInMonths(firstDayOfMonth, this.toRawDate))
+      const distanceToToDate = this.toRawDate ? Math.abs(differenceInMonths(firstDayOfMonth, this.toRawDate)) : 0
 
       const isSettingFromDate = this.lastInputFieldExplicitlyFocused === this.FOCUSABLE_INPUT_FIELDS.TO_DATE
         ? false
@@ -416,7 +418,7 @@ export default {
       const isYearBeforeRangeStart = hasFromDate && this.currentYear < getYear(this.fromRawDate)
 
       const distanceToFromDate = Math.abs(differenceInMonths(firstDayOfYear, this.fromRawDate))
-      const distanceToToDate = Math.abs(differenceInMonths(firstDayOfYear, this.toRawDate))
+      const distanceToToDate = this.toRawDate ? Math.abs(differenceInMonths(firstDayOfYear, this.toRawDate)) : 0
 
       const isSettingFromDate = this.lastInputFieldExplicitlyFocused === this.FOCUSABLE_INPUT_FIELDS.TO_DATE
         ? false
@@ -486,12 +488,14 @@ export default {
     deleteFromFormattedDate () {
       this.fromFormattedDate = ''
       this.fromRawDate = null
+      this.showFromFormatError = false
       this.emitFromDate({ fromDate: this.fromRawDate })
     },
 
     deleteToFormattedDate () {
       this.toFormattedDate = ''
       this.toRawDate = null
+      this.showToFormatError = false
       this.emitToDate({ toDate: this.toRawDate })
     },
 

@@ -37,7 +37,7 @@ describe('GeoCalendarDayGridDayUnit', () => {
         day: today
       }
     })
-    wrapper.find('.geo-calendar-grid__date-picker-unit').trigger('click')
+    wrapper.find('.geo-calendar-grid__date-picker-unit').trigger('mousedown')
     expect(wrapper.emitted()['select-day-unit'][0][0]).toBe(today)
   })
 
