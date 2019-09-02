@@ -46,7 +46,7 @@ const ALIGNMENTS = {
 export default {
   name: 'GeoTooltip',
   status: 'ready',
-  release: '24.3.0',
+  release: '24.4.0',
   mixins: [cssSuffix],
   constants: {
     POSITIONS,
