@@ -13,6 +13,7 @@
       'geo-calendar-grid__date-picker-unit--to-date': isDayWithinToMonth
     }"
     @mousedown.prevent="selectMonth($event)"
+    @mouseover="emitMonthUnitMouseover($event)"
   >
     <div class="geo-calendar-grid__date-picker-unit__placeholder">
       {{ monthName }}
@@ -115,6 +116,16 @@ export default {
        * @type {Number}
        */
       this.$emit('select-month-unit', this.monthIndex)
+    },
+
+    emitMonthUnitMouseover () {
+      /**
+       * User hovers on a potential selected month
+       *
+       * @event month-unit-mouseover
+       * @type {Number}
+       */
+      this.$emit('month-unit-mouseover', this.monthIndex)
     }
   }
 }

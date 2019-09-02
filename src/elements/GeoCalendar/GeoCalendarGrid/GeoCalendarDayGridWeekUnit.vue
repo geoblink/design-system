@@ -16,7 +16,7 @@
       :selected-from-day="selectedFromDay"
       :selected-to-day="selectedToDay"
       @select-day-unit="selectDay($event)"
-      @highlight-input="highlightInput($event)"
+      @day-unit-mouseover="emitDayUnitMouseover($event)"
     />
   </div>
 </template>
@@ -123,8 +123,14 @@ export default {
       }
     },
 
-    highlightInput (day) {
-      this.$emit('highlight-input', day)
+    emitDayUnitMouseover (day) {
+      /**
+       * User hovers on a potential selected date
+       *
+       * @event day-unit-mouseover
+       * @type {Date}
+       */
+      this.$emit('day-unit-mouseover', day)
     }
   }
 }

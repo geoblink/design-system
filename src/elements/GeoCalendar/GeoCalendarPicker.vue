@@ -39,7 +39,9 @@
       @select-month="selectMonth"
       @select-quarter="selectQuarter($event)"
       @select-year="selectYear($event)"
-      @highlight-input="highlightInput($event)"
+      @day-unit-mouseover="emitDayUnitMouseover($event)"
+      @month-unit-mouseover="emitMonthUnitMouseover($event)"
+      @year-unit-mouseover="emitYearUnitMouseover($event)"
     />
   </div>
 </template>
@@ -300,8 +302,34 @@ export default {
       this.$emit('select-year', year)
     },
 
-    highlightInput (day) {
-      this.$emit('highlight-input', day)
+    emitDayUnitMouseover (day) {
+      /**
+       * User hovers on a potential selected date
+       *
+       * @event day-unit-mouseover
+       * @type {Date}
+       */
+      this.$emit('day-unit-mouseover', day)
+    },
+
+    emitMonthUnitMouseover (monthIndex) {
+      /**
+       * User hovers on a potential selected month
+       *
+       * @event month-unit-mouseover
+       * @type {Number}
+       */
+      this.$emit('month-unit-mouseover', monthIndex)
+    },
+
+    emitYearUnitMouseover (year) {
+      /**
+       * User hovers on a potential selected year
+       *
+       * @event year-unit-mouseover
+       * @type {Number}
+       */
+      this.$emit('year-unit-mouseover', year)
     }
   }
 }

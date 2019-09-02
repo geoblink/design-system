@@ -13,6 +13,7 @@
       'geo-calendar-grid__date-picker-unit--to-date': isDayWithinToYear
     }"
     @mousedown.prevent="selectYear($event)"
+    @mouseover="emitYearUnitMouseover($event)"
   >
     <div class="geo-calendar-grid__date-picker-unit__placeholder">
       {{ year }}
@@ -97,7 +98,23 @@ export default {
   methods: {
     selectYear () {
       if (this.isYearUnavailable) return
+      /**
+       * User selects a particular month of the year within the grid
+       *
+       * @event select-year-unit
+       * @type {Number}
+       */
       this.$emit('select-year-unit', this.year)
+    },
+
+    emitYearUnitMouseover () {
+      /**
+       * User hovers on a potential selected year
+       *
+       * @event year-unit-mouseover
+       * @type {Number}
+       */
+      this.$emit('year-unit-mouseover', this.year)
     }
   }
 }

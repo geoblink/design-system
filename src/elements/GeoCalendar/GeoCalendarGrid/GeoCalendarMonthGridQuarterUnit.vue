@@ -19,6 +19,7 @@
       :selected-from-day="selectedFromDay"
       :selected-to-day="selectedToDay"
       @select-month-unit="selectMonth($event)"
+      @month-unit-mouseover="emitMonthUnitMouseover($event)"
     />
   </div>
 </template>
@@ -89,6 +90,16 @@ export default {
          */
         this.$emit('select-quarter', monthIndex)
       }
+    },
+
+    emitMonthUnitMouseover (monthIndex) {
+      /**
+       * User hovers on a potential selected month
+       *
+       * @event month-unit-mouseover
+       * @type {Number}
+       */
+      this.$emit('month-unit-mouseover', monthIndex)
     }
   }
 }
