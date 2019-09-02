@@ -4,6 +4,12 @@ title: Changelog
 
 # Changelog
 
+## 24.5.0
+
+New:
+
+- `GeoExternalLinkButton`
+
 ## 24.3.0
 
 New:
