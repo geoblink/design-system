@@ -45,7 +45,7 @@ const ALIGNMENTS = {
 
 export default {
   name: 'GeoTooltip',
-  status: 'missing-tests',
+  status: 'ready',
   release: '24.3.0',
   mixins: [cssSuffix],
   constants: {
@@ -151,6 +151,7 @@ export default {
   watch: {
     debouncedOnTriggerTargetMouseleave (newValue, oldValue) {
       this.triggerTarget.removeEventListener('mouseleave', oldValue)
+      this.triggerTarget.addEventListener('mouseleave', newValue.bind(this))
     }
   },
   mounted () {
@@ -171,10 +172,7 @@ export default {
   },
   methods: {
     reattachTooltipContent () {
-      if (this.triggerTarget === null) {
-        this.triggerTarget = this.$el.parentElement
-      }
-
+      this.triggerTarget = this.$el.parentElement
       this.$el.remove()
       tooltipContainerElement.appendChild(this.$el)
     },
@@ -187,6 +185,8 @@ export default {
     removeMouseEventHandlers () {
       this.triggerTarget.removeEventListener('mouseover', this.onTriggerTargetMouseover.bind(this))
       this.triggerTarget.removeEventListener('mouseleave', this.debouncedOnTriggerTargetMouseleave.bind(this))
+      this.onTooltipContentMouseleave()
+      this.onTriggerTargetMouseleave()
     },
 
     onTriggerTargetMouseover () {
@@ -260,50 +260,20 @@ export default {
       const isRequestedAbsoluteOffsetInsideViewport = areEdgesInsideViewport(
         requestedAbsoluteOffset,
         tooltipContentSize,
-        this.position
+        this.position,
+        this.alignment
       )
 
-      if (isRequestedAbsoluteOffsetInsideViewport) {
-        return this.translateTooltipContainer({
-          requestedAbsoluteOffset,
-          triggerTargetSize,
-          tooltipContentSize,
-          tooltipPosition: this.position
-        })
+      if (!isRequestedAbsoluteOffsetInsideViewport) {
+        console.warn(`GeoTooltip [component] :: Tooltip content can fit in «${this.position}» position with «${this.alignment}» alignment.`)
       }
-
-      const oppositePositionForPosition = {
-        [POSITIONS.top]: POSITIONS.bottom,
-        [POSITIONS.bottom]: POSITIONS.top,
-        [POSITIONS.leading]: POSITIONS.trailing,
-        [POSITIONS.trailing]: POSITIONS.leading
-      }
-
-      const oppositePosition = oppositePositionForPosition[this.position]
-      const oppositeAbsoluteOffset = offsetForPosition[oppositePosition]
-
-      const isOppositeAbsoluteOffsetInsideViewport = areEdgesInsideViewport(
-        oppositeAbsoluteOffset,
-        tooltipContentSize,
-        oppositePosition
-      )
-
-      if (isOppositeAbsoluteOffsetInsideViewport) {
-        return this.translateTooltipContainer({
-          requestedAbsoluteOffset: oppositeAbsoluteOffset,
-          triggerTargetSize,
-          tooltipContentSize,
-          tooltipPosition: oppositePosition
-        })
-      }
-
-      console.warn(`GeoTooltip [component] :: Tooltip content can fit neither in «${this.position}» position nor in «${oppositePosition}» position. Falling back to «${this.position}» position.`)
 
       return this.translateTooltipContainer({
         requestedAbsoluteOffset,
         triggerTargetSize,
         tooltipContentSize,
-        tooltipPosition: this.position
+        tooltipPosition: this.position,
+        tooltipAlignment: this.alignment
       })
     },
 
@@ -313,22 +283,25 @@ export default {
      * @param {{width: number, height: number}} params.triggerTargetSize
      * @param {{width: number, height: number}} params.tooltipContentSize
      * @param {POSITIONS} params.tooltipPosition
+     * @param {ALIGNMENTS} params.tooltipAlignment
      */
     translateTooltipContainer ({
       requestedAbsoluteOffset,
       triggerTargetSize,
       tooltipContentSize,
-      tooltipPosition
+      tooltipPosition,
+      tooltipAlignment
     }) {
       const tooltipEdges = getTooltipEdges(
         requestedAbsoluteOffset,
         tooltipContentSize,
-        tooltipPosition
+        tooltipPosition,
+        tooltipAlignment
       )
       const availableSpaceForTooltipContent = getAvailableSpaceForTooltipContent(
         requestedAbsoluteOffset,
-        tooltipContentSize,
-        tooltipPosition
+        tooltipPosition,
+        tooltipAlignment
       )
 
       if (this.$el.style) {
@@ -431,11 +404,12 @@ function cleanupTooltipContainerIfNeeded () {
  * @param {{x: number, y: number}} absoluteOffset
  * @param {{width: number, height: number}} tooltipContentSize
  * @param {POSITIONS} tooltipPosition
+ * @param {ALIGNMENTS} tooltipAlignment
  * @returns {boolean}
  */
-function areEdgesInsideViewport (absoluteOffset, tooltipContentSize, tooltipPosition) {
+export function areEdgesInsideViewport (absoluteOffset, tooltipContentSize, tooltipPosition, tooltipAlignment) {
   const viewportEdges = getViewportEdges()
-  const tooltipEdges = getTooltipEdges(absoluteOffset, tooltipContentSize, tooltipPosition)
+  const tooltipEdges = getTooltipEdges(absoluteOffset, tooltipContentSize, tooltipPosition, tooltipAlignment)
 
   const isEdgeFitting = {
     leading: tooltipEdges.leading >= viewportEdges.leading,
@@ -463,7 +437,7 @@ function areEdgesInsideViewport (absoluteOffset, tooltipContentSize, tooltipPosi
 /**
  * @returns {Edges}
  */
-function getViewportEdges () {
+export function getViewportEdges () {
   const viewportEdges = {
     leading: document.documentElement.scrollLeft,
     trailing: document.documentElement.clientWidth + document.documentElement.scrollLeft,
@@ -478,37 +452,94 @@ function getViewportEdges () {
  * @param {{x: number, y: number}} absoluteOffset
  * @param {{width: number, height: number}} tooltipContentSize
  * @param {POSITIONS} tooltipPosition
+ * @param {ALIGNMENT} tooltipAlignment
  * @returns {Edges}
  */
-function getTooltipEdges (absoluteOffset, tooltipContentSize, tooltipPosition) {
+export function getTooltipEdges (absoluteOffset, tooltipContentSize, tooltipPosition, tooltipAlignment) {
   const tooltipEdgesForPosition = {
     [POSITIONS.leading]: {
-      leading: absoluteOffset.x - tooltipContentSize.width,
-      trailing: absoluteOffset.x,
-      top: absoluteOffset.y,
-      bottom: absoluteOffset.y
+      [ALIGNMENTS.start]: {
+        leading: absoluteOffset.x - tooltipContentSize.width,
+        trailing: absoluteOffset.x,
+        top: absoluteOffset.y,
+        bottom: absoluteOffset.y + tooltipContentSize.height
+      },
+      [ALIGNMENTS.end]: {
+        leading: absoluteOffset.x - tooltipContentSize.width,
+        trailing: absoluteOffset.x,
+        top: absoluteOffset.y - tooltipContentSize.height,
+        bottom: absoluteOffset.y
+      },
+      [ALIGNMENTS.middle]: {
+        leading: absoluteOffset.x - tooltipContentSize.width,
+        trailing: absoluteOffset.x,
+        top: absoluteOffset.y - tooltipContentSize.height / 2,
+        bottom: absoluteOffset.y + tooltipContentSize.height / 2
+      }
     },
     [POSITIONS.trailing]: {
-      leading: absoluteOffset.x,
-      trailing: absoluteOffset.x + tooltipContentSize.width,
-      top: absoluteOffset.y,
-      bottom: absoluteOffset.y
+      [ALIGNMENTS.start]: {
+        leading: absoluteOffset.x,
+        trailing: absoluteOffset.x + tooltipContentSize.width,
+        top: absoluteOffset.y,
+        bottom: absoluteOffset.y + tooltipContentSize.height
+      },
+      [ALIGNMENTS.end]: {
+        leading: absoluteOffset.x,
+        trailing: absoluteOffset.x + tooltipContentSize.width,
+        top: absoluteOffset.y - tooltipContentSize.height,
+        bottom: absoluteOffset.y
+      },
+      [ALIGNMENTS.middle]: {
+        leading: absoluteOffset.x,
+        trailing: absoluteOffset.x + tooltipContentSize.width,
+        top: absoluteOffset.y - tooltipContentSize.height / 2,
+        bottom: absoluteOffset.y + tooltipContentSize.height / 2
+      }
     },
     [POSITIONS.top]: {
-      leading: absoluteOffset.x,
-      trailing: absoluteOffset.x,
-      top: absoluteOffset.y - tooltipContentSize.height,
-      bottom: absoluteOffset.y
+      [ALIGNMENTS.start]: {
+        leading: absoluteOffset.x,
+        trailing: absoluteOffset.x + tooltipContentSize.width,
+        top: absoluteOffset.y - tooltipContentSize.height,
+        bottom: absoluteOffset.y
+      },
+      [ALIGNMENTS.end]: {
+        leading: absoluteOffset.x - tooltipContentSize.width,
+        trailing: absoluteOffset.x,
+        top: absoluteOffset.y - tooltipContentSize.height,
+        bottom: absoluteOffset.y
+      },
+      [ALIGNMENTS.middle]: {
+        leading: absoluteOffset.x - tooltipContentSize.width / 2,
+        trailing: absoluteOffset.x + tooltipContentSize.width / 2,
+        top: absoluteOffset.y - tooltipContentSize.height,
+        bottom: absoluteOffset.y
+      }
     },
     [POSITIONS.bottom]: {
-      leading: absoluteOffset.x,
-      trailing: absoluteOffset.x,
-      top: absoluteOffset.y,
-      bottom: absoluteOffset.y + tooltipContentSize.height
+      [ALIGNMENTS.start]: {
+        leading: absoluteOffset.x,
+        trailing: absoluteOffset.x + tooltipContentSize.width,
+        top: absoluteOffset.y,
+        bottom: absoluteOffset.y + tooltipContentSize.height
+      },
+      [ALIGNMENTS.end]: {
+        leading: absoluteOffset.x - tooltipContentSize.width,
+        trailing: absoluteOffset.x,
+        top: absoluteOffset.y,
+        bottom: absoluteOffset.y + tooltipContentSize.height
+      },
+      [ALIGNMENTS.middle]: {
+        leading: absoluteOffset.x - tooltipContentSize.width / 2,
+        trailing: absoluteOffset.x + tooltipContentSize.width / 2,
+        top: absoluteOffset.y,
+        bottom: absoluteOffset.y + tooltipContentSize.height
+      }
     }
   }
 
-  const tooltipEdges = tooltipEdgesForPosition[tooltipPosition]
+  const tooltipEdges = tooltipEdgesForPosition[tooltipPosition][tooltipAlignment]
 
   return tooltipEdges
 }
@@ -521,33 +552,73 @@ function getTooltipEdges (absoluteOffset, tooltipContentSize, tooltipPosition) {
 
 /**
  * @param {{x: number, y: number}} absoluteOffset
- * @param {{width: number, height: number}} tooltipContentSize
  * @param {POSITIONS} tooltipPosition
+ * @param {ALIGNMENTS} tooltipAlignment
  * @returns {{horizontal: number, vertical: number}}
  */
-function getAvailableSpaceForTooltipContent (absoluteOffset, tooltipContentSize, tooltipPosition) {
+export function getAvailableSpaceForTooltipContent (absoluteOffset, tooltipPosition, tooltipAlignment) {
   const viewportEdges = getViewportEdges()
-  const tooltipEdges = getTooltipEdges(absoluteOffset, tooltipContentSize, tooltipPosition)
+  const tooltipEdges = getTooltipEdges(absoluteOffset, { width: 0, height: 0 }, tooltipPosition, tooltipAlignment)
   const availableSpaceForTooltipContentPosition = {
     [POSITIONS.leading]: {
-      horizontal: tooltipEdges.trailing - viewportEdges.leading,
-      vertical: viewportEdges.bottom - viewportEdges.top
+      [ALIGNMENTS.start]: {
+        horizontal: tooltipEdges.trailing - viewportEdges.leading,
+        vertical: viewportEdges.bottom - tooltipEdges.top
+      },
+      [ALIGNMENTS.end]: {
+        horizontal: tooltipEdges.trailing - viewportEdges.leading,
+        vertical: tooltipEdges.bottom - viewportEdges.top
+      },
+      [ALIGNMENTS.middle]: {
+        horizontal: tooltipEdges.trailing - viewportEdges.leading,
+        vertical: viewportEdges.bottom - viewportEdges.top
+      }
     },
     [POSITIONS.trailing]: {
-      horizontal: viewportEdges.trailing - tooltipEdges.leading,
-      vertical: viewportEdges.bottom - viewportEdges.top
+      [ALIGNMENTS.start]: {
+        horizontal: viewportEdges.trailing - tooltipEdges.leading,
+        vertical: viewportEdges.bottom - tooltipEdges.top
+      },
+      [ALIGNMENTS.end]: {
+        horizontal: viewportEdges.trailing - tooltipEdges.leading,
+        vertical: tooltipEdges.bottom - viewportEdges.top
+      },
+      [ALIGNMENTS.middle]: {
+        horizontal: viewportEdges.trailing - tooltipEdges.leading,
+        vertical: viewportEdges.bottom - viewportEdges.top
+      }
     },
     [POSITIONS.top]: {
-      horizontal: viewportEdges.trailing - viewportEdges.leading,
-      vertical: tooltipEdges.bottom - viewportEdges.top
+      [ALIGNMENTS.start]: {
+        horizontal: viewportEdges.trailing - tooltipEdges.leading,
+        vertical: tooltipEdges.bottom - viewportEdges.top
+      },
+      [ALIGNMENTS.end]: {
+        horizontal: tooltipEdges.trailing - viewportEdges.leading,
+        vertical: tooltipEdges.bottom - viewportEdges.top
+      },
+      [ALIGNMENTS.middle]: {
+        horizontal: viewportEdges.trailing - viewportEdges.leading,
+        vertical: tooltipEdges.bottom - viewportEdges.top
+      }
     },
     [POSITIONS.bottom]: {
-      horizontal: viewportEdges.trailing - viewportEdges.leading,
-      vertical: viewportEdges.bottom - tooltipEdges.top
+      [ALIGNMENTS.start]: {
+        horizontal: viewportEdges.trailing - tooltipEdges.leading,
+        vertical: viewportEdges.bottom - tooltipEdges.top
+      },
+      [ALIGNMENTS.end]: {
+        horizontal: tooltipEdges.trailing - viewportEdges.leading,
+        vertical: viewportEdges.bottom - tooltipEdges.top
+      },
+      [ALIGNMENTS.middle]: {
+        horizontal: viewportEdges.trailing - viewportEdges.leading,
+        vertical: viewportEdges.bottom - tooltipEdges.top
+      }
     }
   }
 
-  const availableSpaceForTooltipContent = availableSpaceForTooltipContentPosition[tooltipPosition]
+  const availableSpaceForTooltipContent = availableSpaceForTooltipContentPosition[tooltipPosition][tooltipAlignment]
 
   return availableSpaceForTooltipContent
 }
@@ -559,43 +630,44 @@ function getAvailableSpaceForTooltipContent (absoluteOffset, tooltipContentSize,
  * @param {ALIGNMENTS} preferredAlignment
  * @returns {ALIGNMENTS}
  */
-function getTooltipFittingAlignment (absoluteOffset, tooltipContentSize, tooltipPosition, preferredAlignment) {
+export function getTooltipFittingAlignment (absoluteOffset, tooltipContentSize, tooltipPosition, preferredAlignment) {
   const viewportEdges = getViewportEdges()
-  const tooltipEdges = getTooltipEdges(absoluteOffset, tooltipContentSize, tooltipPosition)
+  const alignmentsByPreference = [
+    preferredAlignment,
+    ALIGNMENTS.start,
+    ALIGNMENTS.end,
+    ALIGNMENTS.middle
+  ]
 
-  const availableSpaceUntilAnchorForPosition = {
-    [POSITIONS.leading]: tooltipEdges.bottom - viewportEdges.top,
-    [POSITIONS.trailing]: tooltipEdges.bottom - viewportEdges.top,
-    [POSITIONS.top]: tooltipEdges.trailing - viewportEdges.leading,
-    [POSITIONS.bottom]: tooltipEdges.trailing - viewportEdges.leading
-  }
+  const firstFittingAlignment = _.find(alignmentsByPreference, function (alignment) {
+    const tooltipEdgesForAlignment = getTooltipEdges(
+      absoluteOffset,
+      tooltipContentSize,
+      tooltipPosition,
+      alignment
+    )
 
-  const availableSpaceAfterAnchorForPosition = {
-    [POSITIONS.leading]: viewportEdges.bottom - tooltipEdges.top,
-    [POSITIONS.trailing]: viewportEdges.bottom - tooltipEdges.top,
-    [POSITIONS.top]: viewportEdges.trailing - tooltipEdges.leading,
-    [POSITIONS.bottom]: viewportEdges.trailing - tooltipEdges.leading
-  }
+    return areEdgesInsideEdges(tooltipEdgesForAlignment, viewportEdges)
+  })
 
-  const requiredSpaceForPosition = {
-    [POSITIONS.leading]: tooltipContentSize.height,
-    [POSITIONS.trailing]: tooltipContentSize.height,
-    [POSITIONS.top]: tooltipContentSize.width,
-    [POSITIONS.bottom]: tooltipContentSize.width
-  }
+  if (firstFittingAlignment) return firstFittingAlignment
 
-  const requiredSpace = requiredSpaceForPosition[tooltipPosition]
-
-  const isAlignmentFitting = {
-    [ALIGNMENTS.start]: availableSpaceAfterAnchorForPosition[tooltipPosition] >= requiredSpace,
-    [ALIGNMENTS.end]: availableSpaceUntilAnchorForPosition[tooltipPosition] >= requiredSpace,
-    [ALIGNMENTS.middle]: true // Middle alignment always fit because it's the widest possible
-  }
-
-  if (isAlignmentFitting[preferredAlignment]) return preferredAlignment
-  if (isAlignmentFitting[ALIGNMENTS.start]) return ALIGNMENTS.start
-  if (isAlignmentFitting[ALIGNMENTS.end]) return ALIGNMENTS.end
-
+  // If not alignment fit then we return middle alignment because it's the one
+  // taking more available space
   return ALIGNMENTS.middle
+}
+
+/**
+ * @param {Edges} innerEdges
+ * @param {Edges} outerEdges
+ * @returns {boolean}
+ */
+function areEdgesInsideEdges (innerEdges, outerEdges) {
+  return (
+    _.inRange(innerEdges.leading, outerEdges.leading, outerEdges.trailing) &&
+    _.inRange(innerEdges.trailing, outerEdges.leading, outerEdges.trailing) &&
+    _.inRange(innerEdges.top, outerEdges.top, outerEdges.bottom) &&
+    _.inRange(innerEdges.bottom, outerEdges.top, outerEdges.bottom)
+  )
 }
 </script>

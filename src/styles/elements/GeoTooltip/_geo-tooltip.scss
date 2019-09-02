@@ -50,59 +50,35 @@
 
   .geo-tooltip__content--top#{$modifier-name-with-prefix},
   .geo-tooltip__content--bottom#{$modifier-name-with-prefix} {
-    &.geo-tooltip__content--start#{$modifier-name-with-prefix} {
-      transform: translateX(0);
-
-      .geo-tooltip__arrow {
-        left: 0;
-      }
+    &.geo-tooltip__content--start#{$modifier-name-with-prefix} .geo-tooltip__arrow {
+      left: 0;
     }
 
-    &.geo-tooltip__content--end#{$modifier-name-with-prefix} {
+    &.geo-tooltip__content--end#{$modifier-name-with-prefix} .geo-tooltip__arrow {
+      left: 100%;
+      transform: translateX(-200%);
+    }
+
+    &.geo-tooltip__content--middle#{$modifier-name-with-prefix} .geo-tooltip__arrow {
+      left: 50%;
       transform: translateX(-100%);
-
-      .geo-tooltip__arrow {
-        left: 100%;
-        transform: translateX(-200%);
-      }
-    }
-
-    &.geo-tooltip__content--middle#{$modifier-name-with-prefix} {
-      transform: translateX(-50%);
-
-      .geo-tooltip__arrow {
-        left: 50%;
-        transform: translateX(-100%);
-      }
     }
   }
 
   .geo-tooltip__content--leading#{$modifier-name-with-prefix},
   .geo-tooltip__content--trailing#{$modifier-name-with-prefix} {
-    &.geo-tooltip__content--start#{$modifier-name-with-prefix} {
-      transform: translateY(0);
-
-      .geo-tooltip__arrow {
-        top: 0;
-      }
+    &.geo-tooltip__content--start#{$modifier-name-with-prefix} .geo-tooltip__arrow {
+      top: 0;
     }
 
-    &.geo-tooltip__content--end#{$modifier-name-with-prefix} {
+    &.geo-tooltip__content--end#{$modifier-name-with-prefix} .geo-tooltip__arrow {
+      top: 100%;
+      transform: translateY(-200%);
+    }
+
+    &.geo-tooltip__content--middle#{$modifier-name-with-prefix} .geo-tooltip__arrow {
+      top: 50%;
       transform: translateY(-100%);
-
-      .geo-tooltip__arrow {
-        top: 100%;
-        transform: translateY(-200%);
-      }
-    }
-
-    &.geo-tooltip__content--middle#{$modifier-name-with-prefix} {
-      transform: translateY(-50%);
-
-      .geo-tooltip__arrow {
-        top: 50%;
-        transform: translateY(-100%);
-      }
     }
   }
 
