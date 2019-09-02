@@ -39,7 +39,17 @@ const mockedFalIcons = _.mapValues(_.pick(fas, iconsToMock), function (original)
   })
 })
 
-library.add(fab, fas, far, mockedFalIcons)
+const nonExistingIconsToMock = {
+  'external-link-square': 'faExternalLinkSquareAlt'
+}
+const mockedNonExistingIcons = _.mapValues(nonExistingIconsToMock, function (mockedIconKey, originalIconName) {
+  return _.assign({}, fas[mockedIconKey], {
+    prefix: 'fal',
+    iconName: originalIconName
+  })
+})
+
+library.add(fab, fas, far, mockedFalIcons, mockedNonExistingIcons)
 
 export default ({ Vue, router, siteData }) => {
   Vue.component('font-awesome-icon', FontAwesomeIcon)
