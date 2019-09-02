@@ -4,6 +4,12 @@ title: Changelog
 
 # Changelog
 
+## 24.3.1
+
+Changed:
+
+- `GeoCalendar` now uses more intuitive flows for the user when selecting dates.
+
 ## 24.3.0
 
 New:
