@@ -107,7 +107,7 @@ describe('GeoCalendar', () => {
       it('Sets last day of month in to input', () => {
         const wrapper = getWrappedComponent()
         wrapper.setData({
-          lastInputFieldExplicitlyFocused: FOCUSABLE_INPUT_FIELDS.FROM_DATE
+          lastInputFieldFocused: FOCUSABLE_INPUT_FIELDS.FROM_DATE
         })
         const calendarPicker = wrapper.vm.$refs.calendarPicker
         calendarPicker.$emit('select-month', 6)
@@ -172,7 +172,7 @@ describe('GeoCalendar', () => {
       it('Sets last day of year in to input', () => {
         const wrapper = getWrappedComponent()
         wrapper.setData({
-          lastInputFieldExplicitlyFocused: FOCUSABLE_INPUT_FIELDS.FROM_DATE
+          lastInputFieldFocused: FOCUSABLE_INPUT_FIELDS.FROM_DATE
         })
         const calendarPicker = wrapper.vm.$refs.calendarPicker
         calendarPicker.$emit('select-year', 2019)
@@ -201,7 +201,7 @@ describe('GeoCalendar', () => {
 
         geoFromInput.vm.$emit('focus')
 
-        expect(wrapper.vm.lastInputFieldExplicitlyFocused).toBe(FOCUSABLE_INPUT_FIELDS.FROM_DATE)
+        expect(wrapper.vm.lastInputFieldFocused).toBe(FOCUSABLE_INPUT_FIELDS.FROM_DATE)
         expect(wrapper.vm.isSomeInputExplicitlyFocused).toBe(true)
 
         wrapper.vm.selectDay(invalidFromDateRange)

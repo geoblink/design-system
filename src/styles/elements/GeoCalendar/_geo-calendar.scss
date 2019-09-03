@@ -66,9 +66,10 @@
       padding: $space-base;
       width: 315px;
 
-      &--width-100-percent {
-        width: 100%;
-      }
+    }
+
+    .geo-calendar__picker-controls--width-100-percent {
+      width: 100%;
     }
 
     .geo-calendar__input-ranges {

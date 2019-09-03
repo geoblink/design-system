@@ -52,11 +52,12 @@
       position: absolute;
       right: $space-small;
 
-      &--delete {
-        color: $color-red;
-        cursor: pointer;
-        display: none;
-      }
+    }
+
+    .geo-input__icon--delete {
+      color: $color-red;
+      cursor: pointer;
+      display: none;
     }
   }
 
