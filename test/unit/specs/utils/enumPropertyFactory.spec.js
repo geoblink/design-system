@@ -43,4 +43,3 @@ describe('#enumPropertyFactory', function () {
     expect(consoleWarnSpy).toHaveBeenCalledWith('MyDemoComponent [component] :: Unsupported value («unknown value») for «preferredOption» property. Use one of «optionA», «optionB»')
   })
 })
-
