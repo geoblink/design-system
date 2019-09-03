@@ -371,13 +371,10 @@ export default {
 }
 
 function addTooltipContainerIfNeeded () {
-  if (!tooltipContainerElement) {
+  if (tooltipContainerElement) return
+
     tooltipContainerElement = document.createElement('div')
     tooltipContainerElement.className = 'geo-tooltip'
-  } else {
-    tooltipContainerElement.remove()
-  }
-
   document.body.appendChild(tooltipContainerElement)
 }
 
