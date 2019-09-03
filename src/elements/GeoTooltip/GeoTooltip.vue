@@ -199,8 +199,8 @@ export default {
       if (!this.isVisible) return
 
       if (this.$el.style) {
-        this.$el.style.maxWidth = null
-        this.$el.style.maxHeight = null
+        this.$el.style.removeProperty('--available-width')
+        this.$el.style.removeProperty('--available-height')
       }
 
       const triggerTargetOffset = getDOMElementOffset(this.triggerTarget)
@@ -373,8 +373,8 @@ export default {
 function addTooltipContainerIfNeeded () {
   if (tooltipContainerElement) return
 
-    tooltipContainerElement = document.createElement('div')
-    tooltipContainerElement.className = 'geo-tooltip'
+  tooltipContainerElement = document.createElement('div')
+  tooltipContainerElement.className = 'geo-tooltip'
   document.body.appendChild(tooltipContainerElement)
 }
 
