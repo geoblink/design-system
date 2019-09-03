@@ -632,7 +632,7 @@ export function getTooltipFittingAlignment (absoluteOffset, tooltipContentSize, 
       alignment
     )
 
-    return areEdgesInsideEdges(tooltipEdgesForAlignment, viewportEdges)
+    return areEdgesInsideBounds(tooltipEdgesForAlignment, viewportEdges)
   })
 
   if (firstFittingAlignment) return firstFittingAlignment
@@ -647,7 +647,7 @@ export function getTooltipFittingAlignment (absoluteOffset, tooltipContentSize, 
  * @param {Edges} outerEdges
  * @returns {boolean}
  */
-function areEdgesInsideEdges (innerEdges, outerEdges) {
+function areEdgesInsideBounds (innerEdges, outerEdges) {
   return (
     _.inRange(innerEdges.leading, outerEdges.leading, outerEdges.trailing) &&
     _.inRange(innerEdges.trailing, outerEdges.leading, outerEdges.trailing) &&
