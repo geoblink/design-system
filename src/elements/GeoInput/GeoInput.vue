@@ -19,7 +19,7 @@
         @input="onInput($event)"
       >
       <font-awesome-icon
-        v-if="!disabled"
+        v-if="!disabled && !!value"
         :icon="deleteInputValueIcon"
         fixed-with
         class="geo-input__icon geo-input__icon--delete"
