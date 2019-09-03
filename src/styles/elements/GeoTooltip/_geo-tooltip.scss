@@ -9,18 +9,26 @@
 
   .geo-tooltip {
     left: 0;
+    pointer-events: none;
     position: absolute;
     top: 0;
     z-index: $z-index-tooltip;
   }
 
-  $popper-background-color: #000 !default;
+  $popper-background-color: $color-black !default;
   $popper-tooltip-arrow-size: 5px;
   $popper-tooltip-arrow-offset: 2px;
 
   .geo-tooltip__content#{$modifier-name-with-prefix} {
     // Use this variable to customize the space between trigger target and tooltip
     --spacing-to-trigger-target: #{$popper-tooltip-arrow-size+$popper-tooltip-arrow-offset};
+
+    // You can use these variables to consider available space depending on the
+    // position of the tooltip. They are automatically set whenever tooltip is
+    // positioned:
+    //
+    // --available-width
+    // --available-height
 
     // These styles are directly taken from vue-directive-tooltip so Chart
     // tooltips look like regular tooltips.
@@ -29,14 +37,13 @@
 
     background-color: $popper-background-color;
     border-radius: 3px;
-    box-shadow: 2px 2px 3px rgba(#000, 0.4);
+    box-shadow: 2px 2px 3px rgba($color-black, 0.4);
     box-sizing: border-box;
-    color: #fff;
+    color: $color-white;
     max-width: 320px;
     padding: 6px 10px;
-    position: absolute;
-    white-space: nowrap;
-    z-index: 100;
+    pointer-events: auto;
+    position: relative;
 
     .geo-tooltip__arrow {
       border-style: solid;
@@ -83,7 +90,7 @@
   }
 
   .geo-tooltip__content--top#{$modifier-name-with-prefix} {
-    bottom: 0;
+    transform: translateY(-100%);
 
     .geo-tooltip__arrow {
       border-bottom-color: transparent !important;
@@ -97,23 +104,19 @@
     }
   }
 
-  .geo-tooltip__content--bottom#{$modifier-name-with-prefix} {
-    top: 0;
-
-    .geo-tooltip__arrow {
-      border-bottom-color: $popper-background-color;
-      border-left-color: transparent !important;
-      border-right-color: transparent !important;
-      border-top-color: transparent !important;
-      border-width: 0 $popper-tooltip-arrow-size $popper-tooltip-arrow-size $popper-tooltip-arrow-size;
-      margin-top: 0;
-      margin-bottom: 0;
-      top: -$popper-tooltip-arrow-size;
-    }
+  .geo-tooltip__content--bottom#{$modifier-name-with-prefix} .geo-tooltip__arrow {
+    border-bottom-color: $popper-background-color;
+    border-left-color: transparent !important;
+    border-right-color: transparent !important;
+    border-top-color: transparent !important;
+    border-width: 0 $popper-tooltip-arrow-size $popper-tooltip-arrow-size $popper-tooltip-arrow-size;
+    margin-top: 0;
+    margin-bottom: 0;
+    top: -$popper-tooltip-arrow-size;
   }
 
   .geo-tooltip__content--leading#{$modifier-name-with-prefix} {
-    right: 0;
+    transform: translateX(-100%);
 
     .geo-tooltip__arrow {
       border-bottom-color: transparent !important;
@@ -127,19 +130,15 @@
     }
   }
 
-  .geo-tooltip__content--trailing#{$modifier-name-with-prefix} {
-    left: 0;
-
-    .geo-tooltip__arrow {
-      border-bottom-color: transparent !important;
-      border-left-color: transparent !important;
-      border-top-color: transparent !important;
-      border-right-color: $popper-background-color;
-      border-width: $popper-tooltip-arrow-size $popper-tooltip-arrow-size $popper-tooltip-arrow-size 0;
-      left: -$popper-tooltip-arrow-size;
-      margin-left: 0;
-      margin-right: 0;
-    }
+  .geo-tooltip__content--trailing#{$modifier-name-with-prefix} .geo-tooltip__arrow {
+    border-bottom-color: transparent !important;
+    border-left-color: transparent !important;
+    border-top-color: transparent !important;
+    border-right-color: $popper-background-color;
+    border-width: $popper-tooltip-arrow-size $popper-tooltip-arrow-size $popper-tooltip-arrow-size 0;
+    left: -$popper-tooltip-arrow-size;
+    margin-left: 0;
+    margin-right: 0;
   }
 }
 

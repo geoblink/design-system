@@ -292,8 +292,8 @@ export default {
       )
 
       if (this.$el.style) {
-        this.$el.style.maxWidth = `${availableSpaceForTooltipContent.horizontal}px`
-        this.$el.style.maxHeight = `${availableSpaceForTooltipContent.vertical}px`
+        this.$el.style.setProperty('--available-width', `${availableSpaceForTooltipContent.horizontal}px`)
+        this.$el.style.setProperty('--available-height', `${availableSpaceForTooltipContent.vertical}px`)
       }
 
       const absoluteOffsetForPosition = {
