@@ -1,6 +1,6 @@
 <template>
   <geo-dropdown
-    :css-modifier="`geo-calendar__dropdown${cssSuffix}`"
+    :css-modifier="cssModifierWithGranularity"
     :opened="isCalendarPopupOpened"
     @click-outside="handleClickOutside"
   >
@@ -12,7 +12,7 @@
     />
     <geo-bordered-box
       slot="popupContent"
-      :css-modifier="`geo-calendar__dropdown${cssSuffix}`"
+      :css-modifier="cssModifierWithGranularity"
     >
       <geo-bordered-box-header
         :close-icon="closeCalendarIcon"
@@ -96,6 +96,14 @@ export default {
   data () {
     return {
       isCalendarPopupOpened: false
+    }
+  },
+
+  computed: {
+    cssModifierWithGranularity () {
+      return this.$slots.pickerGranularity
+        ? `geo-calendar__dropdown${this.cssSuffix}`
+        : `geo-calendar__dropdown--no-granularity${this.cssSuffix}`
     }
   },
 

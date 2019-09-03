@@ -8,12 +8,7 @@
       <slot name="pickerGranularity" />
       <!-- TODO: CORE-7338 Put aliases in different slot -->
     </div>
-    <div
-      :class="{
-        'geo-calendar__picker-controls': true,
-        'geo-calendar__picker-controls--width-100-percent': !$slots.pickerGranularity
-      }"
-    >
+    <div class="geo-calendar__picker-controls">
       <div class="geo-calendar__input-ranges">
         <div>
           <!-- blur event won't be fired if we handle the mousedown event that would trigger it  -->
@@ -344,11 +339,7 @@ export default {
       this.emitToDate({ toDate: this.toRawDate })
 
       this.isSomeInputFieldExplicitlyFocused = false
-      if (this.isFromInputFieldFocused) {
-        this.lastInputFieldFocused = FOCUSABLE_INPUT_FIELDS.TO_DATE
-      } else {
-        this.lastInputFieldFocused = null
-      }
+      this.lastInputFieldFocused = null
     },
 
     selectMonth (monthIndex) {
@@ -396,11 +387,7 @@ export default {
       this.emitToDate({ toDate: this.toRawDate })
 
       this.isSomeInputFieldExplicitlyFocused = false
-      if (this.isFromInputFieldFocused) {
-        this.lastInputFieldFocused = FOCUSABLE_INPUT_FIELDS.TO_DATE
-      } else {
-        this.lastInputFieldFocused = null
-      }
+      this.lastInputFieldFocused = null
     },
 
     selectQuarter (monthIndex) {
@@ -465,11 +452,7 @@ export default {
       this.emitToDate({ toDate: this.toRawDate })
 
       this.isSomeInputFieldExplicitlyFocused = false
-      if (this.isFromInputFieldFocused) {
-        this.lastInputFieldFocused = FOCUSABLE_INPUT_FIELDS.TO_DATE
-      } else {
-        this.lastInputFieldFocused = null
-      }
+      this.lastInputFieldFocused = null
     },
 
     setEarliestDate () {

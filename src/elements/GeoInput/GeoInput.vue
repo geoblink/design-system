@@ -18,12 +18,15 @@
         v-on="listeners"
         @input="onInput($event)"
       >
+      <!-- mousedown event is used because it is fired before blur event on GeoInput -->
+      <!-- blur event won't be fired but that's fine because we want this handler to prevail over the blur one -->
+      <!-- https://forum.vuejs.org/t/blur-before-click-only-on-safari/21598/7 -->
       <font-awesome-icon
         v-if="!disabled && !!value"
         :icon="deleteInputValueIcon"
         fixed-with
         class="geo-input__icon geo-input__icon--delete"
-        @click="deleteValue"
+        @mousedown.prevent="deleteValue"
       />
       <font-awesome-icon
         v-if="disabled"
