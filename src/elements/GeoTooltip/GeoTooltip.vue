@@ -97,8 +97,8 @@ export default {
     },
 
     /**
-     * Set a valuel to this property to disable automatic showing/hiding and
-     * manually control whether this tooltips should be visible (`true`) or
+     * Set a value to this property to disable automatic showing/hiding and
+     * manually control whether this tooltip should be visible (`true`) or
      * hidden (`false`).
      */
     visible: {
