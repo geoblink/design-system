@@ -90,7 +90,10 @@ export default {
      */
     delay: {
       type: Number,
-      default: 100
+      default: 100,
+      validator (value) {
+        return value >= 0
+      }
     },
 
     /**

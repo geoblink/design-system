@@ -304,6 +304,23 @@ describe('GeoTooltip', function () {
         })
       }
     })
+
+    describe('Delay', function () {
+      it('Should complain if delay is a negative number', function () {
+        const consoleErrorSpy = jest.spyOn(global.console, 'error').mockImplementation(() => { })
+        const wrapper = mount(getComponentWithTooltip(), {
+          propsData: {
+            tooltipProps: {
+              delay: -10
+            }
+          }
+        })
+
+        expect(consoleErrorSpy).toHaveBeenCalled()
+
+        wrapper.destroy()
+      })
+    })
   })
 })
 
