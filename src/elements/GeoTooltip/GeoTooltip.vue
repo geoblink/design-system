@@ -252,7 +252,7 @@ export default {
       )
 
       if (!isRequestedAbsoluteOffsetInsideViewport) {
-        console.warn(`GeoTooltip [component] :: Tooltip content can fit in «${this.position}» position with «${this.alignment}» alignment.`)
+        console.warn(`GeoTooltip [component] :: Tooltip content can't fit in «${this.position}» position with «${this.alignment}» alignment.`)
       }
 
       return this.translateTooltipContainer({
