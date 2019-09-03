@@ -19,6 +19,7 @@
 <script>
 import _ from 'lodash'
 
+import enumPropertyFactory from '../../utils/enumPropertyFactory'
 import throttle from '../../utils/throttle'
 import getDOMElementOffset from '../../utils/getDOMElementOffset'
 
@@ -61,17 +62,12 @@ export default {
      * See [Component Constants](/docs/components-constants.html) for more info on how
      * to use those constants in your code.
      */
-    position: {
-      type: String,
-      default: POSITIONS.top,
-      validator (value) {
-        if (value in POSITIONS) return true
-
-        const supportedValues = Object.values(POSITIONS).map(i => `«${i}»`).join(', ')
-        console.warn(`GeoTooltip [component] :: Unsupported value («${value}») for «position» property. Use one of ${supportedValues}`)
-        return false
-      }
-    },
+    position: enumPropertyFactory({
+      componentName: 'GeoTooltip',
+      propertyName: 'position',
+      enumDictionary: POSITIONS,
+      defaultValue: POSITIONS.top
+    }),
 
     /**
      * Alignment of the tooltip with respect to the target triggering this
@@ -81,17 +77,12 @@ export default {
      * See [Component Constants](/docs/components-constants.html) for more info on how
      * to use those constants in your code.
      */
-    alignment: {
-      type: String,
-      default: ALIGNMENTS.middle,
-      validator (value) {
-        if (value in ALIGNMENTS) return true
-
-        const supportedValues = Object.values(ALIGNMENTS).map(i => `«${i}»`).join(', ')
-        console.warn(`GeoTooltip [component] :: Unsupported value («${value}») for alignment property. Use one of ${supportedValues}`)
-        return false
-      }
-    },
+    alignment: enumPropertyFactory({
+      componentName: 'GeoTooltip',
+      propertyName: 'alignment',
+      enumDictionary: ALIGNMENTS,
+      defaultValue: ALIGNMENTS.middle
+    }),
 
     /**
      * Milliseconds to wait before hiding the tooltip after moving cursor out
