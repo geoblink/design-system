@@ -279,12 +279,6 @@ export default {
       tooltipPosition,
       tooltipAlignment
     }) {
-      const tooltipEdges = getTooltipEdges(
-        requestedAbsoluteOffset,
-        tooltipContentSize,
-        tooltipPosition,
-        tooltipAlignment
-      )
       const availableSpaceForTooltipContent = getAvailableSpaceForTooltipContent(
         requestedAbsoluteOffset,
         tooltipPosition,
@@ -296,33 +290,28 @@ export default {
         this.$el.style.setProperty('--available-height', `${availableSpaceForTooltipContent.vertical}px`)
       }
 
-      const absoluteOffsetForPosition = {
-        [POSITIONS.leading]: {
-          x: tooltipEdges.trailing,
-          y: tooltipEdges.top
-        },
-        [POSITIONS.trailing]: {
-          x: tooltipEdges.leading,
-          y: tooltipEdges.top
-        },
-        [POSITIONS.top]: {
-          x: tooltipEdges.leading,
-          y: tooltipEdges.bottom
-        },
-        [POSITIONS.bottom]: {
-          x: tooltipEdges.leading,
-          y: tooltipEdges.top
-        }
-      }
-
-      const absoluteOffsetBeforeAligning = absoluteOffsetForPosition[tooltipPosition]
+      const absoluteOffsetBeforeAligning = getTooltipContainerAbsoluteOffset({
+        requestedAbsoluteOffset,
+        triggerTargetSize,
+        tooltipContentSize,
+        tooltipPosition,
+        tooltipAlignment
+      })
 
       const fittingAlignment = getTooltipFittingAlignment(
         absoluteOffsetBeforeAligning,
         tooltipContentSize,
         tooltipPosition,
-        this.alignment
+        tooltipAlignment
       )
+
+      const absoluteOffsetForFittingAlignment = getTooltipContainerAbsoluteOffset({
+        requestedAbsoluteOffset,
+        triggerTargetSize,
+        tooltipContentSize,
+        tooltipPosition,
+        tooltipAlignment: fittingAlignment
+      })
 
       const offsetCorrectionForAlignment = {
         [ALIGNMENTS.start]: {
@@ -343,20 +332,20 @@ export default {
 
       const correctedOffsetForPosition = {
         [POSITIONS.leading]: {
-          x: absoluteOffsetBeforeAligning.x,
-          y: absoluteOffsetBeforeAligning.y + offsetCorrection.y
+          x: absoluteOffsetForFittingAlignment.x,
+          y: absoluteOffsetForFittingAlignment.y + offsetCorrection.y
         },
         [POSITIONS.trailing]: {
-          x: absoluteOffsetBeforeAligning.x,
-          y: absoluteOffsetBeforeAligning.y + offsetCorrection.y
+          x: absoluteOffsetForFittingAlignment.x,
+          y: absoluteOffsetForFittingAlignment.y + offsetCorrection.y
         },
         [POSITIONS.top]: {
-          x: absoluteOffsetBeforeAligning.x + offsetCorrection.x,
-          y: absoluteOffsetBeforeAligning.y
+          x: absoluteOffsetForFittingAlignment.x + offsetCorrection.x,
+          y: absoluteOffsetForFittingAlignment.y
         },
         [POSITIONS.bottom]: {
-          x: absoluteOffsetBeforeAligning.x + offsetCorrection.x,
-          y: absoluteOffsetBeforeAligning.y
+          x: absoluteOffsetForFittingAlignment.x + offsetCorrection.x,
+          y: absoluteOffsetForFittingAlignment.y
         }
       }
       const correctedOffset = correctedOffsetForPosition[tooltipPosition]
@@ -368,6 +357,53 @@ export default {
       this.fittingAlignment = fittingAlignment
     }
   }
+}
+
+/**
+ * @param {Object} params
+ * @param {{x: number, y: number}} params.requestedAbsoluteOffset
+ * @param {{width: number, height: number}} params.triggerTargetSize
+ * @param {{width: number, height: number}} params.tooltipContentSize
+ * @param {POSITIONS} params.tooltipPosition
+ * @param {ALIGNMENTS} params.tooltipAlignment
+ * @returns {Edges}
+ */
+function getTooltipContainerAbsoluteOffset ({
+  requestedAbsoluteOffset,
+  triggerTargetSize,
+  tooltipContentSize,
+  tooltipPosition,
+  tooltipAlignment
+}) {
+  const tooltipEdges = getTooltipEdges(
+    requestedAbsoluteOffset,
+    tooltipContentSize,
+    tooltipPosition,
+    tooltipAlignment
+  )
+
+  const absoluteOffsetForPosition = {
+    [POSITIONS.leading]: {
+      x: tooltipEdges.trailing,
+      y: tooltipEdges.top
+    },
+    [POSITIONS.trailing]: {
+      x: tooltipEdges.leading,
+      y: tooltipEdges.top
+    },
+    [POSITIONS.top]: {
+      x: tooltipEdges.leading,
+      y: tooltipEdges.bottom
+    },
+    [POSITIONS.bottom]: {
+      x: tooltipEdges.leading,
+      y: tooltipEdges.top
+    }
+  }
+
+  const absoluteOffset = absoluteOffsetForPosition[tooltipPosition]
+
+  return absoluteOffset
 }
 
 function addTooltipContainerIfNeeded () {
