@@ -202,7 +202,7 @@ describe('GeoCalendar', () => {
         geoFromInput.vm.$emit('focus')
 
         expect(wrapper.vm.lastInputFieldFocused).toBe(FOCUSABLE_INPUT_FIELDS.FROM_DATE)
-        expect(wrapper.vm.isSomeInputExplicitlyFocused).toBe(true)
+        expect(wrapper.vm.isSomeInputFieldExplicitlyFocused).toBe(true)
 
         wrapper.vm.selectDay(invalidFromDateRange)
 
