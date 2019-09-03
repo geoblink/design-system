@@ -97,20 +97,13 @@ export default {
     },
 
     /**
-     * Set to `true` to disable automatic triggers for this tooltip and toggle
-     * its visibility with `visible` property.
-     */
-    manual: {
-      type: Boolean,
-      default: false
-    },
-
-    /**
-     * When `manual` property is set to `true`, use this property to toggle
-     * this tooltip's visibility.
+     * Set a valuel to this property to disable automatic showing/hiding and
+     * manually control whether this tooltips should be visible (`true`) or
+     * hidden (`false`).
      */
     visible: {
       type: Boolean,
+      default: undefined,
       required: false
     }
   },
@@ -125,7 +118,7 @@ export default {
   },
   computed: {
     isVisible () {
-      return this.manual
+      return _.isBoolean(this.visible)
         ? this.visible
         : this.isTriggerTargetHovered || this.isTooltipContentHovered
     },
@@ -392,6 +385,7 @@ function cleanupTooltipContainerIfNeeded () {
   if (existingTooltipsCount > 0 || !tooltipContainerElement) return
 
   tooltipContainerElement.remove()
+  tooltipContainerElement = null
 }
 
 /**

@@ -224,6 +224,46 @@ describe('GeoTooltip', function () {
     })
   })
 
+  describe('Manual visibility', function () {
+    it('Should display tooltip when it is manually visible', async function () {
+      const wrapper = mount(getComponentWithTooltip(), {
+        propsData: {
+          tooltipProps: {
+            visible: true
+          }
+        }
+      })
+      const bodyWrapper = createWrapper(document.body)
+
+      expect(bodyWrapper.find('.test-tooltip-content').exists()).toBe(true)
+
+      wrapper.destroy()
+
+      expect(bodyWrapper.find('.test-tooltip-content').exists()).toBe(false)
+    })
+
+    it('Should not display tooltip when it is manually hidden', async function () {
+      const wrapper = mount(getComponentWithTooltip(), {
+        propsData: {
+          tooltipProps: {
+            visible: false
+          }
+        }
+      })
+      const bodyWrapper = createWrapper(document.body)
+
+      expect(bodyWrapper.find('.test-tooltip-content').exists()).toBe(false)
+
+      wrapper.find('.test-tooltip-wrapper').trigger('mouseover')
+
+      await wrapper.vm.$nextTick()
+
+      expect(bodyWrapper.find('.test-tooltip-content').exists()).toBe(false)
+
+      wrapper.destroy()
+    })
+  })
+
   describe('Properties', function () {
     describe('Position', function () {
       it('Should complain if position is invalid', function () {
