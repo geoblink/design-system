@@ -273,5 +273,20 @@ describe('GeoButton Children', () => {
 
       expect(wrapper.find('[data-icon="external-link-square"]').exists()).toBe(true)
     })
+
+    it('Should render «a» wrapper if «href» is given', function () {
+      const wrapper = mount(GeoExternalLinkButton, {
+        propsData: {
+          href: 'https://geoblink.com'
+        },
+        stubs: {
+          GeoActivityIndicator,
+          GeoButton,
+          FontAwesomeIcon
+        }
+      })
+
+      expect(wrapper.find('a[href="https://geoblink.com"]').exists()).toBe(true)
+    })
   })
 })

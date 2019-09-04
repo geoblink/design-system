@@ -4,7 +4,14 @@
     :type="type"
     @click="$emit('click', $event)"
   >
-    <slot />
+    <a
+      v-if="href"
+      :href="href"
+      target="_blank"
+    >
+      <slot />
+    </a>
+    <slot v-else />
 
     <font-awesome-icon
       :icon="icon"
@@ -29,6 +36,11 @@ export default {
   release: '24.5.0',
   mixins: [mixin],
   props: {
+    href: {
+      type: String,
+      required: false
+    },
+
     icon: {
       type: Array,
       default () {
@@ -42,7 +54,7 @@ export default {
     },
 
     propsForButton () {
-      return _.omit(this.$props, 'icon')
+      return _.omit(this.$props, ['icon', 'href'])
     }
   }
 }
