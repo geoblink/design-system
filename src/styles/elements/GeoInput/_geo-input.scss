@@ -46,10 +46,17 @@
     .geo-input__icon {
       color: $color-grey-light;
       position: absolute;
-      right: $space-small;
+    }
+
+    .geo-input__icon--leading {
+      left: $space-small;
+    }
+
+    .geo-input__icon--trailing {
+      left: $space-small;
     }
   }
-  
+
   .geo-input--success#{$modifier-name-with-prefix} {
     .geo-input__input {
       &, &:focus {
@@ -71,7 +78,7 @@
   .geo-input--disabled#{$modifier-name-with-prefix} {
     .geo-input__input {
       padding-right: $space-large;
-      
+
       &, &:focus {
         background-color: $color-white-dark;
         color: $color-grey-light;

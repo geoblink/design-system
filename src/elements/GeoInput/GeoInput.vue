@@ -10,6 +10,12 @@
     <slot name="label" />
 
     <div class="geo-input__input-wrapper">
+      <font-awesome-icon
+        v-if="leadingAccessoryIcon"
+        :icon="leadingAccessoryIcon"
+        fixed-with
+        class="geo-input__icon geo-input__icon--leading"
+      />
       <input
         :value="value"
         :disabled="disabled"
@@ -22,7 +28,7 @@
         v-if="disabled"
         :icon="disabledIcon"
         fixed-with
-        class="geo-input__icon"
+        class="geo-input__icon geo-input__icon--trailing"
       />
     </div>
 
@@ -87,6 +93,17 @@ export default {
       default () {
         return ['fal', 'lock-alt']
       }
+    },
+
+    /**
+     * Font Awesome 5 icon to be displayed.
+     *
+     * See [vue-fontawesome](https://www.npmjs.com/package/@fortawesome/vue-fontawesome#explicit-prefix-note-the-vue-bind-shorthand-because-this-uses-an-array)
+     * for more info about this.
+     */
+    leadingAccessoryIcon: {
+      type: Array,
+      required: false
     }
   },
   computed: {
