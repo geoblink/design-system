@@ -1,6 +1,7 @@
 <template>
   <!-- mousedown event is used because it is fired before blur event on GeoInput -->
   <!-- blur event won't be fired but that's fine because we want this handler to prevail over the blur one -->
+  <!-- https://forum.vuejs.org/t/blur-before-click-only-on-safari/21598/7 -->
   <button
     :class="{
       'geo-calendar-grid__year-unit': true,
@@ -11,7 +12,8 @@
       'geo-calendar-grid__date-picker-unit--from-date': isDayWithinFromYear,
       'geo-calendar-grid__date-picker-unit--to-date': isDayWithinToYear
     }"
-    @mousedown="selectYear($event)"
+    @mousedown.prevent="selectYear($event)"
+    @mouseover="emitYearUnitMouseover($event)"
   >
     <div class="geo-calendar-grid__date-picker-unit__placeholder">
       {{ year }}
@@ -96,7 +98,23 @@ export default {
   methods: {
     selectYear () {
       if (this.isYearUnavailable) return
+      /**
+       * User selects a particular month of the year within the grid
+       *
+       * @event select-year-unit
+       * @type {Number}
+       */
       this.$emit('select-year-unit', this.year)
+    },
+
+    emitYearUnitMouseover () {
+      /**
+       * User hovers on a potential selected year
+       *
+       * @event year-unit-mouseover
+       * @type {Number}
+       */
+      this.$emit('year-unit-mouseover', this.year)
     }
   }
 }

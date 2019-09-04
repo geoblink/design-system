@@ -12,6 +12,7 @@
     :selected-to-day="selectedToDay"
     @select-day="selectDay($event)"
     @select-week="selectWeek($event)"
+    @day-unit-mouseover="emitDayUnitMouseover($event)"
   />
   <geo-calendar-month-grid
     v-else-if="isMonthGrid"
@@ -25,6 +26,7 @@
     :selected-to-day="selectedToDay"
     @select-month="selectMonth"
     @select-quarter="selectQuarter($event)"
+    @month-unit-mouseover="emitMonthUnitMouseover($event)"
   />
   <geo-calendar-year-grid
     v-else-if="isYearGrid"
@@ -39,6 +41,7 @@
     :selected-from-day="selectedFromDay"
     :selected-to-day="selectedToDay"
     @select-year="selectYear($event)"
+    @year-unit-mouseover="emitYearUnitMouseover($event)"
   />
 </template>
 
@@ -143,6 +146,36 @@ export default {
        * @type {Number}
        */
       this.$emit('select-year', year)
+    },
+
+    emitDayUnitMouseover (day) {
+      /**
+       * User hovers on a potential selected date
+       *
+       * @event day-unit-mouseover
+       * @type {Date}
+       */
+      this.$emit('day-unit-mouseover', day)
+    },
+
+    emitMonthUnitMouseover (monthIndex) {
+      /**
+       * User hovers on a potential selected month
+       *
+       * @event month-unit-mouseover
+       * @type {Number}
+       */
+      this.$emit('month-unit-mouseover', monthIndex)
+    },
+
+    emitYearUnitMouseover (year) {
+      /**
+       * User hovers on a potential selected year
+       *
+       * @event year-unit-mouseover
+       * @type {Number}
+       */
+      this.$emit('year-unit-mouseover', year)
     }
   }
 }

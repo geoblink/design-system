@@ -22,6 +22,7 @@
         :selected-to-day="selectedToDay"
         :week="week"
         :week-index="weekIndex"
+        @day-unit-mouseover="emitDayUnitMouseover($event)"
         @select-day="selectDay($event)"
         @select-week="selectWeek($event)"
       />
@@ -136,6 +137,16 @@ export default {
        * @type {{ fromDate: Date, toDate: Date }}
        */
       this.$emit('select-week', $event)
+    },
+
+    emitDayUnitMouseover (day) {
+      /**
+       * User hovers on a potential selected date
+       *
+       * @event day-unit-mouseover
+       * @type {Date}
+       */
+      this.$emit('day-unit-mouseover', day)
     }
   }
 }

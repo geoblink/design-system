@@ -1,6 +1,9 @@
 <template>
   <div :class="`geo-calendar${cssSuffix}`">
-    <div class="geo-calendar__granularity-selectors">
+    <div
+      v-if="$slots.pickerGranularity"
+      class="geo-calendar__granularity-selectors"
+    >
       <!-- @slot Use this slot to customize the sidebar with the different granularities handled by the calendar -->
       <slot name="pickerGranularity" />
       <!-- TODO: CORE-7338 Put aliases in different slot -->
@@ -16,8 +19,10 @@
             css-modifier="geo-calendar"
             type="text"
             :error="showFromFormatError"
+            :focus="isFromInputFieldFocused"
             @focus="focusFromDateInput"
             @blur="applyFromFormattedDate"
+            @delete-value="deleteFromFormattedDate"
           />
           <!-- @slot Use this slot to customize the message shown when there is an error in one of the selected dates -->
           <geo-input-message
@@ -27,12 +32,10 @@
           >
             <slot name="formatError" />
           </geo-input-message>
-          <!-- mousedown event is used because it is fired before blur event on GeoInput -->
-          <!-- blur event won't be fired but that's fine because we want this handler to prevail over the blur one -->
           <geo-link-button
             v-if="showSetEarliestDateButton"
             css-modifier="calendar-picker-button"
-            @mousedown.native="setEarliestDate"
+            @click="setEarliestDate"
           >
             <!-- @slot Use this slot to customize the text in the button used to apply your earliest available date in the fromDate input  -->
             <slot
@@ -53,9 +56,11 @@
             :placeholder="toInputPlaceholder"
             css-modifier="geo-calendar"
             type="text"
-            :error="showFromFormatError"
+            :error="showToFormatError"
+            :focus="isToInputFieldFocused"
             @focus="focusToDateInput"
-            @blur="applyToFormattedDate"
+            @blur="applyToFormattedDate($event)"
+            @delete-value="deleteToFormattedDate"
           />
           <!-- @slot Use this slot to customize the message shown when there is an error in one of the selected dates -->
           <geo-input-message
@@ -65,12 +70,10 @@
           >
             <slot name="formatError" />
           </geo-input-message>
-          <!-- mousedown event is used because it is fired before blur event on GeoInput -->
-          <!-- blur event won't be fired but that's fine because we want this handler to prevail over the blur one -->
           <geo-link-button
             v-if="showSetLatestDateButton"
             css-modifier="calendar-picker-button"
-            @mousedown.native="setLatestDate"
+            @click="setLatestDate"
           >
             <!-- @slot Use this slot to customize the text in the button used to apply your latest available date in the toDate input  -->
             <slot
@@ -104,6 +107,9 @@
         @select-quarter="selectQuarter($event)"
         @select-week="selectWeek($event)"
         @select-year="selectYear($event)"
+        @day-unit-mouseover="highlightInputForDayUnit($event)"
+        @month-unit-mouseover="highlightInputForMonthUnit($event)"
+        @year-unit-mouseover="highlightInputForYearUnit($event)"
       />
     </div>
   </div>
@@ -122,7 +128,9 @@ import {
   startOfQuarter,
   endOfYear,
   startOfMonth,
-  startOfYear
+  startOfYear,
+  differenceInDays,
+  differenceInMonths
 } from 'date-fns'
 
 import GeoCalendarRootMixin from './GeoCalendarRoot.mixin'
@@ -152,7 +160,8 @@ export default {
       showToFormatError: false,
       currentInitialYearInRange: 0,
       currentEndYearInRange: 0,
-      lastInputFieldExplicitlyFocused: null
+      lastInputFieldFocused: null,
+      isSomeInputFieldExplicitlyFocused: false
     }
   },
 
@@ -177,6 +186,22 @@ export default {
       return (date) => !isBefore(date, this.earliestDate) && !isAfter(date, this.latestDate)
     },
 
+    isFromInputFieldFocused () {
+      return this.lastInputFieldFocused === FOCUSABLE_INPUT_FIELDS.FROM_DATE
+    },
+
+    isToInputFieldFocused () {
+      return this.lastInputFieldFocused === FOCUSABLE_INPUT_FIELDS.TO_DATE
+    },
+
+    isFromInputFieldExplicitlyFocused () {
+      return this.isFromInputFieldFocused && this.isSomeInputFieldExplicitlyFocused
+    },
+
+    isToInputFieldExplicitlyFocused () {
+      return this.isToInputFieldFocused && this.isSomeInputFieldExplicitlyFocused
+    },
+
     isValidDate () {
       return (date) => date && isValid(date) && this.isDateWithinBounds(date)
     }
@@ -184,12 +209,9 @@ export default {
 
   watch: {
     granularityId () {
-      this.fromFormattedDate = ''
-      this.fromRawDate = null
-      this.toFormattedDate = ''
-      this.toRawDate = null
-      this.emitFromDate({ fromDate: this.fromRawDate })
-      this.emitToDate({ toDate: this.toRawDate })
+      this.deleteFromFormattedDate()
+      this.deleteToFormattedDate()
+      this.lastInputFieldFocused = FOCUSABLE_INPUT_FIELDS.FROM_DATE
     }
   },
 
@@ -207,6 +229,12 @@ export default {
 
   methods: {
     applyFromFormattedDate () {
+      if (!this.fromFormattedDate) {
+        this.fromRawDate = null
+        this.showFromFormatError = false
+        this.emitFromDate({ fromDate: this.fromRawDate })
+        return
+      }
       const parsedDate = this.parseDate(this.fromFormattedDate)
       const isInputDateValid = this.isValidDate(parsedDate)
 
@@ -222,6 +250,12 @@ export default {
     },
 
     applyToFormattedDate () {
+      if (!this.toFormattedDate) {
+        this.toRawDate = null
+        this.showToFormatError = false
+        this.emitToDate({ toDate: this.toRawDate })
+        return
+      }
       const parsedDate = this.parseDate(this.toFormattedDate)
       const isInputDateValid = this.isValidDate(parsedDate)
 
@@ -267,18 +301,19 @@ export default {
     selectDay (day) {
       const hasFromDate = !!this.fromRawDate
       const isDayBeforeFromDate = hasFromDate && isBefore(day, this.fromRawDate)
-      const isSettingFromDate = !hasFromDate || isDayBeforeFromDate || this.lastInputFieldExplicitlyFocused === FOCUSABLE_INPUT_FIELDS.FROM_DATE
+      const distanceToFromDate = Math.abs(differenceInDays(day, this.fromRawDate))
+      const distanceToToDate = this.toRawDate
+        ? Math.abs(differenceInDays(day, this.toRawDate))
+        : 0
 
-      const unverifiedRangeSettings = {
-        whenSettingFromDate: {
-          start: day,
-          end: this.toRawDate
-        },
-        whenSettingToDate: {
-          start: this.fromRawDate,
-          end: day
-        }
-      }
+      const isSettingFromDate = this.isToInputFieldExplicitlyFocused
+        ? false
+        : !hasFromDate ||
+          isDayBeforeFromDate ||
+          this.isFromInputFieldExplicitlyFocused ||
+          distanceToFromDate < distanceToToDate
+
+      const unverifiedRangeSettings = this.getUnverifiedRangeSettings(day, day)
 
       const unverifiedRange = isSettingFromDate
         ? unverifiedRangeSettings.whenSettingFromDate
@@ -303,30 +338,30 @@ export default {
       this.emitFromDate({ fromDate: this.fromRawDate })
       this.emitToDate({ toDate: this.toRawDate })
 
-      if (isSettingFromDate) {
-        this.focusToDateInput()
-      }
+      this.isSomeInputFieldExplicitlyFocused = false
+      this.lastInputFieldFocused = null
     },
 
     selectMonth (monthIndex) {
       this.currentMonth = monthIndex
       const firstDayOfMonth = new Date(Date.UTC(this.currentYear, this.currentMonth))
       const lastDayOfMonth = endOfMonth(firstDayOfMonth)
-
       const hasFromDate = !!this.fromRawDate
       const isMonthBeforeRangeStart = hasFromDate && this.currentMonth < getMonth(this.fromRawDate)
-      const isSettingFromDate = !hasFromDate || isMonthBeforeRangeStart || this.lastInputFieldExplicitlyFocused === FOCUSABLE_INPUT_FIELDS.FROM_DATE
 
-      const unverifiedRangeSettings = {
-        whenSettingFromDate: {
-          start: firstDayOfMonth,
-          end: this.toRawDate
-        },
-        whenSettingToDate: {
-          start: this.fromRawDate,
-          end: lastDayOfMonth
-        }
-      }
+      const distanceToFromDate = Math.abs(differenceInMonths(firstDayOfMonth, this.fromRawDate))
+      const distanceToToDate = this.toRawDate
+        ? Math.abs(differenceInMonths(firstDayOfMonth, this.toRawDate))
+        : 0
+
+      const isSettingFromDate = this.isToInputFieldExplicitlyFocused
+        ? false
+        : !hasFromDate ||
+          isMonthBeforeRangeStart ||
+          this.isFromInputFieldExplicitlyFocused ||
+          distanceToFromDate < distanceToToDate
+
+      const unverifiedRangeSettings = this.getUnverifiedRangeSettings(firstDayOfMonth, lastDayOfMonth)
 
       const unverifiedRange = isSettingFromDate
         ? unverifiedRangeSettings.whenSettingFromDate
@@ -351,9 +386,8 @@ export default {
       this.emitFromDate({ fromDate: this.fromRawDate })
       this.emitToDate({ toDate: this.toRawDate })
 
-      if (isSettingFromDate) {
-        this.focusToDateInput()
-      }
+      this.isSomeInputFieldExplicitlyFocused = false
+      this.lastInputFieldFocused = null
     },
 
     selectQuarter (monthIndex) {
@@ -379,18 +413,20 @@ export default {
 
       const hasFromDate = !!this.fromRawDate
       const isYearBeforeRangeStart = hasFromDate && this.currentYear < getYear(this.fromRawDate)
-      const isSettingFromDate = !hasFromDate || isYearBeforeRangeStart || this.lastInputFieldExplicitlyFocused === FOCUSABLE_INPUT_FIELDS.FROM_DATE
 
-      const unverifiedRangeSettings = {
-        whenSettingFromDate: {
-          start: firstDayOfYear,
-          end: this.toRawDate
-        },
-        whenSettingToDate: {
-          start: this.fromRawDate,
-          end: lastDayOfYear
-        }
-      }
+      const distanceToFromDate = Math.abs(differenceInMonths(firstDayOfYear, this.fromRawDate))
+      const distanceToToDate = this.toRawDate
+        ? Math.abs(differenceInMonths(firstDayOfYear, this.toRawDate))
+        : 0
+
+      const isSettingFromDate = this.isToInputFieldExplicitlyFocused
+        ? false
+        : !hasFromDate ||
+          isYearBeforeRangeStart ||
+          this.isFromInputFieldExplicitlyFocused ||
+          distanceToFromDate < distanceToToDate
+
+      const unverifiedRangeSettings = this.getUnverifiedRangeSettings(firstDayOfYear, lastDayOfYear)
 
       const unverifiedRange = isSettingFromDate
         ? unverifiedRangeSettings.whenSettingFromDate
@@ -415,9 +451,8 @@ export default {
       this.emitFromDate({ fromDate: this.fromRawDate })
       this.emitToDate({ toDate: this.toRawDate })
 
-      if (isSettingFromDate) {
-        this.focusToDateInput()
-      }
+      this.isSomeInputFieldExplicitlyFocused = false
+      this.lastInputFieldFocused = null
     },
 
     setEarliestDate () {
@@ -445,6 +480,20 @@ export default {
       this.toFormattedDate = this.toRawDate ? this.formatDate(this.toRawDate) : null
     },
 
+    deleteFromFormattedDate () {
+      this.fromFormattedDate = ''
+      this.fromRawDate = null
+      this.showFromFormatError = false
+      this.emitFromDate({ fromDate: this.fromRawDate })
+    },
+
+    deleteToFormattedDate () {
+      this.toFormattedDate = ''
+      this.toRawDate = null
+      this.showToFormatError = false
+      this.emitToDate({ toDate: this.toRawDate })
+    },
+
     setLatestDate () {
       if (!this.latestDate) return
       this.showToFormatError = false
@@ -466,11 +515,94 @@ export default {
     },
 
     focusFromDateInput () {
-      this.lastInputFieldExplicitlyFocused = FOCUSABLE_INPUT_FIELDS.FROM_DATE
+      this.isSomeInputFieldExplicitlyFocused = true
+      this.lastInputFieldFocused = FOCUSABLE_INPUT_FIELDS.FROM_DATE
     },
 
     focusToDateInput () {
-      this.lastInputFieldExplicitlyFocused = FOCUSABLE_INPUT_FIELDS.TO_DATE
+      this.isSomeInputFieldExplicitlyFocused = true
+      this.lastInputFieldFocused = FOCUSABLE_INPUT_FIELDS.TO_DATE
+    },
+
+    getUnverifiedRangeSettings (firstDay, lastDay) {
+      return {
+        whenSettingFromDate: {
+          start: firstDay,
+          end: this.toRawDate
+        },
+        whenSettingToDate: {
+          start: this.fromRawDate,
+          end: lastDay
+        }
+      }
+    },
+
+    highlightInputForDayUnit (day) {
+      if (this.isSomeInputFieldExplicitlyFocused) return
+      const hasFromDate = !!this.fromRawDate
+      const isDayBeforeFromDate = hasFromDate && isBefore(day, this.fromRawDate)
+      const distanceToFromDate = differenceInDays(day, this.fromRawDate)
+      const distanceToToDate = this.toRawDate
+        ? differenceInDays(this.toRawDate, day)
+        : 0
+
+      const shouldSetFromDate = !hasFromDate ||
+        isDayBeforeFromDate ||
+        this.isFromInputFieldExplicitlyFocused ||
+        distanceToFromDate < distanceToToDate
+
+      if (shouldSetFromDate) {
+        this.lastInputFieldFocused = FOCUSABLE_INPUT_FIELDS.FROM_DATE
+      } else {
+        this.lastInputFieldFocused = FOCUSABLE_INPUT_FIELDS.TO_DATE
+      }
+    },
+
+    highlightInputForMonthUnit (monthIndex) {
+      if (this.isSomeInputFieldExplicitlyFocused) return
+      const firstDayOfMonth = new Date(Date.UTC(this.currentYear, monthIndex))
+      const hasFromDate = !!this.fromRawDate
+      const isMonthBeforeRangeStart = hasFromDate && monthIndex < getMonth(this.fromRawDate)
+
+      const distanceToFromDate = differenceInMonths(firstDayOfMonth, this.fromRawDate)
+      const distanceToToDate = this.toRawDate
+        ? differenceInMonths(this.toRawDate, firstDayOfMonth)
+        : 0
+
+      const shouldSetFromDate = !hasFromDate ||
+          isMonthBeforeRangeStart ||
+          this.isFromInputFieldExplicitlyFocused ||
+          distanceToFromDate < distanceToToDate
+
+      if (shouldSetFromDate) {
+        this.lastInputFieldFocused = FOCUSABLE_INPUT_FIELDS.FROM_DATE
+      } else {
+        this.lastInputFieldFocused = FOCUSABLE_INPUT_FIELDS.TO_DATE
+      }
+    },
+
+    highlightInputForYearUnit (year) {
+      if (this.isSomeInputFieldExplicitlyFocused) return
+      const firstDayOfYear = new Date(year, 0)
+
+      const hasFromDate = !!this.fromRawDate
+      const isYearBeforeRangeStart = hasFromDate && year < getYear(this.fromRawDate)
+
+      const distanceToFromDate = differenceInMonths(firstDayOfYear, this.fromRawDate)
+      const distanceToToDate = this.toRawDate
+        ? differenceInMonths(this.toRawDate, firstDayOfYear)
+        : 0
+
+      const shouldSetFromDate = !hasFromDate ||
+          isYearBeforeRangeStart ||
+          this.isFromInputFieldExplicitlyFocused ||
+          distanceToFromDate < distanceToToDate
+
+      if (shouldSetFromDate) {
+        this.lastInputFieldFocused = FOCUSABLE_INPUT_FIELDS.FROM_DATE
+      } else {
+        this.lastInputFieldFocused = FOCUSABLE_INPUT_FIELDS.TO_DATE
+      }
     }
   }
 }

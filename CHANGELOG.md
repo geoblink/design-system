@@ -4,11 +4,21 @@ title: Changelog
 
 # Changelog
 
-## 24.4.1
+## 24.5.1
 
 Changed:
 
 - `GeoInput` accepts a new prop for leading icons
+
+## 24.5.0
+
+Changed:
+
+- `GeoCalendar` now uses more intuitive flows for the user when selecting dates.
+
+New:
+
+- `GeoInput` includes a delete icon when hovering on it that allows the user to remove the text on the said input field.
 
 ## 24.4.0
 

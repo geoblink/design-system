@@ -17,6 +17,10 @@
       width: 100%;
     }
 
+    .geo-input__input-wrapper:hover .geo-input__icon--delete {
+      display: inline;
+    }
+
     .geo-input__input {
       @include font($body);
 
@@ -44,7 +48,7 @@
     }
 
     .geo-input__icon {
-      color: $color-grey-light;
+      font-size: $font-size-small;
       position: absolute;
     }
 
@@ -53,7 +57,13 @@
     }
 
     .geo-input__icon--trailing {
-      left: $space-small;
+      right: $space-small;
+    }
+
+    .geo-input__icon--delete {
+      color: $color-red;
+      cursor: pointer;
+      display: none;
     }
   }
 
