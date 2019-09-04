@@ -47,6 +47,10 @@
       }
     }
 
+    .geo-input__input--leading-space {
+      padding-left: $space-large;
+    }
+
     .geo-input__icon {
       font-size: $font-size-small;
       position: absolute;

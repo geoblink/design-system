@@ -19,7 +19,10 @@
       <input
         :value="value"
         :disabled="disabled"
-        class="geo-input__input"
+        :class="{
+          'geo-input__input': true,
+          'geo-input__input--leading-space': !!leadingAccessoryIcon
+        }"
         v-bind="$attrs"
         v-on="listeners"
         @input="onInput($event)"

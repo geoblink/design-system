@@ -39,6 +39,13 @@ and a message as well as different color schemes to give feedback to the user.
       </geo-input>
     </div>
 
+    <h3 class="element-demo__header">Input with leading icon</h3>
+    <div class="element-demo__block">
+      <geo-input v-model="model[5]" type="text" :leading-accessory-icon="['fas', 'search']">
+        <geo-input-label slot="label">Search input</geo-input-label>
+      </geo-input>
+    </div>
+
     <h3 class="element-demo__header">Input text with events</h3>
     <div class="element-demo__block">
       <geo-input
@@ -70,7 +77,7 @@ export default {
   name: 'GeoInputDemo',
   data () {
     return {
-      model: [null, null, null, null, null, null, null],
+      model: [null, null, null, null, null, null, null, null],
       isFocused: false,
       hasError: false
     }
