@@ -2,12 +2,14 @@
   <geo-button
     v-bind="propsForButton"
     :type="type"
-    @click="$emit('click', $event)"
+    :class="`geo-external-link-button${cssSuffix}`"
+    @click="handleClick($event)"
   >
     <a
       v-if="href"
+      ref="link"
       :href="href"
-      target="_blank"
+      :target="target"
     >
       <slot />
     </a>
@@ -41,6 +43,11 @@ export default {
       required: false
     },
 
+    target: {
+      type: String,
+      default: '_blank'
+    },
+
     icon: {
       type: Array,
       default () {
@@ -54,7 +61,16 @@ export default {
     },
 
     propsForButton () {
-      return _.omit(this.$props, ['icon', 'href'])
+      return _.omit(this.$props, ['icon', 'href', 'target'])
+    }
+  },
+  methods: {
+    handleClick ($event) {
+      this.$emit('click', $event)
+
+      if (this.$refs.link) {
+        this.$refs.link.click()
+      }
     }
   }
 }

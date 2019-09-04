@@ -37,6 +37,14 @@ export default {
 </script>
 ```
 
+### Regular href
+
+```jsx live
+<geo-external-link-button href="https://geoblink.com">
+  Open external link
+</geo-external-link-button>
+```
+
 ### Regular
 
 ```jsx live

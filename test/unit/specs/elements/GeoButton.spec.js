@@ -288,5 +288,25 @@ describe('GeoButton Children', () => {
 
       expect(wrapper.find('a[href="https://geoblink.com"]').exists()).toBe(true)
     })
+
+    it('Should open links if «href» is given', function () {
+      const wrapper = mount(GeoExternalLinkButton, {
+        propsData: {
+          href: 'https://geoblink.com'
+        },
+        stubs: {
+          GeoActivityIndicator,
+          GeoButton,
+          FontAwesomeIcon
+        }
+      })
+
+      const nativeClickSpy = jest.spyOn(HTMLAnchorElement.prototype, 'click').mockImplementation(() => { })
+
+      wrapper.find('.geo-button').trigger('click')
+
+      expect(wrapper.emitted()['click']).toBeTruthy()
+      expect(nativeClickSpy).toHaveBeenCalled()
+    })
   })
 })
