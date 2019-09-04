@@ -4,6 +4,12 @@ title: Changelog
 
 # Changelog
 
+## 24.4.1
+
+Changed:
+
+- `GeoInput` accepts a new prop for leading icons
+
 ## 24.4.0
 
 New:
