@@ -8,6 +8,8 @@ props:
     value: "9999"
   z_index_over_modal:
     value: "10000"
+  z_index_tooltip:
+    value: "10001"
   z_index_sticky:
     value: "100"
 global:

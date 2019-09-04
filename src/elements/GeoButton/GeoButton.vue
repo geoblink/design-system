@@ -62,7 +62,7 @@ export default {
      * | danger    | [GeoDangerButton](./#/Elements/GeoButton?id=geodangerbutton)       | Dangerous actions (deleting data) |
      *
      * Supported `type` values are exported under `TYPES` named export. See
-     * [Component Constants](./#/Component%20Constants) for more info on how to
+     * [Component Constants](/docs/components-constants.html) for more info on how to
      * use those constants in your code.
      *
      * > **Note:** You can always override the color scheme of any `GeoButton`

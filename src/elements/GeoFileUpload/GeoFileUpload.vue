@@ -84,7 +84,7 @@ export default {
      * It's aimed to show user feedback about the uploaded file.
      *
      * Supported `status` values are exported under `STATUS` named export.
-     * See [Component Constants](./#/Component%20Constants) for more info on how
+     * See [Component Constants](/docs/components-constants.html) for more info on how
      * to use those constants in your code.
      */
     status: {

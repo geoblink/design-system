@@ -21,7 +21,7 @@ pipeline {
     // Only keep the 50 most recent builds
     buildDiscarder(logRotator(numToKeepStr:'50'))
     // Abort the job if it takes more than 10 minutes
-    timeout(time: 10, unit: 'MINUTES')
+    timeout(time: 15, unit: 'MINUTES')
   }
 
   parameters {

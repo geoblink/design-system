@@ -35,7 +35,7 @@ export default {
      * out-of-the-box customizations.
      *
      * Supported `variant` values are exported under `VARIANTS` named export.
-     * See [Component Constants](./#/Component%20Constants) for more info on how
+     * See [Component Constants](/docs/components-constants.html) for more info on how
      * to use those constants in your code.
      *
      * > **Note:** You can always override the color scheme of any

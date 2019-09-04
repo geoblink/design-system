@@ -20,7 +20,7 @@ export default {
      * - `modal`
      *
      * Those values are exported under `VARIANTS` name. See
-     * [Component Constants](./#/Component%20Constants) for more info on how to
+     * [Component Constants](/docs/components-constants.html) for more info on how to
      * use those constants in your code.
      *
      * Variant only affects default CSS styling and no icon nor behaviour is
