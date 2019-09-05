@@ -4,6 +4,12 @@ title: Changelog
 
 # Changelog
 
+## 24.6.1
+
+Fixed:
+
+- Restore `GeoInput` icon's color
+
 ## 24.6.0
 
 Changed:
