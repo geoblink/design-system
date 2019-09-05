@@ -4,7 +4,7 @@ title: Changelog
 
 # Changelog
 
-## 24.5.1
+## 24.6.0
 
 Changed:
 
