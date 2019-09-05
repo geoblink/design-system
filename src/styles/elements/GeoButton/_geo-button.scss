@@ -381,6 +381,12 @@
   .geo-button--dangerLink {
     @include geo-button--dangerLink($modifier-name-with-prefix);
   }
+
+  .geo-external-link-button#{$modifier-name-with-prefix} a {
+    @include font($body);
+
+    color: $color-blue;
+  }
 }
 
 @include geo-button-make('');

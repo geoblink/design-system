@@ -1,12 +1,29 @@
+import _ from 'lodash'
 import { createLocalVue, mount } from '@vue/test-utils'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { fas } from '@fortawesome/free-solid-svg-icons'
 import GeoActivityIndicator from '@/elements/GeoActivityIndicator/GeoActivityIndicator.vue'
 import GeoButton from '@/elements/GeoButton/GeoButton.vue'
 import GeoDangerButton from '@/elements/GeoButton/GeoDangerButton.vue'
 import GeoTertiaryButton from '@/elements/GeoButton/GeoTertiaryButton.vue'
 import GeoLinkButton from '@/elements/GeoButton/GeoLinkButton.vue'
 import GeoDangerLinkButton from '@/elements/GeoButton/GeoDangerLinkButton.vue'
+import GeoExternalLinkButton from '@/elements/GeoButton/GeoExternalLinkButton.vue'
 import GeoPrimaryButton from '@/elements/GeoButton/GeoPrimaryButton.vue'
 import GeoSecondaryButton from '@/elements/GeoButton/GeoSecondaryButton.vue'
+
+const nonExistingIconsToMock = {
+  'external-link-square': 'faExternalLinkSquareAlt'
+}
+const mockedNonExistingIcons = _.mapValues(nonExistingIconsToMock, function (mockedIconKey, originalIconName) {
+  return _.assign({}, fas[mockedIconKey], {
+    prefix: 'fal',
+    iconName: originalIconName
+  })
+})
+
+library.add(mockedNonExistingIcons)
 
 // create an extended `Vue` constructor
 const localVue = createLocalVue()
@@ -16,11 +33,12 @@ localVue.component('geo-danger-button', GeoDangerButton)
 localVue.component('geo-tertiary-button', GeoTertiaryButton)
 localVue.component('geo-link-button', GeoLinkButton)
 localVue.component('geo-danger-link-button', GeoDangerLinkButton)
+localVue.component('geo-external-link-button', GeoExternalLinkButton)
 localVue.component('geo-primary-button', GeoPrimaryButton)
 localVue.component('geo-secondary-button', GeoSecondaryButton)
 
 describe('GeoButton', () => {
-  it('should render button\'s content', function () {
+  it('Should render button\'s content', function () {
     const wrapper = mount(GeoButton, {
       slots: {
         default: '<span>Button title</span>'
@@ -34,7 +52,7 @@ describe('GeoButton', () => {
     expect(button.find('span').exists()).toBe(true)
   })
 
-  it('should emit an event on click', function (done) {
+  it('Should emit an event on click', function (done) {
     const wrapper = mount(GeoButton, {
       propsData: {
         type: 'primary'
@@ -51,7 +69,7 @@ describe('GeoButton', () => {
     })
   })
 
-  it('should not emit an event when it\'s disabled', function () {
+  it('Should not emit an event when it\'s disabled', function () {
     const wrapper = mount(GeoButton, {
       propsData: {
         type: 'primary',
@@ -64,7 +82,7 @@ describe('GeoButton', () => {
     expect(wrapper.emitted()['click']).toBeFalsy()
   })
 
-  it('should add CSS Suffix when given', function () {
+  it('Should add CSS Suffix when given', function () {
     const wrapper = mount(GeoButton, {
       propsData: {
         type: 'primary',
@@ -75,7 +93,7 @@ describe('GeoButton', () => {
     expect(wrapper.find('.geo-button--custom').exists()).toBe(true)
   })
 
-  it('should show activity indicator when loading', function () {
+  it('Should show activity indicator when loading', function () {
     const wrapper = mount(GeoButton, {
       propsData: {
         type: 'primary',
@@ -87,7 +105,7 @@ describe('GeoButton', () => {
     expect(wrapper.find('.geo-button__activity-indicator').exists()).toBe(true)
   })
 
-  it('should provide matching activity indicator variant by default', function () {
+  it('Should provide matching activity indicator variant by default', function () {
     const primaryWrapper = mount(GeoButton, {
       propsData: {
         type: 'primary',
@@ -156,79 +174,139 @@ const taxonomyButtons = [
   GeoSecondaryButton,
   GeoTertiaryButton,
   GeoLinkButton,
-  GeoDangerLinkButton
+  GeoDangerLinkButton,
+  GeoExternalLinkButton
 ]
 
 describe('GeoButton Children', () => {
   taxonomyButtons.forEach((taxonomyButton) => {
-    it('should render button\'s content', function () {
-      const wrapper = mount(taxonomyButton, {
-        slots: {
-          default: '<span>Button title</span>'
-        },
+    describe(taxonomyButton.name, function () {
+      it('Should render button\'s content', function () {
+        const wrapper = mount(taxonomyButton, {
+          slots: {
+            default: '<span>Button title</span>'
+          },
+          stubs: {
+            GeoButton,
+            FontAwesomeIcon
+          }
+        })
+        const button = wrapper.find('.geo-button')
+        expect(button.exists()).toBe(true)
+        expect(button.find('span').exists()).toBe(true)
+      })
+
+      it('Should emit an event on click', function (done) {
+        const wrapper = mount(taxonomyButton, {
+          stubs: {
+            GeoButton,
+            FontAwesomeIcon
+          }
+        })
+        wrapper.find('.geo-button').trigger('click')
+        setTimeout(function () {
+          try {
+            expect(wrapper.emitted()['click']).toBeTruthy()
+            done()
+          } catch (error) {
+            done(error)
+          }
+        })
+      })
+
+      it('Should not emit an event when it\'s disabled', function () {
+        const wrapper = mount(taxonomyButton, {
+          propsData: {
+            disabled: true
+          },
+          stubs: {
+            GeoButton,
+            FontAwesomeIcon
+          }
+        })
+
+        const button = wrapper.find('.geo-button')
+        button.trigger('click')
+        expect(wrapper.emitted()['click']).toBeFalsy()
+      })
+
+      it('Should add CSS Suffix when given', function () {
+        const wrapper = mount(taxonomyButton, {
+          propsData: {
+            cssModifier: 'custom'
+          },
+          stubs: {
+            GeoButton,
+            FontAwesomeIcon
+          }
+        })
+
+        expect(wrapper.find('.geo-button--custom').exists()).toBe(true)
+      })
+
+      it('Should show activity indicator when loading', function () {
+        const wrapper = mount(taxonomyButton, {
+          propsData: {
+            loading: true
+          },
+          stubs: {
+            GeoActivityIndicator,
+            GeoButton,
+            FontAwesomeIcon
+          }
+        })
+
+        expect(wrapper.find('.geo-button__activity-indicator').exists()).toBe(true)
+      })
+    })
+  })
+
+  describe('GeoExternalLinkButton', function () {
+    it('Should render icon', function () {
+      const wrapper = mount(GeoExternalLinkButton, {
         stubs: {
-          GeoButton
+          GeoActivityIndicator,
+          GeoButton,
+          FontAwesomeIcon
         }
       })
-      const button = wrapper.find('.geo-button')
-      expect(button.exists()).toBe(true)
-      expect(button.find('span').exists()).toBe(true)
+
+      expect(wrapper.find('[data-icon="external-link-square"]').exists()).toBe(true)
     })
 
-    it('should emit an event on click', function (done) {
-      const wrapper = mount(taxonomyButton, {
+    it('Should render «a» wrapper if «href» is given', function () {
+      const wrapper = mount(GeoExternalLinkButton, {
+        propsData: {
+          href: 'https://geoblink.com'
+        },
         stubs: {
-          GeoButton
+          GeoActivityIndicator,
+          GeoButton,
+          FontAwesomeIcon
         }
       })
+
+      expect(wrapper.find('a[href="https://geoblink.com"]').exists()).toBe(true)
+    })
+
+    it('Should open links if «href» is given', function () {
+      const wrapper = mount(GeoExternalLinkButton, {
+        propsData: {
+          href: 'https://geoblink.com'
+        },
+        stubs: {
+          GeoActivityIndicator,
+          GeoButton,
+          FontAwesomeIcon
+        }
+      })
+
+      const nativeClickSpy = jest.spyOn(HTMLAnchorElement.prototype, 'click').mockImplementation(() => { })
+
       wrapper.find('.geo-button').trigger('click')
-      setTimeout(function () {
-        try {
-          expect(wrapper.emitted()['click']).toBeTruthy()
-          done()
-        } catch (error) {
-          done(error)
-        }
-      })
-    })
 
-    it('should not emit an event when it\'s disabled', function () {
-      const wrapper = mount(taxonomyButton, {
-        propsData: {
-          disabled: true
-        },
-        stubs: {
-          GeoButton
-        }
-      })
-
-      const button = wrapper.find('.geo-button')
-      button.trigger('click')
-      expect(wrapper.emitted()['click']).toBeFalsy()
-    })
-
-    it('should add CSS Suffix when given', function () {
-      const wrapper = mount(taxonomyButton, {
-        propsData: {
-          cssModifier: 'custom'
-        },
-        stubs: {
-          GeoButton
-        }
-      })
-
-      expect(wrapper.find('.geo-button--custom').exists()).toBe(true)
-    })
-
-    it('should show activity indicator when loading', function () {
-      const wrapper = mount(taxonomyButton, {
-        propsData: {
-          loading: true
-        },
-        stubs: { GeoActivityIndicator, GeoButton }
-      })
-
-      expect(wrapper.find('.geo-button__activity-indicator').exists()).toBe(true)
+      expect(wrapper.emitted()['click']).toBeTruthy()
+      expect(nativeClickSpy).toHaveBeenCalled()
     })
   })
 })
