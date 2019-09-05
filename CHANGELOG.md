@@ -4,11 +4,23 @@ title: Changelog
 
 # Changelog
 
-## 24.6.0
+## 24.7.0
 
 New:
 
 - `GeoExternalLinkButton`
+
+## 24.6.1
+
+Fixed:
+
+- Restore `GeoInput` icon's color
+
+## 24.6.0
+
+Changed:
+
+- `GeoInput` accepts a new prop for leading icons
 
 ## 24.5.0
 

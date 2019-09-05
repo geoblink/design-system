@@ -10,10 +10,19 @@
     <slot name="label" />
 
     <div class="geo-input__input-wrapper">
+      <font-awesome-icon
+        v-if="leadingAccessoryIcon"
+        :icon="leadingAccessoryIcon"
+        fixed-with
+        class="geo-input__icon geo-input__icon--leading"
+      />
       <input
         :value="value"
         :disabled="disabled"
-        class="geo-input__input"
+        :class="{
+          'geo-input__input': true,
+          'geo-input__input--leading-space': !!leadingAccessoryIcon
+        }"
         v-bind="$attrs"
         v-on="listeners"
         @input="onInput($event)"
@@ -25,14 +34,14 @@
         v-if="!disabled && !!value"
         :icon="deleteInputValueIcon"
         fixed-with
-        class="geo-input__icon geo-input__icon--delete"
+        class="geo-input__icon geo-input__icon--trailing geo-input__icon--delete"
         @mousedown.prevent="deleteValue"
       />
       <font-awesome-icon
         v-if="disabled"
         :icon="disabledIcon"
         fixed-with
-        class="geo-input__icon"
+        class="geo-input__icon geo-input__icon--trailing"
       />
     </div>
 
@@ -99,6 +108,23 @@ export default {
       }
     },
 
+    /**
+     * Font Awesome 5 icon to be displayed.
+     *
+     * See [vue-fontawesome](https://www.npmjs.com/package/@fortawesome/vue-fontawesome#explicit-prefix-note-the-vue-bind-shorthand-because-this-uses-an-array)
+     * for more info about this.
+     */
+    leadingAccessoryIcon: {
+      type: Array,
+      required: false
+    },
+
+    /**
+     * Font Awesome 5 icon to be displayed.
+     *
+     * See [vue-fontawesome](https://www.npmjs.com/package/@fortawesome/vue-fontawesome#explicit-prefix-note-the-vue-bind-shorthand-because-this-uses-an-array)
+     * for more info about this.
+     */
     deleteInputValueIcon: {
       type: Array,
       default () {
