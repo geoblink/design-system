@@ -44,6 +44,11 @@
       cursor: pointer;
     }
 
+    .geo-calendar-navigation__nav-icon--disabled {
+      color: $color-grey;
+      cursor: not-allowed;
+    }
+
     .geo-calendar-navigation--disabled {
       color: $color-grey;
       cursor: not-allowed;

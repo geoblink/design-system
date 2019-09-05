@@ -16,6 +16,7 @@
       :selected-from-day="selectedFromDay"
       :selected-to-day="selectedToDay"
       @select-day-unit="selectDay($event)"
+      @day-unit-mouseover="emitDayUnitMouseover($event)"
     />
   </div>
 </template>
@@ -120,6 +121,16 @@ export default {
           toDate: startOfDay(endOfWeek(day, { weekStartsOn: 1 }))
         })
       }
+    },
+
+    emitDayUnitMouseover (day) {
+      /**
+       * User hovers on a potential selected date
+       *
+       * @event day-unit-mouseover
+       * @type {Date}
+       */
+      this.$emit('day-unit-mouseover', day)
     }
   }
 }

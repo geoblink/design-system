@@ -12,6 +12,7 @@
         :selected-from-day="selectedFromDay"
         :selected-to-day="selectedToDay"
         @select-year-unit="selectYear"
+        @year-unit-mouseover="emitYearUnitMouseover"
       />
     </div>
   </div>
@@ -70,6 +71,16 @@ export default {
        * @type {Number}
        */
       this.$emit('select-year', year)
+    },
+
+    emitYearUnitMouseover (year) {
+      /**
+       * User hovers on a potential selected year
+       *
+       * @event year-unit-mouseover
+       * @type {Number}
+       */
+      this.$emit('year-unit-mouseover', year)
     }
   }
 }

@@ -1,5 +1,5 @@
 import { mount, shallowMount } from '@vue/test-utils'
-import { PICKER_DATE_UNITS, GRANULARITY_IDS } from '@/elements/GeoCalendar/GeoCalendar.utils.js'
+import { PICKER_DATE_UNITS, GRANULARITY_IDS, FOCUSABLE_INPUT_FIELDS } from '@/elements/GeoCalendar/GeoCalendar.utils.js'
 import GeoCalendar from '@/elements/GeoCalendar/GeoCalendar.vue'
 import GeoInput from '@/elements/GeoInput/GeoInput.vue'
 import GeoLinkButton from '@/elements/GeoButton/GeoLinkButton.vue'
@@ -107,16 +107,17 @@ describe('GeoCalendar', () => {
       it('Sets last day of month in to input', () => {
         const wrapper = getWrappedComponent()
         wrapper.setData({
-          fromRawDate: today
+          lastInputFieldFocused: FOCUSABLE_INPUT_FIELDS.FROM_DATE
         })
         const calendarPicker = wrapper.vm.$refs.calendarPicker
+        calendarPicker.$emit('select-month', 6)
         calendarPicker.$emit('select-month', 8)
         expect(wrapper.vm.currentMonth).toBe(8)
         const currentDate = endOfMonth(new Date(Date.UTC(wrapper.vm.currentYear, wrapper.vm.currentMonth)))
         expect(wrapper.vm.toRawDate).toEqual(currentDate)
         expect(wrapper.vm.toFormattedDate).toBe('30/09/2019')
         expect(wrapper.emitted()['emit-to-date']).toBeDefined()
-        expect(wrapper.emitted()['emit-to-date'][0][0]).toEqual({ toDate: currentDate })
+        expect(wrapper.emitted()['emit-to-date'][1][0]).toEqual({ toDate: currentDate })
       })
     })
 
@@ -171,16 +172,17 @@ describe('GeoCalendar', () => {
       it('Sets last day of year in to input', () => {
         const wrapper = getWrappedComponent()
         wrapper.setData({
-          fromRawDate: today
+          lastInputFieldFocused: FOCUSABLE_INPUT_FIELDS.FROM_DATE
         })
         const calendarPicker = wrapper.vm.$refs.calendarPicker
+        calendarPicker.$emit('select-year', 2019)
         calendarPicker.$emit('select-year', 2020)
         expect(wrapper.vm.currentYear).toBe(2020)
         const currentDate = endOfYear(new Date(wrapper.vm.currentYear, wrapper.vm.currentMonth))
         expect(wrapper.vm.toRawDate).toEqual(currentDate)
         expect(wrapper.vm.toFormattedDate).toBe('31/12/2020')
         expect(wrapper.emitted()['emit-to-date']).toBeDefined()
-        expect(wrapper.emitted()['emit-to-date'][0][0]).toEqual({ toDate: currentDate })
+        expect(wrapper.emitted()['emit-to-date'][1][0]).toEqual({ toDate: currentDate })
       })
     })
   })
@@ -196,7 +198,11 @@ describe('GeoCalendar', () => {
 
         wrapper.vm.selectDay(initialDate)
         wrapper.vm.selectDay(endDate)
+
         geoFromInput.vm.$emit('focus')
+
+        expect(wrapper.vm.lastInputFieldFocused).toBe(FOCUSABLE_INPUT_FIELDS.FROM_DATE)
+        expect(wrapper.vm.isSomeInputFieldExplicitlyFocused).toBe(true)
 
         wrapper.vm.selectDay(invalidFromDateRange)
 
@@ -388,9 +394,8 @@ describe('GeoCalendar', () => {
         })
         geoToInput.vm.$emit('blur')
 
-        // TODO CORE-7364 This should be changed when flows are fixed
         expect(wrapper.vm.fromFormattedDate).toBe('05/04/2019')
-        expect(wrapper.vm.toFormattedDate).toBe('05/04/2019')
+        expect(wrapper.vm.toFormattedDate).toBe('10/04/2019')
 
         wrapper.setData({
           fromFormattedDate: '',
@@ -411,8 +416,7 @@ describe('GeoCalendar', () => {
         })
         geoFromInput.vm.$emit('blur')
 
-        // TODO CORE-7364 This should be changed when flows are fixed
-        expect(wrapper.vm.fromFormattedDate).toBe('10/04/2019')
+        expect(wrapper.vm.fromFormattedDate).toBe('05/04/2019')
         expect(wrapper.vm.toFormattedDate).toBe('10/04/2019')
       })
     })
@@ -442,7 +446,7 @@ describe('GeoCalendar', () => {
       })
     })
 
-    describe('Calendar with date constraits', () => {
+    describe('Calendar with date constraints', () => {
       it('Should render the buttons', () => {
         const wrapper = getWrappedComponent()
         wrapper.setProps({
@@ -462,13 +466,13 @@ describe('GeoCalendar', () => {
           earliestDate: earliestDate,
           latestDate: latestDate
         })
-        wrapper.findAll(GeoLinkButton).at(0).trigger('mousedown')
+        wrapper.findAll(GeoLinkButton).at(0).trigger('click')
         expect(wrapper.vm.fromRawDate).toEqual(earliestDate)
         expect(wrapper.vm.fromFormattedDate).toEqual('30/07/2018')
         expect(wrapper.emitted()['emit-from-date']).toBeDefined()
         expect(wrapper.emitted()['emit-from-date'][0][0]).toEqual({ fromDate: earliestDate })
 
-        wrapper.findAll(GeoLinkButton).at(1).trigger('mousedown')
+        wrapper.findAll(GeoLinkButton).at(1).trigger('click')
         expect(wrapper.vm.toRawDate).toEqual(latestDate)
         expect(wrapper.vm.toFormattedDate).toEqual('30/07/2020')
         expect(wrapper.emitted()['emit-to-date']).toBeDefined()
@@ -561,7 +565,8 @@ function getWrappedComponent () {
     },
     slots: {
       earliestDatePlaceholder: 'Earliest date',
-      latestDatePlaceholder: 'Latest date'
+      latestDatePlaceholder: 'Latest date',
+      pickerGranularity: `<div> Granularity Selectors </div>`
     },
     data () {
       return {
