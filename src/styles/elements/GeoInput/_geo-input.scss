@@ -47,18 +47,28 @@
       }
     }
 
+    .geo-input__input--leading-space {
+      padding-left: $space-large;
+    }
+
     .geo-input__icon {
       color: $color-grey-light;
+      font-size: $font-size-small;
       position: absolute;
-      right: $space-small;
+    }
 
+    .geo-input__icon--leading {
+      left: $space-small;
+    }
+
+    .geo-input__icon--trailing {
+      right: $space-small;
     }
 
     .geo-input__icon--delete {
       color: $color-red;
       cursor: pointer;
       display: none;
-      font-size: $font-size-small;
     }
   }
 

@@ -57,6 +57,26 @@ describe('GeoInput', () => {
     expect(wrapper.find('.geo-input--success').exists()).toBe(false)
     expect(wrapper.find('.geo-input--disabled').exists()).toBe(true)
     expect(wrapper.find('.geo-input__icon').exists()).toBe(true)
+    expect(wrapper.find('.geo-input__icon--trailing').exists()).toBe(true)
+  })
+
+  it('should render leading icon if provided', function () {
+    const wrapper = mount(GeoInput, {
+      propsData: {
+        leadingAccessoryIcon: ['fas', 'search']
+      },
+      stubs: {
+        'font-awesome-icon': FontAwesomeIcon
+      }
+    })
+
+    expect(wrapper.find('.geo-input').exists()).toBe(true)
+    expect(wrapper.find('.geo-input--error').exists()).toBe(false)
+    expect(wrapper.find('.geo-input--success').exists()).toBe(false)
+    expect(wrapper.find('.geo-input--disabled').exists()).toBe(false)
+    expect(wrapper.find('.geo-input__icon').exists()).toBe(true)
+    expect(wrapper.find('.geo-input__icon--trailing').exists()).toBe(false)
+    expect(wrapper.find('.geo-input__icon--leading').exists()).toBe(true)
   })
 
   it('should emit input', function () {
