@@ -13,18 +13,24 @@
       slot="toggleButton"
       name="toggleButton"
       :dropdown-icon="dropdownIcon"
+      :delete-icon="deleteIcon"
       :css-modifier="`geo-select${cssSuffix}`"
       :is-empty="!value"
+      :is-value-deletable="isValueDeletable"
       :disabled="disabled"
       :toggle-select="toggleSelect"
+      :delete-value="deleteValue"
       :label="toggleButtonLabel"
     >
       <geo-select-toggle-button
         :dropdown-icon="dropdownIcon"
+        :delete-icon="deleteIcon"
         :css-modifier="`geo-select${cssSuffix}`"
         :is-empty="!value"
+        :is-value-deletable="isValueDeletable"
         :disabled="disabled"
         @click="toggleSelect"
+        @delete-value="deleteValue"
       >
         <geo-trimmed-content :css-modifier="`geo-select${cssSuffix}`">
           {{ toggleButtonLabel }}

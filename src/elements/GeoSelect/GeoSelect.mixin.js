@@ -170,6 +170,19 @@ export default {
     },
 
     /**
+     * Font Awesome 5 icon to be displayed as dropdown toggle button.
+     *
+     * See [vue-fontawesome](https://www.npmjs.com/package/@fortawesome/vue-fontawesome#explicit-prefix-note-the-vue-bind-shorthand-because-this-uses-an-array)
+     * for more info about this.
+     */
+    deleteIcon: {
+      type: Array,
+      default () {
+        return ['fas', 'times-circle']
+      }
+    },
+
+    /**
      * Icon used for the search box.
      *
      * See [vue-fontawesome](https://www.npmjs.com/package/@fortawesome/vue-fontawesome#explicit-prefix-note-the-vue-bind-shorthand-because-this-uses-an-array)
@@ -198,6 +211,17 @@ export default {
       validator: function (value) {
         return value === undefined || value in Y_AXIS_POSITION
       }
+    },
+
+    /**
+     * Whether is possible to delete the selected value.
+     *
+     * If true, the event delete-value can be used to trigger an action
+     * when the delete icon is clicked.
+     */
+    isValueDeletable: {
+      type: Boolean,
+      default: false
     },
 
     /**
@@ -319,6 +343,15 @@ export default {
       this.$nextTick(function () {
         payload.scrollToLastEntry()
       })
+    },
+
+    deleteValue () {
+      /**
+       * User typed on the input box.
+       *
+       * @event delete-value
+       */
+      this.$emit('delete-value')
     }
   }
 }

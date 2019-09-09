@@ -13,6 +13,14 @@
     -->
     <slot />
     <font-awesome-icon
+      v-if="shouldShowDeleteButton"
+      :icon="deleteIcon"
+      :class="{
+        [`geo-select-toggle-button__delete-icon${cssSuffix}`]: true
+      }"
+      @click.stop="deleteValue($event)"
+    />
+    <font-awesome-icon
       :icon="dropdownIconForCurrentStatus"
       :class="{
         [`geo-select-toggle-button__toggle-icon${cssSuffix}`]: true
@@ -30,6 +38,19 @@ export default {
   release: '4.1.0',
   mixins: [cssSuffix],
   props: {
+    /**
+     * Font Awesome 5 icon to be displayed as dropdown toggle button.
+     *
+     * See [vue-fontawesome](https://www.npmjs.com/package/@fortawesome/vue-fontawesome#explicit-prefix-note-the-vue-bind-shorthand-because-this-uses-an-array)
+     * for more info about this.
+     */
+    deleteIcon: {
+      type: Array,
+      default () {
+        return ['fas', 'times-circle']
+      }
+    },
+
     /**
      * Font Awesome 5 icon to be displayed as dropdown toggle button.
      *
@@ -54,6 +75,17 @@ export default {
       default () {
         return ['fal', 'lock']
       }
+    },
+
+    /**
+     * Whether is possible to delete the selected value.
+     *
+     * If true, the event delete-value can be used to trigger an action
+     * when the delete icon is clicked.
+     */
+    isValueDeletable: {
+      type: Boolean,
+      default: false
     },
 
     /**
@@ -83,6 +115,10 @@ export default {
       return this.disabled
         ? this.dropdownDisabledIcon
         : this.dropdownIcon
+    },
+
+    shouldShowDeleteButton () {
+      return this.isValueDeletable && !this.isEmpty && !this.disabled
     }
   },
   methods: {
@@ -96,6 +132,15 @@ export default {
        * @type {MouseEvent}
        */
       this.$emit('click', $event)
+    },
+
+    deleteValue () {
+      /**
+       * User typed on the input box.
+       *
+       * @event delete-value
+       */
+      this.$emit('delete-value')
     }
   }
 }

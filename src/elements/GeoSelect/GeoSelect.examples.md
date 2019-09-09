@@ -10,8 +10,10 @@ a better UX including chunked load and search capabilities.
         :options="itemsList"
         :dropdown-icon="['fas', 'chevron-down']"
         :search-icon="['fas', 'search']"
+        :is-value-deletable="true"
         placeholder="Choose an option"
         v-model="currentSelection[0]"
+        @delete-value="deleteSelection(currentSelection, 0)"
       />
     </div>
     <h3 class="element-demo__header">Select with search option</h3>
@@ -161,6 +163,11 @@ export default {
         },
       ],
       longList: _.times(500, idx => { return {label: `Item ${idx}`} }),
+    }
+  },
+  methods: {
+    deleteSelection (selectionObj, index) {
+      this.$set(selectionObj, index, null)
     }
   }
 }

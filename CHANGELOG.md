@@ -4,6 +4,12 @@ title: Changelog
 
 # Changelog
 
+## 24.8.0
+
+New:
+
+- `GeoSelectToggleButton` delete icon with `delete-value` event.
+
 ## 24.7.0
 
 New:
