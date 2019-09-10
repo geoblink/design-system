@@ -18,6 +18,7 @@ a trailing chevron.
     <geo-select-toggle-button
       :dropdown-icon="['fas', 'chevron-down']"
       :is-empty="false"
+      :is-value-deletable="true"
     >
       Item 1
     </geo-select-toggle-button>

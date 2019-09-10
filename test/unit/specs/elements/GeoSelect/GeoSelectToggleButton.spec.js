@@ -45,6 +45,39 @@ describe('GeoSelectToggleButton', () => {
     expect(wrapper.emitted().click).toBeTruthy()
   })
 
+  it('Should render delete icon', async () => {
+    const wrapper = mount(GeoSelectToggleButton, {
+      stubs: {
+        'font-awesome-icon': FontAwesomeIcon
+      },
+      propsData: {
+        isEmpty: false,
+        isValueDeletable: true,
+        dropdownIcon: ['fas', 'chevron-down'],
+        deleteIcon: ['fas', 'times-circle']
+      }
+    })
+
+    expect(wrapper.find('.geo-select-toggle-button__delete-icon').exists()).toBe(true)
+  })
+
+  it('Should emit delete-value event when clicking on delete icon', () => {
+    const wrapper = mount(GeoSelectToggleButton, {
+      stubs: {
+        'font-awesome-icon': FontAwesomeIcon
+      },
+      propsData: {
+        isEmpty: false,
+        isValueDeletable: true,
+        dropdownIcon: ['fas', 'chevron-down'],
+        deleteIcon: ['fas', 'times-circle']
+      }
+    })
+
+    wrapper.find('.geo-select-toggle-button__delete-icon').trigger('click')
+    expect(wrapper.emitted()['delete-value']).toBeTruthy()
+  })
+
   describe('When disabled', () => {
     it('Should set `--disabled` suffix to CSS class', () => {
       const wrapper = mount(GeoSelectToggleButton, {
