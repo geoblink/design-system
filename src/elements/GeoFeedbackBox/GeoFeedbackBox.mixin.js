@@ -34,7 +34,7 @@ export default {
      */
     closeIcon: {
       type: Array,
-      default () {
+      default: function () {
         return ['fal', 'times']
       }
     }

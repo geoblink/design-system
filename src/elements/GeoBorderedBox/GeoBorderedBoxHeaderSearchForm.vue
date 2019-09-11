@@ -36,7 +36,7 @@ export default {
      */
     searchIcon: {
       type: Array,
-      default () {
+      default: function () {
         return ['fal', 'search']
       }
     },

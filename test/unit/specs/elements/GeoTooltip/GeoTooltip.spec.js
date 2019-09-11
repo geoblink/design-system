@@ -389,7 +389,7 @@ function getComponentWithTooltip () {
       },
       tooltipProps: {
         type: Object,
-        default () {
+        default: function () {
           return {}
         }
       }

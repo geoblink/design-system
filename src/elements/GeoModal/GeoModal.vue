@@ -67,7 +67,7 @@ export default {
      */
     attachTo: {
       type: null, // There's no built in type for HTMLElement.
-      default () {
+      default: function () {
         return getDocument().body
       }
     },
@@ -92,7 +92,7 @@ export default {
      */
     headerCloseIcon: {
       type: Array,
-      default () {
+      default: function () {
         return []
       }
     }

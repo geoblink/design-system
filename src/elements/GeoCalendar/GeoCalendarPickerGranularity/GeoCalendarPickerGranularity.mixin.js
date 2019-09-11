@@ -17,7 +17,7 @@ export default {
     pickerGranularityIcon: {
       type: Array,
       required: false,
-      default () {
+      default: function () {
         return ['fal', 'arrow-right']
       }
     }

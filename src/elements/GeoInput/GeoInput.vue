@@ -103,7 +103,7 @@ export default {
      */
     disabledIcon: {
       type: Array,
-      default () {
+      default: function () {
         return ['fal', 'lock-alt']
       }
     },
@@ -127,7 +127,7 @@ export default {
      */
     deleteInputValueIcon: {
       type: Array,
-      default () {
+      default: function () {
         return ['fas', 'times-circle']
       }
     }

@@ -46,7 +46,7 @@ export default {
      */
     deleteIcon: {
       type: Array,
-      default () {
+      default: function () {
         return ['fas', 'times-circle']
       }
     },
@@ -59,7 +59,7 @@ export default {
      */
     dropdownIcon: {
       type: Array,
-      default () {
+      default: function () {
         return ['fal', 'chevron-down']
       }
     },
@@ -72,7 +72,7 @@ export default {
      */
     dropdownDisabledIcon: {
       type: Array,
-      default () {
+      default: function () {
         return ['fal', 'lock']
       }
     },

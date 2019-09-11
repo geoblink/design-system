@@ -164,7 +164,7 @@ export default {
      */
     dropdownIcon: {
       type: Array,
-      default () {
+      default: function () {
         return ['fal', 'chevron-down']
       }
     },
@@ -177,7 +177,7 @@ export default {
      */
     deleteIcon: {
       type: Array,
-      default () {
+      default: function () {
         return ['fas', 'times-circle']
       }
     },
@@ -190,7 +190,7 @@ export default {
      */
     searchIcon: {
       type: Array,
-      default () {
+      default: function () {
         return ['fal', 'search']
       }
     },

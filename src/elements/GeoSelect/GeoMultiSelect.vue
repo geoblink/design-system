@@ -277,7 +277,7 @@ export default {
      */
     pillCloseIcon: {
       type: Array,
-      default () {
+      default: function () {
         return ['fal', 'times']
       }
     },
