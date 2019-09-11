@@ -7,7 +7,7 @@ import { fas } from '@fortawesome/free-solid-svg-icons'
 library.add(fas)
 
 describe('GeoDropdownCompactButton', () => {
-  it('should render icon', function () {
+  it('Should render icon', function () {
     const wrapper = mount(GeoDropdownCompactButton, {
       stubs: {
         'font-awesome-icon': FontAwesomeIcon
@@ -20,7 +20,7 @@ describe('GeoDropdownCompactButton', () => {
     expect(wrapper.find('svg[data-prefix="fas"][data-icon="user"]').exists()).toBe(true)
   })
 
-  it('should emit click event when clicked', function () {
+  it('Should emit click event when clicked', function () {
     const wrapper = mount(GeoDropdownCompactButton, {
       stubs: {
         'font-awesome-icon': FontAwesomeIcon

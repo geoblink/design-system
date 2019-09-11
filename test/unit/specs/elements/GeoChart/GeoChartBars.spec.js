@@ -39,12 +39,12 @@ describe('GeoChartBars', function () {
   })
 
   describe('Constants', function () {
-    it('should export DIMENSIONS', function () {
+    it('Should export DIMENSIONS', function () {
       expect(GeoChart.constants).toHaveProperty('DIMENSIONS')
       expect(GeoChart.constants.DIMENSIONS).toHaveProperty('DIMENSIONS_2D')
     })
 
-    it('should export DEFAULT_WIDTH', function () {
+    it('Should export DEFAULT_WIDTH', function () {
       expect(barsUtils).toHaveProperty('DEFAULT_WIDTH')
     })
   })
@@ -367,7 +367,7 @@ describe('GeoChartBars', function () {
         : dimensionAxisConfig.id
 
       describe(specName, function () {
-        it('should render bars', function () {
+        it('Should render bars', function () {
           const wrapper = mount(GeoChart, {
             propsData: {
               config: {
@@ -392,7 +392,7 @@ describe('GeoChartBars', function () {
           expect(wrapper.findAll('.geo-chart .geo-chart-bars-group .geo-chart-bar')).toHaveLength(categories.length)
         })
 
-        it('should render bars with missing data', function () {
+        it('Should render bars with missing data', function () {
           const wrapper = mount(GeoChart, {
             propsData: {
               config: {
@@ -417,7 +417,7 @@ describe('GeoChartBars', function () {
           expect(wrapper.findAll('.geo-chart .geo-chart-bars-group .geo-chart-bar')).toHaveLength(categories.length - 1)
         })
 
-        it('should set proper width in dimension to bars', function () {
+        it('Should set proper width in dimension to bars', function () {
           const wrapper = mount(GeoChart, {
             propsData: {
               config: {
@@ -464,7 +464,7 @@ describe('GeoChartBars', function () {
           }
         })
 
-        it('should set proper width in normal dimension to bars without explicit width', function () {
+        it('Should set proper width in normal dimension to bars without explicit width', function () {
           const wrapper = mount(GeoChart, {
             propsData: {
               config: {
@@ -512,7 +512,7 @@ describe('GeoChartBars', function () {
           }
         })
 
-        it('should set proper width in normal dimension to bars with explicit width in canvas units', function () {
+        it('Should set proper width in normal dimension to bars with explicit width in canvas units', function () {
           const forcedWidthInNormalDimension = 70
           const wrapper = mount(GeoChart, {
             propsData: {
@@ -547,7 +547,7 @@ describe('GeoChartBars', function () {
           }
         })
 
-        it('should set proper width in normal dimension to bars with explicit width in natural units', function () {
+        it('Should set proper width in normal dimension to bars with explicit width in natural units', function () {
           const forcedNaturalWidthInNormalDimension = 0.5
 
           const wrapper = mount(GeoChart, {
@@ -594,7 +594,7 @@ describe('GeoChartBars', function () {
           }
         })
 
-        it('should offset bars with canvas units', function () {
+        it('Should offset bars with canvas units', function () {
           const forcedOffset = 20
           const wrapper = mount(GeoChart, {
             propsData: {
@@ -640,7 +640,7 @@ describe('GeoChartBars', function () {
           }
         })
 
-        it('should offset bars with natural units', function () {
+        it('Should offset bars with natural units', function () {
           const forcedOffsetInNaturalUnits = 0.3
           const wrapper = mount(GeoChart, {
             propsData: {
@@ -685,7 +685,7 @@ describe('GeoChartBars', function () {
           }
         })
 
-        it('should set proper CSS classes', function () {
+        it('Should set proper CSS classes', function () {
           const customClasses = ['class-A', 'class-B', 'class-C']
           const wrapper = mount(GeoChart, {
             propsData: {
@@ -729,7 +729,7 @@ describe('GeoChartBars', function () {
           expect(allBars).toHaveLength(categories.length)
         })
 
-        it('should render multiple series', function () {
+        it('Should render multiple series', function () {
           const secondData = _.dropRight(firstBarGroupData)
           const wrapper = mount(GeoChart, {
             propsData: {
@@ -773,7 +773,7 @@ describe('GeoChartBars', function () {
             stubLodashDebounce.teardown()
           })
 
-          it('should add new series', function () {
+          it('Should add new series', function () {
             const secondData = _.dropRight(firstBarGroupData)
             const wrapper = mount(GeoChart, {
               propsData: {
@@ -818,7 +818,7 @@ describe('GeoChartBars', function () {
             expect(wrapper.findAll('.geo-chart-bars-group')).toHaveLength(2)
           })
 
-          it('should update series', async function () {
+          it('Should update series', async function () {
             const secondData = _.dropRight(firstBarGroupData)
             const wrapper = mount(GeoChart, {
               propsData: {
@@ -857,7 +857,7 @@ describe('GeoChartBars', function () {
             expect(wrapper.findAll('.geo-chart-bars-group .geo-chart-bar')).toHaveLength(secondData.length)
           })
 
-          it('should remove series', function () {
+          it('Should remove series', function () {
             const secondData = _.dropRight(firstBarGroupData)
             const wrapper = mount(GeoChart, {
               propsData: {
@@ -904,7 +904,7 @@ describe('GeoChartBars', function () {
         })
 
         describe('Tooltips', function () {
-          it('should show proper tooltip on hover', function () {
+          it('Should show proper tooltip on hover', function () {
             const tooltipText = (d, i) => `${i} :: ${d[dimensionAxisConfig.keyForValues]}`
             const wrapper = mount(GeoChart, {
               propsData: {
@@ -947,7 +947,7 @@ describe('GeoChartBars', function () {
             wrapper.destroy()
           })
 
-          it('should remove tooltip from DOM after chart is removed from DOM', function () {
+          it('Should remove tooltip from DOM after chart is removed from DOM', function () {
             const wrapper = mount(GeoChart, {
               propsData: {
                 config: {

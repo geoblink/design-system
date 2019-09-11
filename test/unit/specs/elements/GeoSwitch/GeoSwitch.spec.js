@@ -9,7 +9,7 @@ describe('GeoSwitch', () => {
     jest.restoreAllMocks()
   })
 
-  it('should render', function () {
+  it('Should render', function () {
     const wrapper = mount(GeoSwitch, {
       propsData: {
         value: false
@@ -18,7 +18,7 @@ describe('GeoSwitch', () => {
     expect(wrapper.find('.geo-switch').exists()).toBe(true)
   })
 
-  it('should respect CSS modifier', function () {
+  it('Should respect CSS modifier', function () {
     const wrapper = mount(GeoSwitch, {
       propsData: {
         cssModifier: 'my-custom-modifier',
@@ -28,13 +28,13 @@ describe('GeoSwitch', () => {
     expect(wrapper.find('.geo-switch--my-custom-modifier').exists()).toBe(true)
   })
 
-  it('should complain about missing :value binding', function () {
+  it('Should complain about missing :value binding', function () {
     const spy = jest.spyOn(console, 'error').mockImplementation(() => {})
     mount(GeoSwitch)
     expect(spy).toHaveBeenCalledTimes(1)
   })
 
-  it('should be checked according to :value binding', function () {
+  it('Should be checked according to :value binding', function () {
     const wrapper = mount(GeoSwitch, {
       propsData: {
         value: false
@@ -52,7 +52,7 @@ describe('GeoSwitch', () => {
     expect(wrapper.find('.geo-switch--checked').exists()).toBe(true)
   })
 
-  it('should be disabled according to :disabled binding', function () {
+  it('Should be disabled according to :disabled binding', function () {
     const wrapper = mount(GeoSwitch, {
       propsData: {
         value: false
@@ -70,7 +70,7 @@ describe('GeoSwitch', () => {
     expect(wrapper.find('.geo-switch--disabled').exists()).toBe(true)
   })
 
-  it('should trigger input event on click', function () {
+  it('Should trigger input event on click', function () {
     const wrapper = mount(GeoSwitch, {
       propsData: {
         value: false
@@ -92,7 +92,7 @@ describe('GeoSwitch', () => {
     expect(wrapper.emitted('input')[1]).toEqual([false])
   })
 
-  it('should trigger input event on checkbox change', function () {
+  it('Should trigger input event on checkbox change', function () {
     const wrapper = mount(GeoSwitch, {
       propsData: {
         value: false
@@ -110,7 +110,7 @@ describe('GeoSwitch', () => {
     expect(wrapper.emitted('input')[1]).toEqual([false])
   })
 
-  it('should not trigger events when disabled', function () {
+  it('Should not trigger events when disabled', function () {
     const wrapper = mount(GeoSwitch, {
       propsData: {
         value: false,

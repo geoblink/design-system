@@ -7,15 +7,15 @@ describe('counterFactory.js', () => {
     counter = counterFactory()
   })
 
-  it('should return a function', () => {
+  it('Should return a function', () => {
     expect(counter).toEqual(expect.any(Function))
   })
 
-  it('should return 0 on first tick', () => {
+  it('Should return 0 on first tick', () => {
     expect(counter()).toBe(0)
   })
 
-  it('should increase counter on 1 on each tick', () => {
+  it('Should increase counter on 1 on each tick', () => {
     expect(counter()).toBe(0)
     expect(counter()).toBe(1)
     expect(counter()).toBe(2)

@@ -7,7 +7,7 @@ import { YEAR_GRID_CONSTANTS } from '@/elements/GeoCalendar/GeoCalendar.utils.js
 import { getYear, subYears, addYears } from 'date-fns'
 
 describe('GeoCalendarNavigationMonth', () => {
-  it('should render', function () {
+  it('Should render', function () {
     const wrapper = mount(GeoCalendarNavigationMonth, {
       stubs: [
         'font-awesome-icon',

@@ -8,18 +8,18 @@ describe('throttle.js', () => {
     mockFn.mockClear()
   })
 
-  it('should return a function', () => {
+  it('Should return a function', () => {
     expect(throttleCallback).toEqual(expect.any(Function))
   })
 
-  it('should be called once when run consecutively', () => {
+  it('Should be called once when run consecutively', () => {
     throttleCallback()
     throttleCallback()
 
     expect(mockFn).toHaveBeenCalledTimes(1)
   })
 
-  it('should be called more than once when there is some delay between calls', (done) => {
+  it('Should be called more than once when there is some delay between calls', (done) => {
     throttleCallback()
     setTimeout(function () {
       throttleCallback()

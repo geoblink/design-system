@@ -6,7 +6,7 @@ const localVue = createLocalVue()
 localVue.component('geo-table-header-row', GeoTableHeaderRow)
 
 describe('GeoTableHeaderRow', () => {
-  it('should render component', function () {
+  it('Should render component', function () {
     let slotScope
     const wrapper = mount(GeoTableHeaderRow, {
       scopedSlots: {
@@ -23,7 +23,7 @@ describe('GeoTableHeaderRow', () => {
     expect(slotScope).toHaveProperty('variant', 'main')
   })
 
-  it('should render `aux` variant', function () {
+  it('Should render `aux` variant', function () {
     const wrapper = mount(GeoTableHeaderRow, {
       propsData: {
         variant: GeoTableHeaderRow.constants.VARIANTS.aux
@@ -34,7 +34,7 @@ describe('GeoTableHeaderRow', () => {
     expect(instance.exists()).toBe(true)
   })
 
-  it('should render `main` variant', function () {
+  it('Should render `main` variant', function () {
     const wrapper = mount(GeoTableHeaderRow, {
       propsData: {
         variant: GeoTableHeaderRow.constants.VARIANTS.main
@@ -45,7 +45,7 @@ describe('GeoTableHeaderRow', () => {
     expect(instance.exists()).toBe(true)
   })
 
-  it('should render `single` variant', function () {
+  it('Should render `single` variant', function () {
     const wrapper = mount(GeoTableHeaderRow, {
       propsData: {
         variant: GeoTableHeaderRow.constants.VARIANTS.single
@@ -56,7 +56,7 @@ describe('GeoTableHeaderRow', () => {
     expect(instance.exists()).toBe(true)
   })
 
-  it('should complain when using unknown variant', function () {
+  it('Should complain when using unknown variant', function () {
     const consoleErrorSpy = jest.spyOn(global.console, 'error').mockImplementation(() => { })
     const consoleWarnSpy = jest.spyOn(global.console, 'warn').mockImplementation(() => { })
 
@@ -73,7 +73,7 @@ describe('GeoTableHeaderRow', () => {
     consoleWarnSpy.mockRestore()
   })
 
-  it('should render content', function () {
+  it('Should render content', function () {
     const wrapper = mount(GeoTableHeaderRow, {
       scopedSlots: {
         default: '<p>Demo content</p>'
@@ -85,7 +85,7 @@ describe('GeoTableHeaderRow', () => {
     expect(instance.text()).toEqual('Demo content')
   })
 
-  it('should apply CSS suffix when the modifier is provided', function () {
+  it('Should apply CSS suffix when the modifier is provided', function () {
     let slotScope
     const wrapper = mount(GeoTableHeaderRow, {
       propsData: {

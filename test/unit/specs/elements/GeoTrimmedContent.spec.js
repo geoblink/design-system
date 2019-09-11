@@ -8,7 +8,7 @@ localVue.component('geo-trimmed-content', GeoTrimmedContent)
 jest.mock('vue-directive-tooltip')
 
 describe('GeoTrimmedContent', () => {
-  it('should render content', function () {
+  it('Should render content', function () {
     const wrapper = mount(GeoTrimmedContent, {
       slots: {
         default: '<div>Custom content</div>'
@@ -20,7 +20,7 @@ describe('GeoTrimmedContent', () => {
     expect(trimmedContent.find('div').text()).toEqual('Custom content')
   })
 
-  it('should add tooltip HTML content when mounted', function () {
+  it('Should add tooltip HTML content when mounted', function () {
     const wrapper = mount(GeoTrimmedContent, {
       slots: {
         default: '<div>Custom content</div>'
@@ -39,7 +39,7 @@ describe('GeoTrimmedContent', () => {
     expect(tooltipHTMLContentNode.querySelector('div').innerHTML).toEqual('Custom content')
   })
 
-  it('should remove tooltip HTML content when destroyed', function () {
+  it('Should remove tooltip HTML content when destroyed', function () {
     const wrapper = mount(GeoTrimmedContent, {
       slots: {
         default: '<div>Custom content</div>'
@@ -62,7 +62,7 @@ describe('GeoTrimmedContent', () => {
     expect(tooltipHTMLContentNodeAfter).toBeFalsy()
   })
 
-  it('should apply CSS suffix when the modifier is provided', function () {
+  it('Should apply CSS suffix when the modifier is provided', function () {
     const wrapper = mount(GeoTrimmedContent, {
       propsData: {
         cssModifier: 'demo-modifier'

@@ -7,7 +7,7 @@ import GeoBorderedBoxHeaderSearchForm from '@/elements/GeoBorderedBox/GeoBordere
 library.add(fas)
 
 describe('GeoBorderedBoxHeaderSearchForm', () => {
-  it('should render element', () => {
+  it('Should render element', () => {
     const wrapper = mount(GeoBorderedBoxHeaderSearchForm, {
       stubs: {
         'font-awesome-icon': FontAwesomeIcon
@@ -49,7 +49,7 @@ describe('GeoBorderedBoxHeaderSearchForm', () => {
     expect(wrapper.find('.geo-bordered-box-header-search-form__input').element.value).toBe('Some value')
   })
 
-  it('should display the placeholder if it is given', () => {
+  it('Should display the placeholder if it is given', () => {
     const wrapper = mount(GeoBorderedBoxHeaderSearchForm, {
       stubs: {
         'font-awesome-icon': FontAwesomeIcon
@@ -63,7 +63,7 @@ describe('GeoBorderedBoxHeaderSearchForm', () => {
     expect(wrapper.find('.geo-bordered-box-header-search-form__input').element.placeholder).toBe('Some demo placeholder')
   })
 
-  it('should emit an event when something is typed down', () => {
+  it('Should emit an event when something is typed down', () => {
     jest.useFakeTimers()
     const wrapper = mount(GeoBorderedBoxHeaderSearchForm, {
       stubs: {

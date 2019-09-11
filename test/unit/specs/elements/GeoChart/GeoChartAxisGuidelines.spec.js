@@ -53,7 +53,7 @@ describe('GeoChartAxisGuidelines', function () {
     }
 
     describe('Guidelines customization', function () {
-      it('should not render guidelines if axis tick count is 0', function () {
+      it('Should not render guidelines if axis tick count is 0', function () {
         const axisConfig = _.merge({}, linearAxisConfig, {
           ticks: {
             count: 0
@@ -76,7 +76,7 @@ describe('GeoChartAxisGuidelines', function () {
         expect(wrapper.find('.geo-chart-guidelines .tick').exists()).toBe(false)
       })
 
-      it('should render guidelines by default', function () {
+      it('Should render guidelines by default', function () {
         const axisConfig = _.omit(
           _.merge({}, linearAxisConfig, {
             position: { type: GeoChart.constants.AXIS.POSITIONS.left }
@@ -99,7 +99,7 @@ describe('GeoChartAxisGuidelines', function () {
         expect(wrapper.find('.geo-chart-guidelines .tick').exists()).toBe(true)
       })
 
-      it('should not render any text in the ticks', function () {
+      it('Should not render any text in the ticks', function () {
         const axisConfig = _.merge({}, linearAxisConfig, {
           ticks: {
             count: 3
@@ -126,7 +126,7 @@ describe('GeoChartAxisGuidelines', function () {
         }
       })
 
-      it('should apply given CSS classes to guidelines', function () {
+      it('Should apply given CSS classes to guidelines', function () {
         const customClass = 'my-class'
         const getCSSClasses = (originalClasses) => [customClass]
         const cssClassesMock = jest.fn(getCSSClasses)
@@ -157,7 +157,7 @@ describe('GeoChartAxisGuidelines', function () {
         expect(wrapper.find(`.geo-chart-guidelines.${customClass}`).exists()).toBe(true)
       })
 
-      it('should apply given CSS classes to guidelines ticks', function () {
+      it('Should apply given CSS classes to guidelines ticks', function () {
         const tickCount = 3
         const getCustomClassName = (i) => `my-class--${i}`
         const customClassNameAppliedToAllGuidelines = 'my-class'
@@ -206,7 +206,7 @@ describe('GeoChartAxisGuidelines', function () {
         }
       })
 
-      it('should render guidelines given an axisConfig', function () {
+      it('Should render guidelines given an axisConfig', function () {
         const axisConfig = _.merge({}, linearAxisConfig, {
           position: { type: GeoChart.constants.AXIS.POSITIONS.left }
         })
@@ -226,7 +226,7 @@ describe('GeoChartAxisGuidelines', function () {
         expect(wrapper.find('.geo-chart-guidelines .tick').exists()).toBe(true)
       })
 
-      it('should not display domain by default', function () {
+      it('Should not display domain by default', function () {
         const axisConfig = _.merge({}, linearAxisConfig, {
           position: { type: GeoChart.constants.AXIS.POSITIONS.left }
         })
@@ -246,7 +246,7 @@ describe('GeoChartAxisGuidelines', function () {
         expect(wrapper.find('.geo-chart-guidelines .domain').attributes('style')).toBe('stroke-width: 0;')
       })
 
-      it('should display domain when passed outerLines to true', function () {
+      it('Should display domain when passed outerLines to true', function () {
         const axisConfig = _.merge({}, linearAxisConfig, {
           position: { type: GeoChart.constants.AXIS.POSITIONS.left }
         })
@@ -271,7 +271,7 @@ describe('GeoChartAxisGuidelines', function () {
         expect(wrapper.find('.geo-chart-guidelines .domain').attributes('style')).toBe('stroke-width: 1;')
       })
 
-      it('should display more guidelines than axis ticks when forced count', function () {
+      it('Should display more guidelines than axis ticks when forced count', function () {
         const axisConfig = _.merge({}, linearAxisConfig, {
           position: { type: GeoChart.constants.AXIS.POSITIONS.right }
         })
@@ -310,7 +310,7 @@ describe('GeoChartAxisGuidelines', function () {
         stubLodashDebounce.teardown()
       })
 
-      it('should add new guidelines', function () {
+      it('Should add new guidelines', function () {
         const initialAxis = _.merge({}, linearAxisConfig, {
           position: { type: GeoChart.constants.AXIS.POSITIONS.left }
         })
@@ -351,7 +351,7 @@ describe('GeoChartAxisGuidelines', function () {
         expect(wrapper.find(`.geo-chart-guidelines-${newAxis.id}`).exists()).toBe(true)
       })
 
-      it('should update existing guidelines', function () {
+      it('Should update existing guidelines', function () {
         const initialAxis = _.merge({}, linearAxisConfig, {
           ticks: {
             count: 5
@@ -393,7 +393,7 @@ describe('GeoChartAxisGuidelines', function () {
         expect(wrapper.findAll('.geo-chart-guidelines .tick')).toHaveLength(updatedAxis.ticks.count)
       })
 
-      it('should remove guidelines', function () {
+      it('Should remove guidelines', function () {
         const firstAxis = _.merge({}, linearAxisConfig, {
           id: 'fist-axis',
           position: { type: GeoChart.constants.AXIS.POSITIONS.left }

@@ -7,7 +7,7 @@ import { addMonths, subMonths } from 'date-fns'
 const today = new Date(2019, 6, 30) // Fixed date to avoid future errors with random dates
 
 describe('GeoCalendarMonthGridQuarterUnit', () => {
-  it('should render', function () {
+  it('Should render', function () {
     const wrapper = getWrappedComponent(GRANULARITY_IDS.month)
     expect(wrapper.find('.geo-calendar-grid__quarter-unit').exists()).toBe(true)
   })

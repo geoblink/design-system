@@ -6,7 +6,7 @@ import { GRANULARITY_IDS } from '@/elements/GeoCalendar/GeoCalendar.utils.js'
 import { startOfWeek, startOfDay, endOfWeek } from 'date-fns'
 
 describe('GeoCalendarDayGrid', () => {
-  it('should render', function () {
+  it('Should render', function () {
     const wrapper = getWrappedComponent()
     expect(wrapper.find('.geo-calendar-grid').exists()).toBe(true)
     expect(wrapper.find('.geo-calendar-grid__weekdays-row-container').exists()).toBe(true)

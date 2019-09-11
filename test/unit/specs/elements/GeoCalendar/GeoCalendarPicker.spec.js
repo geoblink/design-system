@@ -8,7 +8,7 @@ import { getMonth, getYear, subDays, startOfWeek, startOfDay, endOfWeek, endOfMo
 describe('GeoCalendarPicker', () => {
   const wrapper = getWrappedComponent()
 
-  it('should render', function () {
+  it('Should render', function () {
     expect(wrapper.find('.geo-calendar-picker').exists()).toBe(true)
   })
 
