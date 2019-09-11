@@ -1,0 +1,55 @@
+@mixin geo-collapsable-box-make($modifier-name) {
+
+  $modifier-name-with-prefix: '';
+
+  @if $modifier-name != '' {
+    // sass-lint:disable space-around-operator
+    $modifier-name-with-prefix: --#{$modifier-name};
+  }
+
+  .geo-collapsable-box#{$modifier-name-with-prefix} {
+    border: 1px solid $color-grey;
+    border-radius: $border-radius-default;
+    box-shadow: $box-shadow-small;
+    padding: $space-small 0;
+    width: 100%;
+
+    .geo-collapsable-box__header {
+      align-items: center;
+      box-sizing: border-box;
+      cursor: pointer;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      padding: 0 $space-small;
+
+      width: 100%;
+    }
+
+    .geo-collapsable-box__header-content {
+      @include font($heading);
+    }
+
+    .geo-collapsable-box__toggle-icon {
+      color: $color-grey-light;
+      font-size: $font-size-small;
+      transition: transform $easing-base $duration-noticeable;
+    }
+
+    .geo-collapsable-box__body {
+      display: flex;
+      flex-direction: row;
+      height: auto;
+      overflow-y: hidden;
+      padding: $space-small $space-small 0 $space-small;
+    }
+  }
+
+  .geo-collapsable-box--expanded#{$modifier-name-with-prefix} {
+    .geo-collapsable-box__toggle-icon {
+      transform: rotate(180deg);
+    }
+  }
+}
+
+@include geo-collapsable-box-make('');
