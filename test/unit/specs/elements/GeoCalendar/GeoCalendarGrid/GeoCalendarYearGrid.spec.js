@@ -20,7 +20,7 @@ describe('GeoCalendarYearGrid', () => {
     }
   })
 
-  it('should render', function () {
+  it('Should render', function () {
     expect(wrapper.find('.geo-calendar-grid').exists()).toBe(true)
     expect(wrapper.find('.geo-calendar-grid__year-container').exists()).toBe(true)
   })

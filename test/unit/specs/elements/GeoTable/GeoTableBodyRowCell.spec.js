@@ -6,7 +6,7 @@ const localVue = createLocalVue()
 localVue.component('geo-table-body-row-cell', GeoTableBodyRowCell)
 
 describe('GeoTableBodyRowCell', () => {
-  it('should render component', function () {
+  it('Should render component', function () {
     let slotScope
     const wrapper = mount(GeoTableBodyRowCell, {
       scopedSlots: {
@@ -22,7 +22,7 @@ describe('GeoTableBodyRowCell', () => {
     expect(slotScope).toHaveProperty('cssModifier')
   })
 
-  it('should render content', function () {
+  it('Should render content', function () {
     const wrapper = mount(GeoTableBodyRowCell, {
       slots: {
         default: '<p>Demo content</p>'
@@ -34,7 +34,7 @@ describe('GeoTableBodyRowCell', () => {
     expect(instance.text()).toEqual('Demo content')
   })
 
-  it('should apply CSS suffix when the modifier is provided', function () {
+  it('Should apply CSS suffix when the modifier is provided', function () {
     let slotScope
     const wrapper = mount(GeoTableBodyRowCell, {
       context: {

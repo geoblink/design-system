@@ -6,7 +6,7 @@ const localVue = createLocalVue()
 localVue.component('geo-dropdown-footer', GeoDropdownFooter)
 
 describe('GeoDropdownFooter', () => {
-  it('should render default slot', function () {
+  it('Should render default slot', function () {
     const wrapper = mount(GeoDropdownFooter, {
       slots: {
         default: [`<span class="my-demo-content">Just some unique demo content</span>`]

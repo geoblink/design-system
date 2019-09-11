@@ -16,7 +16,7 @@ describe('GeoCalendarMonthGrid', () => {
     }
   })
 
-  it('should render', function () {
+  it('Should render', function () {
     expect(wrapper.find('.geo-calendar-grid').exists()).toBe(true)
     expect(wrapper.find('.geo-calendar-grid__month-container').exists()).toBe(true)
   })

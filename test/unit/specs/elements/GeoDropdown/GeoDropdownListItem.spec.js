@@ -7,7 +7,7 @@ import { fas } from '@fortawesome/free-solid-svg-icons'
 library.add(fas)
 
 describe('GeoDropdownListItem', () => {
-  it('should render default slot', function () {
+  it('Should render default slot', function () {
     const wrapper = mount(GeoDropdownListItem, {
       slots: {
         default: [`<span class="my-demo-content">Just some unique demo content</span>`]
@@ -17,7 +17,7 @@ describe('GeoDropdownListItem', () => {
     expect(wrapper.find('.my-demo-content').exists()).toBe(true)
   })
 
-  it('should render trailingAccessoryItem slot', function () {
+  it('Should render trailingAccessoryItem slot', function () {
     const wrapper = mount(GeoDropdownListItem, {
       slots: {
         default: [`<span class="my-demo-content">Just some unique demo content</span>`],
@@ -28,7 +28,7 @@ describe('GeoDropdownListItem', () => {
     expect(wrapper.find('.my-demo-accessory').exists()).toBe(true)
   })
 
-  it('should render icon', function () {
+  it('Should render icon', function () {
     const wrapper = mount(GeoDropdownListItem, {
       stubs: {
         'font-awesome-icon': FontAwesomeIcon
@@ -41,7 +41,7 @@ describe('GeoDropdownListItem', () => {
     expect(wrapper.find('svg[data-prefix="fas"][data-icon="user"]').exists()).toBe(true)
   })
 
-  it('should emit click event', function () {
+  it('Should emit click event', function () {
     const wrapper = mount(GeoDropdownListItem, {
       slots: {
         default: ['Just some unique demo content']

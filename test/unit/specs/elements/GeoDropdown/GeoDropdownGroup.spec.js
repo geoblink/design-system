@@ -7,7 +7,7 @@ import { fas } from '@fortawesome/free-solid-svg-icons'
 library.add(fas)
 
 describe('GeoDropdownGroup', () => {
-  it('should render title slot in header', function () {
+  it('Should render title slot in header', function () {
     const wrapper = mount(GeoDropdownGroup, {
       slots: {
         title: [`<span class="my-demo-content">Just some unique demo content</span>`]
@@ -17,13 +17,13 @@ describe('GeoDropdownGroup', () => {
     expect(wrapper.find('.geo-dropdown__group__header .my-demo-content').exists()).toBe(true)
   })
 
-  it('should not render header if there is no title slot', function () {
+  it('Should not render header if there is no title slot', function () {
     const wrapper = mount(GeoDropdownGroup, {})
 
     expect(wrapper.find('.geo-dropdown__group__header').exists()).toBe(false)
   })
 
-  it('should render icon in header', function () {
+  it('Should render icon in header', function () {
     const wrapper = mount(GeoDropdownGroup, {
       stubs: {
         'font-awesome-icon': FontAwesomeIcon
@@ -39,7 +39,7 @@ describe('GeoDropdownGroup', () => {
     expect(wrapper.find('svg[data-prefix="fas"][data-icon="user"]').exists()).toBe(true)
   })
 
-  it('should trigger click event when clicking on header', function () {
+  it('Should trigger click event when clicking on header', function () {
     const wrapper = mount(GeoDropdownGroup, {
       stubs: {
         'font-awesome-icon': FontAwesomeIcon
@@ -53,7 +53,7 @@ describe('GeoDropdownGroup', () => {
     expect(wrapper.emitted()['click']).toBeTruthy()
   })
 
-  it('should render trailing accessory items from trailingAccessoryItem slot', function () {
+  it('Should render trailing accessory items from trailingAccessoryItem slot', function () {
     const wrapper = mount(GeoDropdownGroup, {
       slots: {
         title: [`<span class="some-title">Just some unique demo content</span>`],
@@ -64,7 +64,7 @@ describe('GeoDropdownGroup', () => {
     expect(wrapper.find('.geo-dropdown__group__header__trailing-accessory-items .my-demo-content').exists()).toBe(true)
   })
 
-  it('should not render trailing accessory items container if trailingAccessoryItem is empty', function () {
+  it('Should not render trailing accessory items container if trailingAccessoryItem is empty', function () {
     const wrapper = mount(GeoDropdownGroup, {})
 
     expect(wrapper.find('.geo-dropdown__group__header__trailing-accessory-items').exists()).toBe(false)

@@ -7,7 +7,7 @@ import { fas } from '@fortawesome/free-solid-svg-icons'
 library.add(fas)
 
 describe('GeoListActionableItem', () => {
-  it('should render default slot', function () {
+  it('Should render default slot', function () {
     const wrapper = mount(GeoListActionableItem, {
       slots: {
         default: [`<span class="spec-content">Body content</span>`]
@@ -17,7 +17,7 @@ describe('GeoListActionableItem', () => {
     expect(wrapper.find('.spec-content').exists()).toBe(true)
   })
 
-  it('should render trailingAccessoryItem slot', function () {
+  it('Should render trailingAccessoryItem slot', function () {
     const wrapper = mount(GeoListActionableItem, {
       slots: {
         default: [`<span class="spec-content">Body content</span>`],
@@ -28,7 +28,7 @@ describe('GeoListActionableItem', () => {
     expect(wrapper.find('.spec-accessory').exists()).toBe(true)
   })
 
-  it('should render actions slot', function () {
+  it('Should render actions slot', function () {
     const wrapper = mount(GeoListActionableItem, {
       slots: {
         default: [`<span class="spec-content">Body content</span>`],
@@ -39,7 +39,7 @@ describe('GeoListActionableItem', () => {
     expect(wrapper.find('.spec-actions').exists()).toBe(true)
   })
 
-  it('should render icon', function () {
+  it('Should render icon', function () {
     const wrapper = mount(GeoListActionableItem, {
       stubs: {
         'font-awesome-icon': FontAwesomeIcon

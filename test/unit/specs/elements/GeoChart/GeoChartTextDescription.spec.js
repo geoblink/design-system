@@ -116,7 +116,7 @@ describe('GeoChartTextDescription.js', () => {
     wrapper = null
   })
 
-  it('should create group, text and tspan', function () {
+  it('Should create group, text and tspan', function () {
     expect(wrapper.find('.geo-chart').exists()).toBe(true)
     setupTextDescriptions([settings], wrapper.vm.d3Instance, { chart })
     expect(wrapper.find('.geo-chart-text-descriptions').exists()).toBe(true)
@@ -124,21 +124,21 @@ describe('GeoChartTextDescription.js', () => {
     expect(wrapper.findAll('.geo-chart-text-descriptions text tspan').exists()).toBe(true)
   })
 
-  it('should add custom class to descriptions', function () {
+  it('Should add custom class to descriptions', function () {
     setupTextDescriptions([settings], wrapper.vm.d3Instance, { chart })
     flushD3Transitions()
 
     expect(wrapper.find('.geo-chart-text-descriptions.my-group-class').exists()).toBe(true)
   })
 
-  it('should add custom class to texts', function () {
+  it('Should add custom class to texts', function () {
     setupTextDescriptions([settings], wrapper.vm.d3Instance, { chart })
     flushD3Transitions()
 
     expect(wrapper.find('.geo-chart-text-descriptions text.my-text-class').exists()).toBe(true)
   })
 
-  it('should translate group to textOrigin', function () {
+  it('Should translate group to textOrigin', function () {
     expect(wrapper.find('.geo-chart').exists()).toBe(true)
     setupTextDescriptions([settings], wrapper.vm.d3Instance, { chart })
     flushD3Transitions()
@@ -151,7 +151,7 @@ describe('GeoChartTextDescription.js', () => {
     expect(parseInt(transformMatches[2])).toBe(settings.textOrigin[1])
   })
 
-  it('should create one text and tspan as data items and content return items', function () {
+  it('Should create one text and tspan as data items and content return items', function () {
     const newSettings = _.assign({}, settings, {
       textOptions: {
         content (d) {
@@ -178,7 +178,7 @@ describe('GeoChartTextDescription.js', () => {
     }
   })
 
-  it('should create multiple tspan\'s', function () {
+  it('Should create multiple tspan\'s', function () {
     const texts = {
       0: '#',
       1: '200'
@@ -207,7 +207,7 @@ describe('GeoChartTextDescription.js', () => {
     }
   })
 
-  it('should add custom class to tspan', function () {
+  it('Should add custom class to tspan', function () {
     const newSettings = _.assign({}, settings, {
       textOptions: {
         content () {
@@ -227,7 +227,7 @@ describe('GeoChartTextDescription.js', () => {
     }
   })
 
-  it('should position the text in the mid point of bbox height', function () {
+  it('Should position the text in the mid point of bbox height', function () {
     const newSettings = _.assign({}, settings, {
       data: [
         { yPos: 30 }
@@ -246,7 +246,7 @@ describe('GeoChartTextDescription.js', () => {
     }
   })
 
-  it('should not render sencond text if positions overlap using withoutReadjustment algorithm', function () {
+  it('Should not render sencond text if positions overlap using withoutReadjustment algorithm', function () {
     const newSettings = _.assign({}, settings, {
       data: [
         { yPos: 30 },
@@ -261,7 +261,7 @@ describe('GeoChartTextDescription.js', () => {
     expect(textElems).toHaveLength(1)
   })
 
-  it('should render sencond text if positions overlap using backPressure algorithm', function () {
+  it('Should render sencond text if positions overlap using backPressure algorithm', function () {
     const newSettings = _.assign({}, settings, {
       algorithm: ALGORITHMS.backPressure,
       data: [
@@ -277,7 +277,7 @@ describe('GeoChartTextDescription.js', () => {
     expect(textElems).toHaveLength(2)
   })
 
-  it('should return an array with data and Y position of the shown texts', function () {
+  it('Should return an array with data and Y position of the shown texts', function () {
     const newSettings = _.assign({}, settings, {
       data: [
         { yPos: 60 },
@@ -300,7 +300,7 @@ describe('GeoChartTextDescription.js', () => {
     }
   })
 
-  it('should not return data that overlaps', function () {
+  it('Should not return data that overlaps', function () {
     const newSettings = _.assign({}, settings, {
       data: [
         { yPos: 60 },

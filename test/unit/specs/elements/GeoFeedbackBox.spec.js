@@ -18,7 +18,7 @@ const localVue = createLocalVue()
 localVue.component('geo-feedback-box', GeoFeedbackBox)
 
 describe('GeoFeedbackBox', () => {
-  it('should render alert component', function () {
+  it('Should render alert component', function () {
     const wrapper = mount(GeoFeedbackBox, {
       propsData: {
         variant: 'success'
@@ -31,7 +31,7 @@ describe('GeoFeedbackBox', () => {
     expect(wrapper.find('.geo-feedback-box').exists()).toBe(true)
   })
 
-  it('should show the close button if close listener is provided', function () {
+  it('Should show the close button if close listener is provided', function () {
     const wrapper = mount(GeoFeedbackBox, {
       propsData: {
         variant: 'success',
@@ -49,7 +49,7 @@ describe('GeoFeedbackBox', () => {
     expect(wrapper.vm).toHaveProperty('shouldShowCloseButton', true)
   })
 
-  it('shouldn\'t show the close button if close listener is not provided', function () {
+  it('Shouldn\'t show the close button if close listener is not provided', function () {
     const wrapper = mount(GeoFeedbackBox, {
       propsData: {
         variant: 'success'
@@ -63,7 +63,7 @@ describe('GeoFeedbackBox', () => {
     expect(wrapper.vm).toHaveProperty('shouldShowCloseButton', false)
   })
 
-  it('should emit a close event when clicking on the close button', function () {
+  it('Should emit a close event when clicking on the close button', function () {
     const wrapper = mount(GeoFeedbackBox, {
       propsData: {
         variant: 'success',
@@ -80,7 +80,7 @@ describe('GeoFeedbackBox', () => {
     expect(wrapper.emitted().close).toBeTruthy()
   })
 
-  it('should display actions when the slots are passed', function () {
+  it('Should display actions when the slots are passed', function () {
     const wrapper = mount(GeoFeedbackBox, {
       propsData: {
         variant: 'success'
@@ -95,7 +95,7 @@ describe('GeoFeedbackBox', () => {
     expect(wrapper.find('a').text()).toBe('Run test action')
   })
 
-  it('should display correct icon when passed as a slot', function () {
+  it('Should display correct icon when passed as a slot', function () {
     const wrapper = mount(GeoFeedbackBox, {
       propsData: {
         variant: 'success'
@@ -116,7 +116,7 @@ describe('GeoFeedbackBox', () => {
     expect(wrapper.find('.fa-circle-notch').exists()).toBe(true)
   })
 
-  it('should apply a CSS suffix when the modifier is provided', function () {
+  it('Should apply a CSS suffix when the modifier is provided', function () {
     const wrapper = mount(GeoFeedbackBox, {
       propsData: {
         variant: 'success',
@@ -133,7 +133,7 @@ describe('GeoFeedbackBox', () => {
     expect(wrapper.find('.geo-feedback-box__content__close-icon--test-feedback-box').exists()).toBe(true)
   })
 
-  it('should add extra class if floating is passed as true', function () {
+  it('Should add extra class if floating is passed as true', function () {
     const wrapper = mount(GeoFeedbackBox, {
       propsData: {
         variant: 'success',
@@ -147,7 +147,7 @@ describe('GeoFeedbackBox', () => {
     expect(wrapper.find('.geo-feedback-box--floating').exists()).toBe(true)
   })
 
-  it('shouldn\'t add extra class if floating is not passed', function () {
+  it('Shouldn\'t add extra class if floating is not passed', function () {
     const wrapper = mount(GeoFeedbackBox, {
       propsData: {
         variant: 'success'
@@ -187,7 +187,7 @@ const taxonomyFeedbackBoxs = [GeoErrorFeedbackBox, GeoInfoFeedbackBox, GeoProgre
 
 describe('GeoFeedbackBox Children', () => {
   taxonomyFeedbackBoxs.forEach((taxonomyFeedbackBox) => {
-    it('should render alert component', function () {
+    it('Should render alert component', function () {
       const wrapper = mount(taxonomyFeedbackBox, {
         propsData: {
           icon: ['far', 'image'],
@@ -202,7 +202,7 @@ describe('GeoFeedbackBox Children', () => {
       expect(wrapper.find('.geo-feedback-box').exists()).toBe(true)
     })
 
-    it('should show the close button if close listener is provided', function () {
+    it('Should show the close button if close listener is provided', function () {
       const wrapper = mount(taxonomyFeedbackBox, {
         propsData: {
           icon: ['far', 'image'],
@@ -221,7 +221,7 @@ describe('GeoFeedbackBox Children', () => {
       expect(wrapper.vm).toHaveProperty('shouldShowCloseButton', true)
     })
 
-    it('shouldn\'t show the close button if close listener is not provided', function () {
+    it('Shouldn\'t show the close button if close listener is not provided', function () {
       const wrapper = mount(taxonomyFeedbackBox, {
         propsData: {
           icon: ['far', 'image'],
@@ -237,7 +237,7 @@ describe('GeoFeedbackBox Children', () => {
       expect(wrapper.find('.geo-feedback-box__content__close-icon').exists()).toBe(false)
     })
 
-    it('should emit a close event when clicking on the close button', function () {
+    it('Should emit a close event when clicking on the close button', function () {
       const closeStub = sinon.spy()
       const wrapper = mount(taxonomyFeedbackBox, {
         propsData: {
@@ -256,7 +256,7 @@ describe('GeoFeedbackBox Children', () => {
       expect(closeStub).toHaveProperty('calledOnce', true)
     })
 
-    it('should display actions when the slots are passed', function () {
+    it('Should display actions when the slots are passed', function () {
       const wrapper = mount(taxonomyFeedbackBox, {
         propsData: {
           icon: ['far', 'image'],
@@ -273,7 +273,7 @@ describe('GeoFeedbackBox Children', () => {
       expect(wrapper.find('a').text()).toBe('Run test action')
     })
 
-    it('should display correct icon when passed as a property', function () {
+    it('Should display correct icon when passed as a property', function () {
       const wrapper = mount(taxonomyFeedbackBox, {
         propsData: {
           icon: ['far', 'image'],
@@ -287,7 +287,7 @@ describe('GeoFeedbackBox Children', () => {
       expect(wrapper.find('.fa-image').exists()).toBe(true)
     })
 
-    it('should apply a CSS suffix when the modifier is provided', function () {
+    it('Should apply a CSS suffix when the modifier is provided', function () {
       const closeStub = sinon.spy()
       const wrapper = mount(taxonomyFeedbackBox, {
         propsData: {
@@ -306,7 +306,7 @@ describe('GeoFeedbackBox Children', () => {
       expect(wrapper.find('.geo-feedback-box__content__close-icon--test-feedback-box').exists()).toBe(true)
     })
 
-    it('should add extra class if floating is passed as true', function () {
+    it('Should add extra class if floating is passed as true', function () {
       const wrapper = mount(taxonomyFeedbackBox, {
         propsData: {
           icon: ['far', 'image'],
@@ -322,7 +322,7 @@ describe('GeoFeedbackBox Children', () => {
       expect(wrapper.find('.geo-feedback-box--floating').exists()).toBe(true)
     })
 
-    it('shouldn\'t add extra class if floating is not passed', function () {
+    it('Shouldn\'t add extra class if floating is not passed', function () {
       const wrapper = mount(taxonomyFeedbackBox, {
         propsData: {
           icon: ['far', 'image'],

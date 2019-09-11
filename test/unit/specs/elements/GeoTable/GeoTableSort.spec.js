@@ -24,7 +24,7 @@ const localVue = createLocalVue()
 localVue.component('geo-table-sort', GeoTableSort)
 
 describe('GeoTableSort', () => {
-  it('should render content', function () {
+  it('Should render content', function () {
     const wrapper = mount(GeoTableSort, {
       propsData: {
         currentSortingDirection: GeoTableSort.constants.SORTING_DIRECTIONS.asc,
@@ -38,7 +38,7 @@ describe('GeoTableSort', () => {
     expect(instance.exists()).toBe(true)
   })
 
-  it('should complain when using unknown sorting direction', function () {
+  it('Should complain when using unknown sorting direction', function () {
     const consoleErrorSpy = jest.spyOn(global.console, 'error').mockImplementation(() => { })
     const consoleWarnSpy = jest.spyOn(global.console, 'warn').mockImplementation(() => { })
 
@@ -56,7 +56,7 @@ describe('GeoTableSort', () => {
     consoleWarnSpy.mockRestore()
   })
 
-  it('should emit sort event when clicking on sort asc button', function () {
+  it('Should emit sort event when clicking on sort asc button', function () {
     const wrapper = mount(GeoTableSort, {
       propsData: {
         currentSortingDirection: GeoTableSort.constants.SORTING_DIRECTIONS.asc,
@@ -76,7 +76,7 @@ describe('GeoTableSort', () => {
     expect(wrapper.emitted()['sort']).toEqual([[GeoTableSort.constants.SORTING_DIRECTIONS.asc]])
   })
 
-  it('should emit sort event when clicking on sort desc button', function () {
+  it('Should emit sort event when clicking on sort desc button', function () {
     const wrapper = mount(GeoTableSort, {
       propsData: {
         currentSortingDirection: GeoTableSort.constants.SORTING_DIRECTIONS.asc,
@@ -96,7 +96,7 @@ describe('GeoTableSort', () => {
     expect(wrapper.emitted()['sort']).toEqual([[GeoTableSort.constants.SORTING_DIRECTIONS.desc]])
   })
 
-  it('should allow customizing sort asc button', function () {
+  it('Should allow customizing sort asc button', function () {
     let slotScope
     const wrapper = mount(GeoTableSort, {
       propsData: {
@@ -138,7 +138,7 @@ describe('GeoTableSort', () => {
     expect(slotScope).toHaveProperty('isCurrentSortingDirection', false)
   })
 
-  it('should allow customizing sort desc button', function () {
+  it('Should allow customizing sort desc button', function () {
     let slotScope
     const wrapper = mount(GeoTableSort, {
       propsData: {
@@ -180,7 +180,7 @@ describe('GeoTableSort', () => {
     expect(slotScope).toHaveProperty('isCurrentSortingDirection', true)
   })
 
-  it('should apply CSS suffix when the modifier is provided', function () {
+  it('Should apply CSS suffix when the modifier is provided', function () {
     const inactiveWrapper = mount(GeoTableSort, {
       propsData: {
         cssModifier: 'demo-modifier',

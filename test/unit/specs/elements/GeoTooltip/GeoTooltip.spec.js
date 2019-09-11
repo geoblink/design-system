@@ -30,7 +30,7 @@ describe('GeoTooltip', function () {
   })
 
   describe('Lifecycle', function () {
-    it('should add tooltip container element', function () {
+    it('Should add tooltip container element', function () {
       const wrapper = mount(getComponentWithTooltip())
       const bodyWrapper = createWrapper(document.body)
 
@@ -39,7 +39,7 @@ describe('GeoTooltip', function () {
       wrapper.destroy()
     })
 
-    it('should add only one tooltip container element', function () {
+    it('Should add only one tooltip container element', function () {
       const firstWrapper = mount(getComponentWithTooltip())
       const secondWrapper = mount(getComponentWithTooltip())
       const bodyWrapper = createWrapper(document.body)
@@ -50,7 +50,7 @@ describe('GeoTooltip', function () {
       secondWrapper.destroy()
     })
 
-    it('should not render tooltip content initially', function () {
+    it('Should not render tooltip content initially', function () {
       const wrapper = mount(getComponentWithTooltip())
 
       expect(wrapper.find('.test-tooltip-content').exists()).toBe(false)
@@ -58,7 +58,7 @@ describe('GeoTooltip', function () {
       wrapper.destroy()
     })
 
-    it('should destroy tooltip container when tooltip is removed', async function () {
+    it('Should destroy tooltip container when tooltip is removed', async function () {
       const wrapper = mount(getComponentWithTooltip())
       const bodyWrapper = createWrapper(document.body)
 
@@ -71,7 +71,7 @@ describe('GeoTooltip', function () {
       expect(bodyWrapper.find('.geo-tooltip').exists()).toBe(false)
     })
 
-    it('should destroy tooltip container only when last element with tooltip is removed', async function () {
+    it('Should destroy tooltip container only when last element with tooltip is removed', async function () {
       const firstWrapper = mount(getComponentWithTooltip())
       const secondWrapper = mount(getComponentWithTooltip())
       const bodyWrapper = createWrapper(document.body)

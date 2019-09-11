@@ -38,17 +38,17 @@ describe('GeoChartAxis', function () {
   })
 
   describe('Constants', function () {
-    it('should export POSITIONS', function () {
+    it('Should export POSITIONS', function () {
       expect(GeoChart.constants).toHaveProperty('AXIS')
       expect(GeoChart.constants.AXIS).toHaveProperty('POSITIONS')
     })
 
-    it('should export SIMPLE_POSITIONS', function () {
+    it('Should export SIMPLE_POSITIONS', function () {
       expect(GeoChart.constants).toHaveProperty('AXIS')
       expect(GeoChart.constants.AXIS).toHaveProperty('SIMPLE_POSITIONS')
     })
 
-    it('should not export «anchoredToAxis» as SIMPLE_POSITIONS', function () {
+    it('Should not export «anchoredToAxis» as SIMPLE_POSITIONS', function () {
       expect(GeoChart.constants.AXIS.SIMPLE_POSITIONS).not.toMatchObject({
         anchoredToAxis: 'anchoredToAxis'
       })
@@ -56,7 +56,7 @@ describe('GeoChartAxis', function () {
   })
 
   describe('#getAxisDimension', function () {
-    it('should return horizontal dimension for vertically aligned axes', function () {
+    it('Should return horizontal dimension for vertically aligned axes', function () {
       expect(GeoChartAxis.getAxisDimension({
         type: GeoChart.constants.AXIS.POSITIONS.top
       })).toBe(GeoChart.constants.DIMENSIONS.DIMENSIONS_2D.horizontal)
@@ -68,7 +68,7 @@ describe('GeoChartAxis', function () {
       })).toBe(GeoChart.constants.DIMENSIONS.DIMENSIONS_2D.horizontal)
     })
 
-    it('should return vertical dimension for horizontally aligned axes', function () {
+    it('Should return vertical dimension for horizontally aligned axes', function () {
       expect(GeoChartAxis.getAxisDimension({
         type: GeoChart.constants.AXIS.POSITIONS.left
       })).toBe(GeoChart.constants.DIMENSIONS.DIMENSIONS_2D.vertical)
@@ -80,7 +80,7 @@ describe('GeoChartAxis', function () {
       })).toBe(GeoChart.constants.DIMENSIONS.DIMENSIONS_2D.vertical)
     })
 
-    it('should return normal dimension for anchored axes', function () {
+    it('Should return normal dimension for anchored axes', function () {
       expect(GeoChartAxis.getAxisDimension({
         type: GeoChart.constants.AXIS.POSITIONS.anchoredToAxis,
         relativeAxisPosition: {
@@ -169,7 +169,7 @@ describe('GeoChartAxis', function () {
     })
 
     describe('Ticks customization', function () {
-      it('should not render ticks if tick count is 0', function () {
+      it('Should not render ticks if tick count is 0', function () {
         const axisConfig = _.merge({}, linearAxisConfig, {
           ticks: {
             count: 0
@@ -191,7 +191,7 @@ describe('GeoChartAxis', function () {
         expect(wrapper.find('.geo-chart-axis .tick').exists()).toBe(false)
       })
 
-      it('should render ticks by default', function () {
+      it('Should render ticks by default', function () {
         const axisConfig = _.omit(
           _.merge({}, linearAxisConfig, {
             position: { type: GeoChart.constants.AXIS.POSITIONS.left }
@@ -213,7 +213,7 @@ describe('GeoChartAxis', function () {
         expect(wrapper.find('.geo-chart-axis .tick').exists()).toBe(true)
       })
 
-      it('should apply given format to tick\'s labels', function () {
+      it('Should apply given format to tick\'s labels', function () {
         const getStringForTick = (d, i) => `Tick ${i}`
         const formatMock = jest.fn(getStringForTick)
         const axisConfig = _.merge({}, linearAxisConfig, {
@@ -256,7 +256,7 @@ describe('GeoChartAxis', function () {
         }
       })
 
-      it('should apply given CSS classes to axis', function () {
+      it('Should apply given CSS classes to axis', function () {
         const customClass = 'my-class'
         const getCSSClasses = (originalClasses) => [customClass]
         const cssClassesMock = jest.fn(getCSSClasses)
@@ -284,7 +284,7 @@ describe('GeoChartAxis', function () {
         expect(wrapper.find(`.geo-chart-axis.${customClass}`).exists()).toBe(true)
       })
 
-      it('should apply given CSS classes to ticks', function () {
+      it('Should apply given CSS classes to ticks', function () {
         const tickCount = 3
         const getCustomClassName = (i) => `my-class--${i}`
         const customClassNameAppliedToAllTicks = 'my-class'
@@ -345,7 +345,7 @@ describe('GeoChartAxis', function () {
         }
       })
 
-      it('should apply labels if provided in the axis config', function () {
+      it('Should apply labels if provided in the axis config', function () {
         const axisConfig = _.omit(
           _.merge({}, linearAxisConfig, {
             position: { type: GeoChart.constants.AXIS.POSITIONS.left },
@@ -426,7 +426,7 @@ describe('GeoChartAxis', function () {
       }
 
       function testAxisRendered (axisConfig, { xTranslation, yTranslation }) {
-        it('should render axis', function () {
+        it('Should render axis', function () {
           const wrapper = mount(GeoChart, {
             propsData: {
               config: {
@@ -442,7 +442,7 @@ describe('GeoChartAxis', function () {
           expect(wrapper.findAll('.geo-chart-axis .tick')).toHaveLength(tickCount)
         })
 
-        it('should consider margins', function () {
+        it('Should consider margins', function () {
           const wrapper = mount(GeoChart, {
             propsData: {
               config: {
@@ -464,7 +464,7 @@ describe('GeoChartAxis', function () {
       }
 
       function testAxisDomain (axisConfig) {
-        it('should render domain in order', function () {
+        it('Should render domain in order', function () {
           const wrapper = mount(GeoChart, {
             propsData: {
               config: {
@@ -489,7 +489,7 @@ describe('GeoChartAxis', function () {
           }
         })
 
-        it('should render inverted domain in order', function () {
+        it('Should render inverted domain in order', function () {
           const wrapper = mount(GeoChart, {
             propsData: {
               config: {
@@ -628,7 +628,7 @@ describe('GeoChartAxis', function () {
       }
 
       function testAnchoredAxisIsRendered (baseAxisConfig, anchoredAxisConfig) {
-        it('should render axis', function () {
+        it('Should render axis', function () {
           const wrapper = mount(GeoChart, {
             propsData: {
               config: {
@@ -657,7 +657,7 @@ describe('GeoChartAxis', function () {
         yTrailingMargin,
         ySpan
       }) {
-        it('should position axis anchored to leading value', function () {
+        it('Should position axis anchored to leading value', function () {
           const wrapper = mount(GeoChart, {
             propsData: {
               config: {
@@ -681,7 +681,7 @@ describe('GeoChartAxis', function () {
           expect(axes.at(1).attributes()).toHaveProperty('transform', '') // No transform needed for (0, 0)
         })
 
-        it('should position axis anchored to trailing value', function () {
+        it('Should position axis anchored to trailing value', function () {
           const wrapper = mount(GeoChart, {
             propsData: {
               config: {
@@ -705,7 +705,7 @@ describe('GeoChartAxis', function () {
           expect(axes.at(1).attributes()).toHaveProperty('transform', `translate(${xSpan || 0}, ${ySpan || 0})`)
         })
 
-        it('should position axis anchored to median', function () {
+        it('Should position axis anchored to median', function () {
           const wrapper = mount(GeoChart, {
             propsData: {
               config: {
@@ -729,7 +729,7 @@ describe('GeoChartAxis', function () {
           expect(axes.at(1).attributes()).toHaveProperty('transform', `translate(${(xSpan || 0) / 2}, ${(ySpan || 0) / 2})`)
         })
 
-        it('should position axis anchored to arbitrary value in first half', function () {
+        it('Should position axis anchored to arbitrary value in first half', function () {
           const wrapper = mount(GeoChart, {
             propsData: {
               config: {
@@ -753,7 +753,7 @@ describe('GeoChartAxis', function () {
           expect(axes.at(1).attributes()).toHaveProperty('transform', `translate(${(xSpan || 0) / 4}, ${(ySpan || 0) / 4})`)
         })
 
-        it('should position axis anchored to arbitrary value in second half', function () {
+        it('Should position axis anchored to arbitrary value in second half', function () {
           const wrapper = mount(GeoChart, {
             propsData: {
               config: {
@@ -777,7 +777,7 @@ describe('GeoChartAxis', function () {
           expect(axes.at(1).attributes()).toHaveProperty('transform', `translate(${(xSpan || 0) / 4 * 3}, ${(ySpan || 0) / 4 * 3})`)
         })
 
-        it('should consider margins', function () {
+        it('Should consider margins', function () {
           const wrapper = mount(GeoChart, {
             propsData: {
               config: {
@@ -804,7 +804,7 @@ describe('GeoChartAxis', function () {
       }
 
       function testAnchoredAxisDomain (baseAxisConfig, anchoredAxisConfig) {
-        it('should render domain in order', function () {
+        it('Should render domain in order', function () {
           const wrapper = mount(GeoChart, {
             propsData: {
               config: {
@@ -835,7 +835,7 @@ describe('GeoChartAxis', function () {
           }
         })
 
-        it('should render inverted domain in order', function () {
+        it('Should render inverted domain in order', function () {
           const wrapper = mount(GeoChart, {
             propsData: {
               config: {
@@ -886,7 +886,7 @@ describe('GeoChartAxis', function () {
         stubLodashDebounce.teardown()
       })
 
-      it('should add new axis', function () {
+      it('Should add new axis', function () {
         const initialAxis = _.merge({}, linearAxisConfig, {
           position: { type: GeoChart.constants.AXIS.POSITIONS.left }
         })
@@ -922,7 +922,7 @@ describe('GeoChartAxis', function () {
         expect(wrapper.find(`.geo-chart-axis-${newAxis.id}`).exists()).toBe(true)
       })
 
-      it('should update existing axis', function () {
+      it('Should update existing axis', function () {
         const initialAxis = _.merge({}, linearAxisConfig, {
           ticks: {
             count: 5
@@ -962,7 +962,7 @@ describe('GeoChartAxis', function () {
         expect(wrapper.findAll('.geo-chart-axis .tick')).toHaveLength(updatedAxis.ticks.count)
       })
 
-      it('should remove axis', function () {
+      it('Should remove axis', function () {
         const firstAxis = _.merge({}, linearAxisConfig, {
           id: 'fist-axis',
           position: { type: GeoChart.constants.AXIS.POSITIONS.left }

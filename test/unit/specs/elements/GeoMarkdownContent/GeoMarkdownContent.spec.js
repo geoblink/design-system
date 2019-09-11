@@ -6,7 +6,7 @@ const localVue = createLocalVue()
 localVue.component('geo-bordered-box-footer', GeoMarkdownContent)
 
 describe('GeoMarkdownContent', () => {
-  it('should parse no Markdown if all features all disabled', function () {
+  it('Should parse no Markdown if all features all disabled', function () {
     const markdown = 'This is a **bold** word with an _italic_ word and a [link](https://geoblink.com)!'
     const wrapper = mount(GeoMarkdownContent, {
       propsData: {
@@ -22,7 +22,7 @@ describe('GeoMarkdownContent', () => {
     expect(wrapper.find('p > span').element.innerHTML).toBe(markdown)
   })
 
-  it('should parse only enabled Markdown features', function () {
+  it('Should parse only enabled Markdown features', function () {
     const upToLinkSegment = 'This is a **bold** word with an _italic_ word and a '
     const linkText = 'link'
     const linkURL = 'https://geoblink.com'
@@ -43,7 +43,7 @@ describe('GeoMarkdownContent', () => {
     expect(wrapper.find('p > a > span').element.innerHTML).toBe(linkText)
   })
 
-  it('should not parse interpolated variables', function () {
+  it('Should not parse interpolated variables', function () {
     const uptoBoldSegment = 'This is a '
     const boldSegment = 'bold'
     const boldToLinkSegment = 'word with a '
@@ -74,7 +74,7 @@ describe('GeoMarkdownContent', () => {
     expect(wrapper.find('p > span:last-of-type').element.innerHTML).toBe(variableValue)
   })
 
-  it('should allow interpolating multiple variables inside a single tag', function () {
+  it('Should allow interpolating multiple variables inside a single tag', function () {
     const uptoBoldSegment = 'The '
     const boldSegment = ':variableSelected and :secondVariableSelected'
     const afterBoldSegment = ' should appear in bold'

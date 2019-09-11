@@ -6,7 +6,7 @@ const localVue = createLocalVue()
 localVue.component('geo-pill', GeoPill)
 
 describe('GeoPill', () => {
-  it('should render content', function () {
+  it('Should render content', function () {
     const pillTextContent = 'Pill content'
     const wrapper = mount(GeoPill, {
       slots: {
@@ -19,7 +19,7 @@ describe('GeoPill', () => {
     expect(pill.find('span').text()).toBe(pillTextContent)
   })
 
-  it('should consider CSS modifier', function () {
+  it('Should consider CSS modifier', function () {
     const pillTextContent = 'Pill content'
     const wrapper = mount(GeoPill, {
       slots: {
@@ -35,7 +35,7 @@ describe('GeoPill', () => {
     expect(pill.find('span').text()).toBe(pillTextContent)
   })
 
-  it('should consider variant', function () {
+  it('Should consider variant', function () {
     const pillTextContent = 'Pill content'
     const wrapper = mount(GeoPill, {
       slots: {
@@ -51,7 +51,7 @@ describe('GeoPill', () => {
     expect(pill.find('span').text()).toBe(pillTextContent)
   })
 
-  it('should complain when using unknown variant', function () {
+  it('Should complain when using unknown variant', function () {
     const consoleErrorSpy = jest.spyOn(global.console, 'error').mockImplementation(() => { })
 
     mount(GeoPill, {
@@ -65,7 +65,7 @@ describe('GeoPill', () => {
     consoleErrorSpy.mockRestore()
   })
 
-  it('should consider variant and CSS modifier', function () {
+  it('Should consider variant and CSS modifier', function () {
     const pillTextContent = 'Pill content'
     const wrapper = mount(GeoPill, {
       slots: {

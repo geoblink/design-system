@@ -14,7 +14,7 @@ localVue.component('geo-warning-segmented-control-item', GeoWarningSegmentedCont
 localVue.component('geo-danger-segmented-control-item', GeoDangerSegmentedControlItem)
 
 describe('GeoSegmentedControlItem', () => {
-  it('should render button\'s content', function () {
+  it('Should render button\'s content', function () {
     const wrapper = mount(GeoSegmentedControlItem, {
       slots: {
         default: '<span>Segmented control item title</span>'
@@ -28,7 +28,7 @@ describe('GeoSegmentedControlItem', () => {
     expect(button.find('span').exists()).toBe(true)
   })
 
-  it('should emit an event on click', function (done) {
+  it('Should emit an event on click', function (done) {
     const wrapper = mount(GeoSegmentedControlItem, {
       propsData: {
         type: 'primary'
@@ -45,7 +45,7 @@ describe('GeoSegmentedControlItem', () => {
     })
   })
 
-  it('should not emit an event when it\'s disabled', function () {
+  it('Should not emit an event when it\'s disabled', function () {
     const wrapper = mount(GeoSegmentedControlItem, {
       propsData: {
         disabled: true
@@ -57,7 +57,7 @@ describe('GeoSegmentedControlItem', () => {
     expect(wrapper.emitted()['click']).toBeFalsy()
   })
 
-  it('should add disabled class when it\'s disabled', function () {
+  it('Should add disabled class when it\'s disabled', function () {
     const wrapper = mount(GeoSegmentedControlItem, {
       propsData: {
         disabled: true
@@ -67,13 +67,13 @@ describe('GeoSegmentedControlItem', () => {
     expect(wrapper.find('.geo-segmented-control-item--disabled').exists()).toBe(true)
   })
 
-  it('should nont add disabled class when it\'s not disabled', function () {
+  it('Should nont add disabled class when it\'s not disabled', function () {
     const wrapper = mount(GeoSegmentedControlItem)
 
     expect(wrapper.find('.geo-segmented-control-item--disabled').exists()).toBe(false)
   })
 
-  it('should add active class when it\'s active', function () {
+  it('Should add active class when it\'s active', function () {
     const wrapper = mount(GeoSegmentedControlItem, {
       propsData: {
         active: true
@@ -83,13 +83,13 @@ describe('GeoSegmentedControlItem', () => {
     expect(wrapper.find('.geo-segmented-control-item--active').exists()).toBe(true)
   })
 
-  it('should not add active class when it\'s not active', function () {
+  it('Should not add active class when it\'s not active', function () {
     const wrapper = mount(GeoSegmentedControlItem)
 
     expect(wrapper.find('.geo-segmented-control-item--active').exists()).toBe(false)
   })
 
-  it('should add outline class when it\'s outlined', function () {
+  it('Should add outline class when it\'s outlined', function () {
     const wrapper = mount(GeoSegmentedControlItem, {
       propsData: {
         outline: true
@@ -99,13 +99,13 @@ describe('GeoSegmentedControlItem', () => {
     expect(wrapper.find('.geo-segmented-control-item--outline').exists()).toBe(true)
   })
 
-  it('should not add outline class when it\'s outlined', function () {
+  it('Should not add outline class when it\'s outlined', function () {
     const wrapper = mount(GeoSegmentedControlItem)
 
     expect(wrapper.find('.geo-segmented-control-item--outline').exists()).toBe(false)
   })
 
-  it('should add CSS Suffix when given', function () {
+  it('Should add CSS Suffix when given', function () {
     const wrapper = mount(GeoSegmentedControlItem, {
       propsData: {
         cssModifier: 'custom'
@@ -126,7 +126,7 @@ const taxonomySegmentedControlItems = [
 describe('GeoSegmentedControlItem Children', () => {
   taxonomySegmentedControlItems.forEach((taxonomySegmentedControlItem) => {
     describe(taxonomySegmentedControlItem.name, function () {
-      it('should render button\'s content', function () {
+      it('Should render button\'s content', function () {
         const wrapper = mount(taxonomySegmentedControlItem, {
           slots: {
             default: '<span>Segmented control item title</span>'
@@ -140,7 +140,7 @@ describe('GeoSegmentedControlItem Children', () => {
         expect(button.find('span').exists()).toBe(true)
       })
 
-      it('should emit an event on click', function (done) {
+      it('Should emit an event on click', function (done) {
         const wrapper = mount(taxonomySegmentedControlItem, {
           stubs: {
             GeoSegmentedControlItem
@@ -157,7 +157,7 @@ describe('GeoSegmentedControlItem Children', () => {
         })
       })
 
-      it('should not emit an event when it\'s disabled', function () {
+      it('Should not emit an event when it\'s disabled', function () {
         const wrapper = mount(taxonomySegmentedControlItem, {
           context: {
             props: {
@@ -174,7 +174,7 @@ describe('GeoSegmentedControlItem Children', () => {
         expect(wrapper.emitted()['click']).toBeFalsy()
       })
 
-      it('should add disabled class when it\'s disabled', function () {
+      it('Should add disabled class when it\'s disabled', function () {
         const wrapper = mount(taxonomySegmentedControlItem, {
           context: {
             props: {
@@ -189,7 +189,7 @@ describe('GeoSegmentedControlItem Children', () => {
         expect(wrapper.find('.geo-segmented-control-item--disabled').exists()).toBe(true)
       })
 
-      it('should not add disabled class when it\'s not disabled', function () {
+      it('Should not add disabled class when it\'s not disabled', function () {
         const wrapper = mount(taxonomySegmentedControlItem, {
           stubs: {
             GeoSegmentedControlItem
@@ -199,7 +199,7 @@ describe('GeoSegmentedControlItem Children', () => {
         expect(wrapper.find('.geo-segmented-control-item--disabled').exists()).toBe(false)
       })
 
-      it('should add CSS Suffix when given', function () {
+      it('Should add CSS Suffix when given', function () {
         const wrapper = mount(taxonomySegmentedControlItem, {
           context: {
             props: {
@@ -214,7 +214,7 @@ describe('GeoSegmentedControlItem Children', () => {
         expect(wrapper.find('.geo-segmented-control-item--custom').exists()).toBe(true)
       })
 
-      it('should add outline class when it\'s outlined', function () {
+      it('Should add outline class when it\'s outlined', function () {
         const wrapper = mount(taxonomySegmentedControlItem, {
           context: {
             props: {
@@ -229,7 +229,7 @@ describe('GeoSegmentedControlItem Children', () => {
         expect(wrapper.find('.geo-segmented-control-item--outline').exists()).toBe(true)
       })
 
-      it('should not add outline class when it\'s not outline', function () {
+      it('Should not add outline class when it\'s not outline', function () {
         const wrapper = mount(taxonomySegmentedControlItem, {
           stubs: {
             GeoSegmentedControlItem

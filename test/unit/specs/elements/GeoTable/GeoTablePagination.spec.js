@@ -26,7 +26,7 @@ const localVue = createLocalVue()
 localVue.component('geo-table-pagination', GeoTablePagination)
 
 describe('GeoTablePagination', () => {
-  it('should render pagination if there are multiple pages', function () {
+  it('Should render pagination if there are multiple pages', function () {
     const wrapper = mount(GeoTablePagination, {
       propsData: {
         pageSize: 10,
@@ -41,7 +41,7 @@ describe('GeoTablePagination', () => {
     expect(instance.exists()).toBe(true)
   })
 
-  it('should render nothing if there\'s only one page', function () {
+  it('Should render nothing if there\'s only one page', function () {
     const wrapper = mount(GeoTablePagination, {
       propsData: {
         pageSize: 10,
@@ -56,7 +56,7 @@ describe('GeoTablePagination', () => {
     expect(instance.exists()).toBe(false)
   })
 
-  it('should render go-to-first-page button if page displayed is not the first one', function () {
+  it('Should render go-to-first-page button if page displayed is not the first one', function () {
     const wrapper = mount(GeoTablePagination, {
       propsData: {
         pageSize: 10,
@@ -71,7 +71,7 @@ describe('GeoTablePagination', () => {
     expect(button.exists()).toBe(true)
   })
 
-  it('should render disabled go-to-first-page button if page displayed is the first one', function () {
+  it('Should render disabled go-to-first-page button if page displayed is the first one', function () {
     const wrapper = mount(GeoTablePagination, {
       propsData: {
         pageSize: 10,
@@ -89,7 +89,7 @@ describe('GeoTablePagination', () => {
     expect(enabledButton.exists()).toBe(false)
   })
 
-  it('should emit go-to-page event when clicking on go-to-first page button', function () {
+  it('Should emit go-to-page event when clicking on go-to-first page button', function () {
     const wrapper = mount(GeoTablePagination, {
       propsData: {
         pageSize: 10,
@@ -110,7 +110,7 @@ describe('GeoTablePagination', () => {
     expect(wrapper.emitted()['go-to-page']).toEqual([[0]])
   })
 
-  it('should render go-to-first-page button if page displayed is not the first one', function () {
+  it('Should render go-to-first-page button if page displayed is not the first one', function () {
     const wrapper = mount(GeoTablePagination, {
       propsData: {
         pageSize: 10,
@@ -125,7 +125,7 @@ describe('GeoTablePagination', () => {
     expect(button.exists()).toBe(true)
   })
 
-  it('should allow customizing go-to-first-page button', function () {
+  it('Should allow customizing go-to-first-page button', function () {
     let slotScope
     const wrapper = mount(GeoTablePagination, {
       propsData: {
@@ -171,7 +171,7 @@ describe('GeoTablePagination', () => {
     expect(slotScope).toHaveProperty('hasNextPage', true)
   })
 
-  it('should render go-to-previous-page button if page displayed is not the first one', function () {
+  it('Should render go-to-previous-page button if page displayed is not the first one', function () {
     const wrapper = mount(GeoTablePagination, {
       propsData: {
         pageSize: 10,
@@ -186,7 +186,7 @@ describe('GeoTablePagination', () => {
     expect(button.exists()).toBe(true)
   })
 
-  it('should render disabled go-to-previous-page button if page displayed is the first one', function () {
+  it('Should render disabled go-to-previous-page button if page displayed is the first one', function () {
     const wrapper = mount(GeoTablePagination, {
       propsData: {
         pageSize: 10,
@@ -204,7 +204,7 @@ describe('GeoTablePagination', () => {
     expect(enabledButton.exists()).toBe(false)
   })
 
-  it('should emit go-to-page event when clicking on go-to-previous page button', function () {
+  it('Should emit go-to-page event when clicking on go-to-previous page button', function () {
     const wrapper = mount(GeoTablePagination, {
       propsData: {
         pageSize: 10,
@@ -225,7 +225,7 @@ describe('GeoTablePagination', () => {
     expect(wrapper.emitted()['go-to-page']).toEqual([[1]])
   })
 
-  it('should render go-to-previous-page button if page displayed is not the first one', function () {
+  it('Should render go-to-previous-page button if page displayed is not the first one', function () {
     const wrapper = mount(GeoTablePagination, {
       propsData: {
         pageSize: 10,
@@ -240,7 +240,7 @@ describe('GeoTablePagination', () => {
     expect(button.exists()).toBe(true)
   })
 
-  it('should allow customizing go-to-previous-page button', function () {
+  it('Should allow customizing go-to-previous-page button', function () {
     let slotScope
     const wrapper = mount(GeoTablePagination, {
       propsData: {
@@ -286,7 +286,7 @@ describe('GeoTablePagination', () => {
     expect(slotScope).toHaveProperty('hasNextPage', true)
   })
 
-  it('should render go-to-next-page button if page displayed is not the last one', function () {
+  it('Should render go-to-next-page button if page displayed is not the last one', function () {
     const wrapper = mount(GeoTablePagination, {
       propsData: {
         pageSize: 10,
@@ -301,7 +301,7 @@ describe('GeoTablePagination', () => {
     expect(button.exists()).toBe(true)
   })
 
-  it('should render disabled go-to-next-page button if page displayed is the last one', function () {
+  it('Should render disabled go-to-next-page button if page displayed is the last one', function () {
     const wrapper = mount(GeoTablePagination, {
       propsData: {
         pageSize: 10,
@@ -319,7 +319,7 @@ describe('GeoTablePagination', () => {
     expect(enabledButton.exists()).toBe(false)
   })
 
-  it('should emit go-to-page event when clicking on go-to-next page button', function () {
+  it('Should emit go-to-page event when clicking on go-to-next page button', function () {
     const wrapper = mount(GeoTablePagination, {
       propsData: {
         pageSize: 10,
@@ -340,7 +340,7 @@ describe('GeoTablePagination', () => {
     expect(wrapper.emitted()['go-to-page']).toEqual([[1]])
   })
 
-  it('should render go-to-next-page button if page displayed is not the last one', function () {
+  it('Should render go-to-next-page button if page displayed is not the last one', function () {
     const wrapper = mount(GeoTablePagination, {
       propsData: {
         pageSize: 10,
@@ -355,7 +355,7 @@ describe('GeoTablePagination', () => {
     expect(button.exists()).toBe(true)
   })
 
-  it('should allow customizing go-to-next-page button', function () {
+  it('Should allow customizing go-to-next-page button', function () {
     let slotScope
     const wrapper = mount(GeoTablePagination, {
       propsData: {
@@ -401,7 +401,7 @@ describe('GeoTablePagination', () => {
     expect(slotScope).toHaveProperty('hasNextPage', true)
   })
 
-  it('should render go-to-last-page button if page displayed is not the last one', function () {
+  it('Should render go-to-last-page button if page displayed is not the last one', function () {
     const wrapper = mount(GeoTablePagination, {
       propsData: {
         pageSize: 10,
@@ -416,7 +416,7 @@ describe('GeoTablePagination', () => {
     expect(button.exists()).toBe(true)
   })
 
-  it('should render disabled go-to-last-page button if page displayed is the last one', function () {
+  it('Should render disabled go-to-last-page button if page displayed is the last one', function () {
     const wrapper = mount(GeoTablePagination, {
       propsData: {
         pageSize: 10,
@@ -434,7 +434,7 @@ describe('GeoTablePagination', () => {
     expect(enabledButton.exists()).toBe(false)
   })
 
-  it('should emit go-to-page event when clicking on go-to-last page button', function () {
+  it('Should emit go-to-page event when clicking on go-to-last page button', function () {
     const wrapper = mount(GeoTablePagination, {
       propsData: {
         pageSize: 10,
@@ -455,7 +455,7 @@ describe('GeoTablePagination', () => {
     expect(wrapper.emitted()['go-to-page']).toEqual([[2]])
   })
 
-  it('should render go-to-last-page button if page displayed is not the last one', function () {
+  it('Should render go-to-last-page button if page displayed is not the last one', function () {
     const wrapper = mount(GeoTablePagination, {
       propsData: {
         pageSize: 10,
@@ -470,7 +470,7 @@ describe('GeoTablePagination', () => {
     expect(button.exists()).toBe(true)
   })
 
-  it('should allow customizing go-to-last-page button', function () {
+  it('Should allow customizing go-to-last-page button', function () {
     let slotScope
     const wrapper = mount(GeoTablePagination, {
       propsData: {
@@ -516,7 +516,7 @@ describe('GeoTablePagination', () => {
     expect(slotScope).toHaveProperty('hasNextPage', true)
   })
 
-  it('should apply CSS suffix when the modifier is provided', function () {
+  it('Should apply CSS suffix when the modifier is provided', function () {
     const wrapper = mount(GeoTablePagination, {
       propsData: {
         cssModifier: 'demo-modifier',
