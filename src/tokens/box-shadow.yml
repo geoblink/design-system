@@ -5,7 +5,7 @@
 
 props:
   box_shadow_small:
-    value: "0 2px 5px 0 rgba(0, 0, 0, 0.3)"
+    value: "0 2px 5px -3px rgba(0, 0, 0, 0.5)"
   box_shadow_small_inset:
     value: "inset 0 2px 5px 0 rgba(0, 0, 0, 0.3)"
   box_shadow_regular:
