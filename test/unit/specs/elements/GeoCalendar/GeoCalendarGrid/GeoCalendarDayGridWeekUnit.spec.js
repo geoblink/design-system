@@ -9,7 +9,7 @@ describe('GeoCalendarDayGridWeekUnit', () => {
   const today = new Date(2019, 6, 30) // Fixed date to avoid future errors with random dates
   const wrapper = getWrappedComponent()
 
-  it('should render', function () {
+  it('Should render', function () {
     expect(wrapper.find('.geo-calendar-grid__week-unit').exists()).toBe(true)
   })
 

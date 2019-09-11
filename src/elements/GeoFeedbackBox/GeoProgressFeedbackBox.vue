@@ -39,7 +39,7 @@ export default {
      */
     icon: {
       type: Array,
-      default () {
+      default: function () {
         return ['fal', 'spinner-third']
       }
     }

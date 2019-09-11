@@ -7,7 +7,7 @@ import GeoInput from '@/elements/GeoInput/GeoInput.vue'
 library.add(fas)
 
 describe('GeoInput', () => {
-  it('should render', function () {
+  it('Should render', function () {
     const wrapper = mount(GeoInput)
     expect(wrapper.find('.geo-input').exists()).toBe(true)
     expect(wrapper.find('.geo-input--error').exists()).toBe(false)
@@ -15,7 +15,7 @@ describe('GeoInput', () => {
     expect(wrapper.find('.geo-input--disabled').exists()).toBe(false)
   })
 
-  it('should render as error', function () {
+  it('Should render as error', function () {
     const wrapper = mount(GeoInput, {
       propsData: {
         error: true
@@ -28,7 +28,7 @@ describe('GeoInput', () => {
     expect(wrapper.find('.geo-input--disabled').exists()).toBe(false)
   })
 
-  it('should render as success', function () {
+  it('Should render as success', function () {
     const wrapper = mount(GeoInput, {
       propsData: {
         success: true
@@ -41,7 +41,7 @@ describe('GeoInput', () => {
     expect(wrapper.find('.geo-input--disabled').exists()).toBe(false)
   })
 
-  it('should render as disabled', function () {
+  it('Should render as disabled', function () {
     const wrapper = mount(GeoInput, {
       propsData: {
         disabled: true,
@@ -60,7 +60,7 @@ describe('GeoInput', () => {
     expect(wrapper.find('.geo-input__icon--trailing').exists()).toBe(true)
   })
 
-  it('should render leading icon if provided', function () {
+  it('Should render leading icon if provided', function () {
     const wrapper = mount(GeoInput, {
       propsData: {
         leadingAccessoryIcon: ['fas', 'search']
@@ -79,7 +79,7 @@ describe('GeoInput', () => {
     expect(wrapper.find('.geo-input__icon--leading').exists()).toBe(true)
   })
 
-  it('should emit input', function () {
+  it('Should emit input', function () {
     const wrapper = mount(GeoInput)
 
     const input = wrapper.find('input')

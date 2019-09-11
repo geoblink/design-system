@@ -2,7 +2,7 @@ import { mount } from '@vue/test-utils'
 import GeoCalendarPickerGranularityBase from '@/elements/GeoCalendar/GeoCalendarPickerGranularity/GeoCalendarPickerGranularityBase.vue'
 
 describe('GeoCalendarPickerGranularityBase', () => {
-  it('should render', function () {
+  it('Should render', function () {
     const wrapper = mount(GeoCalendarPickerGranularityBase, {
       stubs: ['font-awesome-icon'],
       propsData: {

@@ -2,7 +2,7 @@ import { mount } from '@vue/test-utils'
 import GeoListClearItem from '@/elements/GeoList/GeoListClearItem.vue'
 
 describe('GeoListClearItem', () => {
-  it('should render default slot', () => {
+  it('Should render default slot', () => {
     const wrapper = mount(GeoListClearItem, {
       slots: {
         default: [`<span class="read-only-entry-content">Some read only entry text</span>`]

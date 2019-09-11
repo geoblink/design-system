@@ -7,24 +7,24 @@ import * as d3 from 'd3'
 
 describe('GeoChartScale', function () {
   describe('Constants', function () {
-    it('should export SCALE_TYPES', function () {
+    it('Should export SCALE_TYPES', function () {
       expect(GeoChart.constants).toHaveProperty('SCALES')
       expect(GeoChart.constants.SCALES).toHaveProperty('SCALE_TYPES')
     })
 
-    it('should export linear scale', function () {
+    it('Should export linear scale', function () {
       expect(GeoChart.constants.SCALES.SCALE_TYPES).toHaveProperty('linear')
     })
 
-    it('should export logarithmic scale', function () {
+    it('Should export logarithmic scale', function () {
       expect(GeoChart.constants.SCALES.SCALE_TYPES).toHaveProperty('logarithmic')
     })
 
-    it('should export categorical scale', function () {
+    it('Should export categorical scale', function () {
       expect(GeoChart.constants.SCALES.SCALE_TYPES).toHaveProperty('categorical')
     })
 
-    it('should export DEFAULT_LOGARITHMIC_SCALE_BASE', function () {
+    it('Should export DEFAULT_LOGARITHMIC_SCALE_BASE', function () {
       expect(GeoChartScale.DEFAULT_LOGARITHMIC_SCALE_BASE).toBeGreaterThan(1)
     })
   })
@@ -52,7 +52,7 @@ describe('GeoChartScale', function () {
         }
       }
 
-      it('should return a valid scale', function () {
+      it('Should return a valid scale', function () {
         const valueForOrigin = 20
 
         const scale = GeoChartScale.getNewScale(
@@ -68,7 +68,7 @@ describe('GeoChartScale', function () {
 
       testRange(linearScaleBaseConfig)
 
-      it('should set domain using start and end', function () {
+      it('Should set domain using start and end', function () {
         const domain = {
           start: 100,
           end: 500
@@ -81,7 +81,7 @@ describe('GeoChartScale', function () {
         expect(scale.axisScale.domain()).toEqual([domain.start, domain.end])
       })
 
-      it('should set domain using list of numbers', function () {
+      it('Should set domain using list of numbers', function () {
         const domainStart = 100
         const domainMiddle = 150
         const domainEnd = 500
@@ -103,7 +103,7 @@ describe('GeoChartScale', function () {
         expect(scaleWithMiddle.axisScale.domain()).toEqual(domainWithMiddle)
       })
 
-      it('should throw error when using an invalid domain', function () {
+      it('Should throw error when using an invalid domain', function () {
         const domain = {
           start: 100
         }
@@ -134,7 +134,7 @@ describe('GeoChartScale', function () {
         }
       }
 
-      it('should return a valid scale', function () {
+      it('Should return a valid scale', function () {
         const valueForOrigin = 20
 
         const scale = GeoChartScale.getNewScale(
@@ -150,7 +150,7 @@ describe('GeoChartScale', function () {
 
       testRange(logarithmicScaleBaseConfig)
 
-      it('should set domain using start and end', function () {
+      it('Should set domain using start and end', function () {
         const domain = {
           start: 100,
           end: 500
@@ -163,7 +163,7 @@ describe('GeoChartScale', function () {
         expect(scale.axisScale.domain()).toEqual([domain.start, domain.end])
       })
 
-      it('should set domain using list of numbers', function () {
+      it('Should set domain using list of numbers', function () {
         const domainStart = 100
         const domainMiddle = 150
         const domainEnd = 500
@@ -185,7 +185,7 @@ describe('GeoChartScale', function () {
         expect(scaleWithMiddle.axisScale.domain()).toEqual(domainWithMiddle)
       })
 
-      it('should throw error when using an invalid domain', function () {
+      it('Should throw error when using an invalid domain', function () {
         const domain = {
           start: 100
         }
@@ -216,7 +216,7 @@ describe('GeoChartScale', function () {
         }
       }
 
-      it('should return a valid scale', function () {
+      it('Should return a valid scale', function () {
         const valueForOrigin = 20
 
         const scale = GeoChartScale.getNewScale(
@@ -232,7 +232,7 @@ describe('GeoChartScale', function () {
 
       testRange(categoricalScaleBaseConfig)
 
-      it('should set domain using list of strings', function () {
+      it('Should set domain using list of strings', function () {
         const categoryA = 100
         const categoryB = 150
         const categoryC = 500
@@ -254,7 +254,7 @@ describe('GeoChartScale', function () {
         expect(scaleWithMiddle.axisScale.domain()).toEqual(domainWith3Items)
       })
 
-      it('should set inner padding', function () {
+      it('Should set inner padding', function () {
         const innerPadding = 0.4
         const scale = GeoChartScale.getNewScale(
           _.merge({}, categoricalScaleBaseConfig, { scale: { padding: { inner: innerPadding } } }),
@@ -264,7 +264,7 @@ describe('GeoChartScale', function () {
         expect(scale.axisScale.paddingInner()).toEqual(innerPadding)
       })
 
-      it('should set outer padding', function () {
+      it('Should set outer padding', function () {
         const outerPadding = 0.2
         const scale = GeoChartScale.getNewScale(
           _.merge({}, categoricalScaleBaseConfig, { scale: { padding: { outer: outerPadding } } }),
@@ -292,7 +292,7 @@ describe('GeoChartScale', function () {
         }
       }
 
-      it('should return a valid scale', function () {
+      it('Should return a valid scale', function () {
         const valueForOrigin = new Date()
 
         const scale = GeoChartScale.getNewScale(
@@ -308,7 +308,7 @@ describe('GeoChartScale', function () {
 
       testRange(timeScaleBaseConfig)
 
-      it('should set domain using start and end', function () {
+      it('Should set domain using start and end', function () {
         const domain = {
           start: startDate,
           end: endDate
@@ -321,7 +321,7 @@ describe('GeoChartScale', function () {
         expect(scale.axisScale.domain()).toEqual([domain.start, domain.end])
       })
 
-      it('should set domain using list of dates', function () {
+      it('Should set domain using list of dates', function () {
         const domain = [startDate, endDate]
         const domainWithMiddle = [startDate, new Date('2019-02-01'), endDate]
 
@@ -340,7 +340,7 @@ describe('GeoChartScale', function () {
         expect(scaleWithMiddle.axisScale.domain()).toEqual(domainWithMiddle)
       })
 
-      it('should throw error when using an invalid domain', function () {
+      it('Should throw error when using an invalid domain', function () {
         const domain = {
           start: startDate
         }
@@ -357,7 +357,7 @@ describe('GeoChartScale', function () {
       })
     })
 
-    it('should throw error when trying to get an unknown scale', function () {
+    it('Should throw error when trying to get an unknown scale', function () {
       const unknownScaleBaseConfig = {
         id: 0,
         dimension: GeoChart.constants.DIMENSIONS.DIMENSIONS_2D.horizontal,
@@ -380,7 +380,7 @@ describe('GeoChartScale', function () {
     })
 
     function testRange (scaleConfig) {
-      it('should consider chart width in range of horizontal axis', function () {
+      it('Should consider chart width in range of horizontal axis', function () {
         const width = 200
         const height = 100
 
@@ -392,7 +392,7 @@ describe('GeoChartScale', function () {
         expect(scale.axisScale.range()).toEqual([0, width])
       })
 
-      it('should consider chart margin in range of horizontal axis', function () {
+      it('Should consider chart margin in range of horizontal axis', function () {
         const leftMargin = 100
         const rightMargin = 50
         const width = 200
@@ -411,7 +411,7 @@ describe('GeoChartScale', function () {
         expect(scale.axisScale.range()).toEqual([leftMargin, width - rightMargin])
       })
 
-      it('should consider chart height in range of vertical axis', function () {
+      it('Should consider chart height in range of vertical axis', function () {
         const dimension = GeoChart.constants.DIMENSIONS.DIMENSIONS_2D.vertical
         const width = 200
         const height = 100
@@ -424,7 +424,7 @@ describe('GeoChartScale', function () {
         expect(scale.axisScale.range()).toEqual([0, height])
       })
 
-      it('should consider chart margin in range of vertical axis', function () {
+      it('Should consider chart margin in range of vertical axis', function () {
         const dimension = GeoChart.constants.DIMENSIONS.DIMENSIONS_2D.vertical
         const topMargin = 75
         const bottomMargin = 50

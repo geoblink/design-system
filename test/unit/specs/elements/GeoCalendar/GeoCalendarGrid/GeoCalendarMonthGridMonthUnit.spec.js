@@ -10,7 +10,7 @@ describe('GeoCalendarMonthGridMonthUnit', () => {
   const monthName = 'July'
   const monthIndex = 7
 
-  it('should render', function () {
+  it('Should render', function () {
     const wrapper = mount(GeoCalendarMonthGridMonthUnit, {
       propsData: {
         monthName,

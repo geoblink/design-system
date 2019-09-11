@@ -107,7 +107,7 @@ export default {
      */
     uploadIcon: {
       type: Array,
-      default () {
+      default: function () {
         return ['fal', 'upload']
       }
     },
@@ -119,7 +119,7 @@ export default {
      */
     successIcon: {
       type: Array,
-      default () {
+      default: function () {
         return ['fal', 'check-circle']
       }
     },
@@ -131,7 +131,7 @@ export default {
      */
     errorIcon: {
       type: Array,
-      default () {
+      default: function () {
         return ['fal', 'exclamation-triangle']
       }
     },
@@ -143,7 +143,7 @@ export default {
      */
     warningIcon: {
       type: Array,
-      default () {
+      default: function () {
         return ['fal', 'exclamation-triangle']
       }
     }

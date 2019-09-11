@@ -12,7 +12,7 @@ export default {
     calendarNavigationSelectIcon: {
       type: Array,
       required: false,
-      default () {
+      default: function () {
         return ['fal', 'chevron-down']
       }
     },
@@ -26,7 +26,7 @@ export default {
     closeCalendarIcon: {
       type: Array,
       required: false,
-      default () {
+      default: function () {
         return ['fal', 'times']
       }
     },
@@ -69,7 +69,7 @@ export default {
      */
     initialDateInGrid: {
       type: Date,
-      default () {
+      default: function () {
         return new Date()
       }
     },
@@ -83,7 +83,7 @@ export default {
     inputRangeIcon: {
       type: Array,
       required: false,
-      default () {
+      default: function () {
         return ['fal', 'arrow-right']
       }
     },
@@ -116,7 +116,7 @@ export default {
     nextDateInSelectedGranularityIcon: {
       type: Array,
       required: false,
-      default () {
+      default: function () {
         return ['fal', 'chevron-right']
       }
     },
@@ -130,7 +130,7 @@ export default {
     previousDateInSelectedGranularityIcon: {
       type: Array,
       required: false,
-      default () {
+      default: function () {
         return ['fal', 'chevron-left']
       }
     },

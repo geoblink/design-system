@@ -6,7 +6,7 @@ const localVue = createLocalVue()
 localVue.component('geo-bordered-box-footer', GeoBorderedBoxFooter)
 
 describe('GeoBorderedBoxFooter', () => {
-  it('should render default slot', function () {
+  it('Should render default slot', function () {
     const wrapper = mount(GeoBorderedBoxFooter, {
       slots: {
         default: [`<span class="my-demo-content">Just some unique demo content</span>`]

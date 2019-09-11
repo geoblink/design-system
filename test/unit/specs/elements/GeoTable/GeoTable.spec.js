@@ -36,7 +36,7 @@ describe('GeoTable', () => {
     jest.useRealTimers()
   })
 
-  it('should render component', function () {
+  it('Should render component', function () {
     const wrapper = mount(GeoTable, {
       propsData: {
         sourceData: [{}],
@@ -49,7 +49,7 @@ describe('GeoTable', () => {
   })
 
   describe('When table is empty', function () {
-    it('should render empty slot', function () {
+    it('Should render empty slot', function () {
       const wrapper = mount(GeoTable, {
         propsData: {
           sourceData: [],
@@ -65,7 +65,7 @@ describe('GeoTable', () => {
       expect(instance.text()).toEqual('Some data when empty')
     })
 
-    it('should pass CSS Modifier to empty slot', function () {
+    it('Should pass CSS Modifier to empty slot', function () {
       let slotScope
       const wrapper = mount(GeoTable, {
         propsData: {
@@ -92,7 +92,7 @@ describe('GeoTable', () => {
       expect(slotScope).toHaveProperty('cssModifier', 'demo')
     })
 
-    it('should render header slot', function () {
+    it('Should render header slot', function () {
       const wrapper = mount(GeoTable, {
         propsData: {
           sourceData: [],
@@ -108,7 +108,7 @@ describe('GeoTable', () => {
       expect(instance.text()).toEqual('My header')
     })
 
-    it('should pass CSS Modifier to header slot', function () {
+    it('Should pass CSS Modifier to header slot', function () {
       let scopedSlots
       const wrapper = mount(GeoTable, {
         propsData: {
@@ -139,7 +139,7 @@ describe('GeoTable', () => {
       expect(scopedSlots).toHaveProperty('cssModifier', 'demo')
     })
 
-    it('should not render body slot', function () {
+    it('Should not render body slot', function () {
       const wrapper = mount(GeoTable, {
         propsData: {
           sourceData: [],
@@ -156,7 +156,7 @@ describe('GeoTable', () => {
     })
 
     describe('When footer slot is provided', function () {
-      it('should render footer slot', function () {
+      it('Should render footer slot', function () {
         const wrapper = mount(GeoTable, {
           propsData: {
             sourceData: [],
@@ -174,7 +174,7 @@ describe('GeoTable', () => {
     })
 
     describe('When footer slot is nont provided', function () {
-      it('should not render footer slot', function () {
+      it('Should not render footer slot', function () {
         const wrapper = mount(GeoTable, {
           propsData: {
             sourceData: [],
@@ -190,7 +190,7 @@ describe('GeoTable', () => {
   })
 
   describe('When there is content', function () {
-    it('should not render empty slot', function () {
+    it('Should not render empty slot', function () {
       const wrapper = mount(GeoTable, {
         propsData: {
           sourceData: [{}],
@@ -206,7 +206,7 @@ describe('GeoTable', () => {
       expect(instance.text()).not.toEqual('Some data when empty')
     })
 
-    it('should render header slot', function () {
+    it('Should render header slot', function () {
       const wrapper = mount(GeoTable, {
         propsData: {
           sourceData: [],
@@ -222,7 +222,7 @@ describe('GeoTable', () => {
       expect(instance.text()).toEqual('My header')
     })
 
-    it('should pass CSS Modifier to header slot', function () {
+    it('Should pass CSS Modifier to header slot', function () {
       let scopedSlots
       const wrapper = mount(GeoTable, {
         propsData: {
@@ -253,7 +253,7 @@ describe('GeoTable', () => {
       expect(scopedSlots).toHaveProperty('cssModifier', 'demo')
     })
 
-    it('should render body', function () {
+    it('Should render body', function () {
       const wrapper = mount(GeoTable, {
         stubs: {
           GeoTableHeaderRow,
@@ -280,7 +280,7 @@ describe('GeoTable', () => {
       expect(instance.find('.geo-table-body-row-cell').text()).toBe('Body row cell content')
     })
 
-    it('should pass row properties to body slot', function () {
+    it('Should pass row properties to body slot', function () {
       let slotScope
       const item = { value: 'Body row cell content' }
       const wrapper = mount(GeoTable, {
@@ -309,7 +309,7 @@ describe('GeoTable', () => {
       expect(slotScope).toHaveProperty('index', 0)
     })
 
-    it('should compute columns\' width', async function () {
+    it('Should compute columns\' width', async function () {
       const consoleWarnSpy = jest.spyOn(global.console, 'warn').mockImplementation(() => { })
 
       const wrapper = mount(GeoTable, {
@@ -357,7 +357,7 @@ describe('GeoTable', () => {
       })
     })
 
-    it('should complain if two header rows have different widths', async function () {
+    it('Should complain if two header rows have different widths', async function () {
       const consoleWarnSpy = jest.spyOn(global.console, 'warn').mockImplementation(() => { })
 
       const wrapper = mount(GeoTable, {
@@ -402,7 +402,7 @@ describe('GeoTable', () => {
       })
     })
 
-    it('should relayout on scroll', async function () {
+    it('Should relayout on scroll', async function () {
       const wrapper = mount(GeoTable, {
         stubs: {
           GeoTableHeaderRow,
@@ -433,7 +433,7 @@ describe('GeoTable', () => {
       layoutHeadersAndShadowsSpy.mockRestore()
     })
 
-    it('should emit `@infer-page-size` event after inferring page size', async function () {
+    it('Should emit `@infer-page-size` event after inferring page size', async function () {
       const numRows = 10
       const wrapper = mount(GeoTable, {
         stubs: {
@@ -498,7 +498,7 @@ describe('GeoTable', () => {
         expect(stubBodyRowConstructor).toBeCalledTimes(GeoTable.constants.DEFAULT_PAGESIZE)
       })
 
-      it('should render footer if there are multiple pages', function () {
+      it('Should render footer if there are multiple pages', function () {
         const items = _.times(
           2 * GeoTable.constants.DEFAULT_PAGESIZE + 5,
           i => { return { value: `Body row cell ${i}` } }
@@ -520,7 +520,7 @@ describe('GeoTable', () => {
         expect(instance.find('.geo-table-pagination').exists()).toBe(true)
       })
 
-      it('should emit change page event when clicking on footer buttons', function () {
+      it('Should emit change page event when clicking on footer buttons', function () {
         const items = _.times(
           2 * GeoTable.constants.DEFAULT_PAGESIZE + 5,
           i => { return { value: `Body row cell ${i}` } }
@@ -544,7 +544,7 @@ describe('GeoTable', () => {
         expect(instance.find('.geo-table-pagination').emitted('go-to-page')).toEqual([[2]])
       })
 
-      it('should only render current page items', function () {
+      it('Should only render current page items', function () {
         const slotScopes = []
         const items = _.times(
           2 * GeoTable.constants.DEFAULT_PAGESIZE + 5,
@@ -578,7 +578,7 @@ describe('GeoTable', () => {
         }
       })
 
-      it('should only render current page items even if it\'s not the first one', function () {
+      it('Should only render current page items even if it\'s not the first one', function () {
         const slotScopes = []
         const items = _.times(
           2 * GeoTable.constants.DEFAULT_PAGESIZE + 5,
@@ -612,7 +612,7 @@ describe('GeoTable', () => {
         }
       })
 
-      it('should only render current page items even if it\'s not full', function () {
+      it('Should only render current page items even if it\'s not full', function () {
         const slotScopes = []
         const items = _.times(
           2 * GeoTable.constants.DEFAULT_PAGESIZE + 5,
@@ -648,7 +648,7 @@ describe('GeoTable', () => {
     })
 
     describe('When there is forced page size', function () {
-      it('should respect forced page size', function () {
+      it('Should respect forced page size', function () {
         const stubBodyRowConstructor = jest.fn()
         const items = _.times(
           2 * GeoTable.constants.DEFAULT_PAGESIZE + 5,
@@ -675,7 +675,7 @@ describe('GeoTable', () => {
         expect(stubBodyRowConstructor).toBeCalledTimes(2 * GeoTable.constants.DEFAULT_PAGESIZE)
       })
 
-      it('should render footer if there are multiple pages', function () {
+      it('Should render footer if there are multiple pages', function () {
         const items = _.times(
           2 * GeoTable.constants.DEFAULT_PAGESIZE + 5,
           i => { return { value: `Body row cell ${i}` } }
@@ -698,7 +698,7 @@ describe('GeoTable', () => {
         expect(instance.find('.geo-table-pagination').exists()).toBe(true)
       })
 
-      it('should emit change page event when clicking on footer buttons', function () {
+      it('Should emit change page event when clicking on footer buttons', function () {
         const items = _.times(
           2 * GeoTable.constants.DEFAULT_PAGESIZE + 5,
           i => { return { value: `Body row cell ${i}` } }
@@ -723,7 +723,7 @@ describe('GeoTable', () => {
         expect(instance.find('.geo-table-pagination').emitted('go-to-page')).toEqual([[2]])
       })
 
-      it('should only render current page items', function () {
+      it('Should only render current page items', function () {
         const slotScopes = []
         const items = _.times(
           5,
@@ -758,7 +758,7 @@ describe('GeoTable', () => {
         }
       })
 
-      it('should only render current page items even if it\'s not the first one', function () {
+      it('Should only render current page items even if it\'s not the first one', function () {
         const slotScopes = []
         const items = _.times(
           5,
@@ -793,7 +793,7 @@ describe('GeoTable', () => {
         }
       })
 
-      it('should only render current page items even if it\'s not full', function () {
+      it('Should only render current page items even if it\'s not full', function () {
         const slotScopes = []
         const items = _.times(
           5,

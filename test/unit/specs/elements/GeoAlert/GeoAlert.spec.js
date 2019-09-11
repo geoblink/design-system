@@ -30,7 +30,7 @@ const localVue = createLocalVue()
 localVue.component('geo-alert', GeoAlert)
 
 describe('GeoAlert', () => {
-  it('should render alert component', function () {
+  it('Should render alert component', function () {
     const wrapper = mount(GeoAlert, {
       context: {
         props: {
@@ -46,7 +46,7 @@ describe('GeoAlert', () => {
     expect(wrapper.find('.geo-alert').exists()).toBe(true)
   })
 
-  it('should display correct icon', function () {
+  it('Should display correct icon', function () {
     const wrapper = mount(GeoAlert, {
       context: {
         props: {
@@ -61,7 +61,7 @@ describe('GeoAlert', () => {
     expect(wrapper.find('.fa-exclamation-triangle').exists()).toBe(true)
   })
 
-  it('should apply a CSS suffix when the modifier is provided', function () {
+  it('Should apply a CSS suffix when the modifier is provided', function () {
     const wrapper = mount(GeoAlert, {
       context: {
         props: {
@@ -116,7 +116,7 @@ const taxonomyAlerts = [
 
 describe('GeoAlert Children', () => {
   taxonomyAlerts.forEach((taxonomyAlert) => {
-    it('should render alert component', function () {
+    it('Should render alert component', function () {
       const wrapper = mount(taxonomyAlert.component, {
         stubs: {
           'font-awesome-icon': FontAwesomeIcon,
@@ -127,7 +127,7 @@ describe('GeoAlert Children', () => {
       expect(wrapper.find('.geo-alert').exists()).toBe(true)
     })
 
-    it('should display correct icon', function () {
+    it('Should display correct icon', function () {
       const wrapper = mount(taxonomyAlert.component, {
         stubs: {
           'font-awesome-icon': FontAwesomeIcon,
@@ -137,7 +137,7 @@ describe('GeoAlert Children', () => {
       expect(wrapper.find(`.fa-${taxonomyAlert.icon}`).exists()).toBe(true)
     })
 
-    it('should apply correct variant', function () {
+    it('Should apply correct variant', function () {
       const wrapper = mount(taxonomyAlert.component, {
         stubs: {
           'font-awesome-icon': FontAwesomeIcon,
@@ -147,7 +147,7 @@ describe('GeoAlert Children', () => {
       expect(wrapper.find(`.geo-alert--${taxonomyAlert.variant}`).exists()).toBe(true)
     })
 
-    it('should apply a CSS suffix when the modifier is provided', function () {
+    it('Should apply a CSS suffix when the modifier is provided', function () {
       const wrapper = mount(taxonomyAlert.component, {
         context: {
           props: {

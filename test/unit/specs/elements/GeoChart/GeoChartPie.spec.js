@@ -53,7 +53,7 @@ describe('GeoChartPie', function () {
     stubGetScreenCTM.teardown()
   })
 
-  it('should render the pie', function () {
+  it('Should render the pie', function () {
     const wrapper = mount(GeoChart, {
       propsData: {
         config: {
@@ -77,7 +77,7 @@ describe('GeoChartPie', function () {
     wrapper.destroy()
   })
 
-  it('should center the pie within chart dimensions', function () {
+  it('Should center the pie within chart dimensions', function () {
     const wrapper = mount(GeoChart, {
       propsData: {
         config: {
@@ -104,7 +104,7 @@ describe('GeoChartPie', function () {
     wrapper.destroy()
   })
 
-  it('should re-render the chart with the new data', function () {
+  it('Should re-render the chart with the new data', function () {
     const wrapper = mount(GeoChart, {
       propsData: {
         config: {
@@ -143,7 +143,7 @@ describe('GeoChartPie', function () {
     wrapper.destroy()
   })
 
-  it('should add specific class for each slice', function () {
+  it('Should add specific class for each slice', function () {
     const wrapper = mount(GeoChart, {
       propsData: {
         config: {
@@ -171,7 +171,7 @@ describe('GeoChartPie', function () {
     wrapper.destroy()
   })
 
-  it('should add custom class for each slice', function () {
+  it('Should add custom class for each slice', function () {
     const wrapper = mount(GeoChart, {
       propsData: {
         config: {
@@ -202,7 +202,7 @@ describe('GeoChartPie', function () {
     wrapper.destroy()
   })
 
-  it('should display tooltip on hover', function () {
+  it('Should display tooltip on hover', function () {
     const tooltipText = (d, i) => d.value.toString()
     const wrapper = mount(GeoChart, {
       propsData: {

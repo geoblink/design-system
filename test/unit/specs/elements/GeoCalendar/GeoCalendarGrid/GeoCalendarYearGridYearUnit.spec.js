@@ -14,7 +14,7 @@ describe('GeoCalendarYearGridYearUnit', () => {
     }
   })
 
-  it('should render', function () {
+  it('Should render', function () {
     expect(wrapper.find('.geo-calendar-grid__date-picker-unit').exists()).toBe(true)
     expect(wrapper.find('.geo-calendar-grid__date-picker-unit__placeholder').exists()).toBe(true)
     expect(wrapper.find('.geo-calendar-grid__date-picker-unit__placeholder').text()).toBe('2019')

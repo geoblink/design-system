@@ -58,7 +58,7 @@ export default {
     values: {
       type: Object,
       required: false,
-      default () {
+      default: function () {
         return {}
       }
     },
@@ -91,7 +91,7 @@ export default {
           return allValid
         }, true)
       },
-      default () {
+      default: function () {
         return {}
       }
     }

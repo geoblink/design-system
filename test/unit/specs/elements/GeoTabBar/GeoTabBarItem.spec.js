@@ -6,7 +6,7 @@ const localVue = createLocalVue()
 localVue.component('geo-tab-bar-item', GeoTabBarItem)
 
 describe('GeoTabBarItem', () => {
-  it('should render item\'s content', function () {
+  it('Should render item\'s content', function () {
     const wrapper = mount(GeoTabBarItem, {
       slots: {
         default: '<span>Some content</span>'
@@ -17,7 +17,7 @@ describe('GeoTabBarItem', () => {
     expect(tabBarItem.find('span').exists()).toBe(true)
   })
 
-  it('should emit an event on click', function (done) {
+  it('Should emit an event on click', function (done) {
     const wrapper = mount(GeoTabBarItem, {})
     wrapper.find('.geo-tab-bar-item-default').trigger('click')
     setTimeout(function () {
@@ -30,7 +30,7 @@ describe('GeoTabBarItem', () => {
     })
   })
 
-  it('should not emit an event when it\'s disabled', function () {
+  it('Should not emit an event when it\'s disabled', function () {
     const wrapper = mount(GeoTabBarItem, {
       propsData: {
         disabled: true
@@ -42,7 +42,7 @@ describe('GeoTabBarItem', () => {
     expect(wrapper.emitted()['click']).toBeFalsy()
   })
 
-  it('should add active suffix when item is active', function () {
+  it('Should add active suffix when item is active', function () {
     const wrapper = mount(GeoTabBarItem, {
       propsData: {
         active: true
@@ -52,7 +52,7 @@ describe('GeoTabBarItem', () => {
     expect(wrapper.find('.geo-tab-bar-item-default--active').exists()).toBe(true)
   })
 
-  it('should add CSS Suffix when given', function () {
+  it('Should add CSS Suffix when given', function () {
     const wrapper = mount(GeoTabBarItem, {
       propsData: {
         cssModifier: 'custom'
@@ -62,7 +62,7 @@ describe('GeoTabBarItem', () => {
     expect(wrapper.find('.geo-tab-bar-item-default--custom').exists()).toBe(true)
   })
 
-  it('should add CSS varian when given', function () {
+  it('Should add CSS varian when given', function () {
     const wrapper = mount(GeoTabBarItem, {
       propsData: {
         variant: 'modal'

@@ -7,7 +7,7 @@ import { YEAR_GRID_CONSTANTS } from '@/elements/GeoCalendar/GeoCalendar.utils.js
 import { subYears, addYears, getYear } from 'date-fns'
 
 describe('GeoCalendarNavigationYear', () => {
-  it('should render', function () {
+  it('Should render', function () {
     const wrapper = getWrappedComponent()
     expect(wrapper.find('.geo-calendar-navigation__selects-container').exists()).toBe(true)
     expect(wrapper.find('.geo-calendar-navigation--year').exists()).toBe(true)

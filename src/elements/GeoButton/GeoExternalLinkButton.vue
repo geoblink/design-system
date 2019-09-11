@@ -50,7 +50,7 @@ export default {
 
     icon: {
       type: Array,
-      default () {
+      default: function () {
         return ['fal', 'external-link-square']
       }
     }

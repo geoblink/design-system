@@ -31,7 +31,9 @@ export default {
      */
     highlightedChars: {
       type: Array,
-      default: () => [],
+      default: function () {
+        return []
+      },
       validator (values) {
         if (values.length < 2) return true
 

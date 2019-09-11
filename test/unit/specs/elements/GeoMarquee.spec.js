@@ -6,7 +6,7 @@ const localVue = createLocalVue()
 localVue.component('geo-marquee', GeoMarquee)
 
 describe('GeoMarquee', () => {
-  it('should render marquee\'s content', function () {
+  it('Should render marquee\'s content', function () {
     const wrapper = mount(GeoMarquee, {
       scopedSlots: {
         default: '<div slot-scope="{}">Marquee content</div>'
@@ -17,7 +17,7 @@ describe('GeoMarquee', () => {
     expect(marquee.find('div').exists()).toBe(true)
   })
 
-  it('should have moved when hovering on the marquee', function () {
+  it('Should have moved when hovering on the marquee', function () {
     const wrapper = mount(GeoMarquee, {
       scopedSlots: {
         default: '<div slot-scope="{}">Marquee content</div>'
@@ -29,7 +29,7 @@ describe('GeoMarquee', () => {
     expect(wrapper.vm.animationPlayState).toBe('paused')
   })
 
-  it('shouldn\'t have animation params when the content is smaller than the container', function () {
+  it('Shouldn\'t have animation params when the content is smaller than the container', function () {
     const wrapper = mount(GeoMarquee, {
       scopedSlots: {
         default: '<div slot-scope="{}">Marquee content</div>'
@@ -41,7 +41,7 @@ describe('GeoMarquee', () => {
     expect(wrapper.vm.animationParams).toEqual({})
   })
 
-  it('should have animation params when the content is bigger than the container', async function () {
+  it('Should have animation params when the content is bigger than the container', async function () {
     const wrapper = mount(GeoMarquee, {
       scopedSlots: {
         default: '<div slot-scope="{}">Marquee content</div>'

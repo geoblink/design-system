@@ -4,7 +4,7 @@ import GeoCalendarPickerGranularityBase from '@/elements/GeoCalendar/GeoCalendar
 import { PICKER_DATE_UNITS, GRANULARITY_IDS } from '@/elements/GeoCalendar/GeoCalendar.utils.js'
 
 describe('GeoCalendarPickerGranularityYear', () => {
-  it('should render', function () {
+  it('Should render', function () {
     const wrapper = mount(GeoCalendarPickerGranularityYear, {
       stubs: {
         GeoCalendarPickerGranularityBase,

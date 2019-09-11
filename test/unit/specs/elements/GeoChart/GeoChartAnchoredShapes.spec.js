@@ -73,7 +73,7 @@ describe('GeoChartAnchoredShapes', function () {
   })
 
   describe('Constants', function () {
-    it('should export ANCHOR_POSITIONS_1D', function () {
+    it('Should export ANCHOR_POSITIONS_1D', function () {
       expect(GeoChart.constants).toHaveProperty('DIMENSIONS')
       expect(GeoChart.constants.DIMENSIONS).toHaveProperty('ANCHOR_POSITIONS_1D')
     })
