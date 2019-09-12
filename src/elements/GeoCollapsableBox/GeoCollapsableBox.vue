@@ -37,7 +37,7 @@ import cssSuffix from '../../mixins/cssModifierMixin'
 
 export default {
   name: 'GeoCollapsableBox',
-  status: 'missing-tests',
+  status: 'ready',
   release: '24.9.0',
   mixins: [cssSuffix],
   props: {
