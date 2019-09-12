@@ -20,6 +20,8 @@ const _ = require('@geoblink/lodash-mixins').default(require('lodash'))
 const componentUtils = require('./componentUtils')
 
 const iconsToMock = [
+  'faChevronUp',
+  'faChevronDown',
   'faChevronLeft',
   'faChevronRight',
   'faStepBackward',

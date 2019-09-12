@@ -4,6 +4,12 @@ title: Changelog
 
 # Changelog
 
+## 24.9.0
+
+New:
+
+- `GeoCollapsableBox` component.
+
 ## 24.8.0
 
 New:
