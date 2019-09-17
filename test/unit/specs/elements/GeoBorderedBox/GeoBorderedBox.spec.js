@@ -1,4 +1,3 @@
-import _ from 'lodash'
 import { createLocalVue, mount } from '@vue/test-utils'
 import GeoBorderedBox from '@/elements/GeoBorderedBox/GeoBorderedBox.vue'
 
@@ -11,7 +10,7 @@ describe('GeoBorderedBox', () => {
     const wrapper = mount(GeoBorderedBox, {})
     expect(wrapper.find('.geo-bordered-box').exists()).toBe(true)
   })
-  
+
   it('Should render default slot', function () {
     const wrapper = mount(GeoBorderedBox, {
       slots: {
@@ -20,12 +19,12 @@ describe('GeoBorderedBox', () => {
     })
     expect(wrapper.find('.my-demo-content').exists()).toBe(true)
   })
-  
+
   it('Should apply a CSS suffix when the modifier is provided', function () {
     const wrapper = mount(GeoBorderedBox, {
-        propsData: {
-          cssModifier: 'test'
-        }
+      propsData: {
+        cssModifier: 'test'
+      }
     })
     expect(wrapper.find('.geo-bordered-box--test').exists()).toBe(true)
   })
