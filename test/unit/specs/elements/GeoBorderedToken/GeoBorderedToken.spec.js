@@ -1,4 +1,3 @@
-import _ from 'lodash'
 import { createLocalVue, mount } from '@vue/test-utils'
 import GeoBorderedToken from '@/elements/GeoBorderedToken/GeoBorderedToken.vue'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
@@ -7,21 +6,11 @@ import { fas } from '@fortawesome/free-solid-svg-icons'
 
 library.add(fas)
 
-const iconsToMock = [
-  'faMapMarker'
-]
-const mockedFalIcons = _.mapValues(_.pick(fas, iconsToMock), function (original) {
-  return _.assign({}, original, {
-    prefix: 'fal'
-  })
-})
-library.add(mockedFalIcons)
-
 // create an extended `Vue` constructor
 const localVue = createLocalVue()
 localVue.component('geo-bordered-token', GeoBorderedToken)
 
-describe('GeoAlert', () => {
+describe('GeoBorderedToken', () => {
   it('Should render GeoBorderedToken component', function () {
     const wrapper = mount(GeoBorderedToken, {
       propsData: {
@@ -29,6 +18,15 @@ describe('GeoAlert', () => {
       }
     })
     expect(wrapper.find('.geo-bordered-token').exists()).toBe(true)
+  })
+
+  it('Should render a label', function () {
+    const wrapper = mount(GeoBorderedToken, {
+      propsData: {
+        label: 'test'
+      }
+    })
+    expect(wrapper.find('.geo-bordered-token__label').exists()).toBe(true)
   })
 
   it('Should display an icon when provided', function () {
