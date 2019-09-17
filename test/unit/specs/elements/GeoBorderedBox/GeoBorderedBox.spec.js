@@ -6,7 +6,7 @@ const localVue = createLocalVue()
 localVue.component('geo-bordered-box', GeoBorderedBox)
 
 describe('GeoBorderedBox', () => {
-  it('Should render alert component', function () {
+  it('Should render GeoBorderedBox component', function () {
     const wrapper = mount(GeoBorderedBox, {})
     expect(wrapper.find('.geo-bordered-box').exists()).toBe(true)
   })
