@@ -116,6 +116,7 @@
 </template>
 
 <script>
+import _ from 'lodash'
 import cssSuffix from '../../mixins/cssModifierMixin'
 import { GRANULARITY_IDS, FOCUSABLE_INPUT_FIELDS, isBefore, isAfter } from './GeoCalendar.utils'
 import {
@@ -130,7 +131,8 @@ import {
   startOfMonth,
   startOfYear,
   differenceInDays,
-  differenceInMonths
+  differenceInMonths,
+  parse
 } from 'date-fns'
 
 import GeoCalendarRootMixin from './GeoCalendarRoot.mixin'
@@ -271,7 +273,7 @@ export default {
     },
 
     formatDate (date) {
-      return format(date, 'DD/MM/YYYY')
+      return format(date, 'dd/MM/yyyy')
     },
 
     goToMonth (monthIndex) {
@@ -287,23 +289,17 @@ export default {
     },
 
     parseDate (date) {
-      // TODO: CORE-7324 Change when date-fns v2 is release as stable version
-      // This should be provided by date-fns, but only is available in alpha and beta versions
-      // https://github.com/date-fns/date-fns/issues/942
-      // https://github.com/date-fns/date-fns/issues/1064
-      if (!date) return null
-      const matches = /(0[1-9]|1[0-9]|2[0-9]|3[0-1])[^\d](0[1-9]|1[0-2])[^\d](\d{4})$/gi.exec(date)
-      if (!matches) return null
-      const [, day, month, year] = matches
-      return new Date(parseInt(year), parseInt(month) - 1, parseInt(day))
+      const parsedDate = parse(date, 'dd/MM/yyyy', new Date())
+      return isValid(parsedDate) ? parsedDate : null
     },
 
     selectDay (day) {
+      const computedDayForDifference = _.isNull(day) ? new Date(0) : day
       const hasFromDate = !!this.fromRawDate
-      const isDayBeforeFromDate = hasFromDate && isBefore(day, this.fromRawDate)
-      const distanceToFromDate = Math.abs(differenceInDays(day, this.fromRawDate))
+      const isDayBeforeFromDate = hasFromDate && isBefore(computedDayForDifference, this.fromRawDate)
+      const distanceToFromDate = Math.abs(differenceInDays(computedDayForDifference, this.fromRawDate))
       const distanceToToDate = this.toRawDate
-        ? Math.abs(differenceInDays(day, this.toRawDate))
+        ? Math.abs(differenceInDays(this.toRawDate, computedDayForDifference))
         : 0
 
       const isSettingFromDate = this.isToInputFieldExplicitlyFocused
@@ -319,8 +315,10 @@ export default {
         ? unverifiedRangeSettings.whenSettingFromDate
         : unverifiedRangeSettings.whenSettingToDate
 
+      const unverifiedStart = _.isNull(unverifiedRange.start) ? new Date(0) : unverifiedRange.start
+      const unverifiedEnd = _.isNull(unverifiedRange.end) ? new Date(0) : unverifiedRange.end
       const isRangeValid = unverifiedRange.end
-        ? isBefore(unverifiedRange.start, unverifiedRange.end)
+        ? isBefore(unverifiedStart, unverifiedEnd)
         : true
 
       const validatedRange = isRangeValid
@@ -476,8 +474,15 @@ export default {
     },
 
     setFormattedDates () {
-      this.fromFormattedDate = this.fromRawDate ? this.formatDate(this.fromRawDate) : null
-      this.toFormattedDate = this.toRawDate ? this.formatDate(this.toRawDate) : null
+      this.fromFormattedDate = this.fromRawDate
+        ? this.formatDate(this.fromRawDate)
+        : null
+      this.toFormattedDate = this.toRawDate
+        ? this.formatDate(this.toRawDate)
+        : null
+
+      if (isValid(this.fromRawDate)) this.showFromFormatError = false
+      if (isValid(this.toRawDate)) this.showToFormatError = false
     },
 
     deleteFromFormattedDate () {

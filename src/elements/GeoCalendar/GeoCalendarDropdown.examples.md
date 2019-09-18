@@ -152,7 +152,7 @@ The displayed grid for each granularity will depend on the provided `pickerDateU
 </template>
 
 <script>
-const ES_LOCALE = require('date-fns/locale/es')
+const ES_LOCALE = require('date-fns/locale').es
 const subYears = require('date-fns').subYears
 const subMonths = require('date-fns').subMonths
 const addMonths = require('date-fns').addMonths
