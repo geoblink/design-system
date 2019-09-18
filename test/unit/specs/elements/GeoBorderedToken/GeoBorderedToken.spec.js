@@ -20,13 +20,13 @@ describe('GeoBorderedToken', () => {
     expect(wrapper.find('.geo-bordered-token').exists()).toBe(true)
   })
 
-  it('Should render a label', function () {
+  it('Should render the correct label', function () {
     const wrapper = mount(GeoBorderedToken, {
       propsData: {
         label: 'test'
       }
     })
-    expect(wrapper.find('.geo-bordered-token__label').exists()).toBe(true)
+    expect(wrapper.find('.geo-bordered-token__label').text()).toBe('test')
   })
 
   it('Should display an icon when provided', function () {
