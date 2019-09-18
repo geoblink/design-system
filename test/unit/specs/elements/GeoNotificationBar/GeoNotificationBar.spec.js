@@ -1,6 +1,7 @@
 import _ from 'lodash'
 import { createLocalVue, mount } from '@vue/test-utils'
 import GeoNotificationBar from '@/elements/GeoNotificationBar/GeoNotificationBar.vue'
+import { FontAwesomeIconMock, expectFontAwesomeIconProp } from 'test/unit/utils/FontAwesomeIconMock.js'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fas } from '@fortawesome/free-solid-svg-icons'
@@ -23,14 +24,7 @@ localVue.component('geo-notification-bar', GeoNotificationBar)
 
 describe('GeoNotificationBar', () => {
   it('Should render GeoNotificationBar component', function () {
-    const wrapper = mount(GeoNotificationBar, {
-      propsData: {
-        icon: ['fas', 'bell']
-      },
-      stubs: {
-        'font-awesome-icon': FontAwesomeIcon
-      }
-    })
+    const wrapper = mount(GeoNotificationBar, {})
     expect(wrapper.find('.geo-notification-bar').exists()).toBe(true)
   })
 
@@ -40,21 +34,24 @@ describe('GeoNotificationBar', () => {
         icon: ['fas', 'bell']
       },
       stubs: {
-        'font-awesome-icon': FontAwesomeIcon
+        'font-awesome-icon': FontAwesomeIconMock
       }
     })
-    expect(wrapper.find('.geo-notification-bar__icon').exists()).toBe(true)
+    const fontAwesomeIconElem = wrapper.find(FontAwesomeIconMock)
+    expectFontAwesomeIconProp(fontAwesomeIconElem, ['fas', 'bell'])
   })
 
   it('Should display default close icon when listener is provided', function () {
     const wrapper = mount(GeoNotificationBar, {
       stubs: {
-        'font-awesome-icon': FontAwesomeIcon
+        'font-awesome-icon': FontAwesomeIconMock
       },
       listeners: {
         close () { }
       }
     })
+    const fontAwesomeIconElem = wrapper.find(FontAwesomeIconMock)
+    expectFontAwesomeIconProp(fontAwesomeIconElem, ['fal', 'times'])
     expect(wrapper.find('.geo-notification-bar__close-icon').exists()).toBe(true)
   })
 
@@ -62,9 +59,6 @@ describe('GeoNotificationBar', () => {
     const wrapper = mount(GeoNotificationBar, {
       slots: {
         actions: [`<button class="some-action">A button</button>`]
-      },
-      stubs: {
-        'font-awesome-icon': FontAwesomeIcon
       }
     })
     expect(wrapper.find('.some-action').exists()).toBe(true)
@@ -74,9 +68,6 @@ describe('GeoNotificationBar', () => {
     const wrapper = mount(GeoNotificationBar, {
       slots: {
         default: [`notification`]
-      },
-      stubs: {
-        'font-awesome-icon': FontAwesomeIcon
       }
     })
     expect(wrapper.find('.geo-notification-bar__message-text').text()).toBe('notification')
@@ -91,7 +82,7 @@ describe('GeoNotificationBar', () => {
         close () { }
       }
     })
-    wrapper.find('.geo-notification-bar__close-icon').trigger('click')
+    wrapper.find(FontAwesomeIcon).trigger('click')
     expect(wrapper.emitted()['close']).toBeTruthy()
   })
 
@@ -99,9 +90,6 @@ describe('GeoNotificationBar', () => {
     const wrapper = mount(GeoNotificationBar, {
       propsData: {
         cssModifier: 'test'
-      },
-      stubs: {
-        'font-awesome-icon': FontAwesomeIcon
       }
     })
     expect(wrapper.find('.geo-notification-bar--test').exists()).toBe(true)
