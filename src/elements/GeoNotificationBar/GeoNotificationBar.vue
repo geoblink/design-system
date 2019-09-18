@@ -2,6 +2,7 @@
   <div :class="`geo-notification-bar${cssSuffix}`">
     <div class="geo-notification-bar__message-body">
       <font-awesome-icon
+        v-if="icon"
         :icon="icon"
         class="geo-notification-bar__icon"
         fixed-width
@@ -29,7 +30,7 @@ import cssSuffix from '../../mixins/cssModifierMixin'
 
 export default {
   name: 'GeoNotificationBar',
-  status: 'missing-tests',
+  status: 'ready',
   release: '9.1.0',
   mixins: [cssSuffix],
   props: {
