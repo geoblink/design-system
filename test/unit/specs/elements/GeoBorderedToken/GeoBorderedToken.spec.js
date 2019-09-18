@@ -1,6 +1,6 @@
 import { createLocalVue, mount } from '@vue/test-utils'
 import GeoBorderedToken from '@/elements/GeoBorderedToken/GeoBorderedToken.vue'
-import {FontAwesomeIconMock, expectFontAwesomeIconProp} from 'test/unit/utils/FontAwesomeIconMock.js'
+import { FontAwesomeIconMock, expectFontAwesomeIconProp } from 'test/unit/utils/FontAwesomeIconMock.js'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fas } from '@fortawesome/free-solid-svg-icons'

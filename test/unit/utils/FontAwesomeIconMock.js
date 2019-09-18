@@ -1,10 +1,10 @@
 const FontAwesomeIconMock = {
-    props: ['icon'],
-    template: '<div></div>'
+  props: ['icon'],
+  template: '<div></div>'
 }
 
-export {FontAwesomeIconMock} 
-  
+export { FontAwesomeIconMock }
+
 export function expectFontAwesomeIconProp (elem, icon) {
-    expect(elem.props().icon).toStrictEqual(icon)
+  expect(elem.props().icon).toStrictEqual(icon)
 }
