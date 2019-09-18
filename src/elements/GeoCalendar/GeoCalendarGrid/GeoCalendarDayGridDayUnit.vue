@@ -96,7 +96,6 @@ export default {
           this.selectedFromDay === this.day ||
           this.selectedToDay === this.day
         : false
-
     },
 
     isDayUnavailable () {
