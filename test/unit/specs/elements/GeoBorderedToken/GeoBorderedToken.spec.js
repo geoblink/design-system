@@ -1,15 +1,11 @@
 import { createLocalVue, mount } from '@vue/test-utils'
 import GeoBorderedToken from '@/elements/GeoBorderedToken/GeoBorderedToken.vue'
+import {FontAwesomeIconMock, expectFontAwesomeIconProp} from 'test/unit/utils/FontAwesomeIconMock.js'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fas } from '@fortawesome/free-solid-svg-icons'
 
 library.add(fas)
-
-const FontAwesomeIconMock = {
-  props: ['icon'],
-  template: '<div></div>'
-}
 
 // create an extended `Vue` constructor
 const localVue = createLocalVue()
@@ -45,7 +41,7 @@ describe('GeoBorderedToken', () => {
       }
     })
     const fontAwesomeIconElem = wrapper.find(FontAwesomeIconMock)
-    expect(fontAwesomeIconElem.props().icon).toStrictEqual(['fas', 'map-marker'])
+    expectFontAwesomeIconProp(fontAwesomeIconElem, ['fas', 'map-marker'])
   })
 
   it('Should not display any icon when none provided', function () {
