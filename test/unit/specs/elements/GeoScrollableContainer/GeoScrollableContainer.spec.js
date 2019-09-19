@@ -21,7 +21,7 @@ describe('GeoScrollableContainer', () => {
     expect(wrapper.find('.geo-scrollable-container__body').text()).toBe('test')
   })
 
-  it('Should display ShowMoreResults button', function () {
+  it('Should display ShowMoreResults button when is set to true', function () {
     const wrapper = mount(GeoScrollableContainer, {
       propsData: {
         showMoreResultsButton: true
@@ -30,7 +30,19 @@ describe('GeoScrollableContainer', () => {
         'geo-list-footer-button': GeoListFooterButton
       }
     })
-    expect(wrapper.find('.geo-list-footer-button').exists()).toBe(true)
+    expect(wrapper.find(GeoListFooterButton).exists()).toBe(true)
+  })
+
+  it('Should not display ShowMoreResults button when is set to false', function () {
+    const wrapper = mount(GeoScrollableContainer, {
+      propsData: {
+        showMoreResultsButton: false
+      },
+      stubs: {
+        'geo-list-footer-button': GeoListFooterButton
+      }
+    })
+    expect(wrapper.find(GeoListFooterButton).exists()).toBe(false)
   })
 
   it('Should customize ShowMoreResults button', function () {
@@ -54,11 +66,34 @@ describe('GeoScrollableContainer', () => {
         showMoreResultsButton: true
       },
       stubs: {
-        'geo-list-footer-button': GeoListFooterButton
+        'geo-list-footer-button': true
       }
     })
-    wrapper.find(GeoListFooterButton).find('.geo-list-footer-button__button').trigger('click')
+    wrapper.find('geo-list-footer-button-stub').vm.$emit('click')
     expect(wrapper.emitted()['load-more-results']).toBeTruthy()
+  })
+
+  it('Should scroll after calling callback from load-more-results event ', function () {
+    const wrapper = mount(GeoScrollableContainer, {
+      propsData: {
+        showMoreResultsButton: true
+      },
+      stubs: {
+        'geo-list-footer-button': true
+      }
+    })
+
+    const scrollableContainerMock = {
+      scrollTop: 2,
+      scrollHeight: 3
+    }
+
+    wrapper.vm.$refs.scrollableContainer = scrollableContainerMock
+    wrapper.find('geo-list-footer-button-stub').vm.$emit('click')
+    const scrollToLastEntry = wrapper.emitted()['load-more-results'][0][0].scrollToLastEntry
+    expect(scrollableContainerMock.scrollTop).toBe(2)
+    scrollToLastEntry()
+    expect(scrollableContainerMock.scrollTop).toBe(5)
   })
 
   it('Should apply a CSS suffix when the modifier is provided', function () {
