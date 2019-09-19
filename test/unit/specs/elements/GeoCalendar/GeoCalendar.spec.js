@@ -548,6 +548,9 @@ describe('GeoCalendar', () => {
       expect(wrapper.vm.toRawDate).toBe(null)
     })
   })
+
+  describe('Calendar Flows', () => {
+  })
 })
 
 function getWrappedComponent () {
