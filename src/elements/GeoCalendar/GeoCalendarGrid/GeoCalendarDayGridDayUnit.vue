@@ -25,7 +25,7 @@
 
 <script>
 import GeoCalendarGridMixin from './GeoCalendarGrid.mixin'
-import { isBefore, isEqual, isAfter, isWithinRange } from '../GeoCalendar.utils'
+import { isBefore, isEqual, isAfter, isWithinInterval } from '../GeoCalendar.utils'
 
 import {
   isToday,
@@ -91,11 +91,11 @@ export default {
     },
 
     isDayWithinRanges () {
-      return this.selectedFromDay &&
-        this.selectedToDay &&
-        isBefore(this.selectedFromDay, this.selectedToDay) &&
-        (isWithinRange(this.day, this.selectedFromDay, this.selectedToDay) ||
-        (this.selectedFromDay === this.day || this.selectedToDay === this.day))
+      return this.selectedFromDay && this.selectedToDay
+        ? isWithinInterval(this.day, { start: this.selectedFromDay, end: this.selectedToDay }) ||
+          this.selectedFromDay === this.day ||
+          this.selectedToDay === this.day
+        : false
     },
 
     isDayUnavailable () {
