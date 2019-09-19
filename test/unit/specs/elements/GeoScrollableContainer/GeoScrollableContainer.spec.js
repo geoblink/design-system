@@ -7,12 +7,12 @@ const localVue = createLocalVue()
 localVue.component('geo-scrollable-container', GeoScrollableContainer)
 
 describe('GeoScrollableContainer', () => {
-  it('Should render GeoScrollableContainer component', function () {
+  it('Should render GeoScrollableContainer component', () => {
     const wrapper = mount(GeoScrollableContainer)
     expect(wrapper.find('.geo-scrollable-container').exists()).toBe(true)
   })
 
-  it('Should display default slot', function () {
+  it('Should display default slot', () => {
     const wrapper = mount(GeoScrollableContainer, {
       slots: {
         default: 'test'
@@ -21,7 +21,7 @@ describe('GeoScrollableContainer', () => {
     expect(wrapper.find('.geo-scrollable-container__body').text()).toBe('test')
   })
 
-  it('Should display ShowMoreResults button when is set to true', function () {
+  it('Should display ShowMoreResults button when is set to true', () => {
     const wrapper = mount(GeoScrollableContainer, {
       propsData: {
         showMoreResultsButton: true
@@ -33,7 +33,7 @@ describe('GeoScrollableContainer', () => {
     expect(wrapper.find(GeoListFooterButton).exists()).toBe(true)
   })
 
-  it('Should not display ShowMoreResults button when is set to false', function () {
+  it('Should not display ShowMoreResults button when is set to false', () => {
     const wrapper = mount(GeoScrollableContainer, {
       propsData: {
         showMoreResultsButton: false
@@ -45,7 +45,7 @@ describe('GeoScrollableContainer', () => {
     expect(wrapper.find(GeoListFooterButton).exists()).toBe(false)
   })
 
-  it('Should customize ShowMoreResults button', function () {
+  it('Should customize ShowMoreResults button', () => {
     const wrapper = mount(GeoScrollableContainer, {
       propsData: {
         showMoreResultsButton: true
@@ -60,7 +60,7 @@ describe('GeoScrollableContainer', () => {
     expect(wrapper.find('.customized-class').exists()).toBe(true)
   })
 
-  it('Should emit load-more-results event when clicking on ShowMoreResults button', function () {
+  it('Should emit load-more-results event when clicking on ShowMoreResults button', () => {
     const wrapper = mount(GeoScrollableContainer, {
       propsData: {
         showMoreResultsButton: true
@@ -73,7 +73,7 @@ describe('GeoScrollableContainer', () => {
     expect(wrapper.emitted()['load-more-results']).toBeTruthy()
   })
 
-  it('Should scroll after calling callback from load-more-results event ', function () {
+  it('Should scroll after calling callback from load-more-results event ', () => {
     const wrapper = mount(GeoScrollableContainer, {
       propsData: {
         showMoreResultsButton: true
@@ -96,7 +96,7 @@ describe('GeoScrollableContainer', () => {
     expect(scrollableContainerMock.scrollTop).toBe(5)
   })
 
-  it('Should apply a CSS suffix when the modifier is provided', function () {
+  it('Should apply a CSS suffix when the modifier is provided', () => {
     const wrapper = mount(GeoScrollableContainer, {
       propsData: {
         cssModifier: 'test'
