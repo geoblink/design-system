@@ -128,5 +128,20 @@ describe('GeoCalendarMonthGridMonthUnit', () => {
       expect(wrapper.emitted()['select-month-unit']).toBeDefined()
       expect(wrapper.emitted()['select-month-unit'][0][0]).toBe(7)
     })
+
+    it('Emits event when hovering on month', () => {
+      const wrapper = mount(GeoCalendarMonthGridMonthUnit, {
+        propsData: {
+          monthName,
+          monthIndex,
+          currentMonth,
+          currentYear,
+          granularityId: GRANULARITY_IDS.month
+        }
+      })
+      wrapper.find('.geo-calendar-grid__date-picker-unit').trigger('mouseover')
+      expect(wrapper.emitted()['month-unit-mouseover']).toBeDefined()
+      expect(wrapper.emitted()['month-unit-mouseover'][0][0]).toBe(7)
+    })
   })
 })

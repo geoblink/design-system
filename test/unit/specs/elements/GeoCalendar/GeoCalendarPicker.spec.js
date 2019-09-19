@@ -5,6 +5,8 @@ import GeoCalendarNavigation from '@/elements/GeoCalendar/GeoCalendarNavigation/
 import GeoCalendarGrid from '@/elements/GeoCalendar/GeoCalendarGrid/GeoCalendarGrid.vue'
 import { getMonth, getYear, subDays, startOfWeek, startOfDay, endOfWeek, endOfMonth, startOfMonth, addDays, addYears } from 'date-fns'
 
+const today = new Date(2019, 6, 30) // Fixed date to avoid future errors with random dates
+
 describe('GeoCalendarPicker', () => {
   const wrapper = getWrappedComponent()
 
@@ -42,7 +44,6 @@ describe('GeoCalendarPicker', () => {
     })
 
     it('selectWeek', () => {
-      const today = new Date(2019, 6, 30) // Fixed date to avoid future errors with random dates
       const weekStart = startOfWeek(today, { weekStartsOn: 1 })
       const weekEnd = startOfDay(endOfWeek(today, { weekStartsOn: 1 }))
       geoCalendarGridWrapper.vm.$emit('select-week', {
@@ -111,7 +112,6 @@ describe('GeoCalendarPicker', () => {
 
       it('Cannot navigate any further', () => {
         const wrapper = getWrappedComponent()
-        const today = new Date(2019, 6, 30) // Fixed date to avoid future errors with random dates
         const geoCalendarNavigationWrapper = wrapper.find(GeoCalendarNavigation)
         wrapper.setProps({
           earliestDate: startOfMonth(today),
@@ -128,7 +128,6 @@ describe('GeoCalendarPicker', () => {
 
     describe('MONTHS granularity', () => {
       const wrapper = getWrappedComponent()
-      const today = new Date(2019, 6, 30) // Fixed date to avoid future errors with random dates
       const geoCalendarNavigationWrapper = wrapper.find(GeoCalendarNavigation)
       wrapper.setProps({
         granularityId: GRANULARITY_IDS.month,
@@ -176,7 +175,6 @@ describe('GeoCalendarPicker', () => {
       })
 
       it('Cannot navigate any further', () => {
-        const today = new Date(2019, 6, 30) // Fixed date to avoid future errors with random dates
         wrapper.setProps({
           earliestDate: subDays(today, 5),
           latestDate: addDays(today, 5),
@@ -204,7 +202,6 @@ describe('GeoCalendarPicker', () => {
       it('Should throw error if provided wrong pickerDateUnit prop', () => {
         const consoleWarnSpy = jest.spyOn(global.console, 'warn').mockImplementation(() => { })
         const consoleErrorSpy = jest.spyOn(global.console, 'error').mockImplementation(() => { })
-        const today = new Date(2019, 6, 30) // Fixed date to avoid future errors with random dates
         const wrapper = getWrappedComponent()
         wrapper.setProps({
           pickerDateUnit: 'wrong picker date unit',
@@ -228,7 +225,6 @@ describe('GeoCalendarPicker', () => {
   })
 
   describe('Cannot navigate further if constraints are met', () => {
-    const today = new Date(2019, 6, 30) // Fixed date to avoid future errors with random dates
     const wrapper = getWrappedComponent()
     wrapper.setProps({
       earliestDate: startOfMonth(today),
@@ -252,10 +248,25 @@ describe('GeoCalendarPicker', () => {
       expect(wrapper.vm.canSelectPastDates).toBe(false)
     })
   })
+
+  describe('Highlight dates mouseover', function () {
+    const wrapper = getWrappedComponent()
+    const geoCalendarGridWrapper = wrapper.find(GeoCalendarGrid)
+
+    geoCalendarGridWrapper.vm.$emit('day-unit-mouseover', today)
+    geoCalendarGridWrapper.vm.$emit('month-unit-mouseover', 5)
+    geoCalendarGridWrapper.vm.$emit('year-unit-mouseover', 2020)
+
+    expect(wrapper.emitted()['day-unit-mouseover']).toBeDefined()
+    expect(wrapper.emitted()['day-unit-mouseover'][0][0]).toBe(today)
+    expect(wrapper.emitted()['month-unit-mouseover']).toBeDefined()
+    expect(wrapper.emitted()['month-unit-mouseover'][0][0]).toBe(5)
+    expect(wrapper.emitted()['year-unit-mouseover']).toBeDefined()
+    expect(wrapper.emitted()['year-unit-mouseover'][0][0]).toBe(2020)
+  })
 })
 
 function getWrappedComponent () {
-  const today = new Date(2019, 6, 30) // Fixed date to avoid future errors with random dates
   const currentMonth = getMonth(today)
   const currentYear = getYear(today)
 

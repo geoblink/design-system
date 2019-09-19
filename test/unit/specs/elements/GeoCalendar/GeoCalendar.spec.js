@@ -550,6 +550,63 @@ describe('GeoCalendar', () => {
   })
 
   describe('Calendar Flows', () => {
+    describe('Explicitely focused inputs', () => {
+      it('Sets from input if it is explicitely focused', () => {
+        const wrapper = getWrappedComponent()
+        const geoFromInput = wrapper.findAll(GeoInput).at(0)
+
+        wrapper.setData({
+          fromRawDate: today,
+          fromFormattedDate: '30/07/2019'
+        })
+
+        expect(wrapper.vm.toRawDate).toBe(null)
+
+        geoFromInput.vm.$emit('focus')
+
+        wrapper.vm.selectDay(addDays(today, 3))
+        expect(wrapper.vm.fromRawDate).toEqual(addDays(today, 3))
+        expect(wrapper.vm.fromFormattedDate).toEqual('02/08/2019')
+        expect(wrapper.vm.toRawDate).toEqual(null)
+      })
+
+      it('Sets to input if it is explicitely focused', () => {
+        const wrapper = getWrappedComponent()
+        const geoToInput = wrapper.findAll(GeoInput).at(1)
+
+        expect(wrapper.vm.fromRawDate).toBe(null)
+        expect(wrapper.vm.toRawDate).toBe(null)
+
+        geoToInput.vm.$emit('focus')
+
+        wrapper.vm.selectDay(today)
+        expect(wrapper.vm.toRawDate).toEqual(today)
+        expect(wrapper.vm.toFormattedDate).toEqual('30/07/2019')
+        expect(wrapper.vm.fromRawDate).toEqual(null)
+      })
+    })
+
+    describe('Natural Flows', () => {
+      describe('Closed range is not still set', () => {
+        it('Should keep setting fromDate if selected day is before current fromRawDate', () => {
+
+        })
+
+        it('Should set toDate if selected date is later than current fromRawDate', () => {
+
+        })
+      })
+
+      describe('Closed range is set', () => {
+        it('Should set fromDate is selected day is closer to fromDate than toDate', () => {
+
+        })
+
+        it('Should set toDate is selected day is closer to toDate than fromDate', () => {
+
+        })
+      })
+    })
   })
 })
 

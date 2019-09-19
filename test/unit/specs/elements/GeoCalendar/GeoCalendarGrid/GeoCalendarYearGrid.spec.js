@@ -31,4 +31,11 @@ describe('GeoCalendarYearGrid', () => {
     expect(wrapper.emitted()['select-year']).toBeDefined()
     expect(wrapper.emitted()['select-year'][0][0]).toBe(2020)
   })
+
+  it('Should emit hovering event when received from child component', () => {
+    const childYear = wrapper.find(GeoCalendarYearGridYearUnit)
+    childYear.vm.$emit('year-unit-mouseover', 2020)
+    expect(wrapper.emitted()['year-unit-mouseover']).toBeDefined()
+    expect(wrapper.emitted()['year-unit-mouseover'][0][0]).toBe(2020)
+  })
 })

@@ -111,5 +111,11 @@ describe('GeoCalendarYearGridYearUnit', () => {
       expect(wrapper.emitted()['select-year-unit']).toBeDefined()
       expect(wrapper.emitted()['select-year-unit'][0][0]).toBe(currentYear)
     })
+
+    it('Emits event when hovering on year', () => {
+      wrapper.find('.geo-calendar-grid__date-picker-unit').trigger('mouseover')
+      expect(wrapper.emitted()['year-unit-mouseover']).toBeDefined()
+      expect(wrapper.emitted()['year-unit-mouseover'][0][0]).toBe(currentYear)
+    })
   })
 })
