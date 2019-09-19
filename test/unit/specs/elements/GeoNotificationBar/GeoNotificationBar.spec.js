@@ -67,7 +67,7 @@ describe('GeoNotificationBar', () => {
   it('Should display default slot', function () {
     const wrapper = mount(GeoNotificationBar, {
       slots: {
-        default: [`notification`]
+        default: 'notification'
       }
     })
     expect(wrapper.find('.geo-notification-bar__message-text').text()).toBe('notification')
