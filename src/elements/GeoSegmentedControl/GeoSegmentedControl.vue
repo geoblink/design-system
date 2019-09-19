@@ -9,7 +9,7 @@ import cssSuffix from '../../mixins/cssModifierMixin'
 
 export default {
   name: 'GeoSegmentedControl',
-  status: 'missing-tests',
+  status: 'ready',
   release: '6.2.0',
   mixins: [cssSuffix],
   props: {
