@@ -290,11 +290,15 @@ export default {
 
     parseDate (date) {
       const parsedDate = parse(date, 'dd/MM/yyyy', new Date())
-      return isValid(parsedDate) ? parsedDate : null
+      return isValid(parsedDate)
+        ? parsedDate
+        : null
     },
 
     selectDay (day) {
-      const computedDayForDifference = _.isNull(day) ? new Date(0) : day
+      const computedDayForDifference = _.isNull(day)
+        ? new Date(0)
+        : day
       const hasFromDate = !!this.fromRawDate
       const isDayBeforeFromDate = hasFromDate && isBefore(computedDayForDifference, this.fromRawDate)
       const distanceToFromDate = Math.abs(differenceInDays(computedDayForDifference, this.fromRawDate))
@@ -315,10 +319,12 @@ export default {
         ? unverifiedRangeSettings.whenSettingFromDate
         : unverifiedRangeSettings.whenSettingToDate
 
-      const unverifiedStart = _.isNull(unverifiedRange.start) ? new Date(0) : unverifiedRange.start
-      const unverifiedEnd = _.isNull(unverifiedRange.end) ? new Date(0) : unverifiedRange.end
+      const unverifiedStart = _.isNull(unverifiedRange.start)
+        ? new Date(0)
+        : unverifiedRange.start
+
       const isRangeValid = unverifiedRange.end
-        ? isBefore(unverifiedStart, unverifiedEnd)
+        ? isBefore(unverifiedStart, unverifiedRange.end)
         : true
 
       const validatedRange = isRangeValid
