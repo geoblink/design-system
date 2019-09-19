@@ -7,7 +7,7 @@ localVue.component('geo-segmented-control', GeoSegmentedControl)
 
 describe('GeoSegmentedControlItem', () => {
   it('Should render GeoSegmentedControl component', function () {
-    const wrapper = mount(GeoSegmentedControl, {})
+    const wrapper = mount(GeoSegmentedControl)
     expect(wrapper.find('.geo-segmented-control').exists()).toBe(true)
   })
 
