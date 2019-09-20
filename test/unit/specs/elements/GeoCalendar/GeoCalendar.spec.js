@@ -6,7 +6,7 @@ import GeoLinkButton from '@/elements/GeoButton/GeoLinkButton.vue'
 import GeoButton from '@/elements/GeoButton/GeoButton.vue'
 import GeoCalendarPicker from '@/elements/GeoCalendar/GeoCalendarPicker.vue'
 import GeoCalendarGranularityIdMixin from '@/elements/GeoCalendar/GeoCalendarGranularityId.mixin'
-import { addDays, startOfQuarter, endOfQuarter, startOfWeek, endOfWeek, subYears, addYears, subMonths, endOfMonth, endOfYear, getMonth, addMonths, startOfMonth, getYear, startOfYear } from 'date-fns'
+import { addDays, startOfQuarter, endOfQuarter, startOfWeek, endOfWeek, subYears, addYears, subMonths, endOfMonth, endOfYear, getMonth, addMonths, startOfMonth, getYear, startOfYear, subDays } from 'date-fns'
 
 const today = new Date(2019, 6, 30) // Fixed date to avoid future errors with random dates
 
@@ -550,8 +550,8 @@ describe('GeoCalendar', () => {
   })
 
   describe('Calendar Flows', () => {
-    describe('Explicitely focused inputs', () => {
-      it('Sets from input if it is explicitely focused', () => {
+    describe('Explicitly focused inputs', () => {
+      it('Sets from input if it is explicitly focused', () => {
         const wrapper = getWrappedComponent()
         const geoFromInput = wrapper.findAll(GeoInput).at(0)
 
@@ -570,7 +570,7 @@ describe('GeoCalendar', () => {
         expect(wrapper.vm.toRawDate).toEqual(null)
       })
 
-      it('Sets to input if it is explicitely focused', () => {
+      it('Sets to input if it is explicitly focused', () => {
         const wrapper = getWrappedComponent()
         const geoToInput = wrapper.findAll(GeoInput).at(1)
 
@@ -589,21 +589,217 @@ describe('GeoCalendar', () => {
     describe('Natural Flows', () => {
       describe('Closed range is not still set', () => {
         it('Should keep setting fromDate if selected day is before current fromRawDate', () => {
+          const wrapper = getWrappedComponent()
+          expect(wrapper.vm.fromRawDate).toEqual(null)
+          expect(wrapper.vm.toRawDate).toEqual(null)
 
+          wrapper.vm.selectDay(today)
+          expect(wrapper.vm.fromRawDate).toEqual(today)
+          expect(wrapper.vm.toRawDate).toEqual(null)
+
+          wrapper.vm.selectDay(subDays(today, 1))
+          expect(wrapper.vm.fromRawDate).toEqual(subDays(today, 1))
+          expect(wrapper.vm.toRawDate).toEqual(null)
+
+          wrapper.vm.selectDay(subDays(today, 2))
+          expect(wrapper.vm.fromRawDate).toEqual(subDays(today, 2))
+          expect(wrapper.vm.toRawDate).toEqual(null)
+
+          wrapper.vm.selectDay(subDays(today, 3))
+          expect(wrapper.vm.fromRawDate).toEqual(subDays(today, 3))
+          expect(wrapper.vm.toRawDate).toEqual(null)
         })
 
         it('Should set toDate if selected date is later than current fromRawDate', () => {
+          const wrapper = getWrappedComponent()
+          expect(wrapper.vm.fromRawDate).toEqual(null)
+          expect(wrapper.vm.toRawDate).toEqual(null)
 
+          wrapper.vm.selectDay(today)
+          expect(wrapper.vm.fromRawDate).toEqual(today)
+          expect(wrapper.vm.toRawDate).toEqual(null)
+
+          wrapper.vm.selectDay(subDays(today, 1))
+          expect(wrapper.vm.fromRawDate).toEqual(subDays(today, 1))
+          expect(wrapper.vm.toRawDate).toEqual(null)
+
+          wrapper.vm.selectDay(subDays(today, 2))
+          expect(wrapper.vm.fromRawDate).toEqual(subDays(today, 2))
+          expect(wrapper.vm.toRawDate).toEqual(null)
+
+          wrapper.vm.selectDay(subDays(today, 3))
+          expect(wrapper.vm.fromRawDate).toEqual(subDays(today, 3))
+          expect(wrapper.vm.toRawDate).toEqual(null)
+
+          wrapper.vm.selectDay(today)
+          expect(wrapper.vm.fromRawDate).toEqual(subDays(today, 3))
+          expect(wrapper.vm.toRawDate).toEqual(today)
         })
       })
 
       describe('Closed range is set', () => {
         it('Should set fromDate is selected day is closer to fromDate than toDate', () => {
+          const wrapper = getWrappedComponent()
+          expect(wrapper.vm.fromRawDate).toEqual(null)
+          expect(wrapper.vm.toRawDate).toEqual(null)
 
+          wrapper.vm.selectDay(today)
+          expect(wrapper.vm.fromRawDate).toEqual(today)
+          expect(wrapper.vm.toRawDate).toEqual(null)
+
+          wrapper.vm.selectDay(addDays(today, 10))
+          expect(wrapper.vm.fromRawDate).toEqual(today)
+          expect(wrapper.vm.toRawDate).toEqual(addDays(today, 10))
+
+          wrapper.vm.selectDay(addDays(today, 3))
+          expect(wrapper.vm.fromRawDate).toEqual(addDays(today, 3))
+          expect(wrapper.vm.toRawDate).toEqual(addDays(today, 10))
         })
 
         it('Should set toDate is selected day is closer to toDate than fromDate', () => {
+          const wrapper = getWrappedComponent()
+          expect(wrapper.vm.fromRawDate).toEqual(null)
+          expect(wrapper.vm.toRawDate).toEqual(null)
 
+          wrapper.vm.selectDay(today)
+          expect(wrapper.vm.fromRawDate).toEqual(today)
+          expect(wrapper.vm.toRawDate).toEqual(null)
+
+          wrapper.vm.selectDay(addDays(today, 10))
+          expect(wrapper.vm.fromRawDate).toEqual(today)
+          expect(wrapper.vm.toRawDate).toEqual(addDays(today, 10))
+
+          wrapper.vm.selectDay(addDays(today, 8))
+          expect(wrapper.vm.fromRawDate).toEqual(today)
+          expect(wrapper.vm.toRawDate).toEqual(addDays(today, 8))
+        })
+      })
+    })
+
+    describe('Highlighting events', () => {
+      describe('Day picker', () => {
+        it('Should highlight fromDate input', () => {
+          const wrapper = getWrappedComponent()
+          const geoCalendarPickerWrapper = wrapper.find(GeoCalendarPicker)
+
+          geoCalendarPickerWrapper.vm.$emit('day-unit-mouseover', today)
+          expect(wrapper.vm.lastInputFieldFocused).toBe(FOCUSABLE_INPUT_FIELDS.FROM_DATE)
+
+          wrapper.vm.selectDay(today)
+          geoCalendarPickerWrapper.vm.$emit('day-unit-mouseover', subDays(today, 1))
+          expect(wrapper.vm.lastInputFieldFocused).toBe(FOCUSABLE_INPUT_FIELDS.FROM_DATE)
+        })
+
+        it('Should highlight toDate input', () => {
+          const wrapper = getWrappedComponent()
+          const geoCalendarPickerWrapper = wrapper.find(GeoCalendarPicker)
+
+          wrapper.vm.selectDay(today)
+          geoCalendarPickerWrapper.vm.$emit('day-unit-mouseover', addDays(today, 2))
+          expect(wrapper.vm.lastInputFieldFocused).toBe(FOCUSABLE_INPUT_FIELDS.TO_DATE)
+
+          wrapper.vm.selectDay(addDays(today, 3))
+          geoCalendarPickerWrapper.vm.$emit('day-unit-mouseover', addDays(today, 5))
+          expect(wrapper.vm.lastInputFieldFocused).toBe(FOCUSABLE_INPUT_FIELDS.TO_DATE)
+        })
+
+        it('Should not highlight anything if there is a field explicitly focused', () => {
+          const wrapper = getWrappedComponent()
+          const geoCalendarPickerWrapper = wrapper.find(GeoCalendarPicker)
+
+          wrapper.vm.selectDay(today)
+          geoCalendarPickerWrapper.vm.$emit('day-unit-mouseover', addDays(today, 2))
+          expect(wrapper.vm.lastInputFieldFocused).toBe(FOCUSABLE_INPUT_FIELDS.TO_DATE)
+
+          wrapper.vm.selectDay(addDays(today, 3))
+          wrapper.vm.isSomeInputFieldExplicitlyFocused = true
+
+          geoCalendarPickerWrapper.vm.$emit('day-unit-mouseover', addDays(today, 5))
+          expect(wrapper.vm.lastInputFieldFocused).toBe(null)
+        })
+      })
+
+      describe('Month picker', () => {
+        it('Should highlight fromDate input', () => {
+          const wrapper = getWrappedComponent()
+          const geoCalendarPickerWrapper = wrapper.find(GeoCalendarPicker)
+
+          geoCalendarPickerWrapper.vm.$emit('month-unit-mouseover', 2)
+          expect(wrapper.vm.lastInputFieldFocused).toBe(FOCUSABLE_INPUT_FIELDS.FROM_DATE)
+
+          wrapper.vm.selectMonth(2)
+          geoCalendarPickerWrapper.vm.$emit('day-unit-mouseover', 1)
+          expect(wrapper.vm.lastInputFieldFocused).toBe(FOCUSABLE_INPUT_FIELDS.FROM_DATE)
+        })
+
+        it('Should highlight toDate input', () => {
+          const wrapper = getWrappedComponent()
+          const geoCalendarPickerWrapper = wrapper.find(GeoCalendarPicker)
+
+          wrapper.vm.selectMonth(2)
+          geoCalendarPickerWrapper.vm.$emit('month-unit-mouseover', 4)
+          expect(wrapper.vm.lastInputFieldFocused).toBe(FOCUSABLE_INPUT_FIELDS.TO_DATE)
+
+          wrapper.vm.selectMonth(4)
+          geoCalendarPickerWrapper.vm.$emit('month-unit-mouseover', 5)
+          expect(wrapper.vm.lastInputFieldFocused).toBe(FOCUSABLE_INPUT_FIELDS.TO_DATE)
+        })
+
+        it('Should not highlight anything if there is a field explicitly focused', () => {
+          const wrapper = getWrappedComponent()
+          const geoCalendarPickerWrapper = wrapper.find(GeoCalendarPicker)
+
+          wrapper.vm.selectMonth(2)
+          geoCalendarPickerWrapper.vm.$emit('month-unit-mouseover', 4)
+          expect(wrapper.vm.lastInputFieldFocused).toBe(FOCUSABLE_INPUT_FIELDS.TO_DATE)
+
+          wrapper.vm.selectMonth(5)
+          wrapper.vm.isSomeInputFieldExplicitlyFocused = true
+
+          geoCalendarPickerWrapper.vm.$emit('month-unit-mouseover', 6)
+          expect(wrapper.vm.lastInputFieldFocused).toBe(null)
+        })
+      })
+
+      describe('Year picker', () => {
+        it('Should highlight fromDate input', () => {
+          const wrapper = getWrappedComponent()
+          const geoCalendarPickerWrapper = wrapper.find(GeoCalendarPicker)
+
+          geoCalendarPickerWrapper.vm.$emit('year-unit-mouseover', today)
+          expect(wrapper.vm.lastInputFieldFocused).toBe(FOCUSABLE_INPUT_FIELDS.FROM_DATE)
+
+          wrapper.vm.selectYear(2015)
+          geoCalendarPickerWrapper.vm.$emit('year-unit-mouseover', 2013)
+          expect(wrapper.vm.lastInputFieldFocused).toBe(FOCUSABLE_INPUT_FIELDS.FROM_DATE)
+        })
+
+        it('Should highlight toDate input', () => {
+          const wrapper = getWrappedComponent()
+          const geoCalendarPickerWrapper = wrapper.find(GeoCalendarPicker)
+
+          wrapper.vm.selectYear(2012)
+          geoCalendarPickerWrapper.vm.$emit('year-unit-mouseover', 2015)
+          expect(wrapper.vm.lastInputFieldFocused).toBe(FOCUSABLE_INPUT_FIELDS.TO_DATE)
+
+          wrapper.vm.selectYear(2015)
+          geoCalendarPickerWrapper.vm.$emit('year-unit-mouseover', 2016)
+          expect(wrapper.vm.lastInputFieldFocused).toBe(FOCUSABLE_INPUT_FIELDS.TO_DATE)
+        })
+
+        it('Should not highlight anything if there is a field explicitly focused', () => {
+          const wrapper = getWrappedComponent()
+          const geoCalendarPickerWrapper = wrapper.find(GeoCalendarPicker)
+
+          wrapper.vm.selectYear(2012)
+          geoCalendarPickerWrapper.vm.$emit('year-unit-mouseover', 2015)
+          expect(wrapper.vm.lastInputFieldFocused).toBe(FOCUSABLE_INPUT_FIELDS.TO_DATE)
+
+          wrapper.vm.selectYear(2015)
+          wrapper.vm.isSomeInputFieldExplicitlyFocused = true
+
+          geoCalendarPickerWrapper.vm.$emit('year-unit-mouseover', 2016)
+          expect(wrapper.vm.lastInputFieldFocused).toBe(null)
         })
       })
     })
