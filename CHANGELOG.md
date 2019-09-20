@@ -4,6 +4,12 @@ title: Changelog
 
 # Changelog
 
+## 24.10.1
+
+Fixed:
+
+- `GeoNotificationBar` Fix crashes when no icon is given
+
 ## 24.10.0
 
 Changed:
