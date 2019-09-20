@@ -35,14 +35,15 @@ import cssSuffix from '../../../mixins/cssModifierMixin'
 import _ from 'lodash'
 import {
   addDays,
-  eachDay,
+  eachDayOfInterval,
   endOfWeek,
   endOfMonth,
   format,
   getDay,
   startOfMonth,
   startOfWeek,
-  subDays
+  subDays,
+  isValid
 } from 'date-fns'
 import { DAY_GRID_CONSTANTS } from '../GeoCalendar.utils'
 import GeoCalendarDateIndicatorsMixin from '../GeoCalendarDateIndicators.mixin'
@@ -81,11 +82,19 @@ export default {
     },
 
     fullDaysInDisplayedCalendar () {
+      if (!isValid(this.currentDate)) return []
+
       const displayedDays = []
       const daysBeforeStartOfMonth = this.firstDayOfMonthInWeek > DAY_GRID_CONSTANTS.MONDAY_INDEX_IN_WEEK
-        ? eachDay(this.displayedFirstDayInCalendar, subDays(this.startOfMonth, 1))
+        ? eachDayOfInterval({
+          start: this.displayedFirstDayInCalendar,
+          end: subDays(this.startOfMonth, 1)
+        })
         : []
-      const daysInCurrentMonth = eachDay(startOfMonth(this.currentDate), this.endOfMonth)
+      const daysInCurrentMonth = eachDayOfInterval({
+        start: startOfMonth(this.currentDate),
+        end: this.endOfMonth
+      })
       displayedDays.push(
         ...daysBeforeStartOfMonth,
         ...daysInCurrentMonth
@@ -97,7 +106,10 @@ export default {
 
       const remainingDaysForDisplayedGrid = DAY_GRID_CONSTANTS.TOTAL_DAYS_IN_WEEK - _.last(groupedDaysByWeek).length
       const remainingDatesForGrid = remainingDaysForDisplayedGrid > 0
-        ? eachDay(addDays(this.endOfMonth, 1), addDays(this.endOfMonth, remainingDaysForDisplayedGrid))
+        ? eachDayOfInterval({
+          start: addDays(this.endOfMonth, 1),
+          end: addDays(this.endOfMonth, remainingDaysForDisplayedGrid)
+        })
         : []
 
       _.last(groupedDaysByWeek).push(...remainingDatesForGrid)
@@ -106,7 +118,12 @@ export default {
     },
 
     orderedDaysOfWeek () {
-      return eachDay(startOfWeek(this.currentDate, { weekStartsOn: 1 }), endOfWeek(this.currentDate, { weekStartsOn: 1 }))
+      if (!isValid(this.currentDate)) return []
+
+      return eachDayOfInterval({
+        start: startOfWeek(this.currentDate, { weekStartsOn: 1 }),
+        end: endOfWeek(this.currentDate, { weekStartsOn: 1 })
+      })
     },
 
     startOfMonth () {
@@ -114,7 +131,7 @@ export default {
     },
 
     weekDays () {
-      return _.map(this.orderedDaysOfWeek, (d) => format(d, 'ddd', { locale: this.locale }))
+      return _.map(this.orderedDaysOfWeek, (d) => format(d, 'E', { locale: this.locale }))
     }
   },
 
