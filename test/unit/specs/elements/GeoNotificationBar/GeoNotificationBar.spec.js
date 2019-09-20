@@ -11,7 +11,7 @@ library.add(fas)
 const iconsToMock = [
   'faTimes'
 ]
-const mockedFalIcons = _.mapValues(_.pick(fas, iconsToMock), function (original) {
+const mockedFalIcons = _.mapValues(_.pick(fas, iconsToMock), (original) => {
   return _.assign({}, original, {
     prefix: 'fal'
   })
@@ -23,12 +23,12 @@ const localVue = createLocalVue()
 localVue.component('geo-notification-bar', GeoNotificationBar)
 
 describe('GeoNotificationBar', () => {
-  it('Should render GeoNotificationBar component', function () {
+  it('Should render GeoNotificationBar component', () => {
     const wrapper = mount(GeoNotificationBar, {})
     expect(wrapper.find('.geo-notification-bar').exists()).toBe(true)
   })
 
-  it('Should display bell icon', function () {
+  it('Should display bell icon', () => {
     const wrapper = mount(GeoNotificationBar, {
       propsData: {
         icon: ['fas', 'bell']
@@ -41,7 +41,7 @@ describe('GeoNotificationBar', () => {
     expectFontAwesomeIconProp(fontAwesomeIconElem, ['fas', 'bell'])
   })
 
-  it('Should display default close icon when listener is provided', function () {
+  it('Should display default close icon when listener is provided', () => {
     const wrapper = mount(GeoNotificationBar, {
       stubs: {
         'font-awesome-icon': FontAwesomeIconMock
@@ -55,7 +55,7 @@ describe('GeoNotificationBar', () => {
     expect(wrapper.find('.geo-notification-bar__close-icon').exists()).toBe(true)
   })
 
-  it('Should display actions slot', function () {
+  it('Should display actions slot', () => {
     const wrapper = mount(GeoNotificationBar, {
       slots: {
         actions: [`<button class="some-action">A button</button>`]
@@ -64,7 +64,7 @@ describe('GeoNotificationBar', () => {
     expect(wrapper.find('.some-action').exists()).toBe(true)
   })
 
-  it('Should display default slot', function () {
+  it('Should display default slot', () => {
     const wrapper = mount(GeoNotificationBar, {
       slots: {
         default: 'notification'
@@ -73,7 +73,7 @@ describe('GeoNotificationBar', () => {
     expect(wrapper.find('.geo-notification-bar__message-text').text()).toBe('notification')
   })
 
-  it('Should trigger close event when clicking on close icon', function () {
+  it('Should trigger close event when clicking on close icon', () => {
     const wrapper = mount(GeoNotificationBar, {
       stubs: {
         'font-awesome-icon': FontAwesomeIcon
@@ -86,7 +86,7 @@ describe('GeoNotificationBar', () => {
     expect(wrapper.emitted()['close']).toBeTruthy()
   })
 
-  it('Should apply a CSS suffix when the modifier is provided', function () {
+  it('Should apply a CSS suffix when the modifier is provided', () => {
     const wrapper = mount(GeoNotificationBar, {
       propsData: {
         cssModifier: 'test'
