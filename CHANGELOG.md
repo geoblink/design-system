@@ -4,6 +4,12 @@ title: Changelog
 
 # Changelog
 
+## 24.10.1
+
+Changed:
+
+- `GeoCalendar` Update `GeoCalendar` tests with flow variations
+
 ## 24.10.0
 
 Changed:
