@@ -29,7 +29,7 @@ describe('GeoModal', () => {
     expect(wrapper.find('.geo-modal').exists()).toBe(true)
   })
 
-  it('Should display default slot', () => {
+  it('Should only display default slot', () => {
     const wrapper = mount(GeoModal, {
       slots: {
         default: 'default'
@@ -38,7 +38,7 @@ describe('GeoModal', () => {
         'geo-bordered-box': GeoBorderedBox
       }
     })
-    expect(wrapper.find('.geo-modal__content').text()).toBe('default')
+    expect(wrapper.find('.geo-modal__content').html()).toBe('<div class="geo-modal__content">default</div>')
   })
 
   it('Should display header slot', () => {
@@ -144,7 +144,7 @@ describe('GeoModal', () => {
     expectFontAwesomeIconProp(fontAwesomeIconElem, ['fas', 'bell'])
   })
 
-  it('Should render default attachTo as body', () => {
+  it('Should default attachTo to body', () => {
     const wrapper = mount(GeoModal, {
       stubs: {
         'geo-bordered-box': GeoBorderedBox
@@ -155,9 +155,6 @@ describe('GeoModal', () => {
 
   it('Should emit close event when clicking on headerCloseIcon button', () => {
     const wrapper = mount(GeoModal, {
-      propsData: {
-        headerCloseIcon: ['fas', 'times']
-      },
       slots: {
         header: 'header'
       },
@@ -243,8 +240,8 @@ describe('GeoModal', () => {
     const firstCallParameters = GeoModal.directives.OnResize.bind.mock.calls
 
     expect(firstCallParameters).toHaveProperty('0.0', wrapper.element)
-    expect(firstCallParameters[0][1].value).toHaveProperty('target', wrapper.vm.$props.attachTo)
-    expect(firstCallParameters[0][1].value).toHaveProperty('callback')
+    expect(firstCallParameters).toHaveProperty('0.1.value.target', wrapper.vm.$props.attachTo)
+    expect(firstCallParameters).toHaveProperty('0.1.value.callback')
 
     repositionModalSpy.mockClear()
     expect(repositionModalSpy).not.toBeCalled()
