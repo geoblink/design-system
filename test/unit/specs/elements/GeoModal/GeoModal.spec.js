@@ -1,4 +1,3 @@
-import _ from 'lodash'
 import * as sinon from 'sinon'
 import { createLocalVue, mount } from '@vue/test-utils'
 import GeoModal from '@/elements/GeoModal/GeoModal.vue'
@@ -154,7 +153,7 @@ describe('GeoModal', () => {
     expect(wrapper.vm.$props.attachTo).toBeInstanceOf(HTMLBodyElement)
   })
 
-  it('Should emit close event when clicking on headerCloseIcon button', () =>  {
+  it('Should emit close event when clicking on headerCloseIcon button', () => {
     const wrapper = mount(GeoModal, {
       propsData: {
         headerCloseIcon: ['fas', 'times']
