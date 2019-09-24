@@ -52,7 +52,7 @@ import { getDocument } from '../../utils/ssrProxy'
 
 export default {
   name: 'GeoModal',
-  status: 'missing-tests',
+  status: 'ready',
   release: '7.3.0',
   directives: {
     OnResize,
