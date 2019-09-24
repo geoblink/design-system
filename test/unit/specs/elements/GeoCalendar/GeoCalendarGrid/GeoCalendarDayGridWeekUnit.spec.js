@@ -65,6 +65,15 @@ describe('GeoCalendarDayGridWeekUnit', () => {
       expect(wrapper.emitted()['select-day']).toBeDefined()
       expect(wrapper.emitted()['select-day'][0][0]).toBe(today)
     })
+
+    it('Should emit mouseover event if received from child component', () => {
+      const wrapper = getWrappedComponent()
+      const geoCalendarDayGridDayUnitWrapper = wrapper.find(GeoCalendarDayGridDayUnit)
+
+      geoCalendarDayGridDayUnitWrapper.vm.$emit('day-unit-mouseover', today)
+      expect(wrapper.emitted()['day-unit-mouseover']).toBeDefined()
+      expect(wrapper.emitted()['day-unit-mouseover'][0][0]).toBe(today)
+    })
   })
 })
 
