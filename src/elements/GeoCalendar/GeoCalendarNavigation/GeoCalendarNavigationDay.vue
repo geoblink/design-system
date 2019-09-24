@@ -103,6 +103,8 @@ export default {
     },
 
     monthsInYear () {
+      if (!this.currentYear) return []
+
       return _.times(MONTH_GRID_CONSTANTS.NUMBER_OF_MONTHS_IN_GREGORIAN_CALENDAR, (i) => {
         const date = new Date(this.currentYear, i)
         return {

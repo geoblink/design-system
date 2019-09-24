@@ -41,6 +41,17 @@ describe('GeoCalendarDayGridDayUnit', () => {
     expect(wrapper.emitted()['select-day-unit'][0][0]).toBe(today)
   })
 
+  it('Emits event when hovering on day unit', () => {
+    const wrapper = mount(GeoCalendarDayGridDayUnit, {
+      propsData: {
+        currentDate: today,
+        day: today
+      }
+    })
+    wrapper.find('.geo-calendar-grid__date-picker-unit').trigger('mouseover')
+    expect(wrapper.emitted()['day-unit-mouseover'][0][0]).toBe(today)
+  })
+
   describe('Test computed properties', () => {
     const wrapper = mount(GeoCalendarDayGridDayUnit, {
       propsData: {

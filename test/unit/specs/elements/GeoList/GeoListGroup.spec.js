@@ -69,4 +69,22 @@ describe('GeoListGroup', () => {
 
     expect(wrapper.find('.geo-list-group__header__trailing-accessory-items').exists()).toBe(false)
   })
+
+  it('Should render item slot in content', function () {
+    const wrapper = mount(GeoListGroup, {
+      slots: {
+        item: [`<span class="my-demo-content">Just some unique demo content</span>`]
+      }
+    })
+    expect(wrapper.find('.geo-list-group__content .my-demo-content').exists()).toBe(true)
+  })
+
+  it('Should apply a CSS suffix when the modifier is provided', function () {
+    const wrapper = mount(GeoListGroup, {
+      propsData: {
+        cssModifier: 'test-alert'
+      }
+    })
+    expect(wrapper.find('.geo-list-group--test-alert').exists()).toBe(true)
+  })
 })

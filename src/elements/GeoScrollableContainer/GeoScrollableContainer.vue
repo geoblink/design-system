@@ -22,7 +22,7 @@ import cssSuffix from '../../mixins/cssModifierMixin'
 
 export default {
   name: 'GeoScrollableContainer',
-  status: 'missing-tests',
+  status: 'ready',
   release: '7.1.0',
   mixins: [cssSuffix],
   props: {
