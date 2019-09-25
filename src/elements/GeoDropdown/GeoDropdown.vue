@@ -37,7 +37,7 @@ import _ from 'lodash'
 
 export default {
   name: 'GeoDropdown',
-  status: 'missing-tests',
+  status: 'ready',
   release: '4.0.0',
   constants: GeoDropdownConstants,
   directives: {
