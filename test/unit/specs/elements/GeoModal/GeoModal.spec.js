@@ -4,8 +4,6 @@ import GeoModal from '@/elements/GeoModal/GeoModal.vue'
 import GeoBorderedBox from '@/elements/GeoBorderedBox/GeoBorderedBox.vue'
 import GeoBorderedBoxHeader from '@/elements/GeoBorderedBox/GeoBorderedBoxHeader.vue'
 import { FontAwesomeIconMock, expectFontAwesomeIconProp } from 'test/unit/utils/FontAwesomeIconMock.js'
-import { getDocument } from 'src/utils/ssrProxy'
-import { wrap } from 'module'
 
 // create an extended `Vue` constructor
 const localVue = createLocalVue()
