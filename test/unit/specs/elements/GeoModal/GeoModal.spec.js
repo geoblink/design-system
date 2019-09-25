@@ -4,6 +4,8 @@ import GeoModal from '@/elements/GeoModal/GeoModal.vue'
 import GeoBorderedBox from '@/elements/GeoBorderedBox/GeoBorderedBox.vue'
 import GeoBorderedBoxHeader from '@/elements/GeoBorderedBox/GeoBorderedBoxHeader.vue'
 import { FontAwesomeIconMock, expectFontAwesomeIconProp } from 'test/unit/utils/FontAwesomeIconMock.js'
+import { getDocument } from 'src/utils/ssrProxy'
+import { wrap } from 'module'
 
 // create an extended `Vue` constructor
 const localVue = createLocalVue()
@@ -196,12 +198,15 @@ describe('GeoModal', () => {
       }
     })
 
+    wrapper.vm.$props.attachTo.scrollLeft = 3
+    wrapper.vm.$props.attachTo.scrollTop = 4
+
     wrapper.vm.$options.methods.repositionModal.apply(wrapper.vm)
 
     expect(wrapper.vm.$data).toHaveProperty('containerSize.height', 1)
     expect(wrapper.vm.$data).toHaveProperty('containerSize.width', 2)
-    expect(wrapper.vm.$data).toHaveProperty('containerScrollOffset.left', 0)
-    expect(wrapper.vm.$data).toHaveProperty('containerScrollOffset.top', 0)
+    expect(wrapper.vm.$data).toHaveProperty('containerScrollOffset.left', 3)
+    expect(wrapper.vm.$data).toHaveProperty('containerScrollOffset.top', 4)
   })
 
   it('Should call repositionModal after scrolling the page', () => {
@@ -215,14 +220,14 @@ describe('GeoModal', () => {
       }
     })
 
-    const firstCallParameters = GeoModal.directives.ScrollAnywhere.bind.mock.calls
+    const ScrollAnywhereCalls = GeoModal.directives.ScrollAnywhere.bind.mock.calls
 
-    expect(firstCallParameters).toHaveProperty('0.0', wrapper.element)
-    expect(firstCallParameters).toHaveProperty('0.1.value')
+    expect(ScrollAnywhereCalls).toHaveProperty('0.0', wrapper.element)
+    expect(ScrollAnywhereCalls).toHaveProperty('0.1.value')
 
     repositionModalSpy.mockClear()
     expect(repositionModalSpy).not.toBeCalled()
-    firstCallParameters[0][1].value()
+    ScrollAnywhereCalls[0][1].value()
     expect(repositionModalSpy).toHaveBeenCalledTimes(1)
   })
 
@@ -237,15 +242,15 @@ describe('GeoModal', () => {
       }
     })
 
-    const firstCallParameters = GeoModal.directives.OnResize.bind.mock.calls
+    const onResizeCalls = GeoModal.directives.OnResize.bind.mock.calls
 
-    expect(firstCallParameters).toHaveProperty('0.0', wrapper.element)
-    expect(firstCallParameters).toHaveProperty('0.1.value.target', wrapper.vm.$props.attachTo)
-    expect(firstCallParameters).toHaveProperty('0.1.value.callback')
+    expect(onResizeCalls).toHaveProperty('0.0', wrapper.element)
+    expect(onResizeCalls).toHaveProperty('0.1.value.target', wrapper.vm.$props.attachTo)
+    expect(onResizeCalls).toHaveProperty('0.1.value.callback')
 
     repositionModalSpy.mockClear()
     expect(repositionModalSpy).not.toBeCalled()
-    firstCallParameters[0][1].value.callback()
+    onResizeCalls[0][1].value.callback()
     expect(repositionModalSpy).toHaveBeenCalledTimes(1)
   })
 
