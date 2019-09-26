@@ -190,14 +190,14 @@ describe('GeoModal', () => {
       width: 2
     })
 
+    sandbox.stub(document.body, 'scrollLeft').value(3)
+    sandbox.stub(document.body, 'scrollTop').value(4)
+
     const wrapper = mount(GeoModal, {
       stubs: {
         'geo-bordered-box': GeoBorderedBox
       }
     })
-
-    wrapper.vm.$props.attachTo.scrollLeft = 3
-    wrapper.vm.$props.attachTo.scrollTop = 4
 
     wrapper.vm.$options.methods.repositionModal.apply(wrapper.vm)
 
@@ -218,14 +218,14 @@ describe('GeoModal', () => {
       }
     })
 
-    const ScrollAnywhereCalls = GeoModal.directives.ScrollAnywhere.bind.mock.calls
+    const scrollAnywhereCalls = GeoModal.directives.ScrollAnywhere.bind.mock.calls
 
-    expect(ScrollAnywhereCalls).toHaveProperty('0.0', wrapper.element)
-    expect(ScrollAnywhereCalls).toHaveProperty('0.1.value')
+    expect(scrollAnywhereCalls).toHaveProperty('0.0', wrapper.element)
+    expect(scrollAnywhereCalls).toHaveProperty('0.1.value')
 
     repositionModalSpy.mockClear()
     expect(repositionModalSpy).not.toBeCalled()
-    ScrollAnywhereCalls[0][1].value()
+    scrollAnywhereCalls[0][1].value()
     expect(repositionModalSpy).toHaveBeenCalledTimes(1)
   })
 
