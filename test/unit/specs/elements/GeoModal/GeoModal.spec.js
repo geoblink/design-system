@@ -199,8 +199,6 @@ describe('GeoModal', () => {
       }
     })
 
-    wrapper.vm.$options.methods.repositionModal.apply(wrapper.vm)
-
     expect(wrapper.vm.$data).toHaveProperty('containerSize.height', 1)
     expect(wrapper.vm.$data).toHaveProperty('containerSize.width', 2)
     expect(wrapper.vm.$data).toHaveProperty('containerScrollOffset.left', 3)
