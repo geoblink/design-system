@@ -66,7 +66,7 @@ export default {
         return GeoDropdownConstants.X_AXIS_POSITION.left
       },
       validator: function (value) {
-        if (value in GeoDropdownConstants.X_AXIS_POSITION) return true 
+        if (value in GeoDropdownConstants.X_AXIS_POSITION) return true
 
         const supportedValues = Object.values(GeoDropdownConstants.X_AXIS_POSITION).map(i => `«${i}»`).join(', ')
         console.warn(`GeoDropdown [component] :: Unsupported value («${value}») for «preferredXAxisPosition» property. Use one of ${supportedValues}`)
@@ -111,11 +111,11 @@ export default {
       type: String,
       required: false,
       validator: function (value) {
-        if(value === undefined || value in GeoDropdownConstants.Y_AXIS_POSITION) return true
+        if (value === undefined || value in GeoDropdownConstants.Y_AXIS_POSITION) return true
 
         const supportedValues = Object.values(GeoDropdownConstants.Y_AXIS_POSITION).map(i => `«${i}»`).join(', ')
         console.warn(`GeoDropdown [component] :: Unsupported value («${value}») for «forceYAxisPosition» property. Use one of ${supportedValues}`)
-        return false        
+        return false
       }
     },
 

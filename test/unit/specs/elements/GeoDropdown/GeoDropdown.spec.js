@@ -221,7 +221,6 @@ describe('GeoDropdown', () => {
   })
 
   it('Should not emit click-outside event when clicking on the element', () => {
-    console.log(document.body.innerHTML)
     const wrapper = mount(GeoDropdown, {
       propsData: {
         opened: true
