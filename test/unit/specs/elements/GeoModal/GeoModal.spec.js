@@ -199,10 +199,10 @@ describe('GeoModal', () => {
       }
     })
 
-    expect(wrapper.vm.$data).toHaveProperty('containerSize.height', 1)
-    expect(wrapper.vm.$data).toHaveProperty('containerSize.width', 2)
-    expect(wrapper.vm.$data).toHaveProperty('containerScrollOffset.left', 3)
-    expect(wrapper.vm.$data).toHaveProperty('containerScrollOffset.top', 4)
+    expect(wrapper.vm).toHaveProperty('containerSize.height', 1)
+    expect(wrapper.vm).toHaveProperty('containerSize.width', 2)
+    expect(wrapper.vm).toHaveProperty('containerScrollOffset.left', 3)
+    expect(wrapper.vm).toHaveProperty('containerScrollOffset.top', 4)
   })
 
   it('Should call repositionModal after scrolling the page', () => {
@@ -241,7 +241,7 @@ describe('GeoModal', () => {
     const onResizeCalls = GeoModal.directives.OnResize.bind.mock.calls
 
     expect(onResizeCalls).toHaveProperty('0.0', wrapper.element)
-    expect(onResizeCalls).toHaveProperty('0.1.value.target', wrapper.vm.$props.attachTo)
+    expect(onResizeCalls).toHaveProperty('0.1.value.target', wrapper.vm.attachTo)
     expect(onResizeCalls).toHaveProperty('0.1.value.callback')
 
     repositionModalSpy.mockClear()
