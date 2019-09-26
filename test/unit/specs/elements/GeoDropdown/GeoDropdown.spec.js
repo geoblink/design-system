@@ -167,71 +167,73 @@ describe('GeoDropdown', () => {
       }
     })
 
-    sandbox.stub(wrapper.vm.$slots, 'toggleButton').value(
-      [{
-        elm: {
-          getBoundingClientRect () {
-            return {
-              width: 3
-            }
+    sandbox.stub(wrapper.vm.$slots, 'toggleButton').value([{
+      elm: {
+        getBoundingClientRect () {
+          return {
+            width: 3
           }
         }
-      }])
+      }
+    }])
 
     wrapper.setProps({ fixedWidth: true })
 
-    expect(wrapper.vm.$options.computed.popupStyle.call(wrapper.vm).width).toBe('3px')
+    expect(wrapper.vm.popupStyle.width).toBe('3px')
   })
 
   it('Should check forceYAxisPosition validator is correct', () => {
+    sandbox.stub(console, 'warn').returns({})
+
+    const consoleWarnSpy = jest.spyOn(console, 'warn')
+
     const forceYAxisPosition = GeoDropdown.props.forceYAxisPosition
     expect(forceYAxisPosition.validator(undefined)).toBeTruthy()
     expect(forceYAxisPosition.validator('top')).toBeTruthy()
     expect(forceYAxisPosition.validator('test')).toBeFalsy()
+    expect(consoleWarnSpy).toHaveBeenCalledTimes(1)
   })
 
-  it('Should render default values for preferredXAxisPosition and preferredYAxisPosition', () => {
+  it('Should check preferredXAxisPosition validator is correct', () => {
+    sandbox.stub(console, 'warn').returns({})
+
+    const consoleWarnSpy = jest.spyOn(console, 'warn')
+
+    const preferredXAxisPosition = GeoDropdown.props.preferredXAxisPosition
+    expect(preferredXAxisPosition.validator(undefined)).toBeFalsy()
+    expect(consoleWarnSpy).toHaveBeenCalledTimes(1)
+    expect(preferredXAxisPosition.validator('right')).toBeTruthy()
+    expect(preferredXAxisPosition.validator('top')).toBeFalsy()
+    expect(consoleWarnSpy).toHaveBeenCalledTimes(2)
+  })
+
+  it('Should check preferredYAxisPosition validator is correct', () => {
+    sandbox.stub(console, 'warn').returns({})
+
+    const consoleWarnSpy = jest.spyOn(console, 'warn')
+
+    const preferredYAxisPosition = GeoDropdown.props.preferredYAxisPosition
+    expect(preferredYAxisPosition.validator(undefined)).toBeFalsy()
+    expect(consoleWarnSpy).toHaveBeenCalledTimes(1)
+    expect(preferredYAxisPosition.validator('bottom')).toBeTruthy()
+    expect(preferredYAxisPosition.validator('left')).toBeFalsy()
+    expect(consoleWarnSpy).toHaveBeenCalledTimes(2)
+  })
+
+  it('Should not emit click-outside event when clicking on the element', () => {
+    console.log(document.body.innerHTML)
     const wrapper = mount(GeoDropdown, {
       propsData: {
         opened: true
       }
     })
-    expect(wrapper.vm.$props.preferredYAxisPosition).toBe('bottom')
-    expect(wrapper.vm.$props.preferredXAxisPosition).toBe('left')
-  })
 
-  it('Should check preferredXAxisPosition validator is correct', () => {
-    const preferredXAxisPosition = GeoDropdown.props.preferredXAxisPosition
-    expect(preferredXAxisPosition.validator(undefined)).toBeFalsy()
-    expect(preferredXAxisPosition.validator('right')).toBeTruthy()
-    expect(preferredXAxisPosition.validator('top')).toBeFalsy()
-  })
-
-  it('Should render correct preferredYAxisPosition when provided', () => {
-    const wrapper = mount(GeoDropdown, {
-      propsData: {
-        opened: true,
-        preferredYAxisPosition: GeoDropdown.constants.Y_AXIS_POSITION.top
-      }
-    })
-    expect(wrapper.vm.$props.preferredYAxisPosition).toBe('top')
-  })
-
-  it('Should check preferredYAxisPosition validator is correct', () => {
-    const preferredYAxisPosition = GeoDropdown.props.preferredYAxisPosition
-    expect(preferredYAxisPosition.validator(undefined)).toBeFalsy()
-    expect(preferredYAxisPosition.validator('bottom')).toBeTruthy()
-    expect(preferredYAxisPosition.validator('left')).toBeFalsy()
-  })
-
-  it('Should render correct preferredXAxisPosition when provided', () => {
-    const wrapper = mount(GeoDropdown, {
-      propsData: {
-        opened: true,
-        preferredXAxisPosition: GeoDropdown.constants.X_AXIS_POSITION.right
-      }
-    })
-    expect(wrapper.vm.$props.preferredXAxisPosition).toBe('right')
+    const allElementsInDocument = document.getElementsByClassName('geo-dropdown__popup')
+    const eventMock = {
+      target: allElementsInDocument[allElementsInDocument.length - 1]
+    }
+    wrapper.vm.$options.methods.checkClickCoordinatesAndEmitClickOutside.apply(wrapper.vm, [eventMock])
+    expect(wrapper.emitted()['click-outside']).toBeFalsy()
   })
 
   it('Should emit click-outside event when clicking in the background', () => {
@@ -242,10 +244,32 @@ describe('GeoDropdown', () => {
     })
 
     const eventMock = {
-      target: null
+      target: wrapper.element
     }
     wrapper.vm.$options.methods.checkClickCoordinatesAndEmitClickOutside.apply(wrapper.vm, [{ $event: eventMock }])
     expect(wrapper.emitted()['click-outside']).toBeTruthy()
+  })
+
+  it('Should call checkClickCoordinatesAndEmitClickOutside when clicking outside', () => {
+    sandbox.stub(GeoDropdown.directives, 'ClickOutside').value({ bind: jest.fn() })
+    sandbox.stub(GeoDropdown.methods, 'checkClickCoordinatesAndEmitClickOutside').returns()
+
+    const checkClickCoordinatesSpy = jest.spyOn(GeoDropdown.methods, 'checkClickCoordinatesAndEmitClickOutside')
+
+    const wrapper = mount(GeoDropdown, {
+      propsData: {
+        opened: true
+      }
+    })
+
+    const clickOutsideCalls = GeoDropdown.directives.ClickOutside.bind.mock.calls
+    expect(clickOutsideCalls).toHaveProperty('0.0', wrapper.element)
+    expect(clickOutsideCalls).toHaveProperty('0.1.value')
+
+    checkClickCoordinatesSpy.mockClear()
+    expect(checkClickCoordinatesSpy).not.toBeCalled()
+    clickOutsideCalls[0][1].value()
+    expect(checkClickCoordinatesSpy).toHaveBeenCalledTimes(1)
   })
 
   it('Should call repositionPopup when resizing', () => {
@@ -259,13 +283,13 @@ describe('GeoDropdown', () => {
       }
     })
 
-    const firstCallParameters = GeoDropdown.directives.ScrollAnywhere.bind.mock.calls
-    expect(firstCallParameters).toHaveProperty('0.0', wrapper.element)
-    expect(firstCallParameters).toHaveProperty('0.1.value')
+    const scrollAnywhereSpy = GeoDropdown.directives.ScrollAnywhere.bind.mock.calls
+    expect(scrollAnywhereSpy).toHaveProperty('0.0', wrapper.element)
+    expect(scrollAnywhereSpy).toHaveProperty('0.1.value')
 
     repositionPopupSpy.mockClear()
     expect(repositionPopupSpy).not.toBeCalled()
-    firstCallParameters[0][1].value()
+    scrollAnywhereSpy[0][1].value()
     expect(repositionPopupSpy).toHaveBeenCalledTimes(1)
   })
 
