@@ -33,7 +33,9 @@ const iconsToMock = [
   'faCheckCircle',
   'faExclamationTriangle',
   'faLightbulb',
-  'faThumbsUp'
+  'faThumbsUp',
+  'faEllipsisV',
+  'faTimes'
 ]
 const mockedFalIcons = _.mapValues(_.pick(fas, iconsToMock), function (original) {
   return _.assign({}, original, {
