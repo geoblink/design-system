@@ -62,9 +62,8 @@ describe('GeoFileUpload', () => {
   })
 
   it('Should check status validator is correct', () => {
-    sandbox.stub(console, 'warn').returns({})
-
-    const consoleWarnSpy = jest.spyOn(console, 'warn')
+    const consoleWarnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {})
+    afterEach(() => consoleWarnSpy.mockReset())
 
     const status = GeoFileUpload.props.status
     expect(status.validator('initial')).toBeTruthy()
@@ -73,7 +72,7 @@ describe('GeoFileUpload', () => {
     expect(consoleWarnSpy).toHaveBeenCalledTimes(1)
   })
 
-  it('Should display correct icon when status is "initial"', () => {
+  it('Should display correct icon depending on the status', () => {
     const wrapper = mount(GeoFileUpload, {
       propsData: {
         status: 'initial'
@@ -84,6 +83,15 @@ describe('GeoFileUpload', () => {
     })
     const fontAwesomeIconElem = wrapper.find(FontAwesomeIconMock)
     expectFontAwesomeIconProp(fontAwesomeIconElem, ['fal', 'upload'])
+
+    wrapper.setProps({ status: 'success' })
+    expectFontAwesomeIconProp(fontAwesomeIconElem, ['fal', 'check-circle'])
+
+    wrapper.setProps({ status: 'error' })
+    expectFontAwesomeIconProp(fontAwesomeIconElem, ['fal', 'exclamation-triangle'])
+
+    wrapper.setProps({ status: 'warning' })
+    expectFontAwesomeIconProp(fontAwesomeIconElem, ['fal', 'exclamation-triangle'])
   })
 
   it('Should display correct uploadIcon', () => {
@@ -100,19 +108,6 @@ describe('GeoFileUpload', () => {
     expectFontAwesomeIconProp(fontAwesomeIconElem, ['fas', 'bell'])
   })
 
-  it('Should display correct icon when status is "success"', () => {
-    const wrapper = mount(GeoFileUpload, {
-      propsData: {
-        status: 'success'
-      },
-      stubs: {
-        'font-awesome-icon': FontAwesomeIconMock
-      }
-    })
-    const fontAwesomeIconElem = wrapper.find(FontAwesomeIconMock)
-    expectFontAwesomeIconProp(fontAwesomeIconElem, ['fal', 'check-circle'])
-  })
-
   it('Should display correct successIcon', () => {
     const wrapper = mount(GeoFileUpload, {
       propsData: {
@@ -127,19 +122,6 @@ describe('GeoFileUpload', () => {
     expectFontAwesomeIconProp(fontAwesomeIconElem, ['fas', 'bell'])
   })
 
-  it('Should display correct icon when status is "error"', () => {
-    const wrapper = mount(GeoFileUpload, {
-      propsData: {
-        status: 'error'
-      },
-      stubs: {
-        'font-awesome-icon': FontAwesomeIconMock
-      }
-    })
-    const fontAwesomeIconElem = wrapper.find(FontAwesomeIconMock)
-    expectFontAwesomeIconProp(fontAwesomeIconElem, ['fal', 'exclamation-triangle'])
-  })
-
   it('Should render correct errorIcon', () => {
     const wrapper = mount(GeoFileUpload, {
       propsData: {
@@ -152,19 +134,6 @@ describe('GeoFileUpload', () => {
     })
     const fontAwesomeIconElem = wrapper.find(FontAwesomeIconMock)
     expectFontAwesomeIconProp(fontAwesomeIconElem, ['fas', 'bell'])
-  })
-
-  it('Should display correct icon when status is "warning"', () => {
-    const wrapper = mount(GeoFileUpload, {
-      propsData: {
-        status: 'warning'
-      },
-      stubs: {
-        'font-awesome-icon': FontAwesomeIconMock
-      }
-    })
-    const fontAwesomeIconElem = wrapper.find(FontAwesomeIconMock)
-    expectFontAwesomeIconProp(fontAwesomeIconElem, ['fal', 'exclamation-triangle'])
   })
 
   it('Should display correct warningIcon', () => {
@@ -244,8 +213,7 @@ describe('GeoFileUpload', () => {
     expect(wrapper.find('.help-slot').text()).toBe('help')
   })
 
-  it('Should correctly call handleDragenter when triggering dragenter', () => {
-    const handleDragenterSpy = jest.spyOn(GeoFileUpload.methods, 'handleDragenter')
+  it('Should change isFocused when triggering dragenter', () => {
     const wrapper = mount(GeoFileUpload, {
       propsData: {
         status: 'initial'
@@ -255,12 +223,10 @@ describe('GeoFileUpload', () => {
       }
     })
     wrapper.find('.geo-file-upload').trigger('dragenter')
-    expect(handleDragenterSpy).toBeCalled()
     expect(wrapper.vm.isFocused).toBe(true)
   })
 
-  it('Should correctly call handleDragleave when triggering dragleave', () => {
-    const handleDragleaveSpy = jest.spyOn(GeoFileUpload.methods, 'handleDragleave')
+  it('Should change isFocused when triggering dragleave', () => {
     const wrapper = mount(GeoFileUpload, {
       propsData: {
         status: 'initial'
@@ -270,12 +236,10 @@ describe('GeoFileUpload', () => {
       }
     })
     wrapper.find('.geo-file-upload').trigger('dragleave')
-    expect(handleDragleaveSpy).toBeCalled()
     expect(wrapper.vm.isFocused).toBe(false)
   })
 
-  it('Should correctly call handleDragover when triggering dragover.prevent', () => {
-    const handleDragoverSpy = jest.spyOn(GeoFileUpload.methods, 'handleDragover')
+  it('Should change isFocused when triggering dragover.prevent', () => {
     const wrapper = mount(GeoFileUpload, {
       propsData: {
         status: 'initial'
@@ -285,12 +249,10 @@ describe('GeoFileUpload', () => {
       }
     })
     wrapper.find('.geo-file-upload').trigger('dragover.prevent')
-    expect(handleDragoverSpy).toBeCalled()
     expect(wrapper.vm.isFocused).toBe(true)
   })
 
-  it('Should correctly call handleDragexit when triggering dragexit', () => {
-    const handleDragexitSpy = jest.spyOn(GeoFileUpload.methods, 'handleDragexit')
+  it('Should change isFocused when triggering dragexit', () => {
     const wrapper = mount(GeoFileUpload, {
       propsData: {
         status: 'initial'
@@ -300,12 +262,10 @@ describe('GeoFileUpload', () => {
       }
     })
     wrapper.find('.geo-file-upload').trigger('dragexit')
-    expect(handleDragexitSpy).toBeCalled()
     expect(wrapper.vm.isFocused).toBe(false)
   })
 
-  it('Should call handleDrop when triggering drop.prevent', () => {
-    const handleDropSpy = jest.spyOn(GeoFileUpload.methods, 'handleDrop')
+  it('Should emit pick-file event when triggering drop.prevent', () => {
     const wrapper = mount(GeoFileUpload, {
       propsData: {
         status: 'initial'
@@ -314,26 +274,18 @@ describe('GeoFileUpload', () => {
         'font-awesome-icon': FontAwesomeIcon
       }
     })
-    wrapper.find('.geo-file-upload').trigger('drop.prevent')
-    expect(handleDropSpy).toBeCalled()
-  })
 
-  it('Should emit pick-file event when calling pickFile', () => {
-    const wrapper = mount(GeoFileUpload, {
-      propsData: {
-        status: 'initial'
-      },
-      stubs: {
-        'font-awesome-icon': FontAwesomeIcon
+    const eventMock = {
+      dataTransfer: {
+        files: ['someFile']
       }
-    })
-    wrapper.vm.pickFile()
+    }
+    wrapper.find('.geo-file-upload').trigger('drop.prevent', eventMock)
     expect(wrapper.vm.isFocused).toBe(false)
     expect(wrapper.emitted()['pick-file']).toBeTruthy()
   })
 
   it('Should correctly call openPickDialog when triggering click', () => {
-    const openPickDialogSpy = jest.spyOn(GeoFileUpload.methods, 'openPickDialog')
     const wrapper = mount(GeoFileUpload, {
       propsData: {
         status: 'initial'
@@ -343,13 +295,11 @@ describe('GeoFileUpload', () => {
       }
     })
     wrapper.find('.geo-file-upload').trigger('click')
-    expect(openPickDialogSpy).toBeCalled()
     expect(wrapper.vm.isFocused).toBe(true)
     expect(wrapper.emitted()['open-pick-dialog']).toBeTruthy()
   })
 
   it('Should call handleFilePick when triggering change', () => {
-    const handleFilePickSpy = jest.spyOn(GeoFileUpload.methods, 'handleFilePick')
     const wrapper = mount(GeoFileUpload, {
       propsData: {
         status: 'initial'
@@ -359,6 +309,6 @@ describe('GeoFileUpload', () => {
       }
     })
     wrapper.find('.geo-file-upload__input').trigger('change')
-    expect(handleFilePickSpy).toBeCalled()
+    expect(wrapper.vm.isResettingInputFileField).toBe(false)
   })
 })
