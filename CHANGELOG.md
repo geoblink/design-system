@@ -4,6 +4,12 @@ title: Changelog
 
 # Changelog
 
+## 24.10.3
+
+Fixed:
+
+- `GeoDropdown` Add logging error messages when passing an invalid property
+
 ## 24.10.2
 
 Fixed:
