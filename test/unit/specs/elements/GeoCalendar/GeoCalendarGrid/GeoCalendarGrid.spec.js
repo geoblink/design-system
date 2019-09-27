@@ -69,6 +69,38 @@ describe('GeoCalendarGrid', () => {
     })
   }
 
+  describe('Highlight dates mouseover', function () {
+    wrapper.setProps({
+      pickerDateUnit: PICKER_DATE_UNITS.day
+    })
+
+    const geoCalendarDayGridWrapper = wrapper.find(GeoCalendarDayGrid)
+    geoCalendarDayGridWrapper.vm.$emit('day-unit-mouseover', today)
+
+    expect(wrapper.emitted()['day-unit-mouseover']).toBeDefined()
+    expect(wrapper.emitted()['day-unit-mouseover'][0][0]).toBe(today)
+
+    wrapper.setProps({
+      pickerDateUnit: PICKER_DATE_UNITS.month
+    })
+
+    const geoCalendarMonthGridWrapper = wrapper.find(GeoCalendarMonthGrid)
+    geoCalendarMonthGridWrapper.vm.$emit('month-unit-mouseover', 5)
+
+    expect(wrapper.emitted()['month-unit-mouseover']).toBeDefined()
+    expect(wrapper.emitted()['month-unit-mouseover'][0][0]).toBe(5)
+
+    wrapper.setProps({
+      pickerDateUnit: PICKER_DATE_UNITS.year
+    })
+
+    const geoCalendarYearGridWrapper = wrapper.find(GeoCalendarYearGrid)
+    geoCalendarYearGridWrapper.vm.$emit('year-unit-mouseover', 2020)
+
+    expect(wrapper.emitted()['year-unit-mouseover']).toBeDefined()
+    expect(wrapper.emitted()['year-unit-mouseover'][0][0]).toBe(2020)
+  })
+
   describe('Select granularity events', () => {
     const wrapper = mount(GeoCalendarGrid, {
       stubs: {

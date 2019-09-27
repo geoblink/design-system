@@ -1,4 +1,4 @@
-import { isBefore, isAfter, startOfDay, isEqual, isWithinRange } from 'date-fns'
+import { isBefore, isAfter, startOfDay, isEqual, isWithinInterval } from 'date-fns'
 
 export const PICKER_DATE_UNITS = {
   day: 'day',
@@ -50,13 +50,13 @@ const isEqualDay = (dateRef, dateToCompare) => {
   return isEqual(startOfDay(dateRef), startOfDay(dateToCompare))
 }
 
-const isDayWithinRange = (dateRef, rangeStartDate, rangeEndDate) => {
-  return isWithinRange(startOfDay(dateRef), startOfDay(rangeStartDate), startOfDay(rangeEndDate))
+const isDayWithinInterval = (dateRef, { start, end }) => {
+  return isWithinInterval(startOfDay(dateRef), { start: startOfDay(start), end: startOfDay(end) })
 }
 
 export {
   isBeforeDay as isBefore,
   isAfterDay as isAfter,
   isEqualDay as isEqual,
-  isDayWithinRange as isWithinRange
+  isDayWithinInterval as isWithinInterval
 }

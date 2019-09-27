@@ -31,6 +31,15 @@ describe('GeoCalendarMonthGridQuarterUnit', () => {
       expect(wrapper.emitted('select-month')).toBeDefined()
       expect(wrapper.emitted('select-month')[0][0]).toBe(6)
     })
+
+    it('Emits mouseover event if received from child component', () => {
+      const wrapper = getWrappedComponent(GRANULARITY_IDS.month)
+      const geoCalendarMonthGridMonthUnitWrapper = wrapper.find(GeoCalendarMonthGridMonthUnit)
+
+      geoCalendarMonthGridMonthUnitWrapper.vm.$emit('month-unit-mouseover', 6)
+      expect(wrapper.emitted()['month-unit-mouseover']).toBeDefined()
+      expect(wrapper.emitted()['month-unit-mouseover'][0][0]).toBe(6)
+    })
   })
 
   describe('Quarter granularity', () => {

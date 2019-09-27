@@ -21,7 +21,7 @@ describe('GeoCalendarMonthGrid', () => {
     expect(wrapper.find('.geo-calendar-grid__month-container').exists()).toBe(true)
   })
 
-  describe('Events (month/quarter)', () => {
+  describe('Events (month/quarter/mouseover)', () => {
     const childMonth = wrapper.find(GeoCalendarMonthGridQuarterUnit)
     it('Emits select-month event when clicking on a month', () => {
       childMonth.vm.$emit('select-month', 8)
@@ -33,6 +33,12 @@ describe('GeoCalendarMonthGrid', () => {
       childMonth.vm.$emit('select-quarter', 8)
       expect(wrapper.emitted()['select-quarter']).toBeDefined()
       expect(wrapper.emitted()['select-quarter'][0][0]).toBe(8)
+    })
+
+    it('Emits mouseover event if received from child component', () => {
+      childMonth.vm.$emit('month-unit-mouseover', 6)
+      expect(wrapper.emitted()['month-unit-mouseover']).toBeDefined()
+      expect(wrapper.emitted()['month-unit-mouseover'][0][0]).toBe(6)
     })
   })
 })

@@ -41,7 +41,7 @@ describe('GeoCalendarDayGrid', () => {
     })
   })
 
-  describe('Events (day/week)', () => {
+  describe('Events (day/week/mouseover)', () => {
     const today = new Date(2019, 6, 30) // Fixed date to avoid future errors with random dates
     it('Emits select-day event when clicked on a day', () => {
       const wrapper = getWrappedComponent()
@@ -66,6 +66,15 @@ describe('GeoCalendarDayGrid', () => {
         fromDate: weekStart,
         toDate: weekEnd
       })
+    })
+
+    it('Emits mouseover event if received from child component', () => {
+      const wrapper = getWrappedComponent()
+      const geoCalendarDayGridDayUnitWrapper = wrapper.find(GeoCalendarDayGridDayUnit)
+
+      geoCalendarDayGridDayUnitWrapper.vm.$emit('day-unit-mouseover', today)
+      expect(wrapper.emitted()['day-unit-mouseover']).toBeDefined()
+      expect(wrapper.emitted()['day-unit-mouseover'][0][0]).toBe(today)
     })
   })
 })

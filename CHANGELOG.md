@@ -4,6 +4,24 @@ title: Changelog
 
 # Changelog
 
+## 24.10.2
+
+Fixed:
+
+- `GeoNotificationBar` Fix crashes when no icon is given
+
+## 24.10.1
+
+Changed:
+
+- `GeoCalendar` Update `GeoCalendar` tests with flow variations
+
+## 24.10.0
+
+Changed:
+
+- `GeoCalendar` Upgrade date-fns to v2.2.1
+
 ## 24.9.0
 
 New:
