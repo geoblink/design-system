@@ -18,7 +18,7 @@ import cssSuffix from '../../mixins/cssModifierMixin'
 
 export default {
   name: 'GeoDropdownCompactButton',
-  status: 'missing-tests',
+  status: 'ready',
   release: '4.0.0',
   mixins: [cssSuffix],
   props: {
