@@ -1,10 +1,13 @@
-// @ts-nocheck
+import _ from 'lodash'
 import { mount } from '@vue/test-utils'
 import GeoDropdown from '@/elements/GeoDropdown/GeoDropdown.vue'
 import * as sinon from 'sinon'
 
 describe('GeoDropdown', () => {
   const sandbox = sinon.createSandbox()
+
+  const consoleWarnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {})
+  afterEach(() => consoleWarnSpy.mockReset())
 
   beforeEach(() => {
     sandbox.restore()
@@ -183,10 +186,6 @@ describe('GeoDropdown', () => {
   })
 
   it('Should check forceYAxisPosition validator is correct', () => {
-    sandbox.stub(console, 'warn').returns({})
-
-    const consoleWarnSpy = jest.spyOn(console, 'warn')
-
     const forceYAxisPosition = GeoDropdown.props.forceYAxisPosition
     expect(forceYAxisPosition.validator(undefined)).toBeTruthy()
     expect(forceYAxisPosition.validator('top')).toBeTruthy()
@@ -195,10 +194,6 @@ describe('GeoDropdown', () => {
   })
 
   it('Should check preferredXAxisPosition validator is correct', () => {
-    sandbox.stub(console, 'warn').returns({})
-
-    const consoleWarnSpy = jest.spyOn(console, 'warn')
-
     const preferredXAxisPosition = GeoDropdown.props.preferredXAxisPosition
     expect(preferredXAxisPosition.validator(undefined)).toBeFalsy()
     expect(consoleWarnSpy).toHaveBeenCalledTimes(1)
@@ -208,10 +203,6 @@ describe('GeoDropdown', () => {
   })
 
   it('Should check preferredYAxisPosition validator is correct', () => {
-    sandbox.stub(console, 'warn').returns({})
-
-    const consoleWarnSpy = jest.spyOn(console, 'warn')
-
     const preferredYAxisPosition = GeoDropdown.props.preferredYAxisPosition
     expect(preferredYAxisPosition.validator(undefined)).toBeFalsy()
     expect(consoleWarnSpy).toHaveBeenCalledTimes(1)
@@ -229,7 +220,7 @@ describe('GeoDropdown', () => {
 
     const allElementsInDocument = document.getElementsByClassName('geo-dropdown__popup')
     const eventMock = {
-      target: allElementsInDocument[allElementsInDocument.length - 1]
+      target: _.last(allElementsInDocument)
     }
     wrapper.vm.$options.methods.checkClickCoordinatesAndEmitClickOutside.apply(wrapper.vm, [eventMock])
     expect(wrapper.emitted()['click-outside']).toBeFalsy()
