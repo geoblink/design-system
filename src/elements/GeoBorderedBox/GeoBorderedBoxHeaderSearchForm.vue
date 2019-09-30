@@ -13,6 +13,7 @@
       :placeholder="placeholder"
       type="text"
       @keyup="searchPattern($event)"
+      @keypress.enter.prevent
     >
   </form>
 </template>
