@@ -4,6 +4,12 @@ title: Changelog
 
 # Changelog
 
+## 24.10.3
+
+Changed:
+
+- Prevent form submission when pressing enter in `GeoBorderedBoxHeaderSearchForm`
+
 ## 24.10.2
 
 Fixed:
