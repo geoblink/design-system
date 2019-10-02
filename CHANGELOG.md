@@ -4,6 +4,12 @@ title: Changelog
 
 # Changelog
 
+## 24.11.0
+
+New:
+
+- `GeoListItem` has new `disabled` property to style it as a disabled item
+
 ## 24.10.3
 
 Fixed:
