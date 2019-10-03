@@ -4,6 +4,12 @@ title: Changelog
 
 # Changelog
 
+## 24.11.2
+
+Fixed:
+
+- `GeoDropdown` Add logging error messages when passing an invalid property
+
 ## 24.11.1
 
 Changed:
@@ -15,6 +21,12 @@ Changed:
 New:
 
 - `GeoListItem` has new `disabled` property to style it as a disabled item
+
+## 24.10.3 (Backport)
+
+Fixed:
+
+- `GeoDropdown` Add logging error messages when passing an invalid property
 
 ## 24.10.2
 
