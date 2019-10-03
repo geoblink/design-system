@@ -47,7 +47,7 @@
     // These styles are directly taken from vue-directive-tooltip so Chart
     // tooltips look like regular tooltips.
 
-    $popper-background-color:$color_dark_overlay !default;
+    $popper-background-color: $color-dark-overlay !default;
     $popper-tooltip-arrow-size: 5px;
 
     background-color: $popper-background-color;
