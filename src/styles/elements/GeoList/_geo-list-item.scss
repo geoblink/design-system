@@ -27,6 +27,15 @@
     }
   }
 
+  .geo-list-item--disabled#{$modifier-name-with-prefix} {
+    color: $color-grey-light;
+    cursor: not-allowed;
+
+    &:hover {
+      background: $color-white;
+    }
+  }
+
   .geo-list-item__label-and-accessory-container#{$modifier-name-with-prefix} {
     display: flex;
     flex-direction: row;

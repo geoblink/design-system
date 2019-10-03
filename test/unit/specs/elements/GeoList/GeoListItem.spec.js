@@ -68,4 +68,35 @@ describe('GeoListItem', () => {
     wrapper.find('.geo-list-item').trigger('click')
     expect(clickListener).toHaveBeenCalled()
   })
+
+  it('Should include CSS suffix', function () {
+    const wrapper = mount(GeoListItem, {
+      propsData: {
+        cssModifier: 'my-custom-modifier'
+      }
+    })
+
+    expect(wrapper.find('.geo-list-item--my-custom-modifier').exists()).toBe(true)
+  })
+
+  it('Should include disabled suffix when it is disabled', function () {
+    const wrapper = mount(GeoListItem, {
+      propsData: {
+        disabled: true
+      }
+    })
+
+    expect(wrapper.find('.geo-list-item--disabled').exists()).toBe(true)
+  })
+
+  it('Should include disabled suffix when it is disabled and has CSS modifier', function () {
+    const wrapper = mount(GeoListItem, {
+      propsData: {
+        cssModifier: 'my-custom-modifier',
+        disabled: true
+      }
+    })
+
+    expect(wrapper.find('.geo-list-item--disabled--my-custom-modifier').exists()).toBe(true)
+  })
 })

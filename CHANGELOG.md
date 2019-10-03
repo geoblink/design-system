@@ -4,11 +4,17 @@ title: Changelog
 
 # Changelog
 
-## 24.10.3
+## 24.11.1
 
 Changed:
 
 - Prevent form submission when pressing enter in `GeoBorderedBoxHeaderSearchForm`
+
+## 24.11.0
+
+New:
+
+- `GeoListItem` has new `disabled` property to style it as a disabled item
 
 ## 24.10.2
 

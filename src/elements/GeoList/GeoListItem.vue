@@ -2,11 +2,12 @@
   <div
     :ref="data.ref"
     v-bind="data.attrs"
-    :class="[
-      data.class,
-      data.staticClass,
-      `geo-list-item${$options.helpers.getCSSSuffix(props.cssModifier)}`
-    ]"
+    :class="{
+      [data.class]: true,
+      [data.staticClass]: true,
+      [`geo-list-item${$options.helpers.getCSSSuffix(props.cssModifier)}`]: true,
+      [`geo-list-item--disabled${$options.helpers.getCSSSuffix(props.cssModifier)}`]: props.disabled
+    }"
     v-on="listeners"
   >
     <div :class="`geo-list-item__label-and-accessory-container${$options.helpers.getCSSSuffix(props.cssModifier)}`">
@@ -67,6 +68,17 @@ export default {
     icon: {
       type: Array,
       required: false
+    },
+
+    /**
+     * Whether this item is disabled or not. When disabled it will be displayed
+     * greyed out.
+     *
+     * **Note:** Listeners won't be affected by this property.
+     */
+    disabled: {
+      type: Boolean,
+      default: false
     }
   }
 }
