@@ -4,6 +4,15 @@ title: Changelog
 
 # Changelog
 
+## 24.12.0
+
+New:
+
+- `GeoCompactButton` component
+- `GeoPrimaryCompactButton` component
+- `GeoSecondaryCompactButton` component
+- `GeoEditableInput` now works with `GeoCompactButton`
+
 ## 24.11.2
 
 Fixed:

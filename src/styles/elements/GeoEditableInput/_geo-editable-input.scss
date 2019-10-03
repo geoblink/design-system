@@ -79,33 +79,6 @@
     justify-content: flex-end;
   }
 
-  .geo-editable-input__container__buttons__button#{$modifier-name-with-prefix} {
-    align-items: center;
-    border-radius: $border-radius-default;
-    box-shadow: $box-shadow-small;
-    cursor: pointer;
-    display: flex;
-    font-size: 12px;
-    height: 20px;
-    justify-content: center;
-    outline: none;
-    padding: 0;
-    width: 20px;
-  }
-
-  .geo-editable-input__container__buttons__button--save#{$modifier-name-with-prefix} {
-    background-color: $color-blue;
-    border: 1px solid $color-blue;
-    color: $color-white;
-    margin-left: 5px;
-  }
-
-  .geo-editable-input__container__buttons__button--cancel#{$modifier-name-with-prefix} {
-    background-color: $color-white;
-    border: 1px solid $color-grey;
-    color: $color-grey;
-  }
-
   .geo-editable-input__form#{$modifier-name-with-prefix},
   .geo-dropdown--geo-editable-input--table#{$modifier-name-with-prefix},
   .geo-dropdown--geo-editable-input--normal#{$modifier-name-with-prefix} {

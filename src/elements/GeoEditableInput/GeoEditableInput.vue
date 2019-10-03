@@ -37,26 +37,13 @@
         slot="popupContent"
         :class="`geo-editable-input__container__buttons${cssSuffix}`"
       >
-        <button
-          :class="`geo-editable-input__container__buttons__button${cssSuffix} geo-editable-input__container__buttons__button--cancel${cssSuffix}`"
+        <geo-secondary-compact-button
           @click="emitCancel($event)"
-        >
-          <font-awesome-icon :icon="cancelIcon" />
-        </button>
-        <button
-          :class="`geo-editable-input__container__buttons__button${cssSuffix} geo-editable-input__container__buttons__button--save${cssSuffix}`"
+        />
+
+        <geo-primary-compact-button
           @click="emitSave($event)"
-        >
-          <geo-activity-indicator
-            v-if="loading"
-            :css-modifier="`geo-editable-input${cssSuffix}`"
-            variant="dark-transparent"
-          />
-          <font-awesome-icon
-            v-else
-            :icon="saveIcon"
-          />
-        </button>
+        />
       </div>
     </geo-dropdown>
   </div>

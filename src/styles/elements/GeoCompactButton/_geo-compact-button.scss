@@ -1,0 +1,259 @@
+// Creates a geo-compact-button color scheme varying the background and text color based
+// on the hover/focus/disabled status.
+@mixin geo-compact-button-make-scheme ($params, $css-suffix) {
+  $hoverYOffsetWithBorders: -3px;
+
+  &#{$css-suffix} {
+    @if map-has-key($params, normal-background-color) {
+      background: map-get($params, normal-background-color);
+    }
+
+    @if map-has-key($params, normal-text-color) {
+      color: map-get($params, normal-text-color);
+    }
+
+    @if map-has-key($params, normal-border-color) {
+      border-color: map-get($params, normal-border-color);
+    }
+
+    &::before {
+      bottom: 0;
+      content: "";
+      left: 0;
+      opacity: 0;
+      position: absolute;
+      right: 0;
+      top: 0;
+      transition: opacity $easing-base $duration-noticeable;
+
+      @if map-has-key($params, hover-shadow) {
+        box-shadow: map-get($params, hover-shadow);
+      }
+    }
+
+    /* This pseudo-element prevents hover flickering due to button translation
+       on hover. To do so efficiently this element is position at the beginning
+       and moved using a transform when parent is hovered */
+    &::after {
+      /* Basic setup */
+      content: "";
+      bottom: 0;
+      left: 0;
+      position: absolute;
+      top: 0;
+      width: 100%;
+
+      /* We need to place the pseudo-element under everything else. Without
+        specifying the placement, it will sit on top of the parent element (our
+        card) and block the user from selecting text or clicking links */
+      z-index: -1;
+    }
+
+    &:hover, &[hover], &:focus, &[focus] {
+      @if map-has-key($params, hover-transform) {
+        transform: map-get($params, hover-transform);
+        transition: transform $easing-base $duration-noticeable;
+
+        &::before {
+          opacity: 1;
+        }
+
+        &::after {
+          /* Bottom is positioned to cover the area the hovered element is leaving */
+          transform: translateY(-$hoverYOffsetWithBorders);
+        }
+      }
+
+      @if map-has-key($params, hover-decoration) {
+        text-decoration: map-get($params, hover-decoration);
+      }
+
+      @if map-has-key($params, hover-background-color) {
+        background: map-get($params, hover-background-color);
+      }
+
+      @if map-has-key($params, hover-text-color) {
+        color: map-get($params, hover-text-color);
+      }
+
+      @if map-has-key($params, hover-border-color) {
+        border-color: map-get($params, hover-border-color);
+      }
+    }
+
+    &:active {
+      @if map-has-key($params, hover-transform) {
+        transform: none;
+      }
+
+      @if map-has-key($params, hover-decoration) {
+        text-decoration: none;
+      }
+    }
+  }
+
+  &--disabled#{$css-suffix} {
+    @if map-has-key($params, disabled-background-color) {
+      background: map-get($params, disabled-background-color);
+    }
+
+    @if map-has-key($params, disabled-text-color) {
+      color: map-get($params, disabled-text-color);
+    }
+
+    @if map-has-key($params, disabled-border-color) {
+      border-color: map-get($params, disabled-border-color);
+    }
+
+    &:hover, &[hover], &:focus, &[focus] {
+      &::before {
+        opacity: 0;
+      }
+
+      @if map-has-key($params, hover-transform) {
+        transform: none;
+      }
+
+      @if map-has-key($params, hover-decoration) {
+        text-decoration: none;
+      }
+
+      @if map-has-key($params, hover-shadow) {
+        box-shadow: none;
+      }
+
+      @if map-has-key($params, hover-and-disabled-background-color) {
+        background: map-get($params, hover-and-disabled-background-color);
+      } @else if map-has-key($params, disabled-background-color) {
+        background: map-get($params, disabled-background-color);
+      } @else if map-has-key($params, hover-background-color) {
+        background: map-get($params, hover-background-color);
+      }
+
+      @if map-has-key($params, hover-and-disabled-border-color) {
+        border-color: map-get($params, hover-and-disabled-border-color);
+      } @else if map-has-key($params, disabled-border-color) {
+        border-color: map-get($params, disabled-border-color);
+      } @else if map-has-key($params, hover-border-color) {
+        border-color: map-get($params, hover-border-color);
+      }
+
+      @if map-has-key($params, hover-and-disabled-text-color) {
+        color: map-get($params, hover-and-disabled-text-color);
+      } @else if map-has-key($params, disabled-text-color) {
+        color: map-get($params, disabled-text-color);
+      } @else if map-has-key($params, hover-text-color) {
+        color: map-get($params, hover-text-color);
+      }
+    }
+  }
+}
+
+@mixin geo-compact-button--primary($css-suffix) {
+  $hoverYOffset: -1px;
+  background-color: $color-blue;
+  border: 1px solid $color-blue;
+  color: $color-white;
+  margin-left: 5px;
+
+  @include geo-compact-button-make-scheme((
+    disabled-background-color: $color-grey,
+    disabled-text-color: $color-grey-light,
+    disabled-border-color: $color-grey,
+    hover-and-disabled-background-color: $color-grey,
+    hover-shadow: $box-shadow-button-hover,
+    hover-transform: translateY($hoverYOffset)
+  ), $css-suffix);
+
+  &#{$css-suffix} {
+    transition: all $duration-quickly $easing-base;
+    transition-property: background-color;
+  }
+}
+
+@mixin geo-compact-button--secondary($css-suffix) {
+  $hoverYOffset: -1px;
+  background-color: $color-white;
+  border: 1px solid $color-grey;
+  color: $color-grey;
+
+  @include geo-compact-button-make-scheme((
+    disabled-background-color: $color-white-disabled,
+    disabled-text-color: $color-grey-light,
+    disabled-border-color: $color-grey,
+    hover-shadow: $box-shadow-button-hover,
+    hover-transform: translateY($hoverYOffset)
+  ), $css-suffix);
+
+  &#{$css-suffix} {
+    transition: all $duration-quickly $easing-base;
+    transition-property: background-color, border-color, color;
+  }
+}
+
+@mixin geo-compact-button($css-suffix) {
+  &#{$css-suffix} {
+    align-items: center;
+    border-radius: $border-radius-default;
+    box-shadow: $box-shadow-small;
+    cursor: pointer;
+    display: flex;
+    font-size: 12px;
+    height: 20px;
+    justify-content: center;
+    outline: none;
+    padding: 0;
+    position: relative;
+    width: 20px;
+
+    .geo-compact-button__icon#{$css-suffix} {
+      margin-left: 5px;
+      padding: .58em .83em .67em .83em;
+      transition: all $duration-noticeable $easing-base;
+      transition-property: transform, opacity;
+    }
+
+    .geo-compact-button__icon--loading#{$css-suffix} {
+      transform: scale(0);
+      opacity: 0;
+    }
+
+    .geo-compact-button__activity-indicator#{$css-suffix} {
+      height: 20px;
+      position: absolute;
+      width: 20px;
+    }
+  }
+
+  &--loading#{$css-suffix} {
+    cursor: progress;
+  }
+
+  &--disabled#{$css-suffix} {
+    cursor: not-allowed;
+  }
+}
+
+@mixin geo-compact-button-make($modifier-name) {
+
+  $modifier-name-with-prefix: '';
+
+  @if $modifier-name != '' {
+    // sass-lint:disable space-around-operator
+    $modifier-name-with-prefix: --#{$modifier-name};
+  }
+
+  .geo-compact-button {
+    @include geo-compact-button($modifier-name-with-prefix);
+  }
+
+  .geo-compact-button--primary {
+    @include geo-compact-button--primary($modifier-name-with-prefix);
+  }
+
+  .geo-compact-button--secondary{
+    @include geo-compact-button--secondary($modifier-name-with-prefix);
+  }
+}
+
+@include geo-compact-button-make('');
