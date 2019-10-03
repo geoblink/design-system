@@ -6,8 +6,7 @@ import * as sinon from 'sinon'
 describe('GeoDropdown', () => {
   const sandbox = sinon.createSandbox()
 
-  const consoleWarnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {})
-  afterEach(() => consoleWarnSpy.mockReset())
+  afterEach(() => jest.restoreAllMocks())
 
   beforeEach(() => {
     sandbox.restore()
@@ -186,6 +185,8 @@ describe('GeoDropdown', () => {
   })
 
   it('Should check forceYAxisPosition validator is correct', () => {
+    const consoleWarnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {})
+
     const forceYAxisPosition = GeoDropdown.props.forceYAxisPosition
     expect(forceYAxisPosition.validator(undefined)).toBeTruthy()
     expect(forceYAxisPosition.validator('top')).toBeTruthy()
@@ -194,6 +195,8 @@ describe('GeoDropdown', () => {
   })
 
   it('Should check preferredXAxisPosition validator is correct', () => {
+    const consoleWarnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {})
+
     const preferredXAxisPosition = GeoDropdown.props.preferredXAxisPosition
     expect(preferredXAxisPosition.validator(undefined)).toBeFalsy()
     expect(consoleWarnSpy).toHaveBeenCalledTimes(1)
@@ -203,6 +206,8 @@ describe('GeoDropdown', () => {
   })
 
   it('Should check preferredYAxisPosition validator is correct', () => {
+    const consoleWarnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {})
+
     const preferredYAxisPosition = GeoDropdown.props.preferredYAxisPosition
     expect(preferredYAxisPosition.validator(undefined)).toBeFalsy()
     expect(consoleWarnSpy).toHaveBeenCalledTimes(1)

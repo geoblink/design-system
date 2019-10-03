@@ -4,11 +4,17 @@ title: Changelog
 
 # Changelog
 
-## 24.11.1
+## 24.11.2
 
 Fixed:
 
 - `GeoDropdown` Add logging error messages when passing an invalid property
+
+## 24.11.1
+
+Changed:
+
+- Prevent form submission when pressing enter in `GeoBorderedBoxHeaderSearchForm`
 
 ## 24.11.0
 
