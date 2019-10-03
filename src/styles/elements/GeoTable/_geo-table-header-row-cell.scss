@@ -1,9 +1,7 @@
 @mixin geo-table-header-row-cell-make-common ($modifier-name-with-prefix) {
   @include geo-table-make-cell($color-white);
-  @include font($heading-small);
+  @include font($table-title);
 
-  color: $color-grey-darker;
-  font-weight: $font-weight-semi-bold;
   justify-content: space-between;
   white-space: nowrap;
 
@@ -32,7 +30,7 @@
 
   .geo-table-header-row-cell--aux#{$modifier-name-with-prefix} {
     @include geo-table-header-row-cell-make-common($modifier-name-with-prefix);
-    @include font($heading-xsmall);
+    @include font($table-title);
   }
 
   .geo-table-header-row-cell--multiLine#{$modifier-name-with-prefix} {
