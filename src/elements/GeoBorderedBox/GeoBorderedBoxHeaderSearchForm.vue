@@ -1,5 +1,8 @@
 <template>
-  <form :class="`geo-bordered-box-header-search-form${cssSuffix}`">
+  <form
+    :class="`geo-bordered-box-header-search-form${cssSuffix}`"
+    @submit.prevent
+  >
     <font-awesome-icon
       :icon="searchIcon"
       class="geo-bordered-box-header-search-form__icon"
@@ -13,7 +16,6 @@
       :placeholder="placeholder"
       type="text"
       @keyup="searchPattern($event)"
-      @keypress.enter.prevent
     >
   </form>
 </template>
