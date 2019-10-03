@@ -1,5 +1,8 @@
 <template>
-  <form :class="`geo-bordered-box-header-search-form${cssSuffix}`">
+  <form
+    :class="`geo-bordered-box-header-search-form${cssSuffix}`"
+    @submit.prevent
+  >
     <font-awesome-icon
       :icon="searchIcon"
       class="geo-bordered-box-header-search-form__icon"
