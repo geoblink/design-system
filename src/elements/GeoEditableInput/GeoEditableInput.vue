@@ -103,27 +103,6 @@ export default {
       required: false
     },
     /**
-     * Font Awesome 5 icon to be displayed.
-     *
-     * See [vue-fontawesome](https://www.npmjs.com/package/@fortawesome/vue-fontawesome#explicit-prefix-note-the-vue-bind-shorthand-because-this-uses-an-array)
-     * for more info about this.
-     */
-    saveIcon: {
-      type: Array,
-      default: function () {
-        return ['fal', 'check']
-      }
-    },
-    /**
-     * Font Awesome icon to be displayed in the cancel button.
-     */
-    cancelIcon: {
-      type: Array,
-      default: function () {
-        return ['fal', 'times']
-      }
-    },
-    /**
      * Defines the style of the input depending on where is goint to be use. `table` or `normal`
      * Values available in `VARIANTS`
      * - `VARIANTS.table`
