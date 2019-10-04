@@ -49,8 +49,6 @@ props:
     value: "table_title"
   table_value:
     value: "table_value"
-  table_value_italic:
-    value: "table_value_italic"
 
 global:
   type: mixin-name

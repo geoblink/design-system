@@ -30,7 +30,7 @@
 
   .geo-table-header-row-cell--aux#{$modifier-name-with-prefix} {
     @include geo-table-header-row-cell-make-common($modifier-name-with-prefix);
-    @include font($table-title);
+    @include font($heading-xsmall);
   }
 
   .geo-table-header-row-cell--multiLine#{$modifier-name-with-prefix} {

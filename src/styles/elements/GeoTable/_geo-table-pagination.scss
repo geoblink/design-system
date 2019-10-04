@@ -30,7 +30,7 @@
     justify-content: center;
 
     .geo-table-pagination__current-range {
-      @include font($table-value-italic);
+      @include font($table-value);
 
       padding: 0 $space-base;
     }
