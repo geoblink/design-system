@@ -1,0 +1,15 @@
+@mixin geo-horizontal-layout-make ($modifier-name) {
+  $modifier-name-with-prefix: '';
+
+  @if $modifier-name != '' {
+    // sass-lint:disable space-around-operator
+    $modifier-name-with-prefix: --#{$modifier-name};
+  }
+
+  .geo-horizontal-layout#{$modifier-name-with-prefix} {
+    display: flex;
+    flex-direction: row;
+  }
+}
+
+@include geo-horizontal-layout-make('');
