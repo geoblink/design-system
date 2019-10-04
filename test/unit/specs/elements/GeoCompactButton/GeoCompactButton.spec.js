@@ -107,6 +107,21 @@ describe('GeoCompactButton', () => {
     expect(wrapper.find('.geo-compact-button__activity-indicator').exists()).toBe(true)
   })
 
+  it('Should render correct icon when provided', function () {
+    const wrapper = mount(GeoCompactButton, {
+      propsData: {
+        type: 'primary',
+        icon: ['fas', 'thumbs-up']
+      },
+      stubs: {
+        GeoActivityIndicator,
+        'font-awesome-icon': FontAwesomeIconMock
+      }
+    })
+    const fontAwesomeIconElem = wrapper.find(FontAwesomeIconMock)
+    expectFontAwesomeIconProp(fontAwesomeIconElem, ['fas', 'thumbs-up'])
+  })
+
   it('Should provide matching activity indicator variant by default', function () {
     const primaryWrapper = mount(GeoCompactButton, {
       propsData: {
@@ -131,7 +146,7 @@ describe('GeoCompactButton', () => {
         FontAwesomeIcon
       }
     })
-    expect(secondaryWrapper.vm.activityIndicatorVariant).toBe(undefined)
+    expect(secondaryWrapper.vm.activityIndicatorVariant).toBe('default')
     expect(secondaryWrapper.find('.geo-activity-indicator').exists()).toBe(true)
   })
 })
@@ -151,7 +166,8 @@ describe('GeoButton Children', () => {
             FontAwesomeIcon
           }
         })
-        const button = wrapper.find('.geo-compact-button')
+        const taxonomyClass = `geo-compact-button--${wrapper.vm.type}`
+        const button = wrapper.find('.' + taxonomyClass)
         expect(button.exists()).toBe(true)
       })
 
@@ -163,14 +179,20 @@ describe('GeoButton Children', () => {
           }
         })
         const fontAwesomeIconElem = wrapper.find(FontAwesomeIconMock)
-        if (wrapper.vm.type === 'primary') {
-          expectFontAwesomeIconProp(fontAwesomeIconElem, ['fal', 'check'])
-        } else if (wrapper.vm.type === 'secondary') {
-          expectFontAwesomeIconProp(fontAwesomeIconElem, ['fal', 'times'])
+        switch (wrapper.vm.type) {
+          case 'primary':
+            expectFontAwesomeIconProp(fontAwesomeIconElem, ['fal', 'check'])
+            break
+          case 'secondary':
+            expectFontAwesomeIconProp(fontAwesomeIconElem, ['fal', 'times'])
+            break
         }
+
+        wrapper.setProps({ icon: ['fas', 'thumbs-up'] })
+        expectFontAwesomeIconProp(fontAwesomeIconElem, ['fas', 'thumbs-up'])
       })
 
-      it('Should emit an event on click', function (done) {
+      it('Should emit an event on click', async function () {
         const wrapper = mount(taxonomyButton, {
           stubs: {
             GeoCompactButton,
@@ -178,14 +200,10 @@ describe('GeoButton Children', () => {
           }
         })
         wrapper.find('.geo-compact-button').trigger('click')
-        setTimeout(function () {
-          try {
-            expect(wrapper.emitted()['click']).toBeTruthy()
-            done()
-          } catch (error) {
-            done(error)
-          }
-        })
+
+        await wrapper.vm.$nextTick()
+
+        expect(wrapper.emitted()['click']).toBeTruthy()
       })
 
       it('Should not emit an event when it\'s disabled', function () {

@@ -38,10 +38,12 @@
         :class="`geo-editable-input__container__buttons${cssSuffix}`"
       >
         <geo-secondary-compact-button
+          :icon="cancelIcon"
           @click="emitCancel($event)"
         />
 
         <geo-primary-compact-button
+          :icon="saveIcon"
           @click="emitSave($event)"
         />
       </div>
@@ -101,6 +103,24 @@ export default {
     isFocused: {
       type: Boolean,
       required: false
+    },
+    /**
+     * Font Awesome icon to be displayed in the save button.
+     */
+    saveIcon: {
+      type: Array,
+      default: function () {
+        return ['fal', 'check']
+      }
+    },
+    /**
+     * Font Awesome icon to be displayed in the cancel button.
+     */
+    cancelIcon: {
+      type: Array,
+      default: function () {
+        return ['fal', 'times']
+      }
     },
     /**
      * Defines the style of the input depending on where is goint to be use. `table` or `normal`

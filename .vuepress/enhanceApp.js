@@ -38,6 +38,7 @@ const iconsToMock = [
   'faTimes',
   'faCheck'
 ]
+
 const mockedFalIcons = _.mapValues(_.pick(fas, iconsToMock), function (original) {
   return _.assign({}, original, {
     prefix: 'fal'

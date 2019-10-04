@@ -9,10 +9,12 @@ import GeoSecondaryCompactButton from 'src/elements/GeoCompactButton/GeoSecondar
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fas } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIconMock, expectFontAwesomeIconProp } from 'test/unit/utils/FontAwesomeIconMock'
 
 const iconsToMock = [
   'faTimes',
-  'faCheck'
+  'faCheck',
+  'faBell'
 ]
 const mockedFalIcons = _.mapValues(_.pick(fas, iconsToMock), (original) => {
   return _.assign({}, original, {
@@ -60,6 +62,42 @@ describe('GeoEditableInput', () => {
         done(error)
       }
     })
+  })
+
+  it('Should render correct icon for saveIcon when provided', function () {
+    const wrapper = mount(GeoEditableInput, {
+      propsData: {
+        showButtons: true,
+        saveIcon: ['fas', 'thumbs-up']
+      },
+      stubs: {
+        GeoDropdown,
+        GeoCompactButton,
+        GeoPrimaryCompactButton,
+        GeoSecondaryCompactButton,
+        'font-awesome-icon': FontAwesomeIconMock
+      }
+    })
+    const fontAwesomeIconElem = wrapper.find('.geo-compact-button--primary').find(FontAwesomeIconMock)
+    expectFontAwesomeIconProp(fontAwesomeIconElem, ['fas', 'thumbs-up'])
+  })
+
+  it('Should render correct icon for cancelIcon when provided', function () {
+    const wrapper = mount(GeoEditableInput, {
+      propsData: {
+        showButtons: true,
+        cancelIcon: ['fas', 'thumbs-up']
+      },
+      stubs: {
+        GeoDropdown,
+        GeoCompactButton,
+        GeoPrimaryCompactButton,
+        GeoSecondaryCompactButton,
+        'font-awesome-icon': FontAwesomeIconMock
+      }
+    })
+    const fontAwesomeIconElem = wrapper.find('.geo-compact-button--secondary').find(FontAwesomeIconMock)
+    expectFontAwesomeIconProp(fontAwesomeIconElem, ['fas', 'thumbs-up'])
   })
 
   it('Should not emit the event on click when disabled', function (done) {

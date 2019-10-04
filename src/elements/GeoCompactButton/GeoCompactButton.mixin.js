@@ -1,9 +1,10 @@
-import { VARIANTS as GeoAlertVariants } from '../GeoActivityIndicator/GeoActivityIndicator'
+import { VARIANTS as GeoActivityIndicatorVariants } from '../GeoActivityIndicator/GeoActivityIndicator'
 import cssSuffix from '../../mixins/cssModifierMixin'
 
 const TYPES = {
   primary: 'primary',
-  secondary: 'secondary'
+  secondary: 'secondary',
+  danger: 'danger'
 }
 
 export { TYPES }
@@ -23,7 +24,6 @@ export default {
      */
     disabled: {
       type: Boolean,
-      required: false,
       default: false
     },
 
@@ -35,18 +35,17 @@ export default {
      */
     loading: {
       type: Boolean,
-      required: false,
       default: false
     }
   },
   computed: {
     activityIndicatorVariant () {
-      switch (this.type) {
-        case TYPES.primary:
-          return GeoAlertVariants.primary
-        case TYPES.secondary:
-          return undefined
+      const variantByType = {
+        [TYPES.primary]: GeoActivityIndicatorVariants.primary,
+        [TYPES.secondary]: GeoActivityIndicatorVariants.default
       }
+
+      return variantByType[this.type]
     }
   },
   methods: {

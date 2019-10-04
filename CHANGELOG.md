@@ -11,6 +11,9 @@ New:
 - `GeoCompactButton` component
 - `GeoPrimaryCompactButton` component
 - `GeoSecondaryCompactButton` component
+
+Changed:
+
 - `GeoEditableInput` now works with `GeoCompactButton`
 
 ## 24.11.2

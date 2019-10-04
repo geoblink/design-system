@@ -1,5 +1,5 @@
 <template>
-  <div
+  <button
     :class="{
       [`geo-compact-button${cssSuffix}`]: true,
       [`geo-compact-button--${type}${cssSuffix}`]: true,
@@ -12,24 +12,25 @@
   >
     <div
       :class="{
-        [`geo-button__icon${cssSuffix}`]: true,
-        [`geo-button__icon--loading${cssSuffix}`]: loading
+        [`geo-button__icon`]: true,
+        [`geo-button__icon--loading`]: loading
       }"
     />
-    <template v-if="loading">
-      <!-- @slot Use this slot to customize what's displayed when the button is in loading state -->
-      <slot name="loading">
-        <div :class="`geo-compact-button__activity-indicator${cssSuffix}`">
-          <geo-activity-indicator :variant="activityIndicatorVariant" />
-        </div>
-      </slot>
-    </template>
+    <!-- @slot Use this slot to customize what's displayed when the button is in loading state -->
+    <slot
+      v-if="loading"
+      name="loading"
+    >
+      <div :class="`geo-compact-button__activity-indicator${cssSuffix}`">
+        <geo-activity-indicator :variant="activityIndicatorVariant" />
+      </div>
+    </slot>
     <font-awesome-icon
       v-else
       :icon="icon"
       fixed-width
     />
-  </div>
+  </button>
 </template>
 
 <script>
@@ -38,7 +39,7 @@ import mixin, { TYPES } from './GeoCompactButton.mixin'
 export default {
   name: 'GeoCompactButton',
   status: 'ready',
-  release: '24.11.1',
+  release: '24.12.0',
   constants: {
     TYPES
   },
@@ -76,7 +77,6 @@ export default {
 
     icon: {
       type: Array,
-      // required: true,
       default: function () {
         return ['fal', 'times']
       }

@@ -14,25 +14,23 @@ supported properties and features.
         :disabled="isDisabled"
         :loading="isLoading"
         @click="startLoading()"
-      >
-        Full flow
-      </geo-primary-compact-button>
+      />
     </div>
     <h3 class="element-demo__header">Regular</h3>
     <div class="element-demo__block">
-      <geo-primary-compact-button>Regular</geo-primary-compact-button>
+      <geo-primary-compact-button />
     </div>
     <h3 class="element-demo__header">Disabled</h3>
     <div class="element-demo__block">
-      <geo-primary-compact-button disabled>Disabled</geo-primary-compact-button>
+      <geo-primary-compact-button disabled />
     </div>
     <h3 class="element-demo__header">Loading</h3>
     <div class="element-demo__block">
-      <geo-primary-compact-button loading>Loading</geo-primary-compact-button>
+      <geo-primary-compact-button loading />
     </div>
     <h3 class="element-demo__header">Loading &amp; Disabled</h3>
     <div class="element-demo__block">
-      <geo-primary-compact-button loading disabled>Loading &amp; Disabled</geo-primary-compact-button>
+      <geo-primary-compact-button loading disabled />
     </div>
   </div>
 </template>
