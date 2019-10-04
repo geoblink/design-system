@@ -166,12 +166,12 @@ describe('GeoButton Children', () => {
             FontAwesomeIcon
           }
         })
-        const taxonomyClass = `geo-compact-button--${wrapper.vm.type}`
-        const button = wrapper.find('.' + taxonomyClass)
+        const taxonomyClass = `.geo-compact-button--${wrapper.vm.type}`
+        const button = wrapper.find(taxonomyClass)
         expect(button.exists()).toBe(true)
       })
 
-      it('Should render correct icon', function () {
+      it('Should render correct default icon', function () {
         const wrapper = mount(taxonomyButton, {
           stubs: {
             GeoCompactButton,
@@ -187,8 +187,19 @@ describe('GeoButton Children', () => {
             expectFontAwesomeIconProp(fontAwesomeIconElem, ['fal', 'times'])
             break
         }
+      })
 
-        wrapper.setProps({ icon: ['fas', 'thumbs-up'] })
+      it('Should render correct icon when provided', function () {
+        const wrapper = mount(taxonomyButton, {
+          propsData: {
+            icon: ['fas', 'thumbs-up']
+          },
+          stubs: {
+            GeoCompactButton,
+            'font-awesome-icon': FontAwesomeIconMock
+          }
+        })
+        const fontAwesomeIconElem = wrapper.find(FontAwesomeIconMock)
         expectFontAwesomeIconProp(fontAwesomeIconElem, ['fas', 'thumbs-up'])
       })
 
