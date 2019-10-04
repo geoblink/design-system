@@ -70,7 +70,7 @@ import { STATUS } from './GeoFileUpload.mixin'
 
 export default {
   name: 'GeoFileUpload',
-  status: 'missing-tests',
+  status: 'ready',
   release: '6.2.0',
   mixins: [cssSuffix],
   constants: {
