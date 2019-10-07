@@ -8,16 +8,19 @@
 
   .geo-bordered-box-column#{$modifier-name-with-prefix} {
     background: $color-white;
-    border: 1px solid $color-grey;
     display: flex;
     flex-direction: column;
     flex-grow: 1;
-    justify-content: center;
-    line-height: 1.5;
+    justify-content: start;
     min-height: $space-large;
     overflow: hidden;
-    padding: 0 $space-small 0 $space-small;
+    padding: $space-small;
   }
+
+  .geo-bordered-box-column:not(:first-of-type) {
+    border-left: 1px solid $color-grey;
+  }
+
 }
 
 @include geo-bordered-box-column-make('');
