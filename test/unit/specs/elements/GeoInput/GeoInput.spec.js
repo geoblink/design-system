@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fas } from '@fortawesome/free-solid-svg-icons'
 import GeoInput from '@/elements/GeoInput/GeoInput.vue'
+import { FontAwesomeIconMock, expectFontAwesomeIconProp } from 'test/unit/utils/FontAwesomeIconMock.js'
 
 library.add(fas)
 
@@ -87,5 +88,33 @@ describe('GeoInput', () => {
 
     expect(wrapper.emitted().input).toBeTruthy()
     expect(wrapper.emitted().input[0][0]).toEqual('some value')
+  })
+
+  it('Should render correct prefix when provided', function () {
+    const wrapper = mount(GeoInput, {
+      propsData: {
+        prefix: true
+      },
+      slots: {
+        prefix: 'A prefix'
+      }
+    })
+    expect(wrapper.find('.geo-input__prefix').text()).toBe('A prefix')
+  })
+
+  it('Should render correct suffix when provided', function () {
+    const wrapper = mount(GeoInput, {
+      propsData: {
+        prefix: true
+      },
+      slots: {
+        prefix: `<font-awesome-icon :icon="['fas', 'euro-sign']" fixed-width />`
+      },
+      stubs: {
+        'font-awesome-icon': FontAwesomeIconMock
+      }
+    })
+    const fontAwesomeIconElem = wrapper.find(FontAwesomeIconMock)
+    expectFontAwesomeIconProp(fontAwesomeIconElem, ['fas', 'euro-sign'])
   })
 })

@@ -47,6 +47,40 @@
       }
     }
 
+    .geo-input__prefix {
+      @include font($body);
+
+      background-color: $color-white-darker;
+      border: 1px solid $color-grey;
+      border-radius: 3px 0 0 3px;
+      box-sizing: border-box;
+      color:$color-grey-darker;
+      height: $space-x-large;
+      padding: $space-small;
+    }
+
+    .geo-input--prefix {
+      border-bottom-left-radius: 0;
+      border-top-left-radius: 0;
+    }
+
+    .geo-input__suffix {
+      @include font($body);
+
+      background-color: $color-white-darker;
+      border: 1px solid $color-grey;
+      border-radius: 0 3px 3px 0;
+      box-sizing: border-box;
+      color:$color-grey-darker;
+      height: $space-x-large;
+      padding: $space-small;
+    }
+
+    .geo-input--suffix {
+      border-bottom-right-radius: 0;
+      border-top-right-radius: 0;
+    }
+
     .geo-input__input--leading-space {
       padding-left: $space-large;
     }

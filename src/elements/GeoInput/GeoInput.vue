@@ -10,6 +10,13 @@
     <slot name="label" />
 
     <div class="geo-input__input-wrapper">
+      <div
+        v-if="prefix"
+        class="geo-input__prefix"
+      >
+        <!-- @slot Use this slot to customize what's displayed as a prefix -->
+        <slot name="prefix" />
+      </div>
       <font-awesome-icon
         v-if="leadingAccessoryIcon"
         :icon="leadingAccessoryIcon"
@@ -21,7 +28,9 @@
         :disabled="disabled"
         :class="{
           'geo-input__input': true,
-          'geo-input__input--leading-space': !!leadingAccessoryIcon
+          'geo-input__input--leading-space': !!leadingAccessoryIcon,
+          'geo-input--prefix': prefix,
+          'geo-input--suffix': suffix
         }"
         v-bind="$attrs"
         v-on="listeners"
@@ -43,6 +52,13 @@
         fixed-with
         class="geo-input__icon geo-input__icon--trailing"
       />
+      <div
+        v-if="suffix"
+        class="geo-input__suffix"
+      >
+        <!-- @slot Use this slot to customize what's displayed as a suffix -->
+        <slot name="suffix" />
+      </div>
     </div>
 
     <!-- @slot Use this slot to customize what's displayed as input message -->
@@ -60,6 +76,14 @@ export default {
   release: '24.1.0',
   mixins: [cssSuffix],
   props: {
+    prefix: {
+      type: Boolean,
+      default: false
+    },
+    suffix: {
+      type: Boolean,
+      default: false
+    },
     /**
      * @model
      * Current value shown in the input.

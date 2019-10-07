@@ -69,6 +69,21 @@ and a message as well as different color schemes to give feedback to the user.
       </geo-input>
     </div>
     <span>Show error: {{ hasError }}, Model: {{ model[6] }}</span>
+
+    <h3 class="element-demo__header">Prefixed and suffixed input</h3>
+    <div class="element-demo__block">
+      <geo-input prefix="true" suffix="true">
+        <div slot="prefix">
+          <font-awesome-icon
+            :icon="['fas', 'euro-sign']"
+            fixed-width
+          />
+        </div>
+        <div slot="suffix">
+          euros
+        </div>
+      </geo-input>
+    </div>
   </div>
 </template>
 
