@@ -8,6 +8,7 @@ import GeoActivityIndicator from '@/elements/GeoActivityIndicator/GeoActivityInd
 import GeoCompactButton from '@/elements/GeoCompactButton/GeoCompactButton.vue'
 import GeoPrimaryCompactButton from '@/elements/GeoCompactButton/GeoPrimaryCompactButton.vue'
 import GeoSecondaryCompactButton from '@/elements/GeoCompactButton/GeoSecondaryCompactButton.vue'
+import GeoDangerCompactButton from '@/elements/GeoCompactButton/GeoDangerCompactButton.vue'
 
 library.add(fas)
 
@@ -30,8 +31,9 @@ localVue.component('geo-activity-indicator', GeoActivityIndicator)
 localVue.component('geo-compact-button', GeoCompactButton)
 localVue.component('geo-primary-compact-button', GeoPrimaryCompactButton)
 localVue.component('geo-secondary-compact-button', GeoSecondaryCompactButton)
+localVue.component('geo-danger-compact-button', GeoDangerCompactButton)
 
-describe('GeoCompactButton', () => {
+describe('GeoCompactButton', function () {
   it('Should render button\'s content', function () {
     const wrapper = mount(GeoCompactButton, {
       propsData: {
@@ -156,8 +158,8 @@ const taxonomyButtons = [
   GeoSecondaryCompactButton
 ]
 
-describe('GeoButton Children', () => {
-  taxonomyButtons.forEach((taxonomyButton) => {
+describe('GeoButton Children', function () {
+  taxonomyButtons.forEach(function (taxonomyButton) {
     describe(taxonomyButton.name, function () {
       it('Should render button\'s content', function () {
         const wrapper = mount(taxonomyButton, {
@@ -258,6 +260,98 @@ describe('GeoButton Children', () => {
         })
         expect(wrapper.find('.geo-compact-button__activity-indicator').exists()).toBe(true)
       })
+    })
+  })
+
+  describe('GeoDangerCompactButton', function () {
+    it('Should render button\'s content', function () {
+      const wrapper = mount(GeoDangerCompactButton, {
+        propsData: {
+          icon: ['fas', 'exclamation-triangle']
+        },
+        stubs: {
+          GeoCompactButton,
+          FontAwesomeIcon
+        }
+      })
+      const button = wrapper.find('.geo-compact-button--danger')
+      expect(button.exists()).toBe(true)
+    })
+
+    it('Should render correct icon when provided', function () {
+      const wrapper = mount(GeoDangerCompactButton, {
+        propsData: {
+          icon: ['fas', 'thumbs-up']
+        },
+        stubs: {
+          GeoCompactButton,
+          'font-awesome-icon': FontAwesomeIconMock
+        }
+      })
+      const fontAwesomeIconElem = wrapper.find(FontAwesomeIconMock)
+      expectFontAwesomeIconProp(fontAwesomeIconElem, ['fas', 'thumbs-up'])
+    })
+
+    it('Should emit an event on click', async function () {
+      const wrapper = mount(GeoDangerCompactButton, {
+        propsData: {
+          icon: ['fas', 'exclamation-triangle']
+        },
+        stubs: {
+          GeoCompactButton,
+          FontAwesomeIcon
+        }
+      })
+      wrapper.find('.geo-compact-button').trigger('click')
+
+      await wrapper.vm.$nextTick()
+
+      expect(wrapper.emitted()['click']).toBeTruthy()
+    })
+
+    it('Should not emit an event when it\'s disabled', function () {
+      const wrapper = mount(GeoDangerCompactButton, {
+        propsData: {
+          icon: ['fas', 'exclamation-triangle'],
+          disabled: true
+        },
+        stubs: {
+          GeoCompactButton,
+          FontAwesomeIcon
+        }
+      })
+      const button = wrapper.find('.geo-compact-button')
+      button.trigger('click')
+      expect(wrapper.emitted()['click']).toBeFalsy()
+    })
+
+    it('Should add CSS Suffix when given', function () {
+      const wrapper = mount(GeoDangerCompactButton, {
+        propsData: {
+          icon: ['fas', 'exclamation-triangle'],
+          cssModifier: 'test'
+        },
+        stubs: {
+          GeoCompactButton,
+          FontAwesomeIcon
+        }
+      })
+      expect(wrapper.find('.geo-compact-button--test').exists()).toBe(true)
+    })
+
+    it('Should show activity indicator when loading', function () {
+      const wrapper = mount(GeoDangerCompactButton, {
+        propsData: {
+          icon: ['fas', 'exclamation-triangle'],
+          loading: true
+        },
+        stubs: {
+          GeoActivityIndicator,
+          GeoCompactButton,
+          FontAwesomeIcon
+        }
+      })
+      expect(wrapper.find('.geo-compact-button__activity-indicator').exists()).toBe(true)
     })
   })
 })

@@ -42,7 +42,8 @@ export default {
     activityIndicatorVariant () {
       const variantByType = {
         [TYPES.primary]: GeoActivityIndicatorVariants.primary,
-        [TYPES.secondary]: GeoActivityIndicatorVariants.default
+        [TYPES.secondary]: GeoActivityIndicatorVariants.default,
+        [TYPES.danger]: GeoActivityIndicatorVariants.error
       }
 
       return variantByType[this.type]
