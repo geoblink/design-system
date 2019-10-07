@@ -29,6 +29,16 @@ consistent experience.
       </div>
       <div class="element-demo__inline-input-group">
         <label class="element-demo__inline-input-group__field">
+          Columns: <select
+            v-model="columnsMode"
+          >
+            <option value="one">One column</option>
+            <option value="two">Two columns</option>
+          </select>
+        </label>
+      </div>
+      <div class="element-demo__inline-input-group">
+        <label class="element-demo__inline-input-group__field">
           Content: <input type="text" v-model="content">
         </label>
       </div>
@@ -38,8 +48,14 @@ consistent experience.
         <geo-bordered-box-header v-if="showBoxHeader">
           My header
         </geo-bordered-box-header>
-        <p>Box content:</p>
-        <blockquote>{{ content }}</blockquote>
+        <geo-horizontal-layout v-if="showColumns">
+          <geo-bordered-box-column><blockquote>{{ content }}</blockquote></geo-bordered-box-column>
+          <geo-bordered-box-column><blockquote>{{ content }}</blockquote></geo-bordered-box-column>
+        </geo-horizontal-layout>
+        <div v-else>
+          <p>Box content:</p>
+          <blockquote>{{ content }}</blockquote>
+        </div>
         <geo-bordered-box-footer v-if="showBoxFooter">
           <div style="display: flex; flex-direction:row; justify-content: flex-end;">
             <geo-tertiary-button>Cancel</geo-tertiary-button>
@@ -87,6 +103,7 @@ export default {
       isOpen: false,
       headerMode: 'none',
       footerMode: 'none',
+      columnsMode: 'one',
       content: 'This is the body of the box'
     }
   },
@@ -97,6 +114,9 @@ export default {
 
     showBoxFooter () {
       return this.footerMode !== 'none'
+    },
+    showColumns () {
+      return this.columnsMode !== 'one'
     }
   },
   methods: {
