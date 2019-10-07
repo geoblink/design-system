@@ -154,7 +154,7 @@
   background-color: $color-blue;
   border: 1px solid $color-blue;
   color: $color-white;
-  margin-left: 5px;
+  margin-left: $space-x-small;
 
   @include geo-compact-button-make-scheme((
     disabled-background-color: $color-grey,
@@ -212,21 +212,22 @@
 
 @mixin geo-compact-button($css-suffix) {
   &#{$css-suffix} {
+    @include font($body-small);
+
     align-items: center;
     border-radius: $border-radius-default;
     box-shadow: $box-shadow-small;
     cursor: pointer;
     display: flex;
-    font-size: 12px;
-    height: 20px;
+    height: $space-base;
     justify-content: center;
     outline: none;
     padding: 0;
     position: relative;
-    width: 20px;
+    width: $space-base;
 
     .geo-compact-button__icon#{$css-suffix} {
-      margin-left: 5px;
+      margin-left: $space-x-small;
       padding: .58em .83em .67em .83em;
       transition: all $duration-noticeable $easing-base;
       transition-property: transform, opacity;

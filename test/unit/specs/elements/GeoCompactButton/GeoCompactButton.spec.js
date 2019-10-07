@@ -47,7 +47,7 @@ describe('GeoCompactButton', function () {
     expect(button.exists()).toBe(true)
   })
 
-  it('Should emit an event on click', function (done) {
+  it('Should emit an event on click', async function () {
     const wrapper = mount(GeoCompactButton, {
       propsData: {
         type: 'primary'
@@ -57,14 +57,8 @@ describe('GeoCompactButton', function () {
       }
     })
     wrapper.find('.geo-compact-button').trigger('click')
-    setTimeout(function () {
-      try {
-        expect(wrapper.emitted()['click']).toBeTruthy()
-        done()
-      } catch (error) {
-        done(error)
-      }
-    })
+    await wrapper.vm.$nextTick()
+    expect(wrapper.emitted()['click']).toBeTruthy()
   })
 
   it('Should not emit an event when it\'s disabled', function () {
