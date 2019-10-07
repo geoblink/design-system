@@ -4,11 +4,18 @@ title: Changelog
 
 # Changelog
 
-## 24.12.0
+## 24.13.0
 
 New:
 
 - Add `suffix` and `prefix` for `GeoInput`
+
+## 24.12.0
+
+New:
+
+- `GeoBorderedBoxColumn` component
+- `GeoHorizontalLayout` component
 
 ## 24.11.2
 
