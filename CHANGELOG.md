@@ -18,6 +18,13 @@ Breaking:
 - [GeoSelect] Removed `GeoSelectMoreResultsFooterButton` (use `GeoListFooterButton` instead)
 - [GeoSelect] Removed `GeoSelectSearchEntryForm` (use `GeoBorderedBoxHeaderSearchForm` instead)
 
+## 24.12.0
+
+New:
+
+- `GeoBorderedBoxColumn` component
+- `GeoHorizontalLayout` component
+
 ## 24.11.2
 
 Fixed:
