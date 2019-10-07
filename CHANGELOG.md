@@ -4,6 +4,12 @@ title: Changelog
 
 # Changelog
 
+## 24.12.0
+
+Changed:
+
+- `GeoListItem` accepts a new prop `wrapperTag` that changed the html tag that is wrapping the whole component
+
 ## 24.11.2
 
 Fixed:

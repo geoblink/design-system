@@ -1,6 +1,6 @@
 <template functional>
   <component
-    :is="wrapperTag"
+    :is="props.wrapperTag"
     :ref="data.ref"
     v-bind="data.attrs"
     :class="{

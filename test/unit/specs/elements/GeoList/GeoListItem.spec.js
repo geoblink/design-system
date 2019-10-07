@@ -7,6 +7,21 @@ import { fas } from '@fortawesome/free-solid-svg-icons'
 library.add(fas)
 
 describe('GeoListItem', () => {
+  it('Should render a <div> wrapper by default', () => {
+    const wrapper = mount(GeoListItem)
+    expect(wrapper.find('div.geo-list-item').exists()).toBe(true)
+  })
+
+  it('Should render a <label> wrapper if wrapperTag is provided', () => {
+    const wrapper = mount(GeoListItem, {
+      propsData: {
+        wrapperTag: 'label'
+      }
+    })
+    expect(wrapper.find('div.geo-list-item').exists()).toBe(false)
+    expect(wrapper.find('label.geo-list-item').exists()).toBe(true)
+  })
+
   it('Should render default slot', function () {
     const wrapper = mount(GeoListItem, {
       slots: {
