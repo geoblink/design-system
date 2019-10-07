@@ -32,7 +32,7 @@
     }
 
     /* This pseudo-element prevents hover flickering due to button translation
-       on hover. To do so efficiently this element is position at the beginning
+       on hover. To do so efficiently this element is positioned at the beginning
        and moved using a transform when parent is hovered */
     &::after {
       /* Basic setup */
