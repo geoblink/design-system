@@ -1,9 +1,5 @@
-import { createLocalVue, mount } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import GeoBorderedBoxColumn from '@/elements/GeoBorderedBox/GeoBorderedBoxColumn.vue'
-
-// create an extended `Vue` constructor
-const localVue = createLocalVue()
-localVue.component('geo-bordered-box', GeoBorderedBoxColumn)
 
 describe('GeoBorderedBoxColumn', function () {
   it('Should render GeoBorderedBoxColumn component', function () {

@@ -1,9 +1,5 @@
-import { createLocalVue, mount } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import GeoHorizontalLayout from '@/elements/GeoHorizontalLayout/GeoHorizontalLayout.vue'
-
-// create an extended `Vue` constructor
-const localVue = createLocalVue()
-localVue.component('geo-bordered-box', GeoHorizontalLayout)
 
 describe('GeoHorizontalLayout', function () {
   it('Should render GeoHorizontalLayout component', function () {

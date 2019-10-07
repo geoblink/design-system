@@ -1,7 +1,7 @@
 `GeoBorderedBoxColumn` is a component designed to show an isolated set of elements or
 actions inside a `GeoBorderedBox` environment.
 
-```vue live
+```jsx live
 <template>
   <div class="element-demo">
     <h3 class="element-demo__header">Bordered box with two columns</h3>
@@ -41,8 +41,4 @@ actions inside a `GeoBorderedBox` environment.
     </div>
   </div>
 </template>
-
-<script>
-export default {}
-</script>
 ```
