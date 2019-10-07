@@ -11,6 +11,7 @@ supported properties and features.
     <h3 class="element-demo__header">Complete flow</h3>
     <div class="element-demo__block">
       <geo-danger-compact-button
+        :icon="['fas', 'exclamation-triangle']"
         :disabled="isDisabled"
         :loading="isLoading"
         @click="startLoading()"
@@ -18,19 +19,27 @@ supported properties and features.
     </div>
     <h3 class="element-demo__header">Regular</h3>
     <div class="element-demo__block">
-      <geo-danger-compact-button />
+      <geo-danger-compact-button
+        :icon="['fas', 'exclamation-triangle']"
+      />
     </div>
     <h3 class="element-demo__header">Disabled</h3>
     <div class="element-demo__block">
-      <geo-danger-compact-button disabled />
+      <geo-danger-compact-button disabled  
+        :icon="['fas', 'exclamation-triangle']"
+      />
     </div>
     <h3 class="element-demo__header">Loading</h3>
     <div class="element-demo__block">
-      <geo-danger-compact-button loading />
+      <geo-danger-compact-button loading
+        :icon="['fas', 'exclamation-triangle']"
+      />
     </div>
     <h3 class="element-demo__header">Loading &amp; Disabled</h3>
     <div class="element-demo__block">
-      <geo-danger-compact-button loading disabled />
+      <geo-danger-compact-button loading disabled
+        :icon="['fas', 'exclamation-triangle']"
+      />
     </div>
   </div>
 </template>
