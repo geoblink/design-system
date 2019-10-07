@@ -39,7 +39,7 @@ import mixin, { TYPES } from './GeoCompactButton.mixin'
 export default {
   name: 'GeoCompactButton',
   status: 'ready',
-  release: '24.12.0',
+  release: '24.13.0',
   constants: {
     TYPES
   },
