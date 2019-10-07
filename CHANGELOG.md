@@ -4,11 +4,18 @@ title: Changelog
 
 # Changelog
 
-## 24.11.3
+## 24.12.1
 
 Changed:
 
 - Changed tooltips style in `GeoTooltip` and `GeoChart`
+
+## 24.12.0
+
+New:
+
+- `GeoBorderedBoxColumn` component
+- `GeoHorizontalLayout` component
 
 ## 24.11.2
 
