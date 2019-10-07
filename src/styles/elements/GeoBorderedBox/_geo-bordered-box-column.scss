@@ -1,0 +1,25 @@
+@mixin geo-bordered-box-column-make ($modifier-name) {
+  $modifier-name-with-prefix: '';
+
+  @if $modifier-name != '' {
+    // sass-lint:disable space-around-operator
+    $modifier-name-with-prefix: --#{$modifier-name};
+  }
+
+  .geo-bordered-box-column#{$modifier-name-with-prefix} {
+    background: $color-white;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    justify-content: start;
+    overflow: hidden;
+    padding: $space-small;
+
+    &:not(:first-child) {
+      border-left: 1px solid $color-grey;
+    }
+  }
+
+}
+
+@include geo-bordered-box-column-make('');

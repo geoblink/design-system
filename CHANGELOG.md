@@ -4,11 +4,18 @@ title: Changelog
 
 # Changelog
 
-## 24.12.0
+## 24.13.0
 
 New:
 
 - Add fonts for `GeoTable`
+
+## 24.12.0
+
+New:
+
+- `GeoBorderedBoxColumn` component
+- `GeoHorizontalLayout` component
 
 ## 24.11.2
 
