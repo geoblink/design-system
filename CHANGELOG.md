@@ -4,16 +4,26 @@ title: Changelog
 
 # Changelog
 
-## 24.12.1
+## 24.13.1
 
 Changed:
 
 - Changed tooltips style in `GeoTooltip` and `GeoChart`
 
-## 24.12.0
+## 24.13.0
 
 New:
 
+- `GeoCompactButton` component
+- `GeoPrimaryCompactButton` component
+- `GeoSecondaryCompactButton` component
+- `GeoDangerCompactButton` component
+
+## 24.12.0
+
+Changed:
+
+- `GeoEditableInput` now works with `GeoCompactButton`
 - `GeoBorderedBoxColumn` component
 - `GeoHorizontalLayout` component
 
