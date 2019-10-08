@@ -15,7 +15,7 @@
     z-index: $z-index-tooltip;
   }
 
-  $popper-background-color: $color-black !default;
+  $popper-background-color: $color-dark-overlay !default;
   $popper-tooltip-arrow-size: 5px;
   $popper-tooltip-arrow-offset: 2px;
 
@@ -37,7 +37,6 @@
 
     background-color: $popper-background-color;
     border-radius: 3px;
-    box-shadow: 2px 2px 3px rgba($color-black, 0.4);
     box-sizing: border-box;
     color: $color-white;
     max-width: 320px;

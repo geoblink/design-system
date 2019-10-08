@@ -18,10 +18,32 @@ Breaking:
 - [GeoSelect] Removed `GeoSelectMoreResultsFooterButton` (use `GeoListFooterButton` instead)
 - [GeoSelect] Removed `GeoSelectSearchEntryForm` (use `GeoBorderedBoxHeaderSearchForm` instead)
 
-## 24.12.0
+## 24.14.0
 
 New:
 
+- Add fonts for `GeoTable`
+
+## 24.13.1
+
+Changed:
+
+- Changed tooltips style in `GeoTooltip` and `GeoChart`
+
+## 24.13.0
+
+New:
+
+- `GeoCompactButton` component
+- `GeoPrimaryCompactButton` component
+- `GeoSecondaryCompactButton` component
+- `GeoDangerCompactButton` component
+
+## 24.12.0
+
+Changed:
+
+- `GeoEditableInput` now works with `GeoCompactButton`
 - `GeoBorderedBoxColumn` component
 - `GeoHorizontalLayout` component
 

@@ -68,6 +68,9 @@ aliases:
     value: "#17293D"
   black:
     value: "#000000"
+  black_80:
+    value: "rgba(0, 0, 0, .8)"
+
 
 props:
 
@@ -185,6 +188,9 @@ props:
     category: color_group_6
   color_black:
     value: "{!black}"
+    category: color_group_6
+  color_dark_overlay:
+    value: "{!black_80}"
     category: color_group_6
 
 global:
