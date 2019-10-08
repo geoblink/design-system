@@ -4,6 +4,12 @@ title: Changelog
 
 # Changelog
 
+## 24.14.0
+
+New:
+
+- Add fonts for `GeoTable`
+
 ## 24.13.1
 
 Changed:

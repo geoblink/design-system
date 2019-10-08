@@ -9,7 +9,7 @@
 
   .geo-table-body-row-cell#{$modifier-name-with-prefix} {
     @include geo-table-make-cell($color-white);
-    @include font($body-small);
+    @include font($table-value);
 
     white-space: nowrap;
   }
