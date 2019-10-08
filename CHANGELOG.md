@@ -4,6 +4,12 @@ title: Changelog
 
 # Changelog
 
+## 24.13.1
+
+Changed:
+
+- Changed tooltips style in `GeoTooltip` and `GeoChart`
+
 ## 24.13.0
 
 New:
