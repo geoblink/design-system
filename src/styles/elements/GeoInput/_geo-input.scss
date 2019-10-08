@@ -12,9 +12,7 @@
 
     .geo-input__input-wrapper {
       align-items: center;
-      border-radius: $border-radius-default;
       display: flex;
-      overflow: hidden;
       position: relative;
       width: 100%;
     }
@@ -27,6 +25,7 @@
       @include font($body);
 
       border: 1px solid $color-grey;
+      border-radius: $border-radius-default;
       box-sizing: border-box;
       height: $space-x-large;
       outline: none;
@@ -66,12 +65,22 @@
       border-left: 1px solid $color-grey;
       border-radius: $border-radius-default 0 0 $border-radius-default;
     }
+
+    .geo-input__input--prefix {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
     
     .geo-input__suffix {
       @extend %geo-input-prefix-suffix;
     
       border-radius: 0 $border-radius-default $border-radius-default 0;
       border-right: 1px solid $color-grey;
+    }
+
+    .geo-input__input--suffix {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
     }
 
     .geo-input__input--leading-space {
