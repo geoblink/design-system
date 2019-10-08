@@ -77,7 +77,7 @@ and a message as well as different color schemes to give feedback to the user.
           :icon="['fas', 'euro-sign']"
           fixed-width
         />
-      <geo-input>
+      </geo-input>
     </div>
 
     <h3 class="element-demo__header">Suffixed input</h3>
