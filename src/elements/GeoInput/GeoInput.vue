@@ -28,9 +28,7 @@
         :disabled="disabled"
         :class="{
           'geo-input__input': true,
-          'geo-input__input--leading-space': !!leadingAccessoryIcon,
-          'geo-input--prefix': prefix,
-          'geo-input--suffix': suffix
+          'geo-input__input--leading-space': !!leadingAccessoryIcon
         }"
         v-bind="$attrs"
         v-on="listeners"

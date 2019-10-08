@@ -73,12 +73,11 @@ and a message as well as different color schemes to give feedback to the user.
     <h3 class="element-demo__header">Prefixed input</h3>
     <div class="element-demo__block">
       <geo-input>
-        <div slot="prefix">
-          <font-awesome-icon
-            :icon="['fas', 'euro-sign']"
-            fixed-width
-          />
-        </div>
+        <font-awesome-icon slot="prefix"
+          :icon="['fas', 'euro-sign']"
+          fixed-width
+        />
+      <geo-input>
     </div>
 
     <h3 class="element-demo__header">Suffixed input</h3>

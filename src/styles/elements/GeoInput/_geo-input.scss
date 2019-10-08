@@ -12,12 +12,11 @@
 
     .geo-input__input-wrapper {
       align-items: center;
+      border-radius: $border-radius-default;
       display: flex;
+      overflow: hidden;
       position: relative;
       width: 100%;
-      border-radius: $border-radius-default;
-      overflow: hidden;
-
     }
 
     .geo-input__input-wrapper:hover .geo-input__icon--delete {
