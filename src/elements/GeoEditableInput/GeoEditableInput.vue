@@ -37,26 +37,15 @@
         slot="popupContent"
         :class="`geo-editable-input__container__buttons${cssSuffix}`"
       >
-        <button
-          :class="`geo-editable-input__container__buttons__button${cssSuffix} geo-editable-input__container__buttons__button--cancel${cssSuffix}`"
+        <geo-secondary-compact-button
+          :icon="cancelIcon"
           @click="emitCancel($event)"
-        >
-          <font-awesome-icon :icon="cancelIcon" />
-        </button>
-        <button
-          :class="`geo-editable-input__container__buttons__button${cssSuffix} geo-editable-input__container__buttons__button--save${cssSuffix}`"
+        />
+
+        <geo-primary-compact-button
+          :icon="saveIcon"
           @click="emitSave($event)"
-        >
-          <geo-activity-indicator
-            v-if="loading"
-            :css-modifier="`geo-editable-input${cssSuffix}`"
-            variant="dark-transparent"
-          />
-          <font-awesome-icon
-            v-else
-            :icon="saveIcon"
-          />
-        </button>
+        />
       </div>
     </geo-dropdown>
   </div>
@@ -116,10 +105,7 @@ export default {
       required: false
     },
     /**
-     * Font Awesome 5 icon to be displayed.
-     *
-     * See [vue-fontawesome](https://www.npmjs.com/package/@fortawesome/vue-fontawesome#explicit-prefix-note-the-vue-bind-shorthand-because-this-uses-an-array)
-     * for more info about this.
+     * Font Awesome icon to be displayed in the save button.
      */
     saveIcon: {
       type: Array,
