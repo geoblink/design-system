@@ -92,9 +92,6 @@ describe('GeoInput', () => {
 
   it('Should render correct prefix when provided', function () {
     const wrapper = mount(GeoInput, {
-      propsData: {
-        prefix: true
-      },
       slots: {
         prefix: 'A prefix'
       }
@@ -104,9 +101,6 @@ describe('GeoInput', () => {
 
   it('Should render correct suffix when provided', function () {
     const wrapper = mount(GeoInput, {
-      propsData: {
-        prefix: true
-      },
       slots: {
         prefix: `<font-awesome-icon :icon="['fas', 'euro-sign']" fixed-width />`
       },

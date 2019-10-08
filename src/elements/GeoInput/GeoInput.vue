@@ -11,7 +11,7 @@
 
     <div class="geo-input__input-wrapper">
       <div
-        v-if="prefix"
+        v-if="hasPrefix"
         class="geo-input__prefix"
       >
         <!-- @slot Use this slot to customize what's displayed as a prefix -->
@@ -53,7 +53,7 @@
         class="geo-input__icon geo-input__icon--trailing"
       />
       <div
-        v-if="suffix"
+        v-if="hasSuffix"
         class="geo-input__suffix"
       >
         <!-- @slot Use this slot to customize what's displayed as a suffix -->
@@ -76,14 +76,6 @@ export default {
   release: '24.1.0',
   mixins: [cssSuffix],
   props: {
-    prefix: {
-      type: Boolean,
-      default: false
-    },
-    suffix: {
-      type: Boolean,
-      default: false
-    },
     /**
      * @model
      * Current value shown in the input.
@@ -167,6 +159,14 @@ export default {
       if (this.error) return 'error'
       if (this.success) return 'success'
       return null
+    },
+
+    hasPrefix () {
+      return !_.isEmpty(this.$slots.prefix)
+    },
+
+    hasSuffix () {
+      return !_.isEmpty(this.$slots.suffix)
     }
   },
   methods: {

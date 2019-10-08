@@ -15,6 +15,9 @@
       display: flex;
       position: relative;
       width: 100%;
+      border-radius: $border-radius-default;
+      overflow: hidden;
+
     }
 
     .geo-input__input-wrapper:hover .geo-input__icon--delete {
@@ -25,7 +28,6 @@
       @include font($body);
 
       border: 1px solid $color-grey;
-      border-radius: $border-radius-default;
       box-sizing: border-box;
       height: $space-x-large;
       outline: none;
@@ -47,38 +49,30 @@
       }
     }
 
+    %geo-input-prefix-suffix {
+      @include font($body);
+    
+      background-color: $color-white-darker;
+      border-bottom : 1px solid $color-grey;
+      border-top : 1px solid $color-grey;
+      box-sizing: border-box;
+      color:$color-grey-darker;
+      height: $space-x-large;
+      padding: $space-small;
+    }
+    
     .geo-input__prefix {
-      @include font($body);
-
-      background-color: $color-white-darker;
-      border: 1px solid $color-grey;
+      @extend %geo-input-prefix-suffix;
+    
+      border-left: 1px solid $color-grey;
       border-radius: $border-radius-default 0 0 $border-radius-default;
-      box-sizing: border-box;
-      color:$color-grey-darker;
-      height: $space-x-large;
-      padding: $space-small;
     }
-
-    .geo-input--prefix {
-      border-bottom-left-radius: 0;
-      border-top-left-radius: 0;
-    }
-
+    
     .geo-input__suffix {
-      @include font($body);
-
-      background-color: $color-white-darker;
-      border: 1px solid $color-grey;
+      @extend %geo-input-prefix-suffix;
+    
       border-radius: 0 $border-radius-default $border-radius-default 0;
-      box-sizing: border-box;
-      color:$color-grey-darker;
-      height: $space-x-large;
-      padding: $space-small;
-    }
-
-    .geo-input--suffix {
-      border-bottom-right-radius: 0;
-      border-top-right-radius: 0;
+      border-right: 1px solid $color-grey;
     }
 
     .geo-input__input--leading-space {
