@@ -88,6 +88,20 @@ and a message as well as different color schemes to give feedback to the user.
         </div>
       </geo-input>
     </div>
+
+    <h3 class="element-demo__header">Prefixed and suffixed input</h3>
+    <div class="element-demo__block">
+      <geo-input>
+        <font-awesome-icon slot="prefix"
+          :icon="['fas', 'bell']"
+          fixed-width
+        />
+        <font-awesome-icon slot="suffix"
+          :icon="['fas', 'bell']"
+          fixed-width
+        />
+      </geo-input>
+    </div>
   </div>
 </template>
 
