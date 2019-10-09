@@ -208,25 +208,6 @@
   }
 }
 
-@mixin geo-button--destructive($css-suffix) {
-  $hoverYOffset: -1px;
-
-  @include geo-button-make-scheme((
-    normal-background-color: $color-red,
-    normal-text-color: $color-white,
-    disabled-background-color: $color-white-disabled,
-    disabled-text-color: $color-grey-light,
-    disabled-border-color: $color-grey,
-    hover-shadow: $box-shadow-button-hover,
-    hover-transform: translateY($hoverYOffset)
-  ), $css-suffix);
-
-  &#{$css-suffix} {
-    transition: all $duration-quickly $easing-base;
-    transition-property: background-color, border-color, color;
-  }
-}
-
 @mixin geo-button--danger($css-suffix) {
   $hoverYOffset: -1px;
 
@@ -368,10 +349,6 @@
 
   .geo-button--danger {
     @include geo-button--danger($modifier-name-with-prefix);
-  }
-
-  .geo-button--destructive {
-    @include geo-button--destructive($modifier-name-with-prefix);
   }
 
   .geo-button--link {

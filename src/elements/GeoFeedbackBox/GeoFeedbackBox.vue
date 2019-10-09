@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import mixin, { VARIANTS, DEPRECATED_VARIANTS } from './GeoFeedbackBox.mixin'
+import mixin, { VARIANTS } from './GeoFeedbackBox.mixin'
 
 export default {
   name: 'GeoFeedbackBox',
@@ -86,11 +86,6 @@ export default {
       required: true,
       validator (value) {
         if (value in VARIANTS) return true
-
-        if (value in DEPRECATED_VARIANTS) {
-          console.warn(`GeoFeedbackBox [component] :: «${value}» is a deprecated variant. Please, use «${DEPRECATED_VARIANTS[value]}» instead`)
-          return true
-        }
 
         const supportedValues = Object.values(VARIANTS).map(i => `«${i}»`).join(', ')
         console.warn(`GeoFeedbackBox [component] :: Unsupported value («${value}») for «variant» property. Use one of ${supportedValues}`)

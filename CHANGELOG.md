@@ -4,6 +4,20 @@ title: Changelog
 
 # Changelog
 
+## 25.0.0
+
+Breaking:
+
+- `GeoButton` removed `destructive` type
+- `GeoFeedbackBox` removed `warn` variant
+- `GeoDropdown` Removed `GeoDropdownHeader` (use `GeoBorderedBoxHeader` instead)
+- `GeoDropdown` Removed `GeoDropdownFooter` (use `GeoBorderedBoxFooter` instead)
+- `GeoDropdown` Removed `GeoDropdownGroup` (use `GeoListGroup` instead)
+- `GeoDropdown` Removed `GeoDropdownListItem` (use `GeoListItem` instead)
+- `GeoSelect` Removed `GeoSelectReadOnlyEntry` (use `GeoListClearItem` instead)
+- `GeoSelect` Removed `GeoSelectMoreResultsFooterButton` (use `GeoListFooterButton` instead)
+- `GeoSelect` Removed `GeoSelectSearchEntryForm` (use `GeoBorderedBoxHeaderSearchForm` instead)
+
 ## 24.15.0
 
 New:

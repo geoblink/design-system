@@ -44,14 +44,6 @@
   );
 }
 
-@mixin geo-feedback-box__content--warn($modifier-name-with-prefix) {
-  @include _geo-feedback-box__content--variant(
-    $color-white,
-    $color-yellow,
-    $modifier-name-with-prefix
-  );
-}
-
 @mixin geo-feedback-box__content--warning($modifier-name-with-prefix) {
   @include _geo-feedback-box__content--variant(
     $color-white,
@@ -157,10 +149,6 @@
 
   .geo-feedback-box__content--success#{$modifier-name-with-prefix} {
     @include geo-feedback-box__content--success($modifier-name-with-prefix);
-  }
-
-  .geo-feedback-box__content--warn#{$modifier-name-with-prefix} {
-    @include geo-feedback-box__content--warn($modifier-name-with-prefix);
   }
 
   .geo-feedback-box__content--warning#{$modifier-name-with-prefix} {

@@ -10,11 +10,7 @@ const TYPES = {
   dangerLink: 'dangerLink'
 }
 
-const DEPRECATED_TYPES = {
-  destructive: TYPES.danger
-}
-
-export { TYPES, DEPRECATED_TYPES }
+export { TYPES }
 
 /**
  * @mixin
