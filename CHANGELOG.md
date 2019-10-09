@@ -4,6 +4,12 @@ title: Changelog
 
 # Changelog
 
+## 24.15.0
+
+New:
+
+- Add `suffix` and `prefix` for `GeoInput`
+
 ## 24.14.0
 
 New:
