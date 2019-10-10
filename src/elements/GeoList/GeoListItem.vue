@@ -1,5 +1,6 @@
 <template functional>
-  <div
+  <component
+    :is="props.wrapperTag"
     :ref="data.ref"
     v-bind="data.attrs"
     :class="{
@@ -43,7 +44,7 @@
       <!-- @slot Use this slot to add a description for the item -->
       <slot name="description" />
     </div>
-  </div>
+  </component>
 </template>
 
 <script>
@@ -79,6 +80,11 @@ export default {
     disabled: {
       type: Boolean,
       default: false
+    },
+
+    wrapperTag: {
+      type: String,
+      default: 'div'
     }
   }
 }
