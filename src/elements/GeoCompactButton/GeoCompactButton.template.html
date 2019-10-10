@@ -1,0 +1,11 @@
+<geo-compact-button
+  v-bind="$props"
+  :type="type"
+  :icon="icon"
+  @click="$emit('click', $event)"
+>
+  <slot
+    slot="loading"
+    name="loading"
+  />
+</geo-compact-button>

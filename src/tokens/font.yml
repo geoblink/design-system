@@ -45,6 +45,11 @@ props:
   label_optional:
     value: "label_optional"
 
+  table_title:
+    value: "table_title"
+  table_value:
+    value: "table_value"
+
 global:
   type: mixin-name
   category: font

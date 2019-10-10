@@ -10,6 +10,13 @@
     <slot name="label" />
 
     <div class="geo-input__input-wrapper">
+      <div
+        v-if="hasPrefix"
+        class="geo-input__prefix"
+      >
+        <!-- @slot Use this slot to customize what's displayed as a prefix -->
+        <slot name="prefix" />
+      </div>
       <font-awesome-icon
         v-if="leadingAccessoryIcon"
         :icon="leadingAccessoryIcon"
@@ -21,7 +28,9 @@
         :disabled="disabled"
         :class="{
           'geo-input__input': true,
-          'geo-input__input--leading-space': !!leadingAccessoryIcon
+          'geo-input__input--leading-space': !!leadingAccessoryIcon,
+          'geo-input__input--prefix': hasPrefix,
+          'geo-input__input--suffix': hasSuffix
         }"
         v-bind="$attrs"
         v-on="listeners"
@@ -43,6 +52,13 @@
         fixed-with
         class="geo-input__icon geo-input__icon--trailing"
       />
+      <div
+        v-if="hasSuffix"
+        class="geo-input__suffix"
+      >
+        <!-- @slot Use this slot to customize what's displayed as a suffix -->
+        <slot name="suffix" />
+      </div>
     </div>
 
     <!-- @slot Use this slot to customize what's displayed as input message -->
@@ -143,6 +159,14 @@ export default {
       if (this.error) return 'error'
       if (this.success) return 'success'
       return null
+    },
+
+    hasPrefix () {
+      return !_.isEmpty(this.$slots.prefix)
+    },
+
+    hasSuffix () {
+      return !_.isEmpty(this.$slots.suffix)
     }
   },
   methods: {

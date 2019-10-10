@@ -8,11 +8,7 @@ const VARIANTS = {
   progress: 'progress'
 }
 
-const DEPRECATED_VARIANTS = {
-  warn: VARIANTS.warning
-}
-
-export { VARIANTS, DEPRECATED_VARIANTS }
+export { VARIANTS }
 
 /**
  * @mixin

@@ -4,11 +4,58 @@ title: Changelog
 
 # Changelog
 
+## 25.0.0
+
+Breaking:
+
+- `GeoButton` removed `destructive` type
+- `GeoFeedbackBox` removed `warn` variant
+- `GeoDropdown` Removed `GeoDropdownHeader` (use `GeoBorderedBoxHeader` instead)
+- `GeoDropdown` Removed `GeoDropdownFooter` (use `GeoBorderedBoxFooter` instead)
+- `GeoDropdown` Removed `GeoDropdownGroup` (use `GeoListGroup` instead)
+- `GeoDropdown` Removed `GeoDropdownListItem` (use `GeoListItem` instead)
+- `GeoSelect` Removed `GeoSelectReadOnlyEntry` (use `GeoListClearItem` instead)
+- `GeoSelect` Removed `GeoSelectMoreResultsFooterButton` (use `GeoListFooterButton` instead)
+- `GeoSelect` Removed `GeoSelectSearchEntryForm` (use `GeoBorderedBoxHeaderSearchForm` instead)
+
+## 24.15.0
+
+New:
+
+- Add `suffix` and `prefix` for `GeoInput`
+
+## 24.14.0
+
+New:
+
+- Add fonts for `GeoTable`
+
+## 24.13.1
+
+Changed:
+
+- Changed tooltips style in `GeoTooltip` and `GeoChart`
+
+## 24.13.0
+
+New:
+
+- `GeoCompactButton` component
+- `GeoPrimaryCompactButton` component
+- `GeoSecondaryCompactButton` component
+- `GeoDangerCompactButton` component
+
 ## 24.12.0
 
 Changed:
 
+<<<<<<< HEAD
 - `GeoListItem` accepts a new prop `wrapperTag` that changed the html tag that is wrapping the whole component
+=======
+- `GeoEditableInput` now works with `GeoCompactButton`
+- `GeoBorderedBoxColumn` component
+- `GeoHorizontalLayout` component
+>>>>>>> origin/master
 
 ## 24.11.2
 

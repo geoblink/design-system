@@ -109,5 +109,19 @@ $fontMap: (
     font-size: $font-size-small,
     font-weight: $font-weight-medium,
     line-height: 15px,
+  ),
+  table_title: (
+    color: $color-grey-darker,
+    font-family: $font-family-heading,
+    font-size: $font-size-small,
+    font-weight: $font-weight-semi-bold,
+    line-height: 15px,
+  ),
+  table_value: (
+    color: $color-grey-darker,
+    font-family: $font-family-text,
+    font-size: $font-size-small,
+    font-weight: $font-weight-regular,
+    line-height: 16px,
   )
 );

@@ -1,13 +1,10 @@
-import { VARIANTS as GeoAlertVariants } from '../GeoActivityIndicator/GeoActivityIndicator'
+import { VARIANTS as GeoActivityIndicatorVariants } from '../GeoActivityIndicator/GeoActivityIndicator'
 import cssSuffix from '../../mixins/cssModifierMixin'
 
 const TYPES = {
   primary: 'primary',
   secondary: 'secondary',
-  tertiary: 'tertiary',
-  danger: 'danger',
-  link: 'link',
-  dangerLink: 'dangerLink'
+  danger: 'danger'
 }
 
 export { TYPES }
@@ -27,7 +24,6 @@ export default {
      */
     disabled: {
       type: Boolean,
-      required: false,
       default: false
     },
 
@@ -39,26 +35,22 @@ export default {
      */
     loading: {
       type: Boolean,
-      required: false,
       default: false
     }
   },
   computed: {
     activityIndicatorVariant () {
-      switch (this.type) {
-        case TYPES.primary:
-          return GeoAlertVariants.primary
-        case TYPES.secondary:
-          return undefined
-        case TYPES.tertiary:
-          return undefined
-        case TYPES.danger:
-          return GeoAlertVariants.error
+      const variantByType = {
+        [TYPES.primary]: GeoActivityIndicatorVariants.primary,
+        [TYPES.secondary]: GeoActivityIndicatorVariants.default,
+        [TYPES.danger]: GeoActivityIndicatorVariants.error
       }
+
+      return variantByType[this.type]
     }
   },
   methods: {
-    onGeoButtonClick: function ($event) {
+    onGeoCompactButtonClick: function ($event) {
       if (this.disabled) {
         $event.stopPropagation()
       } else {

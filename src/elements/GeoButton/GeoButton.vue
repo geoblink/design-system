@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import mixin, { TYPES, DEPRECATED_TYPES } from './GeoButton.mixin'
+import mixin, { TYPES } from './GeoButton.mixin'
 
 /**
  * Use `GeoButton` to add button-like elements to your app with a single tag,
@@ -72,11 +72,6 @@ export default {
       type: String,
       validator: function (value) {
         if (value in TYPES) return true
-
-        if (value in DEPRECATED_TYPES) {
-          console.warn(`GeoButton [component] :: «${value}» is a deprecated variant. Please, use «${DEPRECATED_TYPES[value]}» instead`)
-          return true
-        }
 
         const supportedValues = Object.values(TYPES).map(i => `«${i}»`).join(', ')
         console.warn(`GeoButton [component] :: Unsupported value («${value}») for «type» property. Use one of ${supportedValues}`)
