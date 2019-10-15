@@ -156,7 +156,6 @@ export default {
     },
 
     attrs () {
-      // We use input.focus() because native autofocus is buggy with dynamic elements
       return _.omit(this.$attrs, 'autofocus')
     },
 
@@ -176,6 +175,8 @@ export default {
     }
   },
   mounted () {
+    // We use input.focus() because native autofocus is buggy with dynamic elements
+    // https://github.com/vuejs/vue/issues/8112
     if (_.has(this.$attrs, 'autofocus')) {
       this.$refs.input.focus()
     }
