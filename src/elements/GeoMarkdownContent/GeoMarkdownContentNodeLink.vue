@@ -55,7 +55,9 @@ export default {
     },
 
     eventMatch () {
-      return this.href.match(eventRegExp)
+      return this.href
+        ? this.href.match(eventRegExp)
+        : null
     }
   },
   methods: {
