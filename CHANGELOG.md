@@ -4,6 +4,10 @@ title: Changelog
 
 # Changelog
 
+## 25.1.1-beta.0
+
+-`GeoScrollableContainer` replace `GeoListFooterButton` by `GeoTertiaryButton`
+
 ## 25.1.0
 
 - `GeoListItem` accepts a new prop `wrapperTag` that changed the html tag that is wrapping the whole component
