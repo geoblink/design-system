@@ -4,10 +4,10 @@
       class="geo-list-footer-button__button"
       @click="handleClick($event)"
     >
-      <span class="geo-list-footer-button__label">
+      <geo-tertiary-button>
         <!-- @slot Use this slot to customize the label of the button -->
         <slot />
-      </span>
+      </geo-tertiary-button>
     </div>
   </div>
 </template>

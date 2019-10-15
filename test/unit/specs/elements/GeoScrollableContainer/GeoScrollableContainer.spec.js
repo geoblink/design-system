@@ -1,7 +1,6 @@
 import { createLocalVue, mount } from '@vue/test-utils'
 import GeoScrollableContainer from '@/elements/GeoScrollableContainer/GeoScrollableContainer.vue'
-import GeoTertiaryButton from '@/elements/GeoButton/GeoTertiaryButton.vue'
-import GeoButton from '@/elements/GeoButton/GeoButton.vue'
+import GeoListFooterButton from '@/elements/GeoList/GeoListFooterButton.vue'
 
 // create an extended `Vue` constructor
 const localVue = createLocalVue()
@@ -28,11 +27,11 @@ describe('GeoScrollableContainer', () => {
         showMoreResultsButton: true
       },
       stubs: {
-        'geo-tertiary-button': GeoTertiaryButton,
-        GeoButton
+        'geo-list-footer-button': GeoListFooterButton,
+        'geo-tertiary-button': true
       }
     })
-    expect(wrapper.find(GeoTertiaryButton).exists()).toBe(true)
+    expect(wrapper.find(GeoListFooterButton).exists()).toBe(true)
   })
 
   it('Should not display ShowMoreResults button when is set to false', () => {
@@ -41,11 +40,11 @@ describe('GeoScrollableContainer', () => {
         showMoreResultsButton: false
       },
       stubs: {
-        'geo-tertiary-button': GeoTertiaryButton,
-        GeoButton
+        'geo-list-footer-button': GeoListFooterButton,
+        'geo-tertiary-button': true
       }
     })
-    expect(wrapper.find(GeoTertiaryButton).exists()).toBe(false)
+    expect(wrapper.find(GeoListFooterButton).exists()).toBe(false)
   })
 
   it('Should customize ShowMoreResults button', () => {
@@ -54,8 +53,8 @@ describe('GeoScrollableContainer', () => {
         showMoreResultsButton: true
       },
       stubs: {
-        'geo-tertiary-button': GeoTertiaryButton,
-        GeoButton
+        'geo-list-footer-button': GeoListFooterButton,
+        'geo-tertiary-button': true
       },
       slots: {
         moreResultsTextContent: '<span class="customized-class">Load more results</span>'
@@ -70,11 +69,10 @@ describe('GeoScrollableContainer', () => {
         showMoreResultsButton: true
       },
       stubs: {
-        'geo-tertiary-button': true,
-        GeoButton
+        'geo-list-footer-button': true
       }
     })
-    wrapper.find('geo-tertiary-button-stub').vm.$emit('click')
+    wrapper.find('geo-list-footer-button-stub').vm.$emit('click')
     expect(wrapper.emitted()['load-more-results']).toBeTruthy()
   })
 
@@ -84,8 +82,7 @@ describe('GeoScrollableContainer', () => {
         showMoreResultsButton: true
       },
       stubs: {
-        'geo-tertiary-button': true,
-        GeoButton
+        'geo-list-footer-button': true
       }
     })
 
@@ -95,7 +92,7 @@ describe('GeoScrollableContainer', () => {
     }
 
     wrapper.vm.$refs.scrollableContainer = scrollableContainerMock
-    wrapper.find('geo-tertiary-button-stub').vm.$emit('click')
+    wrapper.find('geo-list-footer-button-stub').vm.$emit('click')
     const scrollToLastEntry = wrapper.emitted()['load-more-results'][0][0].scrollToLastEntry
     expect(scrollableContainerMock.scrollTop).toBe(2)
     scrollToLastEntry()

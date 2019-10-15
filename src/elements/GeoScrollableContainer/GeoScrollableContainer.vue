@@ -7,13 +7,13 @@
       <!-- @slot Use this slot to customize the content that can be scrolled -->
       <slot />
     </div>
-    <geo-tertiary-button
+    <geo-list-footer-button
       v-if="showMoreResultsButton"
       @click="loadNextPage"
     >
       <!-- @slot Use this slot to customize the button displayed to show more results -->
       <slot name="moreResultsTextContent" />
-    </geo-tertiary-button>
+    </geo-list-footer-button>
   </div>
 </template>
 

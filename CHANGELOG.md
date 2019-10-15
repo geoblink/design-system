@@ -4,9 +4,9 @@ title: Changelog
 
 # Changelog
 
-## 25.1.1-beta.0
+## 25.1.1-beta.1
 
--`GeoScrollableContainer` replace `GeoListFooterButton` by `GeoTertiaryButton`
+-`GeoListFooterButton` uses `GeoTertiaryButton`
 
 ## 25.1.0
 
