@@ -24,6 +24,7 @@
         class="geo-input__icon geo-input__icon--leading"
       />
       <input
+        ref="input"
         :value="value"
         :disabled="disabled"
         :class="{
@@ -32,7 +33,7 @@
           'geo-input__input--prefix': hasPrefix,
           'geo-input__input--suffix': hasSuffix
         }"
-        v-bind="$attrs"
+        v-bind="attrs"
         v-on="listeners"
         @input="onInput($event)"
       >
@@ -154,6 +155,11 @@ export default {
       return _.omit(this.$listeners, 'input')
     },
 
+    attrs () {
+      // We use input.focus() because native autofocus is buggy with dynamic elements
+      return _.omit(this.$attrs, 'autofocus')
+    },
+
     statusClass () {
       if (this.error && this.success) console.warn('GeoInput [component] :: error and success state are true at the same time, GeoInput will be shown as error.')
       if (this.error) return 'error'
@@ -167,6 +173,11 @@ export default {
 
     hasSuffix () {
       return !_.isEmpty(this.$slots.suffix)
+    }
+  },
+  mounted () {
+    if (_.has(this.$attrs, 'autofocus')) {
+      this.$refs.input.focus()
     }
   },
   methods: {
