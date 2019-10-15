@@ -1,16 +1,10 @@
 <template>
-  <a
+  <geo-markdown-content-node-link
     v-if="isLink"
-    :href="href"
-    :title="title"
-    target="_blank"
-  >
-    <geo-markdown-content-node
-      v-for="(childNode, index) in childNodes"
-      :key="index"
-      :node="childNode"
-    />
-  </a>
+    :node="node"
+    :child-nodes="childNodes"
+    @handle-click="handleClick($event)"
+  />
   <img
     v-else-if="isImage"
     :src="src"
@@ -27,6 +21,7 @@
       v-for="(childNode, index) in childNodes"
       :key="index"
       :node="childNode"
+      @handle-click="handleClick($event)"
     />
   </component>
   <span v-else>{{ text }}</span>
@@ -35,11 +30,15 @@
 <script>
 import _ from 'lodash'
 import { MarkdownNodeType } from './GeoMarkdownParser'
+import GeoMarkdownContentNodeLink from './GeoMarkdownContentNodeLink.vue'
 
 export default {
   name: 'GeoMarkdownContentNode',
   status: 'ready',
   release: '8.3.0',
+  components: {
+    GeoMarkdownContentNodeLink
+  },
   props: {
     node: {
       type: Object,
@@ -94,14 +93,8 @@ export default {
         : null
     },
 
-    href () {
-      return this.isLink
-        ? _.get(this.node, 'href')
-        : null
-    },
-
     title () {
-      return this.isLink || this.isImage
+      return this.isImage
         ? _.get(this.node, 'title')
         : null
     },
@@ -116,6 +109,11 @@ export default {
       return this.isImage
         ? _.get(this.node, 'alt')
         : null
+    }
+  },
+  methods: {
+    handleClick ($event) {
+      this.$emit('handle-click', $event)
     }
   }
 }
