@@ -33,7 +33,7 @@
           'geo-input__input--prefix': hasPrefix,
           'geo-input__input--suffix': hasSuffix
         }"
-        v-bind="attrs"
+        v-bind="$attrs"
         v-on="listeners"
         @input="onInput($event)"
       >
@@ -155,10 +155,6 @@ export default {
       return _.omit(this.$listeners, 'input')
     },
 
-    attrs () {
-      return _.omit(this.$attrs, 'autofocus')
-    },
-
     statusClass () {
       if (this.error && this.success) console.warn('GeoInput [component] :: error and success state are true at the same time, GeoInput will be shown as error.')
       if (this.error) return 'error'
@@ -177,7 +173,9 @@ export default {
   mounted () {
     // We use input.focus() because native autofocus is buggy with dynamic elements
     // https://github.com/vuejs/vue/issues/8112
-    if (_.has(this.$attrs, 'autofocus')) {
+    const autofocus = _.get(this.$attrs, 'autofocus')
+    // We need explicit check to '' to allow being used like <geo-input autofocus>
+    if (autofocus === '' || autofocus) {
       this.$refs.input.focus()
     }
   },
