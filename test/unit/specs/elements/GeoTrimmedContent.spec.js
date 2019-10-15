@@ -1,5 +1,5 @@
 import { createLocalVue, mount } from '@vue/test-utils'
-import GeoTrimmedContent from '@/elements/GeoTrimmedContent/GeoTrimmedContent'
+import GeoTrimmedContent from '@/elements/GeoTrimmedContent/GeoTrimmedContent.vue'
 
 // create an extended `Vue` constructor
 const localVue = createLocalVue()
