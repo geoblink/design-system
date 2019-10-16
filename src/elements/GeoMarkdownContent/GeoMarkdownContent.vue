@@ -4,6 +4,7 @@
       v-for="(node, index) in markdownNodes"
       :key="index"
       :node="node"
+      @handle-click="handleClick($event)"
     />
   </div>
 </template>
@@ -137,6 +138,11 @@ export default {
       return this.markdown
         ? getMarkdownNodes(this.markdown, this.values, this.parser)
         : []
+    }
+  },
+  methods: {
+    handleClick (eventName) {
+      this.$emit(eventName)
     }
   }
 }

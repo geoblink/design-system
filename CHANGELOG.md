@@ -4,9 +4,21 @@ title: Changelog
 
 # Changelog
 
-## 25.1.1-beta.1
+## 25.3.1
 
 -`GeoListFooterButton` uses `GeoTertiaryButton`
+
+## 25.3.0
+
+New:
+
+- `GeoMarkdownContent` now accepts vue events with syntax `[link](@event)`
+
+## 25.2.0
+
+New:
+
+- `GeoInput` now accepts attribute `autofocus` to automatically focus the input
 
 ## 25.1.0
 
