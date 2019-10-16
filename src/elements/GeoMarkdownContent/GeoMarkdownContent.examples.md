@@ -12,7 +12,8 @@ and that no raw HTML can be injected into the application.
     <div class="element-demo__block" style="justify-content: space-around;">
       <div class="element-demo__item">
         <geo-markdown-content
-          markdown="This is a **bold** string with _italics_ and [a nice link](https://geoblink.com)"
+          markdown="This is a **bold** string with _italics_, [a nice link](https://geoblink.com) and [a link that triggers a custom event](@custom-event)"
+          @custom-event="myEvent()"
         />
       </div>
     </div>
@@ -61,6 +62,11 @@ export default {
   data () {
     return {
       variableValue: 'a **non bold** text'
+    }
+  },
+  methods: {
+    myEvent () {
+      window.alert('Custom event clicked')
     }
   }
 }
