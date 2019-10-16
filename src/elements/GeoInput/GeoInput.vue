@@ -24,6 +24,7 @@
         class="geo-input__icon geo-input__icon--leading"
       />
       <input
+        ref="input"
         :value="value"
         :disabled="disabled"
         :class="{
@@ -167,6 +168,15 @@ export default {
 
     hasSuffix () {
       return !_.isEmpty(this.$slots.suffix)
+    }
+  },
+  mounted () {
+    // We use input.focus() because native autofocus is buggy with dynamic elements
+    // https://github.com/vuejs/vue/issues/8112
+    const autofocus = _.get(this.$attrs, 'autofocus')
+    // We need explicit check to '' to allow being used like <geo-input autofocus>
+    if (autofocus === '' || autofocus) {
+      this.$refs.input.focus()
     }
   },
   methods: {

@@ -6,7 +6,7 @@ and a message as well as different color schemes to give feedback to the user.
   <div class="element-demo">
     <h3 class="element-demo__header">Simple input</h3>
     <div class="element-demo__block">
-      <geo-input />
+      <geo-input autofocus/>
     </div>
     <h3 class="element-demo__header">Composed input</h3>
     <div class="element-demo__block">
