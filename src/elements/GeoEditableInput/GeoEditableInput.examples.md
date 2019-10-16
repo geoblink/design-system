@@ -19,9 +19,25 @@ Use `GeoEditableInput` component when you need confirmation feedback from the us
           @click-outside="hideButtons(0)"
         />
       </div>
+      <div class="input-demo__container">
+        <geo-editable-input
+          v-model="inputValue[4]"
+          :cancel-icon="['fas', 'times']"
+          :save-icon="['fas', 'check']"
+          :showButtons="showButtons[4]"
+          :loading="isLoading"
+          type="number"
+          placeholder="Placeholder"
+          @save="saveData(4)"
+          @cancel="cancel(4)"
+          @click="enterEditMode(4)"
+          @click-outside="hideButtons(4)"
+        />
+      </div>
     </div>
     <div class="element-demo__block" style="justify-content: space-around;">
-      <p>Input value: {{ inputValue[0] }}</p>
+      <p>Input value text: {{ inputValue[0] }}</p>
+      <p>Input value number: {{ inputValue[4] }}</p>
     </div>
     <h3 class="element-demo__header">Input normal</h3>
     <div class="element-demo__block" style="justify-content: space-around;">
@@ -86,9 +102,9 @@ Use `GeoEditableInput` component when you need confirmation feedback from the us
 export default {
   data () {
     return {
-      showButtons: [false, false, false, false],
+      showButtons: [false, false, false, false, false],
       isLoading: false,
-      inputValue: ['', '']
+      inputValue: ['', '', null]
     }
   },
   methods: {

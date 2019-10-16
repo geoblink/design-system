@@ -1,6 +1,9 @@
-const VARIANTS = {
+export const VARIANTS = {
   table: 'table',
   normal: 'normal'
 }
 
-export { VARIANTS }
+export const TYPES = {
+  text: 'text',
+  number: 'number'
+}
