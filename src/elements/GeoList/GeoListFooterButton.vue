@@ -2,9 +2,10 @@
   <div :class="`geo-list-footer-button${cssSuffix}`">
     <div
       class="geo-list-footer-button__button"
-      @click="handleClick($event)"
     >
-      <geo-tertiary-button>
+      <geo-tertiary-button
+        @click="handleClick($event)"
+      >
         <!-- @slot Use this slot to customize the label of the button -->
         <slot />
       </geo-tertiary-button>
