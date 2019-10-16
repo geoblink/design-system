@@ -44,6 +44,7 @@
 
         <geo-primary-compact-button
           :icon="saveIcon"
+          :loading="loading"
           @click="emitSave($event)"
         />
       </div>
