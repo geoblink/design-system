@@ -171,15 +171,15 @@ export default {
       return !_.isEmpty(this.$slots.suffix)
     },
 
-    deleteIconStyleWithSuffix() {
+    deleteIconStyleWithSuffix () {
       const typeOfInput = this.$el.getElementsByTagName('input')[0].type
-      if (typeOfInput === "number") {
+      if (typeOfInput === 'number') {
         return {
           'padding-right': '25px'
         }
       }
 
-      if (! this.hasSuffix) return 
+      if (!this.hasSuffix) return
 
       const suffixElement = this.$el.getElementsByClassName('geo-input__suffix')[0]
       const widthForPadding = getComputedStyle(suffixElement).getPropertyValue('width')
