@@ -8,6 +8,13 @@ and a message as well as different color schemes to give feedback to the user.
     <div class="element-demo__block">
       <geo-input autofocus/>
     </div>
+  </div>
+</template>
+```
+
+``` vue live
+<template>
+  <div class="element-demo">
     <h3 class="element-demo__header">Composed input</h3>
     <div class="element-demo__block">
       <geo-input v-model="model[0]" type="text" placeholder="Placeholder">
@@ -30,18 +37,52 @@ and a message as well as different color schemes to give feedback to the user.
         <geo-input-message slot="message" variant="error">Error message</geo-input-message>
       </geo-input>
     </div>
+  </div>
+</template>
 
+<script>
+export default {
+  name: 'GeoInputDemo',
+  data () {
+    return {
+      model: [null, null, null, null]
+    }
+  }
+}
+</script>
+```
+
+``` vue live
+<template>
+  <div class="element-demo">
     <h3 class="element-demo__header">Disabled input</h3>
     <div class="element-demo__block">
-      <geo-input v-model="model[4]" type="text" :disabled="true" :disabled-icon="['fas', 'lock']">
+      <geo-input v-model="model[0]" type="text" :disabled="true" :disabled-icon="['fas', 'lock']">
         <geo-input-label slot="label">Input disabled</geo-input-label>
         <geo-input-message slot="message">This is the legend</geo-input-message>
       </geo-input>
     </div>
+  </div>
+</template>
 
+<script>
+export default {
+  name: 'GeoInputDemo',
+  data () {
+    return {
+      model: [null]
+    }
+  }
+}
+</script>
+```
+
+``` vue live
+<template>
+  <div class="element-demo">
     <h3 class="element-demo__header">Input with leading icon</h3>
     <div class="element-demo__block">
-      <geo-input v-model="model[5]" type="text" :leading-accessory-icon="['fas', 'search']">
+      <geo-input v-model="model[0]" type="text" :leading-accessory-icon="['fas', 'search']">
         <geo-input-label slot="label">Search input</geo-input-label>
       </geo-input>
     </div>
@@ -49,7 +90,7 @@ and a message as well as different color schemes to give feedback to the user.
     <h3 class="element-demo__header">Input text with events</h3>
     <div class="element-demo__block">
       <geo-input
-        v-model="model[5]"
+        v-model="model[0]"
         type="text"
         placeholder="Placeholder"
         ref="input"
@@ -60,19 +101,69 @@ and a message as well as different color schemes to give feedback to the user.
       </geo-input>
     </div>
     <button @click="setFocusOnInput()">Focus input</button>
-    <span>Focused: {{ isFocused }}, Model: {{ model[5] }}</span>
+    <span>Focused: {{ isFocused }}, Model: {{ model[0] }}</span>
+  </div>
+</template>
 
+<script>
+export default {
+  name: 'GeoInputDemo',
+  data () {
+    return {
+      model: [null],
+      isFocused: false
+    }
+  }
+  methods: {
+    setFocusOnInput () {
+      this.$refs.input.$el.focus()
+    }
+  }
+}
+</script>
+```
+
+``` vue live
+<template>
+  <div class="element-demo">
     <h3 class="element-demo__header">Input number with validation max 5</h3>
     <div class="element-demo__block">
-      <geo-input v-model="model[6]" type="number" max="5" @input="checkNumberInput(model[6])">
+      <geo-input v-model="model[0]" type="number" max="5" @input="checkNumberInput(model[0])">
         <geo-input-message v-if="hasError" slot="message" variant="error">Max number is 5</geo-input-message>
       </geo-input>
     </div>
-    <span>Show error: {{ hasError }}, Model: {{ model[6] }}</span>
+    <span>Show error: {{ hasError }}, Model: {{ model[0] }}</span>
+  </div>
+</template>
 
+<script>
+export default {
+  name: 'GeoInputDemo',
+  data () {
+    return {
+      model: [null],
+      hasError: false
+    }
+  },
+  methods: {
+    checkNumberInput (value) {
+      if (parseFloat(value) > 5) {
+        this.hasError = true
+      } else {
+        this.hasError = false
+      }
+    }
+  }
+}
+</script>
+```
+
+``` vue live
+<template>
+  <div class="element-demo">
     <h3 class="element-demo__header">Prefixed input</h3>
     <div class="element-demo__block">
-      <geo-input>
+      <geo-input v-model="model[7]">
         <font-awesome-icon slot="prefix"
           :icon="['fas', 'euro-sign']"
           fixed-width
@@ -82,7 +173,7 @@ and a message as well as different color schemes to give feedback to the user.
 
     <h3 class="element-demo__header">Suffixed input</h3>
     <div class="element-demo__block">
-      <geo-input>
+      <geo-input v-model="model[8]">
         <div slot="suffix">
           euros
         </div>
@@ -91,7 +182,7 @@ and a message as well as different color schemes to give feedback to the user.
 
     <h3 class="element-demo__header">Prefixed and suffixed input</h3>
     <div class="element-demo__block">
-      <geo-input>
+      <geo-input v-model="model[9]">
         <font-awesome-icon slot="prefix"
           :icon="['fas', 'bell']"
           fixed-width
@@ -110,33 +201,9 @@ export default {
   name: 'GeoInputDemo',
   data () {
     return {
-      model: [null, null, null, null, null, null, null, null],
-      isFocused: false,
-      hasError: false
-    }
-  },
-  computed: {
-
-  },
-  methods: {
-    setFocusOnInput () {
-      this.$refs.input.$el.focus()
-    },
-
-    checkNumberInput (value) {
-      if (parseFloat(value) > 5) {
-        this.hasError = true
-      } else {
-        this.hasError = false
-      }
+      model: [null, null, null],
     }
   }
 }
 </script>
-
-<style lang="scss" scoped>
-.element-demo__model {
-  margin-left: 10px;
-}
-</style>
 ```

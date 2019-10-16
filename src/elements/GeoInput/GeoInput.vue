@@ -45,6 +45,7 @@
         :icon="deleteInputValueIcon"
         fixed-with
         class="geo-input__icon geo-input__icon--trailing geo-input__icon--delete"
+        :style="deleteIconStyleWithSuffix"
         @mousedown.prevent="deleteValue"
       />
       <font-awesome-icon
@@ -168,6 +169,23 @@ export default {
 
     hasSuffix () {
       return !_.isEmpty(this.$slots.suffix)
+    },
+
+    deleteIconStyleWithSuffix() {
+      const typeOfInput = this.$el.getElementsByTagName('input')[0].type
+      if (typeOfInput === "number") {
+        return {
+          'padding-right': '25px'
+        }
+      }
+
+      if (! this.hasSuffix) return 
+
+      const suffixElement = this.$el.getElementsByClassName('geo-input__suffix')[0]
+      const widthForPadding = getComputedStyle(suffixElement).getPropertyValue('width')
+      return {
+        'padding-right': widthForPadding
+      }
     }
   },
   mounted () {
