@@ -204,6 +204,11 @@ export default {
     repositionPopup () {
       if (!this.isOpened) return
 
+      if (this.$el.style) {
+        this.$el.style.removeProperty('--available-width')
+        this.$el.style.removeProperty('--available-height')
+      }
+
       const viewport = {
         height: document.documentElement.clientHeight,
         width: document.documentElement.clientWidth
@@ -229,6 +234,11 @@ export default {
       // Spacing user defined via CSS in --spacing-to-toggle-button CSS variable
       // if not supported (aka, IE11) we'll use 0
       const spacingToToggleButton = parseInt(popupComputedStyle.getPropertyValue('--spacing-to-toggle-button') || 0, 10)
+
+      if (this.$el.style) {
+        this.$el.style.setProperty('--available-width', `0px`)
+        this.$el.style.setProperty('--available-height', `0px`)
+      }
 
       // Translation required in the x-axis to position the popup so its
       // content is displayed towards right/left, assuming popup is properly
