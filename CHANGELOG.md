@@ -4,6 +4,12 @@ title: Changelog
 
 # Changelog
 
+## 25.3.0
+
+New:
+
+- `GeoMarkdownContent` now accepts vue events with syntax `[link](@event)`
+
 ## 25.2.0
 
 New:
