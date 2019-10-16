@@ -1,5 +1,7 @@
 import { mount } from '@vue/test-utils'
 import GeoListFooterButton from '@/elements/GeoList/GeoListFooterButton.vue'
+import GeoTertiaryButton from '@/elements/GeoButton/GeoTertiaryButton.vue'
+import GeoButton from '@/elements/GeoButton/GeoButton.vue'
 
 describe('GeoListFooterButton', () => {
   it('Should render GeoListFooterButton component', () => {
@@ -30,10 +32,11 @@ describe('GeoListFooterButton', () => {
         default: [`<span class="more-results-footer-button-content">Load more results demo content</span>`]
       },
       stubs: {
-        'geo-tertiary-button': true
+        GeoTertiaryButton,
+        GeoButton
       }
     })
-    wrapper.find('.geo-list-footer-button__button').trigger('click')
+    wrapper.find(GeoTertiaryButton).trigger('click')
     expect(wrapper.emitted()['click']).toBeTruthy()
   })
 

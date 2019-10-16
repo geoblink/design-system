@@ -3,6 +3,8 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import GeoSelectBase from '@/elements/GeoSelect/GeoSelectBase.vue'
 import GeoSelectToggleButton from '@/elements/GeoSelect/GeoSelectToggleButton.vue'
 import GeoListFooterButton from '@/elements/GeoList/GeoListFooterButton.vue'
+import GeoTertiaryButton from '@/elements/GeoButton/GeoTertiaryButton.vue'
+import GeoButton from '@/elements/GeoButton/GeoButton.vue'
 import GeoDropdown from '@/elements/GeoDropdown/GeoDropdown.vue'
 import GeoBorderedBox from '@/elements/GeoBorderedBox/GeoBorderedBox.vue'
 import GeoScrollableContainer from '@/elements/GeoScrollableContainer/GeoScrollableContainer.vue'
@@ -104,7 +106,8 @@ describe('GeoSelectBase', () => {
         GeoScrollableContainer,
         GeoSelectToggleButton,
         GeoListFooterButton,
-        'geo-tertiary-button': true,
+        GeoTertiaryButton,
+        GeoButton,
         'font-awesome-icon': FontAwesomeIcon
       },
       propsData: {
@@ -120,7 +123,7 @@ describe('GeoSelectBase', () => {
           </geo-select-toggle-button>`
       }
     })
-    wrapper.find('.geo-list-footer-button__button').trigger('click')
+    wrapper.find(GeoTertiaryButton).trigger('click')
     expect(wrapper.emitted()['load-more-results']).toBeTruthy()
     expect(wrapper.emitted()['load-more-results'][0][0].scrollToLastEntry).toBeInstanceOf(Function)
   })
