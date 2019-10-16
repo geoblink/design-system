@@ -4,6 +4,12 @@ title: Changelog
 
 # Changelog
 
+## 25.2.0
+
+New:
+
+- `GeoInput` now accepts attribute `autofocus` to automatically focus the input
+
 ## 25.1.0
 
 - `GeoListItem` accepts a new prop `wrapperTag` that changed the html tag that is wrapping the whole component
