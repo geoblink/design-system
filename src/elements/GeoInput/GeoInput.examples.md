@@ -1,10 +1,11 @@
 `GeoInput` component works like a native input but can be customisable with a label
 and a message as well as different color schemes to give feedback to the user.
 
+## Simple input
+
 ```vue live
 <template>
   <div class="element-demo">
-    <h3 class="element-demo__header">Simple input</h3>
     <div class="element-demo__block">
       <geo-input v-model="value" autofocus/>
     </div>
@@ -23,10 +24,11 @@ export default {
 </script>
 ```
 
+## Simple input with delete event
+
 ```vue live
 <template>
   <div class="element-demo">
-    <h3 class="element-demo__header">Simple input with delete event</h3>
     <div class="element-demo__block">
       <geo-input v-model="value" @delete-value="resetValue"/>
     </div>
@@ -50,10 +52,11 @@ export default {
 </script>
 ```
 
+## Composed input
+
 ``` vue live
 <template>
   <div class="element-demo">
-    <h3 class="element-demo__header">Composed input</h3>
     <div class="element-demo__block">
       <geo-input v-model="model[0]" type="text" placeholder="Placeholder">
         <geo-input-label slot="label">Label</geo-input-label>
@@ -90,12 +93,13 @@ export default {
 </script>
 ```
 
+## Disabled input
+
 ``` vue live
 <template>
   <div class="element-demo">
-    <h3 class="element-demo__header">Disabled input</h3>
     <div class="element-demo__block">
-      <geo-input v-model="model[0]" type="text" :disabled="true" :disabled-icon="['fas', 'lock']">
+      <geo-input v-model="value" type="text" :disabled="true" :disabled-icon="['fas', 'lock']">
         <geo-input-label slot="label">Input disabled</geo-input-label>
         <geo-input-message slot="message">This is the legend</geo-input-message>
       </geo-input>
@@ -108,27 +112,46 @@ export default {
   name: 'GeoInputDemo',
   data () {
     return {
-      model: [null]
+      value: ''
     }
   }
 }
 </script>
 ```
 
+## Input with leading icon
+
 ``` vue live
 <template>
   <div class="element-demo">
-    <h3 class="element-demo__header">Input with leading icon</h3>
     <div class="element-demo__block">
-      <geo-input v-model="model[0]" type="text" :leading-accessory-icon="['fas', 'search']">
+      <geo-input v-model="value" type="text" :leading-accessory-icon="['fas', 'search']">
         <geo-input-label slot="label">Search input</geo-input-label>
       </geo-input>
     </div>
+  </div>
+</template>
 
-    <h3 class="element-demo__header">Input text with events</h3>
+<script>
+export default {
+  name: 'GeoInputDemo',
+  data () {
+    return {
+      value: ''
+    }
+  }
+}
+</script>
+```
+
+## Input text with events
+
+``` vue live
+<template>
+  <div class="element-demo">
     <div class="element-demo__block">
       <geo-input
-        v-model="model[0]"
+        v-model="value"
         type="text"
         placeholder="Placeholder"
         ref="input"
@@ -139,7 +162,7 @@ export default {
       </geo-input>
     </div>
     <button @click="setFocusOnInput()">Focus input</button>
-    <span>Focused: {{ isFocused }}, Model: {{ model[0] }}</span>
+    <span>Focused: {{ isFocused }}, Model: {{ value }}</span>
   </div>
 </template>
 
@@ -148,7 +171,7 @@ export default {
   name: 'GeoInputDemo',
   data () {
     return {
-      model: [null],
+      value: '',
       isFocused: false
     }
   },
@@ -164,10 +187,11 @@ export default {
 </script>
 ```
 
+## Input number with validation and delete event
+
 ``` vue live
 <template>
   <div class="element-demo">
-    <h3 class="element-demo__header">Input number with validation max 5 and delete event</h3>
     <div class="element-demo__block">
       <geo-input
         v-model="value"
@@ -208,6 +232,8 @@ export default {
 </script>
 ```
 
+## Prefixed and suffixed inputs
+
 ``` vue live
 <template>
   <div class="element-demo">
@@ -230,7 +256,29 @@ export default {
       </geo-input>
     </div>
 
-    <h3 class="element-demo__header">Prefixed and suffixed input</h3>
+    <h3 class="element-demo__header">Disable input with suffix</h3>
+    <div class="element-demo__block">
+      <geo-input
+        v-model="model[1]"
+        :disabled="true"
+        :disabled-icon="['fas', 'lock']"
+      >
+        <div slot="suffix">
+          euros
+        </div>
+      </geo-input>
+    </div>
+
+    <h3 class="element-demo__header">Input number with suffix and delete event</h3>
+    <div class="element-demo__block">
+      <geo-input v-model="value3" type="number" @delete-value="resetValue3">
+        <div slot="suffix">
+          euros
+        </div>
+      </geo-input>
+    </div>
+
+    <h3 class="element-demo__header">Prefixed and suffixed input with delete event</h3>
     <div class="element-demo__block">
       <geo-input v-model="value2" @delete-value="resetValue2">
         <font-awesome-icon slot="prefix"
@@ -253,7 +301,8 @@ export default {
     return {
       value: '',
       value2: '',
-      model: [null]
+      value3: '',
+      model: [null, null]
     }
   },
   methods: {
@@ -262,6 +311,9 @@ export default {
     },
     resetValue2 () {
       this.value2 = ''
+    },
+    resetValue3 () {
+      this.value3 = ''
     }
   }
 }

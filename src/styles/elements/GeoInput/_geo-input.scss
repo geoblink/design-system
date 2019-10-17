@@ -11,13 +11,17 @@
     width: 100%;
 
     .geo-input__input-wrapper {
-      align-items: center;
       display: flex;
+    }
+
+    .geo-input__input-field {
+      display: flex;
+      align-items: center;
       position: relative;
       width: 100%;
     }
 
-    .geo-input__input-wrapper:hover .geo-input__icon--delete {
+    .geo-input__input-field:hover .geo-input__icon--delete {
       display: inline;
     }
 
@@ -105,6 +109,10 @@
       color: $color-red;
       cursor: pointer;
       display: none;
+    }
+
+    .geo-input__icon--delete-with-type-number {
+      padding-right: 25px;
     }
   }
 
