@@ -1,7 +1,7 @@
 `GeoInput` component works like a native input but can be customisable with a label
 and a message as well as different color schemes to give feedback to the user.
 
-## Simple input
+### Simple input
 
 ```vue live
 <template>
@@ -24,7 +24,7 @@ export default {
 </script>
 ```
 
-## Simple input with delete event
+### Simple input with delete event
 
 ```vue live
 <template>
@@ -52,7 +52,7 @@ export default {
 </script>
 ```
 
-## Composed input
+### Composed input
 
 ``` vue live
 <template>
@@ -93,7 +93,7 @@ export default {
 </script>
 ```
 
-## Disabled input
+### Disabled input
 
 ``` vue live
 <template>
@@ -119,7 +119,7 @@ export default {
 </script>
 ```
 
-## Input with leading icon
+### Input with leading icon
 
 ``` vue live
 <template>
@@ -144,7 +144,7 @@ export default {
 </script>
 ```
 
-## Input text with events
+### Input text with events
 
 ``` vue live
 <template>
@@ -187,7 +187,7 @@ export default {
 </script>
 ```
 
-## Input number with validation and delete event
+### Input number with validation and delete event
 
 ``` vue live
 <template>
@@ -232,7 +232,7 @@ export default {
 </script>
 ```
 
-## Prefixed and suffixed inputs
+### Prefixed and suffixed inputs
 
 ``` vue live
 <template>
