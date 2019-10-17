@@ -6,10 +6,48 @@ and a message as well as different color schemes to give feedback to the user.
   <div class="element-demo">
     <h3 class="element-demo__header">Simple input</h3>
     <div class="element-demo__block">
-      <geo-input autofocus/>
+      <geo-input v-model="value" autofocus/>
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  name: 'GeoInputDemo',
+  data () {
+    return {
+      value: null
+    }
+  }
+}
+</script>
+```
+
+```vue live
+<template>
+  <div class="element-demo">
+    <h3 class="element-demo__header">Simple input with delete event</h3>
+    <div class="element-demo__block">
+      <geo-input v-model="value" @delete-value="resetValue"/>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'GeoInputDemo',
+  data () {
+    return {
+      value: ''
+    }
+  },
+  methods: {
+    resetValue () {
+      this.value = ''
+    }
+  }
+}
+</script>
 ```
 
 ``` vue live
@@ -113,7 +151,10 @@ export default {
       model: [null],
       isFocused: false
     }
-  }
+  },
+  computed: {
+
+  },
   methods: {
     setFocusOnInput () {
       this.$refs.input.$el.focus()
@@ -126,13 +167,19 @@ export default {
 ``` vue live
 <template>
   <div class="element-demo">
-    <h3 class="element-demo__header">Input number with validation max 5</h3>
+    <h3 class="element-demo__header">Input number with validation max 5 and delete event</h3>
     <div class="element-demo__block">
-      <geo-input v-model="model[0]" type="number" max="5" @input="checkNumberInput(model[0])">
+      <geo-input
+        v-model="value"
+        type="number"
+        max="5"
+        @input="checkNumberInput(value)"
+        @delete-value="resetValue"
+      >
         <geo-input-message v-if="hasError" slot="message" variant="error">Max number is 5</geo-input-message>
       </geo-input>
     </div>
-    <span>Show error: {{ hasError }}, Model: {{ model[0] }}</span>
+    <span>Show error: {{ hasError }}, Model: {{ value }}</span>
   </div>
 </template>
 
@@ -141,7 +188,7 @@ export default {
   name: 'GeoInputDemo',
   data () {
     return {
-      model: [null],
+      value: '',
       hasError: false
     }
   },
@@ -152,6 +199,9 @@ export default {
       } else {
         this.hasError = false
       }
+    },
+    resetValue () {
+      this.value = ''
     }
   }
 }
@@ -163,7 +213,7 @@ export default {
   <div class="element-demo">
     <h3 class="element-demo__header">Prefixed input</h3>
     <div class="element-demo__block">
-      <geo-input v-model="model[7]">
+      <geo-input v-model="model[0]">
         <font-awesome-icon slot="prefix"
           :icon="['fas', 'euro-sign']"
           fixed-width
@@ -171,9 +221,9 @@ export default {
       </geo-input>
     </div>
 
-    <h3 class="element-demo__header">Suffixed input</h3>
+    <h3 class="element-demo__header">Suffixed input with delete event</h3>
     <div class="element-demo__block">
-      <geo-input v-model="model[8]">
+      <geo-input v-model="value" @delete-value="resetValue">
         <div slot="suffix">
           euros
         </div>
@@ -182,7 +232,7 @@ export default {
 
     <h3 class="element-demo__header">Prefixed and suffixed input</h3>
     <div class="element-demo__block">
-      <geo-input v-model="model[9]">
+      <geo-input v-model="value2" @delete-value="resetValue2">
         <font-awesome-icon slot="prefix"
           :icon="['fas', 'bell']"
           fixed-width
@@ -201,7 +251,17 @@ export default {
   name: 'GeoInputDemo',
   data () {
     return {
-      model: [null, null, null],
+      value: '',
+      value2: '',
+      model: [null, null]
+    }
+  },
+  methods: {
+    resetValue () {
+      this.value = ''
+    },
+    resetValue2 () {
+      this.value2 = ''
     }
   }
 }

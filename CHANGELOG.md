@@ -4,6 +4,12 @@ title: Changelog
 
 # Changelog
 
+## 25.3.1
+
+Fixed :
+
+- Add condition for deleteIcon in `GeoInput`
+
 ## 25.3.0
 
 New:
