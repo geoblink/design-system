@@ -180,8 +180,7 @@ export default {
     },
 
     isTypeNumber () {
-      const typeOfInput = this.$el.getElementsByTagName('input')[0].type
-      return (typeOfInput === 'number')
+      return this.$attrs.type === 'number'
     }
   },
   mounted () {
