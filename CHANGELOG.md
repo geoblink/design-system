@@ -4,9 +4,19 @@ title: Changelog
 
 # Changelog
 
-## 25.3.1
+## 25.4.1
 
 -`GeoListFooterButton` uses `GeoTertiaryButton`
+
+## 25.4.0
+
+New:
+
+- `GeoEditableInput` now accepts `type` prop `number` or `text`
+
+Fixed: 
+
+- `GeoEditableInput` pass down loading prop to `GeoCompactButton`
 
 ## 25.3.0
 

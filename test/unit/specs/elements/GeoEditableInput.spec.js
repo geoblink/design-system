@@ -212,4 +212,20 @@ describe('GeoEditableInput', () => {
       }
     })
   })
+
+  it('Should create input type number when prop passed', function () {
+    const wrapper = mount(GeoEditableInput, {
+      propsData: {
+        showButtons: false,
+        type: 'number'
+      },
+      stubs: {
+        GeoDropdown,
+        GeoPrimaryCompactButton,
+        GeoSecondaryCompactButton
+      }
+    })
+
+    expect(wrapper.find('input[type="number"]').exists()).toBe(true)
+  })
 })
