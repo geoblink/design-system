@@ -17,18 +17,6 @@
     height: 40px;
     justify-content: center;
     padding: 0 10px;
-
-    .geo-list-footer-button__button {
-      font-family: $font-family-text;
-      font-size: small;
-      user-select: none;
-    }
-
-    .geo-list-footer-button__label {
-      cursor: pointer;
-      color: $color-blue;
-      font-style: italic;
-    }
   }
 }
 

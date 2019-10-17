@@ -27,7 +27,8 @@ describe('GeoScrollableContainer', () => {
         showMoreResultsButton: true
       },
       stubs: {
-        'geo-list-footer-button': GeoListFooterButton
+        'geo-list-footer-button': GeoListFooterButton,
+        'geo-tertiary-button': true
       }
     })
     expect(wrapper.find(GeoListFooterButton).exists()).toBe(true)
@@ -39,7 +40,8 @@ describe('GeoScrollableContainer', () => {
         showMoreResultsButton: false
       },
       stubs: {
-        'geo-list-footer-button': GeoListFooterButton
+        'geo-list-footer-button': GeoListFooterButton,
+        'geo-tertiary-button': true
       }
     })
     expect(wrapper.find(GeoListFooterButton).exists()).toBe(false)
@@ -51,7 +53,8 @@ describe('GeoScrollableContainer', () => {
         showMoreResultsButton: true
       },
       stubs: {
-        'geo-list-footer-button': GeoListFooterButton
+        'geo-list-footer-button': GeoListFooterButton,
+        'geo-tertiary-button': true
       },
       slots: {
         moreResultsTextContent: '<span class="customized-class">Load more results</span>'

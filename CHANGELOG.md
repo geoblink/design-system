@@ -4,6 +4,10 @@ title: Changelog
 
 # Changelog
 
+## 25.4.1
+
+-`GeoListFooterButton` uses `GeoTertiaryButton`
+
 ## 25.4.0
 
 New:
