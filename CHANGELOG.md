@@ -4,11 +4,15 @@ title: Changelog
 
 # Changelog
 
-## 25.4.1
+## 25.4.2
 
 Fixed :
 
 - Add condition for deleteIcon in `GeoInput`
+
+## 25.4.1
+
+-`GeoListFooterButton` uses `GeoTertiaryButton`
 
 ## 25.4.0
 
