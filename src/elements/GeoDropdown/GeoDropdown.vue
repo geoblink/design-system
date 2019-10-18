@@ -341,7 +341,7 @@ export default {
 
       const preferredXAxisPositionIsRight = this.preferredXAxisPosition === GeoDropdownConstants.X_AXIS_POSITION.right
 
-      const chosenXAxisPositionIsRight = (fitsTowardsPreferredXPosition && preferredXAxisPositionIsRight) || (!fitsTowardsPreferredXPosition && !preferedXAxisPositionIsRight)
+      const chosenXAxisPositionIsRight = (fitsTowardsPreferredXPosition && preferredXAxisPositionIsRight) || (!fitsTowardsPreferredXPosition && !preferredXAxisPositionIsRight)
 
       const chosenXAxisPosition = chosenXAxisPositionIsRight
         ? GeoDropdownConstants.X_AXIS_POSITION.right
