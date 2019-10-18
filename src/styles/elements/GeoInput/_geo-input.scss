@@ -21,10 +21,6 @@
       width: 100%;
     }
 
-    .geo-input__input-field:hover .geo-input__icon--delete {
-      display: inline;
-    }
-
     .geo-input__input {
       @include font($body);
 
@@ -112,10 +108,6 @@
     .geo-input__icon--delete {
       color: $color-red;
       cursor: pointer;
-    }
-
-    .geo-input__icon--delete-with-type-number {
-      padding-right: 25px;
     }
   }
 
