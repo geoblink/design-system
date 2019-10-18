@@ -235,6 +235,19 @@ export default {
       // if not supported (aka, IE11) we'll use 0
       const spacingToToggleButton = parseInt(popupComputedStyle.getPropertyValue('--spacing-to-toggle-button') || 0, 10)
 
+      const maxWidthLeft = Math.max(popupRect.right - containerRect.left - spacingToToggleButton, 0)
+      const maxWidthRight = Math.max(containerRect.right - popupRect.left - spacingToToggleButton, 0)
+
+      var availableWidthForPopupContent = maxWidthRight
+      if (this.forcedXAxisPosition === GeoDropdownConstants.X_AXIS_POSITION.right) {
+        availableWidthForPopupContent = maxWidthLeft
+      }
+
+      if (this.$el.style) {
+        this.$el.style.setProperty('--available-width', `${availableWidthForPopupContent}px`)
+        this.$el.style.setProperty('--available-height', `${this.popupMaxHeight}px`)
+      }
+
       // Translation required in the x-axis to position the popup so its
       // content is displayed towards right/left, assuming popup is properly
       // positioned in top left corner anchor of the container
@@ -324,19 +337,6 @@ export default {
 
       this.popupTranslation.x = translationX
       this.popupTranslation.y = translationY
-
-      const maxWidthLeft = Math.max(popupRect.right - containerRect.left - spacingToToggleButton, 0)
-      const maxWidthRight = Math.max(containerRect.right - popupRect.left - spacingToToggleButton, 0)
-
-      var availableWidthForPopupContent = maxWidthRight
-      if (this.forcedXAxisPosition === GeoDropdownConstants.X_AXIS_POSITION.right) {
-        availableWidthForPopupContent = maxWidthLeft
-      }
-
-      if (this.$el.style) {
-        this.$el.style.setProperty('--available-width', `${availableWidthForPopupContent}px`)
-        this.$el.style.setProperty('--available-height', `${this.popupMaxHeight}px`)
-      }
 
       const automaticPopupMaxHeight = fitsTowardsPreferredYPosition ? popupMaxHeightTowardsPreferredYPosition : popupMaxHeightTowardsFallbackYPosition
 
