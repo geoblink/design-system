@@ -249,7 +249,7 @@ export default {
 
     <h3 class="element-demo__header">Suffixed input with delete event</h3>
     <div class="element-demo__block">
-      <geo-input v-model="value" @delete-value="resetValue">
+      <geo-input v-model="model[1]" @delete-value="resetValue">
         <div slot="suffix">
           euros
         </div>
@@ -259,7 +259,7 @@ export default {
     <h3 class="element-demo__header">Disable input with suffix</h3>
     <div class="element-demo__block">
       <geo-input
-        v-model="model[1]"
+        v-model="model[2]"
         :disabled="true"
         :disabled-icon="['fas', 'lock']"
       >
@@ -271,7 +271,7 @@ export default {
 
     <h3 class="element-demo__header">Input number with suffix and delete event</h3>
     <div class="element-demo__block">
-      <geo-input v-model="value3" type="number" @delete-value="resetValue3">
+      <geo-input v-model="model[3]" type="number" @delete-value="resetValue2">
         <div slot="suffix">
           euros
         </div>
@@ -280,7 +280,7 @@ export default {
 
     <h3 class="element-demo__header">Prefixed and suffixed input with delete event</h3>
     <div class="element-demo__block">
-      <geo-input v-model="value2" @delete-value="resetValue2">
+      <geo-input v-model="model[4]" @delete-value="resetValue3">
         <font-awesome-icon slot="prefix"
           :icon="['fas', 'bell']"
           fixed-width
@@ -299,21 +299,18 @@ export default {
   name: 'GeoInputDemo',
   data () {
     return {
-      value: '',
-      value2: '',
-      value3: '',
-      model: [null, null]
+      model: [null, '', null, '', '']
     }
   },
   methods: {
     resetValue () {
-      this.value = ''
+      this.model.splice(1, 1, '')
     },
     resetValue2 () {
-      this.value2 = ''
+      this.model.splice(3, 1, '')
     },
     resetValue3 () {
-      this.value3 = ''
+      this.model.splice(4, 1, '')
     }
   }
 }
