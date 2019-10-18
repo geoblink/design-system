@@ -340,15 +340,13 @@ export default {
       const maxWidthRight = Math.max(containerRect.right - popupRect.left - spacingToToggleButton, 0)
 
       const preferedXAxisPositionIsRight = this.preferedXAxisPosition === GeoDropdownConstants.X_AXIS_POSITION.right
-          ? true
-          : false
 
       const chosenXAxisPositionIsRight = (fitsTowardsPreferredXPosition && preferedXAxisPositionIsRight) || (!fitsTowardsPreferredXPosition && !preferedXAxisPositionIsRight)
 
       const chosenXAxisPosition = chosenXAxisPositionIsRight
         ? GeoDropdownConstants.X_AXIS_POSITION.right
-        : GeoDropdownConstants.X_AXIS_POSITION.left 
-      
+        : GeoDropdownConstants.X_AXIS_POSITION.left
+
       const availableWidthForPopupContent = chosenXAxisPosition === GeoDropdownConstants.X_AXIS_POSITION.right
         ? maxWidthLeft
         : maxWidthRight
