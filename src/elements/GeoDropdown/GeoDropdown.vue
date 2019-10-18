@@ -336,12 +336,12 @@ export default {
 
       this.popupMaxHeight = popupMaxHeight
 
-      const maxWidthLeft = Math.max(popupRect.right - containerRect.left - spacingToToggleButton, 0)
-      const maxWidthRight = Math.max(containerRect.right - popupRect.left - spacingToToggleButton, 0)
+      const maxWidthLeft = Math.max(containerRect.right, 0)
+      const maxWidthRight = Math.max(viewport.width - containerRect.left, 0)
 
-      const preferedXAxisPositionIsRight = this.preferedXAxisPosition === GeoDropdownConstants.X_AXIS_POSITION.right
+      const preferredXAxisPositionIsRight = this.preferredXAxisPosition === GeoDropdownConstants.X_AXIS_POSITION.right
 
-      const chosenXAxisPositionIsRight = (fitsTowardsPreferredXPosition && preferedXAxisPositionIsRight) || (!fitsTowardsPreferredXPosition && !preferedXAxisPositionIsRight)
+      const chosenXAxisPositionIsRight = (fitsTowardsPreferredXPosition && preferredXAxisPositionIsRight) || (!fitsTowardsPreferredXPosition && !preferedXAxisPositionIsRight)
 
       const chosenXAxisPosition = chosenXAxisPositionIsRight
         ? GeoDropdownConstants.X_AXIS_POSITION.right
