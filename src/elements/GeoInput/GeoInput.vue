@@ -17,42 +17,48 @@
         <!-- @slot Use this slot to customize what's displayed as a prefix -->
         <slot name="prefix" />
       </div>
-      <font-awesome-icon
-        v-if="leadingAccessoryIcon"
-        :icon="leadingAccessoryIcon"
-        fixed-with
-        class="geo-input__icon geo-input__icon--leading"
-      />
-      <input
-        ref="input"
-        :value="value"
-        :disabled="disabled"
-        :class="{
-          'geo-input__input': true,
-          'geo-input__input--leading-space': !!leadingAccessoryIcon,
-          'geo-input__input--prefix': hasPrefix,
-          'geo-input__input--suffix': hasSuffix
-        }"
-        v-bind="$attrs"
-        v-on="listeners"
-        @input="onInput($event)"
-      >
-      <!-- mousedown event is used because it is fired before blur event on GeoInput -->
-      <!-- blur event won't be fired but that's fine because we want this handler to prevail over the blur one -->
-      <!-- https://forum.vuejs.org/t/blur-before-click-only-on-safari/21598/7 -->
-      <font-awesome-icon
-        v-if="!disabled && !!value"
-        :icon="deleteInputValueIcon"
-        fixed-with
-        class="geo-input__icon geo-input__icon--trailing geo-input__icon--delete"
-        @mousedown.prevent="deleteValue"
-      />
-      <font-awesome-icon
-        v-if="disabled"
-        :icon="disabledIcon"
-        fixed-with
-        class="geo-input__icon geo-input__icon--trailing"
-      />
+      <div class="geo-input__input-field">
+        <font-awesome-icon
+          v-if="leadingAccessoryIcon"
+          :icon="leadingAccessoryIcon"
+          fixed-with
+          class="geo-input__icon geo-input__icon--leading"
+        />
+        <input
+          ref="input"
+          :value="value"
+          :disabled="disabled"
+          :class="{
+            'geo-input__input': true,
+            'geo-input__input--leading-space': !!leadingAccessoryIcon,
+            'geo-input__input--delete-icon-space': isDeleteIconVisible,
+            'geo-input__input--prefix': hasPrefix,
+            'geo-input__input--suffix': hasSuffix
+          }"
+          v-bind="$attrs"
+          v-on="listeners"
+          @input="onInput($event)"
+        >
+        <!-- mousedown event is used because it is fired before blur event on GeoInput -->
+        <!-- blur event won't be fired but that's fine because we want this handler to prevail over the blur one -->
+        <!-- https://forum.vuejs.org/t/blur-before-click-only-on-safari/21598/7 -->
+        <font-awesome-icon
+          v-if="isDeleteIconVisible"
+          :icon="deleteInputValueIcon"
+          fixed-with
+          class="geo-input__icon geo-input__icon--trailing geo-input__icon--delete"
+          :class="{
+            'geo-input__icon--delete-with-type-number': isTypeNumber
+          }"
+          @mousedown.prevent="deleteValue"
+        />
+        <font-awesome-icon
+          v-if="disabled"
+          :icon="disabledIcon"
+          fixed-with
+          class="geo-input__icon geo-input__icon--trailing"
+        />
+      </div>
       <div
         v-if="hasSuffix"
         class="geo-input__suffix"
@@ -168,6 +174,14 @@ export default {
 
     hasSuffix () {
       return !_.isEmpty(this.$slots.suffix)
+    },
+
+    isDeleteIconVisible () {
+      return !this.disabled && !!this.value && !!this.$listeners['delete-value']
+    },
+
+    isTypeNumber () {
+      return this.$attrs.type === 'number'
     }
   },
   mounted () {

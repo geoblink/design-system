@@ -4,6 +4,12 @@ title: Changelog
 
 # Changelog
 
+## 25.4.2
+
+Fixed :
+
+- Add condition for deleteIcon in `GeoInput`
+
 ## 25.4.1
 
 -`GeoListFooterButton` uses `GeoTertiaryButton`
@@ -14,7 +20,7 @@ New:
 
 - `GeoEditableInput` now accepts `type` prop `number` or `text`
 
-Fixed: 
+Fixed:
 
 - `GeoEditableInput` pass down loading prop to `GeoCompactButton`
 
