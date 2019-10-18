@@ -31,6 +31,7 @@
           :class="{
             'geo-input__input': true,
             'geo-input__input--leading-space': !!leadingAccessoryIcon,
+            'geo-input__input--delete-icon-space': isDeleteIconVisible,
             'geo-input__input--prefix': hasPrefix,
             'geo-input__input--suffix': hasSuffix
           }"
