@@ -4,9 +4,15 @@ title: Changelog
 
 # Changelog
 
+## 25.4.3
+
+Changed:
+
+- `GeoEditableInput` inherits component `$attrs`
+
 ## 25.4.2
 
-Fixed :
+Fixed:
 
 - Add condition for deleteIcon in `GeoInput`
 
