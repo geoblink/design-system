@@ -26,6 +26,7 @@
           :disabled="disabled"
           :class="`geo-editable-input__form__input${cssSuffix}`"
           :type="type"
+          v-bind="$attrs"
           @click="emitClick($event)"
           @input="onInput($event)"
         >
