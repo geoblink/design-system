@@ -343,11 +343,7 @@ export default {
 
       const chosenXAxisPositionIsRight = (fitsTowardsPreferredXPosition && preferredXAxisPositionIsRight) || (!fitsTowardsPreferredXPosition && !preferredXAxisPositionIsRight)
 
-      const chosenXAxisPosition = chosenXAxisPositionIsRight
-        ? GeoDropdownConstants.X_AXIS_POSITION.right
-        : GeoDropdownConstants.X_AXIS_POSITION.left
-
-      const availableWidthForPopupContent = chosenXAxisPosition === GeoDropdownConstants.X_AXIS_POSITION.right
+      const availableWidthForPopupContent = chosenXAxisPositionIsRight
         ? maxWidthLeft
         : maxWidthRight
 
