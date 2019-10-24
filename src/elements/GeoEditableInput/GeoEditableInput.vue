@@ -25,7 +25,8 @@
           :placeholder="placeholder"
           :disabled="disabled"
           :class="`geo-editable-input__form__input${cssSuffix}`"
-          type="text"
+          :type="type"
+          v-bind="$attrs"
           @click="emitClick($event)"
           @input="onInput($event)"
         >
@@ -44,6 +45,7 @@
 
         <geo-primary-compact-button
           :icon="saveIcon"
+          :loading="loading"
           @click="emitSave($event)"
         />
       </div>
@@ -52,23 +54,33 @@
 </template>
 
 <script>
+import enumPropertyFactory from '../../utils/enumPropertyFactory'
 import cssSuffix from '../../mixins/cssModifierMixin'
-import { VARIANTS } from './GeoEditableInput.constants'
+import { VARIANTS, TYPES } from './GeoEditableInput.constants'
 
 export default {
   name: 'GeoEditableInput',
   status: 'ready',
   release: '24.0.0',
   mixins: [cssSuffix],
-  constants: { VARIANTS },
+  constants: { VARIANTS, TYPES },
   props: {
     /**
      * Input value.
      */
     value: {
-      type: String,
+      type: [String, Number],
       required: false
     },
+    /**
+     * Input type (`text` or `number`).
+     */
+    type: enumPropertyFactory({
+      componentName: 'GeoEditableInput',
+      propertyName: 'type',
+      enumDictionary: TYPES,
+      defaultValue: TYPES.text
+    }),
     /**
      * Whether the action buttons are shown (`true`) or not.
      */

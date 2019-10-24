@@ -4,6 +4,44 @@ title: Changelog
 
 # Changelog
 
+## 25.4.3
+
+Changed:
+
+- `GeoEditableInput` inherits component `$attrs`
+
+## 25.4.2
+
+Fixed:
+
+- Add condition for deleteIcon in `GeoInput`
+
+## 25.4.1
+
+-`GeoListFooterButton` uses `GeoTertiaryButton`
+
+## 25.4.0
+
+New:
+
+- `GeoEditableInput` now accepts `type` prop `number` or `text`
+
+Fixed:
+
+- `GeoEditableInput` pass down loading prop to `GeoCompactButton`
+
+## 25.3.0
+
+New:
+
+- `GeoMarkdownContent` now accepts vue events with syntax `[link](@event)`
+
+## 25.2.0
+
+New:
+
+- `GeoInput` now accepts attribute `autofocus` to automatically focus the input
+
 ## 25.1.0
 
 - `GeoListItem` accepts a new prop `wrapperTag` that changed the html tag that is wrapping the whole component

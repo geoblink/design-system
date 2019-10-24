@@ -1,14 +1,18 @@
 import { createLocalVue, mount } from '@vue/test-utils'
 import GeoMarkdownContent from '@/elements/GeoMarkdownContent/GeoMarkdownContent.vue'
+import GeoMarkdownContentNode from '@/elements/GeoMarkdownContent/GeoMarkdownContentNode.vue'
+import GeoMarkdownContentNodeLink from '@/elements/GeoMarkdownContent/GeoMarkdownContentNodeLink.vue'
 
 // create an extended `Vue` constructor
 const localVue = createLocalVue()
-localVue.component('geo-bordered-box-footer', GeoMarkdownContent)
+localVue.component('geo-markdown-content-node', GeoMarkdownContentNode)
+localVue.component('geo-markdown-content-node-link', GeoMarkdownContentNodeLink)
 
 describe('GeoMarkdownContent', () => {
   it('Should parse no Markdown if all features all disabled', function () {
     const markdown = 'This is a **bold** word with an _italic_ word and a [link](https://geoblink.com)!'
     const wrapper = mount(GeoMarkdownContent, {
+      localVue,
       propsData: {
         markdown,
         features: {
@@ -28,6 +32,7 @@ describe('GeoMarkdownContent', () => {
     const linkURL = 'https://geoblink.com'
     const markdown = `${upToLinkSegment}[${linkText}](${linkURL})!`
     const wrapper = mount(GeoMarkdownContent, {
+      localVue,
       propsData: {
         markdown,
         features: {
@@ -55,6 +60,7 @@ describe('GeoMarkdownContent', () => {
     }
     const markdown = `${uptoBoldSegment}**${boldSegment}**${boldToLinkSegment}[${linkText}](${linkURL}) :myVariable`
     const wrapper = mount(GeoMarkdownContent, {
+      localVue,
       propsData: {
         markdown,
         values,
@@ -86,6 +92,7 @@ describe('GeoMarkdownContent', () => {
     }
     const markdown = `${uptoBoldSegment}**${boldSegment}**${afterBoldSegment}`
     const wrapper = mount(GeoMarkdownContent, {
+      localVue,
       propsData: {
         markdown,
         values
@@ -95,5 +102,19 @@ describe('GeoMarkdownContent', () => {
     expect(wrapper.find('p > span:first-of-type').element.innerHTML).toBe(uptoBoldSegment)
     expect(wrapper.find('p > strong').element.textContent).toBe(`${variableValue} and ${secondVariableValue}`)
     expect(wrapper.find('p > span:last-of-type').element.innerHTML).toBe(afterBoldSegment)
+  })
+
+  it('Should emit custom event', function () {
+    const markdown = 'Link with event [link](@my-event)!'
+    const wrapper = mount(GeoMarkdownContent, {
+      localVue,
+      propsData: {
+        markdown
+      }
+    })
+
+    const link = wrapper.find('p > a')
+    link.trigger('click')
+    expect(wrapper.emitted()['my-event']).toBeTruthy()
   })
 })
