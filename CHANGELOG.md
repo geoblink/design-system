@@ -4,6 +4,12 @@ title: Changelog
 
 # Changelog
 
+## 25.5.0
+
+New:
+
+- `GeoDropdown` has access to the available height for the popup
+
 ## 25.4.3
 
 Changed:
