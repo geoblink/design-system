@@ -204,11 +204,6 @@ export default {
     repositionPopup () {
       if (!this.isOpened) return
 
-      if (this.$el.style) {
-        this.$el.style.removeProperty('--available-width')
-        this.$el.style.removeProperty('--available-height')
-      }
-
       const viewport = {
         height: document.documentElement.clientHeight,
         width: document.documentElement.clientWidth
@@ -221,6 +216,11 @@ export default {
       this.containerOffset.left = containerOffset.left
 
       const popupElement = this.$refs.popup
+
+      if (this.$el.style) {
+        popupElement.style.removeProperty('--available-width')
+        popupElement.style.removeProperty('--available-height')
+      }
 
       const containerRect = containerElement.getBoundingClientRect()
       const popupRect = popupElement.getBoundingClientRect()
@@ -348,8 +348,8 @@ export default {
         : maxWidthRight
 
       if (this.$el.style) {
-        this.$el.style.setProperty('--available-width', `${availableWidthForPopupContent}px`)
-        this.$el.style.setProperty('--available-height', `${this.popupMaxHeight}px`)
+        popupElement.style.setProperty('--available-width', `${availableWidthForPopupContent}px`)
+        popupElement.style.setProperty('--available-height', `${this.popupMaxHeight}px`)
       }
     },
 
