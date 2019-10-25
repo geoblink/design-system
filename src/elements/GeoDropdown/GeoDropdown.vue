@@ -217,7 +217,7 @@ export default {
 
       const popupElement = this.$refs.popup
 
-      if (this.$el.style) {
+      if (popupElement.style) {
         popupElement.style.removeProperty('--available-width')
         popupElement.style.removeProperty('--available-height')
       }
@@ -347,7 +347,7 @@ export default {
         ? maxWidthLeft
         : maxWidthRight
 
-      if (this.$el.style) {
+      if (popupElement.style) {
         popupElement.style.setProperty('--available-width', `${availableWidthForPopupContent}px`)
         popupElement.style.setProperty('--available-height', `${this.popupMaxHeight}px`)
       }
