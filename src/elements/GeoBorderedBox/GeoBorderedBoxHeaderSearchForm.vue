@@ -3,20 +3,15 @@
     :class="`geo-bordered-box-header-search-form${cssSuffix}`"
     @submit.prevent
   >
-    <font-awesome-icon
-      :icon="searchIcon"
-      class="geo-bordered-box-header-search-form__icon"
-    />
-    <input
-      :class="{
-        'geo-bordered-box-header-search-form__input': true,
-        [`geo-bordered-box-header-search-form__input--empty${cssSuffix}`]: !value
-      }"
-      :value="value"
+    <geo-input
+      v-bind="$attrs"
+      v-model="valueInput"
+      :leadingAccessoryIcon="searchIcon"
       :placeholder="placeholder"
       type="text"
       @keyup="searchPattern($event)"
-    >
+      @delete-value="deleteValue"
+    />
   </form>
 </template>
 
@@ -65,6 +60,11 @@ export default {
     }
 
   },
+  data () {
+    return {
+      valueInput: ''
+    }
+  },
   computed: {
     searchPattern () {
       return throttle(function ($event) {
@@ -75,6 +75,11 @@ export default {
          */
         this.$emit('input', _.deburr($event.target.value))
       })
+    }
+  },
+  methods: {
+    deleteValue () {
+      this.valueInput = ''
     }
   }
 }
