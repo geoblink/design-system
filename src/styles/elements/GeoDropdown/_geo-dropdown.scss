@@ -18,6 +18,13 @@
     // Use this variable to customize the space between toggle button popup
     --spacing-to-toggle-button: 5;
 
+    // You can use these variables to consider available space depending on the
+    // position of the tooltip. They are automatically set whenever tooltip is
+    // positioned:
+    //
+    // --available-width
+    // --available-height
+
     display: none;
     left: 0;
     overflow: hidden;

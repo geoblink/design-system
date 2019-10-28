@@ -217,6 +217,11 @@ export default {
 
       const popupElement = this.$refs.popup
 
+      if (popupElement.style) {
+        popupElement.style.removeProperty('--available-width')
+        popupElement.style.removeProperty('--available-height')
+      }
+
       const containerRect = containerElement.getBoundingClientRect()
       const popupRect = popupElement.getBoundingClientRect()
 
@@ -330,6 +335,22 @@ export default {
       const popupMaxHeight = forcedYAxisPositionToMaxHeightMapping[this.forceYAxisPosition] || automaticPopupMaxHeight
 
       this.popupMaxHeight = popupMaxHeight
+
+      const maxWidthLeft = Math.max(containerRect.right, 0)
+      const maxWidthRight = Math.max(viewport.width - containerRect.left, 0)
+
+      const preferredXAxisPositionIsRight = this.preferredXAxisPosition === GeoDropdownConstants.X_AXIS_POSITION.right
+
+      const chosenXAxisPositionIsRight = (fitsTowardsPreferredXPosition && preferredXAxisPositionIsRight) || (!fitsTowardsPreferredXPosition && !preferredXAxisPositionIsRight)
+
+      const availableWidthForPopupContent = chosenXAxisPositionIsRight
+        ? maxWidthLeft
+        : maxWidthRight
+
+      if (popupElement.style) {
+        popupElement.style.setProperty('--available-width', `${availableWidthForPopupContent}px`)
+        popupElement.style.setProperty('--available-height', `${this.popupMaxHeight}px`)
+      }
     },
 
     checkClickCoordinatesAndEmitClickOutside ($event) {
