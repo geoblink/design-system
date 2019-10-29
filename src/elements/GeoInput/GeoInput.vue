@@ -27,6 +27,7 @@
         <input
           ref="input"
           :value="value"
+          :placeholder="placeholder"
           :disabled="disabled"
           :class="{
             'geo-input__input': true,
@@ -38,6 +39,7 @@
           v-bind="$attrs"
           v-on="listeners"
           @input="onInput($event)"
+          @keyup="onKeyUp($event)"
         >
         <!-- mousedown event is used because it is fired before blur event on GeoInput -->
         <!-- blur event won't be fired but that's fine because we want this handler to prevail over the blur one -->
@@ -153,6 +155,14 @@ export default {
       default: function () {
         return ['fas', 'times-circle']
       }
+    },
+
+    /**
+     * Text to be displayed when no value is written.
+     */
+    placeholder: {
+      type: String,
+      required: false
     }
   },
   computed: {
@@ -211,7 +221,17 @@ export default {
        * @event delete-value
        */
       this.$emit('delete-value')
-    }
+    },
+
+    onKeyUp ($event) {
+      /**
+       * User typed on the input box.
+       *
+       * @event keyup
+       * @type {KeyboardEvent}
+       */
+      this.$emit('custom-keyup', $event.target.value)
+    },
   }
 }
 </script>

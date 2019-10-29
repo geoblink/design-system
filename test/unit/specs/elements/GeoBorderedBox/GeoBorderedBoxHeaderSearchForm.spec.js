@@ -39,7 +39,7 @@ describe('GeoBorderedBoxHeaderSearchForm', () => {
     expect(spy).toBeCalledWith(expect.stringContaining('[Vue warn]: Invalid prop'))
   })
 
-  it.skip('Should pass validation if passed a correct value', () => {
+  it('Should pass validation if passed a correct value', () => {
     const wrapper = mount(GeoBorderedBoxHeaderSearchForm, {
       stubs: {
         'font-awesome-icon': FontAwesomeIcon,
@@ -69,8 +69,7 @@ describe('GeoBorderedBoxHeaderSearchForm', () => {
     expect(wrapper.find('.geo-input__input').element.placeholder).toBe('Some demo placeholder')
   })
 
-  it.skip('Should emit an event when something is typed down', () => {
-    jest.useFakeTimers()
+  it('Should emit an event when something is typed down', () => {
     const wrapper = mount(GeoBorderedBoxHeaderSearchForm, {
       stubs: {
         'font-awesome-icon': FontAwesomeIcon,
@@ -80,11 +79,11 @@ describe('GeoBorderedBoxHeaderSearchForm', () => {
         searchIcon: ['fas', 'search']
       }
     })
+
     const textInput = wrapper.find('.geo-input__input')
     textInput.setValue('Some search')
-    wrapper.find(GeoInput).trigger('keyup')
+    wrapper.find('.geo-input__input').trigger('keyup')
     expect(wrapper.find('.geo-input__input').element.value).toBe('Some search')
-    jest.runAllTimers()
-    expect(wrapper.emitted()['input']).toBeTruthy()
+    expect(wrapper.emitted().input).toBeTruthy()
   })
 })

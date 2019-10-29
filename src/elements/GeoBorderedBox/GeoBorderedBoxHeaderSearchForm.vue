@@ -4,12 +4,12 @@
     @submit.prevent
   >
     <geo-input
-      v-bind="$attrs"
-      v-model="valueInput"
       :leadingAccessoryIcon="searchIcon"
+      :value="value"
       :placeholder="placeholder"
+      v-bind="$attrs"
       type="text"
-      @keyup="searchPattern($event)"
+      @custom-keyup="searchPattern($event)"
       @delete-value="deleteValue"
     />
   </form>
@@ -40,7 +40,7 @@ export default {
     },
 
     /**
-     * Text to be displayed when no option is selected.
+     * Text to be displayed when no value is written.
      */
     placeholder: {
       type: String,
@@ -60,27 +60,22 @@ export default {
     }
 
   },
-  data () {
-    return {
-      valueInput: ''
-    }
-  },
   computed: {
     searchPattern () {
-      return throttle(function ($event) {
+      return throttle(function (value) {
         /**
          * User wrote something in the select search form.
          * @event input
          * @type {string}
          */
-        this.$emit('input', _.deburr($event.target.value))
+        this.$emit('input', _.deburr(value))
       })
     }
   },
   methods: {
     deleteValue () {
-      this.valueInput = ''
-    }
+      this.searchPattern('')
+    },
   }
 }
 </script>

@@ -13,7 +13,9 @@ import GeoHighlightedString from '@/elements/GeoHighlightedString/GeoHighlighted
 import GeoListItem from '@/elements/GeoList/GeoListItem.vue'
 import GeoListGroup from '@/elements/GeoList/GeoListGroup.vue'
 import GeoTrimmedContent from '@/elements/GeoTrimmedContent/GeoTrimmedContent.vue'
+import GeoInput from '@/elements/GeoInput/GeoInput.vue'
 import _ from 'lodash'
+import * as sinon from 'sinon'
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fas } from '@fortawesome/free-solid-svg-icons'
@@ -43,10 +45,13 @@ const stubs = {
   GeoTrimmedContent,
   GeoBorderedBoxHeaderSearchForm,
   GeoListGroup,
+  GeoInput,
   'font-awesome-icon': FontAwesomeIcon
 }
 
 describe('GeoSelect', () => {
+  const sandbox = sinon.createSandbox()
+
   const defaultProps = {
     options: _.times(4, idx => { return { label: `${idx}` } }),
     placeholder: 'Some Placeholder',
@@ -56,6 +61,15 @@ describe('GeoSelect', () => {
     pageSize: 4,
     value: { label: 'Item 0' }
   }
+
+  beforeEach(function () {
+    sandbox.restore()
+    sandbox.stub(_, 'throttle').returnsArg(0)
+  })
+
+  afterEach(function () {
+    sandbox.restore()
+  })
 
   it('Should render toggle button', () => {
     const wrapper = mount(GeoSelect, {
@@ -143,7 +157,7 @@ describe('GeoSelect', () => {
     expect(wrapper.find('.geo-bordered-box-header-search-form--geo-select').exists()).toBe(false)
   })
 
-  it('Should filter the select options when typing on the search box', () => {
+  it('Should filter the select options when typing on the search box', async () => {
     const wrapper = mount(GeoSelect, {
       stubs,
       propsData: _.assign({}, defaultProps, {
@@ -157,13 +171,17 @@ describe('GeoSelect', () => {
         }
       }
     })
-    wrapper.find('.geo-bordered-box-header-search-form__input').element.value = 'Item 1'
-    wrapper.find('.geo-bordered-box-header-search-form__input').trigger('keyup')
+
+    expect(wrapper.findAll('.geo-list-item--geo-select').length).toBe(4)
+    wrapper.find('.geo-input__input').element.value = 'Item 1'
+    const event = new Event('keyup')
+    wrapper.find('.geo-input__input').element.dispatchEvent(event)
+    await wrapper.vm.$nextTick()
     expect(wrapper.findAll('.geo-list-item--geo-select').length).toBe(1)
     expect(wrapper.find('.geo-list-item--geo-select').text()).toEqual('Item 1')
   })
 
-  it('Should filter options in an opt-group select', () => {
+  it('Should filter options in an opt-group select', async () => {
     const wrapper = mount(GeoSelect, {
       stubs,
       propsData: _.assign({}, defaultProps, {
@@ -189,8 +207,12 @@ describe('GeoSelect', () => {
         }
       }
     })
-    wrapper.find('.geo-bordered-box-header-search-form__input').element.value = 'Second Group'
-    wrapper.find('.geo-bordered-box-header-search-form__input').trigger('keyup')
+
+    expect(wrapper.findAll('.geo-list-item--geo-select').length).toBe(8)
+    wrapper.find('.geo-input__input').element.value = 'Second Group'
+    const event = new Event('keyup')
+    wrapper.find('.geo-input__input').element.dispatchEvent(event)
+    await wrapper.vm.$nextTick()
     expect(wrapper.findAll('.geo-list-item--geo-select').length).toBe(4)
   })
 
