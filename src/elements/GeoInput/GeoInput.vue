@@ -39,7 +39,6 @@
           v-bind="$attrs"
           v-on="listeners"
           @input="onInput($event)"
-          @keyup="onKeyUp($event)"
         >
         <!-- mousedown event is used because it is fired before blur event on GeoInput -->
         <!-- blur event won't be fired but that's fine because we want this handler to prevail over the blur one -->
@@ -221,17 +220,7 @@ export default {
        * @event delete-value
        */
       this.$emit('delete-value')
-    },
-
-    onKeyUp ($event) {
-      /**
-       * User typed on the input box.
-       *
-       * @event keyup
-       * @type {KeyboardEvent}
-       */
-      this.$emit('custom-keyup', $event.target.value)
-    },
+    }
   }
 }
 </script>

@@ -67,7 +67,7 @@ describe('GeoMultiSelect', () => {
   afterEach(function () {
     sandbox.restore()
   })
-  
+
   it('Should render toggle button', () => {
     const wrapper = mount(GeoMultiSelect, {
       stubs,
@@ -192,11 +192,11 @@ describe('GeoMultiSelect', () => {
           isOpened: true
         }
       }
-    })    
+    })
 
     expect(wrapper.findAll('.geo-list-item--geo-multi-select').length).toBe(4)
     wrapper.find('.geo-input__input').element.value = 'Item 1'
-    const event = new Event('keyup')
+    const event = new Event('input')
     wrapper.find('.geo-input__input').element.dispatchEvent(event)
     await wrapper.vm.$nextTick()
     expect(wrapper.findAll('.geo-list-item--geo-multi-select').length).toBe(1)

@@ -4,13 +4,12 @@
     @submit.prevent
   >
     <geo-input
-      :leadingAccessoryIcon="searchIcon"
+      :leading-accessory-icon="searchIcon"
       :value="value"
       :placeholder="placeholder"
-      v-bind="$attrs"
       type="text"
-      @custom-keyup="searchPattern($event)"
-      @delete-value="deleteValue"
+      @input="searchPattern($event)"
+      @delete-value="deleteValue($event)"
     />
   </form>
 </template>
@@ -75,7 +74,7 @@ export default {
   methods: {
     deleteValue () {
       this.searchPattern('')
-    },
+    }
   }
 }
 </script>
