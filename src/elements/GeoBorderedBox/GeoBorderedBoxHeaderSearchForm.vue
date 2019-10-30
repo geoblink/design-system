@@ -8,6 +8,7 @@
       :value="value"
       :placeholder="placeholder"
       type="text"
+      v-bind="$attrs"
       @input="searchPattern($event)"
       @delete-value="deleteValue($event)"
     />

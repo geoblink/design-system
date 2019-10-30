@@ -14,6 +14,14 @@ fit nicely in a [GeoBorderedBox](/#/Elements/GeoBorderedBox?id=geoborderedbox-1)
         placeholder="Search..."
       />
 
+      <geo-bordered-box-header-search-form
+        v-model="value[0]"
+        :search-icon="['fas', 'search']"
+        :disabled-icon="['fas', 'lock']"
+        :disabled="true"
+        placeholder="Search..."
+      />
+
       <geo-bordered-box>
         <geo-bordered-box-header-search-form
           v-model="value[1]"
@@ -29,7 +37,6 @@ fit nicely in a [GeoBorderedBox](/#/Elements/GeoBorderedBox?id=geoborderedbox-1)
           v-model="value[2]"
           :search-icon="['fas', 'search']"
           placeholder="Search..."
-
         />
         <geo-list-clear-item>This is actually not searchable</geo-list-clear-item>
       </geo-bordered-box>

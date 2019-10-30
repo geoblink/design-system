@@ -9,9 +9,7 @@
 
   .geo-bordered-box-header-search-form#{$modifier-name-with-prefix} {
     align-items: center;
-    background: $color-white;
-    border: none;
-    margin: 10px;
+    margin: $space-small;
     display: flex;
     flex-direction: row;
     flex-grow: 0;
