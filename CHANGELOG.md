@@ -4,6 +4,12 @@ title: Changelog
 
 # Changelog
 
+## 25.6.0
+
+New:
+
+- `GeoSuffixSelect` component
+
 ## 25.5.0
 
 New:
