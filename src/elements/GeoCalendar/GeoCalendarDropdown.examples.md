@@ -44,15 +44,21 @@ The displayed grid for each granularity will depend on the provided `pickerDateU
   <div class="element-demo">
     <h3 class="element-demo__header">
       GeoCalendarDropdown
-      <div>
+    </h3>
+    <div class="element-demo__block">
+      <p>
         <label for="toggle-earliest-date">Toggle earliestDate</label>
         <input type="checkbox" id="toggle-earliest-date" name="toggle-earliest-date" v-model="hasEarliestDateConstraints">
-      </div>
-      <div>
+      </p>
+      <p>
         <label for="toggle-latest-date">Toggle latestDate</label>
         <input type="checkbox" id="toggle-latest-date" name="toggle-latest-date" v-model="hasLatestDateConstraints">
-      </div>
-    </h3>
+      </p>
+      <p>
+        <label for="toggle-aliases">Toggle Calendar aliases</label>
+        <input type="checkbox" id="toggle-aliases" name="toggle-aliases" v-model="hasAliases">
+      </p>
+    </div>
     <div class="element-demo__block">
       <geo-calendar-dropdown
         :input-range-icon="['fas', 'arrow-right']"
@@ -125,7 +131,10 @@ The displayed grid for each granularity will depend on the provided `pickerDateU
             Year
           </geo-calendar-picker-granularity-year>
         </template>
-        <template slot="pickerAliases">
+        <template
+          v-if="hasAliases"
+          slot="pickerAliases"
+        >
           <h5 class="element-demo__header">
             Date ranges
           </h5>
@@ -209,7 +218,8 @@ export default {
       selectedToDay: null,
       initialDateInGrid: subYears(new Date(), 3),
       hasEarliestDateConstraints: true,
-      hasLatestDateConstraints: true
+      hasLatestDateConstraints: true,
+      hasAliases: true
     }
   },
   computed: {
