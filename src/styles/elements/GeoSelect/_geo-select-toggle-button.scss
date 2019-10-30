@@ -10,16 +10,34 @@
   .geo-select-toggle-button#{$modifier-name-with-prefix} {
     @include font($body);
 
+    cursor: pointer;
+    justify-content: space-between;
+    user-select: none;
+
+    &.geo-select-toggle-button--empty#{$modifier-name-with-prefix} {
+      color: $color-grey-light;
+      font-style: italic;
+    }
+
+    &.geo-select-toggle-button--disabled#{$modifier-name-with-prefix} {
+      cursor: not-allowed;
+
+      &:hover, &:focus {  
+        .geo-select-toggle-button__toggle-icon#{$modifier-name-with-prefix} {
+          color: $color-grey-light;
+        }
+      }
+    }
+  }
+
+  .geo-select-toggle-button--regular#{$modifier-name-with-prefix} {
     align-items: center;
     background: $color-white;
     border: 1px solid $color-grey;
     border-radius: $border-radius-default;
-    cursor: pointer;
     display: flex;
     height: 40px;
-    justify-content: space-between;
     padding: 0 10px;
-    user-select: none;
     width: 200px;
 
     &:hover, &:focus {
@@ -33,6 +51,35 @@
         visibility: visible;
       }
     }
+
+    &.geo-select-toggle-button--disabled#{$modifier-name-with-prefix} {
+      background: $color-white-dark;
+      color: $color-grey-light;
+  
+      &:hover, &:focus {
+        border-color: $color-grey;
+      }
+    }
+  }
+
+  .geo-select-toggle-button--inputAccessory#{$modifier-name-with-prefix} {
+    width: max-content;
+
+    &:hover, &:focus {
+      color: $color-dark;
+    }
+
+    &.geo-select-toggle-button--disabled#{$modifier-name-with-prefix} {
+      color:$color-grey-darker;
+  
+      .geo-select-toggle-button__toggle-icon#{$modifier-name-with-prefix} {
+        color: $color-grey-light;
+      }
+  
+      &:hover, &:focus {
+        color:$color-grey-darker;
+      }
+    }
   }
 
   .geo-select-toggle-button__delete-icon#{$modifier-name-with-prefix} {
@@ -42,28 +89,10 @@
     visibility: hidden;
   }
 
-  .geo-select-toggle-button--empty#{$modifier-name-with-prefix} {
-    color: $color-grey-light;
-    font-style: italic;
-  }
-
-  .geo-select-toggle-button--disabled#{$modifier-name-with-prefix} {
-    background: $color-white-dark;
-    color: $color-grey-light;
-    cursor: not-allowed;
-
-    &:hover, &:focus {
-      border-color: $color-grey;
-
-      .geo-select-toggle-button__toggle-icon#{$modifier-name-with-prefix} {
-        color: $color-grey-light;
-      }
-    }
-  }
-
   .geo-select-toggle-button__toggle-icon#{$modifier-name-with-prefix} {
     margin-left: 10px;
   }
+
 }
 
 @include geo-select-toggle-button-make('');

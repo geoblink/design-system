@@ -8,7 +8,7 @@ title: Changelog
 
 New:
 
-- `GeoSuffixSelect` component
+- `GeoSelectToggleButton` has new variant `inputAccessory`
 
 ## 25.5.0
 
