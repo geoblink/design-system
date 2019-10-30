@@ -86,6 +86,9 @@ The displayed grid for each granularity will depend on the provided `pickerDateU
         </template>
         <template slot="calendarHeaderTitle">Calendar</template>
         <template slot="pickerGranularity">
+          <h5 class="element-demo__header">
+            Browse by
+          </h5>
           <geo-calendar-picker-granularity-day
             :picker-granularity-icon="['fas', 'arrow-right']"
             :is-active="selectedGranularityId === GRANULARITY_IDS.day"
@@ -121,6 +124,32 @@ The displayed grid for each granularity will depend on the provided `pickerDateU
           >
             Year
           </geo-calendar-picker-granularity-year>
+        </template>
+        <template slot="pickerAliases">
+          <h5 class="element-demo__header">
+            Date ranges
+          </h5>
+          <geo-calendar-picker-granularity-base
+            :picker-granularity-icon="['fas', 'arrow-right']"
+            :is-active="false"
+            @click.native="setAliasRange(0)"
+          >
+            Last quarter
+          </geo-calendar-picker-granularity-base>
+          <geo-calendar-picker-granularity-base
+            :picker-granularity-icon="['fas', 'arrow-right']"
+            :is-active="false"
+            @click.native="setAliasRange(1)"
+          >
+            Last week
+          </geo-calendar-picker-granularity-base>
+          <geo-calendar-picker-granularity-base
+            :picker-granularity-icon="['fas', 'arrow-right']"
+            :is-active="false"
+            @click.native="setAliasRange(2)"
+          >
+            Last year
+          </geo-calendar-picker-granularity-base>
         </template>
         <!-- TODO: CORE-7312 This should be part of the DS when input results in error -->
         <p
@@ -160,6 +189,11 @@ const addYears = require('date-fns').addYears
 const addDays = require('date-fns').addDays
 const subDays = require('date-fns').subDays
 const startOfToday = require('date-fns').startOfToday
+const startOfMonth = require('date-fns').startOfMonth
+const startOfWeek = require('date-fns').startOfWeek
+const startOfYear = require('date-fns').startOfYear
+const endOfMonth = require('date-fns').endOfMonth
+const startOfQuarter = require('date-fns').startOfQuarter
 const isAfter = require('date-fns').isAfter
 const isValid = require('date-fns').isValid
 const { GRANULARITY_IDS } = require('./GeoCalendar.utils')
@@ -179,6 +213,22 @@ export default {
     }
   },
   computed: {
+    aliases () {
+      return [
+        {
+          fromDate: startOfMonth(subMonths(startOfQuarter(new Date()), 3)),
+          toDate: subDays(startOfQuarter(new Date()), 1)
+        },
+        {
+          fromDate: startOfWeek(subDays(startOfWeek(new Date(), { weekStartsOn: 1 }), 1), { weekStartsOn: 1 }),
+          toDate: subDays(startOfWeek(new Date(), { weekStartsOn: 1 }), 1)
+        },
+        {
+          fromDate: startOfYear(subDays(startOfYear(new Date()), 1)),
+          toDate: subDays(startOfYear(new Date()), 1)
+        }
+      ]
+    },
     dataEarliestDate () {
       return this.hasEarliestDateConstraints ? subYears(startOfToday(), 4) : undefined
     },
@@ -215,6 +265,11 @@ export default {
 
     setToDate ({ toDate }) {
       this.selectedToDay = toDate
+    },
+
+    setAliasRange (index) {
+      this.selectedFromDay = this.aliases[index].fromDate
+      this.selectedToDay = this.aliases[index].toDate
     },
 
     applyDates () {}
