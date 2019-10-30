@@ -7,8 +7,8 @@
       :leading-accessory-icon="searchIcon"
       :value="value"
       :placeholder="placeholder"
-      type="text"
       v-bind="$attrs"
+      type="text"
       @input="searchPattern($event)"
       @delete-value="deleteValue($event)"
     />

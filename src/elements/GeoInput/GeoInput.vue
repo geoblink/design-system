@@ -27,7 +27,6 @@
         <input
           ref="input"
           :value="value"
-          :placeholder="placeholder"
           :disabled="disabled"
           :class="{
             'geo-input__input': true,
@@ -154,14 +153,6 @@ export default {
       default: function () {
         return ['fas', 'times-circle']
       }
-    },
-
-    /**
-     * Text to be displayed when no value is written.
-     */
-    placeholder: {
-      type: String,
-      required: false
     }
   },
   computed: {
