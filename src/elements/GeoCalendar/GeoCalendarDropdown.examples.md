@@ -141,21 +141,21 @@ The displayed grid for each granularity will depend on the provided `pickerDateU
           <geo-calendar-picker-granularity-base
             :picker-granularity-icon="['fas', 'arrow-right']"
             :is-active="false"
-            @click.native="setAliasRange(0)"
+            @click="setAliasRange(0)"
           >
             Last quarter
           </geo-calendar-picker-granularity-base>
           <geo-calendar-picker-granularity-base
             :picker-granularity-icon="['fas', 'arrow-right']"
             :is-active="false"
-            @click.native="setAliasRange(1)"
+            @click="setAliasRange(1)"
           >
             Last week
           </geo-calendar-picker-granularity-base>
           <geo-calendar-picker-granularity-base
             :picker-granularity-icon="['fas', 'arrow-right']"
             :is-active="false"
-            @click.native="setAliasRange(2)"
+            @click="setAliasRange(2)"
           >
             Last year
           </geo-calendar-picker-granularity-base>
