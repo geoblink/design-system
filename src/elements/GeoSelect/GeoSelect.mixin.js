@@ -78,7 +78,7 @@ export default {
      */
     placeholder: {
       type: String,
-      required: true
+      required: false
     },
 
     /**

@@ -281,29 +281,15 @@ export default {
     <h3 class="element-demo__header">Input with select suffix</h3>
     <div class="element-demo__block" style="justify-content: space-around;">
       <geo-input v-model="model[4]">
-        <geo-dropdown
-          :opened="isSuffixPopupOpen"
+        <geo-select
           slot="suffix"
-          @click-outside="closeSuffixPopup()"
-        >
-          <geo-select-toggle-button
-            variant="inputAccessory"
-            :is-empty="false"
-            slot="toggleButton"
-            @click="toggleSuffixPopup()"
-          >
-            {{ selectedDistanceMeasure }}
-          </geo-select-toggle-button>
-          <geo-bordered-box slot="popupContent">
-            <geo-list-item
-              v-for="measure in distanceMeasures"
-              :key="measure"
-              @click="selectMeasure(measure)"
-            >
-              {{ measure }}
-            </geo-list-item>
-          </geo-bordered-box>
-        </geo-dropdown>
+          :options="distanceMeasures"
+          :dropdown-icon="['fas', 'chevron-down']"
+          :search-icon="['fas', 'search']"
+          :fixed-width="false"
+          variant="inputAccessory"
+          v-model="selectedDistanceMeasure"
+        />
       </geo-input>
     </div>
 
@@ -329,9 +315,8 @@ export default {
   data () {
     return {
       model: [null, '', null, '', null, ''],
-      distanceMeasures: ['meters', 'miles'],
-      selectedDistanceMeasure: 'meters',
-      isSuffixPopupOpen: false
+      distanceMeasures: [{label: 'meters'}, {label:'miles'}],
+      selectedDistanceMeasure: {label: 'meters'}
     }
   },
   methods: {
@@ -343,17 +328,6 @@ export default {
     },
     resetValue3 () {
       this.model.splice(4, 1, '')
-    },
-    toggleSuffixPopup () {
-      this.isSuffixPopupOpen = !this.isSuffixPopupOpen
-    },
-    closeSuffixPopup () {
-      this.isSuffixPopupOpen = false
-      console.log('CLOSING')
-    },
-    selectMeasure (measure) {
-      this.selectedDistanceMeasure = measure
-      this.closeSuffixPopup()
     }
   }
 }
