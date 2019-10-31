@@ -62,7 +62,7 @@ a trailing chevron.
       </geo-select-toggle-button>
     </div>
 
-    <h3 class="element-demo__header">Disabled suffiw with select</h3>
+    <h3 class="element-demo__header">Disabled suffix with select</h3>
     <div class="element-demo__block" style="justify-content: space-around;">
       <geo-select-toggle-button
         variant="inputAccessory"
