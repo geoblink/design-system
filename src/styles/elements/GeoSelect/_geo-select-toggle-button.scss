@@ -28,58 +28,62 @@
         }
       }
     }
-  }
 
-  .geo-select-toggle-button--regular#{$modifier-name-with-prefix} {
-    align-items: center;
-    background: $color-white;
-    border: 1px solid $color-grey;
-    border-radius: $border-radius-default;
-    display: flex;
-    height: 40px;
-    padding: 0 10px;
-    width: 200px;
-
-    &:hover, &:focus {
-      border-color: $color-blue;
-
-      .geo-select-toggle-button__toggle-icon#{$modifier-name-with-prefix} {
-        color: $color-blue;
-      }
-
-      .geo-select-toggle-button__delete-icon#{$modifier-name-with-prefix} {
-        visibility: visible;
-      }
-    }
-
-    &.geo-select-toggle-button--disabled#{$modifier-name-with-prefix} {
-      background: $color-white-dark;
-      color: $color-grey-light;
+    &.geo-select-toggle-button--regular#{$modifier-name-with-prefix} {
+      align-items: center;
+      background: $color-white;
+      border: 1px solid $color-grey;
+      border-radius: $border-radius-default;
+      display: flex;
+      height: 40px;
+      padding: 0 10px;
+      width: 200px;
   
       &:hover, &:focus {
-        border-color: $color-grey;
-      }
-    }
-  }
-
-  .geo-select-toggle-button--inputAccessory#{$modifier-name-with-prefix} {
-    width: max-content;
-
-    &:hover, &:focus {
-      color: $color-dark;
-    }
-
-    &.geo-select-toggle-button--disabled#{$modifier-name-with-prefix} {
-      color:$color-grey-darker;
+        border-color: $color-blue;
   
-      .geo-select-toggle-button__toggle-icon#{$modifier-name-with-prefix} {
+        .geo-select-toggle-button__toggle-icon#{$modifier-name-with-prefix} {
+          color: $color-blue;
+        }
+  
+        .geo-select-toggle-button__delete-icon#{$modifier-name-with-prefix} {
+          visibility: visible;
+        }
+      }
+  
+      &.geo-select-toggle-button--disabled#{$modifier-name-with-prefix} {
+        background: $color-white-dark;
         color: $color-grey-light;
-      }
-  
-      &:hover, &:focus {
-        color:$color-grey-darker;
+    
+        &:hover, &:focus {
+          border-color: $color-grey;
+        }
       }
     }
+  
+    &.geo-select-toggle-button--inputAccessory#{$modifier-name-with-prefix} {
+      display: flex;
+      align-items: center;
+      white-space: nowrap;
+  
+      &:hover, &:focus {
+        color: $color-dark;
+      }
+  
+      &.geo-select-toggle-button--disabled#{$modifier-name-with-prefix} {
+        color: $color-grey-darker;
+    
+        .geo-select-toggle-button__toggle-icon#{$modifier-name-with-prefix} {
+          color: $color-grey-light;
+        }
+    
+        &:hover, &:focus {
+          color: $color-grey-darker;
+        }
+      }
+    }
+
+
   }
 
   .geo-select-toggle-button__delete-icon#{$modifier-name-with-prefix} {

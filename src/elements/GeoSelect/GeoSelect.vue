@@ -29,6 +29,7 @@
         :is-empty="!value"
         :is-value-deletable="isValueDeletable"
         :disabled="disabled"
+        :variant="variant"
         @click="toggleSelect"
         @delete-value="deleteValue"
       >

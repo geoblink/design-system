@@ -28,6 +28,7 @@
         :css-modifier="`geo-multi-select${cssSuffix}`"
         :is-empty="isEmpty"
         :disabled="disabled"
+        :variant="variant"
         @click="toggleSelect"
       >
         <template v-if="isEmpty">

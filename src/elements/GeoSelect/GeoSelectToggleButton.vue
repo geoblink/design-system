@@ -33,7 +33,7 @@
 <script>
 import cssSuffix from '../../mixins/cssModifierMixin'
 
-const VARIANTS = {
+export const VARIANTS = {
   regular: 'regular',
   inputAccessory: 'inputAccessory'
 }
@@ -120,8 +120,8 @@ export default {
     },
 
     /**
-     * Predefined color scheme of the alert, allowing several common
-     * out-of-the-box customizations.
+     * Predefined style scheme of the toggle button, allowing the possibility to use
+     * it as regular or as a suffix of an input.
      *
      * Supported `variant` values are exported under `VARIANTS` named export.
      * See [Component Constants](/docs/components-constants.html) for more info on how

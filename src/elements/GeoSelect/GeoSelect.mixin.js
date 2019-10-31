@@ -1,6 +1,7 @@
 import _ from 'lodash'
 import cssSuffix from '../../mixins/cssModifierMixin'
 import { Y_AXIS_POSITION, X_AXIS_POSITION } from '../GeoDropdown/GeoDropdown.constants'
+import { VARIANTS } from './GeoSelectToggleButton.vue'
 
 /**
  * @mixin
@@ -230,6 +231,26 @@ export default {
     disabled: {
       type: Boolean,
       default: false
+    },
+
+    /**
+     * Predefined style scheme of the toggle button, allowing the possibility to use
+     * it as regular or as a suffix of an input.
+     *
+     * Supported `variant` values are exported under `VARIANTS` named export.
+     * See [Component Constants](/docs/components-constants.html) for more info on how
+     * to use those constants in your code.
+     */
+    variant: {
+      type: String,
+      default: VARIANTS.regular,
+      validator (value) {
+        if (value in VARIANTS) return true
+
+        const supportedValues = Object.values(VARIANTS).map(i => `«${i}»`).join(', ')
+        console.warn(`GeoSelect [mixin] :: Unsupported value («${value}») for «variant» property. Use one of ${supportedValues}`)
+        return false
+      }
     }
   },
   data () {

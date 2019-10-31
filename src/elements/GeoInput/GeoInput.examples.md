@@ -278,9 +278,38 @@ export default {
       </geo-input>
     </div>
 
+    <h3 class="element-demo__header">Input with select suffix</h3>
+    <div class="element-demo__block" style="justify-content: space-around;">
+      <geo-input v-model="model[4]">
+        <geo-dropdown
+          :opened="isSuffixPopupOpen"
+          slot="suffix"
+          @click-outside="closeSuffixPopup()"
+        >
+          <geo-select-toggle-button
+            variant="inputAccessory"
+            :is-empty="false"
+            slot="toggleButton"
+            @click="toggleSuffixPopup()"
+          >
+            {{ selectedDistanceMeasure }}
+          </geo-select-toggle-button>
+          <geo-bordered-box slot="popupContent">
+            <geo-list-item
+              v-for="measure in distanceMeasures"
+              :key="measure"
+              @click="selectMeasure(measure)"
+            >
+              {{ measure }}
+            </geo-list-item>
+          </geo-bordered-box>
+        </geo-dropdown>
+      </geo-input>
+    </div>
+
     <h3 class="element-demo__header">Prefixed and suffixed input with delete event</h3>
     <div class="element-demo__block">
-      <geo-input v-model="model[4]" @delete-value="resetValue3">
+      <geo-input v-model="model[5]" @delete-value="resetValue3">
         <font-awesome-icon slot="prefix"
           :icon="['fas', 'bell']"
           fixed-width
@@ -299,7 +328,10 @@ export default {
   name: 'GeoInputDemo',
   data () {
     return {
-      model: [null, '', null, '', '']
+      model: [null, '', null, '', null, ''],
+      distanceMeasures: ['meters', 'miles'],
+      selectedDistanceMeasure: 'meters',
+      isSuffixPopupOpen: false
     }
   },
   methods: {
@@ -311,6 +343,17 @@ export default {
     },
     resetValue3 () {
       this.model.splice(4, 1, '')
+    },
+    toggleSuffixPopup () {
+      this.isSuffixPopupOpen = !this.isSuffixPopupOpen
+    },
+    closeSuffixPopup () {
+      this.isSuffixPopupOpen = false
+      console.log('CLOSING')
+    },
+    selectMeasure (measure) {
+      this.selectedDistanceMeasure = measure
+      this.closeSuffixPopup()
     }
   }
 }
