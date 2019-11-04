@@ -9,6 +9,8 @@ title: Changelog
 New:
 
 - `GeoInput` added `accessoryItem` slot
+- `GeoCompactButton` added `inputAccessory` variant
+- `GeoInputAccessoryCompactButton` component
 
 ## 25.6.0
 
