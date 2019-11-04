@@ -12,34 +12,41 @@
 
     .geo-input__input-wrapper {
       display: flex;
+      position: relative;
     }
 
     .geo-input__input-field {
       display: flex;
       align-items: center;
-      position: relative;
       width: 100%;
     }
 
     .geo-input__input {
       @include font($body);
 
-      border: 1px solid $color-grey;
-      border-radius: $border-radius-default;
+      background: transparent;
+      border: none;
       box-sizing: border-box;
+      flex-grow: 1;
       height: $space-x-large;
       outline: none;
       padding: $space-small;
-      width: 100%;
+      z-index: 1;
 
-      &:focus, &[focus] {
-        border: 1px solid $color-blue;
-        box-shadow: $box-shadow-focus;
+      &:focus,
+      &[focus] {
+        & ~ .geo-input__input-outline {
+          border: 1px solid $color-blue;
+          box-shadow: $box-shadow-focus;
+        }
       }
 
-      &:invalid {
-        border: 1px solid $color-red;
-        box-shadow: none;
+      &:invalid,
+      &[invalid] {
+        & ~ .geo-input__input-outline {
+          border: 1px solid $color-red;
+          box-shadow: $box-shadow-focus-error;
+        }
       }
 
       &::placeholder {
@@ -47,23 +54,37 @@
       }
     }
 
+    .geo-input__input-outline {
+      border: 1px solid $color-grey;
+      border-radius: $border-radius-default;
+      bottom: 0;
+      flex-grow: 0;
+      left: 0;
+      outline: none;
+      position: absolute;
+      right: 0;
+      top: 0;
+      z-index: 0;
+    }
+
     %geo-input-prefix-suffix {
       @include font($body);
 
       background-color: $color-white-darker;
-      border-bottom : 1px solid $color-grey;
-      border-top : 1px solid $color-grey;
       box-sizing: border-box;
       color:$color-grey-darker;
-      height: $space-x-large;
+      height: $space-x-large - 2 * 1px;
+      margin: 1px 0;
       padding: $space-small;
+      z-index: 1;
     }
 
     .geo-input__prefix {
       @extend %geo-input-prefix-suffix;
 
-      border-left: 1px solid $color-grey;
+      border-right: 1px solid $color-grey;
       border-radius: $border-radius-default 0 0 $border-radius-default;
+      margin-left: 1px;
     }
 
     .geo-input__input--prefix {
@@ -75,7 +96,8 @@
       @extend %geo-input-prefix-suffix;
 
       border-radius: 0 $border-radius-default $border-radius-default 0;
-      border-right: 1px solid $color-grey;
+      border-left: 1px solid $color-grey;
+      margin-right: 1px;
     }
 
     .geo-input__input--suffix {
@@ -83,35 +105,23 @@
       border-bottom-right-radius: 0;
     }
 
-    .geo-input__input--leading-space {
-      padding-left: $space-large;
-    }
-
-    .geo-input__input--delete-icon-space {
-      padding-right: $space-large;
-    }
-
     .geo-input__accessory-items {
       align-items: center;
       display: flex;
       flex-direction: row;
-      position: absolute;
-    }
-
-    .geo-input__accessory-items-item {
-      margin-right: $space-small;
-
-      &:last-child {
-        margin-right: 0;
-      }
+      z-index: 1;
     }
 
     .geo-input__accessory-items--leading {
-      left: $space-small;
+      .geo-input__accessory-items-item {
+        margin-left: $space-small;
+      }
     }
 
     .geo-input__accessory-items--trailing {
-      right: $space-small;
+      .geo-input__accessory-items-item {
+        margin-right: $space-small;
+      }
     }
 
     .geo-input__icon {
@@ -128,11 +138,15 @@
   .geo-input--success#{$modifier-name-with-prefix} {
     .geo-input__input {
       &, &:focus, &[focus] {
-        border: 1px solid $color-green;
+        & ~ .geo-input__input-outline {
+          border: 1px solid $color-green;
+        }
       }
 
       &:focus, &[focus] {
-        box-shadow: $box-shadow-focus-success;
+        & ~ .geo-input__input-outline {
+          box-shadow: $box-shadow-focus-success;
+        }
       }
     }
   }
@@ -140,24 +154,34 @@
   .geo-input--error#{$modifier-name-with-prefix} {
     .geo-input__input {
       &, &:focus, &[focus] {
-        border: 1px solid $color-red;
+        & ~ .geo-input__input-outline {
+          border: 1px solid $color-red;
+        }
       }
 
       &:focus, &[focus] {
-        box-shadow: $box-shadow-focus-error;
+        & ~ .geo-input__input-outline {
+          box-shadow: $box-shadow-focus-error;
+        }
       }
     }
   }
 
   .geo-input--disabled#{$modifier-name-with-prefix} {
+    cursor: not-allowed;
+
     .geo-input__input {
       cursor: not-allowed;
-      padding-right: $space-large;
 
       &, &:focus, &[focus] {
-        border: 1px solid $color-grey;
-        background-color: $color-white-dark;
         color: $color-grey-light;
+      }
+
+      &, &:focus, &[focus] {
+        & ~ .geo-input__input-outline {
+          border: 1px solid $color-grey;
+          background-color: $color-white-dark;
+        }
       }
     }
   }

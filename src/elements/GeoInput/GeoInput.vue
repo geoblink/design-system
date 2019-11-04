@@ -24,10 +24,11 @@
         >
           <font-awesome-icon
             :icon="leadingAccessoryIcon"
-            class="geo-input__icon"
+            class="geo-input__icon geo-input__accessory-items-item"
             fixed-with
           />
         </div>
+
         <input
           ref="input"
           :value="value"
@@ -43,6 +44,7 @@
           v-on="listeners"
           @input="onInput($event)"
         >
+
         <div
           :class="{
             'geo-input__accessory-items': true,
@@ -79,6 +81,8 @@
             class="geo-input__icon geo-input__accessory-items-item"
           />
         </div>
+
+        <div class="geo-input__input-outline" />
       </div>
       <div
         v-if="hasSuffix"
