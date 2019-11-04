@@ -13,6 +13,7 @@
     cursor: pointer;
     justify-content: space-between;
     user-select: none;
+    width: 200px;
 
     &.geo-select-toggle-button--empty#{$modifier-name-with-prefix} {
       color: $color-grey-light;
@@ -37,7 +38,6 @@
       display: flex;
       height: $space-x-large;
       padding: 0 $space-small;
-      width: 200px;
   
       &:hover, &:focus {
         border-color: $color-blue;
@@ -65,6 +65,7 @@
       display: flex;
       align-items: center;
       white-space: nowrap;
+      width: 100%;
   
       &:hover, &:focus {
         color: $color-dark;
