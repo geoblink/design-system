@@ -313,10 +313,11 @@ export default {
 export default {
   name: 'GeoInputDemo',
   data () {
+    const distanceMeasures = [{label: 'meters'}, {label:'miles'}]
     return {
       model: [null, '', null, '', null, ''],
-      distanceMeasures: [{label: 'meters'}, {label:'miles'}],
-      selectedDistanceMeasure: {label: 'meters'}
+      distanceMeasures,
+      selectedDistanceMeasure: distanceMeasures[0]
     }
   },
   methods: {
