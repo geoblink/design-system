@@ -4,6 +4,12 @@ title: Changelog
 
 # Changelog
 
+## 25.6.0
+
+New:
+
+- Add support for aliases in `GeoCalendar`
+
 ## 25.5.0
 
 New:

@@ -1,12 +1,13 @@
 <template>
   <div :class="`geo-calendar${cssSuffix}`">
     <div
-      v-if="$slots.pickerGranularity"
-      class="geo-calendar__granularity-selectors"
+      v-if="shouldRenderCalendarSidebar"
+      class="geo-calendar__sidebar-container"
     >
       <!-- @slot Use this slot to customize the sidebar with the different granularities handled by the calendar -->
       <slot name="pickerGranularity" />
-      <!-- TODO: CORE-7338 Put aliases in different slot -->
+      <!-- @slot Use this slot to include custom aliases that will automatically select a predefined set of ranges -->
+      <slot name="pickerAliases" />
     </div>
     <div class="geo-calendar__picker-controls">
       <div class="geo-calendar__input-ranges">
@@ -168,6 +169,10 @@ export default {
   },
 
   computed: {
+    shouldRenderCalendarSidebar () {
+      return this.$slots.pickerGranularity || this.$slots.pickerAliases
+    },
+
     showSetEarliestDateButton () {
       return this.earliestDate && this.isGranularityWithoutRangeConstraints
     },
@@ -214,6 +219,16 @@ export default {
       this.deleteFromFormattedDate()
       this.deleteToFormattedDate()
       this.lastInputFieldFocused = FOCUSABLE_INPUT_FIELDS.FROM_DATE
+    },
+
+    defaultFromDate () {
+      this.fromRawDate = this.defaultFromDate
+      this.setFormattedDates()
+    },
+
+    defaultToDate () {
+      this.toRawDate = this.defaultToDate
+      this.setFormattedDates()
     }
   },
 
