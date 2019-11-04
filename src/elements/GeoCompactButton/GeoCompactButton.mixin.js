@@ -4,7 +4,8 @@ import cssSuffix from '../../mixins/cssModifierMixin'
 const TYPES = {
   primary: 'primary',
   secondary: 'secondary',
-  danger: 'danger'
+  danger: 'danger',
+  inputAccessory: 'inputAccessory'
 }
 
 export { TYPES }

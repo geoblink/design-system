@@ -51,12 +51,13 @@ export default {
      *
      * > **Note:** There are specific components to avoid explicitly writing this value.
      *
-     * | type      | Specific component | Proposed usage (example) |
-     * |-----------|--------------------|--------------------------|
-     * | primary   | [GeoPrimaryCompactButton](./#/Elements/GeoCompactButton?id=geoprimarycompactbutton)     | Main action (saving changes) |
-     * | secondary | [GeoSecondaryCompactButton](./#/Elements/GeoCompactButton?id=geosecondarycompactbutton) | Auxiliar action (cancelling changes) |
-     * | danger    | [GeoDangerCompactButton](./#/Elements/GeoCompactButton?id=geodangercompactbutton)       | Dangerous actions (deleting data) |
-
+     * | type           | Specific component | Proposed usage (example) |
+     * |----------------|--------------------|--------------------------|
+     * | primary        | [GeoPrimaryCompactButton](./#/Elements/GeoCompactButton?id=geoprimarycompactbutton)       | Main action (saving changes) |
+     * | secondary      | [GeoSecondaryCompactButton](./#/Elements/GeoCompactButton?id=geosecondarycompactbutton)   | Auxiliar action (cancelling changes) |
+     * | danger         | [GeoDangerCompactButton](./#/Elements/GeoCompactButton?id=geodangercompactbutton)         | Dangerous actions (deleting data) |
+     * | inputAccessory | [GeoDangerCompactButton](./#/Elements/GeoCompactButton?id=geoinputaccessorycompactbutton) | Input accessory actions (input shortcuts) |
+     *
      * Supported `type` values are exported under `TYPES` named export. See
      * [Component Constants](/docs/components-constants.html) for more info on how to
      * use those constants in your code.
