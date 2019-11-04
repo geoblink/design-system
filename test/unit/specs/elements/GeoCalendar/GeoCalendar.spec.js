@@ -41,7 +41,7 @@ describe('GeoCalendar', () => {
   it('Should render', () => {
     const wrapper = getWrappedComponent()
     expect(wrapper.find('.geo-calendar').exists()).toBe(true)
-    expect(wrapper.find('.geo-calendar__granularity-selectors').exists()).toBe(true)
+    expect(wrapper.find('.geo-calendar__sidebar-container').exists()).toBe(true)
     expect(wrapper.find('.geo-calendar__picker-controls').exists()).toBe(true)
     expect(wrapper.vm.$refs.calendarPicker).toBeDefined()
   })
@@ -52,7 +52,7 @@ describe('GeoCalendar', () => {
       cssModifier: 'test-calendar'
     })
     expect(wrapper.find('.geo-calendar--test-calendar').exists()).toBe(true)
-    expect(wrapper.find('.geo-calendar__granularity-selectors').exists()).toBe(true)
+    expect(wrapper.find('.geo-calendar__sidebar-container').exists()).toBe(true)
     expect(wrapper.find('.geo-calendar__picker-controls').exists()).toBe(true)
     expect(wrapper.vm.$refs.calendarPicker).toBeDefined()
   })

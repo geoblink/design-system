@@ -26,4 +26,17 @@ describe('GeoCalendarPickerGranularityBase', () => {
     wrapper.setProps({ isActive: true })
     expect(wrapper.find('.geo-calendar-picker-granularity-unit--active').exists()).toBe(true)
   })
+
+  it('Should emit click event', () => {
+    const wrapper = mount(GeoCalendarPickerGranularityBase, {
+      stubs: ['font-awesome-icon'],
+      propsData: {
+        isActive: false,
+        pickerGranularityIcon: ['fas', 'arrow-right']
+      }
+    })
+
+    wrapper.find('.geo-calendar-picker-granularity-unit').trigger('click')
+    expect(wrapper.emitted()['click']).toBeTruthy()
+  })
 })
