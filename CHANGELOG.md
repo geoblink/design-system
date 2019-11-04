@@ -4,6 +4,12 @@ title: Changelog
 
 # Changelog
 
+## 26.1.0
+
+New:
+
+- `GeoInput` added `accessoryItem` slot
+
 ## 25.5.0
 
 New:
