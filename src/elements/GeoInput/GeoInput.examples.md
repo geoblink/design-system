@@ -52,29 +52,92 @@ export default {
 </script>
 ```
 
-### Composed input
+### Input states
 
 ``` vue live
 <template>
   <div class="element-demo">
     <div class="element-demo__block">
-      <geo-input v-model="model[0]" type="text" placeholder="Placeholder">
-        <geo-input-label slot="label">Label</geo-input-label>
+      <geo-input v-model="model" type="text" placeholder="Placeholder">
+        <geo-input-label slot="label">Base</geo-input-label>
         <geo-input-message slot="message">This is the legend</geo-input-message>
       </geo-input>
 
-      <geo-input v-model="model[1]" type="text" focus>
-        <geo-input-label slot="label">Input focused</geo-input-label>
+      <geo-input v-model="model" type="text" focus>
+        <geo-input-label slot="label">Base (focused)</geo-input-label>
         <geo-input-message slot="message">This is the legend</geo-input-message>
       </geo-input>
 
-      <geo-input v-model="model[2]" type="text" :success="true" :disabled-icon="['fas', 'lock']">
-        <geo-input-label slot="label">Input success</geo-input-label>
+      <geo-input v-model="model" type="text" disabled>
+        <geo-input-label slot="label">Base (disabled)</geo-input-label>
+        <geo-input-message slot="message">This is the legend</geo-input-message>
+      </geo-input>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'GeoInputDemo',
+  data () {
+    return {
+      model: null
+    }
+  }
+}
+</script>
+```
+
+``` vue live
+<template>
+  <div class="element-demo">
+    <div class="element-demo__block">
+      <geo-input v-model="model" type="text" success>
+        <geo-input-label slot="label">Success</geo-input-label>
         <geo-input-message slot="message" variant="success">Success message</geo-input-message>
       </geo-input>
 
-      <geo-input v-model="model[3]" type="text" :error="true" :disabled-icon="['fas', 'lock']">
-        <geo-input-label slot="label">Input error</geo-input-label>
+      <geo-input v-model="model" type="text" success focus>
+        <geo-input-label slot="label">Success (focused)</geo-input-label>
+        <geo-input-message slot="message" variant="success">Success message</geo-input-message>
+      </geo-input>
+
+      <geo-input v-model="model" type="text" success disabled>
+        <geo-input-label slot="label">Success (disabled)</geo-input-label>
+        <geo-input-message slot="message" variant="success">Success message</geo-input-message>
+      </geo-input>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'GeoInputDemo',
+  data () {
+    return {
+      model: null
+    }
+  }
+}
+</script>
+```
+
+``` vue live
+<template>
+  <div class="element-demo">
+    <div class="element-demo__block">
+      <geo-input v-model="model" type="text" error>
+        <geo-input-label slot="label">Error</geo-input-label>
+        <geo-input-message slot="message" variant="error">Error message</geo-input-message>
+      </geo-input>
+
+      <geo-input v-model="model" type="text" error focus>
+        <geo-input-label slot="label">Error (focused)</geo-input-label>
+        <geo-input-message slot="message" variant="error">Error message</geo-input-message>
+      </geo-input>
+
+      <geo-input v-model="model" type="text" error disabled>
+        <geo-input-label slot="label">Error (disabled)</geo-input-label>
         <geo-input-message slot="message" variant="error">Error message</geo-input-message>
       </geo-input>
     </div>
@@ -86,7 +149,7 @@ export default {
   name: 'GeoInputDemo',
   data () {
     return {
-      model: [null, null, null, null]
+      model: null
     }
   }
 }
@@ -232,6 +295,44 @@ export default {
 </script>
 ```
 
+### Input with accessory item
+
+``` vue live
+<template>
+  <div class="element-demo">
+    <div class="element-demo__block">
+      <geo-input v-model="model[0]" type="text" placeholder="Placeholder">
+        <geo-primary-button slot="accessoryItem">Action!</geo-primary-button>
+      </geo-input>
+
+      <geo-input v-model="model[1]" type="text" placeholder="Disabled" disabled>
+        <geo-primary-button slot="accessoryItem">Action!</geo-primary-button>
+      </geo-input>
+
+      <geo-input v-model="model[2]" type="text" @delete-value="resetValue">
+        <geo-primary-button slot="accessoryItem">Action!</geo-primary-button>
+      </geo-input>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'GeoInputDemo',
+  data () {
+    return {
+      model: [null, null, 'Some value']
+    }
+  },
+  methods: {
+    resetValue () {
+      this.model[2] = ''
+    }
+  }
+}
+</script>
+```
+
 ### Prefixed and suffixed inputs
 
 ``` vue live
@@ -260,8 +361,7 @@ export default {
     <div class="element-demo__block">
       <geo-input
         v-model="model[2]"
-        :disabled="true"
-        :disabled-icon="['fas', 'lock']"
+        disabled
       >
         <div slot="suffix">
           euros
