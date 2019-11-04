@@ -57,8 +57,9 @@ describe('GeoInput', () => {
     expect(wrapper.find('.geo-input--error').exists()).toBe(false)
     expect(wrapper.find('.geo-input--success').exists()).toBe(false)
     expect(wrapper.find('.geo-input--disabled').exists()).toBe(true)
-    expect(wrapper.find('.geo-input__icon').exists()).toBe(true)
-    expect(wrapper.find('.geo-input__icon--trailing').exists()).toBe(true)
+    expect(wrapper.find('.geo-input__accessory-items').exists()).toBe(true)
+    expect(wrapper.find('.geo-input__accessory-items--trailing').exists()).toBe(true)
+    expect(wrapper.find('.geo-input__accessory-items--trailing .geo-input__icon').exists()).toBe(true)
   })
 
   it('Should render leading icon if provided', function () {
@@ -75,9 +76,9 @@ describe('GeoInput', () => {
     expect(wrapper.find('.geo-input--error').exists()).toBe(false)
     expect(wrapper.find('.geo-input--success').exists()).toBe(false)
     expect(wrapper.find('.geo-input--disabled').exists()).toBe(false)
-    expect(wrapper.find('.geo-input__icon').exists()).toBe(true)
-    expect(wrapper.find('.geo-input__icon--trailing').exists()).toBe(false)
-    expect(wrapper.find('.geo-input__icon--leading').exists()).toBe(true)
+    expect(wrapper.find('.geo-input__accessory-items').exists()).toBe(true)
+    expect(wrapper.find('.geo-input__accessory-items--leading').exists()).toBe(true)
+    expect(wrapper.find('.geo-input__accessory-items--leading .geo-input__icon').exists()).toBe(true)
   })
 
   it('Should emit input', function () {
@@ -110,5 +111,14 @@ describe('GeoInput', () => {
     })
     const fontAwesomeIconElem = wrapper.find(FontAwesomeIconMock)
     expectFontAwesomeIconProp(fontAwesomeIconElem, ['fas', 'euro-sign'])
+  })
+
+  it('Should render accessory items when provided', function () {
+    const wrapper = mount(GeoInput, {
+      slots: {
+        accessoryItem: '<p class="my-accessory-item">This is something custom</p>'
+      }
+    })
+    expect(wrapper.find('.my-accessory-item').exists()).toBe(true)
   })
 })
