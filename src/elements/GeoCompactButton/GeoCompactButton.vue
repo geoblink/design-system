@@ -53,10 +53,10 @@ export default {
      *
      * | type           | Specific component | Proposed usage (example) |
      * |----------------|--------------------|--------------------------|
-     * | primary        | [GeoPrimaryCompactButton](./#/Elements/GeoCompactButton?id=geoprimarycompactbutton)       | Main action (saving changes) |
-     * | secondary      | [GeoSecondaryCompactButton](./#/Elements/GeoCompactButton?id=geosecondarycompactbutton)   | Auxiliar action (cancelling changes) |
-     * | danger         | [GeoDangerCompactButton](./#/Elements/GeoCompactButton?id=geodangercompactbutton)         | Dangerous actions (deleting data) |
-     * | inputAccessory | [GeoDangerCompactButton](./#/Elements/GeoCompactButton?id=geoinputaccessorycompactbutton) | Input accessory actions (input shortcuts) |
+     * | primary        | [GeoPrimaryCompactButton](./#/Elements/GeoCompactButton?id=geoprimarycompactbutton)               | Main action (saving changes) |
+     * | secondary      | [GeoSecondaryCompactButton](./#/Elements/GeoCompactButton?id=geosecondarycompactbutton)           | Auxiliar action (cancelling changes) |
+     * | danger         | [GeoDangerCompactButton](./#/Elements/GeoCompactButton?id=geodangercompactbutton)                 | Dangerous actions (deleting data) |
+     * | inputAccessory | [GeoInputAccessoryCompactButton](./#/Elements/GeoCompactButton?id=geoinputaccessorycompactbutton) | Input accessory actions (input shortcuts) |
      *
      * Supported `type` values are exported under `TYPES` named export. See
      * [Component Constants](/docs/components-constants.html) for more info on how to
