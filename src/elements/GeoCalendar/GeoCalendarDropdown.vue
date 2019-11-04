@@ -46,6 +46,11 @@
           slot="pickerGranularity"
           name="pickerGranularity"
         />
+        <!-- @slot Use this slot to customize the sidebar with the different granularities handled by the calendar -->
+        <slot
+          slot="pickerAliases"
+          name="pickerAliases"
+        />
         <!-- @slot Use this slot to customize the message shown when there is an error in one of the selected dates -->
         <slot
           slot="formatError"
@@ -101,9 +106,9 @@ export default {
 
   computed: {
     cssModifierWithGranularity () {
-      return this.$slots.pickerGranularity
+      return this.$slots.pickerGranularity || this.$slots.pickerAliases
         ? `geo-calendar__dropdown${this.cssSuffix}`
-        : `geo-calendar__dropdown--no-granularity${this.cssSuffix}`
+        : `geo-calendar__dropdown--no-calendar-sidebar${this.cssSuffix}`
     }
   },
 

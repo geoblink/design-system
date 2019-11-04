@@ -99,7 +99,7 @@ export default {
     /**
      * Object provided by date-fns specifying the locale being used.
      * To import a locale just require it from date-fns in the following form:
-     * require('date-fns/locale/ISO_CODE_ALPHA_2')
+     * require('date-fns/locale')[ISO_CODE_ALPHA_2]
      * See available locales here https://date-fns.org/v1.30.1/docs/I18n#supported-languages
      */
     locale: {

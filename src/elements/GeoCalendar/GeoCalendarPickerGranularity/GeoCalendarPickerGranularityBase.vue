@@ -4,6 +4,7 @@
       'geo-calendar-picker-granularity-unit': true,
       'geo-calendar-picker-granularity-unit--active': isActive
     }"
+    @click="handleClick"
   >
     <slot />
     <font-awesome-icon
@@ -36,6 +37,12 @@ export default {
     pickerGranularityIcon: {
       type: Array,
       required: true
+    }
+  },
+
+  methods: {
+    handleClick () {
+      this.$emit('click')
     }
   }
 }

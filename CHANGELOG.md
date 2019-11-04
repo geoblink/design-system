@@ -4,11 +4,17 @@ title: Changelog
 
 # Changelog
 
+## 25.7.0
+
+New: 
+
+- `GeoSelectToggleButton` has new variant `inputAccessory`
+
 ## 25.6.0
 
 New:
 
-- `GeoSelectToggleButton` has new variant `inputAccessory`
+- Add support for aliases in `GeoCalendar`
 
 ## 25.5.0
 
