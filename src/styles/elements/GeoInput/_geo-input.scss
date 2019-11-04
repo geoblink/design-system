@@ -130,6 +130,10 @@
       &, &:focus, &[focus] {
         border: 1px solid $color-green;
       }
+
+      &:focus, &[focus] {
+        box-shadow: $box-shadow-focus-success;
+      }
     }
   }
 
@@ -137,6 +141,10 @@
     .geo-input__input {
       &, &:focus, &[focus] {
         border: 1px solid $color-red;
+      }
+
+      &:focus, &[focus] {
+        box-shadow: $box-shadow-focus-error;
       }
     }
   }
