@@ -210,6 +210,24 @@
   }
 }
 
+@mixin geo-compact-button--inputAccessory($css-suffix) {
+  @include geo-compact-button-make-scheme((
+    hover-background-color: rgba($color-dark-overlay, .1),
+    disabled-background-color: transparent,
+    disabled-text-color: $color-grey-light,
+  ), $css-suffix);
+
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+  color: $color-grey-light;
+
+  &#{$css-suffix} {
+    transition: all $duration-quickly $easing-base;
+    transition-property: background-color, border-color, color;
+  }
+}
+
 @mixin geo-compact-button($css-suffix) {
   &#{$css-suffix} {
     @include font($body-small);
@@ -277,6 +295,10 @@
 
   .geo-compact-button--danger {
     @include geo-compact-button--danger($modifier-name-with-prefix);
+  }
+
+  .geo-compact-button--inputAccessory {
+    @include geo-compact-button--inputAccessory($modifier-name-with-prefix);
   }
 }
 
