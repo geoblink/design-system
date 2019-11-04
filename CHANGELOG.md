@@ -11,6 +11,7 @@ New:
 - `GeoInput` added `accessoryItem` slot
 - `GeoCompactButton` added `inputAccessory` variant
 - `GeoInputAccessoryCompactButton` component
+- `GeoEditableInput`,  `GeoInput` updated focus box-shadow style
 
 ## 25.6.0
 
