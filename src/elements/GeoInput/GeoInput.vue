@@ -68,10 +68,7 @@
             class="geo-input__accessory-items-item"
           >
             <!-- @slot Use this slot to add trailing items inside the input -->
-            <slot
-              name="accessoryItem"
-              :is-type-number="isTypeNumber"
-            />
+            <slot name="accessoryItem" />
           </div>
 
           <font-awesome-icon
