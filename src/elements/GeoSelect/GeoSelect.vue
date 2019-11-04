@@ -44,6 +44,7 @@
       name="search-header"
     >
       <geo-bordered-box-header-search-form
+        v-if="searchable"
         slot="header"
         v-model="searchPattern"
         :search-icon="searchIcon"
