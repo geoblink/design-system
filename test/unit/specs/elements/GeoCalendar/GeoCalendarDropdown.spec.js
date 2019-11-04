@@ -65,6 +65,52 @@ describe('GeoCalendarDropdown', () => {
     expect(wrapper.vm.cssModifierWithGranularity).toBe('geo-calendar__dropdown')
   })
 
+  it('Should render with predefined aliases', () => {
+    const wrapper = mount(GeoCalendarDropdown, {
+      slots: {
+        popupContent: GeoCalendar,
+        pickerAliases: '<template>Picker predefined aliases</template>'
+      },
+      scopedSlots: {
+        toggleButton: `<template
+                      slot-scope="{ toggleCalendarPopup }"
+                      slot="toggleButton"
+                    >
+                      <geo-dropdown-regular-button
+                        class="calendar-toggle"
+                        :icon="['fas', 'calendar']"
+                        @click="toggleCalendarPopup"
+                      >
+                        Calendar:
+                      </geo-dropdown-regular-button>
+                    </template>`
+      },
+      stubs: {
+        GeoBorderedBox,
+        'geo-bordered-box-header': true,
+        'geo-bordered-box-footer': true,
+        'geo-input': true,
+        'font-awesome-icon': true,
+        'geo-calendar-picker': true,
+        'geo-dropdown-regular-button': true,
+        GeoButton,
+        GeoCalendar,
+        GeoDropdown,
+        GeoPrimaryButton
+      },
+      propsData: {
+        pickerDateUnit: PICKER_DATE_UNITS.day,
+        granularityId: GRANULARITY_IDS.day,
+        locale: {}
+      }
+    })
+    expect(wrapper.vm.isCalendarPopupOpened).toBe(false)
+    wrapper.find('.calendar-toggle').vm.$emit('click')
+    expect(wrapper.vm.isCalendarPopupOpened).toBe(true)
+    expect(wrapper.find('.geo-calendar').exists()).toBe(true)
+    expect(wrapper.find('.geo-calendar__sidebar-container').exists()).toBe(true)
+  })
+
   it('Should render with appended cssModifier', () => {
     const wrapper = getWrappedComponent()
     wrapper.setProps({

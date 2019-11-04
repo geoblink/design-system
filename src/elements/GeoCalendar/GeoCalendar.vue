@@ -1,8 +1,8 @@
 <template>
   <div :class="`geo-calendar${cssSuffix}`">
     <div
-      v-if="$slots.pickerGranularity"
-      class="geo-calendar__granularity-selectors"
+      v-if="shouldRenderCalendarSidebar"
+      class="geo-calendar__sidebar-container"
     >
       <!-- @slot Use this slot to customize the sidebar with the different granularities handled by the calendar -->
       <slot name="pickerGranularity" />
@@ -169,6 +169,10 @@ export default {
   },
 
   computed: {
+    shouldRenderCalendarSidebar () {
+      return this.$slots.pickerGranularity || this.$slots.pickerAliases
+    },
+
     showSetEarliestDateButton () {
       return this.earliestDate && this.isGranularityWithoutRangeConstraints
     },
