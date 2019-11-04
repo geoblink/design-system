@@ -35,8 +35,8 @@
       border: 1px solid $color-grey;
       border-radius: $border-radius-default;
       display: flex;
-      height: 40px;
-      padding: 0 10px;
+      height: $space_x_large;
+      padding: 0 $space-small;
       width: 200px;
   
       &:hover, &:focus {
@@ -94,7 +94,7 @@
   }
 
   .geo-select-toggle-button__toggle-icon#{$modifier-name-with-prefix} {
-    margin-left: 10px;
+    margin-left: $space-small;
   }
 
 }

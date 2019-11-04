@@ -13,7 +13,6 @@
       <div
         v-if="hasPrefix"
         class="geo-input__prefix"
-        @click.prevent
       >
         <!-- @slot Use this slot to customize what's displayed as a prefix -->
         <slot name="prefix" />
