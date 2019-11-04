@@ -106,9 +106,9 @@ export default {
 
   computed: {
     cssModifierWithGranularity () {
-      return this.$slots.pickerGranularity
+      return this.$slots.pickerGranularity || this.$slots.pickerAliases
         ? `geo-calendar__dropdown${this.cssSuffix}`
-        : `geo-calendar__dropdown--no-granularity${this.cssSuffix}`
+        : `geo-calendar__dropdown--no-calendar-sidebar${this.cssSuffix}`
     }
   },
 

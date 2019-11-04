@@ -8,9 +8,9 @@
   }
 
   @include geo-dropdown-make('geo-calendar__dropdown#{$modifier-name-with-prefix}');
-  @include geo-dropdown-make('geo-calendar__dropdown--no-granularity#{$modifier-name-with-prefix}');
+  @include geo-dropdown-make('geo-calendar__dropdown--no-calendar-sidebar#{$modifier-name-with-prefix}');
   @include geo-bordered-box-make('geo-calendar__dropdown#{$modifier-name-with-prefix}');
-  @include geo-bordered-box-make('geo-calendar__dropdown--no-granularity#{$modifier-name-with-prefix}');
+  @include geo-bordered-box-make('geo-calendar__dropdown--no-calendar-sidebar#{$modifier-name-with-prefix}');
   @include geo-calendar-make($modifier-name);
   @include geo-calendar-picker-make($modifier-name);
   @include geo-calendar-grid-make($modifier-name);
@@ -24,7 +24,7 @@
     width: 515px;
   }
 
-  .geo-dropdown__popup--geo-calendar__dropdown--no-granularity#{$modifier-name-with-prefix} {
+  .geo-dropdown__popup--geo-calendar__dropdown--no-calendar-sidebar#{$modifier-name-with-prefix} {
     width: 360px;
   }
 
