@@ -143,7 +143,7 @@
     "uglifyjs-webpack-plugin": "^2.2.0",
     "url-loader": "^2.1.0",
     "vue": "^2.5.22",
-    "vue-directive-tooltip": "^1.4.5",
+    "vue-directive-tooltip": "~1.5.0",
     "vue-docgen-api": "^3.19.5",
     "vue-jest": "^3.0.4",
     "vue-loader": "^15.7.1",
