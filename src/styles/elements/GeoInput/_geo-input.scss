@@ -1,5 +1,6 @@
 @mixin geo-input-make($modifier-name) {
 
+  $border-size: 1px;
   $modifier-name-with-prefix: '';
 
   @if $modifier-name != '' {
@@ -36,7 +37,7 @@
       &:focus,
       &[focus] {
         & ~ .geo-input__input-outline {
-          border: 1px solid $color-blue;
+          border: $border-size solid $color-blue;
           box-shadow: $box-shadow-focus;
         }
       }
@@ -44,7 +45,7 @@
       &:invalid,
       &[invalid] {
         & ~ .geo-input__input-outline {
-          border: 1px solid $color-red;
+          border: $border-size solid $color-red;
           box-shadow: $box-shadow-focus-error;
         }
       }
@@ -55,7 +56,7 @@
     }
 
     .geo-input__input-outline {
-      border: 1px solid $color-grey;
+      border: $border-size solid $color-grey;
       border-radius: $border-radius-default;
       bottom: 0;
       flex-grow: 0;
@@ -73,8 +74,8 @@
       background-color: $color-white-darker;
       box-sizing: border-box;
       color:$color-grey-darker;
-      height: $space-x-large - 2 * 1px;
-      margin: 1px 0;
+      height: $space-x-large - 2 * $border-size;
+      margin: $border-size 0;
       padding: $space-small;
       z-index: 1;
     }
@@ -82,9 +83,9 @@
     .geo-input__prefix {
       @extend %geo-input-prefix-suffix;
 
-      border-right: 1px solid $color-grey;
+      border-right: $border-size solid $color-grey;
       border-radius: $border-radius-default 0 0 $border-radius-default;
-      margin-left: 1px;
+      margin-left: $border-size;
     }
 
     .geo-input__input--prefix {
@@ -96,8 +97,8 @@
       @extend %geo-input-prefix-suffix;
 
       border-radius: 0 $border-radius-default $border-radius-default 0;
-      border-left: 1px solid $color-grey;
-      margin-right: 1px;
+      border-left: $border-size solid $color-grey;
+      margin-right: $border-size;
     }
 
     .geo-input__input--suffix {
@@ -139,7 +140,7 @@
     .geo-input__input {
       &, &:focus, &[focus] {
         & ~ .geo-input__input-outline {
-          border: 1px solid $color-green;
+          border: $border-size solid $color-green;
         }
       }
 
@@ -155,7 +156,7 @@
     .geo-input__input {
       &, &:focus, &[focus] {
         & ~ .geo-input__input-outline {
-          border: 1px solid $color-red;
+          border: $border-size solid $color-red;
         }
       }
 
@@ -179,7 +180,7 @@
 
       &, &:focus, &[focus] {
         & ~ .geo-input__input-outline {
-          border: 1px solid $color-grey;
+          border: $border-size solid $color-grey;
           background-color: $color-white-dark;
         }
       }
