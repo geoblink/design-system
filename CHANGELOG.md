@@ -4,6 +4,12 @@ title: Changelog
 
 # Changelog
 
+## 26.0.0
+
+Breaking:
+
+- `GeoBorderedBoxHeaderSearchForm` now uses `GeoInput`
+
 ## 25.6.0
 
 New:

@@ -9,35 +9,15 @@
 
   .geo-bordered-box-header-search-form#{$modifier-name-with-prefix} {
     align-items: center;
-    background: $color-white-dark;
-    border-bottom: 1px solid $color-grey;
+    margin: $space-small;
     display: flex;
     flex-direction: row;
     flex-grow: 0;
     flex-shrink: 0;
-    height: 40px;
-    padding: 0 10px;
 
-    .geo-bordered-box-header-search-form__icon {
-      color: $color-grey-light;
-      font-size: 20px;
-      padding-right: 5px;
-    }
-
-    .geo-bordered-box-header-search-form__input {
-      background: none;
-      border: 0;
-      font-size: 14px;
-      outline: 0;
-      width: 100%;
-
-      &::placeholder {
-        color: $color-grey-light;
-      }
-    }
-
-    .geo-bordered-box-header-search-form__input--empty {
-      font-style: italic;
+    .geo-input .geo-input__input {
+      height: 30px;
+      font-size: $font-size-small;
     }
   }
 }

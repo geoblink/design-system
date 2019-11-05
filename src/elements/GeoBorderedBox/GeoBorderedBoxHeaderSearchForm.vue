@@ -3,20 +3,15 @@
     :class="`geo-bordered-box-header-search-form${cssSuffix}`"
     @submit.prevent
   >
-    <font-awesome-icon
-      :icon="searchIcon"
-      class="geo-bordered-box-header-search-form__icon"
-    />
-    <input
-      :class="{
-        'geo-bordered-box-header-search-form__input': true,
-        [`geo-bordered-box-header-search-form__input--empty${cssSuffix}`]: !value
-      }"
+    <geo-input
+      :leading-accessory-icon="searchIcon"
       :value="value"
       :placeholder="placeholder"
+      v-bind="$attrs"
       type="text"
-      @keyup="searchPattern($event)"
-    >
+      @input="searchPattern($event)"
+      @delete-value="deleteValue($event)"
+    />
   </form>
 </template>
 
@@ -45,7 +40,7 @@ export default {
     },
 
     /**
-     * Text to be displayed when no option is selected.
+     * Text to be displayed when no value is written.
      */
     placeholder: {
       type: String,
@@ -67,14 +62,19 @@ export default {
   },
   computed: {
     searchPattern () {
-      return throttle(function ($event) {
+      return throttle(function (value) {
         /**
          * User wrote something in the select search form.
          * @event input
          * @type {string}
          */
-        this.$emit('input', _.deburr($event.target.value))
+        this.$emit('input', _.deburr(value))
       })
+    }
+  },
+  methods: {
+    deleteValue () {
+      this.searchPattern('')
     }
   }
 }

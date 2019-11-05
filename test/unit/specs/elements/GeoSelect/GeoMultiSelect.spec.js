@@ -1,4 +1,5 @@
 import _ from 'lodash'
+import * as sinon from 'sinon'
 import { mount } from '@vue/test-utils'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import GeoMultiSelect from '@/elements/GeoSelect/GeoMultiSelect.vue'
@@ -13,6 +14,7 @@ import GeoHighlightedString from '@/elements/GeoHighlightedString/GeoHighlighted
 import GeoListItem from '@/elements/GeoList/GeoListItem.vue'
 import GeoListGroup from '@/elements/GeoList/GeoListGroup.vue'
 import GeoTrimmedContent from '@/elements/GeoTrimmedContent/GeoTrimmedContent.vue'
+import GeoInput from '@/elements/GeoInput/GeoInput.vue'
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fas } from '@fortawesome/free-solid-svg-icons'
@@ -42,6 +44,7 @@ const stubs = {
   GeoTrimmedContent,
   GeoBorderedBoxHeaderSearchForm,
   GeoListGroup,
+  GeoInput,
   FontAwesomeIcon
 }
 
@@ -54,6 +57,17 @@ const requiredProps = {
 }
 
 describe('GeoMultiSelect', () => {
+  const sandbox = sinon.createSandbox()
+
+  beforeEach(function () {
+    sandbox.restore()
+    sandbox.stub(_, 'throttle').returnsArg(0)
+  })
+
+  afterEach(function () {
+    sandbox.restore()
+  })
+
   it('Should render toggle button', () => {
     const wrapper = mount(GeoMultiSelect, {
       stubs,
@@ -179,9 +193,10 @@ describe('GeoMultiSelect', () => {
         }
       }
     })
+
     expect(wrapper.findAll('.geo-list-item--geo-multi-select').length).toBe(4)
-    wrapper.find('.geo-bordered-box-header-search-form__input').setValue('Item 1')
-    wrapper.find('.geo-bordered-box-header-search-form__input').trigger('keyup')
+    wrapper.find('.geo-input__input').element.value = 'Item 1'
+    wrapper.find('.geo-input__input').trigger('input')
     expect(wrapper.findAll('.geo-list-item--geo-multi-select').length).toBe(1)
     expect(wrapper.find('.geo-list-item--geo-multi-select').text()).toEqual('Item 1')
   })
