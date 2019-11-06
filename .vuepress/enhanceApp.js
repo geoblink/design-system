@@ -46,7 +46,8 @@ const mockedFalIcons = _.mapValues(_.pick(fas, iconsToMock), function (original)
 })
 
 const nonExistingIconsToMock = {
-  'external-link-square': 'faExternalLinkSquareAlt'
+  'external-link-square': 'faExternalLinkSquareAlt',
+  'lock-alt': 'faLock'
 }
 const mockedNonExistingIcons = _.mapValues(nonExistingIconsToMock, function (mockedIconKey, originalIconName) {
   return _.assign({}, fas[mockedIconKey], {
