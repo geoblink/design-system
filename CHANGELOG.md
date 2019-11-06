@@ -4,11 +4,17 @@ title: Changelog
 
 # Changelog
 
-## 25.7.0
+## 26.1.0
 
-New: 
+New:
 
 - `GeoSelectToggleButton` has new variant `inputAccessory`
+
+## 26.0.0
+
+Breaking:
+
+- `GeoBorderedBoxHeaderSearchForm` now uses `GeoInput`
 
 ## 25.6.0
 
