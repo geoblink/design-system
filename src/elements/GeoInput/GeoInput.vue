@@ -19,12 +19,17 @@
         <slot name="prefix" />
       </div>
       <div class="geo-input__input-field">
-        <font-awesome-icon
+        <div
           v-if="leadingAccessoryIcon"
-          :icon="leadingAccessoryIcon"
-          fixed-with
-          class="geo-input__icon geo-input__icon--leading"
-        />
+          class="geo-input__accessory-items geo-input__accessory-items--leading"
+        >
+          <font-awesome-icon
+            :icon="leadingAccessoryIcon"
+            class="geo-input__icon geo-input__accessory-items-item"
+            fixed-with
+          />
+        </div>
+
         <input
           ref="input"
           :value="value"
@@ -40,25 +45,42 @@
           v-on="listeners"
           @input="onInput($event)"
         >
-        <!-- mousedown event is used because it is fired before blur event on GeoInput -->
-        <!-- blur event won't be fired but that's fine because we want this handler to prevail over the blur one -->
-        <!-- https://forum.vuejs.org/t/blur-before-click-only-on-safari/21598/7 -->
-        <font-awesome-icon
-          v-if="isDeleteIconVisible"
-          :icon="deleteInputValueIcon"
-          fixed-with
-          class="geo-input__icon geo-input__icon--trailing geo-input__icon--delete"
+
+        <div
           :class="{
-            'geo-input__icon--delete-with-type-number': isTypeNumber
+            'geo-input__accessory-items': true,
+            'geo-input__accessory-items--trailing': true,
+            'geo-input__accessory-items--with-type-number': isTypeNumber
           }"
-          @mousedown.prevent="deleteValue"
-        />
-        <font-awesome-icon
-          v-if="disabled"
-          :icon="disabledIcon"
-          fixed-with
-          class="geo-input__icon geo-input__icon--trailing"
-        />
+        >
+          <!-- mousedown event is used because it is fired before blur event on GeoInput -->
+          <!-- blur event won't be fired but that's fine because we want this handler to prevail over the blur one -->
+          <!-- https://forum.vuejs.org/t/blur-before-click-only-on-safari/21598/7 -->
+          <font-awesome-icon
+            v-if="isDeleteIconVisible"
+            :icon="deleteInputValueIcon"
+            class="geo-input__icon geo-input__icon--delete geo-input__accessory-items-item"
+            fixed-with
+            @mousedown.prevent="deleteValue"
+          />
+
+          <div
+            v-if="hasAccessoryItems"
+            class="geo-input__accessory-items-item"
+          >
+            <!-- @slot Use this slot to add trailing items inside the input -->
+            <slot name="accessoryItem" />
+          </div>
+
+          <font-awesome-icon
+            v-if="disabled"
+            :icon="disabledIcon"
+            fixed-with
+            class="geo-input__icon geo-input__accessory-items-item"
+          />
+        </div>
+
+        <div class="geo-input__input-outline" />
       </div>
       <div
         v-if="hasSuffix"
@@ -184,6 +206,10 @@ export default {
 
     isTypeNumber () {
       return this.$attrs.type === 'number'
+    },
+
+    hasAccessoryItems () {
+      return !_.isEmpty(this.$slots.accessoryItem)
     }
   },
   mounted () {
