@@ -4,6 +4,12 @@ title: Changelog
 
 # Changelog
 
+## 26.1.2
+
+Fixed:
+
+- `GeoTrimmedContent` revert changes in component.
+
 ## 26.1.1
 
 Fixed:

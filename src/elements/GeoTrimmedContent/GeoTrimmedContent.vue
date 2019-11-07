@@ -13,7 +13,6 @@ export default {
   mixins: [cssSuffix],
   data () {
     return {
-      htmlElement: null,
       isHovered: false,
       containerWidth: null,
       contentWidth: null,
@@ -73,14 +72,15 @@ export default {
       if (!this.$refs.content) return
 
       this.tooltipHTML = this.$refs.content.innerHTML
-      this.htmlElement.innerHTML = this.tooltipHTML
+      const existingElement = document.getElementById(this.idTooltipContentNode)
+      existingElement.innerHTML = this.tooltipHTML
     },
 
     addTooltipHTMLContentNode () {
-      if (this.htmlElement) return
+      const element = document.getElementById(this.idTooltipContentNode)
+      if (element) return
 
       const newElement = document.createElement('div')
-      this.htmlElement = newElement
       newElement.setAttribute('id', this.idTooltipContentNode)
       document.body.appendChild(newElement)
     },
@@ -88,7 +88,8 @@ export default {
     removeTooltipHTMLContentNode () {
       if (!this.isContentTrimmed) return
 
-      if (this.htmlElement) this.htmlElement.parentNode.removeChild(this.htmlElement)
+      const element = document.getElementById(this.idTooltipContentNode)
+      if (element) element.parentNode.removeChild(element)
     }
   },
   render (createElement) {
