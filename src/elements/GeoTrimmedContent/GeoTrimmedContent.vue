@@ -13,7 +13,6 @@ export default {
   mixins: [cssSuffix],
   data () {
     return {
-      htmlElement: null,
       isHovered: false,
       containerWidth: null,
       contentWidth: null,
