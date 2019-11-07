@@ -4,6 +4,15 @@ title: Changelog
 
 # Changelog
 
+## 26.1.0
+
+New:
+
+- `GeoInput` added `accessoryItem` slot
+- `GeoCompactButton` added `inputAccessory` variant
+- `GeoInputAccessoryCompactButton` component
+- `GeoEditableInput`,  `GeoInput` updated focus box-shadow style
+
 ## 26.0.0
 
 Breaking:

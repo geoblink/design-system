@@ -9,6 +9,7 @@ import GeoCompactButton from '@/elements/GeoCompactButton/GeoCompactButton.vue'
 import GeoPrimaryCompactButton from '@/elements/GeoCompactButton/GeoPrimaryCompactButton.vue'
 import GeoSecondaryCompactButton from '@/elements/GeoCompactButton/GeoSecondaryCompactButton.vue'
 import GeoDangerCompactButton from '@/elements/GeoCompactButton/GeoDangerCompactButton.vue'
+import GeoInputAccessoryCompactButton from '@/elements/GeoCompactButton/GeoInputAccessoryCompactButton.vue'
 
 library.add(fas)
 
@@ -32,6 +33,7 @@ localVue.component('geo-compact-button', GeoCompactButton)
 localVue.component('geo-primary-compact-button', GeoPrimaryCompactButton)
 localVue.component('geo-secondary-compact-button', GeoSecondaryCompactButton)
 localVue.component('geo-danger-compact-button', GeoDangerCompactButton)
+localVue.component('geo-inputAccessory-compact-button', GeoInputAccessoryCompactButton)
 
 describe('GeoCompactButton', function () {
   it('Should render button\'s content', function () {
@@ -149,7 +151,9 @@ describe('GeoCompactButton', function () {
 
 const taxonomyButtons = [
   GeoPrimaryCompactButton,
-  GeoSecondaryCompactButton
+  GeoSecondaryCompactButton,
+  GeoDangerCompactButton,
+  GeoInputAccessoryCompactButton
 ]
 
 describe('GeoButton Children', function () {
