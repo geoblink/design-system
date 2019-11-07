@@ -4,6 +4,13 @@ title: Changelog
 
 # Changelog
 
+## 26.1.1
+
+Fixed:
+
+- `GeoTrimmedContent` fixed version for `v-tooltip` lib.
+- `GeoTrimmedContent` save in data the selected html.
+
 ## 26.1.0
 
 New:
