@@ -73,15 +73,14 @@ export default {
       if (!this.$refs.content) return
 
       this.tooltipHTML = this.$refs.content.innerHTML
-      const existingElement = document.getElementById(this.idTooltipContentNode)
-      existingElement.innerHTML = this.tooltipHTML
+      this.htmlElement.innerHTML = this.tooltipHTML
     },
 
     addTooltipHTMLContentNode () {
-      const element = document.getElementById(this.idTooltipContentNode)
-      if (element) return
+      if (this.htmlElement) return
 
       const newElement = document.createElement('div')
+      this.htmlElement = newElement
       newElement.setAttribute('id', this.idTooltipContentNode)
       document.body.appendChild(newElement)
     },
@@ -89,8 +88,7 @@ export default {
     removeTooltipHTMLContentNode () {
       if (!this.isContentTrimmed) return
 
-      const element = document.getElementById(this.idTooltipContentNode)
-      if (element) element.parentNode.removeChild(element)
+      if (this.htmlElement) this.htmlElement.parentNode.removeChild(this.htmlElement)
     }
   },
   render (createElement) {
