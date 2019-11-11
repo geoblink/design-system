@@ -4,14 +4,18 @@
     @submit.prevent
   >
     <geo-input
-      :leading-accessory-icon="searchIcon"
       :value="value"
       :placeholder="placeholder"
       v-bind="$attrs"
       type="text"
       @input="searchPattern($event)"
       @delete-value="deleteValue($event)"
-    />
+    >
+      <font-awesome-icon
+        slot="accessoryItemLeading"
+        :icon="searchIcon"
+      />
+    </geo-input>
   </form>
 </template>
 

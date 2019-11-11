@@ -35,7 +35,8 @@ import cssSuffix from '../../mixins/cssModifierMixin'
 
 export const VARIANTS = {
   regular: 'regular',
-  inputAccessory: 'inputAccessory'
+  inputAccessorySuffix: 'inputAccessorySuffix',
+  inputAccessoryPrefix: 'inputAccessoryPrefix'
 }
 
 export default {

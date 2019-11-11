@@ -10,24 +10,21 @@
     <slot name="label" />
 
     <div class="geo-input__input-wrapper">
-      <div
-        v-if="hasPrefix"
-        class="geo-input__prefix"
-        @click.prevent
-      >
-        <!-- @slot Use this slot to customize what's displayed as a prefix -->
-        <slot name="prefix" />
-      </div>
       <div class="geo-input__input-field">
         <div
-          v-if="leadingAccessoryIcon"
-          class="geo-input__accessory-items geo-input__accessory-items--leading"
+          :class="{
+            'geo-input__accessory-items': true,
+            'geo-input__accessory-items--leading': true
+          }"
         >
-          <font-awesome-icon
-            :icon="leadingAccessoryIcon"
-            class="geo-input__icon geo-input__accessory-items-item"
-            fixed-with
-          />
+          <div
+            v-if="hasLeadingAccessoryItems"
+            class="geo-input__accessory-items-item"
+            @click.prevent
+          >
+            <!-- @slot Use this slot to add leading items inside the input -->
+            <slot name="accessoryItemLeading" />
+          </div>
         </div>
 
         <input
@@ -36,10 +33,7 @@
           :disabled="disabled"
           :class="{
             'geo-input__input': true,
-            'geo-input__input--leading-space': !!leadingAccessoryIcon,
-            'geo-input__input--delete-icon-space': isDeleteIconVisible,
-            'geo-input__input--prefix': hasPrefix,
-            'geo-input__input--suffix': hasSuffix
+            'geo-input__input--delete-icon-space': isDeleteIconVisible
           }"
           v-bind="$attrs"
           v-on="listeners"
@@ -49,8 +43,7 @@
         <div
           :class="{
             'geo-input__accessory-items': true,
-            'geo-input__accessory-items--trailing': true,
-            'geo-input__accessory-items--with-type-number': isTypeNumber
+            'geo-input__accessory-items--trailing': true
           }"
         >
           <!-- mousedown event is used because it is fired before blur event on GeoInput -->
@@ -59,36 +52,28 @@
           <font-awesome-icon
             v-if="isDeleteIconVisible"
             :icon="deleteInputValueIcon"
-            class="geo-input__icon geo-input__icon--delete geo-input__accessory-items-item"
+            class="geo-input__icon--delete geo-input__accessory-items-item"
             fixed-with
             @mousedown.prevent="deleteValue"
           />
-
-          <div
-            v-if="hasAccessoryItems"
-            class="geo-input__accessory-items-item"
-          >
-            <!-- @slot Use this slot to add trailing items inside the input -->
-            <slot name="accessoryItem" />
-          </div>
 
           <font-awesome-icon
             v-if="disabled"
             :icon="disabledIcon"
             fixed-with
-            class="geo-input__icon geo-input__accessory-items-item"
+            class="geo-input__accessory-items-item"
           />
-        </div>
 
+          <div
+            v-if="hasTrailingAccessoryItems"
+            class="geo-input__accessory-items-item"
+            @click.prevent
+          >
+            <!-- @slot Use this slot to add trailing items inside the input -->
+            <slot name="accessoryItemTrailing" />
+          </div>
+        </div>
         <div class="geo-input__input-outline" />
-      </div>
-      <div
-        v-if="hasSuffix"
-        class="geo-input__suffix"
-        @click.prevent
-      >
-        <!-- @slot Use this slot to customize what's displayed as a suffix -->
-        <slot name="suffix" />
       </div>
     </div>
 
@@ -161,17 +146,6 @@ export default {
      * See [vue-fontawesome](https://www.npmjs.com/package/@fortawesome/vue-fontawesome#explicit-prefix-note-the-vue-bind-shorthand-because-this-uses-an-array)
      * for more info about this.
      */
-    leadingAccessoryIcon: {
-      type: Array,
-      required: false
-    },
-
-    /**
-     * Font Awesome 5 icon to be displayed.
-     *
-     * See [vue-fontawesome](https://www.npmjs.com/package/@fortawesome/vue-fontawesome#explicit-prefix-note-the-vue-bind-shorthand-because-this-uses-an-array)
-     * for more info about this.
-     */
     deleteInputValueIcon: {
       type: Array,
       default: function () {
@@ -192,24 +166,16 @@ export default {
       return null
     },
 
-    hasPrefix () {
-      return !_.isEmpty(this.$slots.prefix)
-    },
-
-    hasSuffix () {
-      return !_.isEmpty(this.$slots.suffix)
-    },
-
     isDeleteIconVisible () {
       return !this.disabled && !!this.value && !!this.$listeners['delete-value']
     },
 
-    isTypeNumber () {
-      return this.$attrs.type === 'number'
+    hasTrailingAccessoryItems () {
+      return !_.isEmpty(this.$slots.accessoryItemTrailing)
     },
 
-    hasAccessoryItems () {
-      return !_.isEmpty(this.$slots.accessoryItem)
+    hasLeadingAccessoryItems () {
+      return !_.isEmpty(this.$slots.accessoryItemLeading)
     }
   },
   mounted () {

@@ -4,11 +4,25 @@ title: Changelog
 
 # Changelog
 
-## 26.2.0
+## 27.0.0
 
-New:
+New :
 
-- `GeoSelectToggleButton` has new variant `inputAccessory`
+- `GeoSuffix` component
+- `GeoPrefix` component
+
+## 26.1.2
+
+Fixed:
+
+- `GeoTrimmedContent` revert changes in component.
+
+## 26.1.1
+
+Fixed:
+
+- `GeoTrimmedContent` fixed version for `v-tooltip` lib.
+- `GeoTrimmedContent` save in data the selected html.
 
 ## 26.1.0
 

@@ -46,15 +46,15 @@ a trailing chevron.
 </div>
 ```
 
-### GeoSelectToggleButton with inputAccessory variant
+### GeoSelectToggleButton with inputAccessoryPrefix variant
 
 ``` vue live
 <template>
   <div class="element-demo">
-  <h3 class="element-demo__header">Regular suffix with select</h3>
+  <h3 class="element-demo__header">Regular prefix with select</h3>
     <div class="element-demo__block" style="justify-content: space-around;">
       <geo-select-toggle-button
-        variant="inputAccessory"
+        variant="inputAccessoryPrefix"
         :is-empty="false"
         :dropdown-icon="['fas', 'chevron-down']"
       >
@@ -62,10 +62,10 @@ a trailing chevron.
       </geo-select-toggle-button>
     </div>
 
-    <h3 class="element-demo__header">Disabled suffix with select</h3>
+    <h3 class="element-demo__header">Disabled prefix with select</h3>
     <div class="element-demo__block" style="justify-content: space-around;">
       <geo-select-toggle-button
-        variant="inputAccessory"
+        variant="inputAccessoryPrefix"
         :is-empty="false"
         disabled
       >
@@ -77,22 +77,9 @@ a trailing chevron.
     <div class="element-demo__block" style="justify-content: space-around;">
       <geo-input v-model="value">
         <geo-select-toggle-button
-          variant="inputAccessory"
+          slot="accessoryItemLeading"
+          variant="inputAccessoryPrefix"
           :is-empty="false"
-          slot="prefix"
-        >
-          meters
-        </geo-select-toggle-button>
-      </geo-input>
-    </div>
-
-    <h3 class="element-demo__header">GeoInput with select suffix</h3>
-    <div class="element-demo__block" style="justify-content: space-around;">
-      <geo-input v-model="value">
-        <geo-select-toggle-button
-          variant="inputAccessory"
-          :is-empty="false"
-          slot="suffix"
         >
           meters
         </geo-select-toggle-button>
@@ -110,3 +97,57 @@ export default {
   }
 }
 </script>
+```
+
+### GeoSelectToggleButton with inputAccessorySuffix variant
+
+``` vue live
+<template>
+  <div class="element-demo">
+  <h3 class="element-demo__header">Regular suffix with select</h3>
+    <div class="element-demo__block" style="justify-content: space-around;">
+      <geo-select-toggle-button
+        variant="inputAccessorySuffix"
+        :is-empty="false"
+        :dropdown-icon="['fas', 'chevron-down']"
+      >
+        meters
+      </geo-select-toggle-button>
+    </div>
+
+    <h3 class="element-demo__header">Disabled suffix with select</h3>
+    <div class="element-demo__block" style="justify-content: space-around;">
+      <geo-select-toggle-button
+        variant="inputAccessorySuffix"
+        :is-empty="false"
+        disabled
+      >
+        meters
+      </geo-select-toggle-button>
+    </div>
+
+    <h3 class="element-demo__header">GeoInput with select suffix</h3>
+    <div class="element-demo__block" style="justify-content: space-around;">
+      <geo-input v-model="value">
+        <geo-select-toggle-button
+          slot="accessoryItemTrailing"
+          variant="inputAccessorySuffix"
+          :is-empty="false"
+        >
+          meters
+        </geo-select-toggle-button>
+      </geo-input>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  data () {
+    return {
+      value: ''
+    }
+  }
+}
+</script>
+```

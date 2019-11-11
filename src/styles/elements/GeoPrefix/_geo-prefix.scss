@@ -1,0 +1,26 @@
+@mixin geo-prefix-make($modifier-name) {
+
+  $modifier-name-with-prefix: '';
+  $border-size: 1px;
+
+  @if $modifier-name != '' {
+    // sass-lint:disable space-around-operator
+    $modifier-name-with-prefix: --#{$modifier-name};
+  }
+
+  .geo-prefix#{$modifier-name-with-prefix} {
+    @include font($body);
+
+    background-color: $color-white-darker;
+    border-right: $border-size solid $color-grey;
+    border-radius: $border-radius-default 0 0 $border-radius-default;
+    box-sizing: border-box;
+    height: $space-x-large - 2 * $border-size;
+    padding: $space-small;
+
+    margin-left: -$space-small + $border-size;
+  }
+
+}
+
+@include geo-prefix-make('');
