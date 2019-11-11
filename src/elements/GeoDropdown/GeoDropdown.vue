@@ -251,11 +251,12 @@ export default {
     },
 
     repositionPopup () {
-      // eslint-disable-next-line
-      console.log('repositionPopup called!')
       if (!this.isOpened) return
       // Positioning algorithm requires a real DOM
       if (this.$isServer) return
+
+      // eslint-disable-next-line
+      console.log('repositionPopup called!', this._uid)
 
       const viewport = {
         height: document.documentElement.clientHeight,
