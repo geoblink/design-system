@@ -4,6 +4,12 @@ title: Changelog
 
 # Changelog
 
+## 26.1.3
+
+Fixed:
+
+- `GeoDropdown` will be properly right-aligned when its width changes.
+
 ## 26.1.2
 
 Fixed:
