@@ -195,53 +195,55 @@ if pinned to left side.
               People: <strong>Residents</strong>, <strong>Visitors</strong>, <strong>Workers</strong>
             </geo-dropdown-regular-button>
             <geo-bordered-box slot="popupContent">
-              <template v-for="(item, index) in menuItems[2]">
-                <geo-bordered-box-header
-                  v-if="item.back"
-                  :icon="['fas', 'chevron-left']"
-                  :key="index"
-                  @click-icon="handleListItemClick(2, index)"
-                >
-                  {{ item.label }}
-                </geo-bordered-box-header>
-                <geo-list-group
-                  v-else-if="item.groupedItems"
-                  :key="index"
-                >
-                  <template slot="title">{{ item.label }}</template>
-                  <geo-list-item
-                    v-for="(item, index) in item.groupedItems"
+              <geo-scrollable-container>
+                <template v-for="(item, index) in menuItems[2]">
+                  <geo-bordered-box-header
+                    v-if="item.back"
+                    :icon="['fas', 'chevron-left']"
                     :key="index"
-                    :icon="item.icon"
-                    slot="item"
+                    @click-icon="handleListItemClick(2, index)"
                   >
                     {{ item.label }}
-                  </geo-list-item>
-                </geo-list-group>
-                <geo-bordered-box-footer v-else-if="item.footer" :key="index">
-                  <geo-button type="primary">{{ item.label }}</geo-button>
-                </geo-bordered-box-footer>
-                <geo-list-item
-                  v-else
-                  :key="index"
-                  :icon="item.icon"
-                  @click="handleListItemClick(2, index)"
-                >
-                  {{ item.label }}
-                  <template slot="trailingAccessoryItem">
-                    <font-awesome-icon
-                      v-if="item.submenu"
-                      :icon="['fas', 'chevron-right']"
-                      aria-hidden
-                      fixed-width
-                    />
-                    <input
-                      v-else-if="item.checkbox"
-                      type="checkbox"
+                  </geo-bordered-box-header>
+                  <geo-list-group
+                    v-else-if="item.groupedItems"
+                    :key="index"
+                  >
+                    <template slot="title">{{ item.label }}</template>
+                    <geo-list-item
+                      v-for="(item, index) in item.groupedItems"
+                      :key="index"
+                      :icon="item.icon"
+                      slot="item"
                     >
-                  </template>
-                </geo-list-item>
-              </template>
+                      {{ item.label }}
+                    </geo-list-item>
+                  </geo-list-group>
+                  <geo-bordered-box-footer v-else-if="item.footer" :key="index">
+                    <geo-button type="primary">{{ item.label }}</geo-button>
+                  </geo-bordered-box-footer>
+                  <geo-list-item
+                    v-else
+                    :key="index"
+                    :icon="item.icon"
+                    @click="handleListItemClick(2, index)"
+                  >
+                    {{ item.label }}
+                    <template slot="trailingAccessoryItem">
+                      <font-awesome-icon
+                        v-if="item.submenu"
+                        :icon="['fas', 'chevron-right']"
+                        aria-hidden
+                        fixed-width
+                      />
+                      <input
+                        v-else-if="item.checkbox"
+                        type="checkbox"
+                      >
+                    </template>
+                  </geo-list-item>
+                </template>
+              </geo-scrollable-container>
             </geo-bordered-box>
           </geo-dropdown>
         </div>

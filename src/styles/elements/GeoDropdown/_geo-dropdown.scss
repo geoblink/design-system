@@ -30,10 +30,6 @@
     position: fixed;
     user-select: none;
     z-index: $z-index-sticky;
-
-    & > *:first-child:last-child {
-      max-height: calc(var(--available-height));
-    }
   }
 
   .geo-dropdown__popup--is-open#{$modifier-name-with-prefix} {

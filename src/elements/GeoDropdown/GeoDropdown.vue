@@ -205,6 +205,8 @@ export default {
       const styles = {
         [this.popupAnchor.xAxis]: '0px',
         [this.popupAnchor.yAxis]: '0px',
+        'max-height': `${this.popupMaxSize.height}px`,
+        'max-width': `${this.popupMaxSize.width}px`,
         transform: `translate(
           ${Math.round(this.popupTranslation.x)}px,
           ${Math.round(this.popupTranslation.y)}px
@@ -254,9 +256,6 @@ export default {
       if (!this.isOpened) return
       // Positioning algorithm requires a real DOM
       if (this.$isServer) return
-
-      // eslint-disable-next-line
-      console.log('repositionPopup called!', this._uid)
 
       const viewport = {
         height: document.documentElement.clientHeight,
