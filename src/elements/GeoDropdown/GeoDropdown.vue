@@ -302,6 +302,8 @@ export default {
         ? configTowardsLeft
         : configTowardsRight
 
+      const fitsTowardsAnyYPosition = configTowardsTop.fitsTowardsPreferredYPosition || configTowardsBottom.fitsTowardsPreferredYPosition
+
       const {
         fitsTowardsPreferredYPosition,
         availableHeightTowardsPreferredYPosition,
@@ -333,7 +335,8 @@ export default {
         popupElement.style.setProperty('--available-width', `${availableWidthForPopupContent}px`)
       }
 
-      const automaticYPositionConfig = fitsTowardsPreferredYPosition
+      // Will use the preferred position if it fits or if it doesn't but if doesn't fit in the fallback position either
+      const automaticYPositionConfig = fitsTowardsPreferredYPosition || !fitsTowardsAnyYPosition
         ? {
           availableHeight: availableHeightTowardsPreferredYPosition,
           translation: translationTowardsPreferredYPosition,
