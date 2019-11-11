@@ -129,20 +129,76 @@ export default {
   },
   data () {
     return {
-      popupAnchor: {
-        xAxis: 'left',
-        yAxis: 'top'
+      horizontalAxisConfig: {
+        left: {
+          translation: 0,
+          availableWidth: null
+        },
+
+        right: {
+          translation: 0,
+          availableWidth: null
+        }
       },
-      popupTranslation: {
-        x: 0,
-        y: 0
+
+      horizontalAxisPosition: 'left',
+
+      verticalAxisConfig: {
+        top: {
+          translation: 0,
+          availableHeight: null
+        },
+
+        bottom: {
+          translation: 0,
+          availableHeight: null
+        }
       },
+
+      verticalAxisPosition: 'bottom',
+
       toggleButtonWidth: null
     }
   },
   computed: {
     isOpened () {
       return this.opened
+    },
+
+    popupAnchor () {
+      const anchorForHorizontalAxisPosition = {
+        [GeoDropdownConstants.X_AXIS_POSITION.left]: 'left',
+        [GeoDropdownConstants.X_AXIS_POSITION.right]: 'right'
+      }
+      const anchorForVerticalAxisPosition = {
+        [GeoDropdownConstants.Y_AXIS_POSITION.top]: 'bottom',
+        [GeoDropdownConstants.Y_AXIS_POSITION.bottom]: 'top'
+      }
+
+      return {
+        xAxis: anchorForHorizontalAxisPosition[this.horizontalAxisPosition],
+        yAxis: anchorForVerticalAxisPosition[this.verticalAxisPosition]
+      }
+    },
+
+    popupTranslation () {
+      const horizontalAxisConfig = this.horizontalAxisConfig[this.horizontalAxisPosition]
+      const verticalAxisConfig = this.verticalAxisConfig[this.verticalAxisPosition]
+
+      return {
+        x: horizontalAxisConfig.translation,
+        y: verticalAxisConfig.translation
+      }
+    },
+
+    popupMaxSize () {
+      const horizontalAxisConfig = this.horizontalAxisConfig[this.horizontalAxisPosition]
+      const verticalAxisConfig = this.verticalAxisConfig[this.verticalAxisPosition]
+
+      return {
+        width: horizontalAxisConfig.availableWidth,
+        height: verticalAxisConfig.availableHeight
+      }
     },
 
     popupStyle () {
@@ -215,9 +271,29 @@ export default {
       const containerRect = containerElement.getBoundingClientRect()
       const popupRect = popupElement.getBoundingClientRect()
 
-      this.toggleButtonWidth = _.sum(_.map(_.get(this.$slots, 'toggleButton'), function (vNode) {
-        return (vNode.elm && vNode.elm.getBoundingClientRect().width) || 0
-      }))
+      // We need to update horizontal axis positioning settings for both
+      // scenarios: when dropdown is left-aligned and when it's right-aligned
+
+      const availableWidthTowardsLeft = Math.max(containerRect.right, 0)
+      const availableWidthTowardsRight = Math.max(viewport.width - containerRect.left, 0)
+
+      const xAxisTranslationTowardsLeft = -(viewport.width - containerRect.right)
+      const xAxisTranslationTowardsRight = containerRect.left
+
+      this.horizontalAxisConfig = {
+        left: {
+          translation: xAxisTranslationTowardsRight,
+          availableWidth: availableWidthTowardsRight
+        },
+
+        right: {
+          translation: xAxisTranslationTowardsLeft,
+          availableWidth: availableWidthTowardsLeft
+        }
+      }
+
+      // We need to update vertical axis positioning settings for both
+      // scenarios: when dropdown is above and when it's below
 
       const popupComputedStyle = getComputedStyle(popupElement)
 
@@ -225,14 +301,8 @@ export default {
       // if not supported (aka, IE11) we'll use 0
       const spacingToToggleButton = parseInt(popupComputedStyle.getPropertyValue('--spacing-to-toggle-button') || '0', 10)
 
-      const availableWidthTowardsLeft = Math.max(containerRect.right, 0)
-      const availableWidthTowardsRight = Math.max(viewport.width - containerRect.left, 0)
-
       const availableHeightAbove = Math.max(containerRect.top - spacingToToggleButton * 2, 0)
       const availableHeightBelow = Math.max(viewport.height - containerRect.bottom - spacingToToggleButton * 2, 0)
-
-      const xAxisTranslationTowardsLeft = -(viewport.width - containerRect.right)
-      const xAxisTranslationTowardsRight = containerRect.left
 
       // Translation required in the y-axis to position the popup so it's
       // content is displayed towards the bottom/top of the page, assuming popup
@@ -240,7 +310,19 @@ export default {
       const belowTranslationY = containerRect.bottom + spacingToToggleButton
       const aboveTranslationY = -(viewport.height - containerRect.top + spacingToToggleButton)
 
-      // We'll choose proper transform based on whether the content will fit
+      this.verticalAxisConfig = {
+        top: {
+          translation: aboveTranslationY,
+          availableHeight: availableHeightAbove
+        },
+
+        bottom: {
+          translation: belowTranslationY,
+          availableHeight: availableHeightBelow
+        }
+      }
+
+      // We'll choose proper position based on whether the content will fit
       // the screen or not.
       const fitsTowardsRight = popupRect.width < availableWidthTowardsRight
       const fitsTowardsLeft = popupRect.width < availableWidthTowardsLeft
@@ -251,126 +333,73 @@ export default {
       // and fallback position
       const configTowardsLeft = {
         fitsTowardsPreferredXPosition: fitsTowardsLeft,
-        availableWidthTowardsPreferredXPosition: availableWidthTowardsLeft,
-        availableWidthTowardsFallbackXPosition: availableWidthTowardsRight,
-        translationTowardsPreferredXPosition: xAxisTranslationTowardsLeft,
-        translationTowardsFallbackXPosition: xAxisTranslationTowardsRight,
-        xAxisAnchorPositionForPreferredXPosition: 'right',
-        xAxisAnchorPositionForFallbackXPosition: 'left'
+        preferredXPosition: GeoDropdownConstants.X_AXIS_POSITION.right,
+        fallbackXPosition: GeoDropdownConstants.X_AXIS_POSITION.left
       }
 
       const configTowardsRight = {
         fitsTowardsPreferredXPosition: fitsTowardsRight,
-        availableWidthTowardsPreferredXPosition: availableWidthTowardsRight,
-        availableWidthTowardsFallbackXPosition: availableWidthTowardsLeft,
-        translationTowardsPreferredXPosition: xAxisTranslationTowardsRight,
-        translationTowardsFallbackXPosition: xAxisTranslationTowardsLeft,
-        xAxisAnchorPositionForPreferredXPosition: 'left',
-        xAxisAnchorPositionForFallbackXPosition: 'right'
+        preferredXPosition: GeoDropdownConstants.X_AXIS_POSITION.left,
+        fallbackXPosition: GeoDropdownConstants.X_AXIS_POSITION.right
       }
 
       const configTowardsTop = {
         fitsTowardsPreferredYPosition: fitsAbove,
-        availableHeightTowardsPreferredYPosition: availableHeightAbove,
-        availableHeightTowardsFallbackYPosition: availableHeightBelow,
-        translationTowardsPreferredYPosition: aboveTranslationY,
-        translationTowardsFallbackYPosition: belowTranslationY,
-        yAxisAnchorPositionForPreferredYPosition: 'bottom',
-        yAxisAnchorPositionForFallbackYPosition: 'top'
+        preferredYPosition: GeoDropdownConstants.Y_AXIS_POSITION.top,
+        fallbackYPosition: GeoDropdownConstants.Y_AXIS_POSITION.bottom
       }
 
       const configTowardsBottom = {
         fitsTowardsPreferredYPosition: fitsBelow,
-        availableHeightTowardsPreferredYPosition: availableHeightBelow,
-        availableHeightTowardsFallbackYPosition: availableHeightAbove,
-        translationTowardsPreferredYPosition: belowTranslationY,
-        translationTowardsFallbackYPosition: aboveTranslationY,
-        yAxisAnchorPositionForPreferredYPosition: 'top',
-        yAxisAnchorPositionForFallbackYPosition: 'bottom'
+        preferredYPosition: GeoDropdownConstants.Y_AXIS_POSITION.bottom,
+        fallbackYPosition: GeoDropdownConstants.Y_AXIS_POSITION.top
       }
 
-      // Assignation of the config for X and Y depending on the preferred position
+      // Assign config for X and Y depending on the preferred position
       const {
         fitsTowardsPreferredXPosition,
-        availableWidthTowardsPreferredXPosition,
-        availableWidthTowardsFallbackXPosition,
-        translationTowardsPreferredXPosition,
-        translationTowardsFallbackXPosition,
-        xAxisAnchorPositionForPreferredXPosition,
-        xAxisAnchorPositionForFallbackXPosition
+        preferredXPosition,
+        fallbackXPosition
       } = this.preferredXAxisPosition === GeoDropdownConstants.X_AXIS_POSITION.right
         ? configTowardsLeft
         : configTowardsRight
+
+      const finalXAxisPosition = fitsTowardsPreferredXPosition
+        ? preferredXPosition
+        : fallbackXPosition
+      this.horizontalAxisPosition = finalXAxisPosition
+
+      if (popupElement.style) {
+        popupElement.style.setProperty('--available-width', `${this.popupMaxSize.width}px`)
+      }
 
       const fitsTowardsAnyYPosition = configTowardsTop.fitsTowardsPreferredYPosition || configTowardsBottom.fitsTowardsPreferredYPosition
 
       const {
         fitsTowardsPreferredYPosition,
-        availableHeightTowardsPreferredYPosition,
-        availableHeightTowardsFallbackYPosition,
-        translationTowardsPreferredYPosition,
-        translationTowardsFallbackYPosition,
-        yAxisAnchorPositionForPreferredYPosition,
-        yAxisAnchorPositionForFallbackYPosition
+        preferredYPosition,
+        fallbackYPosition
       } = this.preferredYAxisPosition === GeoDropdownConstants.Y_AXIS_POSITION.top
         ? configTowardsTop
         : configTowardsBottom
 
-      const xAxisTranslation = fitsTowardsPreferredXPosition
-        ? translationTowardsPreferredXPosition
-        : translationTowardsFallbackXPosition
-      this.popupTranslation.x = xAxisTranslation
-
-      // Check if fits to assign the correct translation
-      const xAxisAnchor = fitsTowardsPreferredXPosition
-        ? xAxisAnchorPositionForPreferredXPosition
-        : xAxisAnchorPositionForFallbackXPosition
-      this.popupAnchor.xAxis = xAxisAnchor
-
-      const availableWidthForPopupContent = fitsTowardsPreferredXPosition
-        ? availableWidthTowardsPreferredXPosition
-        : availableWidthTowardsFallbackXPosition
-
-      if (popupElement.style) {
-        popupElement.style.setProperty('--available-width', `${availableWidthForPopupContent}px`)
-      }
-
       // Will use the preferred position if it fits or if it doesn't but if doesn't fit in the fallback position either
-      const automaticYPositionConfig = fitsTowardsPreferredYPosition || !fitsTowardsAnyYPosition
-        ? {
-          availableHeight: availableHeightTowardsPreferredYPosition,
-          translation: translationTowardsPreferredYPosition,
-          anchor: yAxisAnchorPositionForPreferredYPosition
-        }
-        : {
-          availableHeight: availableHeightTowardsFallbackYPosition,
-          translation: translationTowardsFallbackYPosition,
-          anchor: yAxisAnchorPositionForFallbackYPosition
-        }
+      const automaticYPosition = fitsTowardsPreferredYPosition || !fitsTowardsAnyYPosition
+        ? preferredYPosition
+        : fallbackYPosition
 
-      const forcedYAxisPositionToConfigMapping = {
-        [GeoDropdownConstants.Y_AXIS_POSITION.top]: {
-          availableHeight: availableHeightAbove,
-          translation: configTowardsTop.translationTowardsPreferredYPosition,
-          anchor: configTowardsTop.yAxisAnchorPositionForPreferredYPosition
-        },
-        [GeoDropdownConstants.Y_AXIS_POSITION.bottom]: {
-          availableHeight: availableHeightBelow,
-          translation: configTowardsBottom.translationTowardsPreferredYPosition,
-          anchor: configTowardsBottom.yAxisAnchorPositionForPreferredYPosition
-        }
-      }
-
-      const forcedYAxisConfig = forcedYAxisPositionToConfigMapping[this.forceYAxisPosition]
-
-      const yAxisConfig = forcedYAxisConfig || automaticYPositionConfig
-
-      this.popupAnchor.yAxis = yAxisConfig.anchor
-      this.popupTranslation.y = yAxisConfig.translation
+      const finalYAxisPosition = this.forceYAxisPosition || automaticYPosition
+      this.verticalAxisPosition = finalYAxisPosition
 
       if (popupElement.style) {
-        popupElement.style.setProperty('--available-height', `${yAxisConfig.availableHeight}px`)
+        popupElement.style.setProperty('--available-height', `${this.popupMaxSize.height}px`)
       }
+
+      // We finally update the toggle button width, only used when width is fixed to it
+
+      this.toggleButtonWidth = _.sum(_.map(_.get(this.$slots, 'toggleButton'), function (vNode) {
+        return (vNode.elm && vNode.elm.getBoundingClientRect().width) || 0
+      }))
     },
 
     checkClickCoordinatesAndEmitClickOutside ($event) {
