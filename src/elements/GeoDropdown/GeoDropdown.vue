@@ -375,21 +375,24 @@ export default {
 
       const fitsTowardsAnyYPosition = configTowardsTop.fitsTowardsPreferredYPosition || configTowardsBottom.fitsTowardsPreferredYPosition
 
-      const {
-        fitsTowardsPreferredYPosition,
-        preferredYPosition,
-        fallbackYPosition
-      } = this.preferredYAxisPosition === GeoDropdownConstants.Y_AXIS_POSITION.top
-        ? configTowardsTop
-        : configTowardsBottom
+      if (this.forceYAxisPosition) {
+        this.verticalAxisPosition = this.forceYAxisPosition
+      } else if (fitsTowardsAnyYPosition) {
+        const {
+          fitsTowardsPreferredYPosition,
+          preferredYPosition,
+          fallbackYPosition
+        } = this.preferredYAxisPosition === GeoDropdownConstants.Y_AXIS_POSITION.top
+          ? configTowardsTop
+          : configTowardsBottom
 
-      // Will use the preferred position if it fits or if it doesn't but if doesn't fit in the fallback position either
-      const automaticYPosition = fitsTowardsPreferredYPosition || !fitsTowardsAnyYPosition
-        ? preferredYPosition
-        : fallbackYPosition
+        // Will use the preferred position if it fits or if it doesn't but if doesn't fit in the fallback position either
+        const automaticYPosition = fitsTowardsPreferredYPosition
+          ? preferredYPosition
+          : fallbackYPosition
 
-      const finalYAxisPosition = this.forceYAxisPosition || automaticYPosition
-      this.verticalAxisPosition = finalYAxisPosition
+        this.verticalAxisPosition = automaticYPosition
+      }
 
       if (popupElement.style) {
         popupElement.style.setProperty('--available-height', `${this.popupMaxSize.height}px`)
