@@ -368,7 +368,7 @@ export default {
 
       if (this.forceYAxisPosition) {
         this.verticalAxisPosition = this.forceYAxisPosition
-      } else if (fitsTowardsAnyYPosition) {
+      } else {
         const {
           fitsTowardsPreferredYPosition,
           preferredYPosition,
@@ -378,7 +378,7 @@ export default {
           : configTowardsBottom
 
         // Will use the preferred position if it fits or if it doesn't but if doesn't fit in the fallback position either
-        const automaticYPosition = fitsTowardsPreferredYPosition
+        const automaticYPosition = fitsTowardsPreferredYPosition || !fitsTowardsAnyYPosition
           ? preferredYPosition
           : fallbackYPosition
 
