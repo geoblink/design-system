@@ -388,7 +388,7 @@ export default {
           <geo-primary-button
             class="geo-input-several-accessory-items--not-last"
           >
-            Action !
+            Action
           </geo-primary-button>
           <geo-suffix>euros</geo-suffix>
         </div>
