@@ -274,23 +274,17 @@ export default {
       // We need to update horizontal axis positioning settings for both
       // scenarios: when dropdown is left-aligned and when it's right-aligned
 
-      const availableWidthTowardsLeft = Math.max(containerRect.right, 0)
-      const availableWidthTowardsRight = Math.max(viewport.width - containerRect.left, 0)
-
       const xAxisTranslationTowardsLeft = -(viewport.width - containerRect.right)
       const xAxisTranslationTowardsRight = containerRect.left
 
-      this.horizontalAxisConfig = {
-        left: {
-          translation: xAxisTranslationTowardsRight,
-          availableWidth: availableWidthTowardsRight
-        },
+      this.horizontalAxisConfig.left.translation = xAxisTranslationTowardsRight
+      this.horizontalAxisConfig.right.translation = xAxisTranslationTowardsLeft
 
-        right: {
-          translation: xAxisTranslationTowardsLeft,
-          availableWidth: availableWidthTowardsLeft
-        }
-      }
+      const availableWidthTowardsLeft = Math.max(containerRect.right, 0)
+      const availableWidthTowardsRight = Math.max(viewport.width - containerRect.left, 0)
+
+      this.horizontalAxisConfig.left.availableWidth = availableWidthTowardsRight
+      this.horizontalAxisConfig.right.availableWidth = availableWidthTowardsLeft
 
       // We need to update vertical axis positioning settings for both
       // scenarios: when dropdown is above and when it's below
@@ -304,23 +298,17 @@ export default {
       const availableHeightAbove = Math.max(containerRect.top - spacingToToggleButton * 2, 0)
       const availableHeightBelow = Math.max(viewport.height - containerRect.bottom - spacingToToggleButton * 2, 0)
 
+      this.verticalAxisConfig.top.availableHeight = availableHeightAbove
+      this.verticalAxisConfig.bottom.availableHeight = availableHeightBelow
+
       // Translation required in the y-axis to position the popup so it's
       // content is displayed towards the bottom/top of the page, assuming popup
       // is properly positioned in top left corner anchor of the container
       const belowTranslationY = containerRect.bottom + spacingToToggleButton
       const aboveTranslationY = -(viewport.height - containerRect.top + spacingToToggleButton)
 
-      this.verticalAxisConfig = {
-        top: {
-          translation: aboveTranslationY,
-          availableHeight: availableHeightAbove
-        },
-
-        bottom: {
-          translation: belowTranslationY,
-          availableHeight: availableHeightBelow
-        }
-      }
+      this.verticalAxisConfig.top.translation = aboveTranslationY
+      this.verticalAxisConfig.bottom.translation = belowTranslationY
 
       // We'll choose proper position based on whether the content will fit
       // the screen or not.
