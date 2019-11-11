@@ -30,7 +30,6 @@
 <script>
 import ClickOutside from '../../directives/GeoClickOutside'
 import ScrollAnywhere from '../../directives/GeoScrollAnywhere'
-import getDOMElementOffset from '../../utils/getDOMElementOffset'
 import cssSuffix from '../../mixins/cssModifierMixin'
 import * as GeoDropdownConstants from './GeoDropdown.constants'
 import _ from 'lodash'
@@ -130,13 +129,10 @@ export default {
   },
   data () {
     return {
-      // Offset of the container (button's parent) relative to the document root
-      containerOffset: {
-        top: 0,
-        left: 0
+      popupAnchor: {
+        xAxis: 'left',
+        yAxis: 'top'
       },
-      // Translation to properly position the popup relative to the top left
-      // anchor of the container
       popupTranslation: {
         x: 0,
         y: 0
@@ -154,9 +150,11 @@ export default {
 
     popupStyle () {
       const styles = {
+        [this.popupAnchor.xAxis]: '0px',
+        [this.popupAnchor.yAxis]: '0px',
         transform: `translate(
-          ${Math.round(this.containerOffset.left + this.popupTranslation.x)}px,
-          ${Math.round(this.containerOffset.top + this.popupTranslation.y)}px
+          ${Math.round(this.popupTranslation.x)}px,
+          ${Math.round(this.popupTranslation.y)}px
         )`
       }
 
@@ -203,6 +201,8 @@ export default {
 
     repositionPopup () {
       if (!this.isOpened) return
+      // Positioning algorithm requires a real DOM
+      if (this.$isServer) return
 
       const viewport = {
         height: document.documentElement.clientHeight,
@@ -210,11 +210,6 @@ export default {
       }
 
       const containerElement = this.$el
-      const containerOffset = getDOMElementOffset(containerElement)
-
-      this.containerOffset.top = containerOffset.top
-      this.containerOffset.left = containerOffset.left
-
       const popupElement = this.$refs.popup
 
       if (popupElement.style) {
@@ -233,124 +228,149 @@ export default {
 
       // Spacing user defined via CSS in --spacing-to-toggle-button CSS variable
       // if not supported (aka, IE11) we'll use 0
-      const spacingToToggleButton = parseInt(popupComputedStyle.getPropertyValue('--spacing-to-toggle-button') || 0, 10)
+      const spacingToToggleButton = parseInt(popupComputedStyle.getPropertyValue('--spacing-to-toggle-button') || '0', 10)
 
-      // Translation required in the x-axis to position the popup so its
-      // content is displayed towards right/left, assuming popup is properly
-      // positioned in top left corner anchor of the container
-      const towardsRightTranslationX = 0
-      const towardsLeftTranslationX = containerRect.width - popupRect.width
+      const availableWidthTowardsLeft = Math.max(containerRect.right, 0)
+      const availableWidthTowardsRight = Math.max(viewport.width - containerRect.left, 0)
+
+      const availableHeightAbove = Math.max(containerRect.top - spacingToToggleButton * 2, 0)
+      const availableHeightBelow = Math.max(viewport.height - containerRect.bottom - spacingToToggleButton * 2, 0)
+
+      const xAxisTranslationTowardsLeft = -(viewport.width - containerRect.right)
+      const xAxisTranslationTowardsRight = containerRect.left
 
       // Translation required in the y-axis to position the popup so it's
       // content is displayed towards the bottom/top of the page, assuming popup
       // is properly positioned in top left corner anchor of the container
-      const belowTranslationY = containerRect.height + spacingToToggleButton
-      const aboveTranslationY = 0 - popupRect.height - spacingToToggleButton
+      const belowTranslationY = containerRect.bottom + spacingToToggleButton
+      const aboveTranslationY = -(viewport.height - containerRect.top + spacingToToggleButton)
 
       // We'll choose proper transform based on whether the content will fit
       // the screen or not.
-      const fitsTowardsRight = containerRect.left + towardsRightTranslationX + popupRect.width < viewport.width
-      const fitsTowardsLeft = containerRect.left + towardsLeftTranslationX >= 0
-      const fitsBelow = containerRect.top + belowTranslationY + popupRect.height < viewport.height
-      const fitsAbove = containerRect.top + aboveTranslationY >= 0
-
-      const maxHeightAbove = Math.max(containerRect.top - (spacingToToggleButton * 2), 0)
-      const maxHeightBelow = Math.max(viewport.height - containerRect.bottom - (spacingToToggleButton * 2), 0)
+      const fitsTowardsRight = popupRect.width < availableWidthTowardsRight
+      const fitsTowardsLeft = popupRect.width < availableWidthTowardsLeft
+      const fitsBelow = popupRect.height < availableHeightBelow
+      const fitsAbove = popupRect.height < availableHeightAbove
 
       // We set the config for each possible position, if fits, preferred position
       // and fallback position
       const configTowardsLeft = {
         fitsTowardsPreferredXPosition: fitsTowardsLeft,
-        translationTowardsPreferredXPosition: towardsLeftTranslationX,
-        translationTowardsFallbackXPosition: towardsRightTranslationX
+        availableWidthTowardsPreferredXPosition: availableWidthTowardsLeft,
+        availableWidthTowardsFallbackXPosition: availableWidthTowardsRight,
+        translationTowardsPreferredXPosition: xAxisTranslationTowardsLeft,
+        translationTowardsFallbackXPosition: xAxisTranslationTowardsRight,
+        xAxisAnchorPositionForPreferredXPosition: 'right',
+        xAxisAnchorPositionForFallbackXPosition: 'left'
       }
 
       const configTowardsRight = {
         fitsTowardsPreferredXPosition: fitsTowardsRight,
-        translationTowardsPreferredXPosition: towardsRightTranslationX,
-        translationTowardsFallbackXPosition: towardsLeftTranslationX
+        availableWidthTowardsPreferredXPosition: availableWidthTowardsRight,
+        availableWidthTowardsFallbackXPosition: availableWidthTowardsLeft,
+        translationTowardsPreferredXPosition: xAxisTranslationTowardsRight,
+        translationTowardsFallbackXPosition: xAxisTranslationTowardsLeft,
+        xAxisAnchorPositionForPreferredXPosition: 'left',
+        xAxisAnchorPositionForFallbackXPosition: 'right'
       }
 
       const configTowardsTop = {
-        fitsTowardsPreferredYPosition: (!fitsBelow || fitsAbove),
+        fitsTowardsPreferredYPosition: fitsAbove,
+        availableHeightTowardsPreferredYPosition: availableHeightAbove,
+        availableHeightTowardsFallbackYPosition: availableHeightBelow,
         translationTowardsPreferredYPosition: aboveTranslationY,
         translationTowardsFallbackYPosition: belowTranslationY,
-        popupMaxHeightTowardsPreferredYPosition: maxHeightAbove,
-        popupMaxHeightTowardsFallbackYPosition: maxHeightBelow
+        yAxisAnchorPositionForPreferredYPosition: 'bottom',
+        yAxisAnchorPositionForFallbackYPosition: 'top'
       }
 
       const configTowardsBottom = {
-        fitsTowardsPreferredYPosition: (fitsBelow || !fitsAbove),
+        fitsTowardsPreferredYPosition: fitsBelow,
+        availableHeightTowardsPreferredYPosition: availableHeightBelow,
+        availableHeightTowardsFallbackYPosition: availableHeightAbove,
         translationTowardsPreferredYPosition: belowTranslationY,
         translationTowardsFallbackYPosition: aboveTranslationY,
-        popupMaxHeightTowardsPreferredYPosition: maxHeightBelow,
-        popupMaxHeightTowardsFallbackYPosition: maxHeightAbove
+        yAxisAnchorPositionForPreferredYPosition: 'top',
+        yAxisAnchorPositionForFallbackYPosition: 'bottom'
       }
 
       // Assignation of the config for X and Y depending on the preferred position
       const {
         fitsTowardsPreferredXPosition,
+        availableWidthTowardsPreferredXPosition,
+        availableWidthTowardsFallbackXPosition,
         translationTowardsPreferredXPosition,
-        translationTowardsFallbackXPosition
+        translationTowardsFallbackXPosition,
+        xAxisAnchorPositionForPreferredXPosition,
+        xAxisAnchorPositionForFallbackXPosition
       } = this.preferredXAxisPosition === GeoDropdownConstants.X_AXIS_POSITION.right
         ? configTowardsLeft
         : configTowardsRight
 
       const {
         fitsTowardsPreferredYPosition,
+        availableHeightTowardsPreferredYPosition,
+        availableHeightTowardsFallbackYPosition,
         translationTowardsPreferredYPosition,
         translationTowardsFallbackYPosition,
-        popupMaxHeightTowardsPreferredYPosition,
-        popupMaxHeightTowardsFallbackYPosition
+        yAxisAnchorPositionForPreferredYPosition,
+        yAxisAnchorPositionForFallbackYPosition
       } = this.preferredYAxisPosition === GeoDropdownConstants.Y_AXIS_POSITION.top
         ? configTowardsTop
         : configTowardsBottom
 
-      // Check if fits to assign the correct translation
-      const translationX = fitsTowardsPreferredXPosition
+      const xAxisTranslation = fitsTowardsPreferredXPosition
         ? translationTowardsPreferredXPosition
         : translationTowardsFallbackXPosition
+      this.popupTranslation.x = xAxisTranslation
 
-      const automaticTranslationY = fitsTowardsPreferredYPosition
-        ? translationTowardsPreferredYPosition
-        : translationTowardsFallbackYPosition
+      // Check if fits to assign the correct translation
+      const xAxisAnchor = fitsTowardsPreferredXPosition
+        ? xAxisAnchorPositionForPreferredXPosition
+        : xAxisAnchorPositionForFallbackXPosition
+      this.popupAnchor.xAxis = xAxisAnchor
 
-      const forcedYAxisPositionToTranslationMapping = {
-        [GeoDropdownConstants.Y_AXIS_POSITION.top]: configTowardsTop.translationTowardsPreferredYPosition,
-        [GeoDropdownConstants.Y_AXIS_POSITION.bottom]: configTowardsBottom.translationTowardsPreferredYPosition
-      }
-
-      const translationY = forcedYAxisPositionToTranslationMapping[this.forceYAxisPosition] || automaticTranslationY
-
-      this.popupTranslation.x = translationX
-      this.popupTranslation.y = translationY
-
-      const automaticPopupMaxHeight = fitsTowardsPreferredYPosition ? popupMaxHeightTowardsPreferredYPosition : popupMaxHeightTowardsFallbackYPosition
-
-      const forcedYAxisPositionToMaxHeightMapping = {
-        [GeoDropdownConstants.Y_AXIS_POSITION.top]: maxHeightAbove,
-        [GeoDropdownConstants.Y_AXIS_POSITION.bottom]: maxHeightBelow
-      }
-
-      const popupMaxHeight = forcedYAxisPositionToMaxHeightMapping[this.forceYAxisPosition] || automaticPopupMaxHeight
-
-      this.popupMaxHeight = popupMaxHeight
-
-      const maxWidthLeft = Math.max(containerRect.right, 0)
-      const maxWidthRight = Math.max(viewport.width - containerRect.left, 0)
-
-      const preferredXAxisPositionIsRight = this.preferredXAxisPosition === GeoDropdownConstants.X_AXIS_POSITION.right
-
-      const chosenXAxisPositionIsRight = (fitsTowardsPreferredXPosition && preferredXAxisPositionIsRight) || (!fitsTowardsPreferredXPosition && !preferredXAxisPositionIsRight)
-
-      const availableWidthForPopupContent = chosenXAxisPositionIsRight
-        ? maxWidthLeft
-        : maxWidthRight
+      const availableWidthForPopupContent = fitsTowardsPreferredXPosition
+        ? availableWidthTowardsPreferredXPosition
+        : availableWidthTowardsFallbackXPosition
 
       if (popupElement.style) {
         popupElement.style.setProperty('--available-width', `${availableWidthForPopupContent}px`)
         popupElement.style.setProperty('--available-height', `${this.popupMaxHeight}px`)
       }
+
+      const automaticYPositionConfig = fitsTowardsPreferredYPosition
+        ? {
+          availableHeight: availableHeightTowardsPreferredYPosition,
+          translation: translationTowardsPreferredYPosition,
+          anchor: yAxisAnchorPositionForPreferredYPosition
+        }
+        : {
+          availableHeight: availableHeightTowardsFallbackYPosition,
+          translation: translationTowardsFallbackYPosition,
+          anchor: yAxisAnchorPositionForFallbackYPosition
+        }
+
+      const forcedYAxisPositionToConfigMapping = {
+        [GeoDropdownConstants.Y_AXIS_POSITION.top]: {
+          availableHeight: availableHeightAbove,
+          translation: configTowardsTop.translationTowardsPreferredYPosition,
+          anchor: configTowardsTop.yAxisAnchorPositionForPreferredYPosition
+        },
+        [GeoDropdownConstants.Y_AXIS_POSITION.bottom]: {
+          availableHeight: availableHeightBelow,
+          translation: configTowardsBottom.translationTowardsPreferredYPosition,
+          anchor: configTowardsBottom.yAxisAnchorPositionForPreferredYPosition
+        }
+      }
+
+      const forcedYAxisConfig = forcedYAxisPositionToConfigMapping[this.forceYAxisPosition]
+
+      const yAxisConfig = forcedYAxisConfig || automaticYPositionConfig
+
+      this.popupMaxHeight = yAxisConfig.availableHeight
+      this.popupAnchor.yAxis = yAxisConfig.anchor
+      this.popupTranslation.y = yAxisConfig.translation
     },
 
     checkClickCoordinatesAndEmitClickOutside ($event) {
