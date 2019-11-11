@@ -251,6 +251,8 @@ export default {
     },
 
     repositionPopup () {
+      // eslint-disable-next-line
+      console.log('repositionPopup called!')
       if (!this.isOpened) return
       // Positioning algorithm requires a real DOM
       if (this.$isServer) return
