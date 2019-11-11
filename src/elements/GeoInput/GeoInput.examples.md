@@ -376,6 +376,25 @@ export default {
       </geo-input>
     </div>
 
+    <h3 class="element-demo__header">Input with suffix and trailing accessory item</h3>
+    <div class="element-demo__block">
+      <geo-input
+        v-model="model[2]"
+      >
+        <div
+          slot="accessoryItemTrailing"
+          class="geo-input-several-accessory-items"
+        >
+          <geo-primary-button
+            class="geo-input-several-accessory-items--not-last"
+          >
+            Action !
+          </geo-primary-button>
+          <geo-suffix>euros</geo-suffix>
+        </div>
+      </geo-input>
+    </div>
+
     <h3 class="element-demo__header">Input number with suffix and delete event</h3>
     <div class="element-demo__block">
       <geo-input v-model="model[3]" type="number" @delete-value="resetValue2">
@@ -444,4 +463,16 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.geo-input-several-accessory-items {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.geo-input-several-accessory-items--not-last {
+  margin-right: 10px;
+}
+</style>
 ```
