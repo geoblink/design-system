@@ -173,13 +173,15 @@ export default {
     isOpened () {
       this.repositionPopup()
       this.$nextTick(this.repositionPopup.bind(this))
+    },
+
+    fixedWidth () {
+      this.repositionPopup()
+      this.$nextTick(this.repositionPopup.bind(this))
     }
   },
   mounted () {
     this.reattachPopupToDocumentBody()
-  },
-  updated () {
-    this.repositionPopup()
   },
   beforeDestroy () {
     this.removePopupFromDOM()
