@@ -25,38 +25,8 @@
     &:hover, &:focus {
       border-color: $color-blue;
 
-      &:hover, &:focus {  
-        .geo-select-toggle-button__toggle-icon#{$modifier-name-with-prefix} {
-          color: $color-grey-light;
-        }
-      }
-    }
-
-    &.geo-select-toggle-button--regular#{$modifier-name-with-prefix} {
-      width: 200px;
-      align-items: center;
-      background: $color-white;
-      border: 1px solid $color-grey;
-      border-radius: $border-radius-default;
-      display: flex;
-      height: $space-x-large;
-      padding: 0 $space-small;
-  
-      &:hover, &:focus {
-        border-color: $color-blue;
-  
-        .geo-select-toggle-button__toggle-icon#{$modifier-name-with-prefix} {
-          color: $color-blue;
-        }
-      }
-  
-      &.geo-select-toggle-button--disabled#{$modifier-name-with-prefix} {
-        background: $color-white-dark;
-        color: $color-grey-light;
-    
-        &:hover, &:focus {
-          border-color: $color-grey;
-        }
+      .geo-select-toggle-button__toggle-icon#{$modifier-name-with-prefix} {
+        color: $color-blue;
       }
     }
   }
