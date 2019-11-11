@@ -143,34 +143,46 @@ if pinned to left side.
     </div>
     <h3 class="element-demo__header">
       Menu inside scrollable container
-      <div class="element-demo__inline-input-group">
-        <label class="element-demo__inline-input-group__field">
-          Force YAxis position: <select
-            v-model="forcedYAxisPosition"
-          >
-            <option value="none">None</option>
-            <option value="bottom">Bottom</option>
-            <option value="top">Top</option>
-          </select>
-        </label>
-      </div>
-      <div class="element-demo__inline-input-group">
-        <label class="element-demo__inline-input-group__field">
-          Fixed width: <select
-            v-model="fixedWidth"
-          >
-            <option :value="true">True</option>
-            <option :value="false">False</option>
-          </select>
-        </label>
-      </div>
     </h3>
-    <div class="element-demo__block" style="justify-content: space-around;">
+
+    <div class="element-demo__inline-input-group">
+      <label class="element-demo__inline-input-group__field">
+        Force Y-Axis position: <select
+          v-model="forcedYAxisPosition"
+        >
+          <option value="none">None</option>
+          <option value="bottom">Bottom</option>
+          <option value="top">Top</option>
+        </select>
+      </label>
+
+      <label class="element-demo__inline-input-group__field">
+        Preferred X-Axis position: <select
+          v-model="preferredXAxisPosition"
+        >
+          <option value="none">None</option>
+          <option value="left">Left</option>
+          <option value="right">Right</option>
+        </select>
+      </label>
+
+      <label class="element-demo__inline-input-group__field">
+        Fixed width: <select
+          v-model="fixedWidth"
+        >
+          <option :value="true">True</option>
+          <option :value="false">False</option>
+        </select>
+      </label>
+    </div>
+
+    <div class="element-demo__block" style="margin-top: 20px; justify-content: space-around;">
       <div class="element-demo__bordered-box container-with-scroll-overflow">
         <div style="margin-bottom: 300px;">
           <geo-dropdown
             :opened="isOpened[2]"
             :force-y-axis-position="dropdownForcedYAxisPosition"
+            :preferred-x-axis-position="dropdownPreferredXAxisPosition"
             :fixed-width="fixedWidth"
             @click-outside="closeMenu(2)"
           >
@@ -245,12 +257,21 @@ export default {
       isOpened: [false, false, false],
       currentPath: [[], [], []],
       forcedYAxisPosition: 'none',
+      preferredXAxisPosition: 'none',
       fixedWidth: false
     }
   },
   computed: {
     dropdownForcedYAxisPosition () {
-      return this.forcedYAxisPosition === 'none' ? undefined : this.forcedYAxisPosition
+      return this.forcedYAxisPosition === 'none'
+        ? undefined
+        : this.forcedYAxisPosition
+    },
+
+    dropdownPreferredXAxisPosition () {
+      return this.preferredXAxisPosition === 'none'
+        ? undefined
+        : this.preferredXAxisPosition
     },
 
     sampleItems () {
