@@ -19,7 +19,8 @@
   @include geo-button-make('calendar-navigation-toggle-button');
   @include geo-input-make('geo-calendar');
 
-  .geo-bordered-box--geo-calendar__dropdown#{$modifier-name-with-prefix} {
+  .geo-bordered-box--geo-calendar__dropdown#{$modifier-name-with-prefix},
+  .geo-bordered-box--geo-calendar__dropdown--no-calendar-sidebar#{$modifier-name-with-prefix} {
     box-sizing: border-box;
   }
 }

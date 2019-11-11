@@ -137,9 +137,6 @@ export default {
         x: 0,
         y: 0
       },
-      // When dropdown has a force Y Axis position,
-      // the maximum visible height should be this
-      popupMaxHeight: null,
       toggleButtonWidth: null
     }
   },
@@ -156,10 +153,6 @@ export default {
           ${Math.round(this.popupTranslation.x)}px,
           ${Math.round(this.popupTranslation.y)}px
         )`
-      }
-
-      if (this.popupMaxHeight) {
-        styles.maxHeight = `${this.popupMaxHeight}px`
       }
 
       if (this.fixedWidth) {
@@ -338,7 +331,6 @@ export default {
 
       if (popupElement.style) {
         popupElement.style.setProperty('--available-width', `${availableWidthForPopupContent}px`)
-        popupElement.style.setProperty('--available-height', `${this.popupMaxHeight}px`)
       }
 
       const automaticYPositionConfig = fitsTowardsPreferredYPosition
@@ -370,9 +362,12 @@ export default {
 
       const yAxisConfig = forcedYAxisConfig || automaticYPositionConfig
 
-      this.popupMaxHeight = yAxisConfig.availableHeight
       this.popupAnchor.yAxis = yAxisConfig.anchor
       this.popupTranslation.y = yAxisConfig.translation
+
+      if (popupElement.style) {
+        popupElement.style.setProperty('--available-height', `${yAxisConfig.availableHeight}px`)
+      }
     },
 
     checkClickCoordinatesAndEmitClickOutside ($event) {
