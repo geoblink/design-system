@@ -4,6 +4,12 @@ title: Changelog
 
 # Changelog
 
+## 26.1.5
+
+Changed :
+
+- Default value for `GeoTooltip` delay
+
 ## 26.1.2
 
 Fixed:
