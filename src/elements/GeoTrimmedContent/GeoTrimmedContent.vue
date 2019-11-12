@@ -1,14 +1,14 @@
 <template>
   <span
     v-on-resize="reloadRequiredWidth"
-    :class="`geo-trimmed-content${this.cssSuffix}`"
+    :class="`geo-trimmed-content${cssSuffix}`"
     @mouseenter="isHovered = true"
     @mouseleave="isHovered = false"
   >
     <geo-tooltip
       :visible="isTooltipVisible"
     >
-      <div ref="tooltipContent"/>
+      <div ref="tooltipContent" />
     </geo-tooltip>
     <span
       ref="content"
@@ -17,15 +17,13 @@
       <!-- @slot Use this slot to customize content displayed inside the span -->
       <slot />
     </span>
-  </span>  
+  </span>
 </template>
 
 <script>
 import OnResize from '../../directives/GeoOnResize'
 import Tooltip from '../../directives/Tooltip'
 import cssSuffix from '../../mixins/cssModifierMixin'
-import counterFactory from '../../utils/counterFactory'
-const getNextInstanceId = counterFactory()
 
 export default {
   name: 'GeoTrimmedContent',
@@ -37,7 +35,7 @@ export default {
     return {
       isHovered: false,
       containerWidth: null,
-      contentWidth: null,
+      contentWidth: null
     }
   },
   computed: {
