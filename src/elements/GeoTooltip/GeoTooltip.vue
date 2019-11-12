@@ -132,7 +132,12 @@ export default {
     },
 
     throttledRepositionTooltip () {
-      return throttle(this.repositionTooltip).bind(this)
+      return throttle(() => {
+        // this.repositionTooltip()
+        this.$nextTick().then(() => {
+          this.repositionTooltip()
+        })
+      }).bind(this)
     }
   },
   watch: {
@@ -149,7 +154,10 @@ export default {
     this.addMouseEventHandlers()
   },
   updated () {
-    this.repositionTooltip()
+    // this.repositionTooltip()
+    this.$nextTick().then(() => {
+      this.repositionTooltip()
+    })
   },
   beforeDestroy () {
     this.removeMouseEventHandlers()
@@ -178,7 +186,10 @@ export default {
 
     onTriggerTargetMouseover () {
       this.isTriggerTargetHovered = true
-      this.repositionTooltip()
+      // this.repositionTooltip()
+      this.$nextTick().then(() => {
+        this.repositionTooltip()
+      })
       window.addEventListener('scroll', this.throttledRepositionTooltip)
     },
 

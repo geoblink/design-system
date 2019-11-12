@@ -1,5 +1,6 @@
 import { createLocalVue, mount } from '@vue/test-utils'
 import GeoTrimmedContent from '@/elements/GeoTrimmedContent/GeoTrimmedContent.vue'
+import GeoTooltip from '@/elements/GeoTooltip/GeoTooltip.vue'
 
 // create an extended `Vue` constructor
 const localVue = createLocalVue()
@@ -11,55 +12,16 @@ describe('GeoTrimmedContent', () => {
   it('Should render content', function () {
     const wrapper = mount(GeoTrimmedContent, {
       slots: {
-        default: '<div>Custom content</div>'
+        default: '<div class="my-content">Custom content</div>'
+      },
+      stubs: {
+        GeoTooltip
       }
     })
     const trimmedContent = wrapper.find('.geo-trimmed-content')
     expect(trimmedContent.exists()).toBe(true)
-    expect(trimmedContent.find('div').exists()).toBe(true)
-    expect(trimmedContent.find('div').text()).toEqual('Custom content')
-  })
-
-  it('Should add tooltip HTML content when mounted', function () {
-    const wrapper = mount(GeoTrimmedContent, {
-      slots: {
-        default: '<div>Custom content</div>'
-      },
-      computed: {
-        isContentTrimmed () {
-          return true
-        }
-      }
-    })
-
-    const tooltipHTMLContentNode = document.getElementById(wrapper.vm.idTooltipContentNode)
-
-    expect(tooltipHTMLContentNode).toBeTruthy()
-    expect(tooltipHTMLContentNode.querySelector('div')).toBeTruthy()
-    expect(tooltipHTMLContentNode.querySelector('div').innerHTML).toEqual('Custom content')
-  })
-
-  it('Should remove tooltip HTML content when destroyed', function () {
-    const wrapper = mount(GeoTrimmedContent, {
-      slots: {
-        default: '<div>Custom content</div>'
-      },
-      computed: {
-        isContentTrimmed () {
-          return true
-        }
-      }
-    })
-
-    const tooltipHTMLContentNodeBefore = document.getElementById(wrapper.vm.idTooltipContentNode)
-    expect(tooltipHTMLContentNodeBefore).toBeTruthy()
-    expect(tooltipHTMLContentNodeBefore.querySelector('div')).toBeTruthy()
-    expect(tooltipHTMLContentNodeBefore.querySelector('div').innerHTML).toEqual('Custom content')
-
-    wrapper.destroy()
-
-    const tooltipHTMLContentNodeAfter = document.getElementById(wrapper.vm.idTooltipContentNode)
-    expect(tooltipHTMLContentNodeAfter).toBeFalsy()
+    expect(wrapper.find('.my-content').exists()).toBe(true)
+    expect(wrapper.find('.my-content').text()).toEqual('Custom content')
   })
 
   it('Should apply CSS suffix when the modifier is provided', function () {
@@ -67,13 +29,11 @@ describe('GeoTrimmedContent', () => {
       propsData: {
         cssModifier: 'demo-modifier'
       },
-      slots: {
-        default: '<div>Demo content</div>'
+      stubs: {
+        GeoTooltip
       }
     })
     const trimmedContent = wrapper.find('.geo-trimmed-content--demo-modifier')
     expect(trimmedContent.exists()).toBe(true)
-    expect(trimmedContent.find('div').exists()).toBe(true)
-    expect(trimmedContent.find('div').text()).toEqual('Demo content')
   })
 })
