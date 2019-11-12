@@ -3,12 +3,14 @@
     :is="props.wrapperTag"
     :ref="data.ref"
     v-bind="data.attrs"
-    :class="{
-      [data.class]: true,
-      [data.staticClass]: true,
-      [`geo-list-item${$options.helpers.getCSSSuffix(props.cssModifier)}`]: true,
-      [`geo-list-item--disabled${$options.helpers.getCSSSuffix(props.cssModifier)}`]: props.disabled
-    }"
+    :class="[
+      data.class,
+      data.staticClass,
+      {
+        [`geo-list-item${$options.helpers.getCSSSuffix(props.cssModifier)}`]: true,
+        [`geo-list-item--disabled${$options.helpers.getCSSSuffix(props.cssModifier)}`]: props.disabled
+      }
+    ]"
     v-on="listeners"
   >
     <div :class="`geo-list-item__label-and-accessory-container${$options.helpers.getCSSSuffix(props.cssModifier)}`">
