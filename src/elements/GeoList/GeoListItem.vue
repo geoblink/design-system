@@ -6,8 +6,8 @@
     :class="[
       data.class,
       data.staticClass,
+      `geo-list-item${$options.helpers.getCSSSuffix(props.cssModifier)}`,
       {
-        [`geo-list-item${$options.helpers.getCSSSuffix(props.cssModifier)}`]: true,
         [`geo-list-item--disabled${$options.helpers.getCSSSuffix(props.cssModifier)}`]: props.disabled
       }
     ]"
