@@ -133,7 +133,6 @@ export default {
 
     throttledRepositionTooltip () {
       return throttle(() => {
-        // this.repositionTooltip()
         this.$nextTick().then(() => {
           this.repositionTooltip()
         })
@@ -154,7 +153,6 @@ export default {
     this.addMouseEventHandlers()
   },
   updated () {
-    // this.repositionTooltip()
     this.$nextTick().then(() => {
       this.repositionTooltip()
     })
@@ -186,7 +184,6 @@ export default {
 
     onTriggerTargetMouseover () {
       this.isTriggerTargetHovered = true
-      // this.repositionTooltip()
       this.$nextTick().then(() => {
         this.repositionTooltip()
       })
