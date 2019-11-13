@@ -77,7 +77,7 @@ a trailing chevron.
     <div class="element-demo__block" style="justify-content: space-around;">
       <geo-input v-model="value">
         <geo-select-toggle-button
-          slot="accessoryItemLeading"
+          slot="leadingAccessoryItem"
           variant="inputAccessoryPrefix"
           :is-empty="false"
         >
@@ -130,7 +130,7 @@ export default {
     <div class="element-demo__block" style="justify-content: space-around;">
       <geo-input v-model="value">
         <geo-select-toggle-button
-          slot="accessoryItemTrailing"
+          slot="trailingAccessoryItem"
           variant="inputAccessorySuffix"
           :is-empty="false"
         >

@@ -279,7 +279,7 @@ export default {
       <geo-input v-model="value" type="text">
         <geo-input-label slot="label">Search input</geo-input-label>
         <font-awesome-icon
-          slot="accessoryItemLeading"
+          slot="leadingAccessoryItem"
           :icon="['fas', 'search']"
           fixed-with
         />
@@ -307,15 +307,15 @@ export default {
   <div class="element-demo">
     <div class="element-demo__block">
       <geo-input v-model="model[0]" type="text" placeholder="Placeholder">
-        <geo-primary-button slot="accessoryItemTrailing">Action!</geo-primary-button>
+        <geo-primary-button slot="trailingAccessoryItem">Action!</geo-primary-button>
       </geo-input>
 
       <geo-input v-model="model[1]" type="text" placeholder="Disabled" disabled>
-        <geo-primary-button slot="accessoryItemTrailing">Action!</geo-primary-button>
+        <geo-primary-button slot="trailingAccessoryItem">Action!</geo-primary-button>
       </geo-input>
 
       <geo-input v-model="model[2]" type="text" @delete-value="resetValue">
-        <geo-primary-button slot="accessoryItemTrailing">Action!</geo-primary-button>
+        <geo-primary-button slot="trailingAccessoryItem">Action!</geo-primary-button>
       </geo-input>
     </div>
   </div>
@@ -346,7 +346,7 @@ export default {
     <h3 class="element-demo__header">Prefixed input</h3>
     <div class="element-demo__block">
       <geo-input v-model="model[0]">
-        <geo-prefix slot="accessoryItemLeading">
+        <geo-prefix slot="leadingAccessoryItem">
           <font-awesome-icon
             :icon="['fas', 'euro-sign']"
             fixed-width
@@ -358,7 +358,7 @@ export default {
     <h3 class="element-demo__header">Suffixed input with delete event</h3>
     <div class="element-demo__block">
       <geo-input v-model="model[1]" @delete-value="resetValue">
-        <geo-suffix slot="accessoryItemTrailing">
+        <geo-suffix slot="trailingAccessoryItem">
           euros
         </geo-suffix>
       </geo-input>
@@ -370,7 +370,7 @@ export default {
         v-model="model[2]"
         disabled
       >
-        <geo-suffix slot="accessoryItemTrailing">
+        <geo-suffix slot="trailingAccessoryItem">
           euros
         </geo-suffix>
       </geo-input>
@@ -382,7 +382,7 @@ export default {
         v-model="model[2]"
       >
         <div
-          slot="accessoryItemTrailing"
+          slot="trailingAccessoryItem"
           class="geo-input-several-accessory-items"
         >
           <geo-primary-button
@@ -398,7 +398,7 @@ export default {
     <h3 class="element-demo__header">Input number with suffix and delete event</h3>
     <div class="element-demo__block">
       <geo-input v-model="model[3]" type="number" @delete-value="resetValue2">
-        <geo-suffix slot="accessoryItemTrailing">
+        <geo-suffix slot="trailingAccessoryItem">
           euros
         </geo-suffix>
       </geo-input>
@@ -408,7 +408,7 @@ export default {
     <div class="element-demo__block" style="justify-content: space-around;">
       <geo-input v-model="model[4]">
         <geo-select
-          slot="accessoryItemTrailing"
+          slot="trailingAccessoryItem"
           :options="distanceMeasures"
           :dropdown-icon="['fas', 'chevron-down']"
           :search-icon="['fas', 'search']"
@@ -422,13 +422,13 @@ export default {
     <h3 class="element-demo__header">Prefixed and suffixed input with delete event</h3>
     <div class="element-demo__block">
       <geo-input v-model="model[5]" @delete-value="resetValue3">
-        <geo-prefix slot="accessoryItemLeading">
+        <geo-prefix slot="leadingAccessoryItem">
           <font-awesome-icon
             :icon="['fas', 'bell']"
             fixed-width
           />
         </geo-prefix>
-        <geo-suffix slot="accessoryItemTrailing">
+        <geo-suffix slot="trailingAccessoryItem">
           <font-awesome-icon
             :icon="['fas', 'bell']"
             fixed-width

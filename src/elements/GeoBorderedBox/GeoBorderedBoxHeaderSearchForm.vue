@@ -12,7 +12,7 @@
       @delete-value="deleteValue($event)"
     >
       <font-awesome-icon
-        slot="accessoryItemLeading"
+        slot="leadingAccessoryItem"
         :icon="searchIcon"
       />
     </geo-input>

@@ -11,19 +11,14 @@
 
     <div class="geo-input__input-wrapper">
       <div class="geo-input__input-field">
-        <div
-          :class="{
-            'geo-input__accessory-items': true,
-            'geo-input__accessory-items--leading': true
-          }"
-        >
+        <div class="geo-input__accessory-items geo-input__accessory-items--leading">
           <div
             v-if="hasLeadingAccessoryItems"
             class="geo-input__accessory-items-item"
             @click.prevent
           >
             <!-- @slot Use this slot to add leading items inside the input -->
-            <slot name="accessoryItemLeading" />
+            <slot name="leadingAccessoryItem" />
           </div>
         </div>
 
@@ -40,12 +35,7 @@
           @input="onInput($event)"
         >
 
-        <div
-          :class="{
-            'geo-input__accessory-items': true,
-            'geo-input__accessory-items--trailing': true
-          }"
-        >
+        <div class="geo-input__accessory-items geo-input__accessory-items--trailing">
           <!-- mousedown event is used because it is fired before blur event on GeoInput -->
           <!-- blur event won't be fired but that's fine because we want this handler to prevail over the blur one -->
           <!-- https://forum.vuejs.org/t/blur-before-click-only-on-safari/21598/7 -->
@@ -70,7 +60,7 @@
             @click.prevent
           >
             <!-- @slot Use this slot to add trailing items inside the input -->
-            <slot name="accessoryItemTrailing" />
+            <slot name="trailingAccessoryItem" />
           </div>
         </div>
         <div class="geo-input__input-outline" />
@@ -171,11 +161,11 @@ export default {
     },
 
     hasTrailingAccessoryItems () {
-      return !_.isEmpty(this.$slots.accessoryItemTrailing)
+      return !_.isEmpty(this.$slots.trailingAccessoryItem)
     },
 
     hasLeadingAccessoryItems () {
-      return !_.isEmpty(this.$slots.accessoryItemLeading)
+      return !_.isEmpty(this.$slots.leadingAccessoryItem)
     }
   },
   mounted () {

@@ -65,7 +65,7 @@ describe('GeoInput', () => {
   it('Should render leading accessory item if provided', function () {
     const wrapper = mount(GeoInput, {
       slots: {
-        accessoryItemLeading: `<font-awesome-icon :icon="['fas', 'search']" />`
+        leadingAccessoryItem: `<font-awesome-icon :icon="['fas', 'search']" />`
       },
       stubs: {
         'font-awesome-icon': FontAwesomeIcon
@@ -94,7 +94,7 @@ describe('GeoInput', () => {
   it('Should render accessory items when provided', function () {
     const wrapper = mount(GeoInput, {
       slots: {
-        accessoryItemTrailing: '<p class="my-accessory-item">This is something custom</p>'
+        trailingAccessoryItem: '<p class="my-accessory-item">This is something custom</p>'
       }
     })
     expect(wrapper.find('.my-accessory-item').exists()).toBe(true)
@@ -103,7 +103,7 @@ describe('GeoInput', () => {
   it('Should render correct prefix when provided', function () {
     const wrapper = mount(GeoInput, {
       slots: {
-        accessoryItemLeading: '<geo-prefix> A prefix </geo-prefix>'
+        leadingAccessoryItem: '<geo-prefix> A prefix </geo-prefix>'
       },
       stubs: {
         GeoPrefix
@@ -116,7 +116,7 @@ describe('GeoInput', () => {
   it('Should render correct suffix when provided', function () {
     const wrapper = mount(GeoInput, {
       slots: {
-        accessoryItemTrailing: `<geo-suffix> A suffix </geo-suffix>`
+        trailingAccessoryItem: `<geo-suffix> A suffix </geo-suffix>`
       },
       stubs: {
         GeoSuffix
