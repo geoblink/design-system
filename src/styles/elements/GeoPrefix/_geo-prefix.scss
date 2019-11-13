@@ -15,12 +15,11 @@
     border-right: $border-size solid $color-grey;
     border-radius: $border-radius-default 0 0 $border-radius-default;
     box-sizing: border-box;
+    color: $color-grey-darker;
     height: $space-x-large - 2 * $border-size;
-    padding: $space-small;
-
     margin-left: -$space-small + $border-size;
+    padding: $space-small;
   }
-
 }
 
 @include geo-prefix-make('');

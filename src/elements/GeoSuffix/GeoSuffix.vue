@@ -1,7 +1,5 @@
 <template>
-  <div
-    :class="`geo-suffix${cssSuffix}`"
-  >
+  <div :class="`geo-suffix${cssSuffix}`">
     <!-- @slot Use this slot to customize what's displayed as a suffix -->
     <slot />
   </div>

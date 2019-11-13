@@ -17,8 +17,8 @@
     }
 
     .geo-input__input-field {
-      display: flex;
       align-items: center;
+      display: flex;
       width: 100%;
     }
 
@@ -34,7 +34,6 @@
       padding: $space-small;
       width: 100%;
       z-index: 1;
-      width: 100%;
 
       &:focus,
       &[focus] {
@@ -72,21 +71,23 @@
 
     .geo-input__accessory-items {
       align-items: center;
+      color: $color-grey-light;
       display: flex;
       flex-direction: row;
-      z-index: 1;
-      color: $color-grey-light;
       font-size: $font-size-small;
+      z-index: 1;
     }
 
     .geo-input__accessory-items--leading {
       .geo-input__accessory-items-item {
-        margin-left: $space-small;  
+        flex-shrink: 0;
+        margin-left: $space-small;
       }
     }
 
     .geo-input__accessory-items--trailing {
       .geo-input__accessory-items-item {
+        flex-shrink: 0;
         margin-right: $space-small;
       }
     }
@@ -141,8 +142,8 @@
 
       &, &:focus, &[focus] {
         & ~ .geo-input__input-outline {
-          border: $border-size solid $color-grey;
           background-color: $color-white-dark;
+          border: $border-size solid $color-grey;
         }
       }
     }

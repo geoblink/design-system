@@ -1,7 +1,5 @@
 <template>
-  <div
-    :class="`geo-prefix${cssSuffix}`"
-  >
+  <div :class="`geo-prefix${cssSuffix}`">
     <!-- @slot Use this slot to customize what's displayed as a prefix -->
     <slot />
   </div>
