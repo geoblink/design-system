@@ -4,6 +4,12 @@ title: Changelog
 
 # Changelog
 
+## 26.1.6
+
+Fixed:
+
+- `GeoListGroup` add separator between groups.
+
 ## 26.1.2
 
 Fixed:
