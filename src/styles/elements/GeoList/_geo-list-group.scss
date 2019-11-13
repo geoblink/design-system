@@ -9,6 +9,11 @@
 
   .geo-list-group#{$modifier-name-with-prefix} {
     background: $color-white;
+
+    &:not(:last-child) {
+      border-bottom: 1px solid $color-grey;
+      padding-bottom: $space-x-small;
+    }
   }
 
   .geo-list-group__header#{$modifier-name-with-prefix} {
@@ -22,16 +27,12 @@
     font-family: $font-family-heading;
     font-size: $font-size-regular;
     font-weight: $font-weight-semi-bold;
-    height: 30px;
+    height: $space-large;
     justify-content: space-between;
     line-height: $line-height-base;
-    margin: 0 5px 5px 5px;
-    padding: 0 7px 0 5px;
+    margin: $space-x-small;
+    padding: 0 $space-x-small;
     white-space: nowrap;
-
-    &:first-child {
-      margin-top: 5px;
-    }
   }
 
   .geo-list-group__header__icon-and-label#{$modifier-name-with-prefix} {
@@ -41,16 +42,16 @@
   }
 
   .geo-list-group__header__icon-and-label__icon-container#{$modifier-name-with-prefix} {
-    margin-right: 10px;
+    margin-right: $space-small;
   }
 
   .geo-list-group__header__trailing-accessory-items#{$modifier-name-with-prefix} {
     color: $color-grey-light;
-    margin-left: 10px;
+    margin-left: $space-small;
   }
 
   .geo-list-group__content#{$modifier-name-with-prefix} {
-    margin-left: 10px;
+    margin-left: $space-small;
   }
 
 }
