@@ -10,9 +10,8 @@
   .geo-list-group#{$modifier-name-with-prefix} {
     background: $color-white;
 
-    &:not(:last-child) {
-      border-bottom: 1px solid $color-grey;
-      padding-bottom: $space-x-small;
+    & + & {
+      border-top: 1px solid $color-grey;
     }
   }
 
