@@ -143,34 +143,46 @@ if pinned to left side.
     </div>
     <h3 class="element-demo__header">
       Menu inside scrollable container
-      <div class="element-demo__inline-input-group">
-        <label class="element-demo__inline-input-group__field">
-          Force YAxis position: <select
-            v-model="forcedYAxisPosition"
-          >
-            <option value="none">None</option>
-            <option value="bottom">Bottom</option>
-            <option value="top">Top</option>
-          </select>
-        </label>
-      </div>
-      <div class="element-demo__inline-input-group">
-        <label class="element-demo__inline-input-group__field">
-          Fixed width: <select
-            v-model="fixedWidth"
-          >
-            <option :value="true">True</option>
-            <option :value="false">False</option>
-          </select>
-        </label>
-      </div>
     </h3>
-    <div class="element-demo__block" style="justify-content: space-around;">
+
+    <div class="element-demo__inline-input-group">
+      <label class="element-demo__inline-input-group__field">
+        Force Y-Axis position: <select
+          v-model="forcedYAxisPosition"
+        >
+          <option value="none">None</option>
+          <option value="bottom">Bottom</option>
+          <option value="top">Top</option>
+        </select>
+      </label>
+
+      <label class="element-demo__inline-input-group__field">
+        Preferred X-Axis position: <select
+          v-model="preferredXAxisPosition"
+        >
+          <option value="none">None</option>
+          <option value="left">Left</option>
+          <option value="right">Right</option>
+        </select>
+      </label>
+
+      <label class="element-demo__inline-input-group__field">
+        Fixed width: <select
+          v-model="fixedWidth"
+        >
+          <option :value="true">True</option>
+          <option :value="false">False</option>
+        </select>
+      </label>
+    </div>
+
+    <div class="element-demo__block" style="margin-top: 20px; justify-content: space-around;">
       <div class="element-demo__bordered-box container-with-scroll-overflow">
         <div style="margin-bottom: 300px;">
           <geo-dropdown
             :opened="isOpened[2]"
             :force-y-axis-position="dropdownForcedYAxisPosition"
+            :preferred-x-axis-position="dropdownPreferredXAxisPosition"
             :fixed-width="fixedWidth"
             @click-outside="closeMenu(2)"
           >
@@ -183,53 +195,55 @@ if pinned to left side.
               People: <strong>Residents</strong>, <strong>Visitors</strong>, <strong>Workers</strong>
             </geo-dropdown-regular-button>
             <geo-bordered-box slot="popupContent">
-              <template v-for="(item, index) in menuItems[2]">
-                <geo-bordered-box-header
-                  v-if="item.back"
-                  :icon="['fas', 'chevron-left']"
-                  :key="index"
-                  @click-icon="handleListItemClick(2, index)"
-                >
-                  {{ item.label }}
-                </geo-bordered-box-header>
-                <geo-list-group
-                  v-else-if="item.groupedItems"
-                  :key="index"
-                >
-                  <template slot="title">{{ item.label }}</template>
-                  <geo-list-item
-                    v-for="(item, index) in item.groupedItems"
+              <geo-scrollable-container>
+                <template v-for="(item, index) in menuItems[2]">
+                  <geo-bordered-box-header
+                    v-if="item.back"
+                    :icon="['fas', 'chevron-left']"
                     :key="index"
-                    :icon="item.icon"
-                    slot="item"
+                    @click-icon="handleListItemClick(2, index)"
                   >
                     {{ item.label }}
-                  </geo-list-item>
-                </geo-list-group>
-                <geo-bordered-box-footer v-else-if="item.footer" :key="index">
-                  <geo-button type="primary">{{ item.label }}</geo-button>
-                </geo-bordered-box-footer>
-                <geo-list-item
-                  v-else
-                  :key="index"
-                  :icon="item.icon"
-                  @click="handleListItemClick(2, index)"
-                >
-                  {{ item.label }}
-                  <template slot="trailingAccessoryItem">
-                    <font-awesome-icon
-                      v-if="item.submenu"
-                      :icon="['fas', 'chevron-right']"
-                      aria-hidden
-                      fixed-width
-                    />
-                    <input
-                      v-else-if="item.checkbox"
-                      type="checkbox"
+                  </geo-bordered-box-header>
+                  <geo-list-group
+                    v-else-if="item.groupedItems"
+                    :key="index"
+                  >
+                    <template slot="title">{{ item.label }}</template>
+                    <geo-list-item
+                      v-for="(item, index) in item.groupedItems"
+                      :key="index"
+                      :icon="item.icon"
+                      slot="item"
                     >
-                  </template>
-                </geo-list-item>
-              </template>
+                      {{ item.label }}
+                    </geo-list-item>
+                  </geo-list-group>
+                  <geo-bordered-box-footer v-else-if="item.footer" :key="index">
+                    <geo-button type="primary">{{ item.label }}</geo-button>
+                  </geo-bordered-box-footer>
+                  <geo-list-item
+                    v-else
+                    :key="index"
+                    :icon="item.icon"
+                    @click="handleListItemClick(2, index)"
+                  >
+                    {{ item.label }}
+                    <template slot="trailingAccessoryItem">
+                      <font-awesome-icon
+                        v-if="item.submenu"
+                        :icon="['fas', 'chevron-right']"
+                        aria-hidden
+                        fixed-width
+                      />
+                      <input
+                        v-else-if="item.checkbox"
+                        type="checkbox"
+                      >
+                    </template>
+                  </geo-list-item>
+                </template>
+              </geo-scrollable-container>
             </geo-bordered-box>
           </geo-dropdown>
         </div>
@@ -245,12 +259,21 @@ export default {
       isOpened: [false, false, false],
       currentPath: [[], [], []],
       forcedYAxisPosition: 'none',
+      preferredXAxisPosition: 'none',
       fixedWidth: false
     }
   },
   computed: {
     dropdownForcedYAxisPosition () {
-      return this.forcedYAxisPosition === 'none' ? undefined : this.forcedYAxisPosition
+      return this.forcedYAxisPosition === 'none'
+        ? undefined
+        : this.forcedYAxisPosition
+    },
+
+    dropdownPreferredXAxisPosition () {
+      return this.preferredXAxisPosition === 'none'
+        ? undefined
+        : this.preferredXAxisPosition
     },
 
     sampleItems () {
