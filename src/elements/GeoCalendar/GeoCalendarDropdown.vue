@@ -21,52 +21,56 @@
         <!-- @slot Use this slot to customize the text displayed on the calendar's header -->
         <slot name="calendarHeaderTitle" />
       </geo-bordered-box-header>
-      <geo-calendar
-        ref="calendar"
-        :calendar-navigation-select-icon="calendarNavigationSelectIcon"
-        :css-modifier="cssModifier"
-        :earliest-date="earliestDate"
-        :default-from-date="defaultFromDate"
-        :default-to-date="defaultToDate"
-        :from-input-placeholder="fromInputPlaceholder"
-        :granularity-id="granularityId"
-        :initial-date-in-grid="initialDateInGrid"
-        :input-range-icon="inputRangeIcon"
-        :latest-date="latestDate"
-        :locale="locale"
-        :next-date-in-selected-granularity-icon="nextDateInSelectedGranularityIcon"
-        :picker-date-unit="pickerDateUnit"
-        :previous-date-in-selected-granularity-icon="previousDateInSelectedGranularityIcon"
-        :to-input-placeholder="toInputPlaceholder"
-        @emit-from-date="emitFromDate"
-        @emit-to-date="emitToDate"
-      >
-        <!-- @slot Use this slot to customize the sidebar with the different granularities handled by the calendar -->
-        <slot
-          slot="pickerGranularity"
-          name="pickerGranularity"
-        />
-        <!-- @slot Use this slot to customize the sidebar with the different granularities handled by the calendar -->
-        <slot
-          slot="pickerAliases"
-          name="pickerAliases"
-        />
-        <!-- @slot Use this slot to customize the message shown when there is an error in one of the selected dates -->
-        <slot
-          slot="formatError"
-          name="formatError"
-        />
-        <!-- @slot Use this slot to customize the text in the button used to apply your earliest available date in the fromDate input  -->
-        <slot
-          slot="earliestDatePlaceholder"
-          name="earliestDatePlaceholder"
-        />
-        <!-- @slot Use this slot to customize the text in the button used to apply your latest available date in the toDate input  -->
-        <slot
-          slot="latestDatePlaceholder"
-          name="latestDatePlaceholder"
-        />
-      </geo-calendar>
+
+      <geo-scrollable-container>
+        <geo-calendar
+          ref="calendar"
+          :calendar-navigation-select-icon="calendarNavigationSelectIcon"
+          :css-modifier="cssModifier"
+          :earliest-date="earliestDate"
+          :default-from-date="defaultFromDate"
+          :default-to-date="defaultToDate"
+          :from-input-placeholder="fromInputPlaceholder"
+          :granularity-id="granularityId"
+          :initial-date-in-grid="initialDateInGrid"
+          :input-range-icon="inputRangeIcon"
+          :latest-date="latestDate"
+          :locale="locale"
+          :next-date-in-selected-granularity-icon="nextDateInSelectedGranularityIcon"
+          :picker-date-unit="pickerDateUnit"
+          :previous-date-in-selected-granularity-icon="previousDateInSelectedGranularityIcon"
+          :to-input-placeholder="toInputPlaceholder"
+          @emit-from-date="emitFromDate"
+          @emit-to-date="emitToDate"
+        >
+          <!-- @slot Use this slot to customize the sidebar with the different granularities handled by the calendar -->
+          <slot
+            slot="pickerGranularity"
+            name="pickerGranularity"
+          />
+          <!-- @slot Use this slot to customize the sidebar with the different granularities handled by the calendar -->
+          <slot
+            slot="pickerAliases"
+            name="pickerAliases"
+          />
+          <!-- @slot Use this slot to customize the message shown when there is an error in one of the selected dates -->
+          <slot
+            slot="formatError"
+            name="formatError"
+          />
+          <!-- @slot Use this slot to customize the text in the button used to apply your earliest available date in the fromDate input  -->
+          <slot
+            slot="earliestDatePlaceholder"
+            name="earliestDatePlaceholder"
+          />
+          <!-- @slot Use this slot to customize the text in the button used to apply your latest available date in the toDate input  -->
+          <slot
+            slot="latestDatePlaceholder"
+            name="latestDatePlaceholder"
+          />
+        </geo-calendar>
+      </geo-scrollable-container>
+
       <geo-bordered-box-footer>
         <!-- @slot Use this slot to customize the footer of the calendar -->
         <slot
