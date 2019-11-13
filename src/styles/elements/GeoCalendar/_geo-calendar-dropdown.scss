@@ -19,19 +19,10 @@
   @include geo-button-make('calendar-navigation-toggle-button');
   @include geo-input-make('geo-calendar');
 
-
-  .geo-dropdown__popup--geo-calendar__dropdown#{$modifier-name-with-prefix} {
-    width: 515px;
-  }
-
-  .geo-dropdown__popup--geo-calendar__dropdown--no-calendar-sidebar#{$modifier-name-with-prefix} {
-    width: 360px;
-  }
-
-  .geo-bordered-box--geo-calendar__dropdown#{$modifier-name-with-prefix} {
+  .geo-bordered-box--geo-calendar__dropdown#{$modifier-name-with-prefix},
+  .geo-bordered-box--geo-calendar__dropdown--no-calendar-sidebar#{$modifier-name-with-prefix} {
     box-sizing: border-box;
   }
-
 }
 
 @include geo-calendar-dropdown-make('');

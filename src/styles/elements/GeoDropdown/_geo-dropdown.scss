@@ -26,10 +26,8 @@
     // --available-height
 
     display: none;
-    left: 0;
     overflow: hidden;
-    position: absolute;
-    top: 0;
+    position: fixed;
     user-select: none;
     z-index: $z-index-sticky;
   }

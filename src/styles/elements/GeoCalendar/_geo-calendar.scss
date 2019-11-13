@@ -28,10 +28,9 @@
 
       &:not(.geo-calendar-picker-granularity-unit--active):hover {
         background: $color-white-darker;
-        font-weight: $font-weight-bold;
 
         .geo-calendar-picker-granularity-unit__selector-icon {
-          display: inline;
+          visibility: visible;
         }
       }
 
@@ -41,14 +40,16 @@
 
         .geo-calendar-picker-granularity-unit__selector-icon {
           color: $color-white-dark;
-          display: inline;
+          visibility: visible;
         }
       }
     }
 
     .geo-calendar-picker-granularity-unit__selector-icon {
       color: $color-grey-light;
-      display: none;
+      display: inline;
+      margin-left: $space-small;
+      visibility: hidden;
     }
 
     .geo-calendar__sidebar-container {
@@ -64,7 +65,6 @@
     .geo-calendar__picker-controls {
       box-sizing: content-box;
       padding: $space-base;
-      width: 315px;
     }
 
     .geo-calendar__input-ranges {

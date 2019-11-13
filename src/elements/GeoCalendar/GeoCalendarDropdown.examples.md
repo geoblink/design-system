@@ -1,8 +1,8 @@
 `GeoCalendarDropdown` renders a button that when clicked, displays a calendar with two inputs where you can enter date ranges and manually select dates clicking on the displayed grid.
 To use this component you must [install date-fns](https://github.com/date-fns/date-fns) in your application.
 `GeoCalendar` can be used independently from `GeoCalendarDropdown` if you want to display the calendar directly embed in your application.
-___
-### GRANULARITY IDS
+
+### Granularity IDs
 
 Alternatively, you can attach to the `GeoCalendarDropdown` via slots, a sidebar to be able to select different date granularities if you want your calendar to display several types of ranges.
 
@@ -15,8 +15,8 @@ Alternatively, you can attach to the `GeoCalendarDropdown` via slots, a sidebar 
 - `quarter`: You will be able to select a range of one quarter. No matter the month you click on, the selected range will consist of the start and the end of the quarter containing the selected month. The displayed grid will be months.
 
 - `year`: You will be able to select an initial and end years, creating a range of `n` years. The displayed grid will be years.
-___
-### PICKER DATE UNITS
+
+### Picker date units
 
 The displayed grid for each granularity will depend on the provided `pickerDateUnit`. This will determine the minimal date unit that can be selected. These can be as follows:
 
@@ -49,6 +49,10 @@ The displayed grid for each granularity will depend on the provided `pickerDateU
       <p>
         <label for="toggle-earliest-date">Toggle earliestDate</label>
         <input type="checkbox" id="toggle-earliest-date" name="toggle-earliest-date" v-model="hasEarliestDateConstraints">
+      </p>
+      <p>
+        <label for="toggle-granularities">Toggle granularities</label>
+        <input type="checkbox" id="toggle-granularities" name="toggle-granularities" v-model="hasGranularities">
       </p>
       <p>
         <label for="toggle-latest-date">Toggle latestDate</label>
@@ -91,7 +95,10 @@ The displayed grid for each granularity will depend on the provided `pickerDateU
           </geo-dropdown-regular-button>
         </template>
         <template slot="calendarHeaderTitle">Calendar</template>
-        <template slot="pickerGranularity">
+        <template
+          v-if="hasGranularities"
+          slot="pickerGranularity"
+        >
           <h5 class="element-demo__header">
             Browse by
           </h5>
@@ -218,6 +225,7 @@ export default {
       selectedToDay: null,
       initialDateInGrid: subYears(new Date(), 3),
       hasEarliestDateConstraints: true,
+      hasGranularities: true,
       hasLatestDateConstraints: true,
       hasAliases: true
     }
