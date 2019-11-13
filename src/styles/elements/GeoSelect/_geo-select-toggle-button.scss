@@ -51,7 +51,7 @@
     &.geo-select-toggle-button--disabled#{$modifier-name-with-prefix} {
       cursor: not-allowed;
 
-      &:hover, &:focus {  
+      &:hover, &:focus {
         .geo-select-toggle-button__toggle-icon#{$modifier-name-with-prefix} {
           color: $color-grey-light;
         }
@@ -83,7 +83,7 @@
   
       &.geo-select-toggle-button--disabled#{$modifier-name-with-prefix} {
         background: $color-white-dark; 
-        color: $color-grey-light;       
+        color: $color-grey-light;
     
         &:hover, &:focus {
           border-color: $color-grey;
