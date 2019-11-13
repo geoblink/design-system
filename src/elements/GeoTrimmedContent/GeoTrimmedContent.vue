@@ -14,7 +14,7 @@
       ref="content"
       class="geo-trimmed-content__content"
     >
-      <!-- @slot Use this slot to customize content displayed inside the span -->
+      <!-- @slot Use this slot to customize content displayed -->
       <slot />
     </span>
   </span>
