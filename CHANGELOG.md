@@ -4,6 +4,12 @@ title: Changelog
 
 # Changelog
 
+## 26.1.4
+
+Fixed :
+
+- `deleteIcon` displayed when `GeoSelectToggleButton` is not empty
+
 ## 26.1.3
 
 Fixed:
