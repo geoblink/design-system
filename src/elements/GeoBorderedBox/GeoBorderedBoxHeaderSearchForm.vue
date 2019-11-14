@@ -11,6 +11,7 @@
       @input="searchPattern($event)"
       @delete-value="deleteValue($event)"
     >
+      <!-- @slot Use this slot to customize content displayed before the icon -->
       <slot
         slot="leadingAccessoryItem"
         name="beforeSearchIconItem"
@@ -19,10 +20,12 @@
         slot="leadingAccessoryItem"
         :icon="searchIcon"
       />
+      <!-- @slot Use this slot to customize content displayed after the icon, on the left of the input -->
       <slot
         slot="leadingAccessoryItem"
         name="afterSearchIconItem"
       />
+      <!-- @slot Use this slot to customize content displayed on the right of the input -->
       <slot
         slot="trailingAccessoryItem"
         name="trailingAccessoryItem"
