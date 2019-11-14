@@ -1,14 +1,14 @@
 import { mount } from '@vue/test-utils'
-import GeoPrefix from '@/elements/GeoPrefix/GeoPrefix.vue'
+import GeoInputPrefix from '@/elements/GeoInput/GeoInputPrefix.vue'
 
-describe('GeoPrefix', function () {
+describe('GeoInputPrefix', function () {
   it('Should render', function () {
-    const wrapper = mount(GeoPrefix)
-    expect(wrapper.find('.geo-prefix').exists()).toBe(true)
+    const wrapper = mount(GeoInputPrefix)
+    expect(wrapper.find('.geo-input-prefix').exists()).toBe(true)
   })
 
   it('Should render default slot when provided', function () {
-    const wrapper = mount(GeoPrefix, {
+    const wrapper = mount(GeoInputPrefix, {
       slots: {
         default: '<p class="my-prefix">Prefix</p>'
       }

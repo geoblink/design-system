@@ -1,6 +1,6 @@
 <template>
-  <div :class="`geo-suffix${cssSuffix}`">
-    <!-- @slot Use this slot to customize what's displayed as a suffix -->
+  <div :class="`geo-input-prefix${cssSuffix}`">
+    <!-- @slot Use this slot to customize what's displayed as a prefix -->
     <slot />
   </div>
 </template>
@@ -9,7 +9,7 @@
 import cssSuffix from '../../mixins/cssModifierMixin'
 
 export default {
-  name: 'GeoSuffix',
+  name: 'GeoInputPrefix',
   status: 'ready',
   release: '27.0.0',
   mixins: [cssSuffix]

@@ -3,8 +3,8 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fas } from '@fortawesome/free-solid-svg-icons'
 import GeoInput from '@/elements/GeoInput/GeoInput.vue'
-import GeoPrefix from '@/elements/GeoPrefix/GeoPrefix.vue'
-import GeoSuffix from '@/elements/GeoSuffix/GeoSuffix.vue'
+import GeoInputPrefix from '@/elements/GeoInput/GeoInputPrefix.vue'
+import GeoInputSuffix from '@/elements/GeoInput/GeoInputSuffix.vue'
 
 library.add(fas)
 
@@ -103,26 +103,26 @@ describe('GeoInput', () => {
   it('Should render correct prefix when provided', function () {
     const wrapper = mount(GeoInput, {
       slots: {
-        leadingAccessoryItem: '<geo-prefix> A prefix </geo-prefix>'
+        leadingAccessoryItem: '<geo-input-prefix> A prefix </geo-input-prefix>'
       },
       stubs: {
-        GeoPrefix
+        GeoInputPrefix
       }
     })
     expect(wrapper.find('.geo-input__accessory-items').exists()).toBe(true)
-    expect(wrapper.find('.geo-prefix').text()).toBe('A prefix')
+    expect(wrapper.find('.geo-input-prefix').text()).toBe('A prefix')
   })
 
   it('Should render correct suffix when provided', function () {
     const wrapper = mount(GeoInput, {
       slots: {
-        trailingAccessoryItem: `<geo-suffix> A suffix </geo-suffix>`
+        trailingAccessoryItem: `<geo-input-suffix> A suffix </geo-input-suffix>`
       },
       stubs: {
-        GeoSuffix
+        GeoInputSuffix
       }
     })
     expect(wrapper.find('.geo-input__accessory-items').exists()).toBe(true)
-    expect(wrapper.find('.geo-suffix').text()).toBe('A suffix')
+    expect(wrapper.find('.geo-input-suffix').text()).toBe('A suffix')
   })
 })

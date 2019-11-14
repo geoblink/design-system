@@ -1,4 +1,4 @@
-@mixin geo-suffix-make($modifier-name) {
+@mixin geo-input-suffix-make($modifier-name) {
 
   $modifier-name-with-prefix: '';
   $border-size: 1px;
@@ -8,7 +8,7 @@
     $modifier-name-with-prefix: --#{$modifier-name};
   }
 
-  .geo-suffix#{$modifier-name-with-prefix} {
+  .geo-input-suffix#{$modifier-name-with-prefix} {
     @include font($body);
 
     background-color: $color-white-darker;
@@ -22,4 +22,4 @@
   }
 }
 
-@include geo-suffix-make('');
+@include geo-input-suffix-make('');

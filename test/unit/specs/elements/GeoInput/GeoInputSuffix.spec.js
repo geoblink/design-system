@@ -1,14 +1,14 @@
 import { mount } from '@vue/test-utils'
-import GeoSuffix from '@/elements/GeoSuffix/GeoSuffix.vue'
+import GeoInputSuffix from '@/elements/GeoInput/GeoInputSuffix.vue'
 
-describe('GeoSuffix', function () {
+describe('GeoInputSuffix', function () {
   it('Should render', function () {
-    const wrapper = mount(GeoSuffix)
-    expect(wrapper.find('.geo-suffix').exists()).toBe(true)
+    const wrapper = mount(GeoInputSuffix)
+    expect(wrapper.find('.geo-input-suffix').exists()).toBe(true)
   })
 
   it('Should render default slot when provided', function () {
-    const wrapper = mount(GeoSuffix, {
+    const wrapper = mount(GeoInputSuffix, {
       slots: {
         default: '<p class="my-suffix">Suffix</p>'
       }

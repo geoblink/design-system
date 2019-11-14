@@ -11,9 +11,11 @@
 
     <div class="geo-input__input-wrapper">
       <div class="geo-input__input-field">
-        <div class="geo-input__accessory-items geo-input__accessory-items--leading">
+        <div
+          v-if="hasLeadingAccessoryItems"
+          class="geo-input__accessory-items geo-input__accessory-items--leading"
+        >
           <div
-            v-if="hasLeadingAccessoryItems"
             class="geo-input__accessory-items-item"
             @click.prevent
           >
@@ -26,16 +28,16 @@
           ref="input"
           :value="value"
           :disabled="disabled"
-          :class="{
-            'geo-input__input': true,
-            'geo-input__input--delete-icon-space': isDeleteIconVisible
-          }"
+          class="geo-input__input"
           v-bind="$attrs"
           v-on="listeners"
           @input="onInput($event)"
         >
 
-        <div class="geo-input__accessory-items geo-input__accessory-items--trailing">
+        <div
+          v-if="hasTrailingElements"
+          class="geo-input__accessory-items geo-input__accessory-items--trailing"
+        >
           <!-- mousedown event is used because it is fired before blur event on GeoInput -->
           <!-- blur event won't be fired but that's fine because we want this handler to prevail over the blur one -->
           <!-- https://forum.vuejs.org/t/blur-before-click-only-on-safari/21598/7 -->
@@ -166,6 +168,10 @@ export default {
 
     hasLeadingAccessoryItems () {
       return !_.isEmpty(this.$slots.leadingAccessoryItem)
+    },
+
+    hasTrailingElements () {
+      return this.isDeleteIconVisible || this.disabled || this.hasTrailingAccessoryItems
     }
   },
   mounted () {
