@@ -80,16 +80,21 @@
 
     .geo-input__accessory-items--leading {
       .geo-input__accessory-items-item {
-        flex-shrink: 0;
         margin-left: $space-small;
       }
     }
 
     .geo-input__accessory-items--trailing {
       .geo-input__accessory-items-item {
-        flex-shrink: 0;
         margin-right: $space-small;
       }
+    }
+
+    .geo-input__accessory-items-item {
+      align-items: center;
+      display: flex;
+      flex-direction: row;
+      flex-shrink: 0;
     }
 
     .geo-input__icon--delete {

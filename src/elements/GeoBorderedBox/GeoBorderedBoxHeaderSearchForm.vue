@@ -11,9 +11,21 @@
       @input="searchPattern($event)"
       @delete-value="deleteValue($event)"
     >
+      <slot
+        slot="leadingAccessoryItem"
+        name="beforeSearchIconItem"
+      />
       <font-awesome-icon
         slot="leadingAccessoryItem"
         :icon="searchIcon"
+      />
+      <slot
+        slot="leadingAccessoryItem"
+        name="afterSearchIconItem"
+      />
+      <slot
+        slot="trailingAccessoryItem"
+        name="trailingAccessoryItem"
       />
     </geo-input>
   </form>

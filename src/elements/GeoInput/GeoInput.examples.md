@@ -439,17 +439,8 @@ export default {
       <geo-input
         v-model="value"
       >
-        <div
-          slot="trailingAccessoryItem"
-          class="geo-input-several-accessory-items"
-        >
-          <geo-primary-button
-            class="geo-input-several-accessory-items--not-last"
-          >
-            Action
-          </geo-primary-button>
-          <geo-input-suffix>euros</geo-input-suffix>
-        </div>
+        <geo-primary-button slot="trailingAccessoryItem">Action</geo-primary-button>
+        <geo-input-suffix slot="trailingAccessoryItem">euros</geo-input-suffix>
       </geo-input>
     </div>
   </div>
