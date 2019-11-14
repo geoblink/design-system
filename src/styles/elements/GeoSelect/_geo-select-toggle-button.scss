@@ -28,10 +28,6 @@
       .geo-select-toggle-button__toggle-icon#{$modifier-name-with-prefix} {
         color: $color-blue;
       }
-
-      .geo-select-toggle-button__delete-icon#{$modifier-name-with-prefix} {
-        visibility: visible;
-      }
     }
   }
 
@@ -39,7 +35,6 @@
     color: $color-red;
     font-size: $font-size-small;
     margin-left: auto;
-    visibility: hidden;
   }
 
   .geo-select-toggle-button--empty#{$modifier-name-with-prefix} {
