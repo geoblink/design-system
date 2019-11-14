@@ -6,11 +6,14 @@ title: Changelog
 
 ## 27.0.0
 
+Breaking :
+
+- `GeoInput` uses `GeoInputSuffix` and `GeoInputPrefix`
+
 New :
 
 - `GeoInputSuffix` component
 - `GeoInputPrefix` component
-- `GeoInput` uses `GeoInputSuffix` and `GeoInputPrefix`
 - `GeoSelectToggleButton` has variant `inputAccessorySuffix` and `inputAccessoryPrefix`
 
 ## 26.1.4
