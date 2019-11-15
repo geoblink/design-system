@@ -439,7 +439,12 @@ export default {
       <geo-input
         v-model="value"
       >
-        <geo-primary-button slot="trailingAccessoryItem">Action</geo-primary-button>
+        <geo-primary-button
+          slot="trailingAccessoryItem"
+          class="geo-input-several-accessory-items--not-last"
+        >
+          Action
+        </geo-primary-button>
         <geo-input-suffix slot="trailingAccessoryItem">euros</geo-input-suffix>
       </geo-input>
     </div>
@@ -458,12 +463,6 @@ export default {
 </script>
 
 <style scoped>
-.geo-input-several-accessory-items {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-
 .geo-input-several-accessory-items--not-last {
   margin-right: 10px;
 }
