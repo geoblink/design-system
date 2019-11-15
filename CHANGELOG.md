@@ -8,7 +8,7 @@ title: Changelog
 
 Breaking :
 
-- `GeoInput` uses `GeoInputSuffix` and `GeoInputPrefix`
+- `GeoInput` uses `leadingAccessoryItem` and `trailingAccessoryItem` slots instead of `suffix` and `prefix`
 
 New :
 
