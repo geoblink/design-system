@@ -14,7 +14,7 @@ New :
 
 - `GeoInputSuffix` component
 - `GeoInputPrefix` component
-- `GeoSelectToggleButton` has variant `inputAccessorySuffix` and `inputAccessoryPrefix`
+- `GeoSelectToggleButton` can have variant `inputAccessorySuffix` and `inputAccessoryPrefix`
 
 ## 26.1.4
 

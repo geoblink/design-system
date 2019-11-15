@@ -9,21 +9,25 @@
   }
 
   %geo-select-toggle-button-inputAccessory-prefix-suffix {
-    @include font($body);
-
-    align-items: center;
-    background-color: $color-white-darker;
+    background: $color-white-darker;
+    border-top: none;
+    border-bottom: none;
     box-sizing: border-box;
     color: $color-grey-darker;
-    display: flex;
     height: $space-x-large - 2 * $border-size;
     padding: $space-small;
+    width: auto;
 
     &:hover, &:focus {
       color: $color-dark;
+
+      .geo-select-toggle-button__toggle-icon#{$modifier-name-with-prefix} {
+        color: $color-dark;
+      }
     }
 
     &.geo-select-toggle-button--disabled#{$modifier-name-with-prefix} {
+      background: $color-white-darker;
       color: $color-grey-darker;
   
       .geo-select-toggle-button__toggle-icon#{$modifier-name-with-prefix} {
@@ -43,69 +47,58 @@
     justify-content: space-between;
     user-select: none;
 
+    align-items: center;
+    background: $color-white;
+    border: 1px solid $color-grey;
+    border-radius: $border-radius-default;
+    display: flex;
+    height: $space-x-large;
+    padding: 0 $space-small;
+    width: 200px;
+
     &.geo-select-toggle-button--empty#{$modifier-name-with-prefix} {
       color: $color-grey-light;
       font-style: italic;
     }
 
     &.geo-select-toggle-button--disabled#{$modifier-name-with-prefix} {
+      background: $color-white-dark;
+      color: $color-grey-light;
       cursor: not-allowed;
 
       &:hover, &:focus {
+        border-color: $color-grey;
         .geo-select-toggle-button__toggle-icon#{$modifier-name-with-prefix} {
           color: $color-grey-light;
         }
       }
     }
 
-    &.geo-select-toggle-button--regular#{$modifier-name-with-prefix} {
-      align-items: center;
-      background: $color-white;
-      border: 1px solid $color-grey;
-      border-radius: $border-radius-default;
-      display: flex;
-      height: $space-x-large;
-      padding: 0 $space-small;
-      width: 200px;
+    &:hover, &:focus {
+      border-color: $color-blue;
 
-  
-      &:hover, &:focus {
-        border-color: $color-blue;
-  
-        .geo-select-toggle-button__toggle-icon#{$modifier-name-with-prefix} {
-          color: $color-blue;
-        }
-  
-        .geo-select-toggle-button__delete-icon#{$modifier-name-with-prefix} {
-          visibility: visible;
-        }
+      .geo-select-toggle-button__toggle-icon#{$modifier-name-with-prefix} {
+        color: $color-blue;
       }
-  
-      &.geo-select-toggle-button--disabled#{$modifier-name-with-prefix} {
-        background: $color-white-dark;
-        color: $color-grey-light;
-    
-        &:hover, &:focus {
-          border-color: $color-grey;
 
-          .geo-select-toggle-button__toggle-icon#{$modifier-name-with-prefix} {
-            color: $color-grey-light;
-          }
-        }
+      .geo-select-toggle-button__delete-icon#{$modifier-name-with-prefix} {
+        visibility: visible;
       }
     }
   
     &.geo-select-toggle-button--inputAccessorySuffix#{$modifier-name-with-prefix} {
       @extend %geo-select-toggle-button-inputAccessory-prefix-suffix;
 
-      border-radius: 0 $border-radius-default $border-radius-default 0;
+      border-right: none;
       border-left: $border-size solid $color-grey;
+      border-radius: 0 $border-radius-default $border-radius-default 0;
       margin-right: -$space-small + $border-size;
     }
 
     &.geo-select-toggle-button--inputAccessoryPrefix#{$modifier-name-with-prefix} {
       @extend %geo-select-toggle-button-inputAccessory-prefix-suffix;
 
+      border-left: none;
       border-right: $border-size solid $color-grey;
       border-radius: $border-radius-default 0 0 $border-radius-default;
       margin-left: -$space-small + $border-size;

@@ -98,12 +98,11 @@ describe('GeoSelectToggleButton', () => {
       },
       propsData: {
         isEmpty: false,
-        isValueDeletable: true,
-        variant: 'regular'
+        isValueDeletable: true
       }
     })
 
-    expect(wrapper.find('.geo-select-toggle-button--regular').exists()).toBe(true)
+    expect(wrapper.find('.geo-select-toggle-button').exists()).toBe(true)
 
     wrapper.setProps({ variant: 'inputAccessorySuffix' })
     expect(wrapper.find('.geo-select-toggle-button--inputAccessorySuffix').exists()).toBe(true)

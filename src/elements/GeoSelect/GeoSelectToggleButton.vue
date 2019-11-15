@@ -34,7 +34,6 @@
 import cssSuffix from '../../mixins/cssModifierMixin'
 
 export const VARIANTS = {
-  regular: 'regular',
   inputAccessorySuffix: 'inputAccessorySuffix',
   inputAccessoryPrefix: 'inputAccessoryPrefix'
 }
@@ -133,7 +132,7 @@ export default {
      */
     variant: {
       type: String,
-      default: VARIANTS.regular,
+      required: false,
       validator (value) {
         if (value in VARIANTS) return true
 
