@@ -134,6 +134,7 @@ export default {
       type: String,
       required: false,
       validator (value) {
+        if (!value) return true
         if (value in VARIANTS) return true
 
         const supportedValues = Object.values(VARIANTS).map(i => `«${i}»`).join(', ')
