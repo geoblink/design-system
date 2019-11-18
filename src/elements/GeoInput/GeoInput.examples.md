@@ -537,7 +537,6 @@ export default {
 </script>
 ```
 
-
 ### Prefixed and suffixed input with delete event
 
 ``` vue live
