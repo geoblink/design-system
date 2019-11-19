@@ -47,7 +47,7 @@
   "dependencies": {
     "d3": "^5.7.0",
     "d3-tip": "^0.9.1",
-    "date-fns": "^2.2.1"
+    "date-fns": "^2.7.0"
   },
   "peerDependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.2",
