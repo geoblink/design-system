@@ -141,6 +141,14 @@ export default {
     toInputPlaceholder: {
       type: String,
       required: false
+    },
+
+    /**
+     * Class or classes that will be added to the popup element
+     */
+    popupClass: {
+      type: [String, Array, Object],
+      required: false
     }
   }
 }

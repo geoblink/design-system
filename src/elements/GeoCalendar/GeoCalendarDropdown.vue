@@ -2,6 +2,7 @@
   <geo-dropdown
     :css-modifier="cssModifierWithGranularity"
     :opened="isCalendarPopupOpened"
+    :popup-class="popupClass"
     @click-outside="handleClickOutside"
   >
     <!-- @slot Use this slot to customize the button used to toggle the calendar -->

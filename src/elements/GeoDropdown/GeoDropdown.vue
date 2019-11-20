@@ -12,10 +12,13 @@
 
     <div
       ref="popup"
-      :class="{
-        [`geo-dropdown__popup${cssSuffix}`]: true,
-        [`geo-dropdown__popup--is-open${cssSuffix}`]: isOpened,
-      }"
+      :class="[
+        popupClass,
+        `geo-dropdown__popup${cssSuffix}`,
+        {
+          [`geo-dropdown__popup--is-open${cssSuffix}`]: isOpened,
+        }
+      ]"
       :style="popupStyle"
     >
       <!-- @slot Use this slot to customize popup's content -->
@@ -125,6 +128,14 @@ export default {
     fixedWidth: {
       type: Boolean,
       default: false
+    },
+
+    /**
+     * Class or classes that will be added to the popup element
+     */
+    popupClass: {
+      type: [String, Array, Object],
+      required: false
     }
   },
   data () {

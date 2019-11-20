@@ -3,7 +3,7 @@
     <geo-select-base
       :opened="isMonthSelectionOpened"
       :fixed-width="false"
-      css-modifier="calendar-navigation-selection"
+      popup-class="calendar-navigation-selection"
       data-ut="month-select"
       @click-outside="closeMonthSelection"
     >
@@ -32,7 +32,7 @@
     <geo-select-base
       :opened="isYearSelectionOpened"
       :fixed-width="false"
-      css-modifier="calendar-navigation-selection"
+      popup-class="calendar-navigation-selection"
       data-ut="year-select"
       @click-outside="closeYearSelection"
     >

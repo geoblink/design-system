@@ -230,6 +230,14 @@ export default {
     disabled: {
       type: Boolean,
       default: false
+    },
+
+    /**
+     * Class or classes that will be added to the popup element
+     */
+    popupClass: {
+      type: [String, Array, Object],
+      required: false
     }
   },
   data () {
