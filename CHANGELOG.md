@@ -4,6 +4,12 @@ title: Changelog
 
 # Changelog
 
+## 27.0.1
+
+Changed:
+
+- `GeoTrimmedContent` uses `GeoTooltip` instead of `v-tooltip`
+
 ## 26.1.5
 
 Changed :
