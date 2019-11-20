@@ -147,6 +147,7 @@ export default {
 
     this.reattachTooltipContent()
     this.addMouseEventHandlers()
+    this.repositionTooltip()
   },
   updated () {
     this.repositionTooltip()
