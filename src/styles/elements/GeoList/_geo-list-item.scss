@@ -64,6 +64,8 @@
   .geo-list-item__trailing-accessory-items#{$modifier-name-with-prefix} {
     color: $color-grey-light;
     margin-left: 10px;
+    display: flex;
+    align-items: center;
   }
 
 }

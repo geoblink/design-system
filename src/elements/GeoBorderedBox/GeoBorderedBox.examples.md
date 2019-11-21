@@ -2,11 +2,12 @@
 actions inside a boxed environment. Use it in dropdowns or modals to offer a
 consistent experience.
 
+### Playground
+
 ```vue live
 <template>
   <div class="element-demo">
     <h3 class="element-demo__header">
-      Bordered box playground
       <div class="element-demo__inline-input-group">
         <label class="element-demo__inline-input-group__field">
           Header: <select
@@ -43,6 +44,7 @@ consistent experience.
         </label>
       </div>
     </h3>
+
     <div class="element-demo__block" style="justify-content: space-around;">
       <geo-bordered-box>
         <geo-bordered-box-header v-if="showBoxHeader">
@@ -57,35 +59,6 @@ consistent experience.
           <blockquote>{{ content }}</blockquote>
         </div>
         <geo-bordered-box-footer v-if="showBoxFooter">
-          <div style="display: flex; flex-direction:row; justify-content: flex-end;">
-            <geo-tertiary-button>Cancel</geo-tertiary-button>
-            <geo-primary-button>Save changes</geo-primary-button>
-          </div>
-        </geo-bordered-box-footer>
-      </geo-bordered-box>
-    </div>
-    <h3 class="element-demo__header">Bordered box with header</h3>
-    <div class="element-demo__block" style="justify-content: space-around;">
-      <geo-bordered-box>
-        <geo-bordered-box-header>My header</geo-bordered-box-header>
-        <geo-list-item>This box has a nice header</geo-list-item>
-      </geo-bordered-box>
-    </div>
-    <h3 class="element-demo__header">Bordered box with footer</h3>
-    <div class="element-demo__block" style="justify-content: space-around;">
-      <geo-bordered-box>
-        <geo-list-item>This box has a nice footer</geo-list-item>
-        <geo-bordered-box-footer>
-          <geo-primary-button>Save changes</geo-primary-button>
-        </geo-bordered-box-footer>
-      </geo-bordered-box>
-    </div>
-    <h3 class="element-demo__header">Bordered box with header and footer</h3>
-    <div class="element-demo__block" style="justify-content: space-around;">
-      <geo-bordered-box>
-        <geo-bordered-box-header>My header</geo-bordered-box-header>
-        <geo-list-item>This box has a nice header and footer</geo-list-item>
-        <geo-bordered-box-footer>
           <div style="display: flex; flex-direction:row; justify-content: flex-end;">
             <geo-tertiary-button>Cancel</geo-tertiary-button>
             <geo-primary-button>Save changes</geo-primary-button>
@@ -130,4 +103,98 @@ export default {
   }
 }
 </script>
+```
+
+### Header and footer
+
+```jsx live
+<div class="element-demo">
+  <div class="element-demo__block" style="justify-content: space-around;">
+    <geo-bordered-box>
+      <geo-bordered-box-header>My header</geo-bordered-box-header>
+      <geo-list-item>This box has a nice header</geo-list-item>
+    </geo-bordered-box>
+
+    <geo-bordered-box>
+      <geo-list-item>This box has a nice footer</geo-list-item>
+      <geo-bordered-box-footer>
+        <geo-primary-button>Save changes</geo-primary-button>
+      </geo-bordered-box-footer>
+    </geo-bordered-box>
+
+    <geo-bordered-box>
+      <geo-bordered-box-header>My header</geo-bordered-box-header>
+      <geo-list-item>This box has a nice header and footer</geo-list-item>
+      <geo-bordered-box-footer>
+        <div style="display: flex; flex-direction:row; justify-content: flex-end;">
+          <geo-tertiary-button>Cancel</geo-tertiary-button>
+          <geo-primary-button>Save changes</geo-primary-button>
+        </div>
+      </geo-bordered-box-footer>
+    </geo-bordered-box>
+  </div>
+</div>
+```
+
+### With groups
+
+```jsx live
+<div class="element-demo">
+  <div class="element-demo__block" style="justify-content: space-around;">
+    <geo-bordered-box>
+      <geo-bordered-box-header>One group</geo-bordered-box-header>
+      <geo-list-group>
+        <template slot="title">Single group</template>
+        <template slot="item">
+          <geo-list-item>First option</geo-list-item>
+          <geo-list-item>Second option</geo-list-item>
+          <geo-list-item>Third option</geo-list-item>
+        </template>
+      </geo-list-group>
+    </geo-bordered-box>
+
+    <geo-bordered-box>
+      <geo-bordered-box-header>Several groups</geo-bordered-box-header>
+      <geo-list-group>
+        <template slot="title">First group</template>
+        <template slot="item">
+          <geo-list-item>First option</geo-list-item>
+          <geo-list-item>Second option</geo-list-item>
+          <geo-list-item>Third option</geo-list-item>
+        </template>
+      </geo-list-group>
+      <geo-list-group>
+        <template slot="title">Second group</template>
+        <template slot="item">
+          <geo-list-item>First option</geo-list-item>
+          <geo-list-item>Second option</geo-list-item>
+          <geo-list-item>Third option</geo-list-item>
+        </template>
+      </geo-list-group>
+    </geo-bordered-box>
+
+    <geo-bordered-box>
+      <geo-bordered-box-header>Several groups and footer</geo-bordered-box-header>
+      <geo-list-group>
+        <template slot="title">First group</template>
+        <template slot="item">
+          <geo-list-item>First option</geo-list-item>
+          <geo-list-item>Second option</geo-list-item>
+          <geo-list-item>Third option</geo-list-item>
+        </template>
+      </geo-list-group>
+      <geo-list-group>
+        <template slot="title">Second group</template>
+        <template slot="item">
+          <geo-list-item>First option</geo-list-item>
+          <geo-list-item>Second option</geo-list-item>
+          <geo-list-item>Third option</geo-list-item>
+        </template>
+      </geo-list-group>
+      <geo-bordered-box-footer>
+        <geo-primary-button>Apply</geo-primary-button>
+      </geo-bordered-box-footer>
+    </geo-bordered-box>
+  </div>
+</div>
 ```
