@@ -3,7 +3,7 @@
     <geo-select-base
       :opened="isYearRangeSelectionOpened"
       :fixed-width="false"
-      popup-class="calendar-navigation-selection"
+      popup-class="geo-calendar-navigation-selection"
       data-ut="year-range-select"
       @click-outside="closeYearRangeSelection"
     >
