@@ -4,15 +4,15 @@ title: Changelog
 
 # Changelog
 
-## 26.2.0
+## 26.1.6
 
-Changed:
+Fixed:
 
-- Update date-fns version used in the DS to 2.7.0
+- `GeoListGroup` add separator between groups.
 
 ## 26.1.5
 
-Changed :
+Changed:
 
 - Default value for `GeoTooltip` delay is 0
 
