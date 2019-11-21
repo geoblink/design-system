@@ -182,31 +182,6 @@ export default {
 </script>
 ```
 
-### Input with leading icon
-
-``` vue live
-<template>
-  <div class="element-demo">
-    <div class="element-demo__block">
-      <geo-input v-model="value" type="text" :leading-accessory-icon="['fas', 'search']">
-        <geo-input-label slot="label">Search input</geo-input-label>
-      </geo-input>
-    </div>
-  </div>
-</template>
-
-<script>
-export default {
-  name: 'GeoInputDemo',
-  data () {
-    return {
-      value: ''
-    }
-  }
-}
-</script>
-```
-
 ### Input text with events
 
 ``` vue live
@@ -295,22 +270,52 @@ export default {
 </script>
 ```
 
-### Input with accessory item
+### Input with leading accessory item
+
+``` vue live
+<template>
+  <div class="element-demo">
+    <div class="element-demo__block">
+      <geo-input v-model="value" type="text">
+        <geo-input-label slot="label">Search input</geo-input-label>
+        <font-awesome-icon
+          slot="leadingAccessoryItem"
+          :icon="['fas', 'search']"
+          fixed-with
+        />
+      </geo-input>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'GeoInputDemo',
+  data () {
+    return {
+      value: ''
+    }
+  }
+}
+</script>
+```
+
+### Input with trailing accessory item
 
 ``` vue live
 <template>
   <div class="element-demo">
     <div class="element-demo__block">
       <geo-input v-model="model[0]" type="text" placeholder="Placeholder">
-        <geo-primary-button slot="accessoryItem">Action!</geo-primary-button>
+        <geo-primary-button slot="trailingAccessoryItem">Action!</geo-primary-button>
       </geo-input>
 
       <geo-input v-model="model[1]" type="text" placeholder="Disabled" disabled>
-        <geo-primary-button slot="accessoryItem">Action!</geo-primary-button>
+        <geo-primary-button slot="trailingAccessoryItem">Action!</geo-primary-button>
       </geo-input>
 
       <geo-input v-model="model[2]" type="text" @delete-value="resetValue">
-        <geo-primary-button slot="accessoryItem">Action!</geo-primary-button>
+        <geo-primary-button slot="trailingAccessoryItem">Action!</geo-primary-button>
       </geo-input>
     </div>
   </div>
@@ -333,62 +338,19 @@ export default {
 </script>
 ```
 
-### Prefixed and suffixed inputs
+### Prefixed input
 
 ``` vue live
 <template>
   <div class="element-demo">
-    <h3 class="element-demo__header">Prefixed input</h3>
     <div class="element-demo__block">
-      <geo-input v-model="model[0]">
-        <font-awesome-icon slot="prefix"
-          :icon="['fas', 'euro-sign']"
-          fixed-width
-        />
-      </geo-input>
-    </div>
-
-    <h3 class="element-demo__header">Suffixed input with delete event</h3>
-    <div class="element-demo__block">
-      <geo-input v-model="model[1]" @delete-value="resetValue">
-        <div slot="suffix">
-          euros
-        </div>
-      </geo-input>
-    </div>
-
-    <h3 class="element-demo__header">Disable input with suffix</h3>
-    <div class="element-demo__block">
-      <geo-input
-        v-model="model[2]"
-        disabled
-      >
-        <div slot="suffix">
-          euros
-        </div>
-      </geo-input>
-    </div>
-
-    <h3 class="element-demo__header">Input number with suffix and delete event</h3>
-    <div class="element-demo__block">
-      <geo-input v-model="model[3]" type="number" @delete-value="resetValue2">
-        <div slot="suffix">
-          euros
-        </div>
-      </geo-input>
-    </div>
-
-    <h3 class="element-demo__header">Prefixed and suffixed input with delete event</h3>
-    <div class="element-demo__block">
-      <geo-input v-model="model[4]" @delete-value="resetValue3">
-        <font-awesome-icon slot="prefix"
-          :icon="['fas', 'bell']"
-          fixed-width
-        />
-        <font-awesome-icon slot="suffix"
-          :icon="['fas', 'bell']"
-          fixed-width
-        />
+      <geo-input v-model="value">
+        <geo-input-prefix slot="leadingAccessoryItem">
+          <font-awesome-icon
+            :icon="['fas', 'euro-sign']"
+            fixed-width
+          />
+        </geo-input-prefix>
       </geo-input>
     </div>
   </div>
@@ -399,18 +361,217 @@ export default {
   name: 'GeoInputDemo',
   data () {
     return {
-      model: [null, '', null, '', '']
+      value: ''
+    }
+  }
+}
+</script>
+```
+
+### Suffixed input with delete event
+
+``` vue live
+<template>
+  <div class="element-demo">
+    <div class="element-demo__block">
+      <geo-input v-model="value" @delete-value="resetValue">
+        <geo-input-suffix slot="trailingAccessoryItem">
+          euros
+        </geo-input-suffix>
+      </geo-input>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'GeoInputDemo',
+  data () {
+    return {
+      value: ''
     }
   },
   methods: {
     resetValue () {
-      this.model.splice(1, 1, '')
-    },
-    resetValue2 () {
-      this.model.splice(3, 1, '')
-    },
-    resetValue3 () {
-      this.model.splice(4, 1, '')
+      this.value = ''
+    }
+  }
+}
+</script>
+```
+
+### Disabled input with suffix
+
+``` vue live
+<template>
+  <div class="element-demo">
+    <div class="element-demo__block">
+      <geo-input
+        v-model="value"
+        disabled
+      >
+        <geo-input-suffix slot="trailingAccessoryItem">
+          euros
+        </geo-input-suffix>
+      </geo-input>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'GeoInputDemo',
+  data () {
+    return {
+      value: ''
+    }
+  }
+}
+</script>
+```
+
+### Input with suffix and trailing accessory item
+
+``` vue live
+<template>
+  <div class="element-demo">
+    <div class="element-demo__block">
+      <geo-input
+        v-model="value"
+      >
+        <geo-primary-button
+          slot="trailingAccessoryItem"
+          class="geo-input-several-accessory-items--not-last"
+        >
+          Action
+        </geo-primary-button>
+        <geo-input-suffix slot="trailingAccessoryItem">euros</geo-input-suffix>
+      </geo-input>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'GeoInputDemo',
+  data () {
+    return {
+      value: ''
+    }
+  }
+}
+</script>
+
+<style scoped>
+.geo-input-several-accessory-items--not-last {
+  margin-right: 10px;
+}
+</style>
+```
+
+### Input number with suffix and delete event
+
+``` vue live
+<template>
+  <div class="element-demo">
+    <div class="element-demo__block">
+      <geo-input v-model="value" type="number" @delete-value="resetValue">
+        <geo-input-suffix slot="trailingAccessoryItem">
+          euros
+        </geo-input-suffix>
+      </geo-input>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'GeoInputDemo',
+  data () {
+    return {
+      value: ''
+    }
+  },
+  methods: {
+    resetValue () {
+      this.value = ''
+    }
+  }
+}
+</script>
+```
+
+### Input with select suffix
+
+``` vue live
+<template>
+  <div class="element-demo">
+    <div class="element-demo__block" style="justify-content: space-around;">
+      <geo-input v-model="value">
+        <geo-select
+          slot="trailingAccessoryItem"
+          :options="distanceMeasures"
+          :dropdown-icon="['fas', 'chevron-down']"
+          :search-icon="['fas', 'search']"
+          :fixed-width="false"
+          variant="inputAccessorySuffix"
+          v-model="selectedDistanceMeasure"
+        />
+      </geo-input>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'GeoInputDemo',
+  data () {
+    const distanceMeasures = [{label: 'meters'}, {label:'miles'}]
+    return {
+      value: '',
+      distanceMeasures,
+      selectedDistanceMeasure: distanceMeasures[0]
+    }
+  }
+}
+</script>
+```
+
+### Prefixed and suffixed input with delete event
+
+``` vue live
+<template>
+  <div class="element-demo">
+    <div class="element-demo__block">
+      <geo-input v-model="value" @delete-value="resetValue">
+        <geo-input-prefix slot="leadingAccessoryItem">
+          <font-awesome-icon
+            :icon="['fas', 'bell']"
+            fixed-width
+          />
+        </geo-input-prefix>
+        <geo-input-suffix slot="trailingAccessoryItem">
+          <font-awesome-icon
+            :icon="['fas', 'bell']"
+            fixed-width
+          />
+        </geo-input-suffix>
+      </geo-input>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'GeoInputDemo',
+  data () {
+    return {
+      value: ''
+    }
+  },
+  methods: {
+    resetValue () {
+      this.value = ''
     }
   }
 }

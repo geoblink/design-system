@@ -4,6 +4,18 @@ title: Changelog
 
 # Changelog
 
+## 27.0.0
+
+Breaking:
+
+- `GeoInput` renamed `suffix` and `prefix` slots to `leadingAccessoryItem` and `trailingAccessoryItem`
+
+New:
+
+- `GeoInputSuffix` component
+- `GeoInputPrefix` component
+- `GeoSelectToggleButton` can have variant `inputAccessorySuffix` and `inputAccessoryPrefix`
+
 ## 26.2.0
 
 New:
