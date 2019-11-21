@@ -15,6 +15,7 @@ import GeoListItem from '@/elements/GeoList/GeoListItem.vue'
 import GeoListGroup from '@/elements/GeoList/GeoListGroup.vue'
 import GeoTrimmedContent from '@/elements/GeoTrimmedContent/GeoTrimmedContent.vue'
 import GeoInput from '@/elements/GeoInput/GeoInput.vue'
+import GeoTooltip from '@/elements/GeoTooltip/GeoTooltip.vue'
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fas } from '@fortawesome/free-solid-svg-icons'
@@ -45,6 +46,7 @@ const stubs = {
   GeoBorderedBoxHeaderSearchForm,
   GeoListGroup,
   GeoInput,
+  GeoTooltip,
   FontAwesomeIcon
 }
 

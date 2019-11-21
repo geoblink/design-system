@@ -14,6 +14,12 @@ New:
 - `GeoSelect` supports `popupClass` prop to customize popup class
 - `GeoSelectBase` supports `popupClass` prop to customize popup class
 
+## 26.1.8
+
+Changed:
+
+- `GeoTrimmedContent` uses `GeoTooltip` instead of `v-tooltip`
+
 ## 26.1.7
 
 Fixed:
