@@ -4,9 +4,15 @@ title: Changelog
 
 # Changelog
 
+## 26.1.6
+
+Fixed:
+
+- `GeoListGroup` add separator between groups.
+
 ## 26.1.5
 
-Changed :
+Changed:
 
 - Default value for `GeoTooltip` delay is 0
 
