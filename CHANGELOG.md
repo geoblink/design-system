@@ -10,6 +10,22 @@ Changed:
 
 - Include `date-fns` as peerDependency
 
+Fixed:
+
+- Import `date-fns` functions separately
+
+## 27.1.8
+
+Changed:
+
+- `GeoTrimmedContent` uses `GeoTooltip` instead of `v-tooltip`
+
+## 26.1.7
+
+Fixed:
+
+- `GeoListItem` keep class passed to component.
+
 ## 26.1.6
 
 Fixed:

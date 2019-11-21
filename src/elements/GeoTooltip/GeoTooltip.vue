@@ -147,6 +147,7 @@ export default {
 
     this.reattachTooltipContent()
     this.addMouseEventHandlers()
+    this.repositionTooltip()
   },
   updated () {
     this.repositionTooltip()
@@ -198,69 +199,71 @@ export default {
     repositionTooltip () {
       if (!this.isVisible) return
 
-      if (this.$el.style) {
-        this.$el.style.removeProperty('--available-width')
-        this.$el.style.removeProperty('--available-height')
-      }
-
-      const triggerTargetOffset = getDOMElementOffset(this.triggerTarget)
-      const triggerTargetSize = {
-        width: this.triggerTarget.offsetWidth,
-        height: this.triggerTarget.offsetHeight
-      }
-      const tooltipContentSize = {
-        width: this.$el.offsetWidth || 0,
-        height: this.$el.offsetHeight || 0
-      }
-
-      const tooltipContentComputedStyle = this.$el.nodeType === Node.COMMENT_NODE
-        ? null
-        : getComputedStyle(this.$el)
-
-      // Spacing user defined via CSS in --spacing-to-trigger-target CSS variable
-      // if not supported (aka, IE11) we'll use 0
-      const spacingToTriggerTarget = tooltipContentComputedStyle
-        ? parseInt(tooltipContentComputedStyle.getPropertyValue('--spacing-to-trigger-target') || 0, 10)
-        : 0
-
-      const offsetForPosition = {
-        [POSITIONS.top]: {
-          x: triggerTargetOffset.left + triggerTargetSize.width / 2,
-          y: triggerTargetOffset.top - spacingToTriggerTarget
-        },
-        [POSITIONS.bottom]: {
-          x: triggerTargetOffset.left + triggerTargetSize.width / 2,
-          y: triggerTargetOffset.top + triggerTargetSize.height + spacingToTriggerTarget
-        },
-        [POSITIONS.leading]: {
-          x: triggerTargetOffset.left - spacingToTriggerTarget,
-          y: triggerTargetOffset.top + triggerTargetSize.height / 2
-        },
-        [POSITIONS.trailing]: {
-          x: triggerTargetOffset.left + triggerTargetSize.width + spacingToTriggerTarget,
-          y: triggerTargetOffset.top + triggerTargetSize.height / 2
+      this.$nextTick().then(() => {
+        if (this.$el.style) {
+          this.$el.style.removeProperty('--available-width')
+          this.$el.style.removeProperty('--available-height')
         }
-      }
 
-      const requestedAbsoluteOffset = offsetForPosition[this.position]
+        const triggerTargetOffset = getDOMElementOffset(this.triggerTarget)
+        const triggerTargetSize = {
+          width: this.triggerTarget.offsetWidth,
+          height: this.triggerTarget.offsetHeight
+        }
+        const tooltipContentSize = {
+          width: this.$el.offsetWidth || 0,
+          height: this.$el.offsetHeight || 0
+        }
 
-      const isRequestedAbsoluteOffsetInsideViewport = areEdgesInsideViewport(
-        requestedAbsoluteOffset,
-        tooltipContentSize,
-        this.position,
-        this.alignment
-      )
+        const tooltipContentComputedStyle = this.$el.nodeType === Node.COMMENT_NODE
+          ? null
+          : getComputedStyle(this.$el)
 
-      if (!isRequestedAbsoluteOffsetInsideViewport) {
-        console.warn(`GeoTooltip [component] :: Tooltip content can't fit in «${this.position}» position with «${this.alignment}» alignment.`)
-      }
+        // Spacing user defined via CSS in --spacing-to-trigger-target CSS variable
+        // if not supported (aka, IE11) we'll use 0
+        const spacingToTriggerTarget = tooltipContentComputedStyle
+          ? parseInt(tooltipContentComputedStyle.getPropertyValue('--spacing-to-trigger-target') || 0, 10)
+          : 0
 
-      return this.translateTooltipContainer({
-        requestedAbsoluteOffset,
-        triggerTargetSize,
-        tooltipContentSize,
-        tooltipPosition: this.position,
-        tooltipAlignment: this.alignment
+        const offsetForPosition = {
+          [POSITIONS.top]: {
+            x: triggerTargetOffset.left + triggerTargetSize.width / 2,
+            y: triggerTargetOffset.top - spacingToTriggerTarget
+          },
+          [POSITIONS.bottom]: {
+            x: triggerTargetOffset.left + triggerTargetSize.width / 2,
+            y: triggerTargetOffset.top + triggerTargetSize.height + spacingToTriggerTarget
+          },
+          [POSITIONS.leading]: {
+            x: triggerTargetOffset.left - spacingToTriggerTarget,
+            y: triggerTargetOffset.top + triggerTargetSize.height / 2
+          },
+          [POSITIONS.trailing]: {
+            x: triggerTargetOffset.left + triggerTargetSize.width + spacingToTriggerTarget,
+            y: triggerTargetOffset.top + triggerTargetSize.height / 2
+          }
+        }
+
+        const requestedAbsoluteOffset = offsetForPosition[this.position]
+
+        const isRequestedAbsoluteOffsetInsideViewport = areEdgesInsideViewport(
+          requestedAbsoluteOffset,
+          tooltipContentSize,
+          this.position,
+          this.alignment
+        )
+
+        if (!isRequestedAbsoluteOffsetInsideViewport) {
+          console.warn(`GeoTooltip [component] :: Tooltip content can't fit in «${this.position}» position with «${this.alignment}» alignment.`)
+        }
+
+        return this.translateTooltipContainer({
+          requestedAbsoluteOffset,
+          triggerTargetSize,
+          tooltipContentSize,
+          tooltipPosition: this.position,
+          tooltipAlignment: this.alignment
+        })
       })
     },
 

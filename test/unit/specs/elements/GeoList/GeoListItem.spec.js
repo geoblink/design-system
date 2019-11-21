@@ -22,6 +22,40 @@ describe('GeoListItem', () => {
     expect(wrapper.find('label.geo-list-item').exists()).toBe(true)
   })
 
+  it('Should render with the provided static class', () => {
+    const wrapper = mount(GeoListItem, {
+      context: {
+        staticClass: 'my-static-class'
+      }
+    })
+    expect(wrapper.find('div.geo-list-item.my-static-class').exists()).toBe(true)
+  })
+
+  it('Should render with the provided dynamic class', () => {
+    const wrapper = mount(GeoListItem, {
+      context: {
+        class: {
+          'my-dynamic-class': true,
+          'my-dynamic-class-false': false
+        }
+      }
+    })
+    expect(wrapper.find('div.geo-list-item.my-dynamic-class').exists()).toBe(true)
+    expect(wrapper.find('div.geo-list-item.my-dynamic-class-false').exists()).toBe(false)
+  })
+
+  it('Should render with the provided dynamic and static classes', () => {
+    const wrapper = mount(GeoListItem, {
+      context: {
+        class: {
+          'my-dynamic-class': true
+        },
+        staticClass: 'my-static-class'
+      }
+    })
+    expect(wrapper.find('div.geo-list-item.my-static-class.my-dynamic-class').exists()).toBe(true)
+  })
+
   it('Should render default slot', function () {
     const wrapper = mount(GeoListItem, {
       slots: {

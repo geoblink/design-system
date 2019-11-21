@@ -14,6 +14,7 @@ import GeoListItem from '@/elements/GeoList/GeoListItem.vue'
 import GeoListGroup from '@/elements/GeoList/GeoListGroup.vue'
 import GeoTrimmedContent from '@/elements/GeoTrimmedContent/GeoTrimmedContent.vue'
 import GeoInput from '@/elements/GeoInput/GeoInput.vue'
+import GeoTooltip from '@/elements/GeoTooltip/GeoTooltip.vue'
 import _ from 'lodash'
 import * as sinon from 'sinon'
 
@@ -46,6 +47,7 @@ const stubs = {
   GeoBorderedBoxHeaderSearchForm,
   GeoListGroup,
   GeoInput,
+  GeoTooltip,
   'font-awesome-icon': FontAwesomeIcon
 }
 
