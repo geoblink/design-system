@@ -17,8 +17,8 @@
     }
 
     .geo-input__input-field {
-      display: flex;
       align-items: center;
+      display: flex;
       width: 100%;
     }
 
@@ -69,48 +69,12 @@
       z-index: 0;
     }
 
-    %geo-input-prefix-suffix {
-      @include font($body);
-
-      background-color: $color-white-darker;
-      box-sizing: border-box;
-      color:$color-grey-darker;
-      height: $space-x-large - 2 * $border-size;
-      margin: $border-size 0;
-      padding: $space-small;
-      z-index: 1;
-    }
-
-    .geo-input__prefix {
-      @extend %geo-input-prefix-suffix;
-
-      border-right: $border-size solid $color-grey;
-      border-radius: $border-radius-default 0 0 $border-radius-default;
-      margin-left: $border-size;
-    }
-
-    .geo-input__input--prefix {
-      border-top-left-radius: 0;
-      border-bottom-left-radius: 0;
-    }
-
-    .geo-input__suffix {
-      @extend %geo-input-prefix-suffix;
-
-      border-radius: 0 $border-radius-default $border-radius-default 0;
-      border-left: $border-size solid $color-grey;
-      margin-right: $border-size;
-    }
-
-    .geo-input__input--suffix {
-      border-top-right-radius: 0;
-      border-bottom-right-radius: 0;
-    }
-
     .geo-input__accessory-items {
       align-items: center;
+      color: $color-grey-light;
       display: flex;
       flex-direction: row;
+      font-size: $font-size-small;
       z-index: 1;
     }
 
@@ -126,9 +90,11 @@
       }
     }
 
-    .geo-input__icon {
-      color: $color-grey-light;
-      font-size: $font-size-small;
+    .geo-input__accessory-items-item {
+      align-items: center;
+      display: flex;
+      flex-direction: row;
+      flex-shrink: 0;
     }
 
     .geo-input__icon--delete {
@@ -181,8 +147,8 @@
 
       &, &:focus, &[focus] {
         & ~ .geo-input__input-outline {
-          border: $border-size solid $color-grey;
           background-color: $color-white-dark;
+          border: $border-size solid $color-grey;
         }
       }
     }

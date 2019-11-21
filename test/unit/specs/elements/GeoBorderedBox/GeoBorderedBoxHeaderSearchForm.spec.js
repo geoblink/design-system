@@ -4,6 +4,7 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { fas } from '@fortawesome/free-solid-svg-icons'
 import GeoBorderedBoxHeaderSearchForm from '@/elements/GeoBorderedBox/GeoBorderedBoxHeaderSearchForm.vue'
 import GeoInput from '@/elements/GeoInput/GeoInput.vue'
+import { FontAwesomeIconMock, expectFontAwesomeIconProp } from 'test/unit/utils/FontAwesomeIconMock.js'
 
 library.add(fas)
 
@@ -85,5 +86,62 @@ describe('GeoBorderedBoxHeaderSearchForm', () => {
     wrapper.find('.geo-input__input').trigger('keyup')
     expect(wrapper.find('.geo-input__input').element.value).toBe('Some search')
     expect(wrapper.emitted().input).toBeTruthy()
+  })
+
+  it('Should render correct default search icon', () => {
+    const wrapper = mount(GeoBorderedBoxHeaderSearchForm, {
+      stubs: {
+        'font-awesome-icon': FontAwesomeIconMock,
+        GeoInput
+      }
+    })
+
+    const fontAwesomeIconElem = wrapper.find(FontAwesomeIconMock)
+    expectFontAwesomeIconProp(fontAwesomeIconElem, ['fal', 'search'])
+  })
+
+  it('Should correctly render beforeSearchIconItem slot', () => {
+    const wrapper = mount(GeoBorderedBoxHeaderSearchForm, {
+      stubs: {
+        'font-awesome-icon': FontAwesomeIconMock,
+        GeoInput
+      },
+      slots: {
+        beforeSearchIconItem: '<div class="my-content-before">Custom content</div'
+      }
+    })
+
+    expect(wrapper.find('.my-content-before').exists()).toBe(true)
+    expect(wrapper.find('.my-content-before').text()).toBe('Custom content')
+  })
+
+  it('Should correctly render afterSearchIconItem slot', () => {
+    const wrapper = mount(GeoBorderedBoxHeaderSearchForm, {
+      stubs: {
+        'font-awesome-icon': FontAwesomeIconMock,
+        GeoInput
+      },
+      slots: {
+        afterSearchIconItem: '<div class="my-content-after">Custom content</div'
+      }
+    })
+
+    expect(wrapper.find('.my-content-after').exists()).toBe(true)
+    expect(wrapper.find('.my-content-after').text()).toBe('Custom content')
+  })
+
+  it('Should correctly render trailingAccessoryItem slot', () => {
+    const wrapper = mount(GeoBorderedBoxHeaderSearchForm, {
+      stubs: {
+        'font-awesome-icon': FontAwesomeIconMock,
+        GeoInput
+      },
+      slots: {
+        trailingAccessoryItem: '<div class="my-content-trailing">Custom content</div'
+      }
+    })
+
+    expect(wrapper.find('.my-content-trailing').exists()).toBe(true)
+    expect(wrapper.find('.my-content-trailing').text()).toBe('Custom content')
   })
 })
