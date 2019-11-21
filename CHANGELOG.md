@@ -4,6 +4,12 @@ title: Changelog
 
 # Changelog
 
+## 26.2.0
+
+Changed:
+
+- Update date-fns version used in the DS to 2.7.0
+
 ## 26.1.5
 
 Changed :
