@@ -4,7 +4,17 @@ title: Changelog
 
 # Changelog
 
-## 27.1.8
+## 26.2.0
+
+New:
+
+- `GeoDropdown` supports `popupClass` prop to customize popup class
+- `GeoCalendarDropdown` supports `popupClass` prop to customize popup class
+- `GeoEditableInput` supports `popupClass` prop to customize popup class
+- `GeoSelect` supports `popupClass` prop to customize popup class
+- `GeoSelectBase` supports `popupClass` prop to customize popup class
+
+## 26.1.8
 
 Changed:
 

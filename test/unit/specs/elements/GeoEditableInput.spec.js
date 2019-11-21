@@ -138,6 +138,23 @@ describe('GeoEditableInput', () => {
     expect(wrapper.find('geo-secondary-compact-button').exists()).toBe(false)
   })
 
+  it('Should render with popup class', function () {
+    const wrapper = mount(GeoEditableInput, {
+      propsData: {
+        showButtons: true,
+        popupClass: 'popup-class'
+      },
+      stubs: {
+        GeoDropdown,
+        'geo-compact-button': true,
+        'geo-primary-compact-button': true,
+        'geo-secondary-compact-button': true
+      }
+    })
+
+    expect(wrapper.find('.popup-class').exists()).toBe(true)
+  })
+
   it('Should emit an event on click save button', function (done) {
     const wrapper = mount(GeoEditableInput, {
       propsData: {
