@@ -102,6 +102,21 @@ describe('GeoMultiSelect', () => {
     expect(wrapper.find('.geo-select__options-container--geo-multi-select').exists()).toBe(true)
   })
 
+  it('Should render element popup with custom class', () => {
+    const wrapper = mount(GeoMultiSelect, {
+      stubs,
+      propsData: _.assign(requiredProps, {
+        popupClass: 'test-popup-class'
+      }),
+      data () {
+        return {
+          isOpened: true
+        }
+      }
+    })
+    expect(wrapper.find('.test-popup-class').exists()).toBe(true)
+  })
+
   it('Should show popup on click toggle button', () => {
     const wrapper = mount(GeoMultiSelect, {
       stubs,

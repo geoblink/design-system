@@ -1,11 +1,11 @@
 import { mount } from '@vue/test-utils'
 import { PICKER_DATE_UNITS, GRANULARITY_IDS } from '@/elements/GeoCalendar/GeoCalendar.utils.js'
-import GeoCalendarDropdown from '@/elements/GeoCalendar/GeoCalendarDropdown'
-import GeoBorderedBox from '@/elements/GeoBorderedBox/GeoBorderedBox'
-import GeoCalendar from '@/elements/GeoCalendar/GeoCalendar'
-import GeoDropdown from '@/elements/GeoDropdown/GeoDropdown'
-import GeoPrimaryButton from '@/elements/GeoButton/GeoPrimaryButton'
-import GeoButton from '@/elements/GeoButton/GeoButton'
+import GeoCalendarDropdown from '@/elements/GeoCalendar/GeoCalendarDropdown.vue'
+import GeoBorderedBox from '@/elements/GeoBorderedBox/GeoBorderedBox.vue'
+import GeoCalendar from '@/elements/GeoCalendar/GeoCalendar.vue'
+import GeoDropdown from '@/elements/GeoDropdown/GeoDropdown.vue'
+import GeoPrimaryButton from '@/elements/GeoButton/GeoPrimaryButton.vue'
+import GeoButton from '@/elements/GeoButton/GeoButton.vue'
 
 describe('GeoCalendarDropdown', () => {
   const today = new Date(2019, 6, 30) // Fixed date to avoid future errors with random dates
@@ -47,6 +47,7 @@ describe('GeoCalendarDropdown', () => {
         'font-awesome-icon': true,
         'geo-calendar-picker': true,
         'geo-dropdown-regular-button': true,
+        'geo-scrollable-container': true,
         GeoButton,
         GeoCalendar,
         GeoDropdown,
@@ -93,6 +94,7 @@ describe('GeoCalendarDropdown', () => {
         'font-awesome-icon': true,
         'geo-calendar-picker': true,
         'geo-dropdown-regular-button': true,
+        'geo-scrollable-container': true,
         GeoButton,
         GeoCalendar,
         GeoDropdown,
@@ -119,6 +121,15 @@ describe('GeoCalendarDropdown', () => {
     wrapper.find('.calendar-toggle').vm.$emit('click')
     expect(wrapper.find('.geo-calendar--test-calendar-dropdown').exists()).toBe(true)
     expect(wrapper.vm.cssModifierWithGranularity).toBe('geo-calendar__dropdown--no-calendar-sidebar--test-calendar-dropdown')
+  })
+
+  it('Should render with popup class', () => {
+    const wrapper = getWrappedComponent()
+    wrapper.setProps({
+      popupClass: 'test-calendar-popup-class'
+    })
+    wrapper.find('.calendar-toggle').vm.$emit('click')
+    expect(wrapper.find('.test-calendar-popup-class').exists()).toBe(true)
   })
 
   describe('Calendar events', () => {
@@ -207,6 +218,7 @@ function getWrappedComponent () {
       'font-awesome-icon': true,
       'geo-calendar-picker': true,
       'geo-dropdown-regular-button': true,
+      'geo-scrollable-container': true,
       GeoButton,
       GeoCalendar,
       GeoDropdown,

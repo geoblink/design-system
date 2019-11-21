@@ -5,6 +5,7 @@
     :css-modifier="cssModifier"
     :force-y-axis-position="forceYAxisPosition"
     :fixed-width="fixedWidth"
+    :popup-class="popupClass"
     @click-outside="handleClickOutside($event)"
   >
     <!-- @slot Use this slot to customize the button toggling the actual selection popup -->
@@ -94,6 +95,14 @@ export default {
       validator: function (value) {
         return value === undefined || value in Y_AXIS_POSITION
       }
+    },
+
+    /**
+     * Class or classes that will be added to the popup element
+     */
+    popupClass: {
+      type: [String, Array, Object],
+      required: false
     }
   },
   methods: {
