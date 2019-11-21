@@ -123,6 +123,15 @@ describe('GeoCalendarDropdown', () => {
     expect(wrapper.vm.cssModifierWithGranularity).toBe('geo-calendar__dropdown--no-calendar-sidebar--test-calendar-dropdown')
   })
 
+  it('Should render with popup class', () => {
+    const wrapper = getWrappedComponent()
+    wrapper.setProps({
+      popupClass: 'test-calendar-popup-class'
+    })
+    wrapper.find('.calendar-toggle').vm.$emit('click')
+    expect(wrapper.find('.test-calendar-popup-class').exists()).toBe(true)
+  })
+
   describe('Calendar events', () => {
     it('Emits event when receiving from date', () => {
       const wrapper = getWrappedComponent()
