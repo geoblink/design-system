@@ -4,6 +4,12 @@ title: Changelog
 
 # Changelog
 
+## 26.1.7
+
+Fixed:
+
+- `GeoListItem` keep class passed to component.
+
 ## 26.1.6
 
 Fixed:
