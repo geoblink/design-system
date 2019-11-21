@@ -128,6 +128,20 @@ describe('GeoDropdown', () => {
     expect(wrapper.find('body > .geo-dropdown__popup.test-class-1.test-class-2 .my-demo-content').exists()).toBe(true)
   })
 
+  it('Should add popup class when is an array', function () {
+    const wrapper = mount(GeoDropdown, {
+      propsData: {
+        opened: true,
+        popupClass: ['test-class-1', 'test-class-2']
+      },
+      slots: {
+        popupContent: [`<span class="my-demo-content">Just some unique demo content</span>`]
+      }
+    })
+
+    expect(wrapper.find('body > .geo-dropdown__popup.test-class-1.test-class-2 .my-demo-content').exists()).toBe(true)
+  })
+
   it('Should reposition popup content when it is mounted', function () {
     const reattachPopupToDocumentBody = jest.fn()
     mount(GeoDropdown, {
