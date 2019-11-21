@@ -4,6 +4,12 @@ title: Changelog
 
 # Changelog
 
+## 28.0.0
+
+Changed:
+
+- Include `date-fns` as peerDependency
+
 ## 26.1.6
 
 Fixed:
