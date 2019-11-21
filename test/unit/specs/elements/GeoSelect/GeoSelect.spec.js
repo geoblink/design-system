@@ -14,6 +14,7 @@ import GeoListItem from '@/elements/GeoList/GeoListItem.vue'
 import GeoListGroup from '@/elements/GeoList/GeoListGroup.vue'
 import GeoTrimmedContent from '@/elements/GeoTrimmedContent/GeoTrimmedContent.vue'
 import GeoInput from '@/elements/GeoInput/GeoInput.vue'
+import GeoTooltip from '@/elements/GeoTooltip/GeoTooltip.vue'
 import _ from 'lodash'
 import * as sinon from 'sinon'
 
@@ -46,6 +47,7 @@ const stubs = {
   GeoBorderedBoxHeaderSearchForm,
   GeoListGroup,
   GeoInput,
+  GeoTooltip,
   'font-awesome-icon': FontAwesomeIcon
 }
 
@@ -59,6 +61,7 @@ describe('GeoSelect', () => {
     forceYAxisPosition: Y_AXIS_POSITION.top,
     keyForLabel: 'label',
     pageSize: 4,
+    popupClass: 'test-popup-class',
     value: { label: 'Item 0' }
   }
 
@@ -98,6 +101,19 @@ describe('GeoSelect', () => {
       }
     })
     expect(wrapper.find('.geo-select__options-container--geo-select').exists()).toBe(true)
+  })
+
+  it('Should render element popup with custom class', () => {
+    const wrapper = mount(GeoSelect, {
+      stubs,
+      propsData: defaultProps,
+      data () {
+        return {
+          isOpened: true
+        }
+      }
+    })
+    expect(wrapper.find('.test-popup-class').exists()).toBe(true)
   })
 
   it('Should show element popup on click on toggle button', () => {

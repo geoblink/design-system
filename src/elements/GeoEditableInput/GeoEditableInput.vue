@@ -11,6 +11,7 @@
       ref="dropdown"
       :opened="showButtons"
       :css-modifier="`geo-editable-input--${inputType}${cssSuffix}`"
+      :popup-class="popupClass"
       preferred-x-axis-position="right"
       @click-outside="handleClickOutside($event)"
     >
@@ -149,6 +150,14 @@ export default {
         // The value must match one of these strings
         return value in VARIANTS
       }
+    },
+
+    /**
+     * Class or classes that will be added to the popup element
+     */
+    popupClass: {
+      type: [String, Array, Object],
+      required: false
     }
   },
   methods: {

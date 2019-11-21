@@ -251,6 +251,14 @@ export default {
         console.warn(`GeoSelect [mixin] :: Unsupported value («${value}») for «variant» property. Use one of ${supportedValues}`)
         return false
       }
+    },
+
+    /**
+     * Class or classes that will be added to the popup element
+     */
+    popupClass: {
+      type: [String, Array, Object],
+      required: false
     }
   },
   data () {

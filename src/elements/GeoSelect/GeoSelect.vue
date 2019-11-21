@@ -5,6 +5,7 @@
     :css-modifier="`geo-select${cssSuffix}`"
     :has-more-results="hasMoreResultsToLoad"
     :fixed-width="fixedWidth"
+    :popup-class="popupClass"
     @click-outside="closeSelect"
     @load-more-results="loadNextPage"
   >

@@ -15,6 +15,7 @@ import GeoListItem from '@/elements/GeoList/GeoListItem.vue'
 import GeoListGroup from '@/elements/GeoList/GeoListGroup.vue'
 import GeoTrimmedContent from '@/elements/GeoTrimmedContent/GeoTrimmedContent.vue'
 import GeoInput from '@/elements/GeoInput/GeoInput.vue'
+import GeoTooltip from '@/elements/GeoTooltip/GeoTooltip.vue'
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fas } from '@fortawesome/free-solid-svg-icons'
@@ -45,6 +46,7 @@ const stubs = {
   GeoBorderedBoxHeaderSearchForm,
   GeoListGroup,
   GeoInput,
+  GeoTooltip,
   FontAwesomeIcon
 }
 
@@ -98,6 +100,21 @@ describe('GeoMultiSelect', () => {
     })
 
     expect(wrapper.find('.geo-select__options-container--geo-multi-select').exists()).toBe(true)
+  })
+
+  it('Should render element popup with custom class', () => {
+    const wrapper = mount(GeoMultiSelect, {
+      stubs,
+      propsData: _.assign(requiredProps, {
+        popupClass: 'test-popup-class'
+      }),
+      data () {
+        return {
+          isOpened: true
+        }
+      }
+    })
+    expect(wrapper.find('.test-popup-class').exists()).toBe(true)
   })
 
   it('Should show popup on click toggle button', () => {

@@ -6,15 +6,31 @@ title: Changelog
 
 ## 27.0.0
 
-Breaking :
+Breaking:
 
 - `GeoInput` uses `leadingAccessoryItem` and `trailingAccessoryItem` slots instead of `suffix` and `prefix`
 
-New :
+New:
 
 - `GeoInputSuffix` component
 - `GeoInputPrefix` component
 - `GeoSelectToggleButton` can have variant `inputAccessorySuffix` and `inputAccessoryPrefix`
+
+## 26.2.0
+
+New:
+
+- `GeoDropdown` supports `popupClass` prop to customize popup class
+- `GeoCalendarDropdown` supports `popupClass` prop to customize popup class
+- `GeoEditableInput` supports `popupClass` prop to customize popup class
+- `GeoSelect` supports `popupClass` prop to customize popup class
+- `GeoSelectBase` supports `popupClass` prop to customize popup class
+
+## 26.1.8
+
+Changed:
+
+- `GeoTrimmedContent` uses `GeoTooltip` instead of `v-tooltip`
 
 ## 26.1.7
 
