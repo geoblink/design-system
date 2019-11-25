@@ -4,6 +4,14 @@ title: Changelog
 
 # Changelog
 
+## 28.0.1
+
+New:
+
+- `GeoSidebarLayout` component
+- `GeoVerticalLayout` component
+- `GeoWizardLayout` component
+
 ## 27.0.0
 
 Breaking:
