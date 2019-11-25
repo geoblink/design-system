@@ -1,0 +1,8 @@
+@mixin geo-vertical-layout-make () {
+  .geo-vertical-layout {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+@include geo-vertical-layout-make();
