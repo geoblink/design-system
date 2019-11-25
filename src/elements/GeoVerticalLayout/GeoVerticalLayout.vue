@@ -4,7 +4,7 @@
     class="geo-vertical-layout"
   >
     <slot name="header" />
-    <geo-scrollable-container>
+    <geo-scrollable-container class="geo-vertical-layout__body">
       <!-- @slot Use this slot to customize content displayed inside the layout -->
       <slot />
     </geo-scrollable-container>

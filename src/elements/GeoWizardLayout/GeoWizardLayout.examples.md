@@ -26,7 +26,40 @@ The main content of the wizard is an horizontal container that can also display 
         <geo-secondary-button>Element 1</geo-secondary-button>
         <geo-secondary-button>Element 2</geo-secondary-button>
         <geo-secondary-button>Element 3</geo-secondary-button>
-        <geo-primary-button slot="footer-trailing">Footer button</geo-primary-button>
+        <geo-primary-button slot="footerTrailing">Footer button</geo-primary-button>
+      </geo-wizard-layout>
+    </div>
+    <h3 class="element-demo__header">Wizard with sidebar and without header or footer</h3>
+    <div class="element-demo__block" style="justify-content: space-around;">
+      <geo-wizard-layout>
+        <geo-sidebar-layout slot="sidebar">
+          <template slot="header">
+            <h6> Sidebar header </h6>
+            <geo-primary-button> Sidebar header button </geo-primary-button>
+          </template>
+          <template>
+            <p>Sidebar step 1</p>
+            <p>Sidebar step 2</p>
+            <p>Sidebar step 3</p>
+            <p>SIdebar step 4</p>
+          </template>
+          <template slot="footer">
+            <geo-tertiary-button> Sidebar's footer </geo-tertiary-button>
+          </template>
+        </geo-sidebar-layout>
+        <geo-secondary-button>Element 1</geo-secondary-button>
+        <geo-secondary-button>Element 2</geo-secondary-button>
+        <geo-secondary-button>Element 3</geo-secondary-button>
+      </geo-wizard-layout>
+    </div>
+    <h3 class="element-demo__header">Wizard without sidebar example</h3>
+    <div class="element-demo__block" style="justify-content: space-around;">
+      <geo-wizard-layout>
+        <h5 slot="header">Header</h5>
+        <geo-secondary-button>Element 1</geo-secondary-button>
+        <geo-secondary-button>Element 2</geo-secondary-button>
+        <geo-secondary-button>Element 3</geo-secondary-button>
+        <geo-primary-button slot="footerTrailing">Footer button</geo-primary-button>
       </geo-wizard-layout>
     </div>
   </div>

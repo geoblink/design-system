@@ -3,6 +3,13 @@
     display: flex;
     flex-direction: column;
   }
+
+  .geo-vertical-layout__body > .geo-scrollable-container__body{
+    justify-content: center;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
 }
 
 @include geo-vertical-layout-make();

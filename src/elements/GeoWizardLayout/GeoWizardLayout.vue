@@ -3,6 +3,7 @@
     <slot name="sidebar" />
     <geo-vertical-layout class="geo-wizard-layout__content-container">
       <header
+        v-if="$slots.header"
         slot="header"
         class="geo-wizard-layout__header"
       >
@@ -13,14 +14,15 @@
       </header>
       <slot />
       <footer
+        v-if="hasFooter"
         slot="footer"
         class="geo-wizard-layout__footer"
       >
         <div class="geo-wizard-layout__footer__leading">
-          <slot name="footer-leading" />
+          <slot name="footerLeading" />
         </div>
         <div class="geo-wizard-layout__footer__trailing">
-          <slot name="footer-trailing" />
+          <slot name="footerTrailing" />
         </div>
       </footer>
     </geo-vertical-layout>
@@ -31,6 +33,11 @@
 export default {
   name: 'GeoWizardLayout',
   status: 'missing-tests',
-  release: '28.0.1'
+  release: '28.0.1',
+  computed: {
+    hasFooter () {
+      return !!this.$slots.footerTrailing || !!this.$slots.footerLeading
+    }
+  }
 }
 </script>
