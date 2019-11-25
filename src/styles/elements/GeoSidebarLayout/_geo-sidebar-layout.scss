@@ -5,6 +5,7 @@
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
+    flex-shrink: 0;
     height: 100%;
     padding: $space-base;
   }

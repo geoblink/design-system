@@ -3,7 +3,6 @@
     :is="wrapperTag"
     class="geo-vertical-layout"
   >
-    <!-- @slot Use this slot to set the content that will be displayed in the top of the layout -->
     <slot name="header" />
     <geo-scrollable-container>
       <!-- @slot Use this slot to customize content displayed inside the layout -->
