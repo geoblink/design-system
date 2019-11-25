@@ -6,7 +6,11 @@
       class="geo-bordered-token__icon"
     />
     <span class="geo-bordered-token__label">
-      {{ label }}
+      <span v-if="hasLabel">
+        {{ label }}
+      </span>
+      <!-- @slot Use this slot to customize what's displayed in the label -->
+      <slot v-else />
     </span>
   </div>
 </template>
@@ -36,7 +40,12 @@ export default {
      */
     label: {
       type: String,
-      required: true
+      required: false
+    }
+  },
+  computed: {
+    hasLabel () {
+      return !!this.label
     }
   }
 }

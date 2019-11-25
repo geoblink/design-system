@@ -216,3 +216,109 @@ Using this component you can render complex HTML tooltips in a safe and reactive
   </button>
 </p>
 ```
+
+```vue live
+<template>
+  <div class="element-demo">
+    <h4 class="element-demo__header">Tooltips on GeoButton</h4>
+    <div class="element-demo__block">
+      <geo-primary-button data-tooltip-id="demo1">
+        <geo-tooltip
+          v-if="primaryButtonElement"
+          :forced-trigger-target="primaryButtonElement"
+        >
+          Primary Button Tooltip
+        </geo-tooltip>
+        Primary Button
+      </geo-primary-button>
+
+      <geo-primary-button
+        data-tooltip-id="demo2"
+        disabled
+      >
+        <geo-tooltip
+          v-if="primaryButtonDisabledElement"
+          :forced-trigger-target="primaryButtonDisabledElement"
+        >
+          Primary Button Disabled Tooltip
+        </geo-tooltip>
+        Primary Button Disabled
+      </geo-primary-button>
+    </div>
+
+    <h4 class="element-demo__header">Tooltips on FontAwesomeIcon</h4>
+    <div class="element-demo__block">
+      <font-awesome-icon
+        data-tooltip-id="demo3"
+        :icon="['fas', 'bell']"
+      />
+      <geo-tooltip
+        v-if="fontAwesomeElement"
+        :forced-trigger-target="fontAwesomeElement"
+      >
+        FontAwesomeIcon Tooltip
+      </geo-tooltip>
+    </div>
+
+    <h4 class="element-demo__header">Tooltips on input</h4>
+    <div class="element-demo__block">
+      <input
+        data-tooltip-id="demo4"
+        placeholder="A simple input"
+      />
+      <geo-tooltip
+        v-if="inputElement"
+        :forced-trigger-target="inputElement"
+      >
+        Input Tooltip
+      </geo-tooltip>
+
+      <geo-input
+        data-tooltip-id="demo5"
+        placeholder="A simple GeoInput"
+      />
+      <geo-tooltip
+        v-if="geoInputElement"
+        :forced-trigger-target="geoInputElement">
+        GeoInput Tooltip
+      </geo-tooltip>
+    </div>
+
+    <h4 class="element-demo__header">Tooltips on GeoDropdownCompactButton</h4>
+    <div class="element-demo__block">
+      <geo-dropdown-compact-button
+        data-tooltip-id="demo6"
+      />
+      <geo-tooltip
+        v-if="geoDropdownCompactButtonElement"
+        :forced-trigger-target="geoDropdownCompactButtonElement"
+      >
+        GeoDropdownCompactButton Tooltip
+      </geo-tooltip>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  data () {
+    return {
+      primaryButtonElement: null,
+      primaryButtonDisabledElement: null,
+      fontAwesomeElement: null,
+      inputElement: null,
+      geoInputElement: null,
+      geoDropdownCompactButtonElement: null
+    }
+  },
+  mounted () {
+    this.primaryButtonElement = document.querySelector('[data-tooltip-id="demo1"]')
+    this.primaryButtonDisabledElement = document.querySelector('[data-tooltip-id="demo2"]')
+    this.fontAwesomeElement = document.querySelector('[data-tooltip-id="demo3"]')
+    this.inputElement = document.querySelector('[data-tooltip-id="demo4"]')
+    this.geoInputElement = document.querySelector('[data-tooltip-id="demo5"]')
+    this.geoDropdownCompactButtonElement = document.querySelector('[data-tooltip-id="demo6"]')
+  }
+}
+</script>
+```

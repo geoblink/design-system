@@ -105,6 +105,10 @@ export default {
       type: Boolean,
       default: undefined,
       required: false
+    },
+
+    forcedTriggerTarget: {
+      required: false
     }
   },
   data () {
@@ -113,7 +117,8 @@ export default {
       isTriggerTargetHovered: false,
       isTooltipContentHovered: false,
       fittingPosition: null,
-      fittingAlignment: null
+      fittingAlignment: null,
+      originalParentElement: null
     }
   },
   computed: {
@@ -139,9 +144,16 @@ export default {
     debouncedOnTriggerTargetMouseleave (newValue, oldValue) {
       this.triggerTarget.removeEventListener('mouseleave', oldValue)
       this.triggerTarget.addEventListener('mouseleave', newValue.bind(this))
+    },
+
+    forcedTriggerTarget () {
+      this.removeMouseEventHandlers()
+      this.reattachTooltipContent()
+      this.addMouseEventHandlers()
     }
   },
   mounted () {
+    this.originalParentElement = this.$el.parentElement
     existingTooltipsCount++
     addTooltipContainerIfNeeded()
 
@@ -160,7 +172,7 @@ export default {
   },
   methods: {
     reattachTooltipContent () {
-      this.triggerTarget = this.$el.parentElement
+      this.triggerTarget = this.forcedTriggerTarget || this.originalParentElement
       this.$el.remove()
       tooltipContainerElement.appendChild(this.$el)
     },
@@ -206,9 +218,10 @@ export default {
         }
 
         const triggerTargetOffset = getDOMElementOffset(this.triggerTarget)
+        const triggerTargetClientBoundingRect = this.triggerTarget.getBoundingClientRect()
         const triggerTargetSize = {
-          width: this.triggerTarget.offsetWidth,
-          height: this.triggerTarget.offsetHeight
+          width: triggerTargetClientBoundingRect.right - triggerTargetClientBoundingRect.left,
+          height: triggerTargetClientBoundingRect.bottom - triggerTargetClientBoundingRect.top
         }
         const tooltipContentSize = {
           width: this.$el.offsetWidth || 0,

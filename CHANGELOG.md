@@ -4,6 +4,12 @@ title: Changelog
 
 # Changelog
 
+## 27.0.1
+
+Fixed:
+
+- `GeoTooltip` can have a `forcedTriggerTarget`
+
 ## 27.0.0
 
 Breaking:
