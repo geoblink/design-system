@@ -1,5 +1,8 @@
 <template>
-  <div class="geo-vertical-layout">
+  <component
+    :is="wrapperTag"
+    class="geo-vertical-layout"
+  >
     <!-- @slot Use this slot to set the content that will be displayed in the top of the layout -->
     <slot name="header" />
     <geo-scrollable-container>
@@ -8,13 +11,22 @@
     </geo-scrollable-container>
     <!-- @slot Use this slot to set the content that will be displayed in the bottom of the layout -->
     <slot name="footer" />
-  </div>
+  </component>
 </template>
 
 <script>
 export default {
   name: 'GeoVerticalLayout',
-  status: 'missing-tests',
-  release: '28.0.1'
+  status: 'ready',
+  release: '28.0.1',
+  props: {
+    /**
+     * HTML Tag that will be used as a wrapper of the GeoListItem
+     */
+    wrapperTag: {
+      type: String,
+      default: 'div'
+    }
+  }
 }
 </script>

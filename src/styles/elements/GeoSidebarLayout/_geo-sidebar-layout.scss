@@ -1,0 +1,13 @@
+@mixin geo-sidebar-layout-make () {
+  .geo-sidebar-layout {
+    background-color: $color-white-dark;
+    border-right: 1px solid $color-grey;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: $space-base;
+  }
+}
+
+@include geo-sidebar-layout-make();
