@@ -108,6 +108,7 @@ export default {
     },
 
     forcedTriggerTarget: {
+      type: null,
       required: false
     }
   },
