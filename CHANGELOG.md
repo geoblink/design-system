@@ -10,6 +10,10 @@ Fixed:
 
 - `GeoTooltip` can have a `forcedTriggerTarget`
 
+Changed:
+
+- `label` prop in `GeoBorderedToken` is optional
+
 ## 27.0.0
 
 Breaking:
