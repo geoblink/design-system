@@ -109,10 +109,10 @@ export default {
 
     /**
      * Force the triggerTarget of the tooltip.
-     * 
-     * In the app, this is used with the plugin ReactiveRefs, to directly pass the `ref` 
+     *
+     * In the app, this is used with the plugin ReactiveRefs, to directly pass the `ref`
      * of the forced target into `forcedTriggerTarget` prop.
-     * 
+     *
      * See [ReactiveRefs](https://www.https://github.com/posva/vue-reactive-refs)
      * for more info about the plugin.
      */
