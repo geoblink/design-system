@@ -4,6 +4,12 @@ title: Changelog
 
 # Changelog
 
+## 27.0.1
+
+Fixed:
+
+- `GeoDropdown` won't make positionioning computations when scrolling a container inside its popup content.
+
 ## 27.0.0
 
 Breaking:
