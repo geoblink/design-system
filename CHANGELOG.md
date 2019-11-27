@@ -4,15 +4,21 @@ title: Changelog
 
 # Changelog
 
-## 27.0.1
+## 27.1.0
+
+New :
+
+- `GeoTooltip` can have a `forcedTriggerTarget`
 
 Fixed:
 
-- `GeoTooltip` can have a `forcedTriggerTarget`
+- Remove `GeoTooltip` from the DOM when parent is removed
+- Remove previous event handlers
 
 Changed:
 
 - `label` prop in `GeoBorderedToken` is optional
+- new default `slot` in `GeoBorderedToken`
 
 ## 27.0.0
 

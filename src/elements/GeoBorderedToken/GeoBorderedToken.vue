@@ -6,7 +6,7 @@
       class="geo-bordered-token__icon"
     />
     <span class="geo-bordered-token__label">
-      <span v-if="hasLabel">
+      <span v-if="label">
         {{ label }}
       </span>
       <!-- @slot Use this slot to customize what's displayed in the label -->
@@ -37,15 +37,18 @@ export default {
     },
     /**
      * Text to be displayed as label of the token element.
+     * 
+     * Deprecated : use the default slot instead
      */
     label: {
       type: String,
-      required: false
-    }
-  },
-  computed: {
-    hasLabel () {
-      return !!this.label
+      required: false,
+      validator (value) {
+        if (!value) return 
+
+        console.warn(`GeoBorderedToken [component] :: Using label prop is deprecated, use default slot instead`)
+        return true
+      }
     }
   }
 }

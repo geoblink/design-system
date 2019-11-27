@@ -223,9 +223,7 @@ Using this component you can render complex HTML tooltips in a safe and reactive
     <h3 class="element-demo__header">Tooltips on GeoButton</h3>
     <div class="element-demo__block">
       <geo-primary-button data-tooltip-id="demo1">
-        <geo-tooltip
-          :forced-trigger-target="primaryButtonElement"
-        >
+        <geo-tooltip :forced-trigger-target="primaryButtonElement">
           Primary Button Tooltip
         </geo-tooltip>
         Primary Button
@@ -235,9 +233,7 @@ Using this component you can render complex HTML tooltips in a safe and reactive
         data-tooltip-id="demo2"
         disabled
       >
-        <geo-tooltip
-          :forced-trigger-target="primaryButtonDisabledElement"
-        >
+        <geo-tooltip :forced-trigger-target="primaryButtonDisabledElement">
           Primary Button Disabled Tooltip
         </geo-tooltip>
         Primary Button Disabled
@@ -271,9 +267,7 @@ export default {
         data-tooltip-id="demo3"
         :icon="['fas', 'bell']"
       />
-      <geo-tooltip
-        :forced-trigger-target="fontAwesomeElement"
-      >
+      <geo-tooltip :forced-trigger-target="fontAwesomeElement">
         FontAwesomeIcon Tooltip
       </geo-tooltip>
     </div>
@@ -303,9 +297,7 @@ export default {
         data-tooltip-id="demo4"
         placeholder="A simple input"
       />
-      <geo-tooltip
-        :forced-trigger-target="inputElement"
-      >
+      <geo-tooltip :forced-trigger-target="inputElement">
         Input Tooltip
       </geo-tooltip>
 
@@ -313,8 +305,7 @@ export default {
         data-tooltip-id="demo5"
         placeholder="A simple GeoInput"
       />
-      <geo-tooltip
-        :forced-trigger-target="geoInputElement">
+      <geo-tooltip :forced-trigger-target="geoInputElement">
         GeoInput Tooltip
       </geo-tooltip>
     </div>
@@ -342,12 +333,8 @@ export default {
   <div class="element-demo">
     <h3 class="element-demo__header">Tooltips on GeoDropdownCompactButton</h3>
     <div class="element-demo__block">
-      <geo-dropdown-compact-button
-        data-tooltip-id="demo6"
-      />
-      <geo-tooltip
-        :forced-trigger-target="geoDropdownCompactButtonElement"
-      >
+      <geo-dropdown-compact-button data-tooltip-id="demo6"/>
+      <geo-tooltip :forced-trigger-target="geoDropdownCompactButtonElement">
         GeoDropdownCompactButton Tooltip
       </geo-tooltip>
     </div>
@@ -382,9 +369,7 @@ export default {
         v-if="isToggleablePrimaryButtonVisible"
         data-tooltip-id="demo7"
       >
-        <geo-tooltip
-          :visible="isToggleablePrimaryButtonTooltipVisible"
-        >
+        <geo-tooltip :visible="isToggleablePrimaryButtonTooltipVisible">
           Checkbox Primary Button Tooltip
         </geo-tooltip>
         Primary Button
