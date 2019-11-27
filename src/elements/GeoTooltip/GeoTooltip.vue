@@ -170,7 +170,6 @@ export default {
     this.repositionTooltip()
   },
   beforeDestroy () {
-    console.log('before destroy')
     this.removeMouseEventHandlers()
 
     this.$el.remove()
@@ -197,7 +196,6 @@ export default {
     },
 
     onTriggerTargetMouseover () {
-      console.log(new Date().getTime(), arguments)
       this.isTriggerTargetHovered = true
       this.repositionTooltip()
       window.addEventListener('scroll', this.throttledRepositionTooltip)
