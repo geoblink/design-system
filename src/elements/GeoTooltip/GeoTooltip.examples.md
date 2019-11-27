@@ -220,11 +220,10 @@ Using this component you can render complex HTML tooltips in a safe and reactive
 ```vue live
 <template>
   <div class="element-demo">
-    <h4 class="element-demo__header">Tooltips on GeoButton</h4>
+    <h3 class="element-demo__header">Tooltips on GeoButton</h3>
     <div class="element-demo__block">
       <geo-primary-button data-tooltip-id="demo1">
         <geo-tooltip
-          v-if="primaryButtonElement"
           :forced-trigger-target="primaryButtonElement"
         >
           Primary Button Tooltip
@@ -237,7 +236,6 @@ Using this component you can render complex HTML tooltips in a safe and reactive
         disabled
       >
         <geo-tooltip
-          v-if="primaryButtonDisabledElement"
           :forced-trigger-target="primaryButtonDisabledElement"
         >
           Primary Button Disabled Tooltip
@@ -245,29 +243,67 @@ Using this component you can render complex HTML tooltips in a safe and reactive
         Primary Button Disabled
       </geo-primary-button>
     </div>
+  </div>
+</template>
 
-    <h4 class="element-demo__header">Tooltips on FontAwesomeIcon</h4>
+<script>
+export default {
+  data () {
+    return {
+      primaryButtonElement: null,
+      primaryButtonDisabledElement: null
+    }
+  },
+  mounted () {
+    this.primaryButtonElement = document.querySelector('[data-tooltip-id="demo1"]')
+    this.primaryButtonDisabledElement = document.querySelector('[data-tooltip-id="demo2"]')
+  }
+}
+</script>
+```
+
+``` vue live
+<template>
+  <div class="element-demo">
+    <h3 class="element-demo__header">Tooltips on FontAwesomeIcon</h3>
     <div class="element-demo__block">
       <font-awesome-icon
         data-tooltip-id="demo3"
         :icon="['fas', 'bell']"
       />
       <geo-tooltip
-        v-if="fontAwesomeElement"
         :forced-trigger-target="fontAwesomeElement"
       >
         FontAwesomeIcon Tooltip
       </geo-tooltip>
     </div>
+  </div>
+</template>
 
-    <h4 class="element-demo__header">Tooltips on input</h4>
+<script>
+export default {
+  data () {
+    return {
+      fontAwesomeElement: null
+    }
+  },
+  mounted () {
+    this.fontAwesomeElement = document.querySelector('[data-tooltip-id="demo3"]')
+  }
+}
+</script>
+```
+
+``` vue live
+<template>
+  <div class="element-demo">
+    <h3 class="element-demo__header">Tooltips on input</h3>
     <div class="element-demo__block">
       <input
         data-tooltip-id="demo4"
         placeholder="A simple input"
       />
       <geo-tooltip
-        v-if="inputElement"
         :forced-trigger-target="inputElement"
       >
         Input Tooltip
@@ -278,19 +314,38 @@ Using this component you can render complex HTML tooltips in a safe and reactive
         placeholder="A simple GeoInput"
       />
       <geo-tooltip
-        v-if="geoInputElement"
         :forced-trigger-target="geoInputElement">
         GeoInput Tooltip
       </geo-tooltip>
     </div>
+  </div>
+</template>
 
-    <h4 class="element-demo__header">Tooltips on GeoDropdownCompactButton</h4>
+<script>
+export default {
+  data () {
+    return {
+      inputElement: null,
+      geoInputElement: null
+    }
+  },
+  mounted () {
+    this.inputElement = document.querySelector('[data-tooltip-id="demo4"]')
+    this.geoInputElement = document.querySelector('[data-tooltip-id="demo5"]')
+  }
+}
+</script>
+```
+
+``` vue live
+<template>
+  <div class="element-demo">
+    <h3 class="element-demo__header">Tooltips on GeoDropdownCompactButton</h3>
     <div class="element-demo__block">
       <geo-dropdown-compact-button
         data-tooltip-id="demo6"
       />
       <geo-tooltip
-        v-if="geoDropdownCompactButtonElement"
         :forced-trigger-target="geoDropdownCompactButtonElement"
       >
         GeoDropdownCompactButton Tooltip
@@ -303,21 +358,48 @@ Using this component you can render complex HTML tooltips in a safe and reactive
 export default {
   data () {
     return {
-      primaryButtonElement: null,
-      primaryButtonDisabledElement: null,
-      fontAwesomeElement: null,
-      inputElement: null,
-      geoInputElement: null,
       geoDropdownCompactButtonElement: null
     }
   },
   mounted () {
-    this.primaryButtonElement = document.querySelector('[data-tooltip-id="demo1"]')
-    this.primaryButtonDisabledElement = document.querySelector('[data-tooltip-id="demo2"]')
-    this.fontAwesomeElement = document.querySelector('[data-tooltip-id="demo3"]')
-    this.inputElement = document.querySelector('[data-tooltip-id="demo4"]')
-    this.geoInputElement = document.querySelector('[data-tooltip-id="demo5"]')
     this.geoDropdownCompactButtonElement = document.querySelector('[data-tooltip-id="demo6"]')
+  }
+}
+</script>
+```
+
+``` vue live
+<template>
+  <div class="element-demo">
+    <h3 class="element-demo__header">Tooltips with changing TriggerTarget</h3>
+    <div
+      class="element-demo__block"
+      @mouseover="isToggleablePrimaryButtonTooltipVisible = true"
+      @mouseleave="isToggleablePrimaryButtonTooltipVisible = false"
+    >
+      <input type="checkbox" v-model="isToggleablePrimaryButtonVisible">
+      <geo-primary-button
+        v-if="isToggleablePrimaryButtonVisible"
+        data-tooltip-id="demo7"
+      >
+        <geo-tooltip
+          :visible="isToggleablePrimaryButtonTooltipVisible"
+        >
+          Checkbox Primary Button Tooltip
+        </geo-tooltip>
+        Primary Button
+      </geo-primary-button>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  data () {
+    return {
+      isToggleablePrimaryButtonVisible: true,
+      isToggleablePrimaryButtonTooltipVisible: false
+    }
   }
 }
 </script>

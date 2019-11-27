@@ -130,7 +130,7 @@ export default {
     },
 
     debouncedOnTriggerTargetMouseleave () {
-      return _.debounce(this.onTriggerTargetMouseleave, this.delay)
+      return _.debounce(this.onTriggerTargetMouseleave, this.delay).bind(this)
     },
 
     debouncedOnTooltipContentMouseleave () {
@@ -139,12 +139,16 @@ export default {
 
     throttledRepositionTooltip () {
       return throttle(this.repositionTooltip).bind(this)
+    },
+
+    onTriggerTargetMouseoverBound () {
+      return this.onTriggerTargetMouseover.bind(this)
     }
   },
   watch: {
     debouncedOnTriggerTargetMouseleave (newValue, oldValue) {
       this.triggerTarget.removeEventListener('mouseleave', oldValue)
-      this.triggerTarget.addEventListener('mouseleave', newValue.bind(this))
+      this.triggerTarget.addEventListener('mouseleave', newValue)
     },
 
     forcedTriggerTarget () {
@@ -166,8 +170,10 @@ export default {
     this.repositionTooltip()
   },
   beforeDestroy () {
+    console.log('before destroy')
     this.removeMouseEventHandlers()
 
+    this.$el.remove()
     existingTooltipsCount--
     cleanupTooltipContainerIfNeeded()
   },
@@ -179,18 +185,19 @@ export default {
     },
 
     addMouseEventHandlers () {
-      this.triggerTarget.addEventListener('mouseover', this.onTriggerTargetMouseover.bind(this))
-      this.triggerTarget.addEventListener('mouseleave', this.debouncedOnTriggerTargetMouseleave.bind(this))
+      this.triggerTarget.addEventListener('mouseover', this.onTriggerTargetMouseoverBound)
+      this.triggerTarget.addEventListener('mouseleave', this.debouncedOnTriggerTargetMouseleave)
     },
 
     removeMouseEventHandlers () {
-      this.triggerTarget.removeEventListener('mouseover', this.onTriggerTargetMouseover.bind(this))
-      this.triggerTarget.removeEventListener('mouseleave', this.debouncedOnTriggerTargetMouseleave.bind(this))
+      this.triggerTarget.removeEventListener('mouseover', this.onTriggerTargetMouseoverBound)
+      this.triggerTarget.removeEventListener('mouseleave', this.debouncedOnTriggerTargetMouseleave)
       this.onTooltipContentMouseleave()
       this.onTriggerTargetMouseleave()
     },
 
     onTriggerTargetMouseover () {
+      console.log(new Date().getTime(), arguments)
       this.isTriggerTargetHovered = true
       this.repositionTooltip()
       window.addEventListener('scroll', this.throttledRepositionTooltip)
