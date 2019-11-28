@@ -4,6 +4,12 @@ title: Changelog
 
 # Changelog
 
+## 27.1.1
+
+Add :
+
+- emit event `column-width-changed` when columns width changes in `GeoTable`
+
 ## 27.0.0
 
 Breaking:
