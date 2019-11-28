@@ -85,7 +85,7 @@ export default {
     },
 
     /**
-     * HTML Tag that will be used as a wrapper of the GeoListItem
+     * HTML tag that will be used as a wrapper of the GeoListItem
      */
     wrapperTag: {
       type: String,
