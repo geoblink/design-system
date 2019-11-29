@@ -6,7 +6,11 @@
       class="geo-bordered-token__icon"
     />
     <span class="geo-bordered-token__label">
-      {{ label }}
+      <span v-if="label">
+        {{ label }}
+      </span>
+      <!-- @slot Use this slot to customize what's displayed in the label -->
+      <slot v-else />
     </span>
   </div>
 </template>
@@ -33,10 +37,16 @@ export default {
     },
     /**
      * Text to be displayed as label of the token element.
+     *
+     * Deprecated: use the default slot instead
      */
     label: {
       type: String,
-      required: true
+      required: false,
+      validator (value) {
+        if (value) console.warn('GeoBorderedToken [component] :: Using label prop is deprecated, use default slot instead')
+        return true
+      }
     }
   }
 }

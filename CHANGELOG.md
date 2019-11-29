@@ -10,6 +10,28 @@ Add :
 
 - emit event `column-width-changed` when columns width changes in `GeoTable`
 
+## 27.1.0
+
+New:
+
+- `GeoTooltip` can have a `forcedTriggerTarget`
+
+Fixed:
+
+- Remove `GeoTooltip` from the DOM when parent is removed
+- Remove previous event handlers
+
+Changed:
+
+- `label` prop in `GeoBorderedToken` is optional
+- new default `slot` in `GeoBorderedToken`
+
+## 27.0.1
+
+Fixed:
+
+- `GeoDropdown` won't make positionioning computations when scrolling a container inside its popup content.
+
 ## 27.0.0
 
 Breaking:
