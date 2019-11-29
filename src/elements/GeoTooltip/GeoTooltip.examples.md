@@ -217,7 +217,11 @@ Using this component you can render complex HTML tooltips in a safe and reactive
 </p>
 ```
 
-**Note**: We use `document.querySelector` in demos for simplicity's sake. In production we recommend using [refs](https://vuejs.org/v2/guide/components-edge-cases.html#Accessing-Child-Component-Instances-amp-Child-Elements). We do not use them here because they are not reactive by default. To make them reactive we recommend [ReactiveRefs](https://github.com/posva/vue-reactive-refs). To not use non-default behaviours in the demos and keep them simple, we do not load that plugin and hence we are forced to use a different approach.
+**Note**: We use `document.querySelector` in demos for simplicity's sake.
+In production we recommend using [refs](https://vuejs.org/v2/guide/components-edge-cases.html#Accessing-Child-Component-Instances-amp-Child-Elements).
+We do not use them here because they are not reactive by default.
+To make them reactive we recommend [ReactiveRefs](https://github.com/posva/vue-reactive-refs).
+To not use non-default behaviours in the demos and keep them simple, we do not load that plugin and hence we are forced to use a different approach.
 
 ```vue live
 <template>
