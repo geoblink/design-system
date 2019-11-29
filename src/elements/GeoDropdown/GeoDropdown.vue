@@ -1,6 +1,6 @@
 <template>
   <div
-    v-scroll-anywhere="repositionPopup"
+    v-scroll-anywhere="checkScrollEventAndRepositionIfNeeded"
     v-click-outside="checkClickCoordinatesAndEmitClickOutside"
     :class="{
       [`geo-dropdown${cssSuffix}`]: true,
@@ -403,6 +403,12 @@ export default {
       this.toggleButtonWidth = _.sum(_.map(_.get(this.$slots, 'toggleButton'), function (vNode) {
         return (vNode.elm && vNode.elm.getBoundingClientRect().width) || 0
       }))
+    },
+
+    checkScrollEventAndRepositionIfNeeded ($event) {
+      if (!this.$refs.popup || this.$refs.popup.contains($event.target)) return
+
+      this.repositionPopup()
     },
 
     checkClickCoordinatesAndEmitClickOutside ($event) {

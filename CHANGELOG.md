@@ -20,6 +20,12 @@ Changed:
 - `label` prop in `GeoBorderedToken` is optional
 - new default `slot` in `GeoBorderedToken`
 
+## 27.0.1
+
+Fixed:
+
+- `GeoDropdown` won't make positionioning computations when scrolling a container inside its popup content.
+
 ## 27.0.0
 
 Breaking:

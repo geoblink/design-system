@@ -326,7 +326,7 @@ describe('GeoDropdown', () => {
 
     repositionPopupSpy.mockClear()
     expect(repositionPopupSpy).not.toBeCalled()
-    scrollAnywhereSpy[0][1].value()
+    scrollAnywhereSpy[0][1].value({ target: null })
     expect(repositionPopupSpy).toHaveBeenCalledTimes(1)
   })
 
