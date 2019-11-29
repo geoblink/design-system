@@ -105,6 +105,20 @@ export default {
       type: Boolean,
       default: undefined,
       required: false
+    },
+
+    /**
+     * Force the triggerTarget of the tooltip.
+     *
+     * In the app, this is used with the plugin ReactiveRefs, to directly pass the `ref`
+     * of the forced target into `forcedTriggerTarget` prop.
+     *
+     * See [ReactiveRefs](https://github.com/posva/vue-reactive-refs)
+     * for more info about the plugin.
+     */
+    forcedTriggerTarget: {
+      type: null,
+      required: false
     }
   },
   data () {
@@ -113,7 +127,8 @@ export default {
       isTriggerTargetHovered: false,
       isTooltipContentHovered: false,
       fittingPosition: null,
-      fittingAlignment: null
+      fittingAlignment: null,
+      originalParentElement: null
     }
   },
   computed: {
@@ -124,7 +139,7 @@ export default {
     },
 
     debouncedOnTriggerTargetMouseleave () {
-      return _.debounce(this.onTriggerTargetMouseleave, this.delay)
+      return _.debounce(this.onTriggerTargetMouseleave, this.delay).bind(this)
     },
 
     debouncedOnTooltipContentMouseleave () {
@@ -133,15 +148,26 @@ export default {
 
     throttledRepositionTooltip () {
       return throttle(this.repositionTooltip).bind(this)
+    },
+
+    onTriggerTargetMouseoverBound () {
+      return this.onTriggerTargetMouseover.bind(this)
     }
   },
   watch: {
     debouncedOnTriggerTargetMouseleave (newValue, oldValue) {
       this.triggerTarget.removeEventListener('mouseleave', oldValue)
-      this.triggerTarget.addEventListener('mouseleave', newValue.bind(this))
+      this.triggerTarget.addEventListener('mouseleave', newValue)
+    },
+
+    forcedTriggerTarget () {
+      this.removeMouseEventHandlers()
+      this.reattachTooltipContent()
+      this.addMouseEventHandlers()
     }
   },
   mounted () {
+    this.originalParentElement = this.$el.parentElement
     existingTooltipsCount++
     addTooltipContainerIfNeeded()
 
@@ -155,24 +181,25 @@ export default {
   beforeDestroy () {
     this.removeMouseEventHandlers()
 
+    this.$el.remove()
     existingTooltipsCount--
     cleanupTooltipContainerIfNeeded()
   },
   methods: {
     reattachTooltipContent () {
-      this.triggerTarget = this.$el.parentElement
+      this.triggerTarget = this.forcedTriggerTarget || this.originalParentElement
       this.$el.remove()
       tooltipContainerElement.appendChild(this.$el)
     },
 
     addMouseEventHandlers () {
-      this.triggerTarget.addEventListener('mouseover', this.onTriggerTargetMouseover.bind(this))
-      this.triggerTarget.addEventListener('mouseleave', this.debouncedOnTriggerTargetMouseleave.bind(this))
+      this.triggerTarget.addEventListener('mouseover', this.onTriggerTargetMouseoverBound)
+      this.triggerTarget.addEventListener('mouseleave', this.debouncedOnTriggerTargetMouseleave)
     },
 
     removeMouseEventHandlers () {
-      this.triggerTarget.removeEventListener('mouseover', this.onTriggerTargetMouseover.bind(this))
-      this.triggerTarget.removeEventListener('mouseleave', this.debouncedOnTriggerTargetMouseleave.bind(this))
+      this.triggerTarget.removeEventListener('mouseover', this.onTriggerTargetMouseoverBound)
+      this.triggerTarget.removeEventListener('mouseleave', this.debouncedOnTriggerTargetMouseleave)
       this.onTooltipContentMouseleave()
       this.onTriggerTargetMouseleave()
     },
@@ -206,9 +233,10 @@ export default {
         }
 
         const triggerTargetOffset = getDOMElementOffset(this.triggerTarget)
+        const triggerTargetClientBoundingRect = this.triggerTarget.getBoundingClientRect()
         const triggerTargetSize = {
-          width: this.triggerTarget.offsetWidth,
-          height: this.triggerTarget.offsetHeight
+          width: triggerTargetClientBoundingRect.right - triggerTargetClientBoundingRect.left,
+          height: triggerTargetClientBoundingRect.bottom - triggerTargetClientBoundingRect.top
         }
         const tooltipContentSize = {
           width: this.$el.offsetWidth || 0,
