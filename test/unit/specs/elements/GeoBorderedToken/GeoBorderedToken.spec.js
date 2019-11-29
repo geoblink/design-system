@@ -50,7 +50,7 @@ describe('GeoBorderedToken', () => {
     expect(wrapper.find('.my-class').text()).toBe('default slot')
   })
 
-  it ('Should not display the slot when label is defined', function () {
+  it('Should not display the slot when label is defined', function () {
     const wrapper = mount(GeoBorderedToken, {
       propsData: {
         label: 'test'
