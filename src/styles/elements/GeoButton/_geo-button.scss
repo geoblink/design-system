@@ -280,7 +280,7 @@
   $hoverYOffset: -1px;
 
   @include geo-button-make-scheme((
-    normal-background-color: $color-white,
+    normal-background-color: transparent,
     normal-text-color: $color-yellow,
     hover-text-color: $color-yellow-dark,
     disabled-text-color: $color-grey-light,
