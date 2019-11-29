@@ -11,6 +11,7 @@ New:
 - `GeoSidebarLayout` component
 - `GeoVerticalLayout` component
 - `GeoWizardLayout` component
+- `GeoTooltipButton` component
 
 ## 27.0.0
 

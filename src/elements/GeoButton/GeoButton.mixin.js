@@ -7,7 +7,8 @@ const TYPES = {
   tertiary: 'tertiary',
   danger: 'danger',
   link: 'link',
-  dangerLink: 'dangerLink'
+  dangerLink: 'dangerLink',
+  tooltip: 'tooltip'
 }
 
 export { TYPES }

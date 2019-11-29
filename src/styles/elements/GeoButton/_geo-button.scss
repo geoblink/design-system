@@ -276,6 +276,22 @@
   }
 }
 
+@mixin geo-button--tooltip($css-suffix) {
+  $hoverYOffset: -1px;
+
+  @include geo-button-make-scheme((
+    normal-background-color: $color-white,
+    normal-text-color: $color-yellow,
+    hover-text-color: $color-yellow-dark,
+    disabled-text-color: $color-grey-light,
+  ), $css-suffix);
+
+  &#{$css-suffix} {
+    transition: all $duration-quickly $easing-base;
+    transition-property: background-color, border-color, color;
+  }
+}
+
 @mixin geo-button($css-suffix) {
   &#{$css-suffix} {
     align-items: center;
@@ -357,6 +373,10 @@
 
   .geo-button--dangerLink {
     @include geo-button--dangerLink($modifier-name-with-prefix);
+  }
+
+  .geo-button--tooltip {
+    @include geo-button--tooltip($modifier-name-with-prefix);
   }
 
   .geo-external-link-button#{$modifier-name-with-prefix} a {
