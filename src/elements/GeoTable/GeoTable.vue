@@ -384,6 +384,8 @@ export default {
       // We need this padding so sticky header doesn't cover any row
       const headerHeight = self.$refs.tableHeader.offsetHeight
       self.$refs.tableBody.style['padding-top'] = `${headerHeight}px`
+
+      this.$emit('column-width-changed', this.columnsWidth)
     }
   }
 }
