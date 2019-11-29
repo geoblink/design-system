@@ -217,6 +217,8 @@ Using this component you can render complex HTML tooltips in a safe and reactive
 </p>
 ```
 
+**Note**: For the next demo blocks, the use of `:forced-trigger-target` is different in `geoblink-app`. When in the app, we should pass directly the `ref` of the chosen trigger target in the prop `:forced-trigger-target`. This is possible thanks to the plugin [ReactiveRefs](https://github.com/posva/vue-reactive-refs), only available in geoblink-app.
+
 ```vue live
 <template>
   <div class="element-demo">

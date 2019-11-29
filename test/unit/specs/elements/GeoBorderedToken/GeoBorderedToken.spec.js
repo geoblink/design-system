@@ -13,11 +13,7 @@ localVue.component('geo-bordered-token', GeoBorderedToken)
 
 describe('GeoBorderedToken', () => {
   it('Should render GeoBorderedToken component', function () {
-    const wrapper = mount(GeoBorderedToken, {
-      propsData: {
-        label: 'test'
-      }
-    })
+    const wrapper = mount(GeoBorderedToken)
     expect(wrapper.find('.geo-bordered-token').exists()).toBe(true)
   })
 
@@ -42,6 +38,29 @@ describe('GeoBorderedToken', () => {
     })
     const fontAwesomeIconElem = wrapper.find(FontAwesomeIconMock)
     expectFontAwesomeIconProp(fontAwesomeIconElem, ['fas', 'map-marker'])
+  })
+
+  it('Should display slot when no label is defined', function () {
+    const wrapper = mount(GeoBorderedToken, {
+      slots: {
+        default: '<p class="my-class">default slot</p>'
+      }
+    })
+    expect(wrapper.find('.my-class').exists()).toBe(true)
+    expect(wrapper.find('.my-class').text()).toBe('default slot')
+  })
+
+  it ('Should not display the slot when label is defined', function () {
+    const wrapper = mount(GeoBorderedToken, {
+      propsData: {
+        label: 'test'
+      },
+      slots: {
+        default: '<p class="my-class">default slot</p>'
+      }
+    })
+    expect(wrapper.find('.my-class').exists()).toBe(false)
+    expect(wrapper.find('.geo-bordered-token__label').text()).toBe('test')
   })
 
   it('Should not display any icon when none provided', function () {

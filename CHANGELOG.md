@@ -6,7 +6,7 @@ title: Changelog
 
 ## 27.1.0
 
-New :
+New:
 
 - `GeoTooltip` can have a `forcedTriggerTarget`
 

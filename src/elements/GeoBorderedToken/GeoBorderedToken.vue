@@ -38,15 +38,15 @@ export default {
     /**
      * Text to be displayed as label of the token element.
      *
-     * Deprecated : use the default slot instead
+     * Deprecated: use the default slot instead
      */
     label: {
       type: String,
       required: false,
       validator (value) {
-        if (!value) return
+        if (!value) return true
 
-        console.warn(`GeoBorderedToken [component] :: Using label prop is deprecated, use default slot instead`)
+        console.warn('GeoBorderedToken [component] :: Using label prop is deprecated, use default slot instead')
         return true
       }
     }
