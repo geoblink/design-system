@@ -108,7 +108,6 @@ const VARIANTS = {
   warn: 'warn',
   error: 'error',
   progress: 'progress',
-  tooltip: 'tooltip',
   'dark-transparent': 'dark-transparent'
 }
 
