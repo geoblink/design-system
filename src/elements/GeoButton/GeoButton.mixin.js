@@ -55,6 +55,8 @@ export default {
           return undefined
         case TYPES.danger:
           return GeoAlertVariants.error
+        case TYPES.tooltip:
+          return GeoAlertVariants.tooltip
       }
     }
   },

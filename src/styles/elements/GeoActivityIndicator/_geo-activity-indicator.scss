@@ -81,6 +81,12 @@
   );
 
   @include geo-activity-indicator-make-variant(
+    'tooltip',
+    $modifier-name-with-prefix,
+    $color-yellow
+  );
+
+  @include geo-activity-indicator-make-variant(
     'warn',
     $modifier-name-with-prefix,
     $color-yellow-light
