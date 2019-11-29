@@ -44,9 +44,7 @@ export default {
       type: String,
       required: false,
       validator (value) {
-        if (!value) return true
-
-        console.warn('GeoBorderedToken [component] :: Using label prop is deprecated, use default slot instead')
+        if (value) console.warn('GeoBorderedToken [component] :: Using label prop is deprecated, use default slot instead')
         return true
       }
     }
