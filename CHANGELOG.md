@@ -4,11 +4,17 @@ title: Changelog
 
 # Changelog
 
+## 27.2.1
+
+Fixed:
+
+- `GeoTable` will compute page size faster.
+
 ## 27.2.0
 
-Add :
+New:
 
-- emit event `column-width-changed` when columns width changes in `GeoTable`
+- `GeoTable` emits event `column-width-changed` when columns width changes.
 
 ## 27.1.0
 
