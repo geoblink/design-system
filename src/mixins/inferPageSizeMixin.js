@@ -5,7 +5,8 @@
 export const DATA_KEYS = {
   isInferringPageSize: 'geoblinkDesignSystem_inferPageSizeMixin_isInferringPageSize',
   internallyForcedCurrentPageStart: 'geoblinkDesignSystem_inferPageSizeMixin_internallyForcedCurrentPageStart',
-  inferredPageSize: 'geoblinkDesignSystem_inferPageSizeMixin_inferredPageSize'
+  inferredPageSize: 'geoblinkDesignSystem_inferPageSizeMixin_inferredPageSize',
+  lastInferredPageSize: 'geoblinkDesignSystem_inferPageSizeMixin_lastInferredPageSize'
 }
 
 export const INFERRED_PAGE_SIZE_CHANGED_EVENT_NAME = 'infer-page-size'
@@ -82,6 +83,7 @@ export default {
       // This is intentionally non-reactive to avoid triggering infinite loops
       // when inferring page size stops
       // [DATA_KEYS.isInferringPageSize]: false
+      // [DATA_KEYS.lastInferredPageSize]: 1
     }
   },
   methods: {
@@ -94,7 +96,7 @@ export default {
 
       vm[DATA_KEYS.isInferringPageSize] = true
       vm[DATA_KEYS.internallyForcedCurrentPageStart] = 0
-      vm[DATA_KEYS.inferredPageSize] = 1
+      vm[DATA_KEYS.inferredPageSize] = vm[DATA_KEYS.lastInferredPageSize] || 1
 
       return vm.$nextTick()
         .then(() => params && params.before ? params.before() : null)
@@ -106,6 +108,7 @@ export default {
         })
         .then(() => {
           vm[DATA_KEYS.isInferringPageSize] = false
+          vm[DATA_KEYS.lastInferredPageSize] = vm[DATA_KEYS.inferredPageSize]
 
           /**
            * Inferred page size changed.
@@ -140,9 +143,39 @@ function attemptToIncreaseInferredPageSize (params, vm) {
 
     if (isVerticalScrollRequired) {
       vm[DATA_KEYS.inferredPageSize] -= 1
-      return vm.$nextTick()
+      return vm.$nextTick().then(function () {
+        return attemptToDecreaseInferredPageSize(params, vm)
+      })
     }
 
     return attemptToIncreaseInferredPageSize(params, vm)
+  })
+}
+
+/**
+ * @param {InferPageSizeParams} params
+ * @param {ComponentWithInferPageSizeMixin} vm
+ */
+function attemptToDecreaseInferredPageSize (params, vm) {
+  if (vm[DATA_KEYS.inferredPageSize] === 1) return
+
+  if (params.beforeEach) params.beforeEach()
+
+  const containerHeight = params.getContainerHeight()
+  const contentHeight = params.getContentHeight()
+
+  const isVerticalScrollRequired = containerHeight < contentHeight
+
+  if (!isVerticalScrollRequired) {
+    if (params.afterEach) params.afterEach()
+    return vm.$nextTick()
+  }
+
+  vm[DATA_KEYS.inferredPageSize] -= 1
+
+  return vm.$nextTick().then(function () {
+    if (params.afterEach) params.afterEach()
+
+    return attemptToDecreaseInferredPageSize(params, vm)
   })
 }
