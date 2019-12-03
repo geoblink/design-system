@@ -8,6 +8,7 @@ title: Changelog
 
 Fixed:
 
+- `GeoTable` will compute column size faster.
 - `GeoTable` will compute page size faster.
 
 ## 27.2.0
