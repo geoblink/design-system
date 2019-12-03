@@ -308,9 +308,11 @@ export default {
         ? this.$nextTick()
         : this.inferPageSize({
           sourceDataLength: this.sourceData.length,
+          maxPageSizeDelta: 5,
           // getBoundingClientRect returns wrong values when browser is zoomed
           getContainerHeight: () => this.$refs.tableContainer.offsetHeight,
           getContentHeight: () => this.$refs.tableContainer.scrollHeight,
+          before: () => this.applyComputedColumnsWidth(),
           after: () => this.applyComputedColumnsWidth()
         })
 

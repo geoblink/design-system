@@ -1,3 +1,5 @@
+import _ from 'lodash'
+
 /**
  * @readonly
  * @enum {string}
@@ -38,21 +40,27 @@ export const INFERRED_PAGE_SIZE_CHANGED_EVENT_NAME = 'infer-page-size'
  * @property {number} sourceDataLength Total amount of data that can be provided
  * at most, ignoring any pagination constraint
  * @property {InferPageSizeStepCallback} [before] Function to be
- * called immediately before starting iteration of the algorithm but after
- * running any pending tick
+ * called immediately before starting the algorithm
  * @property {InferPageSizeStepCallback} [after] Function to be
- * called immediately after each iteration of the algorithm but before running
- * any pending tick
- * @property {InferPageSizeStepCallback} [beforeEach] Function to be
- * called before each iteration of the algorithm.
- * @property {InferPageSizeStepCallback} [afterEach] Function to be
- * called after each iteration of the algorithm.
+ * called immediately after the algorithm but before running any pending tick
  * @property {GetHeight} getContainerHeight Function returning the height of the
  * container where content is displayed. It should be smaller than content
  * height when scroll is required and greater than content height when there's
  * empty unused space.
  * @property {GetHeight} getContentHeight Function returning the height of the
  * actual content displayed.
+ * @property {number} maxPageSizeDelta Maximum amount to increase page size by,
+ * this value is useful to tweak the heuristic used to infer proper page size.
+ */
+
+/**
+ * @typedef {object} PrivateOnlyInferPageSizeParams
+ * @property {number} pageSizeDelta Amount to increase page size by,
+ * this value is automatically picked by the inference algorithm.
+ */
+
+/**
+ * @typedef {InferPageSizeParams & PrivateOnlyInferPageSizeParams} PublicAndPrivateOnlyInferPageSizeParams
  */
 
 /**
@@ -98,9 +106,11 @@ export default {
       vm[DATA_KEYS.internallyForcedCurrentPageStart] = 0
       vm[DATA_KEYS.inferredPageSize] = vm[DATA_KEYS.lastInferredPageSize] || 1
 
+      const firstIterationParams = _.assign({}, params, { pageSizeDelta: 1 })
+
       return vm.$nextTick()
         .then(() => params && params.before ? params.before() : null)
-        .then(() => attemptToIncreaseInferredPageSize(params, vm))
+        .then(() => attemptToIncreaseInferredPageSize(firstIterationParams, vm))
         .then(() => params && params.after ? params.after() : null)
         .then(() => {
           vm[DATA_KEYS.internallyForcedCurrentPageStart] = -1
@@ -123,62 +133,58 @@ export default {
 }
 
 /**
- * @param {InferPageSizeParams} params
+ * @param {PublicAndPrivateOnlyInferPageSizeParams} params
  * @param {ComponentWithInferPageSizeMixin} vm
  */
 function attemptToIncreaseInferredPageSize (params, vm) {
-  if (vm[DATA_KEYS.inferredPageSize] >= params.sourceDataLength) return
+  if (getIsVerticalScrollRequired(params)) {
+    vm[DATA_KEYS.inferredPageSize] -= 1
 
-  if (params.beforeEach) params.beforeEach()
+    return vm.$nextTick()
+      .then(() => attemptToDecreaseInferredPageSize(params, vm))
+  } else if (vm[DATA_KEYS.inferredPageSize] >= params.sourceDataLength) return
 
-  // Heuristic: it's worth increasing pages by 5 rows each time as it's a good
+  // Heuristic: it's worth increasing pages by 2 rows each time as it's a good
   // compromise between growing fast and not too fast that fixing overgrowing
   // takes too much.
-  vm[DATA_KEYS.inferredPageSize] = Math.min(vm[DATA_KEYS.inferredPageSize] + 5, params.sourceDataLength)
+  vm[DATA_KEYS.inferredPageSize] = Math.min(vm[DATA_KEYS.inferredPageSize] + params.pageSizeDelta, params.sourceDataLength)
 
-  return vm.$nextTick().then(function () {
-    if (params.afterEach) params.afterEach()
-
-    const containerHeight = params.getContainerHeight()
-    const contentHeight = params.getContentHeight()
-
-    const isVerticalScrollRequired = containerHeight < contentHeight
-
-    if (isVerticalScrollRequired) {
-      vm[DATA_KEYS.inferredPageSize] -= 1
-      return vm.$nextTick().then(function () {
-        return attemptToDecreaseInferredPageSize(params, vm)
-      })
-    }
-
-    return attemptToIncreaseInferredPageSize(params, vm)
+  const nextIterationParams = _.assign({}, params, {
+    pageSizeDelta: Math.min(params.pageSizeDelta * 2, params.maxPageSizeDelta)
   })
+
+  return vm.$nextTick()
+    .then(() => attemptToIncreaseInferredPageSize(nextIterationParams, vm))
+}
+
+/**
+ * @param {PublicAndPrivateOnlyInferPageSizeParams} params
+ * @param {ComponentWithInferPageSizeMixin} vm
+ */
+function attemptToDecreaseInferredPageSize (params, vm) {
+  // We want to display at least one row of data, regardless scroll.
+  if (vm[DATA_KEYS.inferredPageSize] <= 1) {
+    vm[DATA_KEYS.inferredPageSize] = 1
+    return vm.$nextTick()
+  }
+
+  if (!getIsVerticalScrollRequired(params)) return
+
+  vm[DATA_KEYS.inferredPageSize] -= 1
+
+  return vm.$nextTick()
+    .then(() => attemptToDecreaseInferredPageSize(params, vm))
 }
 
 /**
  * @param {InferPageSizeParams} params
- * @param {ComponentWithInferPageSizeMixin} vm
+ * @returns {boolean}
  */
-function attemptToDecreaseInferredPageSize (params, vm) {
-  if (vm[DATA_KEYS.inferredPageSize] === 1) return
-
-  if (params.beforeEach) params.beforeEach()
-
+function getIsVerticalScrollRequired (params) {
   const containerHeight = params.getContainerHeight()
   const contentHeight = params.getContentHeight()
 
   const isVerticalScrollRequired = containerHeight < contentHeight
 
-  if (!isVerticalScrollRequired) {
-    if (params.afterEach) params.afterEach()
-    return vm.$nextTick()
-  }
-
-  vm[DATA_KEYS.inferredPageSize] -= 1
-
-  return vm.$nextTick().then(function () {
-    if (params.afterEach) params.afterEach()
-
-    return attemptToDecreaseInferredPageSize(params, vm)
-  })
+  return isVerticalScrollRequired
 }
