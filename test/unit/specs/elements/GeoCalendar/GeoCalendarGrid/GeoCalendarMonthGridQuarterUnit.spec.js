@@ -2,7 +2,8 @@ import { mount } from '@vue/test-utils'
 import { GRANULARITY_IDS } from '@/elements/GeoCalendar/GeoCalendar.utils.js'
 import GeoCalendarMonthGridQuarterUnit from '@/elements/GeoCalendar/GeoCalendarGrid/GeoCalendarMonthGridQuarterUnit.vue'
 import GeoCalendarMonthGridMonthUnit from '@/elements/GeoCalendar/GeoCalendarGrid/GeoCalendarMonthGridMonthUnit.vue'
-import { addMonths, subMonths } from 'date-fns'
+import addMonths from 'date-fns/addMonths'
+import subMonths from 'date-fns/subMonths'
 
 const today = new Date(2019, 6, 30) // Fixed date to avoid future errors with random dates
 

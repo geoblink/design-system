@@ -3,7 +3,16 @@ import { GRANULARITY_IDS, PICKER_DATE_UNITS } from '@/elements/GeoCalendar/GeoCa
 import GeoCalendarPicker from '@/elements/GeoCalendar/GeoCalendarPicker.vue'
 import GeoCalendarNavigation from '@/elements/GeoCalendar/GeoCalendarNavigation/GeoCalendarNavigation.vue'
 import GeoCalendarGrid from '@/elements/GeoCalendar/GeoCalendarGrid/GeoCalendarGrid.vue'
-import { getMonth, getYear, subDays, startOfWeek, startOfDay, endOfWeek, endOfMonth, startOfMonth, addDays, addYears } from 'date-fns'
+import getMonth from 'date-fns/getMonth'
+import getYear from 'date-fns/getYear'
+import subDays from 'date-fns/subDays'
+import startOfWeek from 'date-fns/startOfWeek'
+import startOfDay from 'date-fns/startOfDay'
+import endOfWeek from 'date-fns/endOfWeek'
+import endOfMonth from 'date-fns/endOfMonth'
+import startOfMonth from 'date-fns/startOfMonth'
+import addDays from 'date-fns/addDays'
+import addYears from 'date-fns/addYears'
 
 const today = new Date(2019, 6, 30) // Fixed date to avoid future errors with random dates
 

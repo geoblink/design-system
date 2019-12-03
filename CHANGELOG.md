@@ -4,6 +4,16 @@ title: Changelog
 
 # Changelog
 
+## 28.0.0
+
+Changed:
+
+- Include `date-fns` as peerDependency
+
+Fixed:
+
+- Import `date-fns` functions separately
+
 ## 27.2.0
 
 Add :

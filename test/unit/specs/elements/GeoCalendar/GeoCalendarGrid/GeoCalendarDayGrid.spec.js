@@ -3,7 +3,9 @@ import GeoCalendarDayGrid from '@/elements/GeoCalendar/GeoCalendarGrid/GeoCalend
 import GeoCalendarDayGridWeekUnit from '@/elements/GeoCalendar/GeoCalendarGrid/GeoCalendarDayGridWeekUnit.vue'
 import GeoCalendarDayGridDayUnit from '@/elements/GeoCalendar/GeoCalendarGrid/GeoCalendarDayGridDayUnit.vue'
 import { GRANULARITY_IDS } from '@/elements/GeoCalendar/GeoCalendar.utils.js'
-import { startOfWeek, startOfDay, endOfWeek } from 'date-fns'
+import startOfWeek from 'date-fns/startOfWeek'
+import startOfDay from 'date-fns/startOfDay'
+import endOfWeek from 'date-fns/endOfWeek'
 
 describe('GeoCalendarDayGrid', () => {
   it('Should render', function () {
