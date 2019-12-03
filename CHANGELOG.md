@@ -4,6 +4,32 @@ title: Changelog
 
 # Changelog
 
+## 28.1.1
+
+Fixed:
+
+- `GeoTable` will compute column size faster.
+- `GeoTable` will compute page size faster.
+
+## 28.1.0
+
+New:
+
+- `GeoSidebarLayout` component
+- `GeoVerticalLayout` component
+- `GeoWizardLayout` component
+- `GeoTooltipButton` component
+
+## 28.0.0
+
+Changed:
+
+- Include `date-fns` as peerDependency
+
+Fixed:
+
+- Import `date-fns` functions separately
+
 ## 27.2.1
 
 Fixed:

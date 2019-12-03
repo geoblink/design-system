@@ -4,7 +4,9 @@ import GeoListItem from '@/elements/GeoList/GeoListItem'
 import GeoLinkButton from '@/elements/GeoButton/GeoLinkButton'
 import GeoButton from '@/elements/GeoButton/GeoButton'
 import { YEAR_GRID_CONSTANTS } from '@/elements/GeoCalendar/GeoCalendar.utils.js'
-import { subYears, addYears, getYear } from 'date-fns'
+import subYears from 'date-fns/subYears'
+import addYears from 'date-fns/addYears'
+import getYear from 'date-fns/getYear'
 
 describe('GeoCalendarNavigationYear', () => {
   it('Should render', function () {

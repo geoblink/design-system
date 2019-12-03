@@ -1,5 +1,9 @@
 import { mount } from '@vue/test-utils'
-import { addDays, getDate, subMonths, subDays, isEqual } from 'date-fns'
+import addDays from 'date-fns/addDays'
+import getDate from 'date-fns/getDate'
+import subMonths from 'date-fns/subMonths'
+import subDays from 'date-fns/subDays'
+import isEqual from 'date-fns/isEqual'
 import GeoCalendarDayGridDayUnit from '@/elements/GeoCalendar/GeoCalendarGrid/GeoCalendarDayGridDayUnit.vue'
 
 describe('GeoCalendarDayGridDayUnit', () => {

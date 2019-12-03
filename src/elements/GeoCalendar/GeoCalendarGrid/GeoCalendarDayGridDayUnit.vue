@@ -26,12 +26,9 @@
 <script>
 import GeoCalendarGridMixin from './GeoCalendarGrid.mixin'
 import { isBefore, isEqual, isAfter, isWithinInterval } from '../GeoCalendar.utils'
-
-import {
-  isToday,
-  isSameMonth,
-  getDate
-} from 'date-fns'
+import isToday from 'date-fns/isToday'
+import isSameMonth from 'date-fns/isSameMonth'
+import getDate from 'date-fns/getDate'
 
 export default {
   name: 'GeoCalendarDayGridDayUnit',

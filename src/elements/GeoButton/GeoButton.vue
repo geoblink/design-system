@@ -55,11 +55,12 @@ export default {
      *
      * | type      | Specific component | Proposed usage (example) |
      * |-----------|--------------------|--------------------------|
-     * | primary   | [GeoPrimaryButton](./#/Elements/GeoButton?id=geoprimarybutton)     | Main action (saving changes) |
-     * | secondary | [GeoSecondaryButton](./#/Elements/GeoButton?id=geosecondarybutton) | Auxiliar action (showing an options menu) |
-     * | link      | [GeoLinkButton](./#/Elements/GeoButton?id=geolinkbutton)           | Alternative action to the main one (dismissing a form without saving changes) |
+     * | primary   | [GeoPrimaryButton](./#/Elements/GeoButton?id=geoprimarybutton)      | Main action (saving changes) |
+     * | secondary | [GeoSecondaryButton](./#/Elements/GeoButton?id=geosecondarybutton)  | Auxiliar action (showing an options menu) |
+     * | link      | [GeoLinkButton](./#/Elements/GeoButton?id=geolinkbutton)            | Alternative action to the main one (dismissing a form without saving changes) |
      * | dangerLink| [GeoDangerLinkButton](./#/Elements/GeoButton?id=geodangerlinkbutton)| Potentially wrong actions (choosing potentially wrong option) |
-     * | danger    | [GeoDangerButton](./#/Elements/GeoButton?id=geodangerbutton)       | Dangerous actions (deleting data) |
+     * | danger    | [GeoDangerButton](./#/Elements/GeoButton?id=geodangerbutton)        | Dangerous actions (deleting data) |
+     * | tooltip   | [GeoTooltipButton](./#/Elements/GeoButton?id=geotooltipbutton)      | Tooltips action button (Generally accepting some warning or closing it) |
      *
      * Supported `type` values are exported under `TYPES` named export. See
      * [Component Constants](/docs/components-constants.html) for more info on how to

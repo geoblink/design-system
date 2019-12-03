@@ -1,0 +1,34 @@
+@mixin geo-wizard-layout-make () {
+  .geo-wizard-layout {
+    height: 100%;
+    width: 100%;
+  }
+
+  .geo-wizard-layout__content-container {
+    width: 100%;
+  }
+
+  .geo-wizard-layout__header {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    margin-top: auto;
+  }
+
+  .geo-wizard-layout__footer {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+
+    border-top: 1px solid $color-grey;
+    margin-top: auto;
+    padding: 0 $space-base;
+  }
+
+  .geo-wizard-layout__footer--trailing {
+    margin-left: auto;
+  }
+
+}
+
+@include geo-wizard-layout-make();

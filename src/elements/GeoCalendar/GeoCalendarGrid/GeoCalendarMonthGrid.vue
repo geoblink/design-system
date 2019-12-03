@@ -23,11 +23,8 @@
 <script>
 import cssSuffix from '../../../mixins/cssModifierMixin'
 import _ from 'lodash'
-import {
-  format,
-  getMonth
-} from 'date-fns'
-
+import format from 'date-fns/format'
+import getMonth from 'date-fns/getMonth'
 import GeoCalendarDateIndicatorsMixin from '../GeoCalendarDateIndicators.mixin'
 import GeoCalendarGranularityIdMixin from '../GeoCalendarGranularityId.mixin'
 import GeoCalendarGridMixin from './GeoCalendarGrid.mixin'

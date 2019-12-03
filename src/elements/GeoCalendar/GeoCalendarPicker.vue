@@ -52,15 +52,12 @@ import { PICKER_DATE_UNITS, YEAR_GRID_CONSTANTS, isBefore, isAfter } from './Geo
 import GeoCalendarDateIndicators from './GeoCalendarDateIndicators.mixin'
 import GeoCalendarGranularityIdMixin from './GeoCalendarGranularityId.mixin'
 import GeoCalendarPickerDateUnitMixin from './GeoCalendarPickerDateUnit.mixin'
-
-import {
-  addMonths,
-  addYears,
-  getMonth,
-  getYear,
-  subMonths,
-  subYears
-} from 'date-fns'
+import addMonths from 'date-fns/addMonths'
+import addYears from 'date-fns/addYears'
+import getMonth from 'date-fns/getMonth'
+import getYear from 'date-fns/getYear'
+import subMonths from 'date-fns/subMonths'
+import subYears from 'date-fns/subYears'
 
 export default {
   name: 'GeoCalendarPicker',

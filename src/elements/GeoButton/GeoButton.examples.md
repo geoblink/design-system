@@ -51,6 +51,14 @@
     >
       Danger link
     </geo-button>
+    <geo-button
+      :disabled="isDisabled"
+      :loading="isLoading"
+      type="tooltip"
+      @click="startLoading()"
+    >
+      Tooltip
+    </geo-button>
   </div>
 </template>
 
@@ -84,6 +92,7 @@ export default {
   <geo-button type="danger">Danger</geo-button>
   <geo-button type="link">Link</geo-button>
   <geo-button type="dangerLink">Danger link</geo-button>
+  <geo-button type="tooltip">Tooltip</geo-button>
 </div>
 ```
 
@@ -97,6 +106,7 @@ export default {
   <geo-button hover type="danger">Danger</geo-button>
   <geo-button hover type="link">Link</geo-button>
   <geo-button hover type="dangerLink">Danger link</geo-button>
+  <geo-button hover type="tooltip">Tooltip</geo-button>
 </div>
 ```
 
@@ -110,6 +120,7 @@ export default {
   <geo-button disabled type="danger">Danger</geo-button>
   <geo-button disabled type="link">Link</geo-button>
   <geo-button disabled type="dangerLink">Danger link</geo-button>
+  <geo-button disabled type="tooltip">Tooltip</geo-button>
 </div>
 ```
 
@@ -123,6 +134,7 @@ export default {
   <geo-button disabled hover type="danger">Danger</geo-button>
   <geo-button disabled hover type="link">Link</geo-button>
   <geo-button disabled hover type="dangerLink">Danger link</geo-button>
+  <geo-button disabled hover type="tooltip">Tooltip</geo-button>
 </div>
 ```
 
@@ -136,6 +148,7 @@ export default {
   <geo-button loading type="danger">Danger</geo-button>
   <geo-button loading type="link">Link</geo-button>
   <geo-button loading type="dangerLink">Danger link</geo-button>
+  <geo-button loading type="tooltip">Tooltip</geo-button>
 </div>
 ```
 
@@ -149,6 +162,7 @@ export default {
   <geo-button loading hover type="danger">Danger</geo-button>
   <geo-button loading hover type="link">Link</geo-button>
   <geo-button loading error type="dangerLink">Danger link</geo-button>
+  <geo-button loading error type="tooltip">Tooltip</geo-button>
 </div>
 ```
 
@@ -162,5 +176,6 @@ export default {
   <geo-button loading disabled type="danger">Danger</geo-button>
   <geo-button loading disabled type="link">Link</geo-button>
   <geo-button loading disabled type="dangerLink">Danger link</geo-button>
+  <geo-button loading disabled type="tooltip">Tooltip</geo-button>
 </div>
 ```

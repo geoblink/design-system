@@ -3,7 +3,16 @@ import _ from 'lodash'
 import { GRANULARITY_IDS } from '@/elements/GeoCalendar/GeoCalendar.utils.js'
 import GeoCalendarDayGridWeekUnit from '@/elements/GeoCalendar/GeoCalendarGrid/GeoCalendarDayGridWeekUnit.vue'
 import GeoCalendarDayGridDayUnit from '@/elements/GeoCalendar/GeoCalendarGrid/GeoCalendarDayGridDayUnit.vue'
-import { addDays, endOfMonth, startOfMonth, differenceInCalendarDays, subDays, startOfWeek, endOfWeek, startOfDay, addMonths, subMonths } from 'date-fns'
+import addDays from 'date-fns/addDays'
+import endOfMonth from 'date-fns/endOfMonth'
+import startOfMonth from 'date-fns/startOfMonth'
+import differenceInCalendarDays from 'date-fns/differenceInCalendarDays'
+import subDays from 'date-fns/subDays'
+import startOfWeek from 'date-fns/startOfWeek'
+import endOfWeek from 'date-fns/endOfWeek'
+import startOfDay from 'date-fns/startOfDay'
+import addMonths from 'date-fns/addMonths'
+import subMonths from 'date-fns/subMonths'
 
 describe('GeoCalendarDayGridWeekUnit', () => {
   const today = new Date(2019, 6, 30) // Fixed date to avoid future errors with random dates
