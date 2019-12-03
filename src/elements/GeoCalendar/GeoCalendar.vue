@@ -120,21 +120,19 @@
 import _ from 'lodash'
 import cssSuffix from '../../mixins/cssModifierMixin'
 import { GRANULARITY_IDS, FOCUSABLE_INPUT_FIELDS, isBefore, isAfter } from './GeoCalendar.utils'
-import {
-  endOfMonth,
-  endOfQuarter,
-  format,
-  getMonth,
-  getYear,
-  isValid,
-  startOfQuarter,
-  endOfYear,
-  startOfMonth,
-  startOfYear,
-  differenceInDays,
-  differenceInMonths,
-  parse
-} from 'date-fns'
+import endOfMonth from 'date-fns/endOfMonth'
+import endOfQuarter from 'date-fns/endOfQuarter'
+import format from 'date-fns/format'
+import getMonth from 'date-fns/getMonth'
+import getYear from 'date-fns/getYear'
+import isValid from 'date-fns/isValid'
+import startOfQuarter from 'date-fns/startOfQuarter'
+import endOfYear from 'date-fns/endOfYear'
+import startOfMonth from 'date-fns/startOfMonth'
+import startOfYear from 'date-fns/startOfYear'
+import differenceInDays from 'date-fns/differenceInDays'
+import differenceInMonths from 'date-fns/differenceInMonths'
+import parse from 'date-fns/parse'
 
 import GeoCalendarRootMixin from './GeoCalendarRoot.mixin'
 import GeoCalendarGranularityIdMixin from './GeoCalendarGranularityId.mixin'

@@ -1,5 +1,6 @@
 import _ from 'lodash'
-import { differenceInCalendarYears, getYear } from 'date-fns'
+import differenceInCalendarYears from 'date-fns/differenceInCalendarYears'
+import getYear from 'date-fns/getYear'
 import { YEAR_GRID_CONSTANTS } from '../GeoCalendar.utils'
 
 /**

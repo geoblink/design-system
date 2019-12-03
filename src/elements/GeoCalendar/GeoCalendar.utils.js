@@ -1,4 +1,8 @@
-import { isBefore, isAfter, startOfDay, isEqual, isWithinInterval } from 'date-fns'
+import isBefore from 'date-fns/isBefore'
+import isAfter from 'date-fns/isAfter'
+import startOfDay from 'date-fns/startOfDay'
+import isEqual from 'date-fns/isEqual'
+import isWithinInterval from 'date-fns/isWithinInterval'
 
 export const PICKER_DATE_UNITS = {
   day: 'day',

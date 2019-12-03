@@ -46,14 +46,14 @@
   ],
   "dependencies": {
     "d3": "^5.7.0",
-    "d3-tip": "^0.9.1",
-    "date-fns": "^2.2.1"
+    "d3-tip": "^0.9.1"
   },
   "peerDependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.2",
     "@fortawesome/vue-fontawesome": "^0.1.1",
     "@geoblink/ajv-extra": "^1.0.7",
     "ajv-errors": "^1.0.1",
+    "date-fns": "^2.7.0",
     "lodash": "^4.17.10",
     "markdown-it": "^8.4.2",
     "vue": "^2.5.22",
@@ -96,6 +96,7 @@
     "copy-webpack-plugin": "^5.0.4",
     "d3": "^5.7.0",
     "d3-tip": "^0.9.1",
+    "date-fns": "^2.7.0",
     "eslint": "^6.1.0",
     "eslint-config-standard": "^13.0.1",
     "eslint-plugin-compat": "^3.3.0",

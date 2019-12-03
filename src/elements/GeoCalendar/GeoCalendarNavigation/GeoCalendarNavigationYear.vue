@@ -36,7 +36,10 @@
 <script>
 import _ from 'lodash'
 import GeoCalendarDateIndicators from '../GeoCalendarDateIndicators.mixin'
-import { differenceInCalendarYears, getYear, subYears, addYears } from 'date-fns'
+import differenceInCalendarYears from 'date-fns/differenceInCalendarYears'
+import getYear from 'date-fns/getYear'
+import subYears from 'date-fns/subYears'
+import addYears from 'date-fns/addYears'
 import { YEAR_GRID_CONSTANTS } from '../GeoCalendar.utils'
 
 export default {
