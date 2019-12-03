@@ -4,6 +4,15 @@ title: Changelog
 
 # Changelog
 
+## 28.1.0
+
+New:
+
+- `GeoSidebarLayout` component
+- `GeoVerticalLayout` component
+- `GeoWizardLayout` component
+- `GeoTooltipButton` component
+
 ## 28.0.0
 
 Changed:

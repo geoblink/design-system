@@ -7,7 +7,8 @@ const TYPES = {
   tertiary: 'tertiary',
   danger: 'danger',
   link: 'link',
-  dangerLink: 'dangerLink'
+  dangerLink: 'dangerLink',
+  tooltip: 'tooltip'
 }
 
 export { TYPES }
@@ -54,6 +55,8 @@ export default {
           return undefined
         case TYPES.danger:
           return GeoAlertVariants.error
+        case TYPES.tooltip:
+          return GeoAlertVariants.warn
       }
     }
   },
