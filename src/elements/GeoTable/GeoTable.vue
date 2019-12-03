@@ -308,9 +308,11 @@ export default {
         ? this.$nextTick()
         : this.inferPageSize({
           sourceDataLength: this.sourceData.length,
+          maxPageSizeDelta: 5,
           // getBoundingClientRect returns wrong values when browser is zoomed
           getContainerHeight: () => this.$refs.tableContainer.offsetHeight,
           getContentHeight: () => this.$refs.tableContainer.scrollHeight,
+          before: () => this.applyComputedColumnsWidth(),
           after: () => this.applyComputedColumnsWidth()
         })
 
@@ -338,6 +340,11 @@ export default {
 
     computeColumnsWidth () {
       const tableSizingConfig = getTableSizingConfig(this)
+
+      // First we remove any previous style from all cells...
+      _.forEach(tableSizingConfig.rowsSizingConfig, (row) => removeWidthFromRow(row))
+
+      // Then we compute new column width
       this.columnsWidths = getAutomaticColumnsWidth(tableSizingConfig, getDOMElementWidth)
     },
 
@@ -449,7 +456,7 @@ function getCellSizingConfigForCell (vueComponent, overrideSettings) {
 function getDOMElementWidth (node) {
   // First of all we get rid of previous width so it doesn't interferes
   // with new one
-  node.style.width = null
+  // node.style.width = null
   const widthString = window
     .getComputedStyle(node)
     .getPropertyValue('width')
@@ -475,5 +482,20 @@ function applyWidthToRow (row, columnsWidths) {
 function applyWidthToCell (cell, columnIndex, columnsWidths) {
   const width = columnsWidths[columnIndex]
   cell.element.style.width = `${width}px`
+}
+
+/**
+ * @param {Array<CellSizingConfig<HTMLElement>>} row
+ */
+function removeWidthFromRow (row) {
+  _.forEach(row, (row, index) => removeWidthFromCell(row, index))
+}
+
+/**
+ * @param {CellSizingConfig<HTMLElement>} cell
+ * @param {number} columnIndex
+ */
+function removeWidthFromCell (cell, columnIndex) {
+  cell.element.style.width = null
 }
 </script>

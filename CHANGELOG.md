@@ -4,6 +4,13 @@ title: Changelog
 
 # Changelog
 
+## 28.1.1
+
+Fixed:
+
+- `GeoTable` will compute column size faster.
+- `GeoTable` will compute page size faster.
+
 ## 28.1.0
 
 New:
@@ -23,11 +30,18 @@ Fixed:
 
 - Import `date-fns` functions separately
 
+## 27.2.1
+
+Fixed:
+
+- `GeoTable` will compute column size faster.
+- `GeoTable` will compute page size faster.
+
 ## 27.2.0
 
-Add :
+New:
 
-- emit event `column-width-changed` when columns width changes in `GeoTable`
+- `GeoTable` emits event `column-width-changed` when columns width changes.
 
 ## 27.1.0
 
