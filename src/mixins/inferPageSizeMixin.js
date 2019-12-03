@@ -131,7 +131,10 @@ function attemptToIncreaseInferredPageSize (params, vm) {
 
   if (params.beforeEach) params.beforeEach()
 
-  vm[DATA_KEYS.inferredPageSize] += 1
+  // Heuristic: it's worth increasing pages by 5 rows each time as it's a good
+  // compromise between growing fast and not too fast that fixing overgrowing
+  // takes too much.
+  vm[DATA_KEYS.inferredPageSize] = Math.min(vm[DATA_KEYS.inferredPageSize] + 5, params.sourceDataLength)
 
   return vm.$nextTick().then(function () {
     if (params.afterEach) params.afterEach()
