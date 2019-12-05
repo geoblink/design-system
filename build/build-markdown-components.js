@@ -101,6 +101,7 @@ function getComponentsToDocument () {
   spinner.start('Find Vue components to document')
 
   return new Promise(function (resolve, reject) {
+    // return resolve(['GeoChart/GeoChart.vue'])
     glob('**/*.vue', { cwd: pathToMarkdownComponents }, function (err, files) {
       if (err) {
         spinner.fail()
@@ -156,7 +157,10 @@ function generateDocumentationOfComponent (pathToMarkdownComponents, componentPa
       '--path',
       componentPath,
       '--jsonDocumentation',
-      JSON.stringify(documentation).replace(/`/gi, '\\`')
+      JSON.stringify(documentation)
+        .replace(/\$/gi, '\\$')
+        .replace(/`/gi, '\\`')
+        .replace(/\n/gi, '\\n')
     ], function (err) {
       if (err) {
         spinner.fail()
