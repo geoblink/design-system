@@ -62,7 +62,7 @@
     >
       <td colspan="4">
         <geo-markdown-content
-          :markdown="description"
+          :markdown="markdownDescription"
           :features="markdownDescriptionFeatures"
         />
       </td>
@@ -71,7 +71,8 @@
 </template>
 
 <script>
-import { AllMarkdownParserFeatures } from '../../src/elements/GeoMarkdownContent/GeoMarkdownParser'
+import { AllMarkdownParserFeatures } from '@/elements/GeoMarkdownContent/GeoMarkdownParser'
+import { unescapeJSONString } from '../../.hygen.utils.es6'
 
 export default {
   name: 'ComponentDocumentationPropertiesRow',
@@ -117,6 +118,10 @@ export default {
     }
   },
   computed: {
+    markdownDescription () {
+      return unescapeJSONString(this.description)
+    },
+
     markdownDescriptionFeatures () {
       return AllMarkdownParserFeatures
     }

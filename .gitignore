@@ -22,3 +22,8 @@ src/assets/tokens/
 
 # Ignore webpack stats
 webpack.stats.json
+
+# Ignore automatically generated Markdown files
+docs/components
+# Ignore automatically generated Vue components
+.vuepress/components/constants
