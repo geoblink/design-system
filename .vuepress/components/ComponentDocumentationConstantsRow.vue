@@ -32,7 +32,7 @@ export default {
     },
 
     definition: {
-      type: [Object, String, Function],
+      type: [Object, String, Function, Number],
       required: true
     }
   },
