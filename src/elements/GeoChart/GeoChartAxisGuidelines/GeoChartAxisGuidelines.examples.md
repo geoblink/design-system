@@ -56,7 +56,7 @@ of the domain.
 </template>
 
 <script>
-const CONSTANTS = require('../constants')
+const CONSTANTS = require('@/elements/GeoChart/constants')
 
 export default {
   name: 'GeoChartAxisDemo',
@@ -233,7 +233,7 @@ export default {
 </template>
 
 <script>
-const CONSTANTS = require('../constants')
+const CONSTANTS = require('@/elements/GeoChart/constants')
 
 export default {
   name: 'GeoChartAxisDemo',
@@ -391,7 +391,7 @@ export default {
 </template>
 
 <script>
-const CONSTANTS = require('../constants')
+const CONSTANTS = require('@/elements/GeoChart/constants')
 
 export default {
   name: 'GeoChartAxisDemo',

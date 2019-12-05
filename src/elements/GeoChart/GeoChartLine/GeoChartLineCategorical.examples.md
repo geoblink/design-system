@@ -26,8 +26,8 @@ title: Line chart (categorical)
 </template>
 
 <script>
-const CONSTANTS = require('../constants')
-const { INTERPOLATION_TYPES } = require('./GeoChartLine')
+const CONSTANTS = require('@/elements/GeoChart/constants')
+const { INTERPOLATION_TYPES } = require('@/elements/GeoChart/GeoChartLine/GeoChartLine')
 
 export default {
   name: 'GeoChartLineDemo',

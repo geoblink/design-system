@@ -56,7 +56,7 @@ be added regardless you not returning them.
 </template>
 
 <script>
-const CONSTANTS = require('../constants')
+const CONSTANTS = require('@/elements/GeoChart/constants')
 
 export default {
   name: 'GeoChartBarsDemo',

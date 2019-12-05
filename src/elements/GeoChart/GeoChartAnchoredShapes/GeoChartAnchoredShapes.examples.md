@@ -80,8 +80,8 @@ Doing so will throw an invalid config error.
 </template>
 
 <script>
-const CONSTANTS = require('../constants')
-const { getTriangleShapePath } = require('./GeoChartAnchoredShapes')
+const CONSTANTS = require('@/elements/GeoChart/constants')
+const { getTriangleShapePath } = require('@/elements/GeoChart/GeoChartAnchoredShapes')
 
 export default {
   name: 'GeoChartAnchoredShapesDemo',
@@ -245,8 +245,8 @@ export default {
 </template>
 
 <script>
-const CONSTANTS = require('../constants')
-const { getTriangleShapePath } = require('./GeoChartAnchoredShapes')
+const CONSTANTS = require('@/elements/GeoChart/constants')
+const { getTriangleShapePath } = require('@/elements/GeoChart/GeoChartAnchoredShapes')
 
 export default {
   name: 'GeoChartAnchoredShapesDemo',
