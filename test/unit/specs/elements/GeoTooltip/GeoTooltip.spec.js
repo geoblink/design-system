@@ -39,12 +39,50 @@ describe('GeoTooltip', function () {
       wrapper.destroy()
     })
 
+    it('Should add static tooltip container element', function () {
+      const wrapper = mount(getComponentWithTooltip(), {
+        propsData: {
+          tooltipProps: {
+            static: true
+          }
+        }
+      })
+      const bodyWrapper = createWrapper(document.body)
+
+      expect(bodyWrapper.find('.geo-tooltip-static').exists()).toBe(true)
+
+      wrapper.destroy()
+    })
+
     it('Should add only one tooltip container element', function () {
       const firstWrapper = mount(getComponentWithTooltip())
       const secondWrapper = mount(getComponentWithTooltip())
       const bodyWrapper = createWrapper(document.body)
 
       expect(bodyWrapper.findAll('.geo-tooltip')).toHaveLength(1)
+
+      firstWrapper.destroy()
+      secondWrapper.destroy()
+    })
+
+    it('Should add only one static tooltip container element', function () {
+      const firstWrapper = mount(getComponentWithTooltip(), {
+        propsData: {
+          tooltipProps: {
+            static: true
+          }
+        }
+      })
+      const secondWrapper = mount(getComponentWithTooltip(), {
+        propsData: {
+          tooltipProps: {
+            static: true
+          }
+        }
+      })
+      const bodyWrapper = createWrapper(document.body)
+
+      expect(bodyWrapper.findAll('.geo-tooltip-static')).toHaveLength(1)
 
       firstWrapper.destroy()
       secondWrapper.destroy()

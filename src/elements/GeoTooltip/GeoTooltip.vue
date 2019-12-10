@@ -27,9 +27,12 @@ import cssSuffix from '../../mixins/cssModifierMixin'
 
 /** @type {number} */
 let existingTooltipsCount = 0
+let existingStaticTooltipsCount = 0
 
 /** @type {Element|null} */
 let tooltipContainerElement = null
+
+let staticTooltipContainerElement = null
 
 const POSITIONS = {
   bottom: 'bottom',
@@ -119,6 +122,17 @@ export default {
     forcedTriggerTarget: {
       type: null,
       required: false
+    },
+
+    /**
+     * Places the tooltip in a different container to allow it to be displayed
+     * with another regular tooltip
+     *
+     * WARNING : It's only posible to have one static tooltip in a page
+     */
+    static: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
@@ -168,8 +182,13 @@ export default {
   },
   mounted () {
     this.originalParentElement = this.$el.parentElement
-    existingTooltipsCount++
-    addTooltipContainerIfNeeded()
+    if (this.static) {
+      existingStaticTooltipsCount++
+      addStaticTooltipContainerIfNeeded()
+    } else {
+      existingTooltipsCount++
+      addTooltipContainerIfNeeded()
+    }
 
     this.reattachTooltipContent()
     this.addMouseEventHandlers()
@@ -177,19 +196,35 @@ export default {
   },
   updated () {
     this.repositionTooltip()
+    const visibleTootlips = document.querySelectorAll('.geo-tooltip .geo-tooltip__content')
+    if (visibleTootlips.length > 1) {
+      visibleTootlips.forEach((element) => {
+        if (element === this.$el) {
+          element.style.display = 'inline-block'
+        } else {
+          element.style.display = 'none'
+        }
+      })
+    }
   },
   beforeDestroy () {
-    this.removeMouseEventHandlers()
-
     this.$el.remove()
-    existingTooltipsCount--
-    cleanupTooltipContainerIfNeeded()
+
+    if (this.static) {
+      existingStaticTooltipsCount--
+      cleanupStaticTooltipContainerIfNeeded()
+    } else {
+      this.removeMouseEventHandlers()
+      existingTooltipsCount--
+      cleanupTooltipContainerIfNeeded()
+    }
   },
   methods: {
     reattachTooltipContent () {
       this.triggerTarget = this.forcedTriggerTarget || this.originalParentElement
       this.$el.remove()
-      tooltipContainerElement.appendChild(this.$el)
+      if (this.static) staticTooltipContainerElement.appendChild(this.$el)
+      else tooltipContainerElement.appendChild(this.$el)
     },
 
     addMouseEventHandlers () {
@@ -382,7 +417,8 @@ export default {
       const correctedOffset = correctedOffsetForPosition[tooltipPosition]
 
       const transform = `translate(${correctedOffset.x}px, ${correctedOffset.y}px)`
-      tooltipContainerElement.style.transform = transform
+      if (this.static) staticTooltipContainerElement.style.transform = transform
+      else tooltipContainerElement.style.transform = transform
 
       this.fittingPosition = tooltipPosition
       this.fittingAlignment = fittingAlignment
@@ -450,6 +486,21 @@ function cleanupTooltipContainerIfNeeded () {
 
   tooltipContainerElement.remove()
   tooltipContainerElement = null
+}
+
+function addStaticTooltipContainerIfNeeded () {
+  if (staticTooltipContainerElement) return
+
+  staticTooltipContainerElement = document.createElement('div')
+  staticTooltipContainerElement.className = 'geo-tooltip-static'
+  document.body.appendChild(staticTooltipContainerElement)
+}
+
+function cleanupStaticTooltipContainerIfNeeded () {
+  if (existingStaticTooltipsCount > 0 || !staticTooltipContainerElement) return
+
+  staticTooltipContainerElement.remove()
+  staticTooltipContainerElement = null
 }
 
 /**

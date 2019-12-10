@@ -371,10 +371,7 @@ export default {
       @mouseleave="isToggleablePrimaryButtonTooltipVisible = false"
     >
       <input type="checkbox" v-model="isToggleablePrimaryButtonVisible">
-      <geo-primary-button
-        v-if="isToggleablePrimaryButtonVisible"
-        data-tooltip-id="demo7"
-      >
+      <geo-primary-button v-if="isToggleablePrimaryButtonVisible">
         <geo-tooltip :visible="isToggleablePrimaryButtonTooltipVisible">
           Checkbox Primary Button Tooltip
         </geo-tooltip>
@@ -390,6 +387,148 @@ export default {
     return {
       isToggleablePrimaryButtonVisible: true,
       isToggleablePrimaryButtonTooltipVisible: false
+    }
+  }
+}
+</script>
+```
+
+``` vue live
+<template>
+  <div class="element-demo">
+    <h3 class="element-demo__header">Static tooltip</h3>
+    <div class="element-demo__block" >
+      <input type="checkbox" v-model="testIntersection" style="margin-right: 40px;">
+      <geo-secondary-button
+        :disabled="isVisibleTooltip"
+        @click="showTooltip()"
+      >
+        <geo-tooltip
+          :visible="isVisibleTooltip"
+          :static="true"  
+        >
+          The tooltip appears until you click on the icon
+          <font-awesome-icon
+            :icon="['fal', 'times']"
+            style="color: red; margin-left: 5px; cursor: pointer;"
+            @click="hideTooltip()"
+          />
+        </geo-tooltip>
+        {{ buttonWithStaticTooltipText }}
+      </geo-secondary-button>
+      <geo-secondary-button
+        data-tooltip-id="demo8"
+        :class="{
+          'margin-left-second-button': !testIntersection
+        }"
+      >
+        <geo-tooltip :forced-trigger-target="secondaryButtonElement">
+          The tooltip appears only on hover, but is very long so might
+          go under the other one when the checkbox is checked
+        </geo-tooltip>
+        A button with a regular tooltip
+      </geo-secondary-button>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  data () {
+    return {
+      isVisibleTooltip: true,
+      buttonWithStaticTooltipText: 'A button with a static tooltip',
+      secondaryButtonElement: null,
+      testIntersection: false
+    }
+  },
+  mounted () {
+    this.secondaryButtonElement = document.querySelector('[data-tooltip-id="demo8"]')
+  },
+  methods: {
+    hideTooltip () {
+      this.isVisibleTooltip = false
+      this.buttonWithStaticTooltipText = 'Click to show the static tooltip'
+    },
+    showTooltip () {
+      this.isVisibleTooltip = true
+      this.buttonWithStaticTooltipText = 'A button with a static tooltip'
+    }
+  }
+}
+</script>
+
+<style scoped>
+.margin-left-second-button {
+  margin-left: 100px;
+}
+</style>
+```
+
+``` vue live
+<template>
+  <div class="element-demo">
+    <h3 class="element-demo__header">Tooltips on GeoSegmentedControlItem</h3>
+    <div class="element-demo__block" style="justify-content: center">
+      <geo-segmented-control style="width: auto">
+        <geo-segmented-control-item
+          :active="isLeftActive"
+          @click="isLeft()"
+        >
+          <geo-tooltip :delay="200">
+            Tooltip on left item
+          </geo-tooltip>
+          L
+        </geo-segmented-control-item>
+
+        <geo-segmented-control-item
+          :active="isMiddleActive"
+          @click="isMiddle()"
+        >
+          <geo-tooltip :delay="200">
+            Tooltip on middle item
+          </geo-tooltip>
+          M
+        </geo-segmented-control-item>
+
+        <geo-segmented-control-item
+          :active="isRightActive"
+          @click="isRight()"
+        >
+          <geo-tooltip :delay="200">
+            Tooltip on right item
+          </geo-tooltip>
+          R
+        </geo-segmented-control-item>
+      </geo-segmented-control>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  data () {
+    return {
+      isLeftActive: true,
+      isMiddleActive: false,
+      isRightActive: false
+    }
+  },
+  methods: {
+    isRight () {
+      this.isLeftActive = false
+      this.isMiddleActive = false
+      this.isRightActive = true
+    },
+    isMiddle () {
+      this.isLeftActive = false
+      this.isMiddleActive = true
+      this.isRightActive = false
+    },
+    isLeft () {
+      this.isLeftActive = true
+      this.isMiddleActive = false
+      this.isRightActive = false
     }
   }
 }

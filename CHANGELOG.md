@@ -4,6 +4,16 @@ title: Changelog
 
 # Changelog
 
+## 28.1.2
+
+Fixed:
+
+- Show only one `GeoTooltip` when fast hovering
+
+New:
+
+- `static` prop for `GeoTooltip` with actions inside
+
 ## 28.1.1
 
 Fixed:
