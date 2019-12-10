@@ -15,10 +15,12 @@ module.exports = [
   },
   {
     type: 'input',
-    name: 'exampleMarkdownCode',
-    message: 'Example Markdown code:',
+    name: 'exampleMarkdownPath',
+    message: 'Example path (for example «elements/GeoActivityIndicator/GeoActivityIndicator.examples.md»):',
     validate (value) {
-      if (!value) return 'Example Markdown code cannot be empty.'
+      if (!value) return 'Path to example cannot be empty.'
+
+      if (!fs.existsSync(value)) return 'Path to example must point to an existing file'
 
       return true
     }

@@ -72,7 +72,6 @@
 
 <script>
 import { AllMarkdownParserFeatures } from '@/elements/GeoMarkdownContent/GeoMarkdownParser'
-import { unescapeJSONString } from '../../.hygen.utils.es6'
 
 export default {
   name: 'ComponentDocumentationPropertiesRow',
@@ -135,5 +134,13 @@ export default {
       this.isDescriptionVisible = false
     }
   }
+}
+
+function unescapeJSONString (s) {
+  return s
+    .replace(/&#39;/gi, `'`)
+    .replace(/&#96;/gi, '`')
+    .replace(/&#62;/gi, '>')
+    .replace(/\\n/gi, '\\\\n')
 }
 </script>

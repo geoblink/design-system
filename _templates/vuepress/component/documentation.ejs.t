@@ -37,6 +37,4 @@ to: docs/components/<%= h.withoutExtension(path) %>.md
 
 <constants-<%= h.slashesAsDashes(h.withoutExtension(path)) %>Constants />
 
-This is just a demo for file <%= path %>
-
 ## Examples

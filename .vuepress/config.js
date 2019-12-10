@@ -46,6 +46,7 @@ module.exports = {
     }
   },
   patterns: [
+    '!src',
     'docs/components/**/*.md',
     'docs/**/*.md',
     'docs/**/*.md',

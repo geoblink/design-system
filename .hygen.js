@@ -1,5 +1,6 @@
 const _ = require('lodash')
 const path = require('path')
+const fs = require('fs')
 
 /**
  * @typedef {Object} ComponentProperty
@@ -44,36 +45,19 @@ module.exports = {
      * @returns {string}
      */
     withoutExtension: s => s.replace(/(.*)\.[^.]*/gi, '$1'),
+
     /**
      * @param {string} s
      * @returns {string}
      */
     slashesAsDashes: s => s.replace(/\//gi, '-'),
-    /**
-     * @param {string} s
-     * @returns {string}
-     */
-    unescapeNewlines: s => s.replace(/\\n/gi, '\n'),
-    /**
-     * @param {string} s
-     * @returns {string}
-     */
-    relativePathToComponentFromVuepressConstantsComponent (relativePathToComponent) {
-      const absolutePathToComponentFromVuepressConstantsComponent = path.resolve(
-        __dirname,
-        '.vuepress/components/constants',
-        path.dirname(relativePathToComponent)
-      )
 
-      const absolutePathToComponent = path.resolve(__dirname, 'src/elements', relativePathToComponent)
-
-      return path.relative(absolutePathToComponentFromVuepressConstantsComponent, absolutePathToComponent)
-    },
     /**
      * @param {string} s
      * @returns {string}
      */
     basename: s => path.basename(s),
+
     /**
      * @param {string} s
      * @returns {string}
@@ -85,6 +69,7 @@ module.exports = {
         .replace(/>/gi, '&#62;')
         .replace(/\\n/gi, '\\\\n')
     },
+
     /**
      * @param {string} s
      * @returns {string}
@@ -96,21 +81,19 @@ module.exports = {
         .replace(/&#62;/gi, '>')
         .replace(/\\n/gi, '\\\\n')
     },
-    /**
-     * @param {string} s
-     * @returns {ComponentDocumentation}
-     */
-    parseDocumentation: s => JSON.parse(s),
+
     /**
      * @param {ComponentDocumentation} componentDefinition
      * @returns {string}
      */
     getComponentName: jsonDocumentation => JSON.parse(jsonDocumentation).displayName,
+
     /**
      * @param {ComponentDocumentation} componentDefinition
      * @returns {string}
      */
     getComponentDescription: jsonDocumentation => JSON.parse(jsonDocumentation).description,
+
     /**
      * @param {ComponentDocumentation} componentDefinition
      * @returns {string}
@@ -127,6 +110,7 @@ module.exports = {
 
       throw new Error(`Unknown component status for component ${documentation.name}: ${documentation.status}`)
     },
+
     /**
      * @param {ComponentDocumentation} componentDefinition
      * @returns {string}
@@ -143,6 +127,7 @@ module.exports = {
 
       throw new Error(`Unknown component status for component ${documentation.name}: ${documentation.status}`)
     },
+
     /**
      * @param {ComponentDocumentation} componentDefinition
      * @returns {string}
@@ -155,6 +140,7 @@ module.exports = {
         ? `${documentation.release}+`
         : 'Unreleased'
     },
+
     /**
      * @param {ComponentDocumentation} componentDefinition
      * @returns {string}
@@ -177,6 +163,7 @@ module.exports = {
 
       return JSON.stringify(json)
     },
+
     /**
      * @param {ComponentDocumentation} componentDefinition
      * @returns {string}
@@ -194,6 +181,7 @@ module.exports = {
 
       return JSON.stringify(json)
     },
+
     /**
      * @param {ComponentDocumentation} componentDefinition
      * @returns {string}
@@ -209,6 +197,14 @@ module.exports = {
       })
 
       return JSON.stringify(json)
+    },
+
+    /**
+     * @param {string} filePath
+     * @returns {string}
+     */
+    renderFileContent (filePath) {
+      return fs.readFileSync(filePath).toString()
     }
   }
 }
