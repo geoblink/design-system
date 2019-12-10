@@ -148,7 +148,7 @@ function injectExamplesOfComponent (componentRelativePath) {
 
       const tasks = _.map(files, (examplePath) => injectExampleOfComponent(componentRelativePath, examplePath))
 
-      return new Listr(tasks, { concurrent: true })
+      return new Listr(tasks, { concurrent: false })
     }
   }
 }
