@@ -81,7 +81,7 @@ Doing so will throw an invalid config error.
 
 <script>
 const CONSTANTS = require('@/elements/GeoChart/constants')
-const { getTriangleShapePath } = require('@/elements/GeoChart/GeoChartAnchoredShapes')
+const { getTriangleShapePath } = require('@/elements/GeoChart/GeoChartAnchoredShapes/GeoChartAnchoredShapes')
 
 export default {
   name: 'GeoChartAnchoredShapesDemo',
@@ -246,7 +246,7 @@ export default {
 
 <script>
 const CONSTANTS = require('@/elements/GeoChart/constants')
-const { getTriangleShapePath } = require('@/elements/GeoChart/GeoChartAnchoredShapes')
+const { getTriangleShapePath } = require('@/elements/GeoChart/GeoChartAnchoredShapes/GeoChartAnchoredShapes')
 
 export default {
   name: 'GeoChartAnchoredShapesDemo',
