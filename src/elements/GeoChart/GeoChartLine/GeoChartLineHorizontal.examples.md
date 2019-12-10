@@ -1,6 +1,4 @@
----
-title: Line chart (horizontal)
----
+## Line chart (horizontal)
 
 ```vue live
 <template>

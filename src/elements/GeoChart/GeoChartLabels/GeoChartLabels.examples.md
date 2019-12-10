@@ -1,3 +1,5 @@
+## Labels
+
 Sometimes you might want to add custom labels to the chart, anchored to the items
 already displayed in it, even multiple labels for each item in the chart. A
 collection of labels associated to a single item of the chart is what we call a
@@ -7,7 +9,7 @@ To add **label groups** to a chart, add an array to `labelGroups` key of
 [GeoChart](./#/Elements/Charts?id=introduction)'s config. Each item of the array
 must be an object with the following...
 
-## Required properties
+### Required properties
 
 - `idVerticalAxis`: ID of the axis used to position the label vertically.
 - `data`: an array of items to which labels will be added. Each `data` entry must
@@ -16,7 +18,7 @@ value will be used to compute label's vertical position. There's another key
 that must be present: `labels` key. It must be an array whose items follows the
 structure describe in _Labels structure_ section.
 
-### Labels structure
+#### Labels structure
 
 Each label has **only one required property**, `text`, which is the string to be
 displayed. However, there are several optional properties:

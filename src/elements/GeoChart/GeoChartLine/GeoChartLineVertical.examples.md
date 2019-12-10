@@ -1,3 +1,5 @@
+## Line chart (vertical)
+
 ```vue live
 <template>
   <div class="element-demo">

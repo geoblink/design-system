@@ -1,6 +1,4 @@
----
-title: Line chart (categorical)
----
+## Line chart (categorical)
 
 ```vue live
 <template>

@@ -1,13 +1,11 @@
----
-title: Pie chart
----
+## Pie chart
 
-## Required properties
+### Required properties
 
 - `data`: Collection being displayed (array).
 - `keyForValues`: the key in each chart item where the value for this axis is stored.
 
-## Optional properties
+### Optional properties
 
 Optionally you can configure the pie with an **inner radius** and an **outer radius**.
 These properties are useful to create different variations of a pie chart, from a full
@@ -20,7 +18,7 @@ default value and **1** the maximum chart radius.
 default value as the maximum radius allowed by the chart height/width, and **0** the minimum
 chart radius.
 
-### Tooltips
+#### Tooltips
 
 Each slice can customize the tooltip displayed when it's hovered by setting the
 key `tooltip`. This key must store an object with the following shape:
@@ -33,7 +31,7 @@ tooltip and is expected to return an object with an `x` and a `y` property, both
 storing numbers that will be used as offset of the tooltip with respect to event
 coordinates. By default tooltip will be positioned above cursor.
 
-### Customizing CSS classes
+#### Customizing CSS classes
 
 Each slice can customize its CSS classes by setting a function for key `cssClasses`.
 This functions takes as parameters the array of classes that would be set by

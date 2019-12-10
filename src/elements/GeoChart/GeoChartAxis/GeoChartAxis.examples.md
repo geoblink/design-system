@@ -1,6 +1,4 @@
----
-title: Chart axes
----
+## Chart axes
 
 Axes are not only used to be rendered in the charts but also as a wrapper on top
 of scales. Some charts (like [bar charts](./#/Elements/Charts?id=bar-charts))
@@ -11,7 +9,7 @@ To register axes in [`GeoChart`](./#/Elements/Charts?id=introduction), add an ar
 as value of `axisGroup` key in the config object. Each item of the array must be
 an object with the following...
 
-## Required properties
+### Required properties
 
 Each **axis** **requires** these properties:
 
@@ -24,7 +22,7 @@ named export or a **relative position object** if you want an **anchored axis**.
 - `scale`: the config object of the scale to be used by this axis. See
 [Scales](./#/Elements/Charts?id=scales) for more info.
 
-### Anchored axis
+#### Anchored axis
 
 Sometimes you might want to anchor an axis to a specific **relative** position
 of the chart. For instance, you might want to display a vertical axis wherever
@@ -44,7 +42,7 @@ an object with the following properties:
 - `value`: the value to which is anchored.
 - `relativeToAxis`: the ID of the axis to which is anchored.
 
-## Customizing CSS classes
+### Customizing CSS classes
 
 CSS classes added to the axis can be customized using `cssClasses` key. Its value
 should be a function which takes as parameter the classes that would be set by
@@ -54,7 +52,7 @@ default. The function should return the CSS final classes you want for that axis
 > required internally and will be added regardless what you return in the
 > function.
 
-## Customizing ticks
+### Customizing ticks
 
 Ticks can be customized in several ways. To do so, add a key `ticks` to the axis
 config object. The value for that key must be an object with the following

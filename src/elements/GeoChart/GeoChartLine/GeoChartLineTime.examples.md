@@ -1,6 +1,4 @@
----
-title: Line chart (time)
----
+## Line chart (time)
 
 ```vue live
 <template>
