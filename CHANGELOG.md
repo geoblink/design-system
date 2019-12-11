@@ -4,7 +4,7 @@ title: Changelog
 
 # Changelog
 
-## 28.1.2
+## 28.2.0
 
 Fixed:
 

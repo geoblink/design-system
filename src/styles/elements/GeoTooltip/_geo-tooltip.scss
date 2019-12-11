@@ -7,20 +7,12 @@
     $modifier-name-with-prefix: --#{$modifier-name};
   }
 
-  .geo-tooltip {
+  .geo-tooltip, .geo-tooltip-static {
     left: 0;
     pointer-events: none;
     position: absolute;
     top: 0;
     z-index: $z-index-tooltip;
-  }
-
-  .geo-tooltip-static {
-    left: 0;
-    pointer-events: none;
-    position: absolute;
-    top: 0;
-    z-index: $z-index-tooltip + 1;
   }
 
   $popper-background-color: $color-dark-overlay !default;

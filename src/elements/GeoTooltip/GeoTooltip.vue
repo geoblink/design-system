@@ -24,15 +24,14 @@ import throttle from '../../utils/throttle'
 import getDOMElementOffset from '../../utils/getDOMElementOffset'
 
 import cssSuffix from '../../mixins/cssModifierMixin'
+import counterFactory from '../../utils/counterFactory'
 
 /** @type {number} */
 let existingTooltipsCount = 0
-let existingStaticTooltipsCount = 0
+const getNextStaticTooltipId = counterFactory()
 
 /** @type {Element|null} */
 let tooltipContainerElement = null
-
-let staticTooltipContainerElement = null
 
 const POSITIONS = {
   bottom: 'bottom',
@@ -125,10 +124,10 @@ export default {
     },
 
     /**
-     * Places the tooltip in a different container to allow it to be displayed
-     * with another regular tooltip
+     * Places the tooltip in an isolated container.
      *
-     * WARNING : It's only posible to have one static tooltip in a page
+     * You’ll probably want to set this to true if you want to display this tooltip
+     * regardless any user interaction.
      */
     static: {
       type: Boolean,
@@ -142,7 +141,9 @@ export default {
       isTooltipContentHovered: false,
       fittingPosition: null,
       fittingAlignment: null,
-      originalParentElement: null
+      originalParentElement: null,
+      staticTooltipID: null,
+      staticTooltipContainer: null
     }
   },
   computed: {
@@ -178,16 +179,25 @@ export default {
       this.removeMouseEventHandlers()
       this.reattachTooltipContent()
       this.addMouseEventHandlers()
+    },
+
+    static (newValue, oldValue) {
+      if (newValue === true) {
+        this.removeMouseEventHandlers()
+        this.cleanUpRegularTooltip()
+        this.setUpStaticTooltip()
+      } else {
+        this.cleanUpStaticTooltip()
+        this.setUpRegularTooltip()
+      }
     }
   },
   mounted () {
     this.originalParentElement = this.$el.parentElement
     if (this.static) {
-      existingStaticTooltipsCount++
-      addStaticTooltipContainerIfNeeded()
+      this.setUpStaticTooltip()
     } else {
-      existingTooltipsCount++
-      addTooltipContainerIfNeeded()
+      this.setUpRegularTooltip()
     }
 
     this.reattachTooltipContent()
@@ -196,34 +206,23 @@ export default {
   },
   updated () {
     this.repositionTooltip()
-    const visibleTootlips = document.querySelectorAll('.geo-tooltip .geo-tooltip__content')
-    if (visibleTootlips.length > 1) {
-      visibleTootlips.forEach((element) => {
-        if (element === this.$el) {
-          element.style.display = 'inline-block'
-        } else {
-          element.style.display = 'none'
-        }
-      })
-    }
+    this.checkSeveralTooltips()
   },
   beforeDestroy () {
     this.$el.remove()
 
     if (this.static) {
-      existingStaticTooltipsCount--
-      cleanupStaticTooltipContainerIfNeeded()
+      this.cleanUpStaticTooltip()
     } else {
       this.removeMouseEventHandlers()
-      existingTooltipsCount--
-      cleanupTooltipContainerIfNeeded()
+      this.cleanUpRegularTooltip()
     }
   },
   methods: {
     reattachTooltipContent () {
       this.triggerTarget = this.forcedTriggerTarget || this.originalParentElement
       this.$el.remove()
-      if (this.static) staticTooltipContainerElement.appendChild(this.$el)
+      if (this.static) this.staticTooltipContainer.appendChild(this.$el)
       else tooltipContainerElement.appendChild(this.$el)
     },
 
@@ -417,11 +416,58 @@ export default {
       const correctedOffset = correctedOffsetForPosition[tooltipPosition]
 
       const transform = `translate(${correctedOffset.x}px, ${correctedOffset.y}px)`
-      if (this.static) staticTooltipContainerElement.style.transform = transform
+      if (this.static) this.staticTooltipContainer.style.transform = transform
       else tooltipContainerElement.style.transform = transform
 
       this.fittingPosition = tooltipPosition
       this.fittingAlignment = fittingAlignment
+    },
+
+    setUpStaticTooltip () {
+      this.staticTooltipID = getNextStaticTooltipId()
+      this.addStaticTooltipContainer()
+    },
+
+    cleanUpStaticTooltip () {
+      this.removeStaticTooltipContainer()
+      this.staticTooltipID = null
+    },
+
+    setUpRegularTooltip () {
+      existingTooltipsCount++
+      addTooltipContainerIfNeeded()
+    },
+
+    cleanUpRegularTooltip () {
+      existingTooltipsCount--
+      cleanupTooltipContainerIfNeeded()
+    },
+
+    addStaticTooltipContainer () {
+      this.staticTooltipContainer = document.createElement('div')
+      this.staticTooltipContainer.className = `geo-tooltip-static geo-tooltip-static--${this.staticTooltipID}`
+
+      document.body.appendChild(this.staticTooltipContainer)
+    },
+
+    removeStaticTooltipContainer () {
+      this.staticTooltipContainer.remove()
+      this.staticTooltipContainer = null
+    },
+
+    checkSeveralTooltips () {
+      if (existingTooltipsCount > 1) {
+        const visibleTootlips = document.querySelectorAll('.geo-tooltip .geo-tooltip__content')
+        if (visibleTootlips.length > 1) {
+          visibleTootlips.forEach((element) => {
+            if (element === this.$el) {
+              element.style.display = 'inline-block'
+            } else {
+              element.style.display = 'none'
+            }
+          })
+        }
+      }
     }
   }
 }
@@ -486,21 +532,6 @@ function cleanupTooltipContainerIfNeeded () {
 
   tooltipContainerElement.remove()
   tooltipContainerElement = null
-}
-
-function addStaticTooltipContainerIfNeeded () {
-  if (staticTooltipContainerElement) return
-
-  staticTooltipContainerElement = document.createElement('div')
-  staticTooltipContainerElement.className = 'geo-tooltip-static'
-  document.body.appendChild(staticTooltipContainerElement)
-}
-
-function cleanupStaticTooltipContainerIfNeeded () {
-  if (existingStaticTooltipsCount > 0 || !staticTooltipContainerElement) return
-
-  staticTooltipContainerElement.remove()
-  staticTooltipContainerElement = null
 }
 
 /**

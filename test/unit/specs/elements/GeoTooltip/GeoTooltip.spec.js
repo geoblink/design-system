@@ -65,7 +65,7 @@ describe('GeoTooltip', function () {
       secondWrapper.destroy()
     })
 
-    it('Should add only one static tooltip container element', function () {
+    it('Should add several static tooltip container element', function () {
       const firstWrapper = mount(getComponentWithTooltip(), {
         propsData: {
           tooltipProps: {
@@ -82,7 +82,7 @@ describe('GeoTooltip', function () {
       })
       const bodyWrapper = createWrapper(document.body)
 
-      expect(bodyWrapper.findAll('.geo-tooltip-static')).toHaveLength(1)
+      expect(bodyWrapper.findAll('.geo-tooltip-static')).toHaveLength(2)
 
       firstWrapper.destroy()
       secondWrapper.destroy()

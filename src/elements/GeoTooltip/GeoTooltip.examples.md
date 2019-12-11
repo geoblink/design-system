@@ -468,6 +468,94 @@ export default {
 ``` vue live
 <template>
   <div class="element-demo">
+    <h3 class="element-demo__header">Two static tooltips</h3>
+    <div class="element-demo__block" >
+      <input type="checkbox" v-model="testIntersection" style="margin-right: 150px;">
+      <geo-secondary-button
+        :disabled="isVisibleTooltip1"
+        style="width: 100px"
+        @click="showTooltip1()"
+      >
+        <geo-tooltip
+          :visible="isVisibleTooltip1"
+          :static="true"  
+        >
+          Click on the icon to hide tooltip 1
+          <font-awesome-icon
+            :icon="['fal', 'times']"
+            style="color: red; margin-left: 5px; cursor: pointer;"
+            @click="hideTooltip1()"
+          />
+        </geo-tooltip>
+        {{ buttonWithStaticTooltipText1 }}
+      </geo-secondary-button>
+      <geo-secondary-button
+        :disabled="isVisibleTooltip2"
+        :class="{
+          'margin-left-second-button': !testIntersection
+        }"
+        style="width: 100px"
+        @click="showTooltip2()"
+      >
+        <geo-tooltip
+          :visible="isVisibleTooltip2"
+          :static="true"  
+        >
+          Click on the icon to hide tooltip 2
+          <font-awesome-icon
+            :icon="['fal', 'times']"
+            style="color: red; margin-left: 5px; cursor: pointer;"
+            @click="hideTooltip2()"
+          />
+        </geo-tooltip>
+        {{ buttonWithStaticTooltipText2 }}
+      </geo-secondary-button>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  data () {
+    return {
+      isVisibleTooltip1: true,
+      isVisibleTooltip2: true,
+      testIntersection: false,
+      buttonWithStaticTooltipText1: 'Button 1',
+      buttonWithStaticTooltipText2: 'Button 2'
+    }
+  },
+  methods: {
+    hideTooltip1 () {
+      this.isVisibleTooltip1 = false
+      this.buttonWithStaticTooltipText1 = 'Click'
+    },
+    showTooltip1 () {
+      this.isVisibleTooltip1 = true
+      this.buttonWithStaticTooltipText1 = 'Button 1'
+    },
+    hideTooltip2 () {
+      this.isVisibleTooltip2 = false
+      this.buttonWithStaticTooltipText2 = 'Click'
+    },
+    showTooltip2 () {
+      this.isVisibleTooltip2 = true
+      this.buttonWithStaticTooltipText2 = 'Button 2'
+    }
+  }
+}
+</script>
+
+<style scoped>
+.margin-left-second-button {
+  margin-left: 300px;
+}
+</style>
+```
+
+``` vue live
+<template>
+  <div class="element-demo">
     <h3 class="element-demo__header">Tooltips on GeoSegmentedControlItem</h3>
     <div class="element-demo__block" style="justify-content: center">
       <geo-segmented-control style="width: auto">
