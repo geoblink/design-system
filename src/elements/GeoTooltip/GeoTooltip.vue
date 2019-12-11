@@ -183,7 +183,6 @@ export default {
 
     static (newValue, oldValue) {
       if (newValue === true) {
-        this.removeMouseEventHandlers()
         this.cleanUpRegularTooltip()
         this.setUpStaticTooltip()
       } else {
@@ -214,7 +213,6 @@ export default {
     if (this.static) {
       this.cleanUpStaticTooltip()
     } else {
-      this.removeMouseEventHandlers()
       this.cleanUpRegularTooltip()
     }
   },
@@ -439,6 +437,7 @@ export default {
     },
 
     cleanUpRegularTooltip () {
+      this.removeMouseEventHandlers()
       existingTooltipsCount--
       cleanupTooltipContainerIfNeeded()
     },
