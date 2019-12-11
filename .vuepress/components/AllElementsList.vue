@@ -11,9 +11,9 @@
       <tbody>
         <all-elements-list-item
           v-for="element in orderedElements"
-          :key="element.documentation.displayName"
+          :key="element.name"
           :component-path="element.path"
-          :component="allComponents[element.documentation.displayName]"
+          :component="element"
         />
       </tbody>
     </table>
@@ -28,20 +28,12 @@ import { components } from '../../src/system'
 export default {
   name: 'AllElementsList',
   computed: {
-    allElements () {
-      return _.map(this.$site.themeConfig.componentsDocumentations)
-    },
-
-    allComponents () {
-      return components
-    },
-
-    publicElements () {
-      return _.filter(this.allElements, (singleComponent) => !components[singleComponent.documentation.displayName].internal)
+    componentsWithStatus () {
+      return _.filter(components, 'status')
     },
 
     orderedElements () {
-      return _.sortBy(this.publicElements, 'documentation.displayName')
+      return _.sortBy(this.componentsWithStatus, 'name')
     }
   }
 }
