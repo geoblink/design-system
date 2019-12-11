@@ -2,7 +2,12 @@
 to: docs/components/<%= h.withoutExtension(path) %>.md
 ---
 
-# <%= h.getComponentName(jsonDocumentation) %> <% if (h.getComponentStatusBadgeText(jsonDocumentation)) { %> <badge text="<%= h.getComponentStatusBadgeText(jsonDocumentation) %>" type="<%= h.getComponentStatusBadgeType(jsonDocumentation) %>" />  <% } %> <% if (h.getComponentReleaseBadgeText(jsonDocumentation)) { %> <badge text="<%= h.getComponentReleaseBadgeText(jsonDocumentation) %>" />  <% } %>
+# <%= h.getComponentName(jsonDocumentation) -%>
+<% if (h.getComponentStatusBadgeText(jsonDocumentation)) { -%>
+ <badge text="<%= h.getComponentStatusBadgeText(jsonDocumentation) %>" type="<%= h.getComponentStatusBadgeType(jsonDocumentation) %>" /><%_ } -%>
+<% if (h.getComponentReleaseBadgeText(jsonDocumentation)) { -%>
+ <badge text="<%= h.getComponentReleaseBadgeText(jsonDocumentation) %>" />
+<% } %>
 
 <%- h.unescapeString(h.getComponentDescription(jsonDocumentation)) %>
 
