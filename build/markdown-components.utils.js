@@ -86,8 +86,6 @@ function generateDocumentationOfComponent (componentRelativePath) {
       componentRelativePath,
       '--jsonDocumentation',
       JSON.stringify(documentation)
-        // .replace(/\$/gi, '\\$')
-        // .replace(/`/gi, '\\`')
         .replace(/'/gi, '&#39;')
         .replace(/\n/gi, '\\n')
     ], {
