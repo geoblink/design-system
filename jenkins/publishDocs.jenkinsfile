@@ -78,7 +78,7 @@ pipeline {
                 ? ' master'
                 : ''
 
-              sh 'yarn --frozen-lockfile'
+              sh 'yarn --ignore-engines --frozen-lockfile'
               sh "node jenkins/publishDocs.js ${params.DOCS_S3_BUCKET} ${versionAlias}"
             }
           }
