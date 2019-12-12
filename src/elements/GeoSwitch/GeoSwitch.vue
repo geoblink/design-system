@@ -1,9 +1,9 @@
 <template>
   <label
     :class="{
-      [`geo-switch${cssSuffix}`]: true,
-      [`geo-switch${cssSuffix}--disabled`]: disabled,
-      [`geo-switch${cssSuffix}--checked`]: value
+      'geo-switch': true,
+      'geo-switch--disabled': disabled,
+      'geo-switch--checked': value
     }"
   >
     <div class="geo-switch__background">
@@ -24,13 +24,10 @@
 </template>
 
 <script>
-import cssSuffix from '../../mixins/cssModifierMixin'
-
 export default {
   name: 'GeoSwitch',
   status: 'ready',
   release: '16.2.0',
-  mixins: [cssSuffix],
   props: {
     /**
      * Value bound to this input. Can be used together with v-model.
