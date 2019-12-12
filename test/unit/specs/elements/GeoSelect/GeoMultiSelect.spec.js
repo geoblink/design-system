@@ -76,7 +76,7 @@ describe('GeoMultiSelect', () => {
       propsData: requiredProps
     })
 
-    expect(wrapper.find('.geo-select-toggle-button--geo-multi-select').exists()).toBe(true)
+    expect(wrapper.find('.geo-select-toggle-button').exists()).toBe(true)
   })
 
   it('Should not render element popup if not opened', () => {
@@ -85,7 +85,7 @@ describe('GeoMultiSelect', () => {
       propsData: requiredProps
     })
 
-    expect(wrapper.find('.geo-select__options-container--geo-multi-select').exists()).toBe(false)
+    expect(wrapper.find('.geo-select-base__options-container').exists()).toBe(false)
   })
 
   it('Should render element popup if opened', () => {
@@ -99,7 +99,7 @@ describe('GeoMultiSelect', () => {
       }
     })
 
-    expect(wrapper.find('.geo-select__options-container--geo-multi-select').exists()).toBe(true)
+    expect(wrapper.find('.geo-select-base__options-container').exists()).toBe(true)
   })
 
   it('Should render element popup with custom class', () => {
@@ -123,10 +123,10 @@ describe('GeoMultiSelect', () => {
       propsData: requiredProps
     })
 
-    expect(wrapper.find('.geo-select-toggle-button--geo-multi-select').exists()).toBe(true)
-    expect(wrapper.find('.geo-select__options-container--geo-multi-select').exists()).toBe(false)
-    wrapper.find('.geo-select-toggle-button--geo-multi-select').trigger('click')
-    expect(wrapper.find('.geo-select__options-container--geo-multi-select').exists()).toBe(true)
+    expect(wrapper.find('.geo-select-toggle-button').exists()).toBe(true)
+    expect(wrapper.find('.geo-select-base__options-container').exists()).toBe(false)
+    wrapper.find('.geo-select-toggle-button').trigger('click')
+    expect(wrapper.find('.geo-select-base__options-container').exists()).toBe(true)
   })
 
   it('Should execute load more results when given the event', (done) => {
@@ -150,9 +150,9 @@ describe('GeoMultiSelect', () => {
       propsData: requiredProps
     })
 
-    wrapper.find('.geo-select-toggle-button--geo-multi-select').trigger('click')
+    wrapper.find('.geo-select-toggle-button').trigger('click')
     expect(wrapper.vm.isOpened).toBe(true)
-    wrapper.find('.geo-multi-select_label').trigger('click')
+    wrapper.find('.geo-multi-select__label').trigger('click')
     expect(wrapper.vm.isOpened).toBe(true)
     expect(wrapper.emitted().input).toBeTruthy()
     expect(wrapper.emitted().input[0][0]).toEqual([{ label: 'Item 0', id: 0 }])
@@ -169,7 +169,7 @@ describe('GeoMultiSelect', () => {
       }
     })
 
-    const allOptions = wrapper.findAll('.geo-multi-select_label')
+    const allOptions = wrapper.findAll('.geo-multi-select__label')
     allOptions.at(0).trigger('click')
     wrapper.setProps({ value: wrapper.emitted().input[0][0] })
     allOptions.at(1).trigger('click')
@@ -192,9 +192,9 @@ describe('GeoMultiSelect', () => {
         }
       }
     })
-    expect(wrapper.find('.geo-bordered-box-header-search-form--geo-multi-select').exists()).toBe(true)
+    expect(wrapper.find('.geo-bordered-box-header-search-form').exists()).toBe(true)
     wrapper.setProps({ searchable: false })
-    expect(wrapper.find('.geo-bordered-box-header-search-form--geo-multi-select').exists()).toBe(false)
+    expect(wrapper.find('.geo-bordered-box-header-search-form').exists()).toBe(false)
   })
 
   it('Should filter the select options when typing on the search box', () => {
@@ -211,10 +211,10 @@ describe('GeoMultiSelect', () => {
       }
     })
 
-    expect(wrapper.findAll('.geo-list-item--geo-multi-select').length).toBe(4)
+    expect(wrapper.findAll('.geo-list-item').length).toBe(4)
     wrapper.find('.geo-input__input').element.value = 'Item 1'
     wrapper.find('.geo-input__input').trigger('input')
-    expect(wrapper.findAll('.geo-list-item--geo-multi-select').length).toBe(1)
-    expect(wrapper.find('.geo-list-item--geo-multi-select').text()).toEqual('Item 1')
+    expect(wrapper.findAll('.geo-list-item').length).toBe(1)
+    expect(wrapper.find('.geo-list-item').text()).toEqual('Item 1')
   })
 })
