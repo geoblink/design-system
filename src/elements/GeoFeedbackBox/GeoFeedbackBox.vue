@@ -1,30 +1,30 @@
 <template>
   <div
     :class="{
-      [`geo-feedback-box${cssSuffix}`]: true,
-      [`geo-feedback-box--floating${cssSuffix}`]: floating
+      ['geo-feedback-box']: true,
+      ['geo-feedback-box--floating']: floating
     }"
   >
     <div
       :class="{
-        [`geo-feedback-box__content${cssSuffix}`]: true,
-        [`geo-feedback-box__content--${variant}${cssSuffix}`]: variant
+        ['geo-feedback-box__content']: true,
+        [`geo-feedback-box__content--${variant}`]: variant
       }"
     >
       <div
         v-if="hasLeadingAccessoryItem"
-        :class="`geo-feedback-box__content__icon${cssSuffix}`"
+        class="geo-feedback-box__content__icon"
       >
         <!-- @slot Use this slot to customize what's displayed before alert message -->
         <slot name="leadingAccessoryItem" />
       </div>
-      <div :class="`geo-feedback-box__content__body${cssSuffix}`">
+      <div class="geo-feedback-box__content__body">
         <!-- @slot Use this slot to show the alert message -->
         <slot name="content" />
       </div>
       <div
         v-if="hasActions"
-        :class="`geo-feedback-box__content__actions${cssSuffix}`"
+        class="geo-feedback-box__content__actions"
       >
         <!-- @slot Use this slot to show additional actions after alert message -->
         <slot name="actions" />
@@ -32,7 +32,7 @@
       <font-awesome-icon
         v-if="shouldShowCloseButton"
         :icon="closeIcon"
-        :class="`geo-feedback-box__content__close-icon${cssSuffix}`"
+        class="geo-feedback-box__content__close-icon"
         aria-hidden
         fixed-width
         @click="close($event)"
@@ -63,8 +63,7 @@ export default {
      * > **Note:** Specific components do not expose the `leftAccessoryItem`
      * > slot but an `icon` property which can be used to customized displayed
      * > icon. If you want to display something that's not an icon as
-     * > `leftAccessoryItem` you should use a `GeoFeedbackBox` with a proper
-     * > `cssModifier`.
+     * > `leftAccessoryItem` you should use a `GeoFeedbackBox`.
      *
      * | variant  | Specific component                                                              |
      * |----------|---------------------------------------------------------------------------------|
@@ -77,9 +76,6 @@ export default {
      * Supported `variant` values are exported under `VARIANTS` named export.
      * See [Component Constants](/docs/components-constants.html) for more info on how
      * to use those constants in your code.
-     *
-     * > **Note:** You can always override the color scheme of any `GeoFeedbackBox`
-     * > using `cssModifier` prop.
      */
     variant: {
       type: String,

@@ -1,13 +1,12 @@
 @mixin _geo-feedback-box__content--variant (
   $text-color,
-  $tint-color,
-  $modifier-name-with-prefix
+  $tint-color
 ) {
   background: $tint-color;
   color: $text-color;
 
-  .geo-feedback-box__content__icon#{$modifier-name-with-prefix},
-  .geo-feedback-box__content__close-icon#{$modifier-name-with-prefix}:hover {
+  .geo-feedback-box__content__icon,
+  .geo-feedback-box__content__close-icon:hover {
     color: brighten($tint-color, -40);
   }
 
@@ -20,44 +19,59 @@
   }
 }
 
-@mixin geo-feedback-box__content--info($modifier-name-with-prefix) {
+.geo-feedback-box {
+  display: flex;
+  flex-direction: row;
+  flex-shrink: 0;
+  font-family: $font-family-text;
+  font-size: $font-size-regular;
+  justify-content: center;
+  margin-bottom: 20px;
+  min-height: 2.5em;
+}
+
+.geo-feedback-box--floating {
+  bottom: 20px;
+  left: 50%;
+  position: fixed;
+  transform: translateX(-50%);
+  z-index: $z-index-sticky;
+}
+
+.geo-feedback-box__content--info {
   @include _geo-feedback-box__content--variant(
     $color-white,
-    $color-blue-light,
-    $modifier-name-with-prefix
+    $color-blue-light
   );
 }
 
-@mixin geo-feedback-box__content--success($modifier-name-with-prefix) {
+.geo-feedback-box__content--success {
   @include _geo-feedback-box__content--variant(
     $color-white,
-    $color-green,
-    $modifier-name-with-prefix
+    $color-green
   );
 }
 
-@mixin geo-feedback-box__content--error($modifier-name-with-prefix) {
+.geo-feedback-box__content--warning {
   @include _geo-feedback-box__content--variant(
     $color-white,
-    $color-red,
-    $modifier-name-with-prefix
+    $color-yellow
   );
 }
 
-@mixin geo-feedback-box__content--warning($modifier-name-with-prefix) {
+.geo-feedback-box__content--error {
   @include _geo-feedback-box__content--variant(
     $color-white,
-    $color-yellow,
-    $modifier-name-with-prefix
+    $color-red
   );
 }
 
-@mixin geo-feedback-box__content--progress($modifier-name-with-prefix) {
+.geo-feedback-box__content--progress {
   background: $color-blue-dark;
   color: $color-white;
 
-  .geo-feedback-box__content__icon#{$modifier-name-with-prefix},
-  .geo-feedback-box__content__close-icon#{$modifier-name-with-prefix}:hover {
+  .geo-feedback-box__content__icon,
+  .geo-feedback-box__content__close-icon:hover {
     color: $color-link;
   }
 
@@ -70,26 +84,7 @@
   }
 }
 
-@mixin geo-feedback-box {
-  display: flex;
-  flex-direction: row;
-  flex-shrink: 0;
-  font-family: $font-family-text;
-  font-size: $font-size-regular;
-  justify-content: center;
-  margin-bottom: 20px;
-  min-height: 2.5em;
-}
-
-@mixin geo-feedback-box--floating {
-  bottom: 20px;
-  left: 50%;
-  position: fixed;
-  transform: translateX(-50%);
-  z-index: $z-index-sticky;
-}
-
-@mixin geo-feedback-box__content {
+.geo-feedback-box__content {
   align-items: center;
   border-radius: 3px;
   box-shadow: $box-shadow-regular;
@@ -100,15 +95,15 @@
   position: relative;
 }
 
-@mixin geo-feedback-box__content__icon {
+.geo-feedback-box__content__icon {
   margin-right: 15px;
 }
 
-@mixin geo-feedback-box__content__body {
+.geo-feedback-box__content__body {
   margin-right: 10px;
 }
 
-@mixin geo-feedback-box__content__actions {
+.geo-feedback-box__content__actions {
   flex-shrink: 0;
   margin-right: 5px;
   text-transform: uppercase;
@@ -121,69 +116,7 @@
   }
 }
 
-@mixin geo-feedback-box__content__close-icon {
+.geo-feedback-box__content__close-icon {
   cursor: pointer;
   margin: 0 10px 0 5px;
 }
-
-@mixin geo-feedback-box-make($modifier-name) {
-
-  $modifier-name-with-prefix: '';
-
-  @if $modifier-name != '' {
-    // sass-lint:disable space-around-operator
-    $modifier-name-with-prefix: --#{$modifier-name};
-  }
-
-  .geo-feedback-box#{$modifier-name-with-prefix} {
-    @include geo-feedback-box;
-  }
-
-  .geo-feedback-box--floating#{$modifier-name-with-prefix} {
-    @include geo-feedback-box--floating;
-  }
-
-  .geo-feedback-box__content--info#{$modifier-name-with-prefix} {
-    @include geo-feedback-box__content--info($modifier-name-with-prefix);
-  }
-
-  .geo-feedback-box__content--success#{$modifier-name-with-prefix} {
-    @include geo-feedback-box__content--success($modifier-name-with-prefix);
-  }
-
-  .geo-feedback-box__content--warning#{$modifier-name-with-prefix} {
-    @include geo-feedback-box__content--warning($modifier-name-with-prefix);
-  }
-
-  .geo-feedback-box__content--error#{$modifier-name-with-prefix} {
-    @include geo-feedback-box__content--error($modifier-name-with-prefix);
-  }
-
-  .geo-feedback-box__content--progress#{$modifier-name-with-prefix} {
-    @include geo-feedback-box__content--progress($modifier-name-with-prefix);
-  }
-
-  .geo-feedback-box__content#{$modifier-name-with-prefix} {
-    @include geo-feedback-box__content;
-  }
-
-  .geo-feedback-box__content__icon#{$modifier-name-with-prefix} {
-    @include geo-feedback-box__content__icon;
-  }
-
-  .geo-feedback-box__content__body#{$modifier-name-with-prefix} {
-    @include geo-feedback-box__content__body;
-  }
-
-  .geo-feedback-box__content__actions#{$modifier-name-with-prefix} {
-    @include geo-feedback-box__content__actions;
-  }
-
-  .geo-feedback-box__content__close-icon#{$modifier-name-with-prefix} {
-    @include geo-feedback-box__content__close-icon;
-  }
-}
-
-// Build default feedback-box
-
-@include geo-feedback-box-make('');
