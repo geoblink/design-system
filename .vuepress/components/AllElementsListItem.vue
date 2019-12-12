@@ -38,7 +38,7 @@ export default {
   },
   computed: {
     componentPath () {
-      return this.component.__file.replace(/^src\/elements\/(.*)\.vue/i, '$1')
+      return this.component.__file && this.component.__file.replace(/^src\/elements\/(.*)\.vue/i, '$1')
     },
 
     documentationPageURL () {
