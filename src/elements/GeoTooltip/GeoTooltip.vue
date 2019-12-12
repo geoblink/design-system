@@ -466,7 +466,7 @@ export default {
         if (visibleTooltips.length > 1) {
           visibleTooltips.forEach((element) => {
             if (element === this.$el) {
-              element.style.display = 'inline-block'
+              element.style.display = null
             } else {
               element.style.display = 'none'
             }
