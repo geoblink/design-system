@@ -37,12 +37,25 @@ export default {
     }
   },
   computed: {
-    componentPath () {
-      return this.component.__file && this.component.__file.replace(/^src\/elements\/(.*)\.vue/i, '$1')
+    componentNavigationItem () {
+      const nav = this.$site.themeConfig.nav
+
+      const elementsLink = _.find(nav, {
+        text: 'Elements',
+        type: 'links'
+      })
+
+      const items = _.flatMap(_.filter(elementsLink.items, 'items'), 'items')
+
+      const componentItem = _.find(items, {
+        text: this.component.name
+      })
+
+      return componentItem
     },
 
     documentationPageURL () {
-      return `/docs/components/${this.componentPath}.html`
+      return this.componentNavigationItem && this.componentNavigationItem.link
     },
 
     isDeprecated () {
