@@ -1,12 +1,12 @@
 <template>
   <div
-    :class="`geo-dropdown__compact-button-container${cssSuffix}`"
+    class="geo-dropdown__compact-button-container"
     @click="emitClick($event)"
   >
     <font-awesome-icon
       v-if="icon"
       :icon="icon"
-      :class="`geo-dropdown__compact-button-container__icon${cssSuffix}`"
+      class="geo-dropdown__compact-button-container__icon"
       aria-hidden
       fixed-width
     />
@@ -14,13 +14,10 @@
 </template>
 
 <script>
-import cssSuffix from '../../mixins/cssModifierMixin'
-
 export default {
   name: 'GeoDropdownCompactButton',
   status: 'ready',
   release: '4.0.0',
-  mixins: [cssSuffix],
   props: {
     /**
      * Font Awesome 5 icon to be displayed.

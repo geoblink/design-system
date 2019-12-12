@@ -1,22 +1,22 @@
 <template>
   <div
     :class="{
-      [`geo-dropdown__regular-button-container${cssSuffix}`]: true,
-      [`geo-dropdown__regular-button-container--active${cssSuffix}`]: active,
-      [`geo-dropdown__regular-button-container--disabled${cssSuffix}`]: disabled
+      ['geo-dropdown__regular-button-container']: true,
+      ['geo-dropdown__regular-button-container--active']: active,
+      ['geo-dropdown__regular-button-container--disabled']: disabled
     }"
     @click="emitClick($event)"
   >
     <font-awesome-icon
       v-if="icon"
       :icon="icon"
-      :class="`geo-dropdown__regular-button-container__icon${cssSuffix}`"
+      class="geo-dropdown__regular-button-container__icon"
       aria-hidden
       fixed-width
     />
     <div
       v-if="hasContent"
-      :class="`geo-dropdown__regular-button-container__string${cssSuffix}`"
+      class="geo-dropdown__regular-button-container__string"
     >
       <!-- @slot Use this slot to customize button's content -->
       <slot />
@@ -25,13 +25,10 @@
 </template>
 
 <script>
-import cssSuffix from '../../mixins/cssModifierMixin'
-
 export default {
   name: 'GeoDropdownRegularButton',
   status: 'ready',
   release: '4.0.0',
-  mixins: [cssSuffix],
   props: {
     /**
      * Optional Font Awesome 5 icon to be displayed next to the button's label,

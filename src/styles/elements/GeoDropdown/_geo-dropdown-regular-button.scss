@@ -1,67 +1,55 @@
-@mixin geo-dropdown-regular-button-make($modifier-name) {
+.geo-dropdown__regular-button-container {
+  align-items: center;
+  background-color: $color-white;
+  border: 1px solid $color-grey;
+  border-radius: $border-radius-default;
+  color: $color-grey-darker;
+  cursor: pointer;
+  display: flex;
+  font-family: $font-family-text;
+  font-size: $font-size-regular;
+  height: 40px;
+  justify-content: center;
+  line-height: $line-height-base;
+  padding: 0 10px;
 
-  $modifier-name-with-prefix: '';
+  &:hover, &[hover] {
+    border-color: $color-blue;
 
-  @if $modifier-name != '' {
-    // sass-lint:disable space-around-operator
-    $modifier-name-with-prefix: --#{$modifier-name};
-  }
-
-  .geo-dropdown__regular-button-container#{$modifier-name-with-prefix} {
-    align-items: center;
-    background-color: $color-white;
-    border: 1px solid $color-grey;
-    border-radius: $border-radius-default;
-    color: $color-grey-darker;
-    cursor: pointer;
-    display: flex;
-    font-family: $font-family-text;
-    font-size: $font-size-regular;
-    height: 40px;
-    justify-content: center;
-    line-height: $line-height-base;
-    padding: 0 10px;
-
-    &:hover, &[hover] {
-      border-color: $color-blue;
-
-      .geo-dropdown__regular-button-container__icon#{$modifier-name-with-prefix} {
-        color: $color-blue;
-      }
-    }
-
-    strong {
+    .geo-dropdown__regular-button-container__icon {
       color: $color-blue;
-      font-weight: $font-weight-bold;
     }
   }
 
-  .geo-dropdown__regular-button-container__icon#{$modifier-name-with-prefix}:not(:last-child) {
-    margin-right: 5px;
+  strong {
+    color: $color-blue;
+    font-weight: $font-weight-bold;
   }
+}
 
-  .geo-dropdown__regular-button-container--disabled#{$modifier-name-with-prefix} {
-    &, &:hover, &[hover] {
-      background-color: $color-white-dark;
-      border-color: $color-grey;
+.geo-dropdown__regular-button-container__icon:not(:last-child) {
+  margin-right: 5px;
+}
 
-      .geo-dropdown__regular-button-container__icon#{$modifier-name-with-prefix} {
-        color: $color-grey-light;
-      }
-    }
-  }
+.geo-dropdown__regular-button-container--disabled {
+  &, &:hover, &[hover] {
+    background-color: $color-white-dark;
+    border-color: $color-grey;
 
-  .geo-dropdown__regular-button-container--active#{$modifier-name-with-prefix} {
-    &, &:hover, &[hover] {
-      background-color: $color-blue;
-      border-color: $color-blue;
-      color: $color-white;
-
-      strong, .geo-dropdown__regular-button-container__icon#{$modifier-name-with-prefix} {
-        color: $color-yellow-light;
-      }
+    .geo-dropdown__regular-button-container__icon {
+      color: $color-grey-light;
     }
   }
 }
 
-@include geo-dropdown-regular-button-make('');
+.geo-dropdown__regular-button-container--active {
+  &, &:hover, &[hover] {
+    background-color: $color-blue;
+    border-color: $color-blue;
+    color: $color-white;
+
+    strong, .geo-dropdown__regular-button-container__icon {
+      color: $color-yellow-light;
+    }
+  }
+}
