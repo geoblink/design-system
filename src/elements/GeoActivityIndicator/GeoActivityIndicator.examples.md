@@ -234,12 +234,12 @@ export default {
       return this.customSize + 'px'
     },
 
-    cssModifierForVariant () {
-      return this.variant ? '--' + this.variant : ''
-    },
-
     demoBoxVariantClass () {
-      return 'geo-activity-indicator-demo-box' + this.cssModifierForVariant
+      const suffix = this.variant
+        ? `--${this.variant}`
+        : ''
+
+      return `geo-activity-indicator-demo-box${suffix}`
     }
   }
 }

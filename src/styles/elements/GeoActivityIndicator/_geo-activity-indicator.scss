@@ -24,7 +24,6 @@
 
 @mixin geo-activity-indicator-make-variant (
   $variant-name,
-  $modifier-name-with-prefix,
   $base-color-or-completed-percentage-background: null,
   $nothing-or-background: null
 ) {
@@ -41,88 +40,65 @@
     $background: rgba($completed-percentage-background, 0.3);
   }
 
-  .geo-activity-indicator__total--#{$variant-name}#{$modifier-name-with-prefix} {
+  .geo-activity-indicator__total--#{$variant-name} {
     fill: $background;
   }
 
-  .geo-activity-indicator__completed-path--#{$variant-name}#{$modifier-name-with-prefix} {
+  .geo-activity-indicator__completed-path--#{$variant-name} {
     fill: $completed-percentage-background;
   }
 }
 
-@mixin geo-activity-indicator-make-available-variants ($modifier-name-with-prefix) {
-  @include geo-activity-indicator-make-variant(
-    'default',
-    $modifier-name-with-prefix
-  );
-
-  @include geo-activity-indicator-make-variant(
-    'primary',
-    $modifier-name-with-prefix,
-    $color-link
-  );
-
-  @include geo-activity-indicator-make-variant(
-    'info',
-    $modifier-name-with-prefix,
-    $color-blue
-  );
-
-  @include geo-activity-indicator-make-variant(
-    'success',
-    $modifier-name-with-prefix,
-    $color-green-darker
-  );
-
-  @include geo-activity-indicator-make-variant(
-    'error',
-    $modifier-name-with-prefix,
-    $color-red-darker
-  );
-
-  @include geo-activity-indicator-make-variant(
-    'warn',
-    $modifier-name-with-prefix,
-    $color-yellow-light
-  );
-
-  @include geo-activity-indicator-make-variant(
-    'progress',
-    $modifier-name-with-prefix,
-    $color-link
-  );
-
-  @include geo-activity-indicator-make-variant(
-    'dark-transparent',
-    $modifier-name-with-prefix,
-    $color-white
-  );
+.geo-activity-indicator {
+  @include geo-activity-indicator;
 }
 
-@mixin geo-activity-indicator-make ($modifier-name) {
-  $modifier-name-with-prefix: '';
-
-  @if $modifier-name != '' {
-    // sass-lint:disable space-around-operator
-    $modifier-name-with-prefix: --#{$modifier-name};
-  }
-
-  .geo-activity-indicator#{$modifier-name-with-prefix} {
-    @include geo-activity-indicator;
-  }
-
-  .geo-activity-indicator--animated#{$modifier-name-with-prefix} {
-    @include geo-activity-indicator--animated;
-  }
-
-  .geo-activity-indicator__inset#{$modifier-name-with-prefix} {
-    left: 50%;
-    position: absolute;
-    top: 50%;
-    transform: translate(-50%, -50%);
-  }
-
-  @include geo-activity-indicator-make-available-variants($modifier-name-with-prefix);
+.geo-activity-indicator--animated {
+  @include geo-activity-indicator--animated;
 }
 
-@include geo-activity-indicator-make ('');
+.geo-activity-indicator__inset {
+  left: 50%;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+@include geo-activity-indicator-make-variant(
+  'default'
+);
+
+@include geo-activity-indicator-make-variant(
+  'primary',
+  $color-link
+);
+
+@include geo-activity-indicator-make-variant(
+  'info',
+  $color-blue
+);
+
+@include geo-activity-indicator-make-variant(
+  'success',
+  $color-green-darker
+);
+
+@include geo-activity-indicator-make-variant(
+  'error',
+  $color-red-darker
+);
+
+@include geo-activity-indicator-make-variant(
+  'warn',
+  $color-yellow-light
+);
+
+@include geo-activity-indicator-make-variant(
+  'progress',
+  $color-link
+);
+
+@include geo-activity-indicator-make-variant(
+  'dark-transparent',
+  $color-white
+);
