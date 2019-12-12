@@ -1,6 +1,4 @@
----
-title: Chart Scales
----
+## Chart Scales
 
 Scales provide a way to map values from a domain (using units from a specific
 context) into a range (using the units of our drawing canvas - an SVG). They
@@ -11,7 +9,7 @@ All the axis must have a `type` property which must be a value of
 `SCALE.SCALE_TYPES` named export. Depending on the `type` they have additional
 requirements.
 
-## Linear scales
+### Linear scales
 
 - `type`: must be `SCALE.SCALE_TYPES.linear`.
 - `domain`: must be either an array of numbers (the domain will be formed by all
@@ -25,7 +23,7 @@ to the difference between the item value and this `valueForOrigin`. If you want
 to represent temperatures in Celsius degrees this `valueForOrigin` would
 probably by `0` but if you want to use Fahrenheit degrees it would be `32`.
 
-### Example
+#### Example
 
 ```json
 {
@@ -38,7 +36,7 @@ probably by `0` but if you want to use Fahrenheit degrees it would be `32`.
 }
 ```
 
-## Logarithmic scales
+### Logarithmic scales
 
 Almost identical to `linear` scales, but:
 
@@ -46,7 +44,7 @@ Almost identical to `linear` scales, but:
 - `domain`: it's lowest end must be `> 0`.
 - `base`: (_optional_) the base of the logarithm, defaults to `10`.
 
-### Example
+#### Example
 
 ```json
 {
@@ -60,7 +58,7 @@ Almost identical to `linear` scales, but:
 }
 ```
 
-## Categorical scales
+### Categorical scales
 
 Similar to `linear` scales, but:
 
@@ -68,7 +66,7 @@ Similar to `linear` scales, but:
 - `domain`: must be an array of values which can be either strings or numbers.
 - `valueForOrigin`: must be one of the values of `domain` array.
 
-### Optional properties
+#### Optional properties
 
 - `padding`: object allowing defining the separation between categories. All its
 properties are optional:
@@ -76,7 +74,7 @@ properties are optional:
   - `outer`: space before the first category and after the last one, in the
   range `[0, 1]`.
 
-### Example
+#### Example
 
 ```json
 {
@@ -90,7 +88,7 @@ properties are optional:
 }
 ```
 
-## Time scales
+### Time scales
 
 Similar to `linear` scales, but:
 

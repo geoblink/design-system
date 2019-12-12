@@ -1,3 +1,5 @@
+## Axis guidelines
+
 Axes guidelines are lines that you might want to show in each tick of an axis to
 ease the viewing of a chart. Multiple guidelines can be shown associated to
 different axes, or even to an axis that is not being displayed in the chart.
@@ -6,7 +8,7 @@ To register axes guidelines in [`GeoChart`](./#/Elements/Charts?id=introduction)
 add an array as value of `guidelinesGroups` key in the config object. Each item
 of the array must be an object with the following...
 
-## Required properties
+### Required properties
 
 Each **axis guideline** **requires** only one of these properties:
 
@@ -15,7 +17,7 @@ Each **axis guideline** **requires** only one of these properties:
 create guidelines based on a new configuration instead of an existing axis on
 the chart.
 
-## Customizing CSS classes
+### Customizing CSS classes
 
 CSS classes added to the axis guidelines can be customized using `cssClasses` key.
 Its value should be a function which takes as parameter the classes that would be
@@ -26,7 +28,7 @@ that axis guidelines.
 > required internally and will be added regardless what you return in the
 > function.
 
-## Customizing guidelines
+### Customizing guidelines
 
 Guidelines can be customized in several ways. To do so, add a key `guidelines`
 to the axis guidelines config object. The value for that key must be an object
@@ -56,7 +58,7 @@ of the domain.
 </template>
 
 <script>
-const CONSTANTS = require('../constants')
+const CONSTANTS = require('@/elements/GeoChart/constants')
 
 export default {
   name: 'GeoChartAxisDemo',
@@ -233,7 +235,7 @@ export default {
 </template>
 
 <script>
-const CONSTANTS = require('../constants')
+const CONSTANTS = require('@/elements/GeoChart/constants')
 
 export default {
   name: 'GeoChartAxisDemo',
@@ -391,7 +393,7 @@ export default {
 </template>
 
 <script>
-const CONSTANTS = require('../constants')
+const CONSTANTS = require('@/elements/GeoChart/constants')
 
 export default {
   name: 'GeoChartAxisDemo',

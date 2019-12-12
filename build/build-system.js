@@ -19,8 +19,10 @@ spinner.start()
 rm(path.join(config.system.assetsRoot, config.system.assetsSubDirectory), err => {
   if (err) throw err
   webpack(webpackConfig, (err, stats) => {
-    spinner.stop()
+    spinner.succeed()
+
     if (err) throw err
+
     process.stdout.write(
       stats.toString({
         colors: true,
@@ -38,9 +40,7 @@ rm(path.join(config.system.assetsRoot, config.system.assetsSubDirectory), err =>
     }
 
     writeStatsReport(stats)
-      .then(function () {
-        return cleanupSCSSAutomaticStyles()
-      })
+      .then(() => cleanupSCSSAutomaticStyles())
       .then(function () {
         // eslint-disable-next-line no-console
         console.log(chalk.cyan('  Design System Library build complete.\n'))
@@ -68,7 +68,7 @@ async function writeStatsReport (stats) {
   const jsonStats = stats.toJson()
   await fs.writeFile(path.resolve(__dirname, '../webpack.stats.json'), JSON.stringify(jsonStats))
 
-  spinner.stop()
+  spinner.succeed()
 }
 
 async function cleanupSCSSAutomaticStyles () {
@@ -85,5 +85,5 @@ async function cleanupSCSSAutomaticStyles () {
 
   await fs.writeFile(pathToSCSSStyles, contentWithoutDefaultModifierAutomaticInitialization)
 
-  spinner.stop()
+  spinner.succeed()
 }

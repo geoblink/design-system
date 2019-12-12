@@ -146,7 +146,7 @@ duration of the animations.
 </template>
 
 <script>
-const CONSTANTS = require('./constants')
+const CONSTANTS = require('@/elements/GeoChart/constants')
 
 export default {
   name: 'GeoChartDemo',

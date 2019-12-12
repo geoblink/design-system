@@ -1,3 +1,5 @@
+## Line chart (vertical)
+
 ```vue live
 <template>
   <div class="element-demo">
@@ -25,8 +27,8 @@
 </template>
 
 <script>
-const CONSTANTS = require('../constants')
-const { INTERPOLATION_TYPES } = require('./GeoChartLine')
+const CONSTANTS = require('@/elements/GeoChart/constants')
+const { INTERPOLATION_TYPES } = require('@/elements/GeoChart/GeoChartLine/GeoChartLine')
 
 export default {
   name: 'GeoChartLineDemo',
@@ -142,8 +144,8 @@ export default {
 </template>
 
 <script>
-const CONSTANTS = require('../constants')
-const { INTERPOLATION_TYPES } = require('./GeoChartLine')
+const CONSTANTS = require('@/elements/GeoChart/constants')
+const { INTERPOLATION_TYPES } = require('@/elements/GeoChart/GeoChartLine/GeoChartLine')
 
 export default {
   name: 'GeoChartLineDemo',
@@ -259,8 +261,8 @@ export default {
 </template>
 
 <script>
-const CONSTANTS = require('../constants')
-const { INTERPOLATION_TYPES } = require('./GeoChartLine')
+const CONSTANTS = require('@/elements/GeoChart/constants')
+const { INTERPOLATION_TYPES } = require('@/elements/GeoChart/GeoChartLine/GeoChartLine')
 
 export default {
   name: 'GeoChartLineDemo',

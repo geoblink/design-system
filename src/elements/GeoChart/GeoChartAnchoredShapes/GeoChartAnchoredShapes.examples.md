@@ -1,6 +1,4 @@
----
-title: Anchored shapes
----
+## Anchored shapes
 
 Anchored shapes charts are collections of shapes that are tied to a certain axis.
 This chart can be used in combination with [GeoChartLineSegments](./#/Elements/Charts?id=geochartlinesegments)
@@ -11,7 +9,7 @@ To add anchored shapes **groups** to a chart, add an array to `anchoredShapesGro
 key of [GeoChart](./#/Elements/Charts?id=introduction)'s config. Each item of the
 array must be an object with the following:
 
-## Required properties
+### Required properties
 
 - `data`: Array of objects, each one representing a single shape that will be
 distributed across the axis.
@@ -37,7 +35,7 @@ of this function should be valid as input for `svg` polygon data.
 **Note:** `idHorizontalAxis` and `idVerticalAxis` must be IDs of registered axes.
 See [Axes](./#/Elements/Charts?id=axes) for more info.
 
-## Optional properties
+### Optional properties
 
 - **Offset** defines the translation in the **normal dimension** that must be
 applied to the shapes in order to not overlap with the axis they're been positioned.
@@ -80,8 +78,8 @@ Doing so will throw an invalid config error.
 </template>
 
 <script>
-const CONSTANTS = require('../constants')
-const { getTriangleShapePath } = require('./GeoChartAnchoredShapes')
+const CONSTANTS = require('@/elements/GeoChart/constants')
+const { getTriangleShapePath } = require('@/elements/GeoChart/GeoChartAnchoredShapes/GeoChartAnchoredShapes')
 
 export default {
   name: 'GeoChartAnchoredShapesDemo',
@@ -245,8 +243,8 @@ export default {
 </template>
 
 <script>
-const CONSTANTS = require('../constants')
-const { getTriangleShapePath } = require('./GeoChartAnchoredShapes')
+const CONSTANTS = require('@/elements/GeoChart/constants')
+const { getTriangleShapePath } = require('@/elements/GeoChart/GeoChartAnchoredShapes/GeoChartAnchoredShapes')
 
 export default {
   name: 'GeoChartAnchoredShapesDemo',
