@@ -1,4 +1,4 @@
-@mixin time-unit-button-reset() {
+@mixin time-unit-button-reset {
   background: none;
   border: inherit;
   cursor: pointer;
@@ -16,232 +16,223 @@
   }
 }
 
-@mixin geo-calendar-grid-make($modifier-name) {
-  $modifier-name-with-prefix: '';
-
+.geo-calendar-grid {
   $day-unit-size: 25px;
   $border-radius-selected-date-unit: 50vh;
 
-  @if $modifier-name != '' {
-    // sass-lint:disable space-around-operator
-    $modifier-name-with-prefix: --#{$modifier-name};
+  // COMMON ELEMENTS
+  .geo-calendar-grid__date-picker-unit {
+    @include font($body-small);
+    @include time-unit-button-reset;
+
+    &:hover .geo-calendar-grid__date-picker-unit__placeholder {
+      background: $color-blue-readable-background;
+      border: 1px solid $color-blue;
+      color: $color-grey-darker;
+    }
   }
 
-  .geo-calendar-grid#{$modifier-name-with-prefix} {
-    // COMMON ELEMENTS
-    .geo-calendar-grid__date-picker-unit {
-      @include font($body-small);
-      @include time-unit-button-reset;
+  .geo-calendar-grid__date-picker-unit--within-range {
+    background: $color-blue-readable-background;
+  }
 
-      &:hover .geo-calendar-grid__date-picker-unit__placeholder {
-        background: $color-blue-readable-background;
-        border: 1px solid $color-blue;
-        color: $color-grey-darker;
-      }
+  .geo-calendar-grid__date-picker-unit--unavailable:hover .geo-calendar-grid__date-picker-unit__placeholder {
+    background: transparent;
+    border: none;
+    color: inherit;
+  }
+
+  .geo-calendar-grid__date-picker-unit--selected:hover .geo-calendar-grid__date-picker-unit__placeholder {
+    background: $color-blue;
+    border: none;
+    color: $color-white;
+  }
+
+  .geo-calendar-grid__date-picker-unit--selected .geo-calendar-grid__date-picker-unit__placeholder {
+    background: $color-blue;
+    border-radius: $border-radius-selected-date-unit;
+    color: $color-white;
+  }
+
+  .geo-calendar-grid__date-picker-unit--unavailable {
+    @include time-unit-unavailable;
+    color: $color-grey;
+    text-decoration: line-through;
+  }
+
+  .geo-calendar-grid__date-picker-unit--from-date {
+    border-top-left-radius: $border-radius-selected-date-unit;
+    border-bottom-left-radius: $border-radius-selected-date-unit;
+  }
+
+  .geo-calendar-grid__date-picker-unit--to-date {
+    border-top-right-radius: $border-radius-selected-date-unit;
+    border-bottom-right-radius: $border-radius-selected-date-unit;
+  }
+
+  .geo-calendar-grid__month-unit,
+  .geo-calendar-grid__year-unit {
+    .geo-calendar-grid__date-picker-unit__placeholder {
+      border: 1px solid transparent;
+      margin: 0;
+      padding: 3px 0;
     }
 
-    .geo-calendar-grid__date-picker-unit--within-range {
-      background: $color-blue-readable-background;
-    }
-
-    .geo-calendar-grid__date-picker-unit--unavailable:hover .geo-calendar-grid__date-picker-unit__placeholder {
-      background: transparent;
-      border: none;
-      color: inherit;
-    }
-
-    .geo-calendar-grid__date-picker-unit--selected:hover .geo-calendar-grid__date-picker-unit__placeholder {
-      background: $color-blue;
-      border: none;
-      color: $color-white;
-    }
-
-    .geo-calendar-grid__date-picker-unit--selected .geo-calendar-grid__date-picker-unit__placeholder {
-      background: $color-blue;
+    &:hover .geo-calendar-grid__date-picker-unit__placeholder {
       border-radius: $border-radius-selected-date-unit;
-      color: $color-white;
     }
+  }
 
-    .geo-calendar-grid__date-picker-unit--unavailable {
-      @include time-unit-unavailable;
-      color: $color-grey;
-      text-decoration: line-through;
-    }
+  // DAYS GRID VIEW
+  .geo-calendar-grid__weekdays-row-container {
+    @include font($label-optional);
 
-    .geo-calendar-grid__date-picker-unit--from-date {
-      border-top-left-radius: $border-radius-selected-date-unit;
-      border-bottom-left-radius: $border-radius-selected-date-unit;
-    }
+    border-bottom: 1px solid $color-white-darker;
+    display: flex;
+    justify-content: space-around;
+    padding-bottom: $space-x-small;
+  }
 
-    .geo-calendar-grid__date-picker-unit--to-date {
-      border-top-right-radius: $border-radius-selected-date-unit;
-      border-bottom-right-radius: $border-radius-selected-date-unit;
-    }
+  .geo-calendar-weekdays-row__weekday-name {
+    text-transform: capitalize;
+  }
 
-    .geo-calendar-grid__month-unit,
-    .geo-calendar-grid__year-unit {
-      .geo-calendar-grid__date-picker-unit__placeholder {
-        border: 1px solid transparent;
-        margin: 0;
-        padding: 3px 0;
-      }
+  .geo-calendar-grid__day-container {
+    display: grid;
+    display: -ms-grid;
+    margin-top: $space-small;
+    grid-row-gap: $space-small;
+    -ms-grid-row-gap: $space-small;
+  }
 
-      &:hover .geo-calendar-grid__date-picker-unit__placeholder {
-        border-radius: $border-radius-selected-date-unit;
-      }
-    }
+  .geo-calendar-grid__week-unit {
+    align-items: center;
+    display: grid;
+    display: -ms-grid;
+    grid-template-columns: repeat(7, 1fr);
+    -ms-grid-template-columns: repeat(7, 1fr);
+    grid-template-rows: calc(#{$day-unit-size} + 2px);
+    -ms-grid-template-rows: calc(#{$day-unit-size} + 2px);
+    text-align: center;
+  }
 
-    // DAYS GRID VIEW
-    .geo-calendar-grid__weekdays-row-container {
-      @include font($label-optional);
+  .geo-calendar-grid__week-unit--unavailable {
+    @include time-unit-unavailable;
+    color: $color-grey;
+  }
 
-      border-bottom: 1px solid $color-white-darker;
-      display: flex;
-      justify-content: space-around;
-      padding-bottom: $space-x-small;
-    }
+  .geo-calendar-grid__week-unit--is-week-granularity:hover {
+    background: $color-blue-readable-background;
+    border-radius: $border-radius-selected-date-unit;
+    color: $color-grey-darker;
+  }
 
-    .geo-calendar-weekdays-row__weekday-name {
-      text-transform: capitalize;
-    }
-
-    .geo-calendar-grid__day-container {
-      display: grid;
-      display: -ms-grid;
-      margin-top: $space-small;
-      grid-row-gap: $space-small;
-      -ms-grid-row-gap: $space-small;
-    }
-
-    .geo-calendar-grid__week-unit {
-      align-items: center;
-      display: grid;
-      display: -ms-grid;
-      grid-template-columns: repeat(7, 1fr);
-      -ms-grid-template-columns: repeat(7, 1fr);
-      grid-template-rows: calc(#{$day-unit-size} + 2px);
-      -ms-grid-template-rows: calc(#{$day-unit-size} + 2px);
-      text-align: center;
-    }
-
-    .geo-calendar-grid__week-unit--unavailable {
-      @include time-unit-unavailable;
-      color: $color-grey;
-    }
-
-    .geo-calendar-grid__week-unit--is-week-granularity:hover {
-      background: $color-blue-readable-background;
-      border-radius: $border-radius-selected-date-unit;
-      color: $color-grey-darker;
-    }
-
-    .geo-calendar-grid__date-picker-unit--today {
-      .geo-calendar-grid__date-picker-unit__placeholder {
-        &::after {
-          $today-mark-height: 2px;
-          background: $color-yellow;
-          bottom: $today-mark-height * 2;
-          content: '';
-          height: $today-mark-height;
-          left: 0;
-          margin: 0 auto;
-          position: absolute;
-          right: 0;
-          width: 15px;
-        }
+  .geo-calendar-grid__date-picker-unit--today {
+    .geo-calendar-grid__date-picker-unit__placeholder {
+      &::after {
+        $today-mark-height: 2px;
+        background: $color-yellow;
+        bottom: $today-mark-height * 2;
+        content: '';
+        height: $today-mark-height;
+        left: 0;
+        margin: 0 auto;
+        position: absolute;
+        right: 0;
+        width: 15px;
       }
     }
+  }
 
-    .geo-calendar-grid__day-unit {
-      line-height: $day-unit-size;
+  .geo-calendar-grid__day-unit {
+    line-height: $day-unit-size;
+    position: relative;
+
+    .geo-calendar-grid__date-picker-unit__placeholder {
+      box-sizing: border-box;
       position: relative;
+    }
 
+    &:hover {
       .geo-calendar-grid__date-picker-unit__placeholder {
-        box-sizing: border-box;
-        position: relative;
-      }
-
-      &:hover {
-        .geo-calendar-grid__date-picker-unit__placeholder {
-          border-radius: 50%;
-          box-sizing: content-box;
-          margin: 0 auto;
-          width: $day-unit-size;
-        }
+        border-radius: 50%;
+        box-sizing: content-box;
+        margin: 0 auto;
+        width: $day-unit-size;
       }
     }
+  }
 
-    .geo-calendar-grid__day-unit.geo-calendar-grid__date-picker-unit--out-of-boundaries {
-      color: $color-grey-light;
+  .geo-calendar-grid__day-unit.geo-calendar-grid__date-picker-unit--out-of-boundaries {
+    color: $color-grey-light;
+  }
+
+  .geo-calendar-grid__day-unit.geo-calendar-grid__date-picker-unit--unavailable {
+    color: $color-grey;
+  }
+
+  .geo-calendar-grid__day-unit.geo-calendar-grid__date-picker-unit--from-date {
+    padding-left: 0;
+
+    .geo-calendar-grid__date-picker-unit__placeholder {
+      margin-left: 0;
     }
+  }
 
-    .geo-calendar-grid__day-unit.geo-calendar-grid__date-picker-unit--unavailable {
-      color: $color-grey;
-    }
+  .geo-calendar-grid__day-unit.geo-calendar-grid__date-picker-unit--from-date {
+    margin-left: $space-small;
+  }
 
-    .geo-calendar-grid__day-unit.geo-calendar-grid__date-picker-unit--from-date {
-      padding-left: 0;
+  .geo-calendar-grid__day-unit.geo-calendar-grid__date-picker-unit--to-date {
+    margin-left: 0;
+    margin-right: $space-small;
+    padding-right: 0;
 
-      .geo-calendar-grid__date-picker-unit__placeholder {
-        margin-left: 0;
-      }
-    }
-
-    .geo-calendar-grid__day-unit.geo-calendar-grid__date-picker-unit--from-date {
+    .geo-calendar-grid__date-picker-unit__placeholder {
       margin-left: $space-small;
     }
+  }
 
-    .geo-calendar-grid__day-unit.geo-calendar-grid__date-picker-unit--to-date {
-      margin-left: 0;
-      margin-right: $space-small;
-      padding-right: 0;
+  .geo-calendar-grid__day-unit.geo-calendar-grid__date-picker-unit--selected .geo-calendar-grid__date-picker-unit__placeholder {
+    box-sizing: content-box;
+    height: $day-unit-size;
+    width: $day-unit-size;
+  }
 
-      .geo-calendar-grid__date-picker-unit__placeholder {
-        margin-left: $space-small;
-      }
-    }
+  // MONTHS GRID VIEW
+  .geo-calendar-grid__month-container {
+    display: grid;
+    display: -ms-grid;
+    grid-row-gap: calc(#{$space-base - $space-x-small});
+    -ms-grid-row-gap: $space-small;
+  }
 
-    .geo-calendar-grid__day-unit.geo-calendar-grid__date-picker-unit--selected .geo-calendar-grid__date-picker-unit__placeholder {
-      box-sizing: content-box;
-      height: $day-unit-size;
-      width: $day-unit-size;
-    }
+  .geo-calendar-grid__quarter-unit {
+    display: grid;
+    display: -ms-grid;
+    grid-template-columns: repeat(3, 1fr);
+    -ms-grid-template-columns: repeat(7, 1fr);
+  }
 
-    // MONTHS GRID VIEW
-    .geo-calendar-grid__month-container {
-      display: grid;
-      display: -ms-grid;
-      grid-row-gap: calc(#{$space-base - $space-x-small});
-      -ms-grid-row-gap: $space-small;
-    }
+  .geo-calendar-grid__quarter-unit--highlighted,
+  .geo-calendar-grid__quarter-unit--actionable:hover {
+    background: $color-blue-readable-background;
+    border-radius: $border-radius-selected-date-unit;
+    color: $color-grey-darker;
+  }
 
-    .geo-calendar-grid__quarter-unit {
-      display: grid;
-      display: -ms-grid;
-      grid-template-columns: repeat(3, 1fr);
-      -ms-grid-template-columns: repeat(7, 1fr);
-    }
+  .geo-calendar-grid__quarter-unit--unavailable {
+    @include time-unit-unavailable;
+    color: $color-grey;
+  }
 
-    .geo-calendar-grid__quarter-unit--highlighted,
-    .geo-calendar-grid__quarter-unit--actionable:hover {
-      background: $color-blue-readable-background;
-      border-radius: $border-radius-selected-date-unit;
-      color: $color-grey-darker;
-    }
-
-    .geo-calendar-grid__quarter-unit--unavailable {
-      @include time-unit-unavailable;
-      color: $color-grey;
-    }
-
-    // YEARS GRID VIEW
-    .geo-calendar-grid__year-container {
-      display: grid;
-      display: -ms-grid;
-      grid-template-columns: repeat(4, 1fr);
-      -ms-grid-template-columns: repeat(7, 1fr);
-      grid-row-gap: $space-base;
-      -ms-grid-row-gap: $space-small;
-    }
+  // YEARS GRID VIEW
+  .geo-calendar-grid__year-container {
+    display: grid;
+    display: -ms-grid;
+    grid-template-columns: repeat(4, 1fr);
+    -ms-grid-template-columns: repeat(7, 1fr);
+    grid-row-gap: $space-base;
+    -ms-grid-row-gap: $space-small;
   }
 }

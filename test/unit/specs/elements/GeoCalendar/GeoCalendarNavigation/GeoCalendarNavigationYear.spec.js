@@ -18,12 +18,12 @@ describe('GeoCalendarNavigationYear', () => {
   describe('Year range selection', () => {
     it('Should toggle the dropdown when clicked', () => {
       const wrapper = getWrappedComponent()
-      wrapper.find('[data-ut="year-range-select"] .geo-button--calendar-navigation-toggle-button').trigger('click')
+      wrapper.find('[data-ut="year-range-select"] .geo-button').trigger('click')
       expect(wrapper.vm.isYearRangeSelectionOpened).toBe(true)
-      wrapper.find('[data-ut="year-range-select"] .geo-button--calendar-navigation-toggle-button').trigger('click')
+      wrapper.find('[data-ut="year-range-select"] .geo-button').trigger('click')
       expect(wrapper.vm.isYearRangeSelectionOpened).toBe(false)
       wrapper.setProps({ isDisabled: true })
-      wrapper.find('[data-ut="year-range-select"] .geo-button--calendar-navigation-toggle-button').trigger('click')
+      wrapper.find('[data-ut="year-range-select"] .geo-button').trigger('click')
       expect(wrapper.vm.isYearRangeSelectionOpened).toBe(false)
     })
 
