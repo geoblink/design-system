@@ -55,7 +55,7 @@ export default {
     },
 
     documentationPageURL () {
-      return this.componentNavigationItem && this.componentNavigationItem.link
+      return this.componentNavigationItem && this.componentNavigationItem.link.replace('/docs/', './')
     },
 
     isDeprecated () {
