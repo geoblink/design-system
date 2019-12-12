@@ -12,7 +12,6 @@
         <all-elements-list-item
           v-for="element in orderedElements"
           :key="element.name"
-          :component-path="element.path"
           :component="element"
         />
       </tbody>
