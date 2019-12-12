@@ -62,7 +62,7 @@
     >
       <td colspan="4">
         <geo-markdown-content
-          :markdown="description"
+          :markdown="markdownDescription"
           :features="markdownDescriptionFeatures"
         />
       </td>
@@ -71,7 +71,7 @@
 </template>
 
 <script>
-import { AllMarkdownParserFeatures } from '../../src/elements/GeoMarkdownContent/GeoMarkdownParser'
+import { AllMarkdownParserFeatures } from '@/elements/GeoMarkdownContent/GeoMarkdownParser'
 
 export default {
   name: 'ComponentDocumentationPropertiesRow',
@@ -117,6 +117,10 @@ export default {
     }
   },
   computed: {
+    markdownDescription () {
+      return unescapeJSONString(this.description)
+    },
+
     markdownDescriptionFeatures () {
       return AllMarkdownParserFeatures
     }
@@ -130,5 +134,13 @@ export default {
       this.isDescriptionVisible = false
     }
   }
+}
+
+function unescapeJSONString (s) {
+  return s
+    .replace(/&#39;/gi, `'`)
+    .replace(/&#96;/gi, '`')
+    .replace(/&#62;/gi, '>')
+    .replace(/\\n/gi, '\\\\n')
 }
 </script>

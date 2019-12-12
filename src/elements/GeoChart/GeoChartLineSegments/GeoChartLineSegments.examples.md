@@ -1,6 +1,4 @@
----
-title: Line segments chart
----
+## Line segments chart
 
 Line segments charts are collections of grouped segments intersected by circles across an axis.
 This chart can be used in combination with [GeoChartAnchoredShapes](./#/Elements/Charts?id=geochartanchoredshapes)
@@ -11,7 +9,7 @@ To add line segments **groups** to a chart, add an array to `lineSegmentsGroups`
 key of [GeoChart](./#/Elements/Charts?id=introduction)'s config. Each item of the
 array must be an object with the following:
 
-## Required properties
+### Required properties
 
 - `data`: Collection of dots (stops) that will be distributed across the axis,
 filling the rest with line segments (array).
@@ -30,7 +28,7 @@ The value must be contained within the linear axis domain.
 **Note:** `idHorizontalAxis` and `idVerticalAxis` must be IDs of registered axes.
 See [Axes](./#/Elements/Charts?id=axes) for more info.
 
-## Optional properties
+### Optional properties
 
 - **trackByKey** Define this function to let D3 know which property of your data
 will be used to track changes in it.
@@ -111,7 +109,7 @@ Doing so will throw an invalid config error.
 </template>
 
 <script>
-const CONSTANTS = require('../constants')
+const CONSTANTS = require('@/elements/GeoChart/constants')
 
 export default {
   name: 'GeoChartLineSegmentsDemo',
@@ -234,7 +232,7 @@ export default {
 </template>
 
 <script>
-const CONSTANTS = require('../constants')
+const CONSTANTS = require('@/elements/GeoChart/constants')
 
 export default {
   name: 'GeoChartLineSegmentsDemo',

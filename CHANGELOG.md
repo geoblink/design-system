@@ -1,7 +1,3 @@
----
-title: Changelog
----
-
 # Changelog
 
 ## 28.2.0

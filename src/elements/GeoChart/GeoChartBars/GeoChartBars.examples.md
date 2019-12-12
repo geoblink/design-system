@@ -1,3 +1,5 @@
+## Bar chart
+
 Bar charts are collection of single items which are displayed as rectangles in a
 2-dimensional grid. An arbitrary amount of different collections of items can be
 displayed using bar chars, each of those collections are called **groups**.
@@ -6,7 +8,7 @@ To add bar **groups** to a chart, add an array to `barGroups` key of
 [GeoChart](./#/Elements/Charts?id=introduction)'s config. Each item of the array
 must be an object with the following...
 
-## Required properties
+### Required properties
 
 Each **group** **requires** these properties:
 
@@ -22,7 +24,7 @@ be used to compute proper origin and span of the bar the vertical.
 **Note:** `idHorizontalAxis` and `idVerticalAxis` must be IDs of registered axes.
 See [Axes](./#/Elements/Charts?id=axes) for more info.
 
-## Optional properties
+### Optional properties
 
 Optionally you can configure each **group** with an **offset** and a **width**.
 These are useful when you want to display multiple collections which have
@@ -76,7 +78,7 @@ There are 2 exclusive properties available to customize the **offset**:
 > **Note:** You can't set both `width` and `naturalWidth` or `normalOffset` and
 `naturalNormalOffset`. Doing so will throw an invalid config error.
 
-### Tooltips
+#### Tooltips
 
 Each bar can customize the tooltip displayed when it's hovered by setting the
 key `tooltip`. This key must store an object with the following shape:
@@ -89,7 +91,7 @@ tooltip and is expected to return an object with an `x` and a `y` property, both
 storing numbers that will be used as offset of the tooltip with respect to event
 coordinates. By default tooltip will be positioned above cursor.
 
-### Customizing CSS classes
+#### Customizing CSS classes
 
 Each bar can customize its CSS classes by setting a function for key `cssClasses`.
 This function takes as parameters the array of classes that would be set by
@@ -117,7 +119,7 @@ inside the data array.
 </template>
 
 <script>
-const CONSTANTS = require('../constants')
+const CONSTANTS = require('@/elements/GeoChart/constants')
 
 export default {
   name: 'GeoChartBarsDemo',
@@ -248,7 +250,7 @@ export default {
 </template>
 
 <script>
-const CONSTANTS = require('../constants')
+const CONSTANTS = require('@/elements/GeoChart/constants')
 
 export default {
   name: 'GeoChartBarsDemo',
@@ -437,7 +439,7 @@ export default {
 </template>
 
 <script>
-const CONSTANTS = require('../constants')
+const CONSTANTS = require('@/elements/GeoChart/constants')
 
 export default {
   name: 'GeoChartBars',

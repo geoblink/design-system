@@ -13,7 +13,7 @@
     >
       <!--
         @slot Use this slot to store the marquee content.
-        Include `slot-scope="{}"` to prevent Vue from wrongly thinking this
+        Include `slot-scope='{}'` to prevent Vue from wrongly thinking this
         content should not be repeated.
       -->
       <slot />

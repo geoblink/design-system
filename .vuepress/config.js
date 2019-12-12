@@ -1,27 +1,10 @@
 const path = require('path')
 const glob = require('glob')
-const vueDocs = require('vue-docgen-api')
 const _ = require('@geoblink/lodash-mixins').default(require('lodash'))
 
 const componentsPath = path.resolve(__dirname, '../src/elements')
 
 const base = process.env.VUEPRESS_BASE || '/'
-
-const componentsDocumentations = getComponentsDocumentations()
-const componentsExamples = getComponentsExamples()
-
-const groupedComponentsDocumentations = _.groupBy(componentsDocumentations, 'group')
-const componentsSectionItems = _.map(groupedComponentsDocumentations, function (items, groupName) {
-  return {
-    text: groupName,
-    items: _.mapNonNil(items, function ({ documentation, path }) {
-      return {
-        text: documentation.displayName,
-        link: `/components/${path}`
-      }
-    })
-  }
-})
 
 module.exports = {
   base,
@@ -40,16 +23,14 @@ module.exports = {
         items: [{
           text: 'All elements',
           link: '/docs/elements'
-        }, ...componentsSectionItems]
+        }, ...getGroupedComponents(componentsPath)]
       }
     ],
     sidebar: 'auto',
     lastUpdated: 'Last Updated',
     repo: 'https://bitbucket.org/geoblink/geoblink-design-system',
     docsDir: 'src/elements',
-    editLinks: true,
-    componentsDocumentations,
-    componentsExamples
+    editLinks: true
   },
   plugins: [
     ['live', {
@@ -63,82 +44,41 @@ module.exports = {
         '@': path.resolve(__dirname, '../src')
       }
     }
-  }
-}
-
-function getComponentsDocumentations () {
-  const componentsDefinitionsPaths = glob.sync(`${componentsPath}/**/*.vue`)
-  const existingComponentAbsolutePaths = _.fromPairsMap(componentsDefinitionsPaths, (componentPath) => [componentPath, true])
-  const existingComponentInternalPaths = _.mapKeys(
-    existingComponentAbsolutePaths,
-    (exists, absolutePath) => absolutePath
-      .replace(`${componentsPath}/`, '')
-      .replace(/\.vue$/, '')
-  )
-  const componentsExamples = getComponentsExamples()
-
-  const examplesByInternalPath = _.groupBy(
-    componentsExamples,
-    (example) => {
-      const parentComponentInternalPath = example.internalPath.replace(/\.[^.]*$/, '')
-      const rootComponentName = _.first(parentComponentInternalPath.split('/'))
-      const rootComponentInternalPath = `${rootComponentName}/${rootComponentName}`
-
-      return parentComponentInternalPath in existingComponentInternalPaths
-        ? parentComponentInternalPath
-        : rootComponentInternalPath
-    }
-  )
-
-  /**
-   * @typedef {Object} ComponentDocumentation
-   * @property {string} path
-   * @property {ComponentDoc} documentation
-   * @property {string} group
-   * @property {Array<ComponentExample>} examples
-   */
-
-  const componentsDocumentations = _.fromPairsMapNonNil(componentsDefinitionsPaths, function (pathToComponentDefinition) {
-    const internalPath = pathToComponentDefinition
-      .replace(`${componentsPath}/`, '')
-      .replace(/\.vue$/, '')
-
-    const examples = examplesByInternalPath[internalPath]
-
-    const rootComponentName = internalPath.split('/')[0]
-
-    return [internalPath, {
-      path: internalPath,
-      documentation: vueDocs.parse(pathToComponentDefinition),
-      group: rootComponentName,
-      examples
-    }]
-  })
-
-  return componentsDocumentations
+  },
+  patterns: [
+    '!src',
+    'docs/components/**/*.md',
+    'docs/**/*.md',
+    'docs/**/*.md',
+    '*.md'
+  ]
 }
 
 /**
- * @typedef {Object} ComponentExample
- * @property {string} originalRegularPath
- * @property {string} originalRelativePath
- * @property {string} internalPath
+ * @param {string} componentRootPath
+ * @returns {Array<{ text: string, link: string } | { text: string, items: Array<{ text: string, link: string }> }>}
  */
+function getGroupedComponents (componentRootPath) {
+  const componentsPaths = _.map(
+    glob.sync(`${componentRootPath}/**/*.vue`),
+    (singlePath) => path.relative(componentRootPath, singlePath)
+  )
 
-function getComponentsExamples () {
-  const componentsMarkdownDocumentationsPaths = glob.sync(`${componentsPath}/**/*.md`)
+  const groupedComponents = _.groupBy(componentsPaths, (singlePath) => path.dirname(singlePath))
 
-  const componentsExamples = _.map(componentsMarkdownDocumentationsPaths, function (pathToComponentExample) {
-    const internalPath = pathToComponentExample
-      .replace(`${componentsPath}/`, '')
-      .replace(/\.examples.md$/, '')
+  return _.map(groupedComponents, function (items, commonPath) {
+    const name = path.basename(commonPath)
+
+    const itemEntries = _.map(items, function (singleItemPath) {
+      return {
+        text: path.basename(singleItemPath, '.vue'),
+        link: `/docs/components/${path.dirname(singleItemPath)}/${path.basename(singleItemPath, '.vue')}.html`
+      }
+    })
 
     return {
-      originalRegularPath: `/src/elements/${internalPath}.examples.html`,
-      originalRelativePath: `src/elements/${internalPath}.examples.md`,
-      internalPath
+      text: name,
+      items: itemEntries
     }
   })
-
-  return componentsExamples
 }

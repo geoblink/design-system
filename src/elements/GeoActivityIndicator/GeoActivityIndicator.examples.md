@@ -1,6 +1,8 @@
+### Simple
+
 ```jsx live
 <div class="element-demo">
-  <element-demo name="Simple">
+  <element-demo>
     <element-demo-horizontal-layout>
       <element-demo-box>
         <geo-activity-indicator />
@@ -38,9 +40,11 @@
 </div>
 ```
 
+### With icon
+
 ```jsx live
 <div>
-  <element-demo name="With icon">
+  <element-demo>
     <element-demo-horizontal-layout>
       <element-demo-box>
         <geo-activity-indicator>
@@ -132,9 +136,11 @@
 </div>
 ```
 
+### Customizable
+
 ```vue live
 <template>
-  <element-demo name="Customizable">
+  <element-demo>
     <element-demo-actions>
       <label>
         Variant: <select

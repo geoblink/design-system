@@ -1,3 +1,5 @@
+## Color bar
+
 Similarly to [Bar charts](./#/Elements/Charts?id=bars), Colored bar charts are
 collections of grouped bars which are displayed as stacked rectangles in a
 2-dimensional grid. An arbitrary amount of different collections of grouped bars
@@ -8,7 +10,7 @@ To add colored bar **groups** to a chart, add an array to `colorBarGroups` key
 of [GeoChart](./#/Elements/Charts?id=introduction)'s config. Each item of the
 array must be an object with the following...
 
-## Required properties
+### Required properties
 
 - `data`: Collection of highlighted elements being displayed (array).
 - `mainDimension`: A value of `DIMENSIONS.DIMENSIONS_2D` named export (either
@@ -26,7 +28,7 @@ The value must be contained within the linear axis domain.
 **Note:** `idHorizontalAxis` and `idVerticalAxis` must be IDs of registered axes.
 See [Axes](./#/Elements/Charts?id=axes) for more info.
 
-## Optional properties
+### Optional properties
 
 Optionally you can configure each **group** with an **offset** and a **width**.
 These are useful when you want to display multiple collections which have repeated
@@ -112,7 +114,7 @@ Doing so will throw an invalid config error.
 </template>
 
 <script>
-const CONSTANTS = require('../constants')
+const CONSTANTS = require('@/elements/GeoChart/constants')
 
 export default {
   name: 'GeoChartColorBarDemo',
@@ -228,7 +230,7 @@ export default {
 </template>
 
 <script>
-const CONSTANTS = require('../constants')
+const CONSTANTS = require('@/elements/GeoChart/constants')
 
 export default {
   name: 'GeoChartColorBarDemo',
@@ -346,7 +348,7 @@ export default {
 </template>
 
 <script>
-const CONSTANTS = require('../constants')
+const CONSTANTS = require('@/elements/GeoChart/constants')
 
 export default {
   name: 'GeoChartColorBarDemo',
@@ -464,7 +466,7 @@ export default {
 </template>
 
 <script>
-const CONSTANTS = require('../constants')
+const CONSTANTS = require('@/elements/GeoChart/constants')
 
 export default {
   name: 'GeoChartColorBarDemo',

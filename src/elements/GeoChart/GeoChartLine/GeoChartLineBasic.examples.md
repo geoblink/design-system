@@ -1,6 +1,4 @@
----
-title: Line chart (basic)
----
+## Line chart (basic)
 
 Use this chart to display information as a series of data points connected by
 straight line segments. This chart can be used in combination with
@@ -10,7 +8,7 @@ To add line **groups** to a chart, add an array to `lineGroups` key of
 [GeoChart](./#/Elements/Charts?id=introduction)'s config. Each item of the array
 must be an object with the following:
 
-## Required properties
+### Required properties
 
 - `data`: Array of objects, each one representing an item with two values that
 will be converted into `x, y` point coordinates across the axes.
@@ -22,7 +20,7 @@ will be converted into `x, y` point coordinates across the axes.
 **Note:** `idHorizontalAxis` and `idVerticalAxis` must be IDs of registered axes.
 See [Axes](./#/Elements/Charts?id=axes) for more info.
 
-## Optional properties
+### Optional properties
 
 
 - `lineWidth`: Width in pixels of each one of the lines. If no width is provided,
@@ -36,7 +34,7 @@ to `d3.curveLinear`.
 - `trackByKey`: Define this function to let D3 know which property of your data
 will be used to track changes in it.
 
-### Tooltips
+#### Tooltips
 
 Each line can customize the tooltip displayed when it's hovered by setting the
 key `tooltip`. This key must store an object with the following shape:
@@ -49,7 +47,7 @@ tooltip and is expected to return an object with an `x` and a `y` property, both
 storing numbers that will be used as offset of the tooltip with respect to event
 coordinates. By default tooltip will be positioned above cursor.
 
-### Customizing CSS classes
+#### Customizing CSS classes
 
 Each line can customize its CSS classes by setting a function for key `cssClasses`.
 This function takes as parameters the array of classes that would be set by
@@ -77,8 +75,8 @@ inside the data array.
 </template>
 
 <script>
-const CONSTANTS = require('../constants')
-const { INTERPOLATION_TYPES } = require('./GeoChartLine')
+const CONSTANTS = require('@/elements/GeoChart/constants')
+const { INTERPOLATION_TYPES } = require('@/elements/GeoChart/GeoChartLine/GeoChartLine')
 
 export default {
   name: 'GeoChartLineDemo',

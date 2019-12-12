@@ -1,9 +1,9 @@
 <template>
   <tr>
     <td>
-      <router-link :to="documentationPageURL">
+      <a :href="documentationPageURL">
         {{ component.name }}
-      </router-link>
+      </a>
     </td>
     <td class="u-text-align--right">
         <code v-if="!isDeprecated">{{ component.release }}</code>
@@ -31,19 +31,31 @@ import _ from 'lodash'
 export default {
   name: 'DesignTokensListAllElementsItem',
   props: {
-    componentPath: {
-      type: String,
-      required: true
-    },
-
     component: {
       type: Object,
       required: true
     }
   },
   computed: {
+    componentNavigationItem () {
+      const nav = this.$site.themeConfig.nav
+
+      const elementsLink = _.find(nav, {
+        text: 'Elements',
+        type: 'links'
+      })
+
+      const items = _.flatMap(_.filter(elementsLink.items, 'items'), 'items')
+
+      const componentItem = _.find(items, {
+        text: this.component.name
+      })
+
+      return componentItem
+    },
+
     documentationPageURL () {
-      return `/components/${this.componentPath}.html`
+      return this.componentNavigationItem && this.componentNavigationItem.link.replace('/docs/', './')
     },
 
     isDeprecated () {

@@ -212,7 +212,7 @@ const endOfMonth = require('date-fns').endOfMonth
 const startOfQuarter = require('date-fns').startOfQuarter
 const isAfter = require('date-fns').isAfter
 const isValid = require('date-fns').isValid
-const { GRANULARITY_IDS } = require('./GeoCalendar.utils')
+const { GRANULARITY_IDS } = require('@/elements/GeoCalendar/GeoCalendar.utils')
 
 
 export default {
