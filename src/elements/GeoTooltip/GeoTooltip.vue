@@ -2,9 +2,9 @@
   <div
     v-if="isVisible"
     :class="{
-      [`geo-tooltip__content${cssSuffix}`]: true,
-      [`geo-tooltip__content--${fittingPosition}${cssSuffix}`]: fittingPosition,
-      [`geo-tooltip__content--${fittingAlignment}${cssSuffix}`]: fittingAlignment
+      'geo-tooltip__content': true,
+      [`geo-tooltip__content--${fittingPosition}`]: fittingPosition,
+      [`geo-tooltip__content--${fittingAlignment}`]: fittingAlignment
     }"
     @mouseover="onTooltipContentMouseover()"
     @mouseleave="debouncedOnTooltipContentMouseleave()"
@@ -22,8 +22,6 @@ import _ from 'lodash'
 import enumPropertyFactory from '../../utils/enumPropertyFactory'
 import throttle from '../../utils/throttle'
 import getDOMElementOffset from '../../utils/getDOMElementOffset'
-
-import cssSuffix from '../../mixins/cssModifierMixin'
 
 /** @type {number} */
 let existingTooltipsCount = 0
@@ -48,7 +46,6 @@ export default {
   name: 'GeoTooltip',
   status: 'ready',
   release: '24.4.0',
-  mixins: [cssSuffix],
   constants: {
     POSITIONS,
     ALIGNMENTS
