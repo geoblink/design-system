@@ -1,25 +1,13 @@
-@mixin geo-bordered-box-header-search-form-make($modifier-name) {
+.geo-bordered-box-header-search-form {
+  align-items: center;
+  margin: $space-small;
+  display: flex;
+  flex-direction: row;
+  flex-grow: 0;
+  flex-shrink: 0;
 
-  $modifier-name-with-prefix: '';
-
-  @if $modifier-name != '' {
-    // sass-lint:disable space-around-operator
-    $modifier-name-with-prefix: --#{$modifier-name};
-  }
-
-  .geo-bordered-box-header-search-form#{$modifier-name-with-prefix} {
-    align-items: center;
-    margin: $space-small;
-    display: flex;
-    flex-direction: row;
-    flex-grow: 0;
-    flex-shrink: 0;
-
-    .geo-input .geo-input__input {
-      height: 30px;
-      font-size: $font-size-small;
-    }
+  .geo-input .geo-input__input {
+    height: 30px;
+    font-size: $font-size-small;
   }
 }
-
-@include geo-bordered-box-header-search-form-make('');

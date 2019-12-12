@@ -18,8 +18,6 @@ describe('GeoTableBodyRowCell', () => {
 
     const instance = wrapper.find('.geo-table-body-row-cell')
     expect(instance.exists()).toBe(true)
-
-    expect(slotScope).toHaveProperty('cssModifier')
   })
 
   it('Should render content', function () {
@@ -32,26 +30,5 @@ describe('GeoTableBodyRowCell', () => {
     const instance = wrapper.find('.geo-table-body-row-cell')
     expect(instance.exists()).toBe(true)
     expect(instance.text()).toEqual('Demo content')
-  })
-
-  it('Should apply CSS suffix when the modifier is provided', function () {
-    let slotScope
-    const wrapper = mount(GeoTableBodyRowCell, {
-      context: {
-        props: {
-          cssModifier: 'demo-modifier'
-        }
-      },
-      scopedSlots: {
-        default (params) {
-          slotScope = params
-        }
-      }
-    })
-
-    const instance = wrapper.find('.geo-table-body-row-cell--demo-modifier')
-    expect(instance.exists()).toBe(true)
-
-    expect(slotScope).toHaveProperty('cssModifier', 'demo-modifier')
   })
 })

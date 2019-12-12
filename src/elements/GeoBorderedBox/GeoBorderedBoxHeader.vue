@@ -1,6 +1,6 @@
 <template>
   <div
-    :class="`geo-bordered-box-header${cssSuffix}`"
+    class="geo-bordered-box-header"
     @click="emitClick($event)"
   >
     <div class="geo-bordered-box-header__icon-and-label">
@@ -38,13 +38,11 @@
 
 <script>
 import _ from 'lodash'
-import cssSuffix from '../../mixins/cssModifierMixin'
 
 export default {
   name: 'GeoBorderedBoxHeader',
   status: 'ready',
   release: '7.3.0',
-  mixins: [cssSuffix],
   props: {
     /**
      * Optional Font Awesome 5 icon to be displayed next to the header's label,

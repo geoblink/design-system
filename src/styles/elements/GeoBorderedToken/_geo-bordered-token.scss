@@ -1,32 +1,20 @@
-@mixin geo-bordered-token-make($modifier-name) {
+.geo-bordered-token {
+  align-items: center;
+  background: $color-white-dark;
+  border: 1px solid $color-grey;
+  border-radius: $border-radius-default;
+  display: flex;
+  min-height: 30px;
+  padding: 0 $space-small;
+  user-select: none;
 
-  $modifier-name-with-prefix: '';
-
-  @if $modifier-name != '' {
-    // sass-lint:disable space-around-operator
-    $modifier-name-with-prefix: --#{$modifier-name};
+  .geo-bordered-token__icon {
+    color: $color-grey-light;
+    margin-right: 5px;
   }
 
-  .geo-bordered-token#{$modifier-name-with-prefix} {
-    align-items: center;
-    background: $color-white-dark;
-    border: 1px solid $color-grey;
-    border-radius: $border-radius-default;
-    display: flex;
-    min-height: 30px;
-    padding: 0 $space-small;
-    user-select: none;
-
-    .geo-bordered-token__icon {
-      color: $color-grey-light;
-      margin-right: 5px;
-    }
-
-    .geo-bordered-token__label {
-      color: $color-grey-darker;
-      font-family: $font-family-text;
-    }
+  .geo-bordered-token__label {
+    color: $color-grey-darker;
+    font-family: $font-family-text;
   }
 }
-
-@include geo-bordered-token-make('');

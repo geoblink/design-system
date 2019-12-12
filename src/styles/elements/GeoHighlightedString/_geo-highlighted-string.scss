@@ -1,26 +1,14 @@
-@mixin geo-highlighted-string-make($modifier-name) {
-
-  $modifier-name-with-prefix: '';
-
-  @if $modifier-name != '' {
-    // sass-lint:disable space-around-operator
-    $modifier-name-with-prefix: --#{$modifier-name};
-  }
-
-  .highlighted-string__container#{$modifier-name-with-prefix} {
-    align-items: center;
-    display: inline;
-  }
-
-  .highlighted-string--normal#{$modifier-name-with-prefix} {
-    display: inline;
-  }
-
-  .highlighted-string--highlighted#{$modifier-name-with-prefix} {
-    background: $color-yellow-highlight;
-    display: inline;
-    font-weight: $font-weight-bold;
-  }
+.highlighted-string__container {
+  align-items: center;
+  display: inline;
 }
 
-@include geo-highlighted-string-make('');
+.highlighted-string--normal {
+  display: inline;
+}
+
+.highlighted-string--highlighted {
+  background: $color-yellow-highlight;
+  display: inline;
+  font-weight: $font-weight-bold;
+}

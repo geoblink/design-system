@@ -15,13 +15,4 @@ describe('GeoHorizontalLayout', function () {
     })
     expect(wrapper.find('.my-demo-content').exists()).toBe(true)
   })
-
-  it('Should apply a CSS suffix when the modifier is provided', function () {
-    const wrapper = mount(GeoHorizontalLayout, {
-      propsData: {
-        cssModifier: 'test'
-      }
-    })
-    expect(wrapper.find('.geo-horizontal-layout--test').exists()).toBe(true)
-  })
 })

@@ -52,16 +52,6 @@ describe('GeoTabBarItem', () => {
     expect(wrapper.find('.geo-tab-bar-item-default--active').exists()).toBe(true)
   })
 
-  it('Should add CSS Suffix when given', function () {
-    const wrapper = mount(GeoTabBarItem, {
-      propsData: {
-        cssModifier: 'custom'
-      }
-    })
-
-    expect(wrapper.find('.geo-tab-bar-item-default--custom').exists()).toBe(true)
-  })
-
   it('Should add CSS varian when given', function () {
     const wrapper = mount(GeoTabBarItem, {
       propsData: {

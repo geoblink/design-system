@@ -1,49 +1,38 @@
-@mixin geo-pill-make ($modifier-name) {
-  $modifier-name-with-prefix: '';
-
-  @if $modifier-name != '' {
-    // sass-lint:disable space-around-operator
-    $modifier-name-with-prefix: --#{$modifier-name};
-  }
-
-  .geo-pill--default#{$modifier-name-with-prefix},
-  .geo-pill--light#{$modifier-name-with-prefix},
-  .geo-pill--dark#{$modifier-name-with-prefix},
-  .geo-pill--opaque#{$modifier-name-with-prefix} {
-    @include font($body);
-    align-items: center;
-    border-radius: 50vh;
-    border: 1px solid $color-grey;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: row;
-    font-family: $font-family-text;
-    padding: 0 $space-small;
-    user-select: none;
-  }
-
-  .geo-pill--default#{$modifier-name-with-prefix},
-  .geo-pill--light#{$modifier-name-with-prefix} {
-    background: $color-white;
-    font-size: $font-size-xxsmall;
-    font-weight: $font-weight-bold;
-    height: $space-base;
-    text-transform: uppercase;
-  }
-
-  .geo-pill--dark#{$modifier-name-with-prefix} {
-    background: $color-white-dark;
-    color: $color-grey-darker;
-    min-height: $space-large;
-  }
-
-  .geo-pill--opaque#{$modifier-name-with-prefix} {
-    background: $color-yellow-light;
-    border: none;
-    color: $color-grey-darker;
-    font-size: $font-size-small;
-    height: $space-large;
-  }
+.geo-pill--default,
+.geo-pill--light,
+.geo-pill--dark,
+.geo-pill--opaque {
+  @include font($body);
+  align-items: center;
+  border-radius: 50vh;
+  border: 1px solid $color-grey;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  font-family: $font-family-text;
+  padding: 0 $space-small;
+  user-select: none;
 }
 
-@include geo-pill-make('');
+.geo-pill--default,
+.geo-pill--light {
+  background: $color-white;
+  font-size: $font-size-xxsmall;
+  font-weight: $font-weight-bold;
+  height: $space-base;
+  text-transform: uppercase;
+}
+
+.geo-pill--dark {
+  background: $color-white-dark;
+  color: $color-grey-darker;
+  min-height: $space-large;
+}
+
+.geo-pill--opaque {
+  background: $color-yellow-light;
+  border: none;
+  color: $color-grey-darker;
+  font-size: $font-size-small;
+  height: $space-large;
+}

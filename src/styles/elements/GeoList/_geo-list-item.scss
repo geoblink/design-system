@@ -1,73 +1,60 @@
-@mixin geo-list-item-make($modifier-name) {
+.geo-list-item {
+  background: $color-white;
+  border-radius: $border-radius-default;
+  color: $color-grey-dark;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  font-family: $font-family-text;
+  font-size: $font-size-regular;
+  min-height: 30px;
+  justify-content: center;
+  line-height: $line-height-base;
+  margin: 5px;
+  padding: 0 7px 0 5px;
 
-  $modifier-name-with-prefix: '';
-
-  @if $modifier-name != '' {
-    // sass-lint:disable space-around-operator
-    $modifier-name-with-prefix: --#{$modifier-name};
+  &:hover {
+    background: $color-white-dark;
   }
-
-  .geo-list-item#{$modifier-name-with-prefix} {
-    background: $color-white;
-    border-radius: $border-radius-default;
-    color: $color-grey-dark;
-    cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    font-family: $font-family-text;
-    font-size: $font-size-regular;
-    min-height: 30px;
-    justify-content: center;
-    line-height: $line-height-base;
-    margin: 5px;
-    padding: 0 7px 0 5px;
-
-    &:hover {
-      background: $color-white-dark;
-    }
-  }
-
-  .geo-list-item--disabled#{$modifier-name-with-prefix} {
-    color: $color-grey-light;
-    cursor: not-allowed;
-
-    &:hover {
-      background: $color-white;
-    }
-  }
-
-  .geo-list-item__label-and-accessory-container#{$modifier-name-with-prefix} {
-    display: flex;
-    flex-direction: row;
-    flex-shrink: 0;
-    white-space: nowrap;
-  }
-
-  .geo-list-item__description#{$modifier-name-with-prefix} {
-    @include font($body-small);
-
-    color: $color-grey-light;
-    margin-top: $space-x-small;
-  }
-
-  .geo-list-item__icon-and-label#{$modifier-name-with-prefix} {
-    align-items: center;
-    display: flex;
-    flex-direction: row;
-    flex-grow: 1;
-  }
-
-  .geo-list-item__icon-and-label__icon-container#{$modifier-name-with-prefix} {
-    margin-right: 10px;
-  }
-
-  .geo-list-item__trailing-accessory-items#{$modifier-name-with-prefix} {
-    color: $color-grey-light;
-    margin-left: 10px;
-    display: flex;
-    align-items: center;
-  }
-
 }
 
-@include geo-list-item-make('');
+.geo-list-item--disabled {
+  color: $color-grey-light;
+  cursor: not-allowed;
+
+  &:hover {
+    background: $color-white;
+  }
+}
+
+.geo-list-item__label-and-accessory-container {
+  display: flex;
+  flex-direction: row;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.geo-list-item__description {
+  @include font($body-small);
+
+  color: $color-grey-light;
+  margin-top: $space-x-small;
+}
+
+.geo-list-item__icon-and-label {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  flex-grow: 1;
+}
+
+.geo-list-item__icon-and-label__icon-container {
+  margin-right: 10px;
+}
+
+.geo-list-item__trailing-accessory-items {
+  color: $color-grey-light;
+  margin-left: 10px;
+  display: flex;
+  align-items: center;
+}

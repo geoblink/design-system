@@ -85,13 +85,4 @@ describe('GeoNotificationBar', () => {
     wrapper.find(FontAwesomeIcon).trigger('click')
     expect(wrapper.emitted()['close']).toBeTruthy()
   })
-
-  it('Should apply a CSS suffix when the modifier is provided', () => {
-    const wrapper = mount(GeoNotificationBar, {
-      propsData: {
-        cssModifier: 'test'
-      }
-    })
-    expect(wrapper.find('.geo-notification-bar--test').exists()).toBe(true)
-  })
 })

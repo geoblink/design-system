@@ -2,8 +2,8 @@
   <div
     v-on-resize="reloadSize"
     :class="{
-      [`geo-chart${cssSuffix}`]: true,
-      [`geo-chart--debug${cssSuffix}`]: debug
+      ['geo-chart']: true,
+      ['geo-chart--debug']: debug
     }"
   >
     <svg ref="svgRoot" />
@@ -13,7 +13,6 @@
 <script>
 import _ from 'lodash'
 import OnResize from '../../directives/GeoOnResize'
-import cssSuffix from '../../mixins/cssModifierMixin'
 
 import * as ChartAxis from './GeoChartAxis/GeoChartAxis'
 import * as ChartConfig from './GeoChartConfigs/GeoChartConfig'
@@ -108,7 +107,7 @@ export default {
     INTERPOLATION_TYPES,
     getTriangleShapePath
   }),
-  mixins: [cssSuffix, configAdapterMixin],
+  mixins: [configAdapterMixin],
   props: {
     /**
      * Main chart config. See the docs for more info or check out the JSON
@@ -156,7 +155,7 @@ export default {
     d3TipInstance () {
       if (!d3Tip) return null
 
-      return d3Tip().attr('class', `geo-chart-tooltip${this.cssSuffix}`)
+      return d3Tip().attr('class', 'geo-chart-tooltip')
     },
 
     animationsDurationInMilliseconds () {

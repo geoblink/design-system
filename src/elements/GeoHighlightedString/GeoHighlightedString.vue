@@ -1,29 +1,26 @@
 <template>
   <!-- eslint-disable vue/multiline-html-element-content-newline -->
-  <div :class="`highlighted-string__container${cssSuffix}`">
+  <div class="highlighted-string__container">
     <template v-for="(entry, index) in groups">
       <div
         v-if="entry.isHighlighted"
         :key="index"
-        :class="`highlighted-string--highlighted${cssSuffix}`"
+        class="highlighted-string--highlighted"
       >{{ entry.substring }}</div>
       <div
         v-else
         :key="index"
-        :class="`highlighted-string--normal${cssSuffix}`"
+        class="highlighted-string--normal"
       >{{ entry.substring }}</div>
     </template>
   </div>
 </template>
 
 <script>
-import cssSuffix from '../../mixins/cssModifierMixin'
-
 export default {
   name: 'GeoHighlightedString',
   status: 'ready',
   release: '4.0.0',
-  mixins: [cssSuffix],
   props: {
     /**
      * Array with the position of each of the characters that should be

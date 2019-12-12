@@ -18,16 +18,6 @@ describe('GeoSwitch', () => {
     expect(wrapper.find('.geo-switch').exists()).toBe(true)
   })
 
-  it('Should respect CSS modifier', function () {
-    const wrapper = mount(GeoSwitch, {
-      propsData: {
-        cssModifier: 'my-custom-modifier',
-        value: false
-      }
-    })
-    expect(wrapper.find('.geo-switch--my-custom-modifier').exists()).toBe(true)
-  })
-
   it('Should complain about missing :value binding', function () {
     const spy = jest.spyOn(console, 'error').mockImplementation(() => {})
     mount(GeoSwitch)

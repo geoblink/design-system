@@ -18,17 +18,4 @@ describe('GeoInputMessage', () => {
 
     expect(wrapper.find('.geo-input-message--error').exists()).toBe(true)
   })
-
-  it('Should render with cssModifier', function () {
-    const wrapper = mount(GeoInputMessage, {
-      context: {
-        props: {
-          variant: 'error',
-          cssModifier: 'my-message'
-        }
-      }
-    })
-
-    expect(wrapper.find('.geo-input-message--error--my-message').exists()).toBe(true)
-  })
 })

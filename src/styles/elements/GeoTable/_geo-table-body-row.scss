@@ -1,48 +1,36 @@
-@mixin geo-table-body-row-make($modifier-name) {
+.geo-table-body-row--default,
+.geo-table-body-row--highlighted,
+.geo-table-body-row--active,
+.geo-table-body-row--highlighted-active {
+  @include geo-table-make-row($color-white);
 
-  $modifier-name-with-prefix: '';
+  height: $space-large;
+}
 
-  @if $modifier-name != '' {
-    // sass-lint:disable space-around-operator
-    $modifier-name-with-prefix: --#{$modifier-name};
-  }
+.geo-table-body-row--default:hover {
+  background: rgba($color-blue-light, .1);
+}
 
-  .geo-table-body-row--default#{$modifier-name-with-prefix},
-  .geo-table-body-row--highlighted#{$modifier-name-with-prefix},
-  .geo-table-body-row--active#{$modifier-name-with-prefix},
-  .geo-table-body-row--highlighted-active#{$modifier-name-with-prefix} {
-    @include geo-table-make-row($color-white);
+.geo-table-body-row--highlighted {
+  background: rgba($color-yellow-light, .2);
 
-    height: $space-large;
-  }
-
-  .geo-table-body-row--default#{$modifier-name-with-prefix}:hover {
-    background: rgba($color-blue-light, .1);
-  }
-
-  .geo-table-body-row--highlighted#{$modifier-name-with-prefix} {
-    background: rgba($color-yellow-light, .2);
-
-    &:hover {
-      background: rgba($color-yellow-light, .4);
-    }
-  }
-
-  .geo-table-body-row--highlighted-active#{$modifier-name-with-prefix} {
-    background: rgba($color-yellow-light, .6);
-
-    &:hover {
-      background: rgba($color-yellow-light, .4);
-    }
-  }
-
-  .geo-table-body-row--active#{$modifier-name-with-prefix} {
-    background: rgba($color-blue-light, .2);
-
-    &:hover {
-      background: rgba($color-blue-light, .1);
-    }
+  &:hover {
+    background: rgba($color-yellow-light, .4);
   }
 }
 
-@include geo-table-body-row-make('');
+.geo-table-body-row--highlighted-active {
+  background: rgba($color-yellow-light, .6);
+
+  &:hover {
+    background: rgba($color-yellow-light, .4);
+  }
+}
+
+.geo-table-body-row--active {
+  background: rgba($color-blue-light, .2);
+
+  &:hover {
+    background: rgba($color-blue-light, .1);
+  }
+}

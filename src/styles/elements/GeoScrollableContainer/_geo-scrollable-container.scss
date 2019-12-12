@@ -1,30 +1,16 @@
-@mixin geo-scrollable-container-make($modifier-name) {
-
-  $modifier-name-with-prefix: '';
-
-  @if $modifier-name != '' {
-    @include geo-list-footer-button-make($modifier-name);
-
-    // sass-lint:disable space-around-operator
-    $modifier-name-with-prefix: --#{$modifier-name};
-  }
-
-  .geo-scrollable-container#{$modifier-name-with-prefix} {
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-    flex-shrink: 1;
-    min-width: 150px;
-    overflow: hidden;
-  }
-
-  .geo-scrollable-container__body#{$modifier-name-with-prefix} {
-    flex-grow: 1;
-    flex-shrink: 1;
-    max-height: 350px;
-    overflow-y: auto;
-    overflow-x: hidden;
-  }
+.geo-scrollable-container {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  flex-shrink: 1;
+  min-width: 150px;
+  overflow: hidden;
 }
 
-@include geo-scrollable-container-make('');
+.geo-scrollable-container__body {
+  flex-grow: 1;
+  flex-shrink: 1;
+  max-height: 350px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}

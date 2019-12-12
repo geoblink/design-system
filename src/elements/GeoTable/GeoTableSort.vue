@@ -1,8 +1,8 @@
 <template>
   <div
     :class="{
-      [`geo-table-sort${cssSuffix}`]: true,
-      [`geo-table-sort--active${cssSuffix}`]: currentlySortingTable
+      'geo-table-sort': true,
+      'geo-table-sort--active': currentlySortingTable
     }"
   >
     <slot
@@ -44,15 +44,12 @@
 </template>
 
 <script>
-import cssSuffix from '../../mixins/cssModifierMixin'
-
 import { SORTING_DIRECTIONS } from './GeoTable.constants'
 
 export default {
   name: 'GeoTableSort',
   status: 'ready',
   release: '10.1.0',
-  mixins: [cssSuffix],
   constants: { SORTING_DIRECTIONS },
   props: {
     /**

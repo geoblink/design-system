@@ -4,8 +4,8 @@
     :class="[
       data.class,
       data.staticClass,
-      `geo-input-message${$options.helpers.getCSSSuffix(props.cssModifier)}`,
-      `geo-input-message--${props.variant}${$options.helpers.getCSSSuffix(props.cssModifier)}`
+      'geo-input-message',
+      `geo-input-message--${props.variant}`
     ]"
     v-on="listeners"
   >
@@ -15,7 +15,6 @@
 </template>
 
 <script>
-import cssSuffix, { getCSSSuffix } from '../../mixins/cssModifierMixin'
 import { VARIANTS } from './GeoInputMessage.constants'
 
 export default {
@@ -25,10 +24,6 @@ export default {
   constants: {
     VARIANTS
   },
-  helpers: {
-    getCSSSuffix
-  },
-  mixins: [cssSuffix],
   props: {
     /**
      * Predefined color scheme of the message, allowing several common
@@ -37,9 +32,6 @@ export default {
      * Supported `variant` values are exported under `VARIANTS` named export.
      * See [Component Constants](/docs/components-constants.html) for more info on how
      * to use those constants in your code.
-     *
-     * > **Note:** You can always override the color scheme of any
-     * > `GeoInputMessage` using `cssModifier` prop.
      */
     variant: {
       type: String,

@@ -1,17 +1,14 @@
 <template>
-  <div :class="`geo-segmented-control${outlineSuffix}${cssSuffix}`">
+  <div :class="`geo-segmented-control${outlineSuffix}`">
     <slot />
   </div>
 </template>
 
 <script>
-import cssSuffix from '../../mixins/cssModifierMixin'
-
 export default {
   name: 'GeoSegmentedControl',
   status: 'ready',
   release: '6.2.0',
-  mixins: [cssSuffix],
   props: {
     /**
      * Whether this control should be displayed using outline style (`true`) or

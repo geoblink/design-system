@@ -4,8 +4,8 @@
     :class="[
       data.class,
       data.staticClass,
-      `geo-alert${$options.helpers.getCSSSuffix(props.cssModifier)}`,
-      `geo-alert--${props.variant}${$options.helpers.getCSSSuffix(props.cssModifier)}`
+      'geo-alert',
+      `geo-alert--${props.variant}`
     ]"
     v-on="listeners"
   >
@@ -23,8 +23,6 @@
 </template>
 
 <script>
-import cssSuffix, { getCSSSuffix } from '../../mixins/cssModifierMixin'
-
 import { VARIANTS } from './GeoAlert.constants'
 
 export default {
@@ -34,10 +32,6 @@ export default {
   constants: {
     VARIANTS
   },
-  helpers: {
-    getCSSSuffix
-  },
-  mixins: [cssSuffix],
   props: {
     /**
      * Predefined color scheme of the alert, allowing several common
@@ -49,8 +43,7 @@ export default {
      * > **Note:** Specific components do not expose the `leftAccessoryItem`
      * > slot but an `icon` property which can be used to customized displayed
      * > icon. If you want to display something that's not an icon as
-     * > `leftAccessoryItem` you should use a `GeoAlert` with a proper
-     * > `cssModifier`.
+     * > `leftAccessoryItem` you should use a `GeoAlert`.
      *
      * | variant  | Specific component                                            |
      * |----------|---------------------------------------------------------------|
@@ -62,9 +55,6 @@ export default {
      * Supported `variant` values are exported under `VARIANTS` named export.
      * See [Component Constants](/docs/components-constants.html) for more info on how
      * to use those constants in your code.
-     *
-     * > **Note:** You can always override the color scheme of any
-     * > `GeoAlert` using `cssModifier` prop.
      */
     variant: {
       type: String,

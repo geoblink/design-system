@@ -104,16 +104,6 @@ describe('GeoSegmentedControlItem', () => {
 
     expect(wrapper.find('.geo-segmented-control-item--outline').exists()).toBe(false)
   })
-
-  it('Should add CSS Suffix when given', function () {
-    const wrapper = mount(GeoSegmentedControlItem, {
-      propsData: {
-        cssModifier: 'custom'
-      }
-    })
-
-    expect(wrapper.find('.geo-segmented-control-item--custom').exists()).toBe(true)
-  })
 })
 
 const taxonomySegmentedControlItems = [
@@ -197,21 +187,6 @@ describe('GeoSegmentedControlItem Children', () => {
         })
 
         expect(wrapper.find('.geo-segmented-control-item--disabled').exists()).toBe(false)
-      })
-
-      it('Should add CSS Suffix when given', function () {
-        const wrapper = mount(taxonomySegmentedControlItem, {
-          context: {
-            props: {
-              cssModifier: 'custom'
-            }
-          },
-          stubs: {
-            GeoSegmentedControlItem
-          }
-        })
-
-        expect(wrapper.find('.geo-segmented-control-item--custom').exists()).toBe(true)
       })
 
       it('Should add outline class when it\'s outlined', function () {

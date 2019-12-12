@@ -19,13 +19,4 @@ describe('GeoBorderedBox', () => {
     })
     expect(wrapper.find('.my-demo-content').exists()).toBe(true)
   })
-
-  it('Should apply a CSS suffix when the modifier is provided', function () {
-    const wrapper = mount(GeoBorderedBox, {
-      propsData: {
-        cssModifier: 'test'
-      }
-    })
-    expect(wrapper.find('.geo-bordered-box--test').exists()).toBe(true)
-  })
 })

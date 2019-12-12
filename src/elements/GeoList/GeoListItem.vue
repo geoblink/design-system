@@ -3,37 +3,33 @@
     :is="props.wrapperTag"
     :ref="data.ref"
     v-bind="data.attrs"
-    :class="[
-      data.class,
-      data.staticClass,
-      `geo-list-item${$options.helpers.getCSSSuffix(props.cssModifier)}`,
-      {
-        [`geo-list-item--disabled${$options.helpers.getCSSSuffix(props.cssModifier)}`]: props.disabled
-      }
-    ]"
+    :class="[data.class, data.staticClass, {
+      'geo-list-item': true,
+      'geo-list-item--disabled': props.disabled
+    }]"
     v-on="listeners"
   >
-    <div :class="`geo-list-item__label-and-accessory-container${$options.helpers.getCSSSuffix(props.cssModifier)}`">
-      <div :class="`geo-list-item__icon-and-label${$options.helpers.getCSSSuffix(props.cssModifier)}`">
+    <div :class="`geo-list-item__label-and-accessory-container`">
+      <div :class="`geo-list-item__icon-and-label`">
         <div
           v-if="props.icon"
-          :class="`geo-list-item__icon-and-label__icon-container${$options.helpers.getCSSSuffix(props.cssModifier)}`"
+          :class="`geo-list-item__icon-and-label__icon-container`"
         >
           <font-awesome-icon
             :icon="props.icon"
-            :class="`geo-list-item__icon-and-label__icon-container__icon${$options.helpers.getCSSSuffix(props.cssModifier)}`"
+            :class="`geo-list-item__icon-and-label__icon-container__icon`"
             aria-hidden
             fixed-width
           />
         </div>
-        <div :class="`geo-list-item__icon-and-label__label${$options.helpers.getCSSSuffix(props.cssModifier)}`">
+        <div :class="`geo-list-item__icon-and-label__label`">
           <!-- @slot Use this slot to customize rows's main content -->
           <slot />
         </div>
       </div>
       <div
         v-if="$slots.trailingAccessoryItem"
-        :class="`geo-list-item__trailing-accessory-items${$options.helpers.getCSSSuffix(props.cssModifier)}`"
+        :class="`geo-list-item__trailing-accessory-items`"
       >
         <!-- @slot Use this slot to add more items to the trailing edge of this row -->
         <slot name="trailingAccessoryItem" />
@@ -41,7 +37,7 @@
     </div>
     <div
       v-if="$slots.description"
-      :class="`geo-list-item__description${$options.helpers.getCSSSuffix(props.cssModifier)}`"
+      :class="`geo-list-item__description`"
     >
       <!-- @slot Use this slot to add a description for the item -->
       <slot name="description" />
@@ -50,16 +46,10 @@
 </template>
 
 <script>
-import cssSuffix, { getCSSSuffix } from '../../mixins/cssModifierMixin'
-
 export default {
   name: 'GeoListItem',
   status: 'ready',
   release: '4.0.0',
-  helpers: {
-    getCSSSuffix
-  },
-  mixins: [cssSuffix],
   props: {
     /**
      * Optional Font Awesome 5 icon to be displayed next to the entry's label,

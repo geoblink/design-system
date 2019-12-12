@@ -1,5 +1,5 @@
 <template>
-  <div :class="`geo-list-footer-button${cssSuffix}`">
+  <div class="geo-list-footer-button">
     <geo-tertiary-button
       @click="handleClick($event)"
     >
@@ -10,13 +10,10 @@
 </template>
 
 <script>
-import cssSuffix from '../../mixins/cssModifierMixin'
-
 export default {
   name: 'GeoListFooterButton',
   status: 'ready',
   release: '8.0.0',
-  mixins: [cssSuffix],
   methods: {
     handleClick ($event) {
       /**

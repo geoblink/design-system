@@ -61,22 +61,6 @@ describe('GeoAlert', () => {
     expect(wrapper.find('.fa-exclamation-triangle').exists()).toBe(true)
   })
 
-  it('Should apply a CSS suffix when the modifier is provided', function () {
-    const wrapper = mount(GeoAlert, {
-      context: {
-        props: {
-          variant: 'success',
-          icon: ['fas', 'thumbs-up'],
-          cssModifier: 'test-alert'
-        }
-      },
-      stubs: {
-        'font-awesome-icon': FontAwesomeIcon
-      }
-    })
-    expect(wrapper.find('.geo-alert--test-alert').exists()).toBe(true)
-  })
-
   it('Should check variant prop is valid', function () {
     const spy = jest.spyOn(global.console, 'warn').mockImplementation(() => { })
     afterEach(() => spy.mockReset())
@@ -145,21 +129,6 @@ describe('GeoAlert Children', () => {
         }
       })
       expect(wrapper.find(`.geo-alert--${taxonomyAlert.variant}`).exists()).toBe(true)
-    })
-
-    it('Should apply a CSS suffix when the modifier is provided', function () {
-      const wrapper = mount(taxonomyAlert.component, {
-        context: {
-          props: {
-            cssModifier: 'test-alert'
-          }
-        },
-        stubs: {
-          'font-awesome-icon': FontAwesomeIcon,
-          GeoAlert
-        }
-      })
-      expect(wrapper.find('.geo-alert--test-alert').exists()).toBe(true)
     })
   })
 })

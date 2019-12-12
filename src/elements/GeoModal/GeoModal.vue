@@ -5,8 +5,8 @@
       target: attachTo
     }"
     v-scroll-anywhere="repositionModal"
-    :class="`geo-modal${cssSuffix}`"
     :style="modalStyle"
+    class="geo-modal"
   >
     <div
       class="geo-modal__backdrop"
@@ -14,10 +14,9 @@
     />
     <div class="geo-modal__content">
       <slot>
-        <geo-bordered-box :css-modifier="`geo-modal${cssSuffix}`">
+        <geo-bordered-box>
           <geo-bordered-box-header
             v-if="hasHeader"
-            :css-modifier="`geo-modal${cssSuffix}`"
             :icon="headerIcon"
             :close-icon="headerCloseIcon"
             @close="handleCloseClick($event)"
@@ -32,10 +31,7 @@
             <slot name="body" />
           </div>
 
-          <geo-bordered-box-footer
-            v-if="hasFooter"
-            :css-modifier="`geo-modal${cssSuffix}`"
-          >
+          <geo-bordered-box-footer v-if="hasFooter">
             <slot name="footer" />
           </geo-bordered-box-footer>
         </geo-bordered-box>
@@ -47,7 +43,6 @@
 <script>
 import OnResize from '../../directives/GeoOnResize'
 import ScrollAnywhere from '../../directives/GeoScrollAnywhere'
-import cssSuffix from '../../mixins/cssModifierMixin'
 import { getDocument } from '../../utils/ssrProxy'
 
 export default {
@@ -58,7 +53,6 @@ export default {
     OnResize,
     ScrollAnywhere
   },
-  mixins: [cssSuffix],
   props: {
     /**
      * `HTMLElement` to which modal will be attached.

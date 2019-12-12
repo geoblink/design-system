@@ -179,34 +179,4 @@ describe('GeoTableSort', () => {
 
     expect(slotScope).toHaveProperty('isCurrentSortingDirection', true)
   })
-
-  it('Should apply CSS suffix when the modifier is provided', function () {
-    const inactiveWrapper = mount(GeoTableSort, {
-      propsData: {
-        cssModifier: 'demo-modifier',
-        currentSortingDirection: GeoTableSort.constants.SORTING_DIRECTIONS.asc,
-        currentlySortingTable: false
-      },
-      stubs: {
-        'font-awesome-icon': FontAwesomeIcon
-      }
-    })
-
-    expect(inactiveWrapper.find('.geo-table-sort--demo-modifier').exists()).toBe(true)
-    expect(inactiveWrapper.find('.geo-table-sort--active--demo-modifier').exists()).toBe(false)
-
-    const activeWrapper = mount(GeoTableSort, {
-      propsData: {
-        cssModifier: 'demo-modifier',
-        currentSortingDirection: GeoTableSort.constants.SORTING_DIRECTIONS.asc,
-        currentlySortingTable: true
-      },
-      stubs: {
-        'font-awesome-icon': FontAwesomeIcon
-      }
-    })
-
-    expect(activeWrapper.find('.geo-table-sort--demo-modifier').exists()).toBe(true)
-    expect(activeWrapper.find('.geo-table-sort--active--demo-modifier').exists()).toBe(true)
-  })
 })

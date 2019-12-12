@@ -1,18 +1,6 @@
-@mixin geo-table-body-row-cell-make($modifier-name) {
+.geo-table-body-row-cell {
+  @include geo-table-make-cell($color-white);
+  @include font($table-value);
 
-  $modifier-name-with-prefix: '';
-
-  @if $modifier-name != '' {
-    // sass-lint:disable space-around-operator
-    $modifier-name-with-prefix: --#{$modifier-name};
-  }
-
-  .geo-table-body-row-cell#{$modifier-name-with-prefix} {
-    @include geo-table-make-cell($color-white);
-    @include font($table-value);
-
-    white-space: nowrap;
-  }
+  white-space: nowrap;
 }
-
-@include geo-table-body-row-cell-make('');

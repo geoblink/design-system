@@ -1,25 +1,13 @@
-@mixin geo-bordered-box-column-make ($modifier-name) {
-  $modifier-name-with-prefix: '';
+.geo-bordered-box-column {
+  background: $color-white;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  justify-content: start;
+  overflow: hidden;
+  padding: $space-small;
 
-  @if $modifier-name != '' {
-    // sass-lint:disable space-around-operator
-    $modifier-name-with-prefix: --#{$modifier-name};
+  &:not(:first-child) {
+    border-left: 1px solid $color-grey;
   }
-
-  .geo-bordered-box-column#{$modifier-name-with-prefix} {
-    background: $color-white;
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-    justify-content: start;
-    overflow: hidden;
-    padding: $space-small;
-
-    &:not(:first-child) {
-      border-left: 1px solid $color-grey;
-    }
-  }
-
 }
-
-@include geo-bordered-box-column-make('');

@@ -1,7 +1,7 @@
 <template>
   <span
     v-on-resize="reloadRequiredWidth"
-    :class="`geo-trimmed-content${cssSuffix}`"
+    class="geo-trimmed-content"
     @mouseenter="isHovered = true"
     @mouseleave="isHovered = false"
   >
@@ -23,14 +23,12 @@
 <script>
 import OnResize from '../../directives/GeoOnResize'
 import Tooltip from '../../directives/Tooltip'
-import cssSuffix from '../../mixins/cssModifierMixin'
 
 export default {
   name: 'GeoTrimmedContent',
   status: 'ready',
   release: '10.1.0',
   directives: { OnResize, Tooltip },
-  mixins: [cssSuffix],
   data () {
     return {
       isHovered: false,

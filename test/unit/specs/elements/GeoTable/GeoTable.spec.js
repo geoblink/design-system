@@ -65,33 +65,6 @@ describe('GeoTable', () => {
       expect(instance.text()).toEqual('Some data when empty')
     })
 
-    it('Should pass CSS Modifier to empty slot', function () {
-      let slotScope
-      const wrapper = mount(GeoTable, {
-        propsData: {
-          sourceData: [],
-          currentPage: 0
-        },
-        scopedSlots: {
-          empty (params) {
-            slotScope = params
-          }
-        }
-      })
-
-      const instance = wrapper.find('.geo-table')
-      expect(instance.exists()).toBe(true)
-      expect(slotScope).toHaveProperty('cssModifier')
-
-      wrapper.setProps({
-        sourceData: [],
-        currentPage: 0,
-        cssModifier: 'demo'
-      })
-
-      expect(slotScope).toHaveProperty('cssModifier', 'demo')
-    })
-
     it('Should render header slot', function () {
       const wrapper = mount(GeoTable, {
         propsData: {
@@ -106,37 +79,6 @@ describe('GeoTable', () => {
       const instance = wrapper.find('.geo-table')
       expect(instance.exists()).toBe(true)
       expect(instance.text()).toEqual('My header')
-    })
-
-    it('Should pass CSS Modifier to header slot', function () {
-      let scopedSlots
-      const wrapper = mount(GeoTable, {
-        propsData: {
-          sourceData: [{}],
-          currentPage: 0
-        },
-        slots: {
-          header: '<GeoTableHeaderRow><GeoTableHeaderRowCell>My header</GeoTableHeaderRowCell></GeoTableHeaderRow>'
-        },
-        scopedSlots: {
-          header (params) {
-            scopedSlots = params
-          }
-        }
-      })
-
-      const instance = wrapper.find('.geo-table')
-      expect(instance.exists()).toBe(true)
-      expect(instance.vm.isHeaderDisplayed).toBe(true)
-      expect(scopedSlots).toHaveProperty('cssModifier')
-
-      wrapper.setProps({
-        sourceData: [{}],
-        currentPage: 0,
-        cssModifier: 'demo'
-      })
-
-      expect(scopedSlots).toHaveProperty('cssModifier', 'demo')
     })
 
     it('Should not render body slot', function () {
@@ -222,37 +164,6 @@ describe('GeoTable', () => {
       expect(instance.text()).toEqual('My header')
     })
 
-    it('Should pass CSS Modifier to header slot', function () {
-      let scopedSlots
-      const wrapper = mount(GeoTable, {
-        propsData: {
-          sourceData: [{}],
-          currentPage: 0
-        },
-        slots: {
-          header: '<GeoTableHeaderRow><GeoTableHeaderRowCell>My header</GeoTableHeaderRowCell></GeoTableHeaderRow>'
-        },
-        scopedSlots: {
-          header (params) {
-            scopedSlots = params
-          }
-        }
-      })
-
-      const instance = wrapper.find('.geo-table')
-      expect(instance.exists()).toBe(true)
-      expect(instance.vm.isHeaderDisplayed).toBe(true)
-      expect(scopedSlots).toHaveProperty('cssModifier')
-
-      wrapper.setProps({
-        sourceData: [{}],
-        currentPage: 0,
-        cssModifier: 'demo'
-      })
-
-      expect(scopedSlots).toHaveProperty('cssModifier', 'demo')
-    })
-
     it('Should render body', function () {
       const wrapper = mount(GeoTable, {
         stubs: {
@@ -304,7 +215,6 @@ describe('GeoTable', () => {
       const instance = wrapper.find('.geo-table')
       expect(instance.exists()).toBe(true)
 
-      expect(slotScope).toHaveProperty('cssModifier')
       expect(slotScope).toHaveProperty('item', item)
       expect(slotScope).toHaveProperty('index', 0)
     })

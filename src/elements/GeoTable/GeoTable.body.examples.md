@@ -13,7 +13,6 @@ for that. The object passed to the scoped slot has the following shape:
 - `index`: the row number of the item being rendered. Note that this index is
 relative to the beginning of currently displayed page, not the absolute position
 of the item in `sourceData`.
-- `cssModifier`: the CSS Modifier applied to the table.
 
 ```vue live
 <template>

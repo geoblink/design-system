@@ -1,8 +1,8 @@
 <template>
   <div
     :class="{
-      [`geo-list-actionable-item${cssSuffix}`]: true,
-      [`geo-list-actionable-item--active${cssSuffix}`]: active
+      ['geo-list-actionable-item']: true,
+      ['geo-list-actionable-item--active']: active
     }"
   >
     <font-awesome-icon
@@ -46,13 +46,10 @@
 </template>
 
 <script>
-import cssSuffix from '../../mixins/cssModifierMixin'
-
 export default {
   name: 'GeoListActionableItem',
   status: 'ready',
   release: '8.1.0',
-  mixins: [cssSuffix],
   props: {
     /**
      * Optional Font Awesome 5 icon to be displayed next to the entry's label,

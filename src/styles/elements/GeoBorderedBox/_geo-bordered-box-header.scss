@@ -1,70 +1,58 @@
-@mixin geo-bordered-box-header-make($modifier-name) {
+.geo-bordered-box-header {
+  @include font($heading-small);
 
-  $modifier-name-with-prefix: '';
+  align-items: center;
+  background: $color-white-dark;
+  border-bottom: 1px solid $color-grey;
+  color: $color-grey-darker;
+  display: flex;
+  flex-direction: row;
+  flex-grow: 0;
+  flex-shrink: 0;
+  height: 40px;
+  justify-content: space-between;
+  padding: 0 7px 0 5px;
+  white-space: nowrap;
 
-  @if $modifier-name != '' {
-    // sass-lint:disable space-around-operator
-    $modifier-name-with-prefix: --#{$modifier-name};
-  }
-
-  .geo-bordered-box-header#{$modifier-name-with-prefix} {
-    @include font($heading-small);
-
+  .geo-bordered-box-header__icon-and-label {
     align-items: center;
-    background: $color-white-dark;
-    border-bottom: 1px solid $color-grey;
-    color: $color-grey-darker;
     display: flex;
     flex-direction: row;
-    flex-grow: 0;
-    flex-shrink: 0;
-    height: 40px;
-    justify-content: space-between;
-    padding: 0 7px 0 5px;
-    white-space: nowrap;
+    overflow: hidden;
 
-    .geo-bordered-box-header__icon-and-label {
-      align-items: center;
-      display: flex;
-      flex-direction: row;
-      overflow: hidden;
-
-      &:first-child:last-child {
-        margin-right: 10px;
-      }
-    }
-
-    .geo-bordered-box-header__label {
-      overflow: hidden;
-    }
-
-    .geo-bordered-box-header__label:first-child:last-child {
-      margin-left: 10px;
-    }
-
-    .geo-bordered-box-header__icon-container {
-      color: $color-grey-light;
-      cursor: pointer;
+    &:first-child:last-child {
       margin-right: 10px;
-
-      &:hover {
-        color: $color-grey-darker;
-      }
     }
+  }
 
-    .geo-bordered-box-header__close-button {
-      align-items: center;
-      color: $color-grey-light;
-      cursor: pointer;
-      display: flex;
-      justify-content: center;
-      margin-left: 10px;
+  .geo-bordered-box-header__label {
+    overflow: hidden;
+  }
 
-      &:hover {
-        color: $color-grey-darker;
-      }
+  .geo-bordered-box-header__label:first-child:last-child {
+    margin-left: 10px;
+  }
+
+  .geo-bordered-box-header__icon-container {
+    color: $color-grey-light;
+    cursor: pointer;
+    margin-right: 10px;
+
+    &:hover {
+      color: $color-grey-darker;
+    }
+  }
+
+  .geo-bordered-box-header__close-button {
+    align-items: center;
+    color: $color-grey-light;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    margin-left: 10px;
+
+    &:hover {
+      color: $color-grey-darker;
     }
   }
 }
-
-@include geo-bordered-box-header-make('');

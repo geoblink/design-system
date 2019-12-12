@@ -81,17 +81,4 @@ describe('GeoMarquee', () => {
     wrapper.trigger('mouseleave')
     expect(wrapper.vm.animationParams.animationPlayState).toEqual('paused')
   })
-
-  it('Should apply a CSS suffix when the modifier is provided', function () {
-    const wrapper = mount(GeoMarquee, {
-      propsData: {
-        cssModifier: 'test-marquee'
-      },
-      scopedSlots: {
-        default: '<div slot-scope="{}">Marquee content</div>'
-      }
-    })
-    expect(wrapper.find('.geo-marquee--test-marquee').exists()).toBe(true)
-    expect(wrapper.find('.geo-marquee__text-content--test-marquee').exists()).toBe(true)
-  })
 })

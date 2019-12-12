@@ -1,17 +1,4 @@
-@mixin geo-input-label-make($modifier-name) {
-
-  $modifier-name-with-prefix: '';
-
-  @if $modifier-name != '' {
-    // sass-lint:disable space-around-operator
-    $modifier-name-with-prefix: --#{$modifier-name};
-  }
-
-  .geo-input-label#{$modifier-name-with-prefix} {
-    @include font($label);
-    margin-bottom: $space-small;
-  }
-
+.geo-input-label {
+  @include font($label);
+  margin-bottom: $space-small;
 }
-
-@include geo-input-label-make('');

@@ -1,7 +1,7 @@
 <template>
   <div
     v-on-resize="layoutTableIfPossible"
-    :class="`geo-table${cssSuffix}`"
+    class="geo-table"
   >
     <div
       ref="tableContainer"
@@ -17,20 +17,14 @@
         }"
       >
         <!-- @slot Use this slot to customize table's headers -->
-        <slot
-          :css-modifier="cssModifier"
-          name="header"
-        />
+        <slot name="header" />
       </div>
       <div
         v-if="isEmpty"
         class="geo-table__body-empty"
       >
         <!-- @slot Use this slot to customize what's displayed when table has no data -->
-        <slot
-          :css-modifier="cssModifier"
-          name="empty"
-        />
+        <slot name="empty" />
       </div>
       <div
         v-else
@@ -45,7 +39,6 @@
             v-for="(item, index) in currentPageData"
             :item="item"
             :index="index"
-            :css-modifier="cssModifier"
             name="body"
           />
         </div>
@@ -75,10 +68,7 @@
       class="geo-table__footer"
     >
       <!-- @slot Use this slot to customize table's footer and pagination -->
-      <slot
-        :css-modifier="cssModifier"
-        name="footer"
-      >
+      <slot name="footer">
         <!-- @slot Use this slot to add leading accessories to table's footer without having to add pagination explicitly -->
         <slot name="footerLeadingAccessoryItem" />
         <geo-table-pagination
@@ -98,7 +88,6 @@
 import _ from 'lodash'
 
 import OnResize from '../../directives/GeoOnResize'
-import cssSuffix from '../../mixins/cssModifierMixin'
 import inferPageSize, {
   DATA_KEYS as INFER_PAGE_SIZE_DATA_KEYS
 } from '../../mixins/inferPageSizeMixin'
@@ -117,7 +106,7 @@ export default {
   release: '10.1.0',
   constants: { DEFAULT_PAGESIZE },
   directives: { OnResize },
-  mixins: [cssSuffix, inferPageSize],
+  mixins: [inferPageSize],
   props: {
     /**
      * Source data feeding this table.

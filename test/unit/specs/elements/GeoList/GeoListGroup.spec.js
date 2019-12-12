@@ -78,13 +78,4 @@ describe('GeoListGroup', () => {
     })
     expect(wrapper.find('.geo-list-group__content .my-demo-content').exists()).toBe(true)
   })
-
-  it('Should apply a CSS suffix when the modifier is provided', function () {
-    const wrapper = mount(GeoListGroup, {
-      propsData: {
-        cssModifier: 'test-alert'
-      }
-    })
-    expect(wrapper.find('.geo-list-group--test-alert').exists()).toBe(true)
-  })
 })

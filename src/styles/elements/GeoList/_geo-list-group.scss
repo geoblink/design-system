@@ -1,59 +1,46 @@
-@mixin geo-list-group-make($modifier-name) {
+.geo-list-group {
+  background: $color-white;
 
-  $modifier-name-with-prefix: '';
-
-  @if $modifier-name != '' {
-    // sass-lint:disable space-around-operator
-    $modifier-name-with-prefix: --#{$modifier-name};
+  & + & {
+    border-top: 1px solid $color-grey;
+    margin-top: $space-x-small;
   }
-
-  .geo-list-group#{$modifier-name-with-prefix} {
-    background: $color-white;
-
-    & + & {
-      border-top: 1px solid $color-grey;
-      margin-top: $space-x-small;
-    }
-  }
-
-  .geo-list-group__header#{$modifier-name-with-prefix} {
-    align-items: center;
-    background: $color-white;
-    border-radius: $border-radius-default;
-    color: $color-grey-dark;
-    cursor: default;
-    display: flex;
-    flex-direction: row;
-    font-family: $font-family-heading;
-    font-size: $font-size-regular;
-    font-weight: $font-weight-semi-bold;
-    height: $space-large;
-    justify-content: space-between;
-    line-height: $line-height-base;
-    margin: $space-x-small;
-    padding: 0 $space-x-small;
-    white-space: nowrap;
-  }
-
-  .geo-list-group__header__icon-and-label#{$modifier-name-with-prefix} {
-    align-items: center;
-    display: flex;
-    flex-direction: row;
-  }
-
-  .geo-list-group__header__icon-and-label__icon-container#{$modifier-name-with-prefix} {
-    margin-right: $space-small;
-  }
-
-  .geo-list-group__header__trailing-accessory-items#{$modifier-name-with-prefix} {
-    color: $color-grey-light;
-    margin-left: $space-small;
-  }
-
-  .geo-list-group__content#{$modifier-name-with-prefix} {
-    margin-left: $space-small;
-  }
-
 }
 
-@include geo-list-group-make('');
+.geo-list-group__header {
+  align-items: center;
+  background: $color-white;
+  border-radius: $border-radius-default;
+  color: $color-grey-dark;
+  cursor: default;
+  display: flex;
+  flex-direction: row;
+  font-family: $font-family-heading;
+  font-size: $font-size-regular;
+  font-weight: $font-weight-semi-bold;
+  height: $space-large;
+  justify-content: space-between;
+  line-height: $line-height-base;
+  margin: $space-x-small;
+  padding: 0 $space-x-small;
+  white-space: nowrap;
+}
+
+.geo-list-group__header__icon-and-label {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+}
+
+.geo-list-group__header__icon-and-label__icon-container {
+  margin-right: $space-small;
+}
+
+.geo-list-group__header__trailing-accessory-items {
+  color: $color-grey-light;
+  margin-left: $space-small;
+}
+
+.geo-list-group__content {
+  margin-left: $space-small;
+}

@@ -1,17 +1,14 @@
 <template>
-  <div :class="`geo-list-clear-item${cssSuffix}`">
+  <div class="geo-list-clear-item">
     <!-- @slot Use this slot to customize content displayed in this entry -->
     <slot />
   </div>
 </template>
 
 <script>
-import cssSuffix from '../../mixins/cssModifierMixin'
-
 export default {
   name: 'GeoListClearItem',
   status: 'ready',
-  release: '8.0.0',
-  mixins: [cssSuffix]
+  release: '8.0.0'
 }
 </script>
