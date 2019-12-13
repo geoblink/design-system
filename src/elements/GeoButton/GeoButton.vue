@@ -1,19 +1,19 @@
 <template>
   <div
     :class="{
-      [`geo-button${cssSuffix}`]: true,
-      [`geo-button--${type}${cssSuffix}`]: true,
-      [`geo-button--${type}--disabled${cssSuffix}`]: disabled,
-      [`geo-button--${type}--loading${cssSuffix}`]: loading,
-      [`geo-button--disabled${cssSuffix}`]: disabled,
-      [`geo-button--loading${cssSuffix}`]: loading
+      ['geo-button']: true,
+      [`geo-button--${type}`]: true,
+      [`geo-button--${type}--disabled`]: disabled,
+      [`geo-button--${type}--loading`]: loading,
+      ['geo-button--disabled']: disabled,
+      ['geo-button--loading']: loading
     }"
     @click="onGeoButtonClick($event)"
   >
     <div
       :class="{
-        [`geo-button__label${cssSuffix}`]: true,
-        [`geo-button__label--loading${cssSuffix}`]: loading
+        ['geo-button__label']: true,
+        ['geo-button__label--loading']: loading
       }"
     >
       <!-- @slot Use this slot to customize what's displayed in button's label -->
@@ -22,7 +22,7 @@
     <template v-if="loading">
       <!-- @slot Use this slot to customize what's displayed when the button is in loading state -->
       <slot name="loading">
-        <div :class="`geo-button__activity-indicator${cssSuffix}`">
+        <div class="geo-button__activity-indicator">
           <geo-activity-indicator :variant="activityIndicatorVariant" />
         </div>
       </slot>
@@ -65,9 +65,6 @@ export default {
      * Supported `type` values are exported under `TYPES` named export. See
      * [Component Constants](/docs/components-constants.html) for more info on how to
      * use those constants in your code.
-     *
-     * > **Note:** You can always override the color scheme of any `GeoButton`
-     * > using `cssModifier` prop.
      */
     type: {
       type: String,

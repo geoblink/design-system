@@ -9,7 +9,6 @@
     >
       <geo-link-button
         slot="toggleButton"
-        css-modifier="calendar-navigation-toggle-button"
         @click="toggleMonthSelection"
       >
         {{ currentSelectedMonth }}
@@ -38,7 +37,6 @@
     >
       <geo-link-button
         slot="toggleButton"
-        css-modifier="calendar-navigation-toggle-button"
         @click="toggleYearSelection"
       >
         {{ currentYear }}

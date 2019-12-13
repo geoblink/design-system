@@ -2,10 +2,13 @@
   <geo-select-base
     ref="selectBase"
     :opened="isOpened"
-    :css-modifier="`geo-select${cssSuffix}`"
     :has-more-results="hasMoreResultsToLoad"
     :fixed-width="fixedWidth"
-    :popup-class="popupClass"
+    :popup-class="[popupClass, {
+      'geo-select__popup': true,
+      'geo-select__popup--disabled': disabled
+    }]"
+    class="geo-select"
     @click-outside="closeSelect"
     @load-more-results="loadNextPage"
   >
@@ -15,7 +18,6 @@
       name="toggleButton"
       :dropdown-icon="dropdownIcon"
       :delete-icon="deleteIcon"
-      :css-modifier="`geo-select${cssSuffix}`"
       :is-empty="!value"
       :is-value-deletable="isValueDeletable"
       :disabled="disabled"
@@ -26,7 +28,6 @@
       <geo-select-toggle-button
         :dropdown-icon="dropdownIcon"
         :delete-icon="deleteIcon"
-        :css-modifier="`geo-select${cssSuffix}`"
         :is-empty="!value"
         :is-value-deletable="isValueDeletable"
         :disabled="disabled"
@@ -34,7 +35,7 @@
         @click="toggleSelect"
         @delete-value="deleteValue"
       >
-        <geo-trimmed-content :css-modifier="`geo-select${cssSuffix}`">
+        <geo-trimmed-content>
           {{ toggleButtonLabel }}
         </geo-trimmed-content>
       </geo-select-toggle-button>
@@ -50,7 +51,6 @@
         slot="header"
         v-model="searchPattern"
         :search-icon="searchIcon"
-        :css-modifier="`geo-select${cssSuffix}`"
         :placeholder="searchInputPlaceholder"
       />
     </slot>
@@ -67,18 +67,16 @@
             :option="option"
             :index="index"
             :suggested-key="`${option[keyForLabel]}--${index}`"
-            :css-modifier="`geo-select${cssSuffix}`"
           >
-            <geo-list-group :css-modifier="`geo-select${cssSuffix}`">
+            <geo-list-group>
               <slot
                 v-if="option.isOptGroupHeader"
                 slot="title"
                 name="group-title"
               >
-                <geo-marquee :css-modifier="`geo-select${cssSuffix}`">
+                <geo-marquee>
                   <geo-highlighted-string
                     slot-scope="{}"
-                    :css-modifier="`geo-select${cssSuffix}`"
                     :highlighted-chars="option.matches"
                     :reference-string="option[keyForLabel]"
                   />
@@ -92,18 +90,15 @@
                 :suggested-key="`${item[keyForLabel]}--${itemIndex}`"
                 :item-index="itemIndex"
                 :item="item"
-                :css-modifier="`geo-select${cssSuffix}`"
                 :change-current-selection="changeCurrentSelection"
               >
                 <geo-list-item
                   :key="`${item[keyForLabel]}--${itemIndex}`"
-                  :css-modifier="`geo-select${cssSuffix}`"
                   @click="changeCurrentSelection(item)"
                 >
-                  <geo-marquee :css-modifier="`geo-select${cssSuffix}`">
+                  <geo-marquee>
                     <geo-highlighted-string
                       slot-scope="{}"
-                      :css-modifier="`geo-select${cssSuffix}`"
                       :highlighted-chars="item.matches"
                       :reference-string="item[keyForLabel]"
                     />
@@ -124,18 +119,15 @@
             :item="option"
             :item-index="optionIndex"
             :suggested-key="`${option[keyForLabel]}--${optionIndex}`"
-            :css-modifier="`geo-select${cssSuffix}`"
             :change-current-selection="changeCurrentSelection"
           >
             <geo-list-item
               :key="`${option[keyForLabel]}--${optionIndex}`"
-              :css-modifier="`geo-select${cssSuffix}`"
               @click="changeCurrentSelection(option)"
             >
-              <geo-marquee :css-modifier="`geo-select${cssSuffix}`">
+              <geo-marquee>
                 <geo-highlighted-string
                   slot-scope="{}"
-                  :css-modifier="`geo-select${cssSuffix}`"
                   :highlighted-chars="option.matches"
                   :reference-string="option[keyForLabel]"
                 />
@@ -145,10 +137,7 @@
         </template>
       </template>
     </template>
-    <geo-list-clear-item
-      v-else
-      :css-modifier="`geo-select${cssSuffix}`"
-    >
+    <geo-list-clear-item v-else>
       <!--
         @slot Use this slot to customize the label that will be displayed when
         no results are found after searching for an option

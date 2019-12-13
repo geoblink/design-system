@@ -1,42 +1,29 @@
-@mixin geo-dropdown-make($modifier-name) {
-
-  $modifier-name-with-prefix: '';
-
-  @if $modifier-name != '' {
-    // sass-lint:disable space-around-operator
-    $modifier-name-with-prefix: --#{$modifier-name};
-  }
-
-  .geo-dropdown#{$modifier-name-with-prefix} {
-    display: flex;
-    font-family: $font-family-text;
-    font-size: $font-size-regular;
-    user-select: none;
-  }
-
-  .geo-dropdown__popup#{$modifier-name-with-prefix} {
-    // Use this variable to customize the space between toggle button popup
-    --spacing-to-toggle-button: 5;
-
-    // You can use these variables to consider available space depending on the
-    // position of the tooltip. They are automatically set whenever tooltip is
-    // positioned:
-    //
-    // --available-width
-    // --available-height
-
-    display: none;
-    overflow: hidden;
-    position: fixed;
-    user-select: none;
-    z-index: $z-index-sticky;
-  }
-
-  .geo-dropdown__popup--is-open#{$modifier-name-with-prefix} {
-    display: flex;
-    flex-direction: column;
-  }
-
+.geo-dropdown {
+  display: flex;
+  font-family: $font-family-text;
+  font-size: $font-size-regular;
+  user-select: none;
 }
 
-@include geo-dropdown-make('');
+.geo-dropdown__popup {
+  // Use this variable to customize the space between toggle button popup
+  --spacing-to-toggle-button: 5;
+
+  // You can use these variables to consider available space depending on the
+  // position of the tooltip. They are automatically set whenever tooltip is
+  // positioned:
+  //
+  // --available-width
+  // --available-height
+
+  display: none;
+  overflow: hidden;
+  position: fixed;
+  user-select: none;
+  z-index: $z-index-sticky;
+}
+
+.geo-dropdown__popup--is-open {
+  display: flex;
+  flex-direction: column;
+}

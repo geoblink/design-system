@@ -82,17 +82,6 @@ describe('GeoButton', () => {
     expect(wrapper.emitted()['click']).toBeFalsy()
   })
 
-  it('Should add CSS Suffix when given', function () {
-    const wrapper = mount(GeoButton, {
-      propsData: {
-        type: 'primary',
-        cssModifier: 'custom'
-      }
-    })
-
-    expect(wrapper.find('.geo-button--custom').exists()).toBe(true)
-  })
-
   it('Should show activity indicator when loading', function () {
     const wrapper = mount(GeoButton, {
       propsData: {
@@ -228,20 +217,6 @@ describe('GeoButton Children', () => {
         const button = wrapper.find('.geo-button')
         button.trigger('click')
         expect(wrapper.emitted()['click']).toBeFalsy()
-      })
-
-      it('Should add CSS Suffix when given', function () {
-        const wrapper = mount(taxonomyButton, {
-          propsData: {
-            cssModifier: 'custom'
-          },
-          stubs: {
-            GeoButton,
-            FontAwesomeIcon
-          }
-        })
-
-        expect(wrapper.find('.geo-button--custom').exists()).toBe(true)
       })
 
       it('Should show activity indicator when loading', function () {

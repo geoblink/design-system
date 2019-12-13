@@ -108,9 +108,8 @@ a better UX including chunked load and search capabilities.
       >
         <geo-select-toggle-button
           slot="toggleButton"
-          slot-scope="{ dropdownIcon, cssModifier, isEmpty, disabled, toggleSelect, label }"
+          slot-scope="{ dropdownIcon, isEmpty, disabled, toggleSelect, label }"
           :dropdown-icon="dropdownIcon"
-          :css-modifier="cssModifier"
           :is-empty="isEmpty"
           :disabled="disabled"
           @click="toggleSelect"

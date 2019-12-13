@@ -1,5 +1,3 @@
-import cssSuffix from '../../mixins/cssModifierMixin'
-
 const VARIANTS = {
   success: 'success',
   info: 'info',
@@ -14,7 +12,6 @@ export { VARIANTS }
  * @mixin
  */
 export default {
-  mixins: [cssSuffix],
   props: {
     /**
      * Whether this alert is floating or not. Floating alerts get special CSS
