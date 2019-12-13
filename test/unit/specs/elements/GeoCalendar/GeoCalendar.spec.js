@@ -61,17 +61,6 @@ describe('GeoCalendar', () => {
     expect(wrapper.vm.$refs.calendarPicker).toBeDefined()
   })
 
-  it('Should render with cssModifier', () => {
-    const wrapper = getWrappedComponent()
-    wrapper.setProps({
-      cssModifier: 'test-calendar'
-    })
-    expect(wrapper.find('.geo-calendar--test-calendar').exists()).toBe(true)
-    expect(wrapper.find('.geo-calendar__sidebar-container').exists()).toBe(true)
-    expect(wrapper.find('.geo-calendar__picker-controls').exists()).toBe(true)
-    expect(wrapper.vm.$refs.calendarPicker).toBeDefined()
-  })
-
   describe('Calendar events', () => {
     it('goToMonth', () => {
       const wrapper = getWrappedComponent()
@@ -441,7 +430,7 @@ describe('GeoCalendar', () => {
     describe('Calendar with no date constraints', () => {
       it('Should not render the buttons', () => {
         const wrapper = getWrappedComponent()
-        expect(wrapper.find('.geo-button--link--calendar-picker-button').exists()).toBe(false)
+        expect(wrapper.find('.geo-button--link').exists()).toBe(false)
       })
 
       it('Should not do anything if executing the method', () => {
@@ -449,7 +438,7 @@ describe('GeoCalendar', () => {
         wrapper.vm.selectDay(today)
         wrapper.vm.selectDay(addDays(today, 15))
 
-        expect(wrapper.find('.geo-button--link--calendar-picker-button').exists()).toBe(false)
+        expect(wrapper.find('.geo-button--link').exists()).toBe(false)
         expect(wrapper.vm.fromRawDate).toEqual(today)
         expect(wrapper.vm.toRawDate).toEqual(addDays(today, 15))
 
@@ -468,9 +457,9 @@ describe('GeoCalendar', () => {
           earliestDate: subYears(today, 1),
           latestDate: addYears(today, 1)
         })
-        expect(wrapper.find('.geo-button--link--calendar-picker-button').exists()).toBe(true)
-        expect(wrapper.findAll('.geo-button--link--calendar-picker-button').at(0).text()).toBe('Earliest date')
-        expect(wrapper.findAll('.geo-button--link--calendar-picker-button').at(1).text()).toBe('Latest date')
+        expect(wrapper.find('.geo-button--link').exists()).toBe(true)
+        expect(wrapper.findAll('.geo-button--link').at(0).text()).toBe('Earliest date')
+        expect(wrapper.findAll('.geo-button--link').at(1).text()).toBe('Latest date')
       })
 
       it('Pressing the buttons should set the according dates', () => {

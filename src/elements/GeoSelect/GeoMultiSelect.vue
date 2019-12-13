@@ -2,10 +2,10 @@
   <geo-select-base
     ref="selectBase"
     :opened="isOpened"
-    :css-modifier="`geo-multi-select${cssSuffix}`"
     :has-more-results="hasMoreResultsToLoad"
     :fixed-width="fixedWidth"
-    :popup-class="popupClass"
+    :popup-class="['geo-multi-select__popup', popupClass]"
+    class="geo-multi-select"
     @click-outside="closeSelect"
     @load-more-results="loadNextPage"
   >
@@ -14,7 +14,6 @@
       slot="toggleButton"
       name="toggleButton"
       :dropdown-icon="dropdownIcon"
-      :css-modifier="`geo-multi-select${cssSuffix}`"
       :is-empty="isEmpty"
       :disabled="disabled"
       :toggle-select="toggleSelect"
@@ -26,7 +25,6 @@
     >
       <geo-select-toggle-button
         :dropdown-icon="dropdownIcon"
-        :css-modifier="`geo-multi-select${cssSuffix}`"
         :is-empty="isEmpty"
         :disabled="disabled"
         :variant="variant"
@@ -99,7 +97,6 @@
       <geo-bordered-box-header-search-form
         v-model="searchPattern"
         :search-icon="searchIcon"
-        :css-modifier="`geo-multi-select${cssSuffix}`"
         :placeholder="searchInputPlaceholder"
       />
     </slot>
@@ -116,19 +113,17 @@
             :option="option"
             :index="index"
             :suggested-key="`${option[keyForLabel]}--${index}`"
-            :css-modifier="`geo-multi-select${cssSuffix}`"
           >
-            <geo-list-group :css-modifier="`geo-multi-select${cssSuffix}`">
+            <geo-list-group>
               <slot
                 v-if="option.isOptGroupHeader"
                 slot="title"
                 name="groupTitle"
               >
-                <label class="geo-multi-select_label geo-multi-select_label-group">
-                  <geo-marquee :css-modifier="`geo-multi-select${cssSuffix}`">
+                <label class="geo-multi-select__label geo-multi-select__label-group">
+                  <geo-marquee>
                     <geo-highlighted-string
                       slot-scope="{}"
-                      :css-modifier="`geo-multi-select${cssSuffix}`"
                       :highlighted-chars="option.matches"
                       :reference-string="option[keyForLabel]"
                     />
@@ -151,19 +146,16 @@
                 :suggested-key="`${item[keyForLabel]}--${itemIndex}`"
                 :option-index="itemIndex"
                 :option="item"
-                :css-modifier="`geo-multi-select${cssSuffix}`"
                 :selected-options="selectedOptions"
                 :toggle-option="toggleOption"
               >
                 <geo-list-item
                   :key="`${item[keyForLabel]}--${itemIndex}`"
-                  :css-modifier="`geo-multi-select${cssSuffix}`"
                 >
-                  <label class="geo-multi-select_label">
-                    <geo-marquee :css-modifier="`geo-multi-select${cssSuffix}`">
+                  <label class="geo-multi-select__label">
+                    <geo-marquee>
                       <geo-highlighted-string
                         slot-scope="{}"
-                        :css-modifier="`geo-multi-select${cssSuffix}`"
                         :highlighted-chars="item.matches"
                         :reference-string="item[keyForLabel]"
                       />
@@ -192,19 +184,14 @@
             :option="option"
             :option-index="optionIndex"
             :suggested-key="`${option[keyForLabel]}--${optionIndex}`"
-            :css-modifier="`geo-multi-select${cssSuffix}`"
             :selected-options="selectedOptions"
             :toggle-option="toggleOption"
           >
-            <geo-list-item
-              :key="`${option[keyForLabel]}--${optionIndex}`"
-              :css-modifier="`geo-multi-select${cssSuffix}`"
-            >
-              <label class="geo-multi-select_label">
-                <geo-marquee :css-modifier="`geo-multi-select${cssSuffix}`">
+            <geo-list-item :key="`${option[keyForLabel]}--${optionIndex}`">
+              <label class="geo-multi-select__label">
+                <geo-marquee>
                   <geo-highlighted-string
                     slot-scope="{}"
-                    :css-modifier="`geo-multi-select${cssSuffix}`"
                     :highlighted-chars="option.matches"
                     :reference-string="option[keyForLabel]"
                   />
@@ -222,10 +209,7 @@
         </template>
       </template>
     </template>
-    <geo-list-clear-item
-      v-else
-      :css-modifier="`geo-multi-select${cssSuffix}`"
-    >
+    <geo-list-clear-item v-else>
       <!--
         @slot Use this slot to customize the label that will be displayed when
         no results are found after searching for an option

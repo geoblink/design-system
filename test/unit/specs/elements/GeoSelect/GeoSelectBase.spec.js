@@ -65,7 +65,7 @@ describe('GeoSelectBase', () => {
           </geo-select-toggle-button>`
       }
     })
-    expect(wrapper.find('.geo-select__options-container').exists()).toBe(false)
+    expect(wrapper.find('.geo-select-base__options-container').exists()).toBe(false)
     expect(wrapper.find('.geo-list-footer-button').exists()).toBe(false)
   })
 
@@ -94,7 +94,7 @@ describe('GeoSelectBase', () => {
           </geo-select-toggle-button>`
       }
     })
-    expect(wrapper.find('.geo-select__options-container').exists()).toBe(true)
+    expect(wrapper.find('.geo-select-base__options-container').exists()).toBe(true)
     expect(wrapper.find('.geo-list-footer-button').exists()).toBe(true)
   })
 

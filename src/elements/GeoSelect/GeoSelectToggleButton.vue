@@ -1,10 +1,10 @@
 <template>
   <div
     :class="{
-      [`geo-select-toggle-button${cssSuffix}`]: true,
-      [`geo-select-toggle-button--empty${cssSuffix}`]: isEmpty,
-      [`geo-select-toggle-button--disabled${cssSuffix}`]: disabled,
-      [`geo-select-toggle-button--${variant}${cssSuffix}`]: true
+      'geo-select-toggle-button': true,
+      'geo-select-toggle-button--empty': isEmpty,
+      'geo-select-toggle-button--disabled': disabled,
+      [`geo-select-toggle-button--${variant}`]: variant
     }"
     @click="handleClick($event)"
   >
@@ -16,23 +16,17 @@
     <font-awesome-icon
       v-if="shouldShowDeleteButton"
       :icon="deleteIcon"
-      :class="{
-        [`geo-select-toggle-button__delete-icon${cssSuffix}`]: true
-      }"
+      class="geo-select-toggle-button__delete-icon"
       @click.stop="deleteValue($event)"
     />
     <font-awesome-icon
       :icon="dropdownIconForCurrentStatus"
-      :class="{
-        [`geo-select-toggle-button__toggle-icon${cssSuffix}`]: true
-      }"
+      class="geo-select-toggle-button__toggle-icon"
     />
   </div>
 </template>
 
 <script>
-import cssSuffix from '../../mixins/cssModifierMixin'
-
 export const VARIANTS = {
   inputAccessorySuffix: 'inputAccessorySuffix',
   inputAccessoryPrefix: 'inputAccessoryPrefix'
@@ -45,7 +39,6 @@ export default {
   constants: {
     VARIANTS
   },
-  mixins: [cssSuffix],
   props: {
     /**
      * Font Awesome 5 icon to be displayed as dropdown toggle button.
@@ -126,9 +119,6 @@ export default {
      * Supported `variant` values are exported under `VARIANTS` named export.
      * See [Component Constants](/docs/components-constants.html) for more info on how
      * to use those constants in your code.
-     *
-     * > **Note:** You can always override the color scheme of any
-     * > `GeoSelectToggleButton` using `cssModifier` prop.
      */
     variant: {
       type: String,

@@ -7,12 +7,9 @@ localVue.component('geo-table-body-row', GeoTableBodyRow)
 
 describe('GeoTableBodyRow', () => {
   it('Should render component', function () {
-    let slotScope
     const wrapper = mount(GeoTableBodyRow, {
       scopedSlots: {
-        default (params) {
-          slotScope = params
-        }
+        default () { }
       }
     })
 
