@@ -1,5 +1,3 @@
-/// <reference types="ora" />
-
 const path = require('path')
 const execa = require('execa')
 const bt = require('@babel/types')
