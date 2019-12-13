@@ -16,7 +16,6 @@ describe('GeoCalendarDropdown', () => {
     wrapper.find('.calendar-toggle').vm.$emit('click')
     expect(wrapper.vm.isCalendarPopupOpened).toBe(true)
     expect(wrapper.find('.geo-calendar').exists()).toBe(true)
-    expect(wrapper.vm.cssModifierWithGranularity).toBe('geo-calendar__dropdown--no-calendar-sidebar')
   })
 
   it('Should render with granularity picker', () => {
@@ -63,7 +62,6 @@ describe('GeoCalendarDropdown', () => {
     wrapper.find('.calendar-toggle').vm.$emit('click')
     expect(wrapper.vm.isCalendarPopupOpened).toBe(true)
     expect(wrapper.find('.geo-calendar').exists()).toBe(true)
-    expect(wrapper.vm.cssModifierWithGranularity).toBe('geo-calendar__dropdown')
   })
 
   it('Should render with predefined aliases', () => {
@@ -111,16 +109,6 @@ describe('GeoCalendarDropdown', () => {
     expect(wrapper.vm.isCalendarPopupOpened).toBe(true)
     expect(wrapper.find('.geo-calendar').exists()).toBe(true)
     expect(wrapper.find('.geo-calendar__sidebar-container').exists()).toBe(true)
-  })
-
-  it('Should render with appended cssModifier', () => {
-    const wrapper = getWrappedComponent()
-    wrapper.setProps({
-      cssModifier: 'test-calendar-dropdown'
-    })
-    wrapper.find('.calendar-toggle').vm.$emit('click')
-    expect(wrapper.find('.geo-calendar--test-calendar-dropdown').exists()).toBe(true)
-    expect(wrapper.vm.cssModifierWithGranularity).toBe('geo-calendar__dropdown--no-calendar-sidebar--test-calendar-dropdown')
   })
 
   it('Should render with popup class', () => {

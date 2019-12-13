@@ -1,5 +1,5 @@
 <template>
-  <div :class="`geo-calendar-grid${cssSuffix}`">
+  <div class="geo-calendar-grid">
     <div class="geo-calendar-grid__year-container">
       <geo-calendar-year-grid-year-unit
         v-for="year in totalYearsGrid"
@@ -19,7 +19,6 @@
 </template>
 
 <script>
-import cssSuffix from '../../../mixins/cssModifierMixin'
 import _ from 'lodash'
 import GeoCalendarDateIndicatorsMixin from '../GeoCalendarDateIndicators.mixin'
 import GeoCalendarGridMixin from './GeoCalendarGrid.mixin'
@@ -30,8 +29,7 @@ export default {
   release: '23.2.0',
   mixins: [
     GeoCalendarGridMixin,
-    GeoCalendarDateIndicatorsMixin,
-    cssSuffix
+    GeoCalendarDateIndicatorsMixin
   ],
 
   props: {

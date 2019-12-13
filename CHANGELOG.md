@@ -1,5 +1,11 @@
 # Changelog
 
+## 29.0.0
+
+Breaking:
+
+- Remove `css-modifier` mixin and prop.
+
 ## 28.1.1
 
 Fixed:
