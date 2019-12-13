@@ -433,6 +433,7 @@ export default {
     },
 
     cleanUpStaticTooltip () {
+      this.removeMouseEventHandlers()
       this.removeStaticTooltipContainer()
       this.staticTooltipId = null
     },
