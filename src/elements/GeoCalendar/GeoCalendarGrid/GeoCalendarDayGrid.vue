@@ -1,5 +1,5 @@
 <template>
-  <div :class="`geo-calendar-grid${cssSuffix}`">
+  <div class="geo-calendar-grid">
     <div class="geo-calendar-grid__weekdays-row-container">
       <p
         v-for="day in weekDays"
@@ -31,7 +31,6 @@
 </template>
 
 <script>
-import cssSuffix from '../../../mixins/cssModifierMixin'
 import _ from 'lodash'
 import addDays from 'date-fns/addDays'
 import eachDayOfInterval from 'date-fns/eachDayOfInterval'
@@ -55,10 +54,8 @@ export default {
   mixins: [
     GeoCalendarGridMixin,
     GeoCalendarDateIndicatorsMixin,
-    GeoCalendarGranularityIdMixin,
-    cssSuffix
+    GeoCalendarGranularityIdMixin
   ],
-
   computed: {
     currentDate () {
       return new Date(this.currentYear, this.currentMonth)
@@ -132,7 +129,6 @@ export default {
       return _.map(this.orderedDaysOfWeek, (d) => format(d, 'E', { locale: this.locale }))
     }
   },
-
   methods: {
     selectDay ($event) {
       /**

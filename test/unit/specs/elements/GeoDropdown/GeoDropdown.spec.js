@@ -329,14 +329,4 @@ describe('GeoDropdown', () => {
     scrollAnywhereSpy[0][1].value({ target: null })
     expect(repositionPopupSpy).toHaveBeenCalledTimes(1)
   })
-
-  it('Should apply a CSS suffix when the modifier is provided', () => {
-    const wrapper = mount(GeoDropdown, {
-      propsData: {
-        opened: false,
-        cssModifier: 'test'
-      }
-    })
-    expect(wrapper.find('.geo-dropdown--test').exists()).toBe(true)
-  })
 })

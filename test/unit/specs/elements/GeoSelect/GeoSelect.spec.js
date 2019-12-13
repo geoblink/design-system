@@ -79,7 +79,7 @@ describe('GeoSelect', () => {
       stubs,
       propsData: defaultProps
     })
-    expect(wrapper.find('.geo-select-toggle-button--geo-select').exists()).toBe(true)
+    expect(wrapper.find('.geo-select-toggle-button').exists()).toBe(true)
   })
 
   it('Should not render element popup if not opened', () => {
@@ -87,7 +87,7 @@ describe('GeoSelect', () => {
       stubs,
       propsData: defaultProps
     })
-    expect(wrapper.find('.geo-select__options-container--geo-select').exists()).toBe(false)
+    expect(wrapper.find('.geo-select-base__options-container').exists()).toBe(false)
   })
 
   it('Should render element popup if opened', () => {
@@ -100,7 +100,7 @@ describe('GeoSelect', () => {
         }
       }
     })
-    expect(wrapper.find('.geo-select__options-container--geo-select').exists()).toBe(true)
+    expect(wrapper.find('.geo-select-base__options-container').exists()).toBe(true)
   })
 
   it('Should render element popup with custom class', () => {
@@ -121,11 +121,11 @@ describe('GeoSelect', () => {
       stubs,
       propsData: defaultProps
     })
-    expect(wrapper.find('.geo-select-toggle-button--geo-select').exists()).toBe(true)
+    expect(wrapper.find('.geo-select-toggle-button').exists()).toBe(true)
 
-    wrapper.find('.geo-select-toggle-button--geo-select').trigger('click')
+    wrapper.find('.geo-select-toggle-button').trigger('click')
 
-    expect(wrapper.find('.geo-select__options-container--geo-select').exists()).toBe(true)
+    expect(wrapper.find('.geo-select-base__options-container').exists()).toBe(true)
   })
 
   it('Should execute load more results when given the event', (done) => {
@@ -147,9 +147,9 @@ describe('GeoSelect', () => {
       stubs,
       propsData: defaultProps
     })
-    wrapper.find('.geo-select-toggle-button--geo-select').trigger('click')
+    wrapper.find('.geo-select-toggle-button').trigger('click')
     expect(wrapper.vm.isOpened).toBe(true)
-    wrapper.find('.geo-list-item--geo-select').trigger('click')
+    wrapper.find('.geo-list-item').trigger('click')
     expect(wrapper.vm.isOpened).toBe(false)
     expect(wrapper.emitted().input).toBeTruthy()
     expect(wrapper.emitted().input[0][0]).toEqual({ label: '0' })
@@ -168,9 +168,9 @@ describe('GeoSelect', () => {
         }
       }
     })
-    expect(wrapper.find('.geo-bordered-box-header-search-form--geo-select').exists()).toBe(true)
+    expect(wrapper.find('.geo-bordered-box-header-search-form').exists()).toBe(true)
     wrapper.setProps({ searchable: false })
-    expect(wrapper.find('.geo-bordered-box-header-search-form--geo-select').exists()).toBe(false)
+    expect(wrapper.find('.geo-bordered-box-header-search-form').exists()).toBe(false)
   })
 
   it('Should filter the select options when typing on the search box', () => {
@@ -188,11 +188,11 @@ describe('GeoSelect', () => {
       }
     })
 
-    expect(wrapper.findAll('.geo-list-item--geo-select').length).toBe(4)
+    expect(wrapper.findAll('.geo-list-item').length).toBe(4)
     wrapper.find('.geo-input__input').element.value = 'Item 1'
     wrapper.find('.geo-input__input').trigger('input')
-    expect(wrapper.findAll('.geo-list-item--geo-select').length).toBe(1)
-    expect(wrapper.find('.geo-list-item--geo-select').text()).toEqual('Item 1')
+    expect(wrapper.findAll('.geo-list-item').length).toBe(1)
+    expect(wrapper.find('.geo-list-item').text()).toEqual('Item 1')
   })
 
   it('Should filter options in an opt-group select', () => {
@@ -222,10 +222,10 @@ describe('GeoSelect', () => {
       }
     })
 
-    expect(wrapper.findAll('.geo-list-item--geo-select').length).toBe(8)
+    expect(wrapper.findAll('.geo-list-item').length).toBe(8)
     wrapper.find('.geo-input__input').element.value = 'Second Group'
     wrapper.find('.geo-input__input').trigger('input')
-    expect(wrapper.findAll('.geo-list-item--geo-select').length).toBe(4)
+    expect(wrapper.findAll('.geo-list-item').length).toBe(4)
   })
 
   describe('When disabled', () => {
@@ -236,8 +236,8 @@ describe('GeoSelect', () => {
           disabled: true
         })
       })
-      expect(wrapper.find('.geo-select-toggle-button--geo-select').exists()).toBe(true)
-      expect(wrapper.find('.geo-select-toggle-button--disabled--geo-select').exists()).toBe(true)
+      expect(wrapper.find('.geo-select-toggle-button').exists()).toBe(true)
+      expect(wrapper.find('.geo-select-toggle-button--disabled').exists()).toBe(true)
     })
 
     it('Should disable user interaction', () => {
@@ -247,11 +247,11 @@ describe('GeoSelect', () => {
           disabled: true
         })
       })
-      expect(wrapper.find('.geo-select-toggle-button--geo-select').exists()).toBe(true)
+      expect(wrapper.find('.geo-select-toggle-button').exists()).toBe(true)
 
-      wrapper.find('.geo-select-toggle-button--geo-select').trigger('click')
+      wrapper.find('.geo-select-toggle-button').trigger('click')
 
-      expect(wrapper.find('.geo-select__options-container--geo-select').exists()).toBe(false)
+      expect(wrapper.find('.geo-select-base__options-container').exists()).toBe(false)
     })
   })
 })

@@ -2,10 +2,10 @@
   <geo-dropdown
     ref="dropdown"
     :opened="opened"
-    :css-modifier="cssModifier"
     :force-y-axis-position="forceYAxisPosition"
     :fixed-width="fixedWidth"
-    :popup-class="popupClass"
+    :popup-class="['geo-select-base__popup', popupClass]"
+    class="geo-select-base"
     @click-outside="handleClickOutside($event)"
   >
     <!-- @slot Use this slot to customize the button toggling the actual selection popup -->
@@ -18,12 +18,11 @@
       <slot name="header" />
       <geo-scrollable-container
         :show-more-results-button="hasMoreResults"
-        :css-modifier="cssModifier"
         @load-more-results="loadNextPage"
       >
         <div
           ref="scrollableContent"
-          :class="`geo-select__options-container${cssSuffix}`"
+          class="geo-select-base__options-container"
         >
           <!-- @slot Use this slot to customize the main content of the selection popup -->
           <slot />
@@ -41,14 +40,12 @@
 </template>
 
 <script>
-import cssSuffix from '../../mixins/cssModifierMixin'
 import { Y_AXIS_POSITION, X_AXIS_POSITION } from '../GeoDropdown/GeoDropdown.constants'
 
 export default {
   name: 'GeoSelectBase',
   status: 'ready',
   release: '4.1.0',
-  mixins: [cssSuffix],
   constants: {
     X_AXIS_POSITION,
     Y_AXIS_POSITION
