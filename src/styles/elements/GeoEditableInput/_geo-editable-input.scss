@@ -80,11 +80,14 @@
   display: flex;
 }
 
-.geo-editable-input__popup,
 .geo-editable-input__popup {
   border: none;
   background-color: transparent;
   overflow: visible;
+
+  .geo-activity-indicator {
+    height: 12px;
+  }
 }
 
 .geo-editable-input__popup--table {
@@ -93,10 +96,4 @@
 
 .geo-editable-input__popup--normal {
   --spacing-to-toggle-button: 11;
-}
-
-.geo-editable-input__popup {
-  .geo-activity-indicator {
-    height: 12px;
-  }
 }
