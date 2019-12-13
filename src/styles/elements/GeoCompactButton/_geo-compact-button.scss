@@ -1,9 +1,9 @@
 // Creates a geo-compact-button color scheme varying the background and text color based
 // on the hover/focus/disabled status.
-@mixin geo-compact-button-make-scheme ($params, $css-suffix) {
+@mixin geo-compact-button-make-scheme ($params) {
   $hoverYOffsetWithBorders: -3px;
 
-  &#{$css-suffix} {
+  & {
     @if map-has-key($params, normal-background-color) {
       background: map-get($params, normal-background-color);
     }
@@ -92,7 +92,7 @@
     }
   }
 
-  &--disabled#{$css-suffix} {
+  &--disabled {
     @if map-has-key($params, disabled-background-color) {
       background: map-get($params, disabled-background-color);
     }
@@ -149,12 +149,50 @@
   }
 }
 
-@mixin geo-compact-button--primary($css-suffix) {
+.geo-compact-button {
+  @include font($body-small);
+
+  align-items: center;
+  border-radius: $border-radius-default;
+  box-shadow: $box-shadow-small;
+  cursor: pointer;
+  display: flex;
+  height: $space-base;
+  justify-content: center;
+  outline: none;
+  padding: 0;
+  position: relative;
+  width: $space-base;
+
+  .geo-compact-button__icon {
+    margin-left: $space-x-small;
+    padding: .58em .83em .67em .83em;
+    transition: all $duration-noticeable $easing-base;
+    transition-property: transform, opacity;
+  }
+
+  .geo-compact-button__icon--loading {
+    transform: scale(0);
+    opacity: 0;
+  }
+
+  .geo-compact-button__activity-indicator {
+    height: 16px;
+    position: absolute;
+    width: 16px;
+  }
+
+  &--loading {
+    cursor: progress;
+  }
+
+  &--disabled {
+    cursor: not-allowed;
+  }
+}
+
+.geo-compact-button--primary {
   $hoverYOffset: -1px;
-  background-color: $color-blue;
-  border: 1px solid $color-blue;
-  color: $color-white;
-  margin-left: $space-x-small;
 
   @include geo-compact-button-make-scheme((
     disabled-background-color: $color-grey,
@@ -163,19 +201,18 @@
     hover-and-disabled-background-color: $color-grey,
     hover-shadow: $box-shadow-button-hover,
     hover-transform: translateY($hoverYOffset)
-  ), $css-suffix);
+  ));
 
-  &#{$css-suffix} {
-    transition: all $duration-quickly $easing-base;
-    transition-property: background-color;
-  }
+  background-color: $color-blue;
+  border: 1px solid $color-blue;
+  color: $color-white;
+  margin-left: $space-x-small;
+  transition: all $duration-quickly $easing-base;
+  transition-property: background-color;
 }
 
-@mixin geo-compact-button--secondary($css-suffix) {
+.geo-compact-button--secondary{
   $hoverYOffset: -1px;
-  background-color: $color-white;
-  border: 1px solid $color-grey;
-  color: $color-grey;
 
   @include geo-compact-button-make-scheme((
     disabled-background-color: $color-white-disabled,
@@ -183,15 +220,16 @@
     disabled-border-color: $color-grey,
     hover-shadow: $box-shadow-button-hover,
     hover-transform: translateY($hoverYOffset)
-  ), $css-suffix);
+  ));
 
-  &#{$css-suffix} {
-    transition: all $duration-quickly $easing-base;
-    transition-property: background-color, border-color, color;
-  }
+  background-color: $color-white;
+  border: 1px solid $color-grey;
+  color: $color-grey;
+  transition: all $duration-quickly $easing-base;
+  transition-property: background-color, border-color, color;
 }
 
-@mixin geo-compact-button--danger($css-suffix) {
+.geo-compact-button--danger {
   $hoverYOffset: -1px;
 
   @include geo-compact-button-make-scheme((
@@ -202,104 +240,23 @@
     disabled-border-color: $color-grey,
     hover-shadow: $box-shadow-button-hover,
     hover-transform: translateY($hoverYOffset)
-  ), $css-suffix);
+  ));
 
-  &#{$css-suffix} {
-    transition: all $duration-quickly $easing-base;
-    transition-property: background-color, border-color, color;
-  }
+  transition: all $duration-quickly $easing-base;
+  transition-property: background-color, border-color, color;
 }
 
-@mixin geo-compact-button--inputAccessory($css-suffix) {
+.geo-compact-button--inputAccessory {
   @include geo-compact-button-make-scheme((
     hover-background-color: rgba($color-dark-overlay, .1),
     disabled-background-color: transparent,
     disabled-text-color: $color-grey-light,
-  ), $css-suffix);
+  ));
 
   background-color: transparent;
   border: none;
   box-shadow: none;
   color: $color-grey-light;
-
-  &#{$css-suffix} {
-    transition: all $duration-quickly $easing-base;
-    transition-property: background-color, border-color, color;
-  }
+  transition: all $duration-quickly $easing-base;
+  transition-property: background-color, border-color, color;
 }
-
-@mixin geo-compact-button($css-suffix) {
-  &#{$css-suffix} {
-    @include font($body-small);
-
-    align-items: center;
-    border-radius: $border-radius-default;
-    box-shadow: $box-shadow-small;
-    cursor: pointer;
-    display: flex;
-    height: $space-base;
-    justify-content: center;
-    outline: none;
-    padding: 0;
-    position: relative;
-    width: $space-base;
-
-    .geo-compact-button__icon#{$css-suffix} {
-      margin-left: $space-x-small;
-      padding: .58em .83em .67em .83em;
-      transition: all $duration-noticeable $easing-base;
-      transition-property: transform, opacity;
-    }
-
-    .geo-compact-button__icon--loading#{$css-suffix} {
-      transform: scale(0);
-      opacity: 0;
-    }
-
-    .geo-compact-button__activity-indicator#{$css-suffix} {
-      height: 16px;
-      position: absolute;
-      width: 16px;
-    }
-  }
-
-  &--loading#{$css-suffix} {
-    cursor: progress;
-  }
-
-  &--disabled#{$css-suffix} {
-    cursor: not-allowed;
-  }
-}
-
-@mixin geo-compact-button-make($modifier-name) {
-
-  $modifier-name-with-prefix: '';
-
-  @if $modifier-name != '' {
-    // sass-lint:disable space-around-operator
-    $modifier-name-with-prefix: --#{$modifier-name};
-  }
-
-  .geo-compact-button {
-    @include geo-compact-button($modifier-name-with-prefix);
-  }
-
-  .geo-compact-button--primary {
-    @include geo-compact-button--primary($modifier-name-with-prefix);
-  }
-
-  .geo-compact-button--secondary{
-    @include geo-compact-button--secondary($modifier-name-with-prefix);
-  }
-
-  .geo-compact-button--danger {
-    @include geo-compact-button--danger($modifier-name-with-prefix);
-  }
-
-  .geo-compact-button--inputAccessory {
-    @include geo-compact-button--inputAccessory($modifier-name-with-prefix);
-  }
-}
-
-@include geo-compact-button-make('');
