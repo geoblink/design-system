@@ -2,7 +2,14 @@
   <div class="c-component-demo">
     <div class="c-component-demo__preview">
       <div class="c-component-demo__resizable-content">
-        <slot name="preview" />
+        <geo-activity-indicator
+          v-if="isLoading"
+          class="c-component-demo__loading"
+        />
+        <slot
+          v-else
+          name="preview"
+        />
       </div>
     </div>
 
@@ -62,8 +69,12 @@ export default {
   name: 'ComponentDemo',
   data () {
     return {
+      isLoading: true,
       isEditorVisible: false
     }
+  },
+  mounted () {
+    setInterval(() => this.isLoading = false, 100)
   },
   methods: {
     showEditor () {
