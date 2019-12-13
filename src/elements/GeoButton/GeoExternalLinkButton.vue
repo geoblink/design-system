@@ -2,7 +2,7 @@
   <geo-button
     v-bind="propsForButton"
     :type="type"
-    :class="`geo-external-link-button${cssSuffix}`"
+    class="geo-external-link-button"
     @click="handleClick($event)"
   >
     <a

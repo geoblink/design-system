@@ -1,111 +1,100 @@
-@mixin geo-calendar-make($modifier-name) {
-
-  $modifier-name-with-prefix: '';
+.geo-calendar {
   $calendar-input-height: 30px;
 
-  @if $modifier-name != '' {
-    // sass-lint:disable space-around-operator
-    $modifier-name-with-prefix: --#{$modifier-name};
+  display: flex;
+
+  // GEO CALENDAR GRANULARITY SIDEBAR
+  .geo-calendar-picker-granularity-unit {
+    @include font($body-small);
+
+    align-items: center;
+    border-radius: $border-radius-default;
+    color: $color-grey-dark;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: $space-x-small;
+    padding: $space-x-small $space-small;
+
+    &:not(.geo-calendar-picker-granularity-unit--active):hover {
+      background: $color-white-darker;
+
+      .geo-calendar-picker-granularity-unit__selector-icon {
+        visibility: visible;
+      }
+    }
+
+    &--active {
+      background: $color-blue;
+      color: $color-white;
+
+      .geo-calendar-picker-granularity-unit__selector-icon {
+        color: $color-white-dark;
+        visibility: visible;
+      }
+    }
   }
 
-  // TODO CORE-7347 - Refactor CSS Code so it passes down cssModifier to all child components
+  .geo-calendar-picker-granularity-unit__selector-icon {
+    color: $color-grey-light;
+    display: inline;
+    margin-left: $space-small;
+    visibility: hidden;
+  }
 
-  .geo-calendar#{$modifier-name-with-prefix} {
+  .geo-calendar__sidebar-container {
+    background: $color-white-dark;
+    border-right: 1px solid $color-grey;
+    box-sizing: border-box;
+    flex-grow: 1;
+    flex-shrink: 0;
+    padding: $space-small;
+  }
+
+  // GEO CALENDAR INPUT CONTROLS
+  .geo-calendar__picker-controls {
+    box-sizing: content-box;
+    padding: $space-base;
+  }
+
+  .geo-calendar__input-ranges {
+    align-items: baseline;
+    border-bottom: 1px solid $color-grey;
     display: flex;
+    justify-content: space-evenly;
+    padding-bottom: $space-base;
+  }
 
-    // GEO CALENDAR GRANULARITY SIDEBAR
-    .geo-calendar-picker-granularity-unit {
-      @include font($body-small);
+  .geo-calendar__input {
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+  }
 
-      align-items: center;
-      border-radius: $border-radius-default;
-      color: $color-grey-dark;
-      cursor: pointer;
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: $space-x-small;
-      padding: $space-x-small $space-small;
+  .geo-calendar__input__date-feedback--error {
+    @include font($label);
 
-      &:not(.geo-calendar-picker-granularity-unit--active):hover {
-        background: $color-white-darker;
+    color: $color-red;
+    margin-top: $space-x-small;
+  }
 
-        .geo-calendar-picker-granularity-unit__selector-icon {
-          visibility: visible;
-        }
-      }
+  .geo-editable-input__container--geo-calendar {
+    height: $calendar-input-height;
+  }
 
-      &--active {
-        background: $color-blue;
-        color: $color-white;
+  .geo-editable-input__form__input--geo-calendar {
+    @include font($body-small);
 
-        .geo-calendar-picker-granularity-unit__selector-icon {
-          color: $color-white-dark;
-          visibility: visible;
-        }
-      }
-    }
+    height: calc(#{$calendar-input-height} - 2px); //2px of border in the inner input
+  }
 
-    .geo-calendar-picker-granularity-unit__selector-icon {
-      color: $color-grey-light;
-      display: inline;
-      margin-left: $space-small;
-      visibility: hidden;
-    }
+  .geo-calendar__input-range-icon {
+    @include font($label-optional);
 
-    .geo-calendar__sidebar-container {
-      background: $color-white-dark;
-      border-right: 1px solid $color-grey;
-      box-sizing: border-box;
-      flex-grow: 1;
-      flex-shrink: 0;
-      padding: $space-small;
-    }
+    margin: 0 $space-small;
+  }
 
-    // GEO CALENDAR INPUT CONTROLS
-    .geo-calendar__picker-controls {
-      box-sizing: content-box;
-      padding: $space-base;
-    }
-
-    .geo-calendar__input-ranges {
-      align-items: baseline;
-      border-bottom: 1px solid $color-grey;
-      display: flex;
-      justify-content: space-evenly;
-      padding-bottom: $space-base;
-    }
-
-    .geo-calendar__input {
-      align-items: flex-start;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .geo-calendar__input__date-feedback--error {
-      @include font($label);
-
-      color: $color-red;
-      margin-top: $space-x-small;
-    }
-
-    .geo-editable-input__container--geo-calendar {
-      height: $calendar-input-height;
-    }
-
-    .geo-editable-input__form__input--geo-calendar {
-      @include font($body-small);
-
-      height: calc(#{$calendar-input-height} - 2px); //2px of border in the inner input
-    }
-
-    .geo-calendar__input-range-icon {
-      @include font($label-optional);
-
-      margin: 0 $space-small;
-    }
-
-    .geo-button--calendar-picker-button > .geo-button__label--calendar-picker-button {
-      padding-left: 0;
-    }
+  .geo-button--calendar-picker-button > .geo-button__label--calendar-picker-button {
+    padding-left: 0;
   }
 }

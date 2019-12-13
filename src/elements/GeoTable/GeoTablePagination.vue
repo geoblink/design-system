@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="hasMultiplePages"
-    :class="`geo-table-pagination${cssSuffix}`"
+    class="geo-table-pagination"
   >
     <!-- @slot Use this slot to customize the shortcut to display first page of data -->
     <slot
@@ -109,14 +109,13 @@
 </template>
 
 <script>
-import cssSuffix from '../../mixins/cssModifierMixin'
 import GeoTablePaginationMixin from './GeoTablePaginationMixin'
 
 export default {
   name: 'GeoTablePagination',
   status: 'ready',
   release: '10.1.0',
-  mixins: [GeoTablePaginationMixin, cssSuffix],
+  mixins: [GeoTablePaginationMixin],
   constants: {
     GeoTablePaginationMixin
   }

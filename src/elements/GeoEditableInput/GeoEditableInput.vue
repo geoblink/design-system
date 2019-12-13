@@ -1,23 +1,22 @@
 <template>
   <div
     :class="{
-      [`geo-editable-input__container${cssSuffix}`]: true,
-      [`geo-editable-input__container-${inputType}${cssSuffix}`]: true,
-      [`geo-editable-input__container--disabled${cssSuffix}`]: disabled,
-      [`geo-editable-input__container-${inputType}--edit${cssSuffix}`]: showButtons || isFocused
+      ['geo-editable-input__container']: true,
+      [`geo-editable-input__container-${inputType}`]: true,
+      ['geo-editable-input__container--disabled']: disabled,
+      [`geo-editable-input__container-${inputType}--edit`]: showButtons || isFocused
     }"
   >
     <geo-dropdown
       ref="dropdown"
       :opened="showButtons"
-      :css-modifier="`geo-editable-input--${inputType}${cssSuffix}`"
-      :popup-class="popupClass"
+      :popup-class="['geo-editable-input__popup', `geo-editable-input__popup--${inputType}`, popupClass]"
       preferred-x-axis-position="right"
       @click-outside="handleClickOutside($event)"
     >
       <form
         slot="toggleButton"
-        :class="`geo-editable-input__form${cssSuffix}`"
+        class="geo-editable-input__form"
         @submit.prevent="emitSave($event)"
       >
         <slot name="leadingAccessoryItem" />
@@ -25,8 +24,8 @@
           :value="value"
           :placeholder="placeholder"
           :disabled="disabled"
-          :class="`geo-editable-input__form__input${cssSuffix}`"
           :type="type"
+          class="geo-editable-input__form__input"
           v-bind="$attrs"
           @click="emitClick($event)"
           @input="onInput($event)"
@@ -37,7 +36,7 @@
       <div
         v-if="showButtons"
         slot="popupContent"
-        :class="`geo-editable-input__container__buttons${cssSuffix}`"
+        class="geo-editable-input__container__buttons"
       >
         <geo-secondary-compact-button
           :icon="cancelIcon"
@@ -56,14 +55,12 @@
 
 <script>
 import enumPropertyFactory from '../../utils/enumPropertyFactory'
-import cssSuffix from '../../mixins/cssModifierMixin'
 import { VARIANTS, TYPES } from './GeoEditableInput.constants'
 
 export default {
   name: 'GeoEditableInput',
   status: 'ready',
   release: '24.0.0',
-  mixins: [cssSuffix],
   constants: { VARIANTS, TYPES },
   props: {
     /**

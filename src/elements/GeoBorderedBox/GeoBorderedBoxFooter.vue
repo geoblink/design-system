@@ -1,17 +1,14 @@
 <template>
-  <div :class="`geo-bordered-box-footer${cssSuffix}`">
+  <div class="geo-bordered-box-footer">
     <!-- @slot Use this slot to customize footer's content -->
     <slot />
   </div>
 </template>
 
 <script>
-import cssSuffix from '../../mixins/cssModifierMixin'
-
 export default {
   name: 'GeoBorderedBoxFooter',
   status: 'ready',
-  release: '7.3.0',
-  mixins: [cssSuffix]
+  release: '7.3.0'
 }
 </script>

@@ -1,12 +1,12 @@
 <template>
   <button
     :class="{
-      [`geo-compact-button${cssSuffix}`]: true,
-      [`geo-compact-button--${type}${cssSuffix}`]: true,
-      [`geo-compact-button--${type}--disabled${cssSuffix}`]: disabled,
-      [`geo-compact-button--${type}--loading${cssSuffix}`]: loading,
-      [`geo-compact-button--disabled${cssSuffix}`]: disabled,
-      [`geo-compact-button--loading${cssSuffix}`]: loading
+      ['geo-compact-button']: true,
+      [`geo-compact-button--${type}`]: true,
+      [`geo-compact-button--${type}--disabled`]: disabled,
+      [`geo-compact-button--${type}--loading`]: loading,
+      ['geo-compact-button--disabled']: disabled,
+      ['geo-compact-button--loading']: loading
     }"
     @click="onGeoCompactButtonClick($event)"
   >
@@ -21,7 +21,7 @@
       v-if="loading"
       name="loading"
     >
-      <div :class="`geo-compact-button__activity-indicator${cssSuffix}`">
+      <div class="geo-compact-button__activity-indicator">
         <geo-activity-indicator :variant="activityIndicatorVariant" />
       </div>
     </slot>
@@ -61,9 +61,6 @@ export default {
      * Supported `type` values are exported under `TYPES` named export. See
      * [Component Constants](/docs/components-constants.html) for more info on how to
      * use those constants in your code.
-     *
-     * > **Note:** You can always override the color scheme of any `GeoCompactButton`
-     * > using `cssModifier` prop.
      */
     type: {
       type: String,

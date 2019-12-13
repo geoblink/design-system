@@ -1,94 +1,84 @@
-@mixin geo-tooltip-make($modifier-name) {
+.geo-tooltip {
+  left: 0;
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  z-index: $z-index-tooltip;
+}
 
-  $modifier-name-with-prefix: '';
-
-  @if $modifier-name != '' {
-    // sass-lint:disable space-around-operator
-    $modifier-name-with-prefix: --#{$modifier-name};
-  }
-
-  .geo-tooltip {
+.geo-tooltip__content--top,
+.geo-tooltip__content--bottom {
+  &.geo-tooltip__content--start .geo-tooltip__arrow {
     left: 0;
-    pointer-events: none;
-    position: absolute;
-    top: 0;
-    z-index: $z-index-tooltip;
   }
 
+  &.geo-tooltip__content--end .geo-tooltip__arrow {
+    left: 100%;
+    transform: translateX(-200%);
+  }
+
+  &.geo-tooltip__content--middle .geo-tooltip__arrow {
+    left: 50%;
+    transform: translateX(-100%);
+  }
+}
+
+.geo-tooltip__content--leading,
+.geo-tooltip__content--trailing {
+  &.geo-tooltip__content--start .geo-tooltip__arrow {
+    top: 0;
+  }
+
+  &.geo-tooltip__content--end .geo-tooltip__arrow {
+    top: 100%;
+    transform: translateY(-200%);
+  }
+
+  &.geo-tooltip__content--middle .geo-tooltip__arrow {
+    top: 50%;
+    transform: translateY(-100%);
+  }
+}
+
+.geo-tooltip__content {
   $popper-background-color: $color-dark-overlay !default;
   $popper-tooltip-arrow-size: 5px;
   $popper-tooltip-arrow-offset: 2px;
 
-  .geo-tooltip__content#{$modifier-name-with-prefix} {
-    // Use this variable to customize the space between trigger target and tooltip
-    --spacing-to-trigger-target: #{$popper-tooltip-arrow-size+$popper-tooltip-arrow-offset};
+  // Use this variable to customize the space between trigger target and tooltip
+  --spacing-to-trigger-target: #{$popper-tooltip-arrow-size+$popper-tooltip-arrow-offset};
 
-    // You can use these variables to consider available space depending on the
-    // position of the tooltip. They are automatically set whenever tooltip is
-    // positioned:
-    //
-    // --available-width
-    // --available-height
+  // You can use these variables to consider available space depending on the
+  // position of the tooltip. They are automatically set whenever tooltip is
+  // positioned:
+  //
+  // --available-width
+  // --available-height
 
-    // These styles are directly taken from vue-directive-tooltip so Chart
-    // tooltips look like regular tooltips.
+  // These styles are directly taken from vue-directive-tooltip so Chart
+  // tooltips look like regular tooltips.
 
-    @include font($body);
+  @include font($body);
 
-    background-color: $popper-background-color;
-    border-radius: 3px;
-    box-sizing: border-box;
-    color: $color-white;
-    max-width: 320px;
-    padding: 6px 10px;
-    pointer-events: auto;
-    position: relative;
+  background-color: $popper-background-color;
+  border-radius: 3px;
+  box-sizing: border-box;
+  color: $color-white;
+  max-width: 320px;
+  padding: 6px 10px;
+  pointer-events: auto;
+  position: relative;
 
-    .geo-tooltip__arrow {
-      border-style: solid;
-      content: '';
-      height: 0;
-      margin: $popper-tooltip-arrow-size;
-      position: absolute;
-      width: 0;
-    }
+  .geo-tooltip__arrow {
+    border-style: solid;
+    content: '';
+    height: 0;
+    margin: $popper-tooltip-arrow-size;
+    position: absolute;
+    width: 0;
   }
 
-  .geo-tooltip__content--top#{$modifier-name-with-prefix},
-  .geo-tooltip__content--bottom#{$modifier-name-with-prefix} {
-    &.geo-tooltip__content--start#{$modifier-name-with-prefix} .geo-tooltip__arrow {
-      left: 0;
-    }
-
-    &.geo-tooltip__content--end#{$modifier-name-with-prefix} .geo-tooltip__arrow {
-      left: 100%;
-      transform: translateX(-200%);
-    }
-
-    &.geo-tooltip__content--middle#{$modifier-name-with-prefix} .geo-tooltip__arrow {
-      left: 50%;
-      transform: translateX(-100%);
-    }
-  }
-
-  .geo-tooltip__content--leading#{$modifier-name-with-prefix},
-  .geo-tooltip__content--trailing#{$modifier-name-with-prefix} {
-    &.geo-tooltip__content--start#{$modifier-name-with-prefix} .geo-tooltip__arrow {
-      top: 0;
-    }
-
-    &.geo-tooltip__content--end#{$modifier-name-with-prefix} .geo-tooltip__arrow {
-      top: 100%;
-      transform: translateY(-200%);
-    }
-
-    &.geo-tooltip__content--middle#{$modifier-name-with-prefix} .geo-tooltip__arrow {
-      top: 50%;
-      transform: translateY(-100%);
-    }
-  }
-
-  .geo-tooltip__content--top#{$modifier-name-with-prefix} {
+  &--top {
     transform: translateY(-100%);
 
     .geo-tooltip__arrow {
@@ -103,7 +93,7 @@
     }
   }
 
-  .geo-tooltip__content--bottom#{$modifier-name-with-prefix} .geo-tooltip__arrow {
+  &--bottom .geo-tooltip__arrow {
     border-bottom-color: $popper-background-color;
     border-left-color: transparent !important;
     border-right-color: transparent !important;
@@ -114,7 +104,7 @@
     top: -$popper-tooltip-arrow-size;
   }
 
-  .geo-tooltip__content--leading#{$modifier-name-with-prefix} {
+  &--leading {
     transform: translateX(-100%);
 
     .geo-tooltip__arrow {
@@ -129,7 +119,7 @@
     }
   }
 
-  .geo-tooltip__content--trailing#{$modifier-name-with-prefix} .geo-tooltip__arrow {
+  &--trailing .geo-tooltip__arrow {
     border-bottom-color: transparent !important;
     border-left-color: transparent !important;
     border-top-color: transparent !important;
@@ -140,5 +130,3 @@
     margin-right: 0;
   }
 }
-
-@include geo-tooltip-make('');

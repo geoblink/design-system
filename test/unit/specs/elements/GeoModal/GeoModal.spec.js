@@ -249,16 +249,4 @@ describe('GeoModal', () => {
     onResizeCalls[0][1].value.callback()
     expect(repositionModalSpy).toHaveBeenCalledTimes(1)
   })
-
-  it('Should apply a CSS suffix when the modifier is provided', () => {
-    const wrapper = mount(GeoModal, {
-      propsData: {
-        cssModifier: 'test'
-      },
-      stubs: {
-        'geo-bordered-box': GeoBorderedBox
-      }
-    })
-    expect(wrapper.find('.geo-modal--test').exists()).toBe(true)
-  })
 })

@@ -6,30 +6,16 @@
   padding: 0 $space-small;
 }
 
-@mixin geo-tab-bar-make($modifier-name) {
+.geo-tab-bar-default {
+  @include geo-tab-bar-common;
 
-  $modifier-name-with-prefix: '';
-
-  @if $modifier-name != '' {
-    @include geo-tab-bar-item-make($modifier-name);
-
-    // sass-lint:disable space-around-operator
-    $modifier-name-with-prefix: --#{$modifier-name};
-  }
-
-  .geo-tab-bar-default#{$modifier-name-with-prefix} {
-    @include geo-tab-bar-common;
-
-    background-color: $color-blue-dark;
-    height: 50px;
-  }
-
-  .geo-tab-bar-modal#{$modifier-name-with-prefix} {
-    @include geo-tab-bar-common;
-
-    background-color: $color-white-dark;
-    height: 40px;
-  }
+  background-color: $color-blue-dark;
+  height: 50px;
 }
 
-@include geo-tab-bar-make('');
+.geo-tab-bar-modal {
+  @include geo-tab-bar-common;
+
+  background-color: $color-white-dark;
+  height: 40px;
+}

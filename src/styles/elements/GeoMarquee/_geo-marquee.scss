@@ -12,25 +12,14 @@
   }
 }
 
-@mixin geo-marquee-make ($modifier-name) {
-  $modifier-name-with-prefix: '';
-
-  @if $modifier-name != '' {
-    // sass-lint:disable space-around-operator
-    $modifier-name-with-prefix: --#{$modifier-name};
-  }
-
-  .geo-marquee#{$modifier-name-with-prefix} {
-    cursor: pointer;
-    display: flex;
-    overflow: hidden;
-    width: 100%;
-  }
-
-  .geo-marquee__text-content#{$modifier-name-with-prefix} {
-    padding-right: $space-small;
-    white-space: nowrap;
-  }
+.geo-marquee {
+  cursor: pointer;
+  display: flex;
+  overflow: hidden;
+  width: 100%;
 }
 
-@include geo-marquee-make('');
+.geo-marquee__text-content {
+  padding-right: $space-small;
+  white-space: nowrap;
+}

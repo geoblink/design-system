@@ -1,6 +1,6 @@
 <template>
   <form
-    :class="`geo-bordered-box-header-search-form${cssSuffix}`"
+    class="geo-bordered-box-header-search-form"
     @submit.prevent
   >
     <geo-input
@@ -37,13 +37,11 @@
 <script>
 import _ from 'lodash'
 import throttle from '../../utils/throttle'
-import cssSuffix from '../../mixins/cssModifierMixin'
 
 export default {
   name: 'GeoBorderedBoxHeaderSearchForm',
   status: 'ready',
   release: '8.0.0',
-  mixins: [cssSuffix],
   props: {
     /**
      * Icon used for the search box.

@@ -7,19 +7,14 @@ localVue.component('geo-table-body-row', GeoTableBodyRow)
 
 describe('GeoTableBodyRow', () => {
   it('Should render component', function () {
-    let slotScope
     const wrapper = mount(GeoTableBodyRow, {
       scopedSlots: {
-        default (params) {
-          slotScope = params
-        }
+        default () { }
       }
     })
 
     const instance = wrapper.find('.geo-table-body-row--default')
     expect(instance.exists()).toBe(true)
-
-    expect(slotScope).toHaveProperty('cssModifier')
   })
 
   it('Should render content', function () {
@@ -34,25 +29,6 @@ describe('GeoTableBodyRow', () => {
     expect(instance.text()).toEqual('Demo content')
   })
 
-  it('Should apply CSS suffix when the modifier is provided', function () {
-    let slotScope
-    const wrapper = mount(GeoTableBodyRow, {
-      propsData: {
-        cssModifier: 'demo-modifier'
-      },
-      scopedSlots: {
-        default (params) {
-          slotScope = params
-        }
-      }
-    })
-
-    const instance = wrapper.find('.geo-table-body-row--default--demo-modifier')
-    expect(instance.exists()).toBe(true)
-
-    expect(slotScope).toHaveProperty('cssModifier', 'demo-modifier')
-  })
-
   it('Should apply variant when provided', function () {
     const wrapper = mount(GeoTableBodyRow, {
       propsData: {
@@ -62,26 +38,6 @@ describe('GeoTableBodyRow', () => {
 
     const instance = wrapper.find('.geo-table-body-row--highlighted')
     expect(instance.exists()).toBe(true)
-  })
-
-  it('Should apply variant and CSS suffix when both are provided', function () {
-    let slotScope
-    const wrapper = mount(GeoTableBodyRow, {
-      propsData: {
-        variant: 'active',
-        cssModifier: 'demo-modifier'
-      },
-      scopedSlots: {
-        default (params) {
-          slotScope = params
-        }
-      }
-    })
-
-    const instance = wrapper.find('.geo-table-body-row--active--demo-modifier')
-    expect(instance.exists()).toBe(true)
-
-    expect(slotScope).toHaveProperty('cssModifier', 'demo-modifier')
   })
 
   it('Should complain when using unknown variant', function () {

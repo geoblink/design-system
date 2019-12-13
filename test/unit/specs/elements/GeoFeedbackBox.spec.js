@@ -116,23 +116,6 @@ describe('GeoFeedbackBox', () => {
     expect(wrapper.find('.fa-circle-notch').exists()).toBe(true)
   })
 
-  it('Should apply a CSS suffix when the modifier is provided', function () {
-    const wrapper = mount(GeoFeedbackBox, {
-      propsData: {
-        variant: 'success',
-        closeIcon: ['fas', 'times'],
-        cssModifier: 'test-feedback-box'
-      },
-      stubs: {
-        'font-awesome-icon': FontAwesomeIcon
-      },
-      listeners: {
-        close: function () {}
-      }
-    })
-    expect(wrapper.find('.geo-feedback-box__content__close-icon--test-feedback-box').exists()).toBe(true)
-  })
-
   it('Should add extra class if floating is passed as true', function () {
     const wrapper = mount(GeoFeedbackBox, {
       propsData: {
@@ -285,25 +268,6 @@ describe('GeoFeedbackBox Children', () => {
         }
       })
       expect(wrapper.find('.fa-image').exists()).toBe(true)
-    })
-
-    it('Should apply a CSS suffix when the modifier is provided', function () {
-      const closeStub = sinon.spy()
-      const wrapper = mount(taxonomyFeedbackBox, {
-        propsData: {
-          icon: ['far', 'image'],
-          closeIcon: ['fas', 'times'],
-          cssModifier: 'test-feedback-box'
-        },
-        stubs: {
-          'font-awesome-icon': FontAwesomeIcon,
-          GeoFeedbackBox
-        },
-        listeners: {
-          close: closeStub
-        }
-      })
-      expect(wrapper.find('.geo-feedback-box__content__close-icon--test-feedback-box').exists()).toBe(true)
     })
 
     it('Should add extra class if floating is passed as true', function () {

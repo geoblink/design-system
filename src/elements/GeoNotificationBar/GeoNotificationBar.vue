@@ -1,5 +1,5 @@
 <template>
-  <div :class="`geo-notification-bar${cssSuffix}`">
+  <div class="geo-notification-bar">
     <div class="geo-notification-bar__message-body">
       <font-awesome-icon
         v-if="icon"
@@ -26,13 +26,10 @@
 </template>
 
 <script>
-import cssSuffix from '../../mixins/cssModifierMixin'
-
 export default {
   name: 'GeoNotificationBar',
   status: 'ready',
   release: '9.1.0',
-  mixins: [cssSuffix],
   props: {
     /**
      * Optional Font Awesome 5 icon to be displayed next to the notification message,

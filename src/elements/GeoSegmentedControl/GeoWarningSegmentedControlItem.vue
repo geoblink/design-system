@@ -6,7 +6,6 @@
       data.class,
       data.staticClass
     ]"
-    :css-modifier="props.cssModifier"
     :disabled="props.disabled"
     :outline="props.outline"
     :active="props.active"
@@ -19,15 +18,13 @@
 </template>
 
 <script>
-import cssSuffix from '../../mixins/cssModifierMixin'
-
 import geoSegmentedControlItemMixin, { VARIANTS } from './GeoSegmentedControlItem.constants'
 
 export default {
   name: 'GeoWarningSegmentedControlItem',
   status: 'ready',
   release: '20.1.0',
-  mixins: [cssSuffix, geoSegmentedControlItemMixin],
+  mixins: [geoSegmentedControlItemMixin],
   helpers: {
     variant: VARIANTS.warning
   }

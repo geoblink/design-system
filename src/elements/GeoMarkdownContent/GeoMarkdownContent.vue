@@ -1,5 +1,5 @@
 <template>
-  <div :class="`geo-markdown-content${cssSuffix}`">
+  <div class="geo-markdown-content">
     <geo-markdown-content-node
       v-for="(node, index) in markdownNodes"
       :key="index"
@@ -11,7 +11,6 @@
 
 <script>
 import { filter, map, reduce, assign } from 'lodash'
-import cssSuffix from '../../mixins/cssModifierMixin'
 
 import GeoMarkdownContentNode from './GeoMarkdownContentNode.vue'
 
@@ -35,7 +34,6 @@ export default {
   components: {
     GeoMarkdownContentNode
   },
-  mixins: [cssSuffix],
   props: {
     /**
      * Markdown string to be rendered.

@@ -1,10 +1,10 @@
 <template>
-  <div :class="`geo-activity-indicator${cssSuffix}`">
+  <div class="geo-activity-indicator">
     <svg
       :class="{
-        [`geo-activity-indicator--${variant}${cssSuffix}`]: true,
-        [`geo-activity-indicator--${variant}--animated${cssSuffix}`]: isAnimated,
-        [`geo-activity-indicator--animated${cssSuffix}`]: isAnimated
+        [`geo-activity-indicator--${variant}`]: true,
+        [`geo-activity-indicator--${variant}--animated`]: isAnimated,
+        ['geo-activity-indicator--animated']: isAnimated
       }"
       width="100%"
       height="100%"
@@ -63,8 +63,8 @@
       <g :mask="`url(#${idCircleMask})`">
         <circle
           :class="{
-            [`geo-activity-indicator__total${cssSuffix}`]: true,
-            [`geo-activity-indicator__total--${variant}${cssSuffix}`]: true
+            ['geo-activity-indicator__total']: true,
+            [`geo-activity-indicator__total--${variant}`]: true
           }"
           cx="50"
           cy="50"
@@ -75,14 +75,14 @@
         <path
           :d="completedPercentagePathData"
           :class="{
-            [`geo-activity-indicator__completed-path${cssSuffix}`]: true,
-            [`geo-activity-indicator__completed-path--${variant}${cssSuffix}`]: true
+            ['geo-activity-indicator__completed-path']: true,
+            [`geo-activity-indicator__completed-path--${variant}`]: true
           }"
           transform="translate(50, 50)"
         />
       </g>
     </svg>
-    <div :class="`geo-activity-indicator__inset${cssSuffix}`">
+    <div class="geo-activity-indicator__inset">
       <!-- @slot Use this slot to customize content displayed inside the indicator -->
       <slot />
     </div>
@@ -96,7 +96,6 @@
  */
 
 import counterFactory from '../../utils/counterFactory'
-import cssSuffix from '../../mixins/cssModifierMixin'
 
 const getNextCounterValue = counterFactory()
 
@@ -125,7 +124,6 @@ export default {
   constants: {
     VARIANTS
   },
-  mixins: [cssSuffix],
   props: {
     /**
      * Whether this activity indicator displays an indeterminate progress

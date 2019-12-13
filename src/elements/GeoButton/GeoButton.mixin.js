@@ -1,5 +1,4 @@
 import { VARIANTS as GeoAlertVariants } from '../GeoActivityIndicator/GeoActivityIndicator'
-import cssSuffix from '../../mixins/cssModifierMixin'
 
 const TYPES = {
   primary: 'primary',
@@ -17,7 +16,6 @@ export { TYPES }
  * @mixin
  */
 export default {
-  mixins: [cssSuffix],
   props: {
     /**
      * Whether the button is disabled (and can't be interacted with - `true`) or

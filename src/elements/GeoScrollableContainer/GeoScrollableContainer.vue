@@ -1,8 +1,8 @@
 <template>
-  <div :class="`geo-scrollable-container${cssSuffix}`">
+  <div class="geo-scrollable-container">
     <div
       ref="scrollableContainer"
-      :class="`geo-scrollable-container__body${cssSuffix}`"
+      class="geo-scrollable-container__body"
     >
       <!-- @slot Use this slot to customize the content that can be scrolled -->
       <slot />
@@ -18,13 +18,10 @@
 </template>
 
 <script>
-import cssSuffix from '../../mixins/cssModifierMixin'
-
 export default {
   name: 'GeoScrollableContainer',
   status: 'ready',
   release: '7.1.0',
-  mixins: [cssSuffix],
   props: {
     showMoreResultsButton: {
       type: Boolean,

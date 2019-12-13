@@ -16,15 +16,4 @@ describe('GeoCircle', () => {
 
     expect(wrapper.find('.geo-primary-circle').exists()).toBe(true)
   })
-
-  it('Should use CSS Modifier', function () {
-    const wrapper = mount(GeoCircle, {
-      propsData: {
-        cssModifier: 'demo',
-        variant: 'primary'
-      }
-    })
-
-    expect(wrapper.find('.geo-primary-circle--demo').exists()).toBe(true)
-  })
 })

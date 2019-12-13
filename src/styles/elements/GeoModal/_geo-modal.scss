@@ -1,47 +1,32 @@
-@mixin geo-modal-make ($modifier-name) {
-  $modifier-name-with-prefix: '';
+.geo-modal {
+  align-items: center;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: $z-index-modal;
 
-  @if $modifier-name != '' {
-    // sass-lint:disable space-around-operator
-    $modifier-name-with-prefix: --#{$modifier-name};
-  }
-
-  @include geo-bordered-box-make('geo-modal#{$modifier-name-with-prefix}');
-  @include geo-bordered-box-header-make('geo-modal#{$modifier-name-with-prefix}');
-  @include geo-bordered-box-footer-make('geo-modal#{$modifier-name-with-prefix}');
-
-  .geo-modal#{$modifier-name-with-prefix} {
-    align-items: center;
+  .geo-modal__backdrop {
     bottom: 0;
-    display: flex;
-    justify-content: center;
+    background: $color-grey-backdrop;
     left: 0;
     position: absolute;
     right: 0;
     top: 0;
-    z-index: $z-index-modal;
+    z-index: 0;
+  }
 
-    .geo-modal__backdrop {
-      bottom: 0;
-      background: $color-grey-backdrop;
-      left: 0;
-      position: absolute;
-      right: 0;
-      top: 0;
-      z-index: 0;
-    }
+  .geo-modal__content {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    z-index: 1;
+  }
 
-    .geo-modal__content {
-      align-items: center;
-      display: flex;
-      justify-content: center;
-      z-index: 1;
-    }
-
-    .geo-modal__content-body {
-      padding: $space-base;
-    }
+  .geo-modal__content-body {
+    padding: $space-base;
   }
 }
-
-@include geo-modal-make('');

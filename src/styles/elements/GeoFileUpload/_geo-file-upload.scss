@@ -1,4 +1,19 @@
-@mixin geo-file-upload {
+@mixin geo-file-upload--focused {
+  background: rgba($color-blue, .1);
+  border-color: $color-blue;
+}
+
+@mixin geo-file-upload-show-focused-icon {
+  .geo-file-upload__upload-icon {
+    display: none;
+  }
+
+  .geo-file-upload__upload-icon--focused {
+    display: block;
+  }
+}
+
+.geo-file-upload {
   align-items: center;
   background: $color-white-dark;
   border: 1px dashed $color-grey;
@@ -10,29 +25,49 @@
   font-family: $font-family-text;
   padding: 20px;
   position: relative;
+
+  &:hover {
+    @include geo-file-upload--focused;
+    @include geo-file-upload-show-focused-icon;
+  }
 }
 
-@mixin geo-file-upload--focused {
-  background: rgba($color-blue, .1);
-  border-color: $color-blue;
+.geo-file-upload--focused {
+  @include geo-file-upload--focused;
+  @include geo-file-upload-show-focused-icon;
 }
 
-@mixin geo-file-upload--success {
+.geo-file-upload--success {
   background: rgba($color-green-light, .1);
   border-color: $color-green-light;
+
+  &.geo-file-upload--focused {
+    @include geo-file-upload--focused;
+    @include geo-file-upload-show-focused-icon;
+  }
 }
 
-@mixin geo-file-upload--error {
+.geo-file-upload--error {
   background: rgba($color-red, .1);
   border-color: $color-red;
+
+  &.geo-file-upload--focused {
+    @include geo-file-upload--focused;
+    @include geo-file-upload-show-focused-icon;
+  }
 }
 
-@mixin geo-file-upload--warning {
+.geo-file-upload--warning {
   background: rgba($color-yellow, .1);
   border-color: $color-yellow;
+
+  &.geo-file-upload--focused {
+    @include geo-file-upload--focused;
+    @include geo-file-upload-show-focused-icon;
+  }
 }
 
-@mixin geo-file-upload--loading {
+.geo-file-upload--loading {
   cursor: progress;
 
   &:hover {
@@ -41,167 +76,52 @@
   }
 }
 
-@mixin geo-file-upload__loading-indicator {
+.geo-file-upload__loading-indicator {
   font-size: $display-medium;
   height: 1.125em;
   margin-bottom: $space-small;
   width: 1.125em;
 }
 
-@mixin geo-file-upload__upload-icon {
+.geo-file-upload__upload-icon {
   font-size: $display-medium;
   margin-bottom: $space-small;
 }
 
-@mixin geo-file-upload__upload-icon--focused {
+.geo-file-upload__upload-icon--success {
+  color: $color-green-light;
+}
+
+.geo-file-upload__upload-icon--error {
+  color: $color-red;
+}
+
+.geo-file-upload__upload-icon--warning {
+  color: $color-yellow;
+}
+
+.geo-file-upload__upload-icon--focused {
   color: $color-blue;
   display: none;
 }
 
-@mixin geo-file-upload__upload-icon--success {
-  color: $color-green-light;
-}
-
-@mixin geo-file-upload__upload-icon--error {
-  color: $color-red;
-}
-
-@mixin geo-file-upload__upload-icon--warning {
-  color: $color-yellow;
-}
-
-@mixin geo-file-upload__title {
+.geo-file-upload__title {
   @include font($body);
 }
 
-@mixin geo-file-upload__help {
+.geo-file-upload__help {
   @include font($body);
+
   color: $color-grey-light;
   margin-top: 10px;
   text-align: center;
 }
 
-@mixin geo-file-upload__help--error {
+.geo-file-upload__help--error,
+.geo-file-upload__help--warning {
   font-style: italic;
 }
 
-@mixin geo-file-upload__help--warning {
-  font-style: italic;
-}
-
-@mixin geo-file-upload__input {
+.geo-file-upload__input {
   display: none;
 }
-
-@mixin geo-file-upload-show-focused-icon($modifier-name-with-prefix) {
-  .geo-file-upload__upload-icon#{$modifier-name-with-prefix} {
-    display: none;
-  }
-
-  .geo-file-upload__upload-icon--focused#{$modifier-name-with-prefix} {
-    display: block;
-  }
-}
-
-@mixin geo-file-upload-make($modifier-name) {
-
-  $modifier-name-with-prefix: '';
-
-  @if $modifier-name != '' {
-    // sass-lint:disable space-around-operator
-    $modifier-name-with-prefix: --#{$modifier-name};
-  }
-
-  .geo-file-upload#{$modifier-name-with-prefix} {
-    @include geo-file-upload;
-
-    &:hover {
-      @include geo-file-upload--focused;
-      @include geo-file-upload-show-focused-icon($modifier-name-with-prefix);
-    }
-  }
-
-  .geo-file-upload--focused#{$modifier-name-with-prefix} {
-    @include geo-file-upload--focused;
-    @include geo-file-upload-show-focused-icon($modifier-name-with-prefix);
-  }
-
-  .geo-file-upload--success#{$modifier-name-with-prefix} {
-    @include geo-file-upload--success;
-
-    &.geo-file-upload--focused#{$modifier-name-with-prefix} {
-      @include geo-file-upload--focused;
-      @include geo-file-upload-show-focused-icon($modifier-name-with-prefix);
-    }
-  }
-
-  .geo-file-upload--error#{$modifier-name-with-prefix} {
-    @include geo-file-upload--error;
-
-    &.geo-file-upload--focused#{$modifier-name-with-prefix} {
-      @include geo-file-upload--focused;
-      @include geo-file-upload-show-focused-icon($modifier-name-with-prefix);
-    }
-  }
-
-  .geo-file-upload--warning#{$modifier-name-with-prefix} {
-    @include geo-file-upload--warning;
-
-    &.geo-file-upload--focused#{$modifier-name-with-prefix} {
-      @include geo-file-upload--focused;
-      @include geo-file-upload-show-focused-icon($modifier-name-with-prefix);
-    }
-  }
-
-  .geo-file-upload--loading#{$modifier-name-with-prefix} {
-    @include geo-file-upload--loading;
-  }
-
-  .geo-file-upload__loading-indicator#{$modifier-name-with-prefix} {
-    @include geo-file-upload__loading-indicator;
-  }
-
-  .geo-file-upload__upload-icon#{$modifier-name-with-prefix} {
-    @include geo-file-upload__upload-icon;
-  }
-
-  .geo-file-upload__upload-icon--success#{$modifier-name-with-prefix} {
-    @include geo-file-upload__upload-icon--success;
-  }
-
-  .geo-file-upload__upload-icon--error#{$modifier-name-with-prefix} {
-    @include geo-file-upload__upload-icon--error;
-  }
-
-  .geo-file-upload__upload-icon--warning#{$modifier-name-with-prefix} {
-    @include geo-file-upload__upload-icon--warning;
-  }
-
-  .geo-file-upload__upload-icon--focused#{$modifier-name-with-prefix} {
-    @include geo-file-upload__upload-icon--focused;
-  }
-
-  .geo-file-upload__title#{$modifier-name-with-prefix} {
-    @include geo-file-upload__title;
-  }
-
-  .geo-file-upload__help#{$modifier-name-with-prefix} {
-    @include geo-file-upload__help;
-  }
-
-  .geo-file-upload__help--error#{$modifier-name-with-prefix} {
-    @include geo-file-upload__help--error;
-  }
-
-  .geo-file-upload__help--warning#{$modifier-name-with-prefix} {
-    @include geo-file-upload__help--warning;
-  }
-
-  .geo-file-upload__input#{$modifier-name-with-prefix} {
-    @include geo-file-upload__input;
-  }
-}
-
-// Build default file upload
-
-@include geo-file-upload-make('');

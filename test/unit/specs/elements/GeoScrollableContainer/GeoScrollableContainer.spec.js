@@ -98,13 +98,4 @@ describe('GeoScrollableContainer', () => {
     scrollToLastEntry()
     expect(scrollableContainerMock.scrollTop).toBe(5)
   })
-
-  it('Should apply a CSS suffix when the modifier is provided', () => {
-    const wrapper = mount(GeoScrollableContainer, {
-      propsData: {
-        cssModifier: 'test'
-      }
-    })
-    expect(wrapper.find('.geo-scrollable-container--test').exists()).toBe(true)
-  })
 })

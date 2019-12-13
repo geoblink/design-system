@@ -1,13 +1,11 @@
 <template>
-  <div :class="`geo-table-body-row--${variant}${cssSuffix}`">
+  <div :class="`geo-table-body-row--${variant}`">
     <!-- @slot Use this slot to customize row's content -->
-    <slot :css-modifier="cssModifier" />
+    <slot />
   </div>
 </template>
 
 <script>
-import cssSuffix from '../../mixins/cssModifierMixin'
-
 const VARIANTS = {
   default: 'default',
   highlighted: 'highlighted',
@@ -21,7 +19,6 @@ export default {
   name: 'GeoTableBodyRow',
   status: 'ready',
   release: '10.1.0',
-  mixins: [cssSuffix],
   constants: {
     VARIANTS
   },

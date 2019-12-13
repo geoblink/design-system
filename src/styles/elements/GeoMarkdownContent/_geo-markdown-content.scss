@@ -1,28 +1,17 @@
-@mixin geo-markdown-content-make ($modifier-name) {
-  $modifier-name-with-prefix: '';
-
-  @if $modifier-name != '' {
-    // sass-lint:disable space-around-operator
-    $modifier-name-with-prefix: --#{$modifier-name};
+.geo-markdown-content {
+  strong {
+    &, span {
+      font-weight: bold;
+    }
   }
 
-  .geo-markdown-content#{$modifier-name-with-prefix} {
-    strong {
-      &, span {
-        font-weight: bold;
-      }
+  em {
+    &, span {
+      font-style: italic;
     }
+  }
 
-    em {
-      &, span {
-        font-style: italic;
-      }
-    }
-
-    .geo-markdown-content-node-link__link {
-      cursor: pointer;
-    }
+  .geo-markdown-content-node-link__link {
+    cursor: pointer;
   }
 }
-
-@include geo-markdown-content-make('');

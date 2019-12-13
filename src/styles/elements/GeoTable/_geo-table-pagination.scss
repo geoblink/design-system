@@ -11,75 +11,63 @@
   }
 }
 
-@mixin geo-table-pagination-make($modifier-name) {
+.geo-table-pagination {
+  align-items: center;
+  color: $color-grey-dark;
+  display: flex;
+  flex: 1 0 auto;
+  flex-direction: row;
+  height: $space-large;
+  justify-content: center;
 
-  $modifier-name-with-prefix: '';
+  .geo-table-pagination__current-range {
+    @include font($table-value);
 
-  @if $modifier-name != '' {
-    // sass-lint:disable space-around-operator
-    $modifier-name-with-prefix: --#{$modifier-name};
+    padding: 0 $space-base;
   }
 
-  .geo-table-pagination#{$modifier-name-with-prefix} {
-    align-items: center;
-    color: $color-grey-dark;
-    display: flex;
-    flex: 1 0 auto;
-    flex-direction: row;
-    height: $space-large;
-    justify-content: center;
+  .geo-table-pagination__action-first {
+    &, &--disabled {
+      @include geo-table-pagination-make-action;
 
-    .geo-table-pagination__current-range {
-      @include font($table-value);
-
-      padding: 0 $space-base;
-    }
-
-    .geo-table-pagination__action-first {
-      &, &--disabled {
-        @include geo-table-pagination-make-action;
-
-        padding: 0 0 0 $space-base;
-      }
-    }
-
-    .geo-table-pagination__action-prev {
-      &, &--disabled {
-        @include geo-table-pagination-make-action;
-
-        padding: 0 0 0 $space-base;
-      }
-    }
-
-    .geo-table-pagination__action-next {
-      &, &--disabled {
-        @include geo-table-pagination-make-action;
-
-        padding: 0 $space-base 0 0;
-      }
-    }
-
-    .geo-table-pagination__action-last {
-      &, &--disabled {
-        @include geo-table-pagination-make-action;
-
-        padding: 0 $space-base 0 0;
-      }
+      padding: 0 0 0 $space-base;
     }
   }
 
-  .geo-table-pagination--aux#{$modifier-name-with-prefix} {
-    @include geo-table-make-row($color-white-dark);
+  .geo-table-pagination__action-prev {
+    &, &--disabled {
+      @include geo-table-pagination-make-action;
 
-    color: $color-grey-darker;
+      padding: 0 0 0 $space-base;
+    }
   }
 
-  .geo-table-pagination--single#{$modifier-name-with-prefix} {
-    @include geo-table-make-row($color-white-dark);
+  .geo-table-pagination__action-next {
+    &, &--disabled {
+      @include geo-table-pagination-make-action;
 
-    color: $color-grey-darker;
-    position: relative;
+      padding: 0 $space-base 0 0;
+    }
+  }
+
+  .geo-table-pagination__action-last {
+    &, &--disabled {
+      @include geo-table-pagination-make-action;
+
+      padding: 0 $space-base 0 0;
+    }
   }
 }
 
-@include geo-table-pagination-make('');
+.geo-table-pagination--aux {
+  @include geo-table-make-row($color-white-dark);
+
+  color: $color-grey-darker;
+}
+
+.geo-table-pagination--single {
+  @include geo-table-make-row($color-white-dark);
+
+  color: $color-grey-darker;
+  position: relative;
+}

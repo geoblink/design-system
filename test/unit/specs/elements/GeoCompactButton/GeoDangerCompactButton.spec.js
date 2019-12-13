@@ -77,20 +77,6 @@ describe('GeoDangerCompactButton', function () {
     expect(wrapper.emitted()['click']).toBeFalsy()
   })
 
-  it('Should add CSS Suffix when given', function () {
-    const wrapper = mount(GeoDangerCompactButton, {
-      propsData: {
-        icon: ['fas', 'exclamation-triangle'],
-        cssModifier: 'test'
-      },
-      stubs: {
-        GeoCompactButton,
-        FontAwesomeIcon
-      }
-    })
-    expect(wrapper.find('.geo-compact-button--test').exists()).toBe(true)
-  })
-
   it('Should show activity indicator when loading', function () {
     const wrapper = mount(GeoDangerCompactButton, {
       propsData: {

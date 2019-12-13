@@ -1,4 +1,4 @@
-@mixin geo-table-header-row-cell-make-common ($modifier-name-with-prefix) {
+@mixin geo-table-header-row-cell-make-common {
   @include geo-table-make-cell($color-white);
   @include font($table-title);
 
@@ -6,42 +6,30 @@
   white-space: nowrap;
 
   &:hover {
-    .geo-table-sort#{$modifier-name-with-prefix} {
+    .geo-table-sort {
       visibility: visible;
     }
   }
 }
 
-@mixin geo-table-header-row-cell-make($modifier-name) {
+.geo-table-header-row-cell--main,
+.geo-table-header-row-cell--single {
+  @include geo-table-header-row-cell-make-common;
 
-  $modifier-name-with-prefix: '';
-
-  @if $modifier-name != '' {
-    // sass-lint:disable space-around-operator
-    $modifier-name-with-prefix: --#{$modifier-name};
-  }
-
-  .geo-table-header-row-cell--main#{$modifier-name-with-prefix},
-  .geo-table-header-row-cell--single#{$modifier-name-with-prefix} {
-    @include geo-table-header-row-cell-make-common($modifier-name-with-prefix);
-
-    position: relative;
-  }
-
-  .geo-table-header-row-cell--aux#{$modifier-name-with-prefix} {
-    @include geo-table-header-row-cell-make-common($modifier-name-with-prefix);
-    @include font($heading-xsmall);
-  }
-
-  .geo-table-header-row-cell--multiLine#{$modifier-name-with-prefix} {
-    @include geo-table-header-row-cell-make-common($modifier-name-with-prefix);
-
-    align-items: flex-start;
-    flex-direction: column;
-    justify-content: center;
-    padding: $space-x-small $space-small;
-    position: relative;
-  }
+  position: relative;
 }
 
-@include geo-table-header-row-cell-make('');
+.geo-table-header-row-cell--aux {
+  @include geo-table-header-row-cell-make-common;
+  @include font($heading-xsmall);
+}
+
+.geo-table-header-row-cell--multiLine {
+  @include geo-table-header-row-cell-make-common;
+
+  align-items: flex-start;
+  flex-direction: column;
+  justify-content: center;
+  padding: $space-x-small $space-small;
+  position: relative;
+}

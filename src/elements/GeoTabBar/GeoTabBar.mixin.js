@@ -1,5 +1,3 @@
-import cssSuffix from '../../mixins/cssModifierMixin'
-
 const VARIANTS = {
   default: 'default',
   modal: 'modal'
@@ -11,7 +9,6 @@ export { VARIANTS }
  * @mixin
  */
 export default {
-  mixins: [cssSuffix],
   props: {
     /**
      * Variant of the tab bar, supporting:

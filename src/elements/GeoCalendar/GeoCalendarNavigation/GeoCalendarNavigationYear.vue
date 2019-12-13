@@ -9,7 +9,6 @@
     >
       <geo-link-button
         slot="toggleButton"
-        css-modifier="calendar-navigation-toggle-button"
         @click="toggleYearRangeSelection"
       >
         {{ displayedInitialYearInRange }} - {{ displayedEndYearInRange }}
