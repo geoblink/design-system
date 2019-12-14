@@ -5,6 +5,7 @@
 Breaking:
 
 - Remove `css-modifier` mixin and prop.
+- Do not embed `d3` library.
 
 ## 28.1.1
 
