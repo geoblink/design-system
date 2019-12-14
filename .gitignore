@@ -21,7 +21,7 @@ yarn-error.log*
 src/assets/tokens/
 
 # Ignore webpack stats
-webpack.stats.json
+webpack.stats.*
 
 # Ignore automatically generated Markdown files
 docs/components

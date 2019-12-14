@@ -1,89 +1,139 @@
 'use strict'
-require('./check-versions')()
-
 process.env.NODE_ENV = 'production'
 
-const ora = require('ora')
 const rm = require('rimraf')
 const path = require('path')
-const chalk = require('chalk')
 const webpack = require('webpack')
-const config = require('../config')
-const webpackConfig = require('./webpack.system.conf')
-const utils = require('./utils')
 const fs = require('fs-extra')
+const Listr = require('listr')
+const _ = require('lodash')
 
-const spinner = ora('Building Design System Library...')
-spinner.start()
+const config = require('../config')
+const webpackConfigs = require('./webpack.system.conf')
 
-rm(path.join(config.system.assetsRoot, config.system.assetsSubDirectory), err => {
-  if (err) throw err
-  webpack(webpackConfig, (err, stats) => {
-    spinner.succeed()
+main()
 
-    if (err) throw err
+/**
+ * @template T
+ * @typedef {Object} Task
+ * @property {string} title
+ * @property {(ctx: any) => Promise<T> | T} task
+ */
 
-    process.stdout.write(
-      stats.toString({
-        colors: true,
-        modules: false,
-        children: false,
-        chunks: false,
-        chunkModules: false
-      }) + '\n\n'
-    )
+async function main () {
+  const statsPath = path.resolve(__dirname, '..')
 
-    if (stats.hasErrors()) {
-      // eslint-disable-next-line no-console
-      console.log(chalk.red('  Design System Library build failed with errors.\n'))
-      process.exit(1)
-    }
+  const removeDistAssetsTask = getRemoveDistAssetsTask()
+  const buildAssetsTask = getBuildAssetsTask()
+  const writeStatsReportTask = getWriteStatsReportTask(statsPath)
 
-    writeStatsReport(stats)
-      .then(() => cleanupSCSSAutomaticStyles())
-      .then(function () {
-        // eslint-disable-next-line no-console
-        console.log(chalk.cyan('  Design System Library build complete.\n'))
-        // eslint-disable-next-line no-console
-        console.log(
-          chalk.yellow(
-            '  Tip: You can now publish your library as a private NPM module.\n' +
-            "  Users can import it as an ES6 module: import DesignSystem from 'system'\n"
-          )
-        )
-      })
-      .catch(function (error) {
-        // eslint-disable-next-line no-console
-        console.log(chalk.red('  Design System SCSS cleanup failed with errors.\n'))
-        console.error(error)
-        process.exit(1)
-      })
-  })
-})
+  const listr = new Listr([removeDistAssetsTask, buildAssetsTask, writeStatsReportTask])
+  const ctx = await listr.run()
 
-async function writeStatsReport (stats) {
-  const spinner = ora('Writing webpack stats...')
-  spinner.start()
+  const webpackStats = ctx.webpackStats.system
 
-  const jsonStats = stats.toJson()
-  await fs.writeFile(path.resolve(__dirname, '../webpack.stats.json'), JSON.stringify(jsonStats))
-
-  spinner.succeed()
+  logWebpackStats(webpackStats)
 }
 
-async function cleanupSCSSAutomaticStyles () {
-  const spinner = ora('Cleaning up Design System SCSS...')
-  spinner.start()
+/**
+ * @returns {Task<any>}
+ */
+function getRemoveDistAssetsTask () {
+  return {
+    title: 'Remove previously built assets',
+    task () {
+      return new Promise(function (resolve, reject) {
+        const pathToDistAssets = path.resolve(config.system.assetsRoot, config.system.assetsSubDirectory)
+        rm(pathToDistAssets, function (error) {
+          if (error) return reject(error)
+          resolve()
+        })
+      })
+    }
+  }
+}
 
-  const pathToSCSSStyles = path.join(config.system.assetsRoot, utils.assetsSystemPath('system.utils.scss'))
+/**
+ * @returns {Task<any>}
+ */
+function getBuildAssetsTask () {
+  const buildSystemTask = getBuildWebpackConfigTask('system', 'Build system library', webpackConfigs.system)
+  const buildComopnentsTask = getBuildWebpackConfigTask('components', 'Build isolated components', webpackConfigs.components)
+  const buildStylesTask = getBuildWebpackConfigTask('styles', 'Build isolated styles', webpackConfigs.styles)
 
-  const originalContent = (await fs.readFile(pathToSCSSStyles)).toString()
-  const contentWithoutDefaultModifierAutomaticInitialization = originalContent.replace(
-    /@include\s+geo-.*-make\s*\(''\);/gi,
-    ''
+  return {
+    title: 'Build Design System',
+    task () {
+      return new Listr([
+        buildSystemTask,
+        buildComopnentsTask,
+        buildStylesTask
+      ], { concurrent: false })
+    }
+  }
+}
+
+/**
+ * @param {string} id
+ * @param {string} title
+ * @param {webpack.Configuration} webpackConfig
+ * @returns {Task<void>}
+ */
+function getBuildWebpackConfigTask (id, title, webpackConfig) {
+  return {
+    title,
+    task (ctx) {
+      return new Promise(function (resolve, reject) {
+        webpack(webpackConfig, function (err, webpackStats) {
+          if (err) return reject(err)
+          if (webpackStats.hasErrors()) return reject(new Error(`${title} failed!`))
+
+          ctx.webpackStats = ctx.webpackStats || {}
+          ctx.webpackStats[id] = webpackStats
+
+          resolve()
+        })
+      })
+    }
+  }
+}
+
+/**
+ * @param {webpack.Stats} stats
+ */
+function logWebpackStats (stats) {
+  process.stdout.write(
+    stats.toString({
+      colors: true,
+      children: false,
+      chunks: false,
+      chunkModules: false,
+      entrypoints: false,
+      modules: false,
+      performance: true
+    }) + '\n\n'
   )
+}
 
-  await fs.writeFile(pathToSCSSStyles, contentWithoutDefaultModifierAutomaticInitialization)
+/**
+ * @param {string} statsFolderPath
+ * @returns {Task<any>}
+ */
+function getWriteStatsReportTask (statsFolderPath) {
+  return {
+    title: 'Write webpack statistics',
+    task (ctx) {
+      const tasks = _.map(ctx.webpackStats, function (stats, id) {
+        const jsonStats = stats.toJson()
+        const statsPath = path.resolve(statsFolderPath, `webpack.stats.${id}.json`)
 
-  spinner.succeed()
+        return {
+          title: `Write statistics for ${id}`,
+          task: () => fs.writeFile(statsPath, JSON.stringify(jsonStats))
+        }
+      })
+
+      return new Listr(tasks, { concurrent: true })
+    }
+  }
 }
