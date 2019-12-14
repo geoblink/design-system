@@ -60,7 +60,7 @@ describe('GeoCompactButton', function () {
     })
     wrapper.find('.geo-compact-button').trigger('click')
     await wrapper.vm.$nextTick()
-    expect(wrapper.emitted()['click']).toBeTruthy()
+    expect(wrapper.emitted().click).toBeTruthy()
   })
 
   it('Should not emit an event when it\'s disabled', function () {
@@ -75,7 +75,7 @@ describe('GeoCompactButton', function () {
     })
     const button = wrapper.find('.geo-compact-button')
     button.trigger('click')
-    expect(wrapper.emitted()['click']).toBeFalsy()
+    expect(wrapper.emitted().click).toBeFalsy()
   })
 
   it('Should show activity indicator when loading', function () {
@@ -201,7 +201,7 @@ describe('GeoButton Children', function () {
 
         await wrapper.vm.$nextTick()
 
-        expect(wrapper.emitted()['click']).toBeTruthy()
+        expect(wrapper.emitted().click).toBeTruthy()
       })
 
       it('Should not emit an event when it\'s disabled', function () {
@@ -216,7 +216,7 @@ describe('GeoButton Children', function () {
         })
         const button = wrapper.find('.geo-compact-button')
         button.trigger('click')
-        expect(wrapper.emitted()['click']).toBeFalsy()
+        expect(wrapper.emitted().click).toBeFalsy()
       })
 
       it('Should show activity indicator when loading', function () {

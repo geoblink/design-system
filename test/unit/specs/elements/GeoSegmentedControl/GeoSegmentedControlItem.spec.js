@@ -37,7 +37,7 @@ describe('GeoSegmentedControlItem', () => {
     wrapper.find('.geo-segmented-control-item').trigger('click')
     setTimeout(function () {
       try {
-        expect(wrapper.emitted()['click']).toBeTruthy()
+        expect(wrapper.emitted().click).toBeTruthy()
         done()
       } catch (error) {
         done(error)
@@ -54,7 +54,7 @@ describe('GeoSegmentedControlItem', () => {
 
     const button = wrapper.find('.geo-segmented-control-item')
     button.trigger('click')
-    expect(wrapper.emitted()['click']).toBeFalsy()
+    expect(wrapper.emitted().click).toBeFalsy()
   })
 
   it('Should add disabled class when it\'s disabled', function () {
@@ -139,7 +139,7 @@ describe('GeoSegmentedControlItem Children', () => {
         wrapper.find('.geo-segmented-control-item').trigger('click')
         setTimeout(function () {
           try {
-            expect(wrapper.emitted()['click']).toBeTruthy()
+            expect(wrapper.emitted().click).toBeTruthy()
             done()
           } catch (error) {
             done(error)
@@ -161,7 +161,7 @@ describe('GeoSegmentedControlItem Children', () => {
 
         const button = wrapper.find('.geo-segmented-control-item')
         button.trigger('click')
-        expect(wrapper.emitted()['click']).toBeFalsy()
+        expect(wrapper.emitted().click).toBeFalsy()
       })
 
       it('Should add disabled class when it\'s disabled', function () {

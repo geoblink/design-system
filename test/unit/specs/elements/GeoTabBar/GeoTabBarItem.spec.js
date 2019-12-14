@@ -22,7 +22,7 @@ describe('GeoTabBarItem', () => {
     wrapper.find('.geo-tab-bar-item-default').trigger('click')
     setTimeout(function () {
       try {
-        expect(wrapper.emitted()['click']).toBeTruthy()
+        expect(wrapper.emitted().click).toBeTruthy()
         done()
       } catch (error) {
         done(error)
@@ -39,7 +39,7 @@ describe('GeoTabBarItem', () => {
 
     const tabBarItem = wrapper.find('.geo-tab-bar-item-default')
     tabBarItem.trigger('click')
-    expect(wrapper.emitted()['click']).toBeFalsy()
+    expect(wrapper.emitted().click).toBeFalsy()
   })
 
   it('Should add active suffix when item is active', function () {

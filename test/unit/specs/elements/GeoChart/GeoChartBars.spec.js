@@ -714,7 +714,7 @@ describe('GeoChartBars', function () {
 
           for (let i = 0; i < customClasses.length; i++) {
             for (let j = 0; j < customClasses.length; j++) {
-              const singleBar = wrapper.findAll(`.geo-chart .geo-chart-bars-group .geo-chart-bar`).at(i)
+              const singleBar = wrapper.findAll('.geo-chart .geo-chart-bars-group .geo-chart-bar').at(i)
 
               if (i === j) {
                 expect(singleBar.classes()).toContain(customClasses[j])
@@ -937,7 +937,7 @@ describe('GeoChartBars', function () {
             expect(window.getComputedStyle(tooltipDiv).opacity).toBe('0')
 
             for (let i = 0; i < firstBarGroupData.length; i++) {
-              const singleBar = wrapper.findAll(`.geo-chart .geo-chart-bars-group .geo-chart-bar`).at(i)
+              const singleBar = wrapper.findAll('.geo-chart .geo-chart-bars-group .geo-chart-bar').at(i)
               singleBar.trigger('mouseover')
               singleBar.trigger('mousemove')
               expect(window.getComputedStyle(tooltipDiv).opacity).toBe('1')

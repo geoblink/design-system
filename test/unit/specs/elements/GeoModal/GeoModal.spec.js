@@ -164,7 +164,7 @@ describe('GeoModal', () => {
       }
     })
     wrapper.find('geo-bordered-box-header-stub').vm.$emit('close')
-    expect(wrapper.emitted()['close']).toBeTruthy()
+    expect(wrapper.emitted().close).toBeTruthy()
   })
 
   it('Should emit click-backdrop event when clicking on background', () => {

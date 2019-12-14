@@ -56,7 +56,7 @@ describe('GeoEditableInput', () => {
     wrapper.find('.geo-editable-input__form__input').trigger('click')
     setTimeout(function () {
       try {
-        expect(wrapper.emitted()['click']).toBeTruthy()
+        expect(wrapper.emitted().click).toBeTruthy()
         done()
       } catch (error) {
         done(error)
@@ -114,7 +114,7 @@ describe('GeoEditableInput', () => {
     wrapper.find('.geo-editable-input__form__input').trigger('click')
     setTimeout(function () {
       try {
-        expect(wrapper.emitted()['click']).toBeFalsy()
+        expect(wrapper.emitted().click).toBeFalsy()
         done()
       } catch (error) {
         done(error)
@@ -172,7 +172,7 @@ describe('GeoEditableInput', () => {
     wrapper.find(GeoPrimaryCompactButton).trigger('click')
     setTimeout(function () {
       try {
-        expect(wrapper.emitted()['save']).toBeTruthy()
+        expect(wrapper.emitted().save).toBeTruthy()
         done()
       } catch (error) {
         done(error)
@@ -197,7 +197,7 @@ describe('GeoEditableInput', () => {
     wrapper.find(GeoSecondaryCompactButton).trigger('click')
     setTimeout(function () {
       try {
-        expect(wrapper.emitted()['cancel']).toBeTruthy()
+        expect(wrapper.emitted().cancel).toBeTruthy()
         done()
       } catch (error) {
         done(error)
@@ -222,7 +222,7 @@ describe('GeoEditableInput', () => {
 
     setTimeout(function () {
       try {
-        expect(wrapper.emitted()['input']).toBeTruthy()
+        expect(wrapper.emitted().input).toBeTruthy()
         done()
       } catch (error) {
         done(error)

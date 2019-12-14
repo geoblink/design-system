@@ -59,6 +59,6 @@ describe('GeoDropdownCompactButton', () => {
     })
 
     wrapper.find('.geo-dropdown__compact-button-container').trigger('click')
-    expect(wrapper.emitted()['click']).toBeTruthy()
+    expect(wrapper.emitted().click).toBeTruthy()
   })
 })

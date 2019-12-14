@@ -10,7 +10,7 @@ describe('GeoBorderedBoxHeader', () => {
   it('Should render default slot', function () {
     const wrapper = mount(GeoBorderedBoxHeader, {
       slots: {
-        default: [`<span class="my-demo-content">Just some unique demo content</span>`]
+        default: ['<span class="my-demo-content">Just some unique demo content</span>']
       }
     })
 
@@ -84,7 +84,7 @@ describe('GeoBorderedBoxHeader', () => {
     })
 
     wrapper.find('.geo-bordered-box-header__close-button').trigger('click')
-    expect(wrapper.emitted()['close']).toBeTruthy()
+    expect(wrapper.emitted().close).toBeTruthy()
   })
 
   it('Should emit click event', function () {
@@ -95,6 +95,6 @@ describe('GeoBorderedBoxHeader', () => {
     })
 
     wrapper.find('.geo-bordered-box-header').trigger('click')
-    expect(wrapper.emitted()['click']).toBeTruthy()
+    expect(wrapper.emitted().click).toBeTruthy()
   })
 })

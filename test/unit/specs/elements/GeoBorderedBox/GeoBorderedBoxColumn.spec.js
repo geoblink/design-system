@@ -10,7 +10,7 @@ describe('GeoBorderedBoxColumn', function () {
   it('Should render default slot', function () {
     const wrapper = mount(GeoBorderedBoxColumn, {
       slots: {
-        default: [`<span class="my-demo-content">Just some unique demo content</span>`]
+        default: ['<span class="my-demo-content">Just some unique demo content</span>']
       }
     })
     expect(wrapper.find('.my-demo-content').exists()).toBe(true)

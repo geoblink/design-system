@@ -148,7 +148,7 @@ describe('GeoFileUpload', () => {
         status: 'loading'
       },
       slots: {
-        loading: [`<span class="loading-slot">loading</span>`]
+        loading: ['<span class="loading-slot">loading</span>']
       },
       stubs: {
         'font-awesome-icon': FontAwesomeIcon,
@@ -165,7 +165,7 @@ describe('GeoFileUpload', () => {
         status: 'initial'
       },
       slots: {
-        title: [`<span class="title-slot">title</span>`]
+        title: ['<span class="title-slot">title</span>']
       },
       stubs: {
         'font-awesome-icon': FontAwesomeIcon
@@ -180,7 +180,7 @@ describe('GeoFileUpload', () => {
         status: 'initial'
       },
       slots: {
-        help: [`<span class="help-slot">help</span>`]
+        help: ['<span class="help-slot">help</span>']
       },
       stubs: {
         'font-awesome-icon': FontAwesomeIcon

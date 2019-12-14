@@ -37,6 +37,6 @@ describe('GeoCalendarPickerGranularityBase', () => {
     })
 
     wrapper.find('.geo-calendar-picker-granularity-unit').trigger('click')
-    expect(wrapper.emitted()['click']).toBeTruthy()
+    expect(wrapper.emitted().click).toBeTruthy()
   })
 })

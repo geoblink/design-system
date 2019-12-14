@@ -826,7 +826,7 @@ function getWrappedComponent () {
     slots: {
       earliestDatePlaceholder: 'Earliest date',
       latestDatePlaceholder: 'Latest date',
-      pickerGranularity: `<div> Granularity Selectors </div>`
+      pickerGranularity: '<div> Granularity Selectors </div>'
     },
     data () {
       return {

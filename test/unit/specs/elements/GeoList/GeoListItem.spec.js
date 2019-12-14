@@ -59,7 +59,7 @@ describe('GeoListItem', () => {
   it('Should render default slot', function () {
     const wrapper = mount(GeoListItem, {
       slots: {
-        default: [`<span class="my-demo-content">Just some unique demo content</span>`]
+        default: ['<span class="my-demo-content">Just some unique demo content</span>']
       }
     })
 
@@ -69,8 +69,8 @@ describe('GeoListItem', () => {
   it('Should render trailingAccessoryItem slot', function () {
     const wrapper = mount(GeoListItem, {
       slots: {
-        default: [`<span class="my-demo-content">Just some unique demo content</span>`],
-        trailingAccessoryItem: [`<span class="my-demo-accessory">Just some accessory item</span>`]
+        default: ['<span class="my-demo-content">Just some unique demo content</span>'],
+        trailingAccessoryItem: ['<span class="my-demo-accessory">Just some accessory item</span>']
       }
     })
 
@@ -95,7 +95,7 @@ describe('GeoListItem', () => {
   it('Should render description', function () {
     const wrapper = mount(GeoListItem, {
       slots: {
-        description: [`<span class="my-demo-description">Description</span>`]
+        description: ['<span class="my-demo-description">Description</span>']
       }
     })
 

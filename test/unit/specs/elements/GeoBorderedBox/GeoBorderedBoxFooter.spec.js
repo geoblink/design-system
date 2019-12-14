@@ -9,7 +9,7 @@ describe('GeoBorderedBoxFooter', () => {
   it('Should render default slot', function () {
     const wrapper = mount(GeoBorderedBoxFooter, {
       slots: {
-        default: [`<span class="my-demo-content">Just some unique demo content</span>`]
+        default: ['<span class="my-demo-content">Just some unique demo content</span>']
       }
     })
 

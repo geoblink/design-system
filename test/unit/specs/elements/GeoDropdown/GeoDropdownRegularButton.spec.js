@@ -29,7 +29,7 @@ describe('GeoDropdownRegularButton', () => {
   it('Should render default slot content when given', function () {
     const wrapper = mount(GeoDropdownRegularButton, {
       slots: {
-        default: [`<span class="my-demo-content">Just some unique demo content</span>`]
+        default: ['<span class="my-demo-content">Just some unique demo content</span>']
       }
     })
 
@@ -46,7 +46,7 @@ describe('GeoDropdownRegularButton', () => {
     const wrapper = mount(GeoDropdownRegularButton, { })
 
     wrapper.find('.geo-dropdown__regular-button-container').trigger('click')
-    expect(wrapper.emitted()['click']).toBeTruthy()
+    expect(wrapper.emitted().click).toBeTruthy()
   })
 
   it('Should not emit click event when disabled', function () {
@@ -57,7 +57,7 @@ describe('GeoDropdownRegularButton', () => {
     })
 
     wrapper.find('.geo-dropdown__regular-button-container').trigger('click')
-    expect(wrapper.emitted()['click']).toBeFalsy()
+    expect(wrapper.emitted().click).toBeFalsy()
   })
 
   it('Should apply proper class when active', function () {

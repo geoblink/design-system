@@ -61,7 +61,7 @@ describe('GeoButton', () => {
     wrapper.find('.geo-button').trigger('click')
     setTimeout(function () {
       try {
-        expect(wrapper.emitted()['click']).toBeTruthy()
+        expect(wrapper.emitted().click).toBeTruthy()
         done()
       } catch (error) {
         done(error)
@@ -79,7 +79,7 @@ describe('GeoButton', () => {
 
     const button = wrapper.find('.geo-button')
     button.trigger('click')
-    expect(wrapper.emitted()['click']).toBeFalsy()
+    expect(wrapper.emitted().click).toBeFalsy()
   })
 
   it('Should show activity indicator when loading', function () {
@@ -195,7 +195,7 @@ describe('GeoButton Children', () => {
         wrapper.find('.geo-button').trigger('click')
         setTimeout(function () {
           try {
-            expect(wrapper.emitted()['click']).toBeTruthy()
+            expect(wrapper.emitted().click).toBeTruthy()
             done()
           } catch (error) {
             done(error)
@@ -216,7 +216,7 @@ describe('GeoButton Children', () => {
 
         const button = wrapper.find('.geo-button')
         button.trigger('click')
-        expect(wrapper.emitted()['click']).toBeFalsy()
+        expect(wrapper.emitted().click).toBeFalsy()
       })
 
       it('Should show activity indicator when loading', function () {
@@ -280,7 +280,7 @@ describe('GeoButton Children', () => {
 
       wrapper.find('.geo-button').trigger('click')
 
-      expect(wrapper.emitted()['click']).toBeTruthy()
+      expect(wrapper.emitted().click).toBeTruthy()
       expect(nativeClickSpy).toHaveBeenCalled()
     })
   })
