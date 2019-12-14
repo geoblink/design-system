@@ -162,12 +162,13 @@ function getGuidelinesPosition (singleAxisOptions) {
     case axisUtils.POSITIONS.horizontallyCenteredInTheMiddle:
       return axisUtils.POSITIONS.left
 
-    case axisUtils.POSITIONS.anchoredToAxis:
+    case axisUtils.POSITIONS.anchoredToAxis: {
       const anchoredAxis = (/** @type {GeoChart.AxisPositionConfigRelative<RelativeScaleDomain>} */(singleAxisOptions.position))
       const anchoredAxisPosition = ChartAxis.getAxisDimension(anchoredAxis.relativeAxisPosition)
       return anchoredAxisPosition === dimensionUtils.DIMENSIONS_2D.horizontal
         ? axisUtils.POSITIONS.left
         : axisUtils.POSITIONS.bottom
+    }
   }
 
   console.warn(`GeoChart (axis) [component] :: Tried to get axis dimension for unknown position: ${singleAxisOptions.position.type}`, singleAxisOptions.position)

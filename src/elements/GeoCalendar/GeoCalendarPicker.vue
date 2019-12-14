@@ -168,51 +168,69 @@ export default {
   methods: {
     goToNextPickerDate () {
       if (!this.canSelectNextDates) return
+
       switch (this.pickerDateUnit) {
         case PICKER_DATE_UNITS.day: {
           if (this.currentMonth === 11) {
             const nextYear = getYear(addYears(this.currentDate, 1))
             this.goToYear(nextYear)
           }
+
           const nextMonth = getMonth(addMonths(this.currentDate, 1))
           this.goToMonth(nextMonth)
+
           break
         }
-        case PICKER_DATE_UNITS.month:
+        case PICKER_DATE_UNITS.month: {
           const nextYear = getYear(addYears(this.currentDate, 1))
           this.goToYear(nextYear)
           break
-        case PICKER_DATE_UNITS.year:
+        }
+        case PICKER_DATE_UNITS.year: {
           const nextInitialYearInRange = this.currentInitialYearInRange + YEAR_GRID_CONSTANTS.YEARS_IN_GRID
           const nextLastYearInRange = this.currentEndYearInRange + YEAR_GRID_CONSTANTS.YEARS_IN_GRID
+
           if (nextInitialYearInRange > getYear(this.latestDate)) return
+
           this.goToYearRange([nextInitialYearInRange, nextLastYearInRange])
+
           break
+        }
       }
     },
 
     goToPreviousPickerDate () {
       if (!this.canSelectPastDates) return
+
       switch (this.pickerDateUnit) {
         case PICKER_DATE_UNITS.day: {
           if (this.currentMonth === 0) {
             const previousYear = getYear(subYears(this.currentDate, 1))
             this.goToYear(previousYear)
           }
+
           const previousMonth = getMonth(subMonths(this.currentDate, 1))
           this.goToMonth(previousMonth)
+
           break
         }
-        case PICKER_DATE_UNITS.month:
+        case PICKER_DATE_UNITS.month: {
           const previousYear = getYear(subYears(this.currentDate, 1))
+
           this.goToYear(previousYear)
+
           break
-        case PICKER_DATE_UNITS.year:
+        }
+        case PICKER_DATE_UNITS.year: {
           const previousInitialYearInRange = this.currentInitialYearInRange - YEAR_GRID_CONSTANTS.YEARS_IN_GRID
           const previousLastYearInRange = this.currentEndYearInRange - YEAR_GRID_CONSTANTS.YEARS_IN_GRID
+
           if (previousLastYearInRange < getYear(this.earliestDate)) return
+
           this.goToYearRange([previousInitialYearInRange, previousLastYearInRange])
+
           break
+        }
       }
     },
 
