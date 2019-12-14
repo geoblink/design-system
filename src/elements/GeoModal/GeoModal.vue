@@ -171,7 +171,7 @@ export default {
 
       const currentPosition = getComputedStyle(this.attachTo).getPropertyValue('position')
       if (currentPosition === 'static') {
-        console.warn(`GeoModal [component] :: setting position of attach-to element to «relative» since it's required to anchor the modal. Set attach-to element position to «relative» in your CSS styles to avoid this warning.`)
+        console.warn('GeoModal [component] :: setting position of attach-to element to «relative» since it\'s required to anchor the modal. Set attach-to element position to «relative» in your CSS styles to avoid this warning.')
         this.attachTo.style.position = 'relative'
       }
     },
