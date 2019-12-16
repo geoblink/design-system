@@ -2,6 +2,7 @@
 .eslintcache
 node_modules/
 dist/
+public/
 /test/unit/coverage/
 test-report.xml
 test-reports/
