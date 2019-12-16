@@ -57,3 +57,11 @@ Equivalent to running:
 ::: tip
 This is the script you probably want to run to see the live documentation page.
 :::
+
+### `build:system`
+
+```sh
+yarn build:system
+```
+
+Builds the library for NPM.
