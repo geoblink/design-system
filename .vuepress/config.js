@@ -16,6 +16,14 @@ module.exports = {
     logo: `/assets/img/logo.svg`,
     nav: [
       { text: 'Home', link: '/' },
+      {
+        text: 'Guides',
+        items: [
+          { text: 'Getting started', link: '/docs/guides/getting-started' },
+          { text: 'Using constants', link: '/docs/guides/using-constants' },
+          { text: 'Developing', link: '/docs/guides/developing' }
+        ]
+      },
       { text: 'Changelog', link: '/changelog' },
       { text: 'Design tokens', link: '/docs/design-tokens' },
       {
