@@ -9,6 +9,7 @@ const base = process.env.VUEPRESS_BASE || '/'
 module.exports = {
   base,
   title: 'Geoblink Design System documentation',
+  dest: 'public',
   head: [
     ['link', { rel: 'icon', href: '/assets/img/favicon.ico' }]
   ],
