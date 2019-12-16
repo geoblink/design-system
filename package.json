@@ -11,6 +11,7 @@
   "license": "MIT",
   "scripts": {
     "start": "run-s docs:prepare docs:watch",
+    "dev": "run-s start",
     "docs": "vuepress dev --open",
     "docs:dev": "vuepress dev",
     "docs:prepare": "run-p theo:build:docs docs:build:markdown",
@@ -25,9 +26,10 @@
     "analyze:bundle": "webpack-bundle-analyzer webpack.stats.json",
     "lint": "eslint '**/*.{js,vue}' --cache",
     "lint:fix": "eslint '**/*.{js,vue}' --cache --fix",
-    "build": "run-s theo:build:system node:build:system",
+    "build": "run-s build:docs",
+    "build:system": "run-s theo:build:system build:system:node",
+    "build:system:node": "node ./build/build-system.js",
     "build:docs": "run-s theo:build:docs docs:build",
-    "node:build:system": "node ./build/build-system.js",
     "theo:build": "run-p theo:build:*",
     "theo:build:docs": "theo ./src/tokens/tokens.yml --setup .theo.setup.js --transform web --format map.scss,scss,raw.json,json --dest ./.vuepress/public/tokens",
     "theo:build:system": "theo ./src/tokens/tokens.yml --setup .theo.setup.js --transform web --format map.scss,scss,raw.json,json --dest ./src/assets/tokens",
@@ -36,7 +38,7 @@
     "test:unit": "jest --config ./test/unit/jest.conf.js --coverage",
     "test:watch": "run-p theo:watch test:unit:watch",
     "test:unit:watch": "jest --config ./test/unit/jest.conf.js --watch",
-    "prepublishOnly": "run-s lint test build",
+    "prepublishOnly": "run-s lint test build:system",
     "new:component": "hygen new component"
   },
   "repository": {
