@@ -57,6 +57,10 @@
 import enumPropertyFactory from '../../utils/enumPropertyFactory'
 import { VARIANTS, TYPES } from './GeoEditableInput.constants'
 
+/**
+ * Use `GeoEditableInput` component when you need confirmation feedback from
+ * the user on individual input and not in a global form.
+ */
 export default {
   name: 'GeoEditableInput',
   status: 'ready',
@@ -180,7 +184,7 @@ export default {
 
     emitSave ($event) {
       /**
-       * User clicked the save button. The event will be emitted even if the input is with `loading` `true`.
+       * User clicked the save button. The event will be emitted even if the input is with `loading=true`.
        *
        * @event save
        * @type {MouseEvent}
