@@ -16,6 +16,7 @@
       v-if="isLoading"
       class="geo-file-upload__loading-indicator"
     >
+      <!-- @slot Use this slot to customize what's displaying in loading state -->
       <slot name="loading">
         <geo-activity-indicator />
       </slot>
@@ -67,6 +68,12 @@
 import _ from 'lodash'
 import { STATUS } from './GeoFileUpload.mixin'
 
+/**
+ * `GeoFileUpload` is a form input designed to upload local files to a server.
+ * It supports drag & drop and different status variants.
+ *
+ * Only one file can be uploaded using this component.
+ */
 export default {
   name: 'GeoFileUpload',
   status: 'ready',
@@ -82,7 +89,7 @@ export default {
      * It's aimed to show user feedback about the uploaded file.
      *
      * Supported `status` values are exported under `STATUS` named export.
-     * See [Component Constants](/docs/components-constants.html) for more info on how
+     * See [Component Constants](/docs/guides/using-constants) for more info on how
      * to use those constants in your code.
      */
     status: {

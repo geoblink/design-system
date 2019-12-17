@@ -13,6 +13,9 @@ export { STATUS }
  */
 export default {
   props: {
+    /**
+     * Whether this input is in loading state (`true`) or not.
+     */
     loading: {
       type: Boolean,
       default: false
