@@ -18,6 +18,13 @@
 </template>
 
 <script>
+/**
+ * `GeoScrollableContainer` is a component designed to wrap a list of items
+ * that is too long to display at once. It provides a button to load more items
+ * from that list.
+ *
+ * It's useful to be used altogether with `GeoDropdown` and `GeoSelect`.
+ */
 export default {
   name: 'GeoScrollableContainer',
   status: 'ready',
