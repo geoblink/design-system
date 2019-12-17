@@ -16,6 +16,10 @@
 </template>
 
 <script>
+/**
+ * `GeoBorderedToken` is a component that renders a small static label with a
+ * boxed-like like style.
+ */
 export default {
   name: 'GeoBorderedToken',
   status: 'ready',
