@@ -217,16 +217,21 @@ Using this component you can render complex HTML tooltips in a safe and reactive
 </p>
 ```
 
-**Note**: We use `document.querySelector` in demos for simplicity's sake.
+::: tip NOTE
+We use `document.querySelector` in demos for simplicity's sake.
 In production we recommend using [refs](https://vuejs.org/v2/guide/components-edge-cases.html#Accessing-Child-Component-Instances-amp-Child-Elements).
 We do not use them here because they are not reactive by default.
-To make them reactive we recommend [ReactiveRefs](https://github.com/posva/vue-reactive-refs).
+
+To make refs reactive we suggest using [ReactiveRefs](https://github.com/posva/vue-reactive-refs).
+
 To not use non-default behaviours in the demos and keep them simple, we do not load that plugin and hence we are forced to use a different approach.
+:::
+
+#### Tooltips on GeoButton
 
 ```vue live
 <template>
   <div class="element-demo">
-    <h3 class="element-demo__header">Tooltips on GeoButton</h3>
     <div class="element-demo__block">
       <geo-primary-button data-tooltip-id="demo1">
         <geo-tooltip :forced-trigger-target="primaryButtonElement">
@@ -264,10 +269,11 @@ export default {
 </script>
 ```
 
+#### Tooltips on FontAwesomeIcon
+
 ``` vue live
 <template>
   <div class="element-demo">
-    <h3 class="element-demo__header">Tooltips on FontAwesomeIcon</h3>
     <div class="element-demo__block">
       <font-awesome-icon
         data-tooltip-id="demo3"
@@ -294,10 +300,11 @@ export default {
 </script>
 ```
 
+#### Tooltips on input
+
 ``` vue live
 <template>
   <div class="element-demo">
-    <h3 class="element-demo__header">Tooltips on input</h3>
     <div class="element-demo__block">
       <input
         data-tooltip-id="demo4"
@@ -334,15 +341,30 @@ export default {
 </script>
 ```
 
+#### Tooltips on GeoDropdownCompactButton
+
 ``` vue live
 <template>
   <div class="element-demo">
-    <h3 class="element-demo__header">Tooltips on GeoDropdownCompactButton</h3>
     <div class="element-demo__block">
-      <geo-dropdown-compact-button data-tooltip-id="demo6"/>
-      <geo-tooltip :forced-trigger-target="geoDropdownCompactButtonElement">
-        GeoDropdownCompactButton Tooltip
-      </geo-tooltip>
+      <geo-dropdown
+        :opened="isOpened"
+        @click-outside="closeMenu()"
+      >
+        <geo-dropdown-compact-button
+          slot="toggleButton"
+          data-tooltip-id="demo6"
+          @click="toggleMenu()"/>
+        <geo-tooltip
+          slot="toggleButton"
+          :forced-trigger-target="geoDropdownCompactButtonElement"
+        >
+          GeoDropdownCompactButton Tooltip
+        </geo-tooltip>
+        <geo-bordered-box slot="popupContent">
+          Dropdown popup content
+        </geo-bordered-box>
+      </geo-dropdown>
     </div>
   </div>
 </template>
@@ -351,30 +373,37 @@ export default {
 export default {
   data () {
     return {
-      geoDropdownCompactButtonElement: null
+      geoDropdownCompactButtonElement: null,
+      isOpened: false
     }
   },
   mounted () {
     this.geoDropdownCompactButtonElement = document.querySelector('[data-tooltip-id="demo6"]')
+  },
+  methods: {
+    closeMenu () {
+      this.isOpened = false
+    },
+    toggleMenu () {
+      this.isOpened = !this.isOpened
+    },
   }
 }
 </script>
 ```
 
+#### Tooltips with changing TriggerTarget
+
 ``` vue live
 <template>
   <div class="element-demo">
-    <h3 class="element-demo__header">Tooltips with changing TriggerTarget</h3>
     <div
       class="element-demo__block"
       @mouseover="isToggleablePrimaryButtonTooltipVisible = true"
       @mouseleave="isToggleablePrimaryButtonTooltipVisible = false"
     >
       <input type="checkbox" v-model="isToggleablePrimaryButtonVisible">
-      <geo-primary-button
-        v-if="isToggleablePrimaryButtonVisible"
-        data-tooltip-id="demo7"
-      >
+      <geo-primary-button v-if="isToggleablePrimaryButtonVisible">
         <geo-tooltip :visible="isToggleablePrimaryButtonTooltipVisible">
           Checkbox Primary Button Tooltip
         </geo-tooltip>
@@ -394,4 +423,237 @@ export default {
   }
 }
 </script>
+```
+
+#### Tooltips on GeoSegmentedControlItem
+
+``` vue live
+<template>
+  <div class="element-demo">
+    <div class="element-demo__block" style="justify-content: center">
+      <geo-segmented-control style="width: auto">
+        <geo-segmented-control-item
+          :active="isLeftActive"
+          @click="isLeft()"
+        >
+          <geo-tooltip :delay="200">
+            Tooltip on left item
+          </geo-tooltip>
+          L
+        </geo-segmented-control-item>
+
+        <geo-segmented-control-item
+          :active="isMiddleActive"
+          @click="isMiddle()"
+        >
+          <geo-tooltip :delay="200">
+            Tooltip on middle item
+          </geo-tooltip>
+          M
+        </geo-segmented-control-item>
+
+        <geo-segmented-control-item
+          :active="isRightActive"
+          @click="isRight()"
+        >
+          <geo-tooltip :delay="200">
+            Tooltip on right item
+          </geo-tooltip>
+          R
+        </geo-segmented-control-item>
+      </geo-segmented-control>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  data () {
+    return {
+      isLeftActive: true,
+      isMiddleActive: false,
+      isRightActive: false
+    }
+  },
+  methods: {
+    isRight () {
+      this.isLeftActive = false
+      this.isMiddleActive = false
+      this.isRightActive = true
+    },
+    isMiddle () {
+      this.isLeftActive = false
+      this.isMiddleActive = true
+      this.isRightActive = false
+    },
+    isLeft () {
+      this.isLeftActive = true
+      this.isMiddleActive = false
+      this.isRightActive = false
+    }
+  }
+}
+</script>
+```
+
+#### Static tooltip
+
+``` vue live
+<template>
+  <div class="element-demo">
+    <div class="element-demo__block" >
+      <input type="checkbox" v-model="testIntersection" style="margin-right: 40px;">
+      <geo-secondary-button
+        :disabled="isVisibleTooltip"
+        @click="showTooltip()"
+      >
+        <geo-tooltip
+          :visible="isVisibleTooltip"
+          :static="true"
+        >
+          The tooltip appears until you click on the icon
+          <font-awesome-icon
+            :icon="['fal', 'times']"
+            style="color: red; margin-left: 5px; cursor: pointer;"
+            @click="hideTooltip()"
+          />
+        </geo-tooltip>
+        {{ buttonWithStaticTooltipText }}
+      </geo-secondary-button>
+      <geo-secondary-button
+        data-tooltip-id="demo8"
+        :class="{
+          'margin-left-second-button': !testIntersection
+        }"
+      >
+        <geo-tooltip :forced-trigger-target="secondaryButtonElement">
+          The tooltip appears only on hover, but is very long so might
+          go under the other one when the checkbox is checked
+        </geo-tooltip>
+        A button with a regular tooltip
+      </geo-secondary-button>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  data () {
+    return {
+      isVisibleTooltip: true,
+      buttonWithStaticTooltipText: 'A button with a static tooltip',
+      secondaryButtonElement: null,
+      testIntersection: false
+    }
+  },
+  mounted () {
+    this.secondaryButtonElement = document.querySelector('[data-tooltip-id="demo8"]')
+  },
+  methods: {
+    hideTooltip () {
+      this.isVisibleTooltip = false
+      this.buttonWithStaticTooltipText = 'Click to show the static tooltip'
+    },
+    showTooltip () {
+      this.isVisibleTooltip = true
+      this.buttonWithStaticTooltipText = 'A button with a static tooltip'
+    }
+  }
+}
+</script>
+
+<style scoped>
+.margin-left-second-button {
+  margin-left: 100px;
+}
+</style>
+```
+
+#### Two static tooltips
+
+``` vue live
+<template>
+  <div class="element-demo">
+    <div class="element-demo__block" >
+      <input type="checkbox" v-model="testIntersection" style="margin-right: 150px;">
+      <geo-secondary-button
+        :disabled="isVisibleTooltip1"
+        style="width: 100px"
+        @click="showTooltip1()"
+      >
+        <geo-tooltip
+          :visible="isVisibleTooltip1"
+          :static="true"
+        >
+          Click on the icon to hide tooltip 1
+          <font-awesome-icon
+            :icon="['fal', 'times']"
+            style="color: red; margin-left: 5px; cursor: pointer;"
+            @click="hideTooltip1()"
+          />
+        </geo-tooltip>
+        {{ buttonWithStaticTooltipText1 }}
+      </geo-secondary-button>
+      <geo-secondary-button
+        :disabled="isVisibleTooltip2"
+        :class="{
+          'margin-left-second-button': !testIntersection
+        }"
+        style="width: 100px"
+        @click="showTooltip2()"
+      >
+        <geo-tooltip
+          :visible="isVisibleTooltip2"
+          :static="true"
+        >
+          Click on the icon to hide tooltip 2
+          <font-awesome-icon
+            :icon="['fal', 'times']"
+            style="color: red; margin-left: 5px; cursor: pointer;"
+            @click="hideTooltip2()"
+          />
+        </geo-tooltip>
+        {{ buttonWithStaticTooltipText2 }}
+      </geo-secondary-button>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  data () {
+    return {
+      isVisibleTooltip1: true,
+      isVisibleTooltip2: true,
+      testIntersection: false,
+      buttonWithStaticTooltipText1: 'Button 1',
+      buttonWithStaticTooltipText2: 'Button 2'
+    }
+  },
+  methods: {
+    hideTooltip1 () {
+      this.isVisibleTooltip1 = false
+      this.buttonWithStaticTooltipText1 = 'Click'
+    },
+    showTooltip1 () {
+      this.isVisibleTooltip1 = true
+      this.buttonWithStaticTooltipText1 = 'Button 1'
+    },
+    hideTooltip2 () {
+      this.isVisibleTooltip2 = false
+      this.buttonWithStaticTooltipText2 = 'Click'
+    },
+    showTooltip2 () {
+      this.isVisibleTooltip2 = true
+      this.buttonWithStaticTooltipText2 = 'Button 2'
+    }
+  }
+}
+</script>
+
+<style scoped>
+.margin-left-second-button {
+  margin-left: 300px;
+}
+</style>
 ```

@@ -24,9 +24,11 @@ import throttle from '../../utils/throttle'
 import getDOMElementOffset from '../../utils/getDOMElementOffset'
 
 import cssSuffix from '../../mixins/cssModifierMixin'
+import counterFactory from '../../utils/counterFactory'
 
 /** @type {number} */
 let existingTooltipsCount = 0
+const getNextStaticTooltipId = counterFactory()
 
 /** @type {Element|null} */
 let tooltipContainerElement = null
@@ -119,6 +121,17 @@ export default {
     forcedTriggerTarget: {
       type: null,
       required: false
+    },
+
+    /**
+     * Places the tooltip in an isolated container.
+     *
+     * You’ll probably want to set this to true if you want to display this tooltip
+     * regardless any user interaction.
+     */
+    static: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
@@ -128,7 +141,10 @@ export default {
       isTooltipContentHovered: false,
       fittingPosition: null,
       fittingAlignment: null,
-      originalParentElement: null
+      originalParentElement: null,
+      staticTooltipMutationObserver: null,
+      staticTooltipId: null,
+      staticTooltipContainer: null
     }
   },
   computed: {
@@ -164,12 +180,25 @@ export default {
       this.removeMouseEventHandlers()
       this.reattachTooltipContent()
       this.addMouseEventHandlers()
+    },
+
+    static (newValue, oldValue) {
+      if (newValue === true) {
+        this.cleanUpRegularTooltip()
+        this.setUpStaticTooltip()
+      } else {
+        this.cleanUpStaticTooltip()
+        this.setUpRegularTooltip()
+      }
     }
   },
   mounted () {
     this.originalParentElement = this.$el.parentElement
-    existingTooltipsCount++
-    addTooltipContainerIfNeeded()
+    if (this.static) {
+      this.setUpStaticTooltip()
+    } else {
+      this.setUpRegularTooltip()
+    }
 
     this.reattachTooltipContent()
     this.addMouseEventHandlers()
@@ -177,19 +206,26 @@ export default {
   },
   updated () {
     this.repositionTooltip()
+    this.checkSeveralTooltips()
   },
   beforeDestroy () {
-    this.removeMouseEventHandlers()
-
     this.$el.remove()
-    existingTooltipsCount--
-    cleanupTooltipContainerIfNeeded()
+
+    if (this.static) {
+      this.cleanUpStaticTooltip()
+    } else {
+      this.cleanUpRegularTooltip()
+    }
   },
   methods: {
     reattachTooltipContent () {
       this.triggerTarget = this.forcedTriggerTarget || this.originalParentElement
       this.$el.remove()
-      tooltipContainerElement.appendChild(this.$el)
+      if (this.static) {
+        this.staticTooltipContainer.appendChild(this.$el)
+      } else {
+        tooltipContainerElement.appendChild(this.$el)
+      }
     },
 
     addMouseEventHandlers () {
@@ -382,10 +418,77 @@ export default {
       const correctedOffset = correctedOffsetForPosition[tooltipPosition]
 
       const transform = `translate(${correctedOffset.x}px, ${correctedOffset.y}px)`
-      tooltipContainerElement.style.transform = transform
+      if (this.static) {
+        this.staticTooltipContainer.style.transform = transform
+      } else {
+        tooltipContainerElement.style.transform = transform
+      }
 
       this.fittingPosition = tooltipPosition
       this.fittingAlignment = fittingAlignment
+    },
+
+    setUpStaticTooltip () {
+      this.staticTooltipId = getNextStaticTooltipId()
+      this.addStaticTooltipContainer()
+
+      if (typeof MutationObserver !== 'undefined') {
+        const mutationObserver = new MutationObserver(() => this.throttledRepositionTooltip())
+        mutationObserver.observe(document.body, {
+          attributes: true,
+          subtree: true
+        })
+        this.staticTooltipMutationObserver = mutationObserver
+      }
+    },
+
+    cleanUpStaticTooltip () {
+      if (this.staticTooltipMutationObserver) {
+        this.staticTooltipMutationObserver.disconnect()
+        this.staticTooltipMutationObserver = null
+      }
+
+      this.removeMouseEventHandlers()
+      this.removeStaticTooltipContainer()
+      this.staticTooltipId = null
+    },
+
+    setUpRegularTooltip () {
+      existingTooltipsCount++
+      addTooltipContainerIfNeeded()
+    },
+
+    cleanUpRegularTooltip () {
+      this.removeMouseEventHandlers()
+      existingTooltipsCount--
+      cleanupTooltipContainerIfNeeded()
+    },
+
+    addStaticTooltipContainer () {
+      this.staticTooltipContainer = document.createElement('div')
+      this.staticTooltipContainer.className = `geo-tooltip-static geo-tooltip-static--${this.staticTooltipId}`
+
+      document.body.appendChild(this.staticTooltipContainer)
+    },
+
+    removeStaticTooltipContainer () {
+      this.staticTooltipContainer.remove()
+      this.staticTooltipContainer = null
+    },
+
+    checkSeveralTooltips () {
+      if (existingTooltipsCount > 1) {
+        const visibleTooltips = document.querySelectorAll('.geo-tooltip .geo-tooltip__content')
+        if (visibleTooltips.length > 1) {
+          visibleTooltips.forEach((element) => {
+            if (element === this.$el) {
+              element.style.display = null
+            } else {
+              element.style.display = 'none'
+            }
+          })
+        }
+      }
     }
   }
 }
