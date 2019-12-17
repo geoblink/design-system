@@ -1,9 +1,11 @@
-`GeoInputSuffix` component can be added as an accesory item to a `GeoInput` component.
+### Suffix with text
 
 ```jsx live
 <div class="element-demo">
-  <h3 class="element-demo__header">Suffix with text</h3>
-  <div class="element-demo__block"  style="justify-content: space-around;">
+  <div
+    class="element-demo__block"
+    style="justify-content: space-around;"
+  >
     <geo-input-suffix>
       meters
     </geo-input-suffix>
@@ -11,10 +13,14 @@
 </div>
 ```
 
+### Suffix with icon
+
 ```jsx live
 <div class="element-demo">
-  <h3 class="element-demo__header">Suffix with icon</h3>
-  <div class="element-demo__block"   style="justify-content: space-around;">
+  <div
+    class="element-demo__block"
+    style="justify-content: space-around;"
+  >
     <geo-input-suffix>
       <font-awesome-icon
         :icon="['fas', 'euro-sign']"

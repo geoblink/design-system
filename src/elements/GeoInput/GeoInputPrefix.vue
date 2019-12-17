@@ -6,6 +6,10 @@
 </template>
 
 <script>
+/**
+ * `GeoInputPrefix` component can be added as an accesory item to a `GeoInput`
+ * component.
+ */
 export default {
   name: 'GeoInputPrefix',
   status: 'ready',

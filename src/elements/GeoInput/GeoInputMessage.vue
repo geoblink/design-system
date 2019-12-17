@@ -17,6 +17,13 @@
 <script>
 import { VARIANTS } from './GeoInputMessage.constants'
 
+/**
+ * `GeoInputMessage` is component designed to fit nicely as a help message for
+ * `GeoInput`.
+ *
+ * You can customize the color to change the intention of the message using
+ * different variants like `success` or `error`.
+ */
 export default {
   name: 'GeoInputMessage',
   status: 'ready',
@@ -30,7 +37,7 @@ export default {
      * out-of-the-box customizations.
      *
      * Supported `variant` values are exported under `VARIANTS` named export.
-     * See [Component Constants](/docs/components-constants.html) for more info on how
+     * See [Component Constants](/docs/guides/using-constants) for more info on how
      * to use those constants in your code.
      */
     variant: {

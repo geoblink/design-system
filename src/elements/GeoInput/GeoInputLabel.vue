@@ -14,6 +14,9 @@
 </template>
 
 <script>
+/**
+ * `GeoInputLabel` is component designed to fit nicely as a label for `GeoInput`.
+ */
 export default {
   name: 'GeoInputLabel',
   status: 'ready',
