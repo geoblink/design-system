@@ -85,6 +85,20 @@ import GeoCalendarGranularityIdMixin from './GeoCalendarGranularityId.mixin'
 import GeoCalendarPickerDateUnitMixin from './GeoCalendarPickerDateUnit.mixin'
 import * as GeoCalendarConstants from './GeoCalendar.utils'
 
+/**
+ * `GeoCalendarDropdown` renders a button that when clicked, displays a calendar
+ * with two inputs where you can enter date ranges and manually select dates
+ * clicking on the displayed grid.
+ *
+ * To use this component you must
+ * [install date-fns](https://github.com/date-fns/date-fns) in your application.
+ *
+ * ::: tip
+ * [GeoCalendar](./GeoCalendar) can be used independently from
+ * `GeoCalendarDropdown` if you want to display the calendar directly embed in
+ * your application.
+ * :::
+ */
 export default {
   name: 'GeoCalendarDropdown',
   status: 'ready',

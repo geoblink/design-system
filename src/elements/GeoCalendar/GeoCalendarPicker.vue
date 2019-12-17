@@ -57,6 +57,15 @@ import getYear from 'date-fns/getYear'
 import subMonths from 'date-fns/subMonths'
 import subYears from 'date-fns/subYears'
 
+/**
+ * `GeoCalendarPicker` renders the basic grid and elements to show a different
+ * range.
+ *
+ * ::: tip
+ * You should use [GeoCalendarDropdown](./GeoCalendarDropdown) instead of this
+ * component since it's a nice wrapper to show calendars on a on-demand dropdown.
+ * :::
+ */
 export default {
   name: 'GeoCalendarPicker',
   status: 'ready',

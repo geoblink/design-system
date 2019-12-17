@@ -2,4 +2,8 @@
   .geo-bordered-box {
     box-sizing: border-box;
   }
+
+  .geo-scrollable-container__body {
+    max-height: var(--available-height);
+  }
 }

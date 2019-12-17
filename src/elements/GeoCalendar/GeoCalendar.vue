@@ -132,6 +132,15 @@ import GeoCalendarRootMixin from './GeoCalendarRoot.mixin'
 import GeoCalendarGranularityIdMixin from './GeoCalendarGranularityId.mixin'
 import GeoCalendarPickerDateUnitMixin from './GeoCalendarPickerDateUnit.mixin'
 
+/**
+ * GeoCalendar is the underlying component handling the grid and the interactions
+ * on [GeoCalendarDropdown](./GeoCalendarDropdown).
+ *
+ * ::: tip
+ * You should use [GeoCalendarDropdown](./GeoCalendarDropdown) instead of this
+ * component since it's a nice wrapper to show calendars on a on-demand dropdown.
+ * :::
+ */
 export default {
   name: 'GeoCalendar',
   status: 'ready',

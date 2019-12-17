@@ -1,9 +1,6 @@
 ```vue live
 <template>
   <div class="element-demo">
-    <h3 class="element-demo__header">
-      GeoCalendarDropdown
-    </h3>
     <div class="element-demo__block">
       <p>
         <label for="toggle-earliest-date">Toggle earliestDate</label>
@@ -23,12 +20,11 @@
       </p>
     </div>
     <div class="element-demo__block">
-      <geo-calendar-dropdown
+      <geo-calendar
         :input-range-icon="['fas', 'arrow-right']"
         :previous-date-in-selected-granularity-icon="['fas', 'chevron-left']"
         :next-date-in-selected-granularity-icon="['fas', 'chevron-right']"
         :calendar-navigation-select-icon="['fas', 'chevron-down']"
-        :close-calendar-icon="['fas', 'times']"
         :default-from-date="selectedFromDay"
         :default-to-date="selectedToDay"
         :earliest-date="dataEarliestDate"
@@ -40,20 +36,7 @@
         to-input-placeholder="To"
         @emit-from-date="setFromDate"
         @emit-to-date="setToDate"
-        @apply-range-selection="applyDates"
       >
-        <template
-          slot-scope="{ toggleCalendarPopup }"
-          slot="toggleButton"
-        >
-          <geo-dropdown-regular-button
-            :icon="['fas', 'calendar']"
-            @click="toggleCalendarPopup"
-          >
-            Calendar:
-          </geo-dropdown-regular-button>
-        </template>
-        <template slot="calendarHeaderTitle">Calendar</template>
         <template
           v-if="hasGranularities"
           slot="pickerGranularity"
@@ -126,31 +109,22 @@
             Last year
           </geo-calendar-picker-granularity-base>
         </template>
-        <!-- TODO: CORE-7312 This should be part of the DS when input results in error -->
+
         <p
           slot="formatError"
           class="geo-calendar__input__date-feedback--error"
         >
           The inserted date is not valid
         </p>
+
         <template slot="earliestDatePlaceholder">
           Set earliest date
         </template>
+
         <template slot="latestDatePlaceholder">
           Set latest date
         </template>
-        <template
-          slot-scope="{ applyRangeSelection }"
-          slot="calendarFooter"
-        >
-          <geo-primary-button
-            :disabled="isDateRangeNotValid"
-            @click="applyRangeSelection"
-          >
-            apply date
-          </geo-primary-button>
-        </template>
-      </geo-calendar-dropdown>
+      </geo-calendar>
     </div>
   </div>
 </template>
@@ -247,9 +221,7 @@ export default {
     setAliasRange (index) {
       this.selectedFromDay = this.aliases[index].fromDate
       this.selectedToDay = this.aliases[index].toDate
-    },
-
-    applyDates () {}
+    }
   }
 }
 </script>
