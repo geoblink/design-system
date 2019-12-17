@@ -7,6 +7,16 @@ Breaking:
 - Remove `css-modifier` mixin and prop.
 - Do not embed `d3` library.
 
+## 28.2.0
+
+New:
+
+- `static` prop for `GeoTooltip` with actions inside
+
+Fixed:
+
+- Show only one `GeoTooltip` when fast hovering
+
 ## 28.1.1
 
 Fixed:
