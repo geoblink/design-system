@@ -10,6 +10,11 @@
 </template>
 
 <script>
+/**
+ * `GeoListFooterButton` is component designed to be displayed as footer of a
+ * collection of [GeoListItem](./GeoListItem) that nicely fits with the rest of
+ * items of the list.
+ */
 export default {
   name: 'GeoListFooterButton',
   status: 'ready',

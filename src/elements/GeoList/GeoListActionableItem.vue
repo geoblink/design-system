@@ -46,6 +46,13 @@
 </template>
 
 <script>
+/**
+ * `GeoListActionableItem` is a component designed to build vertical lists with
+ * custom content which fit properly in a `GeoBorderedBox`.
+ *
+ * It can be customized in several ways, adding icons to the leading edge of the
+ * row or more complex elements (like form inputs) to the trailing edge.
+ */
 export default {
   name: 'GeoListActionableItem',
   status: 'ready',

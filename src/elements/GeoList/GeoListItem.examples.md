@@ -1,10 +1,4 @@
-`GeoListItem` is a component designed to build vertical lists which fit
-properly in a [GeoBorderedBox](./#/Elements/GeoBorderedBox).
-
-It can be customized in several ways, adding icons to the leading edge of the
-row or more complex elements (like form inputs) to the trailing edge.
-
-## Interactive list item
+### Interactive list item
 
 ```vue live
 <template>
@@ -29,7 +23,7 @@ export default {
 </script>
 ```
 
-## Regular list items
+### Regular list items
 
 ```jsx live
 <div class="element-demo">
@@ -60,7 +54,7 @@ export default {
 </div>
 ```
 
-## Disabled list items
+### Disabled list items
 
 ```jsx live
 <div class="element-demo">
@@ -97,7 +91,7 @@ export default {
 </div>
 ```
 
-## List items inside a bordered box
+### List items inside a bordered box
 
 ```jsx live
 <div class="element-demo">

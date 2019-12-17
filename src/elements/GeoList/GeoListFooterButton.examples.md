@@ -1,10 +1,9 @@
-`GeoListFooterButton` is component designed to be displayed as footer of a
-collection of [GeoListItem](./#/Elements/GeoList?id=geolistitem) that nicely
-fits with the rest of items of the list.
-
-```jsx
+```jsx live
 <div class="element-demo">
-  <div class="element-demo__block" style="justify-content: space-around;">
+  <div
+    class="element-demo__block"
+    style="justify-content: space-around;"
+  >
     <geo-list-footer-button>Load more results</geo-list-footer-button>
 
     <geo-bordered-box>

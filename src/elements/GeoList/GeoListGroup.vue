@@ -38,6 +38,12 @@
 </template>
 
 <script>
+/**
+ * `GeoListGroup` is a component designed to show a collection of items inside
+ * a visually isolated group. It supports a customizable group `title` and
+ * allows showing any kind of content inside the group, althought using
+ * [GeoListItem](./GeoListItem) is advised.
+ */
 export default {
   name: 'GeoListGroup',
   status: 'ready',
