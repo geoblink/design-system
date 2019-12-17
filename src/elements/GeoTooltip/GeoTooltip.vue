@@ -142,6 +142,7 @@ export default {
       fittingPosition: null,
       fittingAlignment: null,
       originalParentElement: null,
+      staticTooltipMutationObserver: null,
       staticTooltipId: null,
       staticTooltipContainer: null
     }
@@ -430,9 +431,23 @@ export default {
     setUpStaticTooltip () {
       this.staticTooltipId = getNextStaticTooltipId()
       this.addStaticTooltipContainer()
+
+      if (typeof MutationObserver !== 'undefined') {
+        const mutationObserver = new MutationObserver(() => this.throttledRepositionTooltip())
+        mutationObserver.observe(document.body, {
+          attributes: true,
+          subtree: true
+        })
+        this.staticTooltipMutationObserver = mutationObserver
+      }
     },
 
     cleanUpStaticTooltip () {
+      if (this.staticTooltipMutationObserver) {
+        this.staticTooltipMutationObserver.disconnect()
+        this.staticTooltipMutationObserver = null
+      }
+
       this.removeMouseEventHandlers()
       this.removeStaticTooltipContainer()
       this.staticTooltipId = null
