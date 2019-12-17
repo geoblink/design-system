@@ -26,6 +26,11 @@
 </template>
 
 <script>
+/**
+ * `GeoNotificationBar` is a component designed to show a notification message
+ * to the user. It can be customized with different icons, action buttons or
+ * close event.
+ */
 export default {
   name: 'GeoNotificationBar',
   status: 'ready',
