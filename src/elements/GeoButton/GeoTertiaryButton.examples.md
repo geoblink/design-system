@@ -1,15 +1,8 @@
-[GeoButton](./#/Elements/GeoButton) using predefined `tertiary` variant.
-
-tertiary buttons are normally used to trigger an alternative action to the main
-one like dismissing a form without saving changes.
-
-See [GeoButton](./#/Elements/GeoButton) for a complete list of
-supported properties and features.
+### Complete flow
 
 ```vue live
 <template>
   <div class="element-demo">
-    <h3 class="element-demo__header">Complete flow</h3>
     <div class="element-demo__block">
       <geo-tertiary-button
         :disabled="isDisabled"
@@ -18,26 +11,6 @@ supported properties and features.
       >
         Full flow
       </geo-tertiary-button>
-    </div>
-    <h3 class="element-demo__header">Regular</h3>
-    <div class="element-demo__block">
-      <geo-tertiary-button>Regular</geo-tertiary-button>
-      <geo-tertiary-button hover>Hover / Focus</geo-tertiary-button>
-    </div>
-    <h3 class="element-demo__header">Disabled</h3>
-    <div class="element-demo__block">
-      <geo-tertiary-button disabled>Disabled</geo-tertiary-button>
-      <geo-tertiary-button disabled hover>Disabled &amp; Hover / Focus</geo-tertiary-button>
-    </div>
-    <h3 class="element-demo__header">Loading</h3>
-    <div class="element-demo__block">
-      <geo-tertiary-button loading>Loading</geo-tertiary-button>
-      <geo-tertiary-button loading hover>Loading &amp; Hover / Focus</geo-tertiary-button>
-    </div>
-    <h3 class="element-demo__header">Loading &amp; Disabled</h3>
-    <div class="element-demo__block">
-      <geo-tertiary-button loading disabled>Loading &amp; Disabled</geo-tertiary-button>
-      <geo-tertiary-button loading disabled hover>Loading &amp; Disabled</geo-tertiary-button>
     </div>
   </div>
 </template>
@@ -60,4 +33,74 @@ export default {
   }
 }
 </script>
+```
+
+### Regular
+
+```jsx live
+<div class="element-demo">
+  <div class="element-demo__block">
+    <geo-tertiary-button>Regular</geo-tertiary-button>
+  </div>
+</div>
+```
+
+### Hover / Focus
+
+```jsx live
+<div class="element-demo">
+  <div class="element-demo__block">
+    <geo-tertiary-button hover>Hover / Focus</geo-tertiary-button>
+  </div>
+</div>
+```
+
+### Disabled
+
+```jsx live
+<div class="element-demo">
+  <div class="element-demo__block">
+    <geo-tertiary-button disabled>Disabled</geo-tertiary-button>
+  </div>
+</div>
+```
+
+### Disabled & Hover / Focus
+
+```jsx live
+<div class="element-demo">
+  <div class="element-demo__block">
+    <geo-tertiary-button disabled hover>Disabled &amp; Hover / Focus</geo-tertiary-button>
+  </div>
+</div>
+```
+
+### Loading
+
+```jsx live
+<div class="element-demo">
+  <div class="element-demo__block">
+    <geo-tertiary-button loading>Loading</geo-tertiary-button>
+  </div>
+</div>
+```
+
+### Loading & Hover / Focus
+
+```jsx live
+<div class="element-demo">
+  <div class="element-demo__block">
+    <geo-tertiary-button loading hover>Loading &amp; Hover / Focus</geo-tertiary-button>
+  </div>
+</div>
+```
+
+### Loading & Disabled
+
+```jsx live
+<div class="element-demo">
+  <div class="element-demo__block">
+    <geo-tertiary-button loading disabled>Loading &amp; Disabled</geo-tertiary-button>
+  </div>
+</div>
 ```

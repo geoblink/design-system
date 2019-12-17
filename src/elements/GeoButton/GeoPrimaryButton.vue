@@ -3,6 +3,14 @@
 <script>
 import mixin, { TYPES } from './GeoButton.mixin'
 
+/**
+ * [GeoButton](./GeoButton) using predefined `primary` variant.
+ *
+ * Primary buttons are normally used to trigger main actions like saving changes.
+ *
+ * See [GeoButton](./GeoButton) for a complete list of supported properties and
+ * features.
+*/
 export default {
   name: 'GeoPrimaryButton',
   status: 'ready',

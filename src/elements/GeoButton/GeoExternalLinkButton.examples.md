@@ -1,9 +1,3 @@
-[GeoButton](./#/Elements/GeoButton) using predefined `link` variant and featuring an `external` icon.
-
-External link buttons are normally used to open new windows that are not part of the currently used application.
-
-See [GeoButton](./#/Elements/GeoButton) for a complete list of supported properties and features.
-
 ### Complete flow
 
 ```vue live
@@ -37,46 +31,71 @@ export default {
 </script>
 ```
 
-### Regular href
-
-```jsx live
-<geo-external-link-button href="https://geoblink.com">
-  Open external link
-</geo-external-link-button>
-```
-
 ### Regular
 
 ```jsx live
 <div class="element-demo__block">
   <geo-external-link-button>Regular</geo-external-link-button>
-  <geo-external-link-button hover>Hover / Focus</geo-external-link-button>
+  <geo-external-link-button href="https://geoblink.com">Open external link</geo-external-link-button>
+</div>
+```
+
+### Hover / Focus
+
+```jsx live
+<div class="element-demo">
+  <div class="element-demo__block">
+    <geo-external-link-button hover>Hover / Focus</geo-external-link-button>
+  </div>
 </div>
 ```
 
 ### Disabled
 
 ```jsx live
-<div class="element-demo__block">
-  <geo-external-link-button disabled>Disabled</geo-external-link-button>
-  <geo-external-link-button disabled hover>Disabled &amp; Hover / Focus</geo-external-link-button>
+<div class="element-demo">
+  <div class="element-demo__block">
+    <geo-external-link-button disabled>Disabled</geo-external-link-button>
+  </div>
+</div>
+```
+
+### Disabled & Hover / Focus
+
+```jsx live
+<div class="element-demo">
+  <div class="element-demo__block">
+    <geo-external-link-button disabled hover>Disabled &amp; Hover / Focus</geo-external-link-button>
+  </div>
 </div>
 ```
 
 ### Loading
 
 ```jsx live
-<div class="element-demo__block">
-  <geo-external-link-button loading>Loading</geo-external-link-button>
-  <geo-external-link-button loading hover>Loading &amp; Hover / Focus</geo-external-link-button>
+<div class="element-demo">
+  <div class="element-demo__block">
+    <geo-external-link-button loading>Loading</geo-external-link-button>
+  </div>
 </div>
 ```
 
-### Loading & disabled
+### Loading & Hover / Focus
 
 ```jsx live
-<div class="element-demo__block">
-  <geo-external-link-button loading disabled>Loading &amp; Disabled</geo-external-link-button>
-  <geo-external-link-button loading disabled hover>Loading &amp; Disabled</geo-external-link-button>
+<div class="element-demo">
+  <div class="element-demo__block">
+    <geo-external-link-button loading hover>Loading &amp; Hover / Focus</geo-external-link-button>
+  </div>
+</div>
+```
+
+### Loading & Disabled
+
+```jsx live
+<div class="element-demo">
+  <div class="element-demo__block">
+    <geo-external-link-button loading disabled>Loading &amp; Disabled</geo-external-link-button>
+  </div>
 </div>
 ```

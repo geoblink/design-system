@@ -53,17 +53,17 @@ export default {
      *
      * > **Note:** There are specific components to avoid explicitly writing this value.
      *
-     * | type      | Specific component | Proposed usage (example) |
-     * |-----------|--------------------|--------------------------|
-     * | primary   | [GeoPrimaryButton](./#/Elements/GeoButton?id=geoprimarybutton)      | Main action (saving changes) |
-     * | secondary | [GeoSecondaryButton](./#/Elements/GeoButton?id=geosecondarybutton)  | Auxiliar action (showing an options menu) |
-     * | link      | [GeoLinkButton](./#/Elements/GeoButton?id=geolinkbutton)            | Alternative action to the main one (dismissing a form without saving changes) |
-     * | dangerLink| [GeoDangerLinkButton](./#/Elements/GeoButton?id=geodangerlinkbutton)| Potentially wrong actions (choosing potentially wrong option) |
-     * | danger    | [GeoDangerButton](./#/Elements/GeoButton?id=geodangerbutton)        | Dangerous actions (deleting data) |
-     * | tooltip   | [GeoTooltipButton](./#/Elements/GeoButton?id=geotooltipbutton)      | Tooltips action button (Generally accepting some warning or closing it) |
+     * | type         | Specific component | Proposed usage (example) |
+     * |--------------|--------------------|--------------------------|
+     * | `primary`    | [GeoPrimaryButton](./GeoPrimaryButton)       | Main action (saving changes) |
+     * | `secondary`  | [GeoSecondaryButton](./GeoSecondaryButton)   | Auxiliar action (showing an options menu) |
+     * | `link`       | [GeoLinkButton](./GeoLinkButton)             | Alternative action to the main one (dismissing a form without saving changes) |
+     * | `dangerLink` | [GeoDangerLinkButton](./GeoDangerLinkButton) | Potentially wrong actions (choosing potentially wrong option) |
+     * | `danger`     | [GeoDangerButton](./GeoDangerButton)         | Dangerous actions (deleting data) |
+     * | `tooltip`    | [GeoTooltipButton](./GeoTooltipButton)       | Tooltips action button (Generally accepting some warning or closing it) |
      *
      * Supported `type` values are exported under `TYPES` named export. See
-     * [Component Constants](/docs/components-constants.html) for more info on how to
+     * [Component Constants](/docs/guides/using-constants) for more info on how to
      * use those constants in your code.
      */
     type: {

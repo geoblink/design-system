@@ -1,14 +1,8 @@
-[GeoButton](./#/Elements/GeoButton) using predefined `primary` variant.
-
-Primary buttons are normally used to trigger main actions like saving changes.
-
-See [GeoButton](./#/Elements/GeoButton) for a complete list of
-supported properties and features.
+### Complete flow
 
 ```vue live
 <template>
   <div class="element-demo">
-    <h3 class="element-demo__header">Complete flow</h3>
     <div class="element-demo__block">
       <geo-primary-button
         :disabled="isDisabled"
@@ -17,26 +11,6 @@ supported properties and features.
       >
         Full flow
       </geo-primary-button>
-    </div>
-    <h3 class="element-demo__header">Regular</h3>
-    <div class="element-demo__block">
-      <geo-primary-button>Regular</geo-primary-button>
-      <geo-primary-button hover>Hover / Focus</geo-primary-button>
-    </div>
-    <h3 class="element-demo__header">Disabled</h3>
-    <div class="element-demo__block">
-      <geo-primary-button disabled>Disabled</geo-primary-button>
-      <geo-primary-button disabled hover>Disabled &amp; Hover / Focus</geo-primary-button>
-    </div>
-    <h3 class="element-demo__header">Loading</h3>
-    <div class="element-demo__block">
-      <geo-primary-button loading>Loading</geo-primary-button>
-      <geo-primary-button loading hover>Loading &amp; Hover / Focus</geo-primary-button>
-    </div>
-    <h3 class="element-demo__header">Loading &amp; Disabled</h3>
-    <div class="element-demo__block">
-      <geo-primary-button loading disabled>Loading &amp; Disabled</geo-primary-button>
-      <geo-primary-button loading disabled hover>Loading &amp; Disabled</geo-primary-button>
     </div>
   </div>
 </template>
@@ -59,4 +33,74 @@ export default {
   }
 }
 </script>
+```
+
+### Regular
+
+```jsx live
+<div class="element-demo">
+  <div class="element-demo__block">
+    <geo-primary-button>Regular</geo-primary-button>
+  </div>
+</div>
+```
+
+### Hover / Focus
+
+```jsx live
+<div class="element-demo">
+  <div class="element-demo__block">
+    <geo-primary-button hover>Hover / Focus</geo-primary-button>
+  </div>
+</div>
+```
+
+### Disabled
+
+```jsx live
+<div class="element-demo">
+  <div class="element-demo__block">
+    <geo-primary-button disabled>Disabled</geo-primary-button>
+  </div>
+</div>
+```
+
+### Disabled & Hover / Focus
+
+```jsx live
+<div class="element-demo">
+  <div class="element-demo__block">
+    <geo-primary-button disabled hover>Disabled &amp; Hover / Focus</geo-primary-button>
+  </div>
+</div>
+```
+
+### Loading
+
+```jsx live
+<div class="element-demo">
+  <div class="element-demo__block">
+    <geo-primary-button loading>Loading</geo-primary-button>
+  </div>
+</div>
+```
+
+### Loading & Hover / Focus
+
+```jsx live
+<div class="element-demo">
+  <div class="element-demo__block">
+    <geo-primary-button loading hover>Loading &amp; Hover / Focus</geo-primary-button>
+  </div>
+</div>
+```
+
+### Loading & Disabled
+
+```jsx live
+<div class="element-demo">
+  <div class="element-demo__block">
+    <geo-primary-button loading disabled>Loading &amp; Disabled</geo-primary-button>
+  </div>
+</div>
 ```
