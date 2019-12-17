@@ -1,6 +1,4 @@
-`GeoCollapsableBox` is a component featuring a collapsable box that can be expanded on user demand.
-
-## Regular
+#### Regular
 
 ```jsx live
 <div class="element-demo">
@@ -14,7 +12,7 @@
 </div>
 ```
 
-## Initially collapsed
+#### Initially collapsed
 
 ```jsx live
 <div class="element-demo">

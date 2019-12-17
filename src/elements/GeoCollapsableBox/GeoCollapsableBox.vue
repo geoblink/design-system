@@ -33,6 +33,10 @@
 </template>
 
 <script>
+/**
+ * `GeoCollapsableBox` is a component featuring a collapsable box that can be
+ * expanded on user demand.
+ */
 export default {
   name: 'GeoCollapsableBox',
   status: 'ready',
