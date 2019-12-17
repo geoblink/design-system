@@ -13,7 +13,7 @@ watchComponentsToDocument()
 function watchComponentsToDocument () {
   spinner.start('Find Vue components to document')
 
-  chokidar.watch('**/*.vue', {
+  chokidar.watch('*/*.vue', {
     cwd: markdownComponentsUtils.pathToVueComponents,
     ignoreInitial: true
   })

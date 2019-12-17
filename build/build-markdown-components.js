@@ -35,7 +35,7 @@ function getComponentsToDocumentTask () {
     title: 'Find Vue components to document',
     task (ctx) {
       return new Promise(function (resolve, reject) {
-        glob('**/*.vue', { cwd: markdownComponentsUtils.pathToVueComponents }, function (err, files) {
+        glob('*/*.vue', { cwd: markdownComponentsUtils.pathToVueComponents }, function (err, files) {
           if (err) return reject(err)
 
           ctx.components = files

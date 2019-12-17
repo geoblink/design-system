@@ -69,8 +69,8 @@ module.exports = {
  */
 function getGroupedComponents (componentRootPath) {
   const componentsPaths = _.map(
-    glob.sync(`${componentRootPath}/**/*.vue`),
-    (singlePath) => path.relative(componentRootPath, singlePath)
+    glob.sync('*/*.vue', { cwd: componentRootPath }),
+    (singlePath) => path.relative(componentRootPath, path.resolve(componentRootPath, singlePath))
   )
 
   const groupedComponents = _.groupBy(componentsPaths, (singlePath) => path.dirname(singlePath))
