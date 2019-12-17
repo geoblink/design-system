@@ -14,6 +14,10 @@ const VARIANTS = {
 
 export { VARIANTS }
 
+/**
+ * `GeoPill` is a component which just renders some inline content inside a
+ * round bordered pill.
+ */
 export default {
   name: 'GeoPill',
   status: 'ready',
