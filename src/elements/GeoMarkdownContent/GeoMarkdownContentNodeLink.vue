@@ -36,10 +36,18 @@ export default {
   status: 'ready',
   release: '25.2.0',
   props: {
+    /**
+     * [`markdown-it`](https://www.npmjs.com/package/markdown-it) node to be
+     * rendered as a link.
+     */
     node: {
       type: Object,
       required: true
     },
+    /**
+     * Children [`markdown-it`](https://www.npmjs.com/package/markdown-it) nodes
+     * of `node`.
+     */
     childNodes: {
       type: Array,
       required: true

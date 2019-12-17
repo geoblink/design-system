@@ -24,6 +24,16 @@ const MarkdownIt = (function () {
   }
 })()
 
+/**
+ * `GeoMarkdownContent` is a component designed to render Markdown strings in a
+ * safe way, ensuring each DOM element generated is part of Vue virtual DOM tree
+ * and that no raw HTML can be injected into the application.
+ *
+ * ::: warning NOTE
+ * This component requires installing
+ * [`markdown-it`](https://www.npmjs.com/package/markdown-it) NPM package.
+ * :::
+ */
 export default {
   name: 'GeoMarkdownContent',
   status: 'ready',

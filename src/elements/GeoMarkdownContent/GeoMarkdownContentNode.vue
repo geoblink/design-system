@@ -40,6 +40,10 @@ export default {
     GeoMarkdownContentNodeLink
   },
   props: {
+    /**
+     * [`markdown-it`](https://www.npmjs.com/package/markdown-it) node to be
+     * rendered.
+     */
     node: {
       type: Object,
       required: true
