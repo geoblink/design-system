@@ -354,7 +354,7 @@ export default {
           GeoDropdownCompactButton Tooltip
         </geo-tooltip>
         <geo-bordered-box slot="popupContent">
-          Hello
+          Dropdown popup content
         </geo-bordered-box>
       </geo-dropdown>
     </div>
