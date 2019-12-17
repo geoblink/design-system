@@ -6,6 +6,11 @@
 </template>
 
 <script>
+/**
+ * `GeoBorderedBox` is a component designed to show an isolated set of elements
+ * or actions inside a boxed environment. Use it in dropdowns or modals to offer
+ * a consistent experience.
+ */
 export default {
   name: 'GeoBorderedBox',
   status: 'ready',

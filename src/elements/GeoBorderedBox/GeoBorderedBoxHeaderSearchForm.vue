@@ -38,6 +38,15 @@
 import _ from 'lodash'
 import throttle from '../../utils/throttle'
 
+/**
+ * `GeoBorderedBoxHeaderSearchForm` is a header featuring a search form designed
+ * to fit nicely in a [GeoBorderedBox](./GeoBorderedBox).
+ *
+ * ::: warning NOTE
+ * This component is **not responsible** of filtering displayed elements. You
+ * might want to use a [GeoSelect](../GeoSelect) for that.
+ * :::
+ */
 export default {
   name: 'GeoBorderedBoxHeaderSearchForm',
   status: 'ready',

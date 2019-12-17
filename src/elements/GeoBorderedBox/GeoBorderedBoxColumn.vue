@@ -6,6 +6,10 @@
 </template>
 
 <script>
+/**
+ * `GeoBorderedBoxColumn` is a component designed to show an isolated set of
+ * elements or actions inside a `GeoBorderedBox` environment.
+ */
 export default {
   name: 'GeoBorderedBoxColumn',
   status: 'ready',

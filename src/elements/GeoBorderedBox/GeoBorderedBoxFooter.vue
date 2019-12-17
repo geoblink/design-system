@@ -6,6 +6,11 @@
 </template>
 
 <script>
+/**
+ * `GeoBorderedBoxFooter` is a component designed to fit nicely as footer of a
+ * [GeoBorderedBox](./GeoBorderedBox). Use it whenever you want to display some
+ * special content at the end like a _Save changes_ buttton.
+ */
 export default {
   name: 'GeoBorderedBoxFooter',
   status: 'ready',

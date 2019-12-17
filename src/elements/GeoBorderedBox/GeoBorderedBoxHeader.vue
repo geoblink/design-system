@@ -39,6 +39,17 @@
 <script>
 import _ from 'lodash'
 
+/**
+ * `GeoBorderedBoxHeader` is component designed to fit nicely as header of a
+ * [GeoBorderedBox](./GeoBorderedBox).
+ *
+ * It supports displaying a special _close_ button and allows setting an
+ * optional clickable icon in the leading edge of the header.
+ *
+ * ::: tip
+ * Set a listener on `close` event to show the _close_ trailing button.
+ * :::
+ */
 export default {
   name: 'GeoBorderedBoxHeader',
   status: 'ready',
