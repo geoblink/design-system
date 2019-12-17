@@ -22,6 +22,13 @@
 </template>
 
 <script>
+/**
+ * `GeoMarquee` is a component used to display long strings in a carousel style
+ * which is animated only when user is hovering the text.
+ *
+ * You can choose the duration of the animation and its speed will be adjusted
+ * depending on the length of the text.
+ */
 export default {
   name: 'GeoMarquee',
   status: 'ready',
