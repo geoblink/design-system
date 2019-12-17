@@ -13,6 +13,7 @@
       @click="handleBackdropClick($event)"
     />
     <div class="geo-modal__content">
+      <!-- @slot Use this slot to customize modal content. If you want to display a `GeoBorderedBox`, check out `header`, `body` and `footer` slots. -->
       <slot>
         <geo-bordered-box>
           <geo-bordered-box-header
@@ -21,6 +22,7 @@
             :close-icon="headerCloseIcon"
             @close="handleCloseClick($event)"
           >
+            <!-- @slot Use this slot to customize `GeoBorderedBox` header. If you give content to `default` slot this slot will be ignored. -->
             <slot name="header" />
           </geo-bordered-box-header>
 
@@ -28,10 +30,12 @@
             v-if="hasBody"
             class="geo-modal__content-body"
           >
+            <!-- @slot Use this slot to customize `GeoBorderedBox` body. If you give content to `default` slot this slot will be ignored. -->
             <slot name="body" />
           </div>
 
           <geo-bordered-box-footer v-if="hasFooter">
+            <!-- @slot Use this slot to customize `GeoBorderedBox` footer. If you give content to `default` slot this slot will be ignored. -->
             <slot name="footer" />
           </geo-bordered-box-footer>
         </geo-bordered-box>
@@ -45,6 +49,13 @@ import OnResize from '../../directives/GeoOnResize'
 import ScrollAnywhere from '../../directives/GeoScrollAnywhere'
 import { getDocument } from '../../utils/ssrProxy'
 
+/**
+ * `GeoModal` is a generic component designed to block user interaction with
+ * underlying UI while forcing them to focus attention in modal's child
+ * component.
+ *
+ * Use it together with `GeoBorderedBox` to offer a modal window experience.
+ */
 export default {
   name: 'GeoModal',
   status: 'ready',
