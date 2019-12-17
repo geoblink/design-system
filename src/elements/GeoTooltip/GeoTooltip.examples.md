@@ -339,10 +339,24 @@ export default {
   <div class="element-demo">
     <h3 class="element-demo__header">Tooltips on GeoDropdownCompactButton</h3>
     <div class="element-demo__block">
-      <geo-dropdown-compact-button data-tooltip-id="demo6"/>
-      <geo-tooltip :forced-trigger-target="geoDropdownCompactButtonElement">
-        GeoDropdownCompactButton Tooltip
-      </geo-tooltip>
+      <geo-dropdown
+        :opened="isOpened"
+        @click-outside="closeMenu()"
+      >
+        <geo-dropdown-compact-button
+          slot="toggleButton"
+          data-tooltip-id="demo6"
+          @click="toggleMenu()"/>
+        <geo-tooltip
+          slot="toggleButton"
+          :forced-trigger-target="geoDropdownCompactButtonElement"
+        >
+          GeoDropdownCompactButton Tooltip
+        </geo-tooltip>
+        <geo-bordered-box slot="popupContent">
+          Hello
+        </geo-bordered-box>
+      </geo-dropdown>
     </div>
   </div>
 </template>
@@ -351,11 +365,20 @@ export default {
 export default {
   data () {
     return {
-      geoDropdownCompactButtonElement: null
+      geoDropdownCompactButtonElement: null,
+      isOpened: false
     }
   },
   mounted () {
     this.geoDropdownCompactButtonElement = document.querySelector('[data-tooltip-id="demo6"]')
+  },
+  methods: {
+    closeMenu () {
+      this.isOpened = false
+    },
+    toggleMenu () {
+      this.isOpened = !this.isOpened
+    },
   }
 }
 </script>
