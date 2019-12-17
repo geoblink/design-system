@@ -18,6 +18,10 @@ const VARIANTS = {
   disabled: 'disabled'
 }
 
+/**
+ * `GeoCircle` is a component which just renders a small colored circle. It's
+ * aimed to display steps in a wizard.
+ */
 export default {
   name: 'GeoCircle',
   status: 'ready',
