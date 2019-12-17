@@ -6,6 +6,10 @@
 </template>
 
 <script>
+/**
+ * `GeoHorizontalLayout` is a component designed to organise elements it
+ * contains in a single row.
+ */
 export default {
   name: 'GeoHorizontalLayout',
   status: 'ready',
