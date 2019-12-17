@@ -38,7 +38,7 @@ const d3 = (function () {
 
 const d3Tip = (function () {
   try {
-    return require('d3-tip').default
+    return require('d3-tip')
   } catch (error) {
     return null
   }
