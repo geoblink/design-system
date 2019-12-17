@@ -8,6 +8,9 @@ to: src/elements/<%= name %>/<%= name %>.vue
 </template>
 
 <script>
+/**
+ * `<%= name %>` is ... TODO: Write description
+ */
 export default {
   name: '<%= name %>',
   status: 'missing-tests',
