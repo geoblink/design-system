@@ -17,6 +17,15 @@
 <script>
 import { VARIANTS } from './GeoAlert.constants'
 
+/**
+ * [GeoAlert](./GeoAlert) using predefined `error` variant.
+ *
+ * `error` variant is normally used to give feedback about potential unexpected
+ * errors.
+ *
+ * See [GeoAlert](./GeoAlert) for a complete list of supported properties and
+ * features.
+ */
 export default {
   name: 'GeoErrorAlert',
   status: 'ready',

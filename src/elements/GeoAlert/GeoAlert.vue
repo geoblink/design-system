@@ -25,6 +25,12 @@
 <script>
 import { VARIANTS } from './GeoAlert.constants'
 
+/**
+ * Use `GeoAlert` component to give visual feedback to your users about the
+ * result of an action that has not been performed yet or insights to help them
+ * properly finish a task. You can customize the color to change the intention of
+ * the feedback.
+ */
 export default {
   name: 'GeoAlert',
   status: 'ready',
@@ -45,15 +51,15 @@ export default {
      * > icon. If you want to display something that's not an icon as
      * > `leftAccessoryItem` you should use a `GeoAlert`.
      *
-     * | variant  | Specific component                                            |
-     * |----------|---------------------------------------------------------------|
-     * | success  | [GeoSuccessAlert](./#/Elements/GeoAlert?id=geosuccessalertcallout)   |
-     * | info     | [GeoInfoAlert](./#/Elements/GeoAlert?id=geoinfoalertcallout)         |
-     * | warning  | [GeoWarningAlert](./#/Elements/GeoAlert?id=geowarningalertcallout)   |
-     * | error    | [GeoErrorAlert](./#/Elements/GeoAlert?id=geoerroralertcallout)       |
+     * | variant   | Specific component                   |
+     * |-----------|--------------------------------------|
+     * | `success` | [GeoSuccessAlert](./GeoSuccessAlert) |
+     * | `info`    | [GeoInfoAlert](./GeoInfoAlert)       |
+     * | `warning` | [GeoWarningAlert](./GeoWarningAlert) |
+     * | `error`   | [GeoErrorAlert](./GeoErrorAlert)     |
      *
      * Supported `variant` values are exported under `VARIANTS` named export.
-     * See [Component Constants](/docs/components-constants.html) for more info on how
+     * See [Component Constants](/docs/guides/using-constants) for more info on how
      * to use those constants in your code.
      */
     variant: {

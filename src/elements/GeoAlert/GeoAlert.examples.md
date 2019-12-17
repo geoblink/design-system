@@ -1,11 +1,7 @@
-Use `GeoAlert` component to give visual feedback to your users about the
-result of an action that has not been performed yet or insights to help them
-properly finish a task. You can customize the color to change the intention of
-the feedback.
+### Simple
 
 ```jsx live
 <div class="element-demo">
-  <h3 class="element-demo__header">Simple</h3>
   <div class="element-demo__block">
     <geo-alert variant="info" :icon="['far', 'lightbulb']">
       A simple info alert
@@ -20,7 +16,13 @@ the feedback.
       A simple warn alert
     </geo-alert>
   </div>
-  <h3 class="element-demo__header">Long content</h3>
+</div>
+```
+
+### Long content
+
+```jsx live
+<div class="element-demo">
   <div class="element-demo__block">
     <geo-alert variant="info" :icon="['far', 'lightbulb']">
       Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ullamcorper urna eu mattis consectetur. Nulla efficitur, odio vel bibendum pretium, mi diam malesuada leo, quis porta urna est vitae libero. Morbi ac lacinia dolor, id sagittis lacus. Phasellus egestas, ligula at cursus maximus, ligula elit mattis magna, in aliquet est est molestie ipsum. In euismod euismod posuere. Sed facilisis leo orci, quis lacinia massa pretium non. Donec sapien eros, venenatis non quam vitae, faucibus maximus ex. Ut ac quam at metus ullamcorper malesuada.

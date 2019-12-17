@@ -17,6 +17,14 @@
 <script>
 import { VARIANTS } from './GeoAlert.constants'
 
+/**
+ * [GeoAlert](./GeoAlert) using predefined `success` variant.
+ * `success` variant is normally used to tell the user an explicitly started
+ * action has finished successfully.
+ *
+ * See [GeoAlert](./GeoAlert) for a complete list of supported properties and
+ * features.
+ */
 export default {
   name: 'GeoSuccessAlert',
   status: 'ready',
