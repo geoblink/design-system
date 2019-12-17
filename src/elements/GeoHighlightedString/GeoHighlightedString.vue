@@ -17,6 +17,12 @@
 </template>
 
 <script>
+/**
+ * `GeoHighlightedString` is a component used to highlight multiple characters
+ * in a string. It's designed to play nicely with
+ * [fuzzaldrin-plus](https://www.npmjs.com/package/fuzzaldrin-plus) package to
+ * offer a fuzzy-search with results higlighting out-of-the-box.
+ */
 export default {
   name: 'GeoHighlightedString',
   status: 'ready',
