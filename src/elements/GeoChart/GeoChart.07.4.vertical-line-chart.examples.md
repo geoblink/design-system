@@ -1,19 +1,8 @@
-## Line chart (vertical)
+#### Vertical line chart
 
 ```vue live
 <template>
   <div class="element-demo">
-    <h3 class="element-demo__header">
-      Line chart (Vertical - Right Axis)
-      <div class="element-demo__inline-input-group">
-        <geo-primary-button @click="randomizeData()">
-          Randomize data
-        </geo-primary-button>
-        <geo-secondary-button @click="toggleGraph()">
-          Toggle Graph
-        </geo-secondary-button>
-      </div>
-    </h3>
     <div
       class="element-demo__bordered-box element-demo__block--chart-container"
       style="width: 300px; height: 400px"
@@ -22,6 +11,14 @@
         v-if="chartConfig && isGraphVisible"
         :config="chartConfig"
       />
+    </div>
+    <div class="element-demo__block">
+      <geo-primary-button @click="randomizeData()">
+        Randomize data
+      </geo-primary-button>
+      <geo-secondary-button @click="toggleGraph()">
+        Toggle Graph
+      </geo-secondary-button>
     </div>
   </div>
 </template>
@@ -117,20 +114,11 @@ export default {
 </script>
 ```
 
+#### Vertical line chart with left axis
+
 ```vue live
 <template>
   <div class="element-demo">
-    <h3 class="element-demo__header">
-      Line chart (Vertical - Left Axis)
-      <div class="element-demo__inline-input-group">
-        <geo-primary-button @click="randomizeData()">
-          Randomize data
-        </geo-primary-button>
-        <geo-secondary-button @click="toggleGraph()">
-          Toggle Graph
-        </geo-secondary-button>
-      </div>
-    </h3>
     <div
       class="element-demo__bordered-box element-demo__block--chart-container"
       style="width: 300px; height: 400px"
@@ -139,6 +127,14 @@ export default {
         v-if="chartConfig && isGraphVisible"
         :config="chartConfig"
       />
+    </div>
+    <div class="element-demo__block">
+      <geo-primary-button @click="randomizeData()">
+        Randomize data
+      </geo-primary-button>
+      <geo-secondary-button @click="toggleGraph()">
+        Toggle Graph
+      </geo-secondary-button>
     </div>
   </div>
 </template>
@@ -234,20 +230,11 @@ export default {
 </script>
 ```
 
+#### Vertical line chart with anchored axis
+
 ```vue live
 <template>
   <div class="element-demo">
-    <h3 class="element-demo__header">
-      Line chart (Vertical - Anchored Axis)
-      <div class="element-demo__inline-input-group">
-        <geo-primary-button @click="randomizeData()">
-          Randomize data
-        </geo-primary-button>
-        <geo-secondary-button @click="toggleGraph()">
-          Toggle Graph
-        </geo-secondary-button>
-      </div>
-    </h3>
     <div
       class="element-demo__bordered-box element-demo__block--chart-container"
       style="width: 300px; height: 400px"
@@ -256,6 +243,14 @@ export default {
         v-if="chartConfig && isGraphVisible"
         :config="chartConfig"
       />
+    </div>
+    <div class="element-demo__block">
+      <geo-primary-button @click="randomizeData()">
+        Randomize data
+      </geo-primary-button>
+      <geo-secondary-button @click="toggleGraph()">
+        Toggle Graph
+      </geo-secondary-button>
     </div>
   </div>
 </template>

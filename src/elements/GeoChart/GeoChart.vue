@@ -38,7 +38,10 @@ const d3 = (function () {
 
 const d3Tip = (function () {
   try {
-    return require('d3-tip')
+    const d3TipPackage = require('d3-tip')
+    return d3TipPackage.default
+      ? d3TipPackage.default
+      : d3TipPackage
   } catch (error) {
     return null
   }
@@ -96,6 +99,37 @@ const chartConfigValidator = (function () {
   }
 })()
 
+/**
+ * `GeoChart` provides a convenient wrapper on top of D3 to display reactive
+ * data, hiding all the complexities of [D3](https://d3js.org/). To use this
+ * component you must [install D3](https://github.com/d3/d3/wiki#installing) in
+ * your application.
+ *
+ * To ease integration of `GeoChart` there's an extensive config validator. The
+ * JSON schema of the config is available in `GeoChartConfig.js`.
+ *
+ * Axis and data representation are completely decoupled. Each different kind of
+ * chart has a different set of requirements regarding axis and other parameters.
+ * Check out the documentation of each specific data representation for more info.
+ *
+ * ::: tip NOTE
+ * `GeoChart` API is different from [D3's]() so you need no knowledge of
+ * [D3](https://d3js.org/) to use it.
+ * :::
+ *
+ * ## Optional properties
+ *
+ * - `config.margin` - must be an object with `top`, `right`, `bottom` and `left`
+ * keys, which values are numbers. Applies this margin to the entire chart.
+ *
+ * - `config.animationsDurationInMilliseconds`: must be a number, allows
+ * customizing the duration of the animations.
+ *
+ * ::: tip
+ * We encourage you take a look at `GeoChartConfig.js` for more info about
+ * global settings.
+ * :::
+ */
 export default {
   name: 'GeoChart',
   status: 'ready',

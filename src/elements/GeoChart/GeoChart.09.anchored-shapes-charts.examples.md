@@ -1,39 +1,42 @@
-## Anchored shapes
+## Anchored shapes charts
 
 Anchored shapes charts are collections of shapes that are tied to a certain axis.
-This chart can be used in combination with [GeoChartLineSegments](./#/Elements/Charts?id=geochartlinesegments)
-to compare several values across an axis, each shape being the value that is
-being represented as the desired shape.
+This chart can be used in combination with
+[GeoChartLineSegments](#line-segments-charts) to compare several values across
+an axis, each shape being the value that is being represented as the desired
+shape.
 
-To add anchored shapes **groups** to a chart, add an array to `anchoredShapesGroups`
-key of [GeoChart](./#/Elements/Charts?id=introduction)'s config. Each item of the
-array must be an object with the following:
+To add anchored shapes **groups** to a chart, add an array to
+`anchoredShapesGroups` key of [GeoChart](#geochart)'s config. Each item of the
+array must be an object with the following…
 
 ### Required properties
 
-- `data`: Array of objects, each one representing a single shape that will be
+- `data` - array of objects, each one representing a single shape that will be
 distributed across the axis.
-- `mainDimension`: A value of `DIMENSIONS.DIMENSIONS_2D` named export (either
+- `mainDimension` - a value of `DIMENSIONS.DIMENSIONS_2D` named export (either
 `horizontal` or `vertical`). The dimension in which the stacked rectangles will
 be positioned.
-- `idHorizontalAxis`: The ID of the axis defining the `horizontal` dimension.
+- `idHorizontalAxis` - the ID of the axis defining the `horizontal` dimension.
 Will be used to compute proper origin and span of the bar if the dimension is
 horizontal or the width of each individual group if the dimension is vertical.
-- `idVerticalAxis`: The ID of the axis defining the `vertical` dimension. Will
+- `idVerticalAxis` - the ID of the axis defining the `vertical` dimension. Will
 be used to compute proper origin and span of the bar if the dimension is vertical
 or the width of each individual group if the dimension is horizontal.
-- `normalValue`: Value to position the colorBar in the normal (numerical) axis.
+- `normalValue` - value to position the colorBar in the normal (numerical) axis.
 The value must be contained within the linear axis domain.
-- `getAnchorPosition`: Function to set the shape either on top/left (`leading`)
+- `getAnchorPosition` - function to set the shape either on top/left (`leading`)
 or at the bottom/right (`trailing`) of the axis. Should return a value of named
 export `DIMENSIONS.ANCHORED_POSITIONS_1D`.
-- `getShapeSize`: Function to get the dimensions (width/height) of the desired
+- `getShapeSize` - function to get the dimensions (width/height) of the desired
 shape.
-- `getShapePath`: Function to create the path of the shape. The returned value
+- `getShapePath` - function to create the path of the shape. The returned value
 of this function should be valid as input for `svg` polygon data.
 
-**Note:** `idHorizontalAxis` and `idVerticalAxis` must be IDs of registered axes.
+::: warning NOTE
+`idHorizontalAxis` and `idVerticalAxis` must be IDs of registered axes.
 See [Axes](./#/Elements/Charts?id=axes) for more info.
+:::
 
 ### Optional properties
 
@@ -50,23 +53,21 @@ will be used to track changes in it.
 
 There are 2 exclusive properties available to customize the **offset**:
 
-- `offset` if you want to use **absolute** units.
-- `naturalNormalOffset` if you want to use **natural** units.
+- `offset` - if you want to use **absolute** units.
+- `naturalNormalOffset` - if you want to use **natural** units.
 
-> **Note:** You can't set both `offset` and `naturalNormalOffset`.
+::: warning NOTE
+You can't set both `offset` and `naturalNormalOffset`.
 Doing so will throw an invalid config error.
+:::
+
+### Examples
+
+#### Horizontal anchored shapes with texts
 
 ```vue live
 <template>
   <div class="element-demo">
-    <h3 class="element-demo__header">
-      Horizontal Anchored shapes with texts
-      <div class="element-demo__inline-input-group">
-        <geo-primary-button @click="randomizeData()">
-          Randomize data
-        </geo-primary-button>
-      </div>
-    </h3>
     <div class="element-demo__block element-demo__block--chart-container">
       <geo-chart
         v-if="chartConfig"
@@ -74,6 +75,9 @@ Doing so will throw an invalid config error.
         :config="chartConfig"
       />
     </div>
+    <geo-primary-button @click="randomizeData()">
+      Randomize data
+    </geo-primary-button>
   </div>
 </template>
 
@@ -221,17 +225,11 @@ export default {
 </script>
 ```
 
+#### Horizontal anchored shapes with line segments
+
 ```vue live
 <template>
   <div class="element-demo">
-    <h3 class="element-demo__header">
-      Horizontal anchored shapes with line segments
-      <div class="element-demo__inline-input-group">
-        <geo-primary-button @click="randomizeData()">
-          Randomize data
-        </geo-primary-button>
-      </div>
-    </h3>
     <div class="element-demo__block element-demo__block--chart-container">
       <geo-chart
         v-if="chartConfig"
@@ -239,6 +237,9 @@ export default {
         :config="chartConfig"
       />
     </div>
+    <geo-primary-button @click="randomizeData()">
+      Randomize data
+    </geo-primary-button>
   </div>
 </template>
 

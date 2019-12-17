@@ -6,13 +6,13 @@ collection of labels associated to a single item of the chart is what we call a
 **label group**.
 
 To add **label groups** to a chart, add an array to `labelGroups` key of
-[GeoChart](./#/Elements/Charts?id=introduction)'s config. Each item of the array
-must be an object with the following...
+[GeoChart](#geochart)'s config. Each item of the array must be an object with
+the following…
 
 ### Required properties
 
-- `idVerticalAxis`: ID of the axis used to position the label vertically.
-- `data`: an array of items to which labels will be added. Each `data` entry must
+- `idVerticalAxis` - ID of the axis used to position the label vertically.
+- `data` - an array of items to which labels will be added. Each `data` entry must
 have a value for the key used by the axis referenced in `idVerticalAxis`. That
 value will be used to compute label's vertical position. There's another key
 that must be present: `labels` key. It must be an array whose items follows the
@@ -23,30 +23,26 @@ structure describe in _Labels structure_ section.
 Each label has **only one required property**, `text`, which is the string to be
 displayed. However, there are several optional properties:
 
-- `padding`: (_optional_) object with `top`, `right`, `bottom` and `left` keys,
+- `padding` - (_optional_) object with `top`, `right`, `bottom` and `left` keys,
 whose values are numbers. It is the padding to be applied to the text.
-- `margin`: (_optional_) object with `top`, `right`, `bottom` and `left` keys,
+- `margin` - (_optional_) object with `top`, `right`, `bottom` and `left` keys,
 whose values are numbers. It is the margin to be applied to the text container.
 You can combine `padding` and `margin` to render boxed text or just add some
 space between consecutive labels.
-- `cornerRadius`: (_optional_) radius of the border of the box containing the
+- `cornerRadius` - (_optional_) radius of the border of the box containing the
 text, in units of the canvas (usually, you can think of this as just pixels).
-- `cssClasses`: function taking as first parameter an array of CSS classes
+- `cssClasses` - function taking as first parameter an array of CSS classes
 that would be added by default to the group containing the text. Must return
 the array of final CSS classes that container must have. Required classes will
 be added regardless you not returning them.
 
+### Examples
+
+#### Pills axis chart
+
 ```vue live
 <template>
   <div class="element-demo">
-    <h3 class="element-demo__header">
-      Pills axis chart
-      <div class="element-demo__inline-input-group">
-        <geo-primary-button @click="randomizeData()">
-          Randomize data
-        </geo-primary-button>
-      </div>
-    </h3>
     <div class="element-demo__block element-demo__block--chart-container">
       <geo-chart
         v-if="chartConfig"
@@ -54,6 +50,9 @@ be added regardless you not returning them.
         width="500px"
       />
     </div>
+    <geo-primary-button @click="randomizeData()">
+      Randomize data
+    </geo-primary-button>
   </div>
 </template>
 

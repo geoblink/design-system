@@ -1,28 +1,30 @@
-## Bar chart
+## Bar charts
 
-Bar charts are collection of single items which are displayed as rectangles in a
-2-dimensional grid. An arbitrary amount of different collections of items can be
-displayed using bar chars, each of those collections are called **groups**.
+Bar charts are collections of single items which are displayed as rectangles in
+a 2-dimensional grid. An arbitrary amount of different collections of items can
+be displayed using bar chars, each of those collections are called **groups**.
 
 To add bar **groups** to a chart, add an array to `barGroups` key of
-[GeoChart](./#/Elements/Charts?id=introduction)'s config. Each item of the array
+[GeoChart](#geochart)'s config. Each item of the array
 must be an object with the following...
 
 ### Required properties
 
 Each **group** **requires** these properties:
 
-- `data`: Collection being displayed (array).
-- `mainDimension`: A value of `DIMENSIONS.DIMENSIONS_2D` named export (either
+- `data` - collection being displayed (array).
+- `mainDimension` - a value of `DIMENSIONS.DIMENSIONS_2D` named export (either
 `horizontal` or `vertical`). The dimension in which the rectangle will grow
 depending on the value.
-- `idHorizontalAxis`: The ID of the axis defining the `horizontal` dimension.
+- `idHorizontalAxis` - the ID of the axis defining the `horizontal` dimension.
 Will be used to compute proper origin and span of the bar the horizontal.
-- `idVerticalAxis`: The ID of the axis defining the `vertical` dimension. Will
+- `idVerticalAxis` - the ID of the axis defining the `vertical` dimension. Will
 be used to compute proper origin and span of the bar the vertical.
 
-**Note:** `idHorizontalAxis` and `idVerticalAxis` must be IDs of registered axes.
-See [Axes](./#/Elements/Charts?id=axes) for more info.
+::: warning NOTE
+`idHorizontalAxis` and `idVerticalAxis` must be IDs of registered axes.
+See [Axes](#chart-axes) for more info.
+:::
 
 ### Optional properties
 
@@ -30,10 +32,12 @@ Optionally you can configure each **group** with an **offset** and a **width**.
 These are useful when you want to display multiple collections which have
 repeated items for the **normal dimension**.
 
-> **Normal dimension** is the dimension perpendicular to the group's `mainDimension`.
->
-> For instance, if you set `mainDimension` to `horizontal` then the
-> **normal dimension** will be `vertical`.
+::: tip
+**Normal dimension** is the dimension perpendicular to the group's `mainDimension`.
+
+For instance, if you set `mainDimension` to `horizontal` then the
+**normal dimension** will be `vertical`.
+:::
 
 To allow maximum flexibility `GeoChart` does not prevent overlaps. To prevent
 bars from different **groups** from overlapping you'll have to set a **width**
@@ -67,54 +71,55 @@ while the **width** is set to **absolute**.
 
 There are 2 exclusive properties available to customize the **width**:
 
-- `width` if you want to use **absolute** units.
-- `naturalWidth` if you want to use **natural** units.
+- `width` - if you want to use **absolute** units.
+- `naturalWidth` - if you want to use **natural** units.
 
 There are 2 exclusive properties available to customize the **offset**:
 
-- `normalOffset` if you want to use **absolute** units.
-- `naturalNormalOffset` if you want to use **natural** units.
+- `normalOffset` - if you want to use **absolute** units.
+- `naturalNormalOffset` - if you want to use **natural** units.
 
-> **Note:** You can't set both `width` and `naturalWidth` or `normalOffset` and
+::: warning NOTE
+You can't set both `width` and `naturalWidth` or `normalOffset` and
 `naturalNormalOffset`. Doing so will throw an invalid config error.
+:::
 
-#### Tooltips
+### Tooltips
 
 Each bar can customize the tooltip displayed when it's hovered by setting the
 key `tooltip`. This key must store an object with the following shape:
 
-- `content`: **Required**. Function that takes as parameters the item
+- `content` - **Required**. Function that takes as parameters the item
 corresponding to the bar being customized and its position inside the data array.
 It's expected to return a HTML string that will be rendered inside a tooltip.
-- `offset`: *Optional*. Function that takes as parameter the event triggering the
+- `offset` - *Optional*. Function that takes as parameter the event triggering the
 tooltip and is expected to return an object with an `x` and a `y` property, both
 storing numbers that will be used as offset of the tooltip with respect to event
 coordinates. By default tooltip will be positioned above cursor.
 
-#### Customizing CSS classes
+### Customizing CSS classes
 
 Each bar can customize its CSS classes by setting a function for key `cssClasses`.
 This function takes as parameters the array of classes that would be set by
 default, the item corresponding to the bar being customized and its position
 inside the data array.
 
+### Examples
+
+#### Categorical chart
+
 ```vue live
 <template>
   <div class="element-demo">
-    <h3 class="element-demo__header">
-      Simple categorical chart
-      <div class="element-demo__inline-input-group">
-        <geo-primary-button @click="randomizeData()">
-          Randomize data
-        </geo-primary-button>
-      </div>
-    </h3>
     <div class="element-demo__block element-demo__block--chart-container">
       <geo-chart
         v-if="chartConfig"
         :config="chartConfig"
       />
     </div>
+    <geo-primary-button @click="randomizeData()">
+      Randomize data
+    </geo-primary-button>
   </div>
 </template>
 
@@ -229,23 +234,20 @@ export default {
 </script>
 ```
 
+#### Multiple series with tooltip
+
 ```vue live
 <template>
   <div class="element-demo">
-    <h3 class="element-demo__header">
-      Multiple series with tooltip
-      <div class="element-demo__inline-input-group">
-        <geo-primary-button @click="randomizeData()">
-          Randomize data
-        </geo-primary-button>
-      </div>
-    </h3>
     <div class="element-demo__block element-demo__block--chart-container">
       <geo-chart
         v-if="chartConfig"
         :config="chartConfig"
       />
     </div>
+    <geo-primary-button @click="randomizeData()">
+      Randomize data
+    </geo-primary-button>
   </div>
 </template>
 
@@ -413,27 +415,25 @@ export default {
 </script>
 ```
 
+#### Interactive multi-series categorical chart
+
 ```vue live
 <template>
   <div class="element-demo">
-    <h3 class="element-demo__header">
-      Interactive multi-series categorical chart
-      <div class="element-demo__inline-input-group">
-        <geo-primary-button @click="randomizeData()">
-          Randomize data
-        </geo-primary-button>
-      </div>
-      <div class="element-demo__inline-input-group">
-        <geo-primary-button @click="showAverageSales = !showAverageSales">
-          Toggle average sales
-        </geo-primary-button>
-      </div>
-    </h3>
     <div class="element-demo__block element-demo__block--chart-container">
       <geo-chart
         v-if="chartConfig"
         :config="chartConfig"
       />
+    </div>
+    <div class="element-demo__block">
+      <geo-primary-button @click="randomizeData()">
+        Randomize data
+      </geo-primary-button>
+
+      <geo-primary-button @click="showAverageSales = !showAverageSales">
+        Toggle average sales
+      </geo-primary-button>
     </div>
   </div>
 </template>

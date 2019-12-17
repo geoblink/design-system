@@ -1,59 +1,60 @@
-## Axis guidelines
+## Axes guidelines
 
 Axes guidelines are lines that you might want to show in each tick of an axis to
 ease the viewing of a chart. Multiple guidelines can be shown associated to
 different axes, or even to an axis that is not being displayed in the chart.
 
-To register axes guidelines in [`GeoChart`](./#/Elements/Charts?id=introduction),
-add an array as value of `guidelinesGroups` key in the config object. Each item
-of the array must be an object with the following...
+To register axes guidelines in [`GeoChart`](#geochart), add an array as value
+of `guidelinesGroups` key in the config object. Each item of the array must be
+an object with the following…
 
 ### Required properties
 
 Each **axis guideline** **requires** only one of these properties:
 
-- `idAxis`: The ID of the axis where we want to show guidelines.
-- `axisConfig`: Axis config (see [axes config](./#/Elements/Charts?id=axes)) to
-create guidelines based on a new configuration instead of an existing axis on
-the chart.
+- `idAxis` - the ID of the axis where we want to show guidelines.
+- `axisConfig` - axis config (see [axes config](#chart-axes)) to create
+guidelines based on a new configuration instead of an existing axis on the chart.
 
 ### Customizing CSS classes
 
-CSS classes added to the axis guidelines can be customized using `cssClasses` key.
+CSS classes added to the axes guidelines can be customized using `cssClasses` key.
 Its value should be a function which takes as parameter the classes that would be
 set by default. The function should return the CSS final classes you want for
 that axis guidelines.
 
-> **Note:** even though you can disable some default CSS classes, of of them are
-> required internally and will be added regardless what you return in the
-> function.
+::: warning NOTE
+Even though you can disable some default CSS classes, of of them are required
+internally and will be added regardless what you return in the function.
+:::
 
 ### Customizing guidelines
 
 Guidelines can be customized in several ways. To do so, add a key `guidelines`
-to the axis guidelines config object. The value for that key must be an object
+to the axes guidelines config object. The value for that key must be an object
 with the following properties, all of them optional:
 
-- `count`: to customize the amount of guidelines displayed. Must be an integer
+- `count` - to customize the amount of guidelines displayed. Must be an integer
 number.
-- `outerLines`: boolean that indicates whether to show guidelines at the edges
+- `outerLines` - boolean that indicates whether to show guidelines at the edges
 of the domain.
+
+### Examples
+
+#### Axes guidelines
 
 ```vue live
 <template>
   <div class="element-demo">
-    <h3 class="element-demo__header">
-      Axes guidelines
-      <geo-primary-button @click="randomizeDomain()">
-        Randomize data
-      </geo-primary-button>
-    </h3>
     <div class="element-demo__block element-demo__block--chart-container">
       <geo-chart
         v-if="chartConfig"
         :config="chartConfig"
       />
     </div>
+    <geo-primary-button @click="randomizeDomain()">
+      Randomize data
+    </geo-primary-button>
   </div>
 </template>
 
@@ -177,21 +178,22 @@ export default {
 </script>
 ```
 
+#### Customizable axes guidelines
+
 ```vue live
 <template>
   <div class="element-demo">
-    <h3 class="element-demo__header">
-      Axes guidelines customise number of lines and outerlines
-      <geo-primary-button @click="randomizeDomain()">
-        Randomize data
-      </geo-primary-button>
-    </h3>
     <div class="element-demo__block element-demo__block--chart-container">
       <geo-chart
         v-if="chartConfig"
         :config="chartConfig"
       />
+
       <div class="element-demo__block__config">
+        <geo-primary-button @click="randomizeDomain()">
+          Randomize data
+        </geo-primary-button>
+
         <label class="element-demo__inline-input-group__field">
           lines count linearAxis: <input
             :style="{
@@ -374,21 +376,20 @@ export default {
 </script>
 ```
 
+#### Axes guidelines passing  an axis  config
+
 ```vue live
 <template>
   <div class="element-demo">
-    <h3 class="element-demo__header">
-      Axes guidelines passing an axis config
-      <geo-primary-button @click="randomizeDomain()">
-        Randomize data
-      </geo-primary-button>
-    </h3>
     <div class="element-demo__block element-demo__block--chart-container">
       <geo-chart
         v-if="chartConfig"
         :config="chartConfig"
       />
     </div>
+    <geo-primary-button @click="randomizeDomain()">
+      Randomize data
+    </geo-primary-button>
   </div>
 </template>
 

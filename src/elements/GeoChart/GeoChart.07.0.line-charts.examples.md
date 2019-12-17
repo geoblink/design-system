@@ -1,76 +1,76 @@
-## Line chart (basic)
+## Line charts
 
 Use this chart to display information as a series of data points connected by
 straight line segments. This chart can be used in combination with
-[GeoChartBars](./#/Elements/Charts?id=geochartbars).
+[GeoChartBars](#chart-bars).
 
 To add line **groups** to a chart, add an array to `lineGroups` key of
-[GeoChart](./#/Elements/Charts?id=introduction)'s config. Each item of the array
-must be an object with the following:
+[GeoChart](#geochart)'s config. Each item of the array must be an object with
+the following:
 
 ### Required properties
 
-- `data`: Array of objects, each one representing an item with two values that
+- `data` - array of objects, each one representing an item with two values that
 will be converted into `x, y` point coordinates across the axes.
-- `mainDimension`: A value of `DIMENSIONS.DIMENSIONS_2D` named export (either
+- `mainDimension` - a value of `DIMENSIONS.DIMENSIONS_2D` named export (either
 `horizontal` or `vertical`).
-- `idHorizontalAxis`: The ID of the axis defining the `horizontal` dimension.
-- `idVerticalAxis`: The ID of the axis defining the `vertical` dimension.
+- `idHorizontalAxis` - the ID of the axis defining the `horizontal` dimension.
+- `idVerticalAxis` - the ID of the axis defining the `vertical` dimension.
 
+::: warning NOTE
 **Note:** `idHorizontalAxis` and `idVerticalAxis` must be IDs of registered axes.
-See [Axes](./#/Elements/Charts?id=axes) for more info.
+See [axes](#chart-axes) for more info.
+:::
 
 ### Optional properties
 
-
-- `lineWidth`: Width in pixels of each one of the lines. If no width is provided,
-a default width of `2px` will be applied.
-- `hoverCircleRadius`: Radius in pixels of the circles that will be displayed
+- `lineWidth` - width in pixels of each one of the lines. If no width is
+provided, a default width of `2px` will be applied.
+- `hoverCircleRadius` - radius in pixels of the circles that will be displayed
 when hovering on the graph. If no width is provided, a default width of `2px`
 will be applied.
-- `interpolationFn`: Choose one of the functions provided by D3 to handle the
+- `interpolationFn` - choose one of the functions provided by D3 to handle the
 interpolation of the segments connecting each one of your data points. Defaults
 to `d3.curveLinear`.
-- `trackByKey`: Define this function to let D3 know which property of your data
+- `trackByKey` - define this function to let D3 know which property of your data
 will be used to track changes in it.
 
-#### Tooltips
+### Tooltips
 
 Each line can customize the tooltip displayed when it's hovered by setting the
 key `tooltip`. This key must store an object with the following shape:
 
-- `content`: **Required**. Function that takes as parameters the item
+- `content` - **required**. Function that takes as parameters the item
 corresponding to the line being customized and its position inside the data array.
 It's expected to return a HTML string that will be rendered inside a tooltip.
-- `offset`: *Optional*. Function that takes as parameter the event triggering the
-tooltip and is expected to return an object with an `x` and a `y` property, both
-storing numbers that will be used as offset of the tooltip with respect to event
-coordinates. By default tooltip will be positioned above cursor.
+- `offset` - *pptional*. Function that takes as parameter the event triggering
+the tooltip and is expected to return an object with an `x` and a `y` property,
+both storing numbers that will be used as offset of the tooltip with respect to
+event coordinates. By default tooltip will be positioned above cursor.
 
-#### Customizing CSS classes
+### Customizing CSS classes
 
 Each line can customize its CSS classes by setting a function for key `cssClasses`.
 This function takes as parameters the array of classes that would be set by
 default, the item corresponding to the line being customized and its position
 inside the data array.
 
+### Examples
+
+#### Horizontal line chart without data
+
 ```vue live
 <template>
   <div class="element-demo">
-    <h3 class="element-demo__header">
-      Line chart (Horizontal - No Data)
-      <div class="element-demo__inline-input-group">
-        <geo-secondary-button @click="toggleGraph()">
-          Toggle Graph
-        </geo-secondary-button>
-      </div>
-    </h3>
     <div class="element-demo__bordered-box element-demo__block--chart-container" style="resize: both;">
       <geo-chart
         v-if="chartConfig && isGraphVisible"
         :config="chartConfig"
       />
     </div>
+    <geo-secondary-button @click="toggleGraph()">
+      Toggle Graph
+    </geo-secondary-button>
   </div>
 </template>
 

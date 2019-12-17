@@ -1,53 +1,56 @@
-## Line segments chart
+## Line segments charts
 
-Line segments charts are collections of grouped segments intersected by circles across an axis.
-This chart can be used in combination with [GeoChartAnchoredShapes](./#/Elements/Charts?id=geochartanchoredshapes)
-to compare several values across an axis, each stop being the relative position
-of each value with the rest.
+Line segments charts are collections of grouped segments intersected by circles
+across an axis. This chart can be used in combination with
+[GeoChartAnchoredShapes](#anchored-shapes-charts) to compare several values
+across an axis, each stop being the relative position of each value with the
+rest.
 
 To add line segments **groups** to a chart, add an array to `lineSegmentsGroups`
-key of [GeoChart](./#/Elements/Charts?id=introduction)'s config. Each item of the
-array must be an object with the following:
+key of [GeoChart](#geochart)'s config. Each item of the array must be an object
+with the following…
 
 ### Required properties
 
-- `data`: Collection of dots (stops) that will be distributed across the axis,
+- `data` - collection of dots (stops) that will be distributed across the axis,
 filling the rest with line segments (array).
-- `mainDimension`: A value of `DIMENSIONS.DIMENSIONS_2D` named export (either
+- `mainDimension` - a value of `DIMENSIONS.DIMENSIONS_2D` named export (either
 `horizontal` or `vertical`). The dimension in which the stacked rectangles will
 be positioned.
-- `idHorizontalAxis`: The ID of the axis defining the `horizontal` dimension.
+- `idHorizontalAxis` - the ID of the axis defining the `horizontal` dimension.
 Will be used to compute proper origin and span of the bar if the dimension is
 horizontal or the width of each individual group if the dimension is vertical.
-- `idVerticalAxis`: The ID of the axis defining the `vertical` dimension. Will
-be used to compute proper origin and span of the bar if the dimension is vertical
-or the width of each individual group if the dimension is horizontal.
-- `normalValue`: Value to position the colorBar in the normal (numerical) axis.
+- `idVerticalAxis` - the ID of the axis defining the `vertical` dimension. Will
+be used to compute proper origin and span of the bar if the dimension is
+vertical or the width of each individual group if the dimension is horizontal.
+- `normalValue` - value to position the colorBar in the normal (numerical) axis.
 The value must be contained within the linear axis domain.
 
-**Note:** `idHorizontalAxis` and `idVerticalAxis` must be IDs of registered axes.
-See [Axes](./#/Elements/Charts?id=axes) for more info.
+::: warning NOTE
+`idHorizontalAxis` and `idVerticalAxis` must be IDs of registered axes.
+See [axes](#chart-axes) for more info.
+:::
 
 ### Optional properties
 
-- **trackByKey** Define this function to let D3 know which property of your data
-will be used to track changes in it.
+- **trackByKey** - define this function to let D3 know which property of your
+data will be used to track changes in it.
 
 To set the lines width and the dots size, you'll need to set three different
 parameters:
 
-- **lineWidth** defines the span of the line segment in the **normal dimension**.
-The span in the **group** `mainDimension` is computed just using the value
-associated to that item in the corresponding axis.
+- **lineWidth** - defines the span of the line segment in the
+**normal dimension**. The span in the **group** `mainDimension` is computed just
+using the value associated to that item in the corresponding axis.
 
-- **circleRadius** defines the radius of each one of the dots of your data in
+- **circleRadius** - defines the radius of each one of the dots of your data in
 the **main dimension**.
 
-- **circleMargin** defines the amount of margin of each one of the dots of your
-data. Take into account that the value you give to this margin will be computed
-twice to get the segment width and the total size of the circle. (i.e: If you
-define a circle with a radius of `2` and margin of `3`, the total size of the
-circle plus its margins will be `10`)
+- **circleMargin** - defines the amount of margin of each one of the dots of
+your data. Take into account that the value you give to this margin will be
+computed twice to get the segment width and the total size of the circle.
+(i.e: If you define a circle with a radius of `2` and margin of `3`, the total
+size of the circle plus its margins will be `10`)
 
 The three of these parameters can be expressed either in **absolute** or
 **natural** units:
@@ -70,34 +73,30 @@ throw an error.
 
 There are 2 exclusive properties available to customize the **lineWidth**:
 
-- `lineWidth` if you want to use **absolute** units.
-- `lineNaturalWidth` if you want to use **absolute** units.
+- `lineWidth` - if you want to use **absolute** units.
+- `lineNaturalWidth` - if you want to use **absolute** units.
 
 There are 2 exclusive properties available to customize the **circleRadius**:
 
-- `circleRadius` if you want to use **absolute** units.
-- `circleNaturalRadius` if you want to use **natural** units.
+- `circleRadius` - if you want to use **absolute** units.
+- `circleNaturalRadius` - if you want to use **natural** units.
 
 There are 2 exclusive properties available to customize the **circleMargin**:
 
-- `circleMargin` if you want to use **absolute** units.
-- `circleNaturalMargin` if you want to use **absolute** units.
+- `circleMargin` - if you want to use **absolute** units.
+- `circleNaturalMargin` - if you want to use **absolute** units.
 
-> **Note:** You can't set both `lineWidth` and `lineNaturalWidth`,
-`circleRadius` and `circleNaturalRadius`, or `circleMargin` and `circleNaturalMargin`.
-Doing so will throw an invalid config error.
+> **Note:** You can't set both `lineWidth` and `lineNaturalWidth`, `circleRadius`
+and `circleNaturalRadius`, or `circleMargin` and `circleNaturalMargin`. Doing so
+will throw an invalid config error.
+
+### Examples
+
+#### Horizontal line segments chart
 
 ```vue live
 <template>
   <div class="element-demo">
-    <h3 class="element-demo__header">
-      Horizontal Line Segments chart
-      <div class="element-demo__inline-input-group">
-        <geo-primary-button @click="randomizeData()">
-          Randomize data
-        </geo-primary-button>
-      </div>
-    </h3>
     <div class="element-demo__block element-demo__block--chart-container">
       <geo-chart
         class="u-geo-chart--hidden-axis"
@@ -105,6 +104,9 @@ Doing so will throw an invalid config error.
         :config="chartConfig"
       />
     </div>
+    <geo-primary-button @click="randomizeData()">
+      Randomize data
+    </geo-primary-button>
   </div>
 </template>
 
@@ -210,17 +212,11 @@ export default {
 </script>
 ```
 
+#### Vertical line segments chart
+
 ```vue live
 <template>
   <div class="element-demo">
-    <h3 class="element-demo__header">
-      Vertical Line Segments chart
-      <div class="element-demo__inline-input-group">
-        <geo-primary-button @click="randomizeData()">
-          Randomize data
-        </geo-primary-button>
-      </div>
-    </h3>
     <div class="element-demo__block element-demo__block--chart-container">
       <geo-chart
         v-if="chartConfig"
@@ -228,6 +224,9 @@ export default {
         :config="chartConfig"
       />
     </div>
+    <geo-primary-button @click="randomizeData()">
+      Randomize data
+    </geo-primary-button>
   </div>
 </template>
 

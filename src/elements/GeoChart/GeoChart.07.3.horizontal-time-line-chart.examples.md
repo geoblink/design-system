@@ -1,11 +1,8 @@
-## Line chart (time)
+#### Horizontal time line chart
 
 ```vue live
 <template>
   <div class="element-demo">
-    <h3 class="element-demo__header">
-      Line chart (Horizontal - Time Data)
-    </h3>
     <div class="element-demo__bordered-box element-demo__block--chart-container" style="resize: both;">
       <geo-chart
         v-if="chartConfig"
