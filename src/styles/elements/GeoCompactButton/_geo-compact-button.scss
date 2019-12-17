@@ -215,9 +215,10 @@
   $hoverYOffset: -1px;
 
   @include geo-compact-button-make-scheme((
-    disabled-background-color: $color-white-disabled,
+    disabled-background-color: $color-grey,
     disabled-text-color: $color-grey-light,
     disabled-border-color: $color-grey,
+    hover-and-disabled-background-color: $color-grey,
     hover-shadow: $box-shadow-button-hover,
     hover-transform: translateY($hoverYOffset)
   ));
@@ -235,25 +236,27 @@
   @include geo-compact-button-make-scheme((
     normal-background-color: $color-red,
     normal-text-color: $color-white,
-    disabled-background-color: $color-white-disabled,
+    disabled-background-color: $color-grey,
     disabled-text-color: $color-grey-light,
     disabled-border-color: $color-grey,
+    hover-and-disabled-background-color: $color-grey,
     hover-shadow: $box-shadow-button-hover,
     hover-transform: translateY($hoverYOffset)
   ));
 
+  border-color: transparent;
   transition: all $duration-quickly $easing-base;
   transition-property: background-color, border-color, color;
 }
 
 .geo-compact-button--inputAccessory {
   @include geo-compact-button-make-scheme((
+    normal-background-color: transparent,
     hover-background-color: rgba($color-dark-overlay, .1),
     disabled-background-color: transparent,
     disabled-text-color: $color-grey-light,
   ));
 
-  background-color: transparent;
   border: none;
   box-shadow: none;
   color: $color-grey-light;
