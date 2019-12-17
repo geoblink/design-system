@@ -3,6 +3,15 @@
 <script>
 import mixin, { VARIANTS } from './GeoFeedbackBox.mixin'
 
+/**
+ * [GeoFeedbackBox](./GeoFeedbackBox) using predefined `info` variant.
+ *
+ * `info` variant is normally used to show details that might be useful but
+ * knowing them is not required to properly perform the task they are about.
+ *
+ * See [GeoFeedbackBox](./GeoFeedbackBox) for a complete list of supported
+ * properties and features.
+ */
 export default {
   name: 'GeoInfoFeedbackBox',
   status: 'ready',

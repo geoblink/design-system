@@ -1,11 +1,7 @@
-Use `GeoFeedbackBox` component to give visual feedback to your users about the
-result of an action or insights to help them properly finish a task. You can
-customize the color to change the intention of the feedback and add icons or
-buttons to allow the user to perform actions right on the Feedback boxes.
+### Simple
 
 ```jsx live
 <div class="element-demo">
-  <h3 class="element-demo__header">Simple</h3>
   <div class="element-demo__block">
     <geo-feedback-box variant="info">
       <template slot="content">A simple info feedback box</template>
@@ -23,7 +19,13 @@ buttons to allow the user to perform actions right on the Feedback boxes.
       <template slot="content">A simple progress feedback box</template>
     </geo-feedback-box>
   </div>
-  <h3 class="element-demo__header">With icon</h3>
+</div>
+```
+
+### With icon
+
+```jsx live
+<div class="element-demo">
   <div class="element-demo__block">
     <geo-feedback-box variant="info">
       <font-awesome-icon
@@ -72,7 +74,13 @@ buttons to allow the user to perform actions right on the Feedback boxes.
       <template slot="content">A progress box with an icon</template>
     </geo-feedback-box>
   </div>
-  <h3 class="element-demo__header">With actions</h3>
+</div>
+```
+
+### With actions
+
+```jsx live
+<div class="element-demo">
   <div class="element-demo__block">
     <geo-feedback-box variant="info">
       <template slot="content">Box can have actions</template>
@@ -95,7 +103,13 @@ buttons to allow the user to perform actions right on the Feedback boxes.
       <a slot="actions">Ok</a>
     </geo-feedback-box>
   </div>
-  <h3 class="element-demo__header">With icons & actions</h3>
+</div>
+```
+
+### With icon & actions
+
+```jsx live
+<div class="element-demo">
   <div class="element-demo__block">
     <geo-feedback-box variant="info">
       <font-awesome-icon
@@ -149,40 +163,46 @@ buttons to allow the user to perform actions right on the Feedback boxes.
       <a slot="actions">Run</a>
     </geo-feedback-box>
   </div>
-  <h3 class="element-demo__header">Feedback boxes with close button</h3>
+</div>
+```
+
+### Feedback boxes with close button
+
+```jsx live
+<div class="element-demo">
   <div class="element-demo__block">
     <geo-feedback-box
       :close-icon="['fas', 'times']"
       variant="info"
-      @close="close()"
+      @close=""
     >
       <template slot="content">This box can be closed</template>
     </geo-feedback-box>
     <geo-feedback-box
       :close-icon="['fas', 'times']"
       variant="success"
-      @close="close()"
+      @close=""
     >
       <template slot="content">This box can be closed</template>
     </geo-feedback-box>
     <geo-feedback-box
       :close-icon="['fas', 'times']"
       variant="error"
-      @close="close()"
+      @close=""
     >
       <template slot="content">This box can be closed</template>
     </geo-feedback-box>
     <geo-feedback-box
       :close-icon="['fas', 'times']"
       variant="warning"
-      @close="close()"
+      @close=""
     >
       <template slot="content">This box can be closed</template>
     </geo-feedback-box>
     <geo-feedback-box
       :close-icon="['fas', 'times']"
       variant="progress"
-      @close="close()"
+      @close=""
     >
       <template slot="content">This box can be closed</template>
     </geo-feedback-box>
