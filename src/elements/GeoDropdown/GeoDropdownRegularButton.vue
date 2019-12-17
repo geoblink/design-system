@@ -25,6 +25,19 @@
 </template>
 
 <script>
+/**
+ * `GeoDropdownRegularButton` is a button designed to display an optional icon
+ * and any complex single-line text surrounded by a bordered box linked to a
+ * popup.
+ *
+ * It's suitable in isolated places where this button won't be associated with
+ * any single element of a collection but with a specific feature or an entire
+ * collection.
+ *
+ * As it can display single-line text it can be used to toggle popups which
+ * manage complex state changes which are not directly evident like multi-select
+ * options.
+ */
 export default {
   name: 'GeoDropdownRegularButton',
   status: 'ready',

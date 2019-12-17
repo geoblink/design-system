@@ -33,6 +33,15 @@ import ScrollAnywhere from '../../directives/GeoScrollAnywhere'
 import * as GeoDropdownConstants from './GeoDropdown.constants'
 import _ from 'lodash'
 
+/**
+ * `GeoDropdown` is a combination of a button and a popup which can be toggled in
+ * and out using the button. It's suitable for dropdown menus and actions which
+ * require additional or complex user input like handling data filters.
+ *
+ * The popup is smartly repositioned when it does not fit below the toggle button
+ * and is pinned to right side of the button when its content overflows viewport
+ * if pinned to left side.
+ */
 export default {
   name: 'GeoDropdown',
   status: 'ready',
