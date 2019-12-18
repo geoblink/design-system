@@ -16,6 +16,7 @@
         v-if="$slots.default"
         class="geo-wizard-layout__body"
       >
+        <!-- @slot Use this slot to customize wizard body -->
         <slot />
       </section>
 
@@ -39,6 +40,16 @@
 </template>
 
 <script>
+/**
+ * `GeoWizardLayout` is a component that displays a complete structure of what a
+ * step from a wizard should look like.
+ *
+ * It comprehends an optional sidebar with an optional header and footer and
+ * main content.
+ *
+ * The main content of the wizard is an horizontal container that can also
+ * display a header and a footer along with its main displayed info.
+ */
 export default {
   name: 'GeoWizardLayout',
   status: 'ready',

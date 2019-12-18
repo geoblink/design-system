@@ -1,10 +1,7 @@
-`GeoWizardLayout` is a component that displays a complete structure of what a step from a wizard should look like.
-It comprehends an optional sidebar with an optional header and footer and main content.
-The main content of the wizard is an horizontal container that can also display a header and a footer along with its main displayed info.
+### Complete wizard
 
 ```jsx live
 <div class="element-demo">
-  <h3 class="element-demo__header">Wizard with sidebar example</h3>
   <div class="element-demo__block" style="justify-content: space-around;">
     <geo-wizard-layout>
       <geo-sidebar-layout slot="sidebar">
@@ -29,7 +26,13 @@ The main content of the wizard is an horizontal container that can also display 
       <geo-primary-button slot="footerTrailing">Footer button</geo-primary-button>
     </geo-wizard-layout>
   </div>
-  <h3 class="element-demo__header">Wizard with sidebar and without header or footer</h3>
+</div>
+```
+
+### Wizard without header nor footer
+
+```jsx live
+<div class="element-demo">
   <div class="element-demo__block" style="justify-content: space-around;">
     <geo-wizard-layout>
       <geo-sidebar-layout slot="sidebar">
@@ -52,7 +55,13 @@ The main content of the wizard is an horizontal container that can also display 
       <geo-secondary-button>Element 3</geo-secondary-button>
     </geo-wizard-layout>
   </div>
-  <h3 class="element-demo__header">Wizard without sidebar example</h3>
+</div>
+```
+
+### Wizard without sidebar
+
+```jsx live
+<div class="element-demo">
   <div class="element-demo__block" style="justify-content: space-around;">
     <geo-wizard-layout>
       <h5 slot="header">Header</h5>
