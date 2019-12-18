@@ -59,12 +59,15 @@ describe('GeoMarquee', () => {
       top: 0
     }
 
+    const textContentElement = wrapper.find('.geo-marquee__text-content').element
+
     jest
       .spyOn(Element.prototype, 'getBoundingClientRect')
       .mockImplementation(function () {
-        if (this === wrapper.find('.geo-marquee__text-content').element) {
+        if (this === textContentElement) {
           return Object.assign({}, baseBBox, { width: 150 })
         }
+
         return Object.assign({}, baseBBox, {
           width: 50
         })

@@ -19,8 +19,8 @@ describe('GeoBorderedToken', () => {
 
   it('Should render the correct label', function () {
     const wrapper = mount(GeoBorderedToken, {
-      propsData: {
-        label: 'test'
+      slots: {
+        default: 'test'
       }
     })
     expect(wrapper.find('.geo-bordered-token__label').text()).toBe('test')
@@ -29,8 +29,10 @@ describe('GeoBorderedToken', () => {
   it('Should display the correct icon when provided', function () {
     const wrapper = mount(GeoBorderedToken, {
       propsData: {
-        label: 'test',
         icon: ['fas', 'map-marker']
+      },
+      slots: {
+        default: 'test'
       },
       stubs: {
         'font-awesome-icon': FontAwesomeIconMock
@@ -40,17 +42,8 @@ describe('GeoBorderedToken', () => {
     expectFontAwesomeIconProp(fontAwesomeIconElem, ['fas', 'map-marker'])
   })
 
-  it('Should display slot when no label is defined', function () {
-    const wrapper = mount(GeoBorderedToken, {
-      slots: {
-        default: '<p class="my-class">default slot</p>'
-      }
-    })
-    expect(wrapper.find('.my-class').exists()).toBe(true)
-    expect(wrapper.find('.my-class').text()).toBe('default slot')
-  })
-
   it('Should not display the slot when label is defined', function () {
+    jest.spyOn(console, 'warn').mockImplementation(() => {})
     const wrapper = mount(GeoBorderedToken, {
       propsData: {
         label: 'test'
@@ -59,6 +52,7 @@ describe('GeoBorderedToken', () => {
         default: '<p class="my-class">default slot</p>'
       }
     })
+    expect(console.warn).toHaveBeenCalledTimes(1)
     expect(wrapper.find('.my-class').exists()).toBe(false)
     expect(wrapper.find('.geo-bordered-token__label').text()).toBe('test')
   })

@@ -148,6 +148,9 @@ describe('GeoButton Children', function () {
     describe(taxonomyButton.name, function () {
       it('Should render button\'s content', function () {
         const wrapper = mount(taxonomyButton, {
+          propsData: {
+            icon: ['fas', 'thumbs-up']
+          },
           stubs: {
             GeoCompactButton,
             FontAwesomeIcon
@@ -158,23 +161,29 @@ describe('GeoButton Children', function () {
         expect(button.exists()).toBe(true)
       })
 
-      it('Should render correct default icon', function () {
-        const wrapper = mount(taxonomyButton, {
-          stubs: {
-            GeoCompactButton,
-            'font-awesome-icon': FontAwesomeIconMock
-          }
+      if (taxonomyButton === GeoPrimaryCompactButton) {
+        it('Should render correct default icon', function () {
+          const wrapper = mount(taxonomyButton, {
+            stubs: {
+              GeoCompactButton,
+              'font-awesome-icon': FontAwesomeIconMock
+            }
+          })
+          const fontAwesomeIconElem = wrapper.find(FontAwesomeIconMock)
+          expectFontAwesomeIconProp(fontAwesomeIconElem, ['fal', 'check'])
         })
-        const fontAwesomeIconElem = wrapper.find(FontAwesomeIconMock)
-        switch (wrapper.vm.type) {
-          case 'primary':
-            expectFontAwesomeIconProp(fontAwesomeIconElem, ['fal', 'check'])
-            break
-          case 'secondary':
-            expectFontAwesomeIconProp(fontAwesomeIconElem, ['fal', 'times'])
-            break
-        }
-      })
+      } else if (taxonomyButton === GeoSecondaryCompactButton) {
+        it('Should render correct default icon', function () {
+          const wrapper = mount(taxonomyButton, {
+            stubs: {
+              GeoCompactButton,
+              'font-awesome-icon': FontAwesomeIconMock
+            }
+          })
+          const fontAwesomeIconElem = wrapper.find(FontAwesomeIconMock)
+          expectFontAwesomeIconProp(fontAwesomeIconElem, ['fal', 'times'])
+        })
+      }
 
       it('Should render correct icon when provided', function () {
         const wrapper = mount(taxonomyButton, {
@@ -192,6 +201,9 @@ describe('GeoButton Children', function () {
 
       it('Should emit an event on click', async function () {
         const wrapper = mount(taxonomyButton, {
+          propsData: {
+            icon: ['fas', 'thumbs-up']
+          },
           stubs: {
             GeoCompactButton,
             FontAwesomeIcon
@@ -207,6 +219,7 @@ describe('GeoButton Children', function () {
       it('Should not emit an event when it\'s disabled', function () {
         const wrapper = mount(taxonomyButton, {
           propsData: {
+            icon: ['fas', 'thumbs-up'],
             disabled: true
           },
           stubs: {
@@ -222,6 +235,7 @@ describe('GeoButton Children', function () {
       it('Should show activity indicator when loading', function () {
         const wrapper = mount(taxonomyButton, {
           propsData: {
+            icon: ['fas', 'thumbs-up'],
             loading: true
           },
           stubs: {

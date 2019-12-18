@@ -1,8 +1,5 @@
 language: node_js
-
 node_js:
-  - 8
-  - 10
   - 12
 
 branches:
@@ -11,8 +8,6 @@ branches:
 
 cache:
   yarn: true
-  directories:
-    - node_modules
 
 stages:
   - lint
@@ -24,15 +19,28 @@ jobs:
     - stage: lint
       script:
         - yarn lint
+
     - stage: test
+      node_js: 8
       script:
-        - yarn test:coverage
+        - yarn test
+    - stage: test
+      node_js: 10
+      script:
+        - yarn test
+    - stage: test
+      node_js: 12
+      script:
+        - yarn test
+
     - stage: build
+      name: build docs
       script:
-        - yarn build
+        - yarn build:docs
     - stage: build
+      name: build system
       script:
-        - yarn build
+        - yarn build:system
 
 after_success:
   - yarn global add codecov
