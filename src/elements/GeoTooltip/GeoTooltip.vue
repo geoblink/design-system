@@ -44,6 +44,10 @@ const ALIGNMENTS = {
   middle: 'middle'
 }
 
+/**
+ * `GeoTooltip` is a component used to display a tooltip. Using this component
+ * you can render complex HTML tooltips in a safe and reactive way.
+ */
 export default {
   name: 'GeoTooltip',
   status: 'ready',
