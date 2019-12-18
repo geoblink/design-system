@@ -123,7 +123,7 @@ export default {
           /**
            * Inferred page size changed.
            *
-           * @event inferred-page-size-changed
+           * @event infer-page-size
            * @type {number}
            */
           vm.$emit(INFERRED_PAGE_SIZE_CHANGED_EVENT_NAME, vm[DATA_KEYS.inferredPageSize])

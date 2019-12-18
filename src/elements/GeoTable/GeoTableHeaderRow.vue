@@ -9,6 +9,19 @@
 import { HEADER_VARIANTS as VARIANTS } from './GeoTable.constants'
 export { VARIANTS }
 
+/**
+ * `GeoTableHeaderRow` is the component that must be used to render header rows
+ * in a [GeoTable](./GeoTable).
+ *
+ * Each instance of this component represents a single `row` of a table and
+ * features a slot to render the cells of the table's header.
+ *
+ * ::: tip
+ * Although not required, it is encouraged to use
+ * [GeoTableHeaderRowCell](./GeoTableHeaderRowCell) instances as content of this
+ * component's slot.
+ * :::
+ */
 export default {
   name: 'GeoTableHeaderRow',
   status: 'ready',

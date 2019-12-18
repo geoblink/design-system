@@ -5,6 +5,7 @@
       'geo-table-sort--active': currentlySortingTable
     }"
   >
+    <!-- @slot _Optional_. Use this slot to customize the button used to sort in `asc` order -->
     <slot
       :action="sortAsc"
       :is-current-sorting-direction="isCurrentlyAscendingOrdered"
@@ -23,6 +24,7 @@
       />
     </slot>
 
+    <!-- @slot _Optional_. Use this slot to customize the button used to sort in `desc` order -->
     <slot
       :action="sortDesc"
       :is-current-sorting-direction="isCurrentlyDescendingOrdered"
@@ -46,6 +48,11 @@
 <script>
 import { SORTING_DIRECTIONS } from './GeoTable.constants'
 
+/**
+ * `GeoTableSort` is a component which fits nicely in a [GeoTable](./GeoTable)
+ * header. It's designed to display buttons to sort data in a table by their
+ * values in a specific column.
+ */
 export default {
   name: 'GeoTableSort',
   status: 'ready',

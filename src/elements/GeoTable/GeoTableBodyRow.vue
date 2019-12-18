@@ -15,6 +15,17 @@ const VARIANTS = {
 
 export { VARIANTS }
 
+/**
+ * `GeoTableBodyRow` is the component that must be used to render body rows in a
+ * [GeoTable](./GeoTable).
+ *
+ * Each instance of this component represents a single `row` of a table and
+ * features a slot to render the cells of the table.
+ *
+ * Although not required, it is encouraged to use
+ * [GeoTableBodyRowCell](./GeoTableBodyRowCell) instances as content of this
+ * component's slot.
+ */
 export default {
   name: 'GeoTableBodyRow',
   status: 'ready',
