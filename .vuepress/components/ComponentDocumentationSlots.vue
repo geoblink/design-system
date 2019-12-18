@@ -7,13 +7,12 @@
       </tr>
     </thead>
     <tbody>
-      <tr
+      <component-documentation-slots-row
         v-for="slotMetadata in componentSlots"
         :key="slotMetadata.name"
-      >
-        <td :id="`event-${slotMetadata.name}`"><code>{{ slotMetadata.name }}</code></td>
-        <td>{{ slotMetadata.description }}</td>
-      </tr>
+        :name="slotMetadata.name"
+        :description="slotMetadata.description"
+      />
     </tbody>
   </table>
 </template>
