@@ -1,5 +1,4 @@
-`GeoTabBar` is a component designed to display a collection of tabs horizontally,
-specially aimed for pages where there are multiple independent modules.
+### Regular variant
 
 ```vue live
 <template>
@@ -17,6 +16,30 @@ specially aimed for pages where there are multiple independent modules.
         </geo-tab-bar-item>
       </geo-tab-bar>
     </div>
+  </div>
+</template>
+
+<script>
+export default {
+  data () {
+    return {
+      activeTab: 'First'
+    }
+  },
+  computed: {
+    tabs () {
+      return ['First', 'Second', 'Third']
+    }
+  }
+}
+</script>
+```
+
+### Modal variant
+
+```vue live
+<template>
+  <div class="element-demo">
     <div class="element-demo__block">
       <geo-tab-bar variant="modal">
         <geo-tab-bar-item
