@@ -1,21 +1,8 @@
-@mixin geo-bordered-box-footer-make($modifier-name) {
-
-  $modifier-name-with-prefix: '';
-
-  @if $modifier-name != '' {
-    // sass-lint:disable space-around-operator
-    $modifier-name-with-prefix: --#{$modifier-name};
-  }
-
-  .geo-bordered-box-footer#{$modifier-name-with-prefix} {
-    background: $color-white-dark;
-    border-top: 1px solid $color-grey;
-    flex-grow: 0;
-    flex-shrink: 0;
-    padding: 10px;
-    white-space: nowrap;
-  }
-
+.geo-bordered-box-footer {
+  background: $color-white-dark;
+  border-top: 1px solid $color-grey;
+  flex-grow: 0;
+  flex-shrink: 0;
+  padding: 10px;
+  white-space: nowrap;
 }
-
-@include geo-bordered-box-footer-make('');

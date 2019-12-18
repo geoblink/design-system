@@ -1,36 +1,36 @@
 <template>
-  <div :class="`geo-list-group${cssSuffix}`">
+  <div class="geo-list-group">
     <div
       v-if="hasTitle"
-      :class="`geo-list-group__header${cssSuffix}`"
+      class="geo-list-group__header"
       @click="emitClick($event)"
     >
-      <div :class="`geo-list-group__header__icon-and-label${cssSuffix}`">
+      <div class="geo-list-group__header__icon-and-label">
         <div
           v-if="icon"
-          :class="`geo-list-group__header__icon-and-label__icon-container${cssSuffix}`"
+          class="geo-list-group__header__icon-and-label__icon-container"
         >
           <font-awesome-icon
             :icon="icon"
-            :class="`geo-list-group__header__icon-and-label__icon-container__icon${cssSuffix}`"
+            class="geo-list-group__header__icon-and-label__icon-container__icon"
             aria-hidden
             fixed-width
           />
         </div>
-        <div :class="`geo-list-group__header__icon-and-label__label${cssSuffix}`">
+        <div class="geo-list-group__header__icon-and-label__label">
           <!-- @slot Use this slot to customize group's title -->
           <slot name="title" />
         </div>
       </div>
       <div
         v-if="hasTrailingAccessoryItems"
-        :class="`geo-list-group__header__trailing-accessory-items${cssSuffix}`"
+        class="geo-list-group__header__trailing-accessory-items"
       >
         <!-- @slot Use this slot to add more items to the trailing edge of this group's header -->
         <slot name="trailingAccessoryItem" />
       </div>
     </div>
-    <div :class="`geo-list-group__content${cssSuffix}`">
+    <div class="geo-list-group__content">
       <!-- @slot Use this slot to customize the items of this group -->
       <slot name="item" />
     </div>
@@ -38,13 +38,16 @@
 </template>
 
 <script>
-import cssSuffix from '../../mixins/cssModifierMixin'
-
+/**
+ * `GeoListGroup` is a component designed to show a collection of items inside
+ * a visually isolated group. It supports a customizable group `title` and
+ * allows showing any kind of content inside the group, althought using
+ * [GeoListItem](./GeoListItem) is advised.
+ */
 export default {
   name: 'GeoListGroup',
   status: 'ready',
   release: '4.0.0',
-  mixins: [cssSuffix],
   props: {
     /**
      * Optional Font Awesome 5 icon to be displayed next to group title's label,

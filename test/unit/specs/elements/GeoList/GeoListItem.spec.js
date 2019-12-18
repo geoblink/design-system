@@ -59,7 +59,7 @@ describe('GeoListItem', () => {
   it('Should render default slot', function () {
     const wrapper = mount(GeoListItem, {
       slots: {
-        default: [`<span class="my-demo-content">Just some unique demo content</span>`]
+        default: ['<span class="my-demo-content">Just some unique demo content</span>']
       }
     })
 
@@ -69,8 +69,8 @@ describe('GeoListItem', () => {
   it('Should render trailingAccessoryItem slot', function () {
     const wrapper = mount(GeoListItem, {
       slots: {
-        default: [`<span class="my-demo-content">Just some unique demo content</span>`],
-        trailingAccessoryItem: [`<span class="my-demo-accessory">Just some accessory item</span>`]
+        default: ['<span class="my-demo-content">Just some unique demo content</span>'],
+        trailingAccessoryItem: ['<span class="my-demo-accessory">Just some accessory item</span>']
       }
     })
 
@@ -95,7 +95,7 @@ describe('GeoListItem', () => {
   it('Should render description', function () {
     const wrapper = mount(GeoListItem, {
       slots: {
-        description: [`<span class="my-demo-description">Description</span>`]
+        description: ['<span class="my-demo-description">Description</span>']
       }
     })
 
@@ -118,16 +118,6 @@ describe('GeoListItem', () => {
     expect(clickListener).toHaveBeenCalled()
   })
 
-  it('Should include CSS suffix', function () {
-    const wrapper = mount(GeoListItem, {
-      propsData: {
-        cssModifier: 'my-custom-modifier'
-      }
-    })
-
-    expect(wrapper.find('.geo-list-item--my-custom-modifier').exists()).toBe(true)
-  })
-
   it('Should include disabled suffix when it is disabled', function () {
     const wrapper = mount(GeoListItem, {
       propsData: {
@@ -136,16 +126,5 @@ describe('GeoListItem', () => {
     })
 
     expect(wrapper.find('.geo-list-item--disabled').exists()).toBe(true)
-  })
-
-  it('Should include disabled suffix when it is disabled and has CSS modifier', function () {
-    const wrapper = mount(GeoListItem, {
-      propsData: {
-        cssModifier: 'my-custom-modifier',
-        disabled: true
-      }
-    })
-
-    expect(wrapper.find('.geo-list-item--disabled--my-custom-modifier').exists()).toBe(true)
   })
 })

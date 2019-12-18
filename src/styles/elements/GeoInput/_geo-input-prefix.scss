@@ -1,25 +1,14 @@
-@mixin geo-input-prefix-make($modifier-name) {
+.geo-input-prefix {
+  @include font($body);
 
-  $modifier-name-with-prefix: '';
   $border-size: 1px;
 
-  @if $modifier-name != '' {
-    // sass-lint:disable space-around-operator
-    $modifier-name-with-prefix: --#{$modifier-name};
-  }
-
-  .geo-input-prefix#{$modifier-name-with-prefix} {
-    @include font($body);
-
-    background-color: $color-white-darker;
-    border-right: $border-size solid $color-grey;
-    border-radius: $border-radius-default 0 0 $border-radius-default;
-    box-sizing: border-box;
-    color: $color-grey-darker;
-    height: $space-x-large - 2 * $border-size;
-    margin-left: -$space-small + $border-size;
-    padding: $space-small;
-  }
+  background-color: $color-white-darker;
+  border-right: $border-size solid $color-grey;
+  border-radius: $border-radius-default 0 0 $border-radius-default;
+  box-sizing: border-box;
+  color: $color-grey-darker;
+  height: $space-x-large - 2 * $border-size;
+  margin-left: -$space-small + $border-size;
+  padding: $space-small;
 }
-
-@include geo-input-prefix-make('');

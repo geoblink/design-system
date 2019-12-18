@@ -37,19 +37,6 @@ describe('GeoFileUpload', () => {
     expect(wrapper.find('.geo-file-upload').exists()).toBe(true)
   })
 
-  it('Should apply a CSS suffix when the modifier is provided', function () {
-    const wrapper = mount(GeoFileUpload, {
-      propsData: {
-        status: 'initial',
-        cssModifier: 'test'
-      },
-      stubs: {
-        'font-awesome-icon': FontAwesomeIcon
-      }
-    })
-    expect(wrapper.find('.geo-file-upload--test').exists()).toBe(true)
-  })
-
   it('Should check status validator is correct', () => {
     const consoleWarnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {})
     afterEach(() => consoleWarnSpy.mockReset())
@@ -161,7 +148,7 @@ describe('GeoFileUpload', () => {
         status: 'loading'
       },
       slots: {
-        loading: [`<span class="loading-slot">loading</span>`]
+        loading: ['<span class="loading-slot">loading</span>']
       },
       stubs: {
         'font-awesome-icon': FontAwesomeIcon,
@@ -178,7 +165,7 @@ describe('GeoFileUpload', () => {
         status: 'initial'
       },
       slots: {
-        title: [`<span class="title-slot">title</span>`]
+        title: ['<span class="title-slot">title</span>']
       },
       stubs: {
         'font-awesome-icon': FontAwesomeIcon
@@ -193,7 +180,7 @@ describe('GeoFileUpload', () => {
         status: 'initial'
       },
       slots: {
-        help: [`<span class="help-slot">help</span>`]
+        help: ['<span class="help-slot">help</span>']
       },
       stubs: {
         'font-awesome-icon': FontAwesomeIcon

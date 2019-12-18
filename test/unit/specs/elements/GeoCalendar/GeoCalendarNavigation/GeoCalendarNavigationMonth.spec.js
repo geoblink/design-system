@@ -75,9 +75,9 @@ describe('GeoCalendarNavigationMonth', () => {
     })
 
     it('Should toggle the dropdown when clicked', () => {
-      wrapper.find('[data-ut="year-select"] .geo-button--calendar-navigation-toggle-button').trigger('click')
+      wrapper.find('[data-ut="year-select"] .geo-button').trigger('click')
       expect(wrapper.vm.isYearSelectionOpened).toBe(true)
-      wrapper.find('[data-ut="year-select"] .geo-button--calendar-navigation-toggle-button').trigger('click')
+      wrapper.find('[data-ut="year-select"] .geo-button').trigger('click')
       expect(wrapper.vm.isYearSelectionOpened).toBe(false)
     })
 

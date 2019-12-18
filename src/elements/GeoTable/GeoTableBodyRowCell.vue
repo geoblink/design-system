@@ -4,24 +4,18 @@
     :class="[
       data.class,
       data.staticClass,
-      `geo-table-body-row-cell${$options.helpers.getCSSSuffix(props.cssModifier)}`
+      'geo-table-body-row-cell'
     ]"
   >
     <!-- @slot Use this slot to customize cell's content -->
-    <slot :css-modifier="props.cssModifier" />
+    <slot />
   </div>
 </template>
 
 <script>
-import cssSuffix, { getCSSSuffix } from '../../mixins/cssModifierMixin'
-
 export default {
   name: 'GeoTableBodyRowCell',
   status: 'ready',
-  release: '10.1.0',
-  helpers: {
-    getCSSSuffix
-  },
-  mixins: [cssSuffix]
+  release: '10.1.0'
 }
 </script>

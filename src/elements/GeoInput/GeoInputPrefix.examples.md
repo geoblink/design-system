@@ -1,9 +1,11 @@
-`GeoInputPrefix` component can be added as an accesory item to a `GeoInput` component.
+### Prefix with text
 
 ```jsx live
 <div class="element-demo">
-  <h3 class="element-demo__header">Prefix with text</h3>
-  <div class="element-demo__block"  style="justify-content: space-around;">
+  <div
+    class="element-demo__block"
+    style="justify-content: space-around;"
+  >
     <geo-input-prefix>
       meters
     </geo-input-prefix>
@@ -11,10 +13,14 @@
 </div>
 ```
 
+### Prefix with icon
+
 ```jsx live
 <div class="element-demo">
-  <h3 class="element-demo__header">Prefix with icon</h3>
-  <div class="element-demo__block"   style="justify-content: space-around;">
+  <div
+    class="element-demo__block"
+    style="justify-content: space-around;"
+  >
     <geo-input-prefix>
       <font-awesome-icon
         :icon="['fas', 'bell']"

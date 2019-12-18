@@ -28,13 +28,4 @@ describe('GeoSegmentedControlItem', () => {
     })
     expect(wrapper.find('.geo-segmented-control--outline').exists()).toBe(true)
   })
-
-  it('Should apply a CSS suffix when the modifier is provided', function () {
-    const wrapper = mount(GeoSegmentedControl, {
-      propsData: {
-        cssModifier: 'test'
-      }
-    })
-    expect(wrapper.find('.geo-segmented-control--test').exists()).toBe(true)
-  })
 })

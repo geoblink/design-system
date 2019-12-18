@@ -1,15 +1,8 @@
-`GeoDropdown` is a combination of a button and a popup which can be toggled in
-and out using the button. It's suitable for dropdown menus and actions which
-require additional or complex user input like handling data filters.
-
-The popup is smartly repositioned when it does not fit below the toggle button
-and is pinned to right side of the button when its content overflows viewport
-if pinned to left side.
+### Simple dropdown menu
 
 ```vue live
 <template>
   <div class="element-demo">
-    <h3 class="element-demo__header">Simple menu</h3>
     <div class="element-demo__block" style="justify-content: space-around;">
       <geo-dropdown
         :opened="isOpened"
@@ -203,10 +196,11 @@ export default {
 </script>
 ```
 
+### Top-right dropdown menu inside container
+
 ```vue live
 <template>
   <div class="element-demo">
-    <h3 class="element-demo__header">Menu inside container and placed top right</h3>
     <div class="element-demo__block" style="justify-content: space-around;">
       <div class="element-demo__bordered-box container-with-hidden-overflow">
         <geo-dropdown
@@ -260,13 +254,11 @@ export default {
 </style>
 ```
 
+### Dropdown menu inside scrollable container
+
 ```vue live
 <template>
   <div class="element-demo">
-    <h3 class="element-demo__header">
-      Menu inside scrollable container
-    </h3>
-
     <div class="element-demo__inline-input-group">
       <label class="element-demo__inline-input-group__field">
         Force Y-Axis position: <select
@@ -373,10 +365,11 @@ export default {
 </style>
 ```
 
+### Dropdown menu with scrollable content
+
 ```vue live
 <template>
   <div class="element-demo">
-    <h3 class="element-demo__header">Scrollable content inside dropdown popup</h3>
     <div class="element-demo__block" style="justify-content: space-around;">
       <geo-dropdown
         :opened="isOpened"

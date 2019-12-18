@@ -1,24 +1,21 @@
-## Line chart (categorical)
+#### Categorical line chart
 
 ```vue live
 <template>
   <div class="element-demo">
-    <h3 class="element-demo__header">
-      Line chart (Horizontal - Categorical Data)
-      <div class="element-demo__inline-input-group">
-        <geo-primary-button @click="randomizeData()">
-          Randomize Data
-        </geo-primary-button>
-        <geo-secondary-button @click="toggleGraph()">
-          Toggle Graph
-        </geo-secondary-button>
-      </div>
-    </h3>
     <div class="element-demo__bordered-box element-demo__block--chart-container" style="resize: both;">
       <geo-chart
         v-if="chartConfig && isGraphVisible"
         :config="chartConfig"
       />
+    </div>
+    <div class="element-demo__block">
+      <geo-primary-button @click="randomizeData()">
+        Randomize Data
+      </geo-primary-button>
+      <geo-secondary-button @click="toggleGraph()">
+        Toggle Graph
+      </geo-secondary-button>
     </div>
   </div>
 </template>

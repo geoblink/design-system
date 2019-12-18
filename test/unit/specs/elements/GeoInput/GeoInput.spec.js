@@ -65,7 +65,7 @@ describe('GeoInput', () => {
   it('Should render leading accessory item if provided', function () {
     const wrapper = mount(GeoInput, {
       slots: {
-        leadingAccessoryItem: `<font-awesome-icon :icon="['fas', 'search']" />`
+        leadingAccessoryItem: '<font-awesome-icon :icon="[\'fas\', \'search\']" />'
       },
       stubs: {
         'font-awesome-icon': FontAwesomeIcon
@@ -116,7 +116,7 @@ describe('GeoInput', () => {
   it('Should render correct suffix when provided', function () {
     const wrapper = mount(GeoInput, {
       slots: {
-        trailingAccessoryItem: `<geo-input-suffix> A suffix </geo-input-suffix>`
+        trailingAccessoryItem: '<geo-input-suffix> A suffix </geo-input-suffix>'
       },
       stubs: {
         GeoInputSuffix

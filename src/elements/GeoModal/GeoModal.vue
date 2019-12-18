@@ -5,23 +5,24 @@
       target: attachTo
     }"
     v-scroll-anywhere="repositionModal"
-    :class="`geo-modal${cssSuffix}`"
     :style="modalStyle"
+    class="geo-modal"
   >
     <div
       class="geo-modal__backdrop"
       @click="handleBackdropClick($event)"
     />
     <div class="geo-modal__content">
+      <!-- @slot Use this slot to customize modal content. If you want to display a `GeoBorderedBox`, check out `header`, `body` and `footer` slots. -->
       <slot>
-        <geo-bordered-box :css-modifier="`geo-modal${cssSuffix}`">
+        <geo-bordered-box>
           <geo-bordered-box-header
             v-if="hasHeader"
-            :css-modifier="`geo-modal${cssSuffix}`"
             :icon="headerIcon"
             :close-icon="headerCloseIcon"
             @close="handleCloseClick($event)"
           >
+            <!-- @slot Use this slot to customize `GeoBorderedBox` header. If you give content to `default` slot this slot will be ignored. -->
             <slot name="header" />
           </geo-bordered-box-header>
 
@@ -29,13 +30,12 @@
             v-if="hasBody"
             class="geo-modal__content-body"
           >
+            <!-- @slot Use this slot to customize `GeoBorderedBox` body. If you give content to `default` slot this slot will be ignored. -->
             <slot name="body" />
           </div>
 
-          <geo-bordered-box-footer
-            v-if="hasFooter"
-            :css-modifier="`geo-modal${cssSuffix}`"
-          >
+          <geo-bordered-box-footer v-if="hasFooter">
+            <!-- @slot Use this slot to customize `GeoBorderedBox` footer. If you give content to `default` slot this slot will be ignored. -->
             <slot name="footer" />
           </geo-bordered-box-footer>
         </geo-bordered-box>
@@ -47,9 +47,15 @@
 <script>
 import OnResize from '../../directives/GeoOnResize'
 import ScrollAnywhere from '../../directives/GeoScrollAnywhere'
-import cssSuffix from '../../mixins/cssModifierMixin'
 import { getDocument } from '../../utils/ssrProxy'
 
+/**
+ * `GeoModal` is a generic component designed to block user interaction with
+ * underlying UI while forcing them to focus attention in modal's child
+ * component.
+ *
+ * Use it together with `GeoBorderedBox` to offer a modal window experience.
+ */
 export default {
   name: 'GeoModal',
   status: 'ready',
@@ -58,7 +64,6 @@ export default {
     OnResize,
     ScrollAnywhere
   },
-  mixins: [cssSuffix],
   props: {
     /**
      * `HTMLElement` to which modal will be attached.
@@ -177,7 +182,7 @@ export default {
 
       const currentPosition = getComputedStyle(this.attachTo).getPropertyValue('position')
       if (currentPosition === 'static') {
-        console.warn(`GeoModal [component] :: setting position of attach-to element to «relative» since it's required to anchor the modal. Set attach-to element position to «relative» in your CSS styles to avoid this warning.`)
+        console.warn('GeoModal [component] :: setting position of attach-to element to «relative» since it\'s required to anchor the modal. Set attach-to element position to «relative» in your CSS styles to avoid this warning.')
         this.attachTo.style.position = 'relative'
       }
     },

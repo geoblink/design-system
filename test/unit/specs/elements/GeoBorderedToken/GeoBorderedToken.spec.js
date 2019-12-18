@@ -74,18 +74,4 @@ describe('GeoBorderedToken', () => {
     })
     expect(wrapper.find('.geo-bordered-token__icon').exists()).toBe(false)
   })
-
-  it('Should apply a CSS suffix when the modifier is provided', function () {
-    const wrapper = mount(GeoBorderedToken, {
-      propsData: {
-        label: 'test',
-        icon: ['fas', 'map-marker'],
-        cssModifier: 'test-alert'
-      },
-      stubs: {
-        'font-awesome-icon': FontAwesomeIcon
-      }
-    })
-    expect(wrapper.find('.geo-bordered-token--test-alert').exists()).toBe(true)
-  })
 })

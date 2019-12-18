@@ -1,8 +1,7 @@
 <template>
   <geo-dropdown
-    :css-modifier="cssModifierWithGranularity"
     :opened="isCalendarPopupOpened"
-    :popup-class="popupClass"
+    :popup-class="['geo-calendar-dropdown__popup', popupClass]"
     @click-outside="handleClickOutside"
   >
     <!-- @slot Use this slot to customize the button used to toggle the calendar -->
@@ -11,10 +10,7 @@
       name="toggleButton"
       :toggle-calendar-popup="toggleCalendarPopup"
     />
-    <geo-bordered-box
-      slot="popupContent"
-      :css-modifier="cssModifierWithGranularity"
-    >
+    <geo-bordered-box slot="popupContent">
       <geo-bordered-box-header
         :close-icon="closeCalendarIcon"
         @close="closeCalendar"
@@ -27,7 +23,6 @@
         <geo-calendar
           ref="calendar"
           :calendar-navigation-select-icon="calendarNavigationSelectIcon"
-          :css-modifier="cssModifier"
           :earliest-date="earliestDate"
           :default-from-date="defaultFromDate"
           :default-to-date="defaultToDate"
@@ -85,12 +80,25 @@
 
 <script>
 import _ from 'lodash'
-import cssSuffix from '../../mixins/cssModifierMixin'
 import GeoCalendarRootMixin from './GeoCalendarRoot.mixin'
 import GeoCalendarGranularityIdMixin from './GeoCalendarGranularityId.mixin'
 import GeoCalendarPickerDateUnitMixin from './GeoCalendarPickerDateUnit.mixin'
 import * as GeoCalendarConstants from './GeoCalendar.utils'
 
+/**
+ * `GeoCalendarDropdown` renders a button that when clicked, displays a calendar
+ * with two inputs where you can enter date ranges and manually select dates
+ * clicking on the displayed grid.
+ *
+ * To use this component you must
+ * [install date-fns](https://github.com/date-fns/date-fns) in your application.
+ *
+ * ::: tip
+ * [GeoCalendar](./GeoCalendar) can be used independently from
+ * `GeoCalendarDropdown` if you want to display the calendar directly embed in
+ * your application.
+ * :::
+ */
 export default {
   name: 'GeoCalendarDropdown',
   status: 'ready',
@@ -99,24 +107,13 @@ export default {
   mixins: [
     GeoCalendarPickerDateUnitMixin,
     GeoCalendarGranularityIdMixin,
-    GeoCalendarRootMixin,
-    cssSuffix
+    GeoCalendarRootMixin
   ],
-
   data () {
     return {
       isCalendarPopupOpened: false
     }
   },
-
-  computed: {
-    cssModifierWithGranularity () {
-      return this.$slots.pickerGranularity || this.$slots.pickerAliases
-        ? `geo-calendar__dropdown${this.cssSuffix}`
-        : `geo-calendar__dropdown--no-calendar-sidebar${this.cssSuffix}`
-    }
-  },
-
   methods: {
     closeCalendar () {
       this.isCalendarPopupOpened = false

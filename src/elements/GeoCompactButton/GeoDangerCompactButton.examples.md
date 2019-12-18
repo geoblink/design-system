@@ -1,45 +1,14 @@
-[GeoCompactButton](./#/Elements/GeoCompactButton) using predefined `danger` variant.
-
-Danger buttons are normally used to trigger dangerous actions that cannot
-be reverted like deleting data.
-
-See [GeoCompactButton](./#/Elements/GeoCompactButton) for a complete list of
-supported properties and features.
+### Complete flow
 
 ```vue live
 <template>
   <div class="element-demo">
-    <h3 class="element-demo__header">Complete flow</h3>
     <div class="element-demo__block">
       <geo-danger-compact-button
         :icon="['fas', 'exclamation-triangle']"
         :disabled="isDisabled"
         :loading="isLoading"
         @click="startLoading()"
-      />
-    </div>
-    <h3 class="element-demo__header">Regular</h3>
-    <div class="element-demo__block">
-      <geo-danger-compact-button
-        :icon="['fas', 'exclamation-triangle']"
-      />
-    </div>
-    <h3 class="element-demo__header">Disabled</h3>
-    <div class="element-demo__block">
-      <geo-danger-compact-button disabled
-        :icon="['fas', 'exclamation-triangle']"
-      />
-    </div>
-    <h3 class="element-demo__header">Loading</h3>
-    <div class="element-demo__block">
-      <geo-danger-compact-button loading
-        :icon="['fas', 'exclamation-triangle']"
-      />
-    </div>
-    <h3 class="element-demo__header">Loading &amp; Disabled</h3>
-    <div class="element-demo__block">
-      <geo-danger-compact-button loading disabled
-        :icon="['fas', 'exclamation-triangle']"
       />
     </div>
   </div>
@@ -63,4 +32,110 @@ export default {
   }
 }
 </script>
+```
+
+### Regular
+
+```jsx live
+<div class="element-demo">
+  <div class="element-demo__block">
+    <geo-danger-compact-button :icon="['fas', 'exclamation-triangle']" />
+  </div>
+</div>
+```
+
+### Hover / Focus
+
+```jsx live
+<div class="element-demo">
+  <div class="element-demo__block">
+    <geo-danger-compact-button
+      :icon="['fas', 'exclamation-triangle']"
+      hover
+    />
+  </div>
+</div>
+```
+
+### Disabled
+
+```jsx live
+<div class="element-demo">
+  <div class="element-demo__block">
+    <geo-danger-compact-button
+      :icon="['fas', 'exclamation-triangle']"
+      disabled
+    />
+  </div>
+</div>
+```
+
+### Disabled & Hover / Focus
+
+```jsx live
+<div class="element-demo">
+  <div class="element-demo__block">
+    <geo-danger-compact-button
+      :icon="['fas', 'exclamation-triangle']"
+      disabled
+      hover
+    />
+  </div>
+</div>
+```
+
+### Loading
+
+```jsx live
+<div class="element-demo">
+  <div class="element-demo__block">
+    <geo-danger-compact-button
+      :icon="['fas', 'exclamation-triangle']"
+      loading
+    />
+  </div>
+</div>
+```
+
+### Loading & Hover / Focus
+
+```jsx live
+<div class="element-demo">
+  <div class="element-demo__block">
+    <geo-danger-compact-button
+      :icon="['fas', 'exclamation-triangle']"
+      loading
+      hover
+    />
+  </div>
+</div>
+```
+
+### Loading & Disabled
+
+```jsx live
+<div class="element-demo">
+  <div class="element-demo__block">
+    <geo-danger-compact-button
+      :icon="['fas', 'exclamation-triangle']"
+      loading
+      disabled
+    />
+  </div>
+</div>
+```
+
+### Loading & Disabled & Hover / Focus
+
+```jsx live
+<div class="element-demo">
+  <div class="element-demo__block">
+    <geo-danger-compact-button
+      :icon="['fas', 'exclamation-triangle']"
+      loading
+      disabled
+      hover
+    />
+  </div>
+</div>
 ```

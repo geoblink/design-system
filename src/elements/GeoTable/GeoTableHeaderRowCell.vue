@@ -1,16 +1,11 @@
 <template>
-  <div :class="`geo-table-header-row-cell--${variant}${cssSuffix}`">
+  <div :class="`geo-table-header-row-cell--${variant}`">
     <!-- @slot Use this slot to customize cell's content -->
-    <slot
-      :variant="variant"
-      :css-modifier="cssModifier"
-    />
+    <slot :variant="variant" />
   </div>
 </template>
 
 <script>
-import cssSuffix from '../../mixins/cssModifierMixin'
-
 import GeoTableHeaderRowCellMixin from './GeoTableHeaderRowCellMixin'
 import { HEADER_VARIANTS as VARIANTS } from './GeoTable.constants'
 
@@ -21,7 +16,7 @@ export default {
   status: 'ready',
   release: '10.1.0',
   constants: { VARIANTS, GeoTableHeaderRowCellMixin },
-  mixins: [cssSuffix, GeoTableHeaderRowCellMixin],
+  mixins: [GeoTableHeaderRowCellMixin],
   props: {
     /**
      * Variant of this table header cell, used to change the color scheme and

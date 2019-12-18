@@ -9,6 +9,7 @@ const base = process.env.VUEPRESS_BASE || '/'
 module.exports = {
   base,
   title: 'Geoblink Design System documentation',
+  dest: 'public',
   head: [
     ['link', { rel: 'icon', href: '/assets/img/favicon.ico' }]
   ],
@@ -16,6 +17,14 @@ module.exports = {
     logo: `/assets/img/logo.svg`,
     nav: [
       { text: 'Home', link: '/' },
+      {
+        text: 'Guides',
+        items: [
+          { text: 'Getting started', link: '/docs/guides/getting-started' },
+          { text: 'Using constants', link: '/docs/guides/using-constants' },
+          { text: 'Developing', link: '/docs/guides/developing' }
+        ]
+      },
       { text: 'Changelog', link: '/changelog' },
       { text: 'Design tokens', link: '/docs/design-tokens' },
       {
@@ -60,8 +69,8 @@ module.exports = {
  */
 function getGroupedComponents (componentRootPath) {
   const componentsPaths = _.map(
-    glob.sync(`${componentRootPath}/**/*.vue`),
-    (singlePath) => path.relative(componentRootPath, singlePath)
+    glob.sync('*/*.vue', { cwd: componentRootPath }),
+    (singlePath) => path.relative(componentRootPath, path.resolve(componentRootPath, singlePath))
   )
 
   const groupedComponents = _.groupBy(componentsPaths, (singlePath) => path.dirname(singlePath))

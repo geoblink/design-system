@@ -1,10 +1,4 @@
-`GeoListClearItem` is a component designed to be used as a non-interactible,
-read only row-like item next to [GeoListItem](/#/Elements/GeoList?id=geolistitem).
-
-It's specially designed to be used to display special messages like
-*No results found*.
-
-```jsx
+```jsx live
 <div class="element-demo">
   <div class="element-demo__block" style="justify-content: space-around;">
     <geo-list-clear-item>

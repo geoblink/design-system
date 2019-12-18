@@ -1,44 +1,32 @@
-@mixin geo-table-sort-make($modifier-name) {
+.geo-table-sort {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: $space-small;
+  visibility: hidden;
 
-  $modifier-name-with-prefix: '';
+  .geo-table-sort__button {
+    color: $color-grey-light;
+    cursor: pointer;
 
-  @if $modifier-name != '' {
-    // sass-lint:disable space-around-operator
-    $modifier-name-with-prefix: --#{$modifier-name};
-  }
-
-  .geo-table-sort#{$modifier-name-with-prefix} {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    margin-left: $space-small;
-    visibility: hidden;
-
-    .geo-table-sort__button {
-      color: $color-grey-light;
-      cursor: pointer;
-
-      &:hover {
-        color: $color-link;
-      }
-    }
-
-    .geo-table-sort__button--active {
+    &:hover {
       color: $color-link;
     }
-
-    .geo-table-sort__button--asc {
-      margin-bottom: -1px;
-    }
-
-    .geo-table-sort__button--desc {
-      margin-top: -1px;
-    }
   }
 
-  .geo-table-sort--active#{$modifier-name-with-prefix} {
-    visibility: visible;
+  .geo-table-sort__button--active {
+    color: $color-link;
+  }
+
+  .geo-table-sort__button--asc {
+    margin-bottom: -1px;
+  }
+
+  .geo-table-sort__button--desc {
+    margin-top: -1px;
   }
 }
 
-@include geo-table-sort-make('');
+.geo-table-sort--active {
+  visibility: visible;
+}

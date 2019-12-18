@@ -1,146 +1,134 @@
-@mixin geo-segmented-control-item-make($modifier-name) {
+.geo-segmented-control-item,
+.geo-segmented-control-item--outline {
+  @include font($highlight-small);
 
-  $modifier-name-with-prefix: '';
+  align-items: center;
+  border-radius: $border-radius-default;
+  color: $color-grey-darker;
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  padding: 0 10px;
+  justify-content: center;
+  user-select: none;
+  white-space: nowrap;
 
-  @if $modifier-name != '' {
-    // sass-lint:disable space-around-operator
-    $modifier-name-with-prefix: --#{$modifier-name};
-  }
-
-  .geo-segmented-control-item#{$modifier-name-with-prefix},
-  .geo-segmented-control-item--outline#{$modifier-name-with-prefix} {
-    @include font($highlight-small);
-
-    align-items: center;
-    border-radius: $border-radius-default;
-    color: $color-grey-darker;
-    cursor: pointer;
-    display: flex;
-    flex-direction: row;
-    padding: 0 10px;
-    justify-content: center;
-    user-select: none;
-    white-space: nowrap;
-
-    & > *:first-child:not(:last-child) {
-      margin-right: 5px;
-    }
-  }
-
-  .geo-segmented-control-item#{$modifier-name-with-prefix} {
-    height: 24px;
-
-    &:hover {
-      background: $color-white-dark;
-    }
-  }
-
-  .geo-segmented-control-item--info--active#{$modifier-name-with-prefix} {
-    &, &:hover {
-      background: $color-blue;
-      color: $color-white;
-    }
-  }
-
-  .geo-segmented-control-item--success--active#{$modifier-name-with-prefix} {
-    &, &:hover {
-      background: $color-green;
-      color: $color-white;
-    }
-  }
-
-  .geo-segmented-control-item--warning--active#{$modifier-name-with-prefix} {
-    &, &:hover {
-      background: $color-yellow;
-      color: $color-white;
-    }
-  }
-
-  .geo-segmented-control-item--danger--active#{$modifier-name-with-prefix} {
-    &, &:hover {
-      background: $color-red;
-      color: $color-white;
-    }
-  }
-
-  .geo-segmented-control-item--disabled#{$modifier-name-with-prefix},
-  .geo-segmented-control-item--active--disabled#{$modifier-name-with-prefix} {
-    &, &:hover {
-      background: $color-grey;
-      color: $color-grey-darker;
-      cursor: not-allowed;
-    }
-  }
-
-  .geo-segmented-control-item--outline#{$modifier-name-with-prefix} {
-    background: $color-white;
-    border: 1px solid $color-grey;
-    font-weight: $font-weight-bold;
-    height: 30px;
-
-  }
-
-  .geo-segmented-control-item--info--outline#{$modifier-name-with-prefix} {
-    &:hover {
-      color: $color-blue;
-    }
-  }
-
-  .geo-segmented-control-item--info--outline--active#{$modifier-name-with-prefix} {
-    &, &:hover {
-      border-color: $color-blue;
-      color: $color-blue;
-    }
-  }
-
-  .geo-segmented-control-item--success--outline#{$modifier-name-with-prefix} {
-    &:hover {
-      color: $color-green;
-    }
-  }
-
-  .geo-segmented-control-item--success--outline--active#{$modifier-name-with-prefix} {
-    &, &:hover {
-      border-color: $color-green;
-      color: $color-green;
-    }
-  }
-
-  .geo-segmented-control-item--warning--outline#{$modifier-name-with-prefix} {
-    &:hover {
-      color: $color-yellow;
-    }
-  }
-
-  .geo-segmented-control-item--warning--outline--active#{$modifier-name-with-prefix} {
-    &, &:hover {
-      border-color: $color-yellow;
-      color: $color-yellow;
-    }
-  }
-
-  .geo-segmented-control-item--danger--outline#{$modifier-name-with-prefix} {
-    &:hover {
-      color: $color-red;
-    }
-  }
-
-  .geo-segmented-control-item--danger--outline--active#{$modifier-name-with-prefix} {
-    &, &:hover {
-      border-color: $color-red;
-      color: $color-red;
-    }
-  }
-
-  .geo-segmented-control-item--outline--disabled#{$modifier-name-with-prefix},
-  .geo-segmented-control-item--outline--active--disabled#{$modifier-name-with-prefix} {
-    &, &:hover {
-      background: $color-grey;
-      border-color: transparent;
-      color: $color-grey-darker;
-      cursor: not-allowed;
-    }
+  & > *:first-child:not(:last-child) {
+    margin-right: 5px;
   }
 }
 
-@include geo-segmented-control-item-make('');
+.geo-segmented-control-item {
+  height: 24px;
+
+  &:hover {
+    background: $color-white-dark;
+  }
+}
+
+.geo-segmented-control-item--info--active {
+  &, &:hover {
+    background: $color-blue;
+    color: $color-white;
+  }
+}
+
+.geo-segmented-control-item--success--active {
+  &, &:hover {
+    background: $color-green;
+    color: $color-white;
+  }
+}
+
+.geo-segmented-control-item--warning--active {
+  &, &:hover {
+    background: $color-yellow;
+    color: $color-white;
+  }
+}
+
+.geo-segmented-control-item--danger--active {
+  &, &:hover {
+    background: $color-red;
+    color: $color-white;
+  }
+}
+
+.geo-segmented-control-item--disabled,
+.geo-segmented-control-item--active--disabled {
+  &, &:hover {
+    background: $color-grey;
+    color: $color-grey-darker;
+    cursor: not-allowed;
+  }
+}
+
+.geo-segmented-control-item--outline {
+  background: $color-white;
+  border: 1px solid $color-grey;
+  font-weight: $font-weight-bold;
+  height: 30px;
+
+}
+
+.geo-segmented-control-item--info--outline {
+  &:hover {
+    color: $color-blue;
+  }
+}
+
+.geo-segmented-control-item--info--outline--active {
+  &, &:hover {
+    border-color: $color-blue;
+    color: $color-blue;
+  }
+}
+
+.geo-segmented-control-item--success--outline {
+  &:hover {
+    color: $color-green;
+  }
+}
+
+.geo-segmented-control-item--success--outline--active {
+  &, &:hover {
+    border-color: $color-green;
+    color: $color-green;
+  }
+}
+
+.geo-segmented-control-item--warning--outline {
+  &:hover {
+    color: $color-yellow;
+  }
+}
+
+.geo-segmented-control-item--warning--outline--active {
+  &, &:hover {
+    border-color: $color-yellow;
+    color: $color-yellow;
+  }
+}
+
+.geo-segmented-control-item--danger--outline {
+  &:hover {
+    color: $color-red;
+  }
+}
+
+.geo-segmented-control-item--danger--outline--active {
+  &, &:hover {
+    border-color: $color-red;
+    color: $color-red;
+  }
+}
+
+.geo-segmented-control-item--outline--disabled,
+.geo-segmented-control-item--outline--active--disabled {
+  &, &:hover {
+    background: $color-grey;
+    border-color: transparent;
+    color: $color-grey-darker;
+    cursor: not-allowed;
+  }
+}

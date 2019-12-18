@@ -20,7 +20,7 @@ describe('GeoWizardLayout', function () {
         'geo-vertical-layout'
       ],
       slots: {
-        default: [`<span class="my-demo-content">Just some unique demo content</span>`]
+        default: ['<span class="my-demo-content">Just some unique demo content</span>']
       }
     })
     expect(wrapper.find('.my-demo-content').exists()).toBe(true)
@@ -33,9 +33,9 @@ describe('GeoWizardLayout', function () {
         'geo-vertical-layout'
       ],
       slots: {
-        default: [`<span class="my-demo-content">Just some unique demo content</span>`],
-        header: [`<span class="my-header-demo-content">Just some unique header demo content</span>`],
-        footerTrailing: [`<span class="my-footer-demo-content">Just some unique footer demo content</span>`]
+        default: ['<span class="my-demo-content">Just some unique demo content</span>'],
+        header: ['<span class="my-header-demo-content">Just some unique header demo content</span>'],
+        footerTrailing: ['<span class="my-footer-demo-content">Just some unique footer demo content</span>']
       }
     })
     expect(wrapper.find('.my-header-demo-content').exists()).toBe(true)
@@ -49,7 +49,7 @@ describe('GeoWizardLayout', function () {
         'geo-vertical-layout'
       ],
       slots: {
-        sidebar: [`<span class="my-sidebar-content">Just some unique demo content</span>`]
+        sidebar: ['<span class="my-sidebar-content">Just some unique demo content</span>']
       }
     })
     expect(wrapper.find('.my-sidebar-content').exists()).toBe(true)

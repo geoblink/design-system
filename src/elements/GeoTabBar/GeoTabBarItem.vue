@@ -1,8 +1,8 @@
 <template>
   <a
     :class="{
-      [`geo-tab-bar-item-${variant}${cssSuffix}`]: true,
-      [`geo-tab-bar-item-${variant}--active${cssSuffix}`]: active,
+      [`geo-tab-bar-item-${variant}`]: true,
+      [`geo-tab-bar-item-${variant}--active`]: active,
     }"
     @click="handleClick($event)"
   >

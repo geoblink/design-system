@@ -1,23 +1,11 @@
-@mixin geo-trimmed-content-make($modifier-name) {
+.geo-trimmed-content {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
 
-  $modifier-name-with-prefix: '';
-
-  @if $modifier-name != '' {
-    // sass-lint:disable space-around-operator
-    $modifier-name-with-prefix: --#{$modifier-name};
-  }
-
-  .geo-trimmed-content#{$modifier-name-with-prefix} {
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-
-    .geo-trimmed-content__content {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
+  .geo-trimmed-content__content {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 }
-
-@include geo-trimmed-content-make('');

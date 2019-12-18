@@ -6,7 +6,6 @@
       data.staticClass
     ]"
     :icon="['fal', 'thumbs-up']"
-    :css-modifier="props.cssModifier"
     :variant="$options.helpers.VARIANTS.success"
     v-on="listeners"
   >
@@ -16,17 +15,22 @@
 </template>
 
 <script>
-import cssSuffix from '../../mixins/cssModifierMixin'
-
 import { VARIANTS } from './GeoAlert.constants'
 
+/**
+ * [GeoAlert](./GeoAlert) using predefined `success` variant.
+ * `success` variant is normally used to tell the user an explicitly started
+ * action has finished successfully.
+ *
+ * See [GeoAlert](./GeoAlert) for a complete list of supported properties and
+ * features.
+ */
 export default {
   name: 'GeoSuccessAlert',
   status: 'ready',
   release: '22.0.0',
   helpers: {
     VARIANTS
-  },
-  mixins: [cssSuffix]
+  }
 }
 </script>

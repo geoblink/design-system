@@ -3,6 +3,15 @@
 <script>
 import mixin, { TYPES } from './GeoButton.mixin'
 
+/**
+ * [GeoButton](./GeoButton) using predefined `danger` variant.
+ *
+ * Danger buttons are normally used to trigger dangerous actions that cannot be
+ * reverted like deleting data.
+ *
+ * See [GeoButton](./GeoButton) for a complete list of supported properties and
+ * features.
+*/
 export default {
   name: 'GeoDangerButton',
   status: 'ready',

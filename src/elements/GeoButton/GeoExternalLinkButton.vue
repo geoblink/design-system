@@ -2,7 +2,7 @@
   <geo-button
     v-bind="propsForButton"
     :type="type"
-    :class="`geo-external-link-button${cssSuffix}`"
+    class="geo-external-link-button"
     @click="handleClick($event)"
   >
     <a
@@ -32,6 +32,16 @@
 import _ from 'lodash'
 import mixin, { TYPES } from './GeoButton.mixin'
 
+/**
+ * [GeoButton](./GeoButton) using predefined `link` variant and featuring an
+ * `external` icon.
+ *
+ * ExternalLink buttons are normally used to open new windows that are not part
+ * of the currently used application.
+ *
+ * See [GeoButton](./GeoButton) for a complete list of supported properties and
+ * features.
+ */
 export default {
   name: 'GeoExternalLinkButton',
   status: 'ready',

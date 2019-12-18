@@ -38,9 +38,9 @@ describe('GeoDropdown', () => {
       it('Should set data property to false when dismissed', function () {
         const mixin = GeoDropdown.constants.geoDropdownMixinFactory('demo')
         const data = mixin.data()
-        data['isDemoDropdownOpened'] = true
+        data.isDemoDropdownOpened = true
 
-        mixin.methods['dismissDemoDropdown'].apply(data)
+        mixin.methods.dismissDemoDropdown.apply(data)
 
         expect(data).toHaveProperty('isDemoDropdownOpened', false)
       })
@@ -49,13 +49,13 @@ describe('GeoDropdown', () => {
         const mixin = GeoDropdown.constants.geoDropdownMixinFactory('demo')
         const data = mixin.data()
 
-        mixin.methods['toggleDemoDropdown'].apply(data)
+        mixin.methods.toggleDemoDropdown.apply(data)
         expect(data).toHaveProperty('isDemoDropdownOpened', true)
 
-        mixin.methods['toggleDemoDropdown'].apply(data)
+        mixin.methods.toggleDemoDropdown.apply(data)
         expect(data).toHaveProperty('isDemoDropdownOpened', false)
 
-        mixin.methods['toggleDemoDropdown'].apply(data)
+        mixin.methods.toggleDemoDropdown.apply(data)
         expect(data).toHaveProperty('isDemoDropdownOpened', true)
       })
     })
@@ -67,7 +67,7 @@ describe('GeoDropdown', () => {
         opened: false
       },
       slots: {
-        toggleButton: [`<span class="my-demo-content">Just some unique demo content</span>`]
+        toggleButton: ['<span class="my-demo-content">Just some unique demo content</span>']
       }
     })
 
@@ -80,7 +80,7 @@ describe('GeoDropdown', () => {
         opened: false
       },
       slots: {
-        popupContent: [`<span class="my-demo-content">Just some unique demo content</span>`]
+        popupContent: ['<span class="my-demo-content">Just some unique demo content</span>']
       }
     })
 
@@ -93,7 +93,7 @@ describe('GeoDropdown', () => {
         opened: true
       },
       slots: {
-        popupContent: [`<span class="my-demo-content">Just some unique demo content</span>`]
+        popupContent: ['<span class="my-demo-content">Just some unique demo content</span>']
       }
     })
 
@@ -107,7 +107,7 @@ describe('GeoDropdown', () => {
         popupClass: 'test-class'
       },
       slots: {
-        popupContent: [`<span class="my-demo-content">Just some unique demo content</span>`]
+        popupContent: ['<span class="my-demo-content">Just some unique demo content</span>']
       }
     })
 
@@ -121,7 +121,7 @@ describe('GeoDropdown', () => {
         popupClass: { 'test-class-1': true, 'test-class-2': true }
       },
       slots: {
-        popupContent: [`<span class="my-demo-content">Just some unique demo content</span>`]
+        popupContent: ['<span class="my-demo-content">Just some unique demo content</span>']
       }
     })
 
@@ -135,7 +135,7 @@ describe('GeoDropdown', () => {
         popupClass: ['test-class-1', 'test-class-2']
       },
       slots: {
-        popupContent: [`<span class="my-demo-content">Just some unique demo content</span>`]
+        popupContent: ['<span class="my-demo-content">Just some unique demo content</span>']
       }
     })
 
@@ -328,15 +328,5 @@ describe('GeoDropdown', () => {
     expect(repositionPopupSpy).not.toBeCalled()
     scrollAnywhereSpy[0][1].value({ target: null })
     expect(repositionPopupSpy).toHaveBeenCalledTimes(1)
-  })
-
-  it('Should apply a CSS suffix when the modifier is provided', () => {
-    const wrapper = mount(GeoDropdown, {
-      propsData: {
-        opened: false,
-        cssModifier: 'test'
-      }
-    })
-    expect(wrapper.find('.geo-dropdown--test').exists()).toBe(true)
   })
 })

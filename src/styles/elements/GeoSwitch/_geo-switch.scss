@@ -1,70 +1,58 @@
-@mixin geo-switch-make($modifier-name) {
+.geo-switch {
+  @include font($body);
 
-  $modifier-name-with-prefix: '';
+  align-items: center;
+  cursor: pointer;
+  display: flex;
 
-  @if $modifier-name != '' {
-    // sass-lint:disable space-around-operator
-    $modifier-name-with-prefix: --#{$modifier-name};
-  }
-
-  .geo-switch#{$modifier-name-with-prefix} {
-    @include font($body);
-
-    align-items: center;
-    cursor: pointer;
-    display: flex;
-
-    &.geo-switch#{$modifier-name-with-prefix}--disabled {
-      cursor: not-allowed;
-
-      .geo-switch__background {
-        background: $color-white-disabled;
-      }
-
-      &.geo-switch#{$modifier-name-with-prefix}--checked {
-        .geo-switch__background {
-          background: $color-blue-light;
-        }
-      }
-    }
-
-    &.geo-switch#{$modifier-name-with-prefix}--checked {
-      .geo-switch__background {
-        background: $color-blue;
-      }
-
-      .geo-switch__handle {
-        transform: translateX(8px);
-      }
-    }
-
-    .geo-switch__input {
-      display: none;
-    }
+  &.geo-switch--disabled {
+    cursor: not-allowed;
 
     .geo-switch__background {
-      background: $color-grey-light;
-      border-radius: $space-small / 2;
-      height: $space-small;
-      margin-right: $space-small;
-      position: relative;
-      transition: background-color $duration-noticeable $easing-base;
-      width: 18px;
+      background: $color-white-disabled;
+    }
+
+    &.geo-switch--checked {
+      .geo-switch__background {
+        background: $color-blue-light;
+      }
+    }
+  }
+
+  &.geo-switch--checked {
+    .geo-switch__background {
+      background: $color-blue;
     }
 
     .geo-switch__handle {
-      $size: 6px;
-
-      background: $color-white;
-      border-radius: $size / 2;
-      height: $size;
-      left: ($space-small - $size) / 2;
-      position: absolute;
-      top: ($space-small - $size) / 2;
-      transition: transform $duration-noticeable $easing-base;
-      width: $size;
+      transform: translateX(8px);
     }
   }
-}
 
-@include geo-switch-make('');
+  .geo-switch__input {
+    display: none;
+  }
+
+  .geo-switch__background {
+    background: $color-grey-light;
+    border-radius: $space-small / 2;
+    height: $space-small;
+    margin-right: $space-small;
+    position: relative;
+    transition: background-color $duration-noticeable $easing-base;
+    width: 18px;
+  }
+
+  .geo-switch__handle {
+    $size: 6px;
+
+    background: $color-white;
+    border-radius: $size / 2;
+    height: $size;
+    left: ($space-small - $size) / 2;
+    position: absolute;
+    top: ($space-small - $size) / 2;
+    transition: transform $duration-noticeable $easing-base;
+    width: $size;
+  }
+}

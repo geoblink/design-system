@@ -1,39 +1,27 @@
-@mixin geo-table-header-row-make($modifier-name) {
+.geo-table-header-row--main {
+  @include geo-table-make-row($color-white-darker);
 
-  $modifier-name-with-prefix: '';
-
-  @if $modifier-name != '' {
-    // sass-lint:disable space-around-operator
-    $modifier-name-with-prefix: --#{$modifier-name};
-  }
-
-  .geo-table-header-row--main#{$modifier-name-with-prefix} {
-    @include geo-table-make-row($color-white-darker);
-
-    color: $color-grey-darker;
-    position: relative;
-  }
-
-  .geo-table-header-row--aux#{$modifier-name-with-prefix} {
-    @include geo-table-make-row($color-white-dark);
-
-    color: $color-grey-darker;
-  }
-
-  .geo-table-header-row--single#{$modifier-name-with-prefix} {
-    @include geo-table-make-row($color-white-dark);
-
-    color: $color-grey-darker;
-    position: relative;
-  }
-
-  .geo-table-header-row--multiLine#{$modifier-name-with-prefix} {
-    @include geo-table-make-row($color-white-dark);
-
-    color: $color-grey-darker;
-    height: auto;
-    position: relative;
-  }
+  color: $color-grey-darker;
+  position: relative;
 }
 
-@include geo-table-header-row-make('');
+.geo-table-header-row--aux {
+  @include geo-table-make-row($color-white-dark);
+
+  color: $color-grey-darker;
+}
+
+.geo-table-header-row--single {
+  @include geo-table-make-row($color-white-dark);
+
+  color: $color-grey-darker;
+  position: relative;
+}
+
+.geo-table-header-row--multiLine {
+  @include geo-table-make-row($color-white-dark);
+
+  color: $color-grey-darker;
+  height: auto;
+  position: relative;
+}

@@ -1,72 +1,60 @@
-@mixin geo-alert-make($modifier-name) {
+.geo-alert {
+  align-items: flex-start;
+  border: 1px solid transparent;
+  border-radius: $border-radius-default;
+  display: flex;
+  flex-direction: row;
+  padding: $space-x-small $space-small;
+  width: 100%;
 
-  $modifier-name-with-prefix: '';
-
-  @if $modifier-name != '' {
-    // sass-lint:disable space-around-operator
-    $modifier-name-with-prefix: --#{$modifier-name};
+  .geo-alert__icon {
+    flex-grow: 0;
+    flex-shrink: 0;
+    font-size: $font-size-regular;
+    margin: ($space-x-small - 2px) $space-small 0 0;
   }
 
-  .geo-alert#{$modifier-name-with-prefix} {
-    align-items: flex-start;
-    border: 1px solid transparent;
-    border-radius: $border-radius-default;
-    display: flex;
-    flex-direction: row;
-    padding: $space-x-small $space-small;
-    width: 100%;
+  .geo-alert__content {
+    @include font($body);
 
-    .geo-alert__icon {
-      flex-grow: 0;
-      flex-shrink: 0;
-      font-size: $font-size-regular;
-      margin: ($space-x-small - 2px) $space-small 0 0;
-    }
-
-    .geo-alert__content {
-      @include font($body);
-
-      flex-grow: 1;
-      flex-shrink: 1;
-      overflow: hidden;
-    }
-  }
-
-  .geo-alert--info#{$modifier-name-with-prefix} {
-    background: $color-blue-readable-background;
-    border-color: $color-blue-readable-border;
-
-    .geo-alert__icon {
-      color: $color-blue;
-    }
-  }
-
-  .geo-alert--success#{$modifier-name-with-prefix} {
-    background: $color-green-readable-background;
-    border-color: $color-green-readable-border;
-
-    .geo-alert__icon {
-      color: $color-green;
-    }
-  }
-
-  .geo-alert--warning#{$modifier-name-with-prefix} {
-    background: $color-yellow-readable-background;
-    border-color: $color-yellow-readable-border;
-
-    .geo-alert__icon {
-      color: $color-yellow;
-    }
-  }
-
-  .geo-alert--error#{$modifier-name-with-prefix} {
-    background: $color-red-readable-background;
-    border-color: $color-red-readable-border;
-
-    .geo-alert__icon {
-      color: $color-red;
-    }
+    flex-grow: 1;
+    flex-shrink: 1;
+    overflow: hidden;
   }
 }
 
-@include geo-alert-make('');
+.geo-alert--info {
+  background: $color-blue-readable-background;
+  border-color: $color-blue-readable-border;
+
+  .geo-alert__icon {
+    color: $color-blue;
+  }
+}
+
+.geo-alert--success {
+  background: $color-green-readable-background;
+  border-color: $color-green-readable-border;
+
+  .geo-alert__icon {
+    color: $color-green;
+  }
+}
+
+.geo-alert--warning {
+  background: $color-yellow-readable-background;
+  border-color: $color-yellow-readable-border;
+
+  .geo-alert__icon {
+    color: $color-yellow;
+  }
+}
+
+.geo-alert--error {
+  background: $color-red-readable-background;
+  border-color: $color-red-readable-border;
+
+  .geo-alert__icon {
+    color: $color-red;
+  }
+}

@@ -23,6 +23,12 @@
     }
   }
 
+  .c-component-demo__loading {
+    height: $space-large;
+    margin: 0 auto;
+    width: $space-large;
+  }
+
   .c-component-demo__resizable-content {
     border-top-right-radius: $border-radius-default;
     border: 1px solid $color-yellow-light;

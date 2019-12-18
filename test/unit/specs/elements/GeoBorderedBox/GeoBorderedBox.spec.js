@@ -14,18 +14,9 @@ describe('GeoBorderedBox', () => {
   it('Should render default slot', function () {
     const wrapper = mount(GeoBorderedBox, {
       slots: {
-        default: [`<span class="my-demo-content">Just some unique demo content</span>`]
+        default: ['<span class="my-demo-content">Just some unique demo content</span>']
       }
     })
     expect(wrapper.find('.my-demo-content').exists()).toBe(true)
-  })
-
-  it('Should apply a CSS suffix when the modifier is provided', function () {
-    const wrapper = mount(GeoBorderedBox, {
-      propsData: {
-        cssModifier: 'test'
-      }
-    })
-    expect(wrapper.find('.geo-bordered-box--test').exists()).toBe(true)
   })
 })

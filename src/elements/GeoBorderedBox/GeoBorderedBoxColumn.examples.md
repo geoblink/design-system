@@ -1,10 +1,8 @@
-`GeoBorderedBoxColumn` is a component designed to show an isolated set of elements or
-actions inside a `GeoBorderedBox` environment.
+### Two columns
 
 ```jsx live
 <template>
   <div class="element-demo">
-    <h3 class="element-demo__header">Bordered box with two columns</h3>
     <div class="element-demo__block" style="justify-content: space-around;">
       <geo-bordered-box>
         <geo-horizontal-layout>
@@ -13,6 +11,15 @@ actions inside a `GeoBorderedBox` environment.
         </geo-horizontal-layout>
       </geo-bordered-box>
     </div>
+  </div>
+</template>
+```
+
+### Four columns
+
+```jsx live
+<template>
+  <div class="element-demo">
     <h3 class="element-demo__header">Bordered box with four columns</h3>
     <div class="element-demo__block" style="justify-content: space-around;">
       <geo-bordered-box>
@@ -24,7 +31,15 @@ actions inside a `GeoBorderedBox` environment.
         </geo-horizontal-layout>
       </geo-bordered-box>
     </div>
-    <h3 class="element-demo__header">Bordered box with columns, header and footer</h3>
+  </div>
+</template>
+```
+
+### With header and footer
+
+```jsx live
+<template>
+  <div class="element-demo">
     <div class="element-demo__block" style="justify-content: space-around;">
       <geo-bordered-box>
         <geo-bordered-box-header>My header</geo-bordered-box-header>

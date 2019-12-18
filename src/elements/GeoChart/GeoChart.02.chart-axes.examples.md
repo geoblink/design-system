@@ -1,26 +1,26 @@
 ## Chart axes
 
 Axes are not only used to be rendered in the charts but also as a wrapper on top
-of scales. Some charts (like [bar charts](./#/Elements/Charts?id=bar-charts))
+of scales. Some charts (like [bar charts](#bar-charts))
 might require references to some axes. Those references must match an axis
-registered in [`GeoChart`](./#/Elements/Charts?id=introduction).
+registered in [`GeoChart`](#geochart).
 
-To register axes in [`GeoChart`](./#/Elements/Charts?id=introduction), add an array
+To register axes in [`GeoChart`](#geochart), add an array
 as value of `axisGroup` key in the config object. Each item of the array must be
-an object with the following...
+an object with the following…
 
 ### Required properties
 
 Each **axis** **requires** these properties:
 
-- `id`: a unique ([`GeoChart`](./#/Elements/Charts?id=introduction)-instance-level)
+- `id` - a unique ([`GeoChart`](#geochart)-instance-level)
 identifier for this axis.
-- `keyForValues`: the key in each chart item where the value for this axis is
+- `keyForValues` - the key in each chart item where the value for this axis is
 stored.
-- `position`: the position of the axis. Should be a value of `AXIS.POSITIONS`
+- `position` - the position of the axis. Should be a value of `AXIS.POSITIONS`
 named export or a **relative position object** if you want an **anchored axis**.
-- `scale`: the config object of the scale to be used by this axis. See
-[Scales](./#/Elements/Charts?id=scales) for more info.
+- `scale` - the config object of the scale to be used by this axis. See
+[scales](./#/Elements/Charts?id=scales) for more info.
 
 #### Anchored axis
 
@@ -28,9 +28,11 @@ Sometimes you might want to anchor an axis to a specific **relative** position
 of the chart. For instance, you might want to display a vertical axis wherever
 value `0` is located in the horizontal one.
 
-> **Note:** anchoring the axis to an **absolute** position of the chart can be done
-> using [CSS transforms](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/transform)
-> so it's not offered as part of the API.
+::: tip NOTE
+Anchoring the axis to an **absolute** position of the chart can be done using
+[CSS transforms](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/transform)
+so it's not offered as part of the API.
+:::
 
 **Relative** positions are relative to a value of a different axis so you must
 provide both: a **value** and the ID of the **axis to which is relative**.
@@ -38,9 +40,9 @@ provide both: a **value** and the ID of the **axis to which is relative**.
 So in order to use an anchored-positioned axis the position you must provide is
 an object with the following properties:
 
-- `type`: always set to `AXIS.POSITIONS.anchoredToAxis`.
-- `value`: the value to which is anchored.
-- `relativeToAxis`: the ID of the axis to which is anchored.
+- `type` - always set to `AXIS.POSITIONS.anchoredToAxis`.
+- `value` - the value to which is anchored.
+- `relativeToAxis` - the ID of the axis to which is anchored.
 
 ### Customizing CSS classes
 
@@ -48,9 +50,10 @@ CSS classes added to the axis can be customized using `cssClasses` key. Its valu
 should be a function which takes as parameter the classes that would be set by
 default. The function should return the CSS final classes you want for that axis.
 
-> **Note:** even though you can disable some default CSS classes, of of them are
-> required internally and will be added regardless what you return in the
-> function.
+::: tip NOTE
+Even though you can disable some default CSS classes, of of them are required
+internally and will be added regardless what you return in the function.
+:::
 
 ### Customizing ticks
 
@@ -58,25 +61,30 @@ Ticks can be customized in several ways. To do so, add a key `ticks` to the axis
 config object. The value for that key must be an object with the following
 properties, all of them optional:
 
-- `count`: to customize the amount of ticks displayed. Must be an integer number.
-- `format`: function taking as first parameter the value of the axis in the
+- `count` - to customize the amount of ticks displayed. Must be an integer number.
+- `format` - function taking as first parameter the value of the axis in the
 domain and as second parameter its index. Should return a string with the text
 to be displayed as value for given tick.
+
+### Examples
+
+#### Multiple axis
 
 ```vue live
 <template>
   <div class="element-demo">
-    <h3 class="element-demo__header">
-      Multiple axis
+    <div class="element-demo__block element-demo__block--chart-container">
+      <div class="element-demo__bordered-box" style="resize: both;">
+        <geo-chart
+          v-if="chartConfig"
+          :config="chartConfig"
+        />
+      </div>
+    </div>
+    <div class="element-demo__block__config">
       <geo-primary-button @click="randomizeDomain()">
         Randomize data
       </geo-primary-button>
-    </h3>
-    <div class="element-demo__block element-demo__block--chart-container">
-      <geo-chart
-        v-if="chartConfig"
-        :config="chartConfig"
-      />
     </div>
   </div>
 </template>
@@ -208,20 +216,23 @@ export default {
 </script>
 ```
 
+#### Anchored axis
+
 ```vue live
 <template>
   <div class="element-demo">
-    <h3 class="element-demo__header">
-      Anchored axis
+    <div class="element-demo__block element-demo__block--chart-container">
+      <div class="element-demo__bordered-box" style="resize: both;">
+        <geo-chart
+          v-if="chartConfig"
+          :config="chartConfig"
+        />
+      </div>
+    </div>
+    <div class="element-demo__block__config">
       <geo-primary-button @click="randomizeDomain()">
         Randomize data
       </geo-primary-button>
-    </h3>
-    <div class="element-demo__block element-demo__block--chart-container">
-      <geo-chart
-        v-if="chartConfig"
-        :config="chartConfig"
-      />
     </div>
   </div>
 </template>
@@ -337,10 +348,11 @@ export default {
 </script>
 ```
 
+#### Custom ticks
+
 ```vue live
 <template>
   <div class="element-demo">
-    <h3 class="element-demo__header">Custom ticks</h3>
     <div class="element-demo__block element-demo__block--chart-container">
       <geo-chart
         v-if="chartConfig"

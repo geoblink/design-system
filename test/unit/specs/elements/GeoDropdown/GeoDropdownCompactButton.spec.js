@@ -59,18 +59,6 @@ describe('GeoDropdownCompactButton', () => {
     })
 
     wrapper.find('.geo-dropdown__compact-button-container').trigger('click')
-    expect(wrapper.emitted()['click']).toBeTruthy()
-  })
-
-  it('Should apply a CSS suffix when the modifier is provided', function () {
-    const wrapper = mount(GeoDropdownCompactButton, {
-      propsData: {
-        cssModifier: 'test'
-      },
-      stubs: {
-        'font-awesome-icon': FontAwesomeIcon
-      }
-    })
-    expect(wrapper.find('.geo-dropdown__compact-button-container--test').exists()).toBe(true)
+    expect(wrapper.emitted().click).toBeTruthy()
   })
 })

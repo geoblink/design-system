@@ -6,7 +6,6 @@
       data.class,
       data.staticClass
     ]"
-    :css-modifier="props.cssModifier"
     :disabled="props.disabled"
     :outline="props.outline"
     :active="props.active"
@@ -19,15 +18,17 @@
 </template>
 
 <script>
-import cssSuffix from '../../mixins/cssModifierMixin'
-
 import geoSegmentedControlItemMixin, { VARIANTS } from './GeoSegmentedControlItem.constants'
 
+/**
+ * `GeoSuccessSegmentedControlItem` is a component designed to nicely fit as one
+ * of the options of a [GeoSegmentedControl](./GeoSegmentedControl).
+ */
 export default {
   name: 'GeoSuccessSegmentedControlItem',
   status: 'ready',
   release: '20.1.0',
-  mixins: [cssSuffix, geoSegmentedControlItemMixin],
+  mixins: [geoSegmentedControlItemMixin],
   helpers: {
     variant: VARIANTS.success
   }

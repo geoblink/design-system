@@ -4,7 +4,7 @@
     :class="[
       data.class,
       data.staticClass,
-      `geo-input-label${$options.helpers.getCSSSuffix(props.cssModifier)}`
+      'geo-input-label'
     ]"
     v-on="listeners"
   >
@@ -14,15 +14,12 @@
 </template>
 
 <script>
-import cssSuffix, { getCSSSuffix } from '../../mixins/cssModifierMixin'
-
+/**
+ * `GeoInputLabel` is component designed to fit nicely as a label for `GeoInput`.
+ */
 export default {
   name: 'GeoInputLabel',
   status: 'ready',
-  release: '24.1.0',
-  helpers: {
-    getCSSSuffix
-  },
-  mixins: [cssSuffix]
+  release: '24.1.0'
 }
 </script>

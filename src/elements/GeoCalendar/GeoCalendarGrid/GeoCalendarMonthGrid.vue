@@ -1,5 +1,5 @@
 <template>
-  <div :class="`geo-calendar-grid${cssSuffix}`">
+  <div class="geo-calendar-grid">
     <div class="geo-calendar-grid__month-container">
       <geo-calendar-month-grid-quarter-unit
         v-for="(quarter, index) in monthsByQuarters"
@@ -21,7 +21,6 @@
 </template>
 
 <script>
-import cssSuffix from '../../../mixins/cssModifierMixin'
 import _ from 'lodash'
 import format from 'date-fns/format'
 import getMonth from 'date-fns/getMonth'
@@ -37,10 +36,8 @@ export default {
   mixins: [
     GeoCalendarGridMixin,
     GeoCalendarDateIndicatorsMixin,
-    GeoCalendarGranularityIdMixin,
-    cssSuffix
+    GeoCalendarGranularityIdMixin
   ],
-
   computed: {
     monthsByQuarters () {
       if (!this.currentYear) return []
@@ -54,7 +51,6 @@ export default {
       }), 3)
     }
   },
-
   methods: {
     selectMonth (monthIndex) {
       /**

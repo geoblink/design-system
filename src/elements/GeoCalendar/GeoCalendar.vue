@@ -1,5 +1,5 @@
 <template>
-  <div :class="`geo-calendar${cssSuffix}`">
+  <div class="geo-calendar">
     <div
       v-if="shouldRenderCalendarSidebar"
       class="geo-calendar__sidebar-container"
@@ -17,7 +17,6 @@
           <geo-input
             v-model="fromFormattedDate"
             :placeholder="fromInputPlaceholder"
-            css-modifier="geo-calendar"
             type="text"
             :error="showFromFormatError"
             :focus="isFromInputFieldFocused"
@@ -35,7 +34,6 @@
           </geo-input-message>
           <geo-link-button
             v-if="showSetEarliestDateButton"
-            css-modifier="calendar-picker-button"
             @click="setEarliestDate"
           >
             <!-- @slot Use this slot to customize the text in the button used to apply your earliest available date in the fromDate input  -->
@@ -55,7 +53,6 @@
           <geo-input
             v-model="toFormattedDate"
             :placeholder="toInputPlaceholder"
-            css-modifier="geo-calendar"
             type="text"
             :error="showToFormatError"
             :focus="isToInputFieldFocused"
@@ -73,7 +70,6 @@
           </geo-input-message>
           <geo-link-button
             v-if="showSetLatestDateButton"
-            css-modifier="calendar-picker-button"
             @click="setLatestDate"
           >
             <!-- @slot Use this slot to customize the text in the button used to apply your latest available date in the toDate input  -->
@@ -86,7 +82,6 @@
       <geo-calendar-picker
         ref="calendarPicker"
         :calendar-navigation-select-icon="calendarNavigationSelectIcon"
-        :css-modifier="cssModifier"
         :current-month="currentMonth"
         :current-year="currentYear"
         :current-initial-year-in-range="currentInitialYearInRange"
@@ -118,7 +113,6 @@
 
 <script>
 import _ from 'lodash'
-import cssSuffix from '../../mixins/cssModifierMixin'
 import { GRANULARITY_IDS, FOCUSABLE_INPUT_FIELDS, isBefore, isAfter } from './GeoCalendar.utils'
 import endOfMonth from 'date-fns/endOfMonth'
 import endOfQuarter from 'date-fns/endOfQuarter'
@@ -138,6 +132,15 @@ import GeoCalendarRootMixin from './GeoCalendarRoot.mixin'
 import GeoCalendarGranularityIdMixin from './GeoCalendarGranularityId.mixin'
 import GeoCalendarPickerDateUnitMixin from './GeoCalendarPickerDateUnit.mixin'
 
+/**
+ * GeoCalendar is the underlying component handling the grid and the interactions
+ * on [GeoCalendarDropdown](./GeoCalendarDropdown).
+ *
+ * ::: tip
+ * You should use [GeoCalendarDropdown](./GeoCalendarDropdown) instead of this
+ * component since it's a nice wrapper to show calendars on a on-demand dropdown.
+ * :::
+ */
 export default {
   name: 'GeoCalendar',
   status: 'ready',
@@ -145,8 +148,7 @@ export default {
   mixins: [
     GeoCalendarPickerDateUnitMixin,
     GeoCalendarGranularityIdMixin,
-    GeoCalendarRootMixin,
-    cssSuffix
+    GeoCalendarRootMixin
   ],
 
   data () {

@@ -1,36 +1,14 @@
-[GeoCompactButton](./#/Elements/GeoCompactButton) using predefined `primary` variant.
-
-Primary buttons are normally used to trigger main actions like saving changes.
-
-See [GeoCompactButton](./#/Elements/GeoCompactButton) for a complete list of
-supported properties and features.
+### Complete flow
 
 ```vue live
 <template>
   <div class="element-demo">
-    <h3 class="element-demo__header">Complete flow</h3>
     <div class="element-demo__block">
       <geo-primary-compact-button
         :disabled="isDisabled"
         :loading="isLoading"
         @click="startLoading()"
       />
-    </div>
-    <h3 class="element-demo__header">Regular</h3>
-    <div class="element-demo__block">
-      <geo-primary-compact-button />
-    </div>
-    <h3 class="element-demo__header">Disabled</h3>
-    <div class="element-demo__block">
-      <geo-primary-compact-button disabled />
-    </div>
-    <h3 class="element-demo__header">Loading</h3>
-    <div class="element-demo__block">
-      <geo-primary-compact-button loading />
-    </div>
-    <h3 class="element-demo__header">Loading &amp; Disabled</h3>
-    <div class="element-demo__block">
-      <geo-primary-compact-button loading disabled />
     </div>
   </div>
 </template>
@@ -53,4 +31,84 @@ export default {
   }
 }
 </script>
+```
+
+### Regular
+
+```jsx live
+<div class="element-demo">
+  <div class="element-demo__block">
+    <geo-primary-compact-button />
+  </div>
+</div>
+```
+
+### Hover / Focus
+
+```jsx live
+<div class="element-demo">
+  <div class="element-demo__block">
+    <geo-primary-compact-button hover />
+  </div>
+</div>
+```
+
+### Disabled
+
+```jsx live
+<div class="element-demo">
+  <div class="element-demo__block">
+    <geo-primary-compact-button disabled />
+  </div>
+</div>
+```
+
+### Disabled & Hover / Focus
+
+```jsx live
+<div class="element-demo">
+  <div class="element-demo__block">
+    <geo-primary-compact-button disabled hover />
+  </div>
+</div>
+```
+
+### Loading
+
+```jsx live
+<div class="element-demo">
+  <div class="element-demo__block">
+    <geo-primary-compact-button loading />
+  </div>
+</div>
+```
+
+### Loading & Hover / Focus
+
+```jsx live
+<div class="element-demo">
+  <div class="element-demo__block">
+    <geo-primary-compact-button loading hover />
+  </div>
+</div>
+```
+
+### Loading & Disabled
+
+```jsx live
+<div class="element-demo">
+  <div class="element-demo__block">
+    <geo-primary-compact-button loading disabled />
+  </div>
+</div>
+```
+
+### Loading & Disabled & Hover / Focus
+
+```jsx live
+<div class="element-demo">
+  <div class="element-demo__block">
+    <geo-primary-compact-button loading disabled hover />
+  </div>
+</div>
 ```

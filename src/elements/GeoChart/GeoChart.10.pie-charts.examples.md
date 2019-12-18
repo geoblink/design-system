@@ -1,67 +1,69 @@
-## Pie chart
+## Pie charts
 
 ### Required properties
 
-- `data`: Collection being displayed (array).
-- `keyForValues`: the key in each chart item where the value for this axis is stored.
+- `data` - collection being displayed (array).
+- `keyForValues` - the key in each chart item where the value for this axis is
+stored.
 
 ### Optional properties
 
-Optionally you can configure the pie with an **inner radius** and an **outer radius**.
-These properties are useful to create different variations of a pie chart, from a full
-pie chart to a donut chart.
+Optionally you can configure the pie with an **inner radius** and an
+**outer radius**. These properties are useful to create different variations of
+a pie chart, from a full pie chart to a donut chart.
 
-- `innerRadius`: `[0-1]` defines the **inner radius factor** of the pie being **0** the
-default value and **1** the maximum chart radius.
+- `innerRadius` - `[0-1]` defines the **inner radius factor** of the pie being
+`0` the default value and `1` the maximum chart radius.
 
-- `outerRadius`: `[0-1]` defines the **outer radius factor** of the pie being **1** the
-default value as the maximum radius allowed by the chart height/width, and **0** the minimum
-chart radius.
+- `outerRadius` - `[0-1]` defines the **outer radius factor** of the pie being
+`1` the default value as the maximum radius allowed by the chart height/width,
+and `0` the minimum chart radius.
 
-#### Tooltips
+### Tooltips
 
 Each slice can customize the tooltip displayed when it's hovered by setting the
 key `tooltip`. This key must store an object with the following shape:
 
-- `content`: **Required**. Function that takes as parameters the item
+- `content` - **required**. Function that takes as parameters the item
 corresponding to the bar being customized and its position inside the data array.
 It's expected to return a HTML string that will be rendered inside a tooltip.
-- `offset`: *Optional*. Function that takes as parameter the event triggering the
-tooltip and is expected to return an object with an `x` and a `y` property, both
-storing numbers that will be used as offset of the tooltip with respect to event
-coordinates. By default tooltip will be positioned above cursor.
+- `offset` - *optional*. Function that takes as parameter the event triggering
+the tooltip and is expected to return an object with an `x` and a `y` property,
+both storing numbers that will be used as offset of the tooltip with respect to
+event coordinates. By default tooltip will be positioned above cursor.
 
-#### Customizing CSS classes
+### Customizing CSS classes
 
 Each slice can customize its CSS classes by setting a function for key `cssClasses`.
 This functions takes as parameters the array of classes that would be set by
 default, the item corresponding to the slice being customized and its position
 inside the data array.
 
+### Examples
+
+#### Simple pie chart
+
 ```vue live
 <template>
   <div class="element-demo">
-    <h3 class="element-demo__header">
-      Pie chart
-      <div class="element-demo__inline-input-group">
-        <geo-primary-button @click="randomizeData()">
-          Randomize data
-        </geo-primary-button>
-        <br>
-        <geo-primary-button @click="useData1()">
-          Data 1
-        </geo-primary-button>
-        <br>
-        <geo-primary-button @click="useData2()">
-          Data 2
-        </geo-primary-button>
-      </div>
-    </h3>
     <div class="element-demo__bordered-box element-demo__block--chart-container" style="resize: both;">
       <geo-chart
         v-if="chartConfig"
         :config="chartConfig"
       />
+    </div>
+    <div class="element-demo__block">
+      <geo-primary-button @click="randomizeData()">
+        Randomize data
+      </geo-primary-button>
+      <br>
+      <geo-primary-button @click="useData1()">
+        Data 1
+      </geo-primary-button>
+      <br>
+      <geo-primary-button @click="useData2()">
+        Data 2
+      </geo-primary-button>
     </div>
   </div>
 </template>

@@ -1,9 +1,9 @@
 // Creates a geo-button color scheme varying the background and text color based
 // on the hover/focus/disabled status.
-@mixin geo-button-make-scheme ($params, $css-suffix) {
+@mixin geo-button-make-scheme ($params) {
   $hoverYOffsetWithBorders: -3px;
 
-  &#{$css-suffix} {
+  & {
     @if map-has-key($params, normal-background-color) {
       background: map-get($params, normal-background-color);
     }
@@ -92,7 +92,7 @@
     }
   }
 
-  &--disabled#{$css-suffix} {
+  &--disabled {
     @if map-has-key($params, disabled-background-color) {
       background: map-get($params, disabled-background-color);
     }
@@ -149,7 +149,51 @@
   }
 }
 
-@mixin geo-button--primary($css-suffix) {
+.geo-button {
+  align-items: center;
+  justify-content: center;
+  border-radius: 3px;
+  border: 1px solid transparent;
+  box-sizing: border-box;
+  cursor: pointer;
+  display: flex;
+  font-family: $font-family-text;
+  font-size: $font-size-small;
+  font-weight: $font-weight-bold;
+  height: 30px;
+  letter-spacing: 1px;
+  line-height: 1.25em;
+  position: relative;
+  text-transform: uppercase;
+  user-select: none;
+
+  .geo-button__label {
+    padding: .58em .83em .67em .83em;
+    transition: all $duration-noticeable $easing-base;
+    transition-property: transform, opacity;
+  }
+
+  .geo-button__label--loading {
+    transform: scale(0);
+    opacity: 0;
+  }
+
+  .geo-button__activity-indicator {
+    height: 20px;
+    position: absolute;
+    width: 20px;
+  }
+}
+
+.geo-button--loading {
+  cursor: progress;
+}
+
+.geo-button--disabled {
+  cursor: not-allowed;
+}
+
+.geo-button--primary {
   $hoverYOffset: -1px;
 
   @include geo-button-make-scheme((
@@ -160,15 +204,13 @@
     hover-and-disabled-background-color: $color-grey,
     hover-shadow: $box-shadow-button-hover,
     hover-transform: translateY($hoverYOffset)
-  ), $css-suffix);
+  ));
 
-  &#{$css-suffix} {
-    transition: all $duration-quickly $easing-base;
-    transition-property: background-color;
-  }
+  transition: all $duration-quickly $easing-base;
+  transition-property: background-color;
 }
 
-@mixin geo-button--secondary($css-suffix) {
+.geo-button--secondary {
   $hoverYOffset: -1px;
 
   @include geo-button-make-scheme((
@@ -180,35 +222,31 @@
     disabled-border-color: $color-grey,
     hover-shadow: $box-shadow-button-hover,
     hover-transform: translateY($hoverYOffset)
-  ), $css-suffix);
+  ));
 
-  &#{$css-suffix} {
-    transition: all $duration-quickly $easing-base;
-    transition-property: background-color, border-color, color;
-  }
+  transition: all $duration-quickly $easing-base;
+  transition-property: background-color, border-color, color;
 }
 
-@mixin geo-button--tertiary($css-suffix) {
+.geo-button--tertiary {
   @include geo-button-make-scheme((
     normal-background-color: transparent,
     normal-text-color: $color-blue,
     normal-border-color: transparent,
     disabled-text-color: $color-grey-light,
     hover-decoration: underline
-  ), $css-suffix);
+  ));
 
-  &#{$css-suffix} {
-    font-style: italic;
-    font-weight: $font-weight-regular;
-    font-size: $font-size-regular;
-    letter-spacing: initial;
-    text-transform: initial;
+  font-style: italic;
+  font-weight: $font-weight-regular;
+  font-size: $font-size-regular;
+  letter-spacing: initial;
+  text-transform: initial;
 
-    transition: color $duration-quickly $easing-base;
-  }
+  transition: color $duration-quickly $easing-base;
 }
 
-@mixin geo-button--danger($css-suffix) {
+.geo-button--danger {
   $hoverYOffset: -1px;
 
   @include geo-button-make-scheme((
@@ -219,171 +257,71 @@
     disabled-border-color: $color-grey,
     hover-shadow: $box-shadow-button-hover,
     hover-transform: translateY($hoverYOffset)
-  ), $css-suffix);
+  ));
 
-  &#{$css-suffix} {
-    transition: all $duration-quickly $easing-base;
-    transition-property: background-color, border-color, color;
-  }
+  transition: all $duration-quickly $easing-base;
+  transition-property: background-color, border-color, color;
 }
 
-@mixin geo-button--link($css-suffix) {
+.geo-button--link {
   @include geo-button-make-scheme((
     normal-background-color: transparent,
     normal-text-color: $color-blue,
     normal-border-color: transparent,
     disabled-text-color: $color-grey-light,
     hover-decoration: underline
-  ), $css-suffix);
+  ));
 
-  &#{$css-suffix} {
-    display: inline-flex;
-    font-style: italic;
-    font-weight: $font-weight-regular;
-    font-size: $font-size-regular;
-    justify-content: flex-start;
-    letter-spacing: initial;
-    text-transform: initial;
-    transition: color $duration-quickly $easing-base;
+  display: inline-flex;
+  font-style: italic;
+  font-weight: $font-weight-regular;
+  font-size: $font-size-regular;
+  justify-content: flex-start;
+  letter-spacing: initial;
+  text-transform: initial;
+  transition: color $duration-quickly $easing-base;
 
-    .geo-button__label#{$css-suffix} {
-      padding: 0;
-    }
+  .geo-button__label {
+    padding: 0;
   }
 }
 
-@mixin geo-button--dangerLink($css-suffix) {
+.geo-button--dangerLink {
   @include geo-button-make-scheme((
     normal-background-color: transparent,
     normal-text-color: $color-red,
     normal-border-color: transparent,
     disabled-text-color: $color-grey-light,
     hover-decoration: underline
-  ), $css-suffix);
+  ));
 
-  &#{$css-suffix} {
-    font-style: italic;
-    font-weight: $font-weight-regular;
-    font-size: $font-size-regular;
-    justify-content: flex-start;
-    letter-spacing: initial;
-    text-transform: initial;
-    transition: color $duration-quickly $easing-base;
+  font-style: italic;
+  font-weight: $font-weight-regular;
+  font-size: $font-size-regular;
+  justify-content: flex-start;
+  letter-spacing: initial;
+  text-transform: initial;
+  transition: color $duration-quickly $easing-base;
 
-    .geo-button__label#{$css-suffix} {
-      padding: 0;
-    }
+  .geo-button__label {
+    padding: 0;
   }
 }
 
-@mixin geo-button--tooltip($css-suffix) {
-  $hoverYOffset: -1px;
-
+.geo-button--tooltip {
   @include geo-button-make-scheme((
     normal-background-color: transparent,
     normal-text-color: $color-yellow,
     hover-text-color: $color-yellow-dark,
     disabled-text-color: $color-grey-light,
-  ), $css-suffix);
+  ));
 
-  &#{$css-suffix} {
-    transition: all $duration-quickly $easing-base;
-    transition-property: background-color, border-color, color;
-  }
+  transition: all $duration-quickly $easing-base;
+  transition-property: background-color, border-color, color;
 }
 
-@mixin geo-button($css-suffix) {
-  &#{$css-suffix} {
-    align-items: center;
-    justify-content: center;
-    border-radius: 3px;
-    border: 1px solid transparent;
-    box-sizing: border-box;
-    cursor: pointer;
-    display: flex;
-    font-family: $font-family-text;
-    font-size: $font-size-small;
-    font-weight: $font-weight-bold;
-    height: 30px;
-    letter-spacing: 1px;
-    line-height: 1.25em;
-    position: relative;
-    text-transform: uppercase;
-    user-select: none;
+.geo-external-link-button a {
+  @include font($body);
 
-    .geo-button__label#{$css-suffix} {
-      padding: .58em .83em .67em .83em;
-      transition: all $duration-noticeable $easing-base;
-      transition-property: transform, opacity;
-    }
-
-    .geo-button__label--loading#{$css-suffix} {
-      transform: scale(0);
-      opacity: 0;
-    }
-
-    .geo-button__activity-indicator#{$css-suffix} {
-      height: 20px;
-      position: absolute;
-      width: 20px;
-    }
-  }
-
-  &--loading#{$css-suffix} {
-    cursor: progress;
-  }
-
-  &--disabled#{$css-suffix} {
-    cursor: not-allowed;
-  }
+  color: $color-blue;
 }
-
-@mixin geo-button-make($modifier-name) {
-
-  $modifier-name-with-prefix: '';
-
-  @if $modifier-name != '' {
-    // sass-lint:disable space-around-operator
-    $modifier-name-with-prefix: --#{$modifier-name};
-  }
-
-  .geo-button {
-    @include geo-button($modifier-name-with-prefix);
-  }
-
-  .geo-button--primary {
-    @include geo-button--primary($modifier-name-with-prefix);
-  }
-
-  .geo-button--secondary{
-    @include geo-button--secondary($modifier-name-with-prefix);
-  }
-
-  .geo-button--tertiary {
-    @include geo-button--tertiary($modifier-name-with-prefix);
-  }
-
-  .geo-button--danger {
-    @include geo-button--danger($modifier-name-with-prefix);
-  }
-
-  .geo-button--link {
-    @include geo-button--link($modifier-name-with-prefix);
-  }
-
-  .geo-button--dangerLink {
-    @include geo-button--dangerLink($modifier-name-with-prefix);
-  }
-
-  .geo-button--tooltip {
-    @include geo-button--tooltip($modifier-name-with-prefix);
-  }
-
-  .geo-external-link-button#{$modifier-name-with-prefix} a {
-    @include font($body);
-
-    color: $color-blue;
-  }
-}
-
-@include geo-button-make('');

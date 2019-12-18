@@ -23,17 +23,4 @@ describe('GeoTrimmedContent', () => {
     expect(wrapper.find('.my-content').exists()).toBe(true)
     expect(wrapper.find('.my-content').text()).toEqual('Custom content')
   })
-
-  it('Should apply CSS suffix when the modifier is provided', function () {
-    const wrapper = mount(GeoTrimmedContent, {
-      propsData: {
-        cssModifier: 'demo-modifier'
-      },
-      stubs: {
-        GeoTooltip
-      }
-    })
-    const trimmedContent = wrapper.find('.geo-trimmed-content--demo-modifier')
-    expect(trimmedContent.exists()).toBe(true)
-  })
 })

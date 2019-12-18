@@ -515,20 +515,4 @@ describe('GeoTablePagination', () => {
     expect(slotScope).toHaveProperty('hasPreviousPage', true)
     expect(slotScope).toHaveProperty('hasNextPage', true)
   })
-
-  it('Should apply CSS suffix when the modifier is provided', function () {
-    const wrapper = mount(GeoTablePagination, {
-      propsData: {
-        cssModifier: 'demo-modifier',
-        pageSize: 10,
-        currentPage: 0,
-        sourceDataLength: 20
-      },
-      stubs: {
-        'font-awesome-icon': FontAwesomeIcon
-      }
-    })
-
-    expect(wrapper.find('.geo-table-pagination--demo-modifier').exists()).toBe(true)
-  })
 })

@@ -35,7 +35,7 @@ function getComponentsToDocumentTask () {
     title: 'Find Vue components to document',
     task (ctx) {
       return new Promise(function (resolve, reject) {
-        glob('**/*.vue', { cwd: markdownComponentsUtils.pathToVueComponents }, function (err, files) {
+        glob('*/*.vue', { cwd: markdownComponentsUtils.pathToVueComponents }, function (err, files) {
           if (err) return reject(err)
 
           ctx.components = files
@@ -123,16 +123,20 @@ function getExamplesOfComponentsTask () {
     }
 
     function task (ctx) {
+      const componentName = path.basename(componentRelativePath, '.vue')
+
       return new Promise(function (resolve, reject) {
         glob('**/*.examples.md', {
           cwd: path.resolve(markdownComponentsUtils.pathToVueComponents, path.dirname(componentRelativePath))
         }, function (err, files) {
           if (err) return reject(err)
 
-          if (!ctx.exampleFiles) ctx.exampleFiles = {}
-          ctx.exampleFiles[componentRelativePath] = files
+          const componentExampleFiles = _.filter(files, (filename) => _.startsWith(filename, componentName))
 
-          resolve(files)
+          if (!ctx.exampleFiles) ctx.exampleFiles = {}
+          ctx.exampleFiles[componentRelativePath] = componentExampleFiles
+
+          resolve(componentExampleFiles)
         })
       })
     }

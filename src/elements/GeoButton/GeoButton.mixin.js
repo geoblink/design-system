@@ -1,5 +1,4 @@
 import { VARIANTS as GeoAlertVariants } from '../GeoActivityIndicator/GeoActivityIndicator'
-import cssSuffix from '../../mixins/cssModifierMixin'
 
 const TYPES = {
   primary: 'primary',
@@ -17,7 +16,6 @@ export { TYPES }
  * @mixin
  */
 export default {
-  mixins: [cssSuffix],
   props: {
     /**
      * Whether the button is disabled (and can't be interacted with - `true`) or
@@ -50,10 +48,14 @@ export default {
         case TYPES.primary:
           return GeoAlertVariants.primary
         case TYPES.secondary:
-          return undefined
+          return GeoAlertVariants.primary
         case TYPES.tertiary:
-          return undefined
+          return GeoAlertVariants.primary
         case TYPES.danger:
+          return GeoAlertVariants.error
+        case TYPES.link:
+          return GeoAlertVariants.primary
+        case TYPES.dangerLink:
           return GeoAlertVariants.error
         case TYPES.tooltip:
           return GeoAlertVariants.warn

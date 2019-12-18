@@ -3,6 +3,15 @@
 <script>
 import mixin, { VARIANTS } from './GeoFeedbackBox.mixin'
 
+/**
+ * [GeoFeedbackBox](./GeoFeedbackBox) using predefined `error` variant.
+ *
+ * `error` variant is normally used to give feedback about errors on unexpected
+ * situations that prevent users from finished the intended flow.
+ *
+ * See [GeoFeedbackBox](./GeoFeedbackBox) for a complete list of supported
+ * properties and features.
+ */
 export default {
   name: 'GeoErrorFeedbackBox',
   status: 'ready',

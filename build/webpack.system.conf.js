@@ -1,35 +1,55 @@
 'use strict'
-const utils = require('./utils')
-const webpack = require('webpack')
 const path = require('path')
-const config = require('../config')
+const webpack = require('webpack')
 const merge = require('webpack-merge')
-const baseWebpackConfig = require('./webpack.base.conf')
 const PeerDepsExternalsPlugin = require('peer-deps-externals-webpack-plugin')
 const MergeWebpackPlugin = require('webpack-merge-and-include-globally')
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const SafeParser = require('postcss-safe-parser')
-const fs = require('fs')
+const glob = require('glob')
+const _ = require('lodash')
+
+const utils = require('./utils')
+const config = require('../config')
+const baseWebpackConfig = require('./webpack.base.conf')
 
 const env = require('../config/prod.env')
 
-baseWebpackConfig.entry = {
+const vueComponentsRelativePathFromRoot = './src/elements'
+const vueComponentsPaths = glob.sync('**/*.vue', {
+  cwd: path.resolve(__dirname, '../', vueComponentsRelativePathFromRoot)
+})
+
+const systemEntrypoints = {
   system: ['./src/system.js']
 }
 
-const elementsSCSSRelativePathFromRoot = './src/styles/elements'
-const elementsSCSS = fs
-  .readdirSync(path.resolve(__dirname, '..', elementsSCSSRelativePathFromRoot))
-  .filter(name => name.indexOf('.') !== 0)
-  .map(name => path.resolve(elementsSCSSRelativePathFromRoot, name))
-  .map(absolutePath =>
-    fs.readdirSync(absolutePath)
-      .filter(name => /.scss$/.test(name))
-      .map(relativePath => path.resolve(absolutePath, relativePath))
+const componentsEntrypoints = _.fromPairs(
+  _.map(
+    vueComponentsPaths,
+    (relativePath) => [
+      path.relative('', path.resolve('components', path.basename(relativePath, '.vue'))),
+      [path.resolve(vueComponentsRelativePathFromRoot, relativePath)]
+    ]
   )
-  .reduce((collector, entry) => [...collector, ...entry], [])
+)
+
+const elementsSCSSRelativePathFromRoot = './src/styles/elements'
+const elementsSCSSPaths = glob.sync('**/*.scss', {
+  cwd: path.resolve(__dirname, '../', elementsSCSSRelativePathFromRoot)
+}).map(name => path.resolve(elementsSCSSRelativePathFromRoot, name))
+
+const stylesEntrypoints = _.fromPairs(
+  _.map(
+    elementsSCSSPaths,
+    (relativePath) => [
+      path.relative('', path.resolve('styles', path.basename(relativePath, '.scss'))),
+      [path.resolve(elementsSCSSRelativePathFromRoot, relativePath)]
+    ]
+  )
+)
 
 const plugins = [
   // http://vuejs.github.io/vue-loader/en/workflow/production.html
@@ -58,7 +78,7 @@ const plugins = [
         './src/styles/_fontsMaps.scss',
         './src/styles/_mixins.scss',
         './src/styles/_functions.scss',
-        ...elementsSCSS
+        ...elementsSCSSPaths
       ]
     }
   }),
@@ -114,4 +134,17 @@ if (config.system.bundleAnalyzerReport) {
   webpackConfig.plugins.push(new BundleAnalyzerPlugin())
 }
 
-module.exports = webpackConfig
+module.exports = {
+  all: _.assign({}, webpackConfig, {
+    entry: _.assign({}, systemEntrypoints, componentsEntrypoints, stylesEntrypoints)
+  }),
+  system: _.assign({}, webpackConfig, {
+    entry: systemEntrypoints
+  }),
+  components: _.assign({}, webpackConfig, {
+    entry: componentsEntrypoints
+  }),
+  styles: _.assign({}, webpackConfig, {
+    entry: stylesEntrypoints
+  })
+}

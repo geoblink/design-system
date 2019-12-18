@@ -1,29 +1,60 @@
-`GeoModal` is a generic component designed to block user interaction with
-underlying UI while forcing them to focus attention in modal's child component.
-
-Use it together with [`GeoBorderedBox`]() to offer a modal window experience.
+### Body-attached modal
 
 ```vue live
 <template>
   <div class="element-demo">
-    <h3 class="element-demo__header">Body-attached modal</h3>
     <div class="element-demo__block" style="justify-content: space-around;">
-      <geo-primary-button @click="openModal('bodyAttached')">Open modal</geo-primary-button>
+      <geo-primary-button @click="openModal()">
+        Open modal
+      </geo-primary-button>
+
       <geo-modal
-        v-if="isOpen.bodyAttached"
-        @click-backdrop="closeModal('bodyAttached')"
+        v-if="isOpen"
+        @click-backdrop="closeModal()"
       >
         <div class="element-demo__bordered-box">
           This is the body of the modal.
         </div>
       </geo-modal>
+    </div>
+  </div>
+</template>
 
-      <geo-primary-button @click="openModal('bordered')">Open bordered modal</geo-primary-button>
+<script>
+export default {
+  data () {
+    return {
+      isOpen: false
+    }
+  },
+  methods: {
+    openModal () {
+      this.isOpen = true
+    },
+
+    closeModal () {
+      this.isOpen = false
+    }
+  }
+}
+</script>
+```
+
+### Body-attached GeoBorderedBox-based modal
+
+```vue live
+<template>
+  <div class="element-demo">
+    <div class="element-demo__block" style="justify-content: space-around;">
+      <geo-primary-button @click="openModal()">
+        Open bordered modal
+      </geo-primary-button>
+
       <geo-modal
-        v-if="isOpen.bordered"
+        v-if="isOpen"
         :header-close-icon="['fas', 'times']"
-        @close="closeModal('bordered')"
-        @click-backdrop="closeModal('bordered')"
+        @close="closeModal()"
+        @click-backdrop="closeModal()"
       >
         <div slot="header">
           My Title
@@ -35,13 +66,45 @@ Use it together with [`GeoBorderedBox`]() to offer a modal window experience.
           <geo-primary-button>Button</geo-primary-button>
         </div>
       </geo-modal>
+    </div>
+  </div>
+</template>
 
-      <geo-primary-button @click="openModal('tabs')">Open tabs modal</geo-primary-button>
+<script>
+export default {
+  data () {
+    return {
+      isOpen: false
+    }
+  },
+  methods: {
+    openModal () {
+      this.isOpen = true
+    },
+
+    closeModal () {
+      this.isOpen = false
+    }
+  }
+}
+</script>
+```
+
+### Body-attached modal with tabs
+
+```vue live
+<template>
+  <div class="element-demo">
+    <div class="element-demo__block" style="justify-content: space-around;">
+      <geo-primary-button @click="openModal()">
+        Open tabs modal
+      </geo-primary-button>
+
       <geo-modal
-        v-if="isOpen.tabs"
+        v-if="isOpen"
         :header-close-icon="['fas', 'times']"
-        @close="closeModal('tabs')"
-        @click-backdrop="closeModal('tabs')"
+        @close="closeModal()"
+        @click-backdrop="closeModal()"
       >
         <div slot="header">
           <geo-tab-bar variant="modal">
@@ -56,6 +119,7 @@ Use it together with [`GeoBorderedBox`]() to offer a modal window experience.
             </geo-tab-bar-item>
           </geo-tab-bar>
         </div>
+
         <div slot="body">
           <template v-if="activeTab === tabs[0]">
             First tab
@@ -67,26 +131,70 @@ Use it together with [`GeoBorderedBox`]() to offer a modal window experience.
             Third tab
           </template>
         </div>
+
         <div slot="footer">
           <geo-primary-button>Button</geo-primary-button>
         </div>
       </geo-modal>
     </div>
-    <h3 class="element-demo__header">Container-attached modal</h3>
+
+  </div>
+</template>
+
+<script>
+export default {
+  data () {
+    return {
+      isOpen: false,
+      activeTab: 'First'
+    }
+  },
+  computed: {
+    tabs () {
+      return ['First', 'Second', 'Third']
+    }
+  },
+  methods: {
+    openModal () {
+      this.isOpen = true
+    },
+
+    closeModal () {
+      this.isOpen = false
+    }
+  }
+}
+</script>
+```
+
+### Container-attached modal
+
+```vue live
+<template>
+  <div class="element-demo">
     <div class="element-demo__columns-layout">
       <div class="element-demo__block" style="flex: 1;">
-        <geo-primary-button @click="toggleModal('containerAttached')">Toggle modal</geo-primary-button>
+        <geo-primary-button @click="toggleModal()">
+          Toggle modal
+        </geo-primary-button>
       </div>
-      <div class="element-demo__bordered-box" style="flex: 1; height: 100px; overflow-y: auto;" ref="sidebarContainer">
+
+      <div
+        ref="sidebarContainer"
+        class="element-demo__bordered-box"
+        style="flex: 1; height: 100px; overflow-y: auto;"
+      >
         <p>Modal will be opened on top of this container and will block interaction
         with the button below.</p>
 
-        <geo-primary-button @click="showAlert('Hello!')">Show alert</geo-primary-button>
+        <geo-primary-button @click="showAlert('Hello!')">
+          Show alert
+        </geo-primary-button>
 
         <p>There's more content here to force vertical scroll</p>
 
         <geo-modal
-          v-if="isOpen.containerAttached"
+          v-if="isOpen"
           :attach-to="$refs.sidebarContainer"
         >
           <div class="element-demo__bordered-box">
@@ -102,31 +210,12 @@ Use it together with [`GeoBorderedBox`]() to offer a modal window experience.
 export default {
   data () {
     return {
-      isOpen: {
-        bodyAttached: false,
-        containerAttached: false,
-        bordered: false,
-        tabs: false
-      },
-      activeTab: 'First'
-    }
-  },
-  computed: {
-    tabs () {
-      return ['First', 'Second', 'Third']
+      isOpen: false
     }
   },
   methods: {
-    openModal (modalName) {
-      this.isOpen[modalName] = true
-    },
-
-    closeModal (modalName) {
-      this.isOpen[modalName] = false
-    },
-
-    toggleModal (modalName) {
-      this.isOpen[modalName] = !this.isOpen[modalName]
+    toggleModal () {
+      this.isOpen = !this.isOpen
     },
 
     showAlert(message) {

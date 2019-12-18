@@ -16,7 +16,7 @@ describe('GeoListFooterButton', () => {
   it('Should render default slot', () => {
     const wrapper = mount(GeoListFooterButton, {
       slots: {
-        default: [`<span class="more-results-footer-button-content">Load more results demo content</span>`]
+        default: ['<span class="more-results-footer-button-content">Load more results demo content</span>']
       },
       stubs: {
         'geo-tertiary-button': true
@@ -29,7 +29,7 @@ describe('GeoListFooterButton', () => {
   it('Should emit an event when clicking on load more results button', () => {
     const wrapper = mount(GeoListFooterButton, {
       slots: {
-        default: [`<span class="more-results-footer-button-content">Load more results demo content</span>`]
+        default: ['<span class="more-results-footer-button-content">Load more results demo content</span>']
       },
       stubs: {
         GeoTertiaryButton,
@@ -37,7 +37,7 @@ describe('GeoListFooterButton', () => {
       }
     })
     wrapper.find(GeoTertiaryButton).trigger('click')
-    expect(wrapper.emitted()['click']).toBeTruthy()
+    expect(wrapper.emitted().click).toBeTruthy()
   })
 
   it('Should render a tertiary button inside it', () => {

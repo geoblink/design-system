@@ -1,43 +1,46 @@
-## Color bar
+## Color bar charts
 
-Similarly to [Bar charts](./#/Elements/Charts?id=bars), Colored bar charts are
-collections of grouped bars which are displayed as stacked rectangles in a
-2-dimensional grid. An arbitrary amount of different collections of grouped bars
-can be displayed using colored bar charts, each of those collections are called
-**groups**.
+Similarly to [bar charts](#bar-charts), Colored bar charts are collections of
+grouped bars which are displayed as stacked rectangles in a 2-dimensional grid.
+An arbitrary amount of different collections of grouped bars can be displayed
+using colored bar charts, each of those collections are called **groups**.
 
 To add colored bar **groups** to a chart, add an array to `colorBarGroups` key
-of [GeoChart](./#/Elements/Charts?id=introduction)'s config. Each item of the
-array must be an object with the following...
+of [GeoChart](#geochart)'s config. Each item of the array must be an object with
+the following…
 
 ### Required properties
 
-- `data`: Collection of highlighted elements being displayed (array).
-- `mainDimension`: A value of `DIMENSIONS.DIMENSIONS_2D` named export (either
+- `data` - collection of highlighted elements being displayed (array).
+- `mainDimension` - a value of `DIMENSIONS.DIMENSIONS_2D` named export (either
 `horizontal` or `vertical`). The dimension in which the stacked rectangles will
 be positioned.
-- `idHorizontalAxis`: The ID of the axis defining the `horizontal` dimension.
+- `idHorizontalAxis` - the ID of the axis defining the `horizontal` dimension.
 Will be used to compute proper origin and span of the bar if the dimension is
 horizontal or the width of each individual group if the dimension is vertical.
-- `idVerticalAxis`: The ID of the axis defining the `vertical` dimension. Will
-be used to compute proper origin and span of the bar if the dimension is vertical
-or the width of each individual group if the dimension is horizontal.
-- `normalValue`: Value to position the colorBar in the normal (numerical) axis.
+- `idVerticalAxis` - the ID of the axis defining the `vertical` dimension. Will
+be used to compute proper origin and span of the bar if the dimension is
+vertical or the width of each individual group if the dimension is horizontal.
+- `normalValue` - value to position the colorBar in the normal (numerical) axis.
 The value must be contained within the linear axis domain.
 
-**Note:** `idHorizontalAxis` and `idVerticalAxis` must be IDs of registered axes.
-See [Axes](./#/Elements/Charts?id=axes) for more info.
+::: warning NOTE
+`idHorizontalAxis` and `idVerticalAxis` must be IDs of registered axes.
+See [axes](#chart-axes) for more info.
+:::
 
 ### Optional properties
 
 Optionally you can configure each **group** with an **offset** and a **width**.
-These are useful when you want to display multiple collections which have repeated
-items for the **normal dimension**.
+These are useful when you want to display multiple collections which have
+repeated items for the **normal dimension**.
 
-> **Normal dimension** is the dimension perpendicular to the group's `mainDimension`.
->
-> For instance, if you set `mainDimension` to `horizontal` then the
-> **normal dimension** will be `vertical`.
+::: tip
+**Normal dimension** is the dimension perpendicular to the group's `mainDimension`.
+
+For instance, if you set `mainDimension` to `horizontal` then the
+**normal dimension** will be `vertical`.
+:::
 
 To allow maximum flexibility `GeoChart` does not prevent overlaps. To prevent
 bars from different **groups** from overlapping you'll have to set a **width**
@@ -76,40 +79,41 @@ while the **width** is set to **absolute**.
 
 There are 2 exclusive properties available to customize the **width**:
 
-- `width` if you want to use **absolute** units.
-- `naturalWidth` if you want to use **natural** units.
+- `width` - if you want to use **absolute** units.
+- `naturalWidth` - if you want to use **natural** units.
 
 There are 2 exclusive properties available to customize the **highlightedWidth**:
 
-- `highlightedWidth` if you want to use **absolute** units.
-- `naturalHighlightedWidth` if you want to use **absolute** units.
+- `highlightedWidth` - if you want to use **absolute** units.
+- `naturalHighlightedWidth` - if you want to use **absolute** units.
 
 There are 2 exclusive properties available to customize the **offset**:
 
-- `normalOffset` if you want to use **absolute** units.
-- `naturalNormalOffset` if you want to use **natural** units.
+- `normalOffset` - if you want to use **absolute** units.
+- `naturalNormalOffset` - if you want to use **natural** units.
 
-> **Note:** You can't set both `width` and `naturalWidth`, `highlightedWidth`
+::: warning NOTE
+You can't set both `width` and `naturalWidth`, `highlightedWidth`
 and `naturalHighlightedWidth`, or `normalOffset` and `naturalNormalOffset`.
 Doing so will throw an invalid config error.
+:::
+
+### Examples
+
+#### Horizontal color bar with `width` and `highlightedWidth` values
 
 ```vue live
 <template>
   <div class="element-demo">
-    <h3 class="element-demo__header">
-      Horizontal color bar with width and highlightedWidth values
-      <div class="element-demo__inline-input-group">
-        <geo-primary-button @click="randomizeData()">
-          Randomize data
-        </geo-primary-button>
-      </div>
-    </h3>
     <div class="element-demo__block element-demo__block--chart-container">
       <geo-chart
         v-if="chartConfig"
         :config="chartConfig"
       />
     </div>
+    <geo-primary-button @click="randomizeData()">
+      Randomize data
+    </geo-primary-button>
   </div>
 </template>
 
@@ -209,23 +213,20 @@ export default {
 </script>
 ```
 
+#### Horizontal color bar with `naturalWidth` and `naturalHighlightedWidth` values
+
 ```vue live
 <template>
   <div class="element-demo">
-    <h3 class="element-demo__header">
-      Horizontal color bar with naturalWidth and naturalHighlightedWidth values
-      <div class="element-demo__inline-input-group">
-        <geo-primary-button @click="randomizeData()">
-          Randomize data
-        </geo-primary-button>
-      </div>
-    </h3>
     <div class="element-demo__block element-demo__block--chart-container">
       <geo-chart
         v-if="chartConfig"
         :config="chartConfig"
       />
     </div>
+    <geo-primary-button @click="randomizeData()">
+      Randomize data
+    </geo-primary-button>
   </div>
 </template>
 
@@ -327,23 +328,20 @@ export default {
 </script>
 ```
 
+#### Vertical color bar with `width` and `highlightedWidth` values
+
 ```vue live
 <template>
   <div class="element-demo">
-    <h3 class="element-demo__header">
-      Vertical color bar with width and highlightedWidth values
-      <div class="element-demo__inline-input-group">
-        <geo-primary-button @click="randomizeData()">
-          Randomize data
-        </geo-primary-button>
-      </div>
-    </h3>
     <div class="element-demo__block element-demo__block--chart-container">
       <geo-chart
         v-if="chartConfig"
         :config="chartConfig"
       />
     </div>
+    <geo-primary-button @click="randomizeData()">
+      Randomize data
+    </geo-primary-button>
   </div>
 </template>
 
@@ -445,23 +443,20 @@ export default {
 </script>
 ```
 
+#### Vertical color bar with `naturalWidth` and `naturalHighlightedWidth` values
+
 ```vue live
 <template>
   <div class="element-demo">
-    <h3 class="element-demo__header">
-      Vertical color bar with naturalWidth and naturalHighlightedWidth values
-      <div class="element-demo__inline-input-group">
-        <geo-primary-button @click="randomizeData()">
-          Randomize data
-        </geo-primary-button>
-      </div>
-    </h3>
     <div class="element-demo__block element-demo__block--chart-container">
       <geo-chart
         v-if="chartConfig"
         :config="chartConfig"
       />
     </div>
+    <geo-primary-button @click="randomizeData()">
+      Randomize data
+    </geo-primary-button>
   </div>
 </template>
 

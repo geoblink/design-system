@@ -2,8 +2,6 @@
 to: src/elements/<%= name %>/<%= name %>.examples.md
 ---
 <% dashedName = h.changeCase.param(name) -%>
-`<%= name %>` Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-eiusmod tempor incididunt ut labore et dolore magna aliqua.
 
 ```vue live
 <template>

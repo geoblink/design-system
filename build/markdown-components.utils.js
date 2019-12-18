@@ -1,5 +1,3 @@
-/// <reference types="ora" />
-
 const path = require('path')
 const execa = require('execa')
 const bt = require('@babel/types')
@@ -132,6 +130,8 @@ function extractStatus (documentation, componentDefinition, astPath, opt) {
  * @returns {Task<any>}
  */
 function injectExamplesOfComponent (componentRelativePath) {
+  const componentName = path.basename(componentRelativePath, '.vue')
+
   return {
     title: `Inject examples of component ${componentRelativePath}`,
     async task () {
@@ -140,7 +140,13 @@ function injectExamplesOfComponent (componentRelativePath) {
           cwd: path.resolve(pathToVueComponents, path.dirname(componentRelativePath))
         }, function (err, files) {
           if (err) return reject(err)
-          resolve(files)
+
+          const componentExampleFiles = _.filter(
+            files,
+            (name) => _.startsWith(name, `${componentName}.`)
+          )
+
+          resolve(componentExampleFiles)
         })
       })
 

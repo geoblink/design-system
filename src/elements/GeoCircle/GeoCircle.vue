@@ -1,15 +1,13 @@
 <template>
   <div
     :class="{
-      [`geo-circle${cssSuffix}`]: true,
-      [`geo-${variant}-circle${cssSuffix}`]: true
+      ['geo-circle']: true,
+      [`geo-${variant}-circle`]: true
     }"
   />
 </template>
 
 <script>
-import cssSuffix from '../../mixins/cssModifierMixin'
-
 const VARIANTS = {
   default: 'default',
   primary: 'primary',
@@ -20,6 +18,10 @@ const VARIANTS = {
   disabled: 'disabled'
 }
 
+/**
+ * `GeoCircle` is a component which just renders a small colored circle. It's
+ * aimed to display steps in a wizard.
+ */
 export default {
   name: 'GeoCircle',
   status: 'ready',
@@ -27,7 +29,6 @@ export default {
   constants: {
     VARIANTS
   },
-  mixins: [cssSuffix],
   props: {
     /**
      * Variant of this circle, used to change the color scheme of

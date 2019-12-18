@@ -22,7 +22,7 @@ describe('GeoTabBarItem', () => {
     wrapper.find('.geo-tab-bar-item-default').trigger('click')
     setTimeout(function () {
       try {
-        expect(wrapper.emitted()['click']).toBeTruthy()
+        expect(wrapper.emitted().click).toBeTruthy()
         done()
       } catch (error) {
         done(error)
@@ -39,7 +39,7 @@ describe('GeoTabBarItem', () => {
 
     const tabBarItem = wrapper.find('.geo-tab-bar-item-default')
     tabBarItem.trigger('click')
-    expect(wrapper.emitted()['click']).toBeFalsy()
+    expect(wrapper.emitted().click).toBeFalsy()
   })
 
   it('Should add active suffix when item is active', function () {
@@ -50,16 +50,6 @@ describe('GeoTabBarItem', () => {
     })
 
     expect(wrapper.find('.geo-tab-bar-item-default--active').exists()).toBe(true)
-  })
-
-  it('Should add CSS Suffix when given', function () {
-    const wrapper = mount(GeoTabBarItem, {
-      propsData: {
-        cssModifier: 'custom'
-      }
-    })
-
-    expect(wrapper.find('.geo-tab-bar-item-default--custom').exists()).toBe(true)
   })
 
   it('Should add CSS varian when given', function () {

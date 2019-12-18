@@ -19,22 +19,6 @@ describe('GeoPill', () => {
     expect(pill.find('span').text()).toBe(pillTextContent)
   })
 
-  it('Should consider CSS modifier', function () {
-    const pillTextContent = 'Pill content'
-    const wrapper = mount(GeoPill, {
-      slots: {
-        default: `<span>${pillTextContent}</span>`
-      },
-      propsData: {
-        cssModifier: 'my-modifier'
-      }
-    })
-    const pill = wrapper.find('.geo-pill--default--my-modifier')
-    expect(pill.exists()).toBe(true)
-    expect(pill.find('span').exists()).toBe(true)
-    expect(pill.find('span').text()).toBe(pillTextContent)
-  })
-
   it('Should consider variant', function () {
     const pillTextContent = 'Pill content'
     const wrapper = mount(GeoPill, {
@@ -63,22 +47,5 @@ describe('GeoPill', () => {
     expect(consoleErrorSpy).toHaveBeenCalled()
 
     consoleErrorSpy.mockRestore()
-  })
-
-  it('Should consider variant and CSS modifier', function () {
-    const pillTextContent = 'Pill content'
-    const wrapper = mount(GeoPill, {
-      slots: {
-        default: `<span>${pillTextContent}</span>`
-      },
-      propsData: {
-        variant: 'light',
-        cssModifier: 'my-modifier'
-      }
-    })
-    const pill = wrapper.find('.geo-pill--light--my-modifier')
-    expect(pill.exists()).toBe(true)
-    expect(pill.find('span').exists()).toBe(true)
-    expect(pill.find('span').text()).toBe(pillTextContent)
   })
 })

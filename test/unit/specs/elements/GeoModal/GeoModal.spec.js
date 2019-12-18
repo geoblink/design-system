@@ -164,7 +164,7 @@ describe('GeoModal', () => {
       }
     })
     wrapper.find('geo-bordered-box-header-stub').vm.$emit('close')
-    expect(wrapper.emitted()['close']).toBeTruthy()
+    expect(wrapper.emitted().close).toBeTruthy()
   })
 
   it('Should emit click-backdrop event when clicking on background', () => {
@@ -248,17 +248,5 @@ describe('GeoModal', () => {
     expect(repositionModalSpy).not.toBeCalled()
     onResizeCalls[0][1].value.callback()
     expect(repositionModalSpy).toHaveBeenCalledTimes(1)
-  })
-
-  it('Should apply a CSS suffix when the modifier is provided', () => {
-    const wrapper = mount(GeoModal, {
-      propsData: {
-        cssModifier: 'test'
-      },
-      stubs: {
-        'geo-bordered-box': GeoBorderedBox
-      }
-    })
-    expect(wrapper.find('.geo-modal--test').exists()).toBe(true)
   })
 })

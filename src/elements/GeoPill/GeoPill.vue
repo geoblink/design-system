@@ -1,12 +1,10 @@
 <template>
-  <div :class="`geo-pill--${variant}${cssSuffix}`">
+  <div :class="`geo-pill--${variant}`">
     <slot />
   </div>
 </template>
 
 <script>
-import cssSuffix from '../../mixins/cssModifierMixin'
-
 const VARIANTS = {
   default: 'default',
   light: 'light',
@@ -16,6 +14,10 @@ const VARIANTS = {
 
 export { VARIANTS }
 
+/**
+ * `GeoPill` is a component which just renders some inline content inside a
+ * round bordered pill.
+ */
 export default {
   name: 'GeoPill',
   status: 'ready',
@@ -23,7 +25,6 @@ export default {
   constants: {
     VARIANTS
   },
-  mixins: [cssSuffix],
   props: {
     /**
      * Variant of this pill, used to change the color scheme.

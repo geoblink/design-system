@@ -1,5 +1,5 @@
 <template>
-  <nav :class="`geo-tab-bar-${variant}${cssSuffix}`">
+  <nav :class="`geo-tab-bar-${variant}`">
     <!-- @slot Use this slot to customize the tabs displayed in this navigation bar -->
     <slot />
   </nav>

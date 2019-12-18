@@ -6,7 +6,6 @@
       data.staticClass
     ]"
     :icon="['fal', 'exclamation-triangle']"
-    :css-modifier="props.cssModifier"
     :variant="$options.helpers.VARIANTS.error"
     v-on="listeners"
   >
@@ -16,17 +15,23 @@
 </template>
 
 <script>
-import cssSuffix from '../../mixins/cssModifierMixin'
-
 import { VARIANTS } from './GeoAlert.constants'
 
+/**
+ * [GeoAlert](./GeoAlert) using predefined `error` variant.
+ *
+ * `error` variant is normally used to give feedback about potential unexpected
+ * errors.
+ *
+ * See [GeoAlert](./GeoAlert) for a complete list of supported properties and
+ * features.
+ */
 export default {
   name: 'GeoErrorAlert',
   status: 'ready',
   release: '22.0.0',
   helpers: {
     VARIANTS
-  },
-  mixins: [cssSuffix]
+  }
 }
 </script>

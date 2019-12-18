@@ -6,7 +6,6 @@
       data.staticClass
     ]"
     :icon="['fal', 'exclamation-triangle']"
-    :css-modifier="props.cssModifier"
     :variant="$options.helpers.VARIANTS.warning"
     v-on="listeners"
   >
@@ -16,17 +15,24 @@
 </template>
 
 <script>
-import cssSuffix from '../../mixins/cssModifierMixin'
-
 import { VARIANTS } from './GeoAlert.constants'
 
+/**
+ * [GeoAlert](./GeoAlert) using predefined `warning` variant.
+ *
+ * `warning` variant is normally used to show information that might impact how
+ * the user will continue using the application or that is required to properly
+ * finish the task at hand.
+ *
+ * See [GeoAlert](./GeoAlert) for a complete list of supported properties and
+ * features.
+ */
 export default {
   name: 'GeoWarningAlert',
   status: 'ready',
   release: '22.0.0',
   helpers: {
     VARIANTS
-  },
-  mixins: [cssSuffix]
+  }
 }
 </script>

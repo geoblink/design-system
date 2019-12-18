@@ -1,16 +1,11 @@
 <template>
-  <div :class="`geo-table-header-row--${variant}${cssSuffix}`">
+  <div :class="`geo-table-header-row--${variant}`">
     <!-- @slot Use this slot to customize row's content -->
-    <slot
-      :variant="variant"
-      :css-modifier="cssModifier"
-    />
+    <slot :variant="variant" />
   </div>
 </template>
 
 <script>
-import cssSuffix from '../../mixins/cssModifierMixin'
-
 import { HEADER_VARIANTS as VARIANTS } from './GeoTable.constants'
 export { VARIANTS }
 
@@ -19,7 +14,6 @@ export default {
   status: 'ready',
   release: '10.1.0',
   constants: { VARIANTS },
-  mixins: [cssSuffix],
   props: {
     /**
      * When set to `true`, the width of this cell's content won't take part in

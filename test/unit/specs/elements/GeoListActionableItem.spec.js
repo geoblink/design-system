@@ -10,7 +10,7 @@ describe('GeoListActionableItem', () => {
   it('Should render default slot', function () {
     const wrapper = mount(GeoListActionableItem, {
       slots: {
-        default: [`<span class="spec-content">Body content</span>`]
+        default: ['<span class="spec-content">Body content</span>']
       }
     })
 
@@ -20,8 +20,8 @@ describe('GeoListActionableItem', () => {
   it('Should render trailingAccessoryItem slot', function () {
     const wrapper = mount(GeoListActionableItem, {
       slots: {
-        default: [`<span class="spec-content">Body content</span>`],
-        trailingAccessoryItem: [`<span class="spec-accessory">Icon</span>`]
+        default: ['<span class="spec-content">Body content</span>'],
+        trailingAccessoryItem: ['<span class="spec-accessory">Icon</span>']
       }
     })
 
@@ -31,8 +31,8 @@ describe('GeoListActionableItem', () => {
   it('Should render actions slot', function () {
     const wrapper = mount(GeoListActionableItem, {
       slots: {
-        default: [`<span class="spec-content">Body content</span>`],
-        actions: [`<span class="spec-actions">Buttons</span>`]
+        default: ['<span class="spec-content">Body content</span>'],
+        actions: ['<span class="spec-actions">Buttons</span>']
       }
     })
 

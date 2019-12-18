@@ -1,12 +1,12 @@
 <template>
   <div
     :class="{
-      [`geo-segmented-control-item${outlineSuffix}${cssSuffix}`]: true,
-      [`geo-segmented-control-item--${variant}${outlineSuffix}${cssSuffix}`]: true,
-      [`geo-segmented-control-item${outlineSuffix}--active${cssSuffix}`]: active,
-      [`geo-segmented-control-item--${variant}${outlineSuffix}--active${cssSuffix}`]: active,
-      [`geo-segmented-control-item${outlineSuffix}--disabled${cssSuffix}`]: disabled,
-      [`geo-segmented-control-item--${variant}${outlineSuffix}--disabled${cssSuffix}`]: disabled
+      [`geo-segmented-control-item${outlineSuffix}`]: true,
+      [`geo-segmented-control-item--${variant}${outlineSuffix}`]: true,
+      [`geo-segmented-control-item${outlineSuffix}--active`]: active,
+      [`geo-segmented-control-item--${variant}${outlineSuffix}--active`]: active,
+      [`geo-segmented-control-item${outlineSuffix}--disabled`]: disabled,
+      [`geo-segmented-control-item--${variant}${outlineSuffix}--disabled`]: disabled
     }"
     @click="handleClick($event)"
   >
@@ -16,37 +16,38 @@
 </template>
 
 <script>
-import cssSuffix from '../../mixins/cssModifierMixin'
-
 import geoSegmentedControlItemMixin, { VARIANTS } from './GeoSegmentedControlItem.constants'
 
+/**
+ * `GeoSegmentedControlItem` is a component designed to nicely fit as one of the
+ * options of a [GeoSegmentedControl](./GeoSegmentedControl).
+ */
 export default {
   name: 'GeoSegmentedControlItem',
   status: 'ready',
   release: '6.2.0',
-  mixins: [cssSuffix, geoSegmentedControlItemMixin],
+  mixins: [geoSegmentedControlItemMixin],
   props: {
     /**
      * Predefined color scheme of the segmented control item, allowing several
      * common out-of-the-box customizations.
      *
-     * > **Note:** There are specific components to avoid explicitly writing
-     * > this value and performing other common customizations.
+     * ::: tip
+     * There are specific components to avoid explicitly writing this value and
+     * performing other common customizations.
+     * :::
      *
      *
-     * | variant  | Specific component                                            |
-     * |----------|---------------------------------------------------------------|
-     * | success  | [GeoSuccessSegmentedControlItem](./#/Elements/GeoSegmentedControlItem?id=geosuccesssegmentedcontrolitem)   |
-     * | info     | [GeoInfoSegmentedControlItem](./#/Elements/GeoSegmentedControlItem?id=geoinfosegmentedcontrolitem)         |
-     * | warning  | [GeoWarningSegmentedControlItem](./#/Elements/GeoSegmentedControlItem?id=geowarningsegmentedcontrolitem)   |
-     * | error    | [GeoErrorSegmentedControlItem](./#/Elements/GeoSegmentedControlItem?id=geoerrorsegmentedcontrolitem)       |
+     * | variant   | Specific component                                                 |
+     * |-----------|--------------------------------------------------------------------|
+     * | `success` | [GeoSuccessSegmentedControlItem](./GeoSuccessSegmentedControlItem) |
+     * | `info`    | [GeoInfoSegmentedControlItem](./GeoInfoSegmentedControlItem)       |
+     * | `warning` | [GeoWarningSegmentedControlItem](./GeoWarningSegmentedControlItem) |
+     * | `error`   | [GeoErrorSegmentedControlItem](./GeoErrorSegmentedControlItem)     |
      *
      * Supported `variant` values are exported under `VARIANTS` named export.
-     * See [Component Constants](/docs/components-constants.html) for more info on how
+     * See [Component Constants](/docs/guides/using-constants) for more info on how
      * to use those constants in your code.
-     *
-     * > **Note:** You can always override the color scheme of any
-     * > `GeoSegmentedControlItem` using `cssModifier` prop.
      */
     variant: {
       type: String,
@@ -63,7 +64,9 @@ export default {
   computed: {
     outlineSuffix () {
       const isOutline = this.outline || this.$parent.outline
-      return isOutline ? '--outline' : ''
+      return isOutline
+        ? '--outline'
+        : ''
     }
   },
   methods: {

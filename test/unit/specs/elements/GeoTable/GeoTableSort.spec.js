@@ -71,9 +71,9 @@ describe('GeoTableSort', () => {
 
     instance.find('.geo-table-sort__button').trigger('click')
 
-    expect(wrapper.emitted()['sort']).toBeTruthy()
-    expect(wrapper.emitted()['sort']).toHaveLength(1)
-    expect(wrapper.emitted()['sort']).toEqual([[GeoTableSort.constants.SORTING_DIRECTIONS.asc]])
+    expect(wrapper.emitted().sort).toBeTruthy()
+    expect(wrapper.emitted().sort).toHaveLength(1)
+    expect(wrapper.emitted().sort).toEqual([[GeoTableSort.constants.SORTING_DIRECTIONS.asc]])
   })
 
   it('Should emit sort event when clicking on sort desc button', function () {
@@ -91,9 +91,9 @@ describe('GeoTableSort', () => {
 
     instance.find('.geo-table-sort__button:last-child').trigger('click')
 
-    expect(wrapper.emitted()['sort']).toBeTruthy()
-    expect(wrapper.emitted()['sort']).toHaveLength(1)
-    expect(wrapper.emitted()['sort']).toEqual([[GeoTableSort.constants.SORTING_DIRECTIONS.desc]])
+    expect(wrapper.emitted().sort).toBeTruthy()
+    expect(wrapper.emitted().sort).toHaveLength(1)
+    expect(wrapper.emitted().sort).toEqual([[GeoTableSort.constants.SORTING_DIRECTIONS.desc]])
   })
 
   it('Should allow customizing sort asc button', function () {
@@ -113,15 +113,15 @@ describe('GeoTableSort', () => {
       }
     })
 
-    expect(wrapper.emitted()['sort']).toBeFalsy()
+    expect(wrapper.emitted().sort).toBeFalsy()
 
     expect(slotScope).toHaveProperty('isCurrentSortingDirection', false)
     expect(slotScope).toHaveProperty('action')
     slotScope.action()
 
-    expect(wrapper.emitted()['sort']).toBeTruthy()
-    expect(wrapper.emitted()['sort']).toHaveLength(1)
-    expect(wrapper.emitted()['sort']).toEqual([[GeoTableSort.constants.SORTING_DIRECTIONS.asc]])
+    expect(wrapper.emitted().sort).toBeTruthy()
+    expect(wrapper.emitted().sort).toHaveLength(1)
+    expect(wrapper.emitted().sort).toEqual([[GeoTableSort.constants.SORTING_DIRECTIONS.asc]])
 
     wrapper.setProps({
       currentSortingDirection: GeoTableSort.constants.SORTING_DIRECTIONS.asc,
@@ -156,14 +156,14 @@ describe('GeoTableSort', () => {
     })
 
     expect(slotScope).toHaveProperty('isCurrentSortingDirection', false)
-    expect(wrapper.emitted()['sort']).toBeFalsy()
+    expect(wrapper.emitted().sort).toBeFalsy()
 
     expect(slotScope).toHaveProperty('action')
     slotScope.action()
 
-    expect(wrapper.emitted()['sort']).toBeTruthy()
-    expect(wrapper.emitted()['sort']).toHaveLength(1)
-    expect(wrapper.emitted()['sort']).toEqual([[GeoTableSort.constants.SORTING_DIRECTIONS.desc]])
+    expect(wrapper.emitted().sort).toBeTruthy()
+    expect(wrapper.emitted().sort).toHaveLength(1)
+    expect(wrapper.emitted().sort).toEqual([[GeoTableSort.constants.SORTING_DIRECTIONS.desc]])
 
     wrapper.setProps({
       currentSortingDirection: GeoTableSort.constants.SORTING_DIRECTIONS.asc,
@@ -178,35 +178,5 @@ describe('GeoTableSort', () => {
     })
 
     expect(slotScope).toHaveProperty('isCurrentSortingDirection', true)
-  })
-
-  it('Should apply CSS suffix when the modifier is provided', function () {
-    const inactiveWrapper = mount(GeoTableSort, {
-      propsData: {
-        cssModifier: 'demo-modifier',
-        currentSortingDirection: GeoTableSort.constants.SORTING_DIRECTIONS.asc,
-        currentlySortingTable: false
-      },
-      stubs: {
-        'font-awesome-icon': FontAwesomeIcon
-      }
-    })
-
-    expect(inactiveWrapper.find('.geo-table-sort--demo-modifier').exists()).toBe(true)
-    expect(inactiveWrapper.find('.geo-table-sort--active--demo-modifier').exists()).toBe(false)
-
-    const activeWrapper = mount(GeoTableSort, {
-      propsData: {
-        cssModifier: 'demo-modifier',
-        currentSortingDirection: GeoTableSort.constants.SORTING_DIRECTIONS.asc,
-        currentlySortingTable: true
-      },
-      stubs: {
-        'font-awesome-icon': FontAwesomeIcon
-      }
-    })
-
-    expect(activeWrapper.find('.geo-table-sort--demo-modifier').exists()).toBe(true)
-    expect(activeWrapper.find('.geo-table-sort--active--demo-modifier').exists()).toBe(true)
   })
 })

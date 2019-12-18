@@ -5,7 +5,7 @@ import GeoTooltip from '@/elements/GeoTooltip/GeoTooltip.vue'
 
 const tooltipInnerText = 'This is the tooltip content'
 const tooltipInnerHTML = `<p class="test-tooltip-content">${tooltipInnerText}</p>`
-const tooltipWrapperInnerText = `This text has a tooltip attached`
+const tooltipWrapperInnerText = 'This text has a tooltip attached'
 
 // These utils require faking timers
 jest.useFakeTimers()

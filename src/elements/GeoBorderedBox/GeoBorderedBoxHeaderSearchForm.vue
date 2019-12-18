@@ -1,6 +1,6 @@
 <template>
   <form
-    :class="`geo-bordered-box-header-search-form${cssSuffix}`"
+    class="geo-bordered-box-header-search-form"
     @submit.prevent
   >
     <geo-input
@@ -37,13 +37,20 @@
 <script>
 import _ from 'lodash'
 import throttle from '../../utils/throttle'
-import cssSuffix from '../../mixins/cssModifierMixin'
 
+/**
+ * `GeoBorderedBoxHeaderSearchForm` is a header featuring a search form designed
+ * to fit nicely in a [GeoBorderedBox](./GeoBorderedBox).
+ *
+ * ::: warning NOTE
+ * This component is **not responsible** of filtering displayed elements. You
+ * might want to use a [GeoSelect](../GeoSelect) for that.
+ * :::
+ */
 export default {
   name: 'GeoBorderedBoxHeaderSearchForm',
   status: 'ready',
   release: '8.0.0',
-  mixins: [cssSuffix],
   props: {
     /**
      * Icon used for the search box.

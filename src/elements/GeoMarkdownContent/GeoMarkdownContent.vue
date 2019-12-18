@@ -1,5 +1,5 @@
 <template>
-  <div :class="`geo-markdown-content${cssSuffix}`">
+  <div class="geo-markdown-content">
     <geo-markdown-content-node
       v-for="(node, index) in markdownNodes"
       :key="index"
@@ -11,7 +11,6 @@
 
 <script>
 import { filter, map, reduce, assign } from 'lodash'
-import cssSuffix from '../../mixins/cssModifierMixin'
 
 import GeoMarkdownContentNode from './GeoMarkdownContentNode.vue'
 
@@ -25,6 +24,16 @@ const MarkdownIt = (function () {
   }
 })()
 
+/**
+ * `GeoMarkdownContent` is a component designed to render Markdown strings in a
+ * safe way, ensuring each DOM element generated is part of Vue virtual DOM tree
+ * and that no raw HTML can be injected into the application.
+ *
+ * ::: warning NOTE
+ * This component requires installing
+ * [`markdown-it`](https://www.npmjs.com/package/markdown-it) NPM package.
+ * :::
+ */
 export default {
   name: 'GeoMarkdownContent',
   status: 'ready',
@@ -35,7 +44,6 @@ export default {
   components: {
     GeoMarkdownContentNode
   },
-  mixins: [cssSuffix],
   props: {
     /**
      * Markdown string to be rendered.

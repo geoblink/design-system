@@ -10,7 +10,7 @@ describe('GeoListGroup', () => {
   it('Should render title slot in header', function () {
     const wrapper = mount(GeoListGroup, {
       slots: {
-        title: [`<span class="my-demo-content">Just some unique demo content</span>`]
+        title: ['<span class="my-demo-content">Just some unique demo content</span>']
       }
     })
 
@@ -32,7 +32,7 @@ describe('GeoListGroup', () => {
         icon: ['fas', 'user']
       },
       slots: {
-        title: [`<span class="my-demo-content">Just some unique demo content</span>`]
+        title: ['<span class="my-demo-content">Just some unique demo content</span>']
       }
     })
 
@@ -45,19 +45,19 @@ describe('GeoListGroup', () => {
         'font-awesome-icon': FontAwesomeIcon
       },
       slots: {
-        title: [`<span class="my-demo-content">Just some unique demo content</span>`]
+        title: ['<span class="my-demo-content">Just some unique demo content</span>']
       }
     })
 
     wrapper.find('.geo-list-group__header').trigger('click')
-    expect(wrapper.emitted()['click']).toBeTruthy()
+    expect(wrapper.emitted().click).toBeTruthy()
   })
 
   it('Should render trailing accessory items from trailingAccessoryItem slot', function () {
     const wrapper = mount(GeoListGroup, {
       slots: {
-        title: [`<span class="some-title">Just some unique demo content</span>`],
-        trailingAccessoryItem: [`<span class="my-demo-content">Just some unique demo content</span>`]
+        title: ['<span class="some-title">Just some unique demo content</span>'],
+        trailingAccessoryItem: ['<span class="my-demo-content">Just some unique demo content</span>']
       }
     })
 
@@ -73,18 +73,9 @@ describe('GeoListGroup', () => {
   it('Should render item slot in content', function () {
     const wrapper = mount(GeoListGroup, {
       slots: {
-        item: [`<span class="my-demo-content">Just some unique demo content</span>`]
+        item: ['<span class="my-demo-content">Just some unique demo content</span>']
       }
     })
     expect(wrapper.find('.geo-list-group__content .my-demo-content').exists()).toBe(true)
-  })
-
-  it('Should apply a CSS suffix when the modifier is provided', function () {
-    const wrapper = mount(GeoListGroup, {
-      propsData: {
-        cssModifier: 'test-alert'
-      }
-    })
-    expect(wrapper.find('.geo-list-group--test-alert').exists()).toBe(true)
   })
 })

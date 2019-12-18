@@ -5,10 +5,6 @@ const config = require('../config')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const { VueLoaderPlugin } = require('vue-loader')
 
-function resolve (dir) {
-  return path.join(__dirname, '..', dir)
-}
-
 const isProductionBuild = process.env.NODE_ENV === 'production'
 
 const plugins = [
@@ -24,7 +20,9 @@ module.exports = {
   output: {
     path: config.build.assetsRoot,
     filename: '[name].js',
-    publicPath: isProductionBuild ? config.build.assetsPublicPath : config.dev.assetsPublicPath
+    publicPath: isProductionBuild
+      ? config.build.assetsPublicPath
+      : config.dev.assetsPublicPath
   },
   resolve: {
     extensions: ['.js', '.vue', '.json'],
@@ -51,7 +49,12 @@ module.exports = {
       {
         test: /\.js$/,
         loader: 'babel-loader',
-        include: [resolve('docs'), resolve('src'), resolve('test'), resolve('node_modules/webpack-dev-server/client')]
+        include: [
+          resolve('docs'),
+          resolve('src'),
+          resolve('test'),
+          resolve('node_modules/webpack-dev-server/client')
+        ]
       },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
@@ -92,4 +95,12 @@ module.exports = {
     tls: 'empty',
     child_process: 'empty'
   }
+}
+
+/**
+ * @param {string} dir
+ * @returns {string}
+ */
+function resolve (dir) {
+  return path.join(__dirname, '..', dir)
 }

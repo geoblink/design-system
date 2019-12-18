@@ -1,84 +1,67 @@
-@mixin geo-segmented-control-make($modifier-name) {
-  $modifier-name-with-prefix: '';
+.geo-segmented-control,
+.geo-segmented-control--outline {
+  align-items: center;
+  background: $color-white;
+  border: 1px solid $color-grey;
+  border-radius: $border-radius-default;
+  display: flex;
+  flex-direction: row;
+  height: 30px;
+  width: 100%;
 
-  @if $modifier-name != '' {
-    @include geo-segmented-control-item-make($modifier-name);
-
-    // sass-lint:disable space-around-operator
-    $modifier-name-with-prefix: --#{$modifier-name};
-  }
-
-  $idle-color: $color-grey;
-  $active-color: $color-blue;
-  $hover-color: $color-link;
-
-  .geo-segmented-control#{$modifier-name-with-prefix},
-  .geo-segmented-control--outline#{$modifier-name-with-prefix} {
-    align-items: center;
-    background: $color-white;
-    border: 1px solid $idle-color;
-    border-radius: $border-radius-default;
-    display: flex;
-    flex-direction: row;
-    height: 30px;
+  .geo-segmented-control-item,
+  .geo-segmented-control-item--outline {
     width: 100%;
-
-    .geo-segmented-control-item#{$modifier-name-with-prefix},
-    .geo-segmented-control-item--outline#{$modifier-name-with-prefix} {
-      width: 100%;
-    }
   }
+}
 
-  .geo-segmented-control#{$modifier-name-with-prefix} {
-    padding: 0 3px;
+.geo-segmented-control {
+  padding: 0 3px;
 
-    .geo-segmented-control-item#{$modifier-name-with-prefix} {
-      &:not(:last-child) {
-        margin-right: 3px;
-      }
-    }
-  }
-
-  .geo-segmented-control--outline#{$modifier-name-with-prefix} {
-    .geo-segmented-control-item--outline#{$modifier-name-with-prefix} {
-      background: transparent;
-      margin: -1px -1px -1px 0;
-      z-index: 2;
-
-      &:first-child {
-        margin-left: -1px;
-      }
-
-      &:not(:first-child) {
-        border-top-left-radius: 0;
-        border-bottom-left-radius: 0;
-      }
-
-      &:not(:last-child) {
-        border-top-right-radius: 0;
-        border-bottom-right-radius: 0;
-      }
-
-      &.geo-segmented-control-item--outline--disabled#{$modifier-name-with-prefix} {
-        background: $idle-color;
-        z-index: 1;
-      }
-
-      // We don't to overlap the right border of the active item with the left
-      // border of a non-active one
-      & + .geo-segmented-control-item--outline#{$modifier-name-with-prefix}:not(
-        .geo-segmented-control-item--outline--active#{$modifier-name-with-prefix}
-      ) {
-        border-left-color: $idle-color;
-      }
-
-      // We don't want left border on the button after the currently active one
-      &.geo-segmented-control-item--outline--active#{$modifier-name-with-prefix} +
-      .geo-segmented-control-item--outline#{$modifier-name-with-prefix} {
-        border-left-color: transparent;
-      }
+  .geo-segmented-control-item {
+    &:not(:last-child) {
+      margin-right: 3px;
     }
   }
 }
 
-@include geo-segmented-control-make('');
+.geo-segmented-control--outline {
+  .geo-segmented-control-item--outline {
+    background: transparent;
+    margin: -1px -1px -1px 0;
+    z-index: 2;
+
+    &:first-child {
+      margin-left: -1px;
+    }
+
+    &:not(:first-child) {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+
+    &:not(:last-child) {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+
+    &.geo-segmented-control-item--outline--disabled {
+      background: $color-grey;
+      z-index: 1;
+    }
+
+    // We don't to overlap the right border of the active item with the left
+    // border of a non-active one
+    & + .geo-segmented-control-item--outline:not(
+      .geo-segmented-control-item--outline--active
+    ) {
+      border-left-color: $color-grey;
+    }
+
+    // We don't want left border on the button after the currently active one
+    &.geo-segmented-control-item--outline--active +
+    .geo-segmented-control-item--outline {
+      border-left-color: transparent;
+    }
+  }
+}

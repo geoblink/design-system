@@ -60,7 +60,7 @@ describe('GeoCompactButton', function () {
     })
     wrapper.find('.geo-compact-button').trigger('click')
     await wrapper.vm.$nextTick()
-    expect(wrapper.emitted()['click']).toBeTruthy()
+    expect(wrapper.emitted().click).toBeTruthy()
   })
 
   it('Should not emit an event when it\'s disabled', function () {
@@ -75,20 +75,7 @@ describe('GeoCompactButton', function () {
     })
     const button = wrapper.find('.geo-compact-button')
     button.trigger('click')
-    expect(wrapper.emitted()['click']).toBeFalsy()
-  })
-
-  it('Should add CSS Suffix when given', function () {
-    const wrapper = mount(GeoCompactButton, {
-      propsData: {
-        type: 'primary',
-        cssModifier: 'test'
-      },
-      stubs: {
-        FontAwesomeIcon
-      }
-    })
-    expect(wrapper.find('.geo-compact-button--test').exists()).toBe(true)
+    expect(wrapper.emitted().click).toBeFalsy()
   })
 
   it('Should show activity indicator when loading', function () {
@@ -214,7 +201,7 @@ describe('GeoButton Children', function () {
 
         await wrapper.vm.$nextTick()
 
-        expect(wrapper.emitted()['click']).toBeTruthy()
+        expect(wrapper.emitted().click).toBeTruthy()
       })
 
       it('Should not emit an event when it\'s disabled', function () {
@@ -229,20 +216,7 @@ describe('GeoButton Children', function () {
         })
         const button = wrapper.find('.geo-compact-button')
         button.trigger('click')
-        expect(wrapper.emitted()['click']).toBeFalsy()
-      })
-
-      it('Should add CSS Suffix when given', function () {
-        const wrapper = mount(taxonomyButton, {
-          propsData: {
-            cssModifier: 'test'
-          },
-          stubs: {
-            GeoCompactButton,
-            FontAwesomeIcon
-          }
-        })
-        expect(wrapper.find('.geo-compact-button--test').exists()).toBe(true)
+        expect(wrapper.emitted().click).toBeFalsy()
       })
 
       it('Should show activity indicator when loading', function () {

@@ -1,9 +1,9 @@
 <template>
   <div
     :class="{
-      [`geo-file-upload${cssSuffix}`]: true,
-      [`geo-file-upload--${status}${cssSuffix}`]: true,
-      [`geo-file-upload--focused${cssSuffix}`]: isFocused
+      ['geo-file-upload']: true,
+      [`geo-file-upload--${status}`]: true,
+      [`geo-file-upload--focused`]: isFocused
     }"
     @dragenter="handleDragenter($event)"
     @dragleave="handleDragleave($event)"
@@ -14,8 +14,9 @@
   >
     <div
       v-if="isLoading"
-      :class="`geo-file-upload__loading-indicator${cssSuffix}`"
+      class="geo-file-upload__loading-indicator"
     >
+      <!-- @slot Use this slot to customize what's displaying in loading state -->
       <slot name="loading">
         <geo-activity-indicator />
       </slot>
@@ -24,29 +25,29 @@
       <font-awesome-icon
         :icon="currentIcon"
         :class="[
-          `geo-file-upload__upload-icon${cssSuffix}`,
-          `geo-file-upload__upload-icon--${status}${cssSuffix}`
+          'geo-file-upload__upload-icon',
+          `geo-file-upload__upload-icon--${status}`
         ]"
       />
       <font-awesome-icon
         :icon="uploadIcon"
         :class="[
-          `geo-file-upload__upload-icon${cssSuffix}`,
-          `geo-file-upload__upload-icon--focused${cssSuffix}`,
-          `geo-file-upload__upload-icon--${status}--focused${cssSuffix}`
+          'geo-file-upload__upload-icon',
+          'geo-file-upload__upload-icon--focused',
+          `geo-file-upload__upload-icon--${status}--focused`
         ]"
       />
     </template>
 
-    <div :class="`geo-file-upload__title${cssSuffix}`">
+    <div class="geo-file-upload__title">
       <!-- @slot Use this slot to customize the title displayed below icon and above help lines. -->
       <slot name="title" />
     </div>
 
     <div
       :class="[
-        `geo-file-upload__help${cssSuffix}`,
-        `geo-file-upload__help--${status}${cssSuffix}`
+        'geo-file-upload__help',
+        `geo-file-upload__help--${status}`
       ]"
     >
       <!-- @slot Use this slot to customize help text on the bottom. -->
@@ -55,8 +56,8 @@
 
     <input
       ref="input"
-      :class="`geo-file-upload__input${cssSuffix}`"
       :disabled="isLoading"
+      class="geo-file-upload__input"
       type="file"
       @change="handleFilePick($event)"
     >
@@ -65,14 +66,18 @@
 
 <script>
 import _ from 'lodash'
-import cssSuffix from '../../mixins/cssModifierMixin'
 import { STATUS } from './GeoFileUpload.mixin'
 
+/**
+ * `GeoFileUpload` is a form input designed to upload local files to a server.
+ * It supports drag & drop and different status variants.
+ *
+ * Only one file can be uploaded using this component.
+ */
 export default {
   name: 'GeoFileUpload',
   status: 'ready',
   release: '6.2.0',
-  mixins: [cssSuffix],
   constants: {
     STATUS
   },
@@ -84,7 +89,7 @@ export default {
      * It's aimed to show user feedback about the uploaded file.
      *
      * Supported `status` values are exported under `STATUS` named export.
-     * See [Component Constants](/docs/components-constants.html) for more info on how
+     * See [Component Constants](/docs/guides/using-constants) for more info on how
      * to use those constants in your code.
      */
     status: {
@@ -156,7 +161,9 @@ export default {
   },
   computed: {
     currentStatus () {
-      return this.isFocused ? STATUS.initial : this.status
+      return this.isFocused
+        ? STATUS.initial
+        : this.status
     },
 
     currentIcon () {

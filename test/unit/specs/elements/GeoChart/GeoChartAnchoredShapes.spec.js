@@ -140,7 +140,7 @@ describe('GeoChartAnchoredShapes', function () {
           content (d, i) {
             return [
               {
-                text: `Label`,
+                text: 'Label',
                 cssClass: 'label'
               },
               {

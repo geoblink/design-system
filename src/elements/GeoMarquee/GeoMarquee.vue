@@ -1,6 +1,6 @@
 <template>
   <div
-    :class="`geo-marquee${cssSuffix}`"
+    class="geo-marquee"
     @mouseenter="isHovering = true"
     @mouseleave="isHovering = false"
   >
@@ -8,8 +8,8 @@
       v-for="i in slotsNeeded"
       ref="marquee-content"
       :key="i"
-      :class="`geo-marquee__text-content${cssSuffix}`"
       :style="animationParams"
+      class="geo-marquee__text-content"
     >
       <!--
         @slot Use this slot to store the marquee content.
@@ -22,13 +22,17 @@
 </template>
 
 <script>
-import cssSuffix from '../../mixins/cssModifierMixin'
-
+/**
+ * `GeoMarquee` is a component used to display long strings in a carousel style
+ * which is animated only when user is hovering the text.
+ *
+ * You can choose the duration of the animation and its speed will be adjusted
+ * depending on the length of the text.
+ */
 export default {
   name: 'GeoMarquee',
   status: 'ready',
   release: '4.0.0',
-  mixins: [cssSuffix],
   props: {
     /**
      * Duration of the animation in **seconds**.

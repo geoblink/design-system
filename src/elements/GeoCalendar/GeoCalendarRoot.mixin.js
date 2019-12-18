@@ -32,7 +32,8 @@ export default {
     },
 
     /**
-     * Default date to be displayed as an initial date in the calendar. If it's not provided, the initial range will be empty.
+     * Default date to be displayed as an initial date in the calendar.
+     * If it's not provided, the initial range will be empty.
      */
     defaultFromDate: {
       type: Date,
@@ -40,7 +41,8 @@ export default {
     },
 
     /**
-     * Default date to be displayed as an end date in the calendar. If it's not provided, the end range will be empty.
+     * Default date to be displayed as an end date in the calendar.
+     * If it's not provided, the end range will be empty.
      */
     defaultToDate: {
       type: Date,
@@ -48,7 +50,11 @@ export default {
     },
 
     /**
-     * Earliest date that can be selected
+     * Earliest date that can be selected.
+     * Must be a `Date` object that will serve as a constraint for the earliest
+     * date available in the calendar.
+     * You won't be able to reach dates earlier than this nor select them as
+     * your initial date.
      */
     earliestDate: {
       type: Date,
@@ -56,7 +62,7 @@ export default {
     },
 
     /**
-     * Text displayed on the input that contains the selected 'from' date
+     * Text displayed on the input that contains the selected 'from' date.
      */
     fromInputPlaceholder: {
       type: String,
@@ -89,7 +95,11 @@ export default {
     },
 
     /**
-     * Latest date that can be selected
+     * Latest date that can be selected.
+     * Must be a `Date` object that will serve as a constraint for the latest
+     * date available in the calendar.
+     * You won't be able to reach dates later than this nor select them as your
+     * end date.
      */
     latestDate: {
       type: Date,

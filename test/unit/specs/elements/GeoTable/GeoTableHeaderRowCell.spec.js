@@ -19,7 +19,6 @@ describe('GeoTableHeaderRowCell', () => {
     const instance = wrapper.find('.geo-table-header-row-cell--main')
     expect(instance.exists()).toBe(true)
 
-    expect(slotScope).toHaveProperty('cssModifier')
     expect(slotScope).toHaveProperty('variant', 'main')
   })
 
@@ -83,24 +82,5 @@ describe('GeoTableHeaderRowCell', () => {
     const instance = wrapper.find('.geo-table-header-row-cell--main')
     expect(instance.exists()).toBe(true)
     expect(instance.text()).toEqual('Demo content')
-  })
-
-  it('Should apply CSS suffix when the modifier is provided', function () {
-    let slotScope
-    const wrapper = mount(GeoTableHeaderRowCell, {
-      propsData: {
-        cssModifier: 'demo-modifier'
-      },
-      scopedSlots: {
-        default (params) {
-          slotScope = params
-        }
-      }
-    })
-
-    const instance = wrapper.find('.geo-table-header-row-cell--main--demo-modifier')
-    expect(instance.exists()).toBe(true)
-
-    expect(slotScope).toHaveProperty('cssModifier', 'demo-modifier')
   })
 })

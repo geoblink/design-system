@@ -1,8 +1,8 @@
 <template>
   <section
     :class="{
-      [`geo-collapsable-box${cssSuffix}`]: true,
-      [`geo-collapsable-box--expanded${cssSuffix}`]: isExpanded
+      ['geo-collapsable-box']: true,
+      ['geo-collapsable-box--expanded']: isExpanded
     }"
   >
     <header
@@ -33,13 +33,14 @@
 </template>
 
 <script>
-import cssSuffix from '../../mixins/cssModifierMixin'
-
+/**
+ * `GeoCollapsableBox` is a component featuring a collapsable box that can be
+ * expanded on user demand.
+ */
 export default {
   name: 'GeoCollapsableBox',
   status: 'ready',
   release: '24.9.0',
-  mixins: [cssSuffix],
   props: {
     /**
      * Whether this box should be collapsed by default (`true`) or not.

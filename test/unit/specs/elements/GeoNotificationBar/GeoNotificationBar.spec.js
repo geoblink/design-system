@@ -58,7 +58,7 @@ describe('GeoNotificationBar', () => {
   it('Should display actions slot', () => {
     const wrapper = mount(GeoNotificationBar, {
       slots: {
-        actions: [`<button class="some-action">A button</button>`]
+        actions: ['<button class="some-action">A button</button>']
       }
     })
     expect(wrapper.find('.some-action').exists()).toBe(true)
@@ -83,15 +83,6 @@ describe('GeoNotificationBar', () => {
       }
     })
     wrapper.find(FontAwesomeIcon).trigger('click')
-    expect(wrapper.emitted()['close']).toBeTruthy()
-  })
-
-  it('Should apply a CSS suffix when the modifier is provided', () => {
-    const wrapper = mount(GeoNotificationBar, {
-      propsData: {
-        cssModifier: 'test'
-      }
-    })
-    expect(wrapper.find('.geo-notification-bar--test').exists()).toBe(true)
+    expect(wrapper.emitted().close).toBeTruthy()
   })
 })

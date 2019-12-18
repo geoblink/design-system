@@ -1,5 +1,5 @@
 <template>
-  <div :class="`geo-bordered-token${cssSuffix}`">
+  <div class="geo-bordered-token">
     <font-awesome-icon
       v-if="icon"
       :icon="icon"
@@ -16,14 +16,14 @@
 </template>
 
 <script>
-
-import cssSuffix from '../../mixins/cssModifierMixin'
-
+/**
+ * `GeoBorderedToken` is a component that renders a small static label with a
+ * boxed-like like style.
+ */
 export default {
   name: 'GeoBorderedToken',
   status: 'ready',
   release: '9.3.0',
-  mixins: [cssSuffix],
   props: {
     /**
      * Font Awesome 5 icon to be displayed.

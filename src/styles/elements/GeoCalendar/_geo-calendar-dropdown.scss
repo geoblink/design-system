@@ -1,27 +1,9 @@
-@mixin geo-calendar-dropdown-make($modifier-name) {
-
-  $modifier-name-with-prefix: '';
-
-  @if $modifier-name != '' {
-    // sass-lint:disable space-around-operator
-    $modifier-name-with-prefix: --#{$modifier-name};
-  }
-
-  @include geo-dropdown-make('geo-calendar__dropdown#{$modifier-name-with-prefix}');
-  @include geo-dropdown-make('geo-calendar__dropdown--no-calendar-sidebar#{$modifier-name-with-prefix}');
-  @include geo-bordered-box-make('geo-calendar__dropdown#{$modifier-name-with-prefix}');
-  @include geo-bordered-box-make('geo-calendar__dropdown--no-calendar-sidebar#{$modifier-name-with-prefix}');
-  @include geo-calendar-make($modifier-name);
-  @include geo-calendar-picker-make($modifier-name);
-  @include geo-calendar-grid-make($modifier-name);
-  @include geo-button-make('calendar-picker-button');
-  @include geo-button-make('calendar-navigation-toggle-button');
-  @include geo-input-make('geo-calendar');
-
-  .geo-bordered-box--geo-calendar__dropdown#{$modifier-name-with-prefix},
-  .geo-bordered-box--geo-calendar__dropdown--no-calendar-sidebar#{$modifier-name-with-prefix} {
+.geo-calendar-dropdown__popup {
+  .geo-bordered-box {
     box-sizing: border-box;
   }
-}
 
-@include geo-calendar-dropdown-make('');
+  .geo-scrollable-container__body {
+    max-height: var(--available-height);
+  }
+}

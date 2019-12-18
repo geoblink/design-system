@@ -224,11 +224,12 @@ export function getAxis (singleAxisOptions) {
       case axisUtils.POSITIONS.horizontallyCenteredInTheMiddle:
         return d3.axisLeft(scale)
 
-      case axisUtils.POSITIONS.anchoredToAxis:
+      case axisUtils.POSITIONS.anchoredToAxis: {
         const axisDimension = getAxisDimension(position)
         return axisDimension === dimensionUtils.DIMENSIONS_2D.horizontal
           ? d3.axisBottom(scale)
           : d3.axisLeft(scale)
+      }
 
       default:
         console.warn(`GeoChart (axis) [component] :: Tried to get axis for unknown position: ${position.type}`, singleAxisOptions)
@@ -253,12 +254,14 @@ export function getAxisDimension (position) {
     case axisUtils.POSITIONS.horizontallyCenteredInTheMiddle:
       return dimensionUtils.DIMENSIONS_2D.vertical
 
-    case axisUtils.POSITIONS.anchoredToAxis:
+    case axisUtils.POSITIONS.anchoredToAxis: {
       const relativeAxisPosition = (/** @type {GeoChart.AxisPositionConfigRelative<RelativeScaleDomain>} */ (position))
       const anchoredAxisPosition = getAxisDimension(relativeAxisPosition.relativeAxisPosition)
+
       return anchoredAxisPosition === dimensionUtils.DIMENSIONS_2D.horizontal
         ? dimensionUtils.DIMENSIONS_2D.vertical
         : dimensionUtils.DIMENSIONS_2D.horizontal
+    }
   }
 
   console.warn(`GeoChart (axis) [component] :: Tried to get axis dimension for unknown position: ${position.type}`, position)
@@ -287,20 +290,22 @@ function getOriginXTranslation (position, svgSize, margin) {
     case axisUtils.POSITIONS.horizontallyCenteredInTheMiddle:
       return margin.left + (svgSize.width - margin.left - margin.right) / 2
 
-    case axisUtils.POSITIONS.anchoredToAxis:
+    case axisUtils.POSITIONS.anchoredToAxis: {
       const dimension = getAxisDimension(position)
 
       switch (dimension) {
         case dimensionUtils.DIMENSIONS_2D.horizontal:
           return 0
-        case dimensionUtils.DIMENSIONS_2D.vertical:
+        case dimensionUtils.DIMENSIONS_2D.vertical: {
           const relativeAxisPosition = (/** @type {GeoChart.AxisPositionConfigRelative<RelativeScaleDomain>} */ (position))
           return relativeAxisPosition.scale.axisScale(relativeAxisPosition.value)
+        }
       }
 
       console.warn(`GeoChart (axis) [component] :: Tried to get X Translation for unknown dimension: ${dimension}`, position)
 
       return null
+    }
   }
 
   console.warn(`GeoChart (axis) [component] :: Tried to get X Translation for unknown position: ${position.type}`, position)
@@ -331,13 +336,14 @@ function getOriginYTranslation (position, svgSize, margin) {
     case axisUtils.POSITIONS.horizontallyCenteredInTheMiddle:
       return 0
 
-    case axisUtils.POSITIONS.anchoredToAxis:
+    case axisUtils.POSITIONS.anchoredToAxis: {
       const dimension = getAxisDimension(position)
 
       switch (dimension) {
-        case dimensionUtils.DIMENSIONS_2D.horizontal:
+        case dimensionUtils.DIMENSIONS_2D.horizontal: {
           const relativeAxisPosition = (/** @type {GeoChart.AxisPositionConfigRelative<RelativeScaleDomain>} */ (position))
           return relativeAxisPosition.scale.axisScale(relativeAxisPosition.value)
+        }
         case dimensionUtils.DIMENSIONS_2D.vertical:
           return 0
       }
@@ -345,6 +351,7 @@ function getOriginYTranslation (position, svgSize, margin) {
       console.warn(`GeoChart (axis) [component] :: Tried to get Y Translation for unknown dimension: ${dimension}`, position)
 
       return null
+    }
   }
 
   console.warn(`GeoChart (axis) [component] :: Tried to get Y Translation for unknown position: ${position.type}`, position)

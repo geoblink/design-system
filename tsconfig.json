@@ -5,6 +5,7 @@
     "moduleResolution": "node",
     "baseUrl": ".",
     "noEmit": true,
-    "target": "es2015"
+    "target": "es2015",
+    "resolveJsonModule": true
   }
 }

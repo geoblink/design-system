@@ -1,8 +1,4 @@
-`GeoBorderedBoxHeader` is component designed to fit nicely as header of a
-[GeoBorderedBox](./#/Elements/GeoBorderedBox?id=geoborderedbox-1).
-
-It supports displaying a special *close* button and allows setting an optional
-clickable icon in the leading edge of the header.
+### Simple header
 
 ```jsx live
 <div class="element-demo">
@@ -10,12 +6,50 @@ clickable icon in the leading edge of the header.
     <geo-bordered-box-header>
       A header
     </geo-bordered-box-header>
+  </div>
+</div>
+```
 
+### With leading icon
+
+```jsx live
+<div class="element-demo">
+  <div class="element-demo__block" style="justify-content: space-around;">
     <geo-bordered-box-header :icon="['fas', 'chevron-left']">
       Results based on
     </geo-bordered-box-header>
+  </div>
+</div>
+```
 
-    <geo-bordered-box-header :icon="['fas', 'chevron-left']" :close-icon="['fas', 'times']" @close="">
+### With close icon
+
+```jsx live
+<div class="element-demo">
+  <div class="element-demo__block" style="justify-content: space-around;">
+    <geo-bordered-box-header @close="">
+      Closable
+    </geo-bordered-box-header>
+
+    <geo-bordered-box-header
+      :close-icon="['fas', 'chevron-right']"
+      @close=""
+    >
+      Custom close icon
+    </geo-bordered-box-header>
+  </div>
+</div>
+```
+
+### With leading & close icon
+
+```jsx live
+<div class="element-demo">
+  <div class="element-demo__block" style="justify-content: space-around;">
+    <geo-bordered-box-header
+      :icon="['fas', 'chevron-left']"
+      @close=""
+    >
       Closable
     </geo-bordered-box-header>
   </div>

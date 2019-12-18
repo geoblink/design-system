@@ -61,7 +61,7 @@ describe('GeoButton', () => {
     wrapper.find('.geo-button').trigger('click')
     setTimeout(function () {
       try {
-        expect(wrapper.emitted()['click']).toBeTruthy()
+        expect(wrapper.emitted().click).toBeTruthy()
         done()
       } catch (error) {
         done(error)
@@ -79,18 +79,7 @@ describe('GeoButton', () => {
 
     const button = wrapper.find('.geo-button')
     button.trigger('click')
-    expect(wrapper.emitted()['click']).toBeFalsy()
-  })
-
-  it('Should add CSS Suffix when given', function () {
-    const wrapper = mount(GeoButton, {
-      propsData: {
-        type: 'primary',
-        cssModifier: 'custom'
-      }
-    })
-
-    expect(wrapper.find('.geo-button--custom').exists()).toBe(true)
+    expect(wrapper.emitted().click).toBeFalsy()
   })
 
   it('Should show activity indicator when loading', function () {
@@ -123,7 +112,7 @@ describe('GeoButton', () => {
       },
       stubs: { GeoActivityIndicator }
     })
-    expect(secondaryWrapper.vm.activityIndicatorVariant).toBe(undefined)
+    expect(secondaryWrapper.vm.activityIndicatorVariant).toBe('primary')
     expect(secondaryWrapper.find('.geo-activity-indicator').exists()).toBe(true)
 
     const tertiaryWrapper = mount(GeoButton, {
@@ -133,7 +122,7 @@ describe('GeoButton', () => {
       },
       stubs: { GeoActivityIndicator }
     })
-    expect(tertiaryWrapper.vm.activityIndicatorVariant).toBe(undefined)
+    expect(tertiaryWrapper.vm.activityIndicatorVariant).toBe('primary')
     expect(tertiaryWrapper.find('.geo-activity-indicator').exists()).toBe(true)
 
     const dangerWrapper = mount(GeoButton, {
@@ -153,7 +142,7 @@ describe('GeoButton', () => {
       },
       stubs: { GeoActivityIndicator }
     })
-    expect(linkWrapper.vm.activityIndicatorVariant).toBe(undefined)
+    expect(linkWrapper.vm.activityIndicatorVariant).toBe('primary')
     expect(linkWrapper.find('.geo-activity-indicator').exists()).toBe(true)
 
     const dangerLinkWrapper = mount(GeoButton, {
@@ -163,7 +152,7 @@ describe('GeoButton', () => {
       },
       stubs: { GeoActivityIndicator }
     })
-    expect(dangerLinkWrapper.vm.activityIndicatorVariant).toBe(undefined)
+    expect(dangerLinkWrapper.vm.activityIndicatorVariant).toBe('error')
     expect(dangerLinkWrapper.find('.geo-activity-indicator').exists()).toBe(true)
   })
 })
@@ -206,7 +195,7 @@ describe('GeoButton Children', () => {
         wrapper.find('.geo-button').trigger('click')
         setTimeout(function () {
           try {
-            expect(wrapper.emitted()['click']).toBeTruthy()
+            expect(wrapper.emitted().click).toBeTruthy()
             done()
           } catch (error) {
             done(error)
@@ -227,21 +216,7 @@ describe('GeoButton Children', () => {
 
         const button = wrapper.find('.geo-button')
         button.trigger('click')
-        expect(wrapper.emitted()['click']).toBeFalsy()
-      })
-
-      it('Should add CSS Suffix when given', function () {
-        const wrapper = mount(taxonomyButton, {
-          propsData: {
-            cssModifier: 'custom'
-          },
-          stubs: {
-            GeoButton,
-            FontAwesomeIcon
-          }
-        })
-
-        expect(wrapper.find('.geo-button--custom').exists()).toBe(true)
+        expect(wrapper.emitted().click).toBeFalsy()
       })
 
       it('Should show activity indicator when loading', function () {
@@ -305,7 +280,7 @@ describe('GeoButton Children', () => {
 
       wrapper.find('.geo-button').trigger('click')
 
-      expect(wrapper.emitted()['click']).toBeTruthy()
+      expect(wrapper.emitted().click).toBeTruthy()
       expect(nativeClickSpy).toHaveBeenCalled()
     })
   })

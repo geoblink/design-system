@@ -3,7 +3,7 @@
 Scales provide a way to map values from a domain (using units from a specific
 context) into a range (using the units of our drawing canvas - an SVG). They
 are used in several internal parts of `GeoChart` but they are only defined on a
-per-[axis](./#/Elements/Charts?id=axes) basis.
+per-[axis](#chart-axes) basis.
 
 All the axis must have a `type` property which must be a value of
 `SCALE.SCALE_TYPES` named export. Depending on the `type` they have additional
@@ -11,11 +11,11 @@ requirements.
 
 ### Linear scales
 
-- `type`: must be `SCALE.SCALE_TYPES.linear`.
-- `domain`: must be either an array of numbers (the domain will be formed by all
-of those numbers) or an object with an `start` and an `end` property, both of
-them numbers. A domain may be decreasing.
-- `valueForOrigin`: value at which the axis corresponding to this scale is
+- `type` - must be `SCALE.SCALE_TYPES.linear`.
+- `domain` - must be either an array of numbers (the domain will be formed by
+all of those numbers) or an object with an `start` and an `end` property, both
+of them numbers. A domain may be decreasing.
+- `valueForOrigin` - value at which the axis corresponding to this scale is
 considered to start. This is usually `0` although might be a different value.
 This affect each data representation in a different way, for instance, in a bar
 chart using this axis for its dimension, the bar's growth will be proportional
@@ -40,9 +40,9 @@ probably by `0` but if you want to use Fahrenheit degrees it would be `32`.
 
 Almost identical to `linear` scales, but:
 
-- `type`: must be `SCALE.SCALE_TYPES.logarithmic`.
-- `domain`: it's lowest end must be `> 0`.
-- `base`: (_optional_) the base of the logarithm, defaults to `10`.
+- `type` - must be `SCALE.SCALE_TYPES.logarithmic`.
+- `domain` - it's lowest end must be `> 0`.
+- `base` - (_optional_) the base of the logarithm, defaults to `10`.
 
 #### Example
 
@@ -62,16 +62,16 @@ Almost identical to `linear` scales, but:
 
 Similar to `linear` scales, but:
 
-- `type`: must be `SCALE.SCALE_TYPES.categorical`.
-- `domain`: must be an array of values which can be either strings or numbers.
-- `valueForOrigin`: must be one of the values of `domain` array.
+- `type` - must be `SCALE.SCALE_TYPES.categorical`.
+- `domain` - must be an array of values which can be either strings or numbers.
+- `valueForOrigin` - must be one of the values of `domain` array.
 
 #### Optional properties
 
-- `padding`: object allowing defining the separation between categories. All its
+- `padding` - object allowing defining the separation between categories. All its
 properties are optional:
-  - `inner`: space between two consecutive categories, in the range `[0, 1]`.
-  - `outer`: space before the first category and after the last one, in the
+  - `inner` - space between two consecutive categories, in the range `[0, 1]`.
+  - `outer` - space before the first category and after the last one, in the
   range `[0, 1]`.
 
 #### Example
@@ -92,18 +92,18 @@ properties are optional:
 
 Similar to `linear` scales, but:
 
-- `type`: must be `SCALE.SCALE_TYPES.time`.
-- `domain`: must be either an array of dates (the domain will be formed by all
+- `type` - must be `SCALE.SCALE_TYPES.time`.
+- `domain` - must be either an array of dates (the domain will be formed by all
 of those dates) or an object with an `start` and an `end` property, both of
 them dates. A domain may be decreasing.
-- `valueForOrigin`: must be one of the values of `domain` array.
+- `valueForOrigin` - must be one of the values of `domain` array.
 
-### Optional properties
+#### Optional properties
 
-- `nice`: function that will modify the domain to one that the ticks fit nicely
-in the graph. Must be one of `SCALE.NICE_TYPES`
+- `nice` - function that will modify the domain to one that the ticks fit nicely
+in the graph. Must be one of `SCALE.NICE_TYPES`.
 
-### Example
+#### Example
 
 ```json
 {

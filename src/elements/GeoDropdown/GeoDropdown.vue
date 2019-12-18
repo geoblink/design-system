@@ -3,8 +3,8 @@
     v-scroll-anywhere="checkScrollEventAndRepositionIfNeeded"
     v-click-outside="checkClickCoordinatesAndEmitClickOutside"
     :class="{
-      [`geo-dropdown${cssSuffix}`]: true,
-      [`geo-dropdown--is-open${cssSuffix}`]: isOpened
+      ['geo-dropdown']: true,
+      ['geo-dropdown--is-open']: isOpened
     }"
   >
     <!-- @slot Use this slot to customize the button used to toggle the popup -->
@@ -12,13 +12,10 @@
 
     <div
       ref="popup"
-      :class="[
-        popupClass,
-        `geo-dropdown__popup${cssSuffix}`,
-        {
-          [`geo-dropdown__popup--is-open${cssSuffix}`]: isOpened,
-        }
-      ]"
+      :class="[popupClass, {
+        ['geo-dropdown__popup']: true,
+        ['geo-dropdown__popup--is-open']: isOpened
+      }]"
       :style="popupStyle"
     >
       <!-- @slot Use this slot to customize popup's content -->
@@ -33,10 +30,18 @@
 <script>
 import ClickOutside from '../../directives/GeoClickOutside'
 import ScrollAnywhere from '../../directives/GeoScrollAnywhere'
-import cssSuffix from '../../mixins/cssModifierMixin'
 import * as GeoDropdownConstants from './GeoDropdown.constants'
 import _ from 'lodash'
 
+/**
+ * `GeoDropdown` is a combination of a button and a popup which can be toggled in
+ * and out using the button. It's suitable for dropdown menus and actions which
+ * require additional or complex user input like handling data filters.
+ *
+ * The popup is smartly repositioned when it does not fit below the toggle button
+ * and is pinned to right side of the button when its content overflows viewport
+ * if pinned to left side.
+ */
 export default {
   name: 'GeoDropdown',
   status: 'ready',
@@ -46,7 +51,6 @@ export default {
     ScrollAnywhere,
     ClickOutside
   },
-  mixins: [cssSuffix],
   props: {
     /**
      * Whether the popup attached to this menu should be visible (`true`) or not.

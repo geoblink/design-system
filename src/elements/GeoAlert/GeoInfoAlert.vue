@@ -6,7 +6,6 @@
       data.staticClass
     ]"
     :icon="['fal', 'lightbulb']"
-    :css-modifier="props.cssModifier"
     :variant="$options.helpers.VARIANTS.info"
     v-on="listeners"
   >
@@ -16,17 +15,23 @@
 </template>
 
 <script>
-import cssSuffix from '../../mixins/cssModifierMixin'
-
 import { VARIANTS } from './GeoAlert.constants'
 
+/**
+ * [GeoAlert](./GeoAlert) using predefined `info` variant.
+ *
+ * `info` variant is normally used to show details that might be useful but
+ * knowing them is not required to properly perform the task they are about.
+ *
+ * See [GeoAlert](./GeoAlert) for a complete list of supported properties and
+ * features.
+ */
 export default {
   name: 'GeoInfoAlert',
   status: 'ready',
   release: '22.0.0',
   helpers: {
     VARIANTS
-  },
-  mixins: [cssSuffix]
+  }
 }
 </script>

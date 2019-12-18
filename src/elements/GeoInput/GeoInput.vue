@@ -1,9 +1,9 @@
 <template>
   <label
     :class="{
-      [`geo-input${cssSuffix}`]: true,
-      [`geo-input--${statusClass}${cssSuffix}`]: statusClass,
-      [`geo-input--disabled${cssSuffix}`]: disabled
+      ['geo-input']: true,
+      [`geo-input--${statusClass}`]: statusClass,
+      ['geo-input--disabled']: disabled
     }"
   >
     <!-- @slot Use this slot to customize what's displayed as input label -->
@@ -76,13 +76,16 @@
 
 <script>
 import _ from 'lodash'
-import cssSuffix from '../../mixins/cssModifierMixin'
 
+/**
+ * `GeoInput` component works like a native input but can be customisable with a
+ * label and a message as well as different color schemes to give feedback to
+ * the user.
+ */
 export default {
   name: 'GeoInput',
   status: 'ready',
   release: '24.1.0',
-  mixins: [cssSuffix],
   props: {
     /**
      * @model

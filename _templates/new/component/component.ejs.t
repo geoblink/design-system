@@ -2,19 +2,19 @@
 to: src/elements/<%= name %>/<%= name %>.vue
 ---
 <template>
-  <div :class="`<%= h.changeCase.param(name) %>${cssSuffix}`">
+  <div class="<%= h.changeCase.param(name) %>">
 
   </div>
 </template>
 
 <script>
-import cssSuffix from '../../mixins/cssModifierMixin'
-
+/**
+ * `<%= name %>` is ... TODO: Write description
+ */
 export default {
   name: '<%= name %>',
   status: 'missing-tests',
   release: 'CHANGE ME',
-  mixins: [cssSuffix],
   props: {
 
   },
