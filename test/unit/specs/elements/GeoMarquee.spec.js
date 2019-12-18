@@ -59,6 +59,8 @@ describe('GeoMarquee', () => {
       top: 0
     }
 
+    await wrapper.vm.$nextTick()
+
     jest
       .spyOn(Element.prototype, 'getBoundingClientRect')
       .mockImplementation(function () {
