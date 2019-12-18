@@ -37,7 +37,7 @@ module.exports = {
     ],
     sidebar: 'auto',
     lastUpdated: 'Last Updated',
-    repo: 'https://bitbucket.org/geoblink/geoblink-design-system',
+    repo: 'https://github.com/geoblink/design-system',
     docsDir: 'src/elements',
     editLinks: true
   },
