@@ -260,7 +260,7 @@ export default {
       if (!this.isVisible) return
 
       this.$nextTick().then(() => {
-        if (this.$el.style) {
+        if (this.$el && this.$el.style) {
           this.$el.style.removeProperty('--available-width')
           this.$el.style.removeProperty('--available-height')
         }
@@ -349,7 +349,7 @@ export default {
         tooltipAlignment
       )
 
-      if (this.$el.style) {
+      if (this.$el && this.$el.style) {
         this.$el.style.setProperty('--available-width', `${availableSpaceForTooltipContent.horizontal}px`)
         this.$el.style.setProperty('--available-height', `${availableSpaceForTooltipContent.vertical}px`)
       }
@@ -416,9 +416,13 @@ export default {
 
       const transform = `translate(${correctedOffset.x}px, ${correctedOffset.y}px)`
       if (this.static) {
-        this.staticTooltipContainer.style.transform = transform
+        if (this.staticTooltipContainer) {
+          this.staticTooltipContainer.style.transform = transform
+        }
       } else {
-        tooltipContainerElement.style.transform = transform
+        if (tooltipContainerElement) {
+          tooltipContainerElement.style.transform = transform
+        }
       }
 
       this.fittingPosition = tooltipPosition
@@ -478,7 +482,7 @@ export default {
         const visibleTooltips = document.querySelectorAll('.geo-tooltip .geo-tooltip__content')
         if (visibleTooltips.length > 1) {
           visibleTooltips.forEach((element) => {
-            if (element === this.$el) {
+            if (element && element === this.$el) {
               element.style.display = null
             } else {
               element.style.display = 'none'
