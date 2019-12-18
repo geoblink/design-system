@@ -1,9 +1,7 @@
-`GeoTrimmedContent` is a component used to trim long strings which don't fit in a
-single line, and displaying a tooltip to read the whole content.
+### Long content
 
 ```jsx live
 <div class="element-demo">
-  <h3 class="element-demo__header">Long content</h3>
   <div class="element-demo__block">
     <div class="element-demo__bordered-box" style="width: 120px;">
       <geo-trimmed-content>
@@ -30,7 +28,13 @@ single line, and displaying a tooltip to read the whole content.
       </geo-trimmed-content>
     </div>
   </div>
-  <h3 class="element-demo__header">Short content</h3>
+</div>
+```
+
+### Short content
+
+```jsx live
+<div class="element-demo">
   <div class="element-demo__block">
     <div class="element-demo__bordered-box" style="width: 120px;">
       <geo-trimmed-content>

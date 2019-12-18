@@ -24,6 +24,10 @@
 import OnResize from '../../directives/GeoOnResize'
 import Tooltip from '../../directives/Tooltip'
 
+/**
+ * `GeoTrimmedContent` is a component used to trim long strings which don't fit
+ * in a single line, and displaying a tooltip to read the whole content.
+ */
 export default {
   name: 'GeoTrimmedContent',
   status: 'ready',
