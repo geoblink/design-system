@@ -1,8 +1,5 @@
-`GeoSidebarLayout` is a component designed to be displayed together with a step component inside a wizard
-
 ```jsx live
 <div class="element-demo">
-  <h3 class="element-demo__header">Sidebar example</h3>
   <div class="element-demo__block" style="justify-content: space-around;">
     <geo-sidebar-layout>
       <template slot="header">

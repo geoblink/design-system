@@ -18,6 +18,10 @@
 </template>
 
 <script>
+/**
+ * `GeoSidebarLayout` is a component designed to be displayed together with a
+ * step component inside a wizard
+ */
 export default {
   name: 'GeoSidebarLayout',
   status: 'ready',
