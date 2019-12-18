@@ -20,6 +20,10 @@
 <script>
 import geoSegmentedControlItemMixin, { VARIANTS } from './GeoSegmentedControlItem.constants'
 
+/**
+ * `GeoInfoSegmentedControlItem` is a component designed to nicely fit as one of
+ * the options of a [GeoSegmentedControl](./GeoSegmentedControl).
+ */
 export default {
   name: 'GeoInfoSegmentedControlItem',
   status: 'ready',

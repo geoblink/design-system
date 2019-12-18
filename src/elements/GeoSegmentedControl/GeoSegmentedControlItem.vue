@@ -18,6 +18,10 @@
 <script>
 import geoSegmentedControlItemMixin, { VARIANTS } from './GeoSegmentedControlItem.constants'
 
+/**
+ * `GeoSegmentedControlItem` is a component designed to nicely fit as one of the
+ * options of a [GeoSegmentedControl](./GeoSegmentedControl).
+ */
 export default {
   name: 'GeoSegmentedControlItem',
   status: 'ready',
@@ -28,19 +32,21 @@ export default {
      * Predefined color scheme of the segmented control item, allowing several
      * common out-of-the-box customizations.
      *
-     * > **Note:** There are specific components to avoid explicitly writing
-     * > this value and performing other common customizations.
+     * ::: tip
+     * There are specific components to avoid explicitly writing this value and
+     * performing other common customizations.
+     * :::
      *
      *
-     * | variant  | Specific component                                            |
-     * |----------|---------------------------------------------------------------|
-     * | success  | [GeoSuccessSegmentedControlItem](./#/Elements/GeoSegmentedControlItem?id=geosuccesssegmentedcontrolitem)   |
-     * | info     | [GeoInfoSegmentedControlItem](./#/Elements/GeoSegmentedControlItem?id=geoinfosegmentedcontrolitem)         |
-     * | warning  | [GeoWarningSegmentedControlItem](./#/Elements/GeoSegmentedControlItem?id=geowarningsegmentedcontrolitem)   |
-     * | error    | [GeoErrorSegmentedControlItem](./#/Elements/GeoSegmentedControlItem?id=geoerrorsegmentedcontrolitem)       |
+     * | variant   | Specific component                                                 |
+     * |-----------|--------------------------------------------------------------------|
+     * | `success` | [GeoSuccessSegmentedControlItem](./GeoSuccessSegmentedControlItem) |
+     * | `info`    | [GeoInfoSegmentedControlItem](./GeoInfoSegmentedControlItem)       |
+     * | `warning` | [GeoWarningSegmentedControlItem](./GeoWarningSegmentedControlItem) |
+     * | `error`   | [GeoErrorSegmentedControlItem](./GeoErrorSegmentedControlItem)     |
      *
      * Supported `variant` values are exported under `VARIANTS` named export.
-     * See [Component Constants](/docs/components-constants.html) for more info on how
+     * See [Component Constants](/docs/guides/using-constants) for more info on how
      * to use those constants in your code.
      */
     variant: {

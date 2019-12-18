@@ -1,78 +1,14 @@
-`GeoInfoSegmentedControlItem` is a component designed to nicely fit as one of
-the options of a [`GeoSegmentedControl`](./#/Elements/GeoSegmentedControl?id=geosegmentedcontrol-1).
+### Regular style
 
 ```vue live
 <template>
   <div class="element-demo">
-    <h3 class="element-demo__header">Regular style</h3>
-    <div class="element-demo__block" style="width: 120px;">
+    <div class="element-demo__block">
       <geo-info-segmented-control-item
-        :active="isFirstButtonActive"
-        @click="isFirstButtonActive = !isFirstButtonActive"
+        :active="active"
+        @click="active = !active"
       >
         Option one
-      </geo-info-segmented-control-item>
-
-      <geo-info-segmented-control-item active>
-        Active option
-      </geo-info-segmented-control-item>
-
-      <geo-info-segmented-control-item
-        :active="isThirdButtonActive"
-        @click="isThirdButtonActive = !isThirdButtonActive"
-      >
-        <font-awesome-icon :icon="['fas', 'cat']" fixed-width />
-        <span>With icon</span>
-      </geo-info-segmented-control-item>
-
-      <geo-info-segmented-control-item active>
-        <font-awesome-icon :icon="['fas', 'spider']" fixed-width />
-        <span>Active with icon</span>
-      </geo-info-segmented-control-item>
-
-      <geo-info-segmented-control-item disabled>
-        Disabled option
-      </geo-info-segmented-control-item>
-
-      <geo-info-segmented-control-item disabled active>
-        Active disabled option
-      </geo-info-segmented-control-item>
-    </div>
-
-    <h3 class="element-demo__header">Outline style</h3>
-    <div class="element-demo__block" style="width: 120px;">
-      <geo-info-segmented-control-item
-        outline
-        :active="isFirstButtonActive"
-        @click="isFirstButtonActive = !isFirstButtonActive"
-      >
-        Option one
-      </geo-info-segmented-control-item>
-
-      <geo-info-segmented-control-item outline active>
-        Active option
-      </geo-info-segmented-control-item>
-
-      <geo-info-segmented-control-item
-        outline
-        :active="isThirdButtonActive"
-        @click="isThirdButtonActive = !isThirdButtonActive"
-      >
-        <font-awesome-icon :icon="['fas', 'cat']" fixed-width />
-        <span>With icon</span>
-      </geo-info-segmented-control-item>
-
-      <geo-info-segmented-control-item outline active>
-        <font-awesome-icon :icon="['fas', 'spider']" fixed-width />
-        <span>Active with icon</span>
-      </geo-info-segmented-control-item>
-
-      <geo-info-segmented-control-item outline disabled>
-        Disabled option
-      </geo-info-segmented-control-item>
-
-      <geo-info-segmented-control-item outline disabled active>
-        Active disabled option
       </geo-info-segmented-control-item>
     </div>
   </div>
@@ -82,10 +18,208 @@ the options of a [`GeoSegmentedControl`](./#/Elements/GeoSegmentedControl?id=geo
 export default {
   data () {
     return {
-      isFirstButtonActive: false,
-      isThirdButtonActive: false
+      active: false
     }
   }
 }
 </script>
+```
+
+### Regular style (active)
+
+```jsx live
+<div class="element-demo">
+  <div class="element-demo__block">
+    <geo-info-segmented-control-item active>
+      Active option
+    </geo-info-segmented-control-item>
+  </div>
+</div>
+```
+
+### Regular style (with icon)
+
+```vue live
+<template>
+  <div class="element-demo">
+    <div class="element-demo__block">
+      <geo-info-segmented-control-item
+        :active="active"
+        @click="active = !active"
+      >
+        <font-awesome-icon :icon="['fas', 'cat']" fixed-width />
+        <span>With icon</span>
+      </geo-info-segmented-control-item>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  data () {
+    return {
+      active: false
+    }
+  }
+}
+</script>
+```
+
+### Regular style (active, with icon)
+
+```jsx live
+<div class="element-demo">
+  <div class="element-demo__block">
+    <geo-info-segmented-control-item active>
+      <font-awesome-icon :icon="['fas', 'spider']" fixed-width />
+      <span>Active with icon</span>
+    </geo-info-segmented-control-item>
+  </div>
+</div>
+```
+
+### Regular style (disabled)
+
+```jsx live
+<div class="element-demo">
+  <div class="element-demo__block">
+    <geo-info-segmented-control-item disabled>
+      Disabled option
+    </geo-info-segmented-control-item>
+  </div>
+</div>
+```
+
+### Regular style (disabled, active)
+
+```jsx live
+<div class="element-demo">
+  <div class="element-demo__block">
+    <geo-info-segmented-control-item
+      disabled
+      active
+    >
+      Active disabled option
+    </geo-info-segmented-control-item>
+  </div>
+</div>
+```
+
+### Outline style
+
+```vue live
+<template>
+  <div class="element-demo">
+    <div class="element-demo__block">
+      <geo-info-segmented-control-item
+        :active="active"
+        outline
+        @click="active = !active"
+      >
+        Option one
+      </geo-info-segmented-control-item>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  data () {
+    return {
+      active: false
+    }
+  }
+}
+</script>
+```
+
+### Outline style (active)
+
+```jsx live
+<div class="element-demo">
+  <div class="element-demo__block">
+    <geo-info-segmented-control-item
+      outline
+      active
+    >
+      Active option
+    </geo-info-segmented-control-item>
+  </div>
+</div>
+```
+
+### Outline style (with icon)
+
+```vue live
+<template>
+  <div class="element-demo">
+    <div class="element-demo__block">
+      <geo-info-segmented-control-item
+        :active="active"
+        outline
+        @click="active = !active"
+      >
+        <font-awesome-icon :icon="['fas', 'cat']" fixed-width />
+        <span>With icon</span>
+      </geo-info-segmented-control-item>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  data () {
+    return {
+      active: false
+    }
+  }
+}
+</script>
+```
+
+### Outline style (active, with icon)
+
+```jsx live
+<div class="element-demo">
+  <div class="element-demo__block">
+    <geo-info-segmented-control-item
+      active
+      outline
+    >
+      <font-awesome-icon :icon="['fas', 'spider']" fixed-width />
+      <span>Active with icon</span>
+    </geo-info-segmented-control-item>
+  </div>
+</div>
+```
+
+### Outline style (disabled)
+
+```jsx live
+<div class="element-demo">
+  <div class="element-demo__block">
+    <geo-info-segmented-control-item
+      outline
+      disabled
+    >
+      Disabled option
+    </geo-info-segmented-control-item>
+  </div>
+</div>
+```
+
+### Outline style (disabled, active)
+
+```jsx live
+<div class="element-demo">
+  <div class="element-demo__block">
+    <geo-info-segmented-control-item
+      outline
+      disabled
+      active
+    >
+      Active disabled option
+    </geo-info-segmented-control-item>
+  </div>
+</div>
 ```

@@ -20,6 +20,12 @@
 <script>
 import geoSegmentedControlItemMixin, { VARIANTS } from './GeoSegmentedControlItem.constants'
 
+/**
+ * `GeoWarningSegmentedControlItem` is a component designed to nicely fit as
+ * one of the options of a [GeoSegmentedControl](./GeoSegmentedControl).
+ *
+ * Use this variant when the option is potentially dangerous or wrong.
+ */
 export default {
   name: 'GeoWarningSegmentedControlItem',
   status: 'ready',
