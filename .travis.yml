@@ -28,9 +28,11 @@ jobs:
       script:
         - yarn test
     - stage: build
+      name: build docs
       script:
         - yarn build:docs
     - stage: build
+      name: build system
       script:
         - yarn build:system
 
