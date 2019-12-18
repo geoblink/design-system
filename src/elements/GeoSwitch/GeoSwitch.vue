@@ -24,6 +24,10 @@
 </template>
 
 <script>
+/**
+ * `GeoSwitch` is a component aimed to replace inputs of type `checkbox`.
+ * It offers a similar API with a modern design.
+ */
 export default {
   name: 'GeoSwitch',
   status: 'ready',
