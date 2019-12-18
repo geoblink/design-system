@@ -26,13 +26,13 @@ jobs:
         - yarn lint
     - stage: test
       script:
-        - yarn test:coverage
+        - yarn test
     - stage: build
       script:
-        - yarn build
+        - yarn build:docs
     - stage: build
       script:
-        - yarn build
+        - yarn build:system
 
 after_success:
   - yarn global add codecov
