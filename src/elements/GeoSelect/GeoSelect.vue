@@ -159,6 +159,10 @@
 import _ from 'lodash'
 import geoSelectMixin from './GeoSelect.mixin'
 
+/**
+ * `GeoSelect` is a replacement for plain HTML `<select>` tags aimed to offer
+ * a better UX, including chunked load and search capabilities.
+ */
 export default {
   name: 'GeoSelect',
   status: 'ready',

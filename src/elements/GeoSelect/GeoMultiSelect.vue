@@ -115,6 +115,7 @@
             :suggested-key="`${option[keyForLabel]}--${index}`"
           >
             <geo-list-group>
+              <!-- @slot _optional_. Use this slot to customize titles of opt-groups -->
               <slot
                 v-if="option.isOptGroupHeader"
                 slot="title"
@@ -139,6 +140,7 @@
                 </label>
               </slot>
 
+              <!-- @slot _optional_. Use this slot to customize items of opt-groups -->
               <slot
                 v-for="(item, itemIndex) in option.items"
                 slot="item"
@@ -232,6 +234,10 @@ import _ from 'lodash'
 import { VARIANTS as GeoPillVariants } from '../GeoPill/GeoPill'
 import geoSelectMixin from './GeoSelect.mixin'
 
+/**
+ * `GeoMultiSelect` is a component aimed to allow multiple options selection in
+ * a `<select>` like UI including chunked load and search capabilities.
+ */
 export default {
   name: 'GeoMultiSelect',
   status: 'ready',

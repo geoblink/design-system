@@ -42,6 +42,16 @@
 <script>
 import { Y_AXIS_POSITION, X_AXIS_POSITION } from '../GeoDropdown/GeoDropdown.constants'
 
+/**
+ * `GeoSelectBase` is an advance component to build select-like flows. It offers
+ * the minimum boilerplate to create a popup-driven single-element pickers.
+ *
+ * ::: tip
+ * Use this component if you want to build a custom experience. If you just need
+ * a drop-in replacement for HTML `<select>` tag you might probably want to use
+ * [GeoSelect](./GeoSelect) component.
+ * :::
+ */
 export default {
   name: 'GeoSelectBase',
   status: 'ready',

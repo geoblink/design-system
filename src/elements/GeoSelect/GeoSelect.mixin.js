@@ -236,7 +236,7 @@ export default {
      * it as regular or as a suffix of an input.
      *
      * Supported `variant` values are exported under `VARIANTS` named export.
-     * See [Component Constants](/docs/components-constants.html) for more info on how
+     * See [Component Constants](/docs/guides/using-constants) for more info on how
      * to use those constants in your code.
      */
     variant: {
