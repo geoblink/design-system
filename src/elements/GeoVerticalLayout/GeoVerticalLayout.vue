@@ -16,6 +16,11 @@
 </template>
 
 <script>
+/**
+ * `GeoVerticalLayout` is a component designed to organise elements it contains
+ * in a column direction, having an optional header and footer, and the main
+ * content with a scrollable container.
+ */
 export default {
   name: 'GeoVerticalLayout',
   status: 'ready',

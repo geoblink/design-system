@@ -11,6 +11,13 @@ import { HEADER_VARIANTS as VARIANTS } from './GeoTable.constants'
 
 export { VARIANTS }
 
+/**
+ * `GeoTableHeaderRowCell` is a component designed to fit nicely in a
+ * [GeoTableHeaderRow](./GeoTableHeaderRow).
+ *
+ * Each instance of this component represents a single `cell` of a table's
+ * column header and features a slot to render any kind of content.
+ */
 export default {
   name: 'GeoTableHeaderRowCell',
   status: 'ready',

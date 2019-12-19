@@ -1,16 +1,8 @@
-`GeoTableSort` is a component which fits nicely in a
-[GeoTable](./#/Elements/GeoTable?id=geotable-1) header. It's designed to display
-buttons to sort data in a table by their values in a specific column.
+### Default sorter
 
 ```vue live
 <template>
   <div class="element-demo">
-    <h3 class="element-demo__header">
-      Default sorter
-      <geo-danger-button @click="resetCurrentlySortingTable()">
-        Remove sorting direction
-      </geo-danger-button>
-    </h3>
     <div class="element-demo__block">
       <div class="element-demo__bordered-box">
         <geo-table-sort
@@ -20,6 +12,10 @@ buttons to sort data in a table by their values in a specific column.
           @sort="setSortingDirection($event)"
         />
       </div>
+
+      <geo-danger-button @click="resetCurrentlySortingTable()">
+        Remove sorting direction
+      </geo-danger-button>
     </div>
   </div>
 </template>
@@ -56,15 +52,11 @@ the sorting direction is ascending or descending (respectively).
 Additionally, a property `action` is also passed. It's the method to be called
 to sort the data in each direction.
 
+### Examples
+
 ```vue live
 <template>
   <div class="element-demo">
-    <h3 class="element-demo__header">
-      Custom sorter
-      <geo-danger-button @click="resetCurrentlySortingTable()">
-        Remove sorting direction
-      </geo-danger-button>
-    </h3>
     <div class="element-demo__block">
       <div class="element-demo__bordered-box">
         <geo-table-sort
@@ -91,6 +83,10 @@ to sort the data in each direction.
           </p>
         </geo-table-sort>
       </div>
+
+      <geo-danger-button @click="resetCurrentlySortingTable()">
+        Remove sorting direction
+      </geo-danger-button>
     </div>
   </div>
 </template>

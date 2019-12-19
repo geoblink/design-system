@@ -1,62 +1,95 @@
-`GeoSelectBase` is an advance component to build select-like flows. It offers
-the minimum boilerplate to create a popup-driven single-element pickers.
-
-Use this component if you want to build a custom experience. If you just need a
-drop-in replacement for HTML `<select>` tag you might probably want to use
-[GeoSelect](/#/Elements/GeoSelect?id=geoselect-1) component.
+### Simple select
 
 ```vue live
 <template>
   <div class="element-demo">
-    <h3 class="element-demo__header">Simple select</h3>
     <div class="element-demo__block" style="justify-content: space-around;">
       <geo-select-base
-        :opened="isOpened[0]"
+        :opened="isOpened"
         :fixed-width="false"
-        @click-outside="closeSelect(0)"
+        @click-outside="closeSelect()"
       >
         <geo-select-toggle-button
           slot="toggleButton"
-          :dropdown-icon="['fas', 'chevron-down']"
-          :is-empty="!this.currentSelection[0]"
-          @click="toggleSelect(0)"
+          :is-empty="!this.currentSelection"
+          @click="toggleSelect()"
         >
-          {{selectLabels[0]}}
+          <template v-if="currentSelection">
+            {{ currentSelection.label }}
+          </template>
+          <template v-else>
+            Choose an option
+          </template>
         </geo-select-toggle-button>
         <geo-list-item
           v-for="(option, index) in itemsList"
           :key="index"
-          @click="changeCurrentSelection(0, option)"
+          @click="changeCurrentSelection(option)"
         >
-          {{option.label}} {{option.label}} {{option.label}} {{option.label}} {{option.label}} {{option.label}} {{option.label}} {{option.label}}
+          {{ option.label }}
         </geo-list-item>
       </geo-select-base>
     </div>
-    <h3 class="element-demo__header">Select with search option</h3>
+  </div>
+</template>
+
+<script>
+export default {
+  data () {
+    return {
+      isOpened: false,
+      currentSelection: null,
+      itemsList: _.times(4, idx => { return {label: `Item ${idx}`} })
+    }
+  },
+  methods: {
+    closeSelect () {
+      this.isOpened = false
+    },
+    toggleSelect () {
+      this.isOpened = !this.isOpened
+    },
+    changeCurrentSelection (selection) {
+      this.closeSelect()
+      this.currentSelection = selection
+    }
+  }
+}
+</script>
+```
+
+### Searchable select
+
+```vue live
+<template>
+  <div class="element-demo">
     <div class="element-demo__block" style="justify-content: space-around;">
       <geo-select-base
-        :opened="isOpened[1]"
-        @click-outside="closeSelect(1)"
+        :opened="isOpened"
+        @click-outside="closeSelect()"
       >
         <geo-select-toggle-button
           slot="toggleButton"
-          :dropdown-icon="['fas', 'chevron-down']"
-          :is-empty="!this.currentSelection[1]"
-          @click="toggleSelect(1)"
+          :is-empty="!this.currentSelection"
+          @click="toggleSelect()"
         >
-          {{selectLabels[1]}}
+          <template v-if="currentSelection">
+            {{ currentSelection.label }}
+          </template>
+          <template v-else>
+            Choose an option
+          </template>
         </geo-select-toggle-button>
         <geo-bordered-box-header-search-form
           slot="header"
-          :search-icon="['fas', 'search']"
-          v-model="searchPatterns[1]"
+          v-model="searchPattern"
           placeholder="Search..."
         />
         <template v-if="filteredItemsList.length">
           <geo-list-item
             v-for="(option, index) in filteredItemsList"
             :key="index"
-            @click="changeCurrentSelection(1, option)"
+            @click="changeCurrentSelection(option)"
           >
             <geo-highlighted-string
               :highlighted-chars="option.matches"
@@ -69,24 +102,79 @@ drop-in replacement for HTML `<select>` tag you might probably want to use
         </geo-list-clear-item>
       </geo-select-base>
     </div>
-    <h3 class="element-demo__header">Select with opt-groups</h3>
+  </div>
+</template>
+
+<script>
+export default {
+  data () {
+    return {
+      isOpened: false,
+      currentSelection: null,
+      searchPattern: '',
+      itemsList: _.times(4, idx => { return {label: `Item ${idx}`} })
+    }
+  },
+  computed: {
+    filteredItemsList () {
+      const matches = _.filter(
+        this.itemsList,
+        (item) => item.label.indexOf(this.searchPattern) !== -1
+      )
+
+      const matchesWithHighlights = _.map(matches, (item) => {
+        const newItem = _.clone(item)
+        const matches = item.label.match(this.searchPattern)
+
+        return _.assign({}, item, {
+          matches: _.map(matches[0].split(''), (char, i) => i + matches.index)
+        })
+      })
+
+      return matchesWithHighlights
+    }
+  },
+  methods: {
+    closeSelect () {
+      this.isOpened = false
+    },
+    toggleSelect () {
+      this.isOpened = !this.isOpened
+    },
+    changeCurrentSelection (selection) {
+      this.closeSelect()
+      this.currentSelection = selection
+    }
+  }
+}
+</script>
+```
+
+### Select with opt-groups
+
+```vue live
+<template>
+  <div class="element-demo">
     <div class="element-demo__block" style="justify-content: space-around;">
       <geo-select-base
-        :opened="isOpened[2]"
-        @click-outside="closeSelect(2)"
+        :opened="isOpened"
+        @click-outside="closeSelect()"
       >
         <geo-select-toggle-button
           slot="toggleButton"
-          :dropdown-icon="['fas', 'chevron-down']"
-          :is-empty="!this.currentSelection[2]"
-          @click="toggleSelect(2)"
+          :is-empty="!this.currentSelection"
+          @click="toggleSelect()"
         >
-          {{selectLabels[2]}}
+          <template v-if="currentSelection">
+            {{ currentSelection.label }}
+          </template>
+          <template v-else>
+            Choose an option
+          </template>
         </geo-select-toggle-button>
         <geo-bordered-box-header-search-form
           slot="header"
-          :search-icon="['fas', 'search']"
-          v-model="searchPatterns[2]"
+          v-model="searchPattern"
           placeholder="Search..."
         />
         <template v-if="filteredOptGroupsItems.length">
@@ -108,7 +196,7 @@ drop-in replacement for HTML `<select>` tag you might probably want to use
               slot="item"
               v-for="(option, index) in optGroup.items"
               :key="index"
-              @click="changeCurrentSelection(2, option)"
+              @click="changeCurrentSelection(option)"
             >
               <geo-highlighted-string
                 :highlighted-chars="option.matches"
@@ -122,26 +210,118 @@ drop-in replacement for HTML `<select>` tag you might probably want to use
         </geo-list-clear-item>
       </geo-select-base>
     </div>
-    <h3 class="element-demo__header">Select with pagination</h3>
+  </div>
+</template>
+
+<script>
+export default {
+  data () {
+    return {
+      isOpened: false,
+      currentSelection: null,
+      searchPattern: '',
+      optGroupsList: [
+        {
+          isOptGroup: true,
+          label: 'First Group',
+          items: _.times(4, idx => { return {label: `Item ${idx}`} }),
+        },
+        {
+          isOptGroup: true,
+          label: 'Second Group',
+          items: _.times(4, idx => { return {label: `Item ${idx}`} }),
+        },
+      ]
+    }
+  },
+  computed: {
+    filteredOptGroupsItems () {
+      const self = this
+
+      return _.filter(_.flatMap(this.optGroupsList, (group) => {
+        const newGroup = _.cloneDeep(group)
+
+        if (group.label.indexOf(this.searchPattern) !== -1) {
+          const matches = group.label.match(self.searchPattern)
+
+          if (matches) {
+            newGroup.matches = _.map(matches[0].split(''), (char, i) => i + matches.index)
+          }
+
+          _.forEach(newGroup.items, (item) => {
+            const matches = item.label.match(self.searchPattern)
+
+            if (matches) {
+              item.matches = _.map(matches[0].split(''), (char, i) => i + matches.index)
+            }
+          })
+
+          return newGroup
+        }
+
+        const foundItems = _.filter(newGroup.items, (item) => {
+          const matches = item.label.match(self.searchPattern)
+
+          if (matches) {
+            item.matches = _.map(matches[0].split(''), (char, i) => i + matches.index)
+          }
+
+          return item.label.indexOf(self.searchPattern) !== -1
+        })
+
+        if (foundItems.length) {
+          return _.assign({}, newGroup, { items: foundItems })
+        }
+
+        return null
+      }))
+    }
+  },
+  methods: {
+    closeSelect () {
+      this.isOpened = false
+    },
+    toggleSelect () {
+      this.isOpened = !this.isOpened
+    },
+    changeCurrentSelection (selection) {
+      this.closeSelect()
+      this.currentSelection = selection
+    }
+  }
+}
+</script>
+```
+
+### Paginated select
+
+```vue live
+<template>
+  <div class="element-demo">
     <div class="element-demo__block" style="justify-content: space-around;">
       <geo-select-base
-        :opened="isOpened[3]"
+        :opened="isOpened"
         :has-more-results="hasMoreResultsToLoad"
-        @click-outside="closeSelect(3)"
+        @click-outside="closeSelect()"
         @load-more-results="loadNextPage($event)"
       >
         <geo-select-toggle-button
           slot="toggleButton"
           :dropdown-icon="['fas', 'chevron-down']"
-          :is-empty="!this.currentSelection[3]"
-          @click="toggleSelect(3)"
+          :is-empty="!this.currentSelection"
+          @click="toggleSelect()"
         >
-          {{selectLabels[3]}}
+          <template v-if="currentSelection">
+            {{ currentSelection.label }}
+          </template>
+          <template v-else>
+            Choose an option
+          </template>
         </geo-select-toggle-button>
         <geo-list-item
           v-for="(option, index) in chunkedLongList"
           :key="index"
-          @click="changeCurrentSelection(3, option)"
+          @click="changeCurrentSelection(option)"
         >
           {{option.label}}
         </geo-list-item>
@@ -157,104 +337,35 @@ drop-in replacement for HTML `<select>` tag you might probably want to use
 export default {
   data () {
     return {
-      isOpened: [false, false, false, false],
-      currentSelection: [null, null, null, null],
+      isOpened: false,
+      currentSelection: null,
       currentLongListPage: 1,
-      maxItemsPerPage: 20,
-      searchPatterns: ['', '', '', ''],
-      itemsList: _.times(4, idx => { return {label: `Item ${idx}`} }),
-      optGroupsList: [
-        {
-          isOptGroup: true,
-          label: 'First Group',
-          items: _.times(4, idx => { return {label: `Item ${idx}`} }),
-        },
-        {
-          isOptGroup: true,
-          label: 'Second Group',
-          items: _.times(4, idx => { return {label: `Item ${idx}`} }),
-        },
-      ],
+      maxItemsPerPage: 5,
       longList: _.times(500, idx => { return {label: `Item ${idx}`} }),
     }
   },
   computed: {
-    selectLabels () {
-      const PLACEHOLDER = 'Choose an option'
-      return [
-        this.currentSelection[0] ? this.currentSelection[0].label : PLACEHOLDER,
-        this.currentSelection[1] ? this.currentSelection[1].label : PLACEHOLDER,
-        this.currentSelection[2] ? this.currentSelection[2].label : PLACEHOLDER,
-        this.currentSelection[3] ? this.currentSelection[3].label : PLACEHOLDER
-      ]
-    },
     hasMoreResultsToLoad () {
       return this.currentLongListPage * this.maxItemsPerPage < this.longList.length
     },
     chunkedLongList () {
       return this.longList.slice(0, this.currentLongListPage * this.maxItemsPerPage)
     },
-    filteredOptGroupsItems () {
-      const self = this
-      return _.filter(_.flatMap(self.optGroupsList, function (group) {
-        if (group.label.indexOf(self.searchPatterns[2]) !== -1) {
-          var matches = group.label.match(self.searchPatterns[2])
-          if (matches) {
-            group.matches = _.map(matches[0].split(''), function (char, i) {
-              return i + matches.index
-            })
-          }
-          _.forEach(group.items, function (item) {
-            var matches = item.label.match(self.searchPatterns[2])
-            if (matches) {
-              item.matches = _.map(matches[0].split(''), function (char, i) {
-                return i + matches.index
-              })
-            }
-          })
-          return group
-        }
-        const foundItems = _.filter(group.items, function (item) {
-          var matches = item.label.match(self.searchPatterns[2])
-          if (matches) {
-            item.matches = _.map(matches[0].split(''), function (char, i) {
-              return i + matches.index
-            })
-          }
-          return item.label.indexOf(self.searchPatterns[2]) !== -1
-        })
-        if (foundItems.length) return _.assign({}, group, {items: foundItems})
-      }))
-    },
-    filteredItemsList () {
-      const self = this
-      return _.filter(self.itemsList, function (item) {
-        const matches = item.label.match(self.searchPatterns[1])
-        if (matches) {
-          item.matches = _.map(matches[0].split(''), function (char, i) {
-            return i + matches.index
-          })
-        }
-        return item.label.indexOf(self.searchPatterns[1]) !== -1
-      })
-    }
   },
   methods: {
-    closeSelect (selectId) {
-      this.$set(this.isOpened, selectId, false)
+    closeSelect () {
+      this.isOpened = false
     },
-    toggleSelect (selectId) {
-      this.$set(this.isOpened, selectId, !this.isOpened[selectId])
+    toggleSelect () {
+      this.isOpened = !this.isOpened
     },
-    changeCurrentSelection (selectId, selection) {
-      this.closeSelect(selectId)
-      this.$set(this.currentSelection, selectId, selection)
+    changeCurrentSelection (selection) {
+      this.closeSelect()
+      this.currentSelection = selection
     },
     loadNextPage (payload) {
       this.currentLongListPage++
-      this.$nextTick(function () {
-        payload.scrollToLastEntry()
-      })
+      this.$nextTick(() => payload.scrollToLastEntry())
     }
   }
 }

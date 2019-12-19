@@ -32,6 +32,11 @@ export const VARIANTS = {
   inputAccessoryPrefix: 'inputAccessoryPrefix'
 }
 
+/**
+ * `GeoSelectToggleButton` is a component designed to look like a modern HTML
+ * `<select>` input, displaying a placeholder when no value is chosen and
+ * featuring a trailing chevron.
+ */
 export default {
   name: 'GeoSelectToggleButton',
   status: 'ready',
@@ -117,7 +122,7 @@ export default {
      * it as regular or as a suffix of an input.
      *
      * Supported `variant` values are exported under `VARIANTS` named export.
-     * See [Component Constants](/docs/components-constants.html) for more info on how
+     * See [Component Constants](/docs/guides/using-constants) for more info on how
      * to use those constants in your code.
      */
     variant: {

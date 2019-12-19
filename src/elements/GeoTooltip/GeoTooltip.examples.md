@@ -1,6 +1,3 @@
-`GeoTooltip` is a component used to display a tooltip.
-Using this component you can render complex HTML tooltips in a safe and reactive way.
-
 ### Basic
 
 ```jsx live

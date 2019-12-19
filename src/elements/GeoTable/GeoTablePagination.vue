@@ -111,6 +111,13 @@
 <script>
 import GeoTablePaginationMixin from './GeoTablePaginationMixin'
 
+/**
+ * `GeoTablePagination` is a component designed to fit nicely in a
+ * [GeoTable](./GeoTable) footer.
+ *
+ * It displays controls for paginated content, including shortcuts to display
+ * first and last page of content, as well as a currently visible range.
+ */
 export default {
   name: 'GeoTablePagination',
   status: 'ready',

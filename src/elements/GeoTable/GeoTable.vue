@@ -100,6 +100,10 @@ import {
 
 const DEFAULT_PAGESIZE = 10
 
+/**
+ * `GeoTable` is a component designed to display large amounts of tabular data
+ * in a table environment, supporting pagination and sorting.
+ */
 export default {
   name: 'GeoTable',
   status: 'ready',
@@ -381,6 +385,12 @@ export default {
       const headerHeight = self.$refs.tableHeader.offsetHeight
       self.$refs.tableBody.style['padding-top'] = `${headerHeight}px`
 
+      /**
+       * Event emitted when autosize algorithm finishes running.
+       *
+       * @event column-width-changed
+       * @type {number}
+       */
       this.$emit('column-width-changed', this.columnsWidth)
     }
   }

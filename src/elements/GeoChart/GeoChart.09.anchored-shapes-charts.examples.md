@@ -396,7 +396,7 @@ export default {
   },
   methods: {
     randomizeData () {
-      this.randomValue = _.random(180, 250)
+      this.randomValue = _.random(0, 250)
     },
   }
 }

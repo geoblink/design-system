@@ -13,6 +13,13 @@
 </template>
 
 <script>
+/**
+ * `GeoTableBodyRowCell` is a component designed to fit nicely in a
+ * [GeoTableBodyRow](./GeoTableBodyRow).
+ *
+ * Each instance of this component represents a single `cell` of a table and
+ * features a slot to render any kind of content.
+ */
 export default {
   name: 'GeoTableBodyRowCell',
   status: 'ready',

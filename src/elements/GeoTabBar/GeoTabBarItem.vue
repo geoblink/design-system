@@ -14,6 +14,10 @@
 <script>
 import geoTabBarMixin, { VARIANTS } from './GeoTabBar.mixin'
 
+/**
+ * `GeoTabBarItem` is a component suited to be displayed inside a
+ * [GeoTabBar](./GeoTabBar), to display a a single tab.
+ */
 export default {
   name: 'GeoTabBarItem',
   status: 'ready',
@@ -45,6 +49,12 @@ export default {
   methods: {
     handleClick ($event) {
       if (this.disabled) return
+      /**
+       * User clicked this item.
+       *
+       * @event click
+       * @type {MouseEvent}
+       */
       this.$emit('click', $event)
     }
   }

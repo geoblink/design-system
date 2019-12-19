@@ -131,7 +131,7 @@ function getExamplesOfComponentsTask () {
         }, function (err, files) {
           if (err) return reject(err)
 
-          const componentExampleFiles = _.filter(files, (filename) => _.startsWith(filename, componentName))
+          const componentExampleFiles = _.filter(files, (filename) => _.startsWith(filename, `${componentName}.`))
 
           if (!ctx.exampleFiles) ctx.exampleFiles = {}
           ctx.exampleFiles[componentRelativePath] = componentExampleFiles
