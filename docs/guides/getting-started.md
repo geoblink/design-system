@@ -48,6 +48,27 @@ import '@geoblink/design-system/dist/system.css'
 import '@geoblink/design-system/dist/system.utils.scss'
 ```
 
+Finally you'll be able use any component from the Design System like they are
+used in the demos:
+
+```vue live
+<template>
+  <geo-primary-button @click="doSomething()">
+    Do something!
+  </geo-primary-button>
+</template>
+
+<script>
+export default {
+  methods: {
+    doSomething () {
+      alert('Do something!')
+    }
+  }
+}
+</script>
+```
+
 ## Using icons
 
 We use icons from [FontAwesome](https://fontawesome.com/) library in some
