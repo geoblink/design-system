@@ -33,10 +33,6 @@ function assetsSystemPath (_path) {
 
 /**
  * @typedef {Object} LoaderOptions
- * @property {string} [options.outputStyle]
- * @property {boolean} [options.sourceMap]
- * @property {boolean} [options.extract]
- * @property {boolean} [options.usePostCSS]
  */
 
 /**
@@ -95,17 +91,12 @@ function cssLoaders (options) {
     }
   }
 
-  const scssOptions = {
-    outputStyle: options.outputStyle || 'compressed'
-  }
-  const sassOptions = Object.assign({ indentedSyntax: true }, scssOptions)
-
   // https://vue-loader.vuejs.org/en/configurations/extract-css.html
   return {
     css: generateLoaders(),
     postcss: generateLoaders(),
-    sass: generateLoaders('sass', sassOptions).concat(sassResourcesConfig),
-    scss: generateLoaders('sass', scssOptions).concat(sassResourcesConfig)
+    sass: generateLoaders('sass', { indentedSyntax: true }).concat(sassResourcesConfig),
+    scss: generateLoaders('sass', { }).concat(sassResourcesConfig)
   }
 
   // generate loader string to be used with extract text plugin
