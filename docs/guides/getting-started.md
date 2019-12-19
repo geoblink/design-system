@@ -84,7 +84,7 @@ Vue.component('font-awesome-icon', FontAwesomeIcon)
 // ...
 ```
 
-## Using free icons
+### Using free icons
 
 By default we use icons from [FontAwesome Pro](https://fontawesome.com/pro).
 Even though we encourage you to consider upgrading to pro, it's possible to use
