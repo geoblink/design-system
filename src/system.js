@@ -4,6 +4,8 @@
  */
 import instance from '@/utils/vueInstance'
 
+import mockFontAwesomeProIcons from './utils/mockFontAwesomeProIcons'
+
 import '@/styles/styles.scss'
 
 // Defines contexts to require
@@ -53,3 +55,5 @@ export { componentsByName as components }
 export { constantsByComponentName as constants }
 
 export { instance }
+
+export { mockFontAwesomeProIcons }

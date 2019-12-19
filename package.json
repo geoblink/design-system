@@ -1,6 +1,6 @@
 {
   "name": "@geoblink/design-system",
-  "version": "29.0.0",
+  "version": "29.1.0",
   "description": "Geoblink Design System for Vue.js",
   "author": "Geoblink <contact@geoblink.com>",
   "main": "dist/system.js",
@@ -54,6 +54,7 @@
   ],
   "peerDependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.2",
+    "@fortawesome/free-solid-svg-icons": "^5.4.1",
     "@fortawesome/vue-fontawesome": "^0.1.1",
     "@geoblink/ajv-extra": "^1.0.7",
     "ajv": "^5.0.0",

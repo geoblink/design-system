@@ -1,5 +1,11 @@
 # Changelog
 
+## 29.1.0
+
+New:
+
+- Export `mockFontAwesomeProIcons` to make it easier to use the Design System without FontAwesome Pro.
+
 ## 29.0.0
 
 Breaking:

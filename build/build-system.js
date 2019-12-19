@@ -86,7 +86,7 @@ function getBuildWebpackConfigTask (id, title, webpackConfig) {
       return new Promise(function (resolve, reject) {
         webpack(webpackConfig, function (err, webpackStats) {
           if (err) return reject(err)
-          if (webpackStats.hasErrors()) return reject(new Error(`${title} failed!`))
+          if (webpackStats.hasErrors()) return reject(new Error(webpackStats.compilation.errors))
 
           ctx.webpackStats = ctx.webpackStats || {}
           ctx.webpackStats[id] = webpackStats
