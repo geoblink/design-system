@@ -1,8 +1,16 @@
-import { fas } from '@fortawesome/free-solid-svg-icons'
+const fas = (function () {
+  try {
+    return require('@fortawesome/free-solid-svg-icons')
+  } catch (error) {
+    return null
+  }
+})()
 
 const _ = require('lodash')
 
 export default function mockFontAwesomeProIcons (library) {
+  if (!fas) throw new Error('To mock FontAwesome pro icons you must install @fortawesome/free-solid-svg-icons')
+
   const iconsToMock = [
     'faChevronUp',
     'faChevronDown',
