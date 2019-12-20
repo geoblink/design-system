@@ -21,7 +21,7 @@
       </section>
 
       <footer
-        v-if="hasFooter"
+        v-if="!!this.$slots.footerTrailing || !!this.$slots.footerLeading"
         slot="footer"
         class="geo-wizard-layout__footer"
       >
@@ -53,11 +53,6 @@
 export default {
   name: 'GeoWizardLayout',
   status: 'ready',
-  release: '28.1.0',
-  computed: {
-    hasFooter () {
-      return !!this.$slots.footerTrailing || !!this.$slots.footerLeading
-    }
-  }
+  release: '28.1.0'
 }
 </script>
