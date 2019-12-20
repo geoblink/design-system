@@ -1,5 +1,16 @@
 # Changelog
 
+## 29.1.1
+
+Fix:
+
+- `@fortawesome/free-solid-svg-icons` is no longer required if not mocking pro icons.
+
+Changed:
+
+- Updated most dependencies to their latest versions.
+- Added Greenkeeper to the repo.
+
 ## 29.1.0
 
 New:
