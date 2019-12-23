@@ -21,7 +21,7 @@
       </section>
 
       <footer
-        v-if="!!this.$slots.footerTrailing || !!this.$slots.footerLeading"
+        v-if="!!$slots.footerTrailing || !!$slots.footerLeading"
         slot="footer"
         class="geo-wizard-layout__footer"
       >
