@@ -42,9 +42,12 @@
           <!-- blur event won't be fired but that's fine because we want this handler to prevail over the blur one -->
           <!-- https://forum.vuejs.org/t/blur-before-click-only-on-safari/21598/7 -->
           <font-awesome-icon
-            v-if="isDeleteIconVisible"
+            v-if="isDeleteIconPresent"
             :icon="deleteInputValueIcon"
-            class="geo-input__icon--delete geo-input__accessory-items-item"
+            :class="{
+              [deleteIconClass]: true,
+              'geo-input__accessory-items-item': true
+            }"
             fixed-with
             @mousedown.prevent="deleteValue"
           />
@@ -161,8 +164,22 @@ export default {
       return null
     },
 
+    isDeleteIconPresent () {
+      console.log('isDeleteIconPresent', !this.disabled && !!this.$listeners['delete-value'])
+      return !this.disabled && !!this.$listeners['delete-value']
+    },
+
     isDeleteIconVisible () {
-      return !this.disabled && !!this.value && !!this.$listeners['delete-value']
+      return this.isDeleteIconPresent && !!this.value 
+    },
+
+    deleteIconClass () {
+      if (this.isDeleteIconVisible) {
+        return 'geo-input__icon--delete'
+      }
+      else {
+        return 'geo-input__icon--hidden'
+      }
     },
 
     hasTrailingAccessoryItems () {
@@ -174,7 +191,7 @@ export default {
     },
 
     hasTrailingElements () {
-      return this.isDeleteIconVisible || this.disabled || this.hasTrailingAccessoryItems
+      return this.isDeleteIconPresent || this.disabled || this.hasTrailingAccessoryItems
     }
   },
   mounted () {
@@ -203,6 +220,7 @@ export default {
        *
        * @event delete-value
        */
+      if (!this.isDeleteIconVisible) return
       this.$emit('delete-value')
     }
   }

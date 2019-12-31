@@ -93,6 +93,11 @@
     color: $color-red;
     cursor: pointer;
   }
+  
+  .geo-input__icon--hidden {
+    color: $color-white;
+    cursor: text;
+  }
 
   &--success {
     .geo-input__input {
