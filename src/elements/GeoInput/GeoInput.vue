@@ -165,19 +165,17 @@ export default {
     },
 
     isDeleteIconPresent () {
-      console.log('isDeleteIconPresent', !this.disabled && !!this.$listeners['delete-value'])
       return !this.disabled && !!this.$listeners['delete-value']
     },
 
     isDeleteIconVisible () {
-      return this.isDeleteIconPresent && !!this.value 
+      return this.isDeleteIconPresent && !!this.value
     },
 
     deleteIconClass () {
       if (this.isDeleteIconVisible) {
         return 'geo-input__icon--delete'
-      }
-      else {
+      } else {
         return 'geo-input__icon--hidden'
       }
     },
