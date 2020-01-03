@@ -44,11 +44,10 @@
           <font-awesome-icon
             v-if="hasDeleteIcon"
             :icon="deleteInputValueIcon"
-            :class="{
-              'geo-input__icon--delete': hasDeleteIcon,
-              'geo-input__icon--hidden': !isDeleteIconVisible,
-              'geo-input__accessory-items-item': true
-            }"
+            :class="[
+              deleteIconClass,
+              'geo-input__accessory-items-item'
+            ]"
             fixed-with
             @mousedown.prevent="deleteValue"
           />
