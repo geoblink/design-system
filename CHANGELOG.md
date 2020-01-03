@@ -1,11 +1,12 @@
 # Changelog
 
-## 29.1.2
+## 29.1.3
 
 Fix :
 
 - `GeoInput` width doesn't change when delete icon appears
 - `GeoCalendar` days icon are correctly displayed when creating an interval
+- Updated `GeoCalendar` tests with new year
 
 ## 29.1.1
 

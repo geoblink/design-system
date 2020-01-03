@@ -49,8 +49,8 @@ describe('GeoCalendarNavigationDay', () => {
 
     it('Should set earliest and latest date as the provided props if these constraints are set', () => {
       setDateConstraints(wrapper)
-      expect(getYear(wrapper.vm.earliestYearInSelect)).toEqual(2014)
-      expect(getYear(wrapper.vm.latestYearInSelect)).toEqual(2024)
+      expect(getYear(wrapper.vm.earliestYearInSelect)).toEqual(2015)
+      expect(getYear(wrapper.vm.latestYearInSelect)).toEqual(2025)
       expect(wrapper.vm.numYearsWithData).toEqual(11)
     })
   })
