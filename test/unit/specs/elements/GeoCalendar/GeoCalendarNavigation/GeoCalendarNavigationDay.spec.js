@@ -8,6 +8,8 @@ import getYear from 'date-fns/getYear'
 import subYears from 'date-fns/subYears'
 import addYears from 'date-fns/addYears'
 
+const today = new Date(2019, 6, 30) // Fixed date to avoid future errors with random dates
+
 describe('GeoCalendarNavigationDay', () => {
   it('Should render', function () {
     const wrapper = mount(GeoCalendarNavigationDay, {
@@ -144,7 +146,7 @@ describe('GeoCalendarNavigationDay', () => {
 
 function setDateConstraints (wrapper) {
   wrapper.setProps({
-    earliestDate: subYears(new Date(), 5),
-    latestDate: addYears(new Date(), 5)
+    earliestDate: subYears(today, 5),
+    latestDate: addYears(today, 5)
   })
 }
