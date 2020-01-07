@@ -839,19 +839,6 @@ function getWrappedComponent () {
       latestDatePlaceholder: 'Latest date',
       pickerGranularity: '<div> Granularity Selectors </div>'
     },
-    data () {
-      return {
-        fromFormattedDate: '',
-        toFormattedDate: '',
-        fromRawDate: null,
-        toRawDate: null,
-        currentMonth: 6,
-        showFromFormatError: false,
-        showToFormatError: false,
-        currentInitialYearInRange: 0,
-        currentEndYearInRange: 0
-      }
-    },
     propsData: {
       calendarNavigationSelectIcon: ['fas', 'arrow-left'],
       nextDateInSelectedGranularityIcon: ['fas', 'arrow-left'],
