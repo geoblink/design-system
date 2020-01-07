@@ -248,7 +248,7 @@ describe('GeoCalendar', () => {
           currentYear: getYear(invalidFromDateRange)
         })
 
-        wrapper.vm.selectMonth(getMonth(invalidFromDateRange), true)
+        wrapper.vm.selectMonth(getMonth(invalidFromDateRange))
         expect(wrapper.vm.fromRawDate).toEqual(startOfMonth(endDate))
         expect(wrapper.vm.toRawDate).toEqual(endOfMonth(invalidFromDateRange))
         expect(wrapper.vm.fromFormattedDate).toBe('01/11/2019')
