@@ -74,4 +74,4 @@ export default {
 
 ## Documentation
 
-Documentation for latest stable version is available at [https://geoblink-design-system.now.sh/](https://geoblink-design-system.now.sh/).
+Documentation for latest stable version is available at [https://design-system.geoblink.com/](https://design-system.geoblink.com/).
