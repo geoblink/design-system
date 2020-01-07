@@ -89,14 +89,13 @@
     flex-shrink: 0;
   }
 
-  .geo-input__icon--delete {
+  .geo-input__delete-icon--visible {
     color: $color-red;
     cursor: pointer;
   }
   
-  .geo-input__icon--hidden {
-    color: $color-white;
-    cursor: text;
+  .geo-input__delete-icon--hidden {
+    visibility: hidden;
   }
 
   &--success {

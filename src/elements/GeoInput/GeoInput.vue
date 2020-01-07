@@ -174,8 +174,8 @@ export default {
 
     deleteIconClass () {
       return this.isDeleteIconVisible
-        ? 'geo-input__icon--delete'
-        : 'geo-input__icon--hidden'
+        ? 'geo-input__delete-icon--visible'
+        : 'geo-input__delete-icon--hidden'
     },
 
     hasTrailingAccessoryItems () {
