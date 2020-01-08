@@ -98,6 +98,9 @@ describe('GeoCalendar', () => {
     describe('selectMonth', () => {
       it('Sets first day of month in from input', () => {
         const wrapper = getWrappedComponent()
+        wrapper.setData({
+          currentYear: getYear(today)
+        })
         const calendarPicker = wrapper.vm.$refs.calendarPicker
         calendarPicker.$emit('select-month', 8)
         expect(wrapper.vm.currentMonth).toBe(8)
@@ -110,6 +113,9 @@ describe('GeoCalendar', () => {
 
       it('Sets last day of month in to input', () => {
         const wrapper = getWrappedComponent()
+        wrapper.setData({
+          currentYear: getYear(today)
+        })
         wrapper.setData({
           lastInputFieldFocused: FOCUSABLE_INPUT_FIELDS.FROM_DATE
         })
@@ -127,6 +133,9 @@ describe('GeoCalendar', () => {
 
     it('selectQuarter', () => {
       const wrapper = getWrappedComponent()
+      wrapper.setData({
+        currentYear: getYear(today)
+      })
       const calendarPicker = wrapper.vm.$refs.calendarPicker
       calendarPicker.$emit('select-quarter', 3)
       const fromDate = startOfQuarter(new Date(wrapper.vm.currentYear, 3))
@@ -229,10 +238,12 @@ describe('GeoCalendar', () => {
         const invalidFromDateRange = addMonths(endDate, 5)
         const geoFromInput = wrapper.findAll(GeoInput).at(0)
 
+        wrapper.setData({
+          currentYear: getYear(today)
+        })
         wrapper.vm.selectMonth(initialMonth)
         wrapper.vm.selectMonth(getMonth(endDate))
         geoFromInput.vm.$emit('focus')
-
         wrapper.setData({
           currentYear: getYear(invalidFromDateRange)
         })
@@ -827,20 +838,6 @@ function getWrappedComponent () {
       earliestDatePlaceholder: 'Earliest date',
       latestDatePlaceholder: 'Latest date',
       pickerGranularity: '<div> Granularity Selectors </div>'
-    },
-    data () {
-      return {
-        fromFormattedDate: '',
-        toFormattedDate: '',
-        fromRawDate: null,
-        toRawDate: null,
-        currentMonth: 6,
-        currentYear: 2019,
-        showFromFormatError: false,
-        showToFormatError: false,
-        currentInitialYearInRange: 0,
-        currentEndYearInRange: 0
-      }
     },
     propsData: {
       calendarNavigationSelectIcon: ['fas', 'arrow-left'],
