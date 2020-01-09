@@ -10,6 +10,15 @@
     </div>
 
     <div class="element-demo__bordered-box" style="width: 120px;">
+      <geo-trimmed-content
+        tooltip-position='bottom'
+        tooltip-alignment='end'
+      >
+        Some text that should be trimmed and shown in the bottom left
+      </geo-trimmed-content>
+    </div>
+
+    <div class="element-demo__bordered-box" style="width: 120px;">
       <geo-trimmed-content>
         <template>Some text that should be trimmed</template>
         <template>and using multiple slotted content</template>

@@ -31,14 +31,14 @@ const getNextStaticTooltipId = counterFactory()
 /** @type {Element|null} */
 let tooltipContainerElement = null
 
-const POSITIONS = {
+export const POSITIONS = {
   bottom: 'bottom',
   leading: 'leading',
   top: 'top',
   trailing: 'trailing'
 }
 
-const ALIGNMENTS = {
+export const ALIGNMENTS = {
   start: 'start',
   end: 'end',
   middle: 'middle'

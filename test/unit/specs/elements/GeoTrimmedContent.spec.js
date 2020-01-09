@@ -6,8 +6,6 @@ import GeoTooltip from '@/elements/GeoTooltip/GeoTooltip.vue'
 const localVue = createLocalVue()
 localVue.component('geo-trimmed-content', GeoTrimmedContent)
 
-jest.mock('vue-directive-tooltip')
-
 describe('GeoTrimmedContent', () => {
   it('Should render content', function () {
     const wrapper = mount(GeoTrimmedContent, {

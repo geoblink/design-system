@@ -1,5 +1,11 @@
 # Changelog
 
+## 29.1.3
+
+New:
+
+- `GeoTooltip` position and alignment can be passed to `GeoTrimmedContent`
+
 ## 29.1.2
 
 Fix:

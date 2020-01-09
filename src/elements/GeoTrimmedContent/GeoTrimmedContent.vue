@@ -7,6 +7,8 @@
   >
     <geo-tooltip
       :visible="isTooltipVisible"
+      :position="tooltipPosition"
+      :alignment="tooltipAlignment"
     >
       <div ref="tooltipContent" />
     </geo-tooltip>
@@ -22,7 +24,7 @@
 
 <script>
 import OnResize from '../../directives/GeoOnResize'
-import Tooltip from '../../directives/Tooltip'
+import { POSITIONS, ALIGNMENTS } from '../GeoTooltip/GeoTooltip.vue'
 
 /**
  * `GeoTrimmedContent` is a component used to trim long strings which don't fit
@@ -32,7 +34,29 @@ export default {
   name: 'GeoTrimmedContent',
   status: 'ready',
   release: '10.1.0',
-  directives: { OnResize, Tooltip },
+  directives: { OnResize },
+  props: {
+    tooltipPosition: {
+      type: String,
+      default: POSITIONS.top,
+      validator (value) {
+        if (value in POSITIONS) return true
+
+        const supportedValues = Object.values(POSITIONS).map(i => `«${i}»`).join(', ')
+        console.warn(`GeoTrimmedContent [component] :: Unsupported value («${value}») for «tooltipPosition» property. Use one of ${supportedValues}`)
+      }
+    },
+    tooltipAlignment: {
+      type: String,
+      default: ALIGNMENTS.middle,
+      validator (value) {
+        if (value in ALIGNMENTS) return true
+
+        const supportedValues = Object.values(ALIGNMENTS).map(i => `«${i}»`).join(', ')
+        console.warn(`GeoTrimmedContent [component] :: Unsupported value («${value}») for «tooltipAlignment» property. Use one of ${supportedValues}`)
+      }
+    }
+  },
   data () {
     return {
       isHovered: false,
