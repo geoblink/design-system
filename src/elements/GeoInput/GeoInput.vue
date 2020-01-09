@@ -42,8 +42,12 @@
           <!-- blur event won't be fired but that's fine because we want this handler to prevail over the blur one -->
           <!-- https://forum.vuejs.org/t/blur-before-click-only-on-safari/21598/7 -->
           <font-awesome-icon
-            v-if="hasTrailingAccessoryItems"
+            v-if="hasDeleteIcon"
             :icon="deleteInputValueIcon"
+            :class="[
+              deleteIconClass,
+              'geo-input__accessory-items-item'
+            ]"
             fixed-with
             @mousedown.prevent="deleteValue"
           />
