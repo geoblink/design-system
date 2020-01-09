@@ -1,5 +1,11 @@
 # Changelog
 
+## 29.1.2
+
+Fix:
+
+- Place $slots calculation directly in template and remove them from computed property in `geoWizardLayout`
+
 ## 29.1.1
 
 Fix:
