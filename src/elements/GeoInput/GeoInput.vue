@@ -216,7 +216,6 @@ export default {
        *
        * @event delete-value
        */
-      if (!this.isDeleteIconVisible) return
       this.$emit('delete-value')
     }
   }
