@@ -5,8 +5,7 @@
 Fix :
 
 - `GeoInput` width doesn't change when delete icon appears
-- `GeoCalendar` days icon are correctly displayed when creating an interval
-- Updated `GeoCalendar` tests with new year
+- `GeoCalendar` day icons are correctly displayed when creating an interval
 
 ## 29.1.1
 
