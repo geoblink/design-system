@@ -82,8 +82,8 @@ import _ from 'lodash'
 
 /**
  * `GeoInput` component works like a native input but can be customisable with a
- * label and a message as well as different color schemes to give feedback to the
- * user.
+ * label and a message as well as different color schemes to give feedback to
+ * the user.
  */
 export default {
   name: 'GeoInput',
