@@ -1,11 +1,17 @@
 # Changelog
 
-## 29.1.2
+## 29.1.3
 
 Fix :
 
 - `GeoInput` width doesn't change when delete icon appears
 - `GeoCalendar` day icons are correctly displayed when creating an interval
+
+## 29.1.2
+
+Fix:
+
+- Place $slots calculation directly in template and remove them from computed property in `geoWizardLayout`
 
 ## 29.1.1
 
