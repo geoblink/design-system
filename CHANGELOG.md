@@ -1,10 +1,17 @@
 # Changelog
 
-## 29.1.3
+## 29.1.4
 
 New:
 
 - `GeoTooltip` position and alignment can be passed to `GeoTrimmedContent`
+
+## 29.1.3
+
+Fix :
+
+- `GeoInput` width doesn't change when delete icon appears
+- `GeoCalendar` day icons are correctly displayed when creating an interval
 
 ## 29.1.2
 
