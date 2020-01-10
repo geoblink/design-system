@@ -155,4 +155,14 @@ describe('GeoSelectBase', () => {
     wrapper.vm.$refs.dropdown.$emit('click-outside')
     expect(wrapper.emitted()['click-outside']).toBeTruthy()
   })
+
+  it('Should check forceYAxisPosition validator is correct', () => {
+    const consoleWarnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {})
+
+    const forceYAxisPosition = GeoSelectBase.props.forceYAxisPosition
+    expect(forceYAxisPosition.validator(undefined)).toBeTruthy()
+    expect(forceYAxisPosition.validator('top')).toBeTruthy()
+    expect(forceYAxisPosition.validator('test')).toBeFalsy()
+    expect(consoleWarnSpy).toHaveBeenCalledTimes(1)
+  })
 })

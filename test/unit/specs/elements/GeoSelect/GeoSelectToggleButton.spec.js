@@ -111,6 +111,16 @@ describe('GeoSelectToggleButton', () => {
     expect(wrapper.find('.geo-select-toggle-button--inputAccessoryPrefix').exists()).toBe(true)
   })
 
+  it('Should check variant validator is correct', () => {
+    const consoleWarnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {})
+
+    const variant = GeoSelectToggleButton.props.variant
+    expect(variant.validator(undefined)).toBeTruthy()
+    expect(variant.validator('inputAccessorySuffix')).toBeTruthy()
+    expect(variant.validator('test')).toBeFalsy()
+    expect(consoleWarnSpy).toHaveBeenCalledTimes(1)
+  })
+
   describe('When disabled', () => {
     it('Should set `--disabled` suffix to CSS class', () => {
       const wrapper = mount(GeoSelectToggleButton, {
