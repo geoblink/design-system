@@ -12,7 +12,7 @@ export default function enumPropertyFactory (params) {
     validator (value) {
       if (value in params.enumDictionary) return true
 
-      const supportedValues = Object.values(params.enumDictionary).map(i => `«${i}»`).join(', ')
+      const supportedValues = Object.keys(params.enumDictionary).map(i => `«${i}»`).join(', ')
       console.warn(`${params.componentName} [component] :: Unsupported value («${value}») for «${params.propertyName}» property. Use one of ${supportedValues}`)
       return false
     }

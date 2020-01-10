@@ -23,6 +23,7 @@
 </template>
 
 <script>
+import enumPropertyFactory from '../../utils/enumPropertyFactory'
 import OnResize from '../../directives/GeoOnResize'
 import { POSITIONS, ALIGNMENTS } from '../GeoTooltip/GeoTooltip.vue'
 
@@ -36,26 +37,19 @@ export default {
   release: '10.1.0',
   directives: { OnResize },
   props: {
-    tooltipPosition: {
-      type: String,
-      default: POSITIONS.top,
-      validator (value) {
-        if (value in POSITIONS) return true
-
-        const supportedValues = Object.values(POSITIONS).map(i => `«${i}»`).join(', ')
-        console.warn(`GeoTrimmedContent [component] :: Unsupported value («${value}») for «tooltipPosition» property. Use one of ${supportedValues}`)
-      }
-    },
-    tooltipAlignment: {
-      type: String,
-      default: ALIGNMENTS.middle,
-      validator (value) {
-        if (value in ALIGNMENTS) return true
-
-        const supportedValues = Object.values(ALIGNMENTS).map(i => `«${i}»`).join(', ')
-        console.warn(`GeoTrimmedContent [component] :: Unsupported value («${value}») for «tooltipAlignment» property. Use one of ${supportedValues}`)
-      }
-    }
+    tooltipPosition: enumPropertyFactory({
+      componentName: 'GeoTrimmedContent',
+      propertyName: 'tooltipPosition',
+      enumDictionary: POSITIONS,
+      defaultValue: POSITIONS.top
+    }),
+    
+    tooltipAlignment: enumPropertyFactory({
+      componentName: 'GeoTrimmedContent',
+      propertyName: 'tooltipAlignment',
+      enumDictionary: ALIGNMENTS,
+      defaultValue: ALIGNMENTS.middle
+    })
   },
   data () {
     return {
