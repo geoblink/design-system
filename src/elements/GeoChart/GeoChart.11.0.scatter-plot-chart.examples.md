@@ -1,19 +1,13 @@
-## Line charts
+## Scatter Plot charts
 
-Use this chart to display information as a series of data points connected by
-straight line segments. This chart can be used in combination with
-[GeoChartBars](#chart-bars).
+Use this chart to represent values related to two different numerical variables. The position of each dot represents a single value of your data. This chart is designed to represent relationships between each variable of each one of the axes.
 
-To add line **groups** to a chart, add an array to `lineGroups` key of
-[GeoChart](#geochart)'s config. Each item of the array must be an object with
-the following:
+To add scatter plot **groups** to a chart, add an array to `scatterPlotGroups` key of [GeoChart](#geochart)'s config. Each item of the array must be an object with the following:
 
 ### Required properties
 
-- `data` - array of objects, each one representing an item with two values that
-will be converted into `x, y` point coordinates across the axes.
-- `mainDimension` - a value of `DIMENSIONS.DIMENSIONS_2D` named export (either
-`horizontal` or `vertical`).
+- `data` - array of objects, each one representing an item with two values that will be converted into `x, y` point coordinates across the axes.
+- `mainDimension` - a value of `DIMENSIONS.DIMENSIONS_2D` named export (either `horizontal` or `vertical`).
 - `idHorizontalAxis` - the ID of the axis defining the `horizontal` dimension.
 - `idVerticalAxis` - the ID of the axis defining the `vertical` dimension.
 
@@ -24,24 +18,14 @@ See [axes](#chart-axes) for more info.
 
 ### Optional properties
 
-- `lineWidth` - width in pixels of each one of the lines. If no width is
-provided, a default width of `2px` will be applied.
-- `hoverCircleRadius` - radius in pixels of the circles that will be displayed
-when hovering on the graph. If no width is provided, a default width of `2px`
-will be applied.
-- `interpolationFn` - choose one of the functions provided by D3 to handle the
-interpolation of the segments connecting each one of your data points. Defaults
-to `d3.curveLinear`.
-- `trackByKey` - define this function to let D3 know which property of your data
-will be used to track changes in it.
+- `radius` - radius in pixels of each one of the dots of the graph. If no width is provided, a default radius of `2px` will be applied.
 
 ### Tooltips
 
-Each line can customize the tooltip displayed when it's hovered by setting the
-key `tooltip`. This key must store an object with the following shape:
+Each scatterPlotGroup can customize the tooltip displayed when hovering on each one of the dots by setting the key `tooltip`. This key must store an object with the following shape:
 
-- `content` - **required**. Function that takes as parameters the item
-corresponding to the line being customized and its position inside the data array.
+- `content` - **required**. Function that takes as parameters the dot
+corresponding to the scatter plot group being customized and its position inside the data array.
 It's expected to return a HTML string that will be rendered inside a tooltip.
 - `offset` - *optional*. Function that takes as parameter the event triggering
 the tooltip and is expected to return an object with an `x` and a `y` property,
@@ -50,14 +34,13 @@ event coordinates. By default tooltip will be positioned above cursor.
 
 ### Customizing CSS classes
 
-Each line can customize its CSS classes by setting a function for key `cssClasses`.
+Each scatter plot group can customize its CSS classes by setting a function for key `cssClasses`. (Use this for give a custom radius or color to each represented group).
 This function takes as parameters the array of classes that would be set by
-default, the item corresponding to the line being customized and its position
-inside the data array.
+default, the item corresponding to the scatter plot group being customized and its position inside the data array.
 
 ### Examples
 
-#### Horizontal line chart without data
+#### Scatter Plot without data
 
 ```vue live
 <template>
@@ -76,13 +59,12 @@ inside the data array.
 
 <script>
 const CONSTANTS = require('@/elements/GeoChart/constants')
-const { INTERPOLATION_TYPES } = require('@/elements/GeoChart/GeoChartLine/GeoChartLine')
 
 export default {
-  name: 'GeoChartLineDemo',
+  name: 'GeoScatterPlotDemo',
   data () {
     return {
-      lineData: [],
+      scatterPlotData: [],
       isGraphVisible: true
     }
   },
@@ -125,7 +107,7 @@ export default {
       }
     },
     chartConfig () {
-      if (!this.lineData) return null
+      if (!this.scatterPlotData) return null
 
       return {
         chart: {
@@ -141,14 +123,12 @@ export default {
           this.linearAxisConfig,
           this.numericalAxisConfig
         ],
-        lineGroups: [{
+        scatterPlotGroups: [{
           idVerticalAxis: this.linearAxisConfig.id,
           idHorizontalAxis: this.numericalAxisConfig.id,
           mainDimension: CONSTANTS.DIMENSIONS.DIMENSIONS_2D.horizontal,
-          data: this.lineData,
-          lineWidth: 2,
-          hoverCircleRadius: 4,
-          interpolationFn: INTERPOLATION_TYPES.curveLinear
+          data: this.scatterPlotData,
+          radius: 2
         }]
       }
     }
