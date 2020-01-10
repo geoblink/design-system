@@ -25,7 +25,7 @@
 <script>
 import enumPropertyFactory from '../../utils/enumPropertyFactory'
 import OnResize from '../../directives/GeoOnResize'
-import { POSITIONS, ALIGNMENTS } from '../GeoTooltip/GeoTooltip.vue'
+import { POSITIONS, ALIGNMENTS } from '../GeoTooltip/GeoTooltip.constants'
 
 /**
  * `GeoTrimmedContent` is a component used to trim long strings which don't fit
