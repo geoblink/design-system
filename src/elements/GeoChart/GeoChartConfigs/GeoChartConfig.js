@@ -733,6 +733,47 @@ export const anchoredShapesConfigSchema = {
   }
 }
 
+export const scatterPlotConfigSchema = {
+  type: 'object',
+  additionalProperties: false,
+  required: ['data', 'mainDimension', 'idHorizontalAxis', 'idVerticalAxis'],
+  properties: {
+    data: {
+      type: 'array',
+      additionalItems: false,
+      items: {
+        type: 'object'
+      }
+    },
+    idHorizontalAxis: {
+      type: 'string'
+    },
+    idVerticalAxis: {
+      type: 'string'
+    },
+    radius: {
+      type: 'number'
+    },
+    mainDimension: {
+      type: 'string',
+      enum: _.values(dimensionUtils.DIMENSIONS_2D)
+    },
+    tooltip: {},
+    // Function taking as first parameter an array of CSS classes that would be
+    // set by default. Should return the array of CSS classes to be finally set.
+    // Use this function to customize which CSS classes are set to the rect for
+    // the bar of each item. Note that there might be some of the default classes
+    // might be added regardless to your customization as they are required
+    // internally.
+    cssClasses: {},
+    // Function that returns the property that is needed by D3 to track data
+    // changes correctly
+    groupKey: {
+      type: 'string'
+    }
+  }
+}
+
 export const labelConfigJsonSchema = {
   type: 'object',
   additionalProperties: false,
@@ -891,6 +932,11 @@ export const jsonSchema = {
       type: 'array',
       additionalItems: false,
       items: guidelineConfigJsonSchema
+    },
+    scatterPlotGroups: {
+      type: 'array',
+      additionalItems: false,
+      items: scatterPlotConfigSchema
     },
     pieConfig: pieConfigJsonSchema,
     labelGroups: {

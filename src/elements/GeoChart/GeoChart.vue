@@ -288,6 +288,13 @@ export default {
       deep: true
     },
 
+    'config.scaatterPlotGroups': {
+      handler () {
+        this.debouncedRedraw()
+      },
+      deep: true
+    },
+
     size: {
       handler () {
         this.debouncedRedraw()
