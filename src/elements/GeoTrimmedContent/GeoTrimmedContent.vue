@@ -43,7 +43,7 @@ export default {
       enumDictionary: POSITIONS,
       defaultValue: POSITIONS.top
     }),
-    
+
     tooltipAlignment: enumPropertyFactory({
       componentName: 'GeoTrimmedContent',
       propertyName: 'tooltipAlignment',
