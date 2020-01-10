@@ -32,6 +32,7 @@
 
 <script>
 import mixin, { TYPES } from './GeoButton.mixin'
+import { enumRequiredPropertyFactory } from '../../utils/enumPropertyFactory'
 
 /**
  * Use `GeoButton` to add button-like elements to your app with a single tag,
@@ -66,17 +67,12 @@ export default {
      * [Component Constants](/docs/guides/using-constants) for more info on how to
      * use those constants in your code.
      */
-    type: {
-      type: String,
-      validator: function (value) {
-        if (value in TYPES) return true
-
-        const supportedValues = Object.values(TYPES).map(i => `«${i}»`).join(', ')
-        console.warn(`GeoButton [component] :: Unsupported value («${value}») for «type» property. Use one of ${supportedValues}`)
-        return false
-      },
+    type: enumRequiredPropertyFactory({
+      componentName: 'GeoButton',
+      propertyName: 'type',
+      enumDictionary: TYPES,
       required: true
-    }
+    })
   }
 }
 </script>

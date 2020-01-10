@@ -21,9 +21,9 @@
 </template>
 
 <script>
+import { enumDefaultPropertyFactory } from '../../utils/enumPropertyFactory'
 import OnResize from '../../directives/GeoOnResize'
-import Tooltip from '../../directives/Tooltip'
-
+import { POSITIONS, ALIGNMENTS } from '../GeoTooltip/GeoTooltip.constants'
 /**
  * `GeoTrimmedContent` is a component used to trim long strings which don't fit
  * in a single line, and displaying a tooltip to read the whole content.
@@ -32,7 +32,22 @@ export default {
   name: 'GeoTrimmedContent',
   status: 'ready',
   release: '10.1.0',
-  directives: { OnResize, Tooltip },
+  directives: { OnResize },
+  props: {
+    tooltipPosition: enumDefaultPropertyFactory({
+      componentName: 'GeoTrimmedContent',
+      propertyName: 'tooltipPosition',
+      enumDictionary: POSITIONS,
+      defaultValue: POSITIONS.top
+    }),
+
+    tooltipAlignment: enumDefaultPropertyFactory({
+      componentName: 'GeoTrimmedContent',
+      propertyName: 'tooltipAlignment',
+      enumDictionary: ALIGNMENTS,
+      defaultValue: ALIGNMENTS.middle
+    })
+  },
   data () {
     return {
       isHovered: false,

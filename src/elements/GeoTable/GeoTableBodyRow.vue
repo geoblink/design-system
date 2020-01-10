@@ -6,6 +6,8 @@
 </template>
 
 <script>
+import { enumDefaultPropertyFactory } from '../../utils/enumPropertyFactory'
+
 const VARIANTS = {
   default: 'default',
   highlighted: 'highlighted',
@@ -47,13 +49,12 @@ export default {
      * - `highlighted-active`
      * - `active`
      */
-    variant: {
-      type: String,
-      default: VARIANTS.default,
-      validator (value) {
-        return value in VARIANTS
-      }
-    }
+    variant: enumDefaultPropertyFactory({
+      componentName: 'GeoTableBodyRow',
+      propertyName: 'variant',
+      enumDictionary: VARIANTS,
+      defaultValue: VARIANTS.default
+    })
   }
 }
 </script>

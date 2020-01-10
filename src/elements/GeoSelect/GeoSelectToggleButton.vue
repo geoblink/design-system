@@ -129,10 +129,10 @@ export default {
       type: String,
       required: false,
       validator (value) {
-        if (!value) return true
-        if (value in VARIANTS) return true
+        const allValues = Object.values(VARIANTS)
+        if (!value || allValues.includes(value)) return true
 
-        const supportedValues = Object.values(VARIANTS).map(i => `«${i}»`).join(', ')
+        const supportedValues = allValues.map(i => `«${i}»`).join(', ')
         console.warn(`GeoSelectToggleButton [component] :: Unsupported value («${value}») for «variant» property. Use one of ${supportedValues}`)
         return false
       }

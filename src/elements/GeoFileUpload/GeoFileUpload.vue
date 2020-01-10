@@ -67,6 +67,7 @@
 <script>
 import _ from 'lodash'
 import { STATUS } from './GeoFileUpload.mixin'
+import { enumRequiredPropertyFactory } from '../../utils/enumPropertyFactory'
 
 /**
  * `GeoFileUpload` is a form input designed to upload local files to a server.
@@ -92,17 +93,12 @@ export default {
      * See [Component Constants](/docs/guides/using-constants) for more info on how
      * to use those constants in your code.
      */
-    status: {
-      type: String,
-      required: true,
-      validator (value) {
-        if (value in STATUS) return true
-
-        const supportedValues = Object.values(STATUS).map(i => `«${i}»`).join(', ')
-        console.warn(`GeoFileUpload [component] :: Unsupported value («${value}») for status property. Use one of ${supportedValues}`)
-        return false
-      }
-    },
+    status: enumRequiredPropertyFactory({
+      componentName: 'GeoFileUpload',
+      propertyName: 'status',
+      enumDictionary: STATUS,
+      required: true
+    }),
 
     /**
      * Icon to be displayed initially in the input.

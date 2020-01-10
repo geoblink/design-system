@@ -1,6 +1,7 @@
 import _ from 'lodash'
 import { Y_AXIS_POSITION, X_AXIS_POSITION } from '../GeoDropdown/GeoDropdown.constants'
 import { VARIANTS } from './GeoSelectToggleButton.vue'
+import { enumDefaultPropertyFactory } from '../../utils/enumPropertyFactory'
 
 /**
  * @mixin
@@ -208,7 +209,12 @@ export default {
       type: String,
       required: false,
       validator: function (value) {
-        return value === undefined || value in Y_AXIS_POSITION
+        const allValues = Object.values(Y_AXIS_POSITION)
+        if (value === undefined || allValues.includes(value)) return true
+
+        const supportedValues = allValues.map(i => `«${i}»`).join(', ')
+        console.warn(`GeoSelect [component] :: Unsupported value («${value}») for «forceYAxisPosition» property. Use one of ${supportedValues}`)
+        return false
       }
     },
 
@@ -239,17 +245,12 @@ export default {
      * See [Component Constants](/docs/guides/using-constants) for more info on how
      * to use those constants in your code.
      */
-    variant: {
-      type: String,
-      default: VARIANTS.regular,
-      validator (value) {
-        if (value in VARIANTS) return true
-
-        const supportedValues = Object.values(VARIANTS).map(i => `«${i}»`).join(', ')
-        console.warn(`GeoSelect [mixin] :: Unsupported value («${value}») for «variant» property. Use one of ${supportedValues}`)
-        return false
-      }
-    },
+    variant: enumDefaultPropertyFactory({
+      componentName: 'GeoSelect',
+      propertyName: 'variant',
+      enumDictionary: VARIANTS,
+      defaultValue: VARIANTS.regular
+    }),
 
     /**
      * Class or classes that will be added to the popup element

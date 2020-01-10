@@ -100,7 +100,12 @@ export default {
       type: String,
       required: false,
       validator: function (value) {
-        return value === undefined || value in Y_AXIS_POSITION
+        const allValues = Object.values(Y_AXIS_POSITION)
+        if (value === undefined || allValues.includes(value)) return true
+
+        const supportedValues = allValues.map(i => `«${i}»`).join(', ')
+        console.warn(`GeoSelectBase [component] :: Unsupported value («${value}») for «forceYAxisPosition» property. Use one of ${supportedValues}`)
+        return false
       }
     },
 

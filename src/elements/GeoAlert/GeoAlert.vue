@@ -24,6 +24,7 @@
 
 <script>
 import { VARIANTS } from './GeoAlert.constants'
+import { enumRequiredPropertyFactory } from '../../utils/enumPropertyFactory'
 
 /**
  * Use `GeoAlert` component to give visual feedback to your users about the
@@ -62,17 +63,12 @@ export default {
      * See [Component Constants](/docs/guides/using-constants) for more info on how
      * to use those constants in your code.
      */
-    variant: {
-      type: String,
-      required: true,
-      validator (value) {
-        if (value in VARIANTS) return true
-
-        const supportedValues = Object.values(VARIANTS).map(i => `«${i}»`).join(', ')
-        console.warn(`GeoAlert [component] :: Unsupported value («${value}») for «variant» property. Use one of ${supportedValues}`)
-        return false
-      }
-    },
+    variant: enumRequiredPropertyFactory({
+      componentName: 'GeoAlert',
+      propertyName: 'variant',
+      enumDictionary: VARIANTS,
+      required: true
+    }),
 
     /**
      * Font Awesome 5 icon to be displayed next to the content, on the leading

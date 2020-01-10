@@ -1,3 +1,5 @@
+import { enumDefaultPropertyFactory } from '../../utils/enumPropertyFactory'
+
 const VARIANTS = {
   default: 'default',
   modal: 'modal'
@@ -23,18 +25,11 @@ export default {
      * Variant only affects default CSS styling and no icon nor behaviour is
      * affected. However, using
      */
-    variant: {
-      type: String,
-      default: function () {
-        return VARIANTS.default
-      },
-      validator (value) {
-        if (value in VARIANTS) return true
-
-        const supportedValues = Object.values(VARIANTS).map(i => `«${i}»`).join(', ')
-        console.warn(`GeoTabBar [component] :: Unsupported value («${value}») for «variant» property. Use one of ${supportedValues}`)
-        return false
-      }
-    }
+    variant: enumDefaultPropertyFactory({
+      componentName: 'GeoTabBar',
+      propertyName: 'variant',
+      enumDictionary: VARIANTS,
+      defaultValue: VARIANTS.default
+    })
   }
 }

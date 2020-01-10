@@ -5,6 +5,8 @@
 </template>
 
 <script>
+import { enumDefaultPropertyFactory } from '../../utils/enumPropertyFactory'
+
 const VARIANTS = {
   default: 'default',
   light: 'light',
@@ -38,13 +40,12 @@ export default {
      * - `grey`
      * - `opaque`
      */
-    variant: {
-      type: String,
-      default: VARIANTS.default,
-      validator (value) {
-        return value in VARIANTS
-      }
-    }
+    variant: enumDefaultPropertyFactory({
+      componentName: 'GeoPill',
+      propertyName: 'variant',
+      enumDictionary: VARIANTS,
+      defaultValue: VARIANTS.default
+    })
   }
 }
 </script>

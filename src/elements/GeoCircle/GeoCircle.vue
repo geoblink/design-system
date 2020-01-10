@@ -8,6 +8,8 @@
 </template>
 
 <script>
+import { enumDefaultPropertyFactory } from '../../utils/enumPropertyFactory'
+
 const VARIANTS = {
   default: 'default',
   primary: 'primary',
@@ -46,13 +48,12 @@ export default {
      * - `error`
      * - `disabled`
      */
-    variant: {
-      type: String,
-      default: VARIANTS.default,
-      validator (value) {
-        return value in VARIANTS
-      }
-    }
+    variant: enumDefaultPropertyFactory({
+      componentName: 'GeoCircle',
+      propertyName: 'variant',
+      enumDictionary: VARIANTS,
+      defaultValue: VARIANTS.default
+    })
   }
 }
 </script>

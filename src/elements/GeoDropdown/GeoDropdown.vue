@@ -28,6 +28,7 @@
 </template>
 
 <script>
+import { enumDefaultPropertyFactory } from '../../utils/enumPropertyFactory'
 import ClickOutside from '../../directives/GeoClickOutside'
 import ScrollAnywhere from '../../directives/GeoScrollAnywhere'
 import * as GeoDropdownConstants from './GeoDropdown.constants'
@@ -66,19 +67,13 @@ export default {
      * - `X_AXIS_POSITION.right`
      * - `X_AXIS_POSITION.left`
      */
-    preferredXAxisPosition: {
-      type: String,
-      default: function () {
-        return GeoDropdownConstants.X_AXIS_POSITION.left
-      },
-      validator: function (value) {
-        if (value in GeoDropdownConstants.X_AXIS_POSITION) return true
+    preferredXAxisPosition: enumDefaultPropertyFactory({
+      componentName: 'GeoDropdown',
+      propertyName: 'preferredXAxisPosition',
+      enumDictionary: GeoDropdownConstants.X_AXIS_POSITION,
+      defaultValue: GeoDropdownConstants.X_AXIS_POSITION.left
+    }),
 
-        const supportedValues = Object.values(GeoDropdownConstants.X_AXIS_POSITION).map(i => `«${i}»`).join(', ')
-        console.warn(`GeoDropdown [component] :: Unsupported value («${value}») for «preferredXAxisPosition» property. Use one of ${supportedValues}`)
-        return false
-      }
-    },
     /**
      * Preferred position of the popup relative to the container. `top` or
      * `bottom`.
@@ -89,19 +84,12 @@ export default {
      * - `Y_AXIS_POSITION.top`
      * - `Y_AXIS_POSITION.bottom`
      */
-    preferredYAxisPosition: {
-      type: String,
-      default: function () {
-        return GeoDropdownConstants.Y_AXIS_POSITION.bottom
-      },
-      validator: function (value) {
-        if (value in GeoDropdownConstants.Y_AXIS_POSITION) return true
-
-        const supportedValues = Object.values(GeoDropdownConstants.Y_AXIS_POSITION).map(i => `«${i}»`).join(', ')
-        console.warn(`GeoDropdown [component] :: Unsupported value («${value}») for «preferredYAxisPosition» property. Use one of ${supportedValues}`)
-        return false
-      }
-    },
+    preferredYAxisPosition: enumDefaultPropertyFactory({
+      componentName: 'GeoDropdown',
+      propertyName: 'preferredYAxisPosition',
+      enumDictionary: GeoDropdownConstants.Y_AXIS_POSITION,
+      defaultValue: GeoDropdownConstants.Y_AXIS_POSITION.bottom
+    }),
 
     /**
      * Forced position of the popup relative to the container. `top`, `bottom`
@@ -117,9 +105,10 @@ export default {
       type: String,
       required: false,
       validator: function (value) {
-        if (value === undefined || value in GeoDropdownConstants.Y_AXIS_POSITION) return true
+        const allValues = Object.values(GeoDropdownConstants.Y_AXIS_POSITION)
+        if (value === undefined || allValues.includes(value)) return true
 
-        const supportedValues = Object.values(GeoDropdownConstants.Y_AXIS_POSITION).map(i => `«${i}»`).join(', ')
+        const supportedValues = allValues.map(i => `«${i}»`).join(', ')
         console.warn(`GeoDropdown [component] :: Unsupported value («${value}») for «forceYAxisPosition» property. Use one of ${supportedValues}`)
         return false
       }

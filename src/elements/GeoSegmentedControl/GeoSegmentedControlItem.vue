@@ -17,6 +17,7 @@
 
 <script>
 import geoSegmentedControlItemMixin, { VARIANTS } from './GeoSegmentedControlItem.constants'
+import { enumDefaultPropertyFactory } from '../../utils/enumPropertyFactory'
 
 /**
  * `GeoSegmentedControlItem` is a component designed to nicely fit as one of the
@@ -49,17 +50,12 @@ export default {
      * See [Component Constants](/docs/guides/using-constants) for more info on how
      * to use those constants in your code.
      */
-    variant: {
-      type: String,
-      default: VARIANTS.info,
-      validator (value) {
-        if (value in VARIANTS) return true
-
-        const supportedValues = Object.values(VARIANTS).map(i => `«${i}»`).join(', ')
-        console.warn(`GeoSegmentedControlItem [component] :: Unsupported value («${value}») for «variant» property. Use one of ${supportedValues}`)
-        return false
-      }
-    }
+    variant: enumDefaultPropertyFactory({
+      componentName: 'GeoSegmentedControlItem',
+      propertyName: 'variant',
+      enumDictionary: VARIANTS,
+      defaultValue: VARIANTS.info
+    })
   },
   computed: {
     outlineSuffix () {

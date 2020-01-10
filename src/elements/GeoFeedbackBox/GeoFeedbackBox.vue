@@ -43,6 +43,7 @@
 
 <script>
 import mixin, { VARIANTS } from './GeoFeedbackBox.mixin'
+import { enumRequiredPropertyFactory } from '../../utils/enumPropertyFactory'
 
 /**
  * Use `GeoFeedbackBox` component to give visual feedback to your users about
@@ -87,17 +88,12 @@ export default {
      * See [Component Constants](/docs/guides/using-constants) for more info on how
      * to use those constants in your code.
      */
-    variant: {
-      type: String,
-      required: true,
-      validator (value) {
-        if (value in VARIANTS) return true
-
-        const supportedValues = Object.values(VARIANTS).map(i => `«${i}»`).join(', ')
-        console.warn(`GeoFeedbackBox [component] :: Unsupported value («${value}») for «variant» property. Use one of ${supportedValues}`)
-        return false
-      }
-    }
+    variant: enumRequiredPropertyFactory({
+      componentName: 'GeoFeedbackBox',
+      propertyName: 'variant',
+      enumDictionary: VARIANTS,
+      required: true
+    })
   }
 }
 </script>
