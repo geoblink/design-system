@@ -12531,6 +12531,11 @@ typeof-article@^0.1.1:
   dependencies:
     kind-of "^3.1.0"
 
+typescript@^3.2.2:
+  version "3.7.4"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.7.4.tgz#1743a5ec5fef6a1fa9f3e4708e33c81c73876c19"
+  integrity sha512-A25xv5XCtarLwXpcDNZzCGvW2D1S3/bACratYBx2sax8PefsFhlYmkQicKHvpYflFS8if4zne5zT5kpJ7pzuvw==
+
 uc.micro@^1.0.1, uc.micro@^1.0.5:
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/uc.micro/-/uc.micro-1.0.6.tgz#9c411a802a409a91fc6cf74081baba34b24499ac"
@@ -12833,10 +12838,10 @@ vue-directive-tooltip@~1.6.3:
   dependencies:
     popper.js "1.15.0"
 
-vue-docgen-api@^4.2.0:
-  version "4.2.0"
-  resolved "https://registry.yarnpkg.com/vue-docgen-api/-/vue-docgen-api-4.2.0.tgz#c693e0133ca3f8d15154e766c777aa3109e692ad"
-  integrity sha512-8EbK+QYRHJzy4t6Lx89vqS2pAwbFp/+N2r51LE/8bPG4N4mYaA7Xuv0dV90hJED0wt5icRTkyUYrwkVnqXTaNA==
+vue-docgen-api@^3.19.5:
+  version "3.26.0"
+  resolved "https://registry.yarnpkg.com/vue-docgen-api/-/vue-docgen-api-3.26.0.tgz#2afc6a39e72862fbbc60ceb8510c681749f05460"
+  integrity sha512-ujdg4i5ZI/wE46RZQMFzKnDGyhEuPCu+fMA86CAd9EIek/6+OqraSVBm5ZkLrbEd5f8xxdnqMU4yiSGHHeao/Q==
   dependencies:
     "@babel/parser" "^7.2.3"
     "@babel/types" "^7.0.0"
@@ -12846,6 +12851,7 @@ vue-docgen-api@^4.2.0:
     pug "^2.0.3"
     recast "^0.17.3"
     ts-map "^1.0.3"
+    typescript "^3.2.2"
     vue-template-compiler "^2.0.0"
 
 vue-eslint-parser@^6.0.5:
