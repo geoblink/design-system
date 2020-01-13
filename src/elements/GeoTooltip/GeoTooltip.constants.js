@@ -1,5 +1,5 @@
 const POSITIONS = {
-  keyyy: 'valuuue',
+  bottom: 'bottom',
   leading: 'leading',
   top: 'top',
   trailing: 'trailing'
