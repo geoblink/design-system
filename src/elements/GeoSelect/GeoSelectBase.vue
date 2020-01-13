@@ -41,6 +41,7 @@
 
 <script>
 import { Y_AXIS_POSITION, X_AXIS_POSITION } from '../GeoDropdown/GeoDropdown.constants'
+import { enumPropertyFactory } from '../../utils/enumPropertyFactory'
 
 /**
  * `GeoSelectBase` is an advance component to build select-like flows. It offers
@@ -96,13 +97,13 @@ export default {
      * - `Y_AXIS_POSITION.top`
      * - `Y_AXIS_POSITION.bottom`
      */
-    forceYAxisPosition: {
-      type: String,
+    forceYAxisPosition: enumPropertyFactory({
+      componentName: 'GeoSelectBase',
+      propertyName: 'forceYAxisPosition',
+      enumDictionary: Y_AXIS_POSITION,
       required: false,
-      validator: function (value) {
-        return value === undefined || value in Y_AXIS_POSITION
-      }
-    },
+      checkUndefined: true
+    }),
 
     /**
      * Class or classes that will be added to the popup element

@@ -19,10 +19,11 @@
 <script>
 import _ from 'lodash'
 
-import enumPropertyFactory from '../../utils/enumPropertyFactory'
+import { enumPropertyFactory } from '../../utils/enumPropertyFactory'
 import throttle from '../../utils/throttle'
 import getDOMElementOffset from '../../utils/getDOMElementOffset'
 import counterFactory from '../../utils/counterFactory'
+import { POSITIONS, ALIGNMENTS } from '../GeoTooltip/GeoTooltip.constants'
 
 /** @type {number} */
 let existingTooltipsCount = 0
@@ -30,19 +31,6 @@ const getNextStaticTooltipId = counterFactory()
 
 /** @type {Element|null} */
 let tooltipContainerElement = null
-
-const POSITIONS = {
-  bottom: 'bottom',
-  leading: 'leading',
-  top: 'top',
-  trailing: 'trailing'
-}
-
-const ALIGNMENTS = {
-  start: 'start',
-  end: 'end',
-  middle: 'middle'
-}
 
 /**
  * `GeoTooltip` is a component used to display a tooltip. Using this component

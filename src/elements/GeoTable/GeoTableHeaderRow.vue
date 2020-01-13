@@ -7,6 +7,8 @@
 
 <script>
 import { HEADER_VARIANTS as VARIANTS } from './GeoTable.constants'
+import { enumPropertyFactory } from '../../utils/enumPropertyFactory'
+
 export { VARIANTS }
 
 /**
@@ -49,17 +51,12 @@ export default {
      * - `aux`
      * - `single`
      */
-    variant: {
-      type: String,
-      default: 'main',
-      validator (value) {
-        if (value in VARIANTS) return true
-
-        const supportedValues = Object.values(VARIANTS).map(i => `«${i}»`).join(', ')
-        console.warn(`GeoTableHeaderRow [component] :: Unsupported value («${value}») for «variant» property. Use one of ${supportedValues}`)
-        return false
-      }
-    }
+    variant: enumPropertyFactory({
+      componentName: 'GeoTableHeaderRow',
+      propertyName: 'variant',
+      enumDictionary: VARIANTS,
+      defaultValue: VARIANTS.main
+    })
   }
 }
 </script>

@@ -1,4 +1,6 @@
 import { GRANULARITY_IDS } from './GeoCalendar.utils'
+import { enumPropertyFactory } from '../../utils/enumPropertyFactory'
+
 /**
  * @mixin
  */
@@ -36,15 +38,11 @@ export default {
      * - `GRANULARITY_IDS.quarter`
      * - `GRANULARITY_IDS.year`
      */
-    granularityId: {
-      type: String,
-      required: true,
-      validator (value) {
-        if (value in GRANULARITY_IDS) return true
-        const supportedGranularities = Object.values(GRANULARITY_IDS).map(i => `«${i}»`).join(', ')
-        console.warn(`GeoCalendar [component] :: Unsupported value («${value}») for granularityId property. Use one of ${supportedGranularities}`)
-        return false
-      }
-    }
+    granularityId: enumPropertyFactory({
+      componentName: 'GeoCalendarGranularityId',
+      propertyName: 'granularityId',
+      enumDictionary: GRANULARITY_IDS,
+      required: true
+    })
   }
 }

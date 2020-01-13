@@ -18,4 +18,14 @@ describe('GeoInputMessage', () => {
 
     expect(wrapper.find('.geo-input-message--error').exists()).toBe(true)
   })
+
+  it('Should check variant validator is correct', () => {
+    const consoleWarnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {})
+
+    const variant = GeoInputMessage.props.variant
+    expect(variant.validator(undefined)).toBeTruthy()
+    expect(variant.validator('success')).toBeTruthy()
+    expect(variant.validator('test')).toBeFalsy()
+    expect(consoleWarnSpy).toHaveBeenCalledTimes(1)
+  })
 })
