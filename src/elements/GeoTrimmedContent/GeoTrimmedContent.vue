@@ -23,10 +23,9 @@
 </template>
 
 <script>
-import enumPropertyFactory from '../../utils/enumPropertyFactory'
+import { enumPropertyFactory } from '../../utils/enumPropertyFactory'
 import OnResize from '../../directives/GeoOnResize'
 import { POSITIONS, ALIGNMENTS } from '../GeoTooltip/GeoTooltip.constants'
-
 /**
  * `GeoTrimmedContent` is a component used to trim long strings which don't fit
  * in a single line, and displaying a tooltip to read the whole content.

@@ -142,6 +142,16 @@ describe('GeoSelect', () => {
     })
   })
 
+  it('Should check forceYAxisPosition validator is correct', () => {
+    const consoleWarnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {})
+
+    const forceYAxisPosition = GeoSelectBase.props.forceYAxisPosition
+    expect(forceYAxisPosition.validator(undefined)).toBeTruthy()
+    expect(forceYAxisPosition.validator('top')).toBeTruthy()
+    expect(forceYAxisPosition.validator('test')).toBeFalsy()
+    expect(consoleWarnSpy).toHaveBeenCalledTimes(1)
+  })
+
   it('Should change selection when selecting one of the options', () => {
     const wrapper = mount(GeoSelect, {
       stubs,

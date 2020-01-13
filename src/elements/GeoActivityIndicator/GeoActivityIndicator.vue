@@ -96,6 +96,7 @@
  */
 
 import counterFactory from '../../utils/counterFactory'
+import { enumPropertyFactory } from '../../utils/enumPropertyFactory'
 
 const getNextCounterValue = counterFactory()
 
@@ -185,13 +186,12 @@ export default {
      * - `progress`
      * - `dark-transparent`
      */
-    variant: {
-      type: String,
-      default: VARIANTS.default,
-      validator (value) {
-        return value in VARIANTS
-      }
-    },
+    variant: enumPropertyFactory({
+      componentName: 'GeoActivityIndicator',
+      propertyName: 'variant',
+      enumDictionary: VARIANTS,
+      defaultValue: VARIANTS.default
+    }),
 
     /**
      * Radius of the inner shape that creates the hole in the center.

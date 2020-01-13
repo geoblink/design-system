@@ -54,7 +54,7 @@
 </template>
 
 <script>
-import enumPropertyFactory from '../../utils/enumPropertyFactory'
+import { enumPropertyFactory } from '../../utils/enumPropertyFactory'
 import { VARIANTS, TYPES } from './GeoEditableInput.constants'
 
 /**
@@ -142,16 +142,12 @@ export default {
      * - `VARIANTS.table`
      * - `VARIANTS.normal`
      */
-    inputType: {
-      type: String,
-      default: function () {
-        return VARIANTS.table
-      },
-      validator: function (value) {
-        // The value must match one of these strings
-        return value in VARIANTS
-      }
-    },
+    inputType: enumPropertyFactory({
+      componentName: 'GeoEditableInput',
+      propertyName: 'inputType',
+      enumDictionary: VARIANTS,
+      defaultValue: VARIANTS.table
+    }),
 
     /**
      * Class or classes that will be added to the popup element
