@@ -71,11 +71,7 @@ const DEFAULT_FILL_COLOR = '#69b3a2'
 export function render (d3Instance, d3TipInstance, options, globalOptions) {
   const groups = d3Instance
     .selectAll('g.geo-chart-scatter-plot-group')
-    .data(options, (singleGroupOptions, i) => {
-      return _.isNil(singleGroupOptions.groupKey)
-        ? i
-        : singleGroupOptions.groupKey
-    })
+    .data(options)
 
   const newGroups = groups
     .enter()
@@ -116,6 +112,10 @@ export function render (d3Instance, d3TipInstance, options, globalOptions) {
 function renderSingleGroup (group, d3TipInstance, singleGroupOptions, globalOptions) {
   const singleDotBaseClass = 'geo-chart-scatter-plot__dot'
 
+  const radiusScale = d3.scaleSqrt()
+    .domain(d3.extent(singleGroupOptions.data, d => d[singleGroupOptions.groupKey]))
+    .range([1, 16])
+
   const dots = group
     .selectAll(`circle.${singleDotBaseClass}`)
     .data(singleGroupOptions.data)
@@ -126,25 +126,21 @@ function renderSingleGroup (group, d3TipInstance, singleGroupOptions, globalOpti
     .attr('class', getSingleDotCSSClasses)
     .attr('cursor', 'pointer')
     .style('fill', _.defaultTo(singleGroupOptions.fillColor, DEFAULT_FILL_COLOR))
-    .attr('r', _.defaultTo(singleGroupOptions.radius, DEFAULT_RADIUS))
-    .attr('cx', getCircleInitialCoordinatesFactory('cx'))
-    .attr('cy', getCircleInitialCoordinatesFactory('cy'))
-
-  newDots
-    .transition()
-    .delay((d, i) => i * 3)
-    .duration(globalOptions.chart.animationsDurationInMilliseconds)
+    .attr('r', 0)
+    .style('opacity', 0)
     .attr('cx', getCircleCoordinatesFactory('cx'))
     .attr('cy', getCircleCoordinatesFactory('cy'))
 
   const updatedDots = dots
-  // updatedDots
-  //   .attr('class', getSingleDotCSSClasses)
-  //   .transition()
-  //   .delay((d, i) => i * 3)
-  //   .duration(globalOptions.chart.animationsDurationInMilliseconds)
-  //   .attr('cx', getCircleCoordinatesFactory('cx'))
-  //   .attr('cy', getCircleCoordinatesFactory('cy'))
+  updatedDots
+    .transition()
+    .duration(globalOptions.chart.animationsDurationInMilliseconds)
+    .attr('r', d => {
+      return singleGroupOptions.groupKey
+        ? radiusScale(d[singleGroupOptions.groupKey])
+        : _.defaultTo(singleGroupOptions.radius, DEFAULT_RADIUS)
+    })
+    .style('opacity', 1)
 
   const allDots = newDots.merge(updatedDots)
 
@@ -192,24 +188,6 @@ function renderSingleGroup (group, d3TipInstance, singleGroupOptions, globalOpti
   }
 
   /**
-   * @template HorizontalDomain
-   * @template VerticalDomain
-   * @param {'cx' | 'cy'} coordinate
-   * @return {GetCircleCoordinates<HorizontalDomain, VerticalDomain>}
-   */
-  function getCircleInitialCoordinatesFactory (coordinate) {
-    return function (d) {
-      const axisForNormalDimension = singleGroupOptions.mainDimension === dimensionUtils.DIMENSIONS_2D.horizontal
-        ? singleGroupOptions.axis.vertical
-        : singleGroupOptions.axis.horizontal
-      const axisForDimension = singleGroupOptions.mainDimension === dimensionUtils.DIMENSIONS_2D.horizontal
-        ? singleGroupOptions.axis.horizontal
-        : singleGroupOptions.axis.vertical
-      return getCircleInitialCoordinates(d, singleGroupOptions.mainDimension, axisForDimension, axisForNormalDimension)[coordinate]
-    }
-  }
-
-  /**
    * @template Domain
    * @param {{item: object}} datum
    * @enum {GeoChart.BarDimension} dimension
@@ -223,26 +201,6 @@ function renderSingleGroup (group, d3TipInstance, singleGroupOptions, globalOpti
       },
       [dimensionUtils.DIMENSIONS_2D.vertical]: {
         cx: axisForNormalDimension.scale.axisScale(datum[axisForNormalDimension.keyForValues]),
-        cy: axisForDimension.scale.axisScale(datum[axisForDimension.keyForValues])
-      }
-    }
-    return circleCoordinates[dimension]
-  }
-
-  /**
-   * @template Domain
-   * @param {{item: object}} datum
-   * @enum {GeoChart.BarDimension} dimension
-   * @param {GeoChart.AxisConfig<Domain>} axisForNormalDimension
-   */
-  function getCircleInitialCoordinates (datum, dimension, axisForDimension, axisForNormalDimension) {
-    const circleCoordinates = {
-      [dimensionUtils.DIMENSIONS_2D.horizontal]: {
-        cx: axisForDimension.scale.axisScale(datum[axisForDimension.keyForValues]),
-        cy: axisForNormalDimension.scale.axisScale(0)
-      },
-      [dimensionUtils.DIMENSIONS_2D.vertical]: {
-        cx: axisForNormalDimension.scale.axisScale(0),
         cy: axisForDimension.scale.axisScale(datum[axisForDimension.keyForValues])
       }
     }

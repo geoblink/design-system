@@ -19,6 +19,7 @@ See [axes](#chart-axes) for more info.
 ### Optional properties
 
 - `radius` - radius in pixels of each one of the dots of the graph. If no width is provided, a default radius of `2px` will be applied.
+- `groupKey` - property of your data that will be used to compute the radius of each one of the dots.
 
 ### Tooltips
 
