@@ -1,4 +1,4 @@
-#### Scatter Plot without data
+#### Scatter Plot with data
 
 ```vue live
 <template>
@@ -25,7 +25,6 @@ export default {
   name: 'GeoScatterPlotDemo',
   data () {
     return {
-      scatterPlotData: [],
       isGraphVisible: true,
       randomValue: _.random(1, 200)
     }
@@ -71,8 +70,8 @@ export default {
     scatterPlotData () {
       return _.times(this.randomValue, (i) => {
         return {
-          x: i,
-          y: i
+          x: _.random(0, 25),
+          y: _.random(0, 20)
         }
       })
     },
@@ -88,7 +87,7 @@ export default {
             bottom: 30,
             left: 30
           },
-          animationsDurationInMilliseconds: 800
+          animationsDurationInMilliseconds: 1000
         },
         axisGroups: [
           this.linearAxisConfig,
@@ -99,7 +98,8 @@ export default {
           idHorizontalAxis: this.numericalAxisConfig.id,
           mainDimension: CONSTANTS.DIMENSIONS.DIMENSIONS_2D.horizontal,
           data: this.scatterPlotData,
-          radius: 2
+          radius: 3,
+          fillColor: 'orange'
         }]
       }
     }

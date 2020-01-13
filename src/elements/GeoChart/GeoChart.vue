@@ -288,7 +288,7 @@ export default {
       deep: true
     },
 
-    'config.scaatterPlotGroups': {
+    'config.scatterPlotGroups': {
       handler () {
         this.debouncedRedraw()
       },

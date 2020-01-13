@@ -9,7 +9,7 @@ export default {
       const chartSize = this.svgSize
       const chartMargin = _.get(this.config.chart, 'margin', ChartSizing.EMPTY_MARGIN)
       const chart = {
-        animationDurationInMilliseconds: this.animationDurationInMilliseconds,
+        animationsDurationInMilliseconds: this.animationsDurationInMilliseconds,
         size: chartSize,
         margin: chartMargin
       }
@@ -41,6 +41,7 @@ export default {
           data: singleScatterPlotGroupConfig.data,
           mainDimension: singleScatterPlotGroupConfig.mainDimension,
           radius: singleScatterPlotGroupConfig.radius,
+          fillColor: singleScatterPlotGroupConfig.fillColor,
           tooltip: tooltipConfig,
           cssClasses: singleScatterPlotGroupConfig.cssClasses,
           groupKey: singleScatterPlotGroupConfig.groupKey

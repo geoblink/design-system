@@ -754,6 +754,9 @@ export const scatterPlotConfigSchema = {
     radius: {
       type: 'number'
     },
+    fillColor: {
+      type: 'string'
+    },
     mainDimension: {
       type: 'string',
       enum: _.values(dimensionUtils.DIMENSIONS_2D)

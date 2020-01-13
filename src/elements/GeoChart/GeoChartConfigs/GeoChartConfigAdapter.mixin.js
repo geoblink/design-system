@@ -49,7 +49,7 @@ export default {
         this.updateLineGroups()
       }
 
-      if (!_.isEmpty(this.updatePieConfig.scatterPlotGroups)) {
+      if (!_.isEmpty(this.config.scatterPlotGroups)) {
         this.updateScatterPlotGroups()
       }
 
