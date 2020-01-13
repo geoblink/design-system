@@ -35,7 +35,7 @@
 
 <script>
 import mixin, { TYPES } from './GeoCompactButton.mixin'
-import { enumRequiredPropertyFactory } from '../../utils/enumPropertyFactory'
+import { enumPropertyFactory } from '../../utils/enumPropertyFactory'
 
 /**
  * `GeoCompactButton` is a button designed to be displayed in specially small
@@ -67,7 +67,7 @@ export default {
      * [Component Constants](/docs/guides/using-constants) for more info on how to
      * use those constants in your code.
      */
-    type: enumRequiredPropertyFactory({
+    type: enumPropertyFactory({
       componentName: 'GeoCompactButton',
       propertyName: 'type',
       enumDictionary: TYPES,

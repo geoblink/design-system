@@ -24,7 +24,7 @@
 
 <script>
 import { VARIANTS } from './GeoAlert.constants'
-import { enumRequiredPropertyFactory } from '../../utils/enumPropertyFactory'
+import { enumPropertyFactory } from '../../utils/enumPropertyFactory'
 
 /**
  * Use `GeoAlert` component to give visual feedback to your users about the
@@ -63,7 +63,7 @@ export default {
      * See [Component Constants](/docs/guides/using-constants) for more info on how
      * to use those constants in your code.
      */
-    variant: enumRequiredPropertyFactory({
+    variant: enumPropertyFactory({
       componentName: 'GeoAlert',
       propertyName: 'variant',
       enumDictionary: VARIANTS,

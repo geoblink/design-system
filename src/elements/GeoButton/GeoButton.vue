@@ -32,7 +32,7 @@
 
 <script>
 import mixin, { TYPES } from './GeoButton.mixin'
-import { enumRequiredPropertyFactory } from '../../utils/enumPropertyFactory'
+import { enumPropertyFactory } from '../../utils/enumPropertyFactory'
 
 /**
  * Use `GeoButton` to add button-like elements to your app with a single tag,
@@ -67,7 +67,7 @@ export default {
      * [Component Constants](/docs/guides/using-constants) for more info on how to
      * use those constants in your code.
      */
-    type: enumRequiredPropertyFactory({
+    type: enumPropertyFactory({
       componentName: 'GeoButton',
       propertyName: 'type',
       enumDictionary: TYPES,

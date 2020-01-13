@@ -1,5 +1,5 @@
 import { PICKER_DATE_UNITS } from './GeoCalendar.utils'
-import { enumRequiredPropertyFactory } from '../../utils/enumPropertyFactory'
+import { enumPropertyFactory } from '../../utils/enumPropertyFactory'
 
 /**
  * @mixin
@@ -28,7 +28,7 @@ export default {
      * - `PICKER_DATE_UNITS.month`
      * - `PICKER_DATE_UNITS.year`
      */
-    pickerDateUnit: enumRequiredPropertyFactory({
+    pickerDateUnit: enumPropertyFactory({
       componentName: 'GeoCalendar',
       propertyName: 'pickerDateUnit',
       enumDictionary: PICKER_DATE_UNITS,

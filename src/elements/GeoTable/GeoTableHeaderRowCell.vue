@@ -8,7 +8,7 @@
 <script>
 import GeoTableHeaderRowCellMixin from './GeoTableHeaderRowCellMixin'
 import { HEADER_VARIANTS as VARIANTS } from './GeoTable.constants'
-import { enumDefaultPropertyFactory } from '../../utils/enumPropertyFactory'
+import { enumPropertyFactory } from '../../utils/enumPropertyFactory'
 
 export { VARIANTS }
 
@@ -38,7 +38,7 @@ export default {
      * - `aux`
      * - `single`
      */
-    variant: enumDefaultPropertyFactory({
+    variant: enumPropertyFactory({
       componentName: 'GeoTableHeaderRowCell',
       propertyName: 'variant',
       enumDictionary: VARIANTS,

@@ -17,7 +17,7 @@
 
 <script>
 import geoSegmentedControlItemMixin, { VARIANTS } from './GeoSegmentedControlItem.constants'
-import { enumDefaultPropertyFactory } from '../../utils/enumPropertyFactory'
+import { enumPropertyFactory } from '../../utils/enumPropertyFactory'
 
 /**
  * `GeoSegmentedControlItem` is a component designed to nicely fit as one of the
@@ -50,7 +50,7 @@ export default {
      * See [Component Constants](/docs/guides/using-constants) for more info on how
      * to use those constants in your code.
      */
-    variant: enumDefaultPropertyFactory({
+    variant: enumPropertyFactory({
       componentName: 'GeoSegmentedControlItem',
       propertyName: 'variant',
       enumDictionary: VARIANTS,

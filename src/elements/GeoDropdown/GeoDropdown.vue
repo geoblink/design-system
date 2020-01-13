@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import { enumDefaultPropertyFactory } from '../../utils/enumPropertyFactory'
+import { enumPropertyFactory } from '../../utils/enumPropertyFactory'
 import ClickOutside from '../../directives/GeoClickOutside'
 import ScrollAnywhere from '../../directives/GeoScrollAnywhere'
 import * as GeoDropdownConstants from './GeoDropdown.constants'
@@ -67,7 +67,7 @@ export default {
      * - `X_AXIS_POSITION.right`
      * - `X_AXIS_POSITION.left`
      */
-    preferredXAxisPosition: enumDefaultPropertyFactory({
+    preferredXAxisPosition: enumPropertyFactory({
       componentName: 'GeoDropdown',
       propertyName: 'preferredXAxisPosition',
       enumDictionary: GeoDropdownConstants.X_AXIS_POSITION,
@@ -84,7 +84,7 @@ export default {
      * - `Y_AXIS_POSITION.top`
      * - `Y_AXIS_POSITION.bottom`
      */
-    preferredYAxisPosition: enumDefaultPropertyFactory({
+    preferredYAxisPosition: enumPropertyFactory({
       componentName: 'GeoDropdown',
       propertyName: 'preferredYAxisPosition',
       enumDictionary: GeoDropdownConstants.Y_AXIS_POSITION,
@@ -101,18 +101,13 @@ export default {
      * - `Y_AXIS_POSITION.top`
      * - `Y_AXIS_POSITION.bottom`
      */
-    forceYAxisPosition: {
-      type: String,
+    forceYAxisPosition: enumPropertyFactory({
+      componentName: 'GeoDropdown',
+      propertyName: 'forceYAxisPosition',
+      enumDictionary: GeoDropdownConstants.Y_AXIS_POSITION,
       required: false,
-      validator: function (value) {
-        const allValues = Object.values(GeoDropdownConstants.Y_AXIS_POSITION)
-        if (value === undefined || allValues.includes(value)) return true
-
-        const supportedValues = allValues.map(i => `«${i}»`).join(', ')
-        console.warn(`GeoDropdown [component] :: Unsupported value («${value}») for «forceYAxisPosition» property. Use one of ${supportedValues}`)
-        return false
-      }
-    },
+      checkUndefined: true
+    }),
 
     /**
      * When this property is `true`, the popup width will be the same as that of

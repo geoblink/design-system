@@ -27,6 +27,8 @@
 </template>
 
 <script>
+import { enumPropertyFactory } from '../../utils/enumPropertyFactory'
+
 export const VARIANTS = {
   inputAccessorySuffix: 'inputAccessorySuffix',
   inputAccessoryPrefix: 'inputAccessoryPrefix'
@@ -125,18 +127,13 @@ export default {
      * See [Component Constants](/docs/guides/using-constants) for more info on how
      * to use those constants in your code.
      */
-    variant: {
-      type: String,
+    variant: enumPropertyFactory({
+      componentName: 'GeoSelectToggleButton',
+      propertyName: 'variant',
+      enumDictionary: VARIANTS,
       required: false,
-      validator (value) {
-        const allValues = Object.values(VARIANTS)
-        if (!value || allValues.includes(value)) return true
-
-        const supportedValues = allValues.map(i => `«${i}»`).join(', ')
-        console.warn(`GeoSelectToggleButton [component] :: Unsupported value («${value}») for «variant» property. Use one of ${supportedValues}`)
-        return false
-      }
-    }
+      checkUndefined: true
+    })
   },
   computed: {
     dropdownIconForCurrentStatus () {

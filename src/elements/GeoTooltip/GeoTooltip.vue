@@ -19,7 +19,7 @@
 <script>
 import _ from 'lodash'
 
-import { enumDefaultPropertyFactory } from '../../utils/enumPropertyFactory'
+import { enumPropertyFactory } from '../../utils/enumPropertyFactory'
 import throttle from '../../utils/throttle'
 import getDOMElementOffset from '../../utils/getDOMElementOffset'
 import counterFactory from '../../utils/counterFactory'
@@ -53,7 +53,7 @@ export default {
      * See [Component Constants](/docs/components-constants.html) for more info on how
      * to use those constants in your code.
      */
-    position: enumDefaultPropertyFactory({
+    position: enumPropertyFactory({
       componentName: 'GeoTooltip',
       propertyName: 'position',
       enumDictionary: POSITIONS,
@@ -68,7 +68,7 @@ export default {
      * See [Component Constants](/docs/components-constants.html) for more info on how
      * to use those constants in your code.
      */
-    alignment: enumDefaultPropertyFactory({
+    alignment: enumPropertyFactory({
       componentName: 'GeoTooltip',
       propertyName: 'alignment',
       enumDictionary: ALIGNMENTS,

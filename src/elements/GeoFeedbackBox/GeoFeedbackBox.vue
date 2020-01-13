@@ -43,7 +43,7 @@
 
 <script>
 import mixin, { VARIANTS } from './GeoFeedbackBox.mixin'
-import { enumRequiredPropertyFactory } from '../../utils/enumPropertyFactory'
+import { enumPropertyFactory } from '../../utils/enumPropertyFactory'
 
 /**
  * Use `GeoFeedbackBox` component to give visual feedback to your users about
@@ -88,7 +88,7 @@ export default {
      * See [Component Constants](/docs/guides/using-constants) for more info on how
      * to use those constants in your code.
      */
-    variant: enumRequiredPropertyFactory({
+    variant: enumPropertyFactory({
       componentName: 'GeoFeedbackBox',
       propertyName: 'variant',
       enumDictionary: VARIANTS,

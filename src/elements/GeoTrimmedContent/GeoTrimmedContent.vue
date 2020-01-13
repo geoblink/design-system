@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import { enumDefaultPropertyFactory } from '../../utils/enumPropertyFactory'
+import { enumPropertyFactory } from '../../utils/enumPropertyFactory'
 import OnResize from '../../directives/GeoOnResize'
 import { POSITIONS, ALIGNMENTS } from '../GeoTooltip/GeoTooltip.constants'
 /**
@@ -34,14 +34,14 @@ export default {
   release: '10.1.0',
   directives: { OnResize },
   props: {
-    tooltipPosition: enumDefaultPropertyFactory({
+    tooltipPosition: enumPropertyFactory({
       componentName: 'GeoTrimmedContent',
       propertyName: 'tooltipPosition',
       enumDictionary: POSITIONS,
       defaultValue: POSITIONS.top
     }),
 
-    tooltipAlignment: enumDefaultPropertyFactory({
+    tooltipAlignment: enumPropertyFactory({
       componentName: 'GeoTrimmedContent',
       propertyName: 'tooltipAlignment',
       enumDictionary: ALIGNMENTS,

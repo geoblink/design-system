@@ -96,7 +96,7 @@
  */
 
 import counterFactory from '../../utils/counterFactory'
-import { enumDefaultPropertyFactory } from '../../utils/enumPropertyFactory'
+import { enumPropertyFactory } from '../../utils/enumPropertyFactory'
 
 const getNextCounterValue = counterFactory()
 
@@ -186,7 +186,7 @@ export default {
      * - `progress`
      * - `dark-transparent`
      */
-    variant: enumDefaultPropertyFactory({
+    variant: enumPropertyFactory({
       componentName: 'GeoActivityIndicator',
       propertyName: 'variant',
       enumDictionary: VARIANTS,

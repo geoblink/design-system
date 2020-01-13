@@ -67,7 +67,7 @@
 <script>
 import _ from 'lodash'
 import { STATUS } from './GeoFileUpload.mixin'
-import { enumRequiredPropertyFactory } from '../../utils/enumPropertyFactory'
+import { enumPropertyFactory } from '../../utils/enumPropertyFactory'
 
 /**
  * `GeoFileUpload` is a form input designed to upload local files to a server.
@@ -93,7 +93,7 @@ export default {
      * See [Component Constants](/docs/guides/using-constants) for more info on how
      * to use those constants in your code.
      */
-    status: enumRequiredPropertyFactory({
+    status: enumPropertyFactory({
       componentName: 'GeoFileUpload',
       propertyName: 'status',
       enumDictionary: STATUS,

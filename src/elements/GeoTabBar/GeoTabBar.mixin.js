@@ -1,4 +1,4 @@
-import { enumDefaultPropertyFactory } from '../../utils/enumPropertyFactory'
+import { enumPropertyFactory } from '../../utils/enumPropertyFactory'
 
 const VARIANTS = {
   default: 'default',
@@ -25,7 +25,7 @@ export default {
      * Variant only affects default CSS styling and no icon nor behaviour is
      * affected. However, using
      */
-    variant: enumDefaultPropertyFactory({
+    variant: enumPropertyFactory({
       componentName: 'GeoTabBar',
       propertyName: 'variant',
       enumDictionary: VARIANTS,

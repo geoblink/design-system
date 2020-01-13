@@ -54,7 +54,7 @@
 </template>
 
 <script>
-import { enumDefaultPropertyFactory } from '../../utils/enumPropertyFactory'
+import { enumPropertyFactory } from '../../utils/enumPropertyFactory'
 import { VARIANTS, TYPES } from './GeoEditableInput.constants'
 
 /**
@@ -77,7 +77,7 @@ export default {
     /**
      * Input type (`text` or `number`).
      */
-    type: enumDefaultPropertyFactory({
+    type: enumPropertyFactory({
       componentName: 'GeoEditableInput',
       propertyName: 'type',
       enumDictionary: TYPES,
@@ -142,7 +142,7 @@ export default {
      * - `VARIANTS.table`
      * - `VARIANTS.normal`
      */
-    inputType: enumDefaultPropertyFactory({
+    inputType: enumPropertyFactory({
       componentName: 'GeoEditableInput',
       propertyName: 'inputType',
       enumDictionary: VARIANTS,

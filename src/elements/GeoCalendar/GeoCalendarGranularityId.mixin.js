@@ -1,5 +1,5 @@
 import { GRANULARITY_IDS } from './GeoCalendar.utils'
-import { enumRequiredPropertyFactory } from '../../utils/enumPropertyFactory'
+import { enumPropertyFactory } from '../../utils/enumPropertyFactory'
 
 /**
  * @mixin
@@ -38,7 +38,7 @@ export default {
      * - `GRANULARITY_IDS.quarter`
      * - `GRANULARITY_IDS.year`
      */
-    granularityId: enumRequiredPropertyFactory({
+    granularityId: enumPropertyFactory({
       componentName: 'GeoCalendarGranularityId',
       propertyName: 'granularityId',
       enumDictionary: GRANULARITY_IDS,

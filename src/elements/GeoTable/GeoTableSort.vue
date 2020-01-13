@@ -47,7 +47,7 @@
 
 <script>
 import { SORTING_DIRECTIONS } from './GeoTable.constants'
-import { enumRequiredPropertyFactory } from '../../utils/enumPropertyFactory'
+import { enumPropertyFactory } from '../../utils/enumPropertyFactory'
 
 /**
  * `GeoTableSort` is a component which fits nicely in a [GeoTable](./GeoTable)
@@ -64,7 +64,7 @@ export default {
      * Direction by which data is being currently sorted. Used only to highlight
      * current status.
      */
-    currentSortingDirection: enumRequiredPropertyFactory({
+    currentSortingDirection: enumPropertyFactory({
       componentName: 'GeoTableSort',
       propertyName: 'currentSortingDirection',
       enumDictionary: SORTING_DIRECTIONS,

@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import { enumDefaultPropertyFactory } from '../../utils/enumPropertyFactory'
+import { enumPropertyFactory } from '../../utils/enumPropertyFactory'
 
 const VARIANTS = {
   default: 'default',
@@ -48,7 +48,7 @@ export default {
      * - `error`
      * - `disabled`
      */
-    variant: enumDefaultPropertyFactory({
+    variant: enumPropertyFactory({
       componentName: 'GeoCircle',
       propertyName: 'variant',
       enumDictionary: VARIANTS,
