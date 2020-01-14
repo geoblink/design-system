@@ -39,7 +39,7 @@
       v-if="$slots.description"
       :class="{
         'geo-list-item__description': true,
-        'geo-list-item__description--spaced': props.icon
+        'geo-list-item__description--spaced': !!props.icon
       }"
     >
       <!-- @slot Use this slot to add a description for the item -->
