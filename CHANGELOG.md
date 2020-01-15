@@ -6,6 +6,12 @@ New:
 
 - `GeoTooltip` position and alignment can be passed to `GeoTrimmedContent`
 
+## 29.1.5
+
+Fix:
+
+- Align description when `GeoListItem` has icon
+
 ## 29.1.4
 
 Fix:

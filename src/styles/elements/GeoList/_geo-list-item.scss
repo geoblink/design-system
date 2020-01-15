@@ -58,3 +58,11 @@
   display: flex;
   align-items: center;
 }
+
+.geo-list-item__icon-and-label__icon-container {
+  width: $space-base;
+}
+
+.geo-list-item__description--spaced {
+  margin-left: $space-large;
+}
