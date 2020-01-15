@@ -23,7 +23,7 @@ import { enumPropertyFactory } from '../../utils/enumPropertyFactory'
 import throttle from '../../utils/throttle'
 import getDOMElementOffset from '../../utils/getDOMElementOffset'
 import counterFactory from '../../utils/counterFactory'
-import { POSITIONS, ALIGNMENTS } from '../GeoTooltip/GeoTooltip.constants'
+import { POSITIONS, ALIGNMENTS } from './GeoTooltip.constants'
 
 /** @type {number} */
 let existingTooltipsCount = 0

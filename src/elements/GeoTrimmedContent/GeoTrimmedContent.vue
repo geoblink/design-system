@@ -7,6 +7,8 @@
   >
     <geo-tooltip
       :visible="isTooltipVisible"
+      :position="tooltipPosition"
+      :alignment="tooltipAlignment"
     >
       <div ref="tooltipContent" />
     </geo-tooltip>
