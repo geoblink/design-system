@@ -124,6 +124,11 @@ export default {
     popupClass: {
       type: [String, Array, Object],
       required: false
+    },
+
+    repositionOnUpdate: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
@@ -232,6 +237,11 @@ export default {
   },
   mounted () {
     this.reattachPopupToDocumentBody()
+  },
+  updated () {
+    if (!this.repositionOnUpdate) return
+    this.repositionPopup()
+    this.$nextTick(this.repositionPopup.bind(this))
   },
   beforeDestroy () {
     this.removePopupFromDOM()
