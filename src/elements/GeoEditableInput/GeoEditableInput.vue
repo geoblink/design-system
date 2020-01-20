@@ -12,6 +12,7 @@
       :opened="showButtons"
       :popup-class="['geo-editable-input__popup', `geo-editable-input__popup--${inputType}`, popupClass]"
       preferred-x-axis-position="right"
+      :fixed-width="true"
       @click-outside="handleClickOutside($event)"
     >
       <form
