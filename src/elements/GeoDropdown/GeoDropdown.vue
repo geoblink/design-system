@@ -124,6 +124,14 @@ export default {
     popupClass: {
       type: [String, Array, Object],
       required: false
+    },
+
+    /**
+     * Whether the popup's position should be recalculated when the component updates
+     */
+    repositionOnUpdate: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
@@ -232,6 +240,11 @@ export default {
   },
   mounted () {
     this.reattachPopupToDocumentBody()
+  },
+  updated () {
+    if (!this.repositionOnUpdate) return
+    this.repositionPopup()
+    this.$nextTick(this.repositionPopup.bind(this))
   },
   beforeDestroy () {
     this.removePopupFromDOM()
