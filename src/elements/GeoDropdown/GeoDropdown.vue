@@ -126,6 +126,9 @@ export default {
       required: false
     },
 
+    /**
+     * Whether the popup's position should be recalculated when the component updates
+     */
     repositionOnUpdate: {
       type: Boolean,
       default: false
