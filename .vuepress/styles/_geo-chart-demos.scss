@@ -2,6 +2,19 @@
   display: none;
 }
 
+.u-geo-chart--stacked-bar-axis {
+  .geo-chart-axis-demo-numerical-axis {
+    display: none;
+  }
+
+  .geo-chart-axis-demo-categorical-axis {
+    .domain,
+    line {
+      display: none;
+    }
+  }
+}
+
 // This can't be applied directly in the demo
 .geo-chart-bar {
   fill: $color-blue-light;
@@ -81,7 +94,8 @@ $rankLineColors: (0: $color-blue,
 
   .geo-chart-anchored-shapes-group__shape-text-element--#{$i}>.geo-chart-anchored-shapes__shape-element,
   .geo-chart-line-segments__segment--#{$i},
-  .geo-chart-line-segments__segment-stop--#{$i} {
+  .geo-chart-line-segments__segment-stop--#{$i},
+  .geo-chart-stacked-bars__segment--#{$i} {
     fill: map-get($rankLineColors, $i);
   }
 }

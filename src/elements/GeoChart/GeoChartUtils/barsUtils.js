@@ -205,3 +205,37 @@ export function getItemTranslationFactory (options, {
     }
   }
 }
+
+/**
+ * @template HorizontalDomain
+ * @template VerticalDomain
+ * @param {GeoChart.SingleBarGroupConfig<HorizontalDomain, VerticalDomain>} options
+ * @param {object} params
+ * @param {string} params.keyForWidth
+ * @param {string} params.keyForNaturalWidth
+ * @param {string} params.axisForNormalDimension
+ * @param {getTranslationForNormalAxis<HorizontalDomain | VerticalDomain>} params.getTranslationForNormalAxis
+ * @param {string} params.componentName
+ * @param {GetOriginPositionAtAxis<HorizontalDomain | VerticalDomain>} params.getOriginPositionAtAxis
+ * @returns {Function}
+ */
+export function getItemTranslationFactoryOneDimension (options, {
+  keyForWidth,
+  keyForNaturalWidth,
+  axisForNormalDimension,
+  getTranslationForNormalAxis,
+  componentName,
+  getOriginPositionAtAxis
+}) {
+  return function (singleItem, index) {
+    const normalDimensionAxis = options.axis[axisForNormalDimension]
+
+    const normalDimensionAxisTranslation = getTranslationForNormalAxis(normalDimensionAxis, singleItem)
+
+    if (!_.isFinite(normalDimensionAxisTranslation)) {
+      throw new Error(`GeoChart (${componentName}) [component] :: Wrong translation in x-axis. Check that item ${index} has a proper value for key «${normalDimensionAxis.keyForValues}» (currently it is «${_.get(singleItem, normalDimensionAxis.keyForValues)}»). Alternatively, change the horizontal axis (currently set to «${normalDimensionAxis.id}»). This could also happen if the axis has an invalid valueForOrigin (currently it is «${normalDimensionAxis.scale.valueForOrigin}»).`)
+    }
+
+    return normalDimensionAxisTranslation
+  }
+}
