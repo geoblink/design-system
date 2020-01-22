@@ -1,8 +1,32 @@
 # Changelog
 
+## 29.2.1
+
+Fix:
+
+- `GeoDropdown` Add `repositionOnUpdate` prop to reposition popup on update hook
+
+## 29.2.0
+
+New:
+
+- `GeoTooltip` position and alignment can be passed to `GeoTrimmedContent`
+
+## 29.1.5
+
+Fix:
+
+- Align description when `GeoListItem` has icon
+
+## 29.1.4
+
+Fix:
+
+- Use `enumPropertyFactory` validator in several components
+
 ## 29.1.3
 
-Fix :
+Fix:
 
 - `GeoInput` width doesn't change when delete icon appears
 - `GeoCalendar` day icons are correctly displayed when creating an interval

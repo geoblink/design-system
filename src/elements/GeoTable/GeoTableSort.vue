@@ -47,6 +47,7 @@
 
 <script>
 import { SORTING_DIRECTIONS } from './GeoTable.constants'
+import { enumPropertyFactory } from '../../utils/enumPropertyFactory'
 
 /**
  * `GeoTableSort` is a component which fits nicely in a [GeoTable](./GeoTable)
@@ -63,17 +64,12 @@ export default {
      * Direction by which data is being currently sorted. Used only to highlight
      * current status.
      */
-    currentSortingDirection: {
-      type: String,
-      required: true,
-      validator (value) {
-        if (value in SORTING_DIRECTIONS) return true
-
-        const supportedValues = Object.values(SORTING_DIRECTIONS).map(i => `«${i}»`).join(', ')
-        console.warn(`GeoTableSort [component] :: Unsupported value («${value}») for «currentSortingDirection» property. Use one of ${supportedValues}`)
-        return false
-      }
-    },
+    currentSortingDirection: enumPropertyFactory({
+      componentName: 'GeoTableSort',
+      propertyName: 'currentSortingDirection',
+      enumDictionary: SORTING_DIRECTIONS,
+      required: true
+    }),
 
     /**
      * Whether table is being sorted using the criteria represented by this
