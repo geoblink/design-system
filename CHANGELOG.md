@@ -6,6 +6,12 @@ New:
 
 - `GeoChartStackedBars` component
 
+## 29.2.1
+
+Fix:
+
+- `GeoDropdown` Add `repositionOnUpdate` prop to reposition popup on update hook
+
 ## 29.2.0
 
 New:

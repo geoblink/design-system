@@ -249,3 +249,63 @@ export default {
 }
 </style>
 ```
+
+### Input with numerical type
+
+```vue live
+<template>
+  <div class="element-demo">
+    <div class="element-demo__block" style="justify-content: space-around;">
+      <div class="input-demo__container">
+        <geo-editable-input
+          v-model="inputNumericalValue"
+          :cancel-icon="['fas', 'times']"
+          :save-icon="['fas', 'check']"
+          :showButtons="showButtons"
+          :style="{
+            width: inputNumericalValue && inputNumericalValue.length + 4 + 'ch'
+          }"
+          type="number"
+          input-type="normal"
+          placeholder="Placeholder"
+          @click="enterEditMode()"
+          @click-outside="hideButtons()"
+        />
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  data () {
+    return {
+      showButtons: false,
+      isLoading: false,
+      inputNumericalValue: ''
+    }
+  },
+  methods: {
+    enterEditMode () {
+      this.showButtons = true
+    },
+    hideButtons () {
+      this.showButtons = false
+    },
+    cancel () {
+      this.hideButtons()
+    },
+    saveData () {
+      this.isLoading = true
+      setTimeout(() => this.isLoading = false, 2000)
+    }
+  }
+}
+</script>
+
+<style>
+.input-demo__container {
+  width: 200px;
+}
+</style>
+```

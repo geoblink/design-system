@@ -11,6 +11,7 @@
       ref="dropdown"
       :opened="showButtons"
       :popup-class="['geo-editable-input__popup', `geo-editable-input__popup--${inputType}`, popupClass]"
+      :reposition-on-update="true"
       preferred-x-axis-position="right"
       @click-outside="handleClickOutside($event)"
     >
