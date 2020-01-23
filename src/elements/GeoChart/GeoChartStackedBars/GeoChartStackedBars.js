@@ -95,14 +95,12 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions, d3TipInsta
     .selectAll('g.geo-chart-stacked-bars-group__single-group')
     .data(d => d.data)
 
-  barWrapper
-    .attr('height', getBarInitialHeight)
-    .attr('width', getBarInitialWidth)
-
   const newBarWrapper = barWrapper
     .enter()
     .append('g')
-    .attr('class', 'geo-chart-stacked-bars-group__single-group')
+    .attr('class', (barWrapperOptions, i) =>
+      `geo-chart-stacked-bars-group__single-group geo-chart-stacked-bars-group__single-group--${i}`
+    )
     .attr('height', getBarInitialHeight)
     .attr('width', getBarInitialWidth)
 
@@ -120,9 +118,9 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions, d3TipInsta
     .exit()
     .remove()
 
-  allBarWrappers.each(function (barData) {
+  allBarWrappers.each(function (stackedBarData) {
     const singleGroupBar = d3.select(this)
-    renderStackedBars(singleGroupBar, barData, singleGroupOptions, globalOptions, {
+    renderStackedBars(singleGroupBar, stackedBarData, singleGroupOptions, globalOptions, {
       axisForMainDimension,
       axisForNormalDimension
     }, d3TipInstance)
@@ -143,9 +141,7 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions, d3TipInsta
 
   function getBarTransform (d, i) {
     const barNormalTranslation = getTranslation(d, i)
-    const widthTranslation = isMainDimensionHorizontal
-      ? -getWidthTranslation(d, i) / 2
-      : -getWidthTranslation(d, i) / 2
+    const widthTranslation = -getWidthTranslation(d, i) / 2
     return isMainDimensionHorizontal
       ? `translate(0, ${barNormalTranslation + widthTranslation})`
       : `translate(${barNormalTranslation + widthTranslation}, 0)`
@@ -217,7 +213,7 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions, d3TipInsta
  * @template MainDimensionDomain
  * @template NormalDimensionDomain
  * @param {d3.Selection<GElement, Datum, PElement, PDatum>} stackedBarsContainer
- * @param {Object} barData
+ * @param {Object} stackedBarData
  * @param {GeoChart.SingleStackedBarGroupConfig<HorizontalDomain, VerticalDomain>} singleGroupOptions
  * @param {GeoChart.GlobalOptions} globalOptions
  * @param {Object} params
@@ -225,7 +221,7 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions, d3TipInsta
  * @param {GeoChart.AxisConfig<NormalDimensionDomain, any>} params.axisForNormalDimension
  * @param {d3.Tooltip<SVGElement, object, PElement, PDatum>} [d3TipInstance]
  */
-function renderStackedBars (stackedBarsContainer, barData, singleGroupOptions, globalOptions, {
+function renderStackedBars (stackedBarsContainer, stackedBarData, singleGroupOptions, globalOptions, {
   axisForMainDimension,
   axisForNormalDimension
 }, d3TipInstance) {
@@ -233,16 +229,16 @@ function renderStackedBars (stackedBarsContainer, barData, singleGroupOptions, g
 
   const stackedBarsBaseClass = 'geo-chart-stacked-bars__segment'
 
-  const stackedBarsSegmentsData = barData[axisForMainDimension.keyForValues]
+  const stackedBarsSegmentsData = stackedBarData[axisForMainDimension.keyForValues]
 
   let temporaryBarWrapperHeight = 0
   const allStackedBarsSegments = _.times(stackedBarsSegmentsData.length, function (idx) {
     const stackedBarSegment = {
       startValue: idx === 0
-        ? Math.min.apply(Math, axisForMainDimension.scale.axisScale.domain())
+        ? _.min(axisForMainDimension.scale.axisScale.domain())
         : temporaryBarWrapperHeight,
       endValue: idx === stackedBarsSegmentsData.length - 1
-        ? Math.max.apply(Math, axisForMainDimension.scale.axisScale.domain())
+        ? _.max(axisForMainDimension.scale.axisScale.domain())
         : temporaryBarWrapperHeight + stackedBarsSegmentsData[idx][axisForMainDimension.keyForValues]
     }
     temporaryBarWrapperHeight += stackedBarsSegmentsData[idx][axisForMainDimension.keyForValues]
@@ -251,9 +247,11 @@ function renderStackedBars (stackedBarsContainer, barData, singleGroupOptions, g
 
   const stackedBarsOriginAtAxis = axisForMainDimension.scale.axisScale(axisForMainDimension.scale.valueForOrigin)
 
-  const directionToChange = isMainDimensionHorizontal
-    ? 'x'
-    : 'y'
+  const axisPositions = {
+    [dimensionUtils.DIMENSIONS_2D.horizontal]: 'x',
+    [dimensionUtils.DIMENSIONS_2D.vertical]: 'y'
+  }
+  const directionToChange = axisPositions[singleGroupOptions.mainDimension]
 
   const stackedBars = stackedBarsContainer
     .selectAll(`rect.${stackedBarsBaseClass}`)

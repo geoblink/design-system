@@ -1,11 +1,11 @@
 ## Stacked bar charts
 
 Stacked bar charts are collections of grouped items within a bar chart item which are displayed as rectangles in a 2-dimensional grid. An arbitrary amount of different collections of items can
-be displayed using statcked bar charts, each of those collections are called **groups**.
+be displayed using stacked bar charts, each of those collections are called **groups**.
 
 ### Required properties
 
-Each **group** **requires** these properties:
+Each **group requires** these properties:
 
 - `data` - collection being displayed (array).
 - `mainDimension` - a value of `DIMENSIONS.DIMENSIONS_2D` named export (either
@@ -74,7 +74,7 @@ coordinates. By default tooltip will be positioned above cursor.
 
 ### Customizing CSS classes
 
-Each stcaked bar can customize its CSS classes by setting a function for key `cssClasses`.
+Each stacked bar can customize its CSS classes by setting a function for key `cssClasses`.
 This function takes as parameters the array of classes that would be set by
 default, the item corresponding to the stacked bar being customized and its position
 inside the data array.
