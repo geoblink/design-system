@@ -42,6 +42,7 @@ export default {
           mainDimension: singleScatterPlotGroupConfig.mainDimension,
           radius: singleScatterPlotGroupConfig.radius,
           fillColor: singleScatterPlotGroupConfig.fillColor,
+          onDotClick: singleScatterPlotGroupConfig.onDotClick,
           tooltip: tooltipConfig,
           cssClasses: singleScatterPlotGroupConfig.cssClasses,
           groupKey: singleScatterPlotGroupConfig.groupKey

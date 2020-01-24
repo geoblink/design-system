@@ -2,9 +2,6 @@
 
 import _ from 'lodash'
 
-import { getDrawingEnvironment } from '../GeoChartAxis/GeoChartAxis'
-
-import * as axisUtils from '../GeoChartUtils/axisUtils'
 import * as dimensionUtils from '../GeoChartUtils/dimensionUtils'
 
 import { setupTooltipEventListeners } from '../GeoChartUtils/GeoChartTooltip'
@@ -90,9 +87,15 @@ export function render (d3Instance, d3TipInstance, options, globalOptions) {
   const updatedGroups = groups
   const allGroups = newGroups.merge(updatedGroups)
 
+  const clickedDot = {
+    indexSingleGroup: null,
+    indexDot: null,
+    color: null
+  }
+
   allGroups.each(function (singleGroupOptions, i) {
     const group = d3.select(this)
-    renderSingleGroup(group, d3TipInstance, singleGroupOptions, globalOptions)
+    renderSingleGroup(group, d3TipInstance, i, clickedDot, singleGroupOptions, globalOptions, d3Instance)
   })
 }
 
@@ -105,11 +108,14 @@ export function render (d3Instance, d3TipInstance, options, globalOptions) {
  * @template VerticalDomain
  * @param {d3.Selection<GElement, Datum, PElement, PDatum>} group
  * @param {d3.Tooltip<SVGElement, object, PElement, PDatum>} [d3TipInstance]
+ * @param {number} index
+ * @param {object} clickedDot
  * @param {GeoChart.SingleBarGroupConfig<HorizontalDomain, VerticalDomain>} singleGroupOptions
  * @param {GeoChart.GlobalOptions} globalOptions
+ * @param {d3.Selection<GElement, Datum, PElement, PDatum>} d3Instance
  */
 
-function renderSingleGroup (group, d3TipInstance, singleGroupOptions, globalOptions) {
+function renderSingleGroup (group, d3TipInstance, index, clickedDot, singleGroupOptions, globalOptions, d3Instance) {
   const singleDotBaseClass = 'geo-chart-scatter-plot__dot'
 
   const radiusScale = d3.scaleSqrt()
@@ -128,8 +134,13 @@ function renderSingleGroup (group, d3TipInstance, singleGroupOptions, globalOpti
     .style('fill', _.defaultTo(singleGroupOptions.fillColor, DEFAULT_FILL_COLOR))
     .attr('r', 0)
     .style('opacity', 0)
+    .style('stroke', '#EBEBEB')
+    .style('stroke-width', '2')
     .attr('cx', getCircleCoordinatesFactory('cx'))
     .attr('cy', getCircleCoordinatesFactory('cy'))
+    .on('mouseover', handleMouseOver)
+    .on('mouseout', handleMouseOut)
+    .on('click', handleClick)
 
   const updatedDots = dots
   updatedDots
@@ -140,6 +151,8 @@ function renderSingleGroup (group, d3TipInstance, singleGroupOptions, globalOpti
         ? radiusScale(d[singleGroupOptions.groupKey])
         : _.defaultTo(singleGroupOptions.radius, DEFAULT_RADIUS)
     })
+    .attr('cx', getCircleCoordinatesFactory('cx'))
+    .attr('cy', getCircleCoordinatesFactory('cy'))
     .style('opacity', 1)
 
   const allDots = newDots.merge(updatedDots)
@@ -205,5 +218,78 @@ function renderSingleGroup (group, d3TipInstance, singleGroupOptions, globalOpti
       }
     }
     return circleCoordinates[dimension]
+  }
+
+  function handleMouseOver (d, i) {
+    const isAlreadyClickedDot = clickedDot.indexSingleGroup === index && clickedDot.indexDot === i
+    if (isAlreadyClickedDot) return
+
+    d3.select(this)
+      .style('fill', '#EBEBEB')
+      .style('stroke', _.defaultTo(singleGroupOptions.fillColor, DEFAULT_FILL_COLOR))
+      .style('stroke-width', '3')
+  }
+
+  function handleMouseOut (d, i) {
+    const isAlreadyClickedDot = clickedDot.indexSingleGroup === index && clickedDot.indexDot === i
+    if (isAlreadyClickedDot) return
+
+    d3.select(this)
+      .style('fill', _.defaultTo(singleGroupOptions.fillColor, DEFAULT_FILL_COLOR))
+      .style('stroke', '#EBEBEB')
+      .style('stroke-width', '2')
+  }
+
+  function handleClick (d, i) {
+    if (!singleGroupOptions.onDotClick) return
+    const isAnyDotClicked = clickedDot.indexSingleGroup !== null && clickedDot.indexDot !== null
+    const isAlreadyClickedDot = clickedDot.indexSingleGroup === index && clickedDot.indexDot === i
+
+    if (!isAnyDotClicked) {
+      clickedDot.indexSingleGroup = index
+      clickedDot.indexDot = i
+      clickedDot.color = _.defaultTo(singleGroupOptions.fillColor, DEFAULT_FILL_COLOR)
+
+      clickedStyle(d3.select(this))
+
+      return singleGroupOptions.onDotClick(d, i)
+    } else if (isAlreadyClickedDot) {
+      unclickedStyle(d3.select(this))
+
+      clickedDot.indexSingleGroup = null
+      clickedDot.indexDot = null
+      clickedDot.color = null
+
+      return singleGroupOptions.onDotClick(null, null)
+    } else if (isAnyDotClicked && !isAlreadyClickedDot) {
+      const dotToUnclick = d3Instance
+        .select(`.geo-chart-scatter-plot-group--${clickedDot.indexSingleGroup} .geo-chart-scatter-plot__dot--${clickedDot.indexDot}`)
+
+      unclickedStyle(dotToUnclick)
+
+      clickedDot.indexSingleGroup = index
+      clickedDot.indexDot = i
+      clickedDot.color = _.defaultTo(singleGroupOptions.fillColor, DEFAULT_FILL_COLOR)
+
+      clickedStyle(d3.select(this))
+
+      return singleGroupOptions.onDotClick(d, i)
+    }
+  }
+
+  function clickedStyle (element) {
+    element
+      .style('fill', clickedDot.color)
+      .style('stroke', 'black')
+      .style('stroke-width', '8')
+      .style('stroke-opacity', '0.2')
+  }
+
+  function unclickedStyle (element) {
+    element
+      .style('fill', clickedDot.color)
+      .style('stroke', '#EBEBEB')
+      .style('stroke-width', '2')
+      .style('stroke-opacity', '1')
   }
 }

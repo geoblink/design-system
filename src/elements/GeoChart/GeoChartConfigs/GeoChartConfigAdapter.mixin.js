@@ -6,6 +6,7 @@ import * as ChartLabels from '../GeoChartLabels/GeoChartLabels'
 import * as ChartColorBar from '../GeoChartColorBar/GeoChartColorBar'
 import * as ChartPie from '../GeoChartPie/GeoChartPie'
 import guidelinesAdapterMixin from './GeoChartConfigAdapter.guidelines.mixin'
+import quadrantAdapterMixin from './GeoChartConfigAdapter.quadrant.mixin'
 import lineSegmentsAdapterMixin from './GeoChartConfigAdapter.lineSegments.mixin'
 import anchoredShapesAdapterMixin from './GeoChartConfigAdapter.anchoredShapes.mixin'
 import lineAdapterMixin from './GeoChartConfigAdapter.line.mixin'
@@ -14,6 +15,7 @@ import scatterPlotAdapterMixin from './GeoChartConfigAdapter.scatterPlot.mixin'
 export default {
   mixins: [
     guidelinesAdapterMixin,
+    quadrantAdapterMixin,
     lineSegmentsAdapterMixin,
     anchoredShapesAdapterMixin,
     lineAdapterMixin,

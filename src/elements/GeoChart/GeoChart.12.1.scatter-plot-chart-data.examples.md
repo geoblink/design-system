@@ -1,4 +1,4 @@
-#### Scatter Plot with data groups by color
+#### Scatter Plot with data
 
 ```vue live
 <template>
@@ -26,9 +26,7 @@ export default {
   data () {
     return {
       isGraphVisible: true,
-      randomValue: _.random(1, 200),
-      randomValue2: _.random(1, 200),
-      randomValue3: _.random(1, 200)
+      randomValue: _.random(1, 200)
     }
   },
   computed: {
@@ -75,24 +73,6 @@ export default {
       })
     },
 
-    scatterPlotData2 () {
-      return _.times(this.randomValue2, (i) => {
-        return {
-          x: _.random(0, 25000),
-          y: _.random(0, 1000)
-        }
-      })
-    },
-
-    scatterPlotData3 () {
-      return _.times(this.randomValue3, (i) => {
-        return {
-          x: _.random(0, 25000),
-          y: _.random(0, 1000)
-        }
-      })
-    },
-
     chartConfig () {
       if (!this.scatterPlotData) return null
 
@@ -110,32 +90,20 @@ export default {
           this.linearAxisConfig,
           this.numericalAxisConfig
         ],
-        scatterPlotGroups: [
-          {
-            idVerticalAxis: this.linearAxisConfig.id,
-            idHorizontalAxis: this.numericalAxisConfig.id,
-            mainDimension: CONSTANTS.DIMENSIONS.DIMENSIONS_2D.horizontal,
-            data: this.scatterPlotData,
-            radius: 3,
-            fillColor: 'orange'
-          },
-          {
-            idVerticalAxis: this.linearAxisConfig.id,
-            idHorizontalAxis: this.numericalAxisConfig.id,
-            mainDimension: CONSTANTS.DIMENSIONS.DIMENSIONS_2D.horizontal,
-            data: this.scatterPlotData2,
-            radius: 3,
-            fillColor: 'green'
-          },
-          {
-            idVerticalAxis: this.linearAxisConfig.id,
-            idHorizontalAxis: this.numericalAxisConfig.id,
-            mainDimension: CONSTANTS.DIMENSIONS.DIMENSIONS_2D.horizontal,
-            data: this.scatterPlotData3,
-            radius: 3,
-            fillColor: 'red'
+        scatterPlotGroups: [{
+          idVerticalAxis: this.linearAxisConfig.id,
+          idHorizontalAxis: this.numericalAxisConfig.id,
+          mainDimension: CONSTANTS.DIMENSIONS.DIMENSIONS_2D.horizontal,
+          data: this.scatterPlotData,
+          radius: 5,
+          fillColor: 'orange',
+          tooltip: {
+            content: (d, i) => {
+              return `x: ${d.x} y: ${d.y}`
+            },
+            offset: () => null
           }
-        ]
+        }]
       }
     }
   },
@@ -145,9 +113,7 @@ export default {
     },
 
     randomizeData () {
-      this.randomValue = _.random(0, 400)
-      this.randomValue2 = _.random(0, 400)
-      this.randomValue3 = _.random(0, 400)
+      this.randomValue = _.random(200, 1000)
     }
   }
 }

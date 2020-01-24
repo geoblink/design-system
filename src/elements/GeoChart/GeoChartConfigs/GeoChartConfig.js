@@ -733,6 +733,52 @@ export const anchoredShapesConfigSchema = {
   }
 }
 
+export const quadrantConfigJsonSchema = {
+  type: 'object',
+  additionalProperties: false,
+  required: ['thresholdX', 'thresholdY', 'horizontalAxisConfig', 'verticalAxisConfig'],
+  properties: {
+    horizontalAxisConfig: axisConfigJsonSchema,
+    // Function taking as first parameter an array of CSS classes that would be
+    // set by default. Should return the array of CSS classes to be finally set.
+    // Use this function to customize which CSS classes are set to each line.
+    // Note that there might be some of the default classes might be added
+    // regardless to your customization as they are required internally.
+    verticalAxisConfig: axisConfigJsonSchema,
+    // Function taking as first parameter an array of CSS classes that would be
+    // set by default. Should return the array of CSS classes to be finally set.
+    // Use this function to customize which CSS classes are set to each line.
+    // Note that there might be some of the default classes might be added
+    // regardless to your customization as they are required internally.
+    thresholdX: {
+      type: ['number', 'string']
+    },
+    thresholdY: {
+      type: ['number', 'string']
+    },
+    quadrantTopLeftName: {
+      type: 'string'
+    },
+    quadrantTopRightName: {
+      type: 'string'
+    },
+    quadrantBottomLeftName: {
+      type: 'string'
+    },
+    quadrantBottomRightName: {
+      type: 'string'
+    },
+    tooltip: {},
+    // Function taking as first parameter an array of CSS classes that would be
+    // set by default. Should return the array of CSS classes to be finally set.
+    // Use this function to customize which CSS classes are set to the rect for
+    // the bar of each item. Note that there might be some of the default classes
+    // might be added regardless to your customization as they are required
+    // internally.
+    cssClasses: {}
+  }
+}
+
 export const scatterPlotConfigSchema = {
   type: 'object',
   additionalProperties: false,
@@ -761,6 +807,7 @@ export const scatterPlotConfigSchema = {
       type: 'string',
       enum: _.values(dimensionUtils.DIMENSIONS_2D)
     },
+    onDotClick: {},
     tooltip: {},
     // Function taking as first parameter an array of CSS classes that would be
     // set by default. Should return the array of CSS classes to be finally set.
@@ -946,6 +993,11 @@ export const jsonSchema = {
       type: 'array',
       additionalItems: false,
       items: labelConfigJsonSchema
+    },
+    quadrantGroups: {
+      type: 'array',
+      additionalItems: false,
+      items: quadrantConfigJsonSchema
     }
   }
 }

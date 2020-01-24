@@ -1,5 +1,30 @@
+$DEFAULT_LINE_HEIGHT: 12px;
+
 .u-geo-chart--hidden-axis .geo-chart-axis {
   display: none;
+}
+
+.geo-chart-quadrant-axis {
+  color: $color-blue;
+}
+
+.geo-chart-axis--with-quadrant {
+  .domain,
+  line {
+    display: none;
+  }
+  &.geo-chart-axis--left text {
+    transform: translate(-$DEFAULT_LINE_HEIGHT, 0)
+  }
+  &.geo-chart-axis--top text {
+    transform: translate(0, -$DEFAULT_LINE_HEIGHT)
+  }
+  &.geo-chart-axis--bottom text {
+    transform: translate(0, $DEFAULT_LINE_HEIGHT)
+  }
+  &.geo-chart-axis--right text {
+    transform: translate($DEFAULT_LINE_HEIGHT, 0)
+  }
 }
 
 // This can't be applied directly in the demo

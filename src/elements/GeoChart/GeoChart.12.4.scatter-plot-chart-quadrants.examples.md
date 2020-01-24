@@ -1,24 +1,33 @@
-#### Scatter Plot with data groups by radius
+#### Scatter Plot with data groups in quadrants with click event
 
 ```vue live
 <template>
   <div class="element-demo">
-    <div class="element-demo__bordered-box element-demo__block--chart-container" style="resize: both;">
-      <geo-chart
-        v-if="chartConfig && isGraphVisible"
-        :config="chartConfig"
-      />
-    </div>
-    <label>
-      GroupKey: <select
-        v-model="currentGroupKey"
+    <div style="resize: both; display: flex; flex-direction: row;">
+      <div
+        class="element-demo__bordered-box element-demo__block--chart-container"
+        style="resize: both;"
       >
-        <option value="x">x</option>
-        <option value="y">y</option>
-      </select>
-    </label>
+        <geo-chart
+          v-if="chartConfig && isGraphVisible"
+          :config="chartConfig"
+          class2="u-geo-chart--hidden-axis"
+        />
+      </div>
+      <geo-bordered-box
+        v-if="isGraphVisible"
+        style="height: 100px"
+      >
+        <geo-bordered-box-header>
+          Click on a dot to get info
+        </geo-bordered-box-header>
+        <geo-list-item>
+          {{ popupText }}
+        </geo-list-item>
+      </geo-bordered-box>
+    </div>
     <geo-primary-button @click="randomizeData()">
-        Randomize Data
+      Randomize Data
     </geo-primary-button>
     <geo-secondary-button @click="toggleGraph()">
       Toggle Graph
@@ -34,11 +43,12 @@ export default {
   data () {
     return {
       isGraphVisible: true,
-      randomValue: _.random(0, 10),
-      randomValue2: _.random(0, 10),
-      randomValue3: _.random(0, 10),
-      randomValue4: _.random(0, 10),
-      currentGroupKey: 'x'
+      randomValue: _.random(10, 50),
+      randomValue2: _.random(10, 50),
+      randomValue3: _.random(10, 50),
+      randomValue4: _.random(10, 50),
+      hasDotClicked: false,
+      popupText: 'No information'
     }
   },
   computed: {
@@ -56,7 +66,8 @@ export default {
             start: 1000,
             end: 0
           }
-        }
+        },
+        cssClasses: (original) => [...original, 'geo-chart-axis--with-quadrant']
       }
     },
     numericalAxisConfig () {
@@ -71,16 +82,17 @@ export default {
           valueForOrigin: 0,
           domain: {
             start: 0,
-            end: 25000
+            end: 20000
           }
-        }
+        },
+        cssClasses: (original) => [...original, 'geo-chart-axis--with-quadrant']
       }
     },
     scatterPlotData () {
       return _.times(this.randomValue, (i) => {
         return {
-          x: _.random(0, 25000),
-          y: _.random(0, 1000)
+          x: _.random(0, 10000),
+          y: _.random(500, 1000)
         }
       })
     },
@@ -88,8 +100,8 @@ export default {
     scatterPlotData2 () {
       return _.times(this.randomValue2, (i) => {
         return {
-          x: _.random(0, 25000),
-          y: _.random(0, 1000)
+          x: _.random(10000, 20000),
+          y: _.random(500, 1000)
         }
       })
     },
@@ -97,8 +109,8 @@ export default {
     scatterPlotData3 () {
       return _.times(this.randomValue3, (i) => {
         return {
-          x: _.random(0, 25000),
-          y: _.random(0, 1000)
+          x: _.random(0, 10000),
+          y: _.random(0, 500)
         }
       })
     },
@@ -106,8 +118,8 @@ export default {
     scatterPlotData4 () {
       return _.times(this.randomValue4, (i) => {
         return {
-          x: _.random(0, 25000),
-          y: _.random(0, 1000)
+          x: _.random(10000, 20000),
+          y: _.random(0, 500)
         }
       })
     },
@@ -129,6 +141,18 @@ export default {
           this.linearAxisConfig,
           this.numericalAxisConfig
         ],
+        quadrantGroups: [
+          {
+            horizontalAxisConfig: this.linearAxisConfig,
+            verticalAxisConfig: this.numericalAxisConfig,
+            thresholdX: 10000,
+            thresholdY: 500,
+            quadrantTopLeftName: 'Quadrant A',
+            quadrantTopRightName: 'Quadrant B',
+            quadrantBottomLeftName: 'Quadrant C',
+            quadrantBottomRightName: 'Quadrant D'
+          }
+        ],
         scatterPlotGroups: [
           {
             idVerticalAxis: this.linearAxisConfig.id,
@@ -136,7 +160,14 @@ export default {
             mainDimension: CONSTANTS.DIMENSIONS.DIMENSIONS_2D.horizontal,
             data: this.scatterPlotData,
             fillColor: '#2ca02c',
-            groupKey: this.currentGroupKey
+            radius: 6,
+            onDotClick: this.showPopup,
+            tooltip: {
+              content: (d, i) => {
+                return 'Click for more information'
+              },
+              offset: () => null
+            }
           },
           {
             idVerticalAxis: this.linearAxisConfig.id,
@@ -144,7 +175,14 @@ export default {
             mainDimension: CONSTANTS.DIMENSIONS.DIMENSIONS_2D.horizontal,
             data: this.scatterPlotData2,
             fillColor: '#d62727',
-            groupKey: this.currentGroupKey
+            radius: 6,
+            onDotClick: this.showPopup,
+            tooltip: {
+              content: (d, i) => {
+                return 'Click for more information'
+              },
+              offset: () => null
+            }
           },
           {
             idVerticalAxis: this.linearAxisConfig.id,
@@ -152,7 +190,14 @@ export default {
             mainDimension: CONSTANTS.DIMENSIONS.DIMENSIONS_2D.horizontal,
             data: this.scatterPlotData3,
             fillColor: '#9367bd',
-            groupKey: this.currentGroupKey
+            radius: 6,
+            onDotClick: this.showPopup,
+            tooltip: {
+              content: (d, i) => {
+                return 'Click for more information'
+              },
+              offset: () => null
+            }
           },
           {
             idVerticalAxis: this.linearAxisConfig.id,
@@ -160,7 +205,14 @@ export default {
             mainDimension: CONSTANTS.DIMENSIONS.DIMENSIONS_2D.horizontal,
             data: this.scatterPlotData4,
             fillColor: '#ff7e0e',
-            groupKey: this.currentGroupKey
+            radius: 6,
+            onDotClick: this.showPopup,
+            tooltip: {
+              content: (d, i) => {
+                return 'Click for more information'
+              },
+              offset: () => null
+            }
           }
         ]
       }
@@ -172,10 +224,21 @@ export default {
     },
 
     randomizeData () {
-      this.randomValue = _.random(0, 50)
-      this.randomValue2 = _.random(0, 50)
-      this.randomValue3 = _.random(0, 50)
-      this.randomValue4 = _.random(0, 50)
+      this.randomValue = _.random(10, 50)
+      this.randomValue2 = _.random(10, 50)
+      this.randomValue3 = _.random(10, 50)
+      this.randomValue4 = _.random(10, 50)
+      this.showPopup(null, null)
+    },
+
+    showPopup (d, i) {
+      if (d === null) {
+        this.hasDotClicked = false
+        this.popupText = `No information`
+      } else {
+        this.hasDotClicked = true
+        this.popupText = `x=${d.x} y=${d.y}`
+      }
     }
   }
 }
