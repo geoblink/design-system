@@ -91,11 +91,11 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions, d3TipInsta
     ? dimensionUtils.DIMENSIONS_2D.vertical
     : dimensionUtils.DIMENSIONS_2D.horizontal
 
-  const barWrapper = group
+  const barWrappers = group
     .selectAll('g.geo-chart-stacked-bars-group__single-group')
     .data(d => d.data)
 
-  const newBarWrapper = barWrapper
+  const newBarWrapper = barWrappers
     .enter()
     .append('g')
     .attr('class', (barWrapperOptions, i) =>
@@ -104,8 +104,8 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions, d3TipInsta
     .attr('height', getBarInitialHeight)
     .attr('width', getBarInitialWidth)
 
-  const updatedBarWrapper = barWrapper
-  const allBarWrappers = newBarWrapper.merge(updatedBarWrapper)
+  const updatedBarWrappers = barWrappers
+  const allBarWrappers = newBarWrapper.merge(updatedBarWrappers)
 
   allBarWrappers
     .transition()
@@ -114,7 +114,7 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions, d3TipInsta
     .attr('height', getBarHeight)
     .attr('width', getBarWidth)
 
-  barWrapper
+  barWrappers
     .exit()
     .remove()
 
@@ -122,7 +122,8 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions, d3TipInsta
     const singleGroupBar = d3.select(this)
     renderStackedBars(singleGroupBar, stackedBarData, singleGroupOptions, globalOptions, {
       axisForMainDimension,
-      axisForNormalDimension
+      axisForNormalDimension,
+      isMainDimensionHorizontal
     }, d3TipInstance)
   })
 
@@ -219,33 +220,30 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions, d3TipInsta
  * @param {Object} params
  * @param {GeoChart.AxisConfig<MainDimensionDomain, any>} params.axisForMainDimension
  * @param {GeoChart.AxisConfig<NormalDimensionDomain, any>} params.axisForNormalDimension
+ * @param {Boolean} params.isMainDimensionHorizontal
  * @param {d3.Tooltip<SVGElement, object, PElement, PDatum>} [d3TipInstance]
  */
 function renderStackedBars (stackedBarsContainer, stackedBarData, singleGroupOptions, globalOptions, {
   axisForMainDimension,
-  axisForNormalDimension
+  axisForNormalDimension,
+  isMainDimensionHorizontal
 }, d3TipInstance) {
-  const isMainDimensionHorizontal = axisUtils.isMainDimensionAxis(singleGroupOptions.axis.horizontal, singleGroupOptions)
+  const segmentBaseClass = 'geo-chart-stacked-bars__segment'
 
-  const stackedBarsBaseClass = 'geo-chart-stacked-bars__segment'
-
-  const stackedBarsSegmentsData = stackedBarData[axisForMainDimension.keyForValues]
+  const segmentsData = stackedBarData[axisForMainDimension.keyForValues]
 
   let temporaryBarWrapperHeight = 0
-  const allStackedBarsSegments = _.times(stackedBarsSegmentsData.length, function (idx) {
-    const stackedBarSegment = {
-      startValue: idx === 0
-        ? _.min(axisForMainDimension.scale.axisScale.domain())
-        : temporaryBarWrapperHeight,
-      endValue: idx === stackedBarsSegmentsData.length - 1
-        ? _.max(axisForMainDimension.scale.axisScale.domain())
-        : temporaryBarWrapperHeight + stackedBarsSegmentsData[idx][axisForMainDimension.keyForValues]
-    }
-    temporaryBarWrapperHeight += stackedBarsSegmentsData[idx][axisForMainDimension.keyForValues]
-    return stackedBarSegment
+  segmentsData.forEach((segment, idx) => {
+    segment.startValue = idx === 0
+      ? _.min(axisForMainDimension.scale.axisScale.domain())
+      : temporaryBarWrapperHeight
+    segment.endValue = idx === segmentsData.length - 1
+      ? _.max(axisForMainDimension.scale.axisScale.domain())
+      : temporaryBarWrapperHeight + segmentsData[idx][axisForMainDimension.keyForValues]
+    temporaryBarWrapperHeight += segmentsData[idx][axisForMainDimension.keyForValues]
   })
 
-  const stackedBarsOriginAtAxis = axisForMainDimension.scale.axisScale(axisForMainDimension.scale.valueForOrigin)
+  const segmentsOriginAtAxis = axisForMainDimension.scale.axisScale(axisForMainDimension.scale.valueForOrigin)
 
   const axisPositions = {
     [dimensionUtils.DIMENSIONS_2D.horizontal]: 'x',
@@ -253,41 +251,41 @@ function renderStackedBars (stackedBarsContainer, stackedBarData, singleGroupOpt
   }
   const directionToChange = axisPositions[singleGroupOptions.mainDimension]
 
-  const stackedBars = stackedBarsContainer
-    .selectAll(`rect.${stackedBarsBaseClass}`)
-    .data(allStackedBarsSegments)
+  const segments = stackedBarsContainer
+    .selectAll(`rect.${segmentBaseClass}`)
+    .data(segmentsData)
 
-  stackedBars
-    .attr(directionToChange, stackedBarsOriginAtAxis)
-    .attr('width', getStackedBarsInitialWidth)
-    .attr('height', getStackedBarsInitialHeight)
+  segments
+    .attr(directionToChange, segmentsOriginAtAxis)
+    .attr('width', getSegmentInitialWidth)
+    .attr('height', getSegmentInitialHeight)
 
-  const newStackedBars = stackedBars
+  const newSegment = segments
     .enter()
     .append('rect')
-    .attr('class', getStackedBarsCssClasses)
-    .attr(directionToChange, stackedBarsOriginAtAxis)
-    .attr('width', getStackedBarsInitialWidth)
-    .attr('height', getStackedBarsInitialHeight)
+    .attr('class', getSegmentCssClasses)
+    .attr(directionToChange, segmentsOriginAtAxis)
+    .attr('width', getSegmentInitialWidth)
+    .attr('height', getSegmentInitialHeight)
 
-  const updatedStackedBars = stackedBars
-  const allStackedBars = updatedStackedBars.merge(newStackedBars)
+  const updatedSegments = segments
+  const allSegments = updatedSegments.merge(newSegment)
 
-  allStackedBars
+  allSegments
     .transition()
     .duration(globalOptions.chart.animationsDurationInMilliseconds)
-    .attr('class', getStackedBarsCssClasses)
-    .attr(directionToChange, getStackedBarsPositionAtAxis)
-    .attr('width', getStackedBarsWidth)
-    .attr('height', getStackedBarsHeight)
+    .attr('class', getSegmentCssClasses)
+    .attr(directionToChange, getSegmentPositionAtAxis)
+    .attr('width', getSegmentWidth)
+    .attr('height', getSegmentHeight)
 
-  setupTooltipEventListeners(allStackedBars, d3TipInstance, singleGroupOptions.tooltip)
+  setupTooltipEventListeners(allSegments, d3TipInstance, singleGroupOptions.tooltip)
 
-  stackedBars
+  segments
     .exit()
     .remove()
 
-  function getStackedBarsPositionAtAxis (d, i) {
+  function getSegmentPositionAtAxis (d, i) {
     const normalTranslation = isMainDimensionHorizontal
       ? axisForMainDimension.scale.axisScale(d.startValue)
       : axisForMainDimension.scale.axisScale(d.endValue)
@@ -301,7 +299,7 @@ function renderStackedBars (stackedBarsContainer, stackedBarData, singleGroupOpt
     })
   }
 
-  function getStackedBarsWidth (d, i) {
+  function getSegmentWidth (d, i) {
     switch (singleGroupOptions.mainDimension) {
       case dimensionUtils.DIMENSIONS_2D.horizontal:
         return Math.max(
@@ -311,53 +309,53 @@ function renderStackedBars (stackedBarsContainer, stackedBarData, singleGroupOpt
       case dimensionUtils.DIMENSIONS_2D.vertical:
         return getWidthNormalDimension(d, i)
       default:
-        console.error(`GeoChartStackedBar [component] :: Invalid axis main dimension for getStackedBarsWidth: ${singleGroupOptions.mainDimension}`)
+        console.error(`GeoChartStackedBar [component] :: Invalid axis main dimension for getSegmentWidth: ${singleGroupOptions.mainDimension}`)
     }
   }
 
-  function getStackedBarsInitialWidth (d, i) {
+  function getSegmentInitialWidth (d, i) {
     switch (singleGroupOptions.mainDimension) {
       case dimensionUtils.DIMENSIONS_2D.vertical:
         return getWidthNormalDimension(d, i)
       case dimensionUtils.DIMENSIONS_2D.horizontal:
         return 0
       default:
-        console.error(`GeoChartStackedBars [component] :: Invalid axis main dimension for getStackedBarsHeight: ${singleGroupOptions.mainDimension}`)
+        console.error(`GeoChartStackedBars [component] :: Invalid axis main dimension for getSegmentInitialWidth: ${singleGroupOptions.mainDimension}`)
     }
   }
 
-  function getStackedBarsInitialHeight (d, i) {
+  function getSegmentInitialHeight (d, i) {
     switch (singleGroupOptions.mainDimension) {
       case dimensionUtils.DIMENSIONS_2D.horizontal:
         return getWidthNormalDimension(d, i)
       case dimensionUtils.DIMENSIONS_2D.vertical:
         return 0
       default:
-        console.error(`GeoChartStackedBars [component] :: Invalid axis main dimension for getStackedBarsHeight: ${singleGroupOptions.mainDimension}`)
+        console.error(`GeoChartStackedBars [component] :: Invalid axis main dimension for getSegmentInitialHeight: ${singleGroupOptions.mainDimension}`)
     }
   }
 
-  function getStackedBarsHeight (d, i) {
+  function getSegmentHeight (d, i) {
     switch (singleGroupOptions.mainDimension) {
       case dimensionUtils.DIMENSIONS_2D.horizontal:
         return getWidthNormalDimension(d, i)
       case dimensionUtils.DIMENSIONS_2D.vertical:
         return Math.abs(axisForMainDimension.scale.axisScale(d.endValue) - axisForMainDimension.scale.axisScale(d.startValue))
       default:
-        console.error(`GeoChartStackedBars [component] :: Invalid axis main dimension for getStackedBarsHeight: ${singleGroupOptions.mainDimension}`)
+        console.error(`GeoChartStackedBars [component] :: Invalid axis main dimension for getSegmentHeight: ${singleGroupOptions.mainDimension}`)
     }
   }
 
-  function getStackedBarsCssClasses (d, i) {
+  function getSegmentCssClasses (d, i) {
     const defaultClasses = [
-      stackedBarsBaseClass,
+      segmentBaseClass,
       `geo-chart-stacked-bars__segment--${i}`,
       `geo-chart-stacked-bars__segment--${singleGroupOptions.mainDimension}`
     ]
 
     if (singleGroupOptions.cssClasses) {
       const customClasses = singleGroupOptions.cssClasses(defaultClasses, d, i)
-      return _.uniq([...customClasses, stackedBarsBaseClass]).join(' ')
+      return _.uniq([...customClasses, segmentBaseClass]).join(' ')
     }
 
     return defaultClasses.join(' ')
