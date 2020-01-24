@@ -96,7 +96,7 @@ export function render (d3Instance, d3TipInstance, quadrantOptions, globalAxesCo
  * @param {GeoChart.GlobalOptions} globalAxesConfig
 */
 function renderSingleQuadrant (group, d3TipInstance, singleQuadrantOptions, globalAxesConfig) {
-  const allQuadrantAxisData = [
+  const allQuadrantLineData = [
     { dimension: dimensionUtils.DIMENSIONS_2D.vertical, axisConfig: singleQuadrantOptions.horizontalAxisConfig },
     { dimension: dimensionUtils.DIMENSIONS_2D.horizontal, axisConfig: singleQuadrantOptions.verticalAxisConfig }
   ]
@@ -107,7 +107,7 @@ function renderSingleQuadrant (group, d3TipInstance, singleQuadrantOptions, glob
     { id: 4, name: singleQuadrantOptions.quadrantBottomRightName }
   ]
 
-  renderQuadrantAxis(group, d3TipInstance, singleQuadrantOptions, allQuadrantAxisData, globalAxesConfig)
+  renderQuadrantLines(group, d3TipInstance, singleQuadrantOptions, allQuadrantLineData, globalAxesConfig)
   renderQuadrantLabels(group, d3TipInstance, singleQuadrantOptions, allQuadrantLabelData, globalAxesConfig)
 }
 
@@ -121,34 +121,34 @@ function renderSingleQuadrant (group, d3TipInstance, singleQuadrantOptions, glob
  * @param {d3.Selection<GElement, Datum, PElement, PDatum>} group
  * @param {d3.Tooltip<SVGElement, object, PElement, PDatum>} [d3TipInstance]
  * @param {Array<GeoChart.SingleQuadrantGroupConfig<Domain, RelativeScaleDomain>>} singleQuadrantOptions
- * @param {Array<string, GeoChart.AxisConfig<Domain, RelativeScaleDomain>>} allQuadrantAxisData
+ * @param {Array<string, GeoChart.AxisConfig<Domain, RelativeScaleDomain>>} allQuadrantLineData
  * @param {GeoChart.GlobalOptions} globalAxesConfig
 */
-function renderQuadrantAxis (group, d3TipInstance, singleQuadrantOptions, allQuadrantAxisData, globalAxesConfig) {
-  const axisGroup = group
-    .selectAll('g.geo-chart-quadrant-axis')
-    .data(allQuadrantAxisData)
+function renderQuadrantLines (group, d3TipInstance, singleQuadrantOptions, allQuadrantLineData, globalAxesConfig) {
+  const lineGroup = group
+    .selectAll('g.geo-chart-quadrant-line')
+    .data(allQuadrantLineData)
 
-  const newAxisGroup = axisGroup
+  const newLineGroup = lineGroup
     .enter()
     .append('g')
-    .attr('class', (d, i) => `geo-chart-quadrant-axis geo-chart-quadrant-axis--${d.dimension}`)
+    .attr('class', (d, i) => `geo-chart-quadrant-line geo-chart-quadrant-line--${d.dimension}`)
 
-  const updatedAxisGroup = axisGroup
-  const allAxisGroups = newAxisGroup.merge(updatedAxisGroup)
+  const updatedLineGroup = lineGroup
+  const allLinesGroups = newLineGroup.merge(updatedLineGroup)
 
-  setupTooltipEventListeners(allAxisGroups, d3TipInstance, singleQuadrantOptions.tooltip)
+  setupTooltipEventListeners(allLinesGroups, d3TipInstance, singleQuadrantOptions.tooltip)
 
-  axisGroup
+  lineGroup
     .exit()
     .transition()
     .duration(globalAxesConfig.chart.animationsDurationInMilliseconds)
     .style('opacity', 0)
     .remove()
 
-  allAxisGroups.each(function (singleQuadrantAxisOptions, i) {
-    const group = d3.select(this)
-    renderSingleQuadrantAxis(group, singleQuadrantOptions, singleQuadrantAxisOptions, globalAxesConfig)
+  allLinesGroups.each(function (singleQuadrantLineOptions, i) {
+    const singleLineGroup = d3.select(this)
+    renderSingleQuadrantLine(singleLineGroup, singleQuadrantOptions, singleQuadrantLineOptions, globalAxesConfig)
   })
 }
 
@@ -159,30 +159,30 @@ function renderQuadrantAxis (group, d3TipInstance, singleQuadrantOptions, allQua
  * @template PDatum
  * @template Domain
  * @template RelativeScaleDomain
- * @param {d3.Selection<GElement, Datum, PElement, PDatum>} singleAxisGroup
+ * @param {d3.Selection<GElement, Datum, PElement, PDatum>} singleLineGroup
  * @param {Array<GeoChart.SingleQuadrantGroupConfig<Domain, RelativeScaleDomain>>} singleQuadrantOptions
- * @param {Object<string, GeoChart.AxisConfig<Domain, RelativeScaleDomain>>} singleQuadrantAxisOptions
+ * @param {Object<string, GeoChart.AxisConfig<Domain, RelativeScaleDomain>>} singleQuadrantLineOptions
  * @param {GeoChart.GlobalAxesConfig} globalAxesConfig
  */
-function renderSingleQuadrantAxis (singleAxisGroup, singleQuadrantOptions, singleQuadrantAxisOptions, globalAxesConfig) {
-  const drawingEnvironment = getDrawingEnvironmentForQuadrant(singleQuadrantAxisOptions)
-  const quadrantAxis = ChartAxis.getAxis(singleQuadrantAxisOptions.axisConfig)
+function renderSingleQuadrantLine (singleLineGroup, singleQuadrantOptions, singleQuadrantLineOptions, globalAxesConfig) {
+  const drawingEnvironment = getDrawingEnvironmentForQuadrant(singleQuadrantLineOptions)
+  const quadrantLine = ChartAxis.getAxis(singleQuadrantLineOptions.axisConfig)
 
-  quadrantAxis
+  quadrantLine
     .tickSize(0)
 
-  singleAxisGroup
+  singleLineGroup
     .transition()
     .duration(globalAxesConfig.chart.animationsDurationInMilliseconds)
     .attr('transform', `translate(${drawingEnvironment.absolutePosition.x}, ${drawingEnvironment.absolutePosition.y})`)
-    .call(quadrantAxis)
+    .call(quadrantLine)
 
-  singleAxisGroup
+  singleLineGroup
     .selectAll('g.tick')
     .remove()
 
-  function getDrawingEnvironmentForQuadrant (singleQuadrantAxisOptions) {
-    const isHorizontalQuadrant = singleQuadrantAxisOptions.dimension === dimensionUtils.DIMENSIONS_2D.horizontal
+  function getDrawingEnvironmentForQuadrant (singleQuadrantLineOptions) {
+    const isHorizontalQuadrant = singleQuadrantLineOptions.dimension === dimensionUtils.DIMENSIONS_2D.horizontal
 
     const xTranslation = isHorizontalQuadrant
       ? 0

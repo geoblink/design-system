@@ -1,17 +1,15 @@
 ## Quadrants
 
-Use this chart to represent values related to two different numerical variables. The position of each dot represents a single value of your data. This chart is designed to represent relationships between each variable of each one of the axes.
+Use this component to represent axis separating the chart into 4 quadrants, and name these 4 quadrants.
 
-To add scatter plot **groups** to a chart, add an array to `scatterPlotGroups` key of [GeoChart](#geochart)'s config. Each item of the array must be an object with the following:
+To add quadrant **groups** to a chart, add an array to `quadrantGroups` key of [GeoChart](#geochart)'s config. Each item of the array must be an object with the following:
 
 ### Required properties
 
-- `horizontalAxisConfig` - axis config (see [axes config](#chart-axes)) to create
-quadrant horizontal line based on the existing horizontal axis of the chart.
-- `verticalAxisConfig` - axis config (see [axes config](#chart-axes)) to create
-quadrant vertical line based the existing vertical axis on the chart.
-- `thresholdX` - relative position of the vertical quadrant axis on the horizontal axis (must be within `horizontalAxisConfig`'s domain)
-- `thresholdY` - relative position of the horizontal quadrant axis on the vertical axis (must be within `verticalAxisConfig`'s domain)
+- `horizontalAxisConfig` - axis config (see [axes config](#chart-axes)) to create quadrant horizontal line based on the existing horizontal axis of the chart.
+- `verticalAxisConfig` - axis config (see [axes config](#chart-axes)) to create quadrant vertical line based the existing vertical axis on the chart.
+- `thresholdX` - relative position of the vertical quadrant line on the horizontal axis of the chart (must be within `horizontalAxisConfig`'s domain)
+- `thresholdY` - relative position of the horizontal quadrant line on the vertical axis of the chart (must be within `verticalAxisConfig`'s domain)
 
 ### Optional properties
 
@@ -22,7 +20,7 @@ quadrant vertical line based the existing vertical axis on the chart.
 
 ### Tooltips
 
-Each label and each quadrant axis can customize the tooltip displayed when it's hovered by setting the key `tooltip`. This key must store an object with the following shape:
+Each label and each quadrant line can customize the tooltip displayed when it's hovered by setting the key `tooltip`. This key must store an object with the following shape:
 
 - `content` - **Required**. Function that takes as parameters the item
 corresponding to the label or axis being customized and its position inside the data array.
