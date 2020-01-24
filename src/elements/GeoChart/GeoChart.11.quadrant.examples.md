@@ -1,6 +1,6 @@
 ## Quadrants
 
-Use this component to represent axis separating the chart into 4 quadrants, and name these 4 quadrants.
+Use this component to represent 2 lines separating the chart into 4 quadrants, and name these 4 quadrants.
 
 To add quadrant **groups** to a chart, add an array to `quadrantGroups` key of [GeoChart](#geochart)'s config. Each item of the array must be an object with the following:
 
