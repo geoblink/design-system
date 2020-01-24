@@ -239,8 +239,8 @@ function renderStackedBars (stackedBarsContainer, stackedBarData, singleGroupOpt
       : temporaryBarWrapperHeight
     segment.endValue = idx === segmentsData.length - 1
       ? _.max(axisForMainDimension.scale.axisScale.domain())
-      : temporaryBarWrapperHeight + segmentsData[idx][axisForMainDimension.keyForValues]
-    temporaryBarWrapperHeight += segmentsData[idx][axisForMainDimension.keyForValues]
+      : temporaryBarWrapperHeight + segment[axisForMainDimension.keyForValues]
+    temporaryBarWrapperHeight += segment[axisForMainDimension.keyForValues]
   })
 
   const segmentsOriginAtAxis = axisForMainDimension.scale.axisScale(axisForMainDimension.scale.valueForOrigin)
