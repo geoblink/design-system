@@ -150,7 +150,19 @@ export default {
             quadrantTopLeftName: 'Quadrant A',
             quadrantTopRightName: 'Quadrant B',
             quadrantBottomLeftName: 'Quadrant C',
-            quadrantBottomRightName: 'Quadrant D'
+            quadrantBottomRightName: 'Quadrant D',
+            tooltip: {
+              content: (d, i) => {
+                if (d.id) {
+                  return `Name: ${d.name}`
+                } else if (d.dimension) {
+                  return d.dimension === CONSTANTS.DIMENSIONS.DIMENSIONS_2D.horizontal
+                    ? `Horizontal quadrant line`
+                    : `Vertical quadrant line`
+                }
+                return
+              }
+            }
           }
         ],
         scatterPlotGroups: [

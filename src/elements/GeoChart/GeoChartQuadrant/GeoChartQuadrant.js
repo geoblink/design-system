@@ -219,34 +219,69 @@ function renderSingleQuadrantLine (singleLineGroup, singleQuadrantOptions, singl
  * @param {GeoChart.GlobalAxesConfig} globalAxesConfig
  */
 function renderQuadrantLabels (group, d3TipInstance, singleQuadrantOptions, allQuadrantLabelData, globalAxesConfig) {
+  const labelSize = singleQuadrantOptions.labelSize
+    ? singleQuadrantOptions.labelSize
+    : 10 // Default to 10px
+
   const labelGroup = group
-    .selectAll('text.geo-chart-quadrant-label')
+    .selectAll('g.geo-chart-quadrant-label')
     .data(allQuadrantLabelData)
 
   const newLabelGroup = labelGroup
     .enter()
-    .append('text')
-    .attr('class', (d, i) => `geo-chart-quadrant-label geo-chart-quadrant-label--${d.id}`)
+    .append('g')
+    .attr('class', (d) => `geo-chart-quadrant-label geo-chart-quadrant-label--${d.id}`)
     .attr('transform', getQuadrantLabelInitialTransform)
-    .style('font-size', 10)
+    .style('font-size', labelSize)
+
+  newLabelGroup
+    .append('text')
+    .attr('class', (d) => `geo-chart-quadrant-label-text geo-chart-quadrant-label-text--${d.id}`)
+    .attr('transform', `translate(${labelSize * 0.9}, 0)`)
+    .text((d) => d.name)
+
+  if (singleQuadrantOptions.tooltip) {
+    createIconsInLabelGroup(newLabelGroup, labelSize)
+  }
 
   const updatedLabelGroup = labelGroup
   const allLabelGroup = newLabelGroup.merge(updatedLabelGroup)
 
+  if (singleQuadrantOptions.tooltip) {
+    const icons = newLabelGroup
+      .selectAll('circle')
+
+    setupTooltipEventListeners(icons, d3TipInstance, singleQuadrantOptions.tooltip)
+  }
+
   allLabelGroup
-    .text((d, i) => d.name)
     .transition()
     .duration(globalAxesConfig.chart.animationsDurationInMilliseconds)
     .attr('transform', getQuadrantLabelTransform)
 
-  setupTooltipEventListeners(allLabelGroup, d3TipInstance, singleQuadrantOptions.tooltip)
-
   labelGroup
     .exit()
-    .transition()
-    .duration(globalAxesConfig.chart.animationsDurationInMilliseconds)
-    .style('opacity', 0)
     .remove()
+
+  function createIconsInLabelGroup (parent, labelSize) {
+    const iconsGroup = parent
+      .append('g')
+      .attr('class', (d) => `geo-chart-quadrant-label-icon geo-chart-quadrant-label-icon--${d.id}`)
+
+    iconsGroup
+      .append('circle')
+      .attr('transform', `translate(0, -${labelSize * 0.4})`)
+      .attr('fill', 'white')
+      .attr('stroke', 'black')
+      .style('r', labelSize * 0.55)
+
+    iconsGroup
+      .append('text')
+      .attr('dx', -labelSize * 0.14)
+      .text('i')
+      .attr('font-size', labelSize)
+      .attr('font-weight', 'bold')
+  }
 
   function getQuadrantLabelInitialTransform (d, i) {
     const axesMargin = globalAxesConfig.chart.margin
@@ -263,7 +298,7 @@ function renderQuadrantLabels (group, d3TipInstance, singleQuadrantOptions, allQ
       x: null,
       y: null
     }
-    const DEFAULT_LINE_HEIGHT = 18
+    const DEFAULT_LINE_HEIGHT = 16
     const axesMargin = globalAxesConfig.chart.margin
     const axesSize = globalAxesConfig.chart.size
 

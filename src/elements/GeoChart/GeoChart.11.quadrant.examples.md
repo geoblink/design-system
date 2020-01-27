@@ -17,6 +17,7 @@ To add quadrant **groups** to a chart, add an array to `quadrantGroups` key of [
 - `quadrantTopRightName` - name of the top right quadrant (to be displayed on the top right corner of the chart).
 - `quadrantBottomLeftName` - name of the bottom left quadrant (to be displayed on the bottom left corner of the chart).
 - `quadrantBottomRightName` - name of the bottom right quadrant (to be displayed on the bottom right corner of the chart).
+- `labelSize` - size of the names of the quadrant. It should be a number, that will then be displayed in pixels.
 
 ### Tooltips
 
@@ -45,13 +46,16 @@ default, the item corresponding to the scatter plot group being customized and i
   <div class="element-demo">
     <div class="element-demo__block element-demo__block--chart-container">
       <geo-chart
-        v-if="chartConfig"
+        v-if="chartConfig && isGraphVisible"
         :config="chartConfig"
       />
     </div>
     <geo-primary-button @click="randomizeThreshold()">
       Randomize data
     </geo-primary-button>
+    <geo-secondary-button @click="toggleGraph()">
+      Toggle Graph
+    </geo-secondary-button>
   </div>
 </template>
 
@@ -66,10 +70,7 @@ export default {
       yDomain: 1000,
       thresholdX: null,
       thresholdY: null,
-      randomQuadrant1: '',
-      randomQuadrant2: '',
-      randomQuadrant3: '',
-      randomQuadrant4: ''
+      isGraphVisible: true
     }
   },
   computed: {
@@ -134,10 +135,11 @@ export default {
             verticalAxisConfig: this.numericalAxisConfig,
             thresholdX: this.thresholdX,
             thresholdY: this.thresholdY,
-            quadrantTopLeftName: this.randomQuadrant1,
-            quadrantTopRightName: this.randomQuadrant2,
-            quadrantBottomLeftName: this.randomQuadrant3,
-            quadrantBottomRightName: this.randomQuadrant4,
+            quadrantTopLeftName: 'Quadrant 1',
+            quadrantTopRightName: 'Quadrant 2',
+            quadrantBottomLeftName: 'Quadrant 3',
+            quadrantBottomRightName: 'Quadrant 4',
+            labelSize: 11,
             tooltip: {
               content: (d, i) => {
                 if (d.id) {
@@ -168,11 +170,10 @@ export default {
     this.randomizeThreshold()
   },
   methods: {
+    toggleGraph () {
+      this.isGraphVisible = !this.isGraphVisible
+    },
     randomizeThreshold () {
-      this.randomQuadrant1 = 'Quadrant ' + _.random(0, 16)
-      this.randomQuadrant2 = 'Quadrant ' + _.random(0, 16)
-      this.randomQuadrant3 = 'Quadrant ' + _.random(0, 16)
-      this.randomQuadrant4 = 'Quadrant ' + _.random(0, 16)
       this.thresholdX = _.random(0, this.xDomain)
       this.thresholdY = _.random(0, this.yDomain)
     }

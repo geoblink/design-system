@@ -7,7 +7,8 @@ declare namespace GeoChart {
       quadrantTopLeftName?: string
       quadrantTopRightName?: string
       quadrantBottomLeftName?: string
-      quadrantBottomRightName?: string
+      quadrantBottomRightName?: number
+      labelSize?: number
       tooltip?: {
         getContent?: (item: object, index: number) => string | null | undefined
         getOffset?: (event: MouseEvent) => { x: number, y: number } | null | undefined

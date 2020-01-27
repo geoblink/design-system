@@ -768,6 +768,9 @@ export const quadrantConfigJsonSchema = {
     quadrantBottomRightName: {
       type: 'string'
     },
+    labelSize: {
+      type: 'number'
+    },
     tooltip: {},
     // Function taking as first parameter an array of CSS classes that would be
     // set by default. Should return the array of CSS classes to be finally set.

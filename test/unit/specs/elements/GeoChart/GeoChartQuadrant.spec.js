@@ -148,11 +148,8 @@ describe('GeoChartQuadrant', function () {
         expect(wrapper.find('.geo-chart-quadrant').exists()).toBe(true)
         expect(wrapper.find('.geo-chart-quadrant .geo-chart-quadrant-line--vertical').exists()).toBe(true)
         expect(wrapper.find('.geo-chart-quadrant .geo-chart-quadrant-line--vertical').attributes()).toHaveProperty('transform', 'translate(30, 0)')
-        expect(wrapper.find('.geo-chart-quadrant .geo-chart-quadrant-label--1').exists()).toBe(true)
-        expect(wrapper.find('.geo-chart-quadrant .geo-chart-quadrant-label--1').text()).toBe('A')
 
         const quadrantConfig2 = _.assign({}, quadrantConfig)
-        quadrantConfig2.quadrantGroups[0].quadrantTopLeftName = 'TopLeft'
         quadrantConfig2.quadrantGroups[0].thresholdX = 10
 
         wrapper.setProps({
@@ -167,8 +164,6 @@ describe('GeoChartQuadrant', function () {
         expect(wrapper.find('.geo-chart-quadrant').exists()).toBe(true)
         expect(wrapper.find('.geo-chart-quadrant .geo-chart-quadrant-line--vertical').exists()).toBe(true)
         expect(wrapper.find('.geo-chart-quadrant .geo-chart-quadrant-line--vertical').attributes()).toHaveProperty('transform', 'translate(470, 0)')
-        expect(wrapper.find('.geo-chart-quadrant .geo-chart-quadrant-label--1').exists()).toBe(true)
-        expect(wrapper.find('.geo-chart-quadrant .geo-chart-quadrant-label--1').text()).toBe('TopLeft')
 
         wrapper.destroy()
       })
