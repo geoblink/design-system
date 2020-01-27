@@ -39,8 +39,8 @@ export default {
         return {
           horizontalAxisConfig: horizontalAxisConfig,
           verticalAxisConfig: verticalAxisConfig,
-          thresholdX: singleQuadrantGroupConfig.thresholdX,
-          thresholdY: singleQuadrantGroupConfig.thresholdY,
+          horizontalThreshold: singleQuadrantGroupConfig.horizontalThreshold,
+          verticalThreshold: singleQuadrantGroupConfig.verticalThreshold,
           quadrantTopLeftName: singleQuadrantGroupConfig.quadrantTopLeftName,
           quadrantTopRightName: singleQuadrantGroupConfig.quadrantTopRightName,
           quadrantBottomLeftName: singleQuadrantGroupConfig.quadrantBottomLeftName,

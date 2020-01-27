@@ -105,10 +105,10 @@ describe('GeoChartQuadrant', function () {
         numericalAxisConfig
       ],
       quadrantGroups: [{
-        horizontalAxisConfig: linearAxisConfig,
-        verticalAxisConfig: numericalAxisConfig,
-        thresholdX: 0,
-        thresholdY: 5,
+        horizontalAxisConfig: numericalAxisConfig,
+        verticalAxisConfig: linearAxisConfig,
+        horizontalThreshold: 0,
+        verticalThreshold: 5,
         quadrantTopLeftName: 'A',
         quadrantTopRightName: 'B',
         quadrantBottomLeftName: 'C',
@@ -150,7 +150,7 @@ describe('GeoChartQuadrant', function () {
         expect(wrapper.find('.geo-chart-quadrant .geo-chart-quadrant-line--vertical').attributes()).toHaveProperty('transform', 'translate(30, 0)')
 
         const quadrantConfig2 = _.assign({}, quadrantConfig)
-        quadrantConfig2.quadrantGroups[0].thresholdX = 10
+        quadrantConfig2.quadrantGroups[0].horizontalThreshold = 10
 
         wrapper.setProps({
           config: quadrantConfig2

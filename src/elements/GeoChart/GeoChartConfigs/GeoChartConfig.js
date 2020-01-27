@@ -736,7 +736,7 @@ export const anchoredShapesConfigSchema = {
 export const quadrantConfigJsonSchema = {
   type: 'object',
   additionalProperties: false,
-  required: ['thresholdX', 'thresholdY', 'horizontalAxisConfig', 'verticalAxisConfig'],
+  required: ['horizontalAxisConfig', 'verticalAxisConfig'],
   properties: {
     horizontalAxisConfig: axisConfigJsonSchema,
     // Function taking as first parameter an array of CSS classes that would be
@@ -750,10 +750,10 @@ export const quadrantConfigJsonSchema = {
     // Use this function to customize which CSS classes are set to each line.
     // Note that there might be some of the default classes might be added
     // regardless to your customization as they are required internally.
-    thresholdX: {
+    horizontalThreshold: {
       type: ['number', 'string']
     },
-    thresholdY: {
+    verticalThreshold: {
       type: ['number', 'string']
     },
     quadrantTopLeftName: {

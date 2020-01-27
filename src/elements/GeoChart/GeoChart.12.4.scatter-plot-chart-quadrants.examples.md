@@ -143,10 +143,10 @@ export default {
         ],
         quadrantGroups: [
           {
-            horizontalAxisConfig: this.linearAxisConfig,
-            verticalAxisConfig: this.numericalAxisConfig,
-            thresholdX: 10000,
-            thresholdY: 500,
+            horizontalAxisConfig: this.numericalAxisConfig,
+            verticalAxisConfig: this.linearAxisConfig,
+            horizontalThreshold: 10000,
+            verticalThreshold: 500,
             quadrantTopLeftName: 'Quadrant A',
             quadrantTopRightName: 'Quadrant B',
             quadrantBottomLeftName: 'Quadrant C',

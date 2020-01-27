@@ -6,10 +6,10 @@ To add quadrant **groups** to a chart, add an array to `quadrantGroups` key of [
 
 ### Required properties
 
-- `horizontalAxisConfig` - axis config (see [axes config](#chart-axes)) to create quadrant horizontal line based on the existing horizontal axis of the chart.
-- `verticalAxisConfig` - axis config (see [axes config](#chart-axes)) to create quadrant vertical line based the existing vertical axis on the chart.
-- `thresholdX` - relative position of the vertical quadrant line on the horizontal axis of the chart (must be within `horizontalAxisConfig`'s domain)
-- `thresholdY` - relative position of the horizontal quadrant line on the vertical axis of the chart (must be within `verticalAxisConfig`'s domain)
+- `horizontalAxisConfig` - horizontal axis config of the chart (see [axes config](#chart-axes)), which will create the vertical line of the quadrant.
+- `verticalAxisConfig` - vertical axis config of the chart (see [axes config](#chart-axes)), which will create the horizontal line of the quadrant.
+- `horizontalThreshold` - relative position of the vertical quadrant line on the horizontal axis of the chart (must be within `horizontalAxisConfig`'s domain). When no threshold is defined, the line isn't shown.
+- `verticalThreshold` - relative position of the horizontal quadrant line on the vertical axis of the chart (must be within `verticalAxisConfig`'s domain). When no threshold is defined, the line isn't shown.
 
 ### Optional properties
 
@@ -67,9 +67,9 @@ export default {
   data () {
     return {
       xDomain: 1000,
-      yDomain: 1000,
-      thresholdX: null,
-      thresholdY: null,
+      yDomain: 2000,
+      horizontalThreshold: null,
+      verticalThreshold: null,
       isGraphVisible: true
     }
   },
@@ -131,10 +131,10 @@ export default {
         ],
         quadrantGroups: [
           {
-            horizontalAxisConfig: this.linearAxisConfig,
-            verticalAxisConfig: this.numericalAxisConfig,
-            thresholdX: this.thresholdX,
-            thresholdY: this.thresholdY,
+            horizontalAxisConfig: this.numericalAxisConfig,
+            verticalAxisConfig: this.linearAxisConfig,
+            horizontalThreshold: this.horizontalThreshold,
+            verticalThreshold: this.verticalThreshold,
             quadrantTopLeftName: 'Quadrant 1',
             quadrantTopRightName: 'Quadrant 2',
             quadrantBottomLeftName: 'Quadrant 3',
@@ -155,8 +155,8 @@ export default {
                   }
                 } else if (d.dimension) {
                   return d.dimension === CONSTANTS.DIMENSIONS.DIMENSIONS_2D.horizontal
-                    ? `Horizontal quadrant axis : threshold of ${this.thresholdY}`
-                    : `Vertical quadrant axis : threshold of ${this.thresholdX}`
+                    ? `Horizontal quadrant axis : threshold of ${this.verticalThreshold}`
+                    : `Vertical quadrant axis : threshold of ${this.horizontalThreshold}`
                 }
                 return
               }
@@ -174,8 +174,8 @@ export default {
       this.isGraphVisible = !this.isGraphVisible
     },
     randomizeThreshold () {
-      this.thresholdX = _.random(0, this.xDomain)
-      this.thresholdY = _.random(0, this.yDomain)
+      this.horizontalThreshold = _.random(0, this.xDomain)
+      this.verticalThreshold = _.random(0, this.yDomain)
     }
   }
 }
@@ -208,8 +208,8 @@ export default {
     return {
       yDomain: 10000,
       categoricalDomain: _.times(5, i => `Category ${i}`),
-      thresholdX: null,
-      thresholdY: null
+      horizontalThreshold: null,
+      verticalThreshold: null
     }
   },
   computed: {
@@ -270,15 +270,15 @@ export default {
           animationsDurationInMilliseconds: 800
         },
         axisGroups: [
-          this.linearAxisConfig,
-          this.categoricalAxisConfig
+          this.categoricalAxisConfig,
+          this.linearAxisConfig
         ],
         quadrantGroups: [
           {
-            horizontalAxisConfig: this.linearAxisConfig,
-            verticalAxisConfig: this.categoricalAxisConfig,
-            thresholdX: this.thresholdX,
-            thresholdY: this.thresholdY,
+            horizontalAxisConfig: this.categoricalAxisConfig,
+            verticalAxisConfig: this.linearAxisConfig,
+            horizontalThreshold: this.horizontalThreshold,
+            verticalThreshold: this.verticalThreshold,
             quadrantTopLeftName: 'Top Left',
             quadrantTopRightName: 'Top Right',
             quadrantBottomLeftName: 'Bottom Left',
@@ -302,8 +302,140 @@ export default {
   methods: {
     randomizeThreshold () {
       const index = _.random(0, this.categoricalDomain.length - 1)
-      this.thresholdX = this.categoricalDomain[index]
-      this.thresholdY = _.random(0, this.yDomain)
+      this.horizontalThreshold = this.categoricalDomain[index]
+      this.verticalThreshold = _.random(0, this.yDomain)
+    }
+  }
+}
+</script>
+```
+
+#### One line quadrant with tooltip
+
+```vue live
+<template>
+  <div class="element-demo">
+    <div class="element-demo__block element-demo__block--chart-container">
+      <geo-chart
+        v-if="chartConfig && isGraphVisible"
+        :config="chartConfig"
+      />
+    </div>
+    <geo-primary-button @click="randomizeThreshold()">
+      Randomize data
+    </geo-primary-button>
+    <geo-secondary-button @click="toggleGraph()">
+      Toggle Graph
+    </geo-secondary-button>
+  </div>
+</template>
+
+<script>
+const CONSTANTS = require('@/elements/GeoChart/constants')
+
+export default {
+  name: 'GeoChartQuadrantDemo',
+  data () {
+    return {
+      xDomain: 1000,
+      yDomain: 1000,
+      horizontalThreshold: null,
+      isGraphVisible: true
+    }
+  },
+  computed: {
+    linearAxisConfig () {
+      return {
+        id: 'demo-linear-axis',
+        keyForValues: 'y',
+        position: {
+          type: CONSTANTS.AXIS.POSITIONS.left
+        },
+        scale: {
+          type: CONSTANTS.SCALES.SCALE_TYPES.linear,
+          valueForOrigin: 0,
+          domain: {
+            start: this.yDomain,
+            end: 0
+          }
+        },
+        cssClasses: (original) => [...original, 'geo-chart-axis--with-quadrant']
+      }
+    },
+    numericalAxisConfig () {
+      return {
+        id: 'demo-numerical-axis',
+        keyForValues: 'x',
+        position: {
+          type: CONSTANTS.AXIS.POSITIONS.bottom
+        },
+        scale: {
+          type: CONSTANTS.SCALES.SCALE_TYPES.linear,
+          valueForOrigin: 0,
+          domain: {
+            start: 0,
+            end: this.xDomain
+          }
+        },
+        cssClasses: (original) => [...original, 'geo-chart-axis--with-quadrant']
+      }
+    },
+
+    chartConfig () {
+      if (!this.linearAxisConfig) return
+      if (!this.numericalAxisConfig) return
+
+      return {
+        chart: {
+          margin: {
+            top: 30,
+            right: 30,
+            bottom: 30,
+            left: 50
+          },
+          animationsDurationInMilliseconds: 800
+        },
+        axisGroups: [
+          this.linearAxisConfig,
+          this.numericalAxisConfig
+        ],
+        quadrantGroups: [
+          {
+            horizontalAxisConfig: this.numericalAxisConfig,
+            verticalAxisConfig: this.linearAxisConfig,
+            horizontalThreshold: this.horizontalThreshold,
+            quadrantTopLeftName: 'Quadrant 1',
+            quadrantTopRightName: 'Quadrant 2',
+            labelSize: 11,
+            tooltip: {
+              content: (d, i) => {
+                if (d.id) {
+                  switch (d.id) {
+                    case 1:
+                      return `Left quadrant: ${d.name}`
+                    case 2:
+                      return `Right quadrant: ${d.name}`
+                  }
+                } else if (d.dimension) {
+                  return `Vertical quadrant axis : threshold of ${this.horizontalThreshold}`
+                }
+                return
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  created () {
+    this.randomizeThreshold()
+  },
+  methods: {
+    toggleGraph () {
+      this.isGraphVisible = !this.isGraphVisible
+    },
+    randomizeThreshold () {
+      this.horizontalThreshold = _.random(0, this.xDomain)
     }
   }
 }

@@ -96,10 +96,45 @@ export function render (d3Instance, d3TipInstance, quadrantOptions, globalAxesCo
  * @param {GeoChart.GlobalOptions} globalAxesConfig
 */
 function renderSingleQuadrant (group, d3TipInstance, singleQuadrantOptions, globalAxesConfig) {
-  const allQuadrantLineData = [
-    { dimension: dimensionUtils.DIMENSIONS_2D.vertical, axisConfig: singleQuadrantOptions.horizontalAxisConfig },
-    { dimension: dimensionUtils.DIMENSIONS_2D.horizontal, axisConfig: singleQuadrantOptions.verticalAxisConfig }
-  ]
+  const showVerticalLine = singleQuadrantOptions.horizontalThreshold !== undefined
+  const showHorizontalLine = singleQuadrantOptions.verticalThreshold !== undefined
+
+  let allQuadrantLineData
+  if (showHorizontalLine && showVerticalLine) {
+    allQuadrantLineData = [
+      {
+        dimension: dimensionUtils.DIMENSIONS_2D.vertical,
+        axisConfigForOrigin: singleQuadrantOptions.horizontalAxisConfig,
+        axisConfigForLine: singleQuadrantOptions.verticalAxisConfig,
+        threshold: singleQuadrantOptions.horizontalThreshold
+      },
+      { dimension: dimensionUtils.DIMENSIONS_2D.horizontal,
+        axisConfigForOrigin: singleQuadrantOptions.verticalAxisConfig,
+        axisConfigForLine: singleQuadrantOptions.horizontalAxisConfig,
+        threshold: singleQuadrantOptions.verticalThreshold
+      }
+    ]
+  } else if (showHorizontalLine && !showVerticalLine) {
+    allQuadrantLineData = [
+      { dimension: dimensionUtils.DIMENSIONS_2D.horizontal,
+        axisConfigForOrigin: singleQuadrantOptions.verticalAxisConfig,
+        axisConfigForLine: singleQuadrantOptions.horizontalAxisConfig,
+        threshold: singleQuadrantOptions.verticalThreshold
+      }
+    ]
+  } else if (!showHorizontalLine && showVerticalLine) {
+    allQuadrantLineData = [
+      {
+        dimension: dimensionUtils.DIMENSIONS_2D.vertical,
+        axisConfigForOrigin: singleQuadrantOptions.horizontalAxisConfig,
+        axisConfigForLine: singleQuadrantOptions.verticalAxisConfig,
+        threshold: singleQuadrantOptions.horizontalThreshold
+      }
+    ]
+  } else {
+    allQuadrantLineData = []
+  }
+
   const allQuadrantLabelData = [
     { id: 1, name: singleQuadrantOptions.quadrantTopLeftName },
     { id: 2, name: singleQuadrantOptions.quadrantTopRightName },
@@ -107,8 +142,12 @@ function renderSingleQuadrant (group, d3TipInstance, singleQuadrantOptions, glob
     { id: 4, name: singleQuadrantOptions.quadrantBottomRightName }
   ]
 
+  const filteredAllQuadrantLabelData = _.filter(allQuadrantLabelData, (label) => {
+    return label.name !== undefined
+  })
+
   renderQuadrantLines(group, d3TipInstance, singleQuadrantOptions, allQuadrantLineData, globalAxesConfig)
-  renderQuadrantLabels(group, d3TipInstance, singleQuadrantOptions, allQuadrantLabelData, globalAxesConfig)
+  renderQuadrantLabels(group, d3TipInstance, singleQuadrantOptions, filteredAllQuadrantLabelData, globalAxesConfig)
 }
 
 /**
@@ -148,7 +187,7 @@ function renderQuadrantLines (group, d3TipInstance, singleQuadrantOptions, allQu
 
   allLinesGroups.each(function (singleQuadrantLineOptions, i) {
     const singleLineGroup = d3.select(this)
-    renderSingleQuadrantLine(singleLineGroup, singleQuadrantOptions, singleQuadrantLineOptions, globalAxesConfig)
+    renderSingleQuadrantLine(singleLineGroup, singleQuadrantLineOptions, globalAxesConfig)
   })
 }
 
@@ -160,13 +199,11 @@ function renderQuadrantLines (group, d3TipInstance, singleQuadrantOptions, allQu
  * @template Domain
  * @template RelativeScaleDomain
  * @param {d3.Selection<GElement, Datum, PElement, PDatum>} singleLineGroup
- * @param {Array<GeoChart.SingleQuadrantGroupConfig<Domain, RelativeScaleDomain>>} singleQuadrantOptions
  * @param {Object<string, GeoChart.AxisConfig<Domain, RelativeScaleDomain>>} singleQuadrantLineOptions
  * @param {GeoChart.GlobalAxesConfig} globalAxesConfig
  */
-function renderSingleQuadrantLine (singleLineGroup, singleQuadrantOptions, singleQuadrantLineOptions, globalAxesConfig) {
-  const drawingEnvironment = getDrawingEnvironmentForQuadrant(singleQuadrantLineOptions)
-  const quadrantLine = ChartAxis.getAxis(singleQuadrantLineOptions.axisConfig)
+function renderSingleQuadrantLine (singleLineGroup, singleQuadrantLineOptions, globalAxesConfig) {
+  const quadrantLine = ChartAxis.getAxis(singleQuadrantLineOptions.axisConfigForLine)
 
   quadrantLine
     .tickSize(0)
@@ -174,34 +211,25 @@ function renderSingleQuadrantLine (singleLineGroup, singleQuadrantOptions, singl
   singleLineGroup
     .transition()
     .duration(globalAxesConfig.chart.animationsDurationInMilliseconds)
-    .attr('transform', `translate(${drawingEnvironment.absolutePosition.x}, ${drawingEnvironment.absolutePosition.y})`)
+    .attr('transform', getTranslationForQuadrantLine)
     .call(quadrantLine)
 
   singleLineGroup
     .selectAll('g.tick')
     .remove()
 
-  function getDrawingEnvironmentForQuadrant (singleQuadrantLineOptions) {
-    const isHorizontalQuadrant = singleQuadrantLineOptions.dimension === dimensionUtils.DIMENSIONS_2D.horizontal
+  function getTranslationForQuadrantLine (singleQuadrantLineOptions) {
+    const isHorizontalLine = singleQuadrantLineOptions.dimension === dimensionUtils.DIMENSIONS_2D.horizontal
 
-    const xTranslation = isHorizontalQuadrant
+    const xTranslation = isHorizontalLine
       ? 0
-      : singleQuadrantOptions.verticalAxisConfig.scale.axisScale(singleQuadrantOptions.thresholdX)
+      : singleQuadrantLineOptions.axisConfigForOrigin.scale.axisScale(singleQuadrantLineOptions.threshold)
 
-    const yTranslation = isHorizontalQuadrant
-      ? singleQuadrantOptions.horizontalAxisConfig.scale.axisScale(singleQuadrantOptions.thresholdY)
+    const yTranslation = isHorizontalLine
+      ? singleQuadrantLineOptions.axisConfigForOrigin.scale.axisScale(singleQuadrantLineOptions.threshold)
       : 0
 
-    const drawingEnvironment = {
-      canvasSize: globalAxesConfig.chart.size,
-      chartMargin: globalAxesConfig.chart.margin,
-      absolutePosition: {
-        x: xTranslation,
-        y: yTranslation
-      }
-    }
-
-    return drawingEnvironment
+    return `translate(${xTranslation}, ${yTranslation})`
   }
 }
 

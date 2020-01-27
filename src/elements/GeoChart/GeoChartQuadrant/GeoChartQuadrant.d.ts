@@ -1,9 +1,9 @@
 declare namespace GeoChart {
     interface SingleQuadrantGroupConfig<Domain, RelativeScaleDomain> {
-      horizontalAxisConfig?: GeoChart.AxisConfig<Domain, RelativeScaleDomain>
-      verticalAxisConfig?: GeoChart.AxisConfig<Domain, RelativeScaleDomain>
-      thresholdX?: number | string
-      thresholdY?: number | string
+      horizontalAxisConfig: GeoChart.AxisConfig<Domain, RelativeScaleDomain>
+      verticalAxisConfig: GeoChart.AxisConfig<Domain, RelativeScaleDomain>
+      horizontalThreshold?: number | string
+      verticalThreshold?: number | string
       quadrantTopLeftName?: string
       quadrantTopRightName?: string
       quadrantBottomLeftName?: string
