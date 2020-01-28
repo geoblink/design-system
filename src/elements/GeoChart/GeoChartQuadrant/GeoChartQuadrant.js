@@ -108,7 +108,8 @@ function renderSingleQuadrant (group, d3TipInstance, singleQuadrantOptions, glob
         axisConfigForLine: singleQuadrantOptions.verticalAxisConfig,
         threshold: singleQuadrantOptions.horizontalThreshold
       },
-      { dimension: dimensionUtils.DIMENSIONS_2D.horizontal,
+      {
+        dimension: dimensionUtils.DIMENSIONS_2D.horizontal,
         axisConfigForOrigin: singleQuadrantOptions.verticalAxisConfig,
         axisConfigForLine: singleQuadrantOptions.horizontalAxisConfig,
         threshold: singleQuadrantOptions.verticalThreshold
@@ -116,7 +117,8 @@ function renderSingleQuadrant (group, d3TipInstance, singleQuadrantOptions, glob
     ]
   } else if (showHorizontalLine && !showVerticalLine) {
     allQuadrantLineData = [
-      { dimension: dimensionUtils.DIMENSIONS_2D.horizontal,
+      {
+        dimension: dimensionUtils.DIMENSIONS_2D.horizontal,
         axisConfigForOrigin: singleQuadrantOptions.verticalAxisConfig,
         axisConfigForLine: singleQuadrantOptions.horizontalAxisConfig,
         threshold: singleQuadrantOptions.verticalThreshold
