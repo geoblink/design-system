@@ -262,26 +262,20 @@ function renderQuadrantLabels (group, d3TipInstance, singleQuadrantOptions, allQ
     .attr('transform', getQuadrantLabelInitialTransform)
     .style('font-size', labelSize)
 
-  newLabelGroup
-    .append('text')
-    .attr('class', (d) => `geo-chart-quadrant-label-text geo-chart-quadrant-label-text--${d.id}`)
-    .text((d) => d.name)
-
+  createTextInLabelGroup(newLabelGroup)
   if (singleQuadrantOptions.tooltip) {
-    createIconsInLabelGroup(newLabelGroup, labelSize)
-  }
+    createIconInLabelGroup(newLabelGroup, labelSize)
 
-  const updatedLabelGroup = labelGroup
-  const allLabelGroup = newLabelGroup.merge(updatedLabelGroup)
-
-  if (singleQuadrantOptions.tooltip) {
     const icons = newLabelGroup
-      .selectAll('circle')
+      .selectAll('g.geo-chart-quadrant-label-icon')
 
     setupTooltipEventListeners(icons, d3TipInstance, singleQuadrantOptions.tooltip)
   }
 
-  allLabelGroup
+  const updatedLabelGroup = labelGroup
+  const allLabelsGroup = newLabelGroup.merge(updatedLabelGroup)
+
+  allLabelsGroup
     .transition()
     .duration(globalAxesConfig.chart.animationsDurationInMilliseconds)
     .attr('transform', getQuadrantLabelTransform)
@@ -290,29 +284,42 @@ function renderQuadrantLabels (group, d3TipInstance, singleQuadrantOptions, allQ
     .exit()
     .remove()
 
-  function createIconsInLabelGroup (parent, labelSize) {
+  function createTextInLabelGroup (parent) {
     parent.each(function (d) {
-      const labelTextGroup = d3.select(this)
+      const singleLabelGroup = d3.select(this)
+
+      singleLabelGroup
+        .append('text')
+        .attr('class', (d) => `geo-chart-quadrant-label-text geo-chart-quadrant-label-text--${d.id}`)
+        .text((d) => d.name)
+    })
+  }
+
+  function createIconInLabelGroup (parent, labelSize) {
+    parent.each(function (d) {
+      const singleLabelGroup = d3.select(this)
       const bbox = this.getBBox()
 
-      const iconsGroup = labelTextGroup
+      const iconGroup = singleLabelGroup
         .append('g')
         .attr('class', (d) => `geo-chart-quadrant-label-icon geo-chart-quadrant-label-icon--${d.id}`)
         .attr('transform', `translate(${bbox.width + labelSize}, 0)`)
 
-      iconsGroup
+      iconGroup
         .append('circle')
         .attr('transform', `translate(0, -${labelSize * 0.4})`)
         .attr('fill', 'white')
         .attr('stroke', 'black')
         .style('r', labelSize * 0.55)
 
-      iconsGroup
+      iconGroup
         .append('text')
         .attr('dx', -labelSize * 0.14)
         .text('i')
         .attr('font-size', labelSize)
         .attr('font-weight', 'bold')
+
+      iconGroup.exit().remove()
     })
   }
 
