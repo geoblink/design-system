@@ -404,8 +404,8 @@ export default {
             horizontalAxisConfig: this.numericalAxisConfig,
             verticalAxisConfig: this.linearAxisConfig,
             horizontalThreshold: this.horizontalThreshold,
-            quadrantTopLeftName: 'Quadrant 1',
-            quadrantTopRightName: 'Quadrant 2',
+            quadrantTopLeftName: 'Long quadrant name',
+            quadrantTopRightName: 'Very long name for a quadrant',
             labelSize: 11,
             tooltip: {
               content: (d, i) => {

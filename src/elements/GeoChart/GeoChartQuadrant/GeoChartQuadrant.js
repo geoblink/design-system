@@ -265,7 +265,6 @@ function renderQuadrantLabels (group, d3TipInstance, singleQuadrantOptions, allQ
   newLabelGroup
     .append('text')
     .attr('class', (d) => `geo-chart-quadrant-label-text geo-chart-quadrant-label-text--${d.id}`)
-    .attr('transform', `translate(${labelSize * 0.9}, 0)`)
     .text((d) => d.name)
 
   if (singleQuadrantOptions.tooltip) {
@@ -292,23 +291,29 @@ function renderQuadrantLabels (group, d3TipInstance, singleQuadrantOptions, allQ
     .remove()
 
   function createIconsInLabelGroup (parent, labelSize) {
-    const iconsGroup = parent
-      .append('g')
-      .attr('class', (d) => `geo-chart-quadrant-label-icon geo-chart-quadrant-label-icon--${d.id}`)
+    parent.each(function (d) {
+      const labelTextGroup = d3.select(this)
+      const bbox = this.getBBox()
 
-    iconsGroup
-      .append('circle')
-      .attr('transform', `translate(0, -${labelSize * 0.4})`)
-      .attr('fill', 'white')
-      .attr('stroke', 'black')
-      .style('r', labelSize * 0.55)
+      const iconsGroup = labelTextGroup
+        .append('g')
+        .attr('class', (d) => `geo-chart-quadrant-label-icon geo-chart-quadrant-label-icon--${d.id}`)
+        .attr('transform', `translate(${bbox.width + labelSize}, 0)`)
 
-    iconsGroup
-      .append('text')
-      .attr('dx', -labelSize * 0.14)
-      .text('i')
-      .attr('font-size', labelSize)
-      .attr('font-weight', 'bold')
+      iconsGroup
+        .append('circle')
+        .attr('transform', `translate(0, -${labelSize * 0.4})`)
+        .attr('fill', 'white')
+        .attr('stroke', 'black')
+        .style('r', labelSize * 0.55)
+
+      iconsGroup
+        .append('text')
+        .attr('dx', -labelSize * 0.14)
+        .text('i')
+        .attr('font-size', labelSize)
+        .attr('font-weight', 'bold')
+    })
   }
 
   function getQuadrantLabelInitialTransform (d, i) {
@@ -326,6 +331,7 @@ function renderQuadrantLabels (group, d3TipInstance, singleQuadrantOptions, allQ
       x: null,
       y: null
     }
+    const textWidth = this.getBBox().width
     const DEFAULT_LINE_HEIGHT = 16
     const axesMargin = globalAxesConfig.chart.margin
     const axesSize = globalAxesConfig.chart.size
@@ -336,7 +342,7 @@ function renderQuadrantLabels (group, d3TipInstance, singleQuadrantOptions, allQ
         translation.y = axesMargin.bottom - (DEFAULT_LINE_HEIGHT / 2)
         break
       case 2:
-        translation.x = axesSize.width - axesMargin.left - axesMargin.right
+        translation.x = axesSize.width - textWidth
         translation.y = axesMargin.bottom - (DEFAULT_LINE_HEIGHT / 2)
         break
       case 3:
@@ -344,7 +350,7 @@ function renderQuadrantLabels (group, d3TipInstance, singleQuadrantOptions, allQ
         translation.y = axesSize.height - DEFAULT_LINE_HEIGHT
         break
       case 4:
-        translation.x = axesSize.width - axesMargin.left - axesMargin.right
+        translation.x = axesSize.width - textWidth
         translation.y = axesSize.height - DEFAULT_LINE_HEIGHT
         break
     }
