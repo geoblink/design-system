@@ -249,8 +249,8 @@ function renderSingleQuadrantLine (singleLineGroup, singleQuadrantLineOptions, g
  * @param {GeoChart.GlobalAxesConfig} globalAxesConfig
  */
 function renderQuadrantLabels (group, d3TipInstance, singleQuadrantOptions, allQuadrantLabelData, globalAxesConfig) {
-  const labelSize = singleQuadrantOptions.labelSize
-    ? singleQuadrantOptions.labelSize
+  const fontSize = singleQuadrantOptions.fontSize
+    ? singleQuadrantOptions.fontSize
     : 10 // Default to 10px
 
   const labelGroup = group
@@ -262,11 +262,11 @@ function renderQuadrantLabels (group, d3TipInstance, singleQuadrantOptions, allQ
     .append('g')
     .attr('class', (d) => `geo-chart-quadrant-label geo-chart-quadrant-label--${d.id}`)
     .attr('transform', getQuadrantLabelInitialTransform)
-    .style('font-size', labelSize)
+    .style('font-size', fontSize)
 
   createTextInLabelGroup(newLabelGroup)
   if (singleQuadrantOptions.tooltip) {
-    createIconInLabelGroup(newLabelGroup, labelSize)
+    createIconInLabelGroup(newLabelGroup, fontSize)
 
     const icons = newLabelGroup
       .selectAll('g.geo-chart-quadrant-label-icon')
@@ -297,7 +297,7 @@ function renderQuadrantLabels (group, d3TipInstance, singleQuadrantOptions, allQ
     })
   }
 
-  function createIconInLabelGroup (parent, labelSize) {
+  function createIconInLabelGroup (parent, fontSize) {
     parent.each(function (d) {
       const singleLabelGroup = d3.select(this)
       const bbox = this.getBBox()
@@ -305,23 +305,21 @@ function renderQuadrantLabels (group, d3TipInstance, singleQuadrantOptions, allQ
       const iconGroup = singleLabelGroup
         .append('g')
         .attr('class', (d) => `geo-chart-quadrant-label-icon geo-chart-quadrant-label-icon--${d.id}`)
-        .attr('transform', `translate(${bbox.width + labelSize}, 0)`)
+        .attr('transform', `translate(${bbox.width + fontSize}, 0)`)
 
       iconGroup
         .append('circle')
-        .attr('transform', `translate(0, -${labelSize * 0.4})`)
+        .attr('transform', `translate(0, -${fontSize * 0.4})`)
         .attr('fill', 'white')
         .attr('stroke', 'black')
-        .style('r', labelSize * 0.55)
+        .style('r', fontSize * 0.55)
 
       iconGroup
         .append('text')
-        .attr('dx', -labelSize * 0.14)
+        .attr('dx', -fontSize * 0.14)
         .text('i')
-        .attr('font-size', labelSize)
+        .attr('font-size', fontSize)
         .attr('font-weight', 'bold')
-
-      iconGroup.exit().remove()
     })
   }
 

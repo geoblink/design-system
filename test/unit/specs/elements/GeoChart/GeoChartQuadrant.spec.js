@@ -135,6 +135,52 @@ describe('GeoChartQuadrant', function () {
         wrapper.destroy()
       })
 
+      it('Should render only lines and labels when prop are passed', function () {
+        const quadrantConfig = {
+          chart: {
+            margin: {
+              top: 30,
+              right: 30,
+              bottom: 30,
+              left: 30
+            }
+          },
+          axisGroups: [
+            linearAxisConfig,
+            numericalAxisConfig
+          ],
+          quadrantGroups: [{
+            horizontalAxisConfig: numericalAxisConfig,
+            verticalAxisConfig: linearAxisConfig,
+            horizontalThreshold: 0,
+            quadrantTopRightName: '2',
+            quadrantBottomRightName: '4'
+          }]
+        }
+
+        const wrapper = mount(GeoChart, {
+          propsData: {
+            config: quadrantConfig
+          }
+        })
+
+        flushD3Transitions()
+
+        expect(wrapper.find('.geo-chart').exists()).toBe(true)
+        expect(wrapper.find('.geo-chart-quadrant').exists()).toBe(true)
+        expect(wrapper.find('.geo-chart-quadrant .geo-chart-quadrant-line').exists()).toBe(true)
+        expect(wrapper.findAll('.geo-chart-quadrant .geo-chart-quadrant-line')).toHaveLength(1)
+        expect(wrapper.find('.geo-chart-quadrant .geo-chart-quadrant-line--vertical').exists()).toBe(true)
+        expect(wrapper.find('.geo-chart-quadrant .geo-chart-quadrant-line--horizontal').exists()).toBe(false)
+
+        expect(wrapper.find('.geo-chart-quadrant .geo-chart-quadrant-label').exists()).toBe(true)
+        expect(wrapper.findAll('.geo-chart-quadrant .geo-chart-quadrant-label')).toHaveLength(2)
+        expect(wrapper.find('.geo-chart-quadrant .geo-chart-quadrant-label--1').exists()).toBe(false)
+        expect(wrapper.find('.geo-chart-quadrant .geo-chart-quadrant-label--2').exists()).toBe(true)
+
+        wrapper.destroy()
+      })
+
       it('Should update data', async function () {
         const wrapper = mount(GeoChart, {
           propsData: {

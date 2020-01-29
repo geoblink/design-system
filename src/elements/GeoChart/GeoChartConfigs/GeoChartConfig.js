@@ -739,17 +739,7 @@ export const quadrantConfigJsonSchema = {
   required: ['horizontalAxisConfig', 'verticalAxisConfig'],
   properties: {
     horizontalAxisConfig: axisConfigJsonSchema,
-    // Function taking as first parameter an array of CSS classes that would be
-    // set by default. Should return the array of CSS classes to be finally set.
-    // Use this function to customize which CSS classes are set to each line.
-    // Note that there might be some of the default classes might be added
-    // regardless to your customization as they are required internally.
     verticalAxisConfig: axisConfigJsonSchema,
-    // Function taking as first parameter an array of CSS classes that would be
-    // set by default. Should return the array of CSS classes to be finally set.
-    // Use this function to customize which CSS classes are set to each line.
-    // Note that there might be some of the default classes might be added
-    // regardless to your customization as they are required internally.
     horizontalThreshold: {
       type: ['number', 'string']
     },
@@ -768,10 +758,25 @@ export const quadrantConfigJsonSchema = {
     quadrantBottomRightName: {
       type: 'string'
     },
-    labelSize: {
+    fontSize: {
       type: 'number'
     },
-    tooltip: {},
+    tooltip: {
+      required: ['content'],
+      additionalProperties: false,
+      type: 'object',
+      properties: {
+        // Function taking as first parameter a single item of data array and as
+        // second parameter its index. Should return the text to be displayed as
+        // tooltip for the bar corresponding to given value.
+        content: {},
+        // Function taking as parameters the browser MouseEvent triggering the
+        // tooltip. Should return the offset of the tooltip as an object with an
+        // `x` and a `y` key, both holding numbers. If not provided offset will
+        // be 0.
+        offset: {}
+      }
+    },
     // Function taking as first parameter an array of CSS classes that would be
     // set by default. Should return the array of CSS classes to be finally set.
     // Use this function to customize which CSS classes are set to the rect for
@@ -811,7 +816,22 @@ export const scatterPlotConfigSchema = {
       enum: _.values(dimensionUtils.DIMENSIONS_2D)
     },
     onDotClick: {},
-    tooltip: {},
+    tooltip: {
+      required: ['content'],
+      additionalProperties: false,
+      type: 'object',
+      properties: {
+        // Function taking as first parameter a single item of data array and as
+        // second parameter its index. Should return the text to be displayed as
+        // tooltip for the bar corresponding to given value.
+        content: {},
+        // Function taking as parameters the browser MouseEvent triggering the
+        // tooltip. Should return the offset of the tooltip as an object with an
+        // `x` and a `y` key, both holding numbers. If not provided offset will
+        // be 0.
+        offset: {}
+      }
+    },
     // Function taking as first parameter an array of CSS classes that would be
     // set by default. Should return the array of CSS classes to be finally set.
     // Use this function to customize which CSS classes are set to the rect for

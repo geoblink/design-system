@@ -17,7 +17,7 @@ To add quadrant **groups** to a chart, add an array to `quadrantGroups` key of [
 - `quadrantTopRightName` - name of the top right quadrant (to be displayed on the top right corner of the chart).
 - `quadrantBottomLeftName` - name of the bottom left quadrant (to be displayed on the bottom left corner of the chart).
 - `quadrantBottomRightName` - name of the bottom right quadrant (to be displayed on the bottom right corner of the chart).
-- `labelSize` - size of the names of the quadrant. It should be a number, that will then be displayed in pixels.
+- `fontSize` - size of the names of the quadrant. It should be a number, that will then be displayed in pixels.
 
 ### Tooltips
 
@@ -139,7 +139,7 @@ export default {
             quadrantTopRightName: 'Quadrant 2',
             quadrantBottomLeftName: 'Quadrant 3',
             quadrantBottomRightName: 'Quadrant 4',
-            labelSize: 11,
+            fontSize: 11,
             tooltip: {
               content: (d, i) => {
                 if (d.id) {
@@ -406,7 +406,7 @@ export default {
             horizontalThreshold: this.horizontalThreshold,
             quadrantTopLeftName: 'Long quadrant name',
             quadrantTopRightName: 'Very long name for a quadrant',
-            labelSize: 11,
+            fontSize: 11,
             tooltip: {
               content: (d, i) => {
                 if (d.id) {

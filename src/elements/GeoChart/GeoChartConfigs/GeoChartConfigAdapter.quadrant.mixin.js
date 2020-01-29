@@ -45,7 +45,7 @@ export default {
           quadrantTopRightName: singleQuadrantGroupConfig.quadrantTopRightName,
           quadrantBottomLeftName: singleQuadrantGroupConfig.quadrantBottomLeftName,
           quadrantBottomRightName: singleQuadrantGroupConfig.quadrantBottomRightName,
-          labelSize: singleQuadrantGroupConfig.labelSize,
+          fontSize: singleQuadrantGroupConfig.fontSize,
           tooltip: tooltipConfig,
           cssClasses: singleQuadrantGroupConfig.cssClasses
         }
