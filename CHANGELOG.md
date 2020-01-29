@@ -1,11 +1,17 @@
 # Changelog
 
-## 29.3.0
+## 29.4.0
 
 New:
 
 - `GeoChartScatterPlot` component
 - `GeoChartQuadrant` component
+
+## 29.3.0
+
+New:
+
+- `GeoChartStackedBars` component
 
 ## 29.2.1
 
