@@ -37,16 +37,15 @@ const d3 = (function () {
  * @param {d3.Tooltip<SVGElement, Datum, PElement, PDatum>} [d3TipInstance]
  */
 export function render (d3Instance, options, globalOptions, d3TipInstance) {
+  const stackedBarsBaseClass = 'geo-chart-stacked-bars-group'
   const groups = d3Instance
-    .selectAll('g.geo-chart-stacked-bars-group')
+    .selectAll(`g.${stackedBarsBaseClass}`)
     .data(options)
 
   const newGroups = groups
     .enter()
     .append('g')
-    .attr('class', (singleGroupOptions, i) =>
-      `geo-chart-stacked-bars-group geo-chart-stacked-bars-group--${singleGroupOptions.id}`
-    )
+    .attr('class', (d, i) => `${stackedBarsBaseClass} ${stackedBarsBaseClass}--${d.id}`)
 
   groups
     .exit()
@@ -91,16 +90,17 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions, d3TipInsta
     ? dimensionUtils.DIMENSIONS_2D.vertical
     : dimensionUtils.DIMENSIONS_2D.horizontal
 
+  const axisDomain = axisForMainDimension.scale.axisScale.domain()
+
+  const singleBarGroupBaseClass = 'geo-chart-stacked-bars-group__single-group'
   const barWrappers = group
-    .selectAll('g.geo-chart-stacked-bars-group__single-group')
+    .selectAll(`g.${singleBarGroupBaseClass}`)
     .data(d => d.data)
 
   const newBarWrapper = barWrappers
     .enter()
     .append('g')
-    .attr('class', (barWrapperOptions, i) =>
-      `geo-chart-stacked-bars-group__single-group geo-chart-stacked-bars-group__single-group--${i}`
-    )
+    .attr('class', (d, i) => `${singleBarGroupBaseClass} ${singleBarGroupBaseClass}--${i}`)
     .attr('height', getBarInitialHeight)
     .attr('width', getBarInitialWidth)
 
@@ -136,7 +136,7 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions, d3TipInsta
       getOriginPositionAtAxis (axisConfig) {
         return axisConfig.scale.axisScale(axisConfig.scale.valueForOrigin)
       },
-      getTranslationForNormalAxis: axisUtils.getTranslationForNormalAxisFactoryStackedBar
+      getTranslationForNormalAxis: axisUtils.getTranslationForNormalAxisStackedBar
     })(d, i)
   }
 
@@ -160,9 +160,7 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions, d3TipInsta
       case dimensionUtils.DIMENSIONS_2D.horizontal:
         return getWidthTranslation(d, i)
       case dimensionUtils.DIMENSIONS_2D.vertical:
-        return Math.abs(
-          _.first(axisForMainDimension.scale.axisScale.domain()) - _.last(axisForMainDimension.scale.axisScale.domain())
-        )
+        return Math.abs(_.first(axisDomain) - _.last(axisDomain))
       default:
         console.error(`GeoChartStackedBars [component] :: Invalid axis main dimension for getBarHeight: ${singleGroupOptions.mainDimension}`)
     }
@@ -193,9 +191,7 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions, d3TipInsta
   function getBarWidth (d, i) {
     switch (singleGroupOptions.mainDimension) {
       case dimensionUtils.DIMENSIONS_2D.horizontal:
-        return Math.abs(
-          _.first(axisForMainDimension.scale.axisScale.domain()) - _.last(axisForMainDimension.scale.axisScale.domain())
-        )
+        return Math.abs(_.first(axisDomain) - _.last(axisDomain))
       case dimensionUtils.DIMENSIONS_2D.vertical:
         return getWidthTranslation(d, i)
       default:
@@ -232,14 +228,12 @@ function renderStackedBars (stackedBarsContainer, stackedBarData, singleGroupOpt
 
   const segmentsData = stackedBarData[axisForMainDimension.keyForValues]
 
-  let temporaryBarWrapperHeight = 0
-  segmentsData.forEach((segment, idx) => {
-    segment.startValue = idx === 0
-      ? _.min(axisForMainDimension.scale.axisScale.domain())
-      : temporaryBarWrapperHeight
-    segment.endValue = idx === segmentsData.length - 1
-      ? _.max(axisForMainDimension.scale.axisScale.domain())
-      : temporaryBarWrapperHeight + segment[axisForMainDimension.keyForValues]
+  const axisDomain = axisForMainDimension.scale.axisScale.domain()
+
+  let temporaryBarWrapperHeight = _.min(axisDomain)
+  segmentsData.forEach((segment) => {
+    segment.startValue = temporaryBarWrapperHeight
+    segment.endValue = temporaryBarWrapperHeight + segment[axisForMainDimension.keyForValues]
     temporaryBarWrapperHeight += segment[axisForMainDimension.keyForValues]
   })
 

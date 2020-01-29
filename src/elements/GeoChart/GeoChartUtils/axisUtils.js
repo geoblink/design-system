@@ -87,7 +87,7 @@ export function getTranslationForNormalAxisFactory (options, { keyForNormalOffse
   }
 }
 
-export function getTranslationForNormalAxisFactoryStackedBar (normalAxis, singleItem) {
+export function getTranslationForNormalAxisStackedBar (normalAxis, singleItem) {
   const positionOfItemValue = axisUtils.getItemValueAtAxis(normalAxis, singleItem)
   const normalOffset = normalAxis.scale.axisScale.bandwidth() / 2
   return positionOfItemValue + normalOffset
