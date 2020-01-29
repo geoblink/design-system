@@ -5,6 +5,7 @@ import * as ChartBars from '../GeoChartBars/GeoChartBars'
 import * as ChartLabels from '../GeoChartLabels/GeoChartLabels'
 import * as ChartColorBar from '../GeoChartColorBar/GeoChartColorBar'
 import * as ChartPie from '../GeoChartPie/GeoChartPie'
+import * as ChartStackedBars from '../GeoChartStackedBars/GeoChartStackedBars'
 import guidelinesAdapterMixin from './GeoChartConfigAdapter.guidelines.mixin'
 import lineSegmentsAdapterMixin from './GeoChartConfigAdapter.lineSegments.mixin'
 import anchoredShapesAdapterMixin from './GeoChartConfigAdapter.anchoredShapes.mixin'
@@ -40,6 +41,10 @@ export default {
 
       if (!_.isEmpty(this.config.lineGroups)) {
         this.updateLineGroups()
+      }
+
+      if (!_.isEmpty(this.config.stackedBarGroups)) {
+        this.updateStackedBarGroups()
       }
 
       if (this.d3TipInstance) {
@@ -202,6 +207,49 @@ export default {
         cssClasses: userConfig.cssClasses
       }
       ChartPie.render(this.d3Instance, this.d3TipInstance, pieConfig, { chart })
+    },
+
+    updateStackedBarGroups () {
+      const chartSize = this.svgSize
+      const chartMargin = _.get(this.config.chart, 'margin', ChartSizing.EMPTY_MARGIN)
+      const chart = {
+        animationsDurationInMilliseconds: this.animationsDurationInMilliseconds,
+        size: chartSize,
+        margin: chartMargin
+      }
+      const stackedBarGroupsConfig = _.map(this.config.stackedBarGroups, (singleStackedBarGroupsConfig, index) => {
+        const axis = {
+          horizontal: this.axesConfigById[singleStackedBarGroupsConfig.idHorizontalAxis],
+          vertical: this.axesConfigById[singleStackedBarGroupsConfig.idVerticalAxis]
+        }
+
+        if (singleStackedBarGroupsConfig.tooltip && !this.d3TipInstance) {
+          console.warn('GeoChart [component] :: d3-tip NPM package is required to use tooltips (attempted to use tooltips on a bar chart)')
+        }
+
+        if (singleStackedBarGroupsConfig.tooltip && !_.isFunction(singleStackedBarGroupsConfig.tooltip.content)) {
+          console.warn(`GeoChart [component] :: Attempted to use a non-function as bar chart tooltip content (used «${singleStackedBarGroupsConfig.tooltip}»)`)
+        }
+
+        const tooltipConfig = singleStackedBarGroupsConfig.tooltip
+          ? {
+            getContent: singleStackedBarGroupsConfig.tooltip.content,
+            getOffset: singleStackedBarGroupsConfig.tooltip.offset
+          }
+          : null
+
+        return {
+          id: index,
+          axis,
+          data: singleStackedBarGroupsConfig.data,
+          mainDimension: singleStackedBarGroupsConfig.mainDimension,
+          width: singleStackedBarGroupsConfig.width,
+          naturalWidth: singleStackedBarGroupsConfig.naturalWidth,
+          cssClasses: singleStackedBarGroupsConfig.cssClasses,
+          tooltip: tooltipConfig
+        }
+      })
+      ChartStackedBars.render(this.d3Instance, stackedBarGroupsConfig, { chart }, this.d3TipInstance)
     }
   }
 }

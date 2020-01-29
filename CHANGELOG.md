@@ -1,5 +1,11 @@
 # Changelog
 
+## 29.3.0
+
+New:
+
+- `GeoChartStackedBars` component
+
 ## 29.2.1
 
 Fix:
