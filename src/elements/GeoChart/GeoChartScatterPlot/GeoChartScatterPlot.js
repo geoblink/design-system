@@ -120,7 +120,7 @@ function renderSingleGroup (group, d3TipInstance, index, clickedDot, singleGroup
 
   _.each(singleGroupOptions.data, (dot, i) => {
     dot.index = i
-    dot.isSelected = false
+    dot.isClicked = false
   })
 
   const radiusScale = d3.scaleSqrt()
@@ -226,7 +226,7 @@ function renderSingleGroup (group, d3TipInstance, index, clickedDot, singleGroup
   }
 
   function handleMouseOver (d, i) {
-    if (d.isSelected) return
+    if (d.isClicked) return
 
     d3.select(this)
       .style('fill', 'white')
@@ -235,7 +235,7 @@ function renderSingleGroup (group, d3TipInstance, index, clickedDot, singleGroup
   }
 
   function handleMouseOut (d, i) {
-    if (d.isSelected) return
+    if (d.isClicked) return
 
     d3.select(this)
       .style('fill', (d, i) => _.defaultTo(singleGroupOptions.getFillColor(d, i), DEFAULT_FILL_COLOR))
@@ -243,43 +243,43 @@ function renderSingleGroup (group, d3TipInstance, index, clickedDot, singleGroup
       .style('stroke-width', '2')
   }
 
-  function getPreviouslySelectedDot () {
+  function getPreviouslyClickedDot () {
     const filter = _.filter(singleGroupOptions.data, (dot) => {
-      return dot.isSelected
+      return dot.isClicked
     })
     return filter[0]
   }
 
   function handleClick (d, i) {
     if (!singleGroupOptions.onDotClick) return
-    const previouslySelectedDot = getPreviouslySelectedDot()
-    const isAlreadyClickedDot = d.isSelected
+    const previouslyClickedDot = getPreviouslyClickedDot()
+    const isAlreadyClickedDot = d.isClicked
 
-    if (!previouslySelectedDot) {
+    if (!previouslyClickedDot) {
       const color = _.defaultTo(singleGroupOptions.getFillColor(d, i), DEFAULT_FILL_COLOR)
       clickedStyle(d3.select(this), color)
-      d.isSelected = true
+      d.isClicked = true
 
       return singleGroupOptions.onDotClick(d, i)
     } else if (isAlreadyClickedDot) {
       const color = _.defaultTo(singleGroupOptions.getFillColor(d, i), DEFAULT_FILL_COLOR)
       unclickedStyle(d3.select(this), color)
-      d.isSelected = false
+      d.isClicked = false
 
       return singleGroupOptions.onDotClick(null, null)
-    } else if (!!previouslySelectedDot && !isAlreadyClickedDot) {
+    } else if (!!previouslyClickedDot && !isAlreadyClickedDot) {
       const dotToUnclick = d3Instance
-        .select(`.geo-chart-scatter-plot-group--${singleGroupOptions.id} .geo-chart-scatter-plot__dot--${previouslySelectedDot.index}`)
-      const colorPreviousDot = _.defaultTo(singleGroupOptions.getFillColor(previouslySelectedDot, previouslySelectedDot.index), DEFAULT_FILL_COLOR)
+        .select(`.geo-chart-scatter-plot-group--${singleGroupOptions.id} .geo-chart-scatter-plot__dot--${previouslyClickedDot.index}`)
+      const colorPreviousDot = _.defaultTo(singleGroupOptions.getFillColor(previouslyClickedDot, previouslyClickedDot.index), DEFAULT_FILL_COLOR)
       unclickedStyle(dotToUnclick, colorPreviousDot)
 
       _.each(singleGroupOptions.data, (dot) => {
-        dot.isSelected = false
+        dot.isClicked = false
       })
 
       const colorNewDot = _.defaultTo(singleGroupOptions.getFillColor(d, i), DEFAULT_FILL_COLOR)
       clickedStyle(d3.select(this), colorNewDot)
-      d.isSelected = true
+      d.isClicked = true
 
       return singleGroupOptions.onDotClick(d, i)
     }
@@ -288,7 +288,7 @@ function renderSingleGroup (group, d3TipInstance, index, clickedDot, singleGroup
   function clickedStyle (element, color) {
     element
       .style('stroke', '#9B9B9B')
-      .style('stroke-opacity', 0.8)
+      .style('stroke-opacity', 0.9)
       .style('stroke-width', '3')
       .style('fill', color)
 
