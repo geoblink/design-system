@@ -14,7 +14,6 @@ const localVue = createLocalVue()
 localVue.component('geo-chart', GeoChart)
 
 const mockDomain1 = _.random(1, 50)
-const mockDomain2 = _.random(1, 50)
 
 const axisDimensions = {
   linearAxisConfig: {
@@ -86,13 +85,6 @@ describe('GeoChartScatterPlot', function () {
       }
     })
 
-    const scatterPlotData2 = _.times(mockDomain2, (i) => {
-      return {
-        x: _.random(0, 25000),
-        y: _.random(0, 1000)
-      }
-    })
-
     const scatterPlotConfig = {
       axisGroups: [
         linearAxisConfig,
@@ -104,23 +96,8 @@ describe('GeoChartScatterPlot', function () {
           idHorizontalAxis: numericalAxisConfig.id,
           mainDimension: GeoChart.constants.DIMENSIONS.DIMENSIONS_2D.horizontal,
           data: scatterPlotData,
-          radius: 4,
-          fillColor: 'orange',
-          tooltip: {
-            content: (d, i) => {
-              return `x: ${d.x} y: ${d.y}`
-            },
-            offset: () => null
-          },
-          cssClasses: cssClassFn
-        },
-        {
-          idVerticalAxis: linearAxisConfig.id,
-          idHorizontalAxis: numericalAxisConfig.id,
-          mainDimension: GeoChart.constants.DIMENSIONS.DIMENSIONS_2D.horizontal,
-          data: scatterPlotData2,
-          radius: 4,
-          fillColor: 'green',
+          getRadius: function () { return 4 },
+          getFillColor: function (d, i) { return i < (mockDomain1 / 2) ? 'orange' : 'green' },
           tooltip: {
             content: (d, i) => {
               return `x: ${d.x} y: ${d.y}`
@@ -142,13 +119,10 @@ describe('GeoChartScatterPlot', function () {
 
       expect(wrapper.find('.geo-chart').exists()).toBe(true)
       expect(wrapper.find('.geo-chart .geo-chart-scatter-plot-group').exists()).toBe(true)
-      expect(wrapper.findAll('.geo-chart .geo-chart-scatter-plot-group')).toHaveLength(2)
+      expect(wrapper.findAll('.geo-chart .geo-chart-scatter-plot-group')).toHaveLength(1)
 
       expect(wrapper.find('.geo-chart .geo-chart-scatter-plot-group--0 .geo-chart-scatter-plot__dot').exists()).toBe(true)
       expect(wrapper.findAll('.geo-chart .geo-chart-scatter-plot-group--0 .geo-chart-scatter-plot__dot')).toHaveLength(mockDomain1)
-
-      expect(wrapper.find('.geo-chart .geo-chart-scatter-plot-group--1 .geo-chart-scatter-plot__dot').exists()).toBe(true)
-      expect(wrapper.findAll('.geo-chart .geo-chart-scatter-plot-group--1 .geo-chart-scatter-plot__dot')).toHaveLength(mockDomain2)
 
       wrapper.destroy()
     })
@@ -165,15 +139,8 @@ describe('GeoChartScatterPlot', function () {
       expect(wrapper.find('.geo-chart').exists()).toBe(true)
       expect(wrapper.find('.geo-chart .geo-chart-scatter-plot-group').exists()).toBe(true)
 
-      const mockDomain3 = _.random(1, 50)
-      const mockDomain4 = _.random(1, 50)
-      const newScatterPlotData = _.times(mockDomain3, (i) => {
-        return {
-          x: _.random(0, 25000),
-          y: _.random(0, 1000)
-        }
-      })
-      const newScatterPlotData2 = _.times(mockDomain4, (i) => {
+      const mockDomain2 = _.random(1, 50)
+      const newScatterPlotData = _.times(mockDomain2, (i) => {
         return {
           x: _.random(0, 25000),
           y: _.random(0, 1000)
@@ -182,7 +149,6 @@ describe('GeoChartScatterPlot', function () {
 
       const scatterPlotConfig2 = _.assign({}, scatterPlotConfig)
       scatterPlotConfig2.scatterPlotGroups[0].data = newScatterPlotData
-      scatterPlotConfig2.scatterPlotGroups[1].data = newScatterPlotData2
 
       wrapper.setProps({
         config: scatterPlotConfig2
@@ -191,13 +157,10 @@ describe('GeoChartScatterPlot', function () {
 
       expect(wrapper.find('.geo-chart').exists()).toBe(true)
       expect(wrapper.find('.geo-chart .geo-chart-scatter-plot-group').exists()).toBe(true)
-      expect(wrapper.findAll('.geo-chart .geo-chart-scatter-plot-group')).toHaveLength(2)
+      expect(wrapper.findAll('.geo-chart .geo-chart-scatter-plot-group')).toHaveLength(1)
 
       expect(wrapper.find('.geo-chart .geo-chart-scatter-plot-group--0 .geo-chart-scatter-plot__dot').exists()).toBe(true)
-      expect(wrapper.findAll('.geo-chart .geo-chart-scatter-plot-group--0 .geo-chart-scatter-plot__dot')).toHaveLength(mockDomain3)
-
-      expect(wrapper.find('.geo-chart .geo-chart-scatter-plot-group--1 .geo-chart-scatter-plot__dot').exists()).toBe(true)
-      expect(wrapper.findAll('.geo-chart .geo-chart-scatter-plot-group--1 .geo-chart-scatter-plot__dot')).toHaveLength(mockDomain4)
+      expect(wrapper.findAll('.geo-chart .geo-chart-scatter-plot-group--0 .geo-chart-scatter-plot__dot')).toHaveLength(mockDomain2)
 
       wrapper.destroy()
     })

@@ -27,8 +27,7 @@ export default {
     return {
       isGraphVisible: true,
       randomValue: _.random(1, 200),
-      randomValue2: _.random(1, 200),
-      randomValue3: _.random(1, 200)
+      getRadius: function () { return 4 }
     }
   },
   computed: {
@@ -75,24 +74,6 @@ export default {
       })
     },
 
-    scatterPlotData2 () {
-      return _.times(this.randomValue2, (i) => {
-        return {
-          x: _.random(0, 25000),
-          y: _.random(0, 1000)
-        }
-      })
-    },
-
-    scatterPlotData3 () {
-      return _.times(this.randomValue3, (i) => {
-        return {
-          x: _.random(0, 25000),
-          y: _.random(0, 1000)
-        }
-      })
-    },
-
     chartConfig () {
       if (!this.scatterPlotData) return null
 
@@ -116,36 +97,8 @@ export default {
             idHorizontalAxis: this.numericalAxisConfig.id,
             mainDimension: CONSTANTS.DIMENSIONS.DIMENSIONS_2D.horizontal,
             data: this.scatterPlotData,
-            radius: 4,
-            fillColor: 'orange',
-            tooltip: {
-              content: (d, i) => {
-                return `x: ${d.x} y: ${d.y}`
-              },
-              offset: () => null
-            }
-          },
-          {
-            idVerticalAxis: this.linearAxisConfig.id,
-            idHorizontalAxis: this.numericalAxisConfig.id,
-            mainDimension: CONSTANTS.DIMENSIONS.DIMENSIONS_2D.horizontal,
-            data: this.scatterPlotData2,
-            radius: 4,
-            fillColor: 'green',
-            tooltip: {
-              content: (d, i) => {
-                return `x: ${d.x} y: ${d.y}`
-              },
-              offset: () => null
-            }
-          },
-          {
-            idVerticalAxis: this.linearAxisConfig.id,
-            idHorizontalAxis: this.numericalAxisConfig.id,
-            mainDimension: CONSTANTS.DIMENSIONS.DIMENSIONS_2D.horizontal,
-            data: this.scatterPlotData3,
-            radius: 4,
-            fillColor: 'red',
+            getRadius: this.getRadius,
+            getFillColor: this.getFillColor,
             tooltip: {
               content: (d, i) => {
                 return `x: ${d.x} y: ${d.y}`
@@ -162,10 +115,20 @@ export default {
       this.isGraphVisible = !this.isGraphVisible
     },
 
+    getFillColor (d, i) {
+      const randomPartInGreen = _.random(0, this.randomValue)
+      const randomPartInOrange = _.random(randomPartInGreen, this.randomValue)
+      if (i < randomPartInGreen) {
+        return 'green'
+      } else if (i < randomPartInOrange) {
+        return 'orange'
+      } else {
+        return 'red'
+      }
+    },
+
     randomizeData () {
-      this.randomValue = _.random(0, 400)
-      this.randomValue2 = _.random(0, 400)
-      this.randomValue3 = _.random(0, 400)
+      this.randomValue = _.random(0, 1200)
     }
   }
 }

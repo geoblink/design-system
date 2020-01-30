@@ -18,7 +18,8 @@ See [axes](#chart-axes) for more info.
 
 ### Optional properties
 
-- `radius` - radius in pixels of each one of the dots of the graph. If no width is provided, a default radius of `2px` will be applied.
+- `getRadius` - function that gives the radius in pixels of each one of the dots of the graph. If no width is provided, a default radius of `2px` will be applied.
+- `getFillColor` - function that gives the color in which each dot of the graph should be displayed.
 - `groupKey` - property of your data that will be used to compute the radius of each one of the dots.
 - `onDotClick` - function executed when clicking on a dot. Only one dot can be clicked at the same time. When unclicking a dot, the function is executed with parameters (`null`, `null`)
 
@@ -70,7 +71,9 @@ export default {
   data () {
     return {
       isGraphVisible: true,
-      randomValue: _.random(1, 200)
+      randomValue: _.random(1, 200),
+      getRadius: function () { return 5 },
+      getFillColor: function () { return 'orange' }
     }
   },
   computed: {
@@ -139,8 +142,8 @@ export default {
           idHorizontalAxis: this.numericalAxisConfig.id,
           mainDimension: CONSTANTS.DIMENSIONS.DIMENSIONS_2D.horizontal,
           data: this.scatterPlotData,
-          radius: 5,
-          fillColor: 'orange',
+          getRadius: this.getRadius,
+          getFillColor: this.getFillColor,
           tooltip: {
             content: (d, i) => {
               return `x: ${d.x} y: ${d.y}`

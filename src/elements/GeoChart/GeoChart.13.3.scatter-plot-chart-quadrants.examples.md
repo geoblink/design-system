@@ -43,10 +43,8 @@ export default {
   data () {
     return {
       isGraphVisible: true,
-      randomValue: _.random(10, 50),
-      randomValue2: _.random(10, 50),
-      randomValue3: _.random(10, 50),
-      randomValue4: _.random(10, 50),
+      randomValue: _.random(10, 200),
+      getRadius: function () { return 6 },
       hasDotClicked: false,
       popupText: 'No information'
     }
@@ -91,35 +89,8 @@ export default {
     scatterPlotData () {
       return _.times(this.randomValue, (i) => {
         return {
-          x: _.random(0, 10000),
-          y: _.random(500, 1000)
-        }
-      })
-    },
-
-    scatterPlotData2 () {
-      return _.times(this.randomValue2, (i) => {
-        return {
-          x: _.random(10000, 20000),
-          y: _.random(500, 1000)
-        }
-      })
-    },
-
-    scatterPlotData3 () {
-      return _.times(this.randomValue3, (i) => {
-        return {
-          x: _.random(0, 10000),
-          y: _.random(0, 500)
-        }
-      })
-    },
-
-    scatterPlotData4 () {
-      return _.times(this.randomValue4, (i) => {
-        return {
-          x: _.random(10000, 20000),
-          y: _.random(0, 500)
+          x: _.random(0, 20000),
+          y: _.random(0, 1000)
         }
       })
     },
@@ -171,53 +142,8 @@ export default {
             idHorizontalAxis: this.numericalAxisConfig.id,
             mainDimension: CONSTANTS.DIMENSIONS.DIMENSIONS_2D.horizontal,
             data: this.scatterPlotData,
-            fillColor: '#2ca02c',
-            radius: 6,
-            onDotClick: this.showPopup,
-            tooltip: {
-              content: (d, i) => {
-                return 'Click for more information'
-              },
-              offset: () => null
-            }
-          },
-          {
-            idVerticalAxis: this.linearAxisConfig.id,
-            idHorizontalAxis: this.numericalAxisConfig.id,
-            mainDimension: CONSTANTS.DIMENSIONS.DIMENSIONS_2D.horizontal,
-            data: this.scatterPlotData2,
-            fillColor: '#d62727',
-            radius: 6,
-            onDotClick: this.showPopup,
-            tooltip: {
-              content: (d, i) => {
-                return 'Click for more information'
-              },
-              offset: () => null
-            }
-          },
-          {
-            idVerticalAxis: this.linearAxisConfig.id,
-            idHorizontalAxis: this.numericalAxisConfig.id,
-            mainDimension: CONSTANTS.DIMENSIONS.DIMENSIONS_2D.horizontal,
-            data: this.scatterPlotData3,
-            fillColor: '#9367bd',
-            radius: 6,
-            onDotClick: this.showPopup,
-            tooltip: {
-              content: (d, i) => {
-                return 'Click for more information'
-              },
-              offset: () => null
-            }
-          },
-          {
-            idVerticalAxis: this.linearAxisConfig.id,
-            idHorizontalAxis: this.numericalAxisConfig.id,
-            mainDimension: CONSTANTS.DIMENSIONS.DIMENSIONS_2D.horizontal,
-            data: this.scatterPlotData4,
-            fillColor: '#ff7e0e',
-            radius: 6,
+            getFillColor: this.getFillColor,
+            getRadius: this.getRadius,
             onDotClick: this.showPopup,
             tooltip: {
               content: (d, i) => {
@@ -235,11 +161,24 @@ export default {
       this.isGraphVisible = !this.isGraphVisible
     },
 
+    getFillColor (d, i) {
+      if (d.x < 10000) {
+        if (d.y < 500) {
+          return 'orange'
+        } else {
+          return 'green'
+        }
+      } else if (d.x >= 10000) {
+        if (d.y < 500) {
+          return 'red'
+        } else {
+          return 'purple'
+        }
+      }
+    },
+
     randomizeData () {
-      this.randomValue = _.random(10, 50)
-      this.randomValue2 = _.random(10, 50)
-      this.randomValue3 = _.random(10, 50)
-      this.randomValue4 = _.random(10, 50)
+      this.randomValue = _.random(10, 200)
       this.showPopup(null, null)
     },
 

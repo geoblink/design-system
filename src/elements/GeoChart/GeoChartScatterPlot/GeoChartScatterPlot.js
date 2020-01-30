@@ -118,6 +118,11 @@ export function render (d3Instance, d3TipInstance, options, globalOptions) {
 function renderSingleGroup (group, d3TipInstance, index, clickedDot, singleGroupOptions, globalOptions, d3Instance) {
   const singleDotBaseClass = 'geo-chart-scatter-plot__dot'
 
+  _.each(singleGroupOptions.data, (dot, i) => {
+    dot.index = i
+    dot.isSelected = false
+  })
+
   const radiusScale = d3.scaleSqrt()
     .domain(d3.extent(singleGroupOptions.data, d => d[singleGroupOptions.groupKey]))
     .range([1, 16])
@@ -131,31 +136,31 @@ function renderSingleGroup (group, d3TipInstance, index, clickedDot, singleGroup
     .append('circle')
     .attr('class', getSingleDotCSSClasses)
     .attr('cursor', 'pointer')
-    .style('fill', _.defaultTo(singleGroupOptions.fillColor, DEFAULT_FILL_COLOR))
     .attr('r', 0)
     .style('opacity', 0)
-    .style('stroke', '#EBEBEB')
-    .style('stroke-width', '2')
     .attr('cx', getCircleCoordinatesFactory('cx'))
     .attr('cy', getCircleCoordinatesFactory('cy'))
+
+  const updatedDots = dots
+  const allDots = newDots.merge(updatedDots)
+
+  allDots
     .on('mouseover', handleMouseOver)
     .on('mouseout', handleMouseOut)
     .on('click', handleClick)
-
-  const updatedDots = dots
-  updatedDots
     .transition()
     .duration(globalOptions.chart.animationsDurationInMilliseconds)
-    .attr('r', d => {
+    .style('stroke', 'white')
+    .style('stroke-width', '2')
+    .attr('r', (d, i) => {
       return singleGroupOptions.groupKey
         ? radiusScale(d[singleGroupOptions.groupKey])
-        : _.defaultTo(singleGroupOptions.radius, DEFAULT_RADIUS)
+        : _.defaultTo(singleGroupOptions.getRadius(d, i), DEFAULT_RADIUS)
     })
+    .style('fill', (d, i) => _.defaultTo(singleGroupOptions.getFillColor(d, i), DEFAULT_FILL_COLOR))
     .attr('cx', getCircleCoordinatesFactory('cx'))
     .attr('cy', getCircleCoordinatesFactory('cy'))
     .style('opacity', 1)
-
-  const allDots = newDots.merge(updatedDots)
 
   dots
     .exit()
@@ -221,74 +226,87 @@ function renderSingleGroup (group, d3TipInstance, index, clickedDot, singleGroup
   }
 
   function handleMouseOver (d, i) {
-    const isAlreadyClickedDot = clickedDot.indexSingleGroup === index && clickedDot.indexDot === i
-    if (isAlreadyClickedDot) return
+    if (d.isSelected) return
 
     d3.select(this)
-      .style('fill', '#EBEBEB')
-      .style('stroke', _.defaultTo(singleGroupOptions.fillColor, DEFAULT_FILL_COLOR))
+      .style('fill', 'white')
+      .style('stroke', (d, i) => _.defaultTo(singleGroupOptions.getFillColor(d, i), DEFAULT_FILL_COLOR))
       .style('stroke-width', '3')
   }
 
   function handleMouseOut (d, i) {
-    const isAlreadyClickedDot = clickedDot.indexSingleGroup === index && clickedDot.indexDot === i
-    if (isAlreadyClickedDot) return
+    if (d.isSelected) return
 
     d3.select(this)
-      .style('fill', _.defaultTo(singleGroupOptions.fillColor, DEFAULT_FILL_COLOR))
-      .style('stroke', '#EBEBEB')
+      .style('fill', (d, i) => _.defaultTo(singleGroupOptions.getFillColor(d, i), DEFAULT_FILL_COLOR))
+      .style('stroke', 'white')
       .style('stroke-width', '2')
+  }
+
+  function getPreviouslySelectedDot () {
+    const filter = _.filter(singleGroupOptions.data, (dot) => {
+      return dot.isSelected
+    })
+    return filter[0]
   }
 
   function handleClick (d, i) {
     if (!singleGroupOptions.onDotClick) return
-    const isAnyDotClicked = clickedDot.indexSingleGroup !== null && clickedDot.indexDot !== null
-    const isAlreadyClickedDot = clickedDot.indexSingleGroup === index && clickedDot.indexDot === i
+    const previouslySelectedDot = getPreviouslySelectedDot()
+    const isAlreadyClickedDot = d.isSelected
 
-    if (!isAnyDotClicked) {
-      clickedDot.indexSingleGroup = index
-      clickedDot.indexDot = i
-      clickedDot.color = _.defaultTo(singleGroupOptions.fillColor, DEFAULT_FILL_COLOR)
-
-      clickedStyle(d3.select(this))
+    if (!previouslySelectedDot) {
+      const color = _.defaultTo(singleGroupOptions.getFillColor(d, i), DEFAULT_FILL_COLOR)
+      clickedStyle(d3.select(this), color)
+      d.isSelected = true
 
       return singleGroupOptions.onDotClick(d, i)
     } else if (isAlreadyClickedDot) {
-      unclickedStyle(d3.select(this))
-
-      clickedDot.indexSingleGroup = null
-      clickedDot.indexDot = null
-      clickedDot.color = null
+      const color = _.defaultTo(singleGroupOptions.getFillColor(d, i), DEFAULT_FILL_COLOR)
+      unclickedStyle(d3.select(this), color)
+      d.isSelected = false
 
       return singleGroupOptions.onDotClick(null, null)
-    } else if (isAnyDotClicked && !isAlreadyClickedDot) {
+    } else if (!!previouslySelectedDot && !isAlreadyClickedDot) {
       const dotToUnclick = d3Instance
-        .select(`.geo-chart-scatter-plot-group--${clickedDot.indexSingleGroup} .geo-chart-scatter-plot__dot--${clickedDot.indexDot}`)
+        .select(`.geo-chart-scatter-plot-group--${singleGroupOptions.id} .geo-chart-scatter-plot__dot--${previouslySelectedDot.index}`)
+      const colorPreviousDot = _.defaultTo(singleGroupOptions.getFillColor(previouslySelectedDot, previouslySelectedDot.index), DEFAULT_FILL_COLOR)
+      unclickedStyle(dotToUnclick, colorPreviousDot)
 
-      unclickedStyle(dotToUnclick)
+      _.each(singleGroupOptions.data, (dot) => {
+        dot.isSelected = false
+      })
 
-      clickedDot.indexSingleGroup = index
-      clickedDot.indexDot = i
-      clickedDot.color = _.defaultTo(singleGroupOptions.fillColor, DEFAULT_FILL_COLOR)
-
-      clickedStyle(d3.select(this))
+      const colorNewDot = _.defaultTo(singleGroupOptions.getFillColor(d, i), DEFAULT_FILL_COLOR)
+      clickedStyle(d3.select(this), colorNewDot)
+      d.isSelected = true
 
       return singleGroupOptions.onDotClick(d, i)
     }
   }
 
-  function clickedStyle (element) {
+  function clickedStyle (element, color) {
     element
-      .style('fill', clickedDot.color)
-      .style('stroke', 'black')
-      .style('stroke-width', '8')
-      .style('stroke-opacity', '0.2')
+      .style('stroke', '#9B9B9B')
+      .style('stroke-opacity', 0.8)
+      .style('stroke-width', '3')
+      .style('fill', color)
+
+    element
+      .enter()
+      .append('circle')
+      .style('fill', color)
+      .attr('r', (d, i) => {
+        return singleGroupOptions.groupKey
+          ? radiusScale(d[singleGroupOptions.groupKey])
+          : _.defaultTo(singleGroupOptions.getRadius(d, i), DEFAULT_RADIUS)
+      })
   }
 
-  function unclickedStyle (element) {
+  function unclickedStyle (element, color) {
     element
-      .style('fill', clickedDot.color)
-      .style('stroke', '#EBEBEB')
+      .style('fill', color)
+      .style('stroke', 'white')
       .style('stroke-width', '2')
       .style('stroke-opacity', '1')
   }

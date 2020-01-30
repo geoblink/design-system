@@ -805,12 +805,8 @@ export const scatterPlotConfigSchema = {
     idVerticalAxis: {
       type: 'string'
     },
-    radius: {
-      type: 'number'
-    },
-    fillColor: {
-      type: 'string'
-    },
+    getRadius: {},
+    getFillColor: {},
     mainDimension: {
       type: 'string',
       enum: _.values(dimensionUtils.DIMENSIONS_2D)

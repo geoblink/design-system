@@ -50,11 +50,9 @@ export default {
   data () {
     return {
       isGraphVisible: true,
-      randomValue: _.random(0, 10),
-      randomValue2: _.random(0, 10),
-      randomValue3: _.random(0, 10),
-      randomValue4: _.random(0, 10),
+      randomValue: _.random(40, 200),
       currentGroupKey: 'x',
+      getFillColor: function () { return 'orange' },
       hasDotClicked: false,
       popupText: 'No information'
     }
@@ -103,33 +101,6 @@ export default {
       })
     },
 
-    scatterPlotData2 () {
-      return _.times(this.randomValue2, (i) => {
-        return {
-          x: _.random(0, 25000),
-          y: _.random(0, 1000)
-        }
-      })
-    },
-
-    scatterPlotData3 () {
-      return _.times(this.randomValue3, (i) => {
-        return {
-          x: _.random(0, 25000),
-          y: _.random(0, 1000)
-        }
-      })
-    },
-
-    scatterPlotData4 () {
-      return _.times(this.randomValue4, (i) => {
-        return {
-          x: _.random(0, 25000),
-          y: _.random(0, 1000)
-        }
-      })
-    },
-
     chartConfig () {
       if (!this.scatterPlotData) return null
 
@@ -153,52 +124,7 @@ export default {
             idHorizontalAxis: this.numericalAxisConfig.id,
             mainDimension: CONSTANTS.DIMENSIONS.DIMENSIONS_2D.horizontal,
             data: this.scatterPlotData,
-            fillColor: '#2ca02c',
-            onDotClick: this.showPopup,
-            groupKey: this.currentGroupKey,
-            tooltip: {
-              content: (d, i) => {
-                return `x: ${d.x} y: ${d.y}`
-              },
-              offset: () => null
-            }
-          },
-          {
-            idVerticalAxis: this.linearAxisConfig.id,
-            idHorizontalAxis: this.numericalAxisConfig.id,
-            mainDimension: CONSTANTS.DIMENSIONS.DIMENSIONS_2D.horizontal,
-            data: this.scatterPlotData2,
-            fillColor: '#d62727',
-            onDotClick: this.showPopup,
-            groupKey: this.currentGroupKey,
-            tooltip: {
-              content: (d, i) => {
-                return `x: ${d.x} y: ${d.y}`
-              },
-              offset: () => null
-            }
-          },
-          {
-            idVerticalAxis: this.linearAxisConfig.id,
-            idHorizontalAxis: this.numericalAxisConfig.id,
-            mainDimension: CONSTANTS.DIMENSIONS.DIMENSIONS_2D.horizontal,
-            data: this.scatterPlotData3,
-            fillColor: '#9367bd',
-            onDotClick: this.showPopup,
-            groupKey: this.currentGroupKey,
-            tooltip: {
-              content: (d, i) => {
-                return `x: ${d.x} y: ${d.y}`
-              },
-              offset: () => null
-            }
-          },
-          {
-            idVerticalAxis: this.linearAxisConfig.id,
-            idHorizontalAxis: this.numericalAxisConfig.id,
-            mainDimension: CONSTANTS.DIMENSIONS.DIMENSIONS_2D.horizontal,
-            data: this.scatterPlotData4,
-            fillColor: '#ff7e0e',
+            getFillColor: this.getFillColor,
             onDotClick: this.showPopup,
             groupKey: this.currentGroupKey,
             tooltip: {
@@ -218,10 +144,7 @@ export default {
     },
 
     randomizeData () {
-      this.randomValue = _.random(0, 50)
-      this.randomValue2 = _.random(0, 50)
-      this.randomValue3 = _.random(0, 50)
-      this.randomValue4 = _.random(0, 50)
+      this.randomValue = _.random(40, 200)
       this.showPopup(null, null)
     },
 

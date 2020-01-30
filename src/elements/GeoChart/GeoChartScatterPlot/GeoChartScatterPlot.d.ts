@@ -1,8 +1,8 @@
 declare namespace GeoChart {
   interface ScatterPlotGroupConfig<HorizontalDomain, VerticalDomain> extends BidimensionalGroupConfig<HorizontalDomain, VerticalDomain> {
     data: [number, number][]
-    radius?: number
-    fillColor?: string
+    getRadius?: (item: object, index: number) => string | number | null | undefined
+    getFillColor?: (item: object, index: number) => string | null | undefined
     onDotClick?: (item: object, index: number) => string | null | undefined
     tooltip?: {
       getContent?: (item: object, index: number) => string | null | undefined
