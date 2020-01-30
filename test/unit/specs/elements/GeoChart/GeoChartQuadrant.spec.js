@@ -175,8 +175,8 @@ describe('GeoChartQuadrant', function () {
 
         expect(wrapper.find('.geo-chart-quadrant .geo-chart-quadrant-label').exists()).toBe(true)
         expect(wrapper.findAll('.geo-chart-quadrant .geo-chart-quadrant-label')).toHaveLength(2)
-        expect(wrapper.find('.geo-chart-quadrant .geo-chart-quadrant-label--1').exists()).toBe(false)
-        expect(wrapper.find('.geo-chart-quadrant .geo-chart-quadrant-label--2').exists()).toBe(true)
+        expect(wrapper.find('.geo-chart-quadrant .geo-chart-quadrant-label--topLeft').exists()).toBe(false)
+        expect(wrapper.find('.geo-chart-quadrant .geo-chart-quadrant-label--topRight').exists()).toBe(true)
 
         wrapper.destroy()
       })
