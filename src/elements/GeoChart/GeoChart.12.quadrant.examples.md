@@ -144,13 +144,13 @@ export default {
               content: (d, i) => {
                 if (d.id) {
                   switch (d.id) {
-                    case 1:
+                    case CONSTANTS.QUADRANT_LABEL.topLeft:
                       return `Top left quadrant: ${d.name}`
-                    case 2:
+                    case CONSTANTS.QUADRANT_LABEL.topRight:
                       return `Top right quadrant: ${d.name}`
-                    case 3:
+                    case CONSTANTS.QUADRANT_LABEL.bottomLeft:
                       return `Bottom left quadrant: ${d.name}`
-                    case 4:
+                    case CONSTANTS.QUADRANT_LABEL.bottomRight:
                       return `Bottom right quadrant: ${d.name}`
                   }
                 } else if (d.dimension) {
@@ -411,9 +411,9 @@ export default {
               content: (d, i) => {
                 if (d.id) {
                   switch (d.id) {
-                    case 1:
+                    case CONSTANTS.QUADRANT_LABEL.topLeft:
                       return `Left quadrant: ${d.name}`
-                    case 2:
+                    case CONSTANTS.QUADRANT_LABEL.topRight:
                       return `Right quadrant: ${d.name}`
                   }
                 } else if (d.dimension) {

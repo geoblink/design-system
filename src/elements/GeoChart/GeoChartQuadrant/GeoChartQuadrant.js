@@ -5,6 +5,7 @@ import _ from 'lodash'
 import * as ChartAxis from '../GeoChartAxis/GeoChartAxis'
 import * as dimensionUtils from '../GeoChartUtils/dimensionUtils'
 import { setupTooltipEventListeners } from '../GeoChartUtils/GeoChartTooltip'
+import { QUADRANT_LABEL } from '../constants.js'
 
 const d3 = (function () {
   try {
@@ -99,53 +100,38 @@ function renderSingleQuadrant (group, d3TipInstance, singleQuadrantOptions, glob
   const showVerticalLine = singleQuadrantOptions.horizontalThreshold !== undefined
   const showHorizontalLine = singleQuadrantOptions.verticalThreshold !== undefined
 
+  const horizontalLine = {
+    dimension: dimensionUtils.DIMENSIONS_2D.horizontal,
+    axisConfigForOrigin: singleQuadrantOptions.verticalAxisConfig,
+    axisConfigForLine: singleQuadrantOptions.horizontalAxisConfig,
+    threshold: singleQuadrantOptions.verticalThreshold
+  }
+  const verticalLine = {
+    dimension: dimensionUtils.DIMENSIONS_2D.vertical,
+    axisConfigForOrigin: singleQuadrantOptions.horizontalAxisConfig,
+    axisConfigForLine: singleQuadrantOptions.verticalAxisConfig,
+    threshold: singleQuadrantOptions.horizontalThreshold
+  }
   let allQuadrantLineData
   if (showHorizontalLine && showVerticalLine) {
-    allQuadrantLineData = [
-      {
-        dimension: dimensionUtils.DIMENSIONS_2D.vertical,
-        axisConfigForOrigin: singleQuadrantOptions.horizontalAxisConfig,
-        axisConfigForLine: singleQuadrantOptions.verticalAxisConfig,
-        threshold: singleQuadrantOptions.horizontalThreshold
-      },
-      {
-        dimension: dimensionUtils.DIMENSIONS_2D.horizontal,
-        axisConfigForOrigin: singleQuadrantOptions.verticalAxisConfig,
-        axisConfigForLine: singleQuadrantOptions.horizontalAxisConfig,
-        threshold: singleQuadrantOptions.verticalThreshold
-      }
-    ]
+    allQuadrantLineData = [verticalLine, horizontalLine]
   } else if (showHorizontalLine && !showVerticalLine) {
-    allQuadrantLineData = [
-      {
-        dimension: dimensionUtils.DIMENSIONS_2D.horizontal,
-        axisConfigForOrigin: singleQuadrantOptions.verticalAxisConfig,
-        axisConfigForLine: singleQuadrantOptions.horizontalAxisConfig,
-        threshold: singleQuadrantOptions.verticalThreshold
-      }
-    ]
+    allQuadrantLineData = [horizontalLine]
   } else if (!showHorizontalLine && showVerticalLine) {
-    allQuadrantLineData = [
-      {
-        dimension: dimensionUtils.DIMENSIONS_2D.vertical,
-        axisConfigForOrigin: singleQuadrantOptions.horizontalAxisConfig,
-        axisConfigForLine: singleQuadrantOptions.verticalAxisConfig,
-        threshold: singleQuadrantOptions.horizontalThreshold
-      }
-    ]
+    allQuadrantLineData = [verticalLine]
   } else {
     allQuadrantLineData = []
   }
 
   const allQuadrantLabelData = [
-    { id: 1, name: singleQuadrantOptions.quadrantTopLeftName },
-    { id: 2, name: singleQuadrantOptions.quadrantTopRightName },
-    { id: 3, name: singleQuadrantOptions.quadrantBottomLeftName },
-    { id: 4, name: singleQuadrantOptions.quadrantBottomRightName }
+    { id: QUADRANT_LABEL.topLeft, name: singleQuadrantOptions.quadrantTopLeftName },
+    { id: QUADRANT_LABEL.topRight, name: singleQuadrantOptions.quadrantTopRightName },
+    { id: QUADRANT_LABEL.bottomLeft, name: singleQuadrantOptions.quadrantBottomLeftName },
+    { id: QUADRANT_LABEL.bottomRight, name: singleQuadrantOptions.quadrantBottomRightName }
   ]
 
   const filteredAllQuadrantLabelData = _.filter(allQuadrantLabelData, (label) => {
-    return label.name !== undefined
+    return !!label.name
   })
 
   renderQuadrantLines(group, d3TipInstance, singleQuadrantOptions, allQuadrantLineData, globalAxesConfig)
@@ -249,9 +235,7 @@ function renderSingleQuadrantLine (singleLineGroup, singleQuadrantLineOptions, g
  * @param {GeoChart.GlobalAxesConfig} globalAxesConfig
  */
 function renderQuadrantLabels (group, d3TipInstance, singleQuadrantOptions, allQuadrantLabelData, globalAxesConfig) {
-  const fontSize = singleQuadrantOptions.fontSize
-    ? singleQuadrantOptions.fontSize
-    : 10 // Default to 10px
+  const fontSize = singleQuadrantOptions.fontSize || 10 // Default to 10px
 
   const labelGroup = group
     .selectAll('g.geo-chart-quadrant-label')
@@ -311,13 +295,14 @@ function renderQuadrantLabels (group, d3TipInstance, singleQuadrantOptions, allQ
         .append('circle')
         .attr('transform', `translate(0, -${fontSize * 0.4})`)
         .attr('fill', 'white')
-        .attr('stroke', 'black')
+        .attr('stroke', '#9B9B9B')
         .style('r', fontSize * 0.55)
 
       iconGroup
         .append('text')
         .attr('dx', -fontSize * 0.14)
         .text('i')
+        .style('fill', '#9B9B9B')
         .attr('font-size', fontSize)
         .attr('font-weight', 'bold')
     })
@@ -344,19 +329,19 @@ function renderQuadrantLabels (group, d3TipInstance, singleQuadrantOptions, allQ
     const axesSize = globalAxesConfig.chart.size
 
     switch (d.id) {
-      case 1:
+      case QUADRANT_LABEL.topLeft:
         translation.x = axesMargin.left
         translation.y = axesMargin.bottom - (DEFAULT_LINE_HEIGHT / 2)
         break
-      case 2:
+      case QUADRANT_LABEL.topRight:
         translation.x = axesSize.width - textWidth
         translation.y = axesMargin.bottom - (DEFAULT_LINE_HEIGHT / 2)
         break
-      case 3:
+      case QUADRANT_LABEL.bottomLeft:
         translation.x = axesMargin.left
         translation.y = axesSize.height - DEFAULT_LINE_HEIGHT
         break
-      case 4:
+      case QUADRANT_LABEL.bottomRight:
         translation.x = axesSize.width - textWidth
         translation.y = axesSize.height - DEFAULT_LINE_HEIGHT
         break
