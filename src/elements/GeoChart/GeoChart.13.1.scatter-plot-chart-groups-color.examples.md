@@ -27,7 +27,9 @@ export default {
     return {
       isGraphVisible: true,
       randomValue: _.random(1, 200),
-      getRadius: function () { return 4 }
+      getRadius: function () { return 4 },
+      randomPartInGreen: _.random(0, this.randomValue),
+      randomPartInOrange: _.random(this.randomPartInGreen, this.randomValue)
     }
   },
   computed: {
@@ -116,11 +118,9 @@ export default {
     },
 
     getFillColor (d, i) {
-      const randomPartInGreen = _.random(0, this.randomValue)
-      const randomPartInOrange = _.random(randomPartInGreen, this.randomValue)
-      if (i < randomPartInGreen) {
+      if (d.index < this.randomPartInGreen) {
         return 'green'
-      } else if (i < randomPartInOrange) {
+      } else if (d.index < this.randomPartInOrange) {
         return 'orange'
       } else {
         return 'red'
@@ -128,7 +128,9 @@ export default {
     },
 
     randomizeData () {
-      this.randomValue = _.random(0, 1200)
+      this.randomValue = _.random(10, 1200)
+      this.randomPartInGreen = _.random(0, this.randomValue)
+      this.randomPartInOrange = _.random(this.randomPartInGreen, this.randomValue)
     }
   }
 }

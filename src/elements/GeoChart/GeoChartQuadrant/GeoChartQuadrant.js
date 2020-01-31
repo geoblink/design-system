@@ -97,8 +97,8 @@ export function render (d3Instance, d3TipInstance, quadrantOptions, globalAxesCo
  * @param {GeoChart.GlobalOptions} globalAxesConfig
 */
 function renderSingleQuadrant (group, d3TipInstance, singleQuadrantOptions, globalAxesConfig) {
-  const showVerticalLine = singleQuadrantOptions.horizontalThreshold !== undefined
-  const showHorizontalLine = singleQuadrantOptions.verticalThreshold !== undefined
+  const showVerticalLine = !_.isNil(singleQuadrantOptions.horizontalThreshold)
+  const showHorizontalLine = !_.isNil(singleQuadrantOptions.verticalThreshold)
 
   const horizontalLine = {
     dimension: dimensionUtils.DIMENSIONS_2D.horizontal,
@@ -112,16 +112,10 @@ function renderSingleQuadrant (group, d3TipInstance, singleQuadrantOptions, glob
     axisConfigForLine: singleQuadrantOptions.verticalAxisConfig,
     threshold: singleQuadrantOptions.horizontalThreshold
   }
-  let allQuadrantLineData
-  if (showHorizontalLine && showVerticalLine) {
-    allQuadrantLineData = [verticalLine, horizontalLine]
-  } else if (showHorizontalLine && !showVerticalLine) {
-    allQuadrantLineData = [horizontalLine]
-  } else if (!showHorizontalLine && showVerticalLine) {
-    allQuadrantLineData = [verticalLine]
-  } else {
-    allQuadrantLineData = []
-  }
+  const allQuadrantLineData = _.filter([
+    showVerticalLine ? verticalLine : null,
+    showHorizontalLine ? horizontalLine : null
+  ])
 
   const allQuadrantLabelData = [
     { id: QUADRANT_LABEL.topLeft, name: singleQuadrantOptions.quadrantTopLeftName },
@@ -130,9 +124,7 @@ function renderSingleQuadrant (group, d3TipInstance, singleQuadrantOptions, glob
     { id: QUADRANT_LABEL.bottomRight, name: singleQuadrantOptions.quadrantBottomRightName }
   ]
 
-  const filteredAllQuadrantLabelData = _.filter(allQuadrantLabelData, (label) => {
-    return !!label.name
-  })
+  const filteredAllQuadrantLabelData = _.filter(allQuadrantLabelData, 'name')
 
   renderQuadrantLines(group, d3TipInstance, singleQuadrantOptions, allQuadrantLineData, globalAxesConfig)
   renderQuadrantLabels(group, d3TipInstance, singleQuadrantOptions, filteredAllQuadrantLabelData, globalAxesConfig)
@@ -152,14 +144,16 @@ function renderSingleQuadrant (group, d3TipInstance, singleQuadrantOptions, glob
  * @param {GeoChart.GlobalOptions} globalAxesConfig
 */
 function renderQuadrantLines (group, d3TipInstance, singleQuadrantOptions, allQuadrantLineData, globalAxesConfig) {
+  const quadrantLineBaseClass = 'geo-chart-quadrant-line'
+
   const lineGroup = group
-    .selectAll('g.geo-chart-quadrant-line')
+    .selectAll(`g.${quadrantLineBaseClass}`)
     .data(allQuadrantLineData)
 
   const newLineGroup = lineGroup
     .enter()
     .append('g')
-    .attr('class', (d, i) => `geo-chart-quadrant-line geo-chart-quadrant-line--${d.dimension}`)
+    .attr('class', (d, i) => `${quadrantLineBaseClass} ${quadrantLineBaseClass}--${d.dimension}`)
 
   const updatedLineGroup = lineGroup
   const allLinesGroups = newLineGroup.merge(updatedLineGroup)
@@ -237,14 +231,15 @@ function renderSingleQuadrantLine (singleLineGroup, singleQuadrantLineOptions, g
 function renderQuadrantLabels (group, d3TipInstance, singleQuadrantOptions, allQuadrantLabelData, globalAxesConfig) {
   const fontSize = singleQuadrantOptions.fontSize || 10 // Default to 10px
 
+  const quadrantLabelBaseClass = 'geo-chart-quadrant-label'
   const labelGroup = group
-    .selectAll('g.geo-chart-quadrant-label')
+    .selectAll(`g.${quadrantLabelBaseClass}`)
     .data(allQuadrantLabelData)
 
   const newLabelGroup = labelGroup
     .enter()
     .append('g')
-    .attr('class', (d) => `geo-chart-quadrant-label geo-chart-quadrant-label--${d.id}`)
+    .attr('class', (d) => `${quadrantLabelBaseClass} ${quadrantLabelBaseClass}--${d.id}`)
     .attr('transform', getQuadrantLabelInitialTransform)
     .style('font-size', fontSize)
 
@@ -253,7 +248,7 @@ function renderQuadrantLabels (group, d3TipInstance, singleQuadrantOptions, allQ
     createIconInLabelGroup(newLabelGroup, fontSize)
 
     const icons = newLabelGroup
-      .selectAll('g.geo-chart-quadrant-label-icon')
+      .selectAll(`g.${quadrantLabelBaseClass}-icon`)
 
     setupTooltipEventListeners(icons, d3TipInstance, singleQuadrantOptions.tooltip)
   }
@@ -276,7 +271,7 @@ function renderQuadrantLabels (group, d3TipInstance, singleQuadrantOptions, allQ
 
       singleLabelGroup
         .append('text')
-        .attr('class', (d) => `geo-chart-quadrant-label-text geo-chart-quadrant-label-text--${d.id}`)
+        .attr('class', (d) => `${quadrantLabelBaseClass}-text ${quadrantLabelBaseClass}-text--${d.id}`)
         .text((d) => d.name)
     })
   }
@@ -288,7 +283,7 @@ function renderQuadrantLabels (group, d3TipInstance, singleQuadrantOptions, allQ
 
       const iconGroup = singleLabelGroup
         .append('g')
-        .attr('class', (d) => `geo-chart-quadrant-label-icon geo-chart-quadrant-label-icon--${d.id}`)
+        .attr('class', (d) => `${quadrantLabelBaseClass}-icon ${quadrantLabelBaseClass}-icon--${d.id}`)
         .attr('transform', `translate(${bbox.width + fontSize}, 0)`)
 
       iconGroup

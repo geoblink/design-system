@@ -66,15 +66,16 @@ const DEFAULT_RADIUS = 1.5
 const DEFAULT_FILL_COLOR = '#69b3a2'
 
 export function render (d3Instance, d3TipInstance, options, globalOptions) {
+  const scatterPlotBaseClass = 'geo-chart-scatter-plot-group'
   const groups = d3Instance
-    .selectAll('g.geo-chart-scatter-plot-group')
+    .selectAll(`g.${scatterPlotBaseClass}`)
     .data(options)
 
   const newGroups = groups
     .enter()
     .append('g')
     .attr('class', (singleGroupOptions, i) =>
-      `geo-chart-scatter-plot-group geo-chart-scatter-plot-group--${singleGroupOptions.id}`
+      `${scatterPlotBaseClass} ${scatterPlotBaseClass}--${singleGroupOptions.id}`
     )
 
   groups
@@ -87,15 +88,9 @@ export function render (d3Instance, d3TipInstance, options, globalOptions) {
   const updatedGroups = groups
   const allGroups = newGroups.merge(updatedGroups)
 
-  const clickedDot = {
-    indexSingleGroup: null,
-    indexDot: null,
-    color: null
-  }
-
   allGroups.each(function (singleGroupOptions, i) {
     const group = d3.select(this)
-    renderSingleGroup(group, d3TipInstance, i, clickedDot, singleGroupOptions, globalOptions, d3Instance)
+    renderSingleGroup(group, d3TipInstance, singleGroupOptions, globalOptions, d3Instance)
   })
 }
 
@@ -108,14 +103,12 @@ export function render (d3Instance, d3TipInstance, options, globalOptions) {
  * @template VerticalDomain
  * @param {d3.Selection<GElement, Datum, PElement, PDatum>} group
  * @param {d3.Tooltip<SVGElement, object, PElement, PDatum>} [d3TipInstance]
- * @param {number} index
- * @param {object} clickedDot
  * @param {GeoChart.SingleBarGroupConfig<HorizontalDomain, VerticalDomain>} singleGroupOptions
  * @param {GeoChart.GlobalOptions} globalOptions
  * @param {d3.Selection<GElement, Datum, PElement, PDatum>} d3Instance
  */
 
-function renderSingleGroup (group, d3TipInstance, index, clickedDot, singleGroupOptions, globalOptions, d3Instance) {
+function renderSingleGroup (group, d3TipInstance, singleGroupOptions, globalOptions, d3Instance) {
   const singleDotBaseClass = 'geo-chart-scatter-plot__dot'
 
   _.each(singleGroupOptions.data, (dot, i) => {
@@ -152,12 +145,12 @@ function renderSingleGroup (group, d3TipInstance, index, clickedDot, singleGroup
     .duration(globalOptions.chart.animationsDurationInMilliseconds)
     .style('stroke', 'white')
     .style('stroke-width', '2')
-    .attr('r', (d, i) => {
+    .attr('r', (d) => {
       return singleGroupOptions.groupKey
         ? radiusScale(d[singleGroupOptions.groupKey])
-        : _.defaultTo(singleGroupOptions.getRadius(d, i), DEFAULT_RADIUS)
+        : _.defaultTo(singleGroupOptions.getRadius(d, d.index), DEFAULT_RADIUS)
     })
-    .style('fill', (d, i) => _.defaultTo(singleGroupOptions.getFillColor(d, i), DEFAULT_FILL_COLOR))
+    .style('fill', (d, i) => _.defaultTo(singleGroupOptions.getFillColor(d, d.index), DEFAULT_FILL_COLOR))
     .attr('cx', getCircleCoordinatesFactory('cx'))
     .attr('cy', getCircleCoordinatesFactory('cy'))
     .style('opacity', 1)
@@ -175,8 +168,8 @@ function renderSingleGroup (group, d3TipInstance, index, clickedDot, singleGroup
   function getSingleDotCSSClasses (d, i) {
     const defaultClasses = [
       singleDotBaseClass,
-      `geo-chart-scatter-plot__dot--${i}`,
-      `geo-chart-scatter-plot__dot--${singleGroupOptions.mainDimension}`
+      `${singleDotBaseClass}--${i}`,
+      `${singleDotBaseClass}--${singleGroupOptions.mainDimension}`
     ]
 
     if (singleGroupOptions.cssClasses) {
@@ -230,7 +223,7 @@ function renderSingleGroup (group, d3TipInstance, index, clickedDot, singleGroup
 
     d3.select(this)
       .style('fill', 'white')
-      .style('stroke', (d, i) => _.defaultTo(singleGroupOptions.getFillColor(d, i), DEFAULT_FILL_COLOR))
+      .style('stroke', (d) => _.defaultTo(singleGroupOptions.getFillColor(d, d.index), DEFAULT_FILL_COLOR))
       .style('stroke-width', '3')
   }
 
@@ -238,72 +231,47 @@ function renderSingleGroup (group, d3TipInstance, index, clickedDot, singleGroup
     if (d.isClicked) return
 
     d3.select(this)
-      .style('fill', (d, i) => _.defaultTo(singleGroupOptions.getFillColor(d, i), DEFAULT_FILL_COLOR))
+      .style('fill', (d) => _.defaultTo(singleGroupOptions.getFillColor(d, d.index), DEFAULT_FILL_COLOR))
       .style('stroke', 'white')
       .style('stroke-width', '2')
   }
 
   function getPreviouslyClickedDot () {
-    const filter = _.filter(singleGroupOptions.data, (dot) => {
-      return dot.isClicked
-    })
-    return filter[0]
+    return _.first(_.filter(singleGroupOptions.data, 'isClicked'))
   }
 
   function handleClick (d, i) {
-    if (!singleGroupOptions.onDotClick) return
-    const previouslyClickedDot = getPreviouslyClickedDot()
-    const isAlreadyClickedDot = d.isClicked
+    if (!_.isFunction(singleGroupOptions.onDotClick)) return
 
-    if (!previouslyClickedDot) {
-      const color = _.defaultTo(singleGroupOptions.getFillColor(d, i), DEFAULT_FILL_COLOR)
-      clickedStyle(d3.select(this), color)
-      d.isClicked = true
-
-      return singleGroupOptions.onDotClick(d, i)
-    } else if (isAlreadyClickedDot) {
-      const color = _.defaultTo(singleGroupOptions.getFillColor(d, i), DEFAULT_FILL_COLOR)
-      unclickedStyle(d3.select(this), color)
-      d.isClicked = false
-
+    if (d.isClicked) {
+      unclickedStyle(d3.select(this), d)
       return singleGroupOptions.onDotClick(null, null)
-    } else if (!!previouslyClickedDot && !isAlreadyClickedDot) {
-      const dotToUnclick = d3Instance
-        .select(`.geo-chart-scatter-plot-group--${singleGroupOptions.id} .geo-chart-scatter-plot__dot--${previouslyClickedDot.index}`)
-      const colorPreviousDot = _.defaultTo(singleGroupOptions.getFillColor(previouslyClickedDot, previouslyClickedDot.index), DEFAULT_FILL_COLOR)
-      unclickedStyle(dotToUnclick, colorPreviousDot)
-
-      _.each(singleGroupOptions.data, (dot) => {
-        dot.isClicked = false
-      })
-
-      const colorNewDot = _.defaultTo(singleGroupOptions.getFillColor(d, i), DEFAULT_FILL_COLOR)
-      clickedStyle(d3.select(this), colorNewDot)
-      d.isClicked = true
-
-      return singleGroupOptions.onDotClick(d, i)
     }
+
+    const previouslyClickedDot = getPreviouslyClickedDot()
+    if (previouslyClickedDot) {
+      const dotToUnclick = d3Instance
+        .select(`.geo-chart-scatter-plot-group--${singleGroupOptions.id} .${singleDotBaseClass}--${previouslyClickedDot.index}`)
+      unclickedStyle(dotToUnclick, previouslyClickedDot)
+    }
+
+    clickedStyle(d3.select(this), d)
+    return singleGroupOptions.onDotClick(d, d.index)
   }
 
-  function clickedStyle (element, color) {
+  function clickedStyle (element, d) {
+    const color = _.defaultTo(singleGroupOptions.getFillColor(d, d.index), DEFAULT_FILL_COLOR)
+    d.isClicked = true
     element
+      .style('fill', color)
       .style('stroke', '#9B9B9B')
-      .style('stroke-opacity', 0.9)
-      .style('stroke-width', '3')
-      .style('fill', color)
-
-    element
-      .enter()
-      .append('circle')
-      .style('fill', color)
-      .attr('r', (d, i) => {
-        return singleGroupOptions.groupKey
-          ? radiusScale(d[singleGroupOptions.groupKey])
-          : _.defaultTo(singleGroupOptions.getRadius(d, i), DEFAULT_RADIUS)
-      })
+      .style('stroke-width', '8')
+      .style('stroke-opacity', '0.4')
   }
 
-  function unclickedStyle (element, color) {
+  function unclickedStyle (element, d) {
+    const color = _.defaultTo(singleGroupOptions.getFillColor(d, d.index), DEFAULT_FILL_COLOR)
+    d.isClicked = false
     element
       .style('fill', color)
       .style('stroke', 'white')
