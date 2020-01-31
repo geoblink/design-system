@@ -171,7 +171,7 @@
     "webpack": "^4.39.1",
     "webpack-bundle-analyzer": "^3.4.1",
     "webpack-cli": "^3.3.6",
-    "webpack-dev-server": "^3.7.2",
+    "webpack-dev-server": "3.10.1",
     "webpack-merge": "^4.2.1",
     "webpack-merge-and-include-globally": "^2.1.16"
   },
