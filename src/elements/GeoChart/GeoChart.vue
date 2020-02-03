@@ -281,7 +281,21 @@ export default {
       deep: true
     },
 
+    'config.quadrantGroups': {
+      handler () {
+        this.debouncedRedraw()
+      },
+      deep: true
+    },
+
     'config.lineGroups': {
+      handler () {
+        this.debouncedRedraw()
+      },
+      deep: true
+    },
+
+    'config.scatterPlotGroups': {
       handler () {
         this.debouncedRedraw()
       },
@@ -306,6 +320,7 @@ export default {
       this.adjustSize()
       this.redrawGuidelines()
       this.updateData()
+      this.redrawQuadrants()
       this.redrawAxes()
     },
 

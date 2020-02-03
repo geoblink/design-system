@@ -24,3 +24,10 @@ export const SCALES = {
 export const NICES = {
   NICE_TYPES: scaleUtils.NICE_TYPES
 }
+
+export const QUADRANT_LABEL = {
+  topLeft: 'topLeft',
+  topRight: 'topRight',
+  bottomLeft: 'bottomLeft',
+  bottomRight: 'bottomRight'
+}

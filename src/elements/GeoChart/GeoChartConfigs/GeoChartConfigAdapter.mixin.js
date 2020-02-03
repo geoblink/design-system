@@ -7,12 +7,21 @@ import * as ChartColorBar from '../GeoChartColorBar/GeoChartColorBar'
 import * as ChartPie from '../GeoChartPie/GeoChartPie'
 import * as ChartStackedBars from '../GeoChartStackedBars/GeoChartStackedBars'
 import guidelinesAdapterMixin from './GeoChartConfigAdapter.guidelines.mixin'
+import quadrantAdapterMixin from './GeoChartConfigAdapter.quadrant.mixin'
 import lineSegmentsAdapterMixin from './GeoChartConfigAdapter.lineSegments.mixin'
 import anchoredShapesAdapterMixin from './GeoChartConfigAdapter.anchoredShapes.mixin'
 import lineAdapterMixin from './GeoChartConfigAdapter.line.mixin'
+import scatterPlotAdapterMixin from './GeoChartConfigAdapter.scatterPlot.mixin'
 
 export default {
-  mixins: [guidelinesAdapterMixin, lineSegmentsAdapterMixin, anchoredShapesAdapterMixin, lineAdapterMixin],
+  mixins: [
+    guidelinesAdapterMixin,
+    quadrantAdapterMixin,
+    lineSegmentsAdapterMixin,
+    anchoredShapesAdapterMixin,
+    lineAdapterMixin,
+    scatterPlotAdapterMixin
+  ],
   methods: {
     updateData () {
       if (!_.isEmpty(this.config.barGroups)) {
@@ -41,6 +50,10 @@ export default {
 
       if (!_.isEmpty(this.config.lineGroups)) {
         this.updateLineGroups()
+      }
+
+      if (!_.isEmpty(this.config.scatterPlotGroups)) {
+        this.updateScatterPlotGroups()
       }
 
       if (!_.isEmpty(this.config.stackedBarGroups)) {

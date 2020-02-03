@@ -43,7 +43,7 @@ key `tooltip`. This key must store an object with the following shape:
 - `content` - **required**. Function that takes as parameters the item
 corresponding to the line being customized and its position inside the data array.
 It's expected to return a HTML string that will be rendered inside a tooltip.
-- `offset` - *pptional*. Function that takes as parameter the event triggering
+- `offset` - *optional*. Function that takes as parameter the event triggering
 the tooltip and is expected to return an object with an `x` and a `y` property,
 both storing numbers that will be used as offset of the tooltip with respect to
 event coordinates. By default tooltip will be positioned above cursor.
