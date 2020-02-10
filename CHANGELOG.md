@@ -1,10 +1,10 @@
 # Changelog
 
-## 29.4.1-beta.5
+## 29.4.1
 
 Fix:
 
-- `GeoCalendar` The row with day names is now properly aligned
+- `GeoCalendar` Row containing day names is now properly aligned
 
 
 ## 29.4.0
