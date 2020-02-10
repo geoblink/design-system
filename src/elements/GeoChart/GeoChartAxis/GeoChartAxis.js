@@ -184,9 +184,17 @@ export function getAxis (singleAxisOptions) {
   const d3Axis = getD3Axis()
 
   const tickCount = _.get(singleAxisOptions, 'ticks.count')
+  const isForcedCustomizedTick = _.get(singleAxisOptions, 'ticks.forceTickCount')
   const isTickCountForced = _.isFinite(tickCount)
+
   if (isTickCountForced) {
-    d3Axis.ticks(tickCount)
+    if (!isForcedCustomizedTick) {
+      d3Axis.ticks(tickCount)
+    } else {
+      const axisDomain = singleAxisOptions.scale.axisScale.domain()
+      const tickToDisplay = createCustomizedTickArray(_.first(axisDomain), _.last(axisDomain), tickCount)
+      d3Axis.tickValues(tickToDisplay)
+    }
   }
 
   const tickFormat = _.get(singleAxisOptions, 'ticks.format')
@@ -401,4 +409,16 @@ function positionLabel (label, singleAxisOptions, globalAxesConfig) {
       console.error(`Unknown position ${axisType}`)
       break
   }
+}
+
+function createCustomizedTickArray (firstOfDomain, lastOfDomain, tickCount) {
+  const tickToDisplay = new Array(tickCount)
+  const domainRange = Math.abs(firstOfDomain - lastOfDomain)
+  const ticksStep = domainRange / (tickCount - 1)
+  _.times(tickToDisplay.length, (id) => {
+    tickToDisplay[id] = firstOfDomain < lastOfDomain
+      ? firstOfDomain + ticksStep * id
+      : firstOfDomain - (ticksStep * id)
+  })
+  return tickToDisplay
 }

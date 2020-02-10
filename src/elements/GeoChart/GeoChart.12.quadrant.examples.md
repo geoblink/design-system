@@ -240,9 +240,6 @@ export default {
       return {
         id: 'demo-categorical-axis',
         keyForValues: 'category',
-        ticks: {
-          count: 5
-        },
         position: {
           type: CONSTANTS.AXIS.POSITIONS.bottom
         },

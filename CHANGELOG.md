@@ -1,5 +1,16 @@
 # Changelog
 
+## 29.4.1
+
+Fix:
+
+- label position in `GeoChartQuadrant`
+- handle click event from external component in `GeoChartScatterPlot`
+
+New:
+
+- `forceTickCount` in `ticks` property of `GeoChartAxis`
+
 ## 29.4.0
 
 New:

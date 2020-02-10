@@ -62,6 +62,12 @@ config object. The value for that key must be an object with the following
 properties, all of them optional:
 
 - `count` - to customize the amount of ticks displayed. Must be an integer number.
+
+::: tip NOTE
+By default, d3 will only show a number of ticks which is a multiple of 2, 5 or 10. In order to force another number of ticks, use `forceTickCount` associated with `count`.
+:::
+
+- `forceTickCount` - boolean to force the number of ticks displayed. It will create a specific number of ticks between the axis domain range.
 - `format` - function taking as first parameter the value of the axis in the
 domain and as second parameter its index. Should return a string with the text
 to be displayed as value for given tick.
@@ -402,6 +408,83 @@ export default {
           }
         }]
       }
+    }
+  }
+}
+</script>
+```
+
+#### Forced tick number
+
+```vue live
+<template>
+  <div class="element-demo">
+    <div class="element-demo__block element-demo__block--chart-container">
+      <geo-chart
+        v-if="chartConfig"
+        :config="chartConfig"
+      />
+    </div>
+    <div class="element-demo__block__config">
+      <geo-primary-button @click="randomizeData()">
+        Randomize data
+      </geo-primary-button>
+    </div>
+  </div>
+</template>
+
+<script>
+const CONSTANTS = require('@/elements/GeoChart/constants')
+
+export default {
+  name: 'GeoChartAxisDemo',
+  data () {
+    return {
+      tickNumber: 5,
+      domainRangeStart: 0,
+      domainRangeEnd: 100,
+      valueForOrigin: 0
+    }
+  },
+  computed: {
+    chartConfig () {
+      return {
+        chart: {
+          margin: {
+            top: 30,
+            right: 30,
+            bottom: 30,
+            left: 200
+          }
+        },
+        axisGroups: [{
+          id: 'demo-linear-axis',
+          keyForValues: 'y',
+          position: {
+            type: CONSTANTS.AXIS.POSITIONS.left
+          },
+          scale: {
+            type: CONSTANTS.SCALES.SCALE_TYPES.linear,
+            valueForOrigin: this.valueForOrigin,
+            domain: {
+              start: this.domainRangeStart,
+              end: this.domainRangeEnd
+            }
+          },
+          ticks: {
+            count: this.tickNumber,
+            forceTickCount: true
+          }
+        }]
+      }
+    }
+  },
+  methods: {
+    randomizeData () {
+      this.domainRangeStart = _.random(-200, 200)
+      this.domainRangeEnd = _.random(-200, 200)
+      this.valueForOrigin = _.random(this.domainRangeStart, this.domainRangeEnd)
+      this.tickNumber = _.random(1, 10)
     }
   }
 }

@@ -11,19 +11,26 @@
         <geo-chart
           v-if="chartConfig && isGraphVisible"
           :config="chartConfig"
-          class2="u-geo-chart--hidden-axis"
         />
       </div>
       <geo-bordered-box
         v-if="isGraphVisible"
-        style="height: 100px"
+        style="height: fit-content"
       >
         <geo-bordered-box-header>
           Click on a dot to get info
         </geo-bordered-box-header>
-        <geo-list-item>
+        <div style="height: 100px">
           {{ popupText }}
-        </geo-list-item>
+        </div>
+        <geo-bordered-box-footer>
+          <geo-secondary-button
+            :disabled="!hasDotClicked"
+            @click="unclickDot"
+          >
+            Unclick dot
+          </geo-secondary-button>
+        </geo-bordered-box-footer>
       </geo-bordered-box>
     </div>
     <geo-primary-button @click="randomizeData()">
@@ -190,6 +197,12 @@ export default {
         this.hasDotClicked = true
         this.popupText = `x=${d.x} y=${d.y}`
       }
+    },
+
+    unclickDot () {
+      const dot = document.querySelector('.is-clicked')
+      const clickEvent = new MouseEvent('click')
+      dot.dispatchEvent(clickEvent)
     }
   }
 }
