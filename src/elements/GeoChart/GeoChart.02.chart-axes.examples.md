@@ -484,7 +484,7 @@ export default {
       this.domainRangeStart = _.random(-200, 200)
       this.domainRangeEnd = _.random(-200, 200)
       this.valueForOrigin = _.random(this.domainRangeStart, this.domainRangeEnd)
-      this.tickNumber = _.random(1, 10)
+      this.tickNumber = _.random(2, 10)
     }
   }
 }

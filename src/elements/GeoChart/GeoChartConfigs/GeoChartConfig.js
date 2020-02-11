@@ -232,10 +232,7 @@ export const axisConfigJsonSchema = {
           minimum: 0
         },
         forceTickCount: {
-          type: 'boolean',
-          default: function () {
-            return false
-          }
+          type: 'boolean'
         },
         // Function taking as first parameter an array of CSS classes that would
         // be set by default. Should return the array of CSS classes to be

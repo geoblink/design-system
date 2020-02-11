@@ -188,10 +188,10 @@ export function getAxis (singleAxisOptions) {
   const isTickCountForced = _.isFinite(tickCount)
 
   if (isTickCountForced) {
-    if (!isForcedCustomizedTick) {
+    if (!isForcedCustomizedTick || tickCount === 1) {
       d3Axis.ticks(tickCount)
     } else {
-      const axisDomain = singleAxisOptions.scale.axisScale.domain()
+      const axisDomain = scale.domain()
       const tickToDisplay = createCustomizedTickArray(_.first(axisDomain), _.last(axisDomain), tickCount)
       d3Axis.tickValues(tickToDisplay)
     }
@@ -411,13 +411,12 @@ function positionLabel (label, singleAxisOptions, globalAxesConfig) {
   }
 }
 
-function createCustomizedTickArray (firstOfDomain, lastOfDomain, tickCount) {
-  const tickToDisplay = new Array(tickCount)
+export function createCustomizedTickArray (firstOfDomain, lastOfDomain, tickCount) {
   const domainRange = Math.abs(firstOfDomain - lastOfDomain)
   const ticksStep = domainRange / (tickCount - 1)
-  _.times(tickToDisplay.length, (id) => {
-    tickToDisplay[id] = firstOfDomain < lastOfDomain
-      ? firstOfDomain + ticksStep * id
+  const tickToDisplay = _.map(_.times(tickCount), (id) => {
+    return firstOfDomain < lastOfDomain
+      ? firstOfDomain + (ticksStep * id)
       : firstOfDomain - (ticksStep * id)
   })
   return tickToDisplay

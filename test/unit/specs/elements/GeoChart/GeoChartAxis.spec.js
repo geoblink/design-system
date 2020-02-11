@@ -369,6 +369,59 @@ describe('GeoChartAxis', function () {
         expect(wrapper.find('.geo-chart-axis-label--left').exists()).toBe(true)
         expect(wrapper.find('.geo-chart-axis-label--left').text()).toBe('Test label')
       })
+
+      it('Should render correct number of ticks when forced', function () {
+        const tickCount = 5
+        const startDomain = 100
+        const endDomain = 0
+
+        const axisWithoutForcedTicks = _.merge({}, linearAxisConfig, {
+          ticks: {
+            count: tickCount
+          },
+          scale: {
+            domain: {
+              start: startDomain,
+              end: endDomain
+            }
+          },
+          position: { type: GeoChart.constants.AXIS.POSITIONS.left }
+        })
+
+        const axisWithForcedTicks = _.merge({}, axisWithoutForcedTicks)
+        axisWithForcedTicks.ticks.forceTickCount = true
+
+        const wrapper = mount(GeoChart, {
+          propsData: {
+            config: {
+              axisGroups: [axisWithoutForcedTicks]
+            }
+          }
+        })
+
+        const wrapper2 = mount(GeoChart, {
+          propsData: {
+            config: {
+              axisGroups: [axisWithForcedTicks]
+            }
+          }
+        })
+
+        flushD3Transitions()
+
+        expect(wrapper.find('.geo-chart').exists()).toBe(true)
+        expect(wrapper.find('.geo-chart-axis').exists()).toBe(true)
+        expect(wrapper.find('.geo-chart-axis .tick').exists()).toBe(true)
+        expect(wrapper.findAll('.geo-chart-axis .tick')).toHaveLength(tickCount + 1)
+
+        expect(wrapper2.find('.geo-chart').exists()).toBe(true)
+        expect(wrapper2.find('.geo-chart-axis').exists()).toBe(true)
+        expect(wrapper2.find('.geo-chart-axis .tick').exists()).toBe(true)
+        expect(wrapper2.findAll('.geo-chart-axis .tick')).toHaveLength(tickCount)
+
+        const ticksArray = [100, 75, 50, 25, 0]
+        expect(GeoChartAxis.createCustomizedTickArray(startDomain, endDomain, tickCount)).toMatchObject(ticksArray)
+      })
     })
 
     describe('Simply-positioned axes', function () {
