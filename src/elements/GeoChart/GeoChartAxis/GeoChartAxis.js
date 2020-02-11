@@ -415,9 +415,10 @@ export function createCustomizedTickArray (firstOfDomain, lastOfDomain, tickCoun
   const domainRange = Math.abs(firstOfDomain - lastOfDomain)
   const ticksStep = domainRange / (tickCount - 1)
   const tickToDisplay = _.map(_.times(tickCount), (id) => {
-    return firstOfDomain < lastOfDomain
+    return _.round(firstOfDomain < lastOfDomain
       ? firstOfDomain + (ticksStep * id)
       : firstOfDomain - (ticksStep * id)
+    , 3)
   })
   return tickToDisplay
 }
