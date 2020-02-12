@@ -17,7 +17,6 @@ New:
 
 - `GeoCalendar` Row containing day names is now properly aligned
 
-
 ## 29.4.0
 
 New:
