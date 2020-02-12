@@ -68,6 +68,7 @@ declare namespace GeoChart {
     cssClasses?: (originalClasses: string[]) => string[]
     ticks: {
       count?: number
+      forceTickCount?: boolean
       cssClasses?: (originalClasses: string[], value: Domain, index: number) => string[]
       format?: (d: object, i: number) => {
         text: string

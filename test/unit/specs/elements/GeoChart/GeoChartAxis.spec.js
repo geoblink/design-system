@@ -121,6 +121,33 @@ describe('GeoChartAxis', function () {
     })
   })
 
+  describe('#createCustomizedTickArray', function () {
+    it('With start domain bigger then end domain', function () {
+      const ticksArray = [100, 75, 50, 25, 0]
+      expect(GeoChartAxis.createCustomizedTickArray(100, 0, 5)).toMatchObject(ticksArray)
+    })
+    it('With negative domain', function () {
+      const ticksArray = [-20, -15, -10]
+      expect(GeoChartAxis.createCustomizedTickArray(-20, -10, 3)).toMatchObject(ticksArray)
+    })
+    it('With negative domain and start bigger then end', function () {
+      const ticksArray = [-100, -150, -200]
+      expect(GeoChartAxis.createCustomizedTickArray(-100, -200, 3)).toMatchObject(ticksArray)
+    })
+    it('With null domain', function () {
+      const ticksArray = [0, 0, 0]
+      expect(GeoChartAxis.createCustomizedTickArray(0, 0, 3)).toMatchObject(ticksArray)
+    })
+    it('With small domain', function () {
+      const ticksArray = [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1]
+      expect(GeoChartAxis.createCustomizedTickArray(0, 1, 11)).toMatchObject(ticksArray)
+    })
+    it('With no ticks', function () {
+      const ticksArray = []
+      expect(GeoChartAxis.createCustomizedTickArray(100, 200, 0)).toMatchObject(ticksArray)
+    })
+  })
+
   describe('#render', function () {
     const tickCount = 5
     const linearAxisConfig = {

@@ -267,6 +267,7 @@ function renderSingleGroup (group, d3TipInstance, singleGroupOptions, globalOpti
       .style('stroke', '#9B9B9B')
       .style('stroke-width', '8')
       .style('stroke-opacity', '0.4')
+      .classed('is-clicked', true)
   }
 
   function unclickedStyle (element, d) {
@@ -277,5 +278,6 @@ function renderSingleGroup (group, d3TipInstance, singleGroupOptions, globalOpti
       .style('stroke', 'white')
       .style('stroke-width', '2')
       .style('stroke-opacity', '1')
+      .classed('is-clicked', false)
   }
 }

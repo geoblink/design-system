@@ -1,11 +1,21 @@
 # Changelog
 
-## 29.4.1
+## 29.4.2
 
 Fix:
 
-- `GeoCalendar` Row containing day names is now properly aligned
+- label position in `GeoChartQuadrant`
+- handle click event from external component in `GeoChartScatterPlot`
 
+New:
+
+- `forceTickCount` in `ticks` property of `GeoChartAxis`
+
+## 29.4.1
+
+New:
+
+- `GeoCalendar` Row containing day names is now properly aligned
 
 ## 29.4.0
 

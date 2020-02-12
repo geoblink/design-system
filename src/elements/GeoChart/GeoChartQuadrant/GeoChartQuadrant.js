@@ -326,19 +326,19 @@ function renderQuadrantLabels (group, d3TipInstance, singleQuadrantOptions, allQ
     switch (d.id) {
       case QUADRANT_LABEL.topLeft:
         translation.x = axesMargin.left
-        translation.y = axesMargin.bottom - (DEFAULT_LINE_HEIGHT / 2)
+        translation.y = axesMargin.top - (DEFAULT_LINE_HEIGHT / 2)
         break
       case QUADRANT_LABEL.topRight:
-        translation.x = axesSize.width - textWidth
-        translation.y = axesMargin.bottom - (DEFAULT_LINE_HEIGHT / 2)
+        translation.x = axesSize.width - axesMargin.right - textWidth
+        translation.y = axesMargin.top - (DEFAULT_LINE_HEIGHT / 2)
         break
       case QUADRANT_LABEL.bottomLeft:
         translation.x = axesMargin.left
-        translation.y = axesSize.height - DEFAULT_LINE_HEIGHT
+        translation.y = axesSize.height - axesMargin.bottom + DEFAULT_LINE_HEIGHT
         break
       case QUADRANT_LABEL.bottomRight:
-        translation.x = axesSize.width - textWidth
-        translation.y = axesSize.height - DEFAULT_LINE_HEIGHT
+        translation.x = axesSize.width - axesMargin.right - textWidth
+        translation.y = axesSize.height - axesMargin.bottom + DEFAULT_LINE_HEIGHT
         break
     }
     return `translate(${translation.x}, ${translation.y})`

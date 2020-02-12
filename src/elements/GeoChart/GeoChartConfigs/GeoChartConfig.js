@@ -231,6 +231,9 @@ export const axisConfigJsonSchema = {
           type: ['integer', 'null'],
           minimum: 0
         },
+        forceTickCount: {
+          type: 'boolean'
+        },
         // Function taking as first parameter an array of CSS classes that would
         // be set by default. Should return the array of CSS classes to be
         // finally set. Some additional CSS classes required by D3 might be added

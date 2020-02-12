@@ -1,6 +1,4 @@
 
-$DEFAULT_LINE_HEIGHT: 12px;
-
 .geo-chart {
   &, svg {
     height: 100%;
@@ -40,25 +38,6 @@ $DEFAULT_LINE_HEIGHT: 12px;
 
 .geo-chart-quadrant-line {
   color: $color-blue;
-}
-
-.geo-chart-axis--with-quadrant {
-  .domain,
-  line {
-    display: none;
-  }
-  &.geo-chart-axis--left text {
-    transform: translate(-$DEFAULT_LINE_HEIGHT, 0)
-  }
-  &.geo-chart-axis--top text {
-    transform: translate(0, -$DEFAULT_LINE_HEIGHT)
-  }
-  &.geo-chart-axis--bottom text {
-    transform: translate(0, $DEFAULT_LINE_HEIGHT)
-  }
-  &.geo-chart-axis--right text {
-    transform: translate($DEFAULT_LINE_HEIGHT, 0)
-  }
 }
 
 .geo-chart-tooltip {
