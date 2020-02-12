@@ -1,6 +1,6 @@
 # Changelog
 
-## 29.4.1
+## 29.4.2
 
 Fix:
 
@@ -10,6 +10,13 @@ Fix:
 New:
 
 - `forceTickCount` in `ticks` property of `GeoChartAxis`
+
+## 29.4.1
+
+New:
+
+- `GeoCalendar` Row containing day names is now properly aligned
+
 
 ## 29.4.0
 
