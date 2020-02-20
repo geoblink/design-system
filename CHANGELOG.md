@@ -2,6 +2,12 @@
 
 ## 29.4.2
 
+New:
+
+- `GeoChartScatterPlot` returns coordinates on click event
+
+## 29.4.2
+
 Fix:
 
 - label position in `GeoChartQuadrant`
