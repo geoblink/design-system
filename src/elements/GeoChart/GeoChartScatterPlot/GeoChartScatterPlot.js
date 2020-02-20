@@ -255,8 +255,8 @@ function renderSingleGroup (group, d3TipInstance, singleGroupOptions, globalOpti
       unclickedStyle(dotToUnclick, previouslyClickedDot)
     }
 
-    let clickedDot = d3.select(this)
-    let dotCoordinates = [parseFloat(clickedDot.attr('cx')), parseFloat(clickedDot.attr('cy'))]
+    const clickedDot = d3.select(this)
+    const dotCoordinates = [parseFloat(clickedDot.attr('cx')), parseFloat(clickedDot.attr('cy'))]
     clickedStyle(clickedDot, d)
     return singleGroupOptions.onDotClick(d, d.index, dotCoordinates)
   }
