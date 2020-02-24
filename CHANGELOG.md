@@ -1,16 +1,16 @@
 # Changelog
 
+## 29.5.0
+
+New:
+
+- `GeoChartScatterPlot` returns coordinates on click event
+
 ## 29.4.3
 
 Changed:
 
 -`GeoTableSort` is now always visible
-
-## 29.4.2
-
-New:
-
-- `GeoChartScatterPlot` returns coordinates on click event
 
 ## 29.4.2
 
