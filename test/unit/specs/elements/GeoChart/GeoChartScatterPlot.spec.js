@@ -169,7 +169,6 @@ describe('GeoChartScatterPlot', function () {
     })
 
     it('Should return dot coordinates (array) on click', () => {
-
       const wrapper = mount(GeoChart, {
         propsData: {
           config: scatterPlotConfig
@@ -182,7 +181,6 @@ describe('GeoChartScatterPlot', function () {
       expect(mockHandleClick.mock.calls.length).toBe(1)
       expect(Array.isArray(mockHandleClick.mock.calls[0][2])).toBe(true)
       wrapper.destroy()
-
     })
   })
 })
