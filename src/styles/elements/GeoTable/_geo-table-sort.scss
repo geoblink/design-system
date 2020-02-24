@@ -3,7 +3,6 @@
   flex-direction: column;
   justify-content: center;
   margin-left: $space-small;
-  visibility: hidden;
 
   .geo-table-sort__button {
     color: $color-grey-light;
@@ -25,8 +24,4 @@
   .geo-table-sort__button--desc {
     margin-top: -1px;
   }
-}
-
-.geo-table-sort--active {
-  visibility: visible;
 }

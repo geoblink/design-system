@@ -1,5 +1,11 @@
 # Changelog
 
+## 29.4.3
+
+Changed:
+
+-`GeoTableSort` is now always visible
+
 ## 29.4.2
 
 New:
