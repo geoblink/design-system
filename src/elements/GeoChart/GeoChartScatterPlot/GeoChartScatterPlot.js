@@ -245,7 +245,7 @@ function renderSingleGroup (group, d3TipInstance, singleGroupOptions, globalOpti
 
     if (d.isClicked) {
       unclickedStyle(d3.select(this), d)
-      return singleGroupOptions.onDotClick(null, null)
+      return singleGroupOptions.onDotClick(null, null, null)
     }
 
     const previouslyClickedDot = getPreviouslyClickedDot()
