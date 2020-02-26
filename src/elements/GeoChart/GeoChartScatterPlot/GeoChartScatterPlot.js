@@ -245,7 +245,7 @@ function renderSingleGroup (group, d3TipInstance, singleGroupOptions, globalOpti
 
     if (d.isClicked) {
       unclickedStyle(d3.select(this), d)
-      return singleGroupOptions.onDotClick(null, null)
+      return singleGroupOptions.onDotClick(null, null, null)
     }
 
     const previouslyClickedDot = getPreviouslyClickedDot()
@@ -255,8 +255,10 @@ function renderSingleGroup (group, d3TipInstance, singleGroupOptions, globalOpti
       unclickedStyle(dotToUnclick, previouslyClickedDot)
     }
 
-    clickedStyle(d3.select(this), d)
-    return singleGroupOptions.onDotClick(d, d.index)
+    const clickedDot = d3.select(this)
+    const dotCoordinates = [parseFloat(clickedDot.attr('cx')), parseFloat(clickedDot.attr('cy'))]
+    clickedStyle(clickedDot, d)
+    return singleGroupOptions.onDotClick(d, d.index, dotCoordinates)
   }
 
   function clickedStyle (element, d) {

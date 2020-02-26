@@ -1,5 +1,11 @@
 # Changelog
 
+## 29.5.1
+
+New:
+
+- `GeoChartScatterPlot` returns coordinates on click event
+
 ## 29.4.3
 
 Changed:

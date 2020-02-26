@@ -48,6 +48,8 @@ const axisDimensions = {
   }
 }
 
+const mockHandleClick = jest.fn()
+
 describe('GeoChartScatterPlot', function () {
   const stubGetBBox = stubGetBBoxFactory()
   const stubGetScreenCTM = stubGetScreenCTMFactory()
@@ -96,6 +98,7 @@ describe('GeoChartScatterPlot', function () {
           idHorizontalAxis: numericalAxisConfig.id,
           mainDimension: GeoChart.constants.DIMENSIONS.DIMENSIONS_2D.horizontal,
           data: scatterPlotData,
+          onDotClick: mockHandleClick,
           getRadius: function () { return 4 },
           getFillColor: function (d, i) { return i < (mockDomain1 / 2) ? 'orange' : 'green' },
           tooltip: {
@@ -162,6 +165,21 @@ describe('GeoChartScatterPlot', function () {
       expect(wrapper.find('.geo-chart .geo-chart-scatter-plot-group--0 .geo-chart-scatter-plot__dot').exists()).toBe(true)
       expect(wrapper.findAll('.geo-chart .geo-chart-scatter-plot-group--0 .geo-chart-scatter-plot__dot')).toHaveLength(mockDomain2)
 
+      wrapper.destroy()
+    })
+
+    it('Should return dot coordinates (array) on click', () => {
+      const wrapper = mount(GeoChart, {
+        propsData: {
+          config: scatterPlotConfig
+        }
+      })
+
+      flushD3Transitions()
+
+      wrapper.find('.geo-chart .geo-chart-scatter-plot-group--0 .geo-chart-scatter-plot__dot').trigger('click')
+      expect(mockHandleClick.mock.calls.length).toBe(1)
+      expect(Array.isArray(mockHandleClick.mock.calls[0][2])).toBe(true)
       wrapper.destroy()
     })
   })
