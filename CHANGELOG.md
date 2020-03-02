@@ -1,5 +1,11 @@
 # Changelog
 
+## 29.5.2-beta.0
+
+New:
+
+- `GeoTable` font-family fix
+
 ## 29.5.1
 
 New:
