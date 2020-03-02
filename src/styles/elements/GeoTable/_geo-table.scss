@@ -1,5 +1,6 @@
 .geo-table {
   @include font($table-value);
+  font-family: Lato;
 
   background: $color-white;
   border: 1px solid $geo-table-border-color;
