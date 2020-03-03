@@ -24,6 +24,7 @@ See [axes](#chart-axes) for more info.
 - `groupKey` - property of your data that will be used to compute the radius of each one of the dots.
 - `onDotClick` - function executed when clicking on a dot. Only one dot can be clicked at the same time. When unclicking a dot, the function is executed with parameters (`null`, `null`)
 - `initiallyClickedIndex` - index of the dot that should be marked as clicked when the graph first loads
+- `blockMouseoverEvent` - boolean that blocks changes on the dot when having mouveover and mouseout events
 
 ### Tooltips
 

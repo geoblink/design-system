@@ -4,13 +4,13 @@
 
 Fix:
 
-- no mouse event when no action is possible on a dot in `GeoScatterPlot`
 - `cursor` is `default` when `onDotClicked` isn't defined in `GeoScatterPlot`
 
 New:
 
 - `initiallyClickedIndex` prop in `GeoScatterPlot`
 - `getOpacity` prop in `GeoScatterPlot`
+- `blockMouseoverEvent` prop in `GeoScatterPlot`
 - `trailingItems` slot in `GeoCollapsableBox`
 
 ## 29.5.1

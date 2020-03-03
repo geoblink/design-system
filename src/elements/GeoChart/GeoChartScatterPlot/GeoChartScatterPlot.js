@@ -276,7 +276,7 @@ function renderSingleGroup (group, d3TipInstance, singleGroupOptions, globalOpti
   }
 
   function handleMouseOver (d, i) {
-    if (!singleGroupOptions.tooltip && !singleGroupOptions.onDotClick) return
+    if (singleGroupOptions.blockMouseoverEvent) return
     if (d.isClicked) return
 
     d3.select(this)
@@ -286,7 +286,7 @@ function renderSingleGroup (group, d3TipInstance, singleGroupOptions, globalOpti
   }
 
   function handleMouseOut (d, i) {
-    if (!singleGroupOptions.tooltip && !singleGroupOptions.onDotClick) return
+    if (singleGroupOptions.blockMouseoverEvent) return
     if (d.isClicked) return
 
     d3.select(this)

@@ -103,6 +103,7 @@ export default {
             getRadius: this.getRadius,
             getFillColor: this.getFillColor,
             getOpacity: this.getOpacity,
+            blockMouseoverEvent: true,
             initiallyClickedIndex: 2
           }
         ]
