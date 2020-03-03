@@ -4,7 +4,7 @@
 
 Fix:
 
-- no mouse event when `tooltip` isn't defined in `GeoScatterPlot`
+- no mouse event when no action is possible on a dot in `GeoScatterPlot`
 - `cursor` is `default` when `onDotClicked` isn't defined in `GeoScatterPlot`
 
 New:
