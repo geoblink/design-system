@@ -20,8 +20,10 @@ See [axes](#chart-axes) for more info.
 
 - `getRadius` - function that gives the radius in pixels of each one of the dots of the graph. If no width is provided, a default radius of `2px` will be applied.
 - `getFillColor` - function that gives the color in which each dot of the graph should be displayed.
+- `getOpacity` - function that gives the opacity with which each dot of the graph should be displayed.
 - `groupKey` - property of your data that will be used to compute the radius of each one of the dots.
 - `onDotClick` - function executed when clicking on a dot. Only one dot can be clicked at the same time. When unclicking a dot, the function is executed with parameters (`null`, `null`)
+- `initiallyClickedIndex` - index of the dot that should be marked as clicked when the graph first loads
 
 ### Tooltips
 
