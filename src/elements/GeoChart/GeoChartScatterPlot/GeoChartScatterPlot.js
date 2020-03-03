@@ -64,6 +64,7 @@ const d3 = (function () {
 
 const DEFAULT_RADIUS = 1.5
 const DEFAULT_FILL_COLOR = '#69b3a2'
+const DEFAULT_OPACITY = 1
 
 export function render (d3Instance, d3TipInstance, options, globalOptions) {
   const scatterPlotBaseClass = 'geo-chart-scatter-plot-group'
@@ -141,19 +142,30 @@ function renderSingleGroup (group, d3TipInstance, singleGroupOptions, globalOpti
     .on('mouseover', handleMouseOver)
     .on('mouseout', handleMouseOut)
     .on('click', handleClick)
+    .classed('is-clicked', (d) => classed(d))
     .transition()
     .duration(globalOptions.chart.animationsDurationInMilliseconds)
-    .style('stroke', 'white')
-    .style('stroke-width', '2')
+    .style('stroke', (d) => stroke(d))
+    .style('stroke-width', (d) => strokeWidth(d))
+    .style('stroke-opacity', (d) => strokeOpacity(d))
     .attr('r', (d) => {
       return singleGroupOptions.groupKey
         ? radiusScale(d[singleGroupOptions.groupKey])
         : _.defaultTo(singleGroupOptions.getRadius(d, d.index), DEFAULT_RADIUS)
     })
+    .style('cursor', () => {
+      return singleGroupOptions.onDotClick
+        ? 'pointer'
+        : 'default'
+    })
     .style('fill', (d, i) => _.defaultTo(singleGroupOptions.getFillColor(d, d.index), DEFAULT_FILL_COLOR))
     .attr('cx', getCircleCoordinatesFactory('cx'))
     .attr('cy', getCircleCoordinatesFactory('cy'))
-    .style('opacity', 1)
+    .style('opacity', (d, i) => {
+      return singleGroupOptions.getOpacity
+        ? singleGroupOptions.getOpacity(d, d.index)
+        : DEFAULT_OPACITY
+    })
 
   dots
     .exit()
@@ -164,6 +176,31 @@ function renderSingleGroup (group, d3TipInstance, singleGroupOptions, globalOpti
     .remove()
 
   setupTooltipEventListeners(allDots, d3TipInstance, singleGroupOptions.tooltip)
+
+  function classed (d) {
+    if (d.index === singleGroupOptions.initiallyClickedIndex) {
+      d.isClicked = true
+    }
+    return d.index === singleGroupOptions.initiallyClickedIndex
+  }
+
+  function stroke (d) {
+    return d.index === singleGroupOptions.initiallyClickedIndex
+      ? '#9B9B9B'
+      : 'white'
+  }
+
+  function strokeWidth (d) {
+    return d.index === singleGroupOptions.initiallyClickedIndex
+      ? '8'
+      : '2'
+  }
+
+  function strokeOpacity (d) {
+    return d.index === singleGroupOptions.initiallyClickedIndex
+      ? '0.4'
+      : '1'
+  }
 
   function getSingleDotCSSClasses (d, i) {
     const defaultClasses = [
@@ -219,6 +256,7 @@ function renderSingleGroup (group, d3TipInstance, singleGroupOptions, globalOpti
   }
 
   function handleMouseOver (d, i) {
+    if (!singleGroupOptions.tooltip) return
     if (d.isClicked) return
 
     d3.select(this)
@@ -228,6 +266,7 @@ function renderSingleGroup (group, d3TipInstance, singleGroupOptions, globalOpti
   }
 
   function handleMouseOut (d, i) {
+    if (!singleGroupOptions.tooltip) return
     if (d.isClicked) return
 
     d3.select(this)

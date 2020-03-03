@@ -1,5 +1,18 @@
 # Changelog
 
+## 29.5.2
+
+Fix:
+
+- no mouse event when `tooltip` isn't defined in `GeoScatterPlot`
+- `cursor` is `default` when `onDotClicked` isn't defined in `GeoScatterPlot`
+
+New:
+
+- `initiallyClickedIndex` prop in `GeoScatterPlot`
+- `getOpacity` prop in `GeoScatterPlot`
+- `trailingItems` slot in `GeoCollapsableBox`
+
 ## 29.5.1
 
 New:

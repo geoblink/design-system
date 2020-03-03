@@ -810,11 +810,15 @@ export const scatterPlotConfigSchema = {
     },
     getRadius: {},
     getFillColor: {},
+    getOpacity: {},
     mainDimension: {
       type: 'string',
       enum: _.values(dimensionUtils.DIMENSIONS_2D)
     },
     onDotClick: {},
+    initiallyClickedIndex: {
+      type: 'number'
+    },
     tooltip: {
       required: ['content'],
       additionalProperties: false,

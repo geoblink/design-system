@@ -27,6 +27,12 @@
     transition: transform $easing-base $duration-noticeable;
   }
 
+  .geo-collapsable-box__trailing-items {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+  }
+
   .geo-collapsable-box__body {
     display: flex;
     flex-direction: row;

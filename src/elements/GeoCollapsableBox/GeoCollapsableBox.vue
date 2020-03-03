@@ -14,12 +14,19 @@
         <slot name="header" />
       </div>
 
-      <font-awesome-icon
-        :icon="toggleIcon"
-        class="geo-collapsable-box__toggle-icon"
-        fixed-width
-        aria-hidden
-      />
+      <div class="geo-collapsable-box__trailing-items">
+        <!-- @slot Use this slot to customize the content before the toggle icon-->
+        <div @click="toggle()">
+          <slot name="trailingItems" />
+        </div>
+
+        <font-awesome-icon
+          :icon="toggleIcon"
+          class="geo-collapsable-box__toggle-icon"
+          fixed-width
+          aria-hidden
+        />
+      </div>
     </header>
 
     <div
