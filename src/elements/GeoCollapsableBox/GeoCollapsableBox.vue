@@ -15,8 +15,8 @@
       </div>
 
       <div class="geo-collapsable-box__trailing-items">
-        <!-- @slot Use this slot to customize the content before the toggle icon-->
         <div @click="toggle()">
+           <!-- @slot Use this slot to customize the content before the toggle icon-->
           <slot name="trailingItems" />
         </div>
 
