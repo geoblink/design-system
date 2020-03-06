@@ -1,5 +1,17 @@
 # Changelog
 
+## 29.5.2
+
+Fix:
+
+- `cursor` is `default` when `onDotClicked` isn't defined in `GeoScatterPlot`
+
+New:
+
+- `getOpacity` prop in `GeoScatterPlot`
+- `blockMouseEvents` prop in `GeoScatterPlot`
+- `trailingItems` slot in `GeoCollapsableBox`
+
 ## 29.5.1
 
 New:

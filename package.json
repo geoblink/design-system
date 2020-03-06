@@ -1,6 +1,6 @@
 {
   "name": "@geoblink/design-system",
-  "version": "29.5.1",
+  "version": "29.5.2",
   "description": "Geoblink Design System for Vue.js",
   "author": "Geoblink <contact@geoblink.com>",
   "main": "dist/system.js",
@@ -42,7 +42,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://bitbucket.org/geoblink/geoblink-design-system.git"
+    "url": "git+https://github.com/geoblink/design-system"
   },
   "keywords": [
     "vue design system",

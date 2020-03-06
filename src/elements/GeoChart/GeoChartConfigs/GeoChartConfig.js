@@ -810,6 +810,10 @@ export const scatterPlotConfigSchema = {
     },
     getRadius: {},
     getFillColor: {},
+    getOpacity: {},
+    blockMouseEvents: {
+      type: 'boolean'
+    },
     mainDimension: {
       type: 'string',
       enum: _.values(dimensionUtils.DIMENSIONS_2D)

@@ -42,7 +42,9 @@ export default {
           mainDimension: singleScatterPlotGroupConfig.mainDimension,
           getRadius: singleScatterPlotGroupConfig.getRadius,
           getFillColor: singleScatterPlotGroupConfig.getFillColor,
+          getOpacity: singleScatterPlotGroupConfig.getOpacity,
           onDotClick: singleScatterPlotGroupConfig.onDotClick,
+          blockMouseEvents: singleScatterPlotGroupConfig.blockMouseEvents,
           tooltip: tooltipConfig,
           cssClasses: singleScatterPlotGroupConfig.cssClasses,
           groupKey: singleScatterPlotGroupConfig.groupKey
