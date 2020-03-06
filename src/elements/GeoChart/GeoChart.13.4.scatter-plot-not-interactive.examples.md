@@ -26,11 +26,10 @@ export default {
   data () {
     return {
       isGraphVisible: true,
-      randomValue: _.random(1, 50),
+      randomValue: _.random(5, 50),
       getRadius: function () { return 5 },
       getFillColor: function () { return 'blue' },
-      randomPartInGreen: _.random(0, this.randomValue),
-      randomPartInOrange: _.random(this.randomPartInGreen, this.randomValue)
+      initialIndex: 2
     }
   },
   computed: {
@@ -88,7 +87,7 @@ export default {
             bottom: 30,
             left: 50
           },
-          animationsDurationInMilliseconds: 800
+          animationsDurationInMilliseconds: 0
         },
         axisGroups: [
           this.linearAxisConfig,
@@ -103,14 +102,26 @@ export default {
             getRadius: this.getRadius,
             getFillColor: this.getFillColor,
             getOpacity: this.getOpacity,
-            blockMouseoverEvent: true,
-            initiallyClickedIndex: 2
+            onDotClick: this.onDotClick,
+            blockMouseEvents: true
           }
         ]
       }
     }
   },
+  mounted () {
+    this.$nextTick(function () {
+      this.manualClick()
+    })
+  },
   methods: {
+    manualClick () {
+      const dotToClick = _.last(document.querySelectorAll(`.geo-chart-scatter-plot__dot--${this.initialIndex}`))
+      if (!dotToClick) return
+      const clickEvent = new MouseEvent('click')
+      dotToClick.dispatchEvent(clickEvent)
+    },
+
     toggleGraph () {
       this.isGraphVisible = !this.isGraphVisible
     },
@@ -121,10 +132,12 @@ export default {
         : 0.2
     },
 
+    onDotClick (d, i) {
+      return _.get(d, 'index') === this.initialIndex ? CONSTANTS.FOCUS_ON_DOT : null
+    },
+
     randomizeData () {
       this.randomValue = _.random(10, 50)
-      this.randomPartInGreen = _.random(0, this.randomValue)
-      this.randomPartInOrange = _.random(this.randomPartInGreen, this.randomValue)
     }
   }
 }

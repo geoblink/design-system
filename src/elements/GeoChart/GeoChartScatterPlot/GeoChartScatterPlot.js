@@ -5,6 +5,7 @@ import _ from 'lodash'
 import * as dimensionUtils from '../GeoChartUtils/dimensionUtils'
 
 import { setupTooltipEventListeners } from '../GeoChartUtils/GeoChartTooltip'
+import { FOCUS_ON_DOT } from '../constants.js'
 
 const d3 = (function () {
   try {
@@ -128,7 +129,7 @@ function renderSingleGroup (group, d3TipInstance, singleGroupOptions, globalOpti
 
   _.each(singleGroupOptions.data, (dot, i) => {
     dot.index = i
-    dot.isClicked = singleGroupOptions.initiallyClickedIndex === i
+    dot.isClicked = false
   })
 
   const radiusScale = d3.scaleSqrt()
@@ -143,7 +144,6 @@ function renderSingleGroup (group, d3TipInstance, singleGroupOptions, globalOpti
     .enter()
     .append('circle')
     .attr('class', getSingleDotCSSClasses)
-    .attr('cursor', 'pointer')
     .attr('r', 0)
     .style('opacity', 0)
     .attr('cx', getCircleCoordinatesFactory('cx'))
@@ -156,9 +156,14 @@ function renderSingleGroup (group, d3TipInstance, singleGroupOptions, globalOpti
     .on('mouseover', handleMouseOver)
     .on('mouseout', handleMouseOut)
     .on('click', handleClick)
-    .classed('is-clicked', (d) => classed(d))
-    .transition()
-    .duration(globalOptions.chart.animationsDurationInMilliseconds)
+
+  const allDotsAfterTransition = globalOptions.chart.animationsDurationInMilliseconds
+    ? allDots
+      .transition()
+      .duration(globalOptions.chart.animationsDurationInMilliseconds)
+    : allDots
+
+  allDotsAfterTransition
     .attr('style', (d) => applyStyle(d))
     .attr('r', (d) => {
       return singleGroupOptions.groupKey
@@ -178,48 +183,48 @@ function renderSingleGroup (group, d3TipInstance, singleGroupOptions, globalOpti
 
   setupTooltipEventListeners(allDots, d3TipInstance, singleGroupOptions.tooltip)
 
-  function applyStyle (d) {
-    const color = `fill: ${_.defaultTo(singleGroupOptions.getFillColor(d, d.index), DEFAULT_FILL_COLOR)};`
-    return `${color} ${cursor(d)} ${opacity(d)} ${stroke(d)} ${strokeWidth(d)} ${strokeOpacity(d)}`
-  }
+  function applyStyle (d, from) {
+    return `${fill(d)} ${cursor(d)} ${opacity(d)} ${stroke(d)} ${strokeWidth(d)} ${strokeOpacity(d)}`
 
-  function classed (d) {
-    return d.index === singleGroupOptions.initiallyClickedIndex
-  }
+    function fill (d) {
+      const value = _.defaultTo(singleGroupOptions.getFillColor(d, d.index), DEFAULT_FILL_COLOR)
+      return `fill: ${value};`
+    }
 
-  function stroke (d) {
-    const value = d.index === singleGroupOptions.initiallyClickedIndex
-      ? CLICKED_STYLE.stroke
-      : DEFAULT_STYLE.stroke
-    return `stroke: ${value};`
-  }
+    function opacity (d) {
+      const value = _.isFunction(singleGroupOptions.getOpacity)
+        ? singleGroupOptions.getOpacity(d, d.index)
+        : DEFAULT_OPACITY
+      return `opacity: ${value};`
+    }
 
-  function strokeWidth (d) {
-    const value = d.index === singleGroupOptions.initiallyClickedIndex
-      ? CLICKED_STYLE.stroke_width
-      : DEFAULT_STYLE.stroke_width
-    return `stroke-width: ${value};`
-  }
+    function cursor (d) {
+      const value = singleGroupOptions.blockMouseEvents
+        ? 'default'
+        : 'pointer'
+      return `cursor: ${value};`
+    }
 
-  function strokeOpacity (d) {
-    const value = d.index === singleGroupOptions.initiallyClickedIndex
-      ? CLICKED_STYLE.stroke_opacity
-      : DEFAULT_STYLE.stroke_opacity
-    return `stroke-opacity: ${value};`
-  }
+    function stroke (d) {
+      const value = d.isClicked
+        ? CLICKED_STYLE.stroke
+        : DEFAULT_STYLE.stroke
+      return `stroke: ${value};`
+    }
 
-  function opacity (d) {
-    const value = singleGroupOptions.getOpacity
-      ? singleGroupOptions.getOpacity(d, d.index)
-      : DEFAULT_OPACITY
-    return `opacity: ${value};`
-  }
+    function strokeWidth (d) {
+      const value = d.isClicked
+        ? CLICKED_STYLE.stroke_width
+        : DEFAULT_STYLE.stroke_width
+      return `stroke-width: ${value};`
+    }
 
-  function cursor (d) {
-    const value = singleGroupOptions.onDotClick
-      ? 'pointer'
-      : 'default'
-    return `cursor: ${value};`
+    function strokeOpacity (d) {
+      const value = d.isClicked
+        ? CLICKED_STYLE.stroke_opacity
+        : DEFAULT_STYLE.stroke_opacity
+      return `stroke-opacity: ${value};`
+    }
   }
 
   function getSingleDotCSSClasses (d, i) {
@@ -276,7 +281,7 @@ function renderSingleGroup (group, d3TipInstance, singleGroupOptions, globalOpti
   }
 
   function handleMouseOver (d, i) {
-    if (singleGroupOptions.blockMouseoverEvent) return
+    if (singleGroupOptions.blockMouseEvents) return
     if (d.isClicked) return
 
     d3.select(this)
@@ -286,7 +291,7 @@ function renderSingleGroup (group, d3TipInstance, singleGroupOptions, globalOpti
   }
 
   function handleMouseOut (d, i) {
-    if (singleGroupOptions.blockMouseoverEvent) return
+    if (singleGroupOptions.blockMouseEvents) return
     if (d.isClicked) return
 
     d3.select(this)
@@ -301,6 +306,7 @@ function renderSingleGroup (group, d3TipInstance, singleGroupOptions, globalOpti
 
   function handleClick (d, i) {
     if (!_.isFunction(singleGroupOptions.onDotClick)) return
+    if (singleGroupOptions.blockMouseEvents && singleGroupOptions.onDotClick(d, d.index) !== FOCUS_ON_DOT) return
 
     if (d.isClicked) {
       unclickedStyle(d3.select(this), d)
@@ -321,24 +327,16 @@ function renderSingleGroup (group, d3TipInstance, singleGroupOptions, globalOpti
   }
 
   function clickedStyle (element, d) {
-    const color = _.defaultTo(singleGroupOptions.getFillColor(d, d.index), DEFAULT_FILL_COLOR)
     d.isClicked = true
     element
-      .style('fill', color)
-      .style('stroke', CLICKED_STYLE.stroke)
-      .style('stroke-width', CLICKED_STYLE.stroke_width)
-      .style('stroke-opacity', CLICKED_STYLE.stroke_opacity)
+      .attr('style', (d) => applyStyle(d))
       .classed('is-clicked', true)
   }
 
   function unclickedStyle (element, d) {
-    const color = _.defaultTo(singleGroupOptions.getFillColor(d, d.index), DEFAULT_FILL_COLOR)
     d.isClicked = false
     element
-      .style('fill', color)
-      .style('stroke', DEFAULT_STYLE.stroke)
-      .style('stroke-width', DEFAULT_STYLE.stroke_width)
-      .style('stroke-opacity', DEFAULT_STYLE.stroke_opacity)
+      .attr('style', (d) => applyStyle(d))
       .classed('is-clicked', false)
   }
 }

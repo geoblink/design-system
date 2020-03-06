@@ -23,8 +23,11 @@ See [axes](#chart-axes) for more info.
 - `getOpacity` - function that gives the opacity with which each dot of the graph should be displayed.
 - `groupKey` - property of your data that will be used to compute the radius of each one of the dots.
 - `onDotClick` - function executed when clicking on a dot. Only one dot can be clicked at the same time. When unclicking a dot, the function is executed with parameters (`null`, `null`)
-- `initiallyClickedIndex` - index of the dot that should be marked as clicked when the graph first loads
-- `blockMouseoverEvent` - boolean that blocks changes on the dot when having mouveover and mouseout events
+- `blockMouseEvents` - boolean that blocks changes on the dot when having mouveover, mouseout and click events
+
+::: tip
+If `blockMouseEvents` is set to true but you want a specific dot to be already clicked when rendering the graph, you can return `CONSTANT.FOCUS_ON_DOT` in the `onDotClick` function for this specific dot.
+:::
 
 ### Tooltips
 

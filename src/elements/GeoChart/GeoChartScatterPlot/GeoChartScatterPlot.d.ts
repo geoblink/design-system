@@ -1,8 +1,7 @@
 declare namespace GeoChart {
   interface ScatterPlotGroupConfig<HorizontalDomain, VerticalDomain> extends BidimensionalGroupConfig<HorizontalDomain, VerticalDomain> {
     data: [number, number][]
-    initiallyClickedIndex?: number
-    blockMouseoverEvent?: boolean
+    blockMouseEvents?: boolean
     getRadius?: (item: object, index: number) => string | number | null | undefined
     getFillColor?: (item: object, index: number) => string | null | undefined
     getOpacity?: (item: object, index: number) => string | number | null | undefined

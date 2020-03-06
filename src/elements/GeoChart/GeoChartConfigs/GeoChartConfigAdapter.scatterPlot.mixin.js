@@ -44,8 +44,7 @@ export default {
           getFillColor: singleScatterPlotGroupConfig.getFillColor,
           getOpacity: singleScatterPlotGroupConfig.getOpacity,
           onDotClick: singleScatterPlotGroupConfig.onDotClick,
-          blockMouseoverEvent: singleScatterPlotGroupConfig.blockMouseoverEvent,
-          initiallyClickedIndex: singleScatterPlotGroupConfig.initiallyClickedIndex,
+          blockMouseEvents: singleScatterPlotGroupConfig.blockMouseEvents,
           tooltip: tooltipConfig,
           cssClasses: singleScatterPlotGroupConfig.cssClasses,
           groupKey: singleScatterPlotGroupConfig.groupKey

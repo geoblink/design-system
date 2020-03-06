@@ -8,9 +8,8 @@ Fix:
 
 New:
 
-- `initiallyClickedIndex` prop in `GeoScatterPlot`
 - `getOpacity` prop in `GeoScatterPlot`
-- `blockMouseoverEvent` prop in `GeoScatterPlot`
+- `blockMouseEvents` prop in `GeoScatterPlot`
 - `trailingItems` slot in `GeoCollapsableBox`
 
 ## 29.5.1

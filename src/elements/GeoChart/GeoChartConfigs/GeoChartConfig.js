@@ -811,7 +811,7 @@ export const scatterPlotConfigSchema = {
     getRadius: {},
     getFillColor: {},
     getOpacity: {},
-    blockMouseoverEvent: {
+    blockMouseEvents: {
       type: 'boolean'
     },
     mainDimension: {
@@ -819,9 +819,6 @@ export const scatterPlotConfigSchema = {
       enum: _.values(dimensionUtils.DIMENSIONS_2D)
     },
     onDotClick: {},
-    initiallyClickedIndex: {
-      type: 'number'
-    },
     tooltip: {
       required: ['content'],
       additionalProperties: false,
