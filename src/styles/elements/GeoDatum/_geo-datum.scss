@@ -1,0 +1,49 @@
+
+.geo-datum{
+  border-radius: $border-radius-default;
+}
+
+.geo-datum--is-primary .geo-datum__value, .geo-datum--is-primary .geo-datum__unit{
+  @include font($display-medium);
+  color: #545454;
+  display: inline-block;
+}
+
+.geo-datum--is-primary .geo-datum__description{
+  @include font($body-small);
+  color: $color-grey-darker;
+  margin-top: 3px;
+}
+
+.geo-datum--is-primary.geo-datum--red .geo-datum__value, .geo-datum--is-primary.geo-datum--red .geo-datum__unit{
+  color: $color-red;
+}
+
+.geo-datum--is-primary.geo-datum--yellow .geo-datum__value, .geo-datum--is-primary.geo-datum--yellow .geo-datum__unit{
+  color: $color-yellow;
+}
+
+.geo-datum--is-primary.geo-datum--green .geo-datum__value, .geo-datum--is-primary.geo-datum--yellow .geo-datum__unit{
+  color: $color-green;
+}
+
+.geo-datum--is-secondary .geo-datum__row{
+  display: inline-block;
+}
+
+.geo-datum--is-secondary.geo-datum--red{
+  background-color: $color-red;
+}
+
+.geo-datum--is-secondary.geo-datum--yellow{
+  background-color: $color-yellow;
+}
+
+.geo-datum--is-secondary.geo-datum--green{
+  background-color: $color-green;
+}
+
+.geo-datum--is-secondary .geo-datum__value, .geo-datum--is-secondary .geo-datum__unit, .geo-datum--is-secondary .geo-datum__description{
+  @include font($body-small);
+  display: inline-block;
+}
