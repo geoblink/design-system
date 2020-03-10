@@ -126,6 +126,7 @@ export function render (d3Instance, d3TipInstance, options, globalOptions) {
 
 function renderSingleGroup (group, d3TipInstance, singleGroupOptions, globalOptions, d3Instance) {
   const singleDotBaseClass = 'geo-chart-scatter-plot__dot'
+  const animationsDuration = _.defaultTo(singleGroupOptions.animationsDuration, globalOptions.chart.animationsDurationInMilliseconds)
 
   _.each(singleGroupOptions.data, (dot, i) => {
     dot.index = i
@@ -157,10 +158,10 @@ function renderSingleGroup (group, d3TipInstance, singleGroupOptions, globalOpti
     .on('mouseout', handleMouseOut)
     .on('click', handleClick)
 
-  const allDotsAfterTransition = globalOptions.chart.animationsDurationInMilliseconds
+  const allDotsAfterTransition = animationsDuration
     ? allDots
       .transition()
-      .duration(globalOptions.chart.animationsDurationInMilliseconds)
+      .duration(animationsDuration)
     : allDots
 
   allDotsAfterTransition
@@ -176,7 +177,7 @@ function renderSingleGroup (group, d3TipInstance, singleGroupOptions, globalOpti
   dots
     .exit()
     .transition()
-    .duration(globalOptions.chart.animationsDurationInMilliseconds)
+    .duration(animationsDuration)
     .attr('r', 0)
     .style('opacity', 0)
     .remove()

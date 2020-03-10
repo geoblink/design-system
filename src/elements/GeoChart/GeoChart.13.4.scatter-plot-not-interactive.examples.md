@@ -87,7 +87,7 @@ export default {
             bottom: 30,
             left: 50
           },
-          animationsDurationInMilliseconds: 0
+          animationsDurationInMilliseconds: 800
         },
         axisGroups: [
           this.linearAxisConfig,
@@ -103,7 +103,8 @@ export default {
             getFillColor: this.getFillColor,
             getOpacity: this.getOpacity,
             onDotClick: this.onDotClick,
-            blockMouseEvents: true
+            blockMouseEvents: true,
+            animationsDuration: 0
           }
         ]
       }
@@ -124,6 +125,11 @@ export default {
 
     toggleGraph () {
       this.isGraphVisible = !this.isGraphVisible
+      if (this.isGraphVisible) {
+        this.$nextTick(function () {
+          this.manualClick()
+        })
+      }
     },
 
     getOpacity (d, i) {

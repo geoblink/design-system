@@ -1,5 +1,11 @@
 # Changelog
 
+## 29.5.4
+
+New:
+
+- `animationsDuration` prop to have a specific animation time for `GeoScatterPlot`
+
 ## 29.5.3
 
 Fix:
