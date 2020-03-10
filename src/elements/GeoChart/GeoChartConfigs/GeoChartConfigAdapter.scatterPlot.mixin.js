@@ -45,6 +45,7 @@ export default {
           getOpacity: singleScatterPlotGroupConfig.getOpacity,
           onDotClick: singleScatterPlotGroupConfig.onDotClick,
           blockMouseEvents: singleScatterPlotGroupConfig.blockMouseEvents,
+          animationsDuration: singleScatterPlotGroupConfig.animationsDuration,
           tooltip: tooltipConfig,
           cssClasses: singleScatterPlotGroupConfig.cssClasses,
           groupKey: singleScatterPlotGroupConfig.groupKey
