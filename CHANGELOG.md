@@ -1,5 +1,11 @@
 # Changelog
 
+## 29.5.3
+
+Fix:
+
+- cursor is `not-allowed` when `GeoDropdownRegularButton` is `disabled`
+
 ## 29.5.2
 
 Fix:

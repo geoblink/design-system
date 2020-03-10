@@ -32,6 +32,8 @@
 }
 
 .geo-dropdown__regular-button-container--disabled {
+  cursor: not-allowed;
+
   &, &:hover, &[hover] {
     background-color: $color-white-dark;
     border-color: $color-grey;
