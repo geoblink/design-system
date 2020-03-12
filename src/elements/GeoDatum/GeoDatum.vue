@@ -2,54 +2,53 @@
   <div
     class="geo-datum"
     :class="[`geo-datum${valueCSSSuffix}`,{
-      'geo-datum--is-primary' : isPrimaryValue,
-      'geo-datum--is-secondary' : !isPrimaryValue,
+      'geo-datum--is-primary' : data.isPrimary,
+      'geo-datum--is-secondary' : !data.isPrimary,
     }]"
   >
-    <div class="geo-datum__row">
+    <div class="geo-datum__column">
       <font-awesome-icon
-        v-if="warningTooltip"
-        :icon="statusIcon"
-        :style="statusIconStyle"
-        fixed-width
-        aria-hidden
+        v-if="data.warningTooltip"
+        ref="warningTooltipIcon"
+        class="geo-datum__warning-tooltip-icon"
+        data-tooltip-id="warningTooltipIcon"
+        :icon="['fas', 'exclamation-triangle']"
       />
-      <!--<geo-tooltip
-        :visible="isWarningTooltipVisible"
-        :position="tooltipPosition"
-        :alignment="tooltipAlignment"
-      >
-        <div ref="tooltipWarningContent" />
-      </geo-tooltip>-->
-      <span
-        class="geo-datum__value"
-      >
-        {{ value }}
-      </span>
-      <span
-        v-if="unit"
-        class="geo-datum__unit"
-      >
-        {{ unit }}
-      </span>
-    </div>
-    <div class="geo-datum__row">
-      <span
-        v-if="description"
-        class="geo-datum__description"
-        :style="colorHighlight"
-      >
-        {{ description }}
-      </span>
-      <font-awesome-icon
-        ref="descriptionTooltipIcon"
-        class="geo-datum__description-tooltip-icon"
-        data-tooltip-id="descriptionTooltipIcon"
-        :icon="['fas', 'info-circle']"
-      />
-      <geo-tooltip :forced-trigger-target="descriptionTooltipIcon">
-        {{ descriptionTooltip }}
+      <geo-tooltip :forced-trigger-target="warningTooltipIcon">
+        {{ data.warningTooltip }}
       </geo-tooltip>
+    </div>
+    <div class="geo-datum__column">
+      <div class="geo-datum__row">
+        <span
+          class="geo-datum__value"
+        >
+          {{ data.value }}
+        </span>
+        <span
+          v-if="data.unit"
+          class="geo-datum__unit"
+        >
+          {{ data.unit }}
+        </span>
+      </div>
+      <div class="geo-datum__row">
+        <span
+          v-if="data.description"
+          class="geo-datum__description"
+        >
+          {{ data.description }}
+        </span>
+        <font-awesome-icon
+          ref="descriptionTooltipIcon"
+          class="geo-datum__description-tooltip-icon"
+          data-tooltip-id="descriptionTooltipIcon"
+          :icon="['fas', 'info-circle']"
+        />
+        <geo-tooltip :forced-trigger-target="descriptionTooltipIcon">
+          {{ data.descriptionTooltip }}
+        </geo-tooltip>
+      </div>
     </div>
   </div>
 </template>
@@ -70,73 +69,33 @@ export default {
   release: 'CHANGE ME',
   props: {
     /**
-     * Tooltip warning text
+     * Object containing all the datum data
      */
-    warningTooltip: {
-      type: String,
-      required: false
-    },
-    /**
-     * datum variable value
-     */
-    value: {
-      type: String,
-      required: true
-    },
-    /**
-     * datum Unit symbol
-     */
-    unit: {
-      type: String,
-      required: false
-    },
-    /**
-     * datum description text
-     */
-    description: {
-      type: String,
-      required: false
-    },
-    /**
-     * datum description text
-     */
-    descriptionTooltip: {
-      type: String,
-      required: false
-    },
-    /**
-     * datum is primary or not
-     */
-    isPrimaryValue: {
-      type: Boolean,
-      required: true
-    },
-    /**
-     * datum color highlight
-     */
-    colorHighlight: {
-      type: String,
-      required: false,
-      validator (value) {
-        return value in TEXT_MODIFIERS
+    data: {
+      type: Object,
+      required: true,
+      validator (data) {
+        return data.value
       }
     }
   },
   data () {
     return {
-      descriptionTooltipIcon: null
+      descriptionTooltipIcon: null,
+      warningTooltipIcon: null
     }
   },
   computed: {
     isDescriptionTooltipVisible () {
-      return !!this.descriptionTooltip || false
+      return !!this.data.descriptionTooltip || false
     },
     valueCSSSuffix () {
-      return this.colorHighlight ? `--${this.colorHighlight}` : ''
+      return this.data.colorHighlight ? `--${this.data.colorHighlight}` : ''
     }
   },
   mounted () {
     this.descriptionTooltipIcon = this.$refs.descriptionTooltipIcon
+    this.warningTooltipIcon = this.$refs.warningTooltipIcon
   },
   methods: {
 

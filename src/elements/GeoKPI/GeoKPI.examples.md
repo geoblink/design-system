@@ -1,5 +1,5 @@
 
-```vue live
+<!--```vue live
 <template>
   <div class="element-demo">
     <div class="element-demo__block">
@@ -24,4 +24,4 @@ export default {
   }
 }
 </script>
-```
+```-->

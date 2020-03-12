@@ -1,9 +1,14 @@
 
 ```vue live
-<!--<template>
+<template>
   <div class="element-demo">
     <div class="element-demo__block">
-      <geo-datum></geo-datum>
+      <geo-datum
+        :data="datumData"
+      />
+      <geo-datum
+        :data="datumData2"
+      />
     </div>
   </div>
 </template>
@@ -13,7 +18,23 @@ export default {
   name: 'GeoDatumDemo',
   data () {
     return {
-
+      datumData: {
+        value: "27th of 73",
+        isPrimary: true,
+        unit: "",
+        description:"Es mayor que la media de tiendas",
+        descriptionTooltip:"Es mayor que la media de tiendas",
+        colorHighlight:"green",
+        warningTooltip:"haha"
+      },
+      datumData2: {
+        value: "27th of 73",
+        isPrimary: false,
+        unit: "",
+        description:"Es mayor que la media de tiendas",
+        descriptionTooltip:"Es mayor que la media de tiendas",
+        colorHighlight:"green"
+      }
     }
   },
   computed: {
@@ -23,38 +44,5 @@ export default {
 
   }
 }
-</script>-->
-```
-
-### Primary value
-
-```jsx live
-<div class="element-demo">
-  <div class="element-demo__block">
-    <geo-datum
-      value="27th of 73"
-      :isPrimaryValue="true"
-      unit=""
-      description="Es mayor que la media de tiendas"
-      descriptionTooltip="Es mayor que la media de tiendas"
-      colorHighlight="green"
-    />
-  </div>
-</div>
-```
-
-### Secondary value
-```jsx live
-<div class="element-demo">
-  <div class="element-demo__block">
-    <geo-datum
-      value="32892"
-      :isPrimaryValue="false"
-      unit="€"
-      description="Es mayor que la media de tiendas"
-      descriptionTooltip="Es mayor que la media de tiendas"
-      colorHighlight=""
-    />
-  </div>
-</div>
+</script>
 ```

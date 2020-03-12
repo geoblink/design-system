@@ -3,6 +3,10 @@
   border-radius: $border-radius-default;
 }
 
+.geo-datum__column{
+  display: inline-block;
+}
+
 .geo-datum--is-primary .geo-datum__value, .geo-datum--is-primary .geo-datum__unit{
   @include font($display-medium);
   color: #545454;
