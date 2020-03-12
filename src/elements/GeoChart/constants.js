@@ -25,6 +25,8 @@ export const NICES = {
   NICE_TYPES: scaleUtils.NICE_TYPES
 }
 
+export const FOCUS_ON_DOT = 'focus'
+
 export const QUADRANT_LABEL = {
   topLeft: 'topLeft',
   topRight: 'topRight',

@@ -14,14 +14,40 @@
 
 #### Initially collapsed
 
-```jsx live
-<div class="element-demo">
-  <div class="element-demo__block">
-    <geo-collapsable-box initially-collapsed>
-      <template slot="header">The header</template>
+```vue live
+<template>
+  <div class="element-demo">
+    <div class="element-demo__block">
+      <geo-collapsable-box initially-collapsed>
+        <template slot="header">{{ headerText }}</template>
 
-      This content can be toggled in and out.
-    </geo-collapsable-box>
+        <font-awesome-icon
+          slot="trailingItems"
+          :icon="['fas', 'pencil-alt']"
+          style="margin-right: 5px;"
+          @click="changeHeader()"
+        />
+        This content can be toggled in and out.
+      </geo-collapsable-box>
+    </div>
   </div>
-</div>
+</template>
+
+<script>
+export default {
+  data () {
+    return {
+      headerText: "The header",
+    }
+  },
+  methods: {
+    changeHeader () {
+      this.headerText = this.headerText === "The header"
+        ? "A new header"
+        : "The header"
+    }
+  }
+}
+
+</script>
 ```

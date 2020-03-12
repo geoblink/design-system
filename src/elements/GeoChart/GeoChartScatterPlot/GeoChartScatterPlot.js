@@ -5,6 +5,7 @@ import _ from 'lodash'
 import * as dimensionUtils from '../GeoChartUtils/dimensionUtils'
 
 import { setupTooltipEventListeners } from '../GeoChartUtils/GeoChartTooltip'
+import { FOCUS_ON_DOT } from '../constants.js'
 
 const d3 = (function () {
   try {
@@ -64,6 +65,21 @@ const d3 = (function () {
 
 const DEFAULT_RADIUS = 1.5
 const DEFAULT_FILL_COLOR = '#69b3a2'
+const DEFAULT_OPACITY = 1
+const CLICKED_STYLE = {
+  stroke: '#9B9B9B',
+  stroke_width: '8',
+  stroke_opacity: '0.4'
+}
+const DEFAULT_STYLE = {
+  stroke: 'white',
+  stroke_width: '2',
+  stroke_opacity: '1'
+}
+const ON_OVER_STYLE = {
+  fill: 'white',
+  stroke_width: '3'
+}
 
 export function render (d3Instance, d3TipInstance, options, globalOptions) {
   const scatterPlotBaseClass = 'geo-chart-scatter-plot-group'
@@ -110,6 +126,7 @@ export function render (d3Instance, d3TipInstance, options, globalOptions) {
 
 function renderSingleGroup (group, d3TipInstance, singleGroupOptions, globalOptions, d3Instance) {
   const singleDotBaseClass = 'geo-chart-scatter-plot__dot'
+  const animationsDuration = _.defaultTo(singleGroupOptions.animationsDuration, globalOptions.chart.animationsDurationInMilliseconds)
 
   _.each(singleGroupOptions.data, (dot, i) => {
     dot.index = i
@@ -128,7 +145,6 @@ function renderSingleGroup (group, d3TipInstance, singleGroupOptions, globalOpti
     .enter()
     .append('circle')
     .attr('class', getSingleDotCSSClasses)
-    .attr('cursor', 'pointer')
     .attr('r', 0)
     .style('opacity', 0)
     .attr('cx', getCircleCoordinatesFactory('cx'))
@@ -141,29 +157,76 @@ function renderSingleGroup (group, d3TipInstance, singleGroupOptions, globalOpti
     .on('mouseover', handleMouseOver)
     .on('mouseout', handleMouseOut)
     .on('click', handleClick)
-    .transition()
-    .duration(globalOptions.chart.animationsDurationInMilliseconds)
-    .style('stroke', 'white')
-    .style('stroke-width', '2')
+
+  const allDotsAfterTransition = animationsDuration
+    ? allDots
+      .transition()
+      .duration(animationsDuration)
+    : allDots
+
+  allDotsAfterTransition
+    .attr('style', (d) => applyStyle(d))
     .attr('r', (d) => {
       return singleGroupOptions.groupKey
         ? radiusScale(d[singleGroupOptions.groupKey])
         : _.defaultTo(singleGroupOptions.getRadius(d, d.index), DEFAULT_RADIUS)
     })
-    .style('fill', (d, i) => _.defaultTo(singleGroupOptions.getFillColor(d, d.index), DEFAULT_FILL_COLOR))
     .attr('cx', getCircleCoordinatesFactory('cx'))
     .attr('cy', getCircleCoordinatesFactory('cy'))
-    .style('opacity', 1)
 
   dots
     .exit()
     .transition()
-    .duration(globalOptions.chart.animationsDurationInMilliseconds)
+    .duration(animationsDuration)
     .attr('r', 0)
     .style('opacity', 0)
     .remove()
 
   setupTooltipEventListeners(allDots, d3TipInstance, singleGroupOptions.tooltip)
+
+  function applyStyle (d, from) {
+    return `${fill(d)} ${cursor(d)} ${opacity(d)} ${stroke(d)} ${strokeWidth(d)} ${strokeOpacity(d)}`
+
+    function fill (d) {
+      const value = _.defaultTo(singleGroupOptions.getFillColor(d, d.index), DEFAULT_FILL_COLOR)
+      return `fill: ${value};`
+    }
+
+    function opacity (d) {
+      const value = _.isFunction(singleGroupOptions.getOpacity)
+        ? singleGroupOptions.getOpacity(d, d.index)
+        : DEFAULT_OPACITY
+      return `opacity: ${value};`
+    }
+
+    function cursor (d) {
+      const value = singleGroupOptions.blockMouseEvents
+        ? 'default'
+        : 'pointer'
+      return `cursor: ${value};`
+    }
+
+    function stroke (d) {
+      const value = d.isClicked
+        ? CLICKED_STYLE.stroke
+        : DEFAULT_STYLE.stroke
+      return `stroke: ${value};`
+    }
+
+    function strokeWidth (d) {
+      const value = d.isClicked
+        ? CLICKED_STYLE.stroke_width
+        : DEFAULT_STYLE.stroke_width
+      return `stroke-width: ${value};`
+    }
+
+    function strokeOpacity (d) {
+      const value = d.isClicked
+        ? CLICKED_STYLE.stroke_opacity
+        : DEFAULT_STYLE.stroke_opacity
+      return `stroke-opacity: ${value};`
+    }
+  }
 
   function getSingleDotCSSClasses (d, i) {
     const defaultClasses = [
@@ -219,21 +282,23 @@ function renderSingleGroup (group, d3TipInstance, singleGroupOptions, globalOpti
   }
 
   function handleMouseOver (d, i) {
+    if (singleGroupOptions.blockMouseEvents) return
     if (d.isClicked) return
 
     d3.select(this)
-      .style('fill', 'white')
+      .style('fill', ON_OVER_STYLE.fill)
       .style('stroke', (d) => _.defaultTo(singleGroupOptions.getFillColor(d, d.index), DEFAULT_FILL_COLOR))
-      .style('stroke-width', '3')
+      .style('stroke-width', ON_OVER_STYLE.stroke_width)
   }
 
   function handleMouseOut (d, i) {
+    if (singleGroupOptions.blockMouseEvents) return
     if (d.isClicked) return
 
     d3.select(this)
       .style('fill', (d) => _.defaultTo(singleGroupOptions.getFillColor(d, d.index), DEFAULT_FILL_COLOR))
-      .style('stroke', 'white')
-      .style('stroke-width', '2')
+      .style('stroke', DEFAULT_STYLE.stroke)
+      .style('stroke-width', DEFAULT_STYLE.stroke_width)
   }
 
   function getPreviouslyClickedDot () {
@@ -242,6 +307,7 @@ function renderSingleGroup (group, d3TipInstance, singleGroupOptions, globalOpti
 
   function handleClick (d, i) {
     if (!_.isFunction(singleGroupOptions.onDotClick)) return
+    if (singleGroupOptions.blockMouseEvents && singleGroupOptions.onDotClick(d, d.index) !== FOCUS_ON_DOT) return
 
     if (d.isClicked) {
       unclickedStyle(d3.select(this), d)
@@ -262,24 +328,16 @@ function renderSingleGroup (group, d3TipInstance, singleGroupOptions, globalOpti
   }
 
   function clickedStyle (element, d) {
-    const color = _.defaultTo(singleGroupOptions.getFillColor(d, d.index), DEFAULT_FILL_COLOR)
     d.isClicked = true
     element
-      .style('fill', color)
-      .style('stroke', '#9B9B9B')
-      .style('stroke-width', '8')
-      .style('stroke-opacity', '0.4')
+      .attr('style', (d) => applyStyle(d))
       .classed('is-clicked', true)
   }
 
   function unclickedStyle (element, d) {
-    const color = _.defaultTo(singleGroupOptions.getFillColor(d, d.index), DEFAULT_FILL_COLOR)
     d.isClicked = false
     element
-      .style('fill', color)
-      .style('stroke', 'white')
-      .style('stroke-width', '2')
-      .style('stroke-opacity', '1')
+      .attr('style', (d) => applyStyle(d))
       .classed('is-clicked', false)
   }
 }
