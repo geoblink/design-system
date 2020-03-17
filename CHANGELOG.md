@@ -1,5 +1,11 @@
 # Changelog
 
+## 29.6.0
+
+New:
+
+- `GeoKPI` component
+
 ## 29.5.4
 
 New:

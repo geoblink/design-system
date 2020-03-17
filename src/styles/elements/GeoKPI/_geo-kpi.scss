@@ -1,4 +1,57 @@
 
-.geo-kpi {
-  // TODO: Put some SCSS code here
+.geo-KPI{
+  border-radius: $border-radius-default;
+}
+
+.geo-KPI__column{
+  float: left;
+}
+
+.geo-KPI--is-primary .geo-KPI__value, .geo-KPI--is-primary .geo-KPI__unit{
+  @include font($display-medium);
+  color: #545454;
+  display: inline-block;
+}
+
+.geo-KPI--is-primary .geo-KPI__description{
+  @include font($body-small);
+  color: $color-grey-darker;
+  margin-top: 3px;
+}
+
+.geo-KPI--is-primary.geo-KPI--red .geo-KPI__value, .geo-KPI--is-primary.geo-KPI--red .geo-KPI__unit{
+  color: $color-red;
+}
+
+.geo-KPI--is-primary.geo-KPI--yellow .geo-KPI__value, .geo-KPI--is-primary.geo-KPI--yellow .geo-KPI__unit{
+  color: $color-yellow;
+}
+
+.geo-KPI--is-primary.geo-KPI--green .geo-KPI__value, .geo-KPI--is-primary.geo-KPI--yellow .geo-KPI__unit{
+  color: $color-green;
+}
+
+.geo-KPI--is-secondary{
+  padding: 1px;
+}
+
+.geo-KPI--is-secondary .geo-KPI__row{
+  display: inline-block;
+}
+
+.geo-KPI--is-secondary.geo-KPI--red{
+  background-color: $color-red;
+}
+
+.geo-KPI--is-secondary.geo-KPI--yellow{
+  background-color: $color-yellow;
+}
+
+.geo-KPI--is-secondary.geo-KPI--green{
+  background-color: $color-green;
+}
+
+.geo-KPI--is-secondary .geo-KPI__value, .geo-KPI--is-secondary .geo-KPI__unit, .geo-KPI--is-secondary .geo-KPI__description{
+  @include font($body-small);
+  display: inline-block;
 }
