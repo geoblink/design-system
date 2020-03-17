@@ -4,7 +4,7 @@ import GeoKPI from '@/elements/GeoKPI/GeoKPI.vue'
 describe('GeoKPI', () => {
   it('Should display GeoKPI primary value', () => {
     const props = {
-      value: "Mocked KPI value",
+      value: 'Mocked KPI value',
       isPrimary: true
     }
     const wrapper = mount(GeoKPI, {
@@ -18,7 +18,7 @@ describe('GeoKPI', () => {
 
   it('Should render GeoKPI secondary value', () => {
     const props = {
-      value: "Mocked KPI value",
+      value: 'Mocked KPI value',
       isPrimary: false
     }
     const wrapper = mount(GeoKPI, {
