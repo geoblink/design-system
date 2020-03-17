@@ -1,32 +1,28 @@
 <template>
   <div
-    class="geo-KPI"
-    :class="[`geo-KPI${valueCSSSuffix}`,{
-      'geo-KPI--is-primary' : data.isPrimary,
-      'geo-KPI--is-secondary' : !data.isPrimary,
-    }]"
+    :class="kpiCssClasses"
   >
-    <div class="geo-KPI__column">
+    <div class="geo-kpi__column">
       <slot name="warningTooltip" />
     </div>
-    <div class="geo-KPI__column">
-      <div class="geo-KPI__row">
+    <div class="geo-kpi__column">
+      <div class="geo-kpi__row">
         <span
-          class="geo-KPI__value"
+          class="geo-kpi__value"
         >
           {{ data.value }}
         </span>
         <span
           v-if="data.unit"
-          class="geo-KPI__unit"
+          class="geo-kpi__unit"
         >
           {{ data.unit }}
         </span>
       </div>
-      <div class="geo-KPI__row">
+      <div class="geo-kpi__row">
         <span
           v-if="data.description"
-          class="geo-KPI__description"
+          class="geo-kpi__description"
         >
           {{ data.description }}
         </span>
@@ -53,30 +49,35 @@ export default {
   release: '29.6.0',
   props: {
     /**
-     * Object containing all the KPI data
+     * Object that contains all the KPI data, cotaining following described properties
      *
-     * **Note:** value and isPrimary properties are required, check examples to get more details.
+     * data.isPrimary {Boolean} - Determines if KPI data is primary or not
+     *
+     * data.value {string} - KPI data value
+     *
+     * [data.unit] {string} - KPI data unit
+     *
+     * [data.colorHighlight] {string} - Color of the KPI info
+     *
+     * [data.description] {string} - KPI data description
+     *
      */
     data: {
       type: Object,
       required: true,
       validator (data) {
-        return _.isBoolean(data.isPrimary) && data.value
+        if (!_.isBoolean(data.isPrimary)) return false
+        if (!data.value) return false
+        if (data.colorHighlight && !_.includes(COLOR_MODIFIERS, data.colorHighlight)) return false
+        return true
       }
     }
   },
-  data () {
-    return {
-
-    }
-  },
   computed: {
-    valueCSSSuffix () {
-      return this.data.colorHighlight && _.includes(COLOR_MODIFIERS, this.data.colorHighlight) ? `--${this.data.colorHighlight}` : ''
+    kpiCssClasses () {
+      return `geo-kpi ${this.data.colorHighlight ? `geo-kpi--${this.data.colorHighlight}` : ''} 
+              geo-kpi--${this.data.isPrimary ? 'is-primary' : 'is-secondary'}`
     }
-  },
-  methods: {
-
   }
 }
 </script>

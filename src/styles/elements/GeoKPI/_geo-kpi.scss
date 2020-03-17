@@ -1,57 +1,67 @@
 
-.geo-KPI{
+.geo-kpi{
   border-radius: $border-radius-default;
 }
 
-.geo-KPI__column{
+.geo-kpi__column{
   float: left;
 }
 
-.geo-KPI--is-primary .geo-KPI__value, .geo-KPI--is-primary .geo-KPI__unit{
-  @include font($display-medium);
-  color: #545454;
-  display: inline-block;
+.geo-kpi--is-primary{
+  .geo-kpi__value, .geo-kpi__unit{
+    @include font($display-medium);
+    color: $color-grey-darker;
+    display: inline-block;
+  }
 }
 
-.geo-KPI--is-primary .geo-KPI__description{
+.geo-kpi--is-primary .geo-kpi__description{
   @include font($body-small);
   color: $color-grey-darker;
   margin-top: 3px;
 }
 
-.geo-KPI--is-primary.geo-KPI--red .geo-KPI__value, .geo-KPI--is-primary.geo-KPI--red .geo-KPI__unit{
-  color: $color-red;
+.geo-kpi--is-primary.geo-kpi--red{
+  .geo-kpi__value, .geo-kpi__unit{
+    color: $color-red;
+  }
 }
 
-.geo-KPI--is-primary.geo-KPI--yellow .geo-KPI__value, .geo-KPI--is-primary.geo-KPI--yellow .geo-KPI__unit{
-  color: $color-yellow;
+.geo-kpi--is-primary.geo-kpi--yellow{
+  .geo-kpi__value, .geo-kpi__unit{
+    color: $color-yellow;
+  }
 }
 
-.geo-KPI--is-primary.geo-KPI--green .geo-KPI__value, .geo-KPI--is-primary.geo-KPI--yellow .geo-KPI__unit{
-  color: $color-green;
+.geo-kpi--is-primary.geo-kpi--green{
+  .geo-kpi__value, .geo-kpi__unit{
+    color: $color-green;
+  }
 }
 
-.geo-KPI--is-secondary{
+.geo-kpi--is-secondary{
   padding: 1px;
 }
 
-.geo-KPI--is-secondary .geo-KPI__row{
+.geo-kpi--is-secondary .geo-kpi__row{
   display: inline-block;
 }
 
-.geo-KPI--is-secondary.geo-KPI--red{
+.geo-kpi--is-secondary.geo-kpi--red{
   background-color: $color-red;
 }
 
-.geo-KPI--is-secondary.geo-KPI--yellow{
+.geo-kpi--is-secondary.geo-kpi--yellow{
   background-color: $color-yellow;
 }
 
-.geo-KPI--is-secondary.geo-KPI--green{
+.geo-kpi--is-secondary.geo-kpi--green{
   background-color: $color-green;
 }
 
-.geo-KPI--is-secondary .geo-KPI__value, .geo-KPI--is-secondary .geo-KPI__unit, .geo-KPI--is-secondary .geo-KPI__description{
-  @include font($body-small);
-  display: inline-block;
+.geo-kpi--is-secondary{
+  .geo-kpi__value, .geo-kpi__unit, .geo-kpi__description{
+    @include font($body-small);
+    display: inline-block;
+  }
 }
