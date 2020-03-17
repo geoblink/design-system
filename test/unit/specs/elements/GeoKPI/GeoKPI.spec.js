@@ -28,11 +28,11 @@ describe('GeoKPI', () => {
 
   it('Should check GeoKPI data.isPrimary validator', function () {
     const propsWithoutIsPrimary = {
-      value: "Mocked value"
+      value: 'Mocked value'
     }
     const propsWithInvalidIsPrimary = {
-      value: "Mocked value",
-      isPrimary: "invalid isPrimary type"
+      value: 'Mocked value',
+      isPrimary: 'invalid isPrimary type'
     }
     const dataProp = GeoKPI.props.data
     expect(dataProp.required).toBeTruthy()
