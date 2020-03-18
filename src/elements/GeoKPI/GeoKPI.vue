@@ -53,7 +53,7 @@ export default {
      *
      * data.isPrimary {Boolean} - Determines if KPI data is primary or not
      *
-     * data.value {string} - KPI data value
+     * data.value {string|Number} - KPI data value
      *
      * [data.unit] {string} - KPI data unit
      *
@@ -67,7 +67,7 @@ export default {
       required: true,
       validator (data) {
         if (!_.isBoolean(data.isPrimary)) return false
-        if (!data.value) return false
+        if (typeof data.value !== 'string' && typeof data.value !== 'number') return false
         if (data.colorHighlight && !_.includes(COLOR_MODIFIERS, data.colorHighlight)) return false
         return true
       }
