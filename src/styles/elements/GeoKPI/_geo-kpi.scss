@@ -1,67 +1,56 @@
 
-.geo-kpi{
+.geo-kpi {
   border-radius: $border-radius-default;
 }
 
-.geo-kpi__column{
+.geo-kpi__column {
   float: left;
 }
 
-.geo-kpi--is-primary{
-  .geo-kpi__value, .geo-kpi__unit{
+.geo-kpi--is-primary {
+  .geo-kpi__value, .geo-kpi__unit {
     @include font($display-medium);
     color: $color-grey-darker;
     display: inline-block;
   }
-}
-
-.geo-kpi--is-primary .geo-kpi__description{
-  @include font($body-small);
-  color: $color-grey-darker;
-  margin-top: 3px;
-}
-
-.geo-kpi--is-primary.geo-kpi--red{
-  .geo-kpi__value, .geo-kpi__unit{
-    color: $color-red;
+  .geo-kpi__description {
+    @include font($body-small);
+    color: $color-grey-darker;
+    margin-top: 3px;
+  }
+  &.geo-kpi--red {
+    .geo-kpi__value, .geo-kpi__unit {
+      color: $color-red;
+    }
+  }
+  &.geo-kpi--yellow {
+    .geo-kpi__value, .geo-kpi__unit {
+      color: $color-yellow;
+    }
+  }
+  &.geo-kpi--green {
+    .geo-kpi__value, .geo-kpi__unit {
+      color: $color-green;
+    }
   }
 }
 
-.geo-kpi--is-primary.geo-kpi--yellow{
-  .geo-kpi__value, .geo-kpi__unit{
-    color: $color-yellow;
-  }
-}
-
-.geo-kpi--is-primary.geo-kpi--green{
-  .geo-kpi__value, .geo-kpi__unit{
-    color: $color-green;
-  }
-}
-
-.geo-kpi--is-secondary{
+.geo-kpi--is-secondary {
   padding: 1px;
-}
-
-.geo-kpi--is-secondary .geo-kpi__row{
-  display: inline-block;
-}
-
-.geo-kpi--is-secondary.geo-kpi--red{
-  background-color: $color-red;
-}
-
-.geo-kpi--is-secondary.geo-kpi--yellow{
-  background-color: $color-yellow;
-}
-
-.geo-kpi--is-secondary.geo-kpi--green{
-  background-color: $color-green;
-}
-
-.geo-kpi--is-secondary{
-  .geo-kpi__value, .geo-kpi__unit, .geo-kpi__description{
+  .geo-kpi__row {
+    display: inline-block;
+  }
+  .geo-kpi__value, .geo-kpi__unit, .geo-kpi__description {
     @include font($body-small);
     display: inline-block;
+  }
+  &.geo-kpi--red {
+    background-color: $color-red;
+  }
+  &.geo-kpi--yellow {
+    background-color: $color-yellow;
+  }
+  &.geo-kpi--green {
+    background-color: $color-green;
   }
 }
