@@ -33,50 +33,48 @@
 </template>
 
 <script>
+import mixin, { TYPES } from './GeoKPI.mixin'
+import { enumPropertyFactory } from '../../utils/enumPropertyFactory'
+
 /**
  * `GeoKPI` is a component for displaying data, specially designed to display Key Performance Indicators
  */
-import _ from 'lodash'
-const COLOR_MODIFIERS = [
-  'green',
-  'yellow',
-  'red'
-]
 
 export default {
   name: 'GeoKPI',
   status: 'ready',
   release: '29.6.0',
+  constants: {
+    TYPES
+  },
+  mixins: [mixin],
   props: {
     /**
-     * Object that contains all the KPI data, cotaining following described properties
+     * Predefined type scheme of the KPI component
      *
-     * data.isPrimary {Boolean} - Determines if KPI data is primary or not
+     * > **Note:** There are specific components to avoid explicitly writing this value.
      *
-     * data.value {string|Number} - KPI data value
+     * | type         | Specific component | Proposed usage (example) |
+     * |--------------|--------------------|--------------------------|
+     * | `standard`   | [GeoStandardKPI](./GeoStandardKPI)           | Standard KPI |
+     * | `good`       | [GeoGoodKPI](./GeoGoodKPI)                   | Good value KPI |
+     * | `medium`     | [GeoMediumKPI](./GeoMediumKPI)               | Medium value KPI |
+     * | `bad`        | [GeoBadKPI](./GeoBadKPI)                     | Bad value KPI |
      *
-     * [data.unit] {string} - KPI data unit
-     *
-     * [data.colorHighlight] {string} - Color of the KPI info
-     *
-     * [data.description] {string} - KPI data description
-     *
+     * Supported `type` values are exported under `TYPES` named export. See
+     * [Component Constants](/docs/guides/using-constants) for more info on how to
+     * use those constants in your code.
      */
-    data: {
-      type: Object,
-      required: true,
-      validator (data) {
-        if (!_.isBoolean(data.isPrimary)) return false
-        if (typeof data.value !== 'string' && typeof data.value !== 'number') return false
-        if (data.colorHighlight && !_.includes(COLOR_MODIFIERS, data.colorHighlight)) return false
-        return true
-      }
-    }
+    type: enumPropertyFactory({
+      componentName: 'GeoKPI',
+      propertyName: 'type',
+      enumDictionary: TYPES,
+      defaultValue: TYPES.standard
+    })
   },
   computed: {
     kpiCssClasses () {
-      return `geo-kpi ${this.data.colorHighlight ? `geo-kpi--${this.data.colorHighlight}` : ''} 
-              geo-kpi--${this.data.isPrimary ? 'is-primary' : 'is-secondary'}`
+      return `geo-kpi geo-kpi--${this.type} geo-kpi--${this.data.isPrimary ? 'is-primary' : 'is-secondary'}`
     }
   }
 }

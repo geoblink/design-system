@@ -18,17 +18,17 @@
     color: $color-grey-darker;
     margin-top: 3px;
   }
-  &.geo-kpi--red {
+  &.geo-kpi--bad {
     .geo-kpi__value, .geo-kpi__unit {
       color: $color-red;
     }
   }
-  &.geo-kpi--yellow {
+  &.geo-kpi--medium {
     .geo-kpi__value, .geo-kpi__unit {
       color: $color-yellow;
     }
   }
-  &.geo-kpi--green {
+  &.geo-kpi--good {
     .geo-kpi__value, .geo-kpi__unit {
       color: $color-green;
     }
@@ -44,13 +44,13 @@
     @include font($body-small);
     display: inline-block;
   }
-  &.geo-kpi--red {
+  &.geo-kpi--bad {
     background-color: $color-red;
   }
-  &.geo-kpi--yellow {
+  &.geo-kpi--medium {
     background-color: $color-yellow;
   }
-  &.geo-kpi--green {
+  &.geo-kpi--good {
     background-color: $color-green;
   }
 }
