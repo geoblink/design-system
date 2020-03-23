@@ -6,6 +6,12 @@ New:
 
 - `GeoKPI` component
 
+## 29.5.5
+
+Fix:
+
+- date inputs are disabled in `GeoCalendar` when granularity is non-daily
+
 ## 29.5.4
 
 New:
