@@ -168,7 +168,7 @@
     "vuepress": "^1.2.0",
     "vuepress-plugin-live": "^1.4.0",
     "webfontloader": "^1.6.28",
-    "webpack": "^4.39.1",
+    "webpack": "^4.42.1",
     "webpack-bundle-analyzer": "^3.4.1",
     "webpack-cli": "^3.3.6",
     "webpack-dev-server": "^3.7.2",
