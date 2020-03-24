@@ -4,7 +4,7 @@
 <template>
   <div class="element-demo">
     <div class="element-demo__block">
-      <geo-good-KPI
+      <geo-medium-KPI
         :data="kpiData"
       />
     </div>
@@ -13,7 +13,7 @@
 
 <script>
 export default {
-  name: 'GeoKPIDemo',
+  name: 'GeoMediumKPIDemo',
   data () {
     return {
       kpiData: {
@@ -32,7 +32,7 @@ export default {
 <template>
   <div class="element-demo">
     <div class="element-demo__block">
-      <geo-good-KPI
+      <geo-medium-KPI
         :data="kpiData"
       />
     </div>
@@ -41,7 +41,7 @@ export default {
 
 <script>
 export default {
-  name: 'GeoKPIDemo',
+  name: 'GeoMediumKPIDemo',
   data () {
     return {
       kpiData: {
@@ -61,7 +61,7 @@ export default {
 <template>
   <div class="element-demo">
     <div class="element-demo__block">
-      <geo-good-KPI
+      <geo-medium-KPI
         :data="kpiData"
       />
     </div>
@@ -70,7 +70,7 @@ export default {
 
 <script>
 export default {
-  name: 'GeoKPIDemo',
+  name: 'GeoMediumKPIDemo',
   data () {
     return {
       kpiData: {
@@ -84,42 +84,13 @@ export default {
 </script>
 ```
 
-## Primary value with color
-
-```vue live
-<template>
-  <div class="element-demo">
-    <div class="element-demo__block">
-      <geo-good-KPI
-        :data="kpiData"
-      />
-    </div>
-  </div>
-</template>
-
-<script>
-export default {
-  name: 'GeoKPIDemo',
-  data () {
-    return {
-      kpiData: {
-        value: "27th of 35",
-        isPrimary: true,
-        colorHighlight: "red"
-      }
-    }
-  }
-}
-</script>
-```
-
 ## Primary value with description tooltip
 
 ```vue live
 <template>
   <div class="element-demo">
     <div class="element-demo__block">
-      <geo-good-KPI
+      <geo-medium-KPI
         :data="kpiData"
       >
         <template v-slot:descriptionTooltip>
@@ -131,14 +102,14 @@ export default {
             Tooltip text
           </geo-tooltip>
         </template>
-      </geo-good-KPI>
+      </geo-medium-KPI>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'GeoKPIDemo',
+  name: 'GeoMediumKPIDemo',
   data () {
     return {
       descriptionTooltipIcon: null,
@@ -163,7 +134,7 @@ export default {
 <template>
   <div class="element-demo">
     <div class="element-demo__block">
-      <geo-good-KPI
+      <geo-medium-KPI
         :data="kpiData"
       >
         <template v-slot:warningTooltip>
@@ -176,14 +147,14 @@ export default {
             Warning tooltip text
           </geo-tooltip>
         </template>
-      </geo-good-KPI>
+      </geo-medium-KPI>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'GeoKPIDemo',
+  name: 'GeoMediumKPIDemo',
   data () {
     return {
       warningTooltipIcon: null,
@@ -215,7 +186,7 @@ export default {
 <template>
   <div class="element-demo">
     <div class="element-demo__block">
-      <geo-good-KPI
+      <geo-medium-KPI
         :data="kpiData"
       />
     </div>
@@ -224,7 +195,7 @@ export default {
 
 <script>
 export default {
-  name: 'GeoKPIDemo',
+  name: 'GeoMediumKPIDemo',
   data () {
     return {
       kpiData: {
@@ -243,7 +214,7 @@ export default {
 <template>
   <div class="element-demo">
     <div class="element-demo__block">
-      <geo-good-KPI
+      <geo-medium-KPI
         :data="kpiData"
       />
     </div>
@@ -252,7 +223,7 @@ export default {
 
 <script>
 export default {
-  name: 'GeoKPIDemo',
+  name: 'GeoMediumKPIDemo',
   data () {
     return {
       kpiData: {
@@ -267,44 +238,13 @@ export default {
 </script>
 ```
 
-## Secondary value with color
-
-```vue live
-<template>
-  <div class="element-demo">
-    <div class="element-demo__block">
-      <geo-good-KPI
-        :data="kpiData"
-      />
-    </div>
-  </div>
-</template>
-
-<script>
-export default {
-  name: 'GeoKPIDemo',
-  data () {
-    return {
-      kpiData: {
-        value: "27th of 73",
-        isPrimary: false,
-        unit: "",
-        description:"Es mayor que la media de tiendas",
-        colorHighlight:"yellow"
-      }
-    }
-  }
-}
-</script>
-```
-
 ## Secondary value with description tooltip
 
 ```vue live
 <template>
   <div class="element-demo">
     <div class="element-demo__block">
-      <geo-good-KPI
+      <geo-medium-KPI
         :data="kpiData"
       >
         <template v-slot:descriptionTooltip>
@@ -316,14 +256,14 @@ export default {
             Tooltip text
           </geo-tooltip>
         </template>
-      </geo-good-KPI>
+      </geo-medium-KPI>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'GeoKPIDemo',
+  name: 'GeoMediumKPIDemo',
   data () {
     return {
       descriptionTooltipIcon: null,
@@ -347,7 +287,7 @@ export default {
 <template>
   <div class="element-demo">
     <div class="element-demo__block">
-      <geo-good-KPI
+      <geo-medium-KPI
         :data="kpiData"
       >
         <template v-slot:warningTooltip>
@@ -360,14 +300,14 @@ export default {
             Warning tooltip text
           </geo-tooltip>
         </template>
-      </geo-good-KPI>
+      </geo-medium-KPI>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'GeoKPIDemo',
+  name: 'GeoMediumKPIDemo',
   data () {
     return {
       warningTooltipIcon: null,

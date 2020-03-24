@@ -13,7 +13,7 @@
 
 <script>
 export default {
-  name: 'GeoKPIDemo',
+  name: 'GeoBadKPIDemo',
   data () {
     return {
       kpiData: {
@@ -41,7 +41,7 @@ export default {
 
 <script>
 export default {
-  name: 'GeoKPIDemo',
+  name: 'GeoBadKPIDemo',
   data () {
     return {
       kpiData: {
@@ -70,42 +70,13 @@ export default {
 
 <script>
 export default {
-  name: 'GeoKPIDemo',
+  name: 'GeoBadKPIDemo',
   data () {
     return {
       kpiData: {
         value: "27th of 35",
         isPrimary: true,
         description: "compared to the rest of the stores"
-      }
-    }
-  }
-}
-</script>
-```
-
-## Primary value with color
-
-```vue live
-<template>
-  <div class="element-demo">
-    <div class="element-demo__block">
-      <geo-bad-KPI
-        :data="kpiData"
-      />
-    </div>
-  </div>
-</template>
-
-<script>
-export default {
-  name: 'GeoKPIDemo',
-  data () {
-    return {
-      kpiData: {
-        value: "27th of 35",
-        isPrimary: true,
-        colorHighlight: "red"
       }
     }
   }
@@ -138,7 +109,7 @@ export default {
 
 <script>
 export default {
-  name: 'GeoKPIDemo',
+  name: 'GeoBadKPIDemo',
   data () {
     return {
       descriptionTooltipIcon: null,
@@ -183,7 +154,7 @@ export default {
 
 <script>
 export default {
-  name: 'GeoKPIDemo',
+  name: 'GeoBadKPIDemo',
   data () {
     return {
       warningTooltipIcon: null,
@@ -224,7 +195,7 @@ export default {
 
 <script>
 export default {
-  name: 'GeoKPIDemo',
+  name: 'GeoBadKPIDemo',
   data () {
     return {
       kpiData: {
@@ -252,7 +223,7 @@ export default {
 
 <script>
 export default {
-  name: 'GeoKPIDemo',
+  name: 'GeoBadKPIDemo',
   data () {
     return {
       kpiData: {
@@ -260,37 +231,6 @@ export default {
         isPrimary: false,
         unit: "€",
         description:"Facturados por la tienda",
-      }
-    }
-  }
-}
-</script>
-```
-
-## Secondary value with color
-
-```vue live
-<template>
-  <div class="element-demo">
-    <div class="element-demo__block">
-      <geo-bad-KPI
-        :data="kpiData"
-      />
-    </div>
-  </div>
-</template>
-
-<script>
-export default {
-  name: 'GeoKPIDemo',
-  data () {
-    return {
-      kpiData: {
-        value: "27th of 73",
-        isPrimary: false,
-        unit: "",
-        description:"Es mayor que la media de tiendas",
-        colorHighlight:"yellow"
       }
     }
   }
@@ -323,7 +263,7 @@ export default {
 
 <script>
 export default {
-  name: 'GeoKPIDemo',
+  name: 'GeoBadKPIDemo',
   data () {
     return {
       descriptionTooltipIcon: null,
@@ -367,7 +307,7 @@ export default {
 
 <script>
 export default {
-  name: 'GeoKPIDemo',
+  name: 'GeoBadKPIDemo',
   data () {
     return {
       warningTooltipIcon: null,

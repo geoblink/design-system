@@ -22,8 +22,6 @@ export default {
      *
      * [data.unit] {string} - KPI data unit
      *
-     * [data.colorHighlight] {string} - Color of the KPI info
-     *
      * [data.description] {string} - KPI data description
      *
      */

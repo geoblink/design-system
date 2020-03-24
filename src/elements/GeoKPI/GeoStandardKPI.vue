@@ -4,12 +4,9 @@
 import mixin, { TYPES } from './GeoKPI.mixin'
 
 /**
- * [GeoButton](./GeoButton) using predefined `danger` variant.
+ * [GeoKPI](./GeoKPI) using predefined `standard` type.
  *
- * Danger buttons are normally used to trigger dangerous actions that cannot be
- * reverted like deleting data.
- *
- * See [GeoButton](./GeoButton) for a complete list of supported properties and
+ * See [GeoKPI](./GeoKPI) for a complete list of supported properties and
  * features.
 */
 export default {
@@ -22,7 +19,7 @@ export default {
       return this.data.isPrimary
     },
     type () {
-      return TYPES.bad
+      return TYPES.standard
     }
   }
 }

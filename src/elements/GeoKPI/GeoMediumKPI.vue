@@ -22,7 +22,7 @@ export default {
       return this.data.isPrimary
     },
     type () {
-      return TYPES.bad
+      return TYPES.medium
     }
   }
 }

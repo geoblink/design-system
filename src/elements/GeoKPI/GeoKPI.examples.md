@@ -84,7 +84,7 @@ export default {
 </script>
 ```
 
-## Primary value with color
+## Primary value with type
 
 ```vue live
 <template>
@@ -92,6 +92,7 @@ export default {
     <div class="element-demo__block">
       <geo-KPI
         :data="kpiData"
+        :type="type"
       />
     </div>
   </div>
@@ -105,8 +106,8 @@ export default {
       kpiData: {
         value: "27th of 35",
         isPrimary: true,
-        colorHighlight: "red"
-      }
+      },
+      type: "bad"
     }
   }
 }
@@ -267,7 +268,7 @@ export default {
 </script>
 ```
 
-## Secondary value with color
+## Secondary value with type
 
 ```vue live
 <template>
@@ -275,6 +276,7 @@ export default {
     <div class="element-demo__block">
       <geo-KPI
         :data="kpiData"
+        :type="type"
       />
     </div>
   </div>
@@ -289,9 +291,9 @@ export default {
         value: "27th of 73",
         isPrimary: false,
         unit: "",
-        description:"Es mayor que la media de tiendas",
-        colorHighlight:"yellow"
-      }
+        description: "Es mayor que la media de tiendas",
+      },
+      type: "medium"
     }
   }
 }

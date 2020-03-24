@@ -56,7 +56,7 @@ export default {
      *
      * | type         | Specific component | Proposed usage (example) |
      * |--------------|--------------------|--------------------------|
-     * | `standard`   | [GeoStandardKPI](./GeoStandardKPI)           | Standard KPI |
+     * | `standard`   | [GeoKPI](./GeoKPI)                           | Standard KPI |
      * | `good`       | [GeoGoodKPI](./GeoGoodKPI)                   | Good value KPI |
      * | `medium`     | [GeoMediumKPI](./GeoMediumKPI)               | Medium value KPI |
      * | `bad`        | [GeoBadKPI](./GeoBadKPI)                     | Bad value KPI |

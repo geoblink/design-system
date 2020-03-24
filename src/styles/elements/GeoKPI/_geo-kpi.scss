@@ -10,12 +10,10 @@
 .geo-kpi--is-primary {
   .geo-kpi__value, .geo-kpi__unit {
     @include font($display-medium);
-    color: $color-grey-darker;
     display: inline-block;
   }
   .geo-kpi__description {
     @include font($body-small);
-    color: $color-grey-darker;
     margin-top: 3px;
   }
   &.geo-kpi--bad {
