@@ -34,5 +34,10 @@ export default {
         return true
       }
     }
+  },
+  computed: {
+    isPrimary () {
+      return this.data.isPrimary
+    }
   }
 }

@@ -15,9 +15,6 @@ export default {
   release: '29.6.0',
   mixins: [mixin],
   computed: {
-    isPrimary () {
-      return this.data.isPrimary
-    },
     type () {
       return TYPES.standard
     }
