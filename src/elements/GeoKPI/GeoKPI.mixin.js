@@ -1,9 +1,9 @@
 import _ from 'lodash'
 
 const TYPES = {
-  good: 'good',
-  medium: 'medium',
-  bad: 'bad',
+  positive: 'positive',
+  neutral: 'neutral',
+  negative: 'negative',
   standard: 'standard'
 }
 

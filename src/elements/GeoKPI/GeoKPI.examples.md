@@ -107,7 +107,7 @@ export default {
         value: "27th of 35",
         isPrimary: true,
       },
-      type: "bad"
+      type: "negative"
     }
   }
 }
@@ -293,7 +293,7 @@ export default {
         unit: "",
         description: "Es mayor que la media de tiendas",
       },
-      type: "medium"
+      type: "neutral"
     }
   }
 }

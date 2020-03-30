@@ -4,7 +4,7 @@
 <template>
   <div class="element-demo">
     <div class="element-demo__block">
-      <geo-bad-KPI
+      <geo-negative-KPI
         :data="kpiData"
       />
     </div>
@@ -13,7 +13,7 @@
 
 <script>
 export default {
-  name: 'GeoBadKPIDemo',
+  name: 'GeoNegativeKPIDemo',
   data () {
     return {
       kpiData: {
@@ -32,7 +32,7 @@ export default {
 <template>
   <div class="element-demo">
     <div class="element-demo__block">
-      <geo-bad-KPI
+      <geo-negative-KPI
         :data="kpiData"
       />
     </div>
@@ -41,7 +41,7 @@ export default {
 
 <script>
 export default {
-  name: 'GeoBadKPIDemo',
+  name: 'GeoNegativeKPIDemo',
   data () {
     return {
       kpiData: {
@@ -61,7 +61,7 @@ export default {
 <template>
   <div class="element-demo">
     <div class="element-demo__block">
-      <geo-bad-KPI
+      <geo-negative-KPI
         :data="kpiData"
       />
     </div>
@@ -70,7 +70,7 @@ export default {
 
 <script>
 export default {
-  name: 'GeoBadKPIDemo',
+  name: 'GeoNegativeKPIDemo',
   data () {
     return {
       kpiData: {
@@ -90,7 +90,7 @@ export default {
 <template>
   <div class="element-demo">
     <div class="element-demo__block">
-      <geo-bad-KPI
+      <geo-negative-KPI
         :data="kpiData"
       >
         <template v-slot:descriptionTooltip>
@@ -102,14 +102,14 @@ export default {
             Tooltip text
           </geo-tooltip>
         </template>
-      </geo-bad-KPI>
+      </geo-negative-KPI>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'GeoBadKPIDemo',
+  name: 'GeoNegativeKPIDemo',
   data () {
     return {
       descriptionTooltipIcon: null,
@@ -134,7 +134,7 @@ export default {
 <template>
   <div class="element-demo">
     <div class="element-demo__block">
-      <geo-bad-KPI
+      <geo-negative-KPI
         :data="kpiData"
       >
         <template v-slot:warningTooltip>
@@ -147,14 +147,14 @@ export default {
             Warning tooltip text
           </geo-tooltip>
         </template>
-      </geo-bad-KPI>
+      </geo-negative-KPI>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'GeoBadKPIDemo',
+  name: 'GeoNegativeKPIDemo',
   data () {
     return {
       warningTooltipIcon: null,
@@ -186,7 +186,7 @@ export default {
 <template>
   <div class="element-demo">
     <div class="element-demo__block">
-      <geo-bad-KPI
+      <geo-negative-KPI
         :data="kpiData"
       />
     </div>
@@ -195,7 +195,7 @@ export default {
 
 <script>
 export default {
-  name: 'GeoBadKPIDemo',
+  name: 'GeoNegativeKPIDemo',
   data () {
     return {
       kpiData: {
@@ -214,7 +214,7 @@ export default {
 <template>
   <div class="element-demo">
     <div class="element-demo__block">
-      <geo-bad-KPI
+      <geo-negative-KPI
         :data="kpiData"
       />
     </div>
@@ -223,7 +223,7 @@ export default {
 
 <script>
 export default {
-  name: 'GeoBadKPIDemo',
+  name: 'GeoNegativeKPIDemo',
   data () {
     return {
       kpiData: {
@@ -244,7 +244,7 @@ export default {
 <template>
   <div class="element-demo">
     <div class="element-demo__block">
-      <geo-bad-KPI
+      <geo-negative-KPI
         :data="kpiData"
       >
         <template v-slot:descriptionTooltip>
@@ -256,14 +256,14 @@ export default {
             Tooltip text
           </geo-tooltip>
         </template>
-      </geo-bad-KPI>
+      </geo-negative-KPI>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'GeoBadKPIDemo',
+  name: 'GeoNegativeKPIDemo',
   data () {
     return {
       descriptionTooltipIcon: null,
@@ -287,7 +287,7 @@ export default {
 <template>
   <div class="element-demo">
     <div class="element-demo__block">
-      <geo-bad-KPI
+      <geo-negative-KPI
         :data="kpiData"
       >
         <template v-slot:warningTooltip>
@@ -300,14 +300,14 @@ export default {
             Warning tooltip text
           </geo-tooltip>
         </template>
-      </geo-bad-KPI>
+      </geo-negative-KPI>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'GeoBadKPIDemo',
+  name: 'GeoNegativeKPIDemo',
   data () {
     return {
       warningTooltipIcon: null,

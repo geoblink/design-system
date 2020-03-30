@@ -4,19 +4,19 @@
 import mixin, { TYPES } from './GeoKPI.mixin'
 
 /**
- * [GeoKPI](./GeoKPI) using predefined `good` type.
+ * [GeoKPI](./GeoKPI) using predefined `negative` type.
  *
  * See [GeoKPI](./GeoKPI) for a complete list of supported properties and
  * features.
 */
 export default {
-  name: 'GeoGoodKPI',
+  name: 'GeoNegativeKPI',
   status: 'ready',
   release: '29.6.0',
   mixins: [mixin],
   computed: {
     type () {
-      return TYPES.good
+      return TYPES.negative
     }
   }
 }

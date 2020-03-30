@@ -4,19 +4,19 @@
 import mixin, { TYPES } from './GeoKPI.mixin'
 
 /**
- * [GeoKPI](./GeoKPI) using predefined `medium` type.
+ * [GeoKPI](./GeoKPI) using predefined `neutral` type.
  *
  * See [GeoKPI](./GeoKPI) for a complete list of supported properties and
  * features.
 */
 export default {
-  name: 'GeoMediumKPI',
+  name: 'GeoNeutralKPI',
   status: 'ready',
   release: '29.6.0',
   mixins: [mixin],
   computed: {
     type () {
-      return TYPES.medium
+      return TYPES.neutral
     }
   }
 }

@@ -54,12 +54,12 @@ export default {
      *
      * > **Note:** There are specific components to avoid explicitly writing this value.
      *
-     * | type         | Specific component | Proposed usage (example) |
-     * |--------------|--------------------|--------------------------|
-     * | `standard`   | [GeoKPI](./GeoKPI)                           | Standard KPI |
-     * | `good`       | [GeoGoodKPI](./GeoGoodKPI)                   | Good value KPI |
-     * | `medium`     | [GeoMediumKPI](./GeoMediumKPI)               | Medium value KPI |
-     * | `bad`        | [GeoBadKPI](./GeoBadKPI)                     | Bad value KPI |
+     * | type         |          Specific component         | Proposed usage (example) |
+     * |--------------|-------------------------------------|--------------------------|
+     * | `standard`   | [GeoKPI](./GeoKPI)                  | Standard KPI             |
+     * | `positive`   | [GeoPositiveKPI](./GeoPositiveKPI)  | Positive value KPI       |
+     * | `neutral`    | [GeoNeutralKPI](./GeoNeutralKPI)    | Neutral value KPI        |
+     * | `negative`   | [GeoNegativeKPI](./GeoNegativeKPI)  | Negative value KPI       |
      *
      * Supported `type` values are exported under `TYPES` named export. See
      * [Component Constants](/docs/guides/using-constants) for more info on how to
