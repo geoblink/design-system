@@ -5,7 +5,8 @@
   <div class="element-demo">
     <div class="element-demo__block">
       <geo-KPI
-        :data="kpiData"
+        :value="value"
+        :is-primary="isPrimary"
       />
     </div>
   </div>
@@ -16,10 +17,8 @@ export default {
   name: 'GeoKPIDemo',
   data () {
     return {
-      kpiData: {
-        value: "27th of 73",
-        isPrimary: true
-      }
+      value: "27th of 73",
+      isPrimary: true
     }
   }
 }
@@ -33,7 +32,9 @@ export default {
   <div class="element-demo">
     <div class="element-demo__block">
       <geo-KPI
-        :data="kpiData"
+        :value="value"
+        :is-primary="isPrimary"
+        :unit="unit"
       />
     </div>
   </div>
@@ -44,11 +45,9 @@ export default {
   name: 'GeoKPIDemo',
   data () {
     return {
-      kpiData: {
-        value: "365",
-        isPrimary: true,
-        unit: "€"
-      }
+      value: "365",
+      isPrimary: true,
+      unit: "€"
     }
   }
 }
@@ -62,7 +61,9 @@ export default {
   <div class="element-demo">
     <div class="element-demo__block">
       <geo-KPI
-        :data="kpiData"
+        :value="value"
+        :is-primary="isPrimary"
+        :description="description"
       />
     </div>
   </div>
@@ -73,11 +74,9 @@ export default {
   name: 'GeoKPIDemo',
   data () {
     return {
-      kpiData: {
-        value: "27th of 35",
-        isPrimary: true,
-        description: "compared to the rest of the stores"
-      }
+      value: "27th of 35",
+      isPrimary: true,
+      description: "compared to the rest of the stores"
     }
   }
 }
@@ -91,7 +90,8 @@ export default {
   <div class="element-demo">
     <div class="element-demo__block">
       <geo-KPI
-        :data="kpiData"
+        :value="value"
+        :is-primary="isPrimary"
         :type="type"
       />
     </div>
@@ -103,10 +103,8 @@ export default {
   name: 'GeoKPIDemo',
   data () {
     return {
-      kpiData: {
-        value: "27th of 35",
-        isPrimary: true,
-      },
+      value: "27th of 35",
+      isPrimary: true,
       type: "negative"
     }
   }
@@ -121,7 +119,9 @@ export default {
   <div class="element-demo">
     <div class="element-demo__block">
       <geo-KPI
-        :data="kpiData"
+        :value="value"
+        :is-primary="isPrimary"
+        :description="description"
       >
         <template v-slot:descriptionTooltip>
           <font-awesome-icon
@@ -143,12 +143,10 @@ export default {
   data () {
     return {
       descriptionTooltipIcon: null,
-      kpiData: {
-        value: "27th of 35",
-        isPrimary: true,
-        description: "compared to the rest of the stores",
-        descriptionTooltip: "Tooltip text"
-      }
+      value: "27th of 35",
+      isPrimary: true,
+      description: "compared to the rest of the stores",
+      descriptionTooltip: "Tooltip text"
     }
   },
   mounted () {
@@ -165,7 +163,9 @@ export default {
   <div class="element-demo">
     <div class="element-demo__block">
       <geo-KPI
-        :data="kpiData"
+        :value="value"
+        :is-primary="isPrimary"
+        :description="description"
       >
         <template v-slot:warningTooltip>
           <font-awesome-icon
@@ -188,12 +188,10 @@ export default {
   data () {
     return {
       warningTooltipIcon: null,
-      kpiData: {
-        value: "27th of 35",
-        isPrimary: true,
-        description: "compared to the rest of the stores",
-        warningTooltip: "Tooltip text"
-      }
+      value: "27th of 35",
+      isPrimary: true,
+      description: "compared to the rest of the stores",
+      warningTooltip: "Tooltip text"
     }
   },
   mounted () {
@@ -217,7 +215,8 @@ export default {
   <div class="element-demo">
     <div class="element-demo__block">
       <geo-KPI
-        :data="kpiData"
+        :value="value"
+        :is-primary="isPrimary"
       />
     </div>
   </div>
@@ -228,10 +227,8 @@ export default {
   name: 'GeoKPIDemo',
   data () {
     return {
-      kpiData: {
-        value: "27th of 73",
-        isPrimary: false
-      }
+      value: "27th of 73",
+      isPrimary: false
     }
   }
 }
@@ -245,7 +242,10 @@ export default {
   <div class="element-demo">
     <div class="element-demo__block">
       <geo-KPI
-        :data="kpiData"
+        :value="value"
+        :is-primary="isPrimary"
+        :unit="unit"
+        :description="description"
       />
     </div>
   </div>
@@ -256,12 +256,10 @@ export default {
   name: 'GeoKPIDemo',
   data () {
     return {
-      kpiData: {
-        value: "587",
-        isPrimary: false,
-        unit: "€",
-        description:"Facturados por la tienda",
-      }
+      value: "587",
+      isPrimary: false,
+      unit: "€",
+      description:"Facturados por la tienda"
     }
   }
 }
@@ -275,7 +273,10 @@ export default {
   <div class="element-demo">
     <div class="element-demo__block">
       <geo-KPI
-        :data="kpiData"
+        :value="value"
+        :is-primary="isPrimary"
+        :unit="unit"
+        :description="description"
         :type="type"
       />
     </div>
@@ -287,12 +288,10 @@ export default {
   name: 'GeoKPIDemo',
   data () {
     return {
-      kpiData: {
-        value: "27th of 73",
-        isPrimary: false,
-        unit: "",
-        description: "Es mayor que la media de tiendas",
-      },
+      value: "27th of 73",
+      isPrimary: false,
+      unit: "",
+      description: "Es mayor que la media de tiendas",
       type: "neutral"
     }
   }
@@ -307,7 +306,9 @@ export default {
   <div class="element-demo">
     <div class="element-demo__block">
       <geo-KPI
-        :data="kpiData"
+        :value="value"
+        :is-primary="isPrimary"
+        :description="description"
       >
         <template v-slot:descriptionTooltip>
           <font-awesome-icon
@@ -329,11 +330,9 @@ export default {
   data () {
     return {
       descriptionTooltipIcon: null,
-      kpiData: {
-        value: "27th of 35",
-        isPrimary: false,
-        description: "compared to the rest of the stores"
-      }
+      value: "27th of 35",
+      isPrimary: false,
+      description: "compared to the rest of the stores"
     }
   },
   mounted () {
@@ -350,7 +349,9 @@ export default {
   <div class="element-demo">
     <div class="element-demo__block">
       <geo-KPI
-        :data="kpiData"
+        :value="value"
+        :is-primary="isPrimary"
+        :description="description"
       >
         <template v-slot:warningTooltip>
           <font-awesome-icon
@@ -373,11 +374,9 @@ export default {
   data () {
     return {
       warningTooltipIcon: null,
-      kpiData: {
-        value: "27th of 35",
-        isPrimary: false,
-        description: "compared to the rest of the stores"
-      }
+      value: "27th of 35",
+      isPrimary: false,
+      description: "compared to the rest of the stores"
     }
   },
   mounted () {

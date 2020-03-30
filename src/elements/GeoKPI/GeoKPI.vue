@@ -10,21 +10,21 @@
         <span
           class="geo-kpi__value"
         >
-          {{ data.value }}
+          {{ value }}
         </span>
         <span
-          v-if="data.unit"
+          v-if="unit"
           class="geo-kpi__unit"
         >
-          {{ data.unit }}
+          {{ unit }}
         </span>
       </div>
       <div class="geo-kpi__row">
         <span
-          v-if="data.description"
+          v-if="description"
           class="geo-kpi__description"
         >
-          {{ data.description }}
+          {{ description }}
         </span>
         <slot name="descriptionTooltip" />
       </div>
@@ -74,7 +74,7 @@ export default {
   },
   computed: {
     kpiCssClasses () {
-      return `geo-kpi geo-kpi--${this.type} geo-kpi--${this.data.isPrimary ? 'is-primary' : 'is-secondary'}`
+      return `geo-kpi geo-kpi--${this.type} geo-kpi--${this.isPrimary ? 'is-primary' : 'is-secondary'}`
     }
   }
 }

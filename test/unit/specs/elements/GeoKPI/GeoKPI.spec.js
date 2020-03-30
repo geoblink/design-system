@@ -1,17 +1,15 @@
 import { createLocalVue, mount } from '@vue/test-utils'
 import GeoKPI from '@/elements/GeoKPI/GeoKPI.vue'
-import GeoGoodKPI from '@/elements/GeoKPI/GeoGoodKPI.vue'
-import GeoMediumKPI from '@/elements/GeoKPI/GeoMediumKPI.vue'
-import GeoBadKPI from '@/elements/GeoKPI/GeoBadKPI.vue'
-import GeoStandardKPI from '@/elements/GeoKPI/GeoStandardKPI.vue'
+import GeoPositiveKPI from '@/elements/GeoKPI/GeoPositiveKPI.vue'
+import GeoNeutralKPI from '@/elements/GeoKPI/GeoNeutralKPI.vue'
+import GeoNegativeKPI from '@/elements/GeoKPI/GeoNegativeKPI.vue'
 
 // create an extended `Vue` constructor
 const localVue = createLocalVue()
 localVue.component('geo-KPI', GeoKPI)
-localVue.component('geo-good-KPI', GeoGoodKPI)
-localVue.component('geo-medium-KPI', GeoMediumKPI)
-localVue.component('geo-bad-KPI', GeoBadKPI)
-localVue.component('geo-standard-KPI', GeoStandardKPI)
+localVue.component('geo-positive-KPI', GeoPositiveKPI)
+localVue.component('geo-neutral-KPI', GeoNeutralKPI)
+localVue.component('geo-negative-KPI', GeoNegativeKPI)
 
 describe('GeoKPI', () => {
   it('Should display GeoKPI primary value', () => {
@@ -20,37 +18,10 @@ describe('GeoKPI', () => {
       isPrimary: true
     }
     const wrapper = mount(GeoKPI, {
-      propsData: {
-        data: props
-      }
+      propsData: props
     })
     expect(wrapper.find('.geo-kpi--is-primary').exists()).toBe(true)
     expect(wrapper.find('.geo-kpi--is-primary .geo-kpi__value').text()).toBe(props.value)
-  })
-
-  it('Should check GeoKPI data.value validator', function () {
-    const propsWithoutValue = {
-      isPrimary: true
-    }
-    const dataMixinProp = GeoKPI.mixins[0].props.data
-    expect(dataMixinProp.required).toBeTruthy()
-    expect(dataMixinProp.type).toBe(Object)
-    expect(dataMixinProp.validator && dataMixinProp.validator(propsWithoutValue)).toBeFalsy()
-  })
-
-  it('Should check GeoKPI data.isPrimary validator', function () {
-    const propsWithoutIsPrimary = {
-      value: 'Mocked value'
-    }
-    const propsWithInvalidIsPrimary = {
-      value: 'Mocked value',
-      isPrimary: 'invalid isPrimary type'
-    }
-    const dataMixinProp = GeoKPI.mixins[0].props.data
-    expect(dataMixinProp.required).toBeTruthy()
-    expect(dataMixinProp.type).toBe(Object)
-    expect(dataMixinProp.validator && dataMixinProp.validator(propsWithoutIsPrimary)).toBeFalsy()
-    expect(dataMixinProp.validator && dataMixinProp.validator(propsWithInvalidIsPrimary)).toBeFalsy()
   })
 
   it('Should display GeoKPI secondary value', () => {
@@ -59,9 +30,7 @@ describe('GeoKPI', () => {
       isPrimary: false
     }
     const wrapper = mount(GeoKPI, {
-      propsData: {
-        data: props
-      }
+      propsData: props
     })
     expect(wrapper.find('.geo-kpi--is-secondary').exists()).toBe(true)
     expect(wrapper.find('.geo-kpi--is-secondary .geo-kpi__value').text()).toBe(props.value)
@@ -74,9 +43,7 @@ describe('GeoKPI', () => {
       unit: '€'
     }
     const wrapper = mount(GeoKPI, {
-      propsData: {
-        data: props
-      }
+      propsData: props
     })
     expect(wrapper.find('.geo-kpi__unit').exists()).toBe(true)
     expect(wrapper.find('.geo-kpi__unit').text()).toBe(props.unit)
@@ -89,9 +56,7 @@ describe('GeoKPI', () => {
       description: 'Mocked KPI description'
     }
     const wrapper = mount(GeoKPI, {
-      propsData: {
-        data: props
-      }
+      propsData: props
     })
     expect(wrapper.find('.geo-kpi__description').exists()).toBe(true)
     expect(wrapper.find('.geo-kpi__description').text()).toBe(props.description)
@@ -100,71 +65,48 @@ describe('GeoKPI', () => {
   it('Should add appropiate type css class', () => {
     const props = {
       value: 'Mocked KPI value',
-      isPrimary: true
+      isPrimary: true,
+      type: 'negative'
     }
-    const type = 'bad'
     const wrapper = mount(GeoKPI, {
-      propsData: {
-        data: props,
-        type: type
-      }
+      propsData: props
     })
-    expect(wrapper.find('.geo-kpi--bad').exists()).toBe(true)
+    expect(wrapper.find('.geo-kpi--negative').exists()).toBe(true)
   })
 
-  it('Should create a bad kpi', () => {
+  it('Should create a negative kpi', () => {
     const props = {
       value: 'Mocked KPI value',
       isPrimary: true
     }
-    const wrapper = mount(GeoBadKPI, {
+    const wrapper = mount(GeoNegativeKPI, {
       localVue,
-      propsData: {
-        data: props
-      }
+      propsData: props
     })
-    expect(wrapper.find('.geo-kpi--bad').exists()).toBe(true)
+    expect(wrapper.find('.geo-kpi--negative').exists()).toBe(true)
   })
 
-  it('Should create a medium kpi', () => {
+  it('Should create a neutral kpi', () => {
     const props = {
       value: 'Mocked KPI value',
       isPrimary: true
     }
-    const wrapper = mount(GeoMediumKPI, {
+    const wrapper = mount(GeoNeutralKPI, {
       localVue,
-      propsData: {
-        data: props
-      }
+      propsData: props
     })
-    expect(wrapper.find('.geo-kpi--medium').exists()).toBe(true)
+    expect(wrapper.find('.geo-kpi--neutral').exists()).toBe(true)
   })
 
-  it('Should create a good kpi', () => {
+  it('Should create a positive kpi', () => {
     const props = {
       value: 'Mocked KPI value',
       isPrimary: true
     }
-    const wrapper = mount(GeoGoodKPI, {
+    const wrapper = mount(GeoPositiveKPI, {
       localVue,
-      propsData: {
-        data: props
-      }
+      propsData: props
     })
-    expect(wrapper.find('.geo-kpi--good').exists()).toBe(true)
-  })
-
-  it('Should create a standard kpi', () => {
-    const props = {
-      value: 'Mocked KPI value',
-      isPrimary: true
-    }
-    const wrapper = mount(GeoStandardKPI, {
-      localVue,
-      propsData: {
-        data: props
-      }
-    })
-    expect(wrapper.find('.geo-kpi--standard').exists()).toBe(true)
+    expect(wrapper.find('.geo-kpi--positive').exists()).toBe(true)
   })
 })
