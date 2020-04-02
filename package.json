@@ -101,7 +101,7 @@
     "babel-loader": "^8.0.6",
     "chai": "^4.2.0",
     "chai-things": "^0.2.0",
-    "chalk": "^3.0.0",
+    "chalk": "^4.0.0",
     "chokidar": "^3.3.0",
     "codemirror": "^5.48.2",
     "compression-webpack-plugin": "^3.0.1",
