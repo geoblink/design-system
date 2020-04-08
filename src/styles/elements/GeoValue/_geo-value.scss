@@ -1,54 +1,54 @@
 
-.geo-kpi {
+.geo-value {
   border-radius: $border-radius-default;
 }
 
-.geo-kpi__column {
+.geo-value__column {
   float: left;
 }
 
-.geo-kpi--is-primary {
-  .geo-kpi__value, .geo-kpi__unit {
+.geo-value--is-primary {
+  .geo-value__value, .geo-value__unit {
     @include font($display-medium);
     display: inline-block;
   }
-  .geo-kpi__description {
+  .geo-value__description {
     @include font($body-small);
     margin-top: 3px;
   }
-  &.geo-kpi--negative {
-    .geo-kpi__value, .geo-kpi__unit {
+  &.geo-value--negative {
+    .geo-value__value, .geo-value__unit {
       color: $color-red;
     }
   }
-  &.geo-kpi--neutral {
-    .geo-kpi__value, .geo-kpi__unit {
+  &.geo-value--neutral {
+    .geo-value__value, .geo-value__unit {
       color: $color-yellow;
     }
   }
-  &.geo-kpi--positive {
-    .geo-kpi__value, .geo-kpi__unit {
+  &.geo-value--positive {
+    .geo-value__value, .geo-value__unit {
       color: $color-green;
     }
   }
 }
 
-.geo-kpi--is-secondary {
+.geo-value--is-secondary {
   padding: 1px;
-  .geo-kpi__row {
+  .geo-value__row {
     display: inline-block;
   }
-  .geo-kpi__value, .geo-kpi__unit, .geo-kpi__description {
+  .geo-value__value, .geo-value__unit, .geo-value__description {
     @include font($body-small);
     display: inline-block;
   }
-  &.geo-kpi--negative {
+  &.geo-value--negative {
     background-color: $color-red;
   }
-  &.geo-kpi--neutral {
+  &.geo-value--neutral {
     background-color: $color-yellow;
   }
-  &.geo-kpi--positive {
+  &.geo-value--positive {
     background-color: $color-green;
   }
 }

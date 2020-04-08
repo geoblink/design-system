@@ -4,7 +4,7 @@
 <template>
   <div class="element-demo">
     <div class="element-demo__block">
-      <geo-KPI
+      <geo-value
         :value="value"
         :is-primary="isPrimary"
       />
@@ -14,7 +14,7 @@
 
 <script>
 export default {
-  name: 'GeoKPIDemo',
+  name: 'GeoValueDemo',
   data () {
     return {
       value: "27th of 73",
@@ -31,7 +31,7 @@ export default {
 <template>
   <div class="element-demo">
     <div class="element-demo__block">
-      <geo-KPI
+      <geo-value
         :value="value"
         :is-primary="isPrimary"
         :unit="unit"
@@ -42,7 +42,7 @@ export default {
 
 <script>
 export default {
-  name: 'GeoKPIDemo',
+  name: 'GeoValueDemo',
   data () {
     return {
       value: "365",
@@ -60,7 +60,7 @@ export default {
 <template>
   <div class="element-demo">
     <div class="element-demo__block">
-      <geo-KPI
+      <geo-value
         :value="value"
         :is-primary="isPrimary"
         :description="description"
@@ -71,7 +71,7 @@ export default {
 
 <script>
 export default {
-  name: 'GeoKPIDemo',
+  name: 'GeoValueDemo',
   data () {
     return {
       value: "27th of 35",
@@ -89,7 +89,7 @@ export default {
 <template>
   <div class="element-demo">
     <div class="element-demo__block">
-      <geo-KPI
+      <geo-value
         :value="value"
         :is-primary="isPrimary"
         :type="type"
@@ -100,7 +100,7 @@ export default {
 
 <script>
 export default {
-  name: 'GeoKPIDemo',
+  name: 'GeoValueDemo',
   data () {
     return {
       value: "27th of 35",
@@ -118,7 +118,7 @@ export default {
 <template>
   <div class="element-demo">
     <div class="element-demo__block">
-      <geo-KPI
+      <geo-value
         :value="value"
         :is-primary="isPrimary"
         :description="description"
@@ -132,14 +132,14 @@ export default {
             Tooltip text
           </geo-tooltip>
         </template>
-      </geo-KPI>
+      </geo-value>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'GeoKPIDemo',
+  name: 'GeoValueDemo',
   data () {
     return {
       descriptionTooltipIcon: null,
@@ -162,7 +162,7 @@ export default {
 <template>
   <div class="element-demo">
     <div class="element-demo__block">
-      <geo-KPI
+      <geo-value
         :value="value"
         :is-primary="isPrimary"
         :description="description"
@@ -177,14 +177,14 @@ export default {
             Warning tooltip text
           </geo-tooltip>
         </template>
-      </geo-KPI>
+      </geo-value>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'GeoKPIDemo',
+  name: 'GeoValueDemo',
   data () {
     return {
       warningTooltipIcon: null,
@@ -214,7 +214,7 @@ export default {
 <template>
   <div class="element-demo">
     <div class="element-demo__block">
-      <geo-KPI
+      <geo-value
         :value="value"
         :is-primary="isPrimary"
       />
@@ -224,7 +224,7 @@ export default {
 
 <script>
 export default {
-  name: 'GeoKPIDemo',
+  name: 'GeoValueDemo',
   data () {
     return {
       value: "27th of 73",
@@ -241,7 +241,7 @@ export default {
 <template>
   <div class="element-demo">
     <div class="element-demo__block">
-      <geo-KPI
+      <geo-value
         :value="value"
         :is-primary="isPrimary"
         :unit="unit"
@@ -253,7 +253,7 @@ export default {
 
 <script>
 export default {
-  name: 'GeoKPIDemo',
+  name: 'GeoValueDemo',
   data () {
     return {
       value: "587",
@@ -272,7 +272,7 @@ export default {
 <template>
   <div class="element-demo">
     <div class="element-demo__block">
-      <geo-KPI
+      <geo-value
         :value="value"
         :is-primary="isPrimary"
         :unit="unit"
@@ -285,7 +285,7 @@ export default {
 
 <script>
 export default {
-  name: 'GeoKPIDemo',
+  name: 'GeoValueDemo',
   data () {
     return {
       value: "27th of 73",
@@ -305,7 +305,7 @@ export default {
 <template>
   <div class="element-demo">
     <div class="element-demo__block">
-      <geo-KPI
+      <geo-value
         :value="value"
         :is-primary="isPrimary"
         :description="description"
@@ -319,14 +319,14 @@ export default {
             Tooltip text
           </geo-tooltip>
         </template>
-      </geo-KPI>
+      </geo-value>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'GeoKPIDemo',
+  name: 'GeoValueDemo',
   data () {
     return {
       descriptionTooltipIcon: null,
@@ -348,7 +348,7 @@ export default {
 <template>
   <div class="element-demo">
     <div class="element-demo__block">
-      <geo-KPI
+      <geo-value
         :value="value"
         :is-primary="isPrimary"
         :description="description"
@@ -363,14 +363,14 @@ export default {
             Warning tooltip text
           </geo-tooltip>
         </template>
-      </geo-KPI>
+      </geo-value>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'GeoKPIDemo',
+  name: 'GeoValueDemo',
   data () {
     return {
       warningTooltipIcon: null,

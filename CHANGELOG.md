@@ -4,7 +4,7 @@
 
 New:
 
-- `GeoKPI` component
+- `GeoValue` component
 
 ## 29.5.5
 

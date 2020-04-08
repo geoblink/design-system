@@ -12,28 +12,28 @@ export { TYPES }
 export default {
   props: {
     /**
-     * Determines if KPI is primary or not
+     * Determines if the value is primary or not
      */
     isPrimary: {
       type: Boolean,
       required: true
     },
     /**
-     * KPI value
+     * Value
     */
     value: {
       type: String,
       required: true
     },
     /**
-     * KPI unit
+     * Unit
     */
     unit: {
       type: String,
       required: false
     },
     /**
-     * KPI description
+     * Description
     */
     description: {
       type: String,

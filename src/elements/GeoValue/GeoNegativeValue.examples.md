@@ -4,7 +4,7 @@
 <template>
   <div class="element-demo">
     <div class="element-demo__block">
-      <geo-negative-KPI
+      <geo-negative-value
         :value="value"
         :is-primary="isPrimary"
       />
@@ -14,7 +14,7 @@
 
 <script>
 export default {
-  name: 'GeoNegativeKPIDemo',
+  name: 'GeoNegativeValueDemo',
   data () {
     return {
       value: "27th of 73",
@@ -31,7 +31,7 @@ export default {
 <template>
   <div class="element-demo">
     <div class="element-demo__block">
-      <geo-negative-KPI
+      <geo-negative-value
         :value="value"
         :is-primary="isPrimary"
         :unit="unit"
@@ -42,7 +42,7 @@ export default {
 
 <script>
 export default {
-  name: 'GeoNegativeKPIDemo',
+  name: 'GeoNegativeValueDemo',
   data () {
     return {
       value: "365",
@@ -60,7 +60,7 @@ export default {
 <template>
   <div class="element-demo">
     <div class="element-demo__block">
-      <geo-negative-KPI
+      <geo-negative-value
         :value="value"
         :is-primary="isPrimary"
         :description="description"
@@ -71,7 +71,7 @@ export default {
 
 <script>
 export default {
-  name: 'GeoNegativeKPIDemo',
+  name: 'GeoNegativeValueDemo',
   data () {
     return {
       value: "27th of 35",
@@ -89,7 +89,7 @@ export default {
 <template>
   <div class="element-demo">
     <div class="element-demo__block">
-      <geo-negative-KPI
+      <geo-negative-value
         :value="value"
         :is-primary="isPrimary"
         :description="description"
@@ -103,14 +103,14 @@ export default {
             Tooltip text
           </geo-tooltip>
         </template>
-      </geo-negative-KPI>
+      </geo-negative-value>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'GeoNegativeKPIDemo',
+  name: 'GeoNegativeValueDemo',
   data () {
     return {
       descriptionTooltipIcon: null,
@@ -133,7 +133,7 @@ export default {
 <template>
   <div class="element-demo">
     <div class="element-demo__block">
-      <geo-negative-KPI
+      <geo-negative-value
         :value="value"
         :is-primary="isPrimary"
         :description="description"
@@ -148,14 +148,14 @@ export default {
             Warning tooltip text
           </geo-tooltip>
         </template>
-      </geo-negative-KPI>
+      </geo-negative-value>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'GeoNegativeKPIDemo',
+  name: 'GeoNegativeValueDemo',
   data () {
     return {
       warningTooltipIcon: null,
@@ -185,7 +185,7 @@ export default {
 <template>
   <div class="element-demo">
     <div class="element-demo__block">
-      <geo-negative-KPI
+      <geo-negative-value
         :value="value"
         :is-primary="isPrimary"
       />
@@ -195,7 +195,7 @@ export default {
 
 <script>
 export default {
-  name: 'GeoNegativeKPIDemo',
+  name: 'GeoNegativeValueDemo',
   data () {
     return {
       value: "27th of 73",
@@ -212,7 +212,7 @@ export default {
 <template>
   <div class="element-demo">
     <div class="element-demo__block">
-      <geo-negative-KPI
+      <geo-negative-value
         :value="value"
         :is-primary="isPrimary"
         :unit="unit"
@@ -224,7 +224,7 @@ export default {
 
 <script>
 export default {
-  name: 'GeoNegativeKPIDemo',
+  name: 'GeoNegativeValueDemo',
   data () {
     return {
       value: "587",
@@ -243,7 +243,7 @@ export default {
 <template>
   <div class="element-demo">
     <div class="element-demo__block">
-      <geo-negative-KPI
+      <geo-negative-value
         :value="value"
         :is-primary="isPrimary"
         :description="description"
@@ -257,14 +257,14 @@ export default {
             Tooltip text
           </geo-tooltip>
         </template>
-      </geo-negative-KPI>
+      </geo-negative-value>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'GeoNegativeKPIDemo',
+  name: 'GeoNegativeValueDemo',
   data () {
     return {
       descriptionTooltipIcon: null,
@@ -286,7 +286,7 @@ export default {
 <template>
   <div class="element-demo">
     <div class="element-demo__block">
-      <geo-negative-KPI
+      <geo-negative-value
         :value="value"
         :is-primary="isPrimary"
         :description="description"
@@ -301,14 +301,14 @@ export default {
             Warning tooltip text
           </geo-tooltip>
         </template>
-      </geo-negative-KPI>
+      </geo-negative-value>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'GeoNegativeKPIDemo',
+  name: 'GeoNegativeValueDemo',
   data () {
     return {
       warningTooltipIcon: null,

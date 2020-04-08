@@ -3,10 +3,10 @@
   <div class="element-demo">
     <div class="element-demo__block">
       <geo-vertical-layout>
-        <geo-KPI
+        <geo-value
           :data="datumData"
         />
-        <geo-KPI
+        <geo-value
           :data="datumData2"
         />
       </geo-vertical-layout>
@@ -19,7 +19,7 @@ export default {
   name: 'GeoVerticalLayoutDemo',
   data () {
     return {
-      kpiData: {
+      valueData: {
         value: "27th of 73",
         isPrimary: true,
         unit: "",
@@ -27,7 +27,7 @@ export default {
         descriptionTooltip:"Es mayor que la media de tiendas",
         colorHighlight:"green"
       },
-      kpiData2: {
+      valueData2: {
         value: "27th of 73",
         isPrimary: false,
         unit: "",
