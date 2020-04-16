@@ -1,5 +1,11 @@
 # Changelog
 
+## 29.6.0
+
+New:
+
+- `GeoValue` component
+
 ## 29.5.5
 
 Fix:

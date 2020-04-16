@@ -1,6 +1,7 @@
 <geo-button
   v-bind="$props"
   :type="type"
+  :isPrimary="isPrimary"
   @click="$emit('click', $event)"
 >
   <slot />

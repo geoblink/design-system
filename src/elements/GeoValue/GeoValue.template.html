@@ -1,0 +1,13 @@
+<geo-value
+  v-bind="$props"
+  :type="type"
+>
+  <slot
+    slot="warningTooltip"
+    name="warningTooltip"
+  />
+  <slot
+    slot="descriptionTooltip"
+    name="descriptionTooltip"
+  />
+</geo-value>

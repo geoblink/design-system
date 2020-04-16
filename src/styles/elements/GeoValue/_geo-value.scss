@@ -1,0 +1,54 @@
+
+.geo-value {
+  border-radius: $border-radius-default;
+}
+
+.geo-value__column {
+  float: left;
+}
+
+.geo-value--is-primary {
+  .geo-value__value, .geo-value__unit {
+    @include font($display-medium);
+    display: inline-block;
+  }
+  .geo-value__description {
+    @include font($body-small);
+    margin-top: 3px;
+  }
+  &.geo-value--negative {
+    .geo-value__value, .geo-value__unit {
+      color: $color-red;
+    }
+  }
+  &.geo-value--neutral {
+    .geo-value__value, .geo-value__unit {
+      color: $color-yellow;
+    }
+  }
+  &.geo-value--positive {
+    .geo-value__value, .geo-value__unit {
+      color: $color-green;
+    }
+  }
+}
+
+.geo-value--is-secondary {
+  padding: 1px;
+  .geo-value__row {
+    display: inline-block;
+  }
+  .geo-value__value, .geo-value__unit, .geo-value__description {
+    @include font($body-small);
+    display: inline-block;
+  }
+  &.geo-value--negative {
+    background-color: $color-red;
+  }
+  &.geo-value--neutral {
+    background-color: $color-yellow;
+  }
+  &.geo-value--positive {
+    background-color: $color-green;
+  }
+}
