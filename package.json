@@ -103,7 +103,7 @@
     "chai-things": "^0.2.0",
     "chalk": "^3.0.0",
     "chokidar": "^3.3.0",
-    "codemirror": "^5.48.2",
+    "codemirror": "5.53.2",
     "compression-webpack-plugin": "^3.0.1",
     "copy-to-clipboard": "^3.2.0",
     "copy-webpack-plugin": "^5.0.4",
