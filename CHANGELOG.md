@@ -1,5 +1,11 @@
 # Changelog
 
+## 29.6.1
+
+New:
+
+- Added classes to `GeoExternalLinkButton` to access easier to "a" and "svg" tags.
+
 ## 29.6.0
 
 New:
