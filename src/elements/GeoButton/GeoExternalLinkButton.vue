@@ -8,6 +8,7 @@
     <a
       v-if="href"
       ref="link"
+      class="geo-external-link-button__link"
       :href="href"
       :target="target"
     >
@@ -17,6 +18,7 @@
 
     <font-awesome-icon
       :icon="icon"
+      class="geo-external-link-button__icon"
       fixed-width
       aria-hidden
     />
