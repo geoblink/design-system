@@ -1,5 +1,6 @@
 <template>
   <geo-dropdown
+    ref="dropdown"
     :opened="isCalendarPopupOpened"
     :popup-class="['geo-calendar-dropdown__popup', popupClass]"
     @click-outside="handleClickOutside"
