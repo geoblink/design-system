@@ -1,5 +1,11 @@
 # Changelog
 
+## 29.6.3
+
+Fix:
+
+- Fix build error
+
 ## 29.6.2
 
 New:
