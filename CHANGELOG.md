@@ -1,5 +1,11 @@
 # Changelog
 
+## 29.6.2
+
+New:
+
+- Add ref to `geo-dropdown` in `GeoCalendarDropdown`
+
 ## 29.6.1
 
 New:
