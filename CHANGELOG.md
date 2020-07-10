@@ -1,5 +1,11 @@
 # Changelog
 
+## 29.6.4
+
+Fix:
+
+- Fix `geo-calendar` select dates
+
 ## 29.6.3
 
 Fix:

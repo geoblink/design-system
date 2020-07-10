@@ -24,6 +24,7 @@
             @focus="focusFromDateInput"
             @blur="applyFromFormattedDate"
             @delete-value="deleteFromFormattedDate"
+            @click.native="focusFromDateInput"
           />
           <!-- @slot Use this slot to customize the message shown when there is an error in one of the selected dates -->
           <geo-input-message
@@ -61,6 +62,7 @@
             @focus="focusToDateInput"
             @blur="applyToFormattedDate($event)"
             @delete-value="deleteToFormattedDate"
+            @click.native="focusToDateInput"
           />
           <!-- @slot Use this slot to customize the message shown when there is an error in one of the selected dates -->
           <geo-input-message
@@ -392,9 +394,7 @@ export default {
         ? unverifiedRangeSettings.whenSettingFromDate
         : unverifiedRangeSettings.whenSettingToDate
 
-      const isRangeValid = unverifiedRange.end
-        ? isBefore(unverifiedRange.start, unverifiedRange.end)
-        : true
+      const isRangeValid = !unverifiedRange.end || (!unverifiedRange.start || isBefore(unverifiedRange.start, unverifiedRange.end))
 
       const validatedRange = isRangeValid
         ? unverifiedRange
@@ -457,9 +457,7 @@ export default {
         ? unverifiedRangeSettings.whenSettingFromDate
         : unverifiedRangeSettings.whenSettingToDate
 
-      const isRangeValid = unverifiedRange.end
-        ? isBefore(unverifiedRange.start, unverifiedRange.end)
-        : true
+      const isRangeValid = !unverifiedRange.end || (!unverifiedRange.start || isBefore(unverifiedRange.start, unverifiedRange.end))
 
       const validatedRange = isRangeValid
         ? unverifiedRange
