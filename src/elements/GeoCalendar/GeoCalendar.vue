@@ -394,7 +394,7 @@ export default {
         ? unverifiedRangeSettings.whenSettingFromDate
         : unverifiedRangeSettings.whenSettingToDate
 
-      const isRangeValid = !unverifiedRange.end || (!unverifiedRange.start || isBefore(unverifiedRange.start, unverifiedRange.end))
+      const isRangeValid = this.validateRange(unverifiedRange.start, unverifiedRange.end)
 
       const validatedRange = isRangeValid
         ? unverifiedRange
@@ -457,7 +457,7 @@ export default {
         ? unverifiedRangeSettings.whenSettingFromDate
         : unverifiedRangeSettings.whenSettingToDate
 
-      const isRangeValid = !unverifiedRange.end || (!unverifiedRange.start || isBefore(unverifiedRange.start, unverifiedRange.end))
+      const isRangeValid = this.validateRange(unverifiedRange.start, unverifiedRange.end)
 
       const validatedRange = isRangeValid
         ? unverifiedRange
@@ -565,6 +565,10 @@ export default {
           end: lastDay
         }
       }
+    },
+
+    validateRange (start, end) {
+      return !end || (!start || isBefore(start, end))
     },
 
     highlightInputForDayUnit (day) {
