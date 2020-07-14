@@ -1,5 +1,13 @@
 # Changelog
 
+## 29.7.0
+
+Fix:
+
+- Add readOnly prop to `geo-input`
+- Fix `geo-calendar` selection dates
+- `geo-calendar` uses readOnly input if selected granularity is not daily
+
 ## 29.6.3
 
 Fix:

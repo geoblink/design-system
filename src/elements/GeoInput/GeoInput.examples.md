@@ -179,6 +179,32 @@ export default {
 </script>
 ```
 
+### Read only input
+
+``` vue live
+<template>
+  <div class="element-demo">
+    <div class="element-demo__block">
+      <geo-input v-model="value" type="text" :read-only="true" :disabled-icon="['fas', 'lock']">
+        <geo-input-label slot="label">Input disabled</geo-input-label>
+        <geo-input-message slot="message">This is the legend</geo-input-message>
+      </geo-input>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'GeoInputDemo',
+  data () {
+    return {
+      value: ''
+    }
+  }
+}
+</script>
+```
+
 ### Input text with events
 
 ``` vue live

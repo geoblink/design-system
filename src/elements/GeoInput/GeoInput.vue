@@ -27,7 +27,7 @@
         <input
           ref="input"
           :value="value"
-          :disabled="disabled"
+          :disabled="disabled || readOnly"
           class="geo-input__input"
           v-bind="$attrs"
           v-on="listeners"
@@ -103,6 +103,15 @@ export default {
      * events and show the disabled icon.
      */
     disabled: {
+      type: Boolean,
+      default: false
+    },
+
+    /**
+     * Whether this input is in read-only mode or not. Read only inputs don't allow to
+     * type into them.
+     */
+    readOnly: {
       type: Boolean,
       default: false
     },

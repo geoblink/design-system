@@ -18,12 +18,13 @@
             v-model="fromFormattedDate"
             :placeholder="fromInputPlaceholder"
             type="text"
-            :disabled="isInputDisabled"
+            :read-only="isInputReadOnly"
             :error="showFromFormatError"
             :focus="isFromInputFieldFocused"
             @focus="focusFromDateInput"
             @blur="applyFromFormattedDate"
             @delete-value="deleteFromFormattedDate"
+            @click.native="focusFromDateInput"
           />
           <!-- @slot Use this slot to customize the message shown when there is an error in one of the selected dates -->
           <geo-input-message
@@ -55,12 +56,13 @@
             v-model="toFormattedDate"
             :placeholder="toInputPlaceholder"
             type="text"
-            :disabled="isInputDisabled"
+            :read-only="isInputReadOnly"
             :error="showToFormatError"
             :focus="isToInputFieldFocused"
             @focus="focusToDateInput"
             @blur="applyToFormattedDate($event)"
             @delete-value="deleteToFormattedDate"
+            @click.native="focusToDateInput"
           />
           <!-- @slot Use this slot to customize the message shown when there is an error in one of the selected dates -->
           <geo-input-message
@@ -215,7 +217,7 @@ export default {
       return (date) => date && isValid(date) && this.isDateWithinBounds(date)
     },
 
-    isInputDisabled () {
+    isInputReadOnly () {
       return this.granularityId !== GRANULARITY_IDS.day
     }
   },
@@ -392,9 +394,7 @@ export default {
         ? unverifiedRangeSettings.whenSettingFromDate
         : unverifiedRangeSettings.whenSettingToDate
 
-      const isRangeValid = unverifiedRange.end
-        ? isBefore(unverifiedRange.start, unverifiedRange.end)
-        : true
+      const isRangeValid = this.validateRange(unverifiedRange.start, unverifiedRange.end)
 
       const validatedRange = isRangeValid
         ? unverifiedRange
@@ -457,9 +457,7 @@ export default {
         ? unverifiedRangeSettings.whenSettingFromDate
         : unverifiedRangeSettings.whenSettingToDate
 
-      const isRangeValid = unverifiedRange.end
-        ? isBefore(unverifiedRange.start, unverifiedRange.end)
-        : true
+      const isRangeValid = this.validateRange(unverifiedRange.start, unverifiedRange.end)
 
       const validatedRange = isRangeValid
         ? unverifiedRange
@@ -567,6 +565,10 @@ export default {
           end: lastDay
         }
       }
+    },
+
+    validateRange (start, end) {
+      return start && end ? isBefore(start, end) : true
     },
 
     highlightInputForDayUnit (day) {
