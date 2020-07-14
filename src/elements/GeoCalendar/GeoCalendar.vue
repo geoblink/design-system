@@ -568,7 +568,7 @@ export default {
     },
 
     validateRange (start, end) {
-      return !end || (!start || isBefore(start, end))
+      return start && end ? isBefore(start, end) : true
     },
 
     highlightInputForDayUnit (day) {
