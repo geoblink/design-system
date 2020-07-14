@@ -18,7 +18,7 @@
             v-model="fromFormattedDate"
             :placeholder="fromInputPlaceholder"
             type="text"
-            :disabled="isInputDisabled"
+            :read-only="isInputReadOnly"
             :error="showFromFormatError"
             :focus="isFromInputFieldFocused"
             @focus="focusFromDateInput"
@@ -56,7 +56,7 @@
             v-model="toFormattedDate"
             :placeholder="toInputPlaceholder"
             type="text"
-            :disabled="isInputDisabled"
+            :read-only="isInputReadOnly"
             :error="showToFormatError"
             :focus="isToInputFieldFocused"
             @focus="focusToDateInput"
@@ -217,7 +217,7 @@ export default {
       return (date) => date && isValid(date) && this.isDateWithinBounds(date)
     },
 
-    isInputDisabled () {
+    isInputReadOnly () {
       return this.granularityId !== GRANULARITY_IDS.day
     }
   },
