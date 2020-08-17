@@ -1,5 +1,12 @@
 # Changelog
 
+
+## 29.8.0
+
+New:
+
+- Add `geo-trimmed-content` component in `geo-segmented-control-item` component slot
+
 ## 29.7.0
 
 Fix:

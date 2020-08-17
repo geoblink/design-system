@@ -10,8 +10,10 @@
     }"
     @click="handleClick($event)"
   >
-    <!-- @slot Use this slot to customize item's content -->
-    <slot />
+    <geo-trimmed-content>
+      <!-- @slot Use this slot to customize item's content -->
+      <slot />
+    </geo-trimmed-content>
   </div>
 </template>
 
