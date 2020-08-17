@@ -4,6 +4,7 @@ import GeoInfoSegmentedControlItem from '@/elements/GeoSegmentedControl/GeoInfoS
 import GeoSuccessSegmentedControlItem from '@/elements/GeoSegmentedControl/GeoSuccessSegmentedControlItem.vue'
 import GeoWarningSegmentedControlItem from '@/elements/GeoSegmentedControl/GeoWarningSegmentedControlItem.vue'
 import GeoDangerSegmentedControlItem from '@/elements/GeoSegmentedControl/GeoDangerSegmentedControlItem.vue'
+import GeoTrimmedContent from '@/elements/GeoTrimmedContent/GeoTrimmedContent'
 
 // create an extended `Vue` constructor
 const localVue = createLocalVue()
@@ -12,6 +13,7 @@ localVue.component('geo-info-segmented-control-item', GeoInfoSegmentedControlIte
 localVue.component('geo-success-segmented-control-item', GeoSuccessSegmentedControlItem)
 localVue.component('geo-warning-segmented-control-item', GeoWarningSegmentedControlItem)
 localVue.component('geo-danger-segmented-control-item', GeoDangerSegmentedControlItem)
+localVue.component('geo-trimmed-content', GeoTrimmedContent)
 
 describe('GeoSegmentedControlItem', () => {
   it('Should render button\'s content', function () {
