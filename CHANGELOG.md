@@ -1,6 +1,12 @@
 # Changelog
 
 
+## 29.8.1
+
+New:
+
+- Fix `geo-segmented-control-item` styles
+
 ## 29.8.0
 
 New:
