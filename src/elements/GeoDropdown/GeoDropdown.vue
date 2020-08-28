@@ -268,6 +268,7 @@ export default {
       if (!this.isOpened) return
       // Positioning algorithm requires a real DOM
       if (this.$isServer) return
+      if (!this.$refs.popup) return
 
       const viewport = {
         height: document.documentElement.clientHeight,
@@ -276,7 +277,7 @@ export default {
 
       const containerElement = this.$el
       const popupElement = this.$refs.popup
-
+      
       if (popupElement.style) {
         popupElement.style.removeProperty('--available-width')
         popupElement.style.removeProperty('--available-height')
