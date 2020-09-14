@@ -1,5 +1,17 @@
 # Changelog
 
+## 29.8.4
+
+New:
+
+- Fix check if $refs exists in `geo-dropdown` to avoid errors.
+
+## 29.8.3
+
+New:
+
+- Fix check if $refs exists in `geo-dropdown` to avoid errors.
+
 ## 29.8.2
 
 New:
