@@ -268,7 +268,7 @@ export default {
       if (!this.isOpened) return
       // Positioning algorithm requires a real DOM
       if (this.$isServer) return
-      if (!this.$refs && !this.$refs.popup) return
+      if (!this.$el || !this.$refs.popup) return
 
       const viewport = {
         height: document.documentElement.clientHeight,
