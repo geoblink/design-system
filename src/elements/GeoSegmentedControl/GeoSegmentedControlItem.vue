@@ -18,7 +18,6 @@
 </template>
 
 <script>
-import GeoTrimmedContent from '@/elements/GeoTrimmedContent/GeoTrimmedContent.vue'
 import { enumPropertyFactory } from '@/utils/enumPropertyFactory'
 
 import geoSegmentedControlItemMixin, { VARIANTS } from './GeoSegmentedControlItem.constants'
@@ -60,9 +59,6 @@ export default {
       enumDictionary: VARIANTS,
       defaultValue: VARIANTS.info
     })
-  },
-  components: {
-    GeoTrimmedContent
   },
   computed: {
     outlineSuffix () {
