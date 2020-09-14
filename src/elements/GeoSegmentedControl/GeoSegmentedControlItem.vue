@@ -18,8 +18,9 @@
 </template>
 
 <script>
+import { enumPropertyFactory } from '@/utils/enumPropertyFactory'
+
 import geoSegmentedControlItemMixin, { VARIANTS } from './GeoSegmentedControlItem.constants'
-import { enumPropertyFactory } from '../../utils/enumPropertyFactory'
 
 /**
  * `GeoSegmentedControlItem` is a component designed to nicely fit as one of the
