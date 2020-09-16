@@ -1,5 +1,5 @@
 <template>
-  <div
+  <geo-trimmed-content
     :class="{
       [`geo-segmented-control-item${outlineSuffix}`]: true,
       [`geo-segmented-control-item--${variant}${outlineSuffix}`]: true,
@@ -10,11 +10,9 @@
     }"
     @click="handleClick($event)"
   >
-    <geo-trimmed-content>
-      <!-- @slot Use this slot to customize item's content -->
-      <slot />
-    </geo-trimmed-content>
-  </div>
+    <!-- @slot Use this slot to customize item's content -->
+    <slot />
+  </geo-trimmed-content>
 </template>
 
 <script>
