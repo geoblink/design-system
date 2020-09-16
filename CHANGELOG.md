@@ -1,5 +1,11 @@
 # Changelog
 
+## 29.8.5
+
+New:
+
+- Fix `geo-segmented-control-item` to work right with `geo-trimmed-content`
+
 ## 29.8.4
 
 New:
