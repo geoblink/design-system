@@ -4,6 +4,7 @@
     class="geo-trimmed-content"
     @mouseenter="isHovered = true"
     @mouseleave="isHovered = false"
+    @click="onClick"
   >
     <geo-tooltip
       :visible="isTooltipVisible"
@@ -104,6 +105,9 @@ export default {
       if (!this.$refs.tooltipContent) return
 
       this.$refs.tooltipContent.innerHTML = this.$refs.content.innerHTML
+    },
+    onClick(e) {
+      this.$emit('click', e)
     }
   }
 }
