@@ -106,7 +106,7 @@ export default {
 
       this.$refs.tooltipContent.innerHTML = this.$refs.content.innerHTML
     },
-    onClick(e) {
+    onClick (e) {
       this.$emit('click', e)
     }
   }
