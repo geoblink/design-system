@@ -1,4 +1,4 @@
-import { createLocalVue, mount } from '@vue/test-utils'
+import { createLocalVue, shallowMount } from '@vue/test-utils'
 import GeoTrimmedContent from '@/elements/GeoTrimmedContent/GeoTrimmedContent.vue'
 import GeoTooltip from '@/elements/GeoTooltip/GeoTooltip.vue'
 
@@ -8,7 +8,7 @@ localVue.component('geo-trimmed-content', GeoTrimmedContent)
 
 describe('GeoTrimmedContent', () => {
   it('Should render content', function () {
-    const wrapper = mount(GeoTrimmedContent, {
+    const wrapper = shallowMount(GeoTrimmedContent, {
       slots: {
         default: '<div class="my-content">Custom content</div>'
       },
@@ -26,7 +26,7 @@ describe('GeoTrimmedContent', () => {
     const consoleWarnSpy = jest.spyOn(global.console, 'warn').mockImplementation(() => { })
     const consoleErrorSpy = jest.spyOn(global.console, 'error').mockImplementation(() => { })
 
-    const wrapper = mount(GeoTrimmedContent, {
+    const wrapper = shallowMount(GeoTrimmedContent, {
       propsData: {
         tooltipPosition: 'invalid position'
       },
@@ -47,7 +47,7 @@ describe('GeoTrimmedContent', () => {
     const consoleWarnSpy = jest.spyOn(global.console, 'warn').mockImplementation(() => { })
     const consoleErrorSpy = jest.spyOn(global.console, 'error').mockImplementation(() => { })
 
-    const wrapper = mount(GeoTrimmedContent, {
+    const wrapper = shallowMount(GeoTrimmedContent, {
       propsData: {
         tooltipAlignment: 'invalid alignment'
       },
@@ -62,5 +62,19 @@ describe('GeoTrimmedContent', () => {
     expect(trimmedContent.exists()).toBe(true)
     expect(consoleErrorSpy).toHaveBeenCalled()
     expect(consoleWarnSpy).toHaveBeenCalled()
+  })
+
+  it('Should emit an event on click', function (done) {
+    const wrapper = shallowMount(GeoTrimmedContent)
+    wrapper.find('.geo-trimmed-content').trigger('click')
+
+    setTimeout(function () {
+      try {
+        expect(wrapper.emitted().click).toBeTruthy()
+        done()
+      } catch (error) {
+        done(error)
+      }
+    })
   })
 })
