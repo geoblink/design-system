@@ -4,7 +4,7 @@
 
 New:
 
-- Emit native click event in geo-segmented-control-item to avoid errors using it with testing tools.
+- Listening to native click event in `geo-segmented-control-item` to avoid errors using it with testing tools.
 
 ## 29.8.6
 
