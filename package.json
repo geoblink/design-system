@@ -1,6 +1,6 @@
 {
   "name": "@geoblink/design-system",
-  "version": "29.8.7",
+  "version": "29.8.7-beta.3",
   "description": "Geoblink Design System for Vue.js",
   "author": "Geoblink <contact@geoblink.com>",
   "main": "dist/system.js",

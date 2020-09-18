@@ -1,4 +1,4 @@
-import { createLocalVue, mount } from '@vue/test-utils'
+import { createLocalVue, shallowMount } from '@vue/test-utils'
 import GeoSegmentedControlItem from '@/elements/GeoSegmentedControl/GeoSegmentedControlItem.vue'
 import GeoInfoSegmentedControlItem from '@/elements/GeoSegmentedControl/GeoInfoSegmentedControlItem.vue'
 import GeoSuccessSegmentedControlItem from '@/elements/GeoSegmentedControl/GeoSuccessSegmentedControlItem.vue'
@@ -17,7 +17,7 @@ localVue.component('geo-trimmed-content', GeoTrimmedContent)
 
 describe('GeoSegmentedControlItem', () => {
   it('Should render button\'s content', function () {
-    const wrapper = mount(GeoSegmentedControlItem, {
+    const wrapper = shallowMount(GeoSegmentedControlItem, {
       slots: {
         default: '<span>Segmented control item title</span>'
       },
@@ -31,7 +31,7 @@ describe('GeoSegmentedControlItem', () => {
   })
 
   it('Should emit an event on click', function (done) {
-    const wrapper = mount(GeoSegmentedControlItem, {
+    const wrapper = shallowMount(GeoSegmentedControlItem, {
       propsData: {
         type: 'primary'
       }
@@ -48,7 +48,7 @@ describe('GeoSegmentedControlItem', () => {
   })
 
   it('Should not emit an event when it\'s disabled', function () {
-    const wrapper = mount(GeoSegmentedControlItem, {
+    const wrapper = shallowMount(GeoSegmentedControlItem, {
       propsData: {
         disabled: true
       }
@@ -60,7 +60,7 @@ describe('GeoSegmentedControlItem', () => {
   })
 
   it('Should add disabled class when it\'s disabled', function () {
-    const wrapper = mount(GeoSegmentedControlItem, {
+    const wrapper = shallowMount(GeoSegmentedControlItem, {
       propsData: {
         disabled: true
       }
@@ -70,13 +70,13 @@ describe('GeoSegmentedControlItem', () => {
   })
 
   it('Should nont add disabled class when it\'s not disabled', function () {
-    const wrapper = mount(GeoSegmentedControlItem)
+    const wrapper = shallowMount(GeoSegmentedControlItem)
 
     expect(wrapper.find('.geo-segmented-control-item--disabled').exists()).toBe(false)
   })
 
   it('Should add active class when it\'s active', function () {
-    const wrapper = mount(GeoSegmentedControlItem, {
+    const wrapper = shallowMount(GeoSegmentedControlItem, {
       propsData: {
         active: true
       }
@@ -86,13 +86,13 @@ describe('GeoSegmentedControlItem', () => {
   })
 
   it('Should not add active class when it\'s not active', function () {
-    const wrapper = mount(GeoSegmentedControlItem)
+    const wrapper = shallowMount(GeoSegmentedControlItem)
 
     expect(wrapper.find('.geo-segmented-control-item--active').exists()).toBe(false)
   })
 
   it('Should add outline class when it\'s outlined', function () {
-    const wrapper = mount(GeoSegmentedControlItem, {
+    const wrapper = shallowMount(GeoSegmentedControlItem, {
       propsData: {
         outline: true
       }
@@ -102,7 +102,7 @@ describe('GeoSegmentedControlItem', () => {
   })
 
   it('Should not add outline class when it\'s outlined', function () {
-    const wrapper = mount(GeoSegmentedControlItem)
+    const wrapper = shallowMount(GeoSegmentedControlItem)
 
     expect(wrapper.find('.geo-segmented-control-item--outline').exists()).toBe(false)
   })
@@ -119,7 +119,7 @@ describe('GeoSegmentedControlItem Children', () => {
   taxonomySegmentedControlItems.forEach((taxonomySegmentedControlItem) => {
     describe(taxonomySegmentedControlItem.name, function () {
       it('Should render button\'s content', function () {
-        const wrapper = mount(taxonomySegmentedControlItem, {
+        const wrapper = shallowMount(taxonomySegmentedControlItem, {
           slots: {
             default: '<span>Segmented control item title</span>'
           },
@@ -133,7 +133,7 @@ describe('GeoSegmentedControlItem Children', () => {
       })
 
       it('Should emit an event on click', function (done) {
-        const wrapper = mount(taxonomySegmentedControlItem, {
+        const wrapper = shallowMount(taxonomySegmentedControlItem, {
           stubs: {
             GeoSegmentedControlItem
           }
@@ -150,7 +150,7 @@ describe('GeoSegmentedControlItem Children', () => {
       })
 
       it('Should not emit an event when it\'s disabled', function () {
-        const wrapper = mount(taxonomySegmentedControlItem, {
+        const wrapper = shallowMount(taxonomySegmentedControlItem, {
           context: {
             props: {
               disabled: true
@@ -167,7 +167,7 @@ describe('GeoSegmentedControlItem Children', () => {
       })
 
       it('Should add disabled class when it\'s disabled', function () {
-        const wrapper = mount(taxonomySegmentedControlItem, {
+        const wrapper = shallowMount(taxonomySegmentedControlItem, {
           context: {
             props: {
               disabled: true
@@ -182,7 +182,7 @@ describe('GeoSegmentedControlItem Children', () => {
       })
 
       it('Should not add disabled class when it\'s not disabled', function () {
-        const wrapper = mount(taxonomySegmentedControlItem, {
+        const wrapper = shallowMount(taxonomySegmentedControlItem, {
           stubs: {
             GeoSegmentedControlItem
           }
@@ -192,7 +192,7 @@ describe('GeoSegmentedControlItem Children', () => {
       })
 
       it('Should add outline class when it\'s outlined', function () {
-        const wrapper = mount(taxonomySegmentedControlItem, {
+        const wrapper = shallowMount(taxonomySegmentedControlItem, {
           context: {
             props: {
               outline: true
@@ -207,7 +207,7 @@ describe('GeoSegmentedControlItem Children', () => {
       })
 
       it('Should not add outline class when it\'s not outline', function () {
-        const wrapper = mount(taxonomySegmentedControlItem, {
+        const wrapper = shallowMount(taxonomySegmentedControlItem, {
           stubs: {
             GeoSegmentedControlItem
           }

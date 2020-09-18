@@ -1,4 +1,4 @@
-import { createLocalVue, shallowMount } from '@vue/test-utils'
+import { createLocalVue, mount } from '@vue/test-utils'
 import GeoTrimmedContent from '@/elements/GeoTrimmedContent/GeoTrimmedContent.vue'
 import GeoTooltip from '@/elements/GeoTooltip/GeoTooltip.vue'
 
@@ -8,7 +8,7 @@ localVue.component('geo-trimmed-content', GeoTrimmedContent)
 
 describe('GeoTrimmedContent', () => {
   it('Should render content', function () {
-    const wrapper = shallowMount(GeoTrimmedContent, {
+    const wrapper = mount(GeoTrimmedContent, {
       slots: {
         default: '<div class="my-content">Custom content</div>'
       },
@@ -26,7 +26,7 @@ describe('GeoTrimmedContent', () => {
     const consoleWarnSpy = jest.spyOn(global.console, 'warn').mockImplementation(() => { })
     const consoleErrorSpy = jest.spyOn(global.console, 'error').mockImplementation(() => { })
 
-    const wrapper = shallowMount(GeoTrimmedContent, {
+    const wrapper = mount(GeoTrimmedContent, {
       propsData: {
         tooltipPosition: 'invalid position'
       },
@@ -47,7 +47,7 @@ describe('GeoTrimmedContent', () => {
     const consoleWarnSpy = jest.spyOn(global.console, 'warn').mockImplementation(() => { })
     const consoleErrorSpy = jest.spyOn(global.console, 'error').mockImplementation(() => { })
 
-    const wrapper = shallowMount(GeoTrimmedContent, {
+    const wrapper = mount(GeoTrimmedContent, {
       propsData: {
         tooltipAlignment: 'invalid alignment'
       },

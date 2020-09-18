@@ -17,6 +17,7 @@
 
 <script>
 import { enumPropertyFactory } from '@/utils/enumPropertyFactory'
+import GeoTrimmedContent from '@/elements/GeoTrimmedContent/GeoTrimmedContent.vue';
 
 import geoSegmentedControlItemMixin, { VARIANTS } from './GeoSegmentedControlItem.constants'
 
@@ -29,6 +30,9 @@ export default {
   status: 'ready',
   release: '6.2.0',
   mixins: [geoSegmentedControlItemMixin],
+  components: {
+    GeoTrimmedContent
+  },
   props: {
     /**
      * Predefined color scheme of the segmented control item, allowing several
