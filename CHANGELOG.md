@@ -4,7 +4,7 @@
 
 New:
 
-- Fix `geo-trimmed-content` click event. Now it's emiting it.
+- Fix `geo-segmented-control-item` click event. Now it's emiting it.
 
 ## 29.8.6
 

@@ -68,7 +68,6 @@ export default {
   },
   methods: {
     handleClick ($event) {
-      console.log('>>>>>>>>>> llego ::: ', );
       if (this.disabled) return
 
       /**
