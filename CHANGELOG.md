@@ -4,7 +4,7 @@
 
 New:
 
-- Fix `geo-segmented-control-item` click event. Now it's emiting it.
+- Emit native click event in geo-segmented-control-item to avoid errors using it with testing tools.
 
 ## 29.8.6
 
