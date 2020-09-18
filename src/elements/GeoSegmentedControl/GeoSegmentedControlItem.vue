@@ -8,7 +8,7 @@
       [`geo-segmented-control-item${outlineSuffix}--disabled`]: disabled,
       [`geo-segmented-control-item--${variant}${outlineSuffix}--disabled`]: disabled
     }"
-    @click="handleClick($event)"
+    @click.native="handleClick($event)"
   >
     <!-- @slot Use this slot to customize item's content -->
     <slot />
@@ -68,6 +68,7 @@ export default {
   },
   methods: {
     handleClick ($event) {
+      console.log('>>>>>>>>>> llego ::: ', );
       if (this.disabled) return
 
       /**

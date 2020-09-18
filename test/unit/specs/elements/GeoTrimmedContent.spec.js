@@ -63,18 +63,4 @@ describe('GeoTrimmedContent', () => {
     expect(consoleErrorSpy).toHaveBeenCalled()
     expect(consoleWarnSpy).toHaveBeenCalled()
   })
-
-  it('Should emit an event on click', function (done) {
-    const wrapper = shallowMount(GeoTrimmedContent)
-    wrapper.find('.geo-trimmed-content').trigger('click')
-
-    setTimeout(function () {
-      try {
-        expect(wrapper.emitted().click).toBeTruthy()
-        done()
-      } catch (error) {
-        done(error)
-      }
-    })
-  })
 })
