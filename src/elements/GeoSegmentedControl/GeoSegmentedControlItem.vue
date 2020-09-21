@@ -8,7 +8,7 @@
       [`geo-segmented-control-item${outlineSuffix}--disabled`]: disabled,
       [`geo-segmented-control-item--${variant}${outlineSuffix}--disabled`]: disabled
     }"
-    @click="handleClick($event)"
+    @click.native="handleClick($event)"
   >
     <!-- @slot Use this slot to customize item's content -->
     <slot />
@@ -17,6 +17,7 @@
 
 <script>
 import { enumPropertyFactory } from '@/utils/enumPropertyFactory'
+import GeoTrimmedContent from '@/elements/GeoTrimmedContent/GeoTrimmedContent.vue'
 
 import geoSegmentedControlItemMixin, { VARIANTS } from './GeoSegmentedControlItem.constants'
 
@@ -28,6 +29,9 @@ export default {
   name: 'GeoSegmentedControlItem',
   status: 'ready',
   release: '6.2.0',
+  components: {
+    GeoTrimmedContent
+  },
   mixins: [geoSegmentedControlItemMixin],
   props: {
     /**
