@@ -1,0 +1,15 @@
+.geo-tree-item .geo-list-item__icon-and-label__icon-container {
+  width: 5px;
+
+}
+
+.geo-tree-item .geo-list-item__icon-and-label__icon-container__icon {
+  color: $color-grey-backdrop;
+  width: 5px;
+}
+
+.geo-tree-item__total-items {
+  @include font($body-small);
+  color: $color-grey-light;
+  font-style: italic;
+}
