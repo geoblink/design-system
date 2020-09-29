@@ -7,6 +7,7 @@
        {
          id: '1',
          label: 'Category 1',
+         description: 'Category description',
          children: [
            {
              id: '1.1',

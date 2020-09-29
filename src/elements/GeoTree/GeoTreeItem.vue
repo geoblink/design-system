@@ -12,6 +12,26 @@
     >
       ({{ totalItems }})
     </span>
+    <template slot="trailingAccessoryItem">
+      <div v-if="category.description">
+        <font-awesome-icon
+          :icon="['fal', 'info-circle']"
+          fixed-width
+        />
+        <geo-tooltip>
+          {{ category.description }}
+        </geo-tooltip>
+      </div>
+
+      <input
+        :id="category[keyForId]"
+        :checked="isChecked"
+        :indeterminate.prop="isIndeterminate"
+        type="checkbox"
+        @click.stop
+        @input="checkAll(category, $event.target.checked)"
+      >
+    </template>
   </geo-list-item>
 </template>
 
@@ -68,6 +88,19 @@ export default {
     },
     categoryIcon () {
       return this.hasChildren ? ['fal', 'chevron-right'] : null
+    },
+    isChecked () {
+      // TODO: make this
+      return false
+    },
+    isIndeterminate () {
+      // TODO: make this
+      return false
+    }
+  },
+  methods: {
+    checkAll () {
+      // TODO: make this
     }
   }
 }
