@@ -1,38 +1,51 @@
 <template>
-  <geo-list-item
-    class="geo-tree-item"
-    :icon="categoryIcon"
-  >
-    <label>
-      {{ category[keyForLabel] }}
-    </label>
-    <span
-      v-if="hasChildren"
-      class="geo-tree-item__total-items"
+  <li>
+    <geo-list-item
+      class="geo-tree-item"
+      :class="{'geo-tree-item--clickable': hasChildren}"
+      :icon="categoryIcon"
+      @click="handleClick"
     >
-      ({{ totalItems }})
-    </span>
-    <template slot="trailingAccessoryItem">
-      <div v-if="category.description">
-        <font-awesome-icon
-          :icon="['fal', 'info-circle']"
-          fixed-width
-        />
-        <geo-tooltip>
-          {{ category.description }}
-        </geo-tooltip>
-      </div>
+      <label>
+        {{ category[keyForLabel] }}
+        <span
+          v-if="hasChildren"
+          class="geo-tree-item__total-items"
+        >
+          ({{ totalItems }})
+        </span>
+        <span
+          v-if="category.description"
+          class="geo-tree-item__description"
+        >
+          <font-awesome-icon
+            :icon="['fal', 'info-circle']"
+            fixed-width
+          />
+          <geo-tooltip>
+            {{ category.description }}
+          </geo-tooltip>
+        </span>
+      </label>
 
-      <input
-        :id="category[keyForId]"
-        :checked="isChecked"
-        :indeterminate.prop="isIndeterminate"
-        type="checkbox"
-        @click.stop
-        @input="checkAll(category, $event.target.checked)"
-      >
-    </template>
-  </geo-list-item>
+      <template slot="trailingAccessoryItem">
+        <input
+          :id="category[keyForId]"
+          :checked="isChecked"
+          :indeterminate.prop="isIndeterminate"
+          type="checkbox"
+          @click.stop
+          @input="checkAll(category, $event.target.checked)"
+        >
+      </template>
+    </geo-list-item>
+    <ul
+      v-if="isExpanded"
+      class="geo-tree-item__list"
+    >
+      dd
+    </ul>
+  </li>
 </template>
 
 <script>
@@ -73,6 +86,11 @@ export default {
       default: 'children'
     }
   },
+  data () {
+    return {
+      isExpanded: false
+    }
+  },
   computed: {
     totalItems () {
       const sumOfChildren = (category) => {
@@ -101,6 +119,12 @@ export default {
   methods: {
     checkAll () {
       // TODO: make this
+    },
+    handleClick () {
+      if (!this.hasChildren) return
+
+      this.isExpanded = !this.isExpanded
+      this.$emit('click')
     }
   }
 }

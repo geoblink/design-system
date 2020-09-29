@@ -11,9 +11,12 @@
         class="geo-tree__loading"
         v-text="loadingLabel"
       />
-      <ul v-else>
+      <ul
+        v-else
+        class="geo-tree__list"
+      >
         <geo-tree-item
-          v-for="category in categories"
+          v-for="category in sortedCategories"
           :key="category[keyForId]"
           :category="category"
           :key-for-id="keyForId"
@@ -27,6 +30,7 @@
 </template>
 
 <script>
+import { sortBy } from 'lodash'
 import GeoTreeItem from './GeoTreeItem'
 
 export default {
@@ -98,7 +102,9 @@ export default {
     }
   },
   computed: {
-
+    sortedCategories () {
+      return sortBy(this.categories, [this.keyForLabel])
+    }
   },
   methods: {
     handleSearching () {
