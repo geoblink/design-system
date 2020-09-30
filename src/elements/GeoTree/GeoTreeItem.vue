@@ -31,7 +31,7 @@
       <template slot="trailingAccessoryItem">
         <input
           :id="category[keyForId]"
-          :checked="isChecked"
+          :checked="isChecked(category[keyForId])"
           :indeterminate.prop="isIndeterminate"
           type="checkbox"
           @click.stop
@@ -50,6 +50,7 @@
         :key-for-id="keyForId"
         :key-for-label="keyForLabel"
         :key-for-children="keyForChildren"
+        :checked-items="checkedItems"
         @check="isChecked => check(categoryChildren[keyForId], isChecked)"
       />
     </ul>
@@ -57,7 +58,7 @@
 </template>
 
 <script>
-import { sumBy } from 'lodash'
+import { has, sumBy, forEach } from 'lodash'
 
 export default {
   name: 'GeoTreeItem',
@@ -100,17 +101,14 @@ export default {
   },
   data () {
     return {
-      isExpanded: false,
-      isChecked: false
+      isExpanded: false
     }
   },
   computed: {
     totalItems () {
-      const sumOfChildren = (category) => {
-        return category[this.keyForChildren]
-          ? category[this.keyForChildren].length + sumBy(category[this.keyForChildren], category => sumOfChildren(category))
-          : 0
-      }
+      const sumOfChildren = category => category[this.keyForChildren]
+        ? category[this.keyForChildren].length + sumBy(category[this.keyForChildren], category => sumOfChildren(category))
+        : 0
 
       return sumOfChildren(this.category)
     },
@@ -126,20 +124,28 @@ export default {
     }
   },
   methods: {
-    checkAll () {
-      // TODO: make this
+    isChecked (categoryId) {
+      return has(this.checkedItems, categoryId)
     },
     handleClick () {
       if (!this.hasChildren) {
-        this.check(this.category[this.keyForId], !this.isChecked)
+        this.check(this.category[this.keyForId], !this.isChecked(this.category[this.keyForId]))
         return
       }
 
       this.isExpanded = !this.isExpanded
       this.$emit('click')
     },
+    checkAll (category, isChecked) {
+      forEach(category[this.keyForChildren], (innerCategory) => {
+        this.checkAll(innerCategory, isChecked)
+      })
+      this.$emit('check', category[this.keyForId], isChecked)
+    },
     check (categoryId, isChecked) {
-      this.isChecked = isChecked
+      if (this.hasChildren) {
+        return this.checkAll(this.category, isChecked)
+      }
 
       this.$emit('check', categoryId, isChecked)
     }
