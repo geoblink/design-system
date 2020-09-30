@@ -1,6 +1,8 @@
 <template>
   <div class="geo-tree">
+    {{ checkedItems }}
     <geo-bordered-box-header-search-form
+      v-if="searchable"
       v-model="searchQuery"
       :placeholder="searchPlaceholder"
       @input="handleSearching"
@@ -21,8 +23,10 @@
           :category="category"
           :key-for-id="keyForId"
           :key-for-label="keyForLabel"
+          :checked-items="checkedItems"
           :key-for-children="keyForChildren"
-          @click="toggleCategoryList(category[keyForId])"
+          @click="onCategoryClick(category[keyForId])"
+          @check="handleCheckItem"
         />
       </ul>
     </geo-scrollable-container>
@@ -30,14 +34,12 @@
 </template>
 
 <script>
-import { sortBy } from 'lodash'
-import GeoTreeItem from './GeoTreeItem'
+import { sortBy, assign, omit } from 'lodash'
 
 export default {
   name: 'GeoTree',
   status: 'ready',
   release: '29.9.0',
-  components: { GeoTreeItem },
   props: {
     /**
      * Text to display as placeholder of the search input
@@ -93,12 +95,28 @@ export default {
       type: String,
       required: false,
       default: 'children'
+    },
+    /**
+    * Used determine if you can search or not
+    */
+    searchable: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
+    /**
+     * Initial selected items
+    */
+    initialState: {
+      type: Object,
+      required: false
     }
   },
   data () {
     return {
       searchQuery: '',
-      isLoading: false
+      isLoading: false,
+      checkedItems: {}
     }
   },
   computed: {
@@ -106,12 +124,33 @@ export default {
       return sortBy(this.categories, [this.keyForLabel])
     }
   },
+  watch: {
+    initialState: {
+      handler (newValue) {
+        this.setInitialState(newValue)
+      },
+      deep: true
+    }
+  },
+  mounted () {
+    this.setInitialState(this.initialState)
+  },
   methods: {
     handleSearching () {
-      // TODO: Emitir el searching?
+      this.$emit('search', this.searchQuery)
     },
-    toggleCategoryList () {
-      // TODO: emitir el click
+    onCategoryClick (categoryId) {
+      this.$emit('click', categoryId)
+    },
+    handleCheckItem (categoryId, isChecked) {
+      this.checkedItems = isChecked
+        ? assign({}, this.checkedItems, { [categoryId]: true })
+        : omit(this.checkedItems, categoryId)
+    },
+    setInitialState (initialState) {
+      if (!initialState) return
+
+      assign(this.checkedItems, initialState)
     }
   }
 }

@@ -35,15 +35,23 @@
           :indeterminate.prop="isIndeterminate"
           type="checkbox"
           @click.stop
-          @input="checkAll(category, $event.target.checked)"
+          @input="check(category[keyForId], $event.target.checked)"
         >
       </template>
     </geo-list-item>
     <ul
       v-if="isExpanded"
-      class="geo-tree-item__list"
+      class="geo-tree__list"
     >
-      dd
+      <geo-tree-item
+        v-for="categoryChildren in category[keyForChildren]"
+        :key="categoryChildren[keyForId]"
+        :category="categoryChildren"
+        :key-for-id="keyForId"
+        :key-for-label="keyForLabel"
+        :key-for-children="keyForChildren"
+        @check="isChecked => check(categoryChildren[keyForId], isChecked)"
+      />
     </ul>
   </li>
 </template>
@@ -84,11 +92,16 @@ export default {
       type: String,
       required: false,
       default: 'children'
+    },
+    checkedItems: {
+      type: Object,
+      required: false
     }
   },
   data () {
     return {
-      isExpanded: false
+      isExpanded: false,
+      isChecked: false
     }
   },
   computed: {
@@ -107,10 +120,6 @@ export default {
     categoryIcon () {
       return this.hasChildren ? ['fal', 'chevron-right'] : null
     },
-    isChecked () {
-      // TODO: make this
-      return false
-    },
     isIndeterminate () {
       // TODO: make this
       return false
@@ -121,10 +130,18 @@ export default {
       // TODO: make this
     },
     handleClick () {
-      if (!this.hasChildren) return
+      if (!this.hasChildren) {
+        this.check(this.category[this.keyForId], !this.isChecked)
+        return
+      }
 
       this.isExpanded = !this.isExpanded
       this.$emit('click')
+    },
+    check (categoryId, isChecked) {
+      this.isChecked = isChecked
+
+      this.$emit('check', categoryId, isChecked)
     }
   }
 }
