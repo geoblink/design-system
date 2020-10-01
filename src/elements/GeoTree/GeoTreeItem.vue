@@ -2,17 +2,17 @@
   <li>
     <geo-list-item
       class="geo-tree-item"
-      :class="{'geo-tree-item--clickable': hasChildren}"
+      :class="{'geo-tree-item--clickable': hasChildren(category)}"
       :icon="categoryIcon"
       @click="handleClick"
     >
       <label>
         {{ category[keyForLabel] }}
         <span
-          v-if="hasChildren"
+          v-if="hasChildren(category)"
           class="geo-tree-item__total-items"
         >
-          ({{ totalItems }})
+          ({{ totalCategoryChildren(category) }})
         </span>
         <span
           v-if="category.description"
@@ -31,11 +31,11 @@
       <template slot="trailingAccessoryItem">
         <input
           :id="category[keyForId]"
-          :checked="isChecked(category[keyForId])"
+          :checked="isChecked"
           :indeterminate.prop="isIndeterminate"
           type="checkbox"
           @click.stop
-          @input="check(category[keyForId], $event.target.checked)"
+          @input="check(category, $event.target.checked)"
         >
       </template>
     </geo-list-item>
@@ -51,14 +51,14 @@
         :key-for-label="keyForLabel"
         :key-for-children="keyForChildren"
         :checked-items="checkedItems"
-        @check="isChecked => check(categoryChildren[keyForId], isChecked)"
+        @check="isChecked => check(categoryChildren, isChecked)"
       />
     </ul>
   </li>
 </template>
 
 <script>
-import { has, sumBy, forEach } from 'lodash'
+import { has, sumBy, forEach, isEmpty } from 'lodash'
 
 export default {
   name: 'GeoTreeItem',
@@ -105,31 +105,31 @@ export default {
     }
   },
   computed: {
-    totalItems () {
-      const sumOfChildren = category => category[this.keyForChildren]
-        ? category[this.keyForChildren].length + sumBy(category[this.keyForChildren], category => sumOfChildren(category))
-        : 0
-
-      return sumOfChildren(this.category)
-    },
-    hasChildren () {
-      return !!this.totalItems
-    },
     categoryIcon () {
-      return this.hasChildren ? ['fal', 'chevron-right'] : null
+      return this.hasChildren(this.category) ? ['fal', 'chevron-right'] : null
     },
     isIndeterminate () {
       // TODO: make this
       return false
+    },
+    isChecked () {
+      return has(this.checkedItems, this.category[this.keyForId])
     }
   },
   methods: {
-    isChecked (categoryId) {
-      return has(this.checkedItems, categoryId)
+    totalCategoryChildren (category) {
+      const sumOfChildren = category => !isEmpty(category[this.keyForChildren])
+        ? category[this.keyForChildren].length + sumBy(category[this.keyForChildren], category => sumOfChildren(category))
+        : 0
+
+      return sumOfChildren(category)
+    },
+    hasChildren (category) {
+      return this.totalCategoryChildren(category) > 0
     },
     handleClick () {
-      if (!this.hasChildren) {
-        this.check(this.category[this.keyForId], !this.isChecked(this.category[this.keyForId]))
+      if (!this.hasChildren(this.category)) {
+        this.check(this.category[this.keyForId], !this.isChecked)
         return
       }
 
@@ -142,12 +142,12 @@ export default {
       })
       this.$emit('check', category[this.keyForId], isChecked)
     },
-    check (categoryId, isChecked) {
-      if (this.hasChildren) {
-        return this.checkAll(this.category, isChecked)
+    check (category, isChecked) {
+      if (this.hasChildren(category)) {
+        return this.checkAll(category, isChecked)
       }
 
-      this.$emit('check', categoryId, isChecked)
+      this.$emit('check', category[this.keyForId], isChecked)
     }
   }
 }
