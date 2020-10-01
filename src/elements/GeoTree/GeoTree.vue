@@ -1,6 +1,5 @@
 <template>
   <div class="geo-tree">
-    {{ checkedItems }}
     <geo-bordered-box-header-search-form
       v-if="searchable"
       v-model="searchQuery"
@@ -143,8 +142,6 @@ export default {
       this.$emit('click', category)
     },
     handleCheckItem (categoryId, isChecked) {
-      console.log('>>>>>>>>>> categoryId, isChecked ::: ', categoryId, isChecked)
-
       this.checkedItems = isChecked
         ? assign({}, this.checkedItems, { [categoryId]: true })
         : omit(this.checkedItems, categoryId)

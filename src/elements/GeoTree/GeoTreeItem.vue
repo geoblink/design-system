@@ -29,11 +29,10 @@
       </label>
 
       <template slot="trailingAccessoryItem">
-        {{ isChecked(category) }}
         <input
           :id="category[keyForId]"
           :checked="isChecked(category)"
-          :indeterminate.prop="isIndeterminate"
+          :indeterminate.prop="isIndeterminate(category)"
           type="checkbox"
           @click.stop
           @input="check(category, $event.target.checked)"
@@ -108,18 +107,22 @@ export default {
   computed: {
     categoryIcon () {
       return this.getIfCategoryHasChildren(this.category) ? ['fal', 'chevron-right'] : null
-    },
-    isIndeterminate () {
-      const isSomeChildrenSelected = category => {
-        return !_.isEmpty(category[this.keyForChildren])
-      }
-
-      return this.isChecked(this.category) ? false : isSomeChildrenSelected(this.category)
     }
   },
   methods: {
     isChecked (category) {
-      return _.has(this.checkedItems, category[this.keyForId])
+      const allAreChildrenSelected = category => category[this.keyForChildren] && _.every(category[this.keyForChildren], subCategory => this.isChecked(subCategory))
+
+      return this.getIfCategoryHasChildren(category)
+        ? allAreChildrenSelected(category)
+        : _.has(this.checkedItems, category[this.keyForId])
+    },
+    isIndeterminate (category) {
+      const isSomeChildSelected = category => {
+        return _.some(category[this.keyForChildren], subCategory => this.isChecked(subCategory))
+      }
+
+      return this.isChecked(category) ? false : isSomeChildSelected(this.category)
     },
     getTotalCategoryChildren (category) {
       const sumOfChildren = category => !_.isEmpty(category[this.keyForChildren])
@@ -143,6 +146,9 @@ export default {
       this.isExpanded = !this.isExpanded
       this.$emit('click', category)
     },
+    /**
+     * To check all items of a category
+     */
     checkAll (category, isChecked) {
       _.forEach(category[this.keyForChildren], (innerCategory) => {
         this.checkAll(innerCategory, isChecked)
@@ -150,6 +156,10 @@ export default {
 
       this.$emit('check', category[this.keyForId], isChecked)
     },
+    /**
+     * To manage the check action
+     * This method is listening to children check event
+     */
     check (category, isChecked) {
       if (this.getIfCategoryHasChildren(category)) {
         return this.checkAll(category, isChecked)
