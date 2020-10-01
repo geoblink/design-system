@@ -2,17 +2,17 @@
   <li>
     <geo-list-item
       class="geo-tree-item"
-      :class="{'geo-tree-item--clickable': hasChildren(category)}"
+      :class="{'geo-tree-item--clickable': getIfCategoryHasChildren(category)}"
       :icon="categoryIcon"
       @click="handleClick"
     >
       <label>
         {{ category[keyForLabel] }}
         <span
-          v-if="hasChildren(category)"
+          v-if="getIfCategoryHasChildren(category)"
           class="geo-tree-item__total-items"
         >
-          ({{ totalCategoryChildren(category) }})
+          ({{ getTotalCategoryChildren(category) }})
         </span>
         <span
           v-if="category.description"
@@ -106,7 +106,7 @@ export default {
   },
   computed: {
     categoryIcon () {
-      return this.hasChildren(this.category) ? ['fal', 'chevron-right'] : null
+      return this.getIfCategoryHasChildren(this.category) ? ['fal', 'chevron-right'] : null
     },
     isIndeterminate () {
       // TODO: make this
@@ -117,18 +117,18 @@ export default {
     }
   },
   methods: {
-    totalCategoryChildren (category) {
+    getTotalCategoryChildren (category) {
       const sumOfChildren = category => !isEmpty(category[this.keyForChildren])
         ? category[this.keyForChildren].length + sumBy(category[this.keyForChildren], category => sumOfChildren(category))
         : 0
 
       return sumOfChildren(category)
     },
-    hasChildren (category) {
-      return this.totalCategoryChildren(category) > 0
+    getIfCategoryHasChildren (category) {
+      return this.getTotalCategoryChildren(category) > 0
     },
     handleClick () {
-      if (!this.hasChildren(this.category)) {
+      if (!this.getIfCategoryHasChildren(this.category)) {
         this.check(this.category[this.keyForId], !this.isChecked)
         return
       }
@@ -143,7 +143,7 @@ export default {
       this.$emit('check', category[this.keyForId], isChecked)
     },
     check (category, isChecked) {
-      if (this.hasChildren(category)) {
+      if (this.getIfCategoryHasChildren(category)) {
         return this.checkAll(category, isChecked)
       }
 
