@@ -4,7 +4,7 @@
       class="geo-tree-item"
       :class="{'geo-tree-item--clickable': getIfCategoryHasChildren(category)}"
       :icon="categoryIcon"
-      @click="handleClick"
+      @click="handleClick(category)"
     >
       <label>
         {{ category[keyForLabel] }}
@@ -29,9 +29,10 @@
       </label>
 
       <template slot="trailingAccessoryItem">
+        {{ isChecked(category) }}
         <input
           :id="category[keyForId]"
-          :checked="isChecked"
+          :checked="isChecked(category)"
           :indeterminate.prop="isIndeterminate"
           type="checkbox"
           @click.stop
@@ -51,14 +52,14 @@
         :key-for-label="keyForLabel"
         :key-for-children="keyForChildren"
         :checked-items="checkedItems"
-        @check="isChecked => check(categoryChildren, isChecked)"
+        @check="handleCheckChildren"
       />
     </ul>
   </li>
 </template>
 
 <script>
-import { has, sumBy, forEach, isEmpty } from 'lodash'
+import _ from 'lodash'
 
 export default {
   name: 'GeoTreeItem',
@@ -109,17 +110,20 @@ export default {
       return this.getIfCategoryHasChildren(this.category) ? ['fal', 'chevron-right'] : null
     },
     isIndeterminate () {
-      // TODO: make this
-      return false
-    },
-    isChecked () {
-      return has(this.checkedItems, this.category[this.keyForId])
+      const isSomeChildrenSelected = category => {
+        return !_.isEmpty(category[this.keyForChildren])
+      }
+
+      return this.isChecked(this.category) ? false : isSomeChildrenSelected(this.category)
     }
   },
   methods: {
+    isChecked (category) {
+      return _.has(this.checkedItems, category[this.keyForId])
+    },
     getTotalCategoryChildren (category) {
-      const sumOfChildren = category => !isEmpty(category[this.keyForChildren])
-        ? category[this.keyForChildren].length + sumBy(category[this.keyForChildren], category => sumOfChildren(category))
+      const sumOfChildren = category => !_.isEmpty(category[this.keyForChildren])
+        ? category[this.keyForChildren].length + _.sumBy(category[this.keyForChildren], category => sumOfChildren(category))
         : 0
 
       return sumOfChildren(category)
@@ -127,19 +131,23 @@ export default {
     getIfCategoryHasChildren (category) {
       return this.getTotalCategoryChildren(category) > 0
     },
-    handleClick () {
-      if (!this.getIfCategoryHasChildren(this.category)) {
-        this.check(this.category[this.keyForId], !this.isChecked)
+    /**
+     * On list item click (at first level)
+     */
+    handleClick (category) {
+      if (!this.getIfCategoryHasChildren(category)) {
+        this.$emit('check', category[this.keyForId], !this.isChecked(category))
         return
       }
 
       this.isExpanded = !this.isExpanded
-      this.$emit('click')
+      this.$emit('click', category)
     },
     checkAll (category, isChecked) {
-      forEach(category[this.keyForChildren], (innerCategory) => {
+      _.forEach(category[this.keyForChildren], (innerCategory) => {
         this.checkAll(innerCategory, isChecked)
       })
+
       this.$emit('check', category[this.keyForId], isChecked)
     },
     check (category, isChecked) {
@@ -148,6 +156,13 @@ export default {
       }
 
       this.$emit('check', category[this.keyForId], isChecked)
+    },
+    /**
+     * On some children click or check (at nested levels)
+     * We have to hear the emitted event and emit it again outside.
+     */
+    handleCheckChildren (categoryId, isChecked) {
+      this.$emit('check', categoryId, isChecked)
     }
   }
 }

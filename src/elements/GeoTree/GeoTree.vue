@@ -25,7 +25,7 @@
           :key-for-label="keyForLabel"
           :checked-items="checkedItems"
           :key-for-children="keyForChildren"
-          @click="onCategoryClick(category[keyForId])"
+          @click="onCategoryClick"
           @check="handleCheckItem"
         />
       </ul>
@@ -139,10 +139,12 @@ export default {
     handleSearching () {
       this.$emit('search', this.searchQuery)
     },
-    onCategoryClick (categoryId) {
-      this.$emit('click', categoryId)
+    onCategoryClick (category) {
+      this.$emit('click', category)
     },
     handleCheckItem (categoryId, isChecked) {
+      console.log('>>>>>>>>>> categoryId, isChecked ::: ', categoryId, isChecked)
+
       this.checkedItems = isChecked
         ? assign({}, this.checkedItems, { [categoryId]: true })
         : omit(this.checkedItems, categoryId)
