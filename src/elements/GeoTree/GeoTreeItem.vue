@@ -5,6 +5,8 @@
       :class="{'geo-tree-item--clickable': getIfCategoryHasChildren(category)}"
       :icon="categoryIcon"
       @click="handleClick(category)"
+      @mouseover="onMouseOver(category)"
+      @mouseout="showActionButton = false"
     >
       <label>
         {{ category[keyForLabel] }}
@@ -19,7 +21,7 @@
           class="geo-tree-item__description"
         >
           <font-awesome-icon
-            :icon="['fal', 'info-circle']"
+            :icon="['fas', 'info-circle']"
             fixed-width
           />
           <geo-tooltip>
@@ -28,6 +30,12 @@
         </span>
       </label>
 
+      <template
+        v-if="showActionButton"
+        slot="trailingAccessoryItem"
+      >
+        <slot name="trailingAccessoryAction" />
+      </template>
       <template slot="trailingAccessoryItem">
         <input
           :id="category[keyForId]"
@@ -101,7 +109,8 @@ export default {
   },
   data () {
     return {
-      isExpanded: false
+      isExpanded: false,
+      showActionButton: false
     }
   },
   computed: {
@@ -173,6 +182,15 @@ export default {
      */
     handleCheckChildren (categoryId, isChecked) {
       this.$emit('check', categoryId, isChecked)
+    },
+    /**
+     * The action button can't appear on parent categories
+     */
+
+    onMouseOver (category) {
+      if (!this.getIfCategoryHasChildren(category)) {
+        this.showActionButton = true
+      }
     }
   }
 }

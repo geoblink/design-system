@@ -26,7 +26,11 @@
           :key-for-children="keyForChildren"
           @click="onCategoryClick"
           @check="handleCheckItem"
-        />
+        >
+          <template v-slot:trailingAccessoryAction>
+            <slot name="actionButton" />
+          </template>
+        </geo-tree-item>
       </ul>
     </geo-scrollable-container>
   </div>
