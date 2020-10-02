@@ -17,7 +17,7 @@
         class="geo-tree__list"
       >
         <geo-tree-item
-          v-for="category in sortedCategories"
+          v-for="category in formattedCategories"
           :key="category[keyForId]"
           :category="category"
           :key-for-id="keyForId"
@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import { sortBy, assign, omit } from 'lodash'
+import _, { sortBy, assign, omit, reduce, includes, size, map, isEmpty } from 'lodash'
 
 export default {
   name: 'GeoTree',
@@ -119,12 +119,13 @@ export default {
     return {
       searchQuery: '',
       isLoading: false,
-      checkedItems: {}
+      checkedItems: {},
+      filteredCategories: this.categories
     }
   },
   computed: {
-    sortedCategories () {
-      return sortBy(this.categories, [this.keyForLabel])
+    formattedCategories () {
+      return sortBy(this.filteredCategories, [this.keyForLabel])
     }
   },
   watch: {
@@ -141,6 +142,35 @@ export default {
   methods: {
     handleSearching () {
       this.$emit('search', this.searchQuery)
+
+      const searchByQuery = (category, query) => includes(category[this.keyForLabel], query)
+
+      const getFilteredCategories = (categories, query) => categories.reduce((carry, category) => {
+        if (isEmpty(category[this.keyForChildren])) return searchByQuery(category, query) ? [...carry, category] : carry
+
+        return searchByQuery(category, query)
+          ? [
+            ...carry,
+            category,
+            assign({}, {
+              category,
+              [this.keyForChildren]: getFilteredCategories(category[this.keyForChildren], query)
+            })
+          ]
+          : [
+            ...carry,
+            assign({}, {
+              category,
+              [this.keyForChildren]: getFilteredCategories(category[this.keyForChildren], query)
+            })
+          ]
+
+        // return searchByQuery(category, query) ? [...carry, ...reducedCategories, category] : [...carry, ...reducedCategories]
+      }, [])
+
+      this.filteredCategories = this.searchQuery
+        ? getFilteredCategories(this.categories, this.searchQuery)
+        : this.categories
     },
     onCategoryClick (category) {
       this.$emit('click', category)
