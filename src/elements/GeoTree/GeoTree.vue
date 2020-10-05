@@ -153,7 +153,7 @@ export default {
 
     if (this.categories) {
       const setCategoriesNoExpanded = (category) => {
-        _.map(category[this.keyForChildren], innerCategory => {
+        _.forEach(category[this.keyForChildren], innerCategory => {
           setCategoriesNoExpanded(innerCategory)
         })
 
