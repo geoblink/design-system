@@ -91,7 +91,7 @@ export default {
       default: 'id'
     },
     /**
-     * Key to access to the identifier of the item
+     * Key to access to the label of the item
      */
     keyForLabel: {
       type: String,
@@ -106,10 +106,16 @@ export default {
       required: false,
       default: 'children'
     },
+    /**
+     * List of all the items checked, it's an object with truthy keys
+     */
     checkedItems: {
       type: Object,
       required: false
     },
+    /**
+     * Icon used to alert about some extra info displayed in a popover
+     */
     descriptionIcon: {
       type: Array,
       default: () => []
@@ -149,7 +155,7 @@ export default {
       return this.getTotalCategoryChildren(category) > 0
     },
     /**
-     * On list item click (at first level)
+     * On list item click
      */
     handleClick (category) {
       if (!this.hasChildren(category)) {

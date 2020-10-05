@@ -97,7 +97,7 @@ export default {
       default: 'id'
     },
     /**
-     * Key to access to the identifier of the item
+     * Key to access to the label of the item
      */
     keyForLabel: {
       type: String,
@@ -127,10 +127,16 @@ export default {
       type: Object,
       required: false
     },
+    /**
+     * Icon used to alert about some extra info displayed in a popover
+     */
     descriptionIcon: {
       type: Array,
       required: false
     },
+    /**
+     * Should appear all items collapsed or not initially
+     */
     isInitiallyExpanded: {
       type: Boolean,
       required: false,
