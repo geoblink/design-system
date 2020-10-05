@@ -3,7 +3,7 @@
     <geo-list-item
       class="geo-tree-item"
       :class="{
-        'geo-tree-item--clickable': hasChildren(category),
+        'geo-tree-item--clickable': hasChildren,
         'geo-tree-item--expanded': category.isExpanded,
       }"
       :icon="categoryIcon"
@@ -14,10 +14,10 @@
       <label>
         {{ category[keyForLabel] }}
         <span
-          v-if="hasChildren(category)"
+          v-if="hasChildren"
           class="geo-tree-item__total-items"
         >
-          ({{ getTotalCategoryChildren(category) }})
+          ({{ totalCategoryChildren }})
         </span>
         <span
           v-if="category.description"
@@ -42,8 +42,8 @@
       <template slot="trailingAccessoryItem">
         <input
           :id="category[keyForId]"
-          :checked="isChecked(category)"
-          :indeterminate.prop="isIndeterminate(category)"
+          :checked="isChecked"
+          :indeterminate.prop="isIndeterminate"
           type="checkbox"
           @click.stop
           @input="handleCheckAll(category, $event.target.checked)"
@@ -128,38 +128,38 @@ export default {
   },
   computed: {
     categoryIcon () {
-      return this.hasChildren(this.category) ? ['fal', 'chevron-right'] : null
+      return this.hasChildren ? ['fal', 'chevron-right'] : null
+    },
+    isIndeterminate () {
+      const isSomeChildSelected = category => {
+        return _.some(category[this.keyForChildren], subCategory => !!this.checkedItems[subCategory[this.keyForId]])
+      }
+
+      return this.isChecked ? false : isSomeChildSelected(this.category)
+    },
+    isChecked () {
+      const allAreChildrenSelected = category => category[this.keyForChildren] && _.every(category[this.keyForChildren], subCategory => !!this.checkedItems[subCategory[this.keyForId]])
+
+      return this.hasChildren
+        ? allAreChildrenSelected(this.category)
+        : _.has(this.checkedItems, this.category[this.keyForId])
+    },
+    totalCategoryChildren () {
+      const sumOfChildren = category => _.size(category[this.keyForChildren]) + _.sumBy(category[this.keyForChildren], sumOfChildren)
+
+      return sumOfChildren(this.category)
+    },
+    hasChildren () {
+      return this.totalCategoryChildren > 0
     }
   },
   methods: {
-    isChecked (category) {
-      const allAreChildrenSelected = category => category[this.keyForChildren] && _.every(category[this.keyForChildren], subCategory => this.isChecked(subCategory))
-
-      return this.hasChildren(category)
-        ? allAreChildrenSelected(category)
-        : _.has(this.checkedItems, category[this.keyForId])
-    },
-    isIndeterminate (category) {
-      const isSomeChildSelected = category => {
-        return _.some(category[this.keyForChildren], subCategory => this.isChecked(subCategory))
-      }
-
-      return this.isChecked(category) ? false : isSomeChildSelected(this.category)
-    },
-    getTotalCategoryChildren (category) {
-      const sumOfChildren = category => _.size(category[this.keyForChildren]) + _.sumBy(category[this.keyForChildren], sumOfChildren)
-
-      return sumOfChildren(category)
-    },
-    hasChildren (category) {
-      return this.getTotalCategoryChildren(category) > 0
-    },
     /**
      * On list item click
      */
     handleClick (category) {
-      if (!this.hasChildren(category)) {
-        this.$emit('check', category[this.keyForId], !this.isChecked(category))
+      if (!this.hasChildren) {
+        this.$emit('check', category[this.keyForId], !this.isChecked)
         return
       }
       this.$emit('click', category)
@@ -168,7 +168,7 @@ export default {
      * To check all items of a category
      */
     handleCheckAll (category, isChecked) {
-      if (this.hasChildren(category)) {
+      if (this.hasChildren) {
         _.forEach(category[this.keyForChildren], innerCategory => {
           return this.handleCheckAll(innerCategory, isChecked)
         })
@@ -180,7 +180,7 @@ export default {
      * The action button can't appear on parent categories
      */
     onMouseOver (category) {
-      if (!this.hasChildren(category)) {
+      if (!this.hasChildren) {
         this.showActionButton = true
       }
     }
