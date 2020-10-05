@@ -3,7 +3,7 @@
     <geo-list-item
       class="geo-tree-item"
       :class="{
-        'geo-tree-item--clickable': getIfCategoryHasChildren(category),
+        'geo-tree-item--clickable': hasChildren(category),
         'geo-tree-item--expanded': category.isExpanded,
       }"
       :icon="categoryIcon"
@@ -14,7 +14,7 @@
       <label>
         {{ category[keyForLabel] }}
         <span
-          v-if="getIfCategoryHasChildren(category)"
+          v-if="hasChildren(category)"
           class="geo-tree-item__total-items"
         >
           ({{ getTotalCategoryChildren(category) }})
@@ -122,14 +122,14 @@ export default {
   },
   computed: {
     categoryIcon () {
-      return this.getIfCategoryHasChildren(this.category) ? ['fal', 'chevron-right'] : null
+      return this.hasChildren(this.category) ? ['fal', 'chevron-right'] : null
     }
   },
   methods: {
     isChecked (category) {
       const allAreChildrenSelected = category => category[this.keyForChildren] && _.every(category[this.keyForChildren], subCategory => this.isChecked(subCategory))
 
-      return this.getIfCategoryHasChildren(category)
+      return this.hasChildren(category)
         ? allAreChildrenSelected(category)
         : _.has(this.checkedItems, category[this.keyForId])
     },
@@ -147,14 +147,14 @@ export default {
 
       return sumOfChildren(category)
     },
-    getIfCategoryHasChildren (category) {
+    hasChildren (category) {
       return this.getTotalCategoryChildren(category) > 0
     },
     /**
      * On list item click (at first level)
      */
     handleClick (category) {
-      if (!this.getIfCategoryHasChildren(category)) {
+      if (!this.hasChildren(category)) {
         this.$emit('check', category[this.keyForId], !this.isChecked(category))
         return
       }
@@ -175,7 +175,7 @@ export default {
      * This method is listening to children check event
      */
     handleCheck (category, isChecked) {
-      if (this.getIfCategoryHasChildren(category)) {
+      if (this.hasChildren(category)) {
         return this.checkAll(category, isChecked)
       }
 
@@ -185,7 +185,7 @@ export default {
      * The action button can't appear on parent categories
      */
     onMouseOver (category) {
-      if (!this.getIfCategoryHasChildren(category)) {
+      if (!this.hasChildren(category)) {
         this.showActionButton = true
       }
     }
