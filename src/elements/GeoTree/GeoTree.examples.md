@@ -85,6 +85,7 @@
 
 ```jsx live
   <geo-tree 
+    no-results-found-label="No results found"
     searchable
     :categories="[
        {

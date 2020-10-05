@@ -12,6 +12,11 @@
         class="geo-tree__loading"
         v-text="loadingLabel"
       />
+      <div
+        v-if="noResultsFound"
+        class="geo-tree__no-results-found"
+        v-text="noResultsFoundLabel"
+      />
       <ul
         v-else
         class="geo-tree__list"
@@ -56,6 +61,13 @@ export default {
        * Text to display when it's loading data
    */
     loadingLabel: {
+      type: String,
+      require: false
+    },
+    /**
+       * Text to display when no results found on searching
+   */
+    noResultsFoundLabel: {
       type: String,
       require: false
     },
@@ -131,6 +143,9 @@ export default {
   computed: {
     sortedCategories () {
       return _.sortBy(this.filteredCategories, [this.keyForLabel])
+    },
+    noResultsFound () {
+      return this.searchQuery && !this.filteredCategories.length
     }
   },
   mounted () {
@@ -153,12 +168,12 @@ export default {
       this.$emit('search', this.searchQuery)
 
       const searchByQuery = (category, query) => _.includes(category[this.keyForLabel], query)
+
       const getFilteredCategories = (categories, query) => categories.reduce((carry, category) => {
         const isCategoryMatching = searchByQuery(category, query)
+        const categories = category[this.keyForChildren] ? getFilteredCategories(category[this.keyForChildren], query) : null
 
-        if (isCategoryMatching) {
-          const categories = category[this.keyForChildren] ? getFilteredCategories(category[this.keyForChildren], query) : null
-
+        if (categories && categories.length) {
           return [
             ...carry,
             _.assign(
@@ -170,23 +185,13 @@ export default {
               }
             )
           ]
-        } else {
-          const categories = category[this.keyForChildren] ? getFilteredCategories(category[this.keyForChildren], query) : null
-
-          return categories
-            ? [
-              ...carry,
-              _.assign(
-                {},
-                category,
-                {
-                  [this.keyForChildren]: categories,
-                  isExpanded: true
-                }
-              )
-            ]
-            : carry
         }
+        return isCategoryMatching
+          ? [
+            ...carry,
+            category
+          ]
+          : carry
       }, [])
 
       this.filteredCategories = this.searchQuery
