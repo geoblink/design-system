@@ -141,9 +141,7 @@ export default {
       return this.isChecked(category) ? false : isSomeChildSelected(this.category)
     },
     getTotalCategoryChildren (category) {
-      const sumOfChildren = category => !_.isEmpty(category[this.keyForChildren])
-        ? category[this.keyForChildren].length + _.sumBy(category[this.keyForChildren], category => sumOfChildren(category))
-        : 0
+      const sumOfChildren = category => _.size(category[this.keyForChildren]) + _.sumBy(category[this.keyForChildren], sumOfChildren)
 
       return sumOfChildren(category)
     },
