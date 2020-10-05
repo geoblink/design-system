@@ -86,7 +86,7 @@ export default {
      */
     categories: {
       type: Array,
-      default: () => []
+      required: false
     },
     /**
      * Key to access to the identifier of the item
@@ -129,7 +129,7 @@ export default {
     },
     descriptionIcon: {
       type: Array,
-      default: () => []
+      required: false
     }
   },
   data () {
