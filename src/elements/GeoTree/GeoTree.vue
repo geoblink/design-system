@@ -130,6 +130,11 @@ export default {
     descriptionIcon: {
       type: Array,
       required: false
+    },
+    isInitiallyExpanded: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
   data () {
@@ -157,7 +162,7 @@ export default {
           setCategoriesNoExpanded(innerCategory)
         })
 
-        return _.assign({}, category, { isExpanded: false })
+        return _.assign({}, category, { isExpanded: this.isInitiallyExpanded })
       }
 
       this.filteredCategories = _.map(this.categories, setCategoriesNoExpanded)
