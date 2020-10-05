@@ -17,8 +17,8 @@
   font-style: italic;
 }
 
-.geo-list-item__icon-and-label__icon-container {
-  transition: transform 0.5s;
+.geo-tree-item .geo-list-item__icon-and-label__icon-container__icon {
+  transition: transform 0.25s;
 }
 
 .geo-tree-item--expanded .geo-list-item__icon-and-label__icon-container__icon {
