@@ -62,7 +62,7 @@
         :key-for-label="keyForLabel"
         :key-for-children="keyForChildren"
         :checked-items="checkedItems"
-        @check="check"
+        @check="handleCheck"
         @click="handleClick"
       />
     </ul>
@@ -174,7 +174,7 @@ export default {
      * To manage the check action
      * This method is listening to children check event
      */
-    check (category, isChecked) {
+    handleCheck (category, isChecked) {
       if (this.getIfCategoryHasChildren(category)) {
         return this.checkAll(category, isChecked)
       }
