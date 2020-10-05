@@ -227,7 +227,8 @@ export default {
 
       this.$emit('click', clickedCategory)
     },
-    handleCheckItem (categoryId, isChecked) {
+    handleCheckItem (category, isChecked) {
+      const categoryId = category[this.keyForId]
       this.checkedItems = isChecked
         ? _.assign({}, this.checkedItems, { [categoryId]: true })
         : _.omit(this.checkedItems, categoryId)

@@ -168,11 +168,13 @@ export default {
      * To check all items of a category
      */
     handleCheckAll (category, isChecked) {
-      _.forEach(category[this.keyForChildren], innerCategory => {
-        this.handleCheckAll(innerCategory, isChecked)
-      })
+      if (this.hasChildren(category)) {
+        _.forEach(category[this.keyForChildren], innerCategory => {
+          return this.handleCheckAll(innerCategory, isChecked)
+        })
+      }
 
-      this.$emit('check', category[this.keyForId], isChecked)
+      this.$emit('check', category, isChecked)
     },
     /**
      * The action button can't appear on parent categories
