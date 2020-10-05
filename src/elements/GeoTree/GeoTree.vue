@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import _, { sortBy, assign, omit, reduce, includes, size, map, isEmpty } from 'lodash'
+import _, { sortBy, assign, omit, includes, isEmpty } from 'lodash'
 
 export default {
   name: 'GeoTree',
@@ -146,27 +146,52 @@ export default {
       const searchByQuery = (category, query) => includes(category[this.keyForLabel], query)
 
       const getFilteredCategories = (categories, query) => categories.reduce((carry, category) => {
-        if (isEmpty(category[this.keyForChildren])) return searchByQuery(category, query) ? [...carry, category] : carry
+        const isCategoryMatching = searchByQuery(category, query)
 
-        return searchByQuery(category, query)
-          ? [
-            ...carry,
-            category,
-            assign({}, {
-              category,
-              [this.keyForChildren]: getFilteredCategories(category[this.keyForChildren], query)
-            })
-          ]
-          : [
-            ...carry,
-            assign({}, {
-              category,
-              [this.keyForChildren]: getFilteredCategories(category[this.keyForChildren], query)
-            })
-          ]
+        if (isCategoryMatching) {
+          const categories = category[this.keyForChildren] ? getFilteredCategories(category[this.keyForChildren], query) : null
 
-        // return searchByQuery(category, query) ? [...carry, ...reducedCategories, category] : [...carry, ...reducedCategories]
+          return [
+            ...carry,
+            assign(
+              {},
+              category,
+              {
+                [this.keyForChildren]: categories
+              }
+            )
+          ]
+        } else {
+          const categories = category[this.keyForChildren] ? getFilteredCategories(category[this.keyForChildren], query) : null
+
+          if (categories && categories.length) {
+            return [
+              ...carry,
+              assign(
+                {},
+                category,
+                {
+                  [this.keyForChildren]: categories
+                }
+              )
+            ]
+          } else {
+            return carry
+          }
+        }
+
+        // if (isEmpty(category[this.keyForChildren])) return searchByQuery(category, query) ? [...carry, category] : carry
+        //
+        // return [
+        //   ...carry,
+        //   assign({}, {
+        //     category,
+        //     [this.keyForChildren]: getFilteredCategories(category[this.keyForChildren], query)
+        //   })
+        // ]
       }, [])
+
+      console.log('>>>>>>>>>> getFilteredCategories(this.categories, this.searchQuery) ::: ', getFilteredCategories(this.categories, this.searchQuery))
 
       this.filteredCategories = this.searchQuery
         ? getFilteredCategories(this.categories, this.searchQuery)
