@@ -2,7 +2,10 @@
   <li>
     <geo-list-item
       class="geo-tree-item"
-      :class="{'geo-tree-item--clickable': getIfCategoryHasChildren(category)}"
+      :class="{
+        'geo-tree-item--clickable': getIfCategoryHasChildren(category),
+        'geo-tree-item--expanded': category.isExpanded,
+      }"
       :icon="categoryIcon"
       @click="handleClick(category)"
       @mouseover="onMouseOver(category)"

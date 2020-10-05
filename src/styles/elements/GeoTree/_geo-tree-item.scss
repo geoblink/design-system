@@ -4,7 +4,6 @@
 
 .geo-tree-item .geo-list-item__icon-and-label__icon-container {
   width: 5px;
-
 }
 
 .geo-tree-item .geo-list-item__icon-and-label__icon-container__icon {
@@ -16,4 +15,12 @@
   @include font($body-small);
   color: $color-grey-light;
   font-style: italic;
+}
+
+.geo-list-item__icon-and-label__icon-container {
+  transition: transform 0.5s;
+}
+
+.geo-tree-item--expanded .geo-list-item__icon-and-label__icon-container__icon {
+  transform: rotate(90deg);
 }
