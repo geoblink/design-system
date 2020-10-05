@@ -30,7 +30,7 @@
           :checked-items="checkedItems"
           :key-for-children="keyForChildren"
           :description-icon="descriptionIcon"
-          @click="onCategoryClick"
+          @click="handleCategoryClick"
           @check="handleCheckItem"
         >
           <template v-slot:trailingAccessoryAction>
@@ -198,7 +198,7 @@ export default {
         ? getFilteredCategories(this.categories, this.searchQuery)
         : this.categories
     },
-    onCategoryClick (clickedCategory) {
+    handleCategoryClick (clickedCategory) {
       const isExpanded = (category) => category[this.keyForId] === clickedCategory[this.keyForId] ? !category.isExpanded : category.isExpanded
       const toggleCategoriesExpanded = (categories) => _.map(categories, category => {
         const children = category[this.keyForChildren] ? toggleCategoriesExpanded(category[this.keyForChildren]) : null
