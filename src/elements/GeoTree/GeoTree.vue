@@ -17,7 +17,7 @@
         class="geo-tree__list"
       >
         <geo-tree-item
-          v-for="category in formattedCategories"
+          v-for="category in sortedCategories"
           :key="category[keyForId]"
           :category="category"
           :key-for-id="keyForId"
@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import _, { sortBy, assign, omit, includes, isEmpty } from 'lodash'
+import { sortBy, assign, omit, includes, map } from 'lodash'
 
 export default {
   name: 'GeoTree',
@@ -120,11 +120,11 @@ export default {
       searchQuery: '',
       isLoading: false,
       checkedItems: {},
-      filteredCategories: this.categories
+      filteredCategories: []
     }
   },
   computed: {
-    formattedCategories () {
+    sortedCategories () {
       return sortBy(this.filteredCategories, [this.keyForLabel])
     }
   },
@@ -138,13 +138,24 @@ export default {
   },
   mounted () {
     this.setInitialState(this.initialState)
+
+    if (this.categories) {
+      const setCategoriesNoExpanded = (category) => {
+        map(category[this.keyForChildren], innerCategory => {
+          setCategoriesNoExpanded(innerCategory)
+        })
+
+        return assign({}, category, { isExpanded: false })
+      }
+
+      this.filteredCategories = map(this.categories, setCategoriesNoExpanded)
+    }
   },
   methods: {
     handleSearching () {
       this.$emit('search', this.searchQuery)
 
       const searchByQuery = (category, query) => includes(category[this.keyForLabel], query)
-
       const getFilteredCategories = (categories, query) => categories.reduce((carry, category) => {
         const isCategoryMatching = searchByQuery(category, query)
 
@@ -157,48 +168,51 @@ export default {
               {},
               category,
               {
-                [this.keyForChildren]: categories
+                [this.keyForChildren]: categories,
+                isExpanded: true
               }
             )
           ]
         } else {
           const categories = category[this.keyForChildren] ? getFilteredCategories(category[this.keyForChildren], query) : null
 
-          if (categories && categories.length) {
-            return [
+          return categories
+            ? [
               ...carry,
               assign(
                 {},
                 category,
                 {
-                  [this.keyForChildren]: categories
+                  [this.keyForChildren]: categories,
+                  isExpanded: true
                 }
               )
             ]
-          } else {
-            return carry
-          }
+            : carry
         }
-
-        // if (isEmpty(category[this.keyForChildren])) return searchByQuery(category, query) ? [...carry, category] : carry
-        //
-        // return [
-        //   ...carry,
-        //   assign({}, {
-        //     category,
-        //     [this.keyForChildren]: getFilteredCategories(category[this.keyForChildren], query)
-        //   })
-        // ]
       }, [])
-
-      console.log('>>>>>>>>>> getFilteredCategories(this.categories, this.searchQuery) ::: ', getFilteredCategories(this.categories, this.searchQuery))
 
       this.filteredCategories = this.searchQuery
         ? getFilteredCategories(this.categories, this.searchQuery)
         : this.categories
     },
-    onCategoryClick (category) {
-      this.$emit('click', category)
+    onCategoryClick (clickedCategory) {
+      const isExpanded = (category) => category[this.keyForId] === clickedCategory[this.keyForId] ? !category.isExpanded : category.isExpanded
+      const toggleCategoriesExpanded = (categories) => categories.map(category => {
+        const children = category[this.keyForChildren] ? toggleCategoriesExpanded(category[this.keyForChildren]) : null
+
+        return assign(
+          {},
+          category,
+          {
+            isExpanded: isExpanded(category),
+            [this.keyForChildren]: children
+          }
+        )
+      })
+      this.filteredCategories = toggleCategoriesExpanded(this.filteredCategories)
+
+      this.$emit('click', clickedCategory)
     },
     handleCheckItem (categoryId, isChecked) {
       this.checkedItems = isChecked

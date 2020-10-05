@@ -48,7 +48,7 @@
       </template>
     </geo-list-item>
     <ul
-      v-if="isExpanded"
+      v-if="category.isExpanded"
       class="geo-tree__list"
     >
       <geo-tree-item
@@ -59,7 +59,8 @@
         :key-for-label="keyForLabel"
         :key-for-children="keyForChildren"
         :checked-items="checkedItems"
-        @check="handleCheckChildren"
+        @check="check"
+        @click="handleClick"
       />
     </ul>
   </li>
@@ -109,7 +110,6 @@ export default {
   },
   data () {
     return {
-      isExpanded: false,
       showActionButton: false
     }
   },
@@ -151,15 +151,13 @@ export default {
         this.$emit('check', category[this.keyForId], !this.isChecked(category))
         return
       }
-
-      this.isExpanded = !this.isExpanded
       this.$emit('click', category)
     },
     /**
      * To check all items of a category
      */
     checkAll (category, isChecked) {
-      _.forEach(category[this.keyForChildren], (innerCategory) => {
+      _.forEach(category[this.keyForChildren], innerCategory => {
         this.checkAll(innerCategory, isChecked)
       })
 
@@ -177,16 +175,8 @@ export default {
       this.$emit('check', category[this.keyForId], isChecked)
     },
     /**
-     * On some children click or check (at nested levels)
-     * We have to hear the emitted event and emit it again outside.
-     */
-    handleCheckChildren (categoryId, isChecked) {
-      this.$emit('check', categoryId, isChecked)
-    },
-    /**
      * The action button can't appear on parent categories
      */
-
     onMouseOver (category) {
       if (!this.getIfCategoryHasChildren(category)) {
         this.showActionButton = true
