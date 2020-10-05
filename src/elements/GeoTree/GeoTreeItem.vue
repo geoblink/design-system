@@ -21,7 +21,7 @@
           class="geo-tree-item__description"
         >
           <font-awesome-icon
-            :icon="['fas', 'info-circle']"
+            :icon="descriptionIcon"
             fixed-width
           />
           <geo-tooltip>
@@ -106,6 +106,10 @@ export default {
     checkedItems: {
       type: Object,
       required: false
+    },
+    descriptionIcon: {
+      type: Array,
+      default: () => []
     }
   },
   data () {

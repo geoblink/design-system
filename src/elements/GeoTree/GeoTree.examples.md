@@ -1,7 +1,8 @@
 ### Basic
 
 ```jsx live
-  <geo-tree 
+  <geo-tree
+    :description-icon="['far', 'lightbulb']"
     :categories="[
        {
          id: '1',

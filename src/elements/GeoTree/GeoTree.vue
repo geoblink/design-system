@@ -24,6 +24,7 @@
           :key-for-label="keyForLabel"
           :checked-items="checkedItems"
           :key-for-children="keyForChildren"
+          :description-icon="descriptionIcon"
           @click="onCategoryClick"
           @check="handleCheckItem"
         >
@@ -113,6 +114,10 @@ export default {
     initialState: {
       type: Object,
       required: false
+    },
+    descriptionIcon: {
+      type: Array,
+      default: () => []
     }
   },
   data () {
