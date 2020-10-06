@@ -202,7 +202,7 @@ export default {
         return isCategoryMatching
           ? [
             ...carry,
-            category
+            _.assign(category, { matches: fuzzAldrin.match(clearString(category[this.keyForLabel]), clearString(query)) })
           ]
           : carry
       }, [])
