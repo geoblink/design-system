@@ -1,7 +1,8 @@
 <template>
-  <li>
+  <li
+    class="geo-tree-item"
+  >
     <geo-list-item
-      class="geo-tree-item"
       :class="{
         'geo-tree-item--clickable': hasChildren,
         'geo-tree-item--expanded': category.isExpanded,

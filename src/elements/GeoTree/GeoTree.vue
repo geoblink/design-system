@@ -134,12 +134,19 @@ export default {
     descriptionIcon: {
       type: Array,
       required: false
+    },
+    /**
+     * Used to show a loading message
+     */
+    isLoading: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
   data () {
     return {
       searchQuery: '',
-      isLoading: false,
       checkedItems: {},
       filteredCategories: []
     }
