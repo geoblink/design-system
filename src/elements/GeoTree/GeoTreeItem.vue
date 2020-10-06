@@ -86,39 +86,39 @@ export default {
       default: () => ({})
     },
     /**
-     * Key to access to the identifier of the item
-     */
+    * Key to access to the identifier of the item
+    */
     keyForId: {
       type: String,
       required: false,
       default: 'id'
     },
     /**
-     * Key to access to the label of the item
-     */
+    * Key to access to the label of the item
+    */
     keyForLabel: {
       type: String,
       required: false,
       default: 'label'
     },
     /**
-     * Key to access to the children items of the category
-     */
+    * Key to access to the children items of the category
+    */
     keyForChildren: {
       type: String,
       required: false,
       default: 'children'
     },
     /**
-     * List of all the items checked, it's an object with truthy keys
-     */
+    * List of all the items checked, it's an object with truthy keys
+    */
     checkedItems: {
       type: Object,
       required: false
     },
     /**
-     * Icon used to alert about some extra info displayed in a popover
-     */
+    * Icon used to alert about some extra info displayed in a popover
+    */
     descriptionIcon: {
       type: Array,
       default: () => []
@@ -158,8 +158,8 @@ export default {
   },
   methods: {
     /**
-     * On list item click
-     */
+    * On list item click
+    */
     handleClick (category) {
       if (!this.hasChildren) {
         this.handleCheckAll(category, !this.isChecked)
@@ -167,8 +167,8 @@ export default {
       this.$emit('click', category)
     },
     /**
-     * To check all items of a category
-     */
+    * To check all items of a category
+    */
     handleCheckAll (category, isChecked) {
       if (this.hasChildren) {
         _.forEach(category[this.keyForChildren], innerCategory => {

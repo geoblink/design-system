@@ -52,22 +52,22 @@ export default {
   release: '29.9.0',
   props: {
     /**
-     * Text to display as placeholder of the search input
-   */
+    * Text to display as placeholder of the search input
+    */
     searchPlaceholder: {
       type: String,
       required: false
     },
     /**
-       * Text to display when it's loading data
-   */
+    * Text to display when it's loading data
+    */
     loadingLabel: {
       type: String,
       require: false
     },
     /**
-       * Text to display when no results found on searching
-   */
+    * Text to display when no results found on searching
+    */
     noResultsFoundLabel: {
       type: String,
       require: false
@@ -90,24 +90,24 @@ export default {
       required: true
     },
     /**
-     * Key to access to the identifier of the item
-     */
+    * Key to access to the identifier of the item
+    */
     keyForId: {
       type: String,
       required: false,
       default: 'id'
     },
     /**
-     * Key to access to the label of the item
-     */
+    * Key to access to the label of the item
+    */
     keyForLabel: {
       type: String,
       required: false,
       default: 'label'
     },
     /**
-     * Key to access to the children items of the category
-     */
+    * Key to access to the children items of the category
+    */
     keyForChildren: {
       type: String,
       required: false,
@@ -122,26 +122,18 @@ export default {
       default: false
     },
     /**
-     * Initial selected items
+    * Initial selected items
     */
     initialState: {
       type: Object,
       required: false
     },
     /**
-     * Icon used to alert about some extra info displayed in a popover
-     */
+    * Icon used to alert about some extra info displayed in a popover
+    */
     descriptionIcon: {
       type: Array,
       required: false
-    },
-    /**
-     * Should appear all items collapsed or not initially
-     */
-    isInitiallyExpanded: {
-      type: Boolean,
-      required: false,
-      default: false
     }
   },
   data () {
@@ -162,18 +154,7 @@ export default {
   },
   mounted () {
     this.setInitialState(this.initialState)
-
-    if (this.categories) {
-      const setCategoriesNoExpanded = (category) => {
-        _.forEach(category[this.keyForChildren], innerCategory => {
-          setCategoriesNoExpanded(innerCategory)
-        })
-
-        return _.assign({}, category, { isExpanded: this.isInitiallyExpanded })
-      }
-
-      this.filteredCategories = _.map(this.categories, setCategoriesNoExpanded)
-    }
+    this.filteredCategories = this.categories
   },
   methods: {
     handleSearching () {
