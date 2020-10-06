@@ -13,7 +13,7 @@
         v-text="loadingLabel"
       />
       <div
-        v-if="noResultsFound"
+        v-if="!hasResults"
         class="geo-tree__no-results-found"
         v-text="noResultsFoundLabel"
       />
@@ -156,8 +156,8 @@ export default {
     sortedCategories () {
       return _.sortBy(this.filteredCategories, [this.keyForLabel])
     },
-    noResultsFound () {
-      return this.searchQuery && !this.filteredCategories.length
+    hasResults () {
+      return !this.searchQuery || (this.searchQuery && this.filteredCategories.length)
     }
   },
   mounted () {
@@ -192,7 +192,7 @@ export default {
               {},
               category,
               {
-                [this.keyForChildren]: categories,
+                [this.keyForChildren]: matchedChildrenCategories,
                 isExpanded: true,
                 matches: fuzzAldrin.match(clearString(category[this.keyForLabel]), clearString(query))
               }
