@@ -162,8 +162,7 @@ export default {
      */
     handleClick (category) {
       if (!this.hasChildren) {
-        this.$emit('check', category, !this.isChecked)
-        return
+        this.handleCheckAll(category, !this.isChecked)
       }
       this.$emit('click', category)
     },
