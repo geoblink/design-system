@@ -162,7 +162,7 @@ export default {
      */
     handleClick (category) {
       if (!this.hasChildren) {
-        this.$emit('check', category[this.keyForId], !this.isChecked)
+        this.$emit('check', category, !this.isChecked)
         return
       }
       this.$emit('click', category)
