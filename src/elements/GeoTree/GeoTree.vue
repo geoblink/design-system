@@ -183,10 +183,10 @@ export default {
 
       const getFilteredCategories = (categories, query) => categories.reduce((carry, category) => {
         const isCategoryMatching = fuzzAldrin.score(category[this.keyForLabel], query) > 0
-        const categories = category[this.keyForChildren] ? getFilteredCategories(category[this.keyForChildren], query) : null
+        const matchedChildrenCategories = category[this.keyForChildren] ? getFilteredCategories(category[this.keyForChildren], query) : null
 
-        if (categories && categories.length) {
-          return [
+        return matchedChildrenCategories && matchedChildrenCategories.length
+          ? [
             ...carry,
             _.assign(
               {},
@@ -198,13 +198,12 @@ export default {
               }
             )
           ]
-        }
-        return isCategoryMatching
-          ? [
-            ...carry,
-            _.assign(category, { matches: fuzzAldrin.match(clearString(category[this.keyForLabel]), clearString(query)) })
-          ]
-          : carry
+          : isCategoryMatching
+            ? [
+              ...carry,
+              _.assign(category, { matches: fuzzAldrin.match(clearString(category[this.keyForLabel]), clearString(query)) })
+            ]
+            : carry
       }, [])
 
       this.filteredCategories = this.searchQuery
