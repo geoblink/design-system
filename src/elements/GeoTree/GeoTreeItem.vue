@@ -145,7 +145,7 @@ export default {
 
       return this.hasChildren
         ? allAreChildrenSelected(this.category)
-        : _.has(this.checkedItems, this.category[this.keyForId])
+        : !!this.checkedItems[this.category[this.keyForId]]
     },
     totalCategoryChildren () {
       const sumOfChildren = category => _.size(category[this.keyForChildren]) + _.sumBy(category[this.keyForChildren], sumOfChildren)
