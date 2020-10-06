@@ -62,6 +62,7 @@
     "d3": "^5.7.0",
     "d3-tip": "^0.9.1",
     "date-fns": "^2.7.0",
+    "fuzzaldrin-plus": "^0.6.0",
     "lodash": "^4.17.10",
     "markdown-it": "^8.4.2",
     "vue": "^2.5.22",
@@ -189,7 +190,5 @@
     "not OperaMini all",
     "not OperaMobile > 0"
   ],
-  "dependencies": {
-    "fuzzaldrin-plus": "^0.6.0"
-  }
+  "dependencies": {}
 }
