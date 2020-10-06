@@ -87,7 +87,7 @@ export default {
      */
     categories: {
       type: Array,
-      required: false
+      required: true
     },
     /**
      * Key to access to the identifier of the item
