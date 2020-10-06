@@ -158,33 +158,45 @@ export default {
   },
   methods: {
     handleSearching () {
-      this.$emit('search', this.searchQuery)
-
       const clearString = string => _.toLower(_.deburr(string))
 
       const getFilteredCategories = (categories, query) => categories.reduce((carry, category) => {
         const isCategoryMatching = fuzzAldrin.score(category[this.keyForLabel], query) > 0
-        const matchedChildrenCategories = category[this.keyForChildren] ? getFilteredCategories(category[this.keyForChildren], query) : null
+        const basicCategory = _.assign(
+          {},
+          category,
+          { matches: fuzzAldrin.match(clearString(category[this.keyForLabel]), clearString(query)) })
+        const matchedSubcategories = category[this.keyForChildren]
+          ? getFilteredCategories(category[this.keyForChildren], query)
+          : null
 
-        return matchedChildrenCategories && matchedChildrenCategories.length
-          ? [
+        /*
+        * If some subcategory match with the searched text it should display complete category tree
+        */
+        if (_.size(matchedSubcategories)) {
+          return [
             ...carry,
             _.assign(
-              {},
-              category,
+              basicCategory,
               {
-                [this.keyForChildren]: matchedChildrenCategories,
-                isExpanded: true,
-                matches: fuzzAldrin.match(clearString(category[this.keyForLabel]), clearString(query))
+                [this.keyForChildren]: matchedSubcategories,
+                isExpanded: true
               }
             )
           ]
-          : isCategoryMatching
-            ? [
-              ...carry,
-              _.assign(category, { matches: fuzzAldrin.match(clearString(category[this.keyForLabel]), clearString(query)) })
-            ]
-            : carry
+        }
+
+        /*
+        * If some category match with the searched text it should display it
+        */
+        if (isCategoryMatching) {
+          return [
+            ...carry,
+            basicCategory
+          ]
+        }
+
+        return carry
       }, [])
 
       this.filteredCategories = this.searchQuery
