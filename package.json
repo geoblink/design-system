@@ -188,5 +188,8 @@
     "not BlackBerry > 0",
     "not OperaMini all",
     "not OperaMobile > 0"
-  ]
+  ],
+  "dependencies": {
+    "fuzzaldrin-plus": "^0.6.0"
+  }
 }

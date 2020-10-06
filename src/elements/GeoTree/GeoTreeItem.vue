@@ -8,11 +8,14 @@
       }"
       :icon="categoryIcon"
       @click="handleClick(category)"
-      @mouseover="onMouseOver(category)"
+      @mouseover="showActionButton = true"
       @mouseout="showActionButton = false"
     >
       <label>
-        {{ category[keyForLabel] }}
+        <geo-highlighted-string
+          :highlighted-chars="category.matches"
+          :reference-string="category[keyForLabel]"
+        />
         <span
           v-if="hasChildren"
           class="geo-tree-item__total-items"
@@ -175,14 +178,6 @@ export default {
       }
 
       this.$emit('check', category, isChecked)
-    },
-    /**
-     * The action button can't appear on parent categories
-     */
-    onMouseOver (category) {
-      if (!this.hasChildren) {
-        this.showActionButton = true
-      }
     }
   }
 }

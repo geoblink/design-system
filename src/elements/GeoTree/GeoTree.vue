@@ -44,6 +44,7 @@
 
 <script>
 import _ from 'lodash'
+import fuzzAldrin from 'fuzzaldrin-plus'
 
 export default {
   name: 'GeoTree',
@@ -178,10 +179,10 @@ export default {
     handleSearching () {
       this.$emit('search', this.searchQuery)
 
-      const searchByQuery = (category, query) => _.includes(category[this.keyForLabel], query)
+      const clearString = string => _.toLower(_.deburr(string))
 
       const getFilteredCategories = (categories, query) => categories.reduce((carry, category) => {
-        const isCategoryMatching = searchByQuery(category, query)
+        const isCategoryMatching = fuzzAldrin.score(category[this.keyForLabel], query) > 0
         const categories = category[this.keyForChildren] ? getFilteredCategories(category[this.keyForChildren], query) : null
 
         if (categories && categories.length) {
@@ -192,7 +193,8 @@ export default {
               category,
               {
                 [this.keyForChildren]: categories,
-                isExpanded: true
+                isExpanded: true,
+                matches: fuzzAldrin.match(clearString(category[this.keyForLabel]), clearString(query))
               }
             )
           ]
