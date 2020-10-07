@@ -135,12 +135,19 @@ export default {
       type: Boolean,
       required: false,
       default: false
+    },
+    /*
+    * Checked items, with truthy/falsy category ids
+    */
+    checkedItems: {
+      type: Object,
+      required: false,
+      default: () => ({})
     }
   },
   data () {
     return {
       searchQuery: '',
-      checkedItems: {},
       filteredCategories: []
     }
   },
@@ -209,10 +216,7 @@ export default {
       this.$emit('click', clickedCategory)
     },
     handleCheckItem (category, isChecked) {
-      const categoryId = category[this.keyForId]
-      this.checkedItems = isChecked
-        ? _.assign({}, this.checkedItems, { [categoryId]: true })
-        : _.omit(this.checkedItems, categoryId)
+      this.$emit('check', category, isChecked)
     }
   }
 }
