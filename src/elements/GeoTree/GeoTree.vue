@@ -191,8 +191,6 @@ export default {
         return carry
       }, [])
 
-      console.log('>>>>>>>>>> getFilteredCategories ::: ', getFilteredCategories(this.categories, this.searchQuery))
-
       this.filteredCategories = this.searchQuery
         ? getFilteredCategories(this.categories, this.searchQuery)
         : this.categories
