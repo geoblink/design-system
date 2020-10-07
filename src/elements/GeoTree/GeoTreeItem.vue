@@ -9,8 +9,8 @@
       }"
       :icon="categoryIcon"
       @click="handleClick(category)"
-      @mouseover="showActionButton = true"
-      @mouseout="showActionButton = false"
+      @mouseover="isShowActionButton = true"
+      @mouseout="isShowActionButton = false"
     >
       <label>
         <geo-highlighted-string
@@ -38,7 +38,7 @@
       </label>
 
       <template
-        v-if="showActionButton"
+        v-if="isShowActionButton"
         slot="trailingAccessoryItem"
       >
         <slot name="trailingAccessoryAction" />
@@ -127,7 +127,7 @@ export default {
   },
   data () {
     return {
-      showActionButton: false
+      isShowActionButton: false
     }
   },
   computed: {
