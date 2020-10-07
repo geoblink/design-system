@@ -1,6 +1,8 @@
 import _ from 'lodash'
-import { createLocalVue, shallowMount, mount } from '@vue/test-utils'
+import { createLocalVue, shallowMount } from '@vue/test-utils'
 import GeoTree from '@/elements/GeoTree/GeoTree.vue'
+import GeoBorderedBoxHeaderSearchForm from '@/elements/GeoBorderedBox/GeoBorderedBoxHeaderSearchForm.vue'
+import GeoInput from '@/elements/GeoInput/GeoInput.vue'
 
 // create an extended `Vue` constructor
 const localVue = createLocalVue()
@@ -61,7 +63,7 @@ const CATEGORIES = [
       },
       {
         id: 'sweet-fruits',
-        label: 'Sweet fruits',
+        label: 'Sweet',
         subcategories: [
           {
             id: 'pear',
@@ -84,7 +86,7 @@ const CATEGORIES = [
     label: 'Vegetables',
     subcategories: [
       {
-        id: 'fruits',
+        id: 'vegetables-fruits',
         label: 'Fruits',
         subcategories: [
           {
@@ -131,7 +133,14 @@ describe.only('GeoTree', () => {
         searchable: true
       },
       props
-    )
+    ),
+    stubs: {
+      'geo-bordered-box-header-search-form': GeoBorderedBoxHeaderSearchForm,
+      'geo-input': GeoInput,
+      'geo-tree-item': true,
+      'font-awesome-icon': true,
+      'geo-scrollable-container': true
+    }
   })
 
   it('should render correctly', () => {
@@ -153,47 +162,316 @@ describe.only('GeoTree', () => {
     expect(wrapper.find('.geo-tree__loading').text()).toEqual(loadingLabel)
   })
 
-  it('should render a searcher box when searchable prop is passed', () => {
+  it('should filter the categories on matching children node without children, nieto', () => {
     const wrapper = getWrapper({
       searchable: true
     })
 
-    expect(wrapper.find('geo-bordered-box-header-search-form').exists()).toBeTruthy()
+    const expectedFilteredCategories = [
+      {
+        id: 'fruits',
+        label: 'Fruits',
+        isExpanded: true,
+        matches: [],
+        subcategories: [
+          {
+            id: 'tropical-fruits',
+            label: 'Tropical fruits',
+            isExpanded: true,
+            matches: [],
+            subcategories: [
+              {
+                matches: _.times(6),
+                id: 'banana',
+                label: 'Banana'
+              }
+            ]
+          }
+        ]
+      }
+    ]
+
+    expect(wrapper.find('.geo-input').exists()).toBe(true)
+    wrapper.find('.geo-input input').setValue('banana')
+
+    expect(wrapper.vm.filteredCategories).toEqual(expectedFilteredCategories)
   })
 
-  it('should filter the categories when on user searching', () => {
+  // TODO: Poner bien este texto, crear un describe solo para el buscador.
+  it('hijo + padre', () => {
     const wrapper = getWrapper({
       searchable: true
     })
-    const expectedFilteredCategories = []
+    const expectedFilteredCategories = [
+      {
+        id: 'vegetables',
+        label: 'Vegetables',
+        isExpanded: true,
+        matches: _.times(7).slice(2),
+        subcategories: [
+          {
+            id: 'vegetables-fruits',
+            label: 'Fruits',
+            isExpanded: true,
+            matches: [],
+            subcategories: [
+              {
+                id: 'eggplant',
+                label: 'Eggplant',
+                matches: []
+              },
+              {
+                id: 'pepper',
+                label: 'Pepper',
+                matches: []
+              }
+            ]
+          },
+          {
+            id: 'bulbs',
+            label: 'Bulbs',
+            isExpanded: true,
+            matches: [],
+            subcategories: [
+              {
+                id: 'onion',
+                label: 'Onion',
+                matches: []
+              },
+              {
+                id: 'leek',
+                label: 'Leek',
+                matches: []
+              },
+              {
+                id: 'garlic',
+                label: 'Garlic',
+                matches: []
+              }
+            ]
+          }
+        ]
+      }
+    ]
 
-    /*
-    * TODO:
-    *  1. Search for the searcher input.
-    *  2. Type some text that can be found in the categories.
-    *
-    * ¿? How to know that filtered categories are right?
-    */
+    expect(wrapper.find('.geo-input').exists()).toBe(true)
+    wrapper.find('.geo-input input').setValue('getab')
 
-    expect(getWrapper().findAll('geo-tree-item').length).toEqual(expectedFilteredCategories.length)
+    expect(wrapper.vm.filteredCategories).toEqual(expectedFilteredCategories)
   })
 
-  it('should display a no results found label when nothing matches with searched text', () => {
-    const noResultsLabel = 'Fake no results label'
+  // TODO: Poner bien este texto, crear un describe solo para el buscador.
+  it('abuelo + hijo + nieto', () => {
     const wrapper = getWrapper({
-      searchable: true,
-      noResultsLabel
+      searchable: true
     })
+    const expectedFilteredCategories = [
+      {
+        id: 'fruits',
+        label: 'Fruits',
+        isExpanded: true,
+        matches: _.times(5),
+        subcategories: [
+          {
+            id: 'tropical-fruits',
+            label: 'Tropical fruits',
+            isExpanded: true,
+            matches: _.times(14).slice(9),
+            subcategories: [
+              {
+                id: 'pineapple',
+                label: 'Pineapple',
+                matches: []
+              },
+              {
+                id: 'banana',
+                label: 'Banana',
+                matches: []
+              },
+              {
+                id: 'coconut',
+                label: 'Coconut',
+                matches: []
+              },
+              {
+                id: 'avocado',
+                label: 'Avocado',
+                matches: []
+              }
+            ]
+          },
+          {
+            id: 'citrus-fruits',
+            label: 'Citrus fruits',
+            isExpanded: true,
+            matches: _.times(12).slice(7),
+            subcategories: [
+              {
+                id: 'orange',
+                label: 'Orange',
+                matches: []
+              },
+              {
+                id: 'lime',
+                label: 'Lime',
+                matches: []
+              },
+              {
+                id: 'grapefruit',
+                label: 'GrapeFruit',
+                matches: _.times(10).slice(5)
+              },
+              {
+                id: 'mandarin',
+                label: 'Mandarin',
+                matches: []
 
-    wrapper.find('geo-input__input').setValue('jhfehjfebhjfew')
+              },
+              {
+                id: 'pomelo',
+                label: 'Pomelo',
+                matches: []
+              }
+            ]
+          },
+          {
+            id: 'sweet-fruits',
+            matches: [],
+            isExpanded: true,
+            label: 'Sweet',
+            subcategories: [
+              {
+                id: 'pear',
+                label: 'Pear',
+                matches: []
+              },
+              {
+                id: 'apple',
+                label: 'Apple',
+                matches: []
+              },
+              {
+                id: 'redGrapes',
+                label: 'Red Grapes',
+                matches: []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        id: 'vegetables',
+        label: 'Vegetables',
+        isExpanded: true,
+        matches: [],
+        subcategories: [
+          {
+            id: 'vegetables-fruits',
+            label: 'Fruits',
+            isExpanded: true,
+            matches: _.times(5),
+            subcategories: [
+              {
+                id: 'eggplant',
+                label: 'Eggplant',
+                matches: []
+              },
+              {
+                id: 'pepper',
+                label: 'Pepper',
+                matches: []
+              }
+            ]
+          }
+        ]
+      }
+    ]
 
-    /*
-    * TODO:
-    *  1. Search for the searcher input.
-    *  2. Type some random weird text
-    * */
+    expect(wrapper.find('.geo-input').exists()).toBe(true)
+    wrapper.find('.geo-input input').setValue('fruit')
 
-    expect(wrapper.find('.geo-tree__no-results-found').exists()).toBeTruthy()
-    expect(wrapper.find('.geo-tree__no-results-found').text()).toEqual(noResultsLabel)
+    expect(wrapper.vm.filteredCategories).toEqual(expectedFilteredCategories)
   })
+
+  it.only('ordenado', () => {
+    const wrapper = getWrapper()
+    const expectedFilteredCategories = [
+      {
+        id: 'fruits',
+        label: 'Fruits',
+        subcategories: [
+          {
+            id: 'tropical-fruits',
+            label: 'Tropical fruits',
+            subcategories: [
+              {
+                id: 'avocado',
+                label: 'Avocado',
+                matches: []
+              },
+              {
+                id: 'banana',
+                label: 'Banana',
+                matches: []
+              },
+              {
+                id: 'coconut',
+                label: 'Coconut',
+                matches: []
+              },
+              {
+                id: 'pineapple',
+                label: 'Pineapple',
+                matches: []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        id: 'vegetables',
+        label: 'Vegetables',
+        isExpanded: true,
+        matches: [],
+        subcategories: [
+          {
+            id: 'vegetables-fruits',
+            label: 'Fruits',
+            isExpanded: true,
+            matches: _.times(5),
+            subcategories: [
+              {
+                id: 'eggplant',
+                label: 'Eggplant',
+                matches: []
+              },
+              {
+                id: 'pepper',
+                label: 'Pepper',
+                matches: []
+              }
+            ]
+          }
+        ]
+      }
+    ]
+
+    expect(wrapper.vm.sortedCategories).toEqual(expectedFilteredCategories)
+  })
+
+  // it('should display a no results found label when nothing matches with searched text', () => {
+  //   const noResultsLabel = 'Fake no results label'
+  //   const wrapper = getWrapper({
+  //     searchable: true,
+  //     noResultsLabel
+  //   })
+  //
+  //   console.log('>>>>>>> ', wrapper.html())
+  //
+  //   expect(wrapper.find('.geo-input').exists()).toBe(true)
+  //   wrapper.find('input').setValue('Fake random string')
+  //
+  //   expect(wrapper.find('.geo-tree__no-results-found').exists()).toBeTruthy()
+  //   expect(wrapper.find('.geo-tree__no-results-found').text()).toEqual(noResultsLabel)
+  // })
 })

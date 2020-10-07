@@ -153,7 +153,17 @@ export default {
   },
   computed: {
     sortedCategories () {
-      return _.sortBy(this.filteredCategories, [this.keyForLabel])
+      const sortSubcategories = categories => _.map(categories, (category) => {
+        if (category[this.keyForChildren]) {
+          return _.assign({}, category, {
+            [this.keyForChildren]: _.sortBy(sortSubcategories(category[this.keyForChildren]), this.keyForLabel)
+          })
+        } else {
+          return category
+        }
+      })
+
+      return _.sortBy(sortSubcategories(this.filteredCategories), this.keyForLabel)
     },
     hasResults () {
       return !this.searchQuery || (this.searchQuery && this.filteredCategories.length)
@@ -164,28 +174,21 @@ export default {
   },
   methods: {
     handleSearching () {
-      const getFilteredCategories = (categories, query) => categories.reduce((carry, category) => {
+      const getFilteredCategories = (categories, query, isAnyAncestorMatching) => _.reduce(categories, (carry, category) => {
         const isCategoryMatching = fuzzAldrin.score(category[this.keyForLabel], query) > 0
-        const basicCategory = _.assign(
-          {},
-          category,
-          { matches: fuzzAldrin.match(clearString(category[this.keyForLabel]), clearString(query)) })
-        const matchedSubcategories = category[this.keyForChildren]
-          ? getFilteredCategories(category[this.keyForChildren], query)
-          : []
+        const matchingSubcategories = getFilteredCategories(category[this.keyForChildren], query, isCategoryMatching || isAnyAncestorMatching)
 
-        // If some subcategory match with the searched text it should display complete category tree
-        if (_.size(matchedSubcategories) || isCategoryMatching) {
-          return [
-            ...carry,
-            _.assign(
-              basicCategory,
-              {
-                [this.keyForChildren]: _.size(matchedSubcategories) ? matchedSubcategories : category[this.keyForChildren],
-                isExpanded: !!_.size(matchedSubcategories) || isCategoryMatching
-              }
-            )
-          ]
+        if (isCategoryMatching || isAnyAncestorMatching || _.size(matchingSubcategories)) {
+          const basicCategory = _.assign({}, category, {
+            matches: fuzzAldrin.match(clearString(category[this.keyForLabel]), clearString(query))
+          })
+
+          if (_.size(category[this.keyForChildren])) {
+            basicCategory[this.keyForChildren] = matchingSubcategories
+            basicCategory.isExpanded = true
+          }
+
+          return [...carry, basicCategory]
         }
 
         return carry
@@ -202,19 +205,19 @@ export default {
     handleCategoryClick (clickedCategory) {
       const isExpanded = (category) => category[this.keyForId] === clickedCategory[this.keyForId] ? !category.isExpanded : category.isExpanded
 
-      this.filteredCategories = toggleCategoriesExpanded(this.filteredCategories)
+      this.filteredCategories = toggleCategoriesExpanded(this.filteredCategories, this.keyForChildren)
       this.$emit('click', clickedCategory)
 
-      function toggleCategoriesExpanded (categories) {
+      function toggleCategoriesExpanded (categories, keyForChildren) {
         return _.map(categories, category => {
-          const children = category[this.keyForChildren] ? toggleCategoriesExpanded(category[this.keyForChildren]) : null
+          const children = category[keyForChildren] ? toggleCategoriesExpanded(category[keyForChildren], keyForChildren) : null
 
           return _.assign(
             {},
             category,
             {
               isExpanded: isExpanded(category),
-              [this.keyForChildren]: children
+              [keyForChildren]: children
             }
           )
         })

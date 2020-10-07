@@ -22,7 +22,7 @@ export default {
         [  
             {  
                 id: 'fruits',  
-                label: 'Fruits',  
+                label: 'ZFruits',  
                 subcategories: [  
                     {  
                         id: 'tropical-fruits',  
@@ -47,7 +47,7 @@ export default {
                     },  
                     {  
                         id: 'sweet-fruits',  
-                        label: 'Sweet fruits',  
+                        label: 'Sweet',  
                         subcategories: [  
                             {id: 'pear',label: 'Pear'},  
                             {id: 'apple',label: 'Apple'},  
@@ -73,10 +73,23 @@ export default {
                         label: 'Bulbs',  
                         subcategories: [  
                             { id: 'onion',  label: 'Onion' },  
-                            {  id: 'leek', label: 'Leek' },  
-                            { id: 'garlic', label: 'Garlic'}  
+                            { id: 'leek', label: 'Leek' },  
+                            { 
+                                id: 'garlic', label: 'Garlic',
+                            }  
                         ]  
-                    }  
+                    },
+{  
+                        id: 'ididid',  
+                        label: 'no abregrrgrg',  
+                        subcategories: [  
+                            { id: 'onrgegreion',  label: 'grerg' },  
+                            { id: 'ew', label: 'Leweedek' },  
+                            { 
+                                id: 'ewew', label: 'vegetable',
+                            }  
+                        ]  
+                    }
                 ]  
             }  
         ]
@@ -191,7 +204,7 @@ export default {
                     },  
                     {  
                         id: 'sweet-fruits',  
-                        label: 'Sweet fruits',  
+                        label: 'Sweet',  
                         subcategories: [  
                             {id: 'pear',label: 'Pear'},  
                             {id: 'apple',label: 'Apple'},  
@@ -285,7 +298,7 @@ export default {
                     },  
                     {  
                         id: 'sweet-fruits',  
-                        label: 'Sweet fruits',  
+                        label: 'Sweet',  
                         subcategories: [  
                             {id: 'pear',label: 'Pear'},  
                             {id: 'apple',label: 'Apple'},  
