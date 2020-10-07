@@ -216,7 +216,7 @@ export default {
       this.$emit('click', clickedCategory)
     },
     handleCheckItem (category, isChecked) {
-      this.$emit('check', category, isChecked)
+      this.$emit('check', category[this.keyForId], isChecked)
     }
   }
 }
