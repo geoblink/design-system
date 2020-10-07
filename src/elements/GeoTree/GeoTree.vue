@@ -122,13 +122,6 @@ export default {
       default: false
     },
     /**
-    * Initial selected items
-    */
-    initialState: {
-      type: Object,
-      required: false
-    },
-    /**
     * Icon used to alert about some extra info displayed in a popover
     */
     descriptionIcon: {
@@ -160,7 +153,6 @@ export default {
     }
   },
   mounted () {
-    this.setInitialState(this.initialState)
     this.filteredCategories = this.categories
   },
   methods: {
@@ -175,31 +167,19 @@ export default {
           { matches: fuzzAldrin.match(clearString(category[this.keyForLabel]), clearString(query)) })
         const matchedSubcategories = category[this.keyForChildren]
           ? getFilteredCategories(category[this.keyForChildren], query)
-          : null
+          : category[this.keyForChildren]
 
-        /*
-        * If some subcategory match with the searched text it should display complete category tree
-        */
-        if (_.size(matchedSubcategories)) {
+        // If some subcategory match with the searched text it should display complete category tree
+        if (_.size(matchedSubcategories) || isCategoryMatching) {
           return [
             ...carry,
             _.assign(
               basicCategory,
               {
                 [this.keyForChildren]: matchedSubcategories,
-                isExpanded: true
+                isExpanded: !!_.size(matchedSubcategories)
               }
             )
-          ]
-        }
-
-        /*
-        * If some category match with the searched text it should display it
-        */
-        if (isCategoryMatching) {
-          return [
-            ...carry,
-            basicCategory
           ]
         }
 
@@ -233,11 +213,6 @@ export default {
       this.checkedItems = isChecked
         ? _.assign({}, this.checkedItems, { [categoryId]: true })
         : _.omit(this.checkedItems, categoryId)
-    },
-    setInitialState (initialState) {
-      if (!initialState) return
-
-      _.assign(this.checkedItems, initialState)
     }
   }
 }
