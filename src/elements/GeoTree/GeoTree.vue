@@ -164,8 +164,6 @@ export default {
   },
   methods: {
     handleSearching () {
-      const clearString = string => _.toLower(_.deburr(string))
-
       const getFilteredCategories = (categories, query) => categories.reduce((carry, category) => {
         const isCategoryMatching = fuzzAldrin.score(category[this.keyForLabel], query) > 0
         const basicCategory = _.assign(
@@ -196,24 +194,31 @@ export default {
       this.filteredCategories = this.searchQuery
         ? getFilteredCategories(this.categories, this.searchQuery)
         : this.categories
+
+      function clearString (string) {
+        return _.toLower(_.deburr(string))
+      }
     },
     handleCategoryClick (clickedCategory) {
       const isExpanded = (category) => category[this.keyForId] === clickedCategory[this.keyForId] ? !category.isExpanded : category.isExpanded
-      const toggleCategoriesExpanded = (categories) => _.map(categories, category => {
-        const children = category[this.keyForChildren] ? toggleCategoriesExpanded(category[this.keyForChildren]) : null
 
-        return _.assign(
-          {},
-          category,
-          {
-            isExpanded: isExpanded(category),
-            [this.keyForChildren]: children
-          }
-        )
-      })
       this.filteredCategories = toggleCategoriesExpanded(this.filteredCategories)
-
       this.$emit('click', clickedCategory)
+
+      function toggleCategoriesExpanded (categories) {
+        return _.map(categories, category => {
+          const children = category[this.keyForChildren] ? toggleCategoriesExpanded(category[this.keyForChildren]) : null
+
+          return _.assign(
+            {},
+            category,
+            {
+              isExpanded: isExpanded(category),
+              [this.keyForChildren]: children
+            }
+          )
+        })
+      }
     },
     handleCheckItem (category, isChecked) {
       this.$emit('check', category[this.keyForId], isChecked)
