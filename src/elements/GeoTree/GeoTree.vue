@@ -172,7 +172,7 @@ export default {
           { matches: fuzzAldrin.match(clearString(category[this.keyForLabel]), clearString(query)) })
         const matchedSubcategories = category[this.keyForChildren]
           ? getFilteredCategories(category[this.keyForChildren], query)
-          : category[this.keyForChildren]
+          : []
 
         // If some subcategory match with the searched text it should display complete category tree
         if (_.size(matchedSubcategories) || isCategoryMatching) {
@@ -181,8 +181,8 @@ export default {
             _.assign(
               basicCategory,
               {
-                [this.keyForChildren]: matchedSubcategories,
-                isExpanded: !!_.size(matchedSubcategories)
+                [this.keyForChildren]: _.size(matchedSubcategories) ? matchedSubcategories : category[this.keyForChildren],
+                isExpanded: !!_.size(matchedSubcategories) || isCategoryMatching
               }
             )
           ]
@@ -190,6 +190,8 @@ export default {
 
         return carry
       }, [])
+
+      console.log('>>>>>>>>>> getFilteredCategories ::: ', getFilteredCategories(this.categories, this.searchQuery))
 
       this.filteredCategories = this.searchQuery
         ? getFilteredCategories(this.categories, this.searchQuery)
