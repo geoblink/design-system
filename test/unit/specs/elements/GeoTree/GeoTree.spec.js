@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import { createLocalVue, shallowMount } from '@vue/test-utils'
+import { createLocalVue, shallowMount, mount } from '@vue/test-utils'
 import GeoTree from '@/elements/GeoTree/GeoTree.vue'
 
 // create an extended `Vue` constructor
@@ -127,7 +127,8 @@ describe.only('GeoTree', () => {
         keyForLabel: 'label',
         keyForChildren: 'subcategories',
         keyForId: 'id',
-        categories: CATEGORIES
+        categories: CATEGORIES,
+        searchable: true
       },
       props
     )
@@ -183,6 +184,8 @@ describe.only('GeoTree', () => {
       searchable: true,
       noResultsLabel
     })
+
+    wrapper.find('geo-input__input').setValue('jhfehjfebhjfew')
 
     /*
     * TODO:
