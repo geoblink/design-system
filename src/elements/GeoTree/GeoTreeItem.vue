@@ -50,7 +50,7 @@
           :indeterminate.prop="isIndeterminate"
           type="checkbox"
           @click.stop
-          @input="handleCheckAll(category, $event.target.checked)"
+          @input="handleCheck(category, $event.target.checked)"
         >
       </template>
     </geo-list-item>
@@ -66,7 +66,7 @@
         :key-for-label="keyForLabel"
         :key-for-children="keyForChildren"
         :checked-items="checkedItems"
-        @check="handleCheckAll"
+        @check="handleCheck"
         @click="handleClick"
       />
     </ul>
@@ -163,17 +163,17 @@ export default {
     */
     handleClick (category) {
       if (!this.hasChildren) {
-        this.handleCheckAll(category, !this.isChecked)
+        this.handleCheck(category, !this.isChecked)
       }
       this.$emit('click', category)
     },
     /**
     * To check all items of a category
     */
-    handleCheckAll (category, isChecked) {
+    handleCheck (category, isChecked) {
       if (this.hasChildren) {
         _.forEach(category[this.keyForChildren], innerCategory => {
-          return this.handleCheckAll(innerCategory, isChecked)
+          return this.handleCheck(innerCategory, isChecked)
         })
       }
 
