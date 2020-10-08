@@ -149,6 +149,7 @@ export default {
 <template>
     <geo-tree
         searchable
+        no-results-found-label="Any category match"
         key-for-id="id"
         key-for-subcategory="subcategories"
         key-for-label="label"

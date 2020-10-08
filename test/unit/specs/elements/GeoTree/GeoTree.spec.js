@@ -121,7 +121,173 @@ const CATEGORIES = [
   }
 ]
 
-describe.only('GeoTree', () => {
+describe('GeoTree basic behaviour', () => {
+  const getWrapper = (props = {}) => shallowMount(GeoTree, {
+    propsData: _.assign(
+      {},
+      {
+        keyForLabel: 'label',
+        keyForSubcategory: 'subcategories',
+        keyForId: 'id',
+        categories: props.categories || CATEGORIES
+      },
+      props
+    ),
+    stubs: {
+      'geo-bordered-box-header-search-form': true,
+      'geo-input': true,
+      'geo-tree-item': true,
+      'font-awesome-icon': true,
+      'geo-scrollable-container': true
+    }
+  })
+
+  it('should render correctly', () => {
+    expect(getWrapper()).toMatchSnapshot()
+  })
+
+  it('should display a loading label when isLoading prop is passed', () => {
+    const loadingLabel = 'Fake loading label'
+    const wrapper = getWrapper({
+      isLoading: true,
+      loadingLabel
+    })
+
+    expect(wrapper.find('.geo-tree__loading').exists()).toBeTruthy()
+    expect(wrapper.find('.geo-tree__loading').text()).toEqual(loadingLabel)
+  })
+
+  it('should display all categories sorted by alphabetical order', () => {
+    const expandedCategories = [
+      {
+        id: 'vegetables',
+        label: 'Vegetables',
+        isExpanded: true,
+        matches: [],
+        subcategories: [
+          {
+            id: 'vegetables-fruits',
+            label: 'Fruits',
+            isExpanded: true,
+            subcategories: [
+              {
+                id: 'pepper',
+                label: 'Pepper',
+                matches: []
+              },
+              {
+                id: 'eggplant',
+                label: 'Eggplant',
+                matches: []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        id: 'fruits',
+        label: 'Fruits',
+        isExpanded: true,
+        subcategories: [
+          {
+            id: 'tropical-fruits',
+            label: 'Tropical fruits',
+            isExpanded: true,
+            subcategories: [
+              {
+                id: 'banana',
+                label: 'Banana',
+                matches: []
+              },
+              {
+                id: 'avocado',
+                label: 'Avocado',
+                matches: []
+              },
+              {
+                id: 'pineapple',
+                label: 'Pineapple',
+                matches: []
+              },
+              {
+                id: 'coconut',
+                label: 'Coconut',
+                matches: []
+              }
+            ]
+          }
+        ]
+      }
+    ]
+
+    const wrapper = getWrapper({ categories: expandedCategories })
+    const expectedSortedCategories = [
+      {
+        id: 'fruits',
+        label: 'Fruits',
+        isExpanded: true,
+        subcategories: [
+          {
+            id: 'tropical-fruits',
+            label: 'Tropical fruits',
+            isExpanded: true,
+            subcategories: [
+              {
+                id: 'avocado',
+                label: 'Avocado',
+                matches: []
+              },
+              {
+                id: 'banana',
+                label: 'Banana',
+                matches: []
+              },
+              {
+                id: 'coconut',
+                label: 'Coconut',
+                matches: []
+              },
+              {
+                id: 'pineapple',
+                label: 'Pineapple',
+                matches: []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        id: 'vegetables',
+        label: 'Vegetables',
+        isExpanded: true,
+        matches: [],
+        subcategories: [
+          {
+            id: 'vegetables-fruits',
+            label: 'Fruits',
+            isExpanded: true,
+            subcategories: [
+              {
+                id: 'eggplant',
+                label: 'Eggplant',
+                matches: []
+              },
+              {
+                id: 'pepper',
+                label: 'Pepper',
+                matches: []
+              }
+            ]
+          }
+        ]
+      }
+    ]
+
+    expect(wrapper.vm.categoriesToShow).toEqual(expectedSortedCategories)
+  })
+})
+
+describe('GeoTree searching functionality', () => {
   const getWrapper = props => shallowMount(GeoTree, {
     propsData: _.assign(
       {},
@@ -140,33 +306,29 @@ describe.only('GeoTree', () => {
       'geo-tree-item': true,
       'font-awesome-icon': true,
       'geo-scrollable-container': true
-    }
+    },
+    sync: false
   })
 
-  it('should render correctly', () => {
-    expect(getWrapper()).toMatchSnapshot()
-  })
-
-  it('should render a list of categories which length is equal to the categories prop', () => {
-    expect(getWrapper().findAll('geo-tree-item').length).toEqual(CATEGORIES.length)
-  })
-
-  it('should display a loading label when isLoading prop is passed', () => {
-    const loadingLabel = 'Fake loading label'
+  it('should display a no results found label when nothing matches with searched text', () => {
+    const noResultsLabel = 'Fake no results label'
     const wrapper = getWrapper({
-      isLoading: true,
-      loadingLabel
+      noResultsFoundLabel: noResultsLabel
     })
 
-    expect(wrapper.find('.geo-tree__loading').exists()).toBeTruthy()
-    expect(wrapper.find('.geo-tree__loading').text()).toEqual(loadingLabel)
+    expect(wrapper.find('.geo-input input').exists()).toBe(true)
+    wrapper.find('.geo-input input').setValue('bevhjehvjfew')
+    wrapper.find('.geo-input input').trigger('input')
+
+    expect(wrapper.vm.categoriesToShow.length).toBe(0)
+    expect(wrapper.find('.geo-tree__no-results-found').exists()).toBeTruthy()
+    expect(wrapper.find('.geo-tree__no-results-found').text()).toEqual(noResultsLabel)
   })
 
-  it('should filter the categories on matching children node without children, nieto', () => {
+  it('should display the right categories when searching for a grandchild node without matches in ancestors', () => {
     const wrapper = getWrapper({
       searchable: true
     })
-
     const expectedFilteredCategories = [
       {
         id: 'fruits',
@@ -194,11 +356,10 @@ describe.only('GeoTree', () => {
     expect(wrapper.find('.geo-input').exists()).toBe(true)
     wrapper.find('.geo-input input').setValue('banana')
 
-    expect(wrapper.vm.filteredCategories).toEqual(expectedFilteredCategories)
+    expect(wrapper.vm.categoriesToShow).toEqual(expectedFilteredCategories)
   })
 
-  // TODO: Poner bien este texto, crear un describe solo para el buscador.
-  it('hijo + padre', () => {
+  it('should display the right categories when searching for matches in parent and child node', () => {
     const wrapper = getWrapper({
       searchable: true
     })
@@ -257,11 +418,10 @@ describe.only('GeoTree', () => {
     expect(wrapper.find('.geo-input').exists()).toBe(true)
     wrapper.find('.geo-input input').setValue('getab')
 
-    expect(wrapper.vm.filteredCategories).toEqual(expectedFilteredCategories)
+    expect(wrapper.vm.categoriesToShow).toEqual(expectedFilteredCategories)
   })
 
-  // TODO: Poner bien este texto, crear un describe solo para el buscador.
-  it('abuelo + hijo + nieto', () => {
+  it('should display the right categories when searching for matches in a grandchild node with matches in ancestors', () => {
     const wrapper = getWrapper({
       searchable: true
     })
@@ -390,88 +550,6 @@ describe.only('GeoTree', () => {
     expect(wrapper.find('.geo-input').exists()).toBe(true)
     wrapper.find('.geo-input input').setValue('fruit')
 
-    expect(wrapper.vm.filteredCategories).toEqual(expectedFilteredCategories)
+    expect(wrapper.vm.categoriesToShow).toEqual(expectedFilteredCategories)
   })
-
-  it.only('ordenado', () => {
-    const wrapper = getWrapper()
-    const expectedFilteredCategories = [
-      {
-        id: 'fruits',
-        label: 'Fruits',
-        subcategories: [
-          {
-            id: 'tropical-fruits',
-            label: 'Tropical fruits',
-            subcategories: [
-              {
-                id: 'avocado',
-                label: 'Avocado',
-                matches: []
-              },
-              {
-                id: 'banana',
-                label: 'Banana',
-                matches: []
-              },
-              {
-                id: 'coconut',
-                label: 'Coconut',
-                matches: []
-              },
-              {
-                id: 'pineapple',
-                label: 'Pineapple',
-                matches: []
-              }
-            ]
-          }
-        ]
-      },
-      {
-        id: 'vegetables',
-        label: 'Vegetables',
-        isExpanded: true,
-        matches: [],
-        subcategories: [
-          {
-            id: 'vegetables-fruits',
-            label: 'Fruits',
-            isExpanded: true,
-            matches: _.times(5),
-            subcategories: [
-              {
-                id: 'eggplant',
-                label: 'Eggplant',
-                matches: []
-              },
-              {
-                id: 'pepper',
-                label: 'Pepper',
-                matches: []
-              }
-            ]
-          }
-        ]
-      }
-    ]
-
-    expect(wrapper.vm.sortedCategories).toEqual(expectedFilteredCategories)
-  })
-
-  // it('should display a no results found label when nothing matches with searched text', () => {
-  //   const noResultsLabel = 'Fake no results label'
-  //   const wrapper = getWrapper({
-  //     searchable: true,
-  //     noResultsLabel
-  //   })
-  //
-  //   console.log('>>>>>>> ', wrapper.html())
-  //
-  //   expect(wrapper.find('.geo-input').exists()).toBe(true)
-  //   wrapper.find('input').setValue('Fake random string')
-  //
-  //   expect(wrapper.find('.geo-tree__no-results-found').exists()).toBeTruthy()
-  //   expect(wrapper.find('.geo-tree__no-results-found').text()).toEqual(noResultsLabel)
-  // })
 })

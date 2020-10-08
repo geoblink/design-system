@@ -12,6 +12,9 @@
         class="geo-tree__loading"
         v-text="loadingLabel"
       />
+      categoriesToSAhow: {{ categoriesToShow }}
+      hasResults: {{ hasResults }}
+      query: {{ searchQuery }}
       <div
         v-if="!hasResults"
         class="geo-tree__no-results-found"
@@ -148,12 +151,12 @@ export default {
   data () {
     return {
       searchQuery: '',
-      categoriesToShow: []
+      categoriesToShow: this.categories
     }
   },
   computed: {
     hasResults () {
-      return !this.searchQuery || (this.searchQuery && this.categoriesToShow.length)
+      return !this.searchQuery || (this.searchQuery && !!_.size(this.categoriesToShow))
     }
   },
   watch: {
