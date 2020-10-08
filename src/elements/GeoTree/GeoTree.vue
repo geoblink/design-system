@@ -196,25 +196,9 @@ export default {
         : this.categories
     },
     handleCategoryClick (clickedCategory) {
-      const isExpanded = (category) => category[this.keyForId] === clickedCategory[this.keyForId] ? !category.isExpanded : category.isExpanded
+      clickedCategory.isExpanded = !clickedCategory.isExpanded
 
-      this.categoriesToShow = toggleCategoriesExpanded(this.categoriesToShow, this.keyForSubcategory)
       this.$emit('click', clickedCategory)
-
-      function toggleCategoriesExpanded (categories, keyForSubcategory) {
-        return _.map(categories, category => {
-          const children = category[keyForSubcategory] ? toggleCategoriesExpanded(category[keyForSubcategory], keyForSubcategory) : null
-
-          return _.assign(
-            {},
-            category,
-            {
-              isExpanded: isExpanded(category),
-              [keyForSubcategory]: children
-            }
-          )
-        })
-      }
     },
     handleCheckItem (category, isChecked) {
       this.$emit('check', category[this.keyForId], isChecked)
