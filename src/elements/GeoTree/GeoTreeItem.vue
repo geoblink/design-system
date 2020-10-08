@@ -1,14 +1,13 @@
 <template>
   <li
     class="geo-tree-item"
+    @click="handleClick"
   >
     <geo-list-item
       :class="{
-        'geo-tree-item--clickable': hasChildren,
         'geo-tree-item--expanded': category.isExpanded,
       }"
       :icon="categoryIcon"
-      @click="handleClick"
       @mouseover="isShowActionButton = true"
       @mouseout="isShowActionButton = false"
     >
@@ -56,7 +55,7 @@
     </geo-list-item>
     <ul
       v-if="category.isExpanded"
-      class="geo-tree__list"
+      class="geo-tree-item__list"
     >
       <geo-tree-item
         v-for="categoryChildren in category[keyForSubcategory]"

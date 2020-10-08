@@ -143,6 +143,52 @@ export default {
 </script>
 ```
 
+### With info tooltip icon
+
+```vue live
+<template>
+    <geo-tree
+        key-for-id="id"
+        key-for-subcategory="subcategories"
+        key-for-label="label"
+        :categories="categories"
+        :checked-items="checkedCategories"
+        :description-icon="['far', 'lightbulb']"
+        @check="handleCheck"
+    >
+    </geo-tree>  
+</template>
+  
+<script>  
+export default {
+  name: 'GeoTreeDemo',
+  data () {
+    return {
+      checkedCategories: {},
+      categories: 
+        [  
+          {
+            id: 'fruits',
+            label: 'Fruits',
+            description: 'Description used to this category'
+          },
+          {
+            id: 'vegetables',
+            label: 'Vegetables',
+          },      
+        ]
+    }
+  },
+  methods: {
+    handleCheck (categoryId, isChecked) {
+        this.$set(this.checkedCategories, categoryId, isChecked)
+    }
+  }
+}
+</script>
+```
+
+
 ### Searchable
 
 ```vue live

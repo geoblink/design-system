@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GeoTreeItem should render correctly 1`] = `
+<li class="geo-tree-item">
+  <geo-list-item-stub icon="fal,chevron-right"><label>
+      <geo-highlighted-string-stub reference-string="Fruits"></geo-highlighted-string-stub> <span class="geo-tree-item__total-items">
+        (5)
+      </span>
+      <!---->
+    </label>
+    <!----> <template></template></geo-list-item-stub>
+  <!---->
+</li>
+`;

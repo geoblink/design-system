@@ -2,6 +2,14 @@
   cursor: pointer;
 }
 
+.geo-tree-item label {
+  cursor: pointer;
+}
+
+.geo-tree-item__list {
+  list-style: none;
+}
+
 .geo-tree-item .geo-list-item__icon-and-label__icon-container {
   width: 5px;
 }
