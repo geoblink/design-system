@@ -127,7 +127,7 @@ describe.only('GeoTree', () => {
       {},
       {
         keyForLabel: 'label',
-        keyForChildren: 'subcategories',
+        keyForSubcategory: 'subcategories',
         keyForId: 'id',
         categories: CATEGORIES,
         searchable: true

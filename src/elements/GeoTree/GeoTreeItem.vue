@@ -59,12 +59,12 @@
       class="geo-tree__list"
     >
       <geo-tree-item
-        v-for="categoryChildren in category[keyForChildren]"
+        v-for="categoryChildren in category[keyForSubcategory]"
         :key="categoryChildren[keyForId]"
         :category="categoryChildren"
         :key-for-id="keyForId"
         :key-for-label="keyForLabel"
-        :key-for-children="keyForChildren"
+        :key-for-subcategory="keyForSubcategory"
         :checked-items="checkedItems"
         @check="handleCheck"
         @click="handleClick"
@@ -105,10 +105,10 @@ export default {
     /**
     * Key to access to the children items of the category
     */
-    keyForChildren: {
+    keyForSubcategory: {
       type: String,
       required: false,
-      default: 'children'
+      default: 'subcategory'
     },
     /**
     * List of all the items checked, it's an object with truthy keys
@@ -136,20 +136,20 @@ export default {
     },
     isIndeterminate () {
       const isSomeChildSelected = category => {
-        return _.some(category[this.keyForChildren], subCategory => !!this.checkedItems[subCategory[this.keyForId]])
+        return _.some(category[this.keyForSubcategory], subCategory => !!this.checkedItems[subCategory[this.keyForId]])
       }
 
       return this.isChecked ? false : isSomeChildSelected(this.category)
     },
     isChecked () {
-      const allAreChildrenSelected = category => category[this.keyForChildren] && _.every(category[this.keyForChildren], subCategory => !!this.checkedItems[subCategory[this.keyForId]])
+      const allAreChildrenSelected = category => category[this.keyForSubcategory] && _.every(category[this.keyForSubcategory], subCategory => !!this.checkedItems[subCategory[this.keyForId]])
 
       return this.hasChildren
         ? allAreChildrenSelected(this.category)
         : !!this.checkedItems[this.category[this.keyForId]]
     },
     totalCategoryChildren () {
-      const sumOfChildren = category => _.size(category[this.keyForChildren]) + _.sumBy(category[this.keyForChildren], sumOfChildren)
+      const sumOfChildren = category => _.size(category[this.keyForSubcategory]) + _.sumBy(category[this.keyForSubcategory], sumOfChildren)
 
       return sumOfChildren(this.category)
     },
@@ -172,7 +172,7 @@ export default {
     */
     handleCheck (category, isChecked) {
       if (this.hasChildren) {
-        _.forEach(category[this.keyForChildren], innerCategory => {
+        _.forEach(category[this.keyForSubcategory], innerCategory => {
           return this.handleCheck(innerCategory, isChecked)
         })
       }

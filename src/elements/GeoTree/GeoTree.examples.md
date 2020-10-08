@@ -4,7 +4,7 @@
 <template>
     <geo-tree
         key-for-id="id"
-        key-for-children="subcategories"
+        key-for-subcategory="subcategories"
         key-for-label="label"
         :categories="categories"
         :checked-items="checkedCategories"
@@ -22,7 +22,7 @@ export default {
         [  
             {  
                 id: 'fruits',  
-                label: 'ZFruits',  
+                label: 'Fruits',  
                 subcategories: [  
                     {  
                         id: 'tropical-fruits',  
@@ -79,17 +79,6 @@ export default {
                             }  
                         ]  
                     },
-{  
-                        id: 'ididid',  
-                        label: 'no abregrrgrg',  
-                        subcategories: [  
-                            { id: 'onrgegreion',  label: 'grerg' },  
-                            { id: 'ew', label: 'Leweedek' },  
-                            { 
-                                id: 'ewew', label: 'vegetable',
-                            }  
-                        ]  
-                    }
                 ]  
             }  
         ]
@@ -109,9 +98,9 @@ export default {
 ```vue live
 <template>
     <geo-tree
-        key-for-id="id"
-        key-for-children="subcategories"
-        key-for-label="label"
+        keyForId="id"
+        keyForSubcategory="subcategories"
+        keyForLabel="label"
         :categories="categories"
         :checked-items="checkedCategories"
         @check="handleCheck"
@@ -161,7 +150,7 @@ export default {
     <geo-tree
         searchable
         key-for-id="id"
-        key-for-children="subcategories"
+        key-for-subcategory="subcategories"
         key-for-label="label"
         :categories="categories"
         :checked-items="checkedCategories"
@@ -254,7 +243,7 @@ export default {
 <template>
     <geo-tree
         key-for-id="id"
-        key-for-children="subcategories"
+        key-for-subcategory="subcategories"
         key-for-label="label"
         :categories="categories"
         :checked-items="checkedCategories"

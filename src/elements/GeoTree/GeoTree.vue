@@ -28,7 +28,7 @@
           :key-for-id="keyForId"
           :key-for-label="keyForLabel"
           :checked-items="checkedItems"
-          :key-for-children="keyForChildren"
+          :key-for-subcategory="keyForSubcategory"
           :description-icon="descriptionIcon"
           @click="handleCategoryClick"
           @check="handleCheckItem"
@@ -108,10 +108,10 @@ export default {
     /**
     * Key to access to the children items of the category
     */
-    keyForChildren: {
+    keyForSubcategory: {
       type: String,
       required: false,
-      default: 'children'
+      default: 'subcategory'
     },
     /**
     * Used determine if you can search or not
@@ -154,9 +154,9 @@ export default {
   computed: {
     sortedCategories () {
       const sortSubcategories = categories => _.map(categories, (category) => {
-        if (category[this.keyForChildren]) {
+        if (category[this.keyForSubcategory]) {
           return _.assign({}, category, {
-            [this.keyForChildren]: _.sortBy(sortSubcategories(category[this.keyForChildren]), this.keyForLabel)
+            [this.keyForSubcategory]: _.sortBy(sortSubcategories(category[this.keyForSubcategory]), this.keyForLabel)
           })
         } else {
           return category
@@ -176,15 +176,15 @@ export default {
     handleSearching () {
       const getFilteredCategories = (categories, query, isAnyAncestorMatching) => _.reduce(categories, (carry, category) => {
         const isCategoryMatching = fuzzAldrin.score(category[this.keyForLabel], query) > 0
-        const matchingSubcategories = getFilteredCategories(category[this.keyForChildren], query, isCategoryMatching || isAnyAncestorMatching)
+        const matchingSubcategories = getFilteredCategories(category[this.keyForSubcategory], query, isCategoryMatching || isAnyAncestorMatching)
 
         if (isCategoryMatching || isAnyAncestorMatching || _.size(matchingSubcategories)) {
           const basicCategory = _.assign({}, category, {
             matches: fuzzAldrin.match(clearString(category[this.keyForLabel]), clearString(query))
           })
 
-          if (_.size(category[this.keyForChildren])) {
-            basicCategory[this.keyForChildren] = matchingSubcategories
+          if (_.size(category[this.keyForSubcategory])) {
+            basicCategory[this.keyForSubcategory] = matchingSubcategories
             basicCategory.isExpanded = true
           }
 
@@ -205,19 +205,19 @@ export default {
     handleCategoryClick (clickedCategory) {
       const isExpanded = (category) => category[this.keyForId] === clickedCategory[this.keyForId] ? !category.isExpanded : category.isExpanded
 
-      this.filteredCategories = toggleCategoriesExpanded(this.filteredCategories, this.keyForChildren)
+      this.filteredCategories = toggleCategoriesExpanded(this.filteredCategories, this.keyForSubcategory)
       this.$emit('click', clickedCategory)
 
-      function toggleCategoriesExpanded (categories, keyForChildren) {
+      function toggleCategoriesExpanded (categories, keyForSubcategory) {
         return _.map(categories, category => {
-          const children = category[keyForChildren] ? toggleCategoriesExpanded(category[keyForChildren], keyForChildren) : null
+          const children = category[keyForSubcategory] ? toggleCategoriesExpanded(category[keyForSubcategory], keyForSubcategory) : null
 
           return _.assign(
             {},
             category,
             {
               isExpanded: isExpanded(category),
-              [keyForChildren]: children
+              [keyForSubcategory]: children
             }
           )
         })
