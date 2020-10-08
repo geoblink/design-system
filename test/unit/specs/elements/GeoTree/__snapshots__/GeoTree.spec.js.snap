@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GeoTree basic behaviour should render correctly 1`] = `
+<div class="geo-tree">
+  <!---->
+  <geo-scrollable-container-stub>
+    <!---->
+    <ul class="geo-tree__list">
+      <geo-tree-item-stub category="[object Object]" key-for-id="id" key-for-label="label" checked-items="[object Object]" key-for-subcategory="subcategories"></geo-tree-item-stub>
+      <geo-tree-item-stub category="[object Object]" key-for-id="id" key-for-label="label" checked-items="[object Object]" key-for-subcategory="subcategories"></geo-tree-item-stub>
+    </ul>
+  </geo-scrollable-container-stub>
+</div>
+`;

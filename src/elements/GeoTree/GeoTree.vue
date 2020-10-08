@@ -12,9 +12,6 @@
         class="geo-tree__loading"
         v-text="loadingLabel"
       />
-      categoriesToSAhow: {{ categoriesToShow }}
-      hasResults: {{ hasResults }}
-      query: {{ searchQuery }}
       <div
         v-if="!hasResults"
         class="geo-tree__no-results-found"
@@ -25,7 +22,7 @@
         class="geo-tree__list"
       >
         <geo-tree-item
-          v-for="category in categoriesToShow"
+          v-for="category in filteredCategories"
           :key="category[keyForId]"
           :category="category"
           :key-for-id="keyForId"
@@ -151,22 +148,28 @@ export default {
   data () {
     return {
       searchQuery: '',
-      categoriesToShow: this.categories
+      filteredCategories: this.categories
     }
   },
   computed: {
     hasResults () {
-      return !this.searchQuery || (this.searchQuery && !!_.size(this.categoriesToShow))
+      return !this.searchQuery || (this.searchQuery && !!_.size(this.filteredCategories))
+    },
+    sortedCategories () {
+      const sortSubcategories = categories => _.map(categories, (category) => {
+        if (category[this.keyForSubcategory]) {
+          return _.assign({}, category, {
+            [this.keyForSubcategory]: _.sortBy(sortSubcategories(category[this.keyForSubcategory]), this.keyForLabel)
+          })
+        } else {
+          return category
+        }
+      })
+
+      return _.sortBy(sortSubcategories(this.filteredCategories), this.keyForLabel)
     }
   },
-  watch: {
-    categories (newCategories) {
-      this.sortCategories(newCategories)
-    }
-  },
-  mounted () {
-    this.sortCategories(this.categories)
-  },
+
   methods: {
     filterCategories (categories, query, isAnyAncestorMatching) {
       return _.reduce(categories, (carry, category) => {
@@ -194,7 +197,7 @@ export default {
       }
     },
     handleSearching () {
-      this.categoriesToShow = this.searchQuery
+      this.filteredCategories = this.searchQuery
         ? this.filterCategories(this.categories, this.searchQuery)
         : this.categories
     },
@@ -205,19 +208,6 @@ export default {
     },
     handleCheckItem (category, isChecked) {
       this.$emit('check', category[this.keyForId], isChecked)
-    },
-    sortCategories (categoriesToSort) {
-      const sortSubcategories = categories => _.map(categories, (category) => {
-        if (category[this.keyForSubcategory]) {
-          return _.assign({}, category, {
-            [this.keyForSubcategory]: _.sortBy(sortSubcategories(category[this.keyForSubcategory]), this.keyForLabel)
-          })
-        } else {
-          return category
-        }
-      })
-
-      this.categoriesToShow = _.sortBy(sortSubcategories(categoriesToSort), this.keyForLabel)
     }
   }
 }

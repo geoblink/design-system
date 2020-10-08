@@ -283,7 +283,7 @@ describe('GeoTree basic behaviour', () => {
       }
     ]
 
-    expect(wrapper.vm.categoriesToShow).toEqual(expectedSortedCategories)
+    expect(wrapper.vm.filteredCategories).toEqual(expectedSortedCategories)
   })
 })
 
@@ -320,7 +320,7 @@ describe('GeoTree searching functionality', () => {
     wrapper.find('.geo-input input').setValue('bevhjehvjfew')
     wrapper.find('.geo-input input').trigger('input')
 
-    expect(wrapper.vm.categoriesToShow.length).toBe(0)
+    expect(wrapper.vm.filteredCategories.length).toBe(0)
     expect(wrapper.find('.geo-tree__no-results-found').exists()).toBeTruthy()
     expect(wrapper.find('.geo-tree__no-results-found').text()).toEqual(noResultsLabel)
   })
@@ -356,7 +356,7 @@ describe('GeoTree searching functionality', () => {
     expect(wrapper.find('.geo-input').exists()).toBe(true)
     wrapper.find('.geo-input input').setValue('banana')
 
-    expect(wrapper.vm.categoriesToShow).toEqual(expectedFilteredCategories)
+    expect(wrapper.vm.filteredCategories).toEqual(expectedFilteredCategories)
   })
 
   it('should display the right categories when searching for matches in parent and child node', () => {
@@ -418,7 +418,7 @@ describe('GeoTree searching functionality', () => {
     expect(wrapper.find('.geo-input').exists()).toBe(true)
     wrapper.find('.geo-input input').setValue('getab')
 
-    expect(wrapper.vm.categoriesToShow).toEqual(expectedFilteredCategories)
+    expect(wrapper.vm.filteredCategories).toEqual(expectedFilteredCategories)
   })
 
   it('should display the right categories when searching for matches in a grandchild node with matches in ancestors', () => {
@@ -550,6 +550,6 @@ describe('GeoTree searching functionality', () => {
     expect(wrapper.find('.geo-input').exists()).toBe(true)
     wrapper.find('.geo-input input').setValue('fruit')
 
-    expect(wrapper.vm.categoriesToShow).toEqual(expectedFilteredCategories)
+    expect(wrapper.vm.filteredCategories).toEqual(expectedFilteredCategories)
   })
 })
