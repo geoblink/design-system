@@ -8,7 +8,7 @@
         'geo-tree-item--expanded': category.isExpanded,
       }"
       :icon="categoryIcon"
-      @click="handleClick(category)"
+      @click="handleClick"
       @mouseover="isShowActionButton = true"
       @mouseout="isShowActionButton = false"
     >
@@ -83,8 +83,7 @@ export default {
   props: {
     category: {
       type: Object,
-      required: false,
-      default: () => ({})
+      required: true
     },
     /**
     * Key to access to the identifier of the item
@@ -115,7 +114,7 @@ export default {
     */
     checkedItems: {
       type: Object,
-      required: false
+      required: true
     },
     /**
     * Icon used to alert about some extra info displayed in a popover
@@ -161,23 +160,24 @@ export default {
     /**
     * On list item click
     */
-    handleClick (category) {
+    handleClick () {
       if (!this.hasChildren) {
-        this.handleCheck(category, !this.isChecked)
+        this.handleCheck(this.category, !this.isChecked)
+      } else {
+        this.category.isExpanded = !this.category.isExpanded
       }
-      this.$emit('click', category)
     },
     /**
     * To check all items of a category
     */
     handleCheck (category, isChecked) {
-      if (this.hasChildren) {
+      if (_.size(category[this.keyForSubcategory])) {
         _.forEach(category[this.keyForSubcategory], innerCategory => {
           return this.handleCheck(innerCategory, isChecked)
         })
+      } else {
+        this.$emit('check', category, isChecked)
       }
-
-      this.$emit('check', category, isChecked)
     }
   }
 }

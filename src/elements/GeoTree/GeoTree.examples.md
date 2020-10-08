@@ -86,7 +86,7 @@ export default {
   },
   methods: {
     handleCheck (categoryId, isChecked) {
-      this.checkedCategories[categoryId] = isChecked
+      this.$set(this.checkedCategories, categoryId, isChecked)
     }
   }
 }
@@ -136,7 +136,7 @@ export default {
   },
   methods: {
     handleCheck (categoryId, isChecked) {
-      this.checkedCategories[categoryId] = isChecked
+        this.$set(this.checkedCategories, categoryId, isChecked)
     }
   }
 }
@@ -231,7 +231,7 @@ export default {
   },
   methods: {
     handleCheck (categoryId, isChecked) {
-      this.checkedCategories[categoryId] = isChecked
+        this.$set(this.checkedCategories, categoryId, isChecked)
     }
   }
 }
@@ -325,7 +325,7 @@ export default {
   },
   methods: {
     handleCheck (categoryId, isChecked) {
-      this.checkedCategories[categoryId] = isChecked
+        this.$set(this.checkedCategories, categoryId, isChecked)
     }
   }
 }

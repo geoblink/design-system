@@ -4,7 +4,6 @@
       v-if="searchable"
       v-model="searchQuery"
       :placeholder="searchPlaceholder"
-      @input="handleSearching"
     />
     <geo-scrollable-container>
       <div
@@ -30,7 +29,6 @@
           :checked-items="checkedItems"
           :key-for-subcategory="keyForSubcategory"
           :description-icon="descriptionIcon"
-          @click="handleCategoryClick"
           @check="handleCheckItem"
         >
           <template v-slot:trailingAccessoryAction>
@@ -147,8 +145,7 @@ export default {
   },
   data () {
     return {
-      searchQuery: '',
-      filteredCategories: this.categories
+      searchQuery: ''
     }
   },
   computed: {
@@ -156,21 +153,19 @@ export default {
       return !this.searchQuery || (this.searchQuery && !!_.size(this.filteredCategories))
     },
     sortedCategories () {
-      const sortSubcategories = categories => _.map(categories, (category) => {
-        if (category[this.keyForSubcategory]) {
-          return _.assign({}, category, {
-            [this.keyForSubcategory]: _.sortBy(sortSubcategories(category[this.keyForSubcategory]), this.keyForLabel)
-          })
-        } else {
-          return category
-        }
-      })
-
-      return _.sortBy(sortSubcategories(this.filteredCategories), this.keyForLabel)
+      return this.sortCategories(this.categories)
+    },
+    filteredCategories () {
+      return this.searchQuery
+        ? this.filterCategories(this.sortedCategories, this.searchQuery)
+        : this.sortedCategories
     }
   },
 
   methods: {
+    handleCheckItem (category, isChecked) {
+      this.$emit('check', category[this.keyForId], isChecked)
+    },
     filterCategories (categories, query, isAnyAncestorMatching) {
       return _.reduce(categories, (carry, category) => {
         const isCategoryMatching = fuzzAldrin.score(category[this.keyForLabel], query) > 0
@@ -196,18 +191,15 @@ export default {
         return _.toLower(_.deburr(string))
       }
     },
-    handleSearching () {
-      this.filteredCategories = this.searchQuery
-        ? this.filterCategories(this.categories, this.searchQuery)
-        : this.categories
-    },
-    handleCategoryClick (clickedCategory) {
-      clickedCategory.isExpanded = !clickedCategory.isExpanded
-
-      this.$emit('click', clickedCategory)
-    },
-    handleCheckItem (category, isChecked) {
-      this.$emit('check', category[this.keyForId], isChecked)
+    sortCategories (categories) {
+      return _.sortBy(
+        _.map(categories, category =>
+          category[this.keyForSubcategory]
+            ? _.assign({}, category, {
+              [this.keyForSubcategory]: this.sortCategories(category[this.keyForSubcategory])
+            })
+            : category
+        ), this.keyForLabel)
     }
   }
 }
