@@ -22,7 +22,7 @@
         class="geo-tree__list"
       >
         <geo-tree-item
-          v-for="category in sortedCategories"
+          v-for="category in categoriesToShow"
           :key="category[keyForId]"
           :category="category"
           :key-for-id="keyForId"
@@ -148,35 +148,27 @@ export default {
   data () {
     return {
       searchQuery: '',
-      filteredCategories: []
+      categoriesToShow: []
     }
   },
   computed: {
-    sortedCategories () {
-      const sortSubcategories = categories => _.map(categories, (category) => {
-        if (category[this.keyForSubcategory]) {
-          return _.assign({}, category, {
-            [this.keyForSubcategory]: _.sortBy(sortSubcategories(category[this.keyForSubcategory]), this.keyForLabel)
-          })
-        } else {
-          return category
-        }
-      })
-
-      return _.sortBy(sortSubcategories(this.filteredCategories), this.keyForLabel)
-    },
     hasResults () {
-      return !this.searchQuery || (this.searchQuery && this.filteredCategories.length)
+      return !this.searchQuery || (this.searchQuery && this.categoriesToShow.length)
+    }
+  },
+  watch: {
+    categories (newCategories) {
+      this.sortCategories(newCategories)
     }
   },
   mounted () {
-    this.filteredCategories = this.categories
+    this.sortCategories(this.categories)
   },
   methods: {
-    handleSearching () {
-      const getFilteredCategories = (categories, query, isAnyAncestorMatching) => _.reduce(categories, (carry, category) => {
+    filterCategories (categories, query, isAnyAncestorMatching) {
+      return _.reduce(categories, (carry, category) => {
         const isCategoryMatching = fuzzAldrin.score(category[this.keyForLabel], query) > 0
-        const matchingSubcategories = getFilteredCategories(category[this.keyForSubcategory], query, isCategoryMatching || isAnyAncestorMatching)
+        const matchingSubcategories = this.filterCategories(category[this.keyForSubcategory], query, isCategoryMatching || isAnyAncestorMatching)
 
         if (isCategoryMatching || isAnyAncestorMatching || _.size(matchingSubcategories)) {
           const basicCategory = _.assign({}, category, {
@@ -194,18 +186,19 @@ export default {
         return carry
       }, [])
 
-      this.filteredCategories = this.searchQuery
-        ? getFilteredCategories(this.categories, this.searchQuery)
-        : this.categories
-
       function clearString (string) {
         return _.toLower(_.deburr(string))
       }
     },
+    handleSearching () {
+      this.categoriesToShow = this.searchQuery
+        ? this.filterCategories(this.categories, this.searchQuery)
+        : this.categories
+    },
     handleCategoryClick (clickedCategory) {
       const isExpanded = (category) => category[this.keyForId] === clickedCategory[this.keyForId] ? !category.isExpanded : category.isExpanded
 
-      this.filteredCategories = toggleCategoriesExpanded(this.filteredCategories, this.keyForSubcategory)
+      this.categoriesToShow = toggleCategoriesExpanded(this.categoriesToShow, this.keyForSubcategory)
       this.$emit('click', clickedCategory)
 
       function toggleCategoriesExpanded (categories, keyForSubcategory) {
@@ -225,6 +218,19 @@ export default {
     },
     handleCheckItem (category, isChecked) {
       this.$emit('check', category[this.keyForId], isChecked)
+    },
+    sortCategories (categoriesToSort) {
+      const sortSubcategories = categories => _.map(categories, (category) => {
+        if (category[this.keyForSubcategory]) {
+          return _.assign({}, category, {
+            [this.keyForSubcategory]: _.sortBy(sortSubcategories(category[this.keyForSubcategory]), this.keyForLabel)
+          })
+        } else {
+          return category
+        }
+      })
+
+      this.categoriesToShow = _.sortBy(sortSubcategories(categoriesToSort), this.keyForLabel)
     }
   }
 }
