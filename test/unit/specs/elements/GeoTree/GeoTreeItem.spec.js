@@ -147,15 +147,32 @@ describe.only('GeoTreeItem', () => {
     })
   })
 
-  it('should mark as check all categories passed in checkedItems prop', async () => {
+  it('should mark as check all items passed in checkedItems prop', async () => {
     const wrapper = getWrapper({
-      category: EXPANDED_CATEGORY
+      category: EXPANDED_CATEGORY,
+      checkedItems: { pineapple: true, coconut: true }
     })
-
-    wrapper.setProps({ checkedItems: { pineapple: true, coconut: true } })
-    wrapper.vm.$forceUpdate()
 
     expect(wrapper.find('#pineapple').element.checked).toBe(true)
     expect(wrapper.find('#coconut').element.checked).toBe(true)
+  })
+
+  it.only('should emit as uncheck pre checked items on checking', async () => {
+    const wrapper = getWrapper({
+      category: EXPANDED_CATEGORY,
+      checkedItems: { pineapple: true, coconut: true }
+    })
+
+    const itemToCheck1 = wrapper.find('#pineapple')
+    itemToCheck1.setChecked(false)
+    await itemToCheck1.trigger('input')
+
+    const itemToCheck2 = wrapper.find('#coconut')
+    itemToCheck2.setChecked(false)
+    await itemToCheck2.trigger('input')
+
+    expect(wrapper.emitted().check.length).toBe(2)
+    expect(wrapper.emitted().check[0]).toEqual([{ id: 'pineapple', label: 'Pineapple' }, false])
+    expect(wrapper.emitted().check[1]).toEqual([{ id: 'coconut', label: 'Coconut' }, false])
   })
 })
