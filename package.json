@@ -189,6 +189,5 @@
     "not BlackBerry > 0",
     "not OperaMini all",
     "not OperaMobile > 0"
-  ],
-  "dependencies": {}
+  ]
 }
