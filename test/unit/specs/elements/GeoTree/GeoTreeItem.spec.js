@@ -64,15 +64,15 @@ const EXPANDED_CATEGORY = {
   ]
 }
 
-describe.only('GeoTreeItem', () => {
-  const getWrapper = (props = {}) => shallowMount(GeoTreeItem, {
+describe('GeoTreeItem', () => {
+  const getWrapper = props => shallowMount(GeoTreeItem, {
     propsData: _.assign(
       {},
       {
         keyForLabel: 'label',
         keyForSubcategory: 'subcategories',
         keyForId: 'id',
-        category: props.category || CATEGORY,
+        category: CATEGORY,
         checkedItems: {}
       },
       props
@@ -110,16 +110,37 @@ describe.only('GeoTreeItem', () => {
 
   it('should render a icon next to the category if the category has a description', () => {
     CATEGORY.description = 'Description to show'
-    const wrapper = getWrapper({ category: CATEGORY })
+    const wrapper = getWrapper()
 
     expect(wrapper.find('.geo-tree-item__description').exists()).toBe(true)
     expect(wrapper.find('.geo-tree-item__description').text()).toBe(CATEGORY.description)
   })
+})
+
+describe('GeoTreeItem check behaviour', () => {
+  const getWrapper = props => shallowMount(GeoTreeItem, {
+    propsData: _.assign(
+      {},
+      {
+        keyForLabel: 'label',
+        keyForSubcategory: 'subcategories',
+        keyForId: 'id',
+        category: EXPANDED_CATEGORY,
+        checkedItems: {}
+      },
+      props
+    ),
+    stubs: {
+      'geo-list-item': GeoListItem,
+      'font-awesome-icon': true,
+      'geo-highlighted-string': true,
+      'geo-tooltip': true,
+      'geo-tree-item': GeoTreeItem
+    }
+  })
 
   it('should emit the checked item when a category without children nodes is checked', async () => {
-    const wrapper = getWrapper({
-      category: EXPANDED_CATEGORY
-    })
+    const wrapper = getWrapper()
 
     const itemToCheck = wrapper.find('#avocado')
     itemToCheck.setChecked()
@@ -129,10 +150,8 @@ describe.only('GeoTreeItem', () => {
     expect(wrapper.emitted().check[0]).toEqual([{ id: 'avocado', label: 'Avocado' }, true])
   })
 
-  it('should emit all children nodes when a category with children nodes is checked', async () => {
-    const wrapper = getWrapper({
-      category: EXPANDED_CATEGORY
-    })
+  it('should emit all children nodes as check when a category with children nodes is checked', async () => {
+    const wrapper = getWrapper()
 
     const itemToCheck = wrapper.find('#tropical-fruits')
     itemToCheck.setChecked()
@@ -147,9 +166,8 @@ describe.only('GeoTreeItem', () => {
     })
   })
 
-  it('should mark as check all items passed in checkedItems prop', async () => {
+  it('should mark as check all items passed in checkedItems prop', () => {
     const wrapper = getWrapper({
-      category: EXPANDED_CATEGORY,
       checkedItems: { pineapple: true, coconut: true }
     })
 
@@ -157,9 +175,8 @@ describe.only('GeoTreeItem', () => {
     expect(wrapper.find('#coconut').element.checked).toBe(true)
   })
 
-  it.only('should emit as uncheck pre checked items on checking', async () => {
+  it('should emit as uncheck pre checked items on checking', async () => {
     const wrapper = getWrapper({
-      category: EXPANDED_CATEGORY,
       checkedItems: { pineapple: true, coconut: true }
     })
 
@@ -174,5 +191,28 @@ describe.only('GeoTreeItem', () => {
     expect(wrapper.emitted().check.length).toBe(2)
     expect(wrapper.emitted().check[0]).toEqual([{ id: 'pineapple', label: 'Pineapple' }, false])
     expect(wrapper.emitted().check[1]).toEqual([{ id: 'coconut', label: 'Coconut' }, false])
+  })
+
+  it('should emit as uncheck all pre checked items on parent node checking', async () => {
+    const wrapper = getWrapper({
+      checkedItems: { pineapple: true, coconut: true, avocado: true, banana: true }
+    })
+
+    const itemToCheck = wrapper.find('#tropical-fruits')
+    itemToCheck.setChecked(false)
+    await itemToCheck.trigger('input')
+
+    const subcategoriesToCheck = _.find(EXPANDED_CATEGORY.subcategories, { id: 'tropical-fruits' })
+    _.forEach(subcategoriesToCheck.subcategories, (subcategory, index) => {
+      expect(wrapper.emitted().check[index]).toEqual([{ id: subcategory.id, label: subcategory.label }, false])
+    })
+  })
+
+  it('should display a parent category as indeterminate when only some children are checked', async () => {
+    const wrapper = getWrapper({
+      checkedItems: { pineapple: true, banana: true }
+    })
+
+    expect(wrapper.find('#tropical-fruits').element.indeterminate).toBe(true)
   })
 })
