@@ -276,6 +276,7 @@ describe('GeoTree basic behaviour', () => {
     ]
 
     expect(wrapper.vm.filteredCategories).toEqual(expectedSortedCategories)
+    expect(wrapper.vm.sortedCategories).toEqual(expectedSortedCategories)
   })
 })
 
