@@ -1,11 +1,8 @@
 import _ from 'lodash'
 import Vue from 'vue'
-import { createLocalVue, shallowMount } from '@vue/test-utils'
+import { shallowMount } from '@vue/test-utils'
 import GeoTreeItem from '@/elements/GeoTree/GeoTreeItem.vue'
 import GeoListItem from '@/elements/GeoList/GeoListItem.vue'
-
-// const localVue = createLocalVue()
-// localVue.component('geo-tree-item', GeoTreeItem)
 
 const CATEGORY = {
   id: 'fruits',

@@ -1,12 +1,8 @@
 import _ from 'lodash'
-import { createLocalVue, shallowMount } from '@vue/test-utils'
+import { shallowMount } from '@vue/test-utils'
 import GeoTree from '@/elements/GeoTree/GeoTree.vue'
 import GeoBorderedBoxHeaderSearchForm from '@/elements/GeoBorderedBox/GeoBorderedBoxHeaderSearchForm.vue'
 import GeoInput from '@/elements/GeoInput/GeoInput.vue'
-
-// create an extended `Vue` constructor
-const localVue = createLocalVue()
-localVue.component('geo-tree', GeoTree)
 
 const CATEGORIES = [
   {
