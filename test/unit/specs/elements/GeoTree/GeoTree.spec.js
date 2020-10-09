@@ -306,8 +306,7 @@ describe('GeoTree searching functionality', () => {
       'geo-tree-item': true,
       'font-awesome-icon': true,
       'geo-scrollable-container': true
-    },
-    sync: false
+    }
   })
 
   it('should display a no results found label when nothing matches with searched text', () => {

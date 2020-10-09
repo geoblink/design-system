@@ -56,11 +56,13 @@
     <ul
       v-if="category.isExpanded"
       class="geo-tree-item__list"
+      :data-test="`subcategory-list-${category[keyForId]}`"
     >
       <geo-tree-item
-        v-for="categoryChildren in category[keyForSubcategory]"
-        :key="categoryChildren[keyForId]"
-        :category="categoryChildren"
+        v-for="subcategory in category[keyForSubcategory]"
+        :key="subcategory[keyForId]"
+        :data-test="`subcategory-${subcategory[keyForId]}`"
+        :category="subcategory"
         :key-for-id="keyForId"
         :key-for-label="keyForLabel"
         :key-for-subcategory="keyForSubcategory"
