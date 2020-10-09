@@ -354,6 +354,7 @@ describe('GeoTree searching functionality', () => {
     const wrapper = getWrapper({
       searchable: true
     })
+
     const expectedFilteredCategories = [
       {
         id: 'vegetables',
@@ -361,6 +362,29 @@ describe('GeoTree searching functionality', () => {
         isExpanded: true,
         matches: _.times(7).slice(2),
         subcategories: [
+          {
+            id: 'bulbs',
+            label: 'Bulbs',
+            isExpanded: true,
+            matches: [],
+            subcategories: [
+              {
+                id: 'garlic',
+                label: 'Garlic',
+                matches: []
+              },
+              {
+                id: 'leek',
+                label: 'Leek',
+                matches: []
+              },
+              {
+                id: 'onion',
+                label: 'Onion',
+                matches: []
+              }
+            ]
+          },
           {
             id: 'vegetables-fruits',
             label: 'Fruits',
@@ -375,29 +399,6 @@ describe('GeoTree searching functionality', () => {
               {
                 id: 'pepper',
                 label: 'Pepper',
-                matches: []
-              }
-            ]
-          },
-          {
-            id: 'bulbs',
-            label: 'Bulbs',
-            isExpanded: true,
-            matches: [],
-            subcategories: [
-              {
-                id: 'onion',
-                label: 'Onion',
-                matches: []
-              },
-              {
-                id: 'leek',
-                label: 'Leek',
-                matches: []
-              },
-              {
-                id: 'garlic',
-                label: 'Garlic',
                 matches: []
               }
             ]
@@ -416,6 +417,7 @@ describe('GeoTree searching functionality', () => {
     const wrapper = getWrapper({
       searchable: true
     })
+
     const expectedFilteredCategories = [
       {
         id: 'fruits',
@@ -424,43 +426,15 @@ describe('GeoTree searching functionality', () => {
         matches: _.times(5),
         subcategories: [
           {
-            id: 'tropical-fruits',
-            label: 'Tropical fruits',
-            isExpanded: true,
-            matches: _.times(14).slice(9),
-            subcategories: [
-              {
-                id: 'pineapple',
-                label: 'Pineapple',
-                matches: []
-              },
-              {
-                id: 'banana',
-                label: 'Banana',
-                matches: []
-              },
-              {
-                id: 'coconut',
-                label: 'Coconut',
-                matches: []
-              },
-              {
-                id: 'avocado',
-                label: 'Avocado',
-                matches: []
-              }
-            ]
-          },
-          {
             id: 'citrus-fruits',
             label: 'Citrus fruits',
             isExpanded: true,
             matches: _.times(12).slice(7),
             subcategories: [
               {
-                id: 'orange',
-                label: 'Orange',
-                matches: []
+                id: 'grapefruit',
+                label: 'GrapeFruit',
+                matches: _.times(10).slice(5)
               },
               {
                 id: 'lime',
@@ -468,15 +442,15 @@ describe('GeoTree searching functionality', () => {
                 matches: []
               },
               {
-                id: 'grapefruit',
-                label: 'GrapeFruit',
-                matches: _.times(10).slice(5)
-              },
-              {
                 id: 'mandarin',
                 label: 'Mandarin',
                 matches: []
 
+              },
+              {
+                id: 'orange',
+                label: 'Orange',
+                matches: []
               },
               {
                 id: 'pomelo',
@@ -492,18 +466,46 @@ describe('GeoTree searching functionality', () => {
             label: 'Sweet',
             subcategories: [
               {
-                id: 'pear',
-                label: 'Pear',
-                matches: []
-              },
-              {
                 id: 'apple',
                 label: 'Apple',
                 matches: []
               },
               {
+                id: 'pear',
+                label: 'Pear',
+                matches: []
+              },
+              {
                 id: 'redGrapes',
                 label: 'Red Grapes',
+                matches: []
+              }
+            ]
+          },
+          {
+            id: 'tropical-fruits',
+            label: 'Tropical fruits',
+            isExpanded: true,
+            matches: _.times(14).slice(9),
+            subcategories: [
+              {
+                id: 'avocado',
+                label: 'Avocado',
+                matches: []
+              },
+              {
+                id: 'banana',
+                label: 'Banana',
+                matches: []
+              },
+              {
+                id: 'coconut',
+                label: 'Coconut',
+                matches: []
+              },
+              {
+                id: 'pineapple',
+                label: 'Pineapple',
                 matches: []
               }
             ]
