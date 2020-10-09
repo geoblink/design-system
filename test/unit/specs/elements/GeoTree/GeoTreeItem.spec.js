@@ -33,6 +33,37 @@ const CATEGORY = {
   ]
 }
 
+const EXPANDED_CATEGORY = {
+  id: 'fruits',
+  label: 'Fruits',
+  isExpanded: true,
+  subcategories: [
+    {
+      id: 'tropical-fruits',
+      label: 'Tropical fruits',
+      isExpanded: true,
+      subcategories: [
+        {
+          id: 'pineapple',
+          label: 'Pineapple'
+        },
+        {
+          id: 'banana',
+          label: 'Banana'
+        },
+        {
+          id: 'coconut',
+          label: 'Coconut'
+        },
+        {
+          id: 'avocado',
+          label: 'Avocado'
+        }
+      ]
+    }
+  ]
+}
+
 describe.only('GeoTreeItem', () => {
   const getWrapper = (props = {}) => shallowMount(GeoTreeItem, {
     propsData: _.assign(
@@ -87,36 +118,7 @@ describe.only('GeoTreeItem', () => {
 
   it('should emit the checked item when a category without children nodes is checked', async () => {
     const wrapper = getWrapper({
-      category: {
-        id: 'fruits',
-        label: 'Fruits',
-        isExpanded: true,
-        subcategories: [
-          {
-            id: 'tropical-fruits',
-            label: 'Tropical fruits',
-            isExpanded: true,
-            subcategories: [
-              {
-                id: 'pineapple',
-                label: 'Pineapple'
-              },
-              {
-                id: 'banana',
-                label: 'Banana'
-              },
-              {
-                id: 'coconut',
-                label: 'Coconut'
-              },
-              {
-                id: 'avocado',
-                label: 'Avocado'
-              }
-            ]
-          }
-        ]
-      }
+      category: EXPANDED_CATEGORY
     })
 
     const itemToCheck = wrapper.find('#avocado')
@@ -127,37 +129,7 @@ describe.only('GeoTreeItem', () => {
     expect(wrapper.emitted().check[0]).toEqual([{ id: 'avocado', label: 'Avocado' }, true])
   })
 
-  it('should mark as checked a category and all of its children nodes', async () => {
-    const EXPANDED_CATEGORY = {
-      id: 'fruits',
-      label: 'Fruits',
-      isExpanded: true,
-      subcategories: [
-        {
-          id: 'tropical-fruits',
-          label: 'Tropical fruits',
-          subcategories: [
-            {
-              id: 'pineapple',
-              label: 'Pineapple'
-            },
-            {
-              id: 'banana',
-              label: 'Banana'
-            },
-            {
-              id: 'coconut',
-              label: 'Coconut'
-            },
-            {
-              id: 'avocado',
-              label: 'Avocado'
-            }
-          ]
-        }
-      ]
-    }
-
+  it('should emit all children nodes when a category with children nodes is checked', async () => {
     const wrapper = getWrapper({
       category: EXPANDED_CATEGORY
     })
@@ -173,5 +145,17 @@ describe.only('GeoTreeItem', () => {
     _.forEach(subcategoriesToCheck.subcategories, (subcategory, index) => {
       expect(wrapper.emitted().check[index]).toEqual([{ id: subcategory.id, label: subcategory.label }, true])
     })
+  })
+
+  it('should mark as check all categories passed in checkedItems prop', async () => {
+    const wrapper = getWrapper({
+      category: EXPANDED_CATEGORY
+    })
+
+    wrapper.setProps({ checkedItems: { pineapple: true, coconut: true } })
+    wrapper.vm.$forceUpdate()
+
+    expect(wrapper.find('#pineapple').element.checked).toBe(true)
+    expect(wrapper.find('#coconut').element.checked).toBe(true)
   })
 })
