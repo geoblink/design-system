@@ -4,8 +4,8 @@ import { createLocalVue, shallowMount } from '@vue/test-utils'
 import GeoTreeItem from '@/elements/GeoTree/GeoTreeItem.vue'
 import GeoListItem from '@/elements/GeoList/GeoListItem.vue'
 
-const localVue = createLocalVue()
-localVue.component('geo-tree-item', GeoTreeItem)
+// const localVue = createLocalVue()
+// localVue.component('geo-tree-item', GeoTreeItem)
 
 const CATEGORY = {
   id: 'fruits',
@@ -36,7 +36,7 @@ const CATEGORY = {
   ]
 }
 
-describe.only('GeoTreeItem', () => {
+describe('GeoTreeItem', () => {
   const getWrapper = (props = {}) => shallowMount(GeoTreeItem, {
     propsData: _.assign(
       {},
@@ -56,10 +56,6 @@ describe.only('GeoTreeItem', () => {
       'geo-tooltip': true,
       'geo-tree-item': GeoTreeItem
     }
-  })
-
-  it('should render correctly', () => {
-    expect(getWrapper()).toMatchSnapshot()
   })
 
   it('should render the total subcategories number if it has subcategories', () => {

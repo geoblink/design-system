@@ -142,10 +142,6 @@ describe('GeoTree basic behaviour', () => {
     }
   })
 
-  it('should render correctly', () => {
-    expect(getWrapper()).toMatchSnapshot()
-  })
-
   it('should display a loading label when isLoading prop is passed', () => {
     const loadingLabel = 'Fake loading label'
     const wrapper = getWrapper({
