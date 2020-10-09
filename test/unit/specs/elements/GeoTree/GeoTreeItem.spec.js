@@ -85,7 +85,7 @@ describe.only('GeoTreeItem', () => {
     expect(wrapper.find('.geo-tree-item__description').text()).toBe(CATEGORY.description)
   })
 
-  it.only('should emit the checked item when a category without children nodes is checked', async () => {
+  it('should emit the checked item when a category without children nodes is checked', async () => {
     const wrapper = getWrapper({
       category: {
         id: 'fruits',
@@ -127,59 +127,51 @@ describe.only('GeoTreeItem', () => {
     expect(wrapper.emitted().check[0]).toEqual([{ id: 'avocado', label: 'Avocado' }, true])
   })
 
-  it('should mark as checked and then as unchecked a category and all of its children nodes', async () => {
+  it('should mark as checked a category and all of its children nodes', async () => {
+    const EXPANDED_CATEGORY = {
+      id: 'fruits',
+      label: 'Fruits',
+      isExpanded: true,
+      subcategories: [
+        {
+          id: 'tropical-fruits',
+          label: 'Tropical fruits',
+          subcategories: [
+            {
+              id: 'pineapple',
+              label: 'Pineapple'
+            },
+            {
+              id: 'banana',
+              label: 'Banana'
+            },
+            {
+              id: 'coconut',
+              label: 'Coconut'
+            },
+            {
+              id: 'avocado',
+              label: 'Avocado'
+            }
+          ]
+        }
+      ]
+    }
+
     const wrapper = getWrapper({
-      category: {
-        id: 'fruits',
-        label: 'Fruits',
-        isExpanded: true,
-        subcategories: [
-          {
-            id: 'tropical-fruits',
-            label: 'Tropical fruits',
-            isExpanded: true,
-            subcategories: [
-              {
-                id: 'pineapple',
-                label: 'Pineapple'
-              },
-              {
-                id: 'banana',
-                label: 'Banana'
-              },
-              {
-                id: 'coconut',
-                label: 'Coconut'
-              },
-              {
-                id: 'avocado',
-                label: 'Avocado'
-              }
-            ]
-          }
-        ]
-      }
+      category: EXPANDED_CATEGORY
     })
 
-    expect(wrapper.find('#tropical-fruits').element.checked).toBe(false)
+    const itemToCheck = wrapper.find('#tropical-fruits')
+    itemToCheck.setChecked()
+    await itemToCheck.trigger('input')
 
-    wrapper.find('#tropical-fruits').setChecked(true)
+    expect(wrapper.emitted().check.length).toBe(4)
 
-    expect(wrapper.find('#tropical-fruits').element.checked).toBe(true)
+    const subcategoriesToCheck = _.find(EXPANDED_CATEGORY.subcategories, { id: 'tropical-fruits' })
 
-    wrapper.setProps({ checkedItems: {} })
-
-    expect(wrapper.find('#avocado').element.checked).toBe(true)
-    expect(wrapper.find('#banana').element.checked).toBe(true)
-    expect(wrapper.find('#coconut').element.checked).toBe(true)
-    expect(wrapper.find('#pineapple').element.checked).toBe(true)
-
-    wrapper.find('#tropical-fruits').setChecked(false)
-
-    expect(wrapper.find('#tropical-fruits').element.checked).toBe(false)
-    expect(wrapper.find('#avocado').element.checked).toBe(false)
-    expect(wrapper.find('#banana').element.checked).toBe(false)
-    expect(wrapper.find('#coconut').element.checked).toBe(false)
-    expect(wrapper.find('#pineapple').element.checked).toBe(false)
+    _.forEach(subcategoriesToCheck.subcategories, (subcategory, index) => {
+      expect(wrapper.emitted().check[index]).toEqual([{ id: subcategory.id, label: subcategory.label }, true])
+    })
   })
 })
