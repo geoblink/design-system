@@ -33,7 +33,7 @@ const CATEGORY = {
   ]
 }
 
-describe('GeoTreeItem', () => {
+describe.only('GeoTreeItem', () => {
   const getWrapper = (props = {}) => shallowMount(GeoTreeItem, {
     propsData: _.assign(
       {},
@@ -85,7 +85,7 @@ describe('GeoTreeItem', () => {
     expect(wrapper.find('.geo-tree-item__description').text()).toBe(CATEGORY.description)
   })
 
-  it('should mark as checked and then as unchecked a category without children nodes', async () => {
+  it.only('should emit the checked item when a category without children nodes is checked', async () => {
     const wrapper = getWrapper({
       category: {
         id: 'fruits',
@@ -119,13 +119,12 @@ describe('GeoTreeItem', () => {
       }
     })
 
-    expect(wrapper.find('#avocado').element.checked).toBe(false)
+    const itemToCheck = wrapper.find('#avocado')
+    itemToCheck.setChecked()
+    await itemToCheck.trigger('input')
 
-    wrapper.find('#avocado').setChecked()
-    expect(wrapper.find('#avocado').element.checked).toBe(true)
-
-    wrapper.find('#avocado').setChecked(false)
-    expect(wrapper.find('#avocado').element.checked).toBe(false)
+    expect(wrapper.emitted().check.length).toBe(1)
+    expect(wrapper.emitted().check[0]).toEqual([{ id: 'avocado', label: 'Avocado' }, true])
   })
 
   it('should mark as checked and then as unchecked a category and all of its children nodes', async () => {
@@ -167,6 +166,8 @@ describe('GeoTreeItem', () => {
     wrapper.find('#tropical-fruits').setChecked(true)
 
     expect(wrapper.find('#tropical-fruits').element.checked).toBe(true)
+
+    wrapper.setProps({ checkedItems: {} })
 
     expect(wrapper.find('#avocado').element.checked).toBe(true)
     expect(wrapper.find('#banana').element.checked).toBe(true)
