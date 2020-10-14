@@ -35,7 +35,6 @@
           </geo-tooltip>
         </span>
       </label>
-
       <template
         v-if="isShowActionButton"
         slot="trailingAccessoryItem"
@@ -66,7 +65,7 @@
         :key-for-label="keyForLabel"
         :key-for-subcategory="keyForSubcategory"
         :checked-items="checkedItems"
-        @check="handleCheck"
+        @check="handleCheckChild"
         @click="handleClick"
       />
     </ul>
@@ -167,15 +166,17 @@ export default {
         this.category.isExpanded = !this.category.isExpanded
       }
     },
+    handleCheckChild (category, isChecked) {
+      this.$emit('check', category, isChecked)
+    },
     /**
      * To check all items of a category
      */
     handleCheck (category, isChecked) {
-      if (_.size(category[this.keyForSubcategory])) {
-        _.forEach(category[this.keyForSubcategory], innerCategory => {
-          return this.handleCheck(innerCategory, isChecked)
-        })
-      }
+      _.forEach(category[this.keyForSubcategory], (innerCategory) => {
+        this.handleCheck(innerCategory, isChecked)
+      })
+
       this.$emit('check', category, isChecked)
     }
   }

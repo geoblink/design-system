@@ -154,7 +154,7 @@ describe('GeoTreeItem check behaviour', () => {
     itemToCheck.setChecked()
     await itemToCheck.trigger('input')
 
-    expect(wrapper.emitted().check.length).toBe(4)
+    expect(wrapper.emitted().check.length).toBe(5)
 
     const subcategoriesToCheck = _.find(EXPANDED_CATEGORY.subcategories, { id: 'tropical-fruits' })
 
