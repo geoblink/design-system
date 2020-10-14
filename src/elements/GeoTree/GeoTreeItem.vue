@@ -1,6 +1,8 @@
 <template>
   <li
     class="geo-tree-item"
+    @mouseover="isShowActionButton = true"
+    @mouseout="isShowActionButton = false"
   >
     <geo-list-item
       :class="{
@@ -8,8 +10,6 @@
       }"
       :icon="categoryIcon"
       @click="handleClick"
-      @mouseover="isShowActionButton = true"
-      @mouseout="isShowActionButton = false"
     >
       <label>
         <geo-highlighted-string
@@ -35,13 +35,10 @@
           </geo-tooltip>
         </span>
       </label>
-      <template
-        v-if="isShowActionButton"
-        slot="trailingAccessoryItem"
-      >
-        <slot name="trailingAccessoryAction" />
-      </template>
-      <template slot="trailingAccessoryItem">
+      <div slot="trailingAccessoryItem">
+        <span v-show="isShowActionButton">
+          <slot name="trailingAccessoryAction" />
+        </span>
         <input
           :id="category[keyForId]"
           :checked="isChecked"
@@ -50,7 +47,7 @@
           @click.stop
           @input="handleCheck(category, $event.target.checked)"
         >
-      </template>
+      </div>
     </geo-list-item>
     <ul
       v-if="category.isExpanded"
