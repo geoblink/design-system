@@ -140,7 +140,11 @@ export default {
     },
     isIndeterminate () {
       const isSomeChildSelected = category => {
-        return _.some(category[this.keyForSubcategory], subCategory => !!this.checkedItems[subCategory[this.keyForId]])
+        return _.some(category[this.keyForSubcategory], subCategory => {
+          if (subCategory[this.keyForSubcategory]) return isSomeChildSelected(subCategory)
+
+          return !!this.checkedItems[subCategory[this.keyForId]]
+        })
       }
 
       return this.isChecked ? false : isSomeChildSelected(this.category)
