@@ -215,7 +215,7 @@ export default {
     handleToggleExpand (clickedCategory) {
       const isExpanded = !!this.expandedCategories[clickedCategory[this.keyForId]]
 
-      this.expandedCategories = _.assign({}, this.expandedCategories, { [clickedCategory[this.keyForId]]: !isExpanded })
+      this.$set(this.expandedCategories, clickedCategory[this.keyForId], !isExpanded)
     }
   }
 }
