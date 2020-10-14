@@ -144,6 +144,9 @@ export default {
       required: false,
       default: () => ({})
     },
+    /**
+     * Initial categories to be expanded, with truthy/falsy category ids
+     */
     initialExpandedCategories: {
       type: Object,
       required: false
