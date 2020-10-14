@@ -96,16 +96,13 @@ describe('GeoTreeItem', () => {
   it('should render a list of subcategories on category click (it it has subcategories)', async () => {
     const wrapper = getWrapper()
 
-    wrapper.find('.geo-tree-item').trigger('click')
+    wrapper.find('.geo-list-item').trigger('click')
     await Vue.nextTick()
     await wrapper.vm.$forceUpdate()
 
     expect(wrapper.vm.category.isExpanded).toBe(true)
 
-    wrapper.find('[data-test="subcategory-tropical-fruits"]').trigger('click')
-    await Vue.nextTick()
-
-    expect(_.find(wrapper.vm.category.subcategories, { id: 'tropical-fruits' }).isExpanded).toBe(true)
+    expect(wrapper.find('[data-test="subcategory-tropical-fruits"]').exists()).toBe(true)
   })
 
   it('should render a icon next to the category if the category has a description', () => {

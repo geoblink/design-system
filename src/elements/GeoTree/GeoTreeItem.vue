@@ -1,13 +1,13 @@
 <template>
   <li
     class="geo-tree-item"
-    @click="handleClick"
   >
     <geo-list-item
       :class="{
         'geo-tree-item--expanded': category.isExpanded,
       }"
       :icon="categoryIcon"
+      @click="handleClick"
       @mouseover="isShowActionButton = true"
       @mouseout="isShowActionButton = false"
     >
