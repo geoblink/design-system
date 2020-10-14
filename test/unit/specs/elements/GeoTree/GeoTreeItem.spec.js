@@ -1,5 +1,4 @@
 import _ from 'lodash'
-import Vue from 'vue'
 import { shallowMount } from '@vue/test-utils'
 import GeoTreeItem from '@/elements/GeoTree/GeoTreeItem.vue'
 import GeoListItem from '@/elements/GeoList/GeoListItem.vue'
@@ -33,37 +32,6 @@ const CATEGORY = {
   ]
 }
 
-const EXPANDED_CATEGORY = {
-  id: 'fruits',
-  label: 'Fruits',
-  isExpanded: true,
-  subcategories: [
-    {
-      id: 'tropical-fruits',
-      label: 'Tropical fruits',
-      isExpanded: true,
-      subcategories: [
-        {
-          id: 'pineapple',
-          label: 'Pineapple'
-        },
-        {
-          id: 'banana',
-          label: 'Banana'
-        },
-        {
-          id: 'coconut',
-          label: 'Coconut'
-        },
-        {
-          id: 'avocado',
-          label: 'Avocado'
-        }
-      ]
-    }
-  ]
-}
-
 describe('GeoTreeItem', () => {
   const getWrapper = props => shallowMount(GeoTreeItem, {
     propsData: _.assign(
@@ -73,7 +41,8 @@ describe('GeoTreeItem', () => {
         keyForSubcategory: 'subcategories',
         keyForId: 'id',
         category: CATEGORY,
-        checkedItems: {}
+        checkedItems: {},
+        expandedCategories: {}
       },
       props
     ),
@@ -97,10 +66,7 @@ describe('GeoTreeItem', () => {
     const wrapper = getWrapper()
 
     wrapper.find('.geo-list-item').trigger('click')
-    await Vue.nextTick()
-    await wrapper.vm.$forceUpdate()
-
-    expect(wrapper.vm.category.isExpanded).toBe(true)
+    wrapper.setProps({ expandedCategories: { fruits: true } })
 
     expect(wrapper.find('[data-test="subcategory-tropical-fruits"]').exists()).toBe(true)
   })
@@ -122,8 +88,9 @@ describe('GeoTreeItem check behaviour', () => {
         keyForLabel: 'label',
         keyForSubcategory: 'subcategories',
         keyForId: 'id',
-        category: EXPANDED_CATEGORY,
-        checkedItems: {}
+        category: CATEGORY,
+        checkedItems: {},
+        expandedCategories: { fruits: true, 'tropical-fruits': true }
       },
       props
     ),
@@ -156,7 +123,7 @@ describe('GeoTreeItem check behaviour', () => {
 
     expect(wrapper.emitted().check.length).toBe(5)
 
-    const subcategoriesToCheck = _.find(EXPANDED_CATEGORY.subcategories, { id: 'tropical-fruits' })
+    const subcategoriesToCheck = _.find(CATEGORY.subcategories, { id: 'tropical-fruits' })
 
     _.forEach(subcategoriesToCheck.subcategories, (subcategory, index) => {
       expect(wrapper.emitted().check[index]).toEqual([{ id: subcategory.id, label: subcategory.label }, true])
@@ -199,7 +166,7 @@ describe('GeoTreeItem check behaviour', () => {
     itemToCheck.setChecked(false)
     await itemToCheck.trigger('input')
 
-    const subcategoriesToCheck = _.find(EXPANDED_CATEGORY.subcategories, { id: 'tropical-fruits' })
+    const subcategoriesToCheck = _.find(CATEGORY.subcategories, { id: 'tropical-fruits' })
     _.forEach(subcategoriesToCheck.subcategories, (subcategory, index) => {
       expect(wrapper.emitted().check[index]).toEqual([{ id: subcategory.id, label: subcategory.label }, false])
     })

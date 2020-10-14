@@ -6,7 +6,7 @@
   >
     <geo-list-item
       :class="{
-        'geo-tree-item--expanded': category.isExpanded,
+        'geo-tree-item--expanded': isExpanded,
       }"
       :icon="categoryIcon"
       @click="handleClick"

@@ -154,13 +154,11 @@ describe('GeoTree basic behaviour', () => {
       {
         id: 'vegetables',
         label: 'Vegetables',
-        isExpanded: true,
         matches: [],
         subcategories: [
           {
             id: 'vegetables-fruits',
             label: 'Fruits',
-            isExpanded: true,
             subcategories: [
               {
                 id: 'pepper',
@@ -179,12 +177,10 @@ describe('GeoTree basic behaviour', () => {
       {
         id: 'fruits',
         label: 'Fruits',
-        isExpanded: true,
         subcategories: [
           {
             id: 'tropical-fruits',
             label: 'Tropical fruits',
-            isExpanded: true,
             subcategories: [
               {
                 id: 'banana',
@@ -217,12 +213,10 @@ describe('GeoTree basic behaviour', () => {
       {
         id: 'fruits',
         label: 'Fruits',
-        isExpanded: true,
         subcategories: [
           {
             id: 'tropical-fruits',
             label: 'Tropical fruits',
-            isExpanded: true,
             subcategories: [
               {
                 id: 'avocado',
@@ -251,13 +245,11 @@ describe('GeoTree basic behaviour', () => {
       {
         id: 'vegetables',
         label: 'Vegetables',
-        isExpanded: true,
         matches: [],
         subcategories: [
           {
             id: 'vegetables-fruits',
             label: 'Fruits',
-            isExpanded: true,
             subcategories: [
               {
                 id: 'eggplant',
@@ -325,13 +317,11 @@ describe('GeoTree searching functionality', () => {
       {
         id: 'fruits',
         label: 'Fruits',
-        isExpanded: true,
         matches: [],
         subcategories: [
           {
             id: 'tropical-fruits',
             label: 'Tropical fruits',
-            isExpanded: true,
             matches: [],
             subcategories: [
               {
@@ -349,6 +339,7 @@ describe('GeoTree searching functionality', () => {
     wrapper.find('.geo-input input').setValue('banana')
 
     expect(wrapper.vm.filteredCategories).toEqual(expectedFilteredCategories)
+    expect(wrapper.vm.expandedCategories).toEqual({ fruits: true, 'tropical-fruits': true })
   })
 
   it('should display the right categories when searching for matches in parent and child node', () => {
@@ -360,13 +351,11 @@ describe('GeoTree searching functionality', () => {
       {
         id: 'vegetables',
         label: 'Vegetables',
-        isExpanded: true,
         matches: _.times(7).slice(2),
         subcategories: [
           {
             id: 'bulbs',
             label: 'Bulbs',
-            isExpanded: true,
             matches: [],
             subcategories: [
               {
@@ -389,7 +378,6 @@ describe('GeoTree searching functionality', () => {
           {
             id: 'vegetables-fruits',
             label: 'Fruits',
-            isExpanded: true,
             matches: [],
             subcategories: [
               {
@@ -412,6 +400,7 @@ describe('GeoTree searching functionality', () => {
     wrapper.find('.geo-input input').setValue('getab')
 
     expect(wrapper.vm.filteredCategories).toEqual(expectedFilteredCategories)
+    expect(wrapper.vm.expandedCategories).toEqual({ bulbs: true, vegetables: true, 'vegetables-fruits': true })
   })
 
   it('should display the right categories when searching for matches in a grandchild node with matches in ancestors', () => {
@@ -423,13 +412,11 @@ describe('GeoTree searching functionality', () => {
       {
         id: 'fruits',
         label: 'Fruits',
-        isExpanded: true,
         matches: _.times(5),
         subcategories: [
           {
             id: 'citrus-fruits',
             label: 'Citrus fruits',
-            isExpanded: true,
             matches: _.times(12).slice(7),
             subcategories: [
               {
@@ -463,7 +450,6 @@ describe('GeoTree searching functionality', () => {
           {
             id: 'sweet-fruits',
             matches: [],
-            isExpanded: true,
             label: 'Sweet',
             subcategories: [
               {
@@ -486,7 +472,6 @@ describe('GeoTree searching functionality', () => {
           {
             id: 'tropical-fruits',
             label: 'Tropical fruits',
-            isExpanded: true,
             matches: _.times(14).slice(9),
             subcategories: [
               {
@@ -516,13 +501,11 @@ describe('GeoTree searching functionality', () => {
       {
         id: 'vegetables',
         label: 'Vegetables',
-        isExpanded: true,
         matches: [],
         subcategories: [
           {
             id: 'vegetables-fruits',
             label: 'Fruits',
-            isExpanded: true,
             matches: _.times(5),
             subcategories: [
               {
@@ -545,5 +528,6 @@ describe('GeoTree searching functionality', () => {
     wrapper.find('.geo-input input').setValue('fruit')
 
     expect(wrapper.vm.filteredCategories).toEqual(expectedFilteredCategories)
+    expect(wrapper.vm.expandedCategories).toEqual({ fruits: true, 'citrus-fruits': true, 'sweet-fruits': true, 'tropical-fruits': true, vegetables: true, 'vegetables-fruits': true })
   })
 })
