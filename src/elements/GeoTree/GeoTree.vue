@@ -27,9 +27,11 @@
           :key-for-id="keyForId"
           :key-for-label="keyForLabel"
           :checked-items="checkedItems"
+          :expanded-categories="expandedCategories"
           :key-for-subcategory="keyForSubcategory"
           :description-icon="descriptionIcon"
           @check="handleCheckItem"
+          @toggleExpand="handleToggleExpand"
         >
           <template v-slot:trailingAccessoryAction>
             <slot name="actionButton" />
@@ -134,18 +136,23 @@ export default {
       required: false,
       default: false
     },
-    /*
+    /**
     * Checked items, with truthy/falsy category ids
     */
     checkedItems: {
       type: Object,
       required: false,
       default: () => ({})
+    },
+    initialExpandedCategories: {
+      type: Object,
+      required: false
     }
   },
   data () {
     return {
-      searchQuery: ''
+      searchQuery: '',
+      expandedCategories: {}
     }
   },
   computed: {
@@ -161,7 +168,11 @@ export default {
         : this.sortedCategories
     }
   },
-
+  mounted () {
+    if (this.initialExpandedCategories) {
+      this.expandedCategories = _.assign({}, this.expandedCategories, this.initialExpandedCategories)
+    }
+  },
   methods: {
     handleCheckItem (category, isChecked) {
       this.$emit('check', category[this.keyForId], isChecked)
@@ -178,7 +189,7 @@ export default {
 
           if (_.size(category[this.keyForSubcategory])) {
             basicCategory[this.keyForSubcategory] = matchingSubcategories
-            basicCategory.isExpanded = true
+            this.expandedCategories[basicCategory[this.keyForId]] = true
           }
 
           return [...carry, basicCategory]
@@ -200,6 +211,11 @@ export default {
             })
             : category
         ), this.keyForLabel)
+    },
+    handleToggleExpand (clickedCategory) {
+      const isExpanded = !!this.expandedCategories[clickedCategory[this.keyForId]]
+
+      this.expandedCategories = _.assign({}, this.expandedCategories, { [clickedCategory[this.keyForId]]: !isExpanded })
     }
   }
 }

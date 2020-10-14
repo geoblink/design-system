@@ -50,7 +50,7 @@
       </div>
     </geo-list-item>
     <ul
-      v-if="category.isExpanded"
+      v-if="isExpanded"
       class="geo-tree-item__list"
     >
       <geo-tree-item
@@ -61,9 +61,11 @@
         :key-for-id="keyForId"
         :key-for-label="keyForLabel"
         :key-for-subcategory="keyForSubcategory"
+        :expanded-categories="expandedCategories"
         :checked-items="checkedItems"
         @check="handleCheckChild"
         @click="handleClick"
+        @toggleExpand="toggleExpand"
       />
     </ul>
   </li>
@@ -118,6 +120,13 @@ export default {
     descriptionIcon: {
       type: Array,
       default: () => []
+    },
+    /*
+    * List of categories that should appear expanded
+    * */
+    expandedCategories: {
+      type: Object,
+      required: true
     }
   },
   data () {
@@ -148,6 +157,9 @@ export default {
 
       return sumOfChildren(this.category)
     },
+    isExpanded () {
+      return !!this.expandedCategories[this.category[this.keyForId]]
+    },
     hasChildren () {
       return this.totalCategoryChildren > 0
     }
@@ -160,7 +172,7 @@ export default {
       if (!this.hasChildren) {
         this.handleCheck(this.category, !this.isChecked)
       } else {
-        this.category.isExpanded = !this.category.isExpanded
+        this.toggleExpand(this.category)
       }
     },
     handleCheckChild (category, isChecked) {
@@ -175,6 +187,9 @@ export default {
       })
 
       this.$emit('check', category, isChecked)
+    },
+    toggleExpand (category) {
+      this.$emit('toggleExpand', category)
     }
   }
 }
