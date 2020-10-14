@@ -189,7 +189,7 @@ export default {
 
           if (_.size(category[this.keyForSubcategory])) {
             basicCategory[this.keyForSubcategory] = matchingSubcategories
-            this.expandedCategories[basicCategory[this.keyForId]] = true
+            this.$set(this.expandedCategories, basicCategory[this.keyForId], true)
           }
 
           return [...carry, basicCategory]
