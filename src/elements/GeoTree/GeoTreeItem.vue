@@ -147,11 +147,16 @@ export default {
         })
       }
 
-      return this.isChecked ? false : isSomeChildSelected(this.category)
+      return !this.isChecked && isSomeChildSelected(this.category)
     },
     isChecked () {
-      const allAreChildrenSelected = category => category[this.keyForSubcategory] && _.every(category[this.keyForSubcategory], subCategory => !!this.checkedItems[subCategory[this.keyForId]])
+      const allAreChildrenSelected = category => {
+        return _.every(category[this.keyForSubcategory], subCategory => {
+          if (subCategory[this.keyForSubcategory]) return allAreChildrenSelected(subCategory)
 
+          return !!this.checkedItems[subCategory[this.keyForId]]
+        })
+      }
       return this.hasChildren
         ? allAreChildrenSelected(this.category)
         : !!this.checkedItems[this.category[this.keyForId]]
