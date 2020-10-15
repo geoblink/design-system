@@ -78,6 +78,17 @@ describe('GeoTreeItem', () => {
     expect(wrapper.find('.geo-tree-item__description').exists()).toBe(true)
     expect(wrapper.find('.geo-tree-item__description').text()).toBe(CATEGORY.description)
   })
+
+  it('should render subcategories list when categories are expanded', () => {
+    const wrapper = getWrapper()
+    wrapper.setProps({ expandedCategories: { 'tropical-fruits': true, fruits: true } })
+
+    expect(wrapper.find('[data-test="subcategory-tropical-fruits"]').exists()).toBe(true)
+    expect(wrapper.find('[data-test="subcategory-avocado"]').exists()).toBe(true)
+    expect(wrapper.find('[data-test="subcategory-banana"]').exists()).toBe(true)
+    expect(wrapper.find('[data-test="subcategory-coconut"]').exists()).toBe(true)
+    expect(wrapper.find('[data-test="subcategory-pineapple"]').exists()).toBe(true)
+  })
 })
 
 describe('GeoTreeItem check behaviour', () => {
