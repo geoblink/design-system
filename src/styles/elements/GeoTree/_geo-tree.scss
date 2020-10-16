@@ -1,0 +1,13 @@
+.geo-tree__list {
+  list-style: none;
+}
+
+.geo-tree__no-results-found {
+  @include font($body);
+  align-items: center;
+  color: $color-grey-light;
+  display: flex;
+  justify-content: center;
+  margin: $space-base $space-small;
+  min-height: 20px;
+}

@@ -1,5 +1,20 @@
 # Changelog
 
+## 29.9.2
+
+- Ignore flaky test to avoid failing deployments. (This will fix in next versions)
+
+## 29.9.1
+
+- Fixed deployment issue
+
+## 29.9.0
+
+New:
+
+- Added `geo-tree` component.
+- Added `geo-tree-item` component to work with `geo-tree`
+
 ## 29.8.7
 
 New:
