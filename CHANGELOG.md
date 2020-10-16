@@ -1,5 +1,9 @@
 # Changelog
 
+## 29.9.1
+
+- Fixed deployment issue
+
 ## 29.9.0
 
 New:
