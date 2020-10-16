@@ -24,5 +24,9 @@ module.exports = {
     '!<rootDir>/src/system.js',
     '!<rootDir>/docs/docs.helper.js',
     '!<rootDir>/docs/components/status/*'
+  ],
+  // TODO: Remove this on task https://geoblink.atlassian.net/browse/CORE-8494
+  testPathIgnorePatterns: [
+    'test/unit/specs/utils/throttle.spec.js'
   ]
 }
