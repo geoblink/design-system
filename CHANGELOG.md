@@ -1,5 +1,12 @@
 # Changelog
 
+## 29.9.0
+
+New:
+
+- Added `geo-tree` component.
+- Added `geo-tree-item` component to work with `geo-tree`
+
 ## 29.8.7
 
 New:
