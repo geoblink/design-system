@@ -1,5 +1,9 @@
 # Changelog
 
+## 29.9.3
+
+- Fixed deployment issue
+
 ## 29.9.2
 
 - Ignore flaky test to avoid failing deployments. (This will fix in next versions)
