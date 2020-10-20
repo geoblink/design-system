@@ -191,11 +191,13 @@ export default {
      * To check all items of a category
      */
     handleCheck (category, isChecked) {
-      _.forEach(category[this.keyForSubcategory], (innerCategory) => {
-        this.handleCheck(innerCategory, isChecked)
-      })
-
-      this.$emit('check', category, isChecked)
+      if (_.size(category[this.keyForSubcategory])) {
+        _.forEach(category[this.keyForSubcategory], (innerCategory) => {
+          this.handleCheck(innerCategory, isChecked)
+        })
+      } else {
+        this.$emit('check', category, isChecked)
+      }
     },
     toggleExpand (category) {
       this.$emit('toggleExpand', category)
