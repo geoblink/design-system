@@ -115,6 +115,9 @@ export default {
       isCalendarPopupOpened: false
     }
   },
+  mounted () {
+    this.isCalendarPopupOpened = this.openedByDefault
+  },
   methods: {
     closeCalendar () {
       this.isCalendarPopupOpened = false
