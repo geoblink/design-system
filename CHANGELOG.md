@@ -1,5 +1,9 @@
 # Changelog
 
+## 29.9.6
+
+- Fix `geo-bordered-box-header-search-form`, emit the value without deburr it.
+
 ## 29.9.4
 
 - Fix `geo-tree` component: not emit a category as a check if has subcategories.
