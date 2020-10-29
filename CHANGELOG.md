@@ -1,5 +1,9 @@
 # Changelog
 
+## 29.9.5
+
+- Removed outdated prop in `geo-button`
+
 ## 29.9.4
 
 - Fix `geo-tree` component: not emit a category as a check if has subcategories.
