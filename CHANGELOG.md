@@ -1,5 +1,9 @@
 # Changelog
 
+## 29.9.6
+
+- Fix `geo-bordered-box-header-search-form`, emit the value without deburr it.
+
 ## 29.9.5
 
 - Removed outdated prop in `geo-button`
