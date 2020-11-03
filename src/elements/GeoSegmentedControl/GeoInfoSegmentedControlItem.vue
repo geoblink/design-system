@@ -32,33 +32,6 @@ export default {
   mixins: [geoSegmentedControlItemMixin, customListenersMixin],
   helpers: {
     variant: VARIANTS.info
-  },
-  props: {
-    /**
-     * When is true the component will display an outline style.
-     */
-    outline: {
-      type: Boolean,
-      required: false
-    },
-
-    /**
-     * Whether this item is disabled or not. When disabled it will be displayed
-     * greyed out.
-     *
-     */
-    disabled: {
-      type: Boolean,
-      default: false
-    },
-
-    /**
-     * When is true the component will display an active style.
-     */
-    active: {
-      type: Boolean,
-      default: false
-    }
   }
 }
 </script>
