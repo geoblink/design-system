@@ -19,7 +19,7 @@
 
 <script>
 import geoSegmentedControlItemMixin, { VARIANTS } from './GeoSegmentedControlItem.constants'
-import assign from 'lodash/assign'
+import customListenersMixin from '@/mixins/customListenersMixin'
 
 /**
  * `GeoInfoSegmentedControlItem` is a component designed to nicely fit as one of
@@ -29,7 +29,7 @@ export default {
   name: 'GeoInfoSegmentedControlItem',
   status: 'ready',
   release: '20.1.0',
-  mixins: [geoSegmentedControlItemMixin],
+  mixins: [geoSegmentedControlItemMixin, customListenersMixin],
   helpers: {
     variant: VARIANTS.info
   },
@@ -58,18 +58,6 @@ export default {
     active: {
       type: Boolean,
       default: false
-    }
-  },
-  computed: {
-    computedListeners () {
-      return assign({}, this.$listeners, { click: this.handleClick })
-    }
-  },
-  methods: {
-    handleClick (e) {
-      if (!this.disabled) {
-        this.$emit('click', e)
-      }
     }
   }
 }

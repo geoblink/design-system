@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import assign from 'lodash/assign'
+import customListenersMixin from '@/mixins/customListenersMixin'
 
 /**
  * `GeoListItem` is a component designed to build vertical lists which fit
@@ -62,6 +62,7 @@ export default {
   name: 'GeoListItem',
   status: 'ready',
   release: '4.0.0',
+  mixins: [customListenersMixin],
   props: {
     /**
      * Optional Font Awesome 5 icon to be displayed next to the entry's label,
@@ -92,18 +93,6 @@ export default {
     wrapperTag: {
       type: String,
       default: 'div'
-    }
-  },
-  computed: {
-    computedListeners () {
-      return assign({}, this.$listeners, { click: this.handleClick })
-    }
-  },
-  methods: {
-    handleClick (e) {
-      if (!this.disabled) {
-        this.$emit('click', e)
-      }
     }
   }
 }
