@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import customListenersMixin from '@/mixins/customListenersMixin'
+import extendedListenersMixin from '@/mixins/extendedListenersMixin'
 
 /**
  * `GeoListItem` is a component designed to build vertical lists which fit
@@ -61,7 +61,7 @@ export default {
   name: 'GeoListItem',
   status: 'ready',
   release: '4.0.0',
-  mixins: [customListenersMixin],
+  mixins: [extendedListenersMixin],
   props: {
     /**
      * Optional Font Awesome 5 icon to be displayed next to the entry's label,

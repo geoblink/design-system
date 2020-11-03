@@ -14,7 +14,7 @@
 
 <script>
 import geoSegmentedControlItemMixin, { VARIANTS } from './GeoSegmentedControlItem.constants'
-import customListenersMixin from '@/mixins/customListenersMixin'
+import extendedListenersMixin from '@/mixins/extendedListenersMixin'
 
 /**
  * `GeoInfoSegmentedControlItem` is a component designed to nicely fit as one of
@@ -24,7 +24,7 @@ export default {
   name: 'GeoInfoSegmentedControlItem',
   status: 'ready',
   release: '20.1.0',
-  mixins: [geoSegmentedControlItemMixin, customListenersMixin],
+  mixins: [geoSegmentedControlItemMixin, extendedListenersMixin],
   helpers: {
     variant: VARIANTS.info
   }
