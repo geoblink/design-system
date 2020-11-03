@@ -1,11 +1,16 @@
-<template>
+<template functional>
   <geo-segmented-control-item
-    v-bind="$attrs"
-    :disabled="disabled"
-    :outline="outline"
-    :active="active"
+    :ref="data.ref"
+    v-bind="data.attrs"
+    :class="[
+      data.class,
+      data.staticClass
+    ]"
+    :disabled="props.disabled"
+    :outline="props.outline"
+    :active="props.active"
     :variant="$options.helpers.variant"
-    v-on="computedListeners"
+    v-on="listeners"
   >
     <!-- @slot Use this slot to customize item's content -->
     <slot />
@@ -14,7 +19,6 @@
 
 <script>
 import geoSegmentedControlItemMixin, { VARIANTS } from './GeoSegmentedControlItem.constants'
-import extendedListenersMixin from '@/mixins/extendedListenersMixin'
 
 /**
  * `GeoInfoSegmentedControlItem` is a component designed to nicely fit as one of
@@ -24,7 +28,7 @@ export default {
   name: 'GeoInfoSegmentedControlItem',
   status: 'ready',
   release: '20.1.0',
-  mixins: [geoSegmentedControlItemMixin, extendedListenersMixin],
+  mixins: [geoSegmentedControlItemMixin],
   helpers: {
     variant: VARIANTS.info
   }

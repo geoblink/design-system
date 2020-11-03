@@ -2,7 +2,7 @@
 
 ## 29.9.7
 
-- Fix `geo-segmented-control-item` and `geo-list-item` components: not emit click event if the component is disabled.
+- Fix `geo-list-item` components: not emit click event if the component is disabled.
 
 ## 29.9.6
 
