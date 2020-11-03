@@ -79,6 +79,23 @@ describe('GeoListItem', () => {
     expect(clickListener).toHaveBeenCalled()
   })
 
+  it('Should not emit click event when is disabled', function () {
+    const clickListener = jest.fn()
+    const wrapper = getShallowWrapper({
+      slots: {
+        default: ['Just some unique demo content']
+      },
+      listeners: {
+        click: clickListener
+      },
+      propsData: {
+        disabled: true
+      }
+    })
+    wrapper.find('.geo-list-item').trigger('click')
+    expect(clickListener).not.toHaveBeenCalled()
+  })
+
   it('Should include disabled suffix when it is disabled', function () {
     const wrapper = getShallowWrapper({
       propsData: {
