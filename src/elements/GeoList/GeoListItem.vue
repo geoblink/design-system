@@ -1,7 +1,6 @@
 <template>
   <component
     :is="wrapperTag"
-    :ref="$attrs.ref"
     v-bind="$attrs"
     :class="[{
       'geo-list-item': true,
