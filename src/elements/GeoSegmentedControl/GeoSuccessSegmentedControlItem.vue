@@ -1,4 +1,4 @@
-<template functional>
+<template>
   <geo-segmented-control-item
     :ref="$attrs.ref"
     v-bind="$attrs"
