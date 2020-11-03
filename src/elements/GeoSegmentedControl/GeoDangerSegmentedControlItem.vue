@@ -1,11 +1,6 @@
 <template functional>
   <geo-segmented-control-item
-    :ref="$attrs.ref"
-    v-bind="$attrs.attrs"
-    :class="[
-      $attrs.class,
-      $attrs.staticClass
-    ]"
+    v-bind="$attrs"
     :disabled="disabled"
     :outline="outline"
     :active="active"
