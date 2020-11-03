@@ -1,5 +1,5 @@
 <template>
-  <div
+  <component
     :is="wrapperTag"
     :ref="$attrs.ref"
     v-bind="$attrs"
@@ -45,7 +45,7 @@
       <!-- @slot Use this slot to add a description for the item -->
       <slot name="description" />
     </div>
-  </div>
+  </component>
 </template>
 
 <script>
