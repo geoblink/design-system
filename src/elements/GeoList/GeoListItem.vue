@@ -3,7 +3,7 @@
     :is="wrapperTag"
     :ref="$attrs.ref"
     v-bind="$attrs"
-    :class="[$attrs.class, $attrs.staticClass, {
+    :class="[{
       'geo-list-item': true,
       'geo-list-item--disabled': disabled
     }]"
