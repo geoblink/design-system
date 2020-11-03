@@ -4,7 +4,7 @@ import GeoInfoSegmentedControlItem from '@/elements/GeoSegmentedControl/GeoInfoS
 import GeoSuccessSegmentedControlItem from '@/elements/GeoSegmentedControl/GeoSuccessSegmentedControlItem.vue'
 import GeoWarningSegmentedControlItem from '@/elements/GeoSegmentedControl/GeoWarningSegmentedControlItem.vue'
 import GeoDangerSegmentedControlItem from '@/elements/GeoSegmentedControl/GeoDangerSegmentedControlItem.vue'
-import GeoTrimmedContent from '@/elements/GeoTrimmedContent/GeoTrimmedContent'
+import GeoTrimmedContent from '@/elements/GeoTrimmedContent/GeoTrimmedContent.vue'
 
 // create an extended `Vue` constructor
 const localVue = createLocalVue()
@@ -17,7 +17,7 @@ localVue.component('geo-trimmed-content', GeoTrimmedContent)
 
 describe('GeoSegmentedControlItem', () => {
   it('Should render button\'s content', function () {
-    const wrapper = shallowMount(GeoSegmentedControlItem, {
+    const wrapper = getShallowWrapper({
       slots: {
         default: '<span>Segmented control item title</span>'
       },
@@ -30,37 +30,37 @@ describe('GeoSegmentedControlItem', () => {
     expect(button.find('span').exists()).toBe(true)
   })
 
-  it('Should emit an event on click', function (done) {
-    const wrapper = shallowMount(GeoSegmentedControlItem, {
+  it('Should emit an event on click', function () {
+    const clickListener = jest.fn()
+    const wrapper = getShallowWrapper({
       propsData: {
         type: 'primary'
+      },
+      listeners: {
+        click: clickListener
       }
     })
     wrapper.find('.geo-segmented-control-item').trigger('click')
-    setTimeout(function () {
-      try {
-        expect(wrapper.emitted().click).toBeTruthy()
-        done()
-      } catch (error) {
-        done(error)
-      }
-    })
+    expect(clickListener).toHaveBeenCalled()
   })
 
   it('Should not emit an event when it\'s disabled', function () {
-    const wrapper = shallowMount(GeoSegmentedControlItem, {
+    const clickListener = jest.fn()
+    const wrapper = getShallowWrapper({
       propsData: {
         disabled: true
+      },
+      listeners: {
+        click: clickListener
       }
     })
 
-    const button = wrapper.find('.geo-segmented-control-item')
-    button.trigger('click')
-    expect(wrapper.emitted().click).toBeFalsy()
+    wrapper.find('.geo-segmented-control-item').trigger('click')
+    expect(clickListener).not.toHaveBeenCalled()
   })
 
   it('Should add disabled class when it\'s disabled', function () {
-    const wrapper = shallowMount(GeoSegmentedControlItem, {
+    const wrapper = getShallowWrapper({
       propsData: {
         disabled: true
       }
@@ -69,14 +69,12 @@ describe('GeoSegmentedControlItem', () => {
     expect(wrapper.find('.geo-segmented-control-item--disabled').exists()).toBe(true)
   })
 
-  it('Should nont add disabled class when it\'s not disabled', function () {
-    const wrapper = shallowMount(GeoSegmentedControlItem)
-
-    expect(wrapper.find('.geo-segmented-control-item--disabled').exists()).toBe(false)
+  it('Should not add disabled class when it\'s not disabled', function () {
+    expect(getShallowWrapper().find('.geo-segmented-control-item--disabled').exists()).toBe(false)
   })
 
   it('Should add active class when it\'s active', function () {
-    const wrapper = shallowMount(GeoSegmentedControlItem, {
+    const wrapper = getShallowWrapper({
       propsData: {
         active: true
       }
@@ -86,13 +84,11 @@ describe('GeoSegmentedControlItem', () => {
   })
 
   it('Should not add active class when it\'s not active', function () {
-    const wrapper = shallowMount(GeoSegmentedControlItem)
-
-    expect(wrapper.find('.geo-segmented-control-item--active').exists()).toBe(false)
+    expect(getShallowWrapper().find('.geo-segmented-control-item--active').exists()).toBe(false)
   })
 
   it('Should add outline class when it\'s outlined', function () {
-    const wrapper = shallowMount(GeoSegmentedControlItem, {
+    const wrapper = getShallowWrapper({
       propsData: {
         outline: true
       }
@@ -102,10 +98,12 @@ describe('GeoSegmentedControlItem', () => {
   })
 
   it('Should not add outline class when it\'s outlined', function () {
-    const wrapper = shallowMount(GeoSegmentedControlItem)
-
-    expect(wrapper.find('.geo-segmented-control-item--outline').exists()).toBe(false)
+    expect(getShallowWrapper().find('.geo-segmented-control-item--outline').exists()).toBe(false)
   })
+
+  function getShallowWrapper (options) {
+    return shallowMount(GeoSegmentedControlItem, options)
+  }
 })
 
 const taxonomySegmentedControlItems = [
@@ -119,7 +117,7 @@ describe('GeoSegmentedControlItem Children', () => {
   taxonomySegmentedControlItems.forEach((taxonomySegmentedControlItem) => {
     describe(taxonomySegmentedControlItem.name, function () {
       it('Should render button\'s content', function () {
-        const wrapper = shallowMount(taxonomySegmentedControlItem, {
+        const wrapper = getShallowWrapper({
           slots: {
             default: '<span>Segmented control item title</span>'
           },
@@ -132,46 +130,43 @@ describe('GeoSegmentedControlItem Children', () => {
         expect(button.find('span').exists()).toBe(true)
       })
 
-      it('Should emit an event on click', function (done) {
-        const wrapper = shallowMount(taxonomySegmentedControlItem, {
+      it('Should emit an event on click', function () {
+        const clickListener = jest.fn()
+        const wrapper = getShallowWrapper({
           stubs: {
             GeoSegmentedControlItem
+          },
+          listeners: {
+            click: clickListener
           }
         })
+
         wrapper.find('.geo-segmented-control-item').trigger('click')
-        setTimeout(function () {
-          try {
-            expect(wrapper.emitted().click).toBeTruthy()
-            done()
-          } catch (error) {
-            done(error)
-          }
-        })
+        expect(clickListener).toHaveBeenCalled()
       })
 
-      it('Should not emit an event when it\'s disabled', function () {
-        const wrapper = shallowMount(taxonomySegmentedControlItem, {
-          context: {
-            props: {
-              disabled: true
-            }
+      it('Should not emit the click event when it\'s disabled', function () {
+        const clickListener = jest.fn()
+        const wrapper = getShallowWrapper({
+          propsData: {
+            disabled: true
           },
           stubs: {
             GeoSegmentedControlItem
+          },
+          listeners: {
+            click: clickListener
           }
         })
 
-        const button = wrapper.find('.geo-segmented-control-item')
-        button.trigger('click')
-        expect(wrapper.emitted().click).toBeFalsy()
+        wrapper.find('.geo-segmented-control-item').trigger('click')
+        expect(clickListener).not.toHaveBeenCalled()
       })
 
       it('Should add disabled class when it\'s disabled', function () {
-        const wrapper = shallowMount(taxonomySegmentedControlItem, {
-          context: {
-            props: {
-              disabled: true
-            }
+        const wrapper = getShallowWrapper({
+          propsData: {
+            disabled: true
           },
           stubs: {
             GeoSegmentedControlItem
@@ -182,7 +177,7 @@ describe('GeoSegmentedControlItem Children', () => {
       })
 
       it('Should not add disabled class when it\'s not disabled', function () {
-        const wrapper = shallowMount(taxonomySegmentedControlItem, {
+        const wrapper = getShallowWrapper({
           stubs: {
             GeoSegmentedControlItem
           }
@@ -192,11 +187,9 @@ describe('GeoSegmentedControlItem Children', () => {
       })
 
       it('Should add outline class when it\'s outlined', function () {
-        const wrapper = shallowMount(taxonomySegmentedControlItem, {
-          context: {
-            props: {
-              outline: true
-            }
+        const wrapper = getShallowWrapper({
+          propsData: {
+            outline: true
           },
           stubs: {
             GeoSegmentedControlItem
@@ -207,7 +200,7 @@ describe('GeoSegmentedControlItem Children', () => {
       })
 
       it('Should not add outline class when it\'s not outline', function () {
-        const wrapper = shallowMount(taxonomySegmentedControlItem, {
+        const wrapper = getShallowWrapper({
           stubs: {
             GeoSegmentedControlItem
           }
@@ -215,6 +208,10 @@ describe('GeoSegmentedControlItem Children', () => {
 
         expect(wrapper.find('.geo-segmented-control-item--outline').exists()).toBe(false)
       })
+
+      function getShallowWrapper (options) {
+        return shallowMount(taxonomySegmentedControlItem, options)
+      }
     })
   })
 })

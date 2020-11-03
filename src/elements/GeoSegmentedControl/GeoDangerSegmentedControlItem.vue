@@ -1,4 +1,4 @@
-<template functional>
+<template>
   <geo-segmented-control-item
     v-bind="$attrs"
     :disabled="disabled"
