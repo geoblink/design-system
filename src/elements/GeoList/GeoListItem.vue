@@ -1,22 +1,22 @@
-<template functional>
-  <component
-    :is="props.wrapperTag"
-    :ref="data.ref"
-    v-bind="data.attrs"
-    :class="[data.class, data.staticClass, {
+<template>
+  <div
+    :is="wrapperTag"
+    :ref="$attrs.ref"
+    v-bind="$attrs"
+    :class="[$attrs.class, $attrs.staticClass, {
       'geo-list-item': true,
-      'geo-list-item--disabled': props.disabled
+      'geo-list-item--disabled': disabled
     }]"
-    v-on="listeners"
+    v-on="computedListeners"
   >
     <div class="geo-list-item__label-and-accessory-container">
       <div class="geo-list-item__icon-and-label">
         <div
-          v-if="props.icon"
+          v-if="icon"
           class="geo-list-item__icon-and-label__icon-container"
         >
           <font-awesome-icon
-            :icon="props.icon"
+            :icon="icon"
             class="geo-list-item__icon-and-label__icon-container__icon"
             aria-hidden
             fixed-width
@@ -39,16 +39,18 @@
       v-if="$slots.description"
       :class="{
         'geo-list-item__description': true,
-        'geo-list-item__description--spaced': !!props.icon
+        'geo-list-item__description--spaced': !!icon
       }"
     >
       <!-- @slot Use this slot to add a description for the item -->
       <slot name="description" />
     </div>
-  </component>
+  </div>
 </template>
 
 <script>
+import assign from 'lodash/assign'
+
 /**
  * `GeoListItem` is a component designed to build vertical lists which fit
  * properly in a `GeoBorderedBox`.
@@ -90,6 +92,18 @@ export default {
     wrapperTag: {
       type: String,
       default: 'div'
+    }
+  },
+  computed: {
+    computedListeners () {
+      return assign({}, this.$listeners, { click: this.handleClick })
+    }
+  },
+  methods: {
+    handleClick (e) {
+      if (!this.disabled) {
+        this.$emit('click', e)
+      }
     }
   }
 }
