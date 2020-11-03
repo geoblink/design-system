@@ -6,7 +6,7 @@ import { fas } from '@fortawesome/free-solid-svg-icons'
 
 library.add(fas)
 
-describe.only('GeoListItem', () => {
+describe('GeoListItem', () => {
   it('Should render a <div> wrapper by default', () => {
     expect(getShallowWrapper().find('div.geo-list-item').exists()).toBe(true)
   })
