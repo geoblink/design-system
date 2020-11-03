@@ -1,16 +1,16 @@
-<template functional>
+<template>
   <geo-segmented-control-item
-    :ref="data.ref"
-    v-bind="data.attrs"
+    :ref="$attrs.ref"
+    v-bind="$attrs"
     :class="[
-      data.class,
-      data.staticClass
+      $attrs.class,
+      $attrs.staticClass
     ]"
-    :disabled="props.disabled"
-    :outline="props.outline"
-    :active="props.active"
+    :disabled="disabled"
+    :outline="outline"
+    :active="active"
     :variant="$options.helpers.variant"
-    v-on="listeners"
+    v-on="computedListeners"
   >
     <!-- @slot Use this slot to customize item's content -->
     <slot />
@@ -19,6 +19,7 @@
 
 <script>
 import geoSegmentedControlItemMixin, { VARIANTS } from './GeoSegmentedControlItem.constants'
+import assign from 'lodash/assign'
 
 /**
  * `GeoInfoSegmentedControlItem` is a component designed to nicely fit as one of
@@ -31,6 +32,45 @@ export default {
   mixins: [geoSegmentedControlItemMixin],
   helpers: {
     variant: VARIANTS.info
+  },
+  props: {
+    /**
+     * When is true the component will display an outline style.
+     */
+    outline: {
+      type: Boolean,
+      required: false
+    },
+
+    /**
+     * Whether this item is disabled or not. When disabled it will be displayed
+     * greyed out.
+     *
+     */
+    disabled: {
+      type: Boolean,
+      default: false
+    },
+
+    /**
+     * When is true the component will display an active style.
+     */
+    active: {
+      type: Boolean,
+      default: false
+    }
+  },
+  computed: {
+    computedListeners () {
+      return assign({}, this.$listeners, { click: this.handleClick })
+    }
+  },
+  methods: {
+    handleClick (e) {
+      if (!this.disabled) {
+        this.$emit('click', e)
+      }
+    }
   }
 }
 </script>
