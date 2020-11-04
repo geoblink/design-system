@@ -124,11 +124,6 @@ export default {
     },
 
     handleClickOutside ($event) {
-      // The calendar itself has two selects to navigate through months and years.
-      // When clicking on one of those, we have to intercept that click to check that we haven't actually clicked outside the calendar popup
-      // and accidentally close it when we're just selecting a different month or year to go to.
-      const popup = _.get(this.$refs.calendar, '$refs.calendarPicker.$refs.calendarNavigationWrapper.$refs.calendarNavigation.$refs.calendarNavigationSelect')
-      if (popup && popup.contains($event.target)) return
       this.closeCalendar()
     },
 

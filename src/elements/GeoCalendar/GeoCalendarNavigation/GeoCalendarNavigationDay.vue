@@ -1,6 +1,7 @@
 <template>
   <div class="geo-calendar-navigation__selects-container geo-calendar-navigation--day">
     <geo-select-base
+      ref="selectBaseMonth"
       :opened="isMonthSelectionOpened"
       :fixed-width="false"
       popup-class="geo-calendar-navigation-selection"
@@ -18,7 +19,7 @@
           :icon="calendarNavigationSelectIcon"
         />
       </geo-link-button>
-      <div ref="calendarNavigationSelect">
+      <div>
         <geo-list-item
           v-for="monthObject in monthsInYear"
           :key="monthObject.index"
@@ -29,6 +30,7 @@
       </div>
     </geo-select-base>
     <geo-select-base
+      ref="selectBaseYear"
       :opened="isYearSelectionOpened"
       :fixed-width="false"
       popup-class="geo-calendar-navigation-selection"
@@ -47,7 +49,7 @@
           :icon="calendarNavigationSelectIcon"
         />
       </geo-link-button>
-      <div ref="calendarNavigationSelect">
+      <div>
         <geo-list-item
           v-for="year in yearsList"
           :key="year"

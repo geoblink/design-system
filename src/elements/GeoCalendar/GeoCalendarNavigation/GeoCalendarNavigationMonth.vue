@@ -1,6 +1,7 @@
 <template>
   <div class="geo-calendar-navigation__selects-container geo-calendar-navigation--month">
     <geo-select-base
+      ref="selectBase"
       :opened="isYearSelectionOpened"
       :fixed-width="false"
       popup-class="geo-calendar-navigation-selection"
@@ -19,7 +20,7 @@
           :icon="calendarNavigationSelectIcon"
         />
       </geo-link-button>
-      <div ref="calendarNavigationSelect">
+      <div>
         <geo-list-item
           v-for="year in yearsList"
           :key="year"
