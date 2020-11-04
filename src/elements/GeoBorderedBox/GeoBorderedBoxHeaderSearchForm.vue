@@ -94,7 +94,7 @@ export default {
          * @event input
          * @type {string}
          */
-        this.$emit('input', _.deburr(value))
+        this.$emit('input', value)
       })
     }
   },

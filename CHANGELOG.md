@@ -1,5 +1,21 @@
 # Changelog
 
+## 29.9.7
+
+- Fix `geo-list-item` components: not emit click event if the component is disabled.
+
+## 29.9.6
+
+- Fix `geo-bordered-box-header-search-form`, emit the value without deburr it.
+
+## 29.9.5
+
+- Removed outdated prop in `geo-button`
+
+## 29.9.4
+
+- Fix `geo-tree` component: not emit a category as a check if has subcategories.
+
 ## 29.9.3
 
 - Fixed deployment issue
