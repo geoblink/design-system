@@ -87,19 +87,19 @@ import GeoCalendarPickerDateUnitMixin from './GeoCalendarPickerDateUnit.mixin'
 import * as GeoCalendarConstants from './GeoCalendar.utils'
 
 /**
- * `GeoCalendarDropdown` renders a button that when clicked, displays a calendar
- * with two inputs where you can enter date ranges and manually select dates
- * clicking on the displayed grid.
- *
- * To use this component you must
- * [install date-fns](https://github.com/date-fns/date-fns) in your application.
- *
- * ::: tip
- * [GeoCalendar](./GeoCalendar) can be used independently from
- * `GeoCalendarDropdown` if you want to display the calendar directly embed in
- * your application.
- * :::
- */
+   * `GeoCalendarDropdown` renders a button that when clicked, displays a calendar
+   * with two inputs where you can enter date ranges and manually select dates
+   * clicking on the displayed grid.
+   *
+   * To use this component you must
+   * [install date-fns](https://github.com/date-fns/date-fns) in your application.
+   *
+   * ::: tip
+   * [GeoCalendar](./GeoCalendar) can be used independently from
+   * `GeoCalendarDropdown` if you want to display the calendar directly embed in
+   * your application.
+   * :::
+   */
 export default {
   name: 'GeoCalendarDropdown',
   status: 'ready',
@@ -115,35 +115,37 @@ export default {
       isCalendarPopupOpened: false
     }
   },
-  mounted () {
-    this.isCalendarPopupOpened = this.openedByDefault
-  },
   methods: {
     closeCalendar () {
       this.isCalendarPopupOpened = false
     },
 
     handleClickOutside ($event) {
+      // The calendar itself has two selects to navigate through months and years.
+      // When clicking on one of those, we have to intercept that click to check that we haven't actually clicked outside the calendar popup
+      // and accidentally close it when we're just selecting a different month or year to go to.
+      const popup = _.get(this.$refs.calendar, '$refs.calendarPicker.$refs.calendarNavigationWrapper.$refs.calendarNavigation.$refs.calendarNavigationSelect')
+      if (popup && popup.contains($event.target)) return
       this.closeCalendar()
     },
 
     emitFromDate ({ fromDate }) {
       /**
-       * User sets an initial date.
-       *
-       * @event emit-from-date
-       * @type {Date}
-       */
+         * User sets an initial date.
+         *
+         * @event emit-from-date
+         * @type {Date}
+         */
       this.$emit('emit-from-date', { fromDate })
     },
 
     emitToDate ({ toDate }) {
       /**
-       * User set an end date.
-       *
-       * @event emit-to-date
-       * @type {Date}
-       */
+         * User set an end date.
+         *
+         * @event emit-to-date
+         * @type {Date}
+         */
       this.$emit('emit-to-date', { toDate })
     },
 

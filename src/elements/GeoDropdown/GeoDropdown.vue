@@ -437,7 +437,7 @@ export default {
           if (refName === POPUP_REF_NAME) {
             if (ref === $event.target || ref.contains($event.target)) return true
           }
-          return checkForPopup(ref.$refs)
+          return checkForPopup(_.get(ref, '$refs'))
         }, false)
       }
 
