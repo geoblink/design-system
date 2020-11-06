@@ -159,14 +159,6 @@ export default {
     popupClass: {
       type: [String, Array, Object],
       required: false
-    },
-
-    /**
-     * Should appear the calendar opened by default
-     */
-    openedByDefault: {
-      type: Boolean,
-      default: false
     }
   }
 }
