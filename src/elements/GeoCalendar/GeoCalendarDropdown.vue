@@ -87,19 +87,19 @@ import GeoCalendarPickerDateUnitMixin from './GeoCalendarPickerDateUnit.mixin'
 import * as GeoCalendarConstants from './GeoCalendar.utils'
 
 /**
-   * `GeoCalendarDropdown` renders a button that when clicked, displays a calendar
-   * with two inputs where you can enter date ranges and manually select dates
-   * clicking on the displayed grid.
-   *
-   * To use this component you must
-   * [install date-fns](https://github.com/date-fns/date-fns) in your application.
-   *
-   * ::: tip
-   * [GeoCalendar](./GeoCalendar) can be used independently from
-   * `GeoCalendarDropdown` if you want to display the calendar directly embed in
-   * your application.
-   * :::
-   */
+ * `GeoCalendarDropdown` renders a button that when clicked, displays a calendar
+ * with two inputs where you can enter date ranges and manually select dates
+ * clicking on the displayed grid.
+ *
+ * To use this component you must
+ * [install date-fns](https://github.com/date-fns/date-fns) in your application.
+ *
+ * ::: tip
+ * [GeoCalendar](./GeoCalendar) can be used independently from
+ * `GeoCalendarDropdown` if you want to display the calendar directly embed in
+ * your application.
+ * :::
+ */
 export default {
   name: 'GeoCalendarDropdown',
   status: 'ready',
@@ -131,21 +131,21 @@ export default {
 
     emitFromDate ({ fromDate }) {
       /**
-         * User sets an initial date.
-         *
-         * @event emit-from-date
-         * @type {Date}
-         */
+       * User sets an initial date.
+       *
+       * @event emit-from-date
+       * @type {Date}
+       */
       this.$emit('emit-from-date', { fromDate })
     },
 
     emitToDate ({ toDate }) {
       /**
-         * User set an end date.
-         *
-         * @event emit-to-date
-         * @type {Date}
-         */
+       * User set an end date.
+       *
+       * @event emit-to-date
+       * @type {Date}
+       */
       this.$emit('emit-to-date', { toDate })
     },
 
