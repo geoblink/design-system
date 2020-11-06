@@ -430,18 +430,7 @@ export default {
 
       const POPUP_REF_NAME = this.POPUP_REF_NAME
 
-      function checkForPopup (refs) {
-        return _.reduce(refs, (acc, ref, refName) => {
-          if (acc) return acc
-
-          if (refName === POPUP_REF_NAME) {
-            if (ref === $event.target || ref.contains($event.target)) return true
-          }
-          return checkForPopup(_.get(ref, '$refs'))
-        }, false)
-      }
-
-      if (checkForPopup(popupContentRefs)) return
+      if (hasClickOnChildrenPopup(popupContentRefs)) return
 
       /**
        * User clicked outside toggle button or popup of this menu.
@@ -450,6 +439,17 @@ export default {
        * @type {MouseEvent}
        */
       this.$emit('click-outside', $event)
+
+      function hasClickOnChildrenPopup (refs) {
+        return _.reduce(refs, (acc, ref, refName) => {
+          if (acc) return acc
+
+          if (refName === POPUP_REF_NAME) {
+            if (ref === $event.target || ref.contains($event.target)) return true
+          }
+          return hasClickOnChildrenPopup(_.get(ref, '$refs'))
+        }, false)
+      }
     }
   }
 }
