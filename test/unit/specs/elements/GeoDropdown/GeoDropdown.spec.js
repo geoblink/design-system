@@ -329,4 +329,33 @@ describe('GeoDropdown', () => {
     scrollAnywhereSpy[0][1].value({ target: null })
     expect(repositionPopupSpy).toHaveBeenCalledTimes(1)
   })
+
+  it.only('should not emit click outside when clicking on a popup children', () => {
+    const clickListener = jest.fn()
+
+    const childrenComponent = {
+      name: 'children-to-test',
+      template: `<geo-dropdown opened ref="dropdown2">
+        <div slot="popupContent" id="click-me" ref="clicker">Click me</div>
+      </geo-dropdown>`
+    }
+    const wrapper = mount(GeoDropdown, {
+      propsData: {
+        opened: true
+      },
+      slots: {
+        popupContent: childrenComponent
+      },
+      stubs: {
+        'geo-dropdown': GeoDropdown
+      },
+      listeners: {
+        'click-outside': clickListener
+      }
+    })
+
+    wrapper.find('#click-me').trigger('click')
+
+    expect(clickListener).not.toHaveBeenCalled()
+  })
 })
