@@ -330,7 +330,7 @@ describe('GeoDropdown', () => {
     expect(repositionPopupSpy).toHaveBeenCalledTimes(1)
   })
 
-  it.only('should not emit click outside when clicking on a popup children', () => {
+  it('should not emit click outside when clicking on a popup children', () => {
     const wrapper = mount(GeoDropdown, {
       propsData: {
         opened: true
