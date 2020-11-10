@@ -340,10 +340,12 @@ describe('GeoDropdown', () => {
       slots: {
         popupContent: `<div>
           <geo-dropdown opened ref="dropdown2">
-            <div slot="popupContent" id="click-me">Click me</div>
-          </geo-dropdown>
-          <geo-dropdown opened ref="dropdown3">
-            <div slot="popupContent">Click me 2</div>
+            <geo-dropdown opened slot="popupContent" ref="dropdown3">
+              <ul slot="popupContent">
+                <li id="click-me">Click me</li>
+                <li id="click-me">Click me 2</li>
+              </ul>
+            </geo-dropdown>
           </geo-dropdown>
         </div>`
       },
