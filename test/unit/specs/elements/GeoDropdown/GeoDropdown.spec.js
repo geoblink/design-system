@@ -338,7 +338,7 @@ describe('GeoDropdown', () => {
         opened: true
       },
       slots: {
-        popupContent: '<geo-dropdown opened ref="dropdown2"><div slot="popupContent" id="click-me" ref="clicker">Click me</div></geo-dropdown>'
+        popupContent: '<geo-dropdown opened ref="dropdown2"><div slot="popupContent" id="click-me">Click me</div></geo-dropdown>'
       },
       stubs: {
         'geo-dropdown': GeoDropdown
