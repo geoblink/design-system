@@ -352,4 +352,26 @@ describe('GeoDropdown', () => {
 
     expect(clickListener).not.toHaveBeenCalled()
   })
+
+  it.only('la mierda esta', () => {
+    const hasClickOnChildrenPopup = jest.fn()
+
+    const wrapper = mount(GeoDropdown, {
+      propsData: {
+        opened: true
+      },
+      slots: {
+        popupContent: '<geo-dropdown opened ref="dropdown2"><div slot="popupContent" id="click-me">Click me</div></geo-dropdown>'
+      },
+      stubs: {
+        'geo-dropdown': GeoDropdown
+      },
+      methods: {
+        hasClickOnChildrenPopup
+      }
+    })
+
+    wrapper.find('#click-me').trigger('click')
+    expect(hasClickOnChildrenPopup).toHaveBeenCalled()
+  })
 })

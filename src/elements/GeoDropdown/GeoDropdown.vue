@@ -428,9 +428,7 @@ export default {
 
       const popupContentRefs = _.get(this.$slots.popupContent, '[0].context.$refs')
 
-      const POPUP_REF_NAME = this.POPUP_REF_NAME
-
-      if (hasClickOnChildrenPopup(popupContentRefs)) return
+      if (this.hasClickOnChildrenPopup(popupContentRefs, $event)) return
 
       /**
        * User clicked outside toggle button or popup of this menu.
@@ -439,17 +437,19 @@ export default {
        * @type {MouseEvent}
        */
       this.$emit('click-outside', $event)
+    },
 
-      function hasClickOnChildrenPopup (refs) {
-        return _.reduce(refs, (acc, ref, refName) => {
-          if (acc) return acc
+    hasClickOnChildrenPopup (refs, event) {
+      const POPUP_REF_NAME = this.POPUP_REF_NAME
 
-          if (refName === POPUP_REF_NAME) {
-            if (ref === $event.target || ref.contains($event.target)) return true
-          }
-          return hasClickOnChildrenPopup(_.get(ref, '$refs'))
-        }, false)
-      }
+      return _.reduce(refs, (acc, ref, refName) => {
+        if (acc) return acc
+
+        if (refName === POPUP_REF_NAME) {
+          if (ref === event.target || ref.contains(event.target)) return true
+        }
+        return this.hasClickOnChildrenPopup(_.get(ref, '$refs'), event)
+      }, false)
     }
   }
 }
