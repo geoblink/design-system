@@ -443,9 +443,7 @@ export default {
       const POPUP_REF_NAME = this.POPUP_REF_NAME
 
       return _.reduce(refs, (acc, ref, refName) => {
-        if (acc) {
-          return acc
-        }
+        if (acc) return acc
 
         if (refName === POPUP_REF_NAME) {
           if (ref === event.target || ref.contains(event.target)) return true

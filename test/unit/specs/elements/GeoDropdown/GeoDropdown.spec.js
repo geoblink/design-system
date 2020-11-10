@@ -343,9 +343,12 @@ describe('GeoDropdown', () => {
             <geo-dropdown opened slot="popupContent" ref="dropdown3">
               <ul slot="popupContent">
                 <li id="click-me">Click me</li>
-                <li id="click-me">Click me 2</li>
+                <li>Click me 2</li>
               </ul>
             </geo-dropdown>
+          </geo-dropdown>
+          <geo-dropdown :opened="false" ref="dropdown4">
+            <p slot="toggleButton">Toggle</p>
           </geo-dropdown>
         </div>`
       },
