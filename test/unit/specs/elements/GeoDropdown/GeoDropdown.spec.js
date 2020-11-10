@@ -330,9 +330,7 @@ describe('GeoDropdown', () => {
     expect(repositionPopupSpy).toHaveBeenCalledTimes(1)
   })
 
-  it('should not emit click outside when clicking on a popup children', () => {
-    const clickListener = jest.fn()
-
+  it.only('should not emit click outside when clicking on a popup children', () => {
     const wrapper = mount(GeoDropdown, {
       propsData: {
         opened: true
@@ -340,6 +338,7 @@ describe('GeoDropdown', () => {
       slots: {
         popupContent: `<div>
           <geo-dropdown opened ref="dropdown2">
+            <p slot="toggleButton">Toggle</p>
             <geo-dropdown opened slot="popupContent" ref="dropdown3">
               <ul slot="popupContent">
                 <li id="click-me">Click me</li>
@@ -354,14 +353,11 @@ describe('GeoDropdown', () => {
       },
       stubs: {
         'geo-dropdown': GeoDropdown
-      },
-      listeners: {
-        'click-outside': clickListener
       }
     })
 
     wrapper.find('#click-me').trigger('click')
 
-    expect(clickListener).not.toHaveBeenCalled()
+    expect(wrapper.emitted()['click-outside']).toBeFalsy()
   })
 })
