@@ -1,5 +1,9 @@
 # Changelog
 
+## 29.9.9
+
+- Fix `geo-dropdown`, made test more complex.
+
 ## 29.9.8
 
 - Fix `geo-dropdown` component to prevent emit outside click on popup children click.
