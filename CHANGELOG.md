@@ -1,5 +1,11 @@
 # Changelog
 
+## 29.9.10
+
+Fix:
+
+- `GeoChartQuadrant`: Allow date as threshold value.
+
 ## 29.9.9
 
 - Fix `geo-dropdown`, made test more complex.

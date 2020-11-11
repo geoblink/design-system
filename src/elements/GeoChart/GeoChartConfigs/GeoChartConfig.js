@@ -744,10 +744,10 @@ export const quadrantConfigJsonSchema = {
     horizontalAxisConfig: axisConfigJsonSchema,
     verticalAxisConfig: axisConfigJsonSchema,
     horizontalThreshold: {
-      type: ['number', 'string']
+      type: ['number', 'string', /** Date object */ 'object']
     },
     verticalThreshold: {
-      type: ['number', 'string']
+      type: ['number', 'string', /** Date object */ 'object']
     },
     quadrantTopLeftName: {
       type: 'string'
