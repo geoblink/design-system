@@ -1,5 +1,13 @@
 # Changelog
 
+## 29.9.9
+
+- Fix `geo-dropdown`, made test more complex.
+
+## 29.9.8
+
+- Fix `geo-dropdown` component to prevent emit outside click on popup children click.
+
 ## 29.9.7
 
 - Fix `geo-list-item` components: not emit click event if the component is disabled.

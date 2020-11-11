@@ -11,7 +11,7 @@
     <slot name="toggleButton" />
 
     <div
-      ref="popup"
+      :ref="POPUP_REF_NAME"
       :class="[popupClass, {
         ['geo-dropdown__popup']: true,
         ['geo-dropdown__popup--is-open']: isOpened
@@ -238,6 +238,9 @@ export default {
       this.$nextTick(this.repositionPopup.bind(this))
     }
   },
+  created () {
+    this.POPUP_REF_NAME = 'popup'
+  },
   mounted () {
     this.reattachPopupToDocumentBody()
   },
@@ -423,6 +426,10 @@ export default {
         return
       }
 
+      const popupContentRefs = _.get(this.$slots.popupContent, '[0].context.$refs')
+
+      if (this.hasClickOnChildrenPopup(popupContentRefs, $event)) return
+
       /**
        * User clicked outside toggle button or popup of this menu.
        *
@@ -430,6 +437,19 @@ export default {
        * @type {MouseEvent}
        */
       this.$emit('click-outside', $event)
+    },
+
+    hasClickOnChildrenPopup (refs, event) {
+      const POPUP_REF_NAME = this.POPUP_REF_NAME
+
+      return _.reduce(refs, (acc, ref, refName) => {
+        if (acc) return acc
+
+        if (refName === POPUP_REF_NAME) {
+          if (ref === event.target || ref.contains(event.target)) return true
+        }
+        return this.hasClickOnChildrenPopup(_.get(ref, '$refs'), event)
+      }, false)
     }
   }
 }
