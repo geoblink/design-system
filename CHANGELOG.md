@@ -1,5 +1,11 @@
 # Changelog
 
+## 29.9.11
+
+- Fix:
+
+- `GeoCalendarNavigation`: Modify margin to use padding to avoid problems rendering it inside a dropdown.
+
 ## 29.9.10
 
 Fix:
