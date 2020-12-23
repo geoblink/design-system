@@ -34,7 +34,7 @@
 }
 
 .geo-value--is-secondary {
-  padding: 1px;
+  padding: 0px 2px;
   .geo-value__row {
     display: inline-block;
   }
@@ -43,12 +43,12 @@
     display: inline-block;
   }
   &.geo-value--negative {
-    background-color: $color-red;
+    background-color: $color-red-readable-border;
   }
   &.geo-value--neutral {
-    background-color: $color-yellow;
+    background-color: $color-yellow-readable-border;
   }
   &.geo-value--positive {
-    background-color: $color-green;
+    background-color: $color-green-readable-border;
   }
 }
