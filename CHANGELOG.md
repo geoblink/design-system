@@ -1,5 +1,11 @@
 # Changelog
 
+## 29.9.13
+
+Changed:
+
+- `GeoValue`: Update geo-value primary & secondary styles
+
 ## 29.9.12
 
 Changed:
