@@ -40,6 +40,11 @@
 
 .geo-value--secondary {
   padding: 0px 2px;
+
+  .geo-value__column {
+    margin: 0 5px;
+  }
+
   .geo-value__row {
     display: inline-block;
   }
