@@ -74,7 +74,7 @@ export default {
   },
   computed: {
     valueCssClasses () {
-      return `geo-value geo-value--${this.type} geo-value--${this.isPrimary ? 'is-primary' : 'is-secondary'}`
+      return `geo-value geo-value--${this.type} geo-value--${this.isPrimary ? 'primary' : 'secondary'}`
     }
   }
 }

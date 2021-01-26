@@ -7,7 +7,7 @@
   float: left;
 }
 
-.geo-value--is-primary {
+.geo-value--primary {
   .geo-value__value {
     @include font($display-medium);
     display: inline-block;
@@ -38,7 +38,7 @@
   }
 }
 
-.geo-value--is-secondary {
+.geo-value--secondary {
   padding: 0px 2px;
   .geo-value__row {
     display: inline-block;
