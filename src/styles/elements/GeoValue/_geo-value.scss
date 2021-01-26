@@ -8,10 +8,15 @@
 }
 
 .geo-value--is-primary {
-  .geo-value__value, .geo-value__unit {
+  .geo-value__value {
     @include font($display-medium);
     display: inline-block;
   }
+  .geo-value__unit {
+    @include font($body-small);
+    display: inline-block;
+  }
+
   .geo-value__description {
     @include font($body-small);
     margin-top: 3px;
