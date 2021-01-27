@@ -2,14 +2,16 @@
   <div
     :class="valueCssClasses"
   >
-    <div class="geo-value__column">
+    <div
+      v-if="$slots.warningTooltip"
+      class="geo-value__column"
+    >
       <slot name="warningTooltip" />
     </div>
+
     <div class="geo-value__column">
       <div class="geo-value__row">
-        <span
-          class="geo-value__value"
-        >
+        <span class="geo-value__value">
           {{ value }}
         </span>
         <span
@@ -19,14 +21,21 @@
           {{ unit }}
         </span>
       </div>
-      <div class="geo-value__row">
+
+      <div
+        v-if="description || $slots.descriptionTooltip"
+        class="geo-value__row"
+      >
         <span
           v-if="description"
           class="geo-value__description"
         >
           {{ description }}
         </span>
-        <slot name="descriptionTooltip" />
+        <slot
+          v-if="$slots.descriptionTooltip"
+          name="descriptionTooltip"
+        />
       </div>
     </div>
   </div>
@@ -74,7 +83,7 @@ export default {
   },
   computed: {
     valueCssClasses () {
-      return `geo-value geo-value--${this.type} geo-value--${this.isPrimary ? 'is-primary' : 'is-secondary'}`
+      return `geo-value geo-value--${this.type} geo-value--${this.isPrimary ? 'primary' : 'secondary'}`
     }
   }
 }

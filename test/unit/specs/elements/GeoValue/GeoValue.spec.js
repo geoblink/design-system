@@ -20,8 +20,8 @@ describe('GeoValue', () => {
     const wrapper = mount(GeoValue, {
       propsData: props
     })
-    expect(wrapper.find('.geo-value--is-primary').exists()).toBe(true)
-    expect(wrapper.find('.geo-value--is-primary .geo-value__value').text()).toBe(props.value)
+    expect(wrapper.find('.geo-value--primary').exists()).toBe(true)
+    expect(wrapper.find('.geo-value--primary .geo-value__value').text()).toBe(props.value)
   })
 
   it('Should display GeoValue secondary value', () => {
@@ -32,8 +32,8 @@ describe('GeoValue', () => {
     const wrapper = mount(GeoValue, {
       propsData: props
     })
-    expect(wrapper.find('.geo-value--is-secondary').exists()).toBe(true)
-    expect(wrapper.find('.geo-value--is-secondary .geo-value__value').text()).toBe(props.value)
+    expect(wrapper.find('.geo-value--secondary').exists()).toBe(true)
+    expect(wrapper.find('.geo-value--secondary .geo-value__value').text()).toBe(props.value)
   })
 
   it('Should display GeoValue unit', () => {
