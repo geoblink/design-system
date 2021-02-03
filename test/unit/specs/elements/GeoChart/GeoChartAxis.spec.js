@@ -263,7 +263,7 @@ describe('GeoChartAxis', function () {
         expect(wrapper.find('.geo-chart').exists()).toBe(true)
         expect(wrapper.find('.geo-chart-axis').exists()).toBe(true)
 
-        expect(formatMock).toHaveBeenCalledTimes(3)
+        expect(formatMock).toHaveBeenCalledTimes(6)
         expect(formatMock.mock.calls[0]).toHaveLength(3)
         expect(formatMock.mock.calls[0][0]).toEqual(linearAxisConfig.scale.domain.start)
         expect(formatMock.mock.calls[0][1]).toEqual(0)
