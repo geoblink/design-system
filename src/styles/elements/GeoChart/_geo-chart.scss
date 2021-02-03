@@ -34,6 +34,14 @@
   .geo-chart-axis-label {
     fill: $color-black;
   }
+
+  .geo-chart-axis-text--left {
+    justify-content: flex-end;
+  }
+
+  .geo-chart-axis-text--right {
+    justify-content: flex-start;
+  }
 }
 
 .geo-chart-quadrant-line {

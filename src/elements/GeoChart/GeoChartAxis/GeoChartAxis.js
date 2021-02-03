@@ -140,6 +140,11 @@ function renderSingleAxis (group, singleAxisOptions, globalAxesConfig) {
     .call(axis)
     .selectAll('g.tick')
     .attr('class', getTickCSSClasses)
+    .each(function (elem) {
+      const tickGroup = d3.select(this)
+      const textElem = tickGroup.select('text')
+      positionTickHtmlLabel(tickGroup, textElem, elem, singleAxisOptions, globalAxesConfig)
+    })
 }
 
 /**
@@ -421,4 +426,47 @@ export function createCustomizedTickArray (firstOfDomain, lastOfDomain, tickCoun
     , 3)
   })
   return tickToDisplay
+}
+
+function positionTickHtmlLabel (group, text, content, singleAxisOptions, globalAxesConfig) {
+  let foreignElem = group.select('foreignObject')
+  const height = 15
+  const xValue = text.attr('x')
+  const tickLineSpace = Math.abs(xValue)
+  switch (singleAxisOptions.position.type) {
+    case axisUtils.POSITIONS.left: {
+      if (foreignElem.empty()) foreignElem = createForeignElem()
+      const width = globalAxesConfig.chart.margin.left - tickLineSpace
+      foreignElem.attr('width', width)
+      foreignElem.attr('x', xValue - width)
+      foreignElem.attr('y', -height / 2)
+      const div = foreignElem.select('div')
+      div.attr('class', 'geo-trimmed-content geo-chart-axis-text--left')
+      break
+    }
+    case axisUtils.POSITIONS.right: {
+      if (foreignElem.empty()) foreignElem = createForeignElem()
+      const width = globalAxesConfig.chart.margin.right - tickLineSpace
+      foreignElem.attr('width', width)
+      foreignElem.attr('x', xValue)
+      foreignElem.attr('y', -height / 2)
+      const div = foreignElem.select('div')
+      div.attr('class', 'geo-trimmed-content geo-chart-axis-text--right')
+      break
+    }
+    default:
+      // we keep the top and bottom axis as it is
+      break
+  }
+
+  function createForeignElem () {
+    text.attr('style', 'visibility: hidden')
+    group.append('foreignObject')
+      .attr('height', height)
+      .append('xhtml:div')
+      .append('span')
+      .attr('class', 'geo-trimmed-content__content')
+      .html(content)
+    return group.select('foreignObject')
+  }
 }
