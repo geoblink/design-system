@@ -441,7 +441,7 @@ function positionTickHtmlLabel (group, text, content, singleAxisOptions, globalA
       foreignElem.attr('x', xValue - width)
       foreignElem.attr('y', -height / 2)
       const div = foreignElem.select('div')
-      div.attr('class', 'geo-trimmed-content geo-chart-axis-text--left')
+      div.attr('class', 'geo-chart-axis-text geo-chart-axis-text--left')
       break
     }
     case axisUtils.POSITIONS.right: {
@@ -451,7 +451,7 @@ function positionTickHtmlLabel (group, text, content, singleAxisOptions, globalA
       foreignElem.attr('x', xValue)
       foreignElem.attr('y', -height / 2)
       const div = foreignElem.select('div')
-      div.attr('class', 'geo-trimmed-content geo-chart-axis-text--right')
+      div.attr('class', 'geo-chart-axis-text geo-chart-axis-text--right')
       break
     }
     default:
@@ -465,8 +465,9 @@ function positionTickHtmlLabel (group, text, content, singleAxisOptions, globalA
       .attr('height', height)
       .append('xhtml:div')
       .append('span')
-      .attr('class', 'geo-trimmed-content__content')
-      .html(content)
+      .attr('class', 'geo-chart-axis-text__content')
+      .attr('style', `line-height: ${height}px;`)
+      .html(_.get(singleAxisOptions, 'ticks.format') ? singleAxisOptions.ticks.format(content) : content)
     return group.select('foreignObject')
   }
 }
