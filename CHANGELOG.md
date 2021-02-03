@@ -1,5 +1,11 @@
 # Changelog
 
+## 29.9.14
+
+Changed:
+
+- `GeoChart`: Replace vertical axis text with html to allow using css to add ellipsis
+
 ## 29.9.13
 
 Changed:
