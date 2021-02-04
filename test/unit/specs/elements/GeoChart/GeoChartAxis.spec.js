@@ -1101,9 +1101,12 @@ describe('GeoChartAxis', function () {
           const allTicks = wrapper.findAll('.geo-chart-axis .tick')
 
           for (let i = 0; i < allTicks.length; i++) {
-            const textContent = allTicks.at(i).find('text').text()
-            const htmlContent = allTicks.at(i).find('foreignObject div span').text()
-            expect(textContent).toEqual(htmlContent)
+            const text = allTicks.at(i).find('text')
+            expect(text.attributes().style).toEqual('visibility: hidden')
+            const div = allTicks.at(i).find('foreignObject div')
+            expect(div.classes(`geo-chart-axis-text--${axisConfig.position.type}`)).toBe(true)
+            const spanContent = allTicks.at(i).find('foreignObject div span').text()
+            expect(text.text()).toEqual(spanContent)
           }
         })
       }
