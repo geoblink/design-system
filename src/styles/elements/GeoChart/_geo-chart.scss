@@ -34,6 +34,23 @@
   .geo-chart-axis-label {
     fill: $color-black;
   }
+
+  .geo-chart-axis-text {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    &--left {
+      justify-content: flex-end;
+    }
+    &--right {
+      justify-content: flex-start;
+    }
+    .geo-chart-axis-text__content {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
 }
 
 .geo-chart-quadrant-line {

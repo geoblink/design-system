@@ -263,7 +263,7 @@ describe('GeoChartAxis', function () {
         expect(wrapper.find('.geo-chart').exists()).toBe(true)
         expect(wrapper.find('.geo-chart-axis').exists()).toBe(true)
 
-        expect(formatMock).toHaveBeenCalledTimes(3)
+        expect(formatMock).toHaveBeenCalledTimes(6)
         expect(formatMock.mock.calls[0]).toHaveLength(3)
         expect(formatMock.mock.calls[0][0]).toEqual(linearAxisConfig.scale.domain.start)
         expect(formatMock.mock.calls[0][1]).toEqual(0)
@@ -1024,6 +1024,112 @@ describe('GeoChartAxis', function () {
         expect(wrapper.find(`.geo-chart-axis-${firstAxis.id}`).exists()).toBe(false)
         expect(wrapper.find(`.geo-chart-axis-${secondAxis.id}`).exists()).toBe(true)
       })
+    })
+
+    describe('Ticks text replacement with html', function () {
+      const getStringForTick = (d, i) => `Tick ${i}`
+      const formatMock = jest.fn(getStringForTick)
+
+      describe('Left axis', function () {
+        const axisConfig = _.merge({}, linearAxisConfig, {
+          position: { type: GeoChart.constants.AXIS.POSITIONS.left }
+        })
+        testVerticalAxis(axisConfig)
+      })
+
+      describe('Left axis with format', function () {
+        const axisConfig = _.merge({}, linearAxisConfig, {
+          position: { type: GeoChart.constants.AXIS.POSITIONS.left },
+          ticks: {
+            count: 5,
+            format: formatMock
+          }
+        })
+        testVerticalAxis(axisConfig)
+      })
+
+      describe('Right axis', function () {
+        const axisConfig = _.merge({}, linearAxisConfig, {
+          position: { type: GeoChart.constants.AXIS.POSITIONS.right }
+        })
+        testVerticalAxis(axisConfig)
+      })
+
+      describe('Right axis with format', function () {
+        const axisConfig = _.merge({}, linearAxisConfig, {
+          position: { type: GeoChart.constants.AXIS.POSITIONS.right },
+          ticks: {
+            count: 5,
+            format: formatMock
+          }
+        })
+        testVerticalAxis(axisConfig)
+      })
+
+      describe('Top axis', function () {
+        const axisConfig = _.merge({}, linearAxisConfig, {
+          position: { type: GeoChart.constants.AXIS.POSITIONS.top }
+        })
+        testHorizontalAxis(axisConfig)
+      })
+
+      describe('Bottom axis', function () {
+        const axisConfig = _.merge({}, linearAxisConfig, {
+          position: { type: GeoChart.constants.AXIS.POSITIONS.bottom }
+        })
+        testHorizontalAxis(axisConfig)
+      })
+
+      function testVerticalAxis (axisConfig) {
+        it('Should replace ticks text with html in vertical axis', function () {
+          const wrapper = mount(GeoChart, {
+            propsData: {
+              config: {
+                axisGroups: [axisConfig]
+              }
+            }
+          })
+
+          flushD3Transitions()
+
+          expect(wrapper.find('.geo-chart').exists()).toBe(true)
+          expect(wrapper.find('.geo-chart-axis').exists()).toBe(true)
+          expect(wrapper.find('.geo-chart-axis .tick').exists()).toBe(true)
+          expect(wrapper.find('.geo-chart-axis .tick text').exists()).toBe(true)
+          expect(wrapper.find('.geo-chart-axis .tick foreignObject').exists()).toBe(true)
+
+          const allTicks = wrapper.findAll('.geo-chart-axis .tick')
+
+          for (let i = 0; i < allTicks.length; i++) {
+            const text = allTicks.at(i).find('text')
+            expect(text.attributes().style).toEqual('visibility: hidden')
+            const div = allTicks.at(i).find('foreignObject div')
+            expect(div.classes(`geo-chart-axis-text--${axisConfig.position.type}`)).toBe(true)
+            const spanContent = allTicks.at(i).find('foreignObject div span').text()
+            expect(text.text()).toEqual(spanContent)
+          }
+        })
+      }
+
+      function testHorizontalAxis (axisConfig) {
+        it('Should not replace ticks text with html in horizontal axis', function () {
+          const wrapper = mount(GeoChart, {
+            propsData: {
+              config: {
+                axisGroups: [axisConfig]
+              }
+            }
+          })
+
+          flushD3Transitions()
+
+          expect(wrapper.find('.geo-chart').exists()).toBe(true)
+          expect(wrapper.find('.geo-chart-axis').exists()).toBe(true)
+          expect(wrapper.find('.geo-chart-axis .tick').exists()).toBe(true)
+          expect(wrapper.find('.geo-chart-axis .tick text').exists()).toBe(true)
+          expect(wrapper.find('.geo-chart-axis .tick foreignObject').exists()).toBe(false)
+        })
+      }
     })
   })
 })
