@@ -1025,5 +1025,108 @@ describe('GeoChartAxis', function () {
         expect(wrapper.find(`.geo-chart-axis-${secondAxis.id}`).exists()).toBe(true)
       })
     })
+
+    describe('Ticks text replacement with html', function () {
+      const getStringForTick = (d, i) => `Tick ${i}`
+      const formatMock = jest.fn(getStringForTick)
+
+      describe('Left axis', function () {
+        const axisConfig = _.merge({}, linearAxisConfig, {
+          position: { type: GeoChart.constants.AXIS.POSITIONS.left }
+        })
+        testVerticalAxis(axisConfig)
+      })
+
+      describe('Left axis with format', function () {
+        const axisConfig = _.merge({}, linearAxisConfig, {
+          position: { type: GeoChart.constants.AXIS.POSITIONS.left },
+          ticks: {
+            count: 5,
+            format: formatMock
+          }
+        })
+        testVerticalAxis(axisConfig)
+      })
+
+      describe('Right axis', function () {
+        const axisConfig = _.merge({}, linearAxisConfig, {
+          position: { type: GeoChart.constants.AXIS.POSITIONS.right }
+        })
+        testVerticalAxis(axisConfig)
+      })
+
+      describe('Right axis with format', function () {
+        const axisConfig = _.merge({}, linearAxisConfig, {
+          position: { type: GeoChart.constants.AXIS.POSITIONS.right },
+          ticks: {
+            count: 5,
+            format: formatMock
+          }
+        })
+        testVerticalAxis(axisConfig)
+      })
+
+      describe('Top axis', function () {
+        const axisConfig = _.merge({}, linearAxisConfig, {
+          position: { type: GeoChart.constants.AXIS.POSITIONS.top }
+        })
+        testHorizontalAxis(axisConfig)
+      })
+
+      describe('Bottom axis', function () {
+        const axisConfig = _.merge({}, linearAxisConfig, {
+          position: { type: GeoChart.constants.AXIS.POSITIONS.bottom }
+        })
+        testHorizontalAxis(axisConfig)
+      })
+
+      function testVerticalAxis (axisConfig) {
+        it('Should replace ticks text with html in vertical axis', function () {
+          const wrapper = mount(GeoChart, {
+            propsData: {
+              config: {
+                axisGroups: [axisConfig]
+              }
+            }
+          })
+
+          flushD3Transitions()
+
+          expect(wrapper.find('.geo-chart').exists()).toBe(true)
+          expect(wrapper.find('.geo-chart-axis').exists()).toBe(true)
+          expect(wrapper.find('.geo-chart-axis .tick').exists()).toBe(true)
+          expect(wrapper.find('.geo-chart-axis .tick text').exists()).toBe(true)
+          expect(wrapper.find('.geo-chart-axis .tick foreignObject').exists()).toBe(true)
+
+          const allTicks = wrapper.findAll('.geo-chart-axis .tick')
+
+          for (let i = 0; i < allTicks.length; i++) {
+            const textContent = allTicks.at(i).find('text').text()
+            const htmlContent = allTicks.at(i).find('foreignObject div span').text()
+            expect(textContent).toEqual(htmlContent)
+          }
+        })
+      }
+
+      function testHorizontalAxis (axisConfig) {
+        it('Should not replace ticks text with html in horizontal axis', function () {
+          const wrapper = mount(GeoChart, {
+            propsData: {
+              config: {
+                axisGroups: [axisConfig]
+              }
+            }
+          })
+
+          flushD3Transitions()
+
+          expect(wrapper.find('.geo-chart').exists()).toBe(true)
+          expect(wrapper.find('.geo-chart-axis').exists()).toBe(true)
+          expect(wrapper.find('.geo-chart-axis .tick').exists()).toBe(true)
+          expect(wrapper.find('.geo-chart-axis .tick text').exists()).toBe(true)
+          expect(wrapper.find('.geo-chart-axis .tick foreignObject').exists()).toBe(false)
+        })
+      }
+    })
   })
 })
