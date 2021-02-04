@@ -140,10 +140,10 @@ function renderSingleAxis (group, singleAxisOptions, globalAxesConfig) {
     .call(axis)
     .selectAll('g.tick')
     .attr('class', getTickCSSClasses)
-    .each(function (elem) {
+    .each(function (elem, index) {
       const tickGroup = d3.select(this)
       const textElem = tickGroup.select('text')
-      positionTickHtmlLabel(tickGroup, textElem, elem, singleAxisOptions, globalAxesConfig)
+      positionTickHtmlLabel(tickGroup, textElem, elem, index, singleAxisOptions, globalAxesConfig)
     })
 }
 
@@ -428,29 +428,30 @@ export function createCustomizedTickArray (firstOfDomain, lastOfDomain, tickCoun
   return tickToDisplay
 }
 
-function positionTickHtmlLabel (group, text, content, singleAxisOptions, globalAxesConfig) {
-  let foreignElem = group.select('foreignObject')
+function positionTickHtmlLabel (group, text, content, index, singleAxisOptions, globalAxesConfig) {
   const height = 15
   const xValue = text.attr('x')
   const tickLineSpace = Math.abs(xValue)
   switch (singleAxisOptions.position.type) {
     case axisUtils.POSITIONS.left: {
-      if (foreignElem.empty()) foreignElem = createForeignElem()
+      text.attr('style', 'visibility: hidden')
+      const foreignObjectElem = getForeignObjectElem()
       const width = globalAxesConfig.chart.margin.left - tickLineSpace
-      foreignElem.attr('width', width)
-      foreignElem.attr('x', xValue - width)
-      foreignElem.attr('y', -height / 2)
-      const div = foreignElem.select('div')
+      foreignObjectElem.attr('width', width)
+      foreignObjectElem.attr('x', xValue - width)
+      foreignObjectElem.attr('y', -height / 2)
+      const div = foreignObjectElem.select('div')
       div.attr('class', 'geo-chart-axis-text geo-chart-axis-text--left')
       break
     }
     case axisUtils.POSITIONS.right: {
-      if (foreignElem.empty()) foreignElem = createForeignElem()
+      text.attr('style', 'visibility: hidden')
+      const foreignObjectElem = getForeignObjectElem()
       const width = globalAxesConfig.chart.margin.right - tickLineSpace
-      foreignElem.attr('width', width)
-      foreignElem.attr('x', xValue)
-      foreignElem.attr('y', -height / 2)
-      const div = foreignElem.select('div')
+      foreignObjectElem.attr('width', width)
+      foreignObjectElem.attr('x', xValue)
+      foreignObjectElem.attr('y', -height / 2)
+      const div = foreignObjectElem.select('div')
       div.attr('class', 'geo-chart-axis-text geo-chart-axis-text--right')
       break
     }
@@ -459,15 +460,16 @@ function positionTickHtmlLabel (group, text, content, singleAxisOptions, globalA
       break
   }
 
-  function createForeignElem () {
-    text.attr('style', 'visibility: hidden')
-    group.append('foreignObject')
-      .attr('height', height)
-      .append('xhtml:div')
-      .append('span')
-      .attr('class', 'geo-chart-axis-text__content')
-      .attr('style', `line-height: ${height}px;`)
-      .html(_.get(singleAxisOptions, 'ticks.format') ? singleAxisOptions.ticks.format(content) : content)
+  function getForeignObjectElem () {
+    if (group.select('foreignObject').empty()) {
+      group.append('foreignObject')
+        .attr('height', height)
+        .append('xhtml:div')
+        .append('span')
+        .attr('class', 'geo-chart-axis-text__content')
+        .attr('style', `line-height: ${height}px;`)
+        .html(_.get(singleAxisOptions, 'ticks.format') ? singleAxisOptions.ticks.format(content, index) : content)
+    }
     return group.select('foreignObject')
   }
 }
