@@ -1,5 +1,11 @@
 # Changelog
 
+## 29.9.15
+
+Changed:
+
+- Version to fix bugged previous publish
+
 ## 29.9.14
 
 Changed:
