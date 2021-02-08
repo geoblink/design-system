@@ -1,5 +1,11 @@
 # Changelog
 
+## 29.9.16
+
+Changed:
+
+- `GeoChart`: Added margin to vertical axis text
+
 ## 29.9.15
 
 Changed:
