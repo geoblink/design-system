@@ -1,5 +1,5 @@
 <template>
-  <div :class="`geo-pill--${variant}`">
+  <div :class="`geo-pill geo-pill--${variant}`">
     <slot />
   </div>
 </template>
@@ -11,7 +11,8 @@ const VARIANTS = {
   default: 'default',
   light: 'light',
   dark: 'dark',
-  opaque: 'opaque'
+  opaque: 'opaque',
+  outline: 'outline'
 }
 
 export { VARIANTS }

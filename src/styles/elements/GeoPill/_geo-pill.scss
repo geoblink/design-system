@@ -1,7 +1,4 @@
-.geo-pill--default,
-.geo-pill--light,
-.geo-pill--dark,
-.geo-pill--opaque {
+.geo-pill {
   @include font($body);
   align-items: center;
   border-radius: 50vh;
@@ -32,6 +29,14 @@
 .geo-pill--opaque {
   background: $color-yellow-light;
   border: none;
+  color: $color-grey-darker;
+  font-size: $font-size-small;
+  height: $space-large;
+}
+
+.geo-pill--outline {
+  background: $color-white;
+  border: 1px solid $color-yellow-light;
   color: $color-grey-darker;
   font-size: $font-size-small;
   height: $space-large;
