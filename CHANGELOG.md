@@ -1,5 +1,10 @@
 # Changelog
 
+## 29.9.17
+
+Changed:
+
+- `GeoPill`: Added outline variant
 ## 29.9.16
 
 Changed:
