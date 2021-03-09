@@ -37,3 +37,13 @@
   </div>
 </div>
 ```
+
+### Outline variant
+
+```jsx live
+<div class="element-demo">
+  <div class="element-demo__block" style="justify-content: space-around;">
+    <geo-pill variant="outline">Pill's content</geo-pill>
+  </div>
+</div>
+```
