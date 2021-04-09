@@ -11,6 +11,7 @@
       v-if="icon"
       :icon="icon"
       class="geo-dropdown__regular-button-container__icon"
+      :class="`geo-dropdown__regular-button-container__icon--${iconPosition}`"
       aria-hidden
       fixed-width
     />
@@ -25,6 +26,8 @@
 </template>
 
 <script>
+import { enumPropertyFactory } from '../../utils/enumPropertyFactory'
+import * as GeoDropdownConstants from './GeoDropdown.constants'
 /**
  * `GeoDropdownRegularButton` is a button designed to display an optional icon
  * and any complex single-line text surrounded by a bordered box linked to a
@@ -54,6 +57,20 @@ export default {
       type: Array,
       required: false
     },
+
+    /**
+     * Optional poisition for the icon relative to the content. `right` or `left`
+     * Values available in `X_AXIS_POSITION`:
+     *
+     * - `X_AXIS_POSITION.right`
+     * - `X_AXIS_POSITION.left`
+     */
+    iconPosition: enumPropertyFactory({
+      componentName: 'GeoDropdownRegularButton',
+      propertyName: 'iconPosition',
+      enumDictionary: GeoDropdownConstants.X_AXIS_POSITION,
+      defaultValue: GeoDropdownConstants.X_AXIS_POSITION.left
+    }),
 
     /**
      * Whether this button is disabled or not. Disabled buttons use a different

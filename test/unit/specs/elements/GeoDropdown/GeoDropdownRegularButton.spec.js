@@ -3,6 +3,7 @@ import GeoDropdownRegularButton from '@/elements/GeoDropdown/GeoDropdownRegularB
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fas } from '@fortawesome/free-solid-svg-icons'
+import { X_AXIS_POSITION } from 'src/elements/GeoDropdown/GeoDropdown.constants'
 
 library.add(fas)
 
@@ -92,5 +93,32 @@ describe('GeoDropdownRegularButton', () => {
 
     expect(wrapper.find('.geo-dropdown__regular-button-container--active').exists()).toBe(true)
     expect(wrapper.find('.geo-dropdown__regular-button-container--disabled').exists()).toBe(true)
+  })
+
+  it('Should apply proper class when icon position by default', function () {
+    const wrapper = mount(GeoDropdownRegularButton, {
+      stubs: {
+        'font-awesome-icon': FontAwesomeIcon
+      },
+      propsData: {
+        icon: ['fas', 'user']
+      }
+    })
+
+    expect(wrapper.find('.geo-dropdown__regular-button-container__icon--left').exists()).toBe(true)
+  })
+
+  it('Should apply proper class when icon position left', function () {
+    const wrapper = mount(GeoDropdownRegularButton, {
+      stubs: {
+        'font-awesome-icon': FontAwesomeIcon
+      },
+      propsData: {
+        icon: ['fas', 'user'],
+        iconPosition: X_AXIS_POSITION.right
+      }
+    })
+
+    expect(wrapper.find('.geo-dropdown__regular-button-container__icon--right').exists()).toBe(true)
   })
 })
