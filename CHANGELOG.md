@@ -1,5 +1,11 @@
 # Changelog
 
+## 29.10.0
+
+Changed:
+
+- `GeoDropdownRegularButton`: Added iconPosition prop
+- `GeoDropdownSelectButton` component
 ## 29.9.17
 
 Changed:
