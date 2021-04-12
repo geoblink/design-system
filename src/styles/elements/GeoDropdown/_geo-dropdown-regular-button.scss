@@ -29,13 +29,11 @@
 
 .geo-dropdown__regular-button-container__icon {
   &--left {
-    justify-self: flex-start;
     margin-right: 5px;
     order: 1;
   }
 
   &--right {
-    justify-self: flex-end;
     margin-left: 5px;
     order: 2;
   }

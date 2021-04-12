@@ -1,4 +1,8 @@
 .geo-dropdown__select-button {
+  .geo-dropdown__regular-button-container {
+    justify-content: space-between;
+  }
+
   .geo-dropdown__regular-button-container__icon {
     transition: transform .08s ease-in-out;
   }
