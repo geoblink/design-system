@@ -27,22 +27,6 @@ describe('GeoDropdownRegularButton', () => {
     expect(wrapper.find('.geo-dropdown__regular-button-container__icon').exists()).toBe(false)
   })
 
-  it('Should render default slot content when given', function () {
-    const wrapper = mount(GeoDropdownRegularButton, {
-      slots: {
-        default: ['<span class="my-demo-content">Just some unique demo content</span>']
-      }
-    })
-
-    expect(wrapper.find('.geo-dropdown__regular-button-container__string .my-demo-content').exists()).toBe(true)
-  })
-
-  it('Should not render container if default slot if empty', function () {
-    const wrapper = mount(GeoDropdownRegularButton, { })
-
-    expect(wrapper.find('.geo-dropdown__regular-button-container__string').exists()).toBe(false)
-  })
-
   it('Should emit click event when clicked', function () {
     const wrapper = mount(GeoDropdownRegularButton, { })
 

@@ -15,10 +15,7 @@
       aria-hidden
       fixed-width
     />
-    <div
-      v-if="hasContent"
-      class="geo-dropdown__regular-button-container__string"
-    >
+    <div class="geo-dropdown__regular-button-container__content">
       <!-- @slot Use this slot to customize button's content -->
       <slot />
     </div>
@@ -88,11 +85,6 @@ export default {
     active: {
       type: Boolean,
       default: false
-    }
-  },
-  computed: {
-    hasContent () {
-      return this.$slots && this.$slots.default && this.$slots.default.length
     }
   },
   methods: {

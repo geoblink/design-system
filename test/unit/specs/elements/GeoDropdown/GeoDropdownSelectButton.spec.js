@@ -27,19 +27,6 @@ describe('GeoDropdownSelectButton', () => {
     expect(wrapper.find('.geo-dropdown__regular-button-container__icon').exists()).toBe(true)
   })
 
-  it('Should render default slot content when given', function () {
-    const wrapper = mount(GeoDropdownSelectButton, {
-      stubs: {
-        'font-awesome-icon': FontAwesomeIcon
-      },
-      slots: {
-        default: ['<span class="my-demo-content">Just some unique demo content</span>']
-      }
-    })
-
-    expect(wrapper.find('.geo-dropdown__regular-button-container__string .my-demo-content').exists()).toBe(true)
-  })
-
   it('Should emit click event when clicked', function () {
     const wrapper = mount(GeoDropdownSelectButton, {
       stubs: {
