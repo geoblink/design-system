@@ -108,7 +108,7 @@ describe('GeoDropdownRegularButton', () => {
     expect(wrapper.find('.geo-dropdown__regular-button-container__icon--left').exists()).toBe(true)
   })
 
-  it('Should apply proper class when icon position left', function () {
+  it('Should apply proper class when icon position right', function () {
     const wrapper = mount(GeoDropdownRegularButton, {
       stubs: {
         'font-awesome-icon': FontAwesomeIcon
