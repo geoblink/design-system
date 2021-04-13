@@ -1,52 +1,62 @@
+import _ from 'lodash'
 import { mount } from '@vue/test-utils'
-import GeoDropdownRegularButton from '@/elements/GeoDropdown/GeoDropdownRegularButton.vue'
+import GeoDropdownSelectButton from '@/elements/GeoDropdown/GeoDropdownSelectButton.vue'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fas } from '@fortawesome/free-solid-svg-icons'
 import { X_AXIS_POSITION } from 'src/elements/GeoDropdown/GeoDropdown.constants'
 
-library.add(fas)
+const iconsToMock = [
+  'faChevronDown'
+]
+const mockedFalIcons = _.mapValues(_.pick(fas, iconsToMock), (original) => {
+  return _.assign({}, original, {
+    prefix: 'fal'
+  })
+})
+library.add(mockedFalIcons)
 
-describe('GeoDropdownRegularButton', () => {
-  it('Should render icon when given', function () {
-    const wrapper = mount(GeoDropdownRegularButton, {
+describe('GeoDropdownSelectButton', () => {
+  it('Should always render icon', function () {
+    const wrapper = mount(GeoDropdownSelectButton, {
       stubs: {
         'font-awesome-icon': FontAwesomeIcon
-      },
-      propsData: {
-        icon: ['fas', 'user']
       }
     })
 
     expect(wrapper.find('.geo-dropdown__regular-button-container__icon').exists()).toBe(true)
   })
 
-  it('Should not render icon if not given', function () {
-    const wrapper = mount(GeoDropdownRegularButton, { })
-
-    expect(wrapper.find('.geo-dropdown__regular-button-container__icon').exists()).toBe(false)
-  })
-
   it('Should emit click event when clicked', function () {
-    const wrapper = mount(GeoDropdownRegularButton, { })
+    const wrapper = mount(GeoDropdownSelectButton, {
+      stubs: {
+        'font-awesome-icon': FontAwesomeIcon
+      }
+    })
 
-    wrapper.find('.geo-dropdown__regular-button-container').trigger('click')
+    wrapper.find('.geo-dropdown__select-button').trigger('click')
     expect(wrapper.emitted().click).toBeTruthy()
   })
 
   it('Should not emit click event when disabled', function () {
-    const wrapper = mount(GeoDropdownRegularButton, {
+    const wrapper = mount(GeoDropdownSelectButton, {
+      stubs: {
+        'font-awesome-icon': FontAwesomeIcon
+      },
       propsData: {
         disabled: true
       }
     })
 
-    wrapper.find('.geo-dropdown__regular-button-container').trigger('click')
+    wrapper.find('.geo-dropdown__select-button').trigger('click')
     expect(wrapper.emitted().click).toBeFalsy()
   })
 
   it('Should apply proper class when active', function () {
-    const wrapper = mount(GeoDropdownRegularButton, {
+    const wrapper = mount(GeoDropdownSelectButton, {
+      stubs: {
+        'font-awesome-icon': FontAwesomeIcon
+      },
       propsData: {
         active: true
       }
@@ -57,7 +67,10 @@ describe('GeoDropdownRegularButton', () => {
   })
 
   it('Should apply proper class when disabled', function () {
-    const wrapper = mount(GeoDropdownRegularButton, {
+    const wrapper = mount(GeoDropdownSelectButton, {
+      stubs: {
+        'font-awesome-icon': FontAwesomeIcon
+      },
       propsData: {
         disabled: true
       }
@@ -68,7 +81,10 @@ describe('GeoDropdownRegularButton', () => {
   })
 
   it('Should apply proper class when active and disabled', function () {
-    const wrapper = mount(GeoDropdownRegularButton, {
+    const wrapper = mount(GeoDropdownSelectButton, {
+      stubs: {
+        'font-awesome-icon': FontAwesomeIcon
+      },
       propsData: {
         active: true,
         disabled: true
@@ -80,29 +96,25 @@ describe('GeoDropdownRegularButton', () => {
   })
 
   it('Should apply proper class when icon position by default', function () {
-    const wrapper = mount(GeoDropdownRegularButton, {
+    const wrapper = mount(GeoDropdownSelectButton, {
       stubs: {
         'font-awesome-icon': FontAwesomeIcon
-      },
-      propsData: {
-        icon: ['fas', 'user']
-      }
-    })
-
-    expect(wrapper.find('.geo-dropdown__regular-button-container__icon--left').exists()).toBe(true)
-  })
-
-  it('Should apply proper class when icon position right', function () {
-    const wrapper = mount(GeoDropdownRegularButton, {
-      stubs: {
-        'font-awesome-icon': FontAwesomeIcon
-      },
-      propsData: {
-        icon: ['fas', 'user'],
-        iconPosition: X_AXIS_POSITION.right
       }
     })
 
     expect(wrapper.find('.geo-dropdown__regular-button-container__icon--right').exists()).toBe(true)
+  })
+
+  it('Should apply proper class when icon position left', function () {
+    const wrapper = mount(GeoDropdownSelectButton, {
+      stubs: {
+        'font-awesome-icon': FontAwesomeIcon
+      },
+      propsData: {
+        iconPosition: X_AXIS_POSITION.left
+      }
+    })
+
+    expect(wrapper.find('.geo-dropdown__regular-button-container__icon--left').exists()).toBe(true)
   })
 })

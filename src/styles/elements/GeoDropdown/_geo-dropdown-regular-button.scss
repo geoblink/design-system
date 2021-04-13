@@ -27,8 +27,24 @@
   }
 }
 
-.geo-dropdown__regular-button-container__icon:not(:last-child) {
-  margin-right: 5px;
+.geo-dropdown__regular-button-container__icon {
+  &--left {
+    margin-right: 5px;
+    order: 1;
+  }
+
+  &--right {
+    margin-left: 5px;
+    order: 2;
+  }
+
+  &:last-child {
+    margin: 0;
+  }
+}
+
+.geo-dropdown__regular-button-container__content {
+  order: 1;
 }
 
 .geo-dropdown__regular-button-container--disabled {

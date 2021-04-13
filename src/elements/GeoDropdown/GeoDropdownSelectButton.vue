@@ -1,33 +1,25 @@
 <template>
-  <div
-    :class="{
-      ['geo-dropdown__regular-button-container']: true,
-      ['geo-dropdown__regular-button-container--active']: active,
-      ['geo-dropdown__regular-button-container--disabled']: disabled
-    }"
+  <geo-dropdown-regular-button
+    class="geo-dropdown__select-button"
+    :icon-position="iconPosition"
+    :icon="['fal', 'chevron-down']"
+    :active="active"
+    :disabled="disabled"
     @click="emitClick($event)"
   >
-    <font-awesome-icon
-      v-if="icon"
-      :icon="icon"
-      class="geo-dropdown__regular-button-container__icon"
-      :class="`geo-dropdown__regular-button-container__icon--${iconPosition}`"
-      aria-hidden
-      fixed-width
-    />
-    <div class="geo-dropdown__regular-button-container__content">
-      <!-- @slot Use this slot to customize button's content -->
-      <slot />
-    </div>
-  </div>
+    <!-- @slot Use this slot to customize button's content -->
+    <slot />
+  </geo-dropdown-regular-button>
 </template>
 
 <script>
 import { enumPropertyFactory } from '../../utils/enumPropertyFactory'
 import * as GeoDropdownConstants from './GeoDropdown.constants'
+import GeoDropdownRegularButton from './GeoDropdownRegularButton.vue'
 /**
- * `GeoDropdownRegularButton` is a button designed to display an optional icon
- * and any complex single-line text surrounded by a bordered box linked to a
+ * `GeoDropdownSelectButton` is a button designed to display a chevron icon
+ * that animates when a `GeoDropdown` parent element is opened. It can be customised
+ * with any complex single-line text and it is surrounded by a bordered box linked to a
  * popup.
  *
  * It's suitable in isolated places where this button won't be associated with
@@ -39,22 +31,11 @@ import * as GeoDropdownConstants from './GeoDropdown.constants'
  * options.
  */
 export default {
-  name: 'GeoDropdownRegularButton',
+  name: 'GeoDropdownSelectButton',
   status: 'ready',
-  release: '4.0.0',
+  release: '29.10.0',
+  components: { GeoDropdownRegularButton },
   props: {
-    /**
-     * Optional Font Awesome 5 icon to be displayed next to the button's label,
-     * on the left.
-     *
-     * See [vue-fontawesome](https://www.npmjs.com/package/@fortawesome/vue-fontawesome#explicit-prefix-note-the-vue-bind-shorthand-because-this-uses-an-array)
-     * for more info about this.
-     */
-    icon: {
-      type: Array,
-      required: false
-    },
-
     /**
      * Optional poisition for the icon relative to the content. `right` or `left`
      * Values available in `X_AXIS_POSITION`:
@@ -66,7 +47,7 @@ export default {
       componentName: 'GeoDropdownRegularButton',
       propertyName: 'iconPosition',
       enumDictionary: GeoDropdownConstants.X_AXIS_POSITION,
-      defaultValue: GeoDropdownConstants.X_AXIS_POSITION.left
+      defaultValue: GeoDropdownConstants.X_AXIS_POSITION.right
     }),
 
     /**
