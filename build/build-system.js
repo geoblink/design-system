@@ -28,11 +28,15 @@ async function main () {
   const writeStatsReportTask = getWriteStatsReportTask(statsPath)
 
   const listr = new Listr([removeDistAssetsTask, buildAssetsTask, writeStatsReportTask])
-  const ctx = await listr.run()
+  try {
+    const ctx = await listr.run()
+    const webpackStats = ctx.webpackStats.system
 
-  const webpackStats = ctx.webpackStats.system
-
-  logWebpackStats(webpackStats)
+    logWebpackStats(webpackStats)
+  } catch (error) {
+    process.stdout.write(error.toString())
+    process.exit(1)
+  }
 }
 
 /**
