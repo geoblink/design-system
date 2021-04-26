@@ -1,3 +1,4 @@
+import Vue from 'vue'
 import { mount } from '@vue/test-utils'
 import GeoDropdownRegularButton from '@/elements/GeoDropdown/GeoDropdownRegularButton.vue'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
@@ -25,6 +26,24 @@ describe('GeoDropdownRegularButton', () => {
     const wrapper = mount(GeoDropdownRegularButton, { })
 
     expect(wrapper.find('.geo-dropdown__regular-button-container__icon').exists()).toBe(false)
+  })
+
+  it('Should render default slot content when given', async function () {
+    const wrapper = mount(GeoDropdownRegularButton, {
+      slots: {
+        default: ['<span class="my-demo-content">Just some unique demo content</span>']
+      }
+    })
+
+    await Vue.nextTick()
+    expect(wrapper.find('.geo-dropdown__regular-button-container__content .my-demo-content').exists()).toBe(true)
+  })
+
+  it('Should not render container if default slot if empty', async function () {
+    const wrapper = mount(GeoDropdownRegularButton, { })
+
+    await Vue.nextTick()
+    expect(wrapper.find('.geo-dropdown__regular-button-container__content').exists()).toBe(false)
   })
 
   it('Should emit click event when clicked', function () {
