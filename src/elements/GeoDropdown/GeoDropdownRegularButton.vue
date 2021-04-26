@@ -15,7 +15,10 @@
       aria-hidden
       fixed-width
     />
-    <div class="geo-dropdown__regular-button-container__content">
+    <div
+      v-if="hasContent"
+      class="geo-dropdown__regular-button-container__content"
+    >
       <!-- @slot Use this slot to customize button's content -->
       <slot />
     </div>
@@ -86,6 +89,16 @@ export default {
       type: Boolean,
       default: false
     }
+  },
+  data () {
+    return {
+      hasContent: false
+    }
+  },
+  mounted () {
+    this.$nextTick().then(() => {
+      this.hasContent = this.$slots && this.$slots.default && this.$slots.default.length
+    })
   },
   methods: {
     emitClick ($event) {
