@@ -30,13 +30,9 @@ jobs:
         - yarn test
 
     - stage: build
-      name: build docs
+      name: build docs and system
       script:
-        - yarn build:docs
-    - stage: build
-      name: build system
-      script:
-        - yarn build:system
+        - yarn build:docs && yarn build:system
 
 after_success:
   - yarn global add codecov
