@@ -5,6 +5,7 @@
 Fix:
 
 - `GeoTable`: check for existing ref before accessing it
+- `GeoDropdownRegularButton`: removed empty div when no content in slot
 - Block publish attempt when build fails
 ## 29.10.0
 
