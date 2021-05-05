@@ -1,5 +1,11 @@
 # Changelog
 
+## 29.10.2
+
+Changed:
+
+- Updated vuejs to 2.6.12
+
 ## 29.10.1
 
 Fix:
