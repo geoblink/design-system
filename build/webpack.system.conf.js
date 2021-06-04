@@ -51,6 +51,16 @@ const stylesEntrypoints = _.fromPairs(
   )
 )
 
+// Include here any scss file including scss variables, mixins or functions
+// that DON'T include any css classes
+const scssToolsFiles = [
+  './src/assets/tokens/tokens.scss',
+  './src/styles/_spacing.scss',
+  './src/styles/_fontsMaps.scss',
+  './src/styles/_mixins.scss',
+  './src/styles/_functions.scss'
+]
+
 const plugins = [
   // http://vuejs.github.io/vue-loader/en/workflow/production.html
   new webpack.DefinePlugin({
@@ -73,13 +83,10 @@ const plugins = [
   new MergeWebpackPlugin({
     files: {
       [utils.assetsSystemPath('system.utils.scss')]: [
-        './src/assets/tokens/tokens.scss',
-        './src/styles/_spacing.scss',
-        './src/styles/_fontsMaps.scss',
-        './src/styles/_mixins.scss',
-        './src/styles/_functions.scss',
+        ...scssToolsFiles,
         ...elementsSCSSPaths
-      ]
+      ],
+      [utils.assetsSystemPath('tokens/system.tokens.scss')]: scssToolsFiles
     }
   }),
   // copy custom static assets

@@ -1,5 +1,11 @@
 # Changelog
 
+## 29.10.2
+
+New:
+
+- Added `tokens/system.tokens.scss` file to be able to import only variables, mixins and functions
+
 ## 29.10.1
 
 Fix:

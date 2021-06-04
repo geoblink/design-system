@@ -38,6 +38,12 @@ You can import the built CSS styles or the raw SCSS file (which include the desi
 @import '~@geoblink/design-system/dist/system.utils.scss';
 ```
 
+To import only variables, mixins or functions without generated css classes to use on your own SCSS files you can import the tokens SCSS file
+
+```scss
+@import '~@geoblink/design-system/dist/tokens/system.tokens.scss';
+```
+
 Depending on your bundler settings you can import it in your JavaScript bundle, too:
 
 ```js
