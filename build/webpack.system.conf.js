@@ -86,7 +86,7 @@ const plugins = [
         ...scssToolsFiles,
         ...elementsSCSSPaths
       ],
-      [utils.assetsSystemPath('tools/system.tools.scss')]: scssToolsFiles
+      [utils.assetsSystemPath('tokens/system.tokens.scss')]: scssToolsFiles
     }
   }),
   // copy custom static assets

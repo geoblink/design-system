@@ -4,7 +4,7 @@
 
 New:
 
-- Added `tools/system.tools.scss` file to be able to import only variables, mixins and functions
+- Added `tokens/system.tokens.scss` file to be able to import only variables, mixins and functions
 
 ## 29.10.1
 
