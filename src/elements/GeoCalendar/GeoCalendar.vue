@@ -173,6 +173,10 @@ export default {
   },
 
   computed: {
+    hasFromDate () {
+      return !!this.fromRawDate
+    },
+
     shouldRenderCalendarSidebar () {
       return this.$slots.pickerGranularity || this.$slots.pickerAliases
     },
@@ -322,23 +326,18 @@ export default {
       const computedDayForDifference = _.isNull(day)
         ? new Date(0)
         : day
-      const hasFromDate = !!this.fromRawDate
-      const isDayBeforeFromDate = hasFromDate && isBefore(computedDayForDifference, this.fromRawDate)
+      const isDayBeforeFromDate = this.hasFromDate && isBefore(computedDayForDifference, this.fromRawDate)
 
       const { distanceToFromDate, distanceToToDate } = this.getDateDistances(computedDayForDifference, differenceInDays)
 
       const isSettingFromDate = this.isToInputFieldExplicitlyFocused
         ? false
-        : !hasFromDate ||
+        : !this.hasFromDate ||
           isDayBeforeFromDate ||
           this.isFromInputFieldExplicitlyFocused ||
           distanceToFromDate < distanceToToDate
 
-      const unverifiedRangeSettings = this.getUnverifiedRangeSettings(day, day)
-
-      const unverifiedRange = isSettingFromDate
-        ? unverifiedRangeSettings.whenSettingFromDate
-        : unverifiedRangeSettings.whenSettingToDate
+      const unverifiedRange = this.getUnverifiedRange(day, day, isSettingFromDate)
 
       const unverifiedStart = _.isNull(unverifiedRange.start)
         ? new Date(0)
@@ -370,23 +369,18 @@ export default {
       this.currentMonth = monthIndex
       const firstDayOfMonth = new Date(Date.UTC(this.currentYear, this.currentMonth))
       const lastDayOfMonth = endOfMonth(firstDayOfMonth)
-      const hasFromDate = !!this.fromRawDate
-      const isMonthBeforeRangeStart = hasFromDate && this.currentMonth < getMonth(this.fromRawDate)
+      const isMonthBeforeRangeStart = this.hasFromDate && this.currentMonth < getMonth(this.fromRawDate)
 
       const { distanceToFromDate, distanceToToDate } = this.getDateDistances(firstDayOfMonth, differenceInMonths)
 
       const isSettingFromDate = this.isToInputFieldExplicitlyFocused
         ? false
-        : !hasFromDate ||
+        : !this.hasFromDate ||
           isMonthBeforeRangeStart ||
           this.isFromInputFieldExplicitlyFocused ||
           distanceToFromDate < distanceToToDate
 
-      const unverifiedRangeSettings = this.getUnverifiedRangeSettings(firstDayOfMonth, lastDayOfMonth)
-
-      const unverifiedRange = isSettingFromDate
-        ? unverifiedRangeSettings.whenSettingFromDate
-        : unverifiedRangeSettings.whenSettingToDate
+      const unverifiedRange = this.getUnverifiedRange(firstDayOfMonth, lastDayOfMonth, isSettingFromDate)
 
       const isRangeValid = this.validateRange(unverifiedRange.start, unverifiedRange.end)
 
@@ -411,30 +405,22 @@ export default {
     selectQuarter (monthIndex) {
       const fromDate = startOfQuarter(new Date(this.currentYear, monthIndex))
       const toDate = endOfQuarter(new Date(this.currentYear, monthIndex))
-      /*this.setFormattedDates()
-      this.emitFromDate({ fromDate: this.fromRawDate })
-      this.emitToDate({ toDate: this.toRawDate })*/
 
       const computedDayForDifference = _.isNull(fromDate)
         ? new Date(0)
         : fromDate
-      const hasFromDate = !!this.fromRawDate
-      const isDayBeforeFromDate = hasFromDate && isBefore(computedDayForDifference, this.fromRawDate)
+      const isDayBeforeFromDate = this.hasFromDate && isBefore(computedDayForDifference, this.fromRawDate)
 
       const { distanceToFromDate, distanceToToDate } = this.getDateDistances(computedDayForDifference, differenceInDays)
 
       const isSettingFromDate = this.isToInputFieldExplicitlyFocused
         ? false
-        : !hasFromDate ||
+        : !this.hasFromDate ||
           isDayBeforeFromDate ||
           this.isFromInputFieldExplicitlyFocused ||
           distanceToFromDate < distanceToToDate
 
-      const unverifiedRangeSettings = this.getUnverifiedRangeSettings(fromDate, toDate)
-
-      const unverifiedRange = isSettingFromDate
-        ? unverifiedRangeSettings.whenSettingFromDate
-        : unverifiedRangeSettings.whenSettingToDate
+      const unverifiedRange = this.getUnverifiedRange(fromDate, toDate, isSettingFromDate)
 
       const unverifiedStart = _.isNull(unverifiedRange.start)
         ? new Date(0)
@@ -456,7 +442,6 @@ export default {
 
       this.setFormattedDates()
 
-      console.log(this.fromRawDate, this.toRawDate)
       this.emitFromDate({ fromDate: this.fromRawDate })
       this.emitToDate({ toDate: this.toRawDate })
 
@@ -467,23 +452,18 @@ export default {
       const computedDayForDifference = _.isNull(fromDate)
         ? new Date(0)
         : fromDate
-      const hasFromDate = !!this.fromRawDate
-      const isDayBeforeFromDate = hasFromDate && isBefore(computedDayForDifference, this.fromRawDate)
+      const isDayBeforeFromDate = this.hasFromDate && isBefore(computedDayForDifference, this.fromRawDate)
 
       const { distanceToFromDate, distanceToToDate } = this.getDateDistances(computedDayForDifference, differenceInDays)
 
       const isSettingFromDate = this.isToInputFieldExplicitlyFocused
         ? false
-        : !hasFromDate ||
+        : !this.hasFromDate ||
           isDayBeforeFromDate ||
           this.isFromInputFieldExplicitlyFocused ||
           distanceToFromDate < distanceToToDate
 
-      const unverifiedRangeSettings = this.getUnverifiedRangeSettings(fromDate, toDate)
-
-      const unverifiedRange = isSettingFromDate
-        ? unverifiedRangeSettings.whenSettingFromDate
-        : unverifiedRangeSettings.whenSettingToDate
+      const unverifiedRange = this.getUnverifiedRange(fromDate, toDate, isSettingFromDate)
 
       const unverifiedStart = _.isNull(unverifiedRange.start)
         ? new Date(0)
@@ -516,23 +496,18 @@ export default {
       const firstDayOfYear = new Date(this.currentYear, 0)
       const lastDayOfYear = endOfYear(new Date(this.currentYear, 0))
 
-      const hasFromDate = !!this.fromRawDate
-      const isYearBeforeRangeStart = hasFromDate && this.currentYear < getYear(this.fromRawDate)
+      const isYearBeforeRangeStart = this.hasFromDate && this.currentYear < getYear(this.fromRawDate)
 
       const { distanceToFromDate, distanceToToDate } = this.getDateDistances(firstDayOfYear, differenceInMonths)
 
       const isSettingFromDate = this.isToInputFieldExplicitlyFocused
         ? false
-        : !hasFromDate ||
+        : !this.hasFromDate ||
           isYearBeforeRangeStart ||
           this.isFromInputFieldExplicitlyFocused ||
           distanceToFromDate < distanceToToDate
 
-      const unverifiedRangeSettings = this.getUnverifiedRangeSettings(firstDayOfYear, lastDayOfYear)
-
-      const unverifiedRange = isSettingFromDate
-        ? unverifiedRangeSettings.whenSettingFromDate
-        : unverifiedRangeSettings.whenSettingToDate
+      const unverifiedRange = this.getUnverifiedRange(firstDayOfYear, lastDayOfYear, isSettingFromDate)
 
       const isRangeValid = this.validateRange(unverifiedRange.start, unverifiedRange.end)
 
@@ -643,17 +618,16 @@ export default {
       this.lastInputFieldFocused = FOCUSABLE_INPUT_FIELDS.TO_DATE
     },
 
-    getUnverifiedRangeSettings (firstDay, lastDay) {
-      return {
-        whenSettingFromDate: {
+    getUnverifiedRange (firstDay, lastDay, isSettingFromDate) {
+      return isSettingFromDate
+        ? {
           start: firstDay,
           end: this.toRawDate
-        },
-        whenSettingToDate: {
+        }
+        : {
           start: this.fromRawDate,
           end: lastDay
         }
-      }
     },
 
     validateRange (start, end) {
@@ -662,14 +636,11 @@ export default {
 
     highlightInputForDayUnit (day) {
       if (this.isSomeInputFieldExplicitlyFocused) return
-      const hasFromDate = !!this.fromRawDate
-      const isDayBeforeFromDate = hasFromDate && isBefore(day, this.fromRawDate)
-      const distanceToFromDate = differenceInDays(day, this.fromRawDate)
-      const distanceToToDate = this.toRawDate
-        ? differenceInDays(this.toRawDate, day)
-        : 0
+      const isDayBeforeFromDate = this.hasFromDate && isBefore(day, this.fromRawDate)
 
-      const shouldSetFromDate = !hasFromDate ||
+      const { distanceToFromDate, distanceToToDate } = this.getDateDistances(day, differenceInDays)
+
+      const shouldSetFromDate = !this.hasFromDate ||
         isDayBeforeFromDate ||
         this.isFromInputFieldExplicitlyFocused ||
         distanceToFromDate < distanceToToDate
@@ -683,16 +654,13 @@ export default {
 
     highlightInputForMonthUnit (monthIndex) {
       if (this.isSomeInputFieldExplicitlyFocused) return
+
       const firstDayOfMonth = new Date(Date.UTC(this.currentYear, monthIndex))
-      const hasFromDate = !!this.fromRawDate
-      const isMonthBeforeRangeStart = hasFromDate && monthIndex < getMonth(this.fromRawDate)
+      const isMonthBeforeRangeStart = this.hasFromDate && monthIndex < getMonth(this.fromRawDate)
 
-      const distanceToFromDate = differenceInMonths(firstDayOfMonth, this.fromRawDate)
-      const distanceToToDate = this.toRawDate
-        ? differenceInMonths(this.toRawDate, firstDayOfMonth)
-        : 0
+      const { distanceToFromDate, distanceToToDate } = this.getDateDistances(firstDayOfMonth, differenceInMonths)
 
-      const shouldSetFromDate = !hasFromDate ||
+      const shouldSetFromDate = !this.hasFromDate ||
           isMonthBeforeRangeStart ||
           this.isFromInputFieldExplicitlyFocused ||
           distanceToFromDate < distanceToToDate
@@ -708,15 +676,11 @@ export default {
       if (this.isSomeInputFieldExplicitlyFocused) return
       const firstDayOfYear = new Date(year, 0)
 
-      const hasFromDate = !!this.fromRawDate
-      const isYearBeforeRangeStart = hasFromDate && year < getYear(this.fromRawDate)
+      const isYearBeforeRangeStart = this.hasFromDate && year < getYear(this.fromRawDate)
 
-      const distanceToFromDate = differenceInMonths(firstDayOfYear, this.fromRawDate)
-      const distanceToToDate = this.toRawDate
-        ? differenceInMonths(this.toRawDate, firstDayOfYear)
-        : 0
+      const { distanceToFromDate, distanceToToDate } = this.getDateDistances(firstDayOfYear, differenceInMonths)
 
-      const shouldSetFromDate = !hasFromDate ||
+      const shouldSetFromDate = !this.hasFromDate ||
           isYearBeforeRangeStart ||
           this.isFromInputFieldExplicitlyFocused ||
           distanceToFromDate < distanceToToDate
