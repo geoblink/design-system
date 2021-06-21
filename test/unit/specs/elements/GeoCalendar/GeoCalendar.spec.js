@@ -131,42 +131,117 @@ describe('GeoCalendar', () => {
       })
     })
 
-    it('selectQuarter', () => {
-      const wrapper = getWrappedComponent()
-      wrapper.setData({
-        currentYear: getYear(today)
+    describe('selectQuarter', () => {
+      it('Sets first day of quarter in from input', () => {
+        const wrapper = getWrappedComponent()
+        wrapper.setData({
+          currentYear: getYear(today)
+        })
+        const calendarPicker = wrapper.vm.$refs.calendarPicker
+        calendarPicker.$emit('select-quarter', 3)
+        const fromDate = startOfQuarter(new Date(wrapper.vm.currentYear, 3))
+        expect(wrapper.vm.fromRawDate).toEqual(fromDate)
+        expect(wrapper.vm.fromFormattedDate).toBe('01/04/2019')
+        expect(wrapper.emitted()['emit-from-date']).toBeDefined()
+        expect(wrapper.emitted()['emit-from-date'][0][0]).toEqual({ fromDate })
       })
-      const calendarPicker = wrapper.vm.$refs.calendarPicker
-      calendarPicker.$emit('select-quarter', 3)
-      const fromDate = startOfQuarter(new Date(wrapper.vm.currentYear, 3))
-      const toDate = endOfQuarter(new Date(wrapper.vm.currentYear, 3))
-      expect(wrapper.vm.fromRawDate).toEqual(fromDate)
-      expect(wrapper.vm.toRawDate).toEqual(toDate)
-      expect(wrapper.vm.fromFormattedDate).toBe('01/04/2019')
-      expect(wrapper.vm.toFormattedDate).toBe('30/06/2019')
-      expect(wrapper.emitted()['emit-from-date']).toBeDefined()
-      expect(wrapper.emitted()['emit-to-date']).toBeDefined()
-      expect(wrapper.emitted()['emit-from-date'][0][0]).toEqual({ fromDate })
-      expect(wrapper.emitted()['emit-to-date'][0][0]).toEqual({ toDate })
+
+      it('Sets last day of quarter in to input', () => {
+        const wrapper = getWrappedComponent()
+        wrapper.setData({
+          currentYear: getYear(today)
+        })
+        const calendarPicker = wrapper.vm.$refs.calendarPicker
+        calendarPicker.$emit('select-quarter', 4)
+        calendarPicker.$emit('select-quarter', 5)
+        const toDate = endOfQuarter(new Date(wrapper.vm.currentYear, 5))
+        expect(wrapper.vm.toRawDate).toEqual(toDate)
+        expect(wrapper.vm.toFormattedDate).toBe('30/06/2019')
+        expect(wrapper.emitted()['emit-to-date']).toBeDefined()
+        expect(wrapper.emitted()['emit-to-date'][1][0]).toEqual({ toDate })
+      })
+
+      it('Sets last day of another quarter in to input', () => {
+        const wrapper = getWrappedComponent()
+        wrapper.setData({
+          currentYear: getYear(today)
+        })
+        const calendarPicker = wrapper.vm.$refs.calendarPicker
+        calendarPicker.$emit('select-quarter', 4)
+        calendarPicker.$emit('select-quarter', 8)
+        const toDate = endOfQuarter(new Date(wrapper.vm.currentYear, 8))
+        expect(wrapper.vm.toRawDate).toEqual(toDate)
+        expect(wrapper.vm.toFormattedDate).toBe('30/09/2019')
+        expect(wrapper.emitted()['emit-to-date']).toBeDefined()
+        expect(wrapper.emitted()['emit-to-date'][1][0]).toEqual({ toDate })
+      })
     })
 
-    it('selectWeek', () => {
-      const wrapper = getWrappedComponent()
-      const calendarPicker = wrapper.vm.$refs.calendarPicker
-      const weekStart = startOfWeek(today)
-      const weekEnd = endOfWeek(today)
-      calendarPicker.$emit('select-week', {
-        fromDate: weekStart,
-        toDate: weekEnd
+    describe('selectWeek', () => {
+      it('Sets first day of week in from input', () => {
+        const wrapper = getWrappedComponent()
+        const calendarPicker = wrapper.vm.$refs.calendarPicker
+        const weekStart = startOfWeek(today)
+        const weekEnd = endOfWeek(today)
+        calendarPicker.$emit('select-week', {
+          fromDate: weekStart,
+          toDate: weekEnd
+        })
+        expect(wrapper.vm.fromRawDate).toBe(weekStart)
+        expect(wrapper.vm.fromFormattedDate).toBe('28/07/2019')
+        expect(wrapper.emitted()['emit-from-date']).toBeDefined()
+        expect(wrapper.emitted()['emit-from-date'][0][0]).toEqual({ fromDate: weekStart })
       })
-      expect(wrapper.vm.fromRawDate).toBe(weekStart)
-      expect(wrapper.vm.toRawDate).toBe(weekEnd)
-      expect(wrapper.vm.fromFormattedDate).toBe('28/07/2019')
-      expect(wrapper.vm.toFormattedDate).toBe('03/08/2019')
-      expect(wrapper.emitted()['emit-from-date']).toBeDefined()
-      expect(wrapper.emitted()['emit-to-date']).toBeDefined()
-      expect(wrapper.emitted()['emit-from-date'][0][0]).toEqual({ fromDate: weekStart })
-      expect(wrapper.emitted()['emit-to-date'][0][0]).toEqual({ toDate: weekEnd })
+
+      it('Sets last day of week in to input', () => {
+        const wrapper = getWrappedComponent()
+        const calendarPicker = wrapper.vm.$refs.calendarPicker
+        const weekStart = startOfWeek(today)
+        const weekEnd = endOfWeek(today)
+        calendarPicker.$emit('select-week', {
+          fromDate: weekStart,
+          toDate: weekEnd
+        })
+        calendarPicker.$emit('select-week', {
+          fromDate: weekStart,
+          toDate: weekEnd
+        })
+        expect(wrapper.vm.fromRawDate).toBe(weekStart)
+        expect(wrapper.vm.toRawDate).toBe(weekEnd)
+        expect(wrapper.vm.fromFormattedDate).toBe('28/07/2019')
+        expect(wrapper.vm.toFormattedDate).toBe('03/08/2019')
+        expect(wrapper.emitted()['emit-from-date']).toBeDefined()
+        expect(wrapper.emitted()['emit-to-date']).toBeDefined()
+        expect(wrapper.emitted()['emit-from-date'][0][0]).toEqual({ fromDate: weekStart })
+        expect(wrapper.emitted()['emit-to-date'][1][0]).toEqual({ toDate: weekEnd })
+      })
+
+      it('Sets last day of another week in to input', () => {
+        const wrapper = getWrappedComponent()
+        const calendarPicker = wrapper.vm.$refs.calendarPicker
+        const weekStart = startOfWeek(today)
+        const weekEnd = endOfWeek(today)
+
+        const nextWeek = addDays(today, 7)
+        const startOfNextWeek = startOfWeek(nextWeek)
+        const endOfNextWeek = endOfWeek(nextWeek)
+        calendarPicker.$emit('select-week', {
+          fromDate: weekStart,
+          toDate: weekEnd
+        })
+        calendarPicker.$emit('select-week', {
+          fromDate: startOfNextWeek,
+          toDate: endOfNextWeek
+        })
+        expect(wrapper.vm.fromRawDate).toBe(weekStart)
+        expect(wrapper.vm.toRawDate).toBe(endOfNextWeek)
+        expect(wrapper.vm.fromFormattedDate).toBe('28/07/2019')
+        expect(wrapper.vm.toFormattedDate).toBe('10/08/2019')
+        expect(wrapper.emitted()['emit-from-date']).toBeDefined()
+        expect(wrapper.emitted()['emit-to-date']).toBeDefined()
+        expect(wrapper.emitted()['emit-from-date'][0][0]).toEqual({ fromDate: weekStart })
+        expect(wrapper.emitted()['emit-to-date'][1][0]).toEqual({ toDate: endOfNextWeek })
+      })
     })
 
     describe('selectYear', () => {
