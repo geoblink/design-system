@@ -324,10 +324,8 @@ export default {
         : day
       const hasFromDate = !!this.fromRawDate
       const isDayBeforeFromDate = hasFromDate && isBefore(computedDayForDifference, this.fromRawDate)
-      const distanceToFromDate = Math.abs(differenceInDays(computedDayForDifference, this.fromRawDate))
-      const distanceToToDate = this.toRawDate
-        ? Math.abs(differenceInDays(this.toRawDate, computedDayForDifference))
-        : 0
+
+      const { distanceToFromDate, distanceToToDate } = this.getDateDistances(computedDayForDifference, differenceInDays)
 
       const isSettingFromDate = this.isToInputFieldExplicitlyFocused
         ? false
@@ -365,8 +363,7 @@ export default {
       this.emitFromDate({ fromDate: this.fromRawDate })
       this.emitToDate({ toDate: this.toRawDate })
 
-      this.isSomeInputFieldExplicitlyFocused = false
-      this.lastInputFieldFocused = null
+      this.resetInputFocus()
     },
 
     selectMonth (monthIndex) {
@@ -376,10 +373,7 @@ export default {
       const hasFromDate = !!this.fromRawDate
       const isMonthBeforeRangeStart = hasFromDate && this.currentMonth < getMonth(this.fromRawDate)
 
-      const distanceToFromDate = Math.abs(differenceInMonths(firstDayOfMonth, this.fromRawDate))
-      const distanceToToDate = this.toRawDate
-        ? Math.abs(differenceInMonths(firstDayOfMonth, this.toRawDate))
-        : 0
+      const { distanceToFromDate, distanceToToDate } = this.getDateDistances(firstDayOfMonth, differenceInMonths)
 
       const isSettingFromDate = this.isToInputFieldExplicitlyFocused
         ? false
@@ -411,24 +405,110 @@ export default {
       this.emitFromDate({ fromDate: this.fromRawDate })
       this.emitToDate({ toDate: this.toRawDate })
 
-      this.isSomeInputFieldExplicitlyFocused = false
-      this.lastInputFieldFocused = null
+      this.resetInputFocus()
     },
 
     selectQuarter (monthIndex) {
-      this.fromRawDate = startOfQuarter(new Date(this.currentYear, monthIndex))
-      this.toRawDate = endOfQuarter(new Date(this.currentYear, monthIndex))
+      const fromDate = startOfQuarter(new Date(this.currentYear, monthIndex))
+      const toDate = endOfQuarter(new Date(this.currentYear, monthIndex))
+      /*this.setFormattedDates()
+      this.emitFromDate({ fromDate: this.fromRawDate })
+      this.emitToDate({ toDate: this.toRawDate })*/
+
+      const computedDayForDifference = _.isNull(fromDate)
+        ? new Date(0)
+        : fromDate
+      const hasFromDate = !!this.fromRawDate
+      const isDayBeforeFromDate = hasFromDate && isBefore(computedDayForDifference, this.fromRawDate)
+
+      const { distanceToFromDate, distanceToToDate } = this.getDateDistances(computedDayForDifference, differenceInDays)
+
+      const isSettingFromDate = this.isToInputFieldExplicitlyFocused
+        ? false
+        : !hasFromDate ||
+          isDayBeforeFromDate ||
+          this.isFromInputFieldExplicitlyFocused ||
+          distanceToFromDate < distanceToToDate
+
+      const unverifiedRangeSettings = this.getUnverifiedRangeSettings(fromDate, toDate)
+
+      const unverifiedRange = isSettingFromDate
+        ? unverifiedRangeSettings.whenSettingFromDate
+        : unverifiedRangeSettings.whenSettingToDate
+
+      const unverifiedStart = _.isNull(unverifiedRange.start)
+        ? new Date(0)
+        : unverifiedRange.start
+
+      const isRangeValid = unverifiedRange.end
+        ? isBefore(unverifiedStart, unverifiedRange.end)
+        : true
+
+      const validatedRange = isRangeValid
+        ? unverifiedRange
+        : {
+          start: unverifiedRange.end,
+          end: unverifiedRange.start
+        }
+
+      this.fromRawDate = validatedRange.start
+      this.toRawDate = validatedRange.end
+
       this.setFormattedDates()
+
+      console.log(this.fromRawDate, this.toRawDate)
       this.emitFromDate({ fromDate: this.fromRawDate })
       this.emitToDate({ toDate: this.toRawDate })
+
+      this.resetInputFocus()
     },
 
     selectWeek ({ fromDate, toDate }) {
-      this.fromRawDate = fromDate
-      this.toRawDate = toDate
+      const computedDayForDifference = _.isNull(fromDate)
+        ? new Date(0)
+        : fromDate
+      const hasFromDate = !!this.fromRawDate
+      const isDayBeforeFromDate = hasFromDate && isBefore(computedDayForDifference, this.fromRawDate)
+
+      const { distanceToFromDate, distanceToToDate } = this.getDateDistances(computedDayForDifference, differenceInDays)
+
+      const isSettingFromDate = this.isToInputFieldExplicitlyFocused
+        ? false
+        : !hasFromDate ||
+          isDayBeforeFromDate ||
+          this.isFromInputFieldExplicitlyFocused ||
+          distanceToFromDate < distanceToToDate
+
+      const unverifiedRangeSettings = this.getUnverifiedRangeSettings(fromDate, toDate)
+
+      const unverifiedRange = isSettingFromDate
+        ? unverifiedRangeSettings.whenSettingFromDate
+        : unverifiedRangeSettings.whenSettingToDate
+
+      const unverifiedStart = _.isNull(unverifiedRange.start)
+        ? new Date(0)
+        : unverifiedRange.start
+
+      const isRangeValid = unverifiedRange.end
+        ? isBefore(unverifiedStart, unverifiedRange.end)
+        : true
+
+      const validatedRange = isRangeValid
+        ? unverifiedRange
+        : {
+          start: unverifiedRange.end,
+          end: unverifiedRange.start
+        }
+
+      this.fromRawDate = validatedRange.start
+      this.toRawDate = validatedRange.end
+
       this.setFormattedDates()
-      this.emitFromDate({ fromDate })
-      this.emitToDate({ toDate })
+
+      this.emitFromDate({ fromDate: this.fromRawDate })
+      this.emitToDate({ toDate: this.toRawDate })
+
+      this.resetInputFocus()
     },
 
     selectYear (year) {
@@ -439,10 +519,7 @@ export default {
       const hasFromDate = !!this.fromRawDate
       const isYearBeforeRangeStart = hasFromDate && this.currentYear < getYear(this.fromRawDate)
 
-      const distanceToFromDate = Math.abs(differenceInMonths(firstDayOfYear, this.fromRawDate))
-      const distanceToToDate = this.toRawDate
-        ? Math.abs(differenceInMonths(firstDayOfYear, this.toRawDate))
-        : 0
+      const { distanceToFromDate, distanceToToDate } = this.getDateDistances(firstDayOfYear, differenceInMonths)
 
       const isSettingFromDate = this.isToInputFieldExplicitlyFocused
         ? false
@@ -474,8 +551,20 @@ export default {
       this.emitFromDate({ fromDate: this.fromRawDate })
       this.emitToDate({ toDate: this.toRawDate })
 
+      this.resetInputFocus()
+    },
+
+    resetInputFocus () {
       this.isSomeInputFieldExplicitlyFocused = false
       this.lastInputFieldFocused = null
+    },
+
+    getDateDistances (start, functionToUse) {
+      const distanceToFromDate = Math.abs(functionToUse(start, this.fromRawDate))
+      const distanceToToDate = this.toRawDate
+        ? Math.abs(functionToUse(start, this.toRawDate))
+        : 0
+      return { distanceToFromDate, distanceToToDate }
     },
 
     setEarliestDate () {
