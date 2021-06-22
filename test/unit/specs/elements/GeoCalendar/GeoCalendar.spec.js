@@ -187,7 +187,7 @@ describe('GeoCalendar', () => {
           fromDate: weekStart,
           toDate: weekEnd
         })
-        expect(wrapper.vm.fromRawDate).toBe(weekStart)
+        expect(wrapper.vm.fromRawDate).toEqual(weekStart)
         expect(wrapper.vm.fromFormattedDate).toBe('28/07/2019')
         expect(wrapper.emitted()['emit-from-date']).toBeDefined()
         expect(wrapper.emitted()['emit-from-date'][0][0]).toEqual({ fromDate: weekStart })
@@ -206,8 +206,8 @@ describe('GeoCalendar', () => {
           fromDate: weekStart,
           toDate: weekEnd
         })
-        expect(wrapper.vm.fromRawDate).toBe(weekStart)
-        expect(wrapper.vm.toRawDate).toBe(weekEnd)
+        expect(wrapper.vm.fromRawDate).toEqual(weekStart)
+        expect(wrapper.vm.toRawDate).toEqual(weekEnd)
         expect(wrapper.vm.fromFormattedDate).toBe('28/07/2019')
         expect(wrapper.vm.toFormattedDate).toBe('03/08/2019')
         expect(wrapper.emitted()['emit-from-date']).toBeDefined()
@@ -233,8 +233,8 @@ describe('GeoCalendar', () => {
           fromDate: startOfNextWeek,
           toDate: endOfNextWeek
         })
-        expect(wrapper.vm.fromRawDate).toBe(weekStart)
-        expect(wrapper.vm.toRawDate).toBe(endOfNextWeek)
+        expect(wrapper.vm.fromRawDate).toEqual(weekStart)
+        expect(wrapper.vm.toRawDate).toEqual(endOfNextWeek)
         expect(wrapper.vm.fromFormattedDate).toBe('28/07/2019')
         expect(wrapper.vm.toFormattedDate).toBe('10/08/2019')
         expect(wrapper.emitted()['emit-from-date']).toBeDefined()

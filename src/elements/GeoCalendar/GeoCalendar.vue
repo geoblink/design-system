@@ -482,8 +482,8 @@ export default {
           end: unverifiedRange.start
         }
 
-      this.fromRawDate = validatedRange.start && startOfWeek(validatedRange.start, { weekStartsOn: 1 })
-      this.toRawDate = validatedRange.end && endOfWeek(validatedRange.end, { weekStartsOn: 1 })
+      this.fromRawDate = validatedRange.start && startOfWeek(validatedRange.start, { locale: this.locale })
+      this.toRawDate = validatedRange.end && endOfWeek(validatedRange.end, { locale: this.locale })
 
       this.setFormattedDates()
 
