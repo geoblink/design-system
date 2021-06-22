@@ -1,5 +1,11 @@
 # Changelog
 
+## 29.11.0
+
+New:
+
+- `GeoCalendar` allows to select multiple quarters and weeks
+
 ## 29.10.2
 
 New:
