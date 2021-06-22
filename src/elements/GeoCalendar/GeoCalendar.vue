@@ -118,6 +118,7 @@
 <script>
 import _ from 'lodash'
 import { GRANULARITY_IDS, FOCUSABLE_INPUT_FIELDS, isBefore, isAfter } from './GeoCalendar.utils'
+import endOfWeek from 'date-fns/endOfWeek'
 import endOfMonth from 'date-fns/endOfMonth'
 import endOfQuarter from 'date-fns/endOfQuarter'
 import format from 'date-fns/format'
@@ -128,6 +129,7 @@ import startOfQuarter from 'date-fns/startOfQuarter'
 import endOfYear from 'date-fns/endOfYear'
 import startOfMonth from 'date-fns/startOfMonth'
 import startOfYear from 'date-fns/startOfYear'
+import startOfWeek from 'date-fns/startOfWeek'
 import differenceInDays from 'date-fns/differenceInDays'
 import differenceInMonths from 'date-fns/differenceInMonths'
 import parse from 'date-fns/parse'
@@ -437,8 +439,8 @@ export default {
           end: unverifiedRange.start
         }
 
-      this.fromRawDate = validatedRange.start
-      this.toRawDate = validatedRange.end
+      this.fromRawDate = validatedRange.start && startOfQuarter(validatedRange.start)
+      this.toRawDate = validatedRange.end && endOfQuarter(validatedRange.end)
 
       this.setFormattedDates()
 
@@ -480,8 +482,8 @@ export default {
           end: unverifiedRange.start
         }
 
-      this.fromRawDate = validatedRange.start
-      this.toRawDate = validatedRange.end
+      this.fromRawDate = validatedRange.start && startOfWeek(validatedRange.start, { weekStartsOn: 1 })
+      this.toRawDate = validatedRange.end && endOfWeek(validatedRange.end, { weekStartsOn: 1 })
 
       this.setFormattedDates()
 
