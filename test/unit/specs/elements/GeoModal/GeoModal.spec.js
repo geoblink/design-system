@@ -163,7 +163,7 @@ describe('GeoModal', () => {
         'geo-bordered-box': GeoBorderedBox
       }
     })
-    wrapper.find('geo-bordered-box-header-stub').vm.$emit('close')
+    wrapper.find('geo-bordered-box-header-stub').vm.$emit('click-trailing-icon')
     expect(wrapper.emitted().close).toBeTruthy()
   })
 

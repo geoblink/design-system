@@ -19,8 +19,8 @@
           <geo-bordered-box-header
             v-if="hasHeader"
             :icon="headerIcon"
-            :close-icon="headerCloseIcon"
-            @close="handleCloseClick($event)"
+            :trailing-icon="headerCloseIcon"
+            @click-trailing-icon="handleCloseClick($event)"
           >
             <!-- @slot Use this slot to customize `GeoBorderedBox` header. If you give content to `default` slot this slot will be ignored. -->
             <slot name="header" />

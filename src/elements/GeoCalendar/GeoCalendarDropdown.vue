@@ -13,8 +13,8 @@
     />
     <geo-bordered-box slot="popupContent">
       <geo-bordered-box-header
-        :close-icon="closeCalendarIcon"
-        @close="closeCalendar"
+        :trailing-icon="closeCalendarIcon"
+        @click-trailing-icon="closeCalendar"
       >
         <!-- @slot Use this slot to customize the text displayed on the calendar's header -->
         <slot name="calendarHeaderTitle" />
