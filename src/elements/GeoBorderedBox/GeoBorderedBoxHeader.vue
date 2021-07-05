@@ -22,13 +22,13 @@
       </div>
     </div>
     <div
-      v-if="isCloseButtonVisible"
-      class="geo-bordered-box-header__close-button"
-      @click="emitClose($event)"
+      v-if="isTrailingIconVisible"
+      class="geo-bordered-box-header__trailing-button"
+      @click="emitTrailingIconClick($event)"
     >
       <font-awesome-icon
-        :icon="closeIcon"
-        class="geo-bordered-box-header__close-button-icon"
+        :icon="trailingIcon"
+        class="geo-bordered-box-header__trailing-button-icon"
         aria-hidden
         fixed-width
       />
@@ -43,11 +43,11 @@ import _ from 'lodash'
  * `GeoBorderedBoxHeader` is component designed to fit nicely as header of a
  * [GeoBorderedBox](./GeoBorderedBox).
  *
- * It supports displaying a special _close_ button and allows setting an
+ * It supports displaying a special _trailing_ icon button and allows setting an
  * optional clickable icon in the leading edge of the header.
  *
  * ::: tip
- * Set a listener on `close` event to show the _close_ trailing button.
+ * Set a listener on `click-trailing-icon` event to show the _trailing_ icon button.
  * :::
  */
 export default {
@@ -67,12 +67,12 @@ export default {
       required: false
     },
     /**
-     * Font Awesome 5 icon to be displayed as close button.
+     * Font Awesome 5 icon to be displayed at the right side of the header.
      *
      * See [vue-fontawesome](https://www.npmjs.com/package/@fortawesome/vue-fontawesome#explicit-prefix-note-the-vue-bind-shorthand-because-this-uses-an-array)
      * for more info about this.
      */
-    closeIcon: {
+    trailingIcon: {
       type: Array,
       default: function () {
         return ['fal', 'times']
@@ -80,12 +80,12 @@ export default {
     }
   },
   computed: {
-    isCloseButtonVisible () {
-      return this.$listeners && this.$listeners.close && this.hasCloseIcon
+    isTrailingIconVisible () {
+      return this.$listeners && this.$listeners['click-trailing-icon'] && this.hasTrailingIcon
     },
 
-    hasCloseIcon () {
-      return _.size(this.closeIcon) > 0
+    hasTrailingIcon () {
+      return _.size(this.trailingIcon) > 0
     }
   },
   methods: {
@@ -109,14 +109,14 @@ export default {
       this.$emit('click-icon', $event)
     },
 
-    emitClose ($event) {
+    emitTrailingIconClick ($event) {
       /**
-       * User clicked close button.
+       * User clicked trailing icon button.
        *
-       * @event close
+       * @event click-trailing-icon
        * @type {MouseEvent}
        */
-      this.$emit('close', $event)
+      this.$emit('click-trailing-icon', $event)
     }
   }
 }
