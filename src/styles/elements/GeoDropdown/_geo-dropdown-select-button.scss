@@ -10,6 +10,6 @@
 
 .geo-dropdown--is-open {
   .geo-dropdown__select-button .geo-dropdown__regular-button-container__icon {
-    transform: rotateZ(180deg);
+    transform: rotateZ(-180deg);
   }
 }

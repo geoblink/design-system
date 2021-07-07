@@ -1,5 +1,15 @@
 # Changelog
 
+## 30.0.0
+Breaking:
+
+- `GeoBorderedBoxHeader`: changed close icon prop name for trailing icon
+
+Changed:
+
+- `GeoSelectToggleButton`: changed icon rotation direction
+- `GeoDropdownSelectButton`: changed icon rotation direction
+
 ## 29.11.0
 
 New:

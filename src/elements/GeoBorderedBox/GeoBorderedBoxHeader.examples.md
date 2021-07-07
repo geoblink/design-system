@@ -22,18 +22,18 @@
 </div>
 ```
 
-### With close icon
+### With trailing icon
 
 ```jsx live
 <div class="element-demo">
   <div class="element-demo__block" style="justify-content: space-around;">
-    <geo-bordered-box-header @close="">
+    <geo-bordered-box-header @click-trailing-icon="">
       Closable
     </geo-bordered-box-header>
 
     <geo-bordered-box-header
-      :close-icon="['fas', 'chevron-right']"
-      @close=""
+      :trailing-icon="['fas', 'chevron-right']"
+      @click-trailing-icon=""
     >
       Custom close icon
     </geo-bordered-box-header>
@@ -41,14 +41,14 @@
 </div>
 ```
 
-### With leading & close icon
+### With leading & trailing icon
 
 ```jsx live
 <div class="element-demo">
   <div class="element-demo__block" style="justify-content: space-around;">
     <geo-bordered-box-header
       :icon="['fas', 'chevron-left']"
-      @close=""
+      @click-trailing-icon=""
     >
       Closable
     </geo-bordered-box-header>

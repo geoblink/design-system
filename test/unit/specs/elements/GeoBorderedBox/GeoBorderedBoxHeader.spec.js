@@ -44,47 +44,47 @@ describe('GeoBorderedBoxHeader', () => {
     expect(wrapper.emitted()['click-icon']).toBeTruthy()
   })
 
-  it('Should not render close icon if listener is not provided', function () {
+  it('Should not render trailing icon if listener is not provided', function () {
     const wrapper = mount(GeoBorderedBoxHeader, {
       stubs: {
         'font-awesome-icon': FontAwesomeIcon
       }
     })
 
-    expect(wrapper.find('.geo-bordered-box-header__close-button').exists()).toBe(false)
+    expect(wrapper.find('.geo-bordered-box-header__trailing-button').exists()).toBe(false)
   })
 
-  it('Should render close icon if listener is provided', function () {
+  it('Should render trailing icon if listener is provided', function () {
     const wrapper = mount(GeoBorderedBoxHeader, {
       stubs: {
         'font-awesome-icon': FontAwesomeIcon
       },
       propsData: {
-        'close-icon': ['fas', 'times']
+        'trailing-icon': ['fas', 'times']
       },
       listeners: {
-        close () { }
+        'click-trailing-icon' () { }
       }
     })
 
-    expect(wrapper.find('.geo-bordered-box-header__close-button').exists()).toBe(true)
+    expect(wrapper.find('.geo-bordered-box-header__trailing-button').exists()).toBe(true)
   })
 
-  it('Should trigger close event on close icon click', function () {
+  it('Should trigger click-trailing-icon event on trailing icon click', function () {
     const wrapper = mount(GeoBorderedBoxHeader, {
       stubs: {
         'font-awesome-icon': FontAwesomeIcon
       },
       propsData: {
-        'close-icon': ['fas', 'times']
+        'trailing-icon': ['fas', 'times']
       },
       listeners: {
-        close () { }
+        'click-trailing-icon' () { }
       }
     })
 
-    wrapper.find('.geo-bordered-box-header__close-button').trigger('click')
-    expect(wrapper.emitted().close).toBeTruthy()
+    wrapper.find('.geo-bordered-box-header__trailing-button').trigger('click')
+    expect(wrapper.emitted()['click-trailing-icon']).toBeTruthy()
   })
 
   it('Should emit click event', function () {
