@@ -1,5 +1,11 @@
 # Changelog
 
+## 30.0.1
+
+New:
+
+- `GeoTooltip` warn logs throttled
+
 ## 30.0.0
 Breaking:
 
