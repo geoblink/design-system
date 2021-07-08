@@ -8,10 +8,11 @@ import _ from 'lodash'
  * more info about this in [Lodash docs](https://lodash.com/docs/4.17.5#throttle).
  *
  * @parameter Function callback Function to be run.
+ * @parameter time in ms to throttle (default 10)
  * @returns Function Throttled function.
  */
-export default function (callback) {
-  return _.throttle(callback, 10, {
+export default function (callback, time = 10) {
+  return _.throttle(callback, time, {
     leading: true,
     trailing: true
   })

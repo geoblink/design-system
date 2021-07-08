@@ -157,6 +157,12 @@ export default {
 
     onTriggerTargetMouseoverBound () {
       return this.onTriggerTargetMouseover.bind(this)
+    },
+
+    canNotFitWarnThrottled () {
+      return throttle(() => {
+        return console.warn(`GeoTooltip [component] :: Tooltip content can't fit in «${this.position}» position with «${this.alignment}» alignment.`)
+      }, 500)
     }
   },
   watch: {
@@ -307,7 +313,7 @@ export default {
         )
 
         if (!isRequestedAbsoluteOffsetInsideViewport) {
-          console.warn(`GeoTooltip [component] :: Tooltip content can't fit in «${this.position}» position with «${this.alignment}» alignment.`)
+          this.canNotFitWarnThrottled()
         }
 
         return this.translateTooltipContainer({
