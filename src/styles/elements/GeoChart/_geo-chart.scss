@@ -39,18 +39,20 @@
     display: flex;
     flex-direction: row;
     width: 100%;
-    &--left {
-      justify-content: flex-end;
-    }
-    &--right {
-      justify-content: flex-start;
-    }
     .geo-chart-axis-text__content {
       max-width: 95%;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
     }
+  }
+
+  .geo-chart-axis-text--left {
+    justify-content: flex-end;
+  }
+
+  .geo-chart-axis-text--right {
+    justify-content: flex-start;
   }
 }
 

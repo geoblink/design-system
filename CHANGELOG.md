@@ -1,5 +1,11 @@
 # Changelog
 
+## 30.0.2
+
+New:
+
+- `Geochart`: Fix axis bug in local
+
 ## 30.0.1
 
 New:
