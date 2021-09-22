@@ -370,6 +370,7 @@ export default {
     selectMonth (monthIndex) {
       this.currentMonth = monthIndex
       const firstDayOfMonth = new Date(Date.UTC(this.currentYear, this.currentMonth))
+      const possibleFirstDayOfSelectedMonth = isAfter(this.earliestDate, firstDayOfMonth) ? this.earliestDate : firstDayOfMonth
       const lastDayOfMonth = endOfMonth(firstDayOfMonth)
       const possibleLastDayOfSelectedMonth = isBefore(this.latestDate, lastDayOfMonth) ? this.latestDate : lastDayOfMonth
 
@@ -384,7 +385,7 @@ export default {
           this.isFromInputFieldExplicitlyFocused ||
           distanceToFromDate < distanceToToDate
 
-      const unverifiedRange = this.getUnverifiedRange(firstDayOfMonth, possibleLastDayOfSelectedMonth, isSettingFromDate)
+      const unverifiedRange = this.getUnverifiedRange(possibleFirstDayOfSelectedMonth, possibleLastDayOfSelectedMonth, isSettingFromDate)
 
       const isRangeValid = this.validateRange(unverifiedRange.start, unverifiedRange.end)
 
@@ -408,6 +409,7 @@ export default {
 
     selectQuarter (monthIndex) {
       const fromDate = startOfQuarter(new Date(this.currentYear, monthIndex))
+      const possibleFirstDayOfSelectedQuarter = isAfter(this.earliestDate, fromDate) ? this.earliestDate : fromDate
       const toDate = endOfQuarter(new Date(this.currentYear, monthIndex))
       const possibleLastDayOfSelectedQuarter = isBefore(this.latestDate, toDate) ? this.latestDate : toDate
 
@@ -425,7 +427,7 @@ export default {
           this.isFromInputFieldExplicitlyFocused ||
           distanceToFromDate < distanceToToDate
 
-      const unverifiedRange = this.getUnverifiedRange(fromDate, possibleLastDayOfSelectedQuarter, isSettingFromDate)
+      const unverifiedRange = this.getUnverifiedRange(possibleFirstDayOfSelectedQuarter, possibleLastDayOfSelectedQuarter, isSettingFromDate)
 
       const unverifiedStart = _.isNull(unverifiedRange.start)
         ? new Date(0)
@@ -499,6 +501,7 @@ export default {
     selectYear (year) {
       this.currentYear = year
       const firstDayOfYear = new Date(this.currentYear, 0)
+      const possibleFirstDayOfSelectedYear = isAfter(this.earliestDate, firstDayOfYear) ? this.earliestDate : firstDayOfYear
       const lastDayOfYear = endOfYear(new Date(this.currentYear, 0))
       const possibleLastDayOfSelectedYear = isBefore(this.latestDate, lastDayOfYear) ? this.latestDate : lastDayOfYear
 
@@ -513,7 +516,7 @@ export default {
           this.isFromInputFieldExplicitlyFocused ||
           distanceToFromDate < distanceToToDate
 
-      const unverifiedRange = this.getUnverifiedRange(firstDayOfYear, possibleLastDayOfSelectedYear, isSettingFromDate)
+      const unverifiedRange = this.getUnverifiedRange(possibleFirstDayOfSelectedYear, possibleLastDayOfSelectedYear, isSettingFromDate)
 
       const isRangeValid = this.validateRange(unverifiedRange.start, unverifiedRange.end)
 

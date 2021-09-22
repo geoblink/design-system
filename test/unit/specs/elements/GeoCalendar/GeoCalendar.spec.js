@@ -130,6 +130,22 @@ describe('GeoCalendar', () => {
         expect(wrapper.emitted()['emit-to-date'][1][0]).toEqual({ toDate: currentDate })
       })
 
+      it('Sets earliestDate if first day of month is before earliestDate', () => {
+        const earliestDate = new Date(2019, 8, 21)
+        const wrapper = getWrappedComponent()
+        wrapper.setProps({ earliestDate })
+        wrapper.setData({
+          currentYear: getYear(today)
+        })
+        const calendarPicker = wrapper.vm.$refs.calendarPicker
+        calendarPicker.$emit('select-month', 8)
+        expect(wrapper.vm.currentMonth).toBe(8)
+        expect(wrapper.vm.fromRawDate).toEqual(earliestDate)
+        expect(wrapper.vm.fromFormattedDate).toBe('21/09/2019')
+        expect(wrapper.emitted()['emit-from-date']).toBeDefined()
+        expect(wrapper.emitted()['emit-from-date'][0][0]).toEqual({ fromDate: earliestDate })
+      })
+
       it('Sets latestDate if last day of month is after latestDate', () => {
         const latestDate = new Date(2019, 8, 21)
         const wrapper = getWrappedComponent()
@@ -194,6 +210,21 @@ describe('GeoCalendar', () => {
         expect(wrapper.vm.toFormattedDate).toBe('30/09/2019')
         expect(wrapper.emitted()['emit-to-date']).toBeDefined()
         expect(wrapper.emitted()['emit-to-date'][1][0]).toEqual({ toDate })
+      })
+
+      it('Sets earliestDate if first day of quarter is before earliestDate', () => {
+        const earliestDate = new Date(2019, 4, 21)
+        const wrapper = getWrappedComponent()
+        wrapper.setProps({ earliestDate })
+        wrapper.setData({
+          currentYear: getYear(today)
+        })
+        const calendarPicker = wrapper.vm.$refs.calendarPicker
+        calendarPicker.$emit('select-quarter', 3)
+        expect(wrapper.vm.fromRawDate).toEqual(earliestDate)
+        expect(wrapper.vm.fromFormattedDate).toBe('21/05/2019')
+        expect(wrapper.emitted()['emit-from-date']).toBeDefined()
+        expect(wrapper.emitted()['emit-from-date'][0][0]).toEqual({ fromDate: earliestDate })
       })
 
       it('Sets latestDate if last day of quarter is after latestDate', () => {
@@ -307,6 +338,19 @@ describe('GeoCalendar', () => {
         expect(wrapper.vm.toFormattedDate).toBe('31/12/2020')
         expect(wrapper.emitted()['emit-to-date']).toBeDefined()
         expect(wrapper.emitted()['emit-to-date'][1][0]).toEqual({ toDate: currentDate })
+      })
+
+      it('Sets earliestDate if first day of year is before earliestDate', () => {
+        const earliestDate = new Date(2020, 4, 21)
+        const wrapper = getWrappedComponent()
+        wrapper.setProps({ earliestDate })
+        const calendarPicker = wrapper.vm.$refs.calendarPicker
+        calendarPicker.$emit('select-year', 2020)
+        expect(wrapper.vm.currentYear).toBe(2020)
+        expect(wrapper.vm.fromRawDate).toEqual(earliestDate)
+        expect(wrapper.vm.fromFormattedDate).toBe('21/05/2020')
+        expect(wrapper.emitted()['emit-from-date']).toBeDefined()
+        expect(wrapper.emitted()['emit-from-date'][0][0]).toEqual({ fromDate: earliestDate })
       })
 
       it('Sets latestDate if last day of year is after latestDate', () => {

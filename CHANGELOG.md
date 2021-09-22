@@ -4,7 +4,7 @@
 
 Changed:
 
-- `GeoCalendar`: Fix bug that allowed to select a date greater than latestDate prop
+- `GeoCalendar`: Fix bug that allowed to select a date outside the earliestDate-latestDate range
 ## 30.0.2
 
 New:
