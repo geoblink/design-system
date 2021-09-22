@@ -371,6 +371,8 @@ export default {
       this.currentMonth = monthIndex
       const firstDayOfMonth = new Date(Date.UTC(this.currentYear, this.currentMonth))
       const lastDayOfMonth = endOfMonth(firstDayOfMonth)
+      const possibleLastDayOfSelectedMonth = isBefore(this.latestDate, lastDayOfMonth) ? this.latestDate : lastDayOfMonth
+
       const isMonthBeforeRangeStart = this.hasFromDate && this.currentMonth < getMonth(this.fromRawDate)
 
       const { distanceToFromDate, distanceToToDate } = this.getDateDistances(firstDayOfMonth, differenceInMonths)
@@ -382,7 +384,7 @@ export default {
           this.isFromInputFieldExplicitlyFocused ||
           distanceToFromDate < distanceToToDate
 
-      const unverifiedRange = this.getUnverifiedRange(firstDayOfMonth, lastDayOfMonth, isSettingFromDate)
+      const unverifiedRange = this.getUnverifiedRange(firstDayOfMonth, possibleLastDayOfSelectedMonth, isSettingFromDate)
 
       const isRangeValid = this.validateRange(unverifiedRange.start, unverifiedRange.end)
 
@@ -407,6 +409,7 @@ export default {
     selectQuarter (monthIndex) {
       const fromDate = startOfQuarter(new Date(this.currentYear, monthIndex))
       const toDate = endOfQuarter(new Date(this.currentYear, monthIndex))
+      const possibleLastDayOfSelectedQuarter = isBefore(this.latestDate, toDate) ? this.latestDate : toDate
 
       const computedDayForDifference = _.isNull(fromDate)
         ? new Date(0)
@@ -422,7 +425,7 @@ export default {
           this.isFromInputFieldExplicitlyFocused ||
           distanceToFromDate < distanceToToDate
 
-      const unverifiedRange = this.getUnverifiedRange(fromDate, toDate, isSettingFromDate)
+      const unverifiedRange = this.getUnverifiedRange(fromDate, possibleLastDayOfSelectedQuarter, isSettingFromDate)
 
       const unverifiedStart = _.isNull(unverifiedRange.start)
         ? new Date(0)
@@ -435,12 +438,12 @@ export default {
       const validatedRange = isRangeValid
         ? unverifiedRange
         : {
-          start: unverifiedRange.end,
-          end: unverifiedRange.start
+          start: startOfQuarter(unverifiedRange.end),
+          end: endOfQuarter(unverifiedRange.start)
         }
 
-      this.fromRawDate = validatedRange.start && startOfQuarter(validatedRange.start)
-      this.toRawDate = validatedRange.end && endOfQuarter(validatedRange.end)
+      this.fromRawDate = validatedRange.start
+      this.toRawDate = validatedRange.end
 
       this.setFormattedDates()
 
