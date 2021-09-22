@@ -129,6 +129,26 @@ describe('GeoCalendar', () => {
         expect(wrapper.emitted()['emit-to-date']).toBeDefined()
         expect(wrapper.emitted()['emit-to-date'][1][0]).toEqual({ toDate: currentDate })
       })
+
+      it('Sets latestDate if last day of month is after latestDate', () => {
+        const latestDate = new Date(2019, 8, 21)
+        const wrapper = getWrappedComponent()
+        wrapper.setProps({ latestDate })
+        wrapper.setData({
+          currentYear: getYear(today)
+        })
+        wrapper.setData({
+          lastInputFieldFocused: FOCUSABLE_INPUT_FIELDS.FROM_DATE
+        })
+        const calendarPicker = wrapper.vm.$refs.calendarPicker
+        calendarPicker.$emit('select-month', 6)
+        calendarPicker.$emit('select-month', 8)
+        expect(wrapper.vm.currentMonth).toBe(8)
+        expect(wrapper.vm.toRawDate).toEqual(latestDate)
+        expect(wrapper.vm.toFormattedDate).toBe('21/09/2019')
+        expect(wrapper.emitted()['emit-to-date']).toBeDefined()
+        expect(wrapper.emitted()['emit-to-date'][1][0]).toEqual({ toDate: latestDate })
+      })
     })
 
     describe('selectQuarter', () => {
@@ -174,6 +194,22 @@ describe('GeoCalendar', () => {
         expect(wrapper.vm.toFormattedDate).toBe('30/09/2019')
         expect(wrapper.emitted()['emit-to-date']).toBeDefined()
         expect(wrapper.emitted()['emit-to-date'][1][0]).toEqual({ toDate })
+      })
+
+      it('Sets latestDate if last day of quarter is after latestDate', () => {
+        const latestDate = new Date(2019, 8, 21)
+        const wrapper = getWrappedComponent()
+        wrapper.setProps({ latestDate })
+        wrapper.setData({
+          currentYear: getYear(today)
+        })
+        const calendarPicker = wrapper.vm.$refs.calendarPicker
+        calendarPicker.$emit('select-quarter', 4)
+        calendarPicker.$emit('select-quarter', 8)
+        expect(wrapper.vm.toRawDate).toEqual(latestDate)
+        expect(wrapper.vm.toFormattedDate).toBe('21/09/2019')
+        expect(wrapper.emitted()['emit-to-date']).toBeDefined()
+        expect(wrapper.emitted()['emit-to-date'][1][0]).toEqual({ toDate: latestDate })
       })
     })
 
@@ -271,6 +307,23 @@ describe('GeoCalendar', () => {
         expect(wrapper.vm.toFormattedDate).toBe('31/12/2020')
         expect(wrapper.emitted()['emit-to-date']).toBeDefined()
         expect(wrapper.emitted()['emit-to-date'][1][0]).toEqual({ toDate: currentDate })
+      })
+
+      it('Sets latestDate if last day of year is after latestDate', () => {
+        const latestDate = new Date(2020, 8, 21)
+        const wrapper = getWrappedComponent()
+        wrapper.setProps({ latestDate })
+        wrapper.setData({
+          lastInputFieldFocused: FOCUSABLE_INPUT_FIELDS.FROM_DATE
+        })
+        const calendarPicker = wrapper.vm.$refs.calendarPicker
+        calendarPicker.$emit('select-year', 2019)
+        calendarPicker.$emit('select-year', 2020)
+        expect(wrapper.vm.currentYear).toBe(2020)
+        expect(wrapper.vm.toRawDate).toEqual(latestDate)
+        expect(wrapper.vm.toFormattedDate).toBe('21/09/2020')
+        expect(wrapper.emitted()['emit-to-date']).toBeDefined()
+        expect(wrapper.emitted()['emit-to-date'][1][0]).toEqual({ toDate: latestDate })
       })
     })
   })
