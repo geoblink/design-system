@@ -260,6 +260,23 @@ describe('GeoCalendar', () => {
         expect(wrapper.emitted()['emit-from-date'][0][0]).toEqual({ fromDate: weekStart })
       })
 
+      it('Sets earliestDate if first day of week is before earliestDate', () => {
+        const earliestDate = new Date(2019, 6, 30)
+        const wrapper = getWrappedComponent()
+        wrapper.setProps({ earliestDate })
+        const calendarPicker = wrapper.vm.$refs.calendarPicker
+        const weekStart = startOfWeek(today)
+        const weekEnd = endOfWeek(today)
+        calendarPicker.$emit('select-week', {
+          fromDate: weekStart,
+          toDate: weekEnd
+        })
+        expect(wrapper.vm.fromRawDate).toEqual(earliestDate)
+        expect(wrapper.vm.fromFormattedDate).toBe('30/07/2019')
+        expect(wrapper.emitted()['emit-from-date']).toBeDefined()
+        expect(wrapper.emitted()['emit-from-date'][0][0]).toEqual({ fromDate: earliestDate })
+      })
+
       it('Sets last day of week in to input', () => {
         const wrapper = getWrappedComponent()
         const calendarPicker = wrapper.vm.$refs.calendarPicker
@@ -308,6 +325,31 @@ describe('GeoCalendar', () => {
         expect(wrapper.emitted()['emit-to-date']).toBeDefined()
         expect(wrapper.emitted()['emit-from-date'][0][0]).toEqual({ fromDate: weekStart })
         expect(wrapper.emitted()['emit-to-date'][1][0]).toEqual({ toDate: endOfNextWeek })
+      })
+
+      it('Sets latestDate if last day of week is after latestDate', () => {
+        const latestDate = new Date(2019, 7, 1)
+        const wrapper = getWrappedComponent()
+        wrapper.setProps({ latestDate })
+        const calendarPicker = wrapper.vm.$refs.calendarPicker
+        const weekStart = startOfWeek(today)
+        const weekEnd = endOfWeek(today)
+        calendarPicker.$emit('select-week', {
+          fromDate: weekStart,
+          toDate: weekEnd
+        })
+        calendarPicker.$emit('select-week', {
+          fromDate: weekStart,
+          toDate: weekEnd
+        })
+        expect(wrapper.vm.fromRawDate).toEqual(weekStart)
+        expect(wrapper.vm.toRawDate).toEqual(latestDate)
+        expect(wrapper.vm.fromFormattedDate).toBe('28/07/2019')
+        expect(wrapper.vm.toFormattedDate).toBe('01/08/2019')
+        expect(wrapper.emitted()['emit-from-date']).toBeDefined()
+        expect(wrapper.emitted()['emit-to-date']).toBeDefined()
+        expect(wrapper.emitted()['emit-from-date'][0][0]).toEqual({ fromDate: weekStart })
+        expect(wrapper.emitted()['emit-to-date'][1][0]).toEqual({ toDate: latestDate })
       })
     })
 

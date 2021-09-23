@@ -456,6 +456,8 @@ export default {
     },
 
     selectWeek ({ fromDate, toDate }) {
+      const possibleFirstDayOfSelectedWeek = isAfter(this.earliestDate, fromDate) ? this.earliestDate : fromDate
+      const possibleLastDayOfSelectedWeek = isBefore(this.latestDate, toDate) ? this.latestDate : toDate
       const computedDayForDifference = _.isNull(fromDate)
         ? new Date(0)
         : fromDate
@@ -470,7 +472,7 @@ export default {
           this.isFromInputFieldExplicitlyFocused ||
           distanceToFromDate < distanceToToDate
 
-      const unverifiedRange = this.getUnverifiedRange(fromDate, toDate, isSettingFromDate)
+      const unverifiedRange = this.getUnverifiedRange(possibleFirstDayOfSelectedWeek, possibleLastDayOfSelectedWeek, isSettingFromDate)
 
       const unverifiedStart = _.isNull(unverifiedRange.start)
         ? new Date(0)
@@ -483,12 +485,12 @@ export default {
       const validatedRange = isRangeValid
         ? unverifiedRange
         : {
-          start: unverifiedRange.end,
-          end: unverifiedRange.start
+          start: startOfWeek(unverifiedRange.end, { locale: this.locale }),
+          end: endOfWeek(unverifiedRange.start, { locale: this.locale })
         }
 
-      this.fromRawDate = validatedRange.start && startOfWeek(validatedRange.start, { locale: this.locale })
-      this.toRawDate = validatedRange.end && endOfWeek(validatedRange.end, { locale: this.locale })
+      this.fromRawDate = validatedRange.start
+      this.toRawDate = validatedRange.end
 
       this.setFormattedDates()
 
