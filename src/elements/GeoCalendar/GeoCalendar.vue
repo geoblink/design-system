@@ -370,7 +370,10 @@ export default {
     selectMonth (monthIndex) {
       this.currentMonth = monthIndex
       const firstDayOfMonth = new Date(Date.UTC(this.currentYear, this.currentMonth))
+      const possibleFirstDayOfSelectedMonth = isAfter(this.earliestDate, firstDayOfMonth) ? this.earliestDate : firstDayOfMonth
       const lastDayOfMonth = endOfMonth(firstDayOfMonth)
+      const possibleLastDayOfSelectedMonth = isBefore(this.latestDate, lastDayOfMonth) ? this.latestDate : lastDayOfMonth
+
       const isMonthBeforeRangeStart = this.hasFromDate && this.currentMonth < getMonth(this.fromRawDate)
 
       const { distanceToFromDate, distanceToToDate } = this.getDateDistances(firstDayOfMonth, differenceInMonths)
@@ -382,7 +385,7 @@ export default {
           this.isFromInputFieldExplicitlyFocused ||
           distanceToFromDate < distanceToToDate
 
-      const unverifiedRange = this.getUnverifiedRange(firstDayOfMonth, lastDayOfMonth, isSettingFromDate)
+      const unverifiedRange = this.getUnverifiedRange(possibleFirstDayOfSelectedMonth, possibleLastDayOfSelectedMonth, isSettingFromDate)
 
       const isRangeValid = this.validateRange(unverifiedRange.start, unverifiedRange.end)
 
@@ -406,7 +409,9 @@ export default {
 
     selectQuarter (monthIndex) {
       const fromDate = startOfQuarter(new Date(this.currentYear, monthIndex))
+      const possibleFirstDayOfSelectedQuarter = isAfter(this.earliestDate, fromDate) ? this.earliestDate : fromDate
       const toDate = endOfQuarter(new Date(this.currentYear, monthIndex))
+      const possibleLastDayOfSelectedQuarter = isBefore(this.latestDate, toDate) ? this.latestDate : toDate
 
       const computedDayForDifference = _.isNull(fromDate)
         ? new Date(0)
@@ -422,7 +427,7 @@ export default {
           this.isFromInputFieldExplicitlyFocused ||
           distanceToFromDate < distanceToToDate
 
-      const unverifiedRange = this.getUnverifiedRange(fromDate, toDate, isSettingFromDate)
+      const unverifiedRange = this.getUnverifiedRange(possibleFirstDayOfSelectedQuarter, possibleLastDayOfSelectedQuarter, isSettingFromDate)
 
       const unverifiedStart = _.isNull(unverifiedRange.start)
         ? new Date(0)
@@ -435,12 +440,12 @@ export default {
       const validatedRange = isRangeValid
         ? unverifiedRange
         : {
-          start: unverifiedRange.end,
-          end: unverifiedRange.start
+          start: startOfQuarter(unverifiedRange.end),
+          end: endOfQuarter(unverifiedRange.start)
         }
 
-      this.fromRawDate = validatedRange.start && startOfQuarter(validatedRange.start)
-      this.toRawDate = validatedRange.end && endOfQuarter(validatedRange.end)
+      this.fromRawDate = validatedRange.start
+      this.toRawDate = validatedRange.end
 
       this.setFormattedDates()
 
@@ -451,6 +456,8 @@ export default {
     },
 
     selectWeek ({ fromDate, toDate }) {
+      const possibleFirstDayOfSelectedWeek = isAfter(this.earliestDate, fromDate) ? this.earliestDate : fromDate
+      const possibleLastDayOfSelectedWeek = isBefore(this.latestDate, toDate) ? this.latestDate : toDate
       const computedDayForDifference = _.isNull(fromDate)
         ? new Date(0)
         : fromDate
@@ -465,7 +472,7 @@ export default {
           this.isFromInputFieldExplicitlyFocused ||
           distanceToFromDate < distanceToToDate
 
-      const unverifiedRange = this.getUnverifiedRange(fromDate, toDate, isSettingFromDate)
+      const unverifiedRange = this.getUnverifiedRange(possibleFirstDayOfSelectedWeek, possibleLastDayOfSelectedWeek, isSettingFromDate)
 
       const unverifiedStart = _.isNull(unverifiedRange.start)
         ? new Date(0)
@@ -478,12 +485,12 @@ export default {
       const validatedRange = isRangeValid
         ? unverifiedRange
         : {
-          start: unverifiedRange.end,
-          end: unverifiedRange.start
+          start: startOfWeek(unverifiedRange.end, { locale: this.locale }),
+          end: endOfWeek(unverifiedRange.start, { locale: this.locale })
         }
 
-      this.fromRawDate = validatedRange.start && startOfWeek(validatedRange.start, { locale: this.locale })
-      this.toRawDate = validatedRange.end && endOfWeek(validatedRange.end, { locale: this.locale })
+      this.fromRawDate = validatedRange.start
+      this.toRawDate = validatedRange.end
 
       this.setFormattedDates()
 
@@ -496,7 +503,9 @@ export default {
     selectYear (year) {
       this.currentYear = year
       const firstDayOfYear = new Date(this.currentYear, 0)
+      const possibleFirstDayOfSelectedYear = isAfter(this.earliestDate, firstDayOfYear) ? this.earliestDate : firstDayOfYear
       const lastDayOfYear = endOfYear(new Date(this.currentYear, 0))
+      const possibleLastDayOfSelectedYear = isBefore(this.latestDate, lastDayOfYear) ? this.latestDate : lastDayOfYear
 
       const isYearBeforeRangeStart = this.hasFromDate && this.currentYear < getYear(this.fromRawDate)
 
@@ -509,7 +518,7 @@ export default {
           this.isFromInputFieldExplicitlyFocused ||
           distanceToFromDate < distanceToToDate
 
-      const unverifiedRange = this.getUnverifiedRange(firstDayOfYear, lastDayOfYear, isSettingFromDate)
+      const unverifiedRange = this.getUnverifiedRange(possibleFirstDayOfSelectedYear, possibleLastDayOfSelectedYear, isSettingFromDate)
 
       const isRangeValid = this.validateRange(unverifiedRange.start, unverifiedRange.end)
 
