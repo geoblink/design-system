@@ -1,5 +1,8 @@
 # Changelog
 
+## 30.0.4
+
+- `GeoCalendar`: Fix bug on selected date time so we don't change the date when transforming to ISO
 ## 30.0.3
 
 Changed:
