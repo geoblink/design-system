@@ -593,7 +593,8 @@ export default {
     },
 
     getUTCValidatedRange (validatedRange) {
-      // this works for any hour in a UTC positive timezone, if we ever care about time or need to use it in a
+      // TODO: https://geoblink.atlassian.net/browse/CORE-9234
+      // This logic works for any hour in a UTC positive timezone, if we ever care about time or need to use it in a
       // timezone before UTC we'd have to rethink it so it doesn't change the date when transforming to UTC.
       const start = validatedRange.start && this.formatDateToUTC(startOfDay(validatedRange.start))
       const end = validatedRange.end && this.formatDateToUTC(startOfDay(validatedRange.end))
