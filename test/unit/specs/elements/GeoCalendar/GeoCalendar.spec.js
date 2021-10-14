@@ -23,7 +23,7 @@ import getYear from 'date-fns/getYear'
 import startOfYear from 'date-fns/startOfYear'
 import subDays from 'date-fns/subDays'
 
-const today = new Date(2019, 6, 30) // Fixed date to avoid future errors with random dates
+const today = new Date(Date.UTC(2019, 6, 30)) // Fixed date to avoid future errors with random dates
 
 describe('Mixins', () => {
   describe('GeoCalendarGranularityId.mixin', () => {
@@ -89,7 +89,7 @@ describe('GeoCalendar', () => {
       const calendarPicker = wrapper.vm.$refs.calendarPicker
       const selectedDay = addDays(today, 4)
       calendarPicker.$emit('select-day', selectedDay)
-      expect(wrapper.vm.fromRawDate).toBe(selectedDay)
+      expect(wrapper.vm.fromRawDate).toEqual(selectedDay)
       expect(wrapper.vm.fromFormattedDate).toBe('03/08/2019')
       expect(wrapper.emitted()['emit-from-date']).toBeDefined()
       expect(wrapper.emitted()['emit-from-date'][0][0]).toEqual({ fromDate: selectedDay })
@@ -124,10 +124,11 @@ describe('GeoCalendar', () => {
         calendarPicker.$emit('select-month', 8)
         expect(wrapper.vm.currentMonth).toBe(8)
         const currentDate = endOfMonth(new Date(Date.UTC(wrapper.vm.currentYear, wrapper.vm.currentMonth)))
-        expect(wrapper.vm.toRawDate).toEqual(currentDate)
+        const validatedUtcRange = wrapper.vm.getUTCValidatedRange({ end: currentDate })
+        expect(wrapper.vm.toRawDate).toEqual(validatedUtcRange.end)
         expect(wrapper.vm.toFormattedDate).toBe('30/09/2019')
         expect(wrapper.emitted()['emit-to-date']).toBeDefined()
-        expect(wrapper.emitted()['emit-to-date'][1][0]).toEqual({ toDate: currentDate })
+        expect(wrapper.emitted()['emit-to-date'][1][0]).toEqual({ toDate: validatedUtcRange.end })
       })
 
       it('Sets earliestDate if first day of month is before earliestDate', () => {
@@ -140,10 +141,11 @@ describe('GeoCalendar', () => {
         const calendarPicker = wrapper.vm.$refs.calendarPicker
         calendarPicker.$emit('select-month', 8)
         expect(wrapper.vm.currentMonth).toBe(8)
-        expect(wrapper.vm.fromRawDate).toEqual(earliestDate)
+        const validatedUtcRange = wrapper.vm.getUTCValidatedRange({ start: earliestDate })
+        expect(wrapper.vm.fromRawDate).toEqual(validatedUtcRange.start)
         expect(wrapper.vm.fromFormattedDate).toBe('21/09/2019')
         expect(wrapper.emitted()['emit-from-date']).toBeDefined()
-        expect(wrapper.emitted()['emit-from-date'][0][0]).toEqual({ fromDate: earliestDate })
+        expect(wrapper.emitted()['emit-from-date'][0][0]).toEqual({ fromDate: validatedUtcRange.start })
       })
 
       it('Sets latestDate if last day of month is after latestDate', () => {
@@ -160,10 +162,11 @@ describe('GeoCalendar', () => {
         calendarPicker.$emit('select-month', 6)
         calendarPicker.$emit('select-month', 8)
         expect(wrapper.vm.currentMonth).toBe(8)
-        expect(wrapper.vm.toRawDate).toEqual(latestDate)
+        const validatedUtcRange = wrapper.vm.getUTCValidatedRange({ end: latestDate })
+        expect(wrapper.vm.toRawDate).toEqual(validatedUtcRange.end)
         expect(wrapper.vm.toFormattedDate).toBe('21/09/2019')
         expect(wrapper.emitted()['emit-to-date']).toBeDefined()
-        expect(wrapper.emitted()['emit-to-date'][1][0]).toEqual({ toDate: latestDate })
+        expect(wrapper.emitted()['emit-to-date'][1][0]).toEqual({ toDate: validatedUtcRange.end })
       })
     })
 
@@ -176,10 +179,11 @@ describe('GeoCalendar', () => {
         const calendarPicker = wrapper.vm.$refs.calendarPicker
         calendarPicker.$emit('select-quarter', 3)
         const fromDate = startOfQuarter(new Date(wrapper.vm.currentYear, 3))
-        expect(wrapper.vm.fromRawDate).toEqual(fromDate)
+        const validatedUtcRange = wrapper.vm.getUTCValidatedRange({ start: fromDate })
+        expect(wrapper.vm.fromRawDate).toEqual(validatedUtcRange.start)
         expect(wrapper.vm.fromFormattedDate).toBe('01/04/2019')
         expect(wrapper.emitted()['emit-from-date']).toBeDefined()
-        expect(wrapper.emitted()['emit-from-date'][0][0]).toEqual({ fromDate })
+        expect(wrapper.emitted()['emit-from-date'][0][0]).toEqual({ fromDate: validatedUtcRange.start })
       })
 
       it('Sets last day of quarter in to input', () => {
@@ -191,10 +195,11 @@ describe('GeoCalendar', () => {
         calendarPicker.$emit('select-quarter', 4)
         calendarPicker.$emit('select-quarter', 5)
         const toDate = endOfQuarter(new Date(wrapper.vm.currentYear, 5))
-        expect(wrapper.vm.toRawDate).toEqual(toDate)
+        const validatedUtcRange = wrapper.vm.getUTCValidatedRange({ end: toDate })
+        expect(wrapper.vm.toRawDate).toEqual(validatedUtcRange.end)
         expect(wrapper.vm.toFormattedDate).toBe('30/06/2019')
         expect(wrapper.emitted()['emit-to-date']).toBeDefined()
-        expect(wrapper.emitted()['emit-to-date'][1][0]).toEqual({ toDate })
+        expect(wrapper.emitted()['emit-to-date'][1][0]).toEqual({ toDate: validatedUtcRange.end })
       })
 
       it('Sets last day of another quarter in to input', () => {
@@ -206,10 +211,11 @@ describe('GeoCalendar', () => {
         calendarPicker.$emit('select-quarter', 4)
         calendarPicker.$emit('select-quarter', 8)
         const toDate = endOfQuarter(new Date(wrapper.vm.currentYear, 8))
-        expect(wrapper.vm.toRawDate).toEqual(toDate)
+        const validatedUtcRange = wrapper.vm.getUTCValidatedRange({ end: toDate })
+        expect(wrapper.vm.toRawDate).toEqual(validatedUtcRange.end)
         expect(wrapper.vm.toFormattedDate).toBe('30/09/2019')
         expect(wrapper.emitted()['emit-to-date']).toBeDefined()
-        expect(wrapper.emitted()['emit-to-date'][1][0]).toEqual({ toDate })
+        expect(wrapper.emitted()['emit-to-date'][1][0]).toEqual({ toDate: validatedUtcRange.end })
       })
 
       it('Sets earliestDate if first day of quarter is before earliestDate', () => {
@@ -221,10 +227,11 @@ describe('GeoCalendar', () => {
         })
         const calendarPicker = wrapper.vm.$refs.calendarPicker
         calendarPicker.$emit('select-quarter', 3)
-        expect(wrapper.vm.fromRawDate).toEqual(earliestDate)
+        const validatedUtcRange = wrapper.vm.getUTCValidatedRange({ start: earliestDate })
+        expect(wrapper.vm.fromRawDate).toEqual(validatedUtcRange.start)
         expect(wrapper.vm.fromFormattedDate).toBe('21/05/2019')
         expect(wrapper.emitted()['emit-from-date']).toBeDefined()
-        expect(wrapper.emitted()['emit-from-date'][0][0]).toEqual({ fromDate: earliestDate })
+        expect(wrapper.emitted()['emit-from-date'][0][0]).toEqual({ fromDate: validatedUtcRange.start })
       })
 
       it('Sets latestDate if last day of quarter is after latestDate', () => {
@@ -237,10 +244,11 @@ describe('GeoCalendar', () => {
         const calendarPicker = wrapper.vm.$refs.calendarPicker
         calendarPicker.$emit('select-quarter', 4)
         calendarPicker.$emit('select-quarter', 8)
-        expect(wrapper.vm.toRawDate).toEqual(latestDate)
+        const validatedUtcRange = wrapper.vm.getUTCValidatedRange({ end: latestDate })
+        expect(wrapper.vm.toRawDate).toEqual(validatedUtcRange.end)
         expect(wrapper.vm.toFormattedDate).toBe('21/09/2019')
         expect(wrapper.emitted()['emit-to-date']).toBeDefined()
-        expect(wrapper.emitted()['emit-to-date'][1][0]).toEqual({ toDate: latestDate })
+        expect(wrapper.emitted()['emit-to-date'][1][0]).toEqual({ toDate: validatedUtcRange.end })
       })
     })
 
@@ -254,10 +262,11 @@ describe('GeoCalendar', () => {
           fromDate: weekStart,
           toDate: weekEnd
         })
-        expect(wrapper.vm.fromRawDate).toEqual(weekStart)
+        const validatedUtcRange = wrapper.vm.getUTCValidatedRange({ start: weekStart })
+        expect(wrapper.vm.fromRawDate).toEqual(validatedUtcRange.start)
         expect(wrapper.vm.fromFormattedDate).toBe('28/07/2019')
         expect(wrapper.emitted()['emit-from-date']).toBeDefined()
-        expect(wrapper.emitted()['emit-from-date'][0][0]).toEqual({ fromDate: weekStart })
+        expect(wrapper.emitted()['emit-from-date'][0][0]).toEqual({ fromDate: validatedUtcRange.start })
       })
 
       it('Sets earliestDate if first day of week is before earliestDate', () => {
@@ -271,10 +280,11 @@ describe('GeoCalendar', () => {
           fromDate: weekStart,
           toDate: weekEnd
         })
-        expect(wrapper.vm.fromRawDate).toEqual(earliestDate)
+        const validatedUtcRange = wrapper.vm.getUTCValidatedRange({ start: earliestDate })
+        expect(wrapper.vm.fromRawDate).toEqual(validatedUtcRange.start)
         expect(wrapper.vm.fromFormattedDate).toBe('30/07/2019')
         expect(wrapper.emitted()['emit-from-date']).toBeDefined()
-        expect(wrapper.emitted()['emit-from-date'][0][0]).toEqual({ fromDate: earliestDate })
+        expect(wrapper.emitted()['emit-from-date'][0][0]).toEqual({ fromDate: validatedUtcRange.start })
       })
 
       it('Sets last day of week in to input', () => {
@@ -290,14 +300,15 @@ describe('GeoCalendar', () => {
           fromDate: weekStart,
           toDate: weekEnd
         })
-        expect(wrapper.vm.fromRawDate).toEqual(weekStart)
-        expect(wrapper.vm.toRawDate).toEqual(weekEnd)
+        const validatedUtcRange = wrapper.vm.getUTCValidatedRange({ start: weekStart, end: weekEnd })
+        expect(wrapper.vm.fromRawDate).toEqual(validatedUtcRange.start)
+        expect(wrapper.vm.toRawDate).toEqual(validatedUtcRange.end)
         expect(wrapper.vm.fromFormattedDate).toBe('28/07/2019')
         expect(wrapper.vm.toFormattedDate).toBe('03/08/2019')
         expect(wrapper.emitted()['emit-from-date']).toBeDefined()
         expect(wrapper.emitted()['emit-to-date']).toBeDefined()
-        expect(wrapper.emitted()['emit-from-date'][0][0]).toEqual({ fromDate: weekStart })
-        expect(wrapper.emitted()['emit-to-date'][1][0]).toEqual({ toDate: weekEnd })
+        expect(wrapper.emitted()['emit-from-date'][0][0]).toEqual({ fromDate: validatedUtcRange.start })
+        expect(wrapper.emitted()['emit-to-date'][1][0]).toEqual({ toDate: validatedUtcRange.end })
       })
 
       it('Sets last day of another week in to input', () => {
@@ -317,14 +328,15 @@ describe('GeoCalendar', () => {
           fromDate: startOfNextWeek,
           toDate: endOfNextWeek
         })
-        expect(wrapper.vm.fromRawDate).toEqual(weekStart)
-        expect(wrapper.vm.toRawDate).toEqual(endOfNextWeek)
+        const validatedUtcRange = wrapper.vm.getUTCValidatedRange({ start: weekStart, end: endOfNextWeek })
+        expect(wrapper.vm.fromRawDate).toEqual(validatedUtcRange.start)
+        expect(wrapper.vm.toRawDate).toEqual(validatedUtcRange.end)
         expect(wrapper.vm.fromFormattedDate).toBe('28/07/2019')
         expect(wrapper.vm.toFormattedDate).toBe('10/08/2019')
         expect(wrapper.emitted()['emit-from-date']).toBeDefined()
         expect(wrapper.emitted()['emit-to-date']).toBeDefined()
-        expect(wrapper.emitted()['emit-from-date'][0][0]).toEqual({ fromDate: weekStart })
-        expect(wrapper.emitted()['emit-to-date'][1][0]).toEqual({ toDate: endOfNextWeek })
+        expect(wrapper.emitted()['emit-from-date'][0][0]).toEqual({ fromDate: validatedUtcRange.start })
+        expect(wrapper.emitted()['emit-to-date'][1][0]).toEqual({ toDate: validatedUtcRange.end })
       })
 
       it('Sets latestDate if last day of week is after latestDate', () => {
@@ -342,14 +354,15 @@ describe('GeoCalendar', () => {
           fromDate: weekStart,
           toDate: weekEnd
         })
-        expect(wrapper.vm.fromRawDate).toEqual(weekStart)
-        expect(wrapper.vm.toRawDate).toEqual(latestDate)
+        const validatedUtcRange = wrapper.vm.getUTCValidatedRange({ start: weekStart, end: latestDate })
+        expect(wrapper.vm.fromRawDate).toEqual(validatedUtcRange.start)
+        expect(wrapper.vm.toRawDate).toEqual(validatedUtcRange.end)
         expect(wrapper.vm.fromFormattedDate).toBe('28/07/2019')
         expect(wrapper.vm.toFormattedDate).toBe('01/08/2019')
         expect(wrapper.emitted()['emit-from-date']).toBeDefined()
         expect(wrapper.emitted()['emit-to-date']).toBeDefined()
-        expect(wrapper.emitted()['emit-from-date'][0][0]).toEqual({ fromDate: weekStart })
-        expect(wrapper.emitted()['emit-to-date'][1][0]).toEqual({ toDate: latestDate })
+        expect(wrapper.emitted()['emit-from-date'][0][0]).toEqual({ fromDate: validatedUtcRange.start })
+        expect(wrapper.emitted()['emit-to-date'][1][0]).toEqual({ toDate: validatedUtcRange.end })
       })
     })
 
@@ -359,11 +372,11 @@ describe('GeoCalendar', () => {
         const calendarPicker = wrapper.vm.$refs.calendarPicker
         calendarPicker.$emit('select-year', 2020)
         expect(wrapper.vm.currentYear).toBe(2020)
-        const startOfYear = new Date(2020, 0)
-        expect(wrapper.vm.fromRawDate).toEqual(startOfYear)
+        const startUTCValidatedRange = wrapper.vm.getUTCValidatedRange({ start: new Date(2020, 0) })
+        expect(wrapper.vm.fromRawDate).toEqual(startUTCValidatedRange.start)
         expect(wrapper.vm.fromFormattedDate).toBe('01/01/2020')
         expect(wrapper.emitted()['emit-from-date']).toBeDefined()
-        expect(wrapper.emitted()['emit-from-date'][0][0]).toEqual({ fromDate: startOfYear })
+        expect(wrapper.emitted()['emit-from-date'][0][0]).toEqual({ fromDate: startUTCValidatedRange.start })
       })
 
       it('Sets last day of year in to input', () => {
@@ -375,11 +388,11 @@ describe('GeoCalendar', () => {
         calendarPicker.$emit('select-year', 2019)
         calendarPicker.$emit('select-year', 2020)
         expect(wrapper.vm.currentYear).toBe(2020)
-        const currentDate = endOfYear(new Date(wrapper.vm.currentYear, wrapper.vm.currentMonth))
-        expect(wrapper.vm.toRawDate).toEqual(currentDate)
+        const endUTCValidatedRange = wrapper.vm.getUTCValidatedRange({ end: endOfYear(new Date(wrapper.vm.currentYear, wrapper.vm.currentMonth)) })
+        expect(wrapper.vm.toRawDate).toEqual(endUTCValidatedRange.end)
         expect(wrapper.vm.toFormattedDate).toBe('31/12/2020')
         expect(wrapper.emitted()['emit-to-date']).toBeDefined()
-        expect(wrapper.emitted()['emit-to-date'][1][0]).toEqual({ toDate: currentDate })
+        expect(wrapper.emitted()['emit-to-date'][1][0]).toEqual({ toDate: endUTCValidatedRange.end })
       })
 
       it('Sets earliestDate if first day of year is before earliestDate', () => {
@@ -388,11 +401,12 @@ describe('GeoCalendar', () => {
         wrapper.setProps({ earliestDate })
         const calendarPicker = wrapper.vm.$refs.calendarPicker
         calendarPicker.$emit('select-year', 2020)
+        const validatedUtcRange = wrapper.vm.getUTCValidatedRange({ start: earliestDate })
         expect(wrapper.vm.currentYear).toBe(2020)
-        expect(wrapper.vm.fromRawDate).toEqual(earliestDate)
+        expect(wrapper.vm.fromRawDate).toEqual(validatedUtcRange.start)
         expect(wrapper.vm.fromFormattedDate).toBe('21/05/2020')
         expect(wrapper.emitted()['emit-from-date']).toBeDefined()
-        expect(wrapper.emitted()['emit-from-date'][0][0]).toEqual({ fromDate: earliestDate })
+        expect(wrapper.emitted()['emit-from-date'][0][0]).toEqual({ fromDate: validatedUtcRange.start })
       })
 
       it('Sets latestDate if last day of year is after latestDate', () => {
@@ -405,11 +419,12 @@ describe('GeoCalendar', () => {
         const calendarPicker = wrapper.vm.$refs.calendarPicker
         calendarPicker.$emit('select-year', 2019)
         calendarPicker.$emit('select-year', 2020)
+        const validatedUtcRange = wrapper.vm.getUTCValidatedRange({ end: latestDate })
         expect(wrapper.vm.currentYear).toBe(2020)
-        expect(wrapper.vm.toRawDate).toEqual(latestDate)
+        expect(wrapper.vm.toRawDate).toEqual(validatedUtcRange.end)
         expect(wrapper.vm.toFormattedDate).toBe('21/09/2020')
         expect(wrapper.emitted()['emit-to-date']).toBeDefined()
-        expect(wrapper.emitted()['emit-to-date'][1][0]).toEqual({ toDate: latestDate })
+        expect(wrapper.emitted()['emit-to-date'][1][0]).toEqual({ toDate: validatedUtcRange.end })
       })
     })
   })
@@ -433,14 +448,15 @@ describe('GeoCalendar', () => {
 
         wrapper.vm.selectDay(invalidFromDateRange)
 
-        expect(wrapper.vm.fromRawDate).toBe(endDate)
-        expect(wrapper.vm.toRawDate).toBe(invalidFromDateRange)
+        const validFromDateRange = wrapper.vm.getUTCValidatedRange({ start: endDate, end: invalidFromDateRange })
+        expect(wrapper.vm.fromRawDate).toEqual(validFromDateRange.start)
+        expect(wrapper.vm.toRawDate).toEqual(validFromDateRange.end)
         expect(wrapper.vm.fromFormattedDate).toBe('03/08/2019')
         expect(wrapper.vm.toFormattedDate).toBe('08/08/2019')
         expect(wrapper.emitted()['emit-from-date']).toBeDefined()
         expect(wrapper.emitted()['emit-to-date']).toBeDefined()
-        expect(wrapper.emitted()['emit-from-date'][2][0]).toEqual({ fromDate: endDate })
-        expect(wrapper.emitted()['emit-to-date'][2][0]).toEqual({ toDate: invalidFromDateRange })
+        expect(wrapper.emitted()['emit-from-date'][2][0]).toEqual({ fromDate: validFromDateRange.start })
+        expect(wrapper.emitted()['emit-to-date'][2][0]).toEqual({ toDate: validFromDateRange.end })
       })
     })
 
@@ -463,14 +479,15 @@ describe('GeoCalendar', () => {
         })
 
         wrapper.vm.selectMonth(getMonth(invalidFromDateRange))
-        expect(wrapper.vm.fromRawDate).toEqual(startOfMonth(endDate))
-        expect(wrapper.vm.toRawDate).toEqual(endOfMonth(invalidFromDateRange))
+        const validatedDateRange = wrapper.vm.getUTCValidatedRange({ start: startOfMonth(endDate), end: endOfMonth(invalidFromDateRange) })
+        expect(wrapper.vm.fromRawDate).toEqual(validatedDateRange.start)
+        expect(wrapper.vm.toRawDate).toEqual(validatedDateRange.end)
         expect(wrapper.vm.fromFormattedDate).toBe('01/11/2019')
         expect(wrapper.vm.toFormattedDate).toBe('30/04/2020')
         expect(wrapper.emitted()['emit-from-date']).toBeDefined()
         expect(wrapper.emitted()['emit-to-date']).toBeDefined()
-        expect(wrapper.emitted()['emit-from-date'][2][0]).toEqual({ fromDate: startOfMonth(endDate) })
-        expect(wrapper.emitted()['emit-to-date'][2][0]).toEqual({ toDate: endOfMonth(invalidFromDateRange) })
+        expect(wrapper.emitted()['emit-from-date'][2][0]).toEqual({ fromDate: validatedDateRange.start })
+        expect(wrapper.emitted()['emit-to-date'][2][0]).toEqual({ toDate: validatedDateRange.end })
       })
     })
 
@@ -491,14 +508,15 @@ describe('GeoCalendar', () => {
         })
 
         wrapper.vm.selectYear(getYear(invalidFromDateRange))
-        expect(wrapper.vm.fromRawDate).toEqual(startOfYear(endDate))
-        expect(wrapper.vm.toRawDate).toEqual(endOfYear(invalidFromDateRange))
+        const validFromDateRange = wrapper.vm.getUTCValidatedRange({ start: startOfYear(endDate), end: endOfYear(invalidFromDateRange) })
+        expect(wrapper.vm.fromRawDate).toEqual(validFromDateRange.start)
+        expect(wrapper.vm.toRawDate).toEqual(validFromDateRange.end)
         expect(wrapper.vm.fromFormattedDate).toBe('01/01/2023')
         expect(wrapper.vm.toFormattedDate).toBe('31/12/2028')
         expect(wrapper.emitted()['emit-from-date']).toBeDefined()
         expect(wrapper.emitted()['emit-to-date']).toBeDefined()
-        expect(wrapper.emitted()['emit-from-date'][2][0]).toEqual({ fromDate: startOfYear(endDate) })
-        expect(wrapper.emitted()['emit-to-date'][2][0]).toEqual({ toDate: endOfYear(invalidFromDateRange) })
+        expect(wrapper.emitted()['emit-from-date'][2][0]).toEqual({ fromDate: validFromDateRange.start })
+        expect(wrapper.emitted()['emit-to-date'][2][0]).toEqual({ toDate: validFromDateRange.end })
       })
     })
   })
@@ -595,8 +613,8 @@ describe('GeoCalendar', () => {
         const endDate = addDays(today, 4)
         calendarPicker.$emit('select-day', initialDate)
         calendarPicker.$emit('select-day', endDate)
-        expect(wrapper.vm.fromRawDate).toBe(initialDate)
-        expect(wrapper.vm.toRawDate).toBe(endDate)
+        expect(wrapper.vm.fromRawDate).toStrictEqual(initialDate)
+        expect(wrapper.vm.toRawDate).toStrictEqual(endDate)
         expect(wrapper.vm.fromFormattedDate).toBe('30/07/2019')
         expect(wrapper.vm.toFormattedDate).toBe('03/08/2019')
         expect(wrapper.emitted()['emit-from-date']).toBeDefined()

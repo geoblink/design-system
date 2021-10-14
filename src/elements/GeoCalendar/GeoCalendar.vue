@@ -357,7 +357,10 @@ export default {
           end: unverifiedRange.start
         }
 
-      this.setRawDates(validatedRange)
+      const utcValidatedRange = this.getUTCValidatedRange(validatedRange)
+      this.fromRawDate = utcValidatedRange.start
+      this.toRawDate = utcValidatedRange.end
+
       this.setFormattedDates()
 
       this.emitFromDate({ fromDate: this.fromRawDate })
@@ -395,7 +398,10 @@ export default {
           end: endOfMonth(unverifiedRange.start)
         }
 
-      this.setRawDates(validatedRange)
+      const utcValidatedRange = this.getUTCValidatedRange(validatedRange)
+      this.fromRawDate = utcValidatedRange.start
+      this.toRawDate = utcValidatedRange.end
+
       this.setFormattedDates()
 
       this.emitFromDate({ fromDate: this.fromRawDate })
@@ -441,7 +447,10 @@ export default {
           end: endOfQuarter(unverifiedRange.start)
         }
 
-      this.setRawDates(validatedRange)
+      const utcValidatedRange = this.getUTCValidatedRange(validatedRange)
+      this.fromRawDate = utcValidatedRange.start
+      this.toRawDate = utcValidatedRange.end
+
       this.setFormattedDates()
 
       this.emitFromDate({ fromDate: this.fromRawDate })
@@ -484,7 +493,10 @@ export default {
           end: endOfWeek(unverifiedRange.start, { locale: this.locale })
         }
 
-      this.setRawDates(validatedRange)
+      const utcValidatedRange = this.getUTCValidatedRange(validatedRange)
+      this.fromRawDate = utcValidatedRange.start
+      this.toRawDate = utcValidatedRange.end
+
       this.setFormattedDates()
 
       this.emitFromDate({ fromDate: this.fromRawDate })
@@ -522,7 +534,10 @@ export default {
           end: endOfYear(unverifiedRange.start)
         }
 
-      this.setRawDates(validatedRange)
+      const utcValidatedRange = this.getUTCValidatedRange(validatedRange)
+      this.fromRawDate = utcValidatedRange.start
+      this.toRawDate = utcValidatedRange.end
+
       this.setFormattedDates()
 
       this.emitFromDate({ fromDate: this.fromRawDate })
@@ -549,7 +564,8 @@ export default {
       this.showFromFormatError = false
       this.currentMonth = getMonth(this.earliestDate)
       this.currentYear = getYear(this.earliestDate)
-      this.setRawDates({ start: this.earliestDate, end: this.toRawDate })
+      const utcValidatedRange = this.getUTCValidatedRange({ start: this.earliestDate })
+      this.fromRawDate = utcValidatedRange.start
       this.fromFormattedDate = this.formatDate(this.fromRawDate)
       this.emitFromDate({ fromDate: this.fromRawDate })
     },
@@ -576,11 +592,12 @@ export default {
       if (isValid(this.toRawDate)) this.showToFormatError = false
     },
 
-    setRawDates (validatedRange) {
+    getUTCValidatedRange (validatedRange) {
       // this works for any hour in a UTC positive timezone, if we ever care about time or need to use it in a
       // timezone before UTC we'd have to rethink it so it doesn't change the date when transforming to UTC.
-      this.fromRawDate = validatedRange.start && this.formatDateToUTC(startOfDay(validatedRange.start))
-      this.toRawDate = validatedRange.end && this.formatDateToUTC(startOfDay(validatedRange.end))
+      const start = validatedRange.start && this.formatDateToUTC(startOfDay(validatedRange.start))
+      const end = validatedRange.end && this.formatDateToUTC(startOfDay(validatedRange.end))
+      return { start, end }
     },
 
     deleteFromFormattedDate () {
@@ -602,7 +619,8 @@ export default {
       this.showToFormatError = false
       this.currentMonth = getMonth(this.latestDate)
       this.currentYear = getYear(this.latestDate)
-      this.setRawDates({ start: this.fromRawDate, end: this.latestDate })
+      const utcValidatedRange = this.getUTCValidatedRange({ end: this.latestDate })
+      this.toRawDate = utcValidatedRange.end
       this.toFormattedDate = this.formatDate(this.toRawDate)
       this.emitToDate({ toDate: this.toRawDate })
     },
