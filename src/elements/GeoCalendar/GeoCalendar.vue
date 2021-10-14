@@ -133,6 +133,7 @@ import startOfWeek from 'date-fns/startOfWeek'
 import differenceInDays from 'date-fns/differenceInDays'
 import differenceInMonths from 'date-fns/differenceInMonths'
 import parse from 'date-fns/parse'
+import startOfDay from 'date-fns/startOfDay'
 
 import GeoCalendarRootMixin from './GeoCalendarRoot.mixin'
 import GeoCalendarGranularityIdMixin from './GeoCalendarGranularityId.mixin'
@@ -356,9 +357,7 @@ export default {
           end: unverifiedRange.start
         }
 
-      this.fromRawDate = validatedRange.start
-      this.toRawDate = validatedRange.end
-
+      this.setRawDates(validatedRange)
       this.setFormattedDates()
 
       this.emitFromDate({ fromDate: this.fromRawDate })
@@ -369,7 +368,7 @@ export default {
 
     selectMonth (monthIndex) {
       this.currentMonth = monthIndex
-      const firstDayOfMonth = new Date(Date.UTC(this.currentYear, this.currentMonth))
+      const firstDayOfMonth = startOfMonth(new Date(this.currentYear, this.currentMonth))
       const possibleFirstDayOfSelectedMonth = isAfter(this.earliestDate, firstDayOfMonth) ? this.earliestDate : firstDayOfMonth
       const lastDayOfMonth = endOfMonth(firstDayOfMonth)
       const possibleLastDayOfSelectedMonth = isBefore(this.latestDate, lastDayOfMonth) ? this.latestDate : lastDayOfMonth
@@ -396,9 +395,7 @@ export default {
           end: endOfMonth(unverifiedRange.start)
         }
 
-      this.fromRawDate = validatedRange.start
-      this.toRawDate = validatedRange.end
-
+      this.setRawDates(validatedRange)
       this.setFormattedDates()
 
       this.emitFromDate({ fromDate: this.fromRawDate })
@@ -444,9 +441,7 @@ export default {
           end: endOfQuarter(unverifiedRange.start)
         }
 
-      this.fromRawDate = validatedRange.start
-      this.toRawDate = validatedRange.end
-
+      this.setRawDates(validatedRange)
       this.setFormattedDates()
 
       this.emitFromDate({ fromDate: this.fromRawDate })
@@ -489,9 +484,7 @@ export default {
           end: endOfWeek(unverifiedRange.start, { locale: this.locale })
         }
 
-      this.fromRawDate = validatedRange.start
-      this.toRawDate = validatedRange.end
-
+      this.setRawDates(validatedRange)
       this.setFormattedDates()
 
       this.emitFromDate({ fromDate: this.fromRawDate })
@@ -529,9 +522,7 @@ export default {
           end: endOfYear(unverifiedRange.start)
         }
 
-      this.fromRawDate = validatedRange.start
-      this.toRawDate = validatedRange.end
-
+      this.setRawDates(validatedRange)
       this.setFormattedDates()
 
       this.emitFromDate({ fromDate: this.fromRawDate })
@@ -558,7 +549,7 @@ export default {
       this.showFromFormatError = false
       this.currentMonth = getMonth(this.earliestDate)
       this.currentYear = getYear(this.earliestDate)
-      this.fromRawDate = this.earliestDate
+      this.setRawDates({ start: this.earliestDate, end: this.toRawDate })
       this.fromFormattedDate = this.formatDate(this.fromRawDate)
       this.emitFromDate({ fromDate: this.fromRawDate })
     },
@@ -585,6 +576,13 @@ export default {
       if (isValid(this.toRawDate)) this.showToFormatError = false
     },
 
+    setRawDates (validatedRange) {
+      // this works for any hour in a UTC positive timezone, if we ever care about time or need to use it in a
+      // timezone before UTC we'd have to rethink it so it doesn't change the date when transforming to UTC.
+      this.fromRawDate = validatedRange.start && this.formatDateToUTC(startOfDay(validatedRange.start))
+      this.toRawDate = validatedRange.end && this.formatDateToUTC(startOfDay(validatedRange.end))
+    },
+
     deleteFromFormattedDate () {
       this.fromFormattedDate = ''
       this.fromRawDate = null
@@ -604,7 +602,7 @@ export default {
       this.showToFormatError = false
       this.currentMonth = getMonth(this.latestDate)
       this.currentYear = getYear(this.latestDate)
-      this.toRawDate = this.latestDate
+      this.setRawDates({ start: this.fromRawDate, end: this.latestDate })
       this.toFormattedDate = this.formatDate(this.toRawDate)
       this.emitToDate({ toDate: this.toRawDate })
     },
@@ -701,6 +699,11 @@ export default {
       } else {
         this.lastInputFieldFocused = FOCUSABLE_INPUT_FIELDS.TO_DATE
       }
+    },
+
+    formatDateToUTC (date) {
+      if (!date) return
+      return new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()))
     }
   }
 }
