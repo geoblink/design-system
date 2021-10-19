@@ -41,19 +41,23 @@
       </geo-select-toggle-button>
     </slot>
 
-    <!-- @slot _Optional_. Use this slot to customize search form. -->
-    <slot
-      v-if="searchable"
-      name="search-header"
-    >
-      <geo-bordered-box-header-search-form
+    <template slot="header">
+      <!-- @slot _Optional_. Use this slot to add a custom header. -->
+      <slot name="header" />
+      <!-- @slot _Optional_. Use this slot to customize search form. -->
+      <slot
         v-if="searchable"
-        slot="header"
-        v-model="searchPattern"
-        :search-icon="searchIcon"
-        :placeholder="searchInputPlaceholder"
-      />
-    </slot>
+        name="searchHeader"
+      >
+        <geo-bordered-box-header-search-form
+          v-if="searchable"
+          slot="header"
+          v-model="searchPattern"
+          :search-icon="searchIcon"
+          :placeholder="searchInputPlaceholder"
+        />
+      </slot>
+    </template>
 
     <template v-if="visibleOptions.length">
       <template v-if="isGroupedSelect">
@@ -151,6 +155,11 @@
     <slot
       slot="moreResultsTextContent"
       name="moreResultsTextContent"
+    />
+    <!-- @slot Use this slot to customize the footer of the selection popup -->
+    <slot
+      slot="footer"
+      name="footer"
     />
   </geo-select-base>
 </template>
