@@ -89,7 +89,10 @@
 
     <template slot="header">
       <!-- @slot _Optional_. Use this slot to add a custom header. -->
-      <slot name="header" />
+      <slot
+        name="header"
+        :toggleSelect="toggleSelect"
+      />
       <!-- @slot _Optional_. Use this slot to customize search form. -->
       <slot
         v-if="searchable"
