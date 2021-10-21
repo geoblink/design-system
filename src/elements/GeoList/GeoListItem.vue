@@ -142,7 +142,7 @@ export default {
   },
   computed: {
     isTrailingItemWrapperVisible () {
-      return this.$slots.trailingAccessoryItem || (this.disabled && this.disabledIcon)
+      return this.$slots.trailingAccessoryItem || this.trailingIcon
     }
   }
 }
