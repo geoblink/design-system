@@ -33,14 +33,13 @@
         <!-- @slot Use this slot to add more items to the trailing edge of this row -->
         <slot name="trailingAccessoryItem" />
 
-        <template v-if="disabled && disabledIcon">
-          <font-awesome-icon
-            :icon="disabledIcon"
-            class="geo-list-item__icon-and-label__icon-container__icon"
-            aria-hidden
-            fixed-width
-          />
-        </template>
+        <font-awesome-icon
+          v-if="trailingIcon"
+          :icon="trailingIcon"
+          class="geo-list-item__icon-and-label__icon-container__icon"
+          aria-hidden
+          fixed-width
+        />
       </div>
     </div>
     <div
@@ -54,10 +53,10 @@
       <slot name="description" />
     </div>
     <geo-tooltip
-      v-if="disabledTooltipContent"
-      :position="disabledTooltipPosition"
+      v-if="tooltipContent"
+      :position="tooltipPosition"
     >
-      {{ disabledTooltipContent }}
+      {{ tooltipContent }}
     </geo-tooltip>
   </component>
 </template>
@@ -105,30 +104,30 @@ export default {
 
     /**
      * Optional Font Awesome 5 icon to be displayed next to the entry's label,
-     * on the right when the item is disabled.
+     * on the right.
      *
      * See [vue-fontawesome](https://www.npmjs.com/package/@fortawesome/vue-fontawesome#explicit-prefix-note-the-vue-bind-shorthand-because-this-uses-an-array)
      * for more info about this.
      */
-    disabledIcon: {
+    trailingIcon: {
       type: Array,
       required: false
     },
 
     /**
-     * Text to be displayed inside a tooltip when the item is disabled.
+     * Text to be displayed inside a tooltip next to the item.
      */
-    disabledTooltipContent: {
+    tooltipContent: {
       type: String,
       required: false
     },
 
     /**
-     * Position for the tooltip with the disabled tooltip content
+     * Position for the tooltip with the tooltip content
      */
-    disabledTooltipPosition: enumPropertyFactory({
+    tooltipPosition: enumPropertyFactory({
       componentName: 'GeoListItem',
-      propertyName: 'disabledTooltipPosition',
+      propertyName: 'tooltipPosition',
       enumDictionary: POSITIONS,
       defaultValue: POSITIONS.trailing
     }),
