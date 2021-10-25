@@ -236,6 +236,7 @@
     <slot
       slot="footer"
       name="footer"
+      :toggleSelect="toggleSelect"
     />
   </geo-select-base>
 </template>
