@@ -1,5 +1,9 @@
 # Changelog
+## 30.0.5
 
+- `GeoSelect`: Added slots with scope to customise header and footer
+- `GeoMultiselect`: Added slots with scope to customise header and footer
+- `GeoListItem`: Added options to add trailing icon and tooltip
 ## 30.0.4
 
 - `GeoCalendar`: Fix bug on selected date time so we don't change the date when transforming to ISO
