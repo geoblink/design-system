@@ -437,7 +437,7 @@ function positionTickHtmlLabel (group, text, content, index, singleAxisOptions, 
       text.attr('style', 'visibility: hidden')
       const foreignObjectElem = getForeignObjectElem()
       const width = globalAxesConfig.chart.margin.left - tickLineSpace
-      foreignObjectElem.attr('width', width)
+      foreignObjectElem.attr('width', _.max(width, 0))
       foreignObjectElem.attr('x', xValue - width)
       foreignObjectElem.attr('y', -height / 2)
       const div = foreignObjectElem.select('div')
@@ -448,7 +448,7 @@ function positionTickHtmlLabel (group, text, content, index, singleAxisOptions, 
       text.attr('style', 'visibility: hidden')
       const foreignObjectElem = getForeignObjectElem()
       const width = globalAxesConfig.chart.margin.right - tickLineSpace
-      foreignObjectElem.attr('width', width)
+      foreignObjectElem.attr('width', _.max(width, 0))
       foreignObjectElem.attr('x', xValue)
       foreignObjectElem.attr('y', -height / 2)
       const div = foreignObjectElem.select('div')

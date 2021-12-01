@@ -1,4 +1,7 @@
 # Changelog
+## 30.0.6
+
+- `GeoChart`: Fix negative width for axis ticks
 ## 30.0.5
 
 - `GeoSelect`: Added slots with scope to customise header and footer
