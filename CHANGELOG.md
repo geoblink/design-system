@@ -1,23 +1,23 @@
 # Changelog
 ## 30.0.6
-
+Fix:
 - `GeoChart`: Fix negative width for axis ticks
 ## 30.0.5
-
+New:
 - `GeoSelect`: Added slots with scope to customise header and footer
 - `GeoMultiselect`: Added slots with scope to customise header and footer
 - `GeoListItem`: Added options to add trailing icon and tooltip
 ## 30.0.4
-
+Fix:
 - `GeoCalendar`: Fix bug on selected date time so we don't change the date when transforming to ISO
 ## 30.0.3
 
-Changed:
+Fix:
 
 - `GeoCalendar`: Fix bug that allowed to select a date outside the earliestDate-latestDate range
 ## 30.0.2
 
-New:
+Fix:
 
 - `Geochart`: Fix axis bug in local
 
