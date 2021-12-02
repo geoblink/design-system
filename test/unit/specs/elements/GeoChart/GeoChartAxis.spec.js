@@ -1080,6 +1080,96 @@ describe('GeoChartAxis', function () {
         testHorizontalAxis(axisConfig)
       })
 
+      describe('Foreign object width', function () {
+        describe('Left axis', function () {
+          const axisConfig = _.merge({}, linearAxisConfig, {
+            position: { type: GeoChart.constants.AXIS.POSITIONS.left }
+          })
+
+          const leftMarginTestConfigs = [
+            {
+              name: 'Should use calculated width when width is positive',
+              chartConfig: {
+                margin: {
+                  left: 30,
+                  bottom: 0,
+                  top: 0,
+                  right: 0
+                }
+              }
+            },
+            {
+              name: 'Should use width 0 when width is negative because margin is 0',
+              chartConfig: {
+                margin: {
+                  left: 0,
+                  bottom: 0,
+                  top: 0,
+                  right: 0
+                }
+              }
+            },
+            {
+              name: 'Should use width 0 when width is negative because margin is negative',
+              chartConfig: {
+                margin: {
+                  left: -10,
+                  bottom: 0,
+                  top: 0,
+                  right: 0
+                }
+              }
+            }
+          ]
+
+          _.forEach(leftMarginTestConfigs, test => testVerticalAxisWidth(axisConfig, test.chartConfig, test.name))
+        })
+
+        describe('Right axis', function () {
+          const axisConfig = _.merge({}, linearAxisConfig, {
+            position: { type: GeoChart.constants.AXIS.POSITIONS.right }
+          })
+
+          const rightMarginTestConfigs = [
+            {
+              name: 'Should use calculated width when width is positive',
+              chartConfig: {
+                margin: {
+                  right: 30,
+                  bottom: 0,
+                  top: 0,
+                  left: 0
+                }
+              }
+            },
+            {
+              name: 'Should use width 0 when width is negative because margin is 0',
+              chartConfig: {
+                margin: {
+                  right: 0,
+                  bottom: 0,
+                  top: 0,
+                  left: 0
+                }
+              }
+            },
+            {
+              name: 'Should use width 0 when width is negative because margin is negative',
+              chartConfig: {
+                margin: {
+                  right: -10,
+                  bottom: 0,
+                  top: 0,
+                  left: 0
+                }
+              }
+            }
+          ]
+
+          _.forEach(rightMarginTestConfigs, test => testVerticalAxisWidth(axisConfig, test.chartConfig, test.name))
+        })
+      })
+
       function testVerticalAxis (axisConfig) {
         it('Should replace ticks text with html in vertical axis', function () {
           const wrapper = mount(GeoChart, {
@@ -1107,6 +1197,35 @@ describe('GeoChartAxis', function () {
             expect(div.classes(`geo-chart-axis-text--${axisConfig.position.type}`)).toBe(true)
             const spanContent = allTicks.at(i).find('foreignObject div span').text()
             expect(text.text()).toEqual(spanContent)
+          }
+        })
+      }
+
+      function testVerticalAxisWidth (axisConfig, chartConfig, testName) {
+        it(testName, function () {
+          const wrapper = mount(GeoChart, {
+            propsData: {
+              config: {
+                axisGroups: [axisConfig],
+                chart: chartConfig
+              }
+            }
+          })
+
+          flushD3Transitions()
+
+          expect(wrapper.find('.geo-chart').exists()).toBe(true)
+          expect(wrapper.find('.geo-chart-axis').exists()).toBe(true)
+          expect(wrapper.find('.geo-chart-axis .tick').exists()).toBe(true)
+          expect(wrapper.find('.geo-chart-axis .tick text').exists()).toBe(true)
+          expect(wrapper.find('.geo-chart-axis .tick foreignObject').exists()).toBe(true)
+
+          const allTicks = wrapper.findAll('.geo-chart-axis .tick')
+
+          for (let i = 0; i < allTicks.length; i++) {
+            const foreignObj = allTicks.at(i).find('foreignObject')
+            const foreignObjectWidth = parseInt(foreignObj.attributes().width)
+            expect(foreignObjectWidth >= 0).toBe(true)
           }
         })
       }
