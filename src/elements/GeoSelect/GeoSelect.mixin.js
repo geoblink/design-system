@@ -359,6 +359,7 @@ export default {
       if (this.disabled) return
 
       this.isOpened = !this.isOpened
+      this.$emit('toggle', this.isOpened)
     },
 
     loadNextPage (payload) {
