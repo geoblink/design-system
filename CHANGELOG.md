@@ -1,4 +1,7 @@
 # Changelog
+## 30.0.7
+New:
+- `GeoMultiSelect`: Added new property to paginate items inside groups + emit event on toggle
 ## 30.0.6
 Fix:
 - `GeoChart`: Fix negative width for axis ticks

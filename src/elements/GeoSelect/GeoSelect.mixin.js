@@ -157,8 +157,8 @@ export default {
     },
 
     /**
-     * Flag to indicate if it should paginate the items inside the groups when the
-     * items are grouped.
+     * Flag to indicate if it should paginate the items inside the groups instead of the groups
+     * themselves when the items are grouped.
      */
     isPaginatingGroupItems: {
       type: Boolean,
