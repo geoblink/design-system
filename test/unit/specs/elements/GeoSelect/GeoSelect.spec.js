@@ -351,12 +351,12 @@ describe('GeoSelect', () => {
             {
               isOptGroup: true,
               label: 'First Group',
-              items: _.times(pageSize + 1, idx => { return {label: `Item ${idx}`, id: `First${idx}`} }),
+              items: _.times(pageSize + 1, idx => { return { label: `Item ${idx}`, id: `First${idx}` } })
             },
             {
               isOptGroup: true,
               label: 'Second Group',
-              items: _.times(pageSize, idx => { return {label: `Item ${idx}`, id: `Second${idx}`} }),
+              items: _.times(pageSize, idx => { return { label: `Item ${idx}`, id: `Second${idx}` } })
             }
           ],
           pageSize,
@@ -383,12 +383,12 @@ describe('GeoSelect', () => {
               isOptGroup: true,
               label: 'First Group',
               // just one item over pageSize so when we load the next we load items from the next group
-              items: _.times(pageSize + 1, idx => { return {label: `Item ${idx}`, id: `First${idx}`} }),
+              items: _.times(pageSize + 1, idx => { return { label: `Item ${idx}`, id: `First${idx}` } })
             },
             {
               isOptGroup: true,
               label: 'Second Group',
-              items: _.times(pageSize, idx => { return {label: `Item ${idx}`, id: `Second${idx}`} }),
+              items: _.times(pageSize, idx => { return { label: `Item ${idx}`, id: `Second${idx}` } })
             }
           ],
           pageSize,
@@ -418,12 +418,12 @@ describe('GeoSelect', () => {
               isOptGroup: true,
               label: 'First Group',
               // 2 times pageSize so when loading next page we don't load any item from second group
-              items: _.times(2 * pageSize, idx => { return {label: `Item ${idx}`, id: `First${idx}`} }),
+              items: _.times(2 * pageSize, idx => { return { label: `Item ${idx}`, id: `First${idx}` } })
             },
             {
               isOptGroup: true,
               label: 'Second Group',
-              items: _.times(pageSize, idx => { return {label: `Item ${idx}`, id: `Second${idx}`} }),
+              items: _.times(pageSize, idx => { return { label: `Item ${idx}`, id: `Second${idx}` } })
             }
           ],
           pageSize,
@@ -452,12 +452,12 @@ describe('GeoSelect', () => {
             {
               isOptGroup: true,
               label: 'First Group',
-              items: _.times(pageSize, idx => { return {label: `Item ${idx}`, id: `First${idx}`} }),
+              items: _.times(pageSize, idx => { return { label: `Item ${idx}`, id: `First${idx}` } })
             },
             {
               isOptGroup: true,
               label: 'Second Group',
-              items: _.times(pageSize, idx => { return {label: `Item ${idx}`, id: `Second${idx}`} }),
+              items: _.times(pageSize, idx => { return { label: `Item ${idx}`, id: `Second${idx}` } })
             }
           ],
           pageSize,
@@ -484,12 +484,12 @@ describe('GeoSelect', () => {
             {
               isOptGroup: true,
               label: 'First Group',
-              items: _.times(pageSize, idx => { return {label: `Item ${idx}`, id: `First${idx}`} }),
+              items: _.times(pageSize, idx => { return { label: `Item ${idx}`, id: `First${idx}` } })
             },
             {
               isOptGroup: true,
               label: 'Second Group',
-              items: _.times(pageSize, idx => { return {label: `Item ${idx}`, id: `Second${idx}`} }),
+              items: _.times(pageSize, idx => { return { label: `Item ${idx}`, id: `Second${idx}` } })
             }
           ],
           pageSize,
