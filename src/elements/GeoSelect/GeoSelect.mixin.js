@@ -355,7 +355,7 @@ export default {
 
     visibleOptions () {
       if (this.hasToCalculatePaginatedGroupItems) {
-        const visibleGroups = _.slice(_.cloneDeep(this.filteredOptions), this.visibleChunkRange.start, this.visibleChunkRange.endGroup)
+        const visibleGroups = _.cloneDeep(_.slice(this.filteredOptions, this.visibleChunkRange.start, this.visibleChunkRange.endGroup))
         const lastGroup = _.last(visibleGroups)
         lastGroup.items = _.slice(lastGroup.items, this.visibleChunkRange.start, this.visibleChunkRange.end)
         return visibleGroups
@@ -366,7 +366,7 @@ export default {
 
     hasMoreResultsToLoad () {
       if (this.hasToCalculatePaginatedGroupItems) {
-        const lastGroupIndex = this.filteredOptions.length - 1
+        const lastGroupIndex = this.filteredOptions.length
         const lastItemIndex = _.get(_.last(this.filteredOptions), 'items.length')
         return this.visibleChunkRange.endGroup < lastGroupIndex || this.visibleChunkRange.end < lastItemIndex
       } else {
