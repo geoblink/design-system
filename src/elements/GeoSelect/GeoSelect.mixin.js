@@ -157,16 +157,6 @@ export default {
     },
 
     /**
-     * Flag to indicate if it should paginate the items inside the groups instead of the groups
-     * themselves when the items are grouped.
-     */
-    isPaginatingGroupItems: {
-      type: Boolean,
-      required: false,
-      default: false
-    },
-
-    /**
      * Font Awesome 5 icon to be displayed as dropdown toggle button.
      *
      * See [vue-fontawesome](https://www.npmjs.com/package/@fortawesome/vue-fontawesome#explicit-prefix-note-the-vue-bind-shorthand-because-this-uses-an-array)
@@ -360,7 +350,7 @@ export default {
         lastGroup.items = _.slice(lastGroup.items, this.visibleChunkRange.start, this.visibleChunkRange.end)
         return visibleGroups
       } else {
-        return this.filteredOptions.slice(this.visibleChunkRange.start, this.visibleChunkRange.end)
+        return _.slice(this.filteredOptions, this.visibleChunkRange.start, this.visibleChunkRange.end)
       }
     },
 
@@ -375,7 +365,7 @@ export default {
     },
 
     hasToCalculatePaginatedGroupItems () {
-      return this.grouped && this.isPaginatingGroupItems && this.pageSize
+      return this.grouped && this.pageSize
     }
   },
   methods: {
