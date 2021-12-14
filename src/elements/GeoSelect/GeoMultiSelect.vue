@@ -340,6 +340,7 @@ export default {
           isOptGroupHeader,
           [self.keyForLabel]: item[self.keyForLabel],
           items: item.items,
+          notPaginatedItems: item.items,
           item
         }
       }
@@ -408,8 +409,8 @@ export default {
 
     toggleGroup (option) {
       const emittedValue = this.isGroupChecked(option)
-        ? _.reject(this.value, (elem) => _.find(option.items, { item: { [this.keyForId]: elem[this.keyForId] } }))
-        : _.unionBy(this.value, _.map(option.items, 'item'), this.keyForId)
+        ? _.reject(this.value, (elem) => _.find(option.notPaginatedItems, { [this.keyForId]: elem[this.keyForId] }))
+        : _.unionBy(this.value, option.notPaginatedItems, this.keyForId)
 
       this.changeModel(emittedValue)
     },
