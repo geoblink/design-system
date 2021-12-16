@@ -47,7 +47,8 @@ const stubs = {
   GeoListGroup,
   GeoInput,
   GeoTooltip,
-  FontAwesomeIcon
+  FontAwesomeIcon,
+  'geo-list-footer-button': true
 }
 
 const requiredProps = {
@@ -216,5 +217,60 @@ describe('GeoMultiSelect', () => {
     wrapper.find('.geo-input__input').trigger('input')
     expect(wrapper.findAll('.geo-list-item').length).toBe(1)
     expect(wrapper.find('.geo-list-item').text()).toEqual('Item 1')
+  })
+
+  it('Should toggle all items in group when toggling group', () => {
+    const firstGroupItems = _.times(5, idx => { return { label: `Item ${idx}`, id: `First${idx}` } })
+    const wrapper = mount(GeoMultiSelect, {
+      stubs,
+      propsData: _.assign(requiredProps, {
+        options: [
+          {
+            isOptGroup: true,
+            label: 'First Group',
+            items: firstGroupItems
+          }
+        ],
+        grouped: true
+      }),
+      data () {
+        return {
+          isOpened: true
+        }
+      }
+    })
+    const changeModelSpy = jest.spyOn(wrapper.vm, 'changeModel')
+    expect(wrapper.findAll('.geo-list-item').length).toBe(5)
+    expect(wrapper.findAll('.geo-list-group').length).toBe(1)
+    wrapper.findAll('.geo-list-group').at(0).find('.geo-list-group__header .geo-multi-select_input').trigger('input')
+    expect(changeModelSpy).toHaveBeenCalledWith(firstGroupItems)
+  })
+
+  it('Should toggle all items in group when toggling group even if they\'re not visible because of pagination', () => {
+    const firstGroupItems = _.times(5, idx => { return { label: `Item ${idx}`, id: `First${idx}` } })
+    const wrapper = mount(GeoMultiSelect, {
+      stubs,
+      propsData: _.assign(requiredProps, {
+        options: [
+          {
+            isOptGroup: true,
+            label: 'First Group',
+            items: firstGroupItems
+          }
+        ],
+        grouped: true,
+        pageSize: 3
+      }),
+      data () {
+        return {
+          isOpened: true
+        }
+      }
+    })
+    const changeModelSpy = jest.spyOn(wrapper.vm, 'changeModel')
+    expect(wrapper.findAll('.geo-list-item').length).toBe(3)
+    expect(wrapper.findAll('.geo-list-group').length).toBe(1)
+    wrapper.findAll('.geo-list-group').at(0).find('.geo-list-group__header .geo-multi-select_input').trigger('input')
+    expect(changeModelSpy).toHaveBeenCalledWith(firstGroupItems)
   })
 })

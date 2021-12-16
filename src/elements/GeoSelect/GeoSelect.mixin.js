@@ -324,18 +324,48 @@ export default {
     },
 
     visibleChunkRange () {
+      let end = this.pageSize ? this.lastVisiblePage * this.pageSize : this.filteredOptions.length
+      let endGroup
+      if (this.hasToCalculatePaginatedGroupItems) {
+        _.forEach(this.filteredOptions, (group, index) => {
+          const accumulatedItems = _.sumBy(_.slice(this.filteredOptions, 0, index + 1), 'items.length')
+          if (end <= accumulatedItems) {
+            endGroup = index + 1
+            end = end - (accumulatedItems - group.items.length)
+            return false
+          }
+        })
+      }
       return {
         start: 0,
-        end: this.pageSize ? this.lastVisiblePage * this.pageSize : this.filteredOptions.length
+        end,
+        endGroup
       }
     },
 
     visibleOptions () {
-      return this.filteredOptions.slice(this.visibleChunkRange.start, this.visibleChunkRange.end)
+      if (this.hasToCalculatePaginatedGroupItems) {
+        const visibleGroups = _.cloneDeep(_.slice(this.filteredOptions, this.visibleChunkRange.start, this.visibleChunkRange.endGroup))
+        const lastGroup = _.last(visibleGroups)
+        lastGroup.items = _.slice(lastGroup.items, this.visibleChunkRange.start, this.visibleChunkRange.end)
+        return visibleGroups
+      } else {
+        return _.slice(this.filteredOptions, this.visibleChunkRange.start, this.visibleChunkRange.end)
+      }
     },
 
     hasMoreResultsToLoad () {
-      return this.lastVisiblePage * this.pageSize < this.filteredOptions.length
+      if (this.hasToCalculatePaginatedGroupItems) {
+        const lastGroupIndex = this.filteredOptions.length
+        const lastItemIndex = _.get(_.last(this.filteredOptions), 'items.length')
+        return this.visibleChunkRange.endGroup < lastGroupIndex || this.visibleChunkRange.end < lastItemIndex
+      } else {
+        return this.lastVisiblePage * this.pageSize < this.filteredOptions.length
+      }
+    },
+
+    hasToCalculatePaginatedGroupItems () {
+      return this.grouped && this.pageSize
     }
   },
   methods: {
@@ -353,12 +383,14 @@ export default {
 
     closeSelect () {
       this.isOpened = false
+      this.$emit('toggle', this.isOpened)
     },
 
     toggleSelect () {
       if (this.disabled) return
 
       this.isOpened = !this.isOpened
+      this.$emit('toggle', this.isOpened)
     },
 
     loadNextPage (payload) {

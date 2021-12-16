@@ -48,6 +48,7 @@ const stubs = {
   GeoListGroup,
   GeoInput,
   GeoTooltip,
+  'geo-list-footer-button': true,
   'font-awesome-icon': FontAwesomeIcon
 }
 
@@ -221,6 +222,7 @@ describe('GeoSelect', () => {
             items: _.times(4, idx => { return { label: `Item ${idx}` } })
           }
         ],
+        pageSize: 10,
         searchIcon: ['fas', 'search'],
         searchable: true,
         grouped: true
@@ -262,6 +264,250 @@ describe('GeoSelect', () => {
       wrapper.find('.geo-select-toggle-button').trigger('click')
 
       expect(wrapper.find('.geo-select-base__options-container').exists()).toBe(false)
+    })
+  })
+
+  describe('When paginating', () => {
+    const pageSize = 5
+
+    it('Should show initial visible items equal to page size', () => {
+      const wrapper = mount(GeoSelect, {
+        stubs,
+        propsData: _.assign({}, defaultProps, {
+          options: _.times(3 * pageSize, idx => { return { label: `${idx}` } }),
+          pageSize
+        }),
+        data () {
+          return {
+            isOpened: true
+          }
+        }
+      })
+      expect(wrapper.findAll('.geo-list-item').length).toBe(pageSize)
+    })
+
+    it('Should load items equal to page size after loading more items', () => {
+      const mockScrollToLastEntry = jest.fn()
+      const wrapper = mount(GeoSelect, {
+        stubs,
+        propsData: _.assign({}, defaultProps, {
+          options: _.times(3 * pageSize, idx => { return { label: `${idx}` } }),
+          pageSize
+        }),
+        data () {
+          return {
+            isOpened: true
+          }
+        }
+      })
+      expect(_.size(wrapper.vm.visibleOptions)).toEqual(pageSize)
+      wrapper.vm.loadNextPage({ scrollToLastEntry: mockScrollToLastEntry })
+      expect(wrapper.findAll('.geo-list-item').length).toBe(2 * pageSize)
+    })
+
+    it('Should show footer button to load more items when there are items to load', () => {
+      const wrapper = mount(GeoSelect, {
+        stubs,
+        propsData: _.assign({}, defaultProps, {
+          options: _.times(2 * pageSize, idx => { return { label: `${idx}` } }),
+          pageSize
+        }),
+        data () {
+          return {
+            isOpened: true
+          }
+        }
+      })
+      expect(wrapper.findAll('.geo-list-item').length).toBe(pageSize)
+      expect(wrapper.find('geo-list-footer-button-stub').exists()).toBe(true)
+    })
+
+    it('Should NOT show footer button to load more items when all items loaded', () => {
+      const mockScrollToLastEntry = jest.fn()
+      const wrapper = mount(GeoSelect, {
+        stubs,
+        propsData: _.assign({}, defaultProps, {
+          options: _.times(2 * pageSize, idx => { return { label: `${idx}` } }),
+          pageSize
+        }),
+        data () {
+          return {
+            isOpened: true
+          }
+        }
+      })
+      expect(wrapper.findAll('.geo-list-item').length).toBe(pageSize)
+      expect(wrapper.find('geo-list-footer-button-stub').exists()).toBe(true)
+      wrapper.vm.loadNextPage({ scrollToLastEntry: mockScrollToLastEntry })
+      expect(wrapper.findAll('.geo-list-item').length).toBe(2 * pageSize)
+      expect(wrapper.find('geo-list-footer-button-stub').exists()).toBe(false)
+    })
+
+    it('Should show initial visible items equal to page size when grouping', () => {
+      const wrapper = mount(GeoSelect, {
+        stubs,
+        propsData: _.assign({}, defaultProps, {
+          options: [
+            {
+              isOptGroup: true,
+              label: 'First Group',
+              items: _.times(pageSize + 1, idx => { return { label: `Item ${idx}`, id: `First${idx}` } })
+            },
+            {
+              isOptGroup: true,
+              label: 'Second Group',
+              items: _.times(pageSize, idx => { return { label: `Item ${idx}`, id: `Second${idx}` } })
+            }
+          ],
+          pageSize,
+          grouped: true
+        }),
+        data () {
+          return {
+            isOpened: true
+          }
+        }
+      })
+
+      expect(wrapper.findAll('.geo-list-item').length).toBe(pageSize)
+      expect(wrapper.findAll('.geo-list-group').length).toBe(1)
+    })
+
+    it('Should show next group when loading next page if is loading items from next group', () => {
+      const mockScrollToLastEntry = jest.fn()
+      const wrapper = mount(GeoSelect, {
+        stubs,
+        propsData: _.assign({}, defaultProps, {
+          options: [
+            {
+              isOptGroup: true,
+              label: 'First Group',
+              // just one item over pageSize so when we load the next we load items from the next group
+              items: _.times(pageSize + 1, idx => { return { label: `Item ${idx}`, id: `First${idx}` } })
+            },
+            {
+              isOptGroup: true,
+              label: 'Second Group',
+              items: _.times(pageSize, idx => { return { label: `Item ${idx}`, id: `Second${idx}` } })
+            }
+          ],
+          pageSize,
+          grouped: true
+        }),
+        data () {
+          return {
+            isOpened: true
+          }
+        }
+      })
+
+      expect(wrapper.findAll('.geo-list-item').length).toBe(pageSize)
+      expect(wrapper.findAll('.geo-list-group').length).toBe(1)
+      wrapper.vm.loadNextPage({ scrollToLastEntry: mockScrollToLastEntry })
+      expect(wrapper.findAll('.geo-list-item').length).toBe(2 * pageSize)
+      expect(wrapper.findAll('.geo-list-group').length).toBe(2)
+    })
+
+    it('Should NOT show next group when loading next page if is NOT loading items from next group', () => {
+      const mockScrollToLastEntry = jest.fn()
+      const wrapper = mount(GeoSelect, {
+        stubs,
+        propsData: _.assign({}, defaultProps, {
+          options: [
+            {
+              isOptGroup: true,
+              label: 'First Group',
+              // 2 times pageSize so when loading next page we don't load any item from second group
+              items: _.times(2 * pageSize, idx => { return { label: `Item ${idx}`, id: `First${idx}` } })
+            },
+            {
+              isOptGroup: true,
+              label: 'Second Group',
+              items: _.times(pageSize, idx => { return { label: `Item ${idx}`, id: `Second${idx}` } })
+            }
+          ],
+          pageSize,
+          grouped: true
+        }),
+        data () {
+          return {
+            isOpened: true
+          }
+        }
+      })
+
+      expect(wrapper.findAll('.geo-list-item').length).toBe(pageSize)
+      expect(wrapper.findAll('.geo-list-group').length).toBe(1)
+      wrapper.vm.loadNextPage({ scrollToLastEntry: mockScrollToLastEntry })
+      expect(wrapper.findAll('.geo-list-item').length).toBe(2 * pageSize)
+      expect(wrapper.findAll('.geo-list-group').length).toBe(1)
+    })
+
+    it('Should show footer button to load more items when grouping when there are items to load', () => {
+      const mockScrollToLastEntry = jest.fn()
+      const wrapper = mount(GeoSelect, {
+        stubs,
+        propsData: _.assign({}, defaultProps, {
+          options: [
+            {
+              isOptGroup: true,
+              label: 'First Group',
+              items: _.times(pageSize, idx => { return { label: `Item ${idx}`, id: `First${idx}` } })
+            },
+            {
+              isOptGroup: true,
+              label: 'Second Group',
+              items: _.times(pageSize, idx => { return { label: `Item ${idx}`, id: `Second${idx}` } })
+            }
+          ],
+          pageSize,
+          grouped: true
+        }),
+        data () {
+          return {
+            isOpened: true
+          }
+        }
+      })
+      expect(wrapper.findAll('.geo-list-item').length).toBe(pageSize)
+      expect(wrapper.findAll('.geo-list-group').length).toBe(1)
+      expect(wrapper.find('geo-list-footer-button-stub').exists()).toBe(true)
+      wrapper.vm.loadNextPage({ scrollToLastEntry: mockScrollToLastEntry })
+    })
+
+    it('Should NOT show footer button to load more items when grouping when all items loaded', () => {
+      const mockScrollToLastEntry = jest.fn()
+      const wrapper = mount(GeoSelect, {
+        stubs,
+        propsData: _.assign({}, defaultProps, {
+          options: [
+            {
+              isOptGroup: true,
+              label: 'First Group',
+              items: _.times(pageSize, idx => { return { label: `Item ${idx}`, id: `First${idx}` } })
+            },
+            {
+              isOptGroup: true,
+              label: 'Second Group',
+              items: _.times(pageSize, idx => { return { label: `Item ${idx}`, id: `Second${idx}` } })
+            }
+          ],
+          pageSize,
+          grouped: true
+        }),
+        data () {
+          return {
+            isOpened: true
+          }
+        }
+      })
+      expect(wrapper.findAll('.geo-list-item').length).toBe(pageSize)
+      expect(wrapper.findAll('.geo-list-group').length).toBe(1)
+      expect(wrapper.find('geo-list-footer-button-stub').exists()).toBe(true)
+      wrapper.vm.loadNextPage({ scrollToLastEntry: mockScrollToLastEntry })
+      expect(wrapper.findAll('.geo-list-item').length).toBe(2 * pageSize)
+      expect(wrapper.findAll('.geo-list-group').length).toBe(2)
+      expect(wrapper.find('geo-list-footer-button-stub').exists()).toBe(false)
     })
   })
 })
