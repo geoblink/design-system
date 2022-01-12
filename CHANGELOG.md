@@ -1,4 +1,7 @@
 # Changelog
+## 30.0.8
+Fix:
+- Replace deprecated node-sass library
 ## 30.0.7
 New:
 - `GeoMultiSelect`: Now pagination is applied on grouped items not on groups
