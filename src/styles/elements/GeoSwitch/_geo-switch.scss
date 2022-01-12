@@ -35,7 +35,7 @@
 
   .geo-switch__background {
     background: $color-grey-light;
-    border-radius: $space-small / 2;
+    border-radius: calc($space-small / 2);
     height: $space-small;
     margin-right: $space-small;
     position: relative;
@@ -47,11 +47,11 @@
     $size: 6px;
 
     background: $color-white;
-    border-radius: $size / 2;
+    border-radius: calc($size / 2);
     height: $size;
-    left: ($space-small - $size) / 2;
+    left: calc(($space-small - $size) / 2);
     position: absolute;
-    top: ($space-small - $size) / 2;
+    top: calc(($space-small - $size) / 2);
     transition: transform $duration-noticeable $easing-base;
     width: $size;
   }
