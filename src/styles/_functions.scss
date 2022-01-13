@@ -135,9 +135,9 @@
 }
 
 @function brighten($hex, $brightness) {
-  $r: red($hex)   / 255;
-  $g: green($hex) / 255;
-  $b: blue($hex)  / 255;
+  $r: calc(red($hex)/ 255);
+  $g: calc(green($hex) / 255);
+  $b: calc(blue($hex)  / 255);
 
   // Convert to RGB
   $rgb-max:   max($r, $g, $b);
@@ -148,15 +148,15 @@
 
   $saturation: 0;
   @if $rgb-max != 0 {
-    $saturation: $rgb-delta / $rgb-max;
+    $saturation: calc($rgb-delta / $rgb-max);
   }
   $saturation: $saturation * 100;
 
   $brightness: min($rgb-max * 100 + $brightness, 100);
 
   // Convert to HSLA
-  $hsl-lightness:  (2 - $saturation / 100) * ($brightness / 2);
-  $hsl-saturation: ($brightness * $saturation) / if($hsl-lightness < 50, $hsl-lightness * 2, 200 - $hsl-lightness * 2);
+  $hsl-lightness:  (2 - calc($saturation / 100)) * (calc($brightness / 2));
+  $hsl-saturation: calc(($brightness * $saturation) / if($hsl-lightness < 50, $hsl-lightness * 2, 200 - $hsl-lightness * 2));
 
-  @return hsla($hue, $hsl-saturation, $hsl-lightness, 1);
+  @return hsla($hue, $hsl-saturation * 1%, $hsl-lightness * 1%, 1);
 }
