@@ -1,6 +1,6 @@
 {
   "name": "@geoblink/design-system",
-  "version": "30.0.8",
+  "version": "30.0.9",
   "description": "Geoblink Design System for Vue.js",
   "author": "Geoblink <contact@geoblink.com>",
   "main": "dist/system.js",
@@ -149,7 +149,7 @@
     "postcss-url": "^8.0.0",
     "resize-observer-polyfill": "^1.5.1",
     "rimraf": "^3.0.0",
-    "sass" : "^1.47.0",
+    "sass": "^1.47.0",
     "sass-loader": "^8.0.2",
     "sass-resources-loader": "^2.2.4",
     "semver": "^7.1.1",
