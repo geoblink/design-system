@@ -18,7 +18,7 @@
             v-model="fromFormattedDate"
             :placeholder="fromInputPlaceholder"
             type="text"
-            :read-only="isInputReadOnly"
+            :read-only="isFromInputReadOnly"
             :error="showFromFormatError"
             :focus="isFromInputFieldFocused"
             @focus="focusFromDateInput"
@@ -56,7 +56,7 @@
             v-model="toFormattedDate"
             :placeholder="toInputPlaceholder"
             type="text"
-            :read-only="isInputReadOnly"
+            :read-only="isToInputReadOnly"
             :error="showToFormatError"
             :focus="isToInputFieldFocused"
             @focus="focusToDateInput"
@@ -224,8 +224,12 @@ export default {
       return (date) => date && isValid(date) && this.isDateWithinBounds(date)
     },
 
-    isInputReadOnly () {
-      return this.granularityId !== GRANULARITY_IDS.day
+    isFromInputReadOnly () {
+      return this.granularityId !== GRANULARITY_IDS.day || this.isToDateOnly
+    },
+
+    isToInputReadOnly () {
+      return this.granularityId !== GRANULARITY_IDS.day || this.isFromDateOnly
     }
   },
 
@@ -233,7 +237,7 @@ export default {
     granularityId () {
       this.deleteFromFormattedDate()
       this.deleteToFormattedDate()
-      this.lastInputFieldFocused = FOCUSABLE_INPUT_FIELDS.FROM_DATE
+      this.lastInputFieldFocused = this.isToDateOnly ? FOCUSABLE_INPUT_FIELDS.TO_DATE : FOCUSABLE_INPUT_FIELDS.FROM_DATE
     },
 
     defaultFromDate () {
@@ -257,6 +261,11 @@ export default {
     this.fromRawDate = this.defaultFromDate || null
     this.toRawDate = this.defaultToDate || null
     this.setFormattedDates()
+    if (this.isFromDateReadOnly) {
+      this.focusToDateInput()
+    } else if (this.isToDateReadOnly) {
+      this.focusFromDateInput()
+    }
   },
 
   methods: {
@@ -333,9 +342,10 @@ export default {
 
       const { distanceToFromDate, distanceToToDate } = this.getDateDistances(computedDayForDifference, differenceInDays)
 
-      const isSettingFromDate = this.isToInputFieldExplicitlyFocused
+      const isSettingFromDate = this.isToInputFieldExplicitlyFocused || this.isToDateOnly
         ? false
-        : !this.hasFromDate ||
+        : this.isFromDateOnly ||
+          !this.hasFromDate ||
           isDayBeforeFromDate ||
           this.isFromInputFieldExplicitlyFocused ||
           distanceToFromDate < distanceToToDate
@@ -380,9 +390,10 @@ export default {
 
       const { distanceToFromDate, distanceToToDate } = this.getDateDistances(firstDayOfMonth, differenceInMonths)
 
-      const isSettingFromDate = this.isToInputFieldExplicitlyFocused
+      const isSettingFromDate = this.isToInputFieldExplicitlyFocused || this.isToDateOnly
         ? false
-        : !this.hasFromDate ||
+        : this.isFromDateOnly ||
+          !this.hasFromDate ||
           isMonthBeforeRangeStart ||
           this.isFromInputFieldExplicitlyFocused ||
           distanceToFromDate < distanceToToDate
@@ -423,9 +434,10 @@ export default {
 
       const { distanceToFromDate, distanceToToDate } = this.getDateDistances(computedDayForDifference, differenceInDays)
 
-      const isSettingFromDate = this.isToInputFieldExplicitlyFocused
+      const isSettingFromDate = this.isToInputFieldExplicitlyFocused || this.isToDateOnly
         ? false
-        : !this.hasFromDate ||
+        : this.isFromDateOnly ||
+          !this.hasFromDate ||
           isDayBeforeFromDate ||
           this.isFromInputFieldExplicitlyFocused ||
           distanceToFromDate < distanceToToDate
@@ -469,9 +481,10 @@ export default {
 
       const { distanceToFromDate, distanceToToDate } = this.getDateDistances(computedDayForDifference, differenceInDays)
 
-      const isSettingFromDate = this.isToInputFieldExplicitlyFocused
+      const isSettingFromDate = this.isToInputFieldExplicitlyFocused || this.isToDateOnly
         ? false
-        : !this.hasFromDate ||
+        : this.isFromDateOnly ||
+          !this.hasFromDate ||
           isDayBeforeFromDate ||
           this.isFromInputFieldExplicitlyFocused ||
           distanceToFromDate < distanceToToDate
@@ -516,9 +529,10 @@ export default {
 
       const { distanceToFromDate, distanceToToDate } = this.getDateDistances(firstDayOfYear, differenceInMonths)
 
-      const isSettingFromDate = this.isToInputFieldExplicitlyFocused
+      const isSettingFromDate = this.isToInputFieldExplicitlyFocused || this.isToDateOnly
         ? false
-        : !this.hasFromDate ||
+        : this.isFromDateOnly ||
+          !this.hasFromDate ||
           isYearBeforeRangeStart ||
           this.isFromInputFieldExplicitlyFocused ||
           distanceToFromDate < distanceToToDate
@@ -637,11 +651,15 @@ export default {
     },
 
     focusFromDateInput () {
+      if (this.isToDateOnly) return
+
       this.isSomeInputFieldExplicitlyFocused = true
       this.lastInputFieldFocused = FOCUSABLE_INPUT_FIELDS.FROM_DATE
     },
 
     focusToDateInput () {
+      if (this.isFromDateOnly) return
+
       this.isSomeInputFieldExplicitlyFocused = true
       this.lastInputFieldFocused = FOCUSABLE_INPUT_FIELDS.TO_DATE
     },
@@ -668,10 +686,12 @@ export default {
 
       const { distanceToFromDate, distanceToToDate } = this.getDateDistances(day, differenceInDays)
 
-      const shouldSetFromDate = !this.hasFromDate ||
+      const shouldSetFromDate = !this.isToDateOnly &&
+        (this.isFromDateOnly ||
+        !this.hasFromDate ||
         isDayBeforeFromDate ||
         this.isFromInputFieldExplicitlyFocused ||
-        distanceToFromDate < distanceToToDate
+        distanceToFromDate < distanceToToDate)
 
       if (shouldSetFromDate) {
         this.lastInputFieldFocused = FOCUSABLE_INPUT_FIELDS.FROM_DATE
@@ -688,10 +708,12 @@ export default {
 
       const { distanceToFromDate, distanceToToDate } = this.getDateDistances(firstDayOfMonth, differenceInMonths)
 
-      const shouldSetFromDate = !this.hasFromDate ||
-          isMonthBeforeRangeStart ||
-          this.isFromInputFieldExplicitlyFocused ||
-          distanceToFromDate < distanceToToDate
+      const shouldSetFromDate = !this.isToDateOnly &&
+        (this.isFromDateOnly ||
+        !this.hasFromDate ||
+        isMonthBeforeRangeStart ||
+        this.isFromInputFieldExplicitlyFocused ||
+        distanceToFromDate < distanceToToDate)
 
       if (shouldSetFromDate) {
         this.lastInputFieldFocused = FOCUSABLE_INPUT_FIELDS.FROM_DATE
@@ -708,10 +730,12 @@ export default {
 
       const { distanceToFromDate, distanceToToDate } = this.getDateDistances(firstDayOfYear, differenceInMonths)
 
-      const shouldSetFromDate = !this.hasFromDate ||
-          isYearBeforeRangeStart ||
-          this.isFromInputFieldExplicitlyFocused ||
-          distanceToFromDate < distanceToToDate
+      const shouldSetFromDate = !this.isToDateOnly &&
+        (this.isFromDateOnly ||
+        !this.hasFromDate ||
+        isYearBeforeRangeStart ||
+        this.isFromInputFieldExplicitlyFocused ||
+        distanceToFromDate < distanceToToDate)
 
       if (shouldSetFromDate) {
         this.lastInputFieldFocused = FOCUSABLE_INPUT_FIELDS.FROM_DATE
