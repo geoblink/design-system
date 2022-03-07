@@ -362,12 +362,25 @@ export default {
         ? isBefore(unverifiedStart, unverifiedRange.end)
         : true
 
-      const validatedRange = isRangeValid
-        ? unverifiedRange
-        : {
-          start: unverifiedRange.end,
-          end: unverifiedRange.start
+      let validatedRange = unverifiedRange
+      if (!isRangeValid) {
+        if (this.isFromDateOnly) {
+          validatedRange = {
+            start: unverifiedRange.start,
+            end: null
+          }
+        } else if (this.isToDateOnly) {
+          validatedRange = {
+            start: null,
+            end: unverifiedRange.end
+          }
+        } else {
+          validatedRange = {
+            start: unverifiedRange.end,
+            end: unverifiedRange.start
+          }
         }
+      }
 
       const utcValidatedRange = this.getUTCValidatedRange(validatedRange)
       this.fromRawDate = utcValidatedRange.start
@@ -404,12 +417,25 @@ export default {
 
       const isRangeValid = this.validateRange(unverifiedRange.start, unverifiedRange.end)
 
-      const validatedRange = isRangeValid
-        ? unverifiedRange
-        : {
-          start: startOfMonth(unverifiedRange.end),
-          end: endOfMonth(unverifiedRange.start)
+      let validatedRange = unverifiedRange
+      if (!isRangeValid) {
+        if (this.isFromDateOnly) {
+          validatedRange = {
+            start: startOfMonth(unverifiedRange.start),
+            end: null
+          }
+        } else if (this.isToDateOnly) {
+          validatedRange = {
+            start: null,
+            end: endOfMonth(unverifiedRange.end)
+          }
+        } else {
+          validatedRange = {
+            start: startOfMonth(unverifiedRange.end),
+            end: endOfMonth(unverifiedRange.start)
+          }
         }
+      }
 
       const utcValidatedRange = this.getUTCValidatedRange(validatedRange)
       this.fromRawDate = utcValidatedRange.start
@@ -454,12 +480,25 @@ export default {
         ? isBefore(unverifiedStart, unverifiedRange.end)
         : true
 
-      const validatedRange = isRangeValid
-        ? unverifiedRange
-        : {
-          start: startOfQuarter(unverifiedRange.end),
-          end: endOfQuarter(unverifiedRange.start)
+      let validatedRange = unverifiedRange
+      if (!isRangeValid) {
+        if (this.isFromDateOnly) {
+          validatedRange = {
+            start: startOfQuarter(unverifiedRange.start),
+            end: null
+          }
+        } else if (this.isToDateOnly) {
+          validatedRange = {
+            start: null,
+            end: endOfQuarter(unverifiedRange.end)
+          }
+        } else {
+          validatedRange = {
+            start: startOfQuarter(unverifiedRange.end),
+            end: endOfQuarter(unverifiedRange.start)
+          }
         }
+      }
 
       const utcValidatedRange = this.getUTCValidatedRange(validatedRange)
       this.fromRawDate = utcValidatedRange.start
@@ -501,12 +540,26 @@ export default {
         ? isBefore(unverifiedStart, unverifiedRange.end)
         : true
 
-      const validatedRange = isRangeValid
-        ? unverifiedRange
-        : {
-          start: startOfWeek(unverifiedRange.end, { locale: this.locale }),
-          end: endOfWeek(unverifiedRange.start, { locale: this.locale })
+      let validatedRange = unverifiedRange
+      if (!isRangeValid) {
+        if (this.isFromDateOnly) {
+          validatedRange = {
+            start: startOfWeek(unverifiedRange.start, { locale: this.locale }),
+            end: null
+          }
+        } else if (this.isToDateOnly) {
+          validatedRange = {
+            start: null,
+            end: endOfWeek(unverifiedRange.end, { locale: this.locale })
+          }
+        } else {
+          validatedRange = {
+            start: startOfWeek(unverifiedRange.end, { locale: this.locale }),
+            end: endOfWeek(unverifiedRange.start, { locale: this.locale })
+          }
         }
+      }
+
 
       const utcValidatedRange = this.getUTCValidatedRange(validatedRange)
       this.fromRawDate = utcValidatedRange.start
@@ -543,12 +596,25 @@ export default {
 
       const isRangeValid = this.validateRange(unverifiedRange.start, unverifiedRange.end)
 
-      const validatedRange = isRangeValid
-        ? unverifiedRange
-        : {
-          start: startOfYear(unverifiedRange.end),
-          end: endOfYear(unverifiedRange.start)
+      let validatedRange = unverifiedRange
+      if (!isRangeValid) {
+        if (this.isFromDateOnly) {
+          validatedRange = {
+            start: startOfYear(unverifiedRange.start),
+            end: null
+          }
+        } else if (this.isToDateOnly) {
+          validatedRange = {
+            start: null,
+            end: endOfYear(unverifiedRange.end)
+          }
+        } else {
+          validatedRange = {
+            start: startOfYear(unverifiedRange.end),
+            end: endOfYear(unverifiedRange.start)
+          }
         }
+      }
 
       const utcValidatedRange = this.getUTCValidatedRange(validatedRange)
       this.fromRawDate = utcValidatedRange.start
