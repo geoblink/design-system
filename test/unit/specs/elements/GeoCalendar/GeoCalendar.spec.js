@@ -95,6 +95,18 @@ describe('GeoCalendar', () => {
       expect(wrapper.emitted()['emit-from-date'][0][0]).toEqual({ fromDate: selectedDay })
     })
 
+    it('selectDay with isToDateOnly prop set', () => {
+      const wrapper = getWrappedComponent()
+      wrapper.setProps({ isToDateOnly: true })
+      const calendarPicker = wrapper.vm.$refs.calendarPicker
+      const selectedDay = addDays(today, 4)
+      calendarPicker.$emit('select-day', selectedDay)
+      expect(wrapper.vm.toRawDate).toEqual(selectedDay)
+      expect(wrapper.vm.toFormattedDate).toBe('03/08/2019')
+      expect(wrapper.emitted()['emit-to-date']).toBeDefined()
+      expect(wrapper.emitted()['emit-to-date'][0][0]).toEqual({ toDate: selectedDay })
+    })
+
     describe('selectMonth', () => {
       it('Sets first day of month in from input', () => {
         const wrapper = getWrappedComponent()
@@ -109,6 +121,23 @@ describe('GeoCalendar', () => {
         expect(wrapper.vm.fromFormattedDate).toBe('01/09/2019')
         expect(wrapper.emitted()['emit-from-date']).toBeDefined()
         expect(wrapper.emitted()['emit-from-date'][0][0]).toEqual({ fromDate: currentDate })
+      })
+
+      it('Sets first day of month in to input when isToDateOnly prop set', () => {
+        const wrapper = getWrappedComponent()
+        wrapper.setData({
+          currentYear: getYear(today)
+        })
+        wrapper.setProps({ isToDateOnly: true })
+        const calendarPicker = wrapper.vm.$refs.calendarPicker
+        calendarPicker.$emit('select-month', 8)
+        expect(wrapper.vm.currentMonth).toBe(8)
+        const currentDate = endOfMonth(new Date(Date.UTC(wrapper.vm.currentYear, wrapper.vm.currentMonth)))
+        const validatedUtcRange = wrapper.vm.getUTCValidatedRange({ end: currentDate })
+        expect(wrapper.vm.toRawDate).toEqual(validatedUtcRange.end)
+        expect(wrapper.vm.toFormattedDate).toBe('30/09/2019')
+        expect(wrapper.emitted()['emit-to-date']).toBeDefined()
+        expect(wrapper.emitted()['emit-to-date'][0][0]).toEqual({ toDate: validatedUtcRange.end })
       })
 
       it('Sets last day of month in to input', () => {
@@ -184,6 +213,22 @@ describe('GeoCalendar', () => {
         expect(wrapper.vm.fromFormattedDate).toBe('01/04/2019')
         expect(wrapper.emitted()['emit-from-date']).toBeDefined()
         expect(wrapper.emitted()['emit-from-date'][0][0]).toEqual({ fromDate: validatedUtcRange.start })
+      })
+
+      it('Sets first day of quarter in to input when isToDateOnly prop set', () => {
+        const wrapper = getWrappedComponent()
+        wrapper.setData({
+          currentYear: getYear(today)
+        })
+        wrapper.setProps({ isToDateOnly: true })
+        const calendarPicker = wrapper.vm.$refs.calendarPicker
+        calendarPicker.$emit('select-quarter', 3)
+        const toDate = endOfQuarter(new Date(wrapper.vm.currentYear, 3))
+        const validatedUtcRange = wrapper.vm.getUTCValidatedRange({ end: toDate })
+        expect(wrapper.vm.toRawDate).toEqual(validatedUtcRange.end)
+        expect(wrapper.vm.toFormattedDate).toBe('30/06/2019')
+        expect(wrapper.emitted()['emit-to-date']).toBeDefined()
+        expect(wrapper.emitted()['emit-to-date'][0][0]).toEqual({ toDate: validatedUtcRange.end })
       })
 
       it('Sets last day of quarter in to input', () => {
@@ -267,6 +312,23 @@ describe('GeoCalendar', () => {
         expect(wrapper.vm.fromFormattedDate).toBe('28/07/2019')
         expect(wrapper.emitted()['emit-from-date']).toBeDefined()
         expect(wrapper.emitted()['emit-from-date'][0][0]).toEqual({ fromDate: validatedUtcRange.start })
+      })
+
+      it('Sets last day of week in to input when isToDateOnly prop set', () => {
+        const wrapper = getWrappedComponent()
+        wrapper.setProps({ isToDateOnly: true })
+        const calendarPicker = wrapper.vm.$refs.calendarPicker
+        const weekStart = startOfWeek(today)
+        const weekEnd = endOfWeek(today)
+        calendarPicker.$emit('select-week', {
+          fromDate: weekStart,
+          toDate: weekEnd
+        })
+        const validatedUtcRange = wrapper.vm.getUTCValidatedRange({ end: weekEnd })
+        expect(wrapper.vm.toRawDate).toEqual(validatedUtcRange.end)
+        expect(wrapper.vm.toFormattedDate).toBe('03/08/2019')
+        expect(wrapper.emitted()['emit-to-date']).toBeDefined()
+        expect(wrapper.emitted()['emit-to-date'][0][0]).toEqual({ toDate: validatedUtcRange.end })
       })
 
       it('Sets earliestDate if first day of week is before earliestDate', () => {
@@ -377,6 +439,22 @@ describe('GeoCalendar', () => {
         expect(wrapper.vm.fromFormattedDate).toBe('01/01/2020')
         expect(wrapper.emitted()['emit-from-date']).toBeDefined()
         expect(wrapper.emitted()['emit-from-date'][0][0]).toEqual({ fromDate: startUTCValidatedRange.start })
+      })
+
+      it('Sets last day of year in to input when isToDateOnly prop set', () => {
+        const wrapper = getWrappedComponent()
+        wrapper.setData({
+          lastInputFieldFocused: FOCUSABLE_INPUT_FIELDS.FROM_DATE
+        })
+        wrapper.setProps({ isToDateOnly: true })
+        const calendarPicker = wrapper.vm.$refs.calendarPicker
+        calendarPicker.$emit('select-year', 2020)
+        expect(wrapper.vm.currentYear).toBe(2020)
+        const endUTCValidatedRange = wrapper.vm.getUTCValidatedRange({ end: endOfYear(new Date(wrapper.vm.currentYear, wrapper.vm.currentMonth)) })
+        expect(wrapper.vm.toRawDate).toEqual(endUTCValidatedRange.end)
+        expect(wrapper.vm.toFormattedDate).toBe('31/12/2020')
+        expect(wrapper.emitted()['emit-to-date']).toBeDefined()
+        expect(wrapper.emitted()['emit-to-date'][0][0]).toEqual({ toDate: endUTCValidatedRange.end })
       })
 
       it('Sets last day of year in to input', () => {
@@ -964,6 +1042,33 @@ describe('GeoCalendar', () => {
           geoCalendarPickerWrapper.vm.$emit('day-unit-mouseover', addDays(today, 5))
           expect(wrapper.vm.lastInputFieldFocused).toBe(null)
         })
+
+        it('Should highlight fromDate input if isFromDateOnly prop is set', () => {
+          const wrapper = getWrappedComponent()
+          wrapper.setProps({ isFromDateOnly: true })
+          const geoCalendarPickerWrapper = wrapper.find(GeoCalendarPicker)
+
+          wrapper.vm.selectDay(today)
+          geoCalendarPickerWrapper.vm.$emit('day-unit-mouseover', addDays(today, 2))
+          expect(wrapper.vm.lastInputFieldFocused).toBe(FOCUSABLE_INPUT_FIELDS.FROM_DATE)
+
+          wrapper.vm.selectDay(addDays(today, 3))
+          geoCalendarPickerWrapper.vm.$emit('day-unit-mouseover', addDays(today, 5))
+          expect(wrapper.vm.lastInputFieldFocused).toBe(FOCUSABLE_INPUT_FIELDS.FROM_DATE)
+        })
+
+        it('Should highlight toDate input if isToDateOnly prop is set', () => {
+          const wrapper = getWrappedComponent()
+          wrapper.setProps({ isToDateOnly: true })
+          const geoCalendarPickerWrapper = wrapper.find(GeoCalendarPicker)
+
+          geoCalendarPickerWrapper.vm.$emit('day-unit-mouseover', today)
+          expect(wrapper.vm.lastInputFieldFocused).toBe(FOCUSABLE_INPUT_FIELDS.TO_DATE)
+
+          wrapper.vm.selectDay(today)
+          geoCalendarPickerWrapper.vm.$emit('day-unit-mouseover', subDays(today, 1))
+          expect(wrapper.vm.lastInputFieldFocused).toBe(FOCUSABLE_INPUT_FIELDS.TO_DATE)
+        })
       })
 
       describe('Month picker', () => {
@@ -1006,6 +1111,33 @@ describe('GeoCalendar', () => {
           geoCalendarPickerWrapper.vm.$emit('month-unit-mouseover', 6)
           expect(wrapper.vm.lastInputFieldFocused).toBe(null)
         })
+
+        it('Should highlight fromDate input if isFromDateOnly prop is set', () => {
+          const wrapper = getWrappedComponent()
+          wrapper.setProps({ isFromDateOnly: true })
+          const geoCalendarPickerWrapper = wrapper.find(GeoCalendarPicker)
+
+          wrapper.vm.selectMonth(2)
+          geoCalendarPickerWrapper.vm.$emit('month-unit-mouseover', 4)
+          expect(wrapper.vm.lastInputFieldFocused).toBe(FOCUSABLE_INPUT_FIELDS.FROM_DATE)
+
+          wrapper.vm.selectMonth(4)
+          geoCalendarPickerWrapper.vm.$emit('month-unit-mouseover', 5)
+          expect(wrapper.vm.lastInputFieldFocused).toBe(FOCUSABLE_INPUT_FIELDS.FROM_DATE)
+        })
+
+        it('Should highlight toDate input if isToDateOnly prop is set', () => {
+          const wrapper = getWrappedComponent()
+          wrapper.setProps({ isToDateOnly: true })
+          const geoCalendarPickerWrapper = wrapper.find(GeoCalendarPicker)
+
+          geoCalendarPickerWrapper.vm.$emit('month-unit-mouseover', 2)
+          expect(wrapper.vm.lastInputFieldFocused).toBe(FOCUSABLE_INPUT_FIELDS.TO_DATE)
+
+          wrapper.vm.selectMonth(2)
+          geoCalendarPickerWrapper.vm.$emit('day-unit-mouseover', 1)
+          expect(wrapper.vm.lastInputFieldFocused).toBe(FOCUSABLE_INPUT_FIELDS.TO_DATE)
+        })
       })
 
       describe('Year picker', () => {
@@ -1047,6 +1179,33 @@ describe('GeoCalendar', () => {
 
           geoCalendarPickerWrapper.vm.$emit('year-unit-mouseover', 2016)
           expect(wrapper.vm.lastInputFieldFocused).toBe(null)
+        })
+
+        it('Should highlight fromDate input if isFromDateOnly prop is set', () => {
+          const wrapper = getWrappedComponent()
+          wrapper.setProps({ isFromDateOnly: true })
+          const geoCalendarPickerWrapper = wrapper.find(GeoCalendarPicker)
+
+          wrapper.vm.selectYear(2012)
+          geoCalendarPickerWrapper.vm.$emit('year-unit-mouseover', 2015)
+          expect(wrapper.vm.lastInputFieldFocused).toBe(FOCUSABLE_INPUT_FIELDS.FROM_DATE)
+
+          wrapper.vm.selectYear(2015)
+          geoCalendarPickerWrapper.vm.$emit('year-unit-mouseover', 2016)
+          expect(wrapper.vm.lastInputFieldFocused).toBe(FOCUSABLE_INPUT_FIELDS.FROM_DATE)
+        })
+
+        it('Should highlight toDate input if isToDateOnly prop is set', () => {
+          const wrapper = getWrappedComponent()
+          wrapper.setProps({ isToDateOnly: true })
+          const geoCalendarPickerWrapper = wrapper.find(GeoCalendarPicker)
+
+          geoCalendarPickerWrapper.vm.$emit('year-unit-mouseover', today)
+          expect(wrapper.vm.lastInputFieldFocused).toBe(FOCUSABLE_INPUT_FIELDS.TO_DATE)
+
+          wrapper.vm.selectYear(2015)
+          geoCalendarPickerWrapper.vm.$emit('year-unit-mouseover', 2013)
+          expect(wrapper.vm.lastInputFieldFocused).toBe(FOCUSABLE_INPUT_FIELDS.TO_DATE)
         })
       })
     })
