@@ -162,17 +162,17 @@ export default {
     },
 
     /**
-     * Flag to allow to only select from date
+     * Flag to disable fromDate field, allowing to only select to date
      */
-    isFromDateOnly: {
+    isFromDateDisabled: {
       type: Boolean,
       required: false
     },
 
     /**
-     * Flag to allow to only select to date
+     * Flag to disable toDate field, allowing to only select from date
      */
-    isToDateOnly: {
+    isToDateDisabled: {
       type: Boolean,
       required: false
     }

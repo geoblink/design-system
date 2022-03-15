@@ -95,16 +95,32 @@ describe('GeoCalendar', () => {
       expect(wrapper.emitted()['emit-from-date'][0][0]).toEqual({ fromDate: selectedDay })
     })
 
-    it('selectDay with isToDateOnly prop set', () => {
+    it('selectDay with isFromDateDisabled prop set', () => {
       const wrapper = getWrappedComponent()
-      wrapper.setProps({ isToDateOnly: true })
+      wrapper.setProps({ isFromDateDisabled: true })
       const calendarPicker = wrapper.vm.$refs.calendarPicker
       const selectedDay = addDays(today, 4)
+      const geoFromInput = wrapper.findAll(GeoInput).at(0)
+      expect(geoFromInput.props('disabled')).toBe(true)
       calendarPicker.$emit('select-day', selectedDay)
       expect(wrapper.vm.toRawDate).toEqual(selectedDay)
       expect(wrapper.vm.toFormattedDate).toBe('03/08/2019')
       expect(wrapper.emitted()['emit-to-date']).toBeDefined()
       expect(wrapper.emitted()['emit-to-date'][0][0]).toEqual({ toDate: selectedDay })
+    })
+
+    it('selectDay with isToDateDisabled prop set', () => {
+      const wrapper = getWrappedComponent()
+      wrapper.setProps({ isToDateDisabled: true })
+      const calendarPicker = wrapper.vm.$refs.calendarPicker
+      const selectedDay = addDays(today, 4)
+      const geoToInput = wrapper.findAll(GeoInput).at(1)
+      expect(geoToInput.props('disabled')).toBe(true)
+      calendarPicker.$emit('select-day', selectedDay)
+      expect(wrapper.vm.fromRawDate).toEqual(selectedDay)
+      expect(wrapper.vm.fromFormattedDate).toBe('03/08/2019')
+      expect(wrapper.emitted()['emit-from-date']).toBeDefined()
+      expect(wrapper.emitted()['emit-from-date'][0][0]).toEqual({ fromDate: selectedDay })
     })
 
     describe('selectMonth', () => {
@@ -123,12 +139,12 @@ describe('GeoCalendar', () => {
         expect(wrapper.emitted()['emit-from-date'][0][0]).toEqual({ fromDate: currentDate })
       })
 
-      it('Sets first day of month in to input when isToDateOnly prop set', () => {
+      it('Sets first day of month in to input when isFromDateDisabled prop set', () => {
         const wrapper = getWrappedComponent()
         wrapper.setData({
           currentYear: getYear(today)
         })
-        wrapper.setProps({ isToDateOnly: true })
+        wrapper.setProps({ isFromDateDisabled: true })
         const calendarPicker = wrapper.vm.$refs.calendarPicker
         calendarPicker.$emit('select-month', 8)
         expect(wrapper.vm.currentMonth).toBe(8)
@@ -215,12 +231,12 @@ describe('GeoCalendar', () => {
         expect(wrapper.emitted()['emit-from-date'][0][0]).toEqual({ fromDate: validatedUtcRange.start })
       })
 
-      it('Sets first day of quarter in to input when isToDateOnly prop set', () => {
+      it('Sets first day of quarter in to input when isFromDateDisabled prop set', () => {
         const wrapper = getWrappedComponent()
         wrapper.setData({
           currentYear: getYear(today)
         })
-        wrapper.setProps({ isToDateOnly: true })
+        wrapper.setProps({ isFromDateDisabled: true })
         const calendarPicker = wrapper.vm.$refs.calendarPicker
         calendarPicker.$emit('select-quarter', 3)
         const toDate = endOfQuarter(new Date(wrapper.vm.currentYear, 3))
@@ -314,9 +330,9 @@ describe('GeoCalendar', () => {
         expect(wrapper.emitted()['emit-from-date'][0][0]).toEqual({ fromDate: validatedUtcRange.start })
       })
 
-      it('Sets last day of week in to input when isToDateOnly prop set', () => {
+      it('Sets last day of week in to input when isFromDateDisabled prop set', () => {
         const wrapper = getWrappedComponent()
-        wrapper.setProps({ isToDateOnly: true })
+        wrapper.setProps({ isFromDateDisabled: true })
         const calendarPicker = wrapper.vm.$refs.calendarPicker
         const weekStart = startOfWeek(today)
         const weekEnd = endOfWeek(today)
@@ -441,12 +457,12 @@ describe('GeoCalendar', () => {
         expect(wrapper.emitted()['emit-from-date'][0][0]).toEqual({ fromDate: startUTCValidatedRange.start })
       })
 
-      it('Sets last day of year in to input when isToDateOnly prop set', () => {
+      it('Sets last day of year in to input when isFromDateDisabled prop set', () => {
         const wrapper = getWrappedComponent()
         wrapper.setData({
           lastInputFieldFocused: FOCUSABLE_INPUT_FIELDS.FROM_DATE
         })
-        wrapper.setProps({ isToDateOnly: true })
+        wrapper.setProps({ isFromDateDisabled: true })
         const calendarPicker = wrapper.vm.$refs.calendarPicker
         calendarPicker.$emit('select-year', 2020)
         expect(wrapper.vm.currentYear).toBe(2020)
@@ -1043,9 +1059,9 @@ describe('GeoCalendar', () => {
           expect(wrapper.vm.lastInputFieldFocused).toBe(null)
         })
 
-        it('Should highlight fromDate input if isFromDateOnly prop is set', () => {
+        it('Should highlight fromDate input if isToDateDisabled prop is set', () => {
           const wrapper = getWrappedComponent()
-          wrapper.setProps({ isFromDateOnly: true })
+          wrapper.setProps({ isToDateDisabled: true })
           const geoCalendarPickerWrapper = wrapper.find(GeoCalendarPicker)
 
           wrapper.vm.selectDay(today)
@@ -1057,9 +1073,9 @@ describe('GeoCalendar', () => {
           expect(wrapper.vm.lastInputFieldFocused).toBe(FOCUSABLE_INPUT_FIELDS.FROM_DATE)
         })
 
-        it('Should highlight toDate input if isToDateOnly prop is set', () => {
+        it('Should highlight toDate input if isFromDateDisabled prop is set', () => {
           const wrapper = getWrappedComponent()
-          wrapper.setProps({ isToDateOnly: true })
+          wrapper.setProps({ isFromDateDisabled: true })
           const geoCalendarPickerWrapper = wrapper.find(GeoCalendarPicker)
 
           geoCalendarPickerWrapper.vm.$emit('day-unit-mouseover', today)
@@ -1112,9 +1128,9 @@ describe('GeoCalendar', () => {
           expect(wrapper.vm.lastInputFieldFocused).toBe(null)
         })
 
-        it('Should highlight fromDate input if isFromDateOnly prop is set', () => {
+        it('Should highlight fromDate input if isToDateDisabled prop is set', () => {
           const wrapper = getWrappedComponent()
-          wrapper.setProps({ isFromDateOnly: true })
+          wrapper.setProps({ isToDateDisabled: true })
           const geoCalendarPickerWrapper = wrapper.find(GeoCalendarPicker)
 
           wrapper.vm.selectMonth(2)
@@ -1126,9 +1142,9 @@ describe('GeoCalendar', () => {
           expect(wrapper.vm.lastInputFieldFocused).toBe(FOCUSABLE_INPUT_FIELDS.FROM_DATE)
         })
 
-        it('Should highlight toDate input if isToDateOnly prop is set', () => {
+        it('Should highlight toDate input if isFromDateDisabled prop is set', () => {
           const wrapper = getWrappedComponent()
-          wrapper.setProps({ isToDateOnly: true })
+          wrapper.setProps({ isFromDateDisabled: true })
           const geoCalendarPickerWrapper = wrapper.find(GeoCalendarPicker)
 
           geoCalendarPickerWrapper.vm.$emit('month-unit-mouseover', 2)
@@ -1181,9 +1197,9 @@ describe('GeoCalendar', () => {
           expect(wrapper.vm.lastInputFieldFocused).toBe(null)
         })
 
-        it('Should highlight fromDate input if isFromDateOnly prop is set', () => {
+        it('Should highlight fromDate input if isToDateDisabled prop is set', () => {
           const wrapper = getWrappedComponent()
-          wrapper.setProps({ isFromDateOnly: true })
+          wrapper.setProps({ isToDateDisabled: true })
           const geoCalendarPickerWrapper = wrapper.find(GeoCalendarPicker)
 
           wrapper.vm.selectYear(2012)
@@ -1195,9 +1211,9 @@ describe('GeoCalendar', () => {
           expect(wrapper.vm.lastInputFieldFocused).toBe(FOCUSABLE_INPUT_FIELDS.FROM_DATE)
         })
 
-        it('Should highlight toDate input if isToDateOnly prop is set', () => {
+        it('Should highlight toDate input if isFromDateDisabled prop is set', () => {
           const wrapper = getWrappedComponent()
-          wrapper.setProps({ isToDateOnly: true })
+          wrapper.setProps({ isFromDateDisabled: true })
           const geoCalendarPickerWrapper = wrapper.find(GeoCalendarPicker)
 
           geoCalendarPickerWrapper.vm.$emit('year-unit-mouseover', today)
