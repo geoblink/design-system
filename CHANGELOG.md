@@ -1,6 +1,6 @@
 # Changelog
 ## 30.0.10
-Fix:
+New:
 - `GeoCalendar`: Added 'isToDateOnly' and 'isFromDateOnly' props to force to select only one side of the range
 - `GeoCalendarDropdown`: Added 'isToDateOnly' and 'isFromDateOnly' props to force to select only one side of the range
 ## 30.0.9
