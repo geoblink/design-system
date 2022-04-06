@@ -1,4 +1,8 @@
 # Changelog
+
+## 30.0.10
+Changed:
+- Update to node 14
 ## 30.0.9
 Fix:
 - `GeoTable`: Remove unnecessary height: 100% attribute in table-row-headers styles that could break header border lines in some situations
