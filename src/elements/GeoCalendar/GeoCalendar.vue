@@ -18,9 +18,10 @@
             v-model="fromFormattedDate"
             :placeholder="fromInputPlaceholder"
             type="text"
-            :read-only="isInputReadOnly"
+            :read-only="isFromInputReadOnly"
             :error="showFromFormatError"
             :focus="isFromInputFieldFocused"
+            :disabled="isFromDateDisabled"
             @focus="focusFromDateInput"
             @blur="applyFromFormattedDate"
             @delete-value="deleteFromFormattedDate"
@@ -56,9 +57,10 @@
             v-model="toFormattedDate"
             :placeholder="toInputPlaceholder"
             type="text"
-            :read-only="isInputReadOnly"
+            :read-only="isToInputReadOnly"
             :error="showToFormatError"
             :focus="isToInputFieldFocused"
+            :disabled="isToDateDisabled"
             @focus="focusToDateInput"
             @blur="applyToFormattedDate($event)"
             @delete-value="deleteToFormattedDate"
@@ -224,8 +226,12 @@ export default {
       return (date) => date && isValid(date) && this.isDateWithinBounds(date)
     },
 
-    isInputReadOnly () {
-      return this.granularityId !== GRANULARITY_IDS.day
+    isFromInputReadOnly () {
+      return this.granularityId !== GRANULARITY_IDS.day || this.isFromDateDisabled
+    },
+
+    isToInputReadOnly () {
+      return this.granularityId !== GRANULARITY_IDS.day || this.isToDateDisabled
     }
   },
 
@@ -233,7 +239,7 @@ export default {
     granularityId () {
       this.deleteFromFormattedDate()
       this.deleteToFormattedDate()
-      this.lastInputFieldFocused = FOCUSABLE_INPUT_FIELDS.FROM_DATE
+      this.lastInputFieldFocused = this.isFromDateDisabled ? FOCUSABLE_INPUT_FIELDS.TO_DATE : FOCUSABLE_INPUT_FIELDS.FROM_DATE
     },
 
     defaultFromDate () {
@@ -257,6 +263,11 @@ export default {
     this.fromRawDate = this.defaultFromDate || null
     this.toRawDate = this.defaultToDate || null
     this.setFormattedDates()
+    if (this.isFromDateReadOnly) {
+      this.focusToDateInput()
+    } else if (this.isToDateReadOnly) {
+      this.focusFromDateInput()
+    }
   },
 
   methods: {
@@ -333,30 +344,16 @@ export default {
 
       const { distanceToFromDate, distanceToToDate } = this.getDateDistances(computedDayForDifference, differenceInDays)
 
-      const isSettingFromDate = this.isToInputFieldExplicitlyFocused
+      const isSettingFromDate = this.isToInputFieldExplicitlyFocused || this.isFromDateDisabled
         ? false
-        : !this.hasFromDate ||
+        : this.isToDateDisabled ||
+          !this.hasFromDate ||
           isDayBeforeFromDate ||
           this.isFromInputFieldExplicitlyFocused ||
           distanceToFromDate < distanceToToDate
 
       const unverifiedRange = this.getUnverifiedRange(day, day, isSettingFromDate)
-
-      const unverifiedStart = _.isNull(unverifiedRange.start)
-        ? new Date(0)
-        : unverifiedRange.start
-
-      const isRangeValid = unverifiedRange.end
-        ? isBefore(unverifiedStart, unverifiedRange.end)
-        : true
-
-      const validatedRange = isRangeValid
-        ? unverifiedRange
-        : {
-          start: unverifiedRange.end,
-          end: unverifiedRange.start
-        }
-
+      const validatedRange = this.getValidRange(unverifiedRange)
       const utcValidatedRange = this.getUTCValidatedRange(validatedRange)
       this.fromRawDate = utcValidatedRange.start
       this.toRawDate = utcValidatedRange.end
@@ -380,24 +377,16 @@ export default {
 
       const { distanceToFromDate, distanceToToDate } = this.getDateDistances(firstDayOfMonth, differenceInMonths)
 
-      const isSettingFromDate = this.isToInputFieldExplicitlyFocused
+      const isSettingFromDate = this.isToInputFieldExplicitlyFocused || this.isFromDateDisabled
         ? false
-        : !this.hasFromDate ||
+        : this.isToDateDisabled ||
+          !this.hasFromDate ||
           isMonthBeforeRangeStart ||
           this.isFromInputFieldExplicitlyFocused ||
           distanceToFromDate < distanceToToDate
 
       const unverifiedRange = this.getUnverifiedRange(possibleFirstDayOfSelectedMonth, possibleLastDayOfSelectedMonth, isSettingFromDate)
-
-      const isRangeValid = this.validateRange(unverifiedRange.start, unverifiedRange.end)
-
-      const validatedRange = isRangeValid
-        ? unverifiedRange
-        : {
-          start: startOfMonth(unverifiedRange.end),
-          end: endOfMonth(unverifiedRange.start)
-        }
-
+      const validatedRange = this.getValidRange(unverifiedRange, startOfMonth, endOfMonth)
       const utcValidatedRange = this.getUTCValidatedRange(validatedRange)
       this.fromRawDate = utcValidatedRange.start
       this.toRawDate = utcValidatedRange.end
@@ -423,30 +412,16 @@ export default {
 
       const { distanceToFromDate, distanceToToDate } = this.getDateDistances(computedDayForDifference, differenceInDays)
 
-      const isSettingFromDate = this.isToInputFieldExplicitlyFocused
+      const isSettingFromDate = this.isToInputFieldExplicitlyFocused || this.isFromDateDisabled
         ? false
-        : !this.hasFromDate ||
+        : this.isToDateDisabled ||
+          !this.hasFromDate ||
           isDayBeforeFromDate ||
           this.isFromInputFieldExplicitlyFocused ||
           distanceToFromDate < distanceToToDate
 
       const unverifiedRange = this.getUnverifiedRange(possibleFirstDayOfSelectedQuarter, possibleLastDayOfSelectedQuarter, isSettingFromDate)
-
-      const unverifiedStart = _.isNull(unverifiedRange.start)
-        ? new Date(0)
-        : unverifiedRange.start
-
-      const isRangeValid = unverifiedRange.end
-        ? isBefore(unverifiedStart, unverifiedRange.end)
-        : true
-
-      const validatedRange = isRangeValid
-        ? unverifiedRange
-        : {
-          start: startOfQuarter(unverifiedRange.end),
-          end: endOfQuarter(unverifiedRange.start)
-        }
-
+      const validatedRange = this.getValidRange(unverifiedRange, startOfQuarter, endOfQuarter)
       const utcValidatedRange = this.getUTCValidatedRange(validatedRange)
       this.fromRawDate = utcValidatedRange.start
       this.toRawDate = utcValidatedRange.end
@@ -469,30 +444,16 @@ export default {
 
       const { distanceToFromDate, distanceToToDate } = this.getDateDistances(computedDayForDifference, differenceInDays)
 
-      const isSettingFromDate = this.isToInputFieldExplicitlyFocused
+      const isSettingFromDate = this.isToInputFieldExplicitlyFocused || this.isFromDateDisabled
         ? false
-        : !this.hasFromDate ||
+        : this.isToDateDisabled ||
+          !this.hasFromDate ||
           isDayBeforeFromDate ||
           this.isFromInputFieldExplicitlyFocused ||
           distanceToFromDate < distanceToToDate
 
       const unverifiedRange = this.getUnverifiedRange(possibleFirstDayOfSelectedWeek, possibleLastDayOfSelectedWeek, isSettingFromDate)
-
-      const unverifiedStart = _.isNull(unverifiedRange.start)
-        ? new Date(0)
-        : unverifiedRange.start
-
-      const isRangeValid = unverifiedRange.end
-        ? isBefore(unverifiedStart, unverifiedRange.end)
-        : true
-
-      const validatedRange = isRangeValid
-        ? unverifiedRange
-        : {
-          start: startOfWeek(unverifiedRange.end, { locale: this.locale }),
-          end: endOfWeek(unverifiedRange.start, { locale: this.locale })
-        }
-
+      const validatedRange = this.getValidRange(unverifiedRange, start => startOfWeek(start, { locale: this.locale }), end => endOfWeek(end, { locale: this.locale }))
       const utcValidatedRange = this.getUTCValidatedRange(validatedRange)
       this.fromRawDate = utcValidatedRange.start
       this.toRawDate = utcValidatedRange.end
@@ -516,24 +477,16 @@ export default {
 
       const { distanceToFromDate, distanceToToDate } = this.getDateDistances(firstDayOfYear, differenceInMonths)
 
-      const isSettingFromDate = this.isToInputFieldExplicitlyFocused
+      const isSettingFromDate = this.isToInputFieldExplicitlyFocused || this.isFromDateDisabled
         ? false
-        : !this.hasFromDate ||
+        : this.isToDateDisabled ||
+          !this.hasFromDate ||
           isYearBeforeRangeStart ||
           this.isFromInputFieldExplicitlyFocused ||
           distanceToFromDate < distanceToToDate
 
       const unverifiedRange = this.getUnverifiedRange(possibleFirstDayOfSelectedYear, possibleLastDayOfSelectedYear, isSettingFromDate)
-
-      const isRangeValid = this.validateRange(unverifiedRange.start, unverifiedRange.end)
-
-      const validatedRange = isRangeValid
-        ? unverifiedRange
-        : {
-          start: startOfYear(unverifiedRange.end),
-          end: endOfYear(unverifiedRange.start)
-        }
-
+      const validatedRange = this.getValidRange(unverifiedRange, startOfYear, endOfYear)
       const utcValidatedRange = this.getUTCValidatedRange(validatedRange)
       this.fromRawDate = utcValidatedRange.start
       this.toRawDate = utcValidatedRange.end
@@ -637,11 +590,15 @@ export default {
     },
 
     focusFromDateInput () {
+      if (this.isFromDateDisabled) return
+
       this.isSomeInputFieldExplicitlyFocused = true
       this.lastInputFieldFocused = FOCUSABLE_INPUT_FIELDS.FROM_DATE
     },
 
     focusToDateInput () {
+      if (this.isToDateDisabled) return
+
       this.isSomeInputFieldExplicitlyFocused = true
       this.lastInputFieldFocused = FOCUSABLE_INPUT_FIELDS.TO_DATE
     },
@@ -659,7 +616,32 @@ export default {
     },
 
     validateRange (start, end) {
-      return start && end ? isBefore(start, end) : true
+      const startDate = _.isNull(start) ? new Date(0) : start
+      return end ? isBefore(startDate, end) : true
+    },
+
+    getValidRange (unverifiedRange, startOfGranularityFn = _.identity, endOfGranularityFn = _.identity) {
+      const isRangeValid = this.validateRange(unverifiedRange.start, unverifiedRange.end)
+      let validRange = unverifiedRange
+      if (!isRangeValid) {
+        if (this.isToDateDisabled) {
+          validRange = {
+            start: startOfGranularityFn(unverifiedRange.start),
+            end: null
+          }
+        } else if (this.isFromDateDisabled) {
+          validRange = {
+            start: null,
+            end: endOfGranularityFn(unverifiedRange.end)
+          }
+        } else {
+          validRange = {
+            start: startOfGranularityFn(unverifiedRange.end),
+            end: endOfGranularityFn(unverifiedRange.start)
+          }
+        }
+      }
+      return validRange
     },
 
     highlightInputForDayUnit (day) {
@@ -668,10 +650,12 @@ export default {
 
       const { distanceToFromDate, distanceToToDate } = this.getDateDistances(day, differenceInDays)
 
-      const shouldSetFromDate = !this.hasFromDate ||
+      const shouldSetFromDate = !this.isFromDateDisabled &&
+        (this.isToDateDisabled ||
+        !this.hasFromDate ||
         isDayBeforeFromDate ||
         this.isFromInputFieldExplicitlyFocused ||
-        distanceToFromDate < distanceToToDate
+        distanceToFromDate < distanceToToDate)
 
       if (shouldSetFromDate) {
         this.lastInputFieldFocused = FOCUSABLE_INPUT_FIELDS.FROM_DATE
@@ -688,10 +672,12 @@ export default {
 
       const { distanceToFromDate, distanceToToDate } = this.getDateDistances(firstDayOfMonth, differenceInMonths)
 
-      const shouldSetFromDate = !this.hasFromDate ||
-          isMonthBeforeRangeStart ||
-          this.isFromInputFieldExplicitlyFocused ||
-          distanceToFromDate < distanceToToDate
+      const shouldSetFromDate = !this.isFromDateDisabled &&
+        (this.isToDateDisabled ||
+        !this.hasFromDate ||
+        isMonthBeforeRangeStart ||
+        this.isFromInputFieldExplicitlyFocused ||
+        distanceToFromDate < distanceToToDate)
 
       if (shouldSetFromDate) {
         this.lastInputFieldFocused = FOCUSABLE_INPUT_FIELDS.FROM_DATE
@@ -708,10 +694,12 @@ export default {
 
       const { distanceToFromDate, distanceToToDate } = this.getDateDistances(firstDayOfYear, differenceInMonths)
 
-      const shouldSetFromDate = !this.hasFromDate ||
-          isYearBeforeRangeStart ||
-          this.isFromInputFieldExplicitlyFocused ||
-          distanceToFromDate < distanceToToDate
+      const shouldSetFromDate = !this.isFromDateDisabled &&
+        (this.isToDateDisabled ||
+        !this.hasFromDate ||
+        isYearBeforeRangeStart ||
+        this.isFromInputFieldExplicitlyFocused ||
+        distanceToFromDate < distanceToToDate)
 
       if (shouldSetFromDate) {
         this.lastInputFieldFocused = FOCUSABLE_INPUT_FIELDS.FROM_DATE

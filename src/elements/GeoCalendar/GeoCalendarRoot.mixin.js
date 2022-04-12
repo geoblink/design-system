@@ -159,6 +159,22 @@ export default {
     popupClass: {
       type: [String, Array, Object],
       required: false
+    },
+
+    /**
+     * Flag to disable fromDate field, allowing to only select to date
+     */
+    isFromDateDisabled: {
+      type: Boolean,
+      required: false
+    },
+
+    /**
+     * Flag to disable toDate field, allowing to only select from date
+     */
+    isToDateDisabled: {
+      type: Boolean,
+      required: false
     }
   }
 }

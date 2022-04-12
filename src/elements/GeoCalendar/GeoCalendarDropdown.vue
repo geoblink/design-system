@@ -37,6 +37,8 @@
           :picker-date-unit="pickerDateUnit"
           :previous-date-in-selected-granularity-icon="previousDateInSelectedGranularityIcon"
           :to-input-placeholder="toInputPlaceholder"
+          :is-from-date-disabled="isFromDateDisabled"
+          :is-to-date-disabled="isToDateDisabled"
           @emit-from-date="emitFromDate"
           @emit-to-date="emitToDate"
         >
