@@ -1,8 +1,11 @@
 # Changelog
-## 30.0.10
+## 30.0.11
 New:
 - `GeoCalendar`: Added 'isToDateDisabled' and 'isFromDateDisabled' props to force to select only one side of the range
 - `GeoCalendarDropdown`: Added 'isToDateDisabled' and 'isFromDateDisabled' props to force to select only one side of the range
+## 30.0.10
+Changed:
+- Update to node 14
 ## 30.0.9
 Fix:
 - `GeoTable`: Remove unnecessary height: 100% attribute in table-row-headers styles that could break header border lines in some situations
