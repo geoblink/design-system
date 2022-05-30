@@ -11,7 +11,6 @@ const d3 = (function () {
     return null
   }
 })()
-
 /**
  * @template GElement
  * @template Datum
@@ -52,7 +51,6 @@ export function render (d3Instance, options, globalOptions) {
 
   const updatedGroups = groups
   const allGroups = newGroups.merge(updatedGroups)
-
   allGroups.each(function (singleGroupOptions, i) {
     const group = d3.select(this)
     renderSingleGroup(group, singleGroupOptions, globalOptions)
@@ -91,7 +89,6 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions) {
   const updatedSingleDataGroups = singleDataGroups
   const allSingleDataGroups = newSingleDataGroups
     .merge(updatedSingleDataGroups)
-
   allSingleDataGroups.each(function () {
     const labelsGroup = d3.select(this)
     renderSingleLabelLine(labelsGroup, globalOptions)
@@ -106,7 +103,13 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions) {
   function getTransform (d, i) {
     const height = d3.select(this).node().getBBox().height
     const translation = getTranslation(singleGroupOptions, d, height)
-    return `translate(${translation.x}, ${translation.y})`
+    if (d.customPosition) {
+      return `translate(${
+        d.customPosition.x ? d.customPosition.x : translation.x},
+        ${d.customPosition.y ? d.customPosition.y : translation.y})`
+    } return `translate(${
+      translation.x}, 
+      ${translation.y})`
   }
 }
 
@@ -274,10 +277,9 @@ function applyPositioningAttributes (allSingleLabelGroups, globalOptions) {
       heightWithPaddingAndMargin,
       widthWithPadding,
       widthWithPaddingAndMargin
-    } = positioningAttributes.shift()
+    } = (positioningAttributes).shift()
 
-    const yTranslation = (tallestGroupHeight - heightWithPaddingAndMargin) / 2
-
+    const yTranslation = (tallestGroupHeight - heightWithPaddingAndMargin)
     d3TextSelection
       .transition()
       .duration(globalOptions.chart.animationsDurationInMilliseconds)
@@ -331,7 +333,6 @@ function getPositioningAttributes (allRectAndTextGroups) {
     const heightWithPadding = padding.top + requiredHeightForText + padding.bottom
     const widthWithPaddingAndMargin = margin.left + widthWithPadding + margin.right
     const heightWithPaddingAndMargin = margin.top + heightWithPadding + margin.bottom
-
     const previousGroupPositioningAttributes = i > 0 // If this is not the first label of a group...
       ? _.last(positioningAttributesOfGroup) // ... then we are interested in position of the previous label of this group
       : { // ... otherwise we default to 0

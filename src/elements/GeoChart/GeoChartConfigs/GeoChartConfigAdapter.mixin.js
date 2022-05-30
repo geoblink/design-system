@@ -79,13 +79,13 @@ export default {
         size: chartSize,
         margin: chartMargin
       }
-
+      let hasLabelValues = false
       const barGroupsConfig = _.map(this.config.barGroups, (singleBarGroupConfig, index) => {
+        hasLabelValues = singleBarGroupConfig.hasLabelValues
         const axis = {
           horizontal: this.axesConfigById[singleBarGroupConfig.idHorizontalAxis],
           vertical: this.axesConfigById[singleBarGroupConfig.idVerticalAxis]
         }
-
         if (singleBarGroupConfig.tooltip && !this.d3TipInstance) {
           console.warn('GeoChart [component] :: d3-tip NPM package is required to use tooltips (attempted to use tooltips on a bar chart)')
         }
@@ -93,7 +93,6 @@ export default {
         if (singleBarGroupConfig.tooltip && !_.isFunction(singleBarGroupConfig.tooltip.content)) {
           console.warn(`GeoChart [component] :: Attempted to use a non-function as bar chart tooltip content (used «${singleBarGroupConfig.tooltip}»)`)
         }
-
         const tooltipConfig = singleBarGroupConfig.tooltip
           ? {
             getContent: singleBarGroupConfig.tooltip.content,
@@ -116,6 +115,37 @@ export default {
       })
 
       ChartBars.render(this.d3Instance, this.d3TipInstance, barGroupsConfig, { chart })
+      if (hasLabelValues) {
+        const barSize = { width: this.d3Instance.select('.geo-chart-bar')._groups[0][0].width.animVal.value, height: this.d3Instance.select('.geo-chart-bar')._groups[0][0].height.animVal.value }
+        _.map(this.config.barGroups, (singleBarGroupConfig, index) => {
+          const axis = {
+            horizontal: this.axesConfigById[singleBarGroupConfig.idHorizontalAxis],
+            vertical: this.axesConfigById[singleBarGroupConfig.idVerticalAxis]
+          }
+          const labelIndex = index
+          this.config.labelGroups[labelIndex].data = _.map(singleBarGroupConfig.data, (data, index) => {
+            this.config.labelGroups[labelIndex].data[index].labels = [{
+              padding: _.first(this.config.labelGroups[labelIndex].data[index].labels).padding,
+              margin: _.first(this.config.labelGroups[labelIndex].data[index].labels).margin,
+              text: ''
+            }]
+            this.config.labelGroups[labelIndex].data[index].customPosition =
+              {
+                x: singleBarGroupConfig.mainDimension === 'horizontal' ? axis.horizontal.scale.axisScale(data.value) : (barSize.width + 5 + (index > 0 ? this.config.labelGroups[labelIndex].data[index - 1].customPosition.x : 0)),
+                y: singleBarGroupConfig.mainDimension === 'vertical' ? axis.vertical.scale.axisScale(data.value) - 40 : null
+              }
+            if (parseFloat(data.value) < 1000) {
+              _.first(this.config.labelGroups[labelIndex].data[index].labels).text = `${parseFloat(data.value) / 10}%`
+            } else if (parseFloat(data.value) < 1000000) {
+              _.first(this.config.labelGroups[labelIndex].data[index].labels).text = `${parseFloat(data.value) / 1000}K`
+            } else if (parseFloat(data.value) < 10000000) {
+              _.first(this.config.labelGroups[labelIndex].data[index].labels).text = `${parseFloat(data.value) / 1000000}M`
+            }
+
+            return this.config.labelGroups[labelIndex].data[index]
+          })
+        })
+      }
     },
 
     updateColorBarGroups () {
@@ -149,7 +179,6 @@ export default {
 
       ChartColorBar.render(this.d3Instance, colorBarGroupsConfig, { chart })
     },
-
     updateLabelGroups () {
       const chartSize = this.svgSize
       const chartMargin = _.get(this.config.chart, 'margin', ChartSizing.EMPTY_MARGIN)
@@ -163,7 +192,8 @@ export default {
         return {
           id: index,
           axis: {
-            vertical: this.axesConfigById[singleLabelGroupConfig.idVerticalAxis]
+            vertical: this.axesConfigById[singleLabelGroupConfig.idVerticalAxis],
+            horizontal: singleLabelGroupConfig.idHorizontalAxis ? this.axesConfigById[singleLabelGroupConfig.idHorizontalAxis] : undefined
           },
           data: singleLabelGroupConfig.data
         }
