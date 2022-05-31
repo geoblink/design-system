@@ -17,10 +17,14 @@ the following…
 
 - `idVerticalAxis` - ID of the axis used to position the label vertically.
 - `data` - an array of items to which labels will be added. Each `data` entry must
-have a value for the key used by the axis referenced in `idVerticalAxis`. That
+have a value for the key used by the axis referenced in `idVerticalAxis` and `idHorizontalAxis` (if there is idHorizontalAxis). That
 value will be used to compute label's vertical position. There's another key
 that must be present: `labels` key. It must be an array whose items follows the
 structure describe in _Labels structure_ section.
+
+### Optional properties
+
+- `idHorizontalAxis` - ID of the axis used to position the label horizontally.
 
 #### Labels structure
 
