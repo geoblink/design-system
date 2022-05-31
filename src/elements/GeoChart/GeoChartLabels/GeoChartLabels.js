@@ -102,10 +102,11 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions) {
 
   function getTransform (d, i) {
     const height = d3.select(this).node().getBBox().height
-    const translation = getTranslation(singleGroupOptions, d, height)
+    const width = d3.select(this).node().getBBox().width
+    const translation = getTranslation(singleGroupOptions, d, height, width)
     if (d.customPosition) {
       return `translate(${
-        d.customPosition.x ? d.customPosition.x : translation.x},
+        translation.x},
         ${d.customPosition.y ? d.customPosition.y : translation.y})`
     } return `translate(${
       translation.x}, 
@@ -193,14 +194,21 @@ function renderSingleLabelLine (group, globalOptions) {
  * @param {number} height
  * @returns {{x: number, y: number}}
  */
-function getTranslation (singleGroupOptions, singleItem, height) {
+function getTranslation (singleGroupOptions, singleItem, height, width) {
   const verticalAxis = singleGroupOptions.axis.vertical
   const verticalAxisTranslationToTopPosition = getItemValueAtAxis(verticalAxis, singleItem)
   const verticalAxisSpan = getItemSpanAtAxis(verticalAxis, singleItem)
   const verticalAxisTranslation = verticalAxisTranslationToTopPosition + (verticalAxisSpan - height) / 2
+  let horizontalAxisTranslation = 0
+  if (singleGroupOptions.axis.horizontal) {
+    const horizontalAxis = singleGroupOptions.axis.horizontal
+    const horizontalAxisTranslationToTopPosition = getItemValueAtAxis(horizontalAxis, singleItem)
+    const horizontalAxisSpan = getItemSpanAtAxis(horizontalAxis, singleItem)
+    horizontalAxisTranslation = horizontalAxisTranslationToTopPosition + (horizontalAxisSpan - width) / 2
+  }
 
   return {
-    x: 0,
+    x: horizontalAxisTranslation,
     y: verticalAxisTranslation
   }
 }

@@ -251,7 +251,7 @@ export default {
                 top: 10,
                 right: 0,
                 bottom: 10,
-                left: 15
+                left: 0
               },
               margin: {
                 top: 0,
@@ -267,10 +267,12 @@ export default {
               text: category,
             }],
             [this.linearAxisConfig.keyForValues]: this.linearAxisConfigKeyForValues[index],
+            [this.categoricalAxisConfig.keyForValues]: category,
             hasVerticalLabel:true
           }
         }),
         idVerticalAxis: this.linearAxisConfig.id,
+        idHorizontalAxis:this.categoricalAxisConfig.id
       }
     },
     linearAxisConfig () {
