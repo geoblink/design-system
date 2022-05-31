@@ -129,11 +129,6 @@ export default {
               margin: _.first(this.config.labelGroups[labelIndex].data[index].labels).margin,
               text: ''
             }]
-            this.config.labelGroups[labelIndex].data[index].customPosition =
-              {
-                x: singleBarGroupConfig.mainDimension === 'horizontal' ? axis.horizontal.scale.axisScale(data.value) : (barSize.width + 5 + (index > 0 ? this.config.labelGroups[labelIndex].data[index - 1].customPosition.x : 0)),
-                y: singleBarGroupConfig.mainDimension === 'vertical' ? axis.vertical.scale.axisScale(data.value) - 40 : null
-              }
             if (parseFloat(data.value) < 1000) {
               _.first(this.config.labelGroups[labelIndex].data[index].labels).text = `${parseFloat(data.value) / 10}%`
             } else if (parseFloat(data.value) < 1000000) {
