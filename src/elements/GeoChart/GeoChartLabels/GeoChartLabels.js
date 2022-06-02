@@ -198,8 +198,12 @@ function getTranslation (singleGroupOptions, singleItem, height, width) {
     const horizontalAxis = singleGroupOptions.axis.horizontal
     const horizontalAxisTranslationToTopPosition = getItemValueAtAxis(horizontalAxis, singleItem)
     const horizontalAxisSpan = getItemSpanAtAxis(horizontalAxis, singleItem)
-    horizontalAxisTranslation = horizontalAxisTranslationToTopPosition + (horizontalAxisSpan - width) / 2
-    verticalAxisTranslation = verticalAxisTranslationToTopPosition - 40
+    if (singleGroupOptions.isVerticalLabel) {
+      horizontalAxisTranslation = horizontalAxisTranslationToTopPosition + (horizontalAxisSpan - width) / 2
+      verticalAxisTranslation = verticalAxisTranslationToTopPosition - 40
+    } else {
+      horizontalAxisTranslation = horizontalAxisTranslationToTopPosition
+    }
   }
 
   return {
@@ -282,7 +286,7 @@ function applyPositioningAttributes (allSingleLabelGroups, globalOptions) {
       widthWithPaddingAndMargin
     } = (positioningAttributes).shift()
 
-    const yTranslation = (tallestGroupHeight - heightWithPaddingAndMargin)
+    const yTranslation = (tallestGroupHeight - heightWithPaddingAndMargin) / 2
     d3TextSelection
       .transition()
       .duration(globalOptions.chart.animationsDurationInMilliseconds)

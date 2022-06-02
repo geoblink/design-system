@@ -79,9 +79,7 @@ export default {
         size: chartSize,
         margin: chartMargin
       }
-      let hasLabelValues = false
       const barGroupsConfig = _.map(this.config.barGroups, (singleBarGroupConfig, index) => {
-        hasLabelValues = singleBarGroupConfig.hasLabelValues
         const axis = {
           horizontal: this.axesConfigById[singleBarGroupConfig.idHorizontalAxis],
           vertical: this.axesConfigById[singleBarGroupConfig.idVerticalAxis]
@@ -115,32 +113,6 @@ export default {
       })
 
       ChartBars.render(this.d3Instance, this.d3TipInstance, barGroupsConfig, { chart })
-      if (hasLabelValues) {
-        const barSize = { width: this.d3Instance.select('.geo-chart-bar')._groups[0][0].width.animVal.value, height: this.d3Instance.select('.geo-chart-bar')._groups[0][0].height.animVal.value }
-        _.map(this.config.barGroups, (singleBarGroupConfig, index) => {
-          const axis = {
-            horizontal: this.axesConfigById[singleBarGroupConfig.idHorizontalAxis],
-            vertical: this.axesConfigById[singleBarGroupConfig.idVerticalAxis]
-          }
-          const labelIndex = index
-          this.config.labelGroups[labelIndex].data = _.map(singleBarGroupConfig.data, (data, index) => {
-            this.config.labelGroups[labelIndex].data[index].labels = [{
-              padding: _.first(this.config.labelGroups[labelIndex].data[index].labels).padding,
-              margin: _.first(this.config.labelGroups[labelIndex].data[index].labels).margin,
-              text: ''
-            }]
-            if (parseFloat(data.value) < 1000) {
-              _.first(this.config.labelGroups[labelIndex].data[index].labels).text = `${parseFloat(data.value) / 10}%`
-            } else if (parseFloat(data.value) < 1000000) {
-              _.first(this.config.labelGroups[labelIndex].data[index].labels).text = `${parseFloat(data.value) / 1000}K`
-            } else if (parseFloat(data.value) < 10000000) {
-              _.first(this.config.labelGroups[labelIndex].data[index].labels).text = `${parseFloat(data.value) / 1000000}M`
-            }
-
-            return this.config.labelGroups[labelIndex].data[index]
-          })
-        })
-      }
     },
 
     updateColorBarGroups () {
@@ -188,9 +160,10 @@ export default {
           id: index,
           axis: {
             vertical: this.axesConfigById[singleLabelGroupConfig.idVerticalAxis],
-            horizontal: singleLabelGroupConfig.idHorizontalAxis ? this.axesConfigById[singleLabelGroupConfig.idHorizontalAxis] : undefined
+            horizontal: _.get(this.axesConfigById, singleLabelGroupConfig.idHorizontalAxis)
           },
-          data: singleLabelGroupConfig.data
+          data: singleLabelGroupConfig.data,
+          isVerticalLabel: singleLabelGroupConfig.isVerticalLabel
         }
       })
 

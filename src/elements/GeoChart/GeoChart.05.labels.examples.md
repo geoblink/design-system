@@ -5,9 +5,8 @@ already displayed in it, even multiple labels for each item in the chart. A
 collection of labels associated to a single item of the chart is what we call a
 **label group**.
 
-You can also add labels related to values to the bar charts. It will automatically
-convert the values by adding %, K or M. To add it, you have to add the **hasLabelValues**
-boolean to the bar chart config.
+You can also add labels related to values to the bar charts. To add it, you have to 
+add the **isPositioningLabelsInBars** boolean to the bar chart config.
 
 To add **label groups** to a chart, add an array to `labelGroups` key of
 [GeoChart](#geochart)'s config. Each item of the array must be an object with
@@ -25,6 +24,7 @@ structure describe in _Labels structure_ section.
 ### Optional properties
 
 - `idHorizontalAxis` - ID of the axis used to position the label horizontally.
+- `isVerticalLabel` - Boolean value if there is a vertical label
 
 #### Labels structure
 
@@ -202,7 +202,7 @@ export default {
       this.chartData = _.map(this.categoricalDomain, (category) => {
         return {
           [this.categoricalAxisConfig.keyForValues]: category,
-          [this.linearAxisConfig.keyForValues]: _.random(
+          [this.linearAxisConfig.keyForValues]:_.random(
             this.linearAxisConfig.scale.domain.start,
             this.linearAxisConfig.scale.domain.end,
             false
@@ -250,7 +250,7 @@ export default {
         data: _.map(this.categoricalDomain, (category,index) => {
           return {
             labels: [{
-              text: '»',
+              text: this.handleData(this.linearAxisConfigKeyForValues[index]),
               padding: {
                 top: 10,
                 right: 0,
@@ -264,19 +264,15 @@ export default {
                 left: 0
               },
               cornerRadius: 5,
-              cssClasses (originalClasses) {
-                return [...originalClasses, 'rect-stroke-red-and-text-fill-black']
-              }
-            }, {
-              text: category,
             }],
             [this.linearAxisConfig.keyForValues]: this.linearAxisConfigKeyForValues[index],
             [this.categoricalAxisConfig.keyForValues]: category,
-            hasVerticalLabel:true
           }
         }),
         idVerticalAxis: this.linearAxisConfig.id,
-        idHorizontalAxis:this.categoricalAxisConfig.id
+        idHorizontalAxis:this.categoricalAxisConfig.id,
+        isVerticalLabel:true
+
       }
     },
     linearAxisConfig () {
@@ -351,7 +347,7 @@ export default {
           mainDimension: CONSTANTS.DIMENSIONS.DIMENSIONS_2D.vertical,
           idHorizontalAxis: this.categoricalAxisConfig.id,
           idVerticalAxis: this.linearAxisConfig.id,
-          hasLabelValues:true
+          isPositioningLabelsInBars:true
         }],
         labelGroups:[this.labelGroup]
       }
@@ -361,6 +357,18 @@ export default {
     this.randomizeData()
   },
   methods: {
+    handleData (data){
+      if (parseFloat(data) < 1000) {
+        return `${parseFloat(data) / 10}%`
+      } 
+      else if (parseFloat(data) < 1000000) {
+        return `${parseFloat(data) / 1000}K`
+      } 
+      else if (parseFloat(data) < 10000000) {
+        return  `${parseFloat(data) / 1000000}M`
+      }
+      return `${parseFloat(data) / 10}%`
+    },
     randomizeData () {
         this.categoricalDomain = _.times(6, i => `Category ${i}`)
         this.chartData = _.map(this.categoricalDomain, (category,index) => {
@@ -473,7 +481,7 @@ export default {
         data: _.map(this.categoricalDomain, (category,index) => {
           return {
             labels: [{
-              text: '»',
+              text: this.handleData(this.linearAxisConfigKeyForValues[index]),
               padding: {
                 top: 10,
                 right: 10,
@@ -487,16 +495,9 @@ export default {
                 left: 10
               },
               cornerRadius: 5,
-              cssClasses (originalClasses) {
-                return [...originalClasses, 'rect-stroke-red-and-text-fill-black']
-              }
-            }, {
-              text: category,
             }],
             [this.categoricalAxisConfig.keyForValues]: category,
             [this.linearAxisConfig.keyForValues]: this.linearAxisConfigKeyForValues[index],
-            hasHorizontalLabel:true
-
           }
         }),
         idHorizontalAxis:this.linearAxisConfig.id,
@@ -527,7 +528,7 @@ export default {
           mainDimension: 'horizontal',
           idHorizontalAxis: this.linearAxisConfig.id,
           idVerticalAxis: this.categoricalAxisConfig.id,
-          hasLabelValues:true
+          isPositioningLabelsInBars:true
         }],
         labelGroups: [this.labelGroup]
       }
@@ -537,6 +538,18 @@ export default {
     this.randomizeData()
   },
   methods: {
+     handleData (data){
+      if (parseFloat(data) < 1000) {
+        return `${parseFloat(data) / 10}%`
+      } 
+      else if (parseFloat(data) < 1000000) {
+        return `${parseFloat(data) / 1000}K`
+      } 
+      else if (parseFloat(data) < 10000000) {
+        return  `${parseFloat(data) / 1000000}M`
+      }
+      return `${parseFloat(data) / 10}%`
+    },
     randomizeData () {
       this.linearAxisConfigKeyForValues=[]
       this.chartData = _.map(this.categoricalDomain, (category,index) => {

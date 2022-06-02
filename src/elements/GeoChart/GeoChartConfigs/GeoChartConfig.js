@@ -362,7 +362,7 @@ export const barConfigJsonSchema = {
         offset: {}
       }
     },
-    hasLabelValues: {
+    isPositioningLabelsInBars: {
       type: 'boolean'
     },
     // Function taking as first parameter an array of CSS classes that would be
@@ -940,6 +940,9 @@ export const labelConfigJsonSchema = {
     },
     idHorizontalAxis: {
       type: 'string'
+    },
+    isVerticalLabel: {
+      type: 'boolean'
     }
   }
 }
