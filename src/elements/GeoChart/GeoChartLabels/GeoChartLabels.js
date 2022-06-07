@@ -205,9 +205,10 @@ function getTranslation (singleGroupOptions, singleItem, height, width, globalOp
         ? 0
         : verticalAxisTranslationToTopPosition - _.first(singleItem.labels).margin.top
     } else {
-      horizontalAxisTranslation = horizontalAxisTranslationToTopPosition - (horizontalAxisTranslationToTopPosition + width >= chartWidth
+      const horizontalOffset = horizontalAxisTranslationToTopPosition + width >= chartWidth
         ? width + _.first(singleItem.labels).padding.right
-        : 0)
+        : 0
+      horizontalAxisTranslation = horizontalAxisTranslationToTopPosition - horizontalOffset
     }
   }
 

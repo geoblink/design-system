@@ -95,25 +95,25 @@ export default {
         if (singleBarGroupConfig.isPositioningLabelsInBars) {
           if (singleBarGroupConfig.mainDimension === 'vertical') {
             this.config.labelGroups[index].data.forEach((data) => {
-              _.first(data.labels).margin = _.first(data.labels).margin
-                ? _.first(data.labels).margin
-                : {
+              (data.labels).forEach((label) => {
+                label.margin = _.first(data.labels).margin || {
                   top: 30,
                   bottom: 0,
                   left: 0,
                   right: 0
                 }
+              })
             })
           } else {
             this.config.labelGroups[index].data.forEach((data) => {
-              _.first(data.labels).margin = _.first(data.labels).margin
-                ? _.first(data.labels).margin
-                : {
+              (data.labels).forEach((label) => {
+                label.margin = _.first(data.labels).margin || {
                   top: 0,
                   bottom: 0,
                   left: 10,
                   right: 0
                 }
+              })
             })
           }
           this.config.labelGroups[index].mainDimension = singleBarGroupConfig.mainDimension

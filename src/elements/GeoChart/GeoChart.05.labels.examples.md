@@ -366,12 +366,6 @@ export default {
     randomizeData () {
         this.categoricalDomain = _.times(6, i => `Category ${i}`)
         this.chartData = _.map(this.categoricalDomain, (category,index) => {
-        /**this.linearAxisConfigKeyForValues.push(_.random(
-            this.linearAxisConfig.scale.domain.start,
-            this.linearAxisConfig.scale.domain.end,
-            false
-          ))
-          **/
          this.linearAxisConfigKeyForValues = [800,900,40,30,500,30]
         return {
           [this.categoricalAxisConfig.keyForValues]: category,
