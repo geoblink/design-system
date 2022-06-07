@@ -940,9 +940,6 @@ export const labelConfigJsonSchema = {
     },
     idHorizontalAxis: {
       type: 'string'
-    },
-    isVerticalLabel: {
-      type: 'boolean'
     }
   }
 }

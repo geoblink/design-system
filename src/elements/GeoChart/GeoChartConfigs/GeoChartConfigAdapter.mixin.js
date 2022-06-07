@@ -79,6 +79,7 @@ export default {
         size: chartSize,
         margin: chartMargin
       }
+
       const barGroupsConfig = _.map(this.config.barGroups, (singleBarGroupConfig, index) => {
         const axis = {
           horizontal: this.axesConfigById[singleBarGroupConfig.idHorizontalAxis],
@@ -90,6 +91,32 @@ export default {
 
         if (singleBarGroupConfig.tooltip && !_.isFunction(singleBarGroupConfig.tooltip.content)) {
           console.warn(`GeoChart [component] :: Attempted to use a non-function as bar chart tooltip content (used «${singleBarGroupConfig.tooltip}»)`)
+        }
+        if (singleBarGroupConfig.isPositioningLabelsInBars) {
+          if (singleBarGroupConfig.mainDimension === 'vertical') {
+            this.config.labelGroups[index].data.forEach((data) => {
+              _.first(data.labels).margin = _.first(data.labels).margin
+                ? _.first(data.labels).margin
+                : {
+                  top: 30,
+                  bottom: 0,
+                  left: 0,
+                  right: 0
+                }
+            })
+          } else {
+            this.config.labelGroups[index].data.forEach((data) => {
+              _.first(data.labels).margin = _.first(data.labels).margin
+                ? _.first(data.labels).margin
+                : {
+                  top: 0,
+                  bottom: 0,
+                  left: 10,
+                  right: 0
+                }
+            })
+          }
+          this.config.labelGroups[index].mainDimension = singleBarGroupConfig.mainDimension
         }
         const tooltipConfig = singleBarGroupConfig.tooltip
           ? {
@@ -163,7 +190,7 @@ export default {
             horizontal: _.get(this.axesConfigById, singleLabelGroupConfig.idHorizontalAxis)
           },
           data: singleLabelGroupConfig.data,
-          isVerticalLabel: singleLabelGroupConfig.isVerticalLabel
+          mainDimension: singleLabelGroupConfig.mainDimension
         }
       })
 

@@ -257,12 +257,6 @@ export default {
                 bottom: 10,
                 left: 0
               },
-              margin: {
-                top: 0,
-                right: 0,
-                bottom: 0,
-                left: 0
-              },
               cornerRadius: 5,
             }],
             [this.linearAxisConfig.keyForValues]: this.linearAxisConfigKeyForValues[index],
@@ -372,11 +366,13 @@ export default {
     randomizeData () {
         this.categoricalDomain = _.times(6, i => `Category ${i}`)
         this.chartData = _.map(this.categoricalDomain, (category,index) => {
-        this.linearAxisConfigKeyForValues.push(_.random(
+        /**this.linearAxisConfigKeyForValues.push(_.random(
             this.linearAxisConfig.scale.domain.start,
             this.linearAxisConfig.scale.domain.end,
             false
           ))
+          **/
+         this.linearAxisConfigKeyForValues = [800,900,40,30,500,30]
         return {
           [this.categoricalAxisConfig.keyForValues]: category,
           [this.linearAxisConfig.keyForValues]: this.linearAxisConfigKeyForValues[index]
@@ -487,12 +483,6 @@ export default {
                 right: 10,
                 bottom: 10,
                 left: 0
-              },
-              margin: {
-                top: 0,
-                right: 0,
-                bottom: 20,
-                left: 10
               },
               cornerRadius: 5,
             }],

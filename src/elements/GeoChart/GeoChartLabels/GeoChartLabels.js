@@ -103,7 +103,7 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions) {
   function getTransform (d, i) {
     const height = d3.select(this).node().getBBox().height
     const width = d3.select(this).node().getBBox().width
-    const translation = getTranslation(singleGroupOptions, d, height, width)
+    const translation = getTranslation(singleGroupOptions, d, height, width, globalOptions)
     return `translate(${translation.x}, ${translation.y})`
   }
 }
@@ -188,7 +188,8 @@ function renderSingleLabelLine (group, globalOptions) {
  * @param {number} height
  * @returns {{x: number, y: number}}
  */
-function getTranslation (singleGroupOptions, singleItem, height, width) {
+function getTranslation (singleGroupOptions, singleItem, height, width, globalOptions) {
+  const chartWidth = globalOptions.chart.size.width
   const verticalAxis = singleGroupOptions.axis.vertical
   const verticalAxisTranslationToTopPosition = getItemValueAtAxis(verticalAxis, singleItem)
   const verticalAxisSpan = getItemSpanAtAxis(verticalAxis, singleItem)
@@ -198,11 +199,15 @@ function getTranslation (singleGroupOptions, singleItem, height, width) {
     const horizontalAxis = singleGroupOptions.axis.horizontal
     const horizontalAxisTranslationToTopPosition = getItemValueAtAxis(horizontalAxis, singleItem)
     const horizontalAxisSpan = getItemSpanAtAxis(horizontalAxis, singleItem)
-    if (singleGroupOptions.isVerticalLabel) {
+    if (singleGroupOptions.mainDimension === 'vertical') {
       horizontalAxisTranslation = horizontalAxisTranslationToTopPosition + (horizontalAxisSpan - width) / 2
-      verticalAxisTranslation = verticalAxisTranslationToTopPosition - 40
+      verticalAxisTranslation = verticalAxisTranslationToTopPosition < 0
+        ? 0
+        : verticalAxisTranslationToTopPosition - _.first(singleItem.labels).margin.top
     } else {
-      horizontalAxisTranslation = horizontalAxisTranslationToTopPosition
+      horizontalAxisTranslation = horizontalAxisTranslationToTopPosition - (horizontalAxisTranslationToTopPosition + width >= chartWidth
+        ? width + _.first(singleItem.labels).padding.right
+        : 0)
     }
   }
 
@@ -284,9 +289,10 @@ function applyPositioningAttributes (allSingleLabelGroups, globalOptions) {
       heightWithPaddingAndMargin,
       widthWithPadding,
       widthWithPaddingAndMargin
-    } = (positioningAttributes).shift()
+    } = positioningAttributes.shift()
 
     const yTranslation = (tallestGroupHeight - heightWithPaddingAndMargin) / 2
+
     d3TextSelection
       .transition()
       .duration(globalOptions.chart.animationsDurationInMilliseconds)

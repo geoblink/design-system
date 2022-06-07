@@ -28,8 +28,6 @@ declare namespace GeoChart {
       vertical: GeoChart.AxisConfig<VerticalDomain>
     }
     data: SingleLabelLineConfig[],
-    isVerticalLabel: {
-      type: 'boolean'
-    }
+    mainDimension: string
   }
 }
