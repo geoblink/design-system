@@ -94,8 +94,8 @@ export default {
         }
         if (singleBarGroupConfig.isPositioningLabelsInBars) {
           if (singleBarGroupConfig.mainDimension === 'vertical') {
-            this.config.labelGroups[index].data.forEach((data) => {
-              (data.labels).forEach((label) => {
+            _.forEach(this.config.labelGroups[index].data, (data) => {
+              _.forEach(data.labels, (label) => {
                 label.margin = _.first(data.labels).margin || {
                   top: 30,
                   bottom: 0,
@@ -105,8 +105,8 @@ export default {
               })
             })
           } else {
-            this.config.labelGroups[index].data.forEach((data) => {
-              (data.labels).forEach((label) => {
+            _.forEach(this.config.labelGroups[index].data, (data) => {
+              _.foreach(data.labels, (label) => {
                 label.margin = _.first(data.labels).margin || {
                   top: 0,
                   bottom: 0,
