@@ -202,7 +202,7 @@ export default {
       this.chartData = _.map(this.categoricalDomain, (category) => {
         return {
           [this.categoricalAxisConfig.keyForValues]: category,
-          [this.linearAxisConfig.keyForValues]:_.random(
+          [this.linearAxisConfig.keyForValues]: _.random(
             this.linearAxisConfig.scale.domain.start,
             this.linearAxisConfig.scale.domain.end,
             false

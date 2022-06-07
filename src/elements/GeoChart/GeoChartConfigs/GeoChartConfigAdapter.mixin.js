@@ -12,6 +12,7 @@ import lineSegmentsAdapterMixin from './GeoChartConfigAdapter.lineSegments.mixin
 import anchoredShapesAdapterMixin from './GeoChartConfigAdapter.anchoredShapes.mixin'
 import lineAdapterMixin from './GeoChartConfigAdapter.line.mixin'
 import scatterPlotAdapterMixin from './GeoChartConfigAdapter.scatterPlot.mixin'
+import { DIMENSIONS } from '../constants'
 
 export default {
   mixins: [
@@ -93,7 +94,7 @@ export default {
           console.warn(`GeoChart [component] :: Attempted to use a non-function as bar chart tooltip content (used «${singleBarGroupConfig.tooltip}»)`)
         }
         if (singleBarGroupConfig.isPositioningLabelsInBars) {
-          if (singleBarGroupConfig.mainDimension === 'vertical') {
+          if (singleBarGroupConfig.mainDimension === DIMENSIONS.DIMENSIONS_2D.vertical) {
             _.forEach(this.config.labelGroups[index].data, (data) => {
               _.forEach(data.labels, (label) => {
                 label.margin = _.first(data.labels).margin || {
@@ -106,7 +107,7 @@ export default {
             })
           } else {
             _.forEach(this.config.labelGroups[index].data, (data) => {
-              _.foreach(data.labels, (label) => {
+              _.forEach(data.labels, (label) => {
                 label.margin = _.first(data.labels).margin || {
                   top: 0,
                   bottom: 0,

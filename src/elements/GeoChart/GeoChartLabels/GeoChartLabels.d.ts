@@ -14,11 +14,11 @@ declare namespace GeoChart {
       left: number
     }
     cornerRadius?: number
-    cssClasses?: (defaultClasses: string[], item: object, index: number) => string[],
+    cssClasses?: (defaultClasses: string[], item: object, index: number) => string[]
   }
 
   interface SingleLabelLineConfig {
-    labels: SingleLabelConfig[],
+    labels: SingleLabelConfig[]
   }
 
   interface LabelGroupConfig<HorizontalDomain, VerticalDomain> {
