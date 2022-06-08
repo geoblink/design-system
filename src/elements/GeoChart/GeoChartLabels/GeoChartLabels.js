@@ -3,6 +3,7 @@
 import { EMPTY_MARGIN } from '../GeoChartUtils/GeoChartSizing'
 
 import _ from 'lodash'
+import { DIMENSIONS } from '../constants'
 
 const d3 = (function () {
   try {
@@ -199,9 +200,10 @@ function getTranslation (singleGroupOptions, singleItem, height, width, globalOp
     const horizontalAxis = singleGroupOptions.axis.horizontal
     const horizontalAxisTranslationToTopPosition = getItemValueAtAxis(horizontalAxis, singleItem)
     const horizontalAxisSpan = getItemSpanAtAxis(horizontalAxis, singleItem)
-    if (singleGroupOptions.mainDimension === 'vertical') {
+    if (singleGroupOptions.mainDimension === DIMENSIONS.DIMENSIONS_2D.vertical) {
       horizontalAxisTranslation = horizontalAxisTranslationToTopPosition + (horizontalAxisSpan - width) / 2
-      verticalAxisTranslation = verticalAxisTranslationToTopPosition < 0
+      verticalAxisTranslation = verticalAxisTranslationToTopPosition < 0 ||
+      verticalAxisTranslationToTopPosition - _.first(singleItem.labels).margin.top < 0
         ? 0
         : verticalAxisTranslationToTopPosition - _.first(singleItem.labels).margin.top
     } else {

@@ -27,7 +27,7 @@ declare namespace GeoChart {
       horizontal: GeoChart.AxisConfig<HorizontalDomain>
       vertical: GeoChart.AxisConfig<VerticalDomain>
     }
-    data: SingleLabelLineConfig[],
+    data: SingleLabelLineConfig[]
     mainDimension: string
   }
 }
