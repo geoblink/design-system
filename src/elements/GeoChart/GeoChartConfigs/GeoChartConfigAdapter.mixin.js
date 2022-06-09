@@ -105,7 +105,7 @@ export default {
                 }
               })
             })
-          } else {
+          } else if (singleBarGroupConfig.mainDimension === DIMENSIONS.DIMENSIONS_2D.horizontal) {
             _.forEach(this.config.labelGroups[index].data, (data) => {
               _.forEach(data.labels, (label) => {
                 label.margin = _.first(data.labels).margin || {

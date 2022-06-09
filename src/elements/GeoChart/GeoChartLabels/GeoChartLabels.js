@@ -202,10 +202,7 @@ function getTranslation (singleGroupOptions, singleItem, height, width, globalOp
     const horizontalAxisSpan = getItemSpanAtAxis(horizontalAxis, singleItem)
     if (singleGroupOptions.mainDimension === DIMENSIONS.DIMENSIONS_2D.vertical) {
       horizontalAxisTranslation = horizontalAxisTranslationToTopPosition + (horizontalAxisSpan - width) / 2
-      verticalAxisTranslation = verticalAxisTranslationToTopPosition < 0 ||
-      verticalAxisTranslationToTopPosition - _.first(singleItem.labels).margin.top < 0
-        ? 0
-        : verticalAxisTranslationToTopPosition - _.first(singleItem.labels).margin.top
+      verticalAxisTranslation = Math.max(verticalAxisTranslationToTopPosition - _.first(singleItem.labels).margin.top, 0)
     } else {
       const horizontalOffset = horizontalAxisTranslationToTopPosition + width >= chartWidth
         ? width + _.first(singleItem.labels).padding.right
