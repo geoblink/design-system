@@ -100,6 +100,8 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions) {
     .duration(globalOptions.chart.animationsDurationInMilliseconds)
     .style('opacity', 1)
     .attr('transform', getTransform)
+    .selectAll('text')
+    .attr('fill', d => _.get(d, 'color', 'black'))
 
   function getTransform (d, i) {
     const height = d3.select(this).node().getBBox().height
@@ -171,7 +173,6 @@ function renderSingleLabelLine (group, globalOptions) {
 
   function getSingleLabelGroupCSSClasses (d, i) {
     const defaultClasses = [singleLabelGroupsBaseClass, 'rect-fill-none']
-
     if (d.cssClasses) {
       const customClasses = d.cssClasses(defaultClasses)
       return _.uniq([...customClasses, singleLabelGroupsBaseClass]).join(' ')
@@ -203,10 +204,17 @@ function getTranslation (singleGroupOptions, singleItem, height, width, globalOp
     if (singleGroupOptions.mainDimension === DIMENSIONS.DIMENSIONS_2D.vertical) {
       horizontalAxisTranslation = horizontalAxisTranslationToTopPosition + (horizontalAxisSpan - width) / 2
       verticalAxisTranslation = Math.max(verticalAxisTranslationToTopPosition - _.first(singleItem.labels).margin.top, 0)
+      if (verticalAxisTranslationToTopPosition - _.first(singleItem.labels).margin.top < 0) {
+        _.forEach(singleItem.labels, (label) => { label.color = 'white' })
+      }
     } else {
-      const horizontalOffset = horizontalAxisTranslationToTopPosition + width >= chartWidth
-        ? width + _.first(singleItem.labels).padding.right
-        : 0
+      let horizontalOffset
+      if (horizontalAxisTranslationToTopPosition + width >= chartWidth) {
+        horizontalOffset = width + _.first(singleItem.labels).padding.right
+        _.forEach(singleItem.labels, (label) => { label.color = 'white' })
+      } else {
+        horizontalOffset = 0
+      }
       horizontalAxisTranslation = horizontalAxisTranslationToTopPosition - horizontalOffset
     }
   }
