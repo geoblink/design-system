@@ -210,7 +210,7 @@ function getTranslation (singleGroupOptions, singleItem, height, width, globalOp
     } else {
       let horizontalOffset
       if (horizontalAxisTranslationToTopPosition + width >= chartWidth) {
-        horizontalOffset = width + _.first(singleItem.labels).padding.right
+        horizontalOffset = width + _.get(_.first(singleItem.labels).padding, 'right', 0)
         _.forEach(singleItem.labels, (label) => { label.color = 'white' })
       } else {
         horizontalOffset = 0

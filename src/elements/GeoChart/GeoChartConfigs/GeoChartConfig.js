@@ -940,6 +940,9 @@ export const labelConfigJsonSchema = {
     },
     idHorizontalAxis: {
       type: 'string'
+    },
+    mainDimension: {
+      type: 'string'
     }
   }
 }
