@@ -97,11 +97,14 @@ export default {
           const defaultMargin = singleBarGroupConfig.mainDimension === DIMENSIONS.DIMENSIONS_2D.vertical
             ? { top: 30, bottom: 0, left: 0, right: 0 }
             : singleBarGroupConfig.mainDimension === DIMENSIONS.DIMENSIONS_2D.horizontal
-              ? { top: 0, bottom: 0, left: 10, right: 0 }
+              ? { top: 0, bottom: 0, left: 20, right: 0 }
               : null
+          const defaultPadding = singleBarGroupConfig.mainDimension === DIMENSIONS.DIMENSIONS_2D.horizontal
+            ? { top: 0, bottom: 0, left: 20, right: 20 } : null
           _.forEach(this.config.labelGroups[index].data, (data) => {
             _.forEach(data.labels, (label) => {
               label.margin = _.first(data.labels).margin || defaultMargin
+              label.padding = _.first(data.labels).padding || defaultPadding
             })
           })
 
