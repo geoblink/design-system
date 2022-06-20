@@ -206,7 +206,7 @@ function getTranslation (singleGroupOptions, singleItem, height, width, globalOp
     const horizontalAxisSpan = getItemSpanAtAxis(horizontalAxis, singleItem)
     if (singleGroupOptions.mainDimension === DIMENSIONS.DIMENSIONS_2D.vertical) {
       horizontalAxisTranslation = horizontalAxisTranslationToTopPosition + (horizontalAxisSpan - width) / 2
-      verticalAxisTranslation = verticalAxisTranslationToTopPosition - _.first(singleItem.labels).margin.top + _.get(_.first(singleItem.labels), ['padding', 'bottom'])
+      verticalAxisTranslation = verticalAxisTranslationToTopPosition - _.first(singleItem.labels).margin.top
       if (verticalAxisTranslation < 0) {
         verticalAxisTranslation = 0
         _.forEach(singleItem.labels, (label) => { label.color = 'white' })
@@ -219,7 +219,7 @@ function getTranslation (singleGroupOptions, singleItem, height, width, globalOp
       } else {
         horizontalOffset = 0
       }
-      verticalAxisTranslation = verticalAxisTranslation + _.get(singleGroupOptions, 'naturalOffset', 0)
+      verticalAxisTranslation = verticalAxisTranslation + _.get(singleGroupOptions, 'naturalOffset', 0) - _.get(_.first(singleItem.labels), ['padding', 'bottom'], 0)
       horizontalAxisTranslation = horizontalAxisTranslationToTopPosition - horizontalOffset
     }
   }

@@ -110,7 +110,7 @@ export default {
             })
           })
           if (index > 0 && isHorizontal) {
-            this.config.labelGroups[index].naturalOffset = this.config.labelGroups[index].naturalOffset || naturalOffset
+            this.config.labelGroups[index].naturalOffset = this.config.labelGroups.naturalOffset || naturalOffset
           }
           this.config.labelGroups[index].mainDimension = singleBarGroupConfig.mainDimension
         }
@@ -187,7 +187,7 @@ export default {
           },
           data: singleLabelGroupConfig.data,
           mainDimension: singleLabelGroupConfig.mainDimension,
-          naturalOffset: singleLabelGroupConfig.naturalOffset
+          naturalOffset: index > 0 ? singleLabelGroupConfig.naturalOffset : undefined
         }
       })
 
