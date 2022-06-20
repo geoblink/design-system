@@ -470,7 +470,7 @@ export default {
           return {
             labels: [{
               text: this.handleData(this.linearAxisConfigKeyForValues[index]),
-              cornerRadius: 5,
+              cornerRadius: 5
             }],
             [this.categoricalAxisConfig.keyForValues]: category,
             [this.linearAxisConfig.keyForValues]: this.linearAxisConfigKeyForValues[index],
