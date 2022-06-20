@@ -203,8 +203,9 @@ function getTranslation (singleGroupOptions, singleItem, height, width, globalOp
     const horizontalAxisSpan = getItemSpanAtAxis(horizontalAxis, singleItem)
     if (singleGroupOptions.mainDimension === DIMENSIONS.DIMENSIONS_2D.vertical) {
       horizontalAxisTranslation = horizontalAxisTranslationToTopPosition + (horizontalAxisSpan - width) / 2
-      verticalAxisTranslation = Math.max(verticalAxisTranslationToTopPosition - _.first(singleItem.labels).margin.top, 0)
-      if (verticalAxisTranslation === 0) {
+      verticalAxisTranslation = verticalAxisTranslationToTopPosition - _.first(singleItem.labels).margin.top
+      if (verticalAxisTranslation < 0) {
+        verticalAxisTranslation = 0
         _.forEach(singleItem.labels, (label) => { label.color = 'white' })
       }
     } else {
