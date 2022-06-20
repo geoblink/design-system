@@ -49,12 +49,11 @@ export function render (d3Instance, options, globalOptions) {
     .duration(globalOptions.chart.animationsDurationInMilliseconds)
     .style('opacity', 0)
     .remove()
-
   const updatedGroups = groups
   const allGroups = newGroups.merge(updatedGroups)
   allGroups.each(function (singleGroupOptions, i) {
     const group = d3.select(this)
-    renderSingleGroup(group, singleGroupOptions, globalOptions)
+    renderSingleGroup(group, singleGroupOptions, globalOptions, i)
   })
 }
 
@@ -69,7 +68,7 @@ export function render (d3Instance, options, globalOptions) {
  * @param {GeoChart.LabelGroupConfig<HorizontalDomain, VerticalDomain>} singleGroupOptions
  * @param {GeoChart.GlobalOptions} globalOptions
  */
-function renderSingleGroup (group, singleGroupOptions, globalOptions) {
+function renderSingleGroup (group, singleGroupOptions, globalOptions, indexOfGroup) {
   const singleDataGroups = group
     .selectAll('g.geo-chart-labels-group')
     .data(singleGroupOptions.data)
@@ -103,6 +102,10 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions) {
     .selectAll('text')
     .attr('fill', d => _.get(d, 'color', 'black'))
 
+  // allSingleDataGroups
+  // .transition()
+  // .duration(globalOptions.chart.animationsDurationInMilliseconds)
+  // .attr('transform', ()=>{singleGroupOptions.mainDimension===DIMENSIONS.DIMENSIONS_2D.horizontal?`translate`)
   function getTransform (d, i) {
     const height = d3.select(this).node().getBBox().height
     const width = d3.select(this).node().getBBox().width
@@ -216,6 +219,7 @@ function getTranslation (singleGroupOptions, singleItem, height, width, globalOp
       } else {
         horizontalOffset = 0
       }
+      verticalAxisTranslation = verticalAxisTranslation + _.get(singleGroupOptions, 'naturalOffset', 0)
       horizontalAxisTranslation = horizontalAxisTranslationToTopPosition - horizontalOffset
     }
   }

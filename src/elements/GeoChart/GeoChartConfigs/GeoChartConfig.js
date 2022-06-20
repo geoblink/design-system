@@ -943,6 +943,9 @@ export const labelConfigJsonSchema = {
     },
     mainDimension: {
       type: 'string'
+    },
+    naturalOffset: {
+      type: 'number'
     }
   }
 }

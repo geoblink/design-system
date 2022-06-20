@@ -96,6 +96,7 @@ export default {
         if (singleBarGroupConfig.isPositioningLabelsInBars) {
           const isHorizontal = singleBarGroupConfig.mainDimension === DIMENSIONS.DIMENSIONS_2D.horizontal
           const isVertical = singleBarGroupConfig.mainDimension === DIMENSIONS.DIMENSIONS_2D.vertical
+          const naturalOffset = 10
           const defaultMargin = isVertical
             ? { top: 30, bottom: 0, left: 0, right: 0 }
             : isHorizontal
@@ -108,7 +109,9 @@ export default {
               label.padding = _.first(data.labels).padding || defaultPadding
             })
           })
-
+          if (index > 0 && isHorizontal) {
+            this.config.labelGroups[index].naturalOffset = this.config.labelGroups[index].naturalOffset || naturalOffset
+          }
           this.config.labelGroups[index].mainDimension = singleBarGroupConfig.mainDimension
         }
         const tooltipConfig = singleBarGroupConfig.tooltip
@@ -183,7 +186,8 @@ export default {
             horizontal: _.get(this.axesConfigById, singleLabelGroupConfig.idHorizontalAxis)
           },
           data: singleLabelGroupConfig.data,
-          mainDimension: singleLabelGroupConfig.mainDimension
+          mainDimension: singleLabelGroupConfig.mainDimension,
+          naturalOffset: singleLabelGroupConfig.naturalOffset
         }
       })
 

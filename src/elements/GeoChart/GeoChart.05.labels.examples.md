@@ -24,7 +24,6 @@ structure describe in _Labels structure_ section.
 ### Optional properties
 
 - `idHorizontalAxis` - ID of the axis used to position the label horizontally.
-- `isVerticalLabel` - Boolean value if there is a vertical label
 
 #### Labels structure
 
@@ -264,8 +263,7 @@ export default {
           }
         }),
         idVerticalAxis: this.linearAxisConfig.id,
-        idHorizontalAxis:this.categoricalAxisConfig.id,
-        isVerticalLabel:true
+        idHorizontalAxis:this.categoricalAxisConfig.id
 
       }
     },
