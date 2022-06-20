@@ -472,12 +472,6 @@ export default {
           return {
             labels: [{
               text: this.handleData(this.linearAxisConfigKeyForValues[index]),
-              padding: {
-                top: 10,
-                right: 10,
-                bottom: 10,
-                left: 0
-              },
               cornerRadius: 5,
             }],
             [this.categoricalAxisConfig.keyForValues]: category,

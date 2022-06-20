@@ -94,13 +94,14 @@ export default {
           console.warn(`GeoChart [component] :: Attempted to use a non-function as bar chart tooltip content (used «${singleBarGroupConfig.tooltip}»)`)
         }
         if (singleBarGroupConfig.isPositioningLabelsInBars) {
-          const defaultMargin = singleBarGroupConfig.mainDimension === DIMENSIONS.DIMENSIONS_2D.vertical
+          const isHorizontal = singleBarGroupConfig.mainDimension === DIMENSIONS.DIMENSIONS_2D.horizontal
+          const isVertical = singleBarGroupConfig.mainDimension === DIMENSIONS.DIMENSIONS_2D.vertical
+          const defaultMargin = isVertical
             ? { top: 30, bottom: 0, left: 0, right: 0 }
-            : singleBarGroupConfig.mainDimension === DIMENSIONS.DIMENSIONS_2D.horizontal
+            : isHorizontal
               ? { top: 0, bottom: 0, left: 20, right: 0 }
               : null
-          const defaultPadding = singleBarGroupConfig.mainDimension === DIMENSIONS.DIMENSIONS_2D.horizontal
-            ? { top: 0, bottom: 0, left: 20, right: 20 } : null
+          const defaultPadding = isHorizontal ? { top: 0, bottom: 0, left: 0, right: 10 } : null
           _.forEach(this.config.labelGroups[index].data, (data) => {
             _.forEach(data.labels, (label) => {
               label.margin = _.first(data.labels).margin || defaultMargin
