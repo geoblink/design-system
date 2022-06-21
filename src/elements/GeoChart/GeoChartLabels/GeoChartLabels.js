@@ -219,7 +219,9 @@ function getTranslation (singleGroupOptions, singleItem, height, width, globalOp
       } else {
         horizontalOffset = 0
       }
-      const verticalOffset = _.parseInt(singleGroupOptions.id) > 0 ? _.get(singleGroupOptions, 'naturalOffset', 0) : -_.get(singleGroupOptions, 'naturalOffset', 0)
+      const verticalOffset = _.parseInt(singleGroupOptions.id) > 0
+        ? _.get(singleGroupOptions, 'naturalOffset', 0)
+        : 0 - _.get(singleGroupOptions, 'naturalOffset', 0)
       verticalAxisTranslation = verticalAxisTranslation + verticalOffset - _.get(_.first(singleItem.labels), ['padding', 'bottom'], 0)
       horizontalAxisTranslation = horizontalAxisTranslationToTopPosition - horizontalOffset
     }

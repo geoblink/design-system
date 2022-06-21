@@ -96,22 +96,18 @@ export default {
         if (singleBarGroupConfig.isPositioningLabelsInBars) {
           const isHorizontal = singleBarGroupConfig.mainDimension === DIMENSIONS.DIMENSIONS_2D.horizontal
           const isVertical = singleBarGroupConfig.mainDimension === DIMENSIONS.DIMENSIONS_2D.vertical
-          const naturalOffset = 10
           const defaultMargin = isVertical
             ? { top: 30, bottom: 0, left: 0, right: 0 }
             : isHorizontal
               ? { top: 0, bottom: 0, left: 20, right: 0 }
               : null
-          const defaultPadding = isHorizontal ? { top: 0, bottom: 0, left: 0, right: 10 } : null
+          const defaultPadding = isHorizontal ? { top: 0, bottom: 0, left: 0, right: 20 } : null
           _.forEach(this.config.labelGroups[index].data, (data) => {
             _.forEach(data.labels, (label) => {
               label.margin = _.first(data.labels).margin || defaultMargin
               label.padding = _.first(data.labels).padding || defaultPadding
             })
           })
-          if (index > 0 && isHorizontal) {
-            this.config.labelGroups[index].naturalOffset = this.config.labelGroups.naturalOffset || naturalOffset
-          }
           this.config.labelGroups[index].mainDimension = singleBarGroupConfig.mainDimension
         }
         const tooltipConfig = singleBarGroupConfig.tooltip
