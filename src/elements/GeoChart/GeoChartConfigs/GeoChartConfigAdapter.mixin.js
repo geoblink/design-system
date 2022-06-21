@@ -95,12 +95,9 @@ export default {
         }
         if (singleBarGroupConfig.isPositioningLabelsInBars) {
           const isHorizontal = singleBarGroupConfig.mainDimension === DIMENSIONS.DIMENSIONS_2D.horizontal
-          const isVertical = singleBarGroupConfig.mainDimension === DIMENSIONS.DIMENSIONS_2D.vertical
-          const defaultMargin = isVertical
-            ? { top: 30, bottom: 0, left: 0, right: 0 }
-            : isHorizontal
-              ? { top: 0, bottom: 0, left: 20, right: 0 }
-              : null
+          const defaultMargin = isHorizontal
+            ? { top: 0, bottom: 0, left: 20, right: 0 }
+            : { top: 30, bottom: 0, left: 0, right: 0 }
           const defaultPadding = isHorizontal ? { top: 0, bottom: 0, left: 0, right: 20 } : null
           _.forEach(this.config.labelGroups[index].data, (data) => {
             _.forEach(data.labels, (label) => {

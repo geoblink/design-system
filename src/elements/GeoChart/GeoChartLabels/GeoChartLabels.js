@@ -102,10 +102,6 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions, indexOfGro
     .selectAll('text')
     .attr('fill', d => _.get(d, 'color', 'black'))
 
-  // allSingleDataGroups
-  // .transition()
-  // .duration(globalOptions.chart.animationsDurationInMilliseconds)
-  // .attr('transform', ()=>{singleGroupOptions.mainDimension===DIMENSIONS.DIMENSIONS_2D.horizontal?`translate`)
   function getTransform (d, i) {
     const height = d3.select(this).node().getBBox().height
     const width = d3.select(this).node().getBBox().width
