@@ -187,7 +187,7 @@ export default {
           },
           data: singleLabelGroupConfig.data,
           mainDimension: singleLabelGroupConfig.mainDimension,
-          naturalOffset: index > 0 ? singleLabelGroupConfig.naturalOffset : undefined
+          naturalOffset: singleLabelGroupConfig.naturalOffset
         }
       })
 
