@@ -105,7 +105,7 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions, indexOfGro
   function getTransform (d, i) {
     const height = d3.select(this).node().getBBox().height
     const width = d3.select(this).node().getBBox().width
-    const translation = getTranslation(singleGroupOptions, d, height, width, globalOptions)
+    const translation = getTranslation(singleGroupOptions, d, height, width, globalOptions, i)
     return `translate(${translation.x}, ${translation.y})`
   }
 }
@@ -189,7 +189,7 @@ function renderSingleLabelLine (group, globalOptions) {
  * @param {number} height
  * @returns {{x: number, y: number}}
  */
-function getTranslation (singleGroupOptions, singleItem, height, width, globalOptions) {
+function getTranslation (singleGroupOptions, singleItem, height, width, globalOptions, index) {
   const chartWidth = globalOptions.chart.size.width
   const verticalAxis = singleGroupOptions.axis.vertical
   const verticalAxisTranslationToTopPosition = getItemValueAtAxis(verticalAxis, singleItem)
@@ -215,9 +215,12 @@ function getTranslation (singleGroupOptions, singleItem, height, width, globalOp
       } else {
         horizontalOffset = 0
       }
+      horizontalOffset = _.parseInt(singleGroupOptions.id) > 0
+        ? horizontalOffset - _.get(singleGroupOptions, 'naturalOffset', 0) - height / 3
+        : horizontalOffset + _.get(singleGroupOptions, 'naturalOffset', 0) + height / 3
       const verticalOffset = _.parseInt(singleGroupOptions.id) > 0
-        ? _.get(singleGroupOptions, 'naturalOffset', 0)
-        : 0 - _.get(singleGroupOptions, 'naturalOffset', 0)
+        ? _.get(singleGroupOptions, 'naturalOffset', 0) + width / 3
+        : 0 - _.get(singleGroupOptions, 'naturalOffset', 0) - width / 3
       verticalAxisTranslation = verticalAxisTranslation + verticalOffset - _.get(_.first(singleItem.labels), ['padding', 'bottom'], 0)
       horizontalAxisTranslation = horizontalAxisTranslationToTopPosition - horizontalOffset
     }
