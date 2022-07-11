@@ -191,17 +191,23 @@ function renderSingleLabelLine (group, globalOptions) {
  */
 function getTranslation (singleGroupOptions, singleItem, height, width, globalOptions, index) {
   const chartWidth = globalOptions.chart.size.width
+  const chartHeight = globalOptions.chart.size.height
+  const nComparisons = _.get(singleGroupOptions, 'nComparisons', 0) * singleGroupOptions.data.length
   const verticalAxis = singleGroupOptions.axis.vertical
   const verticalAxisTranslationToTopPosition = getItemValueAtAxis(verticalAxis, singleItem)
   const verticalAxisSpan = getItemSpanAtAxis(verticalAxis, singleItem)
-  let verticalAxisTranslation = verticalAxisTranslationToTopPosition + (verticalAxisSpan - height) / 2
+  let verticalAxisTranslation = (verticalAxisTranslationToTopPosition + (verticalAxisSpan - height) / 2)
   let horizontalAxisTranslation = 0
   if (singleGroupOptions.axis.horizontal) {
     const horizontalAxis = singleGroupOptions.axis.horizontal
     const horizontalAxisTranslationToTopPosition = getItemValueAtAxis(horizontalAxis, singleItem)
     const horizontalAxisSpan = getItemSpanAtAxis(horizontalAxis, singleItem)
     if (singleGroupOptions.mainDimension === DIMENSIONS.DIMENSIONS_2D.vertical) {
-      horizontalAxisTranslation = horizontalAxisTranslationToTopPosition + (horizontalAxisSpan - width) / 2
+      const horizontalOffset = _.parseInt(singleGroupOptions.id) > 0 && nComparisons > 1
+        ? chartWidth / nComparisons / 2
+        : 0
+      horizontalAxisTranslation = horizontalAxisTranslationToTopPosition + horizontalOffset + (horizontalAxisSpan - width) / 2 - _.get(_.first(singleItem.labels), ['padding', 'right'], 0)
+      if (singleItem.cssClasses) horizontalAxisTranslation = horizontalAxisTranslation / 2
       verticalAxisTranslation = verticalAxisTranslationToTopPosition - _.first(singleItem.labels).margin.top
       if (verticalAxisTranslation < 0) {
         verticalAxisTranslation = 0
@@ -215,13 +221,11 @@ function getTranslation (singleGroupOptions, singleItem, height, width, globalOp
       } else {
         horizontalOffset = 0
       }
-      horizontalOffset = _.parseInt(singleGroupOptions.id) > 0
-        ? horizontalOffset - _.get(singleGroupOptions, 'naturalOffset', 0) - height / 3
-        : horizontalOffset + _.get(singleGroupOptions, 'naturalOffset', 0) + height / 3
-      const verticalOffset = _.parseInt(singleGroupOptions.id) > 0
-        ? _.get(singleGroupOptions, 'naturalOffset', 0) + width / 3
-        : 0 - _.get(singleGroupOptions, 'naturalOffset', 0) - width / 3
-      verticalAxisTranslation = verticalAxisTranslation + verticalOffset - _.get(_.first(singleItem.labels), ['padding', 'bottom'], 0)
+      const verticalOffset = _.parseInt(singleGroupOptions.id) > 0 && nComparisons > 1
+        ? chartHeight / nComparisons / 2
+        : 0
+      verticalAxisTranslation = verticalAxisTranslation +
+        verticalOffset - _.get(_.first(singleItem.labels), ['padding', 'bottom'], 0)
       horizontalAxisTranslation = horizontalAxisTranslationToTopPosition - horizontalOffset
     }
   }

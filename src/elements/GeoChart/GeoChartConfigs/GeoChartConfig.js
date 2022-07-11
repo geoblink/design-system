@@ -944,7 +944,7 @@ export const labelConfigJsonSchema = {
     mainDimension: {
       type: 'string'
     },
-    naturalOffset: {
+    nComparisons: {
       type: 'number'
     }
   }

@@ -169,7 +169,6 @@ export default {
       if (!this.categoricalAxisConfig) return null
       if (!this.labelGroup) return null
       if (!this.chartData) return null
-
       return {
         chart: {
           margin: {
@@ -187,7 +186,8 @@ export default {
           data: this.chartData,
           mainDimension: 'horizontal',
           idHorizontalAxis: this.linearAxisConfig.id,
-          idVerticalAxis: this.categoricalAxisConfig.id
+          idVerticalAxis: this.categoricalAxisConfig.id,
+          
         }],
         labelGroups: [this.labelGroup]
       }
@@ -250,20 +250,19 @@ export default {
           return {
             labels: [{
               text: this.handleData(this.linearAxisConfigKeyForValues[index]),
-              padding: {
-                top: 10,
-                right: 0,
-                bottom: 10,
-                left: 0
-              },
               cornerRadius: 5,
+              cssClasses: (originalClasses, item) => {
+                    return [...originalClasses, 'geo-chart-value-label--small']
+                  }
             }],
             [this.linearAxisConfig.keyForValues]: this.linearAxisConfigKeyForValues[index],
             [this.categoricalAxisConfig.keyForValues]: category,
           }
         }),
         idVerticalAxis: this.linearAxisConfig.id,
-        idHorizontalAxis:this.categoricalAxisConfig.id
+        idHorizontalAxis:this.categoricalAxisConfig.id,
+        nComparisons:2
+
 
       }
     },
@@ -321,6 +320,12 @@ export default {
       if (!this.categoricalAxisConfig) return null
       if (!this.chartData) return null
 
+      const nComparisons = _.size(this.chartData)
+      const naturalPadding = 0.05
+      const naturalWidth = 0.6 - (0.08 * nComparisons)
+      const naturalOffsetBase = naturalWidth / 2
+      const naturalOffset = 0.5 - (naturalOffsetBase * nComparisons) - (naturalPadding * (nComparisons - 1))
+
       return {
         chart: {
           margin: {
@@ -339,8 +344,10 @@ export default {
           mainDimension: CONSTANTS.DIMENSIONS.DIMENSIONS_2D.vertical,
           idHorizontalAxis: this.categoricalAxisConfig.id,
           idVerticalAxis: this.linearAxisConfig.id,
-          isPositioningLabelsInBars:true
-        }],
+          isPositioningLabelsInBars:true,
+           naturalWidth,
+          naturalNormalOffset: naturalOffset 
+        },],
         labelGroups:[this.labelGroup]
       }
     }
@@ -470,14 +477,17 @@ export default {
           return {
             labels: [{
               text: this.handleData(this.linearAxisConfigKeyForValues[index]),
-              cornerRadius: 5
+              cornerRadius: 5,
+               cssClasses: (originalClasses, item) => {
+                    return [...originalClasses, 'geo-chart-value-label--small']
+                  }
             }],
             [this.categoricalAxisConfig.keyForValues]: category,
             [this.linearAxisConfig.keyForValues]: this.linearAxisConfigKeyForValues[index],
           }
         }),
         idHorizontalAxis:this.linearAxisConfig.id,
-        idVerticalAxis:this.categoricalAxisConfig.id
+        idVerticalAxis:this.categoricalAxisConfig.id,
       }
     },
 
@@ -485,6 +495,11 @@ export default {
       if (!this.categoricalAxisConfig) return null
       if (!this.labelGroup) return null
       if (!this.chartData) return null
+      const nComparisons = _.size(this.chartData)
+      const naturalPadding = 0.05
+      const naturalWidth = 0.6 - (0.08 * nComparisons)
+      const naturalOffsetBase = naturalWidth / 2
+      const naturalOffset = 0.5 - (naturalOffsetBase * nComparisons) - (naturalPadding * (nComparisons - 1))
 
       return {
         chart: {
@@ -504,8 +519,21 @@ export default {
           mainDimension: 'horizontal',
           idHorizontalAxis: this.linearAxisConfig.id,
           idVerticalAxis: this.categoricalAxisConfig.id,
-          isPositioningLabelsInBars:true
-        }],
+          isPositioningLabelsInBars:true,
+          naturalWidth,
+          naturalNormalOffset: naturalOffset 
+        }
+        // ,
+        // {
+        //   data: this.chartData,
+        //   mainDimension: 'horizontal',
+        //   idHorizontalAxis: this.linearAxisConfig.id,
+        //   idVerticalAxis: this.categoricalAxisConfig.id,
+        //   isPositioningLabelsInBars:true,
+        //   naturalWidth,
+        //   naturalNormalOffset: naturalOffset + (naturalWidth) + (naturalPadding)
+        // }
+        ],
         labelGroups: [this.labelGroup]
       }
     }

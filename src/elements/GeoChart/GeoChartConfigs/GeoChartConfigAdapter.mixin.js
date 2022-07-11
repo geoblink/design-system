@@ -98,11 +98,14 @@ export default {
           const defaultMargin = isHorizontal
             ? { top: 0, bottom: 0, left: 20, right: 0 }
             : { top: 30, bottom: 0, left: 0, right: 0 }
-          const defaultPadding = isHorizontal ? { top: 0, bottom: 0, left: 0, right: 20 } : null
+          const defaultPadding = isHorizontal ? { top: 0, bottom: 0, left: 0, right: 20 } : { top: 0, bottom: 0, left: 0, right: 0 }
+
           _.forEach(this.config.labelGroups[index].data, (data) => {
             _.forEach(data.labels, (label) => {
               label.margin = _.first(data.labels).margin || defaultMargin
               label.padding = _.first(data.labels).padding || defaultPadding
+              label.padding.bottom = label.cssClasses && isHorizontal && this.config.labelGroups[index].nComparisons > 1 ? 15 : label.padding.bottom
+              label.padding.right = label.cssClasses && !isHorizontal && this.config.labelGroups[index].nComparisons > 1 ? 35 : label.padding.right
             })
           })
           this.config.labelGroups[index].mainDimension = singleBarGroupConfig.mainDimension
@@ -180,7 +183,7 @@ export default {
           },
           data: singleLabelGroupConfig.data,
           mainDimension: singleLabelGroupConfig.mainDimension,
-          naturalOffset: singleLabelGroupConfig.naturalOffset
+          nComparisons: singleLabelGroupConfig.nComparisons
         }
       })
 
