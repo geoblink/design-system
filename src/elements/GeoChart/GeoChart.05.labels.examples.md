@@ -347,8 +347,17 @@ export default {
           isPositioningLabelsInBars:true,
            naturalWidth,
           naturalNormalOffset: naturalOffset 
-        },],
-        labelGroups:[this.labelGroup]
+        },
+        {
+          data: this.chartData,
+          mainDimension: CONSTANTS.DIMENSIONS.DIMENSIONS_2D.vertical,
+          idHorizontalAxis: this.categoricalAxisConfig.id,
+          idVerticalAxis: this.linearAxisConfig.id,
+          isPositioningLabelsInBars:true,
+          naturalWidth,
+          naturalNormalOffset: naturalOffset + (naturalWidth) + (naturalPadding)
+        }],
+        labelGroups:[this.labelGroup,this.labelGroup]
       }
     }
   },
@@ -523,18 +532,18 @@ export default {
           naturalWidth,
           naturalNormalOffset: naturalOffset 
         }
-        // ,
-        // {
-        //   data: this.chartData,
-        //   mainDimension: 'horizontal',
-        //   idHorizontalAxis: this.linearAxisConfig.id,
-        //   idVerticalAxis: this.categoricalAxisConfig.id,
-        //   isPositioningLabelsInBars:true,
-        //   naturalWidth,
-        //   naturalNormalOffset: naturalOffset + (naturalWidth) + (naturalPadding)
-        // }
+        ,
+        {
+          data: this.chartData,
+          mainDimension: 'horizontal',
+          idHorizontalAxis: this.linearAxisConfig.id,
+          idVerticalAxis: this.categoricalAxisConfig.id,
+          isPositioningLabelsInBars:true,
+          naturalWidth,
+          naturalNormalOffset: naturalOffset + (naturalWidth) + (naturalPadding)
+        }
         ],
-        labelGroups: [this.labelGroup]
+        labelGroups: [this.labelGroup,this.labelGroup]
       }
     }
   },

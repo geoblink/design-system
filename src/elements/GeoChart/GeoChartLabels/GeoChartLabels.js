@@ -203,8 +203,8 @@ function getTranslation (singleGroupOptions, singleItem, height, width, globalOp
     const horizontalAxisTranslationToTopPosition = getItemValueAtAxis(horizontalAxis, singleItem)
     const horizontalAxisSpan = getItemSpanAtAxis(horizontalAxis, singleItem)
     if (singleGroupOptions.mainDimension === DIMENSIONS.DIMENSIONS_2D.vertical) {
-      const horizontalOffset = _.parseInt(singleGroupOptions.id) > 0 && nComparisons > 1
-        ? chartWidth / nComparisons / 2
+      const horizontalOffset = _.parseInt(singleGroupOptions.id) > 0 && nComparisons > singleGroupOptions.data.length
+        ? chartWidth / nComparisons / 2 * _.parseInt(singleGroupOptions.id)
         : 0
       horizontalAxisTranslation = horizontalAxisTranslationToTopPosition + horizontalOffset + (horizontalAxisSpan - width) / 2 - _.get(_.first(singleItem.labels), ['padding', 'right'], 0)
       if (singleItem.cssClasses) horizontalAxisTranslation = horizontalAxisTranslation / 2
@@ -221,8 +221,8 @@ function getTranslation (singleGroupOptions, singleItem, height, width, globalOp
       } else {
         horizontalOffset = 0
       }
-      const verticalOffset = _.parseInt(singleGroupOptions.id) > 0 && nComparisons > 1
-        ? chartHeight / nComparisons / 2
+      const verticalOffset = _.parseInt(singleGroupOptions.id) > 0 && nComparisons > singleGroupOptions.data.length
+        ? chartHeight / nComparisons / 2 * _.parseInt(singleGroupOptions.id)
         : 0
       verticalAxisTranslation = verticalAxisTranslation +
         verticalOffset - _.get(_.first(singleItem.labels), ['padding', 'bottom'], 0)
