@@ -1,4 +1,7 @@
 # Changelog
+## 30.0.12
+Fix:
+  - Updated dependencies to remove critical issues
 ## 30.0.11
 New:
 - `GeoCalendar`: Added 'isToDateDisabled' and 'isFromDateDisabled' props to force to select only one side of the range
