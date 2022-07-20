@@ -4,6 +4,9 @@
 New:
 - `GeoChartLabels`: Added 'idHorizontalAxis' and the key values of the axis props to get the horizontal and vertical labels in the end of the bar charts according to their values.
 - `GeoChartBars`: Added 'isPositioningLabelsInBars' props to set the labels for bar groups.
+## 30.0.12
+Fix:
+  - Updated dependencies to remove critical issues
 ## 30.0.11
 New:
 - `GeoCalendar`: Added 'isToDateDisabled' and 'isFromDateDisabled' props to force to select only one side of the range
