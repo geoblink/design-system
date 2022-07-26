@@ -1,4 +1,7 @@
 # Changelog
+## 30.0.13
+Fix:
+  - `GeoTrimmedContent`: Improved logic to detect if content is trimmed to display tooltip
 ## 30.0.12
 Fix:
   - Updated dependencies to remove critical issues

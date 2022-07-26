@@ -53,8 +53,8 @@ export default {
   data () {
     return {
       isHovered: false,
-      containerWidth: null,
-      contentWidth: null
+      contentWidthTrimmed: null,
+      contentWidthNotTrimmed: null
     }
   },
   computed: {
@@ -63,9 +63,9 @@ export default {
     },
 
     isContentTrimmed () {
-      const contentWidth = this.contentWidth || 0
-      const containerWidth = this.containerWidth || 0
-      return contentWidth > containerWidth
+      const contentWidthNotTrimmed = this.contentWidthNotTrimmed || 0
+      const contentWidthTrimmed = this.contentWidthTrimmed || 0
+      return contentWidthNotTrimmed > contentWidthTrimmed
     }
   },
   watch: {
@@ -91,11 +91,12 @@ export default {
       this.$refs.content.style.overflow = 'visible'
       this.$refs.content.style.textOverflow = 'initial'
 
-      this.contentWidth = this.$refs.content.getBoundingClientRect().width
-      this.containerWidth = this.$el.getBoundingClientRect().width
+      this.contentWidthNotTrimmed = this.$refs.content.getBoundingClientRect().width
 
       this.$refs.content.style.overflow = originalOverflow
       this.$refs.content.style.textOverflow = originalTextOverflow
+
+      this.contentWidthTrimmed = this.$refs.content.getBoundingClientRect().width
     },
 
     reloadTooltipContent () {
