@@ -1,9 +1,12 @@
 # Changelog
 
-## 30.0.13
+## 30.0.14
 New:
 - `GeoChartLabels`: Added 'idHorizontalAxis' and the key values of the axis props to get the horizontal and vertical labels in the end of the bar charts according to their values.
 - `GeoChartBars`: Added 'isPositioningLabelsInBars' props to set the labels for bar groups.
+## 30.0.13
+Fix:
+  - `GeoTrimmedContent`: Improved logic to detect if content is trimmed to display tooltip
 ## 30.0.12
 Fix:
   - Updated dependencies to remove critical issues
