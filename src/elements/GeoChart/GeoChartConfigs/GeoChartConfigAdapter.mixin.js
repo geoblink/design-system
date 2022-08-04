@@ -97,7 +97,7 @@ export default {
           const isHorizontal = singleBarGroupConfig.mainDimension === DIMENSIONS.DIMENSIONS_2D.horizontal
           const defaultMargin = isHorizontal
             ? { top: 0, bottom: 0, left: 20, right: 0 }
-            : { top: 30, bottom: 0, left: 0, right: 0 }
+            : { top: 20, bottom: 0, left: 0, right: 0 }
           const defaultPadding = isHorizontal ? { top: 0, bottom: 0, left: 0, right: 10 } : { top: 0, bottom: 0, left: 0, right: 0 }
 
           _.forEach(this.config.labelGroups[index].data, (data) => {
@@ -105,7 +105,7 @@ export default {
               label.margin = _.first(data.labels).margin || defaultMargin
               label.padding = _.first(data.labels).padding || defaultPadding
               label.padding.bottom = label.cssClasses && isHorizontal && this.config.labelGroups[index].nComparisons > 1
-                ? (singleBarGroupConfig.data.length < 5 ? 15 : 0)
+                ? (singleBarGroupConfig.data.length < 6 ? 20 : 0)
                 : label.padding.bottom
               label.padding.right = label.cssClasses && !isHorizontal && this.config.labelGroups[index].nComparisons > 1 ? 35 : label.padding.right
             })

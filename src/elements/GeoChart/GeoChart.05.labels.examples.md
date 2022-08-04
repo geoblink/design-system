@@ -497,6 +497,7 @@ export default {
         }),
         idHorizontalAxis:this.linearAxisConfig.id,
         idVerticalAxis:this.categoricalAxisConfig.id,
+        nComparisons:2
       }
     },
 
@@ -515,7 +516,7 @@ export default {
           margin: {
             top: 30,
             right: 30,
-            bottom: 30,
+            bottom: 50,
             left: 130
           }
         },
@@ -530,9 +531,8 @@ export default {
           idVerticalAxis: this.categoricalAxisConfig.id,
           isPositioningLabelsInBars:true,
           naturalWidth,
-          naturalNormalOffset: naturalOffset 
-        }
-        ,
+          naturalNormalOffset: naturalOffset
+        },
         {
           data: this.chartData,
           mainDimension: 'horizontal',
