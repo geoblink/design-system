@@ -216,13 +216,13 @@ function getTranslation (singleGroupOptions, singleItem, height, width, globalOp
     } else {
       let horizontalOffset
       if (horizontalAxisTranslationToTopPosition + width >= chartWidth) {
-        horizontalOffset = width + _.get(_.first(singleItem.labels).padding, 'right', 0)
+        horizontalOffset = width + _.get(_.first(singleItem.labels).padding, 'right', 0) - _.get(_.first(singleItem.labels).padding, 'left', 0)
         _.forEach(singleItem.labels, (label) => { label.color = 'white' })
       } else {
         horizontalOffset = 0
       }
       const verticalOffset = _.parseInt(singleGroupOptions.id) > 0 && nComparisons > singleGroupOptions.data.length
-        ? chartHeight / nComparisons / 2 * _.parseInt(singleGroupOptions.id)
+        ? chartHeight / nComparisons / 2 * _.parseInt(singleGroupOptions.id) + 2
         : 0
       verticalAxisTranslation = verticalAxisTranslation +
         verticalOffset - _.get(_.first(singleItem.labels), ['padding', 'bottom'], 0)

@@ -250,10 +250,7 @@ export default {
           return {
             labels: [{
               text: this.handleData(this.linearAxisConfigKeyForValues[index]),
-              cornerRadius: 5,
-              cssClasses: (originalClasses, item) => {
-                    return [...originalClasses, 'geo-chart-value-label--small']
-                  }
+              cornerRadius: 5
             }],
             [this.linearAxisConfig.keyForValues]: this.linearAxisConfigKeyForValues[index],
             [this.categoricalAxisConfig.keyForValues]: category,
@@ -261,9 +258,6 @@ export default {
         }),
         idVerticalAxis: this.linearAxisConfig.id,
         idHorizontalAxis:this.categoricalAxisConfig.id,
-        nComparisons:2
-
-
       }
     },
     linearAxisConfig () {
@@ -344,20 +338,9 @@ export default {
           mainDimension: CONSTANTS.DIMENSIONS.DIMENSIONS_2D.vertical,
           idHorizontalAxis: this.categoricalAxisConfig.id,
           idVerticalAxis: this.linearAxisConfig.id,
-          isPositioningLabelsInBars:true,
-           naturalWidth,
-          naturalNormalOffset: naturalOffset 
-        },
-        {
-          data: this.chartData,
-          mainDimension: CONSTANTS.DIMENSIONS.DIMENSIONS_2D.vertical,
-          idHorizontalAxis: this.categoricalAxisConfig.id,
-          idVerticalAxis: this.linearAxisConfig.id,
-          isPositioningLabelsInBars:true,
-          naturalWidth,
-          naturalNormalOffset: naturalOffset + (naturalWidth) + (naturalPadding)
+          isPositioningLabelsInBars:true
         }],
-        labelGroups:[this.labelGroup,this.labelGroup]
+        labelGroups:[this.labelGroup]
       }
     }
   },
@@ -487,17 +470,13 @@ export default {
             labels: [{
               text: this.handleData(this.linearAxisConfigKeyForValues[index]),
               cornerRadius: 5,
-               cssClasses: (originalClasses, item) => {
-                    return [...originalClasses, 'geo-chart-value-label--small']
-                  }
             }],
             [this.categoricalAxisConfig.keyForValues]: category,
             [this.linearAxisConfig.keyForValues]: this.linearAxisConfigKeyForValues[index],
           }
         }),
         idHorizontalAxis:this.linearAxisConfig.id,
-        idVerticalAxis:this.categoricalAxisConfig.id,
-        nComparisons:2
+        idVerticalAxis:this.categoricalAxisConfig.id
       }
     },
 
@@ -529,21 +508,9 @@ export default {
           mainDimension: 'horizontal',
           idHorizontalAxis: this.linearAxisConfig.id,
           idVerticalAxis: this.categoricalAxisConfig.id,
-          isPositioningLabelsInBars:true,
-          naturalWidth,
-          naturalNormalOffset: naturalOffset
-        },
-        {
-          data: this.chartData,
-          mainDimension: 'horizontal',
-          idHorizontalAxis: this.linearAxisConfig.id,
-          idVerticalAxis: this.categoricalAxisConfig.id,
-          isPositioningLabelsInBars:true,
-          naturalWidth,
-          naturalNormalOffset: naturalOffset + (naturalWidth) + (naturalPadding)
-        }
-        ],
-        labelGroups: [this.labelGroup,this.labelGroup]
+          isPositioningLabelsInBars:true
+        }],
+        labelGroups: [this.labelGroup]
       }
     }
   },

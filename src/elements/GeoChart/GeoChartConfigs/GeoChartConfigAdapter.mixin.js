@@ -95,19 +95,48 @@ export default {
         }
         if (singleBarGroupConfig.isPositioningLabelsInBars) {
           const isHorizontal = singleBarGroupConfig.mainDimension === DIMENSIONS.DIMENSIONS_2D.horizontal
+          const isVertical = singleBarGroupConfig.mainDimension === DIMENSIONS.DIMENSIONS_2D.vertical
+
           const defaultMargin = isHorizontal
-            ? { top: 0, bottom: 0, left: 20, right: 0 }
+            ? { top: 0, bottom: 0, left: 0, right: 0 }
             : { top: 20, bottom: 0, left: 0, right: 0 }
-          const defaultPadding = isHorizontal ? { top: 0, bottom: 0, left: 0, right: 10 } : { top: 0, bottom: 0, left: 0, right: 0 }
+          const defaultPadding = isHorizontal ? { top: 0, bottom: 0, left: 30, right: 10 } : { top: 0, bottom: 0, left: 0, right: 0 }
 
           _.forEach(this.config.labelGroups[index].data, (data) => {
             _.forEach(data.labels, (label) => {
               label.margin = _.first(data.labels).margin || defaultMargin
               label.padding = _.first(data.labels).padding || defaultPadding
-              label.padding.bottom = label.cssClasses && isHorizontal && this.config.labelGroups[index].nComparisons > 1
-                ? (singleBarGroupConfig.data.length < 6 ? 20 : 0)
-                : label.padding.bottom
-              label.padding.right = label.cssClasses && !isHorizontal && this.config.labelGroups[index].nComparisons > 1 ? 35 : label.padding.right
+              let customClass
+              if (label.cssClasses) { customClass = label.cssClasses('') }
+              if (isVertical &&
+                this.config.labelGroups[index].nComparisons > 1) {
+                label.padding.right = 10
+                if (singleBarGroupConfig.data.length < 9) {
+                  label.cssClasses = (originalClasses, item) => {
+                    return [...originalClasses, customClass, 'geo-chart-value-label--medium']
+                  }
+                }
+                if (singleBarGroupConfig.data.length < 4) {
+                  label.padding.right = 30
+                }
+              }
+              if (label.cssClasses && isHorizontal &&
+                this.config.labelGroups[index].nComparisons > 1 &&
+                singleBarGroupConfig.data.length < 6
+              ) {
+                label.padding.bottom = 10
+                label.cssClasses = (originalClasses, item) => {
+                  return [...originalClasses, customClass, 'geo-chart-value-label--medium']
+                }
+              } else if (label.cssClasses && isHorizontal &&
+                this.config.labelGroups[index].nComparisons > 1 &&
+                singleBarGroupConfig.data.length >= 6) {
+                label.padding.bottom = 4
+              } else if (this.config.labelGroups[index].nComparisons <= 1) {
+                label.cssClasses = (originalClasses, item) => {
+                  return [...originalClasses, customClass, 'geo-chart-value-label--medium']
+                }
+              }
             })
           })
           this.config.labelGroups[index].mainDimension = singleBarGroupConfig.mainDimension
