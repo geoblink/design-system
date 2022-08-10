@@ -210,7 +210,7 @@ function getTranslation (singleGroupOptions, singleItem, height, width, globalOp
       if (singleItem.cssClasses) horizontalAxisTranslation = horizontalAxisTranslation / 2
       verticalAxisTranslation = verticalAxisTranslationToTopPosition - _.first(singleItem.labels).margin.top
       if (verticalAxisTranslation < 0) {
-        verticalAxisTranslation = 0
+        verticalAxisTranslation = height
         _.forEach(singleItem.labels, (label) => { label.color = 'white' })
       }
     } else {
