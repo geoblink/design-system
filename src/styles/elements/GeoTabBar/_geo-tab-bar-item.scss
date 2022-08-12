@@ -2,6 +2,7 @@
   $border-height: 4px;
 
   align-items: center;
+  background-color: transparent;
   border-bottom: $border-height solid transparent;
   cursor: pointer;
   display: flex;
@@ -17,27 +18,50 @@
     margin-left: $space-small;
   }
 }
+@mixin geo-tab-bar-item-container-common {
+  $border-height: 4px;
+
+  align-items: center;
+  border-bottom: $border-height solid transparent;
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
 
 .geo-tab-bar-item-default {
   @include font($heading-light);
   @include geo-tab-bar-item-common;
 
-  background-color: $color-blue-dark;
   color: $color-white;
-  height: 42px;
+  height: 38px;
 
   &:hover, &[hover] {
-    border-bottom-color: $color-blue-light;
     color: $color-white;
   }
 }
 
+.geo-tab-bar-item-container-default {
+  @include geo-tab-bar-item-container-common;
+
+  background-color: $color-blue-dark;
+  height: 38px;
+  
+  &:hover, &[hover] {
+    border-bottom-color: $color-blue-light;
+  }
+}
+
 .geo-tab-bar-item-default--active {
+  &:hover, &[hover] {
+    color: $color-white;
+  }
+}
+.geo-tab-bar-item-container-default--active{
   border-bottom-color: $color-yellow;
 
   &:hover, &[hover] {
     border-bottom-color: $color-blue-light;
-    color: $color-white;
   }
 }
 
@@ -45,8 +69,12 @@
   @include font($heading-light);
   @include geo-tab-bar-item-common;
 
+  height: 28px;
+
+}
+.geo-tab-bar-item-container-modal{
+  @include geo-tab-bar-item-container-common;
   background-color: $color-white-dark;
-  height: 32px;
 
   &:hover, &[hover] {
     border-bottom-color: $color-grey;
@@ -55,6 +83,9 @@
 
 .geo-tab-bar-item-modal--active {
   @include font($heading);
+}
+
+.geo-tab-bar-item-container-modal--active{
   border-bottom-color: $color-blue;
 
   &:hover, &[hover] {

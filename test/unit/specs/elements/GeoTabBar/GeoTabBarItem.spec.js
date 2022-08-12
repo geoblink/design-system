@@ -49,7 +49,7 @@ describe('GeoTabBarItem', () => {
       }
     })
 
-    expect(wrapper.find('.geo-tab-bar-item-default--active').exists()).toBe(true)
+    expect(wrapper.find('.geo-tab-bar-item-container-default--active').exists()).toBe(true)
   })
 
   it('Should add CSS varian when given', function () {

@@ -1,14 +1,19 @@
 <template>
-  <a
+  <div
     :class="{
-      [`geo-tab-bar-item-${variant}`]: true,
-      [`geo-tab-bar-item-${variant}--active`]: active,
+      [`geo-tab-bar-item-container-${variant}`]: true,
+      [`geo-tab-bar-item-container-${variant}--active`]: active,
     }"
-    @click="handleClick($event)"
   >
-    <!-- @slot Use this slot to customize what's displayed inside this tab -->
-    <slot />
-  </a>
+    <a
+      :class="`geo-tab-bar-item-${variant}`"
+      @click="
+        handleClick($event)"
+    >
+      <!-- @slot Use this slot to customize what's displayed inside this tab -->
+      <slot />
+    </a>
+  </div>
 </template>
 
 <script>
