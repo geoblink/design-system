@@ -222,7 +222,7 @@ function getTranslation (singleGroupOptions, singleItem, height, width, globalOp
         horizontalOffset = 0
       }
       const verticalOffset = _.parseInt(singleGroupOptions.id) > 0 && nComparisons > singleGroupOptions.data.length
-        ? chartHeight / nComparisons / 2 * _.parseInt(singleGroupOptions.id) + 2
+        ? chartHeight / nComparisons / 2 * _.parseInt(singleGroupOptions.id)
         : 0
       verticalAxisTranslation = verticalAxisTranslation +
         verticalOffset - _.get(_.first(singleItem.labels), ['padding', 'bottom'], 0)
