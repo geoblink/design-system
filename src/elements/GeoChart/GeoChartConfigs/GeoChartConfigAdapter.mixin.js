@@ -107,30 +107,28 @@ export default {
               label.margin = _.first(data.labels).margin || defaultMargin
               label.padding = _.first(data.labels).padding || defaultPadding
               let customClass
-              if (label.cssClasses) { customClass = label.cssClasses('') }
+              let labelClass
+              if (label.cssClasses) {
+                customClass = label.cssClasses('')
+              }
               if (!isHorizontal && this.config.labelGroups[index].nComparisons > 1) {
-                label.padding.right = 10
+                labelClass = singleBarGroupConfig.data.length < 9
+                  ? 'geo-chart-value-label--medium'
+                  : 'geo-chart-value-label--small'
                 if (singleBarGroupConfig.data.length < 9) {
-                  label.cssClasses = (originalClasses, item) => {
-                    return [...originalClasses, customClass, 'geo-chart-value-label--medium']
-                  }
-                }
-                if (singleBarGroupConfig.data.length < 4) {
-                  label.padding.right = 30
+                  label.padding.right = singleBarGroupConfig.data.length < 4 ? 30 : 10
                 }
               }
-              if (label.cssClasses && isHorizontal && this.config.labelGroups[index].nComparisons > 1 && singleBarGroupConfig.data.length >= 6) {
-                label.padding.bottom = 2
-              } else if (label.cssClasses && isHorizontal && this.config.labelGroups[index].nComparisons > 1 && singleBarGroupConfig.data.length < 6) {
-                label.padding.bottom = 8
-
-                label.cssClasses = (originalClasses, item) => {
-                  return [...originalClasses, customClass, 'geo-chart-value-label--medium']
-                }
+              if (label.cssClasses && isHorizontal && this.config.labelGroups[index].nComparisons > 1) {
+                labelClass = singleBarGroupConfig.data.length < 6
+                  ? 'geo-chart-value-label--medium'
+                  : 'geo-chart-value-label--small'
+                label.padding.bottom = singleBarGroupConfig.data.length >= 6 ? 2 : 8
               } else if (this.config.labelGroups[index].nComparisons <= 1) {
-                label.cssClasses = (originalClasses, item) => {
-                  return [...originalClasses, customClass, 'geo-chart-value-label--medium']
-                }
+                labelClass = 'geo-chart-value-label--medium'
+              }
+              label.cssClasses = (originalClasses, item) => {
+                return [...originalClasses, customClass, labelClass]
               }
             })
           })
