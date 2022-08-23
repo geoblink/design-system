@@ -15,6 +15,7 @@ the following…
 ### Required properties
 
 - `idVerticalAxis` - ID of the axis used to position the label vertically.
+- `idHorizontalAxis` - ID of the axis used to position the label horizontally.
 - `data` - an array of items to which labels will be added. Each `data` entry must
 have a value for the key used by the axis referenced in `idVerticalAxis` and `idHorizontalAxis` (if there is idHorizontalAxis). That
 value will be used to compute label's vertical position. There's another key
@@ -23,8 +24,7 @@ structure describe in _Labels structure_ section.
 
 ### Optional properties
 
-- `idHorizontalAxis` - ID of the axis used to position the label horizontally.
-
+- `nComparisons`: The number of bar groups if there is compared bar groupsShould be bigger than or equal 2.
 #### Labels structure
 
 Each label has **only one required property**, `text`, which is the string to be

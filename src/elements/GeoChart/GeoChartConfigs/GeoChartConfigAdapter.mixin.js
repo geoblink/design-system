@@ -98,7 +98,9 @@ export default {
           const defaultMargin = isHorizontal
             ? { top: 0, bottom: 0, left: 0, right: 0 }
             : { top: 20, bottom: 0, left: 0, right: 0 }
-          const defaultPadding = isHorizontal ? { top: 0, bottom: 0, left: 30, right: 10 } : { top: 0, bottom: 0, left: 0, right: 0 }
+          const defaultPadding = isHorizontal
+            ? { top: 0, bottom: 0, left: 30, right: 10 }
+            : { top: 0, bottom: 0, left: 0, right: 0 }
 
           _.forEach(this.config.labelGroups[index].data, (data) => {
             _.forEach(data.labels, (label) => {
@@ -117,18 +119,14 @@ export default {
                   label.padding.right = 30
                 }
               }
-              if (label.cssClasses && isHorizontal &&
-                this.config.labelGroups[index].nComparisons > 1 &&
-                singleBarGroupConfig.data.length < 6
-              ) {
+              if (label.cssClasses && isHorizontal && this.config.labelGroups[index].nComparisons > 1 && singleBarGroupConfig.data.length >= 6) {
+                label.padding.bottom = 2
+              } else if (label.cssClasses && isHorizontal && this.config.labelGroups[index].nComparisons > 1 && singleBarGroupConfig.data.length < 6) {
                 label.padding.bottom = 8
+
                 label.cssClasses = (originalClasses, item) => {
                   return [...originalClasses, customClass, 'geo-chart-value-label--medium']
                 }
-              } else if (label.cssClasses && isHorizontal &&
-                this.config.labelGroups[index].nComparisons > 1 &&
-                singleBarGroupConfig.data.length >= 6) {
-                label.padding.bottom = 2
               } else if (this.config.labelGroups[index].nComparisons <= 1) {
                 label.cssClasses = (originalClasses, item) => {
                   return [...originalClasses, customClass, 'geo-chart-value-label--medium']
