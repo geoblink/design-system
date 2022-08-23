@@ -1,4 +1,7 @@
 # Changelog
+## 30.0.14
+Fix:
+  - `GeoCalendar`: Changed logic to validate ranges to take equal day range as valid
 ## 30.0.13
 Fix:
   - `GeoTrimmedContent`: Improved logic to detect if content is trimmed to display tooltip
