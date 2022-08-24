@@ -112,10 +112,10 @@ export default {
                 customClass = label.cssClasses('')
               }
               if (!isHorizontal && this.config.labelGroups[index].nComparisons > 1) {
-                labelClass = singleBarGroupConfig.data.length < 9
+                labelClass = singleBarGroupConfig.data.length < 8
                   ? 'geo-chart-value-label--medium'
                   : 'geo-chart-value-label--small'
-                if (singleBarGroupConfig.data.length < 9) {
+                if (singleBarGroupConfig.data.length < 8) {
                   label.padding.right = singleBarGroupConfig.data.length < 4 ? 30 : 10
                 }
               }
@@ -123,7 +123,7 @@ export default {
                 labelClass = singleBarGroupConfig.data.length < 6
                   ? 'geo-chart-value-label--medium'
                   : 'geo-chart-value-label--small'
-                label.padding.bottom = singleBarGroupConfig.data.length >= 6 ? 2 : 8
+                label.padding.bottom = singleBarGroupConfig.data.length >= 6 ? 4 : 10
               } else if (this.config.labelGroups[index].nComparisons <= 1) {
                 labelClass = 'geo-chart-value-label--medium'
               }
