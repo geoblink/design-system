@@ -138,7 +138,10 @@ export default {
         data: _.map(this.categoricalDomain, (category) => {
           return {
             labels: [{
-              text: '»',
+              text: category
+            },
+            {
+              text: '<<',
               padding: {
                 top: 10,
                 right: 10,
@@ -155,8 +158,6 @@ export default {
               cssClasses (originalClasses) {
                 return [...originalClasses, 'rect-stroke-red-and-text-fill-black']
               }
-            }, {
-              text: category,
             }],
             [this.categoricalAxisConfig.keyForValues]: category
           }
@@ -258,6 +259,27 @@ export default {
         }),
         idVerticalAxis: this.linearAxisConfig.id,
         idHorizontalAxis:this.categoricalAxisConfig.id,
+        nComparisons:2
+      }
+    },
+    labelGroup2 () {
+      if (!this.categoricalDomain) return null
+      if (!this.categoricalAxisConfig) return null
+
+      return {
+        data: _.map(this.categoricalDomain, (category,index) => {
+          return {
+            labels: [{
+              text: this.handleData(this.linearAxisConfigKeyForValues[index]),
+              cornerRadius: 5
+            }],
+            [this.linearAxisConfig.keyForValues]: this.linearAxisConfigKeyForValues[index],
+            [this.categoricalAxisConfig.keyForValues]: category,
+          }
+        }),
+        idVerticalAxis: this.linearAxisConfig.id,
+        idHorizontalAxis:this.categoricalAxisConfig.id,
+        nComparisons:2
       }
     },
     linearAxisConfig () {
@@ -338,9 +360,19 @@ export default {
           mainDimension: CONSTANTS.DIMENSIONS.DIMENSIONS_2D.vertical,
           idHorizontalAxis: this.categoricalAxisConfig.id,
           idVerticalAxis: this.linearAxisConfig.id,
-          isPositioningLabelsInBars:true
+          isPositioningLabelsInBars:true,
+          naturalWidth,
+          naturalNormalOffset: naturalOffset
+        },{
+          data: this.chartData,
+          mainDimension: CONSTANTS.DIMENSIONS.DIMENSIONS_2D.vertical,
+          idHorizontalAxis: this.categoricalAxisConfig.id,
+          idVerticalAxis: this.linearAxisConfig.id,
+          isPositioningLabelsInBars:true,
+          naturalWidth,
+          naturalNormalOffset: naturalOffset + (1 * naturalWidth) + (1 * naturalPadding)
         }],
-        labelGroups:[this.labelGroup]
+        labelGroups:[this.labelGroup,this.labelGroup2]
       }
     }
   },
@@ -476,7 +508,8 @@ export default {
           }
         }),
         idHorizontalAxis:this.linearAxisConfig.id,
-        idVerticalAxis:this.categoricalAxisConfig.id
+        idVerticalAxis:this.categoricalAxisConfig.id,
+        nComparisons:2
       }
     },
 
@@ -508,9 +541,20 @@ export default {
           mainDimension: 'horizontal',
           idHorizontalAxis: this.linearAxisConfig.id,
           idVerticalAxis: this.categoricalAxisConfig.id,
-          isPositioningLabelsInBars:true
+          isPositioningLabelsInBars:true,
+          naturalWidth,
+          naturalNormalOffset: naturalOffset
+        },{
+          data: this.chartData,
+          mainDimension: 'horizontal',
+          idHorizontalAxis: this.linearAxisConfig.id,
+          idVerticalAxis: this.categoricalAxisConfig.id,
+          isPositioningLabelsInBars:true,
+          naturalWidth,
+          naturalNormalOffset: naturalOffset + (1 * naturalWidth) + (1 * naturalPadding)
+
         }],
-        labelGroups: [this.labelGroup]
+        labelGroups: [this.labelGroup, this.labelGroup]
       }
     }
   },

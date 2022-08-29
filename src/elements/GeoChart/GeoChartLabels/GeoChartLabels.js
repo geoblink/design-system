@@ -99,8 +99,23 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions, indexOfGro
     .duration(globalOptions.chart.animationsDurationInMilliseconds)
     .style('opacity', 1)
     .attr('transform', getTransform)
-    .selectAll('text')
-    .attr('fill', d => _.get(d, 'color', 'black'))
+
+  allSingleDataGroups
+    .selectAll('g')
+    .attr('class', getSingleLabelGroupCSSClasses)
+
+  function getSingleLabelGroupCSSClasses (d, i) {
+    const singleLabelGroupsBaseClass = 'geo-chart-labels-group__single-label'
+
+    const defaultClasses = [singleLabelGroupsBaseClass, 'rect-fill-none', _.get(d, 'customClass', '')]
+    if (d.cssClasses) {
+      const customClasses = d.cssClasses(defaultClasses)
+      if (customClasses) {
+        return _.uniq([...customClasses, singleLabelGroupsBaseClass, _.get(d, 'customClass', '')]).join(' ')
+      }
+    }
+    return defaultClasses.join(' ')
+  }
 
   function getTransform (d, i) {
     const height = d3.select(this).node().getBBox().height
@@ -196,29 +211,37 @@ function getTranslation (singleGroupOptions, singleItem, height, width, globalOp
   const verticalAxis = singleGroupOptions.axis.vertical
   const verticalAxisTranslationToTopPosition = getItemValueAtAxis(verticalAxis, singleItem)
   const verticalAxisSpan = getItemSpanAtAxis(verticalAxis, singleItem)
+  const horizontalComparisonOffset = 4
   let verticalAxisTranslation = (verticalAxisTranslationToTopPosition + (verticalAxisSpan - height) / 2)
   let horizontalAxisTranslation = 0
   if (singleGroupOptions.axis.horizontal) {
     const horizontalAxis = singleGroupOptions.axis.horizontal
     const horizontalAxisTranslationToTopPosition = getItemValueAtAxis(horizontalAxis, singleItem)
     const horizontalAxisSpan = getItemSpanAtAxis(horizontalAxis, singleItem)
+    let horizontalOffset = 0
     if (singleGroupOptions.mainDimension === DIMENSIONS.DIMENSIONS_2D.vertical) {
-      const horizontalOffset = _.parseInt(singleGroupOptions.id) > 0 && nComparisons > singleGroupOptions.data.length
-        ? chartWidth / nComparisons / 2 * _.parseInt(singleGroupOptions.id)
-        : 0
+      if (nComparisons > singleGroupOptions.data.length) {
+        horizontalOffset = _.parseInt(singleGroupOptions.id) > 0
+          ? chartWidth / nComparisons / 2 * _.parseInt(singleGroupOptions.id) + horizontalComparisonOffset
+          : 0 - horizontalComparisonOffset
+      }
+
       horizontalAxisTranslation = horizontalAxisTranslationToTopPosition + horizontalOffset + (horizontalAxisSpan - width) / 2 - _.get(_.first(singleItem.labels), ['padding', 'right'], 0)
-      if (singleItem.cssClasses) horizontalAxisTranslation = horizontalAxisTranslation / 2
       verticalAxisTranslation = verticalAxisTranslationToTopPosition - _.first(singleItem.labels).margin.top
       if (verticalAxisTranslation < 0) {
         verticalAxisTranslation = height
-        _.forEach(singleItem.labels, (label) => { label.color = 'white' })
+        _.forEach(singleItem.labels, (label) => {
+          label.customClass = 'geo-chart-axis-label-border'
+        })
       }
     } else {
       let horizontalOffset
       const verticalOffsetForComparison = 2
       if (horizontalAxisTranslationToTopPosition + width >= chartWidth) {
-        horizontalOffset = width + _.get(_.first(singleItem.labels).padding, 'right', 0) - _.get(_.first(singleItem.labels).padding, 'left', 0)
-        _.forEach(singleItem.labels, (label) => { label.color = 'white' })
+        horizontalOffset = width + _.get(_.first(singleItem.labels), ['padding', 'left'], 0)
+        _.forEach(singleItem.labels, (label) => {
+          label.customClass = 'geo-chart-axis-label-border'
+        })
       } else {
         horizontalOffset = 0
       }
@@ -230,7 +253,6 @@ function getTranslation (singleGroupOptions, singleItem, height, width, globalOp
       horizontalAxisTranslation = horizontalAxisTranslationToTopPosition - horizontalOffset
     }
   }
-
   return {
     x: horizontalAxisTranslation,
     y: verticalAxisTranslation
@@ -312,7 +334,6 @@ function applyPositioningAttributes (allSingleLabelGroups, globalOptions) {
     } = positioningAttributes.shift()
 
     const yTranslation = (tallestGroupHeight - heightWithPaddingAndMargin) / 2
-
     d3TextSelection
       .transition()
       .duration(globalOptions.chart.animationsDurationInMilliseconds)

@@ -15,6 +15,7 @@ declare namespace GeoChart {
     }
     cornerRadius?: number
     cssClasses?: (defaultClasses: string[], item: object, index: number) => string[]
+    customClass?: string
   }
 
   interface SingleLabelLineConfig {

@@ -928,7 +928,10 @@ export const labelConfigJsonSchema = {
                 // Note that there might be some of the default classes might be
                 // added regardless to your customization as they are required
                 // internally.
-                cssClasses: {}
+                cssClasses: {},
+                customClass: {
+                  type: 'string'
+                }
               }
             }
           }
