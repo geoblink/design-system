@@ -111,7 +111,7 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions, indexOfGro
     if (d.cssClasses) {
       const customClasses = d.cssClasses(defaultClasses)
       if (customClasses) {
-        return _.uniq([...customClasses, singleLabelGroupsBaseClass, _.get(d, 'customClass', '')]).join(' ')
+        return _.uniq([...customClasses, singleLabelGroupsBaseClass]).join(' ')
       }
     }
     return defaultClasses.join(' ')
@@ -221,6 +221,7 @@ function getTranslation (singleGroupOptions, singleItem, height, width, globalOp
     let horizontalOffset = 0
     if (singleGroupOptions.mainDimension === DIMENSIONS.DIMENSIONS_2D.vertical) {
       if (nComparisons > singleGroupOptions.data.length) {
+        // formula for compared bar charts, to added an extra offset for prevent overlapping
         horizontalOffset = _.parseInt(singleGroupOptions.id) > 0
           ? chartWidth / nComparisons / 2 * _.parseInt(singleGroupOptions.id) + horizontalComparisonOffset
           : 0 - horizontalComparisonOffset
@@ -231,7 +232,7 @@ function getTranslation (singleGroupOptions, singleItem, height, width, globalOp
       if (verticalAxisTranslation < 0) {
         verticalAxisTranslation = height
         _.forEach(singleItem.labels, (label) => {
-          label.customClass = 'geo-chart-axis-label-border'
+          label.customClass = 'geo-chart-axis-label--edge-case'
         })
       }
     } else {
@@ -240,7 +241,7 @@ function getTranslation (singleGroupOptions, singleItem, height, width, globalOp
       if (horizontalAxisTranslationToTopPosition + width >= chartWidth) {
         horizontalOffset = width + _.get(_.first(singleItem.labels), ['padding', 'left'], 0)
         _.forEach(singleItem.labels, (label) => {
-          label.customClass = 'geo-chart-axis-label-border'
+          label.customClass = 'geo-chart-axis-label--edge-case'
         })
       } else {
         horizontalOffset = 0

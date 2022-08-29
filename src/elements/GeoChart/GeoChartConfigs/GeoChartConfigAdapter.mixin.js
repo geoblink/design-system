@@ -109,8 +109,6 @@ export default {
               const labelClass = this.config.labelGroups[index].nComparisons > 1
                 ? 'geo-chart-value-label--small'
                 : 'geo-chart-value-label--medium'
-              // let textClass = ''
-              // if (data.value >= maxDomain - domainRatio) { textClass = 'geo-chart-axis-label-border' }
 
               if (!isHorizontal && this.config.labelGroups[index].nComparisons > 1) {
                 if (singleBarGroupConfig.data.length < 8) {
