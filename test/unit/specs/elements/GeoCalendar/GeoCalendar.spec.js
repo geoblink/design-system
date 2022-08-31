@@ -213,6 +213,32 @@ describe('GeoCalendar', () => {
         expect(wrapper.emitted()['emit-to-date']).toBeDefined()
         expect(wrapper.emitted()['emit-to-date'][1][0]).toEqual({ toDate: validatedUtcRange.end })
       })
+
+      it('Sets same date for start and last day if earliestDate is last day of month', () => {
+        const earliestDate = new Date(2019, 8, 30)
+        const latestDate = new Date(2019, 9, 21)
+        const wrapper = getWrappedComponent()
+        wrapper.setProps({ earliestDate, latestDate })
+        wrapper.setData({
+          currentYear: getYear(today)
+        })
+        wrapper.setData({
+          lastInputFieldFocused: FOCUSABLE_INPUT_FIELDS.FROM_DATE
+        })
+        const calendarPicker = wrapper.vm.$refs.calendarPicker
+        calendarPicker.$emit('select-month', 8)
+        calendarPicker.$emit('select-month', 8)
+        expect(wrapper.vm.currentMonth).toBe(8)
+        const validatedUtcRange = wrapper.vm.getUTCValidatedRange({ start: earliestDate, end: earliestDate })
+        expect(wrapper.vm.toRawDate).toEqual(validatedUtcRange.start)
+        expect(wrapper.vm.toFormattedDate).toBe('30/09/2019')
+        expect(wrapper.vm.fromRawDate).toEqual(validatedUtcRange.end)
+        expect(wrapper.vm.fromFormattedDate).toBe('30/09/2019')
+        expect(wrapper.emitted()['emit-from-date']).toBeDefined()
+        expect(wrapper.emitted()['emit-from-date'][0][0]).toEqual({ fromDate: validatedUtcRange.start })
+        expect(wrapper.emitted()['emit-to-date']).toBeDefined()
+        expect(wrapper.emitted()['emit-to-date'][1][0]).toEqual({ toDate: validatedUtcRange.end })
+      })
     })
 
     describe('selectQuarter', () => {

@@ -119,7 +119,7 @@
 
 <script>
 import _ from 'lodash'
-import { GRANULARITY_IDS, FOCUSABLE_INPUT_FIELDS, isBefore, isAfter } from './GeoCalendar.utils'
+import { GRANULARITY_IDS, FOCUSABLE_INPUT_FIELDS, isBefore, isAfter, isEqual } from './GeoCalendar.utils'
 import endOfWeek from 'date-fns/endOfWeek'
 import endOfMonth from 'date-fns/endOfMonth'
 import endOfQuarter from 'date-fns/endOfQuarter'
@@ -617,7 +617,7 @@ export default {
 
     validateRange (start, end) {
       const startDate = _.isNull(start) ? new Date(0) : start
-      return end ? isBefore(startDate, end) : true
+      return end ? isBefore(startDate, end) || isEqual(startDate, end) : true
     },
 
     getValidRange (unverifiedRange, startOfGranularityFn = _.identity, endOfGranularityFn = _.identity) {
