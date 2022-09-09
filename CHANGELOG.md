@@ -1,9 +1,12 @@
 # Changelog
 
-## 30.0.14
+## 30.0.15
 New:
 - `GeoChartLabels`: Added 'idHorizontalAxis' and the key values of the axis props to get the horizontal and vertical labels in the end of the bar charts according to their values.
 - `GeoChartBars`: Added 'isPositioningLabelsInBars' props to set the labels for bar groups.
+## 30.0.14
+Fix:
+  - `GeoCalendar`: Changed logic to validate ranges to take equal day range as valid
 ## 30.0.13
 Fix:
   - `GeoTrimmedContent`: Improved logic to detect if content is trimmed to display tooltip
