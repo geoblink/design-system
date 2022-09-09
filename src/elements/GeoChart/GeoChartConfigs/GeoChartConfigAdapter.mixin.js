@@ -12,6 +12,7 @@ import lineSegmentsAdapterMixin from './GeoChartConfigAdapter.lineSegments.mixin
 import anchoredShapesAdapterMixin from './GeoChartConfigAdapter.anchoredShapes.mixin'
 import lineAdapterMixin from './GeoChartConfigAdapter.line.mixin'
 import scatterPlotAdapterMixin from './GeoChartConfigAdapter.scatterPlot.mixin'
+import { DIMENSIONS } from '../constants'
 
 export default {
   mixins: [
@@ -85,7 +86,6 @@ export default {
           horizontal: this.axesConfigById[singleBarGroupConfig.idHorizontalAxis],
           vertical: this.axesConfigById[singleBarGroupConfig.idVerticalAxis]
         }
-
         if (singleBarGroupConfig.tooltip && !this.d3TipInstance) {
           console.warn('GeoChart [component] :: d3-tip NPM package is required to use tooltips (attempted to use tooltips on a bar chart)')
         }
@@ -93,7 +93,38 @@ export default {
         if (singleBarGroupConfig.tooltip && !_.isFunction(singleBarGroupConfig.tooltip.content)) {
           console.warn(`GeoChart [component] :: Attempted to use a non-function as bar chart tooltip content (used «${singleBarGroupConfig.tooltip}»)`)
         }
+        if (singleBarGroupConfig.isPositioningLabelsInBars) {
+          const isHorizontal = singleBarGroupConfig.mainDimension === DIMENSIONS.DIMENSIONS_2D.horizontal
+          const defaultMargin = isHorizontal
+            ? { top: 0, bottom: 0, left: 0, right: 0 }
+            : { top: 20, bottom: 0, left: 0, right: 0 }
+          const defaultPadding = isHorizontal
+            ? { top: 0, bottom: 0, left: 15, right: 10 }
+            : { top: 0, bottom: 0, left: 0, right: 0 }
 
+          _.forEach(this.config.labelGroups[index].data, (data) => {
+            _.forEach(data.labels, (label) => {
+              label.margin = _.first(data.labels).margin || defaultMargin
+              label.padding = _.first(data.labels).padding || defaultPadding
+              const labelClass = this.config.labelGroups[index].nComparisons > 1
+                ? 'geo-chart-value-label--small'
+                : 'geo-chart-value-label--medium'
+
+              if (!isHorizontal && this.config.labelGroups[index].nComparisons > 1) {
+                if (singleBarGroupConfig.data.length < 8) {
+                  label.padding.right = singleBarGroupConfig.data.length < 4 ? 30 : 10
+                }
+              }
+              if (isHorizontal && this.config.labelGroups[index].nComparisons > 1) {
+                label.padding.bottom = singleBarGroupConfig.data.length >= 6 ? 6 : 8
+              }
+              label.cssClasses = (originalClasses, item) => {
+                return [...originalClasses, labelClass]
+              }
+            })
+          })
+          this.config.labelGroups[index].mainDimension = singleBarGroupConfig.mainDimension
+        }
         const tooltipConfig = singleBarGroupConfig.tooltip
           ? {
             getContent: singleBarGroupConfig.tooltip.content,
@@ -149,7 +180,6 @@ export default {
 
       ChartColorBar.render(this.d3Instance, colorBarGroupsConfig, { chart })
     },
-
     updateLabelGroups () {
       const chartSize = this.svgSize
       const chartMargin = _.get(this.config.chart, 'margin', ChartSizing.EMPTY_MARGIN)
@@ -163,9 +193,12 @@ export default {
         return {
           id: index,
           axis: {
-            vertical: this.axesConfigById[singleLabelGroupConfig.idVerticalAxis]
+            vertical: this.axesConfigById[singleLabelGroupConfig.idVerticalAxis],
+            horizontal: _.get(this.axesConfigById, singleLabelGroupConfig.idHorizontalAxis)
           },
-          data: singleLabelGroupConfig.data
+          data: singleLabelGroupConfig.data,
+          mainDimension: singleLabelGroupConfig.mainDimension,
+          nComparisons: singleLabelGroupConfig.nComparisons
         }
       })
 

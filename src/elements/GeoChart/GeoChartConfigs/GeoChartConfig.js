@@ -362,6 +362,9 @@ export const barConfigJsonSchema = {
         offset: {}
       }
     },
+    isPositioningLabelsInBars: {
+      type: 'boolean'
+    },
     // Function taking as first parameter an array of CSS classes that would be
     // set by default. Should return the array of CSS classes to be finally set.
     // Use this function to customize which CSS classes are set to the rect for
@@ -925,7 +928,10 @@ export const labelConfigJsonSchema = {
                 // Note that there might be some of the default classes might be
                 // added regardless to your customization as they are required
                 // internally.
-                cssClasses: {}
+                cssClasses: {},
+                customClass: {
+                  type: 'string'
+                }
               }
             }
           }
@@ -934,6 +940,15 @@ export const labelConfigJsonSchema = {
     },
     idVerticalAxis: {
       type: 'string'
+    },
+    idHorizontalAxis: {
+      type: 'string'
+    },
+    mainDimension: {
+      type: 'string'
+    },
+    nComparisons: {
+      type: 'number'
     }
   }
 }

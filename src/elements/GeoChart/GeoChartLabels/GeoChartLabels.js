@@ -3,6 +3,7 @@
 import { EMPTY_MARGIN } from '../GeoChartUtils/GeoChartSizing'
 
 import _ from 'lodash'
+import { DIMENSIONS } from '../constants'
 
 const d3 = (function () {
   try {
@@ -11,7 +12,6 @@ const d3 = (function () {
     return null
   }
 })()
-
 /**
  * @template GElement
  * @template Datum
@@ -49,13 +49,11 @@ export function render (d3Instance, options, globalOptions) {
     .duration(globalOptions.chart.animationsDurationInMilliseconds)
     .style('opacity', 0)
     .remove()
-
   const updatedGroups = groups
   const allGroups = newGroups.merge(updatedGroups)
-
   allGroups.each(function (singleGroupOptions, i) {
     const group = d3.select(this)
-    renderSingleGroup(group, singleGroupOptions, globalOptions)
+    renderSingleGroup(group, singleGroupOptions, globalOptions, i)
   })
 }
 
@@ -70,7 +68,7 @@ export function render (d3Instance, options, globalOptions) {
  * @param {GeoChart.LabelGroupConfig<HorizontalDomain, VerticalDomain>} singleGroupOptions
  * @param {GeoChart.GlobalOptions} globalOptions
  */
-function renderSingleGroup (group, singleGroupOptions, globalOptions) {
+function renderSingleGroup (group, singleGroupOptions, globalOptions, indexOfGroup) {
   const singleDataGroups = group
     .selectAll('g.geo-chart-labels-group')
     .data(singleGroupOptions.data)
@@ -91,7 +89,6 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions) {
   const updatedSingleDataGroups = singleDataGroups
   const allSingleDataGroups = newSingleDataGroups
     .merge(updatedSingleDataGroups)
-
   allSingleDataGroups.each(function () {
     const labelsGroup = d3.select(this)
     renderSingleLabelLine(labelsGroup, globalOptions)
@@ -103,9 +100,27 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions) {
     .style('opacity', 1)
     .attr('transform', getTransform)
 
+  allSingleDataGroups
+    .selectAll('g')
+    .attr('class', getSingleLabelGroupCSSClasses)
+
+  function getSingleLabelGroupCSSClasses (d, i) {
+    const singleLabelGroupsBaseClass = 'geo-chart-labels-group__single-label'
+
+    const defaultClasses = [singleLabelGroupsBaseClass, 'rect-fill-none', _.get(d, 'customClass', '')]
+    if (d.cssClasses) {
+      const customClasses = d.cssClasses(defaultClasses)
+      if (customClasses) {
+        return _.uniq([...customClasses, singleLabelGroupsBaseClass]).join(' ')
+      }
+    }
+    return defaultClasses.join(' ')
+  }
+
   function getTransform (d, i) {
     const height = d3.select(this).node().getBBox().height
-    const translation = getTranslation(singleGroupOptions, d, height)
+    const width = d3.select(this).node().getBBox().width
+    const translation = getTranslation(singleGroupOptions, d, height, width, globalOptions, i)
     return `translate(${translation.x}, ${translation.y})`
   }
 }
@@ -172,7 +187,6 @@ function renderSingleLabelLine (group, globalOptions) {
 
   function getSingleLabelGroupCSSClasses (d, i) {
     const defaultClasses = [singleLabelGroupsBaseClass, 'rect-fill-none']
-
     if (d.cssClasses) {
       const customClasses = d.cssClasses(defaultClasses)
       return _.uniq([...customClasses, singleLabelGroupsBaseClass]).join(' ')
@@ -190,14 +204,58 @@ function renderSingleLabelLine (group, globalOptions) {
  * @param {number} height
  * @returns {{x: number, y: number}}
  */
-function getTranslation (singleGroupOptions, singleItem, height) {
+function getTranslation (singleGroupOptions, singleItem, height, width, globalOptions, index) {
+  const chartWidth = globalOptions.chart.size.width
+  const chartHeight = globalOptions.chart.size.height
+  const nComparisons = _.get(singleGroupOptions, 'nComparisons', 0) * singleGroupOptions.data.length
   const verticalAxis = singleGroupOptions.axis.vertical
   const verticalAxisTranslationToTopPosition = getItemValueAtAxis(verticalAxis, singleItem)
   const verticalAxisSpan = getItemSpanAtAxis(verticalAxis, singleItem)
-  const verticalAxisTranslation = verticalAxisTranslationToTopPosition + (verticalAxisSpan - height) / 2
+  const horizontalComparisonOffset = 4
+  let verticalAxisTranslation = (verticalAxisTranslationToTopPosition + (verticalAxisSpan - height) / 2)
+  let horizontalAxisTranslation = 0
+  if (singleGroupOptions.axis.horizontal) {
+    const horizontalAxis = singleGroupOptions.axis.horizontal
+    const horizontalAxisTranslationToTopPosition = getItemValueAtAxis(horizontalAxis, singleItem)
+    const horizontalAxisSpan = getItemSpanAtAxis(horizontalAxis, singleItem)
+    let horizontalOffset = 0
+    if (singleGroupOptions.mainDimension === DIMENSIONS.DIMENSIONS_2D.vertical) {
+      if (nComparisons > singleGroupOptions.data.length) {
+        // formula for compared bar charts, to added an extra offset for prevent overlapping
+        horizontalOffset = _.parseInt(singleGroupOptions.id) > 0
+          ? chartWidth / nComparisons / 2 * _.parseInt(singleGroupOptions.id) + horizontalComparisonOffset
+          : 0 - horizontalComparisonOffset
+      }
 
+      horizontalAxisTranslation = horizontalAxisTranslationToTopPosition + horizontalOffset + (horizontalAxisSpan - width) / 2 - _.get(_.first(singleItem.labels), ['padding', 'right'], 0)
+      verticalAxisTranslation = verticalAxisTranslationToTopPosition - _.first(singleItem.labels).margin.top
+      if (verticalAxisTranslation < 0) {
+        verticalAxisTranslation = height
+        _.forEach(singleItem.labels, (label) => {
+          label.customClass = 'geo-chart-axis-label--edge-case'
+        })
+      }
+    } else {
+      let horizontalOffset
+      const verticalOffsetForComparison = 2
+      if (horizontalAxisTranslationToTopPosition + width >= chartWidth) {
+        horizontalOffset = width + _.get(_.first(singleItem.labels), ['padding', 'left'], 0)
+        _.forEach(singleItem.labels, (label) => {
+          label.customClass = 'geo-chart-axis-label--edge-case'
+        })
+      } else {
+        horizontalOffset = 0
+      }
+      const verticalOffset = _.parseInt(singleGroupOptions.id) > 0 && nComparisons > singleGroupOptions.data.length
+        ? chartHeight / nComparisons / 2 * _.parseInt(singleGroupOptions.id) + verticalOffsetForComparison
+        : 0
+      verticalAxisTranslation = verticalAxisTranslation +
+        verticalOffset - _.get(_.first(singleItem.labels), ['padding', 'bottom'], 0)
+      horizontalAxisTranslation = horizontalAxisTranslationToTopPosition - horizontalOffset
+    }
+  }
   return {
-    x: 0,
+    x: horizontalAxisTranslation,
     y: verticalAxisTranslation
   }
 }
@@ -277,7 +335,6 @@ function applyPositioningAttributes (allSingleLabelGroups, globalOptions) {
     } = positioningAttributes.shift()
 
     const yTranslation = (tallestGroupHeight - heightWithPaddingAndMargin) / 2
-
     d3TextSelection
       .transition()
       .duration(globalOptions.chart.animationsDurationInMilliseconds)
@@ -331,7 +388,6 @@ function getPositioningAttributes (allRectAndTextGroups) {
     const heightWithPadding = padding.top + requiredHeightForText + padding.bottom
     const widthWithPaddingAndMargin = margin.left + widthWithPadding + margin.right
     const heightWithPaddingAndMargin = margin.top + heightWithPadding + margin.bottom
-
     const previousGroupPositioningAttributes = i > 0 // If this is not the first label of a group...
       ? _.last(positioningAttributesOfGroup) // ... then we are interested in position of the previous label of this group
       : { // ... otherwise we default to 0
