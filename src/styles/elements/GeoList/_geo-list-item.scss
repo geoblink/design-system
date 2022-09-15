@@ -7,10 +7,10 @@
   flex-direction: column;
   font-family: $font-family-text;
   font-size: $font-size-regular;
-  min-height: 30px;
   justify-content: center;
   line-height: $line-height-base;
   margin: 5px;
+  min-height: 30px;
   overflow: hidden;
   padding: 0 7px 0 5px;
 
@@ -58,17 +58,17 @@
 }
 
 .geo-list-item__trailing-accessory-items {
-  color: $color-grey-light;
-  margin-left: 10px;
-  display: flex;
   align-items: center;
+  color: $color-grey-light;
+  display: flex;
+  margin-left: 10px;
 }
 
 .geo-list-item__icon-and-label__label {
   overflow: hidden;
-  width: 100%;
   text-overflow: ellipsis;
   white-space: nowrap;
+  width: 100%;
 }
 
 .geo-list-item__icon-and-label__icon-container {
