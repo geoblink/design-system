@@ -1,5 +1,8 @@
 # Changelog
 
+## 30.0.16
+Fix:
+- `GeoListItem`: Improved the list item to make it adapt to parent width.
 ## 30.0.15
 New:
 - `GeoChartLabels`: Added 'idHorizontalAxis' and the key values of the axis props to get the horizontal and vertical labels in the end of the bar charts according to their values.
