@@ -33,7 +33,7 @@
   flex-direction: row;
   flex-shrink: 0;
   white-space: nowrap;
-  width: 100%;
+  width: calc(100% - 12px);
 }
 
 .geo-list-item__description {

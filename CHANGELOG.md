@@ -1,5 +1,7 @@
 # Changelog
-
+## 30.0.17
+Fix:
+- `GeoListItem`: Improved the list item content by considering margins for adapting width.
 ## 30.0.16
 Fix:
 - `GeoListItem`: Improved the list item to make it adapt to parent width.
