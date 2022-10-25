@@ -10,7 +10,6 @@ import {
 } from '../GeoChart/GeoChart.spec-utils' // This has to be imported before D3
 import { createLocalVue, mount } from '@vue/test-utils'
 import GeoChart from '@/elements/GeoChart/GeoChart.vue'
-import * as d3 from 'd3'
 
 const localVue = createLocalVue()
 localVue.component('geo-chart', GeoChart)
@@ -81,7 +80,6 @@ const labelGroup =
               }
             }],
           [axisConfig.categoricalAxisConfig.keyForValues]: mockDomain[index]
-
         }
       }),
       idVerticalAxis: axisConfig.categoricalAxisConfig.id
@@ -231,7 +229,7 @@ describe('GeoChartLabels', function () {
               text: _.toString(value),
               cornerRadius: 5
             }],
-            [axisConfig.linearAxisConfig.keyForValues]: _.toString(value),
+            [axisConfig.linearAxisConfig.keyForValues]: value,
             [axisConfig.categoricalAxisConfig.keyForValues]: mockDomain[index]
           }
         }),
@@ -340,7 +338,7 @@ describe('GeoChartLabels', function () {
               text: _.toString(value),
               cornerRadius: 5
             }],
-            [axisConfig.linearAxisConfig.keyForValues]: _.toString(value),
+            [axisConfig.linearAxisConfig.keyForValues]: value,
             [axisConfig.categoricalAxisConfig.keyForValues]: mockDomain[index]
           }
         }),
