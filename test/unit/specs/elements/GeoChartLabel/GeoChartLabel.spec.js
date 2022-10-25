@@ -118,7 +118,7 @@ describe('GeoChartLabels', function () {
     const cssClassFn = (original) => [...original, 'test-bar']
 
     testHorizontalDimension(linearAxisConfig, categoricalAxisConfig, highlightedSegments, cssClassFn, labelGroup)
-    // testVerticalDimension(categoricalAxisConfig, linearAxisConfig, highlightedSegments, null, labelGroup)
+    testVerticalDimension(categoricalAxisConfig, linearAxisConfig, highlightedSegments, cssClassFn, labelGroup)
   })
 
   function testHorizontalDimension (verticalAxis, horizontalAxis, highlightedSegments, cssClassFn, labelGroup) {
@@ -228,10 +228,10 @@ describe('GeoChartLabels', function () {
         data: _.map(highlightedSegments, (value, index) => {
           return {
             labels: [{
-              text: value,
+              text: _.toString(value),
               cornerRadius: 5
             }],
-            [axisConfig.linearAxisConfig.keyForValues]: value,
+            [axisConfig.linearAxisConfig.keyForValues]: _.toString(value),
             [axisConfig.categoricalAxisConfig.keyForValues]: mockDomain[index]
           }
         }),
@@ -249,6 +249,115 @@ describe('GeoChartLabels', function () {
           width: 12,
           data: chartData,
           mainDimension: 'horizontal',
+          idVerticalAxis: idVerticalAxis,
+          idHorizontalAxis: idHorizontalAxis,
+          cssClasses: cssClassFn,
+          isPositioningLabelsInBars: true
+
+        }],
+        labelGroups: [labelGroup]
+      }
+      it('Should render the labels with correct values', () => {
+        const wrapper = mount(GeoChart, {
+          propsData: {
+            config: barConfig
+          }
+        })
+
+        flushD3Transitions()
+        _.forEach(highlightedSegments, (value, index) => {
+          expect(wrapper.find(`.geo-chart-label-group--${index} text`).text()).toEqual(_.toString(value))
+        })
+      })
+
+      it('Should render the labels with multiple texts', () => {
+        const multipleLabelsGroup = {
+          data: _.map(mockDomain, (category) => {
+            return {
+              labels: [
+                {
+                  text: '<<',
+                  padding: {
+                    top: 10,
+                    right: 10,
+                    bottom: 10,
+                    left: 10
+                  },
+                  margin: {
+                    top: 0,
+                    right: 10,
+                    bottom: 0,
+                    left: 0
+                  },
+                  cornerRadius: 5,
+                  cssClasses (originalClasses) {
+                    return [...originalClasses, 'rect-stroke-red-and-text-fill-black']
+                  }
+                },
+                {
+                  text: category
+                }],
+              [axisConfig.categoricalAxisConfig.keyForValues]: category
+            }
+          }),
+          idVerticalAxis: axisConfig.categoricalAxisConfig.id
+        }
+        const barConfigForMultipleLabels = _.assign({}, barConfig, { labelGroups: [multipleLabelsGroup] })
+        const wrapper = mount(GeoChart, {
+          propsData: {
+            config: barConfigForMultipleLabels
+          }
+        })
+
+        flushD3Transitions()
+        expect(wrapper.find('.geo-chart').exists()).toBe(true)
+        expect(wrapper.find('.geo-chart .geo-chart-bars-group').exists()).toBe(true)
+        _.forEach(mockDomain, (category, index) => {
+          expect(wrapper.find(`.geo-chart-label-group--${index}`).findAll('.geo-chart-labels-group__single-label').length).toEqual(2)
+          expect(wrapper.find(`.geo-chart-label-group--${index}`).findAll('.geo-chart-labels-group__single-label').at(0).text()).toEqual('<<')
+          expect(wrapper.find(`.geo-chart-label-group--${index}`).findAll('.geo-chart-labels-group__single-label').at(1).text()).toEqual(_.toString(category))
+        })
+        expect(wrapper.find('.geo-chart-labels-group-container').exists()).toBe(true)
+
+        wrapper.destroy()
+      })
+    })
+  }
+  function testVerticalDimension (verticalAxis, horizontalAxis, highlightedSegments, cssClassFn, labelGroup) {
+    describe('vertical bar chart with positioned labels', () => {
+      const stubLodashDebounce = stubLodashDebounceFactory()
+      beforeEach(function () {
+        stubLodashDebounce.setup()
+      })
+
+      afterEach(function () {
+        stubLodashDebounce.teardown()
+      })
+      const labelGroup = {
+        data: _.map(highlightedSegments, (value, index) => {
+          return {
+            labels: [{
+              text: _.toString(value),
+              cornerRadius: 5
+            }],
+            [axisConfig.linearAxisConfig.keyForValues]: _.toString(value),
+            [axisConfig.categoricalAxisConfig.keyForValues]: mockDomain[index]
+          }
+        }),
+        idHorizontalAxis: axisConfig.categoricalAxisConfig.id,
+        idVerticalAxis: axisConfig.linearAxisConfig.id
+      }
+      const idVerticalAxis = verticalAxis.id
+      const idHorizontalAxis = horizontalAxis.id
+      const barConfig = {
+        axisGroups: [
+          verticalAxis,
+          horizontalAxis
+        ],
+        barGroups: [{
+          width: 12,
+          data: chartData,
+          mainDimension: 'vertical',
           idVerticalAxis: idVerticalAxis,
           idHorizontalAxis: idHorizontalAxis,
           cssClasses: cssClassFn,
