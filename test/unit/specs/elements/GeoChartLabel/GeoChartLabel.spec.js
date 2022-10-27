@@ -203,10 +203,11 @@ describe('GeoChartLabels', function () {
         expect(wrapper.find('.geo-chart').exists()).toBe(true)
         expect(wrapper.find('.geo-chart .geo-chart-bars-group').exists()).toBe(true)
         _.forEach(mockDomain, (category, index) => {
-          expect(wrapper.find(`.geo-chart-label-group--${index}`).findAll('.geo-chart-labels-group__single-label').length).toEqual(2)
+          const singleLabelGroups = wrapper.find(`.geo-chart-label-group--${index}`).findAll('.geo-chart-labels-group__single-label')
 
-          expect(wrapper.find(`.geo-chart-label-group--${index}`).findAll('.geo-chart-labels-group__single-label').at(0).text()).toEqual('<<')
-          expect(wrapper.find(`.geo-chart-label-group--${index}`).findAll('.geo-chart-labels-group__single-label').at(1).text()).toEqual(_.toString(category))
+          expect(singleLabelGroups.length).toEqual(2)
+          expect(singleLabelGroups.at(0).text()).toEqual('<<')
+          expect(singleLabelGroups.at(1).text()).toEqual(_.toString(category))
         })
         expect(wrapper.find('.geo-chart-labels-group-container').exists()).toBe(true)
 
@@ -311,9 +312,11 @@ describe('GeoChartLabels', function () {
         expect(wrapper.find('.geo-chart').exists()).toBe(true)
         expect(wrapper.find('.geo-chart .geo-chart-bars-group').exists()).toBe(true)
         _.forEach(mockDomain, (category, index) => {
-          expect(wrapper.find(`.geo-chart-label-group--${index}`).findAll('.geo-chart-labels-group__single-label').length).toEqual(2)
-          expect(wrapper.find(`.geo-chart-label-group--${index}`).findAll('.geo-chart-labels-group__single-label').at(0).text()).toEqual('<<')
-          expect(wrapper.find(`.geo-chart-label-group--${index}`).findAll('.geo-chart-labels-group__single-label').at(1).text()).toEqual(_.toString(category))
+          const singleLabelGroups = wrapper.find(`.geo-chart-label-group--${index}`).findAll('.geo-chart-labels-group__single-label')
+
+          expect(singleLabelGroups.length).toEqual(2)
+          expect(singleLabelGroups.at(0).text()).toEqual('<<')
+          expect(singleLabelGroups.at(1).text()).toEqual(_.toString(category))
         })
         expect(wrapper.find('.geo-chart-labels-group-container').exists()).toBe(true)
 
@@ -420,9 +423,11 @@ describe('GeoChartLabels', function () {
         expect(wrapper.find('.geo-chart').exists()).toBe(true)
         expect(wrapper.find('.geo-chart .geo-chart-bars-group').exists()).toBe(true)
         _.forEach(mockDomain, (category, index) => {
-          expect(wrapper.find(`.geo-chart-label-group--${index}`).findAll('.geo-chart-labels-group__single-label').length).toEqual(2)
-          expect(wrapper.find(`.geo-chart-label-group--${index}`).findAll('.geo-chart-labels-group__single-label').at(0).text()).toEqual('<<')
-          expect(wrapper.find(`.geo-chart-label-group--${index}`).findAll('.geo-chart-labels-group__single-label').at(1).text()).toEqual(_.toString(category))
+          const singleLabelGroups = wrapper.find(`.geo-chart-label-group--${index}`).findAll('.geo-chart-labels-group__single-label')
+
+          expect(singleLabelGroups.length).toEqual(2)
+          expect(singleLabelGroups.at(0).text()).toEqual('<<')
+          expect(singleLabelGroups.at(1).text()).toEqual(_.toString(category))
         })
         expect(wrapper.find('.geo-chart-labels-group-container').exists()).toBe(true)
 
