@@ -14,8 +14,8 @@ import GeoChart from '@/elements/GeoChart/GeoChart.vue'
 const localVue = createLocalVue()
 localVue.component('geo-chart', GeoChart)
 
-const mockDomain = _.times(3, i => `Bucket ${i}`)
-const highlightedSegments = [10, 15, 20]
+const categoricalAxisValues = _.times(3, i => `Bucket ${i}`)
+const linerAxisValues = [10, 15, 20]
 
 const axisConfig = {
   linearAxisConfig: {
@@ -44,20 +44,20 @@ const axisConfig = {
     },
     scale: {
       type: GeoChart.constants.SCALES.SCALE_TYPES.categorical,
-      valueForOrigin: _.first(mockDomain),
-      domain: mockDomain
+      valueForOrigin: _.first(categoricalAxisValues),
+      domain: categoricalAxisValues
     }
   }
 }
-const chartData = _.map(mockDomain, (category, index) => {
+const chartData = _.map(categoricalAxisValues, (category, index) => {
   return {
     [axisConfig.categoricalAxisConfig.keyForValues]: category,
-    [axisConfig.linearAxisConfig.keyForValues]: highlightedSegments[index]
+    [axisConfig.linearAxisConfig.keyForValues]: linerAxisValues[index]
   }
 })
 const labelGroup =
     {
-      data: _.map(highlightedSegments, (value, index) => {
+      data: _.map(linerAxisValues, (value, index) => {
         return {
           labels: [
             {
@@ -79,7 +79,7 @@ const labelGroup =
                 return [...originalClasses, 'rect-stroke-red-and-text-fill-black']
               }
             }],
-          [axisConfig.categoricalAxisConfig.keyForValues]: mockDomain[index]
+          [axisConfig.categoricalAxisConfig.keyForValues]: categoricalAxisValues[index]
         }
       }),
       idVerticalAxis: axisConfig.categoricalAxisConfig.id
@@ -115,11 +115,11 @@ describe('GeoChartLabels', function () {
 
     const cssClassFn = (original) => [...original, 'test-bar']
 
-    testHorizontalDimension(linearAxisConfig, categoricalAxisConfig, highlightedSegments, cssClassFn, labelGroup)
-    testVerticalDimension(categoricalAxisConfig, linearAxisConfig, highlightedSegments, cssClassFn, labelGroup)
+    testHorizontalDimension(linearAxisConfig, categoricalAxisConfig, linerAxisValues, cssClassFn, labelGroup)
+    testVerticalDimension(categoricalAxisConfig, linearAxisConfig, linerAxisValues, cssClassFn, labelGroup)
   })
 
-  function testHorizontalDimension (verticalAxis, horizontalAxis, highlightedSegments, cssClassFn, labelGroup) {
+  function testHorizontalDimension (verticalAxis, horizontalAxis, linerAxisValues, cssClassFn, labelGroup) {
     describe('horizontal bar chart with labels', () => {
       const stubLodashDebounce = stubLodashDebounceFactory()
       beforeEach(function () {
@@ -155,14 +155,14 @@ describe('GeoChartLabels', function () {
         })
 
         flushD3Transitions()
-        _.forEach(highlightedSegments, (value, index) => {
+        _.forEach(linerAxisValues, (value, index) => {
           expect(wrapper.find(`.geo-chart-label-group--${index} text`).text()).toEqual(_.toString(value))
         })
       })
 
       it('Should render the labels with multiple texts', () => {
         const multipleLabelsGroup = {
-          data: _.map(mockDomain, (category) => {
+          data: _.map(categoricalAxisValues, (category) => {
             return {
               labels: [
                 {
@@ -202,7 +202,7 @@ describe('GeoChartLabels', function () {
         flushD3Transitions()
         expect(wrapper.find('.geo-chart').exists()).toBe(true)
         expect(wrapper.find('.geo-chart .geo-chart-bars-group').exists()).toBe(true)
-        _.forEach(mockDomain, (category, index) => {
+        _.forEach(categoricalAxisValues, (category, index) => {
           const singleLabelGroups = wrapper.find(`.geo-chart-label-group--${index}`).findAll('.geo-chart-labels-group__single-label')
 
           expect(singleLabelGroups.length).toEqual(2)
@@ -224,14 +224,14 @@ describe('GeoChartLabels', function () {
         stubLodashDebounce.teardown()
       })
       const labelGroup = {
-        data: _.map(highlightedSegments, (value, index) => {
+        data: _.map(linerAxisValues, (value, index) => {
           return {
             labels: [{
               text: _.toString(value),
               cornerRadius: 5
             }],
             [axisConfig.linearAxisConfig.keyForValues]: value,
-            [axisConfig.categoricalAxisConfig.keyForValues]: mockDomain[index]
+            [axisConfig.categoricalAxisConfig.keyForValues]: categoricalAxisValues[index]
           }
         }),
         idHorizontalAxis: axisConfig.linearAxisConfig.id,
@@ -264,14 +264,14 @@ describe('GeoChartLabels', function () {
         })
 
         flushD3Transitions()
-        _.forEach(highlightedSegments, (value, index) => {
+        _.forEach(linerAxisValues, (value, index) => {
           expect(wrapper.find(`.geo-chart-label-group--${index} text`).text()).toEqual(_.toString(value))
         })
       })
 
       it('Should render the labels with multiple texts', () => {
         const multipleLabelsGroup = {
-          data: _.map(mockDomain, (category) => {
+          data: _.map(categoricalAxisValues, (category) => {
             return {
               labels: [
                 {
@@ -311,7 +311,7 @@ describe('GeoChartLabels', function () {
         flushD3Transitions()
         expect(wrapper.find('.geo-chart').exists()).toBe(true)
         expect(wrapper.find('.geo-chart .geo-chart-bars-group').exists()).toBe(true)
-        _.forEach(mockDomain, (category, index) => {
+        _.forEach(categoricalAxisValues, (category, index) => {
           const singleLabelGroups = wrapper.find(`.geo-chart-label-group--${index}`).findAll('.geo-chart-labels-group__single-label')
 
           expect(singleLabelGroups.length).toEqual(2)
@@ -324,7 +324,7 @@ describe('GeoChartLabels', function () {
       })
     })
   }
-  function testVerticalDimension (verticalAxis, horizontalAxis, highlightedSegments, cssClassFn, labelGroup) {
+  function testVerticalDimension (verticalAxis, horizontalAxis, linerAxisValues, cssClassFn, labelGroup) {
     describe('vertical bar chart with positioned labels', () => {
       const stubLodashDebounce = stubLodashDebounceFactory()
       beforeEach(function () {
@@ -335,14 +335,14 @@ describe('GeoChartLabels', function () {
         stubLodashDebounce.teardown()
       })
       const labelGroup = {
-        data: _.map(highlightedSegments, (value, index) => {
+        data: _.map(linerAxisValues, (value, index) => {
           return {
             labels: [{
               text: _.toString(value),
               cornerRadius: 5
             }],
             [axisConfig.linearAxisConfig.keyForValues]: value,
-            [axisConfig.categoricalAxisConfig.keyForValues]: mockDomain[index]
+            [axisConfig.categoricalAxisConfig.keyForValues]: categoricalAxisValues[index]
           }
         }),
         idHorizontalAxis: axisConfig.categoricalAxisConfig.id,
@@ -375,14 +375,14 @@ describe('GeoChartLabels', function () {
         })
 
         flushD3Transitions()
-        _.forEach(highlightedSegments, (value, index) => {
+        _.forEach(linerAxisValues, (value, index) => {
           expect(wrapper.find(`.geo-chart-label-group--${index} text`).text()).toEqual(_.toString(value))
         })
       })
 
       it('Should render the labels with multiple texts', () => {
         const multipleLabelsGroup = {
-          data: _.map(mockDomain, (category) => {
+          data: _.map(categoricalAxisValues, (category) => {
             return {
               labels: [
                 {
@@ -422,7 +422,7 @@ describe('GeoChartLabels', function () {
         flushD3Transitions()
         expect(wrapper.find('.geo-chart').exists()).toBe(true)
         expect(wrapper.find('.geo-chart .geo-chart-bars-group').exists()).toBe(true)
-        _.forEach(mockDomain, (category, index) => {
+        _.forEach(categoricalAxisValues, (category, index) => {
           const singleLabelGroups = wrapper.find(`.geo-chart-label-group--${index}`).findAll('.geo-chart-labels-group__single-label')
 
           expect(singleLabelGroups.length).toEqual(2)
