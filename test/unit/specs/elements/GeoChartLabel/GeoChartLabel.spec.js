@@ -196,8 +196,9 @@ describe('GeoChartLabels', function () {
         })
 
         flushD3Transitions()
-        expect(wrapper.find('.geo-chart').exists()).toBe(true)
         expect(wrapper.find('.geo-chart .geo-chart-bars-group').exists()).toBe(true)
+        expect(wrapper.find('.geo-chart-labels-group-container').exists()).toBe(true)
+
         _.forEach(categoricalAxisValues, (category, index) => {
           const singleLabelGroups = wrapper.find(`.geo-chart-label-group--${index}`).findAll('.geo-chart-labels-group__single-label')
 
@@ -205,7 +206,6 @@ describe('GeoChartLabels', function () {
           expect(singleLabelGroups.at(0).text()).toEqual('<<')
           expect(singleLabelGroups.at(1).text()).toEqual(_.toString(category))
         })
-        expect(wrapper.find('.geo-chart-labels-group-container').exists()).toBe(true)
 
         wrapper.destroy()
       })
@@ -338,8 +338,9 @@ describe('GeoChartLabels', function () {
         })
 
         flushD3Transitions()
-        expect(wrapper.find('.geo-chart').exists()).toBe(true)
         expect(wrapper.find('.geo-chart .geo-chart-bars-group').exists()).toBe(true)
+        expect(wrapper.find('.geo-chart-labels-group-container').exists()).toBe(true)
+
         _.forEach(categoricalAxisValues, (category, index) => {
           const singleLabelGroups = wrapper.find(`.geo-chart-label-group--${index}`).findAll('.geo-chart-labels-group__single-label')
 
@@ -347,7 +348,6 @@ describe('GeoChartLabels', function () {
           expect(singleLabelGroups.at(0).text()).toEqual('<<')
           expect(singleLabelGroups.at(1).text()).toEqual(_.toString(category))
         })
-        expect(wrapper.find('.geo-chart-labels-group-container').exists()).toBe(true)
 
         wrapper.destroy()
       })
@@ -481,8 +481,9 @@ describe('GeoChartLabels', function () {
         })
 
         flushD3Transitions()
-        expect(wrapper.find('.geo-chart').exists()).toBe(true)
         expect(wrapper.find('.geo-chart .geo-chart-bars-group').exists()).toBe(true)
+        expect(wrapper.find('.geo-chart-labels-group-container').exists()).toBe(true)
+
         _.forEach(categoricalAxisValues, (category, index) => {
           const singleLabelGroups = wrapper.find(`.geo-chart-label-group--${index}`).findAll('.geo-chart-labels-group__single-label')
 
@@ -490,7 +491,6 @@ describe('GeoChartLabels', function () {
           expect(singleLabelGroups.at(0).text()).toEqual('<<')
           expect(singleLabelGroups.at(1).text()).toEqual(_.toString(category))
         })
-        expect(wrapper.find('.geo-chart-labels-group-container').exists()).toBe(true)
 
         wrapper.destroy()
       })
