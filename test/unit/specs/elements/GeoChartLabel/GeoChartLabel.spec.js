@@ -281,8 +281,9 @@ describe('GeoChartLabels', function () {
         flushD3Transitions()
 
         _.forEach(linearAxisValues, (value, index) => {
+          const singleLabelGroup = wrapper.findAll('.geo-chart-labels-group__single-label').at(index)
           // since there is no comparison, should be wide bar charts
-          expect(wrapper.findAll('.geo-chart-labels-group__single-label').at(index).attributes().class).toContain('geo-chart-value-label--medium')
+          expect(singleLabelGroup.attributes().class).toContain('geo-chart-value-label--medium')
         })
         wrapper.destroy()
         labelGroup.nComparisons = 2
@@ -295,8 +296,9 @@ describe('GeoChartLabels', function () {
 
         flushD3Transitions()
         _.forEach(linearAxisValues, (value, index) => {
+          const singleLabelGroup = wrapper.findAll('.geo-chart-labels-group__single-label').at(index)
           // since there is no comparison, should be small bar charts
-          expect(wrapper.findAll('.geo-chart-labels-group__single-label').at(index).attributes().class).toContain('geo-chart-value-label--small')
+          expect(singleLabelGroup.attributes().class).toContain('geo-chart-value-label--small')
         })
         wrapper.destroy()
       })
@@ -422,8 +424,9 @@ describe('GeoChartLabels', function () {
         flushD3Transitions()
 
         _.forEach(linearAxisValues, (value, index) => {
+          const singleLabelGroup = wrapper.findAll('.geo-chart-labels-group__single-label').at(index)
           // since there is no comparison, should be wide bar charts
-          expect(wrapper.findAll('.geo-chart-labels-group__single-label').at(index).attributes().class).toContain('geo-chart-value-label--medium')
+          expect(singleLabelGroup.attributes().class).toContain('geo-chart-value-label--medium')
         })
         wrapper.destroy()
         labelGroup.nComparisons = 2
@@ -436,8 +439,9 @@ describe('GeoChartLabels', function () {
 
         flushD3Transitions()
         _.forEach(linearAxisValues, (value, index) => {
+          const singleLabelGroup = wrapper.findAll('.geo-chart-labels-group__single-label').at(index)
           // since there is no comparison, should be small bar charts
-          expect(wrapper.findAll('.geo-chart-labels-group__single-label').at(index).attributes().class).toContain('geo-chart-value-label--small')
+          expect(singleLabelGroup.attributes().class).toContain('geo-chart-value-label--small')
         })
       })
 
