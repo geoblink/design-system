@@ -15,7 +15,7 @@ const localVue = createLocalVue()
 localVue.component('geo-chart', GeoChart)
 
 const categoricalAxisValues = _.times(3, i => `Bucket ${i}`)
-const linerAxisValues = [10, 15, 20]
+const linearAxisValues = [10, 15, 20]
 
 const axisConfig = {
   linearAxisConfig: {
@@ -52,12 +52,12 @@ const axisConfig = {
 const chartData = _.map(categoricalAxisValues, (category, index) => {
   return {
     [axisConfig.categoricalAxisConfig.keyForValues]: category,
-    [axisConfig.linearAxisConfig.keyForValues]: linerAxisValues[index]
+    [axisConfig.linearAxisConfig.keyForValues]: linearAxisValues[index]
   }
 })
 const labelGroup =
     {
-      data: _.map(linerAxisValues, (value, index) => {
+      data: _.map(linearAxisValues, (value, index) => {
         return {
           labels: [
             {
@@ -115,11 +115,11 @@ describe('GeoChartLabels', function () {
 
     const cssClassFn = (original) => [...original, 'test-bar']
 
-    testHorizontalDimension(linearAxisConfig, categoricalAxisConfig, linerAxisValues, cssClassFn, labelGroup)
-    testVerticalDimension(categoricalAxisConfig, linearAxisConfig, linerAxisValues, cssClassFn, labelGroup)
+    testHorizontalDimension(categoricalAxisConfig, linearAxisConfig, linearAxisValues, cssClassFn, labelGroup)
+    testVerticalDimension(linearAxisConfig, categoricalAxisConfig, linearAxisValues, cssClassFn, labelGroup)
   })
 
-  function testHorizontalDimension (verticalAxis, horizontalAxis, linerAxisValues, cssClassFn, labelGroup) {
+  function testHorizontalDimension (verticalAxis, horizontalAxis, linearAxisValues, cssClassFn, labelGroup) {
     describe('horizontal bar chart with labels', () => {
       const stubLodashDebounce = stubLodashDebounceFactory()
       beforeEach(function () {
@@ -155,7 +155,7 @@ describe('GeoChartLabels', function () {
         })
 
         flushD3Transitions()
-        _.forEach(linerAxisValues, (value, index) => {
+        _.forEach(linearAxisValues, (value, index) => {
           expect(wrapper.find(`.geo-chart-label-group--${index} text`).text()).toEqual(_.toString(value))
         })
       })
@@ -224,7 +224,7 @@ describe('GeoChartLabels', function () {
         stubLodashDebounce.teardown()
       })
       const labelGroup = {
-        data: _.map(linerAxisValues, (value, index) => {
+        data: _.map(linearAxisValues, (value, index) => {
           return {
             labels: [{
               text: _.toString(value),
@@ -264,11 +264,42 @@ describe('GeoChartLabels', function () {
         })
 
         flushD3Transitions()
-        _.forEach(linerAxisValues, (value, index) => {
+        // since there is no comparison, should be wide bar charts
+        expect(wrapper.find('.geo-chart-labels-group__single-label').attributes().class).toContain('geo-chart-value-label--medium')
+        _.forEach(linearAxisValues, (value, index) => {
           expect(wrapper.find(`.geo-chart-label-group--${index} text`).text()).toEqual(_.toString(value))
         })
+        wrapper.destroy()
       })
+      it('Should render the labels with correct positionings', () => {
+        let wrapper = mount(GeoChart, {
+          propsData: {
+            config: barConfig
+          }
+        })
 
+        flushD3Transitions()
+
+        _.forEach(linearAxisValues, (value, index) => {
+          // since there is no comparison, should be wide bar charts
+          expect(wrapper.findAll('.geo-chart-labels-group__single-label').at(index).attributes().class).toContain('geo-chart-value-label--medium')
+        })
+        wrapper.destroy()
+        labelGroup.nComparisons = 2
+        barConfig.labelGroups = [labelGroup]
+        wrapper = mount(GeoChart, {
+          propsData: {
+            config: barConfig
+          }
+        })
+
+        flushD3Transitions()
+        _.forEach(linearAxisValues, (value, index) => {
+          // since there is no comparison, should be small bar charts
+          expect(wrapper.findAll('.geo-chart-labels-group__single-label').at(index).attributes().class).toContain('geo-chart-value-label--small')
+        })
+        wrapper.destroy()
+      })
       it('Should render the labels with multiple texts', () => {
         const multipleLabelsGroup = {
           data: _.map(categoricalAxisValues, (category) => {
@@ -324,7 +355,7 @@ describe('GeoChartLabels', function () {
       })
     })
   }
-  function testVerticalDimension (verticalAxis, horizontalAxis, linerAxisValues, cssClassFn, labelGroup) {
+  function testVerticalDimension (verticalAxis, horizontalAxis, linearAxisValues, cssClassFn, labelGroup) {
     describe('vertical bar chart with positioned labels', () => {
       const stubLodashDebounce = stubLodashDebounceFactory()
       beforeEach(function () {
@@ -335,7 +366,7 @@ describe('GeoChartLabels', function () {
         stubLodashDebounce.teardown()
       })
       const labelGroup = {
-        data: _.map(linerAxisValues, (value, index) => {
+        data: _.map(linearAxisValues, (value, index) => {
           return {
             labels: [{
               text: _.toString(value),
@@ -375,8 +406,38 @@ describe('GeoChartLabels', function () {
         })
 
         flushD3Transitions()
-        _.forEach(linerAxisValues, (value, index) => {
+        _.forEach(linearAxisValues, (value, index) => {
           expect(wrapper.find(`.geo-chart-label-group--${index} text`).text()).toEqual(_.toString(value))
+        })
+        wrapper.destroy()
+      })
+
+      it('Should render the labels with correct classes', () => {
+        let wrapper = mount(GeoChart, {
+          propsData: {
+            config: barConfig
+          }
+        })
+
+        flushD3Transitions()
+
+        _.forEach(linearAxisValues, (value, index) => {
+          // since there is no comparison, should be wide bar charts
+          expect(wrapper.findAll('.geo-chart-labels-group__single-label').at(index).attributes().class).toContain('geo-chart-value-label--medium')
+        })
+        wrapper.destroy()
+        labelGroup.nComparisons = 2
+        barConfig.labelGroups = [labelGroup]
+        wrapper = mount(GeoChart, {
+          propsData: {
+            config: barConfig
+          }
+        })
+
+        flushD3Transitions()
+        _.forEach(linearAxisValues, (value, index) => {
+          // since there is no comparison, should be small bar charts
+          expect(wrapper.findAll('.geo-chart-labels-group__single-label').at(index).attributes().class).toContain('geo-chart-value-label--small')
         })
       })
 

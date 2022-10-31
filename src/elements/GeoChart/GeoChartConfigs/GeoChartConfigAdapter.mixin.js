@@ -101,7 +101,6 @@ export default {
           const defaultPadding = isHorizontal
             ? { top: 0, bottom: 0, left: 15, right: 10 }
             : { top: 0, bottom: 0, left: 0, right: 0 }
-
           _.forEach(this.config.labelGroups[index].data, (data) => {
             _.forEach(data.labels, (label) => {
               label.margin = _.first(data.labels).margin || defaultMargin
