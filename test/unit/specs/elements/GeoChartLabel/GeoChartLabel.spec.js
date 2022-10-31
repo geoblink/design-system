@@ -105,10 +105,6 @@ describe('GeoChartLabels', function () {
     stubGetScreenCTM.teardown()
   })
 
-  afterEach(function () {
-    document.body.innerHTML = ''
-  })
-
   describe('#render', function () {
     const linearAxisConfig = axisConfig.linearAxisConfig
     const categoricalAxisConfig = axisConfig.categoricalAxisConfig
