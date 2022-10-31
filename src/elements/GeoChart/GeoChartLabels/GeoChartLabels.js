@@ -99,6 +99,7 @@ function renderSingleGroup (group, singleGroupOptions, globalOptions, indexOfGro
     .duration(globalOptions.chart.animationsDurationInMilliseconds)
     .style('opacity', 1)
     .attr('transform', getTransform)
+
   allSingleDataGroups
     .selectAll('g')
     .attr('class', getSingleLabelGroupCSSClasses)
