@@ -267,7 +267,7 @@ describe('GeoChartLabels', function () {
         })
         wrapper.destroy()
       })
-      it('Should render the labels with correct positionings', () => {
+      it('Should render the labels with correct classes', () => {
         let wrapper = mount(GeoChart, {
           propsData: {
             config: barConfig
