@@ -229,7 +229,51 @@ export function stubGetBBoxFactory (functionOrValue) {
       : functionOrValue
   }
 }
+export function stubGetComputedTextLengthFactory (functionOrValue) {
+  functionOrValue = functionOrValue || 0
+  const sandbox = sinon.createSandbox()
 
+  const isGetComputedTextLengthPresentInSVGSVGElementPrototype = 'getComputedTextLength' in SVGSVGElement.prototype
+  const isGetComputedTextLengthPresentInSVGElementPrototype = 'getComputedTextLength' in SVGElement.prototype
+
+  return { setup, teardown }
+
+  function setup () {
+    // Sinon can't stub missing properties
+    if (isGetComputedTextLengthPresentInSVGSVGElementPrototype) {
+      sandbox.stub(SVGSVGElement.prototype, 'getComputedTextLength').callsFake(getReturnValue)
+    } else {
+      SVGSVGElement.prototype.getComputedTextLength = getReturnValue
+    }
+
+    if (isGetComputedTextLengthPresentInSVGElementPrototype) {
+      sandbox.stub(SVGElement.prototype, 'getComputedTextLength').callsFake(getReturnValue)
+    } else {
+      SVGElement.prototype.getComputedTextLength = getReturnValue
+    }
+  }
+
+  function teardown () {
+    if (isGetComputedTextLengthPresentInSVGSVGElementPrototype) {
+      sandbox.restore()
+    } else {
+      // So ownProperties are restored -- maybe they are checked by a 3rd party
+      delete SVGSVGElement.getComputedTextLength
+    }
+
+    if (isGetComputedTextLengthPresentInSVGElementPrototype) {
+      sandbox.restore()
+    } else {
+      delete SVGElement.getComputedTextLength
+    }
+  }
+
+  function getReturnValue () {
+    return _.isFunction(functionOrValue)
+      ? functionOrValue()
+      : functionOrValue
+  }
+}
 export function stubGetScreenCTMFactory (functionOrValue) {
   // Object shape at » https://developer.mozilla.org/en-US/docs/Web/API/DOMMatrix
   functionOrValue = functionOrValue || {

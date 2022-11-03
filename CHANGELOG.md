@@ -1,5 +1,8 @@
 # Changelog
 
+## 30.0.17
+Tests:
+- `GeoChartLabels`: Added tests for geo chart labels
 ## 30.0.16
 Fix:
 - `GeoListItem`: Improved the list item to make it adapt to parent width.
