@@ -1,5 +1,9 @@
 # Changelog
 
+
+## 30.1.0
+Tests:
+- `GeoTreeItem`: Fix visual issue and allow to expand-contract categories using props
 ## 30.0.17
 Tests:
 - `GeoChartLabels`: Added tests for geo chart labels
