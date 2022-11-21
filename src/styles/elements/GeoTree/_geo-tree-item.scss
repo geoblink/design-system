@@ -11,7 +11,9 @@
 }
 
 .geo-tree-item .geo-list-item__icon-and-label__icon-container {
-  width: 5px;
+  margin-right: $space-x-small;
+  text-align: center;
+  width: 14px;
 }
 
 .geo-tree-item .geo-list-item__icon-and-label__icon-container__icon {
@@ -31,4 +33,8 @@
 
 .geo-tree-item--expanded .geo-list-item__icon-and-label__icon-container__icon {
   transform: rotate(90deg);
+}
+
+.geo-tree-item--single {
+  margin-left: $space-small;
 }
