@@ -177,10 +177,8 @@ export default {
     }
   },
   watch: {
-    dynamicExpandedCategories (newValue) {
-      if (newValue) {
-        this.expandedCategories = _.assign({}, this.expandedCategories, newValue)
-      }
+    dynamicExpandedCategories (newExpandedCategories) {
+      this.expandedCategories = newExpandedCategories || {}
     }
   },
   methods: {
