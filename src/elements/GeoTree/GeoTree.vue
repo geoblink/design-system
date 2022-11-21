@@ -145,9 +145,9 @@ export default {
       default: () => ({})
     },
     /**
-     * Initial categories to be expanded, with truthy/falsy category ids
+     * Initial categories to be expanded, with truthy/falsy category ids, it's being watched to react to outside changes
      */
-    initialExpandedCategories: {
+    dynamicExpandedCategories: {
       type: Object,
       required: false
     }
@@ -172,8 +172,15 @@ export default {
     }
   },
   mounted () {
-    if (this.initialExpandedCategories) {
-      this.expandedCategories = _.assign({}, this.expandedCategories, this.initialExpandedCategories)
+    if (this.dynamicExpandedCategories) {
+      this.expandedCategories = _.assign({}, this.expandedCategories, this.dynamicExpandedCategories)
+    }
+  },
+  watch: {
+    dynamicExpandedCategories (newValue) {
+      if (newValue) {
+        this.expandedCategories = _.assign({}, this.expandedCategories, newValue)
+      }
     }
   },
   methods: {
