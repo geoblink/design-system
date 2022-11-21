@@ -2,7 +2,7 @@
 
 
 ## 30.1.0
-Tests:
+New:
 - `GeoTreeItem`: Fix visual issue and allow to expand-contract categories using props
 ## 30.0.17
 Tests:
