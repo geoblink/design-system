@@ -2,7 +2,7 @@
 
 
 ## 30.1.0
-New:
+Breaking:
 - `GeoTreeItem`: Fix visual issue and renamed prop from `inital-expanded-categories` to `dynamic-expanded-categories`.
 ## 30.0.17
 Tests:
