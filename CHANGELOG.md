@@ -3,7 +3,10 @@
 
 ## 30.1.0
 Breaking:
-- `GeoTreeItem`: Fix visual issue and renamed prop from `inital-expanded-categories` to `dynamic-expanded-categories`.
+- `GeoTreeItem`: Renamed prop from `inital-expanded-categories` to `dynamic-expanded-categories`.
+
+Changed
+- `GeoTreeItem`: Fix visual issues and add send more params on click event
 ## 30.0.17
 Tests:
 - `GeoChartLabels`: Added tests for geo chart labels
