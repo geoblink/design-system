@@ -183,7 +183,7 @@ export default {
   },
   methods: {
     handleCheckItem (category, isChecked) {
-      this.$emit('check', category[this.keyForId], isChecked)
+      this.$emit('check', category[this.keyForId], isChecked, category)
     },
     filterCategories (categories, query, isAnyAncestorMatching) {
       return _.reduce(categories, (carry, category) => {
