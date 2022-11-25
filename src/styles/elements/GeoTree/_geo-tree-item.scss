@@ -17,16 +17,7 @@
 
 .geo-tree-item .geo-list-item__icon-and-label__icon-container__icon {
   color: $color-grey-backdrop;
-  width: $space-x-small;
-}
-
-.geo-tree-item__label{
-  align-items: center;
-  display: flex;
-  gap: $space-x-small;
-  .geo-trimmed-content{
-    min-width: 0;
-  }
+  width: 5px;
 }
 
 .geo-tree-item__total-items {
