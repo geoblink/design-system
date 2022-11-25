@@ -12,11 +12,13 @@
       :icon="categoryIcon"
       @click="handleClick"
     >
-      <label>
-        <geo-highlighted-string
-          :highlighted-chars="category.matches"
-          :reference-string="category[keyForLabel]"
-        />
+      <label class="geo-tree-item__label">
+        <geo-trimmed-content>
+          <geo-highlighted-string
+            :highlighted-chars="category.matches"
+            :reference-string="category[keyForLabel]"
+          />
+        </geo-trimmed-content>
         <span
           v-if="hasChildren"
           class="geo-tree-item__total-items"
