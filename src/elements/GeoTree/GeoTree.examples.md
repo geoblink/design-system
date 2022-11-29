@@ -294,8 +294,9 @@ export default {
         key-for-label="label"
         :categories="categories"
         :checked-items="checkedCategories"
+        :dynamic-expanded-categories="dynamicExpandedCategories"
         @check="handleCheck"
-    ></geo-tree>  
+    ></geo-tree>
 </template>
   
 <script>  
@@ -303,13 +304,16 @@ export default {
   name: 'GeoTreeDemo',
   data () {
     return {
+      dynamicExpandedCategories: {
+        fruits: true,
+        'tropical-fruits': true
+      },
       checkedCategories: {},
       categories: 
         [  
             {  
                 id: 'fruits',  
                 label: 'Fruits',
-                isExpanded: true,
                 subcategories: [  
                     {  
                         id: 'tropical-fruits',  
