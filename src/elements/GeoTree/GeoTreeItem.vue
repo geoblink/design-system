@@ -152,8 +152,8 @@ export default {
       return this.hasChildren
         ? this.useFolderIcon
           ? this.isExpanded
-            ? ['fa', 'folder-open']
-            : ['fa', 'folder']
+            ? ['fal', 'folder-open']
+            : ['fal', 'folder']
           : ['fal', 'chevron-right']
         : null
     },
