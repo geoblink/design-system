@@ -126,6 +126,38 @@ export default {
           {
             id: 'fruits',
             label: 'Fruits',
+            subcategories: [  
+              {  
+                id: 'tropical-fruits',  
+                label: 'Tropical fruits',  
+                subcategories: [  
+                  { id: 'pineapple', label: 'Pineapple' },  
+                  { id: 'banana', label: 'Banana' },  
+                  { id: 'coconut',label: 'Coconut'},  
+                  { id: 'avocado', label: 'Avocado' }  
+                ]  
+              },  
+              {  
+                id: 'citrus-fruits',  
+                label: 'Citrus fruits',  
+                subcategories: [  
+                  { id: 'orange', label: 'Orange' },  
+                  { id: 'lime', label: 'Lime'},  
+                  { id: 'grapefruit', label: 'GrapeFruit' },  
+                  { id: 'mandarin',label: 'Mandarin'},  
+                  { id: 'pomelo', label: 'Pomelo' }  
+                ]  
+              },  
+              {  
+                id: 'sweet-fruits',  
+                label: 'Sweet',  
+                subcategories: [  
+                  {id: 'pear',label: 'Pear'},  
+                  {id: 'apple',label: 'Apple'},  
+                  {id: 'redGrapes',label: 'Red Grapes'}  
+                ]  
+              }  
+            ]
           },
           {
             id: 'vegetables',

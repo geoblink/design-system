@@ -65,7 +65,11 @@
         @check="handleCheckChild"
         @click="handleClick"
         @toggleExpand="toggleExpand"
-      />
+      >
+        <template slot="trailingAccessoryAction">
+          <slot name="trailingAccessoryAction" />
+        </template>
+      </geo-tree-item>
     </ul>
   </li>
 </template>
