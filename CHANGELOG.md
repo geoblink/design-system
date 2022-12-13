@@ -7,7 +7,7 @@ New:
 
 Changed:
 - `GeoTree`: Slot `actionButton` now is always visible.
-- `GeoTreeItem`: Slot `trailingAccessoryAction` now is always visible and set recursively to children.
+- `GeoTreeItem`: Slot `trailingAccessoryAction` now is always visible, is set recursively to children and receive the category as prop.
 
 ## 31.0.0
 Breaking:
