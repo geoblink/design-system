@@ -1,7 +1,10 @@
 # Changelog
 
+## 31.0.1
+Changed:
+- `GeoTreeItem`: Prop `actionButton` now is always visible.
 
-## 30.1.0
+## 31.0.0
 Breaking:
 - `GeoTreeItem`: Renamed prop from `inital-expanded-categories` to `dynamic-expanded-categories`.
 
