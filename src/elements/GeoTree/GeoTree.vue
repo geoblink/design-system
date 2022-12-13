@@ -34,10 +34,13 @@
           @check="handleCheckItem"
           @toggleExpand="handleToggleExpand"
         >
-          <template slot="trailingAccessoryAction">
+          <template
+            slot="trailingAccessoryAction"
+            slot-scope="{ item }"
+          >
             <slot
               name="actionButton"
-              :item="category"
+              :item="item"
             />
           </template>
         </geo-tree-item>
