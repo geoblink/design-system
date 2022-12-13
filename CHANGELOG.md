@@ -1,15 +1,20 @@
 # Changelog
 
 ## 31.0.1
+New:
+- `GeoTree`: Add new prop `useFolderIcon` to use folder as icon
+- `GeoTreeItem`: Add new prop `useFolderIcon` to use folder as icon
+
 Changed:
-- `GeoTreeItem`: Prop `actionButton` now is always visible.
+- `GeoTree`: Slot `actionButton` now is always visible.
+- `GeoTreeItem`: Slot `trailingAccessoryAction` now is always visible and set recursively to children.
 
 ## 31.0.0
 Breaking:
-- `GeoTreeItem`: Renamed prop from `inital-expanded-categories` to `dynamic-expanded-categories`.
+- `GeoTree`: Renamed prop from `inital-expanded-categories` to `dynamic-expanded-categories`.
 
 Changed
-- `GeoTreeItem`: Fix visual issues and add send more params on click event
+- `GeoTree`: Fix visual issues and add send more params on click event
 ## 30.0.17
 Tests:
 - `GeoChartLabels`: Added tests for geo chart labels
