@@ -1,8 +1,6 @@
 <template>
   <li
     class="geo-tree-item"
-    @mouseover="isShowActionButton = true"
-    @mouseout="isShowActionButton = false"
   >
     <geo-list-item
       :class="{
@@ -36,8 +34,8 @@
           </geo-tooltip>
         </span>
       </label>
-      <div slot="trailingAccessoryItem">
-        <span v-show="isShowActionButton">
+      <template slot="trailingAccessoryItem">
+        <span>
           <slot name="trailingAccessoryAction" />
         </span>
         <input
@@ -48,7 +46,7 @@
           @click.stop
           @input="handleCheck(category, $event.target.checked)"
         >
-      </div>
+      </template>
     </geo-list-item>
     <ul
       v-if="isExpanded"

@@ -33,7 +33,7 @@
           @check="handleCheckItem"
           @toggleExpand="handleToggleExpand"
         >
-          <template v-slot:trailingAccessoryAction>
+          <template slot="trailingAccessoryAction">
             <slot name="actionButton" />
           </template>
         </geo-tree-item>

@@ -105,7 +105,7 @@ export default {
         :checked-items="checkedCategories"
         @check="handleCheck"
     >
-        <template v-slot:actionButton>
+        <template slot="actionButton">
             <font-awesome-icon
               :icon="['far', 'lightbulb']"
               aria-hidden
