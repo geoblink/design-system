@@ -30,6 +30,7 @@
           :expanded-categories="expandedCategories"
           :key-for-subcategory="keyForSubcategory"
           :description-icon="descriptionIcon"
+          :use-folder-icon="useFolderIcon"
           @check="handleCheckItem"
           @toggleExpand="handleToggleExpand"
         >
@@ -150,6 +151,14 @@ export default {
     dynamicExpandedCategories: {
       type: Object,
       required: false
+    },
+    /**
+     * Use folder icon instead of chevron
+     */
+    useFolderIcon: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
   data () {

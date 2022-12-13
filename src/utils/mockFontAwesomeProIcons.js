@@ -29,7 +29,9 @@ export default function mockFontAwesomeProIcons (library) {
     'faEllipsisV',
     'faTimes',
     'faCheck',
-    'faSearch'
+    'faSearch',
+    'faFolder',
+    'faFolderOpen'
   ]
 
   const mockedFalIcons = _.mapValues(_.pick(fas, iconsToMock), function (original) {

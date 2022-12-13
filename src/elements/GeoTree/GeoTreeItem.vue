@@ -4,8 +4,9 @@
   >
     <geo-list-item
       :class="{
-        'geo-tree-item--expanded': isExpanded,
-        'geo-tree-item--single': !hasChildren
+        'geo-tree-item--rotated-icon': isExpanded && !useFolderIcon,
+        'geo-tree-item--single': !hasChildren,
+        'geo-tree-item--folder-icon': useFolderIcon
       }"
       :icon="categoryIcon"
       @click="handleClick"
@@ -62,6 +63,7 @@
         :key-for-subcategory="keyForSubcategory"
         :expanded-categories="expandedCategories"
         :checked-items="checkedItems"
+        :use-folder-icon="useFolderIcon"
         @check="handleCheckChild"
         @click="handleClick"
         @toggleExpand="toggleExpand"
@@ -130,6 +132,14 @@ export default {
     expandedCategories: {
       type: Object,
       required: true
+    },
+    /**
+     * Use folder icon instead of chevron
+     */
+    useFolderIcon: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
   data () {
@@ -139,7 +149,13 @@ export default {
   },
   computed: {
     categoryIcon () {
-      return this.hasChildren ? ['fal', 'chevron-right'] : null
+      return this.hasChildren
+        ? this.useFolderIcon
+          ? this.isExpanded
+            ? ['fa', 'folder-open']
+            : ['fa', 'folder']
+          : ['fal', 'chevron-right']
+        : null
     },
     isIndeterminate () {
       const isSomeChildSelected = category => {
