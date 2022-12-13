@@ -105,11 +105,15 @@ export default {
         :checked-items="checkedCategories"
         @check="handleCheck"
     >
-        <template slot="actionButton">
+        <template
+          slot="actionButton"
+          slot-scope="{ item }"
+        >
             <font-awesome-icon
               :icon="['far', 'lightbulb']"
               aria-hidden
               fixed-width
+              @click.stop="clickOnItem(item)"
             ></font-awesome-icon>
         </template>
     </geo-tree>  
@@ -162,13 +166,17 @@ export default {
           {
             id: 'vegetables',
             label: 'Vegetables',
-          },      
+          },
         ]
     }
   },
   methods: {
     handleCheck (categoryId, isChecked) {
-        this.$set(this.checkedCategories, categoryId, isChecked)
+      this.$set(this.checkedCategories, categoryId, isChecked)
+    },
+
+    clickOnItem (item) {
+      console.log(item)
     }
   }
 }

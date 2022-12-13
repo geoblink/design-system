@@ -37,7 +37,10 @@
       </label>
       <template slot="trailingAccessoryItem">
         <span>
-          <slot name="trailingAccessoryAction" />
+          <slot
+            name="trailingAccessoryAction"
+            :item="category"
+          />
         </span>
         <input
           :id="category[keyForId]"
@@ -69,7 +72,10 @@
         @toggleExpand="toggleExpand"
       >
         <template slot="trailingAccessoryAction">
-          <slot name="trailingAccessoryAction" />
+          <slot
+            name="trailingAccessoryAction"
+            :item="subcategory"
+          />
         </template>
       </geo-tree-item>
     </ul>

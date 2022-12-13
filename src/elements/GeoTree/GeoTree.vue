@@ -35,7 +35,10 @@
           @toggleExpand="handleToggleExpand"
         >
           <template slot="trailingAccessoryAction">
-            <slot name="actionButton" />
+            <slot
+              name="actionButton"
+              :item="category"
+            />
           </template>
         </geo-tree-item>
       </ul>
