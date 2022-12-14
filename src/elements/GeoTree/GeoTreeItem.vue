@@ -71,10 +71,13 @@
         @click="handleClick"
         @toggleExpand="toggleExpand"
       >
-        <template slot="trailingAccessoryAction">
+        <template
+          slot="trailingAccessoryAction"
+          slot-scope="{ item }"
+        >
           <slot
             name="trailingAccessoryAction"
-            :item="subcategory"
+            :item="item"
           />
         </template>
       </geo-tree-item>
