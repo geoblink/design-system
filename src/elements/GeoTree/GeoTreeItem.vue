@@ -150,7 +150,8 @@ export default {
      */
     collapsedIcon: {
       type: Array,
-      required: false
+      required: true,
+      default: ['fal', 'chevron-right']
     },
     /**
      * Optional Font Awesome 5 icon to use as expanded icon
@@ -172,10 +173,9 @@ export default {
     categoryIcon () {
       if (!this.hasChildren) return null
 
-      const defaultIcon = ['fal', 'chevron-right']
       return this.isExpanded
-        ? this.expandedIcon || defaultIcon
-        : this.collapsedIcon || defaultIcon
+        ? this.expandedIcon || this.collapsedIcon
+        : this.collapsedIcon
     },
     isIndeterminate () {
       const isSomeChildSelected = category => {

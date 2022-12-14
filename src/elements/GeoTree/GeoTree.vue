@@ -167,7 +167,8 @@ export default {
      */
     collapsedIcon: {
       type: Array,
-      required: false
+      required: false,
+      default: ['fal', 'chevron-right']
     },
     /**
      * Optional Font Awesome 5 icon to use as expanded icon
