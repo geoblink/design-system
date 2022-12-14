@@ -4,9 +4,8 @@
   >
     <geo-list-item
       :class="{
-        'geo-tree-item--rotated-icon': isExpanded && !hasFolderIcon,
-        'geo-tree-item--single': !hasChildren,
-        'geo-tree-item--folder-icon': hasFolderIcon
+        'geo-tree-item--rotated-icon': hasToRotateIcon,
+        'geo-tree-item--single': !hasChildren
       }"
       :icon="categoryIcon"
       @click="handleClick"
@@ -66,7 +65,8 @@
         :key-for-subcategory="keyForSubcategory"
         :expanded-categories="expandedCategories"
         :checked-items="checkedItems"
-        :has-folder-icon="hasFolderIcon"
+        :collapsed-icon="collapsedIcon"
+        :expanded-icon="expandedIcon"
         @check="handleCheckChild"
         @click="handleClick"
         @toggleExpand="toggleExpand"
@@ -143,12 +143,24 @@ export default {
       required: true
     },
     /**
-     * Use folder icon instead of chevron
+     * Optional Font Awesome 5 icon to use as collapsed icon
+     *
+     * See [vue-fontawesome](https://www.npmjs.com/package/@fortawesome/vue-fontawesome#explicit-prefix-note-the-vue-bind-shorthand-because-this-uses-an-array)
+     * for more info about this.
      */
-    hasFolderIcon: {
-      type: Boolean,
-      required: false,
-      default: false
+    collapsedIcon: {
+      type: Array,
+      required: false
+    },
+    /**
+     * Optional Font Awesome 5 icon to use as expanded icon
+     *
+     * See [vue-fontawesome](https://www.npmjs.com/package/@fortawesome/vue-fontawesome#explicit-prefix-note-the-vue-bind-shorthand-because-this-uses-an-array)
+     * for more info about this.
+     */
+    expandedIcon: {
+      type: Array,
+      required: false
     }
   },
   data () {
@@ -158,13 +170,12 @@ export default {
   },
   computed: {
     categoryIcon () {
-      return this.hasChildren
-        ? this.hasFolderIcon
-          ? this.isExpanded
-            ? ['fal', 'folder-open']
-            : ['fal', 'folder']
-          : ['fal', 'chevron-right']
-        : null
+      if (!this.hasChildren) return null
+
+      const defaultIcon = ['fal', 'chevron-right']
+      return this.isExpanded
+        ? this.expandedIcon || defaultIcon
+        : this.collapsedIcon || defaultIcon
     },
     isIndeterminate () {
       const isSomeChildSelected = category => {
@@ -199,6 +210,9 @@ export default {
     },
     hasChildren () {
       return this.totalCategoryChildren > 0
+    },
+    hasToRotateIcon () {
+      return this.isExpanded && !this.expandedIcon
     }
   },
   methods: {

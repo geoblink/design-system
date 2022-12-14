@@ -183,7 +183,7 @@ export default {
 </script>
 ```
 
-### Using folder icons
+### Using custom icons
 
 ```vue live
 <template>
@@ -193,7 +193,8 @@ export default {
         keyForLabel="label"
         :categories="categories"
         :checked-items="checkedCategories"
-        has-folder-icon
+        :collapsed-icon="['fal', 'chevron-down']"
+        :expanded-icon="['fal', 'chevron-up']"
         @check="handleCheck"
     />
 </template>

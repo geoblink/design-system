@@ -2,8 +2,8 @@
 
 ## 31.0.1
 New:
-- `GeoTree`: Add new prop `hasFolderIcon` to use folder as icon
-- `GeoTreeItem`: Add new prop `hasFolderIcon` to use folder as icon
+- `GeoTree`: Add new prop `collapsedIcon` to use custom collapsed icon
+- `GeoTreeItem`: Add new prop `expandedIcon` to use custom expanded icon
 
 Changed:
 - `GeoTree`: Slot `actionButton` now is always visible.

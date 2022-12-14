@@ -30,7 +30,8 @@
           :expanded-categories="expandedCategories"
           :key-for-subcategory="keyForSubcategory"
           :description-icon="descriptionIcon"
-          :has-folder-icon="hasFolderIcon"
+          :collapsed-icon="collapsedIcon"
+          :expanded-icon="expandedIcon"
           @check="handleCheckItem"
           @toggleExpand="handleToggleExpand"
         >
@@ -159,12 +160,24 @@ export default {
       required: false
     },
     /**
-     * Use folder icon instead of chevron
+     * Optional Font Awesome 5 icon to use as collapsed icon
+     *
+     * See [vue-fontawesome](https://www.npmjs.com/package/@fortawesome/vue-fontawesome#explicit-prefix-note-the-vue-bind-shorthand-because-this-uses-an-array)
+     * for more info about this.
      */
-    hasFolderIcon: {
-      type: Boolean,
-      required: false,
-      default: false
+    collapsedIcon: {
+      type: Array,
+      required: false
+    },
+    /**
+     * Optional Font Awesome 5 icon to use as expanded icon
+     *
+     * See [vue-fontawesome](https://www.npmjs.com/package/@fortawesome/vue-fontawesome#explicit-prefix-note-the-vue-bind-shorthand-because-this-uses-an-array)
+     * for more info about this.
+     */
+    expandedIcon: {
+      type: Array,
+      required: false
     }
   },
   data () {
