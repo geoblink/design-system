@@ -30,7 +30,7 @@
           :expanded-categories="expandedCategories"
           :key-for-subcategory="keyForSubcategory"
           :description-icon="descriptionIcon"
-          :use-folder-icon="useFolderIcon"
+          :has-folder-icon="hasFolderIcon"
           @check="handleCheckItem"
           @toggleExpand="handleToggleExpand"
         >
@@ -161,7 +161,7 @@ export default {
     /**
      * Use folder icon instead of chevron
      */
-    useFolderIcon: {
+    hasFolderIcon: {
       type: Boolean,
       required: false,
       default: false

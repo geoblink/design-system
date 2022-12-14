@@ -4,9 +4,9 @@
   >
     <geo-list-item
       :class="{
-        'geo-tree-item--rotated-icon': isExpanded && !useFolderIcon,
+        'geo-tree-item--rotated-icon': isExpanded && !hasFolderIcon,
         'geo-tree-item--single': !hasChildren,
-        'geo-tree-item--folder-icon': useFolderIcon
+        'geo-tree-item--folder-icon': hasFolderIcon
       }"
       :icon="categoryIcon"
       @click="handleClick"
@@ -66,7 +66,7 @@
         :key-for-subcategory="keyForSubcategory"
         :expanded-categories="expandedCategories"
         :checked-items="checkedItems"
-        :use-folder-icon="useFolderIcon"
+        :has-folder-icon="hasFolderIcon"
         @check="handleCheckChild"
         @click="handleClick"
         @toggleExpand="toggleExpand"
@@ -142,7 +142,7 @@ export default {
     /**
      * Use folder icon instead of chevron
      */
-    useFolderIcon: {
+    hasFolderIcon: {
       type: Boolean,
       required: false,
       default: false
@@ -156,7 +156,7 @@ export default {
   computed: {
     categoryIcon () {
       return this.hasChildren
-        ? this.useFolderIcon
+        ? this.hasFolderIcon
           ? this.isExpanded
             ? ['fal', 'folder-open']
             : ['fal', 'folder']

@@ -193,7 +193,7 @@ export default {
         keyForLabel="label"
         :categories="categories"
         :checked-items="checkedCategories"
-        use-folder-icon
+        has-folder-icon
         @check="handleCheck"
     />
 </template>
