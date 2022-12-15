@@ -1,12 +1,10 @@
 <template>
   <li
     class="geo-tree-item"
-    @mouseover="isShowActionButton = true"
-    @mouseout="isShowActionButton = false"
   >
     <geo-list-item
       :class="{
-        'geo-tree-item--expanded': isExpanded,
+        'geo-tree-item--rotated-icon': hasToRotateIcon,
         'geo-tree-item--single': !hasChildren
       }"
       :icon="categoryIcon"
@@ -36,9 +34,12 @@
           </geo-tooltip>
         </span>
       </label>
-      <div slot="trailingAccessoryItem">
-        <span v-show="isShowActionButton">
-          <slot name="trailingAccessoryAction" />
+      <template slot="trailingAccessoryItem">
+        <span>
+          <slot
+            name="trailingAccessoryAction"
+            :item="category"
+          />
         </span>
         <input
           :id="category[keyForId]"
@@ -48,7 +49,7 @@
           @click.stop
           @input="handleCheck(category, $event.target.checked)"
         >
-      </div>
+      </template>
     </geo-list-item>
     <ul
       v-if="isExpanded"
@@ -64,10 +65,22 @@
         :key-for-subcategory="keyForSubcategory"
         :expanded-categories="expandedCategories"
         :checked-items="checkedItems"
+        :collapsed-icon="collapsedIcon"
+        :expanded-icon="expandedIcon"
         @check="handleCheckChild"
         @click="handleClick"
         @toggleExpand="toggleExpand"
-      />
+      >
+        <template
+          slot="trailingAccessoryAction"
+          slot-scope="{ item }"
+        >
+          <slot
+            name="trailingAccessoryAction"
+            :item="item"
+          />
+        </template>
+      </geo-tree-item>
     </ul>
   </li>
 </template>
@@ -128,6 +141,29 @@ export default {
     expandedCategories: {
       type: Object,
       required: true
+    },
+    /**
+     * Optional Font Awesome 5 icon to use as collapsed icon
+     *
+     * See [vue-fontawesome](https://www.npmjs.com/package/@fortawesome/vue-fontawesome#explicit-prefix-note-the-vue-bind-shorthand-because-this-uses-an-array)
+     * for more info about this.
+     */
+    collapsedIcon: {
+      type: Array,
+      required: true,
+      default: function () {
+        return ['fal', 'chevron-right']
+      }
+    },
+    /**
+     * Optional Font Awesome 5 icon to use as expanded icon
+     *
+     * See [vue-fontawesome](https://www.npmjs.com/package/@fortawesome/vue-fontawesome#explicit-prefix-note-the-vue-bind-shorthand-because-this-uses-an-array)
+     * for more info about this.
+     */
+    expandedIcon: {
+      type: Array,
+      required: false
     }
   },
   data () {
@@ -137,7 +173,11 @@ export default {
   },
   computed: {
     categoryIcon () {
-      return this.hasChildren ? ['fal', 'chevron-right'] : null
+      if (!this.hasChildren) return null
+
+      return this.isExpanded
+        ? this.expandedIcon || this.collapsedIcon
+        : this.collapsedIcon
     },
     isIndeterminate () {
       const isSomeChildSelected = category => {
@@ -172,6 +212,9 @@ export default {
     },
     hasChildren () {
       return this.totalCategoryChildren > 0
+    },
+    hasToRotateIcon () {
+      return this.isExpanded && !this.expandedIcon
     }
   },
   methods: {

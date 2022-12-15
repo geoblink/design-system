@@ -1,12 +1,20 @@
 # Changelog
 
+## 32.0.0
+New:
+- `GeoTree`: Add new prop `collapsedIcon` to use custom collapsed icon
+- `GeoTreeItem`: Add new prop `expandedIcon` to use custom expanded icon
 
-## 30.1.0
+Changed:
+- `GeoTree`: Slot `actionButton` now is always visible.
+- `GeoTreeItem`: Slot `trailingAccessoryAction` now is always visible, is set recursively to children and receive the category as prop.
+
+## 31.0.0
 Breaking:
-- `GeoTreeItem`: Renamed prop from `inital-expanded-categories` to `dynamic-expanded-categories`.
+- `GeoTree`: Renamed prop from `inital-expanded-categories` to `dynamic-expanded-categories`.
 
 Changed
-- `GeoTreeItem`: Fix visual issues and add send more params on click event
+- `GeoTree`: Fix visual issues and add send more params on click event
 ## 30.0.17
 Tests:
 - `GeoChartLabels`: Added tests for geo chart labels

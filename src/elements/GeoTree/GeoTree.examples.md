@@ -105,11 +105,15 @@ export default {
         :checked-items="checkedCategories"
         @check="handleCheck"
     >
-        <template v-slot:actionButton>
+        <template
+          slot="actionButton"
+          slot-scope="{ item }"
+        >
             <font-awesome-icon
               :icon="['far', 'lightbulb']"
               aria-hidden
               fixed-width
+              @click.stop="clickOnItem(item)"
             ></font-awesome-icon>
         </template>
     </geo-tree>  
@@ -126,6 +130,118 @@ export default {
           {
             id: 'fruits',
             label: 'Fruits',
+            subcategories: [  
+              {  
+                id: 'tropical-fruits',  
+                label: 'Tropical fruits',  
+                subcategories: [  
+                  { id: 'pineapple', label: 'Pineapple' },  
+                  { id: 'banana', label: 'Banana' },  
+                  { id: 'coconut',label: 'Coconut'},  
+                  { id: 'avocado', label: 'Avocado' }  
+                ]  
+              },  
+              {  
+                id: 'citrus-fruits',  
+                label: 'Citrus fruits',  
+                subcategories: [  
+                  { id: 'orange', label: 'Orange' },  
+                  { id: 'lime', label: 'Lime'},  
+                  { id: 'grapefruit', label: 'GrapeFruit' },  
+                  { id: 'mandarin',label: 'Mandarin'},  
+                  { id: 'pomelo', label: 'Pomelo' }  
+                ]  
+              },  
+              {  
+                id: 'sweet-fruits',  
+                label: 'Sweet',  
+                subcategories: [  
+                  {id: 'pear',label: 'Pear'},  
+                  {id: 'apple',label: 'Apple'},  
+                  {id: 'redGrapes',label: 'Red Grapes'}  
+                ]  
+              }  
+            ]
+          },
+          {
+            id: 'vegetables',
+            label: 'Vegetables',
+          },
+        ]
+    }
+  },
+  methods: {
+    handleCheck (categoryId, isChecked) {
+      this.$set(this.checkedCategories, categoryId, isChecked)
+    },
+
+    clickOnItem (item) {
+      console.log(item)
+    }
+  }
+}
+</script>
+```
+
+### Using custom icons
+
+```vue live
+<template>
+    <geo-tree
+        keyForId="id"
+        keyForSubcategory="subcategories"
+        keyForLabel="label"
+        :categories="categories"
+        :checked-items="checkedCategories"
+        :collapsed-icon="['fal', 'chevron-down']"
+        :expanded-icon="['fal', 'chevron-up']"
+        @check="handleCheck"
+    />
+</template>
+  
+<script>  
+export default {
+  name: 'GeoTreeDemo',
+  data () {
+    return {
+      checkedCategories: {},
+      categories: 
+        [  
+          {
+            id: 'fruits',
+            label: 'Fruits',
+            subcategories: [  
+              {  
+                id: 'tropical-fruits',  
+                label: 'Tropical fruits',  
+                subcategories: [  
+                  { id: 'pineapple', label: 'Pineapple' },  
+                  { id: 'banana', label: 'Banana' },  
+                  { id: 'coconut',label: 'Coconut'},  
+                  { id: 'avocado', label: 'Avocado' }  
+                ]  
+              },  
+              {  
+                id: 'citrus-fruits',  
+                label: 'Citrus fruits',  
+                subcategories: [  
+                  { id: 'orange', label: 'Orange' },  
+                  { id: 'lime', label: 'Lime'},  
+                  { id: 'grapefruit', label: 'GrapeFruit' },  
+                  { id: 'mandarin',label: 'Mandarin'},  
+                  { id: 'pomelo', label: 'Pomelo' }  
+                ]  
+              },  
+              {  
+                id: 'sweet-fruits',  
+                label: 'Sweet',  
+                subcategories: [  
+                  {id: 'pear',label: 'Pear'},  
+                  {id: 'apple',label: 'Apple'},  
+                  {id: 'redGrapes',label: 'Red Grapes'}  
+                ]  
+              }  
+            ]
           },
           {
             id: 'vegetables',
