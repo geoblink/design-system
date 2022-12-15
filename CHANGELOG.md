@@ -1,6 +1,6 @@
 # Changelog
 
-## 31.0.1
+## 32.0.0
 New:
 - `GeoTree`: Add new prop `collapsedIcon` to use custom collapsed icon
 - `GeoTreeItem`: Add new prop `expandedIcon` to use custom expanded icon
