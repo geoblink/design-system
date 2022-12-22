@@ -1,5 +1,8 @@
 # Changelog
 
+## 32.0.1
+Changed
+- `GeoDropdown`: Fix extending the screen and scroll issues when dropdown is at the end of the screen.
 ## 32.0.0
 New:
 - `GeoTree`: Add new prop `collapsedIcon` to use custom collapsed icon
