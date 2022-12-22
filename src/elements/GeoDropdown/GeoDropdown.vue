@@ -335,6 +335,10 @@ export default {
       const fitsBelow = popupRect.height < availableHeightBelow
       const fitsAbove = popupRect.height < availableHeightAbove
 
+      if (fitsAbove && (containerRect.top + availableHeightAbove > viewport.height)) {
+        this.verticalAxisConfig.top.translation = this.verticalAxisConfig.top.translation - (containerRect.bottom - viewport.height)
+        this.verticalAxisConfig.top.availableHeight = this.verticalAxisConfig.top.availableHeight - this.verticalAxisConfig.top.translation
+      }
       // We set the config for each possible position, if fits, preferred position
       // and fallback position
       const configTowardsLeft = {
