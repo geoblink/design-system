@@ -44,7 +44,12 @@ export default {
                             { id: 'mandarin',label: 'Mandarin'},  
                             { id: 'pomelo', label: 'Pomelo' }  
                         ]  
-                    },  
+                    },
+                    {  
+                        id: 'invented-fruits',  
+                        label: 'Invented fruits',  
+                        subcategories: []  
+                    }, 
                     {  
                         id: 'sweet-fruits',  
                         label: 'Sweet',  
@@ -53,7 +58,7 @@ export default {
                             {id: 'apple',label: 'Apple'},  
                             {id: 'redGrapes',label: 'Red Grapes'}  
                         ]  
-                    }  
+                    } 
                 ]  
             },  
             {  
