@@ -5,7 +5,7 @@
     <geo-list-item
       :class="{
         'geo-tree-item--rotated-icon': hasToRotateIcon,
-        'geo-tree-item--single': isSingle
+        'geo-tree-item--single': isSingleItem
       }"
       :icon="categoryIcon"
       @click="handleClick"
@@ -16,7 +16,7 @@
           :reference-string="category[keyForLabel]"
         />
         <span
-          v-if="!isSingle"
+          v-if="!isSingleItem"
           class="geo-tree-item__total-items"
         >
           ({{ totalCategoryChildren }})
@@ -174,7 +174,7 @@ export default {
   },
   computed: {
     categoryIcon () {
-      if (this.isSingle) return null
+      if (this.isSingleItem) return null
 
       return this.isExpanded
         ? this.expandedIcon || this.collapsedIcon
@@ -201,7 +201,7 @@ export default {
           return !!this.checkedItems[subCategory[this.keyForId]]
         })
       }
-      return !this.isSingle
+      return !this.isSingleItem
         ? allAreChildrenSelected(this.category)
         : !!this.checkedItems[this.category[this.keyForId]]
     },
@@ -213,14 +213,14 @@ export default {
     isExpanded () {
       return !!this.expandedCategories[this.category[this.keyForId]]
     },
-    isSingle () {
+    isSingleItem () {
       return _.isNil(this.category[this.keyForSubcategory])
     },
     hasToRotateIcon () {
       return this.isExpanded && !this.expandedIcon
     },
     isInputDisabled () {
-      return !this.isSingle && this.totalCategoryChildren === 0
+      return !this.isSingleItem && this.totalCategoryChildren === 0
     }
   },
   methods: {
@@ -228,7 +228,7 @@ export default {
      * On list item click
      */
     handleClick () {
-      if (this.isSingle) {
+      if (this.isSingleItem) {
         this.handleCheck(this.category, !this.isChecked)
       } else {
         this.toggleExpand(this.category)
