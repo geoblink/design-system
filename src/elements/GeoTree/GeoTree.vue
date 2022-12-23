@@ -202,14 +202,14 @@ export default {
         : this.sortedCategories
     }
   },
-  mounted () {
-    if (this.dynamicExpandedCategories) {
-      this.expandedCategories = _.assign({}, this.expandedCategories, this.dynamicExpandedCategories)
-    }
-  },
   watch: {
     dynamicExpandedCategories (newExpandedCategories) {
       this.expandedCategories = newExpandedCategories || {}
+    }
+  },
+  mounted () {
+    if (this.dynamicExpandedCategories) {
+      this.expandedCategories = _.assign({}, this.expandedCategories, this.dynamicExpandedCategories)
     }
   },
   methods: {
