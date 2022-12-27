@@ -1,5 +1,9 @@
 # Changelog
 
+## 32.0.1
+New:
+- `GeoTree` and `GeoTreeItem`: Add support for empty folders
+
 ## 32.0.0
 New:
 - `GeoTree`: Add new prop `collapsedIcon` to use custom collapsed icon

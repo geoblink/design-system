@@ -5,7 +5,7 @@
     <geo-list-item
       :class="{
         'geo-tree-item--rotated-icon': hasToRotateIcon,
-        'geo-tree-item--single': !hasChildren
+        'geo-tree-item--single': isSingleItem
       }"
       :icon="categoryIcon"
       @click="handleClick"
@@ -16,7 +16,7 @@
           :reference-string="category[keyForLabel]"
         />
         <span
-          v-if="hasChildren"
+          v-if="!isSingleItem"
           class="geo-tree-item__total-items"
         >
           ({{ totalCategoryChildren }})
@@ -45,6 +45,7 @@
           :id="category[keyForId]"
           :checked="isChecked"
           :indeterminate.prop="isIndeterminate"
+          :disabled="isInputDisabled"
           type="checkbox"
           @click.stop
           @input="handleCheck(category, $event.target.checked)"
@@ -173,7 +174,7 @@ export default {
   },
   computed: {
     categoryIcon () {
-      if (!this.hasChildren) return null
+      if (this.isSingleItem) return null
 
       return this.isExpanded
         ? this.expandedIcon || this.collapsedIcon
@@ -191,6 +192,8 @@ export default {
       return !this.isChecked && isSomeChildSelected(this.category)
     },
     isChecked () {
+      if (this.isInputDisabled) return false
+
       const allAreChildrenSelected = category => {
         return _.every(category[this.keyForSubcategory], subCategory => {
           if (subCategory[this.keyForSubcategory]) return allAreChildrenSelected(subCategory)
@@ -198,7 +201,7 @@ export default {
           return !!this.checkedItems[subCategory[this.keyForId]]
         })
       }
-      return this.hasChildren
+      return !this.isSingleItem
         ? allAreChildrenSelected(this.category)
         : !!this.checkedItems[this.category[this.keyForId]]
     },
@@ -210,11 +213,14 @@ export default {
     isExpanded () {
       return !!this.expandedCategories[this.category[this.keyForId]]
     },
-    hasChildren () {
-      return this.totalCategoryChildren > 0
+    isSingleItem () {
+      return _.isNil(this.category[this.keyForSubcategory])
     },
     hasToRotateIcon () {
       return this.isExpanded && !this.expandedIcon
+    },
+    isInputDisabled () {
+      return !this.isSingleItem && this.totalCategoryChildren === 0
     }
   },
   methods: {
@@ -222,7 +228,7 @@ export default {
      * On list item click
      */
     handleClick () {
-      if (!this.hasChildren) {
+      if (this.isSingleItem) {
         this.handleCheck(this.category, !this.isChecked)
       } else {
         this.toggleExpand(this.category)
