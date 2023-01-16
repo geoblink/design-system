@@ -50,9 +50,27 @@ export default {
                         label: 'Invented fruits',  
                         subcategories: [
                           {
-                            id: 'not_oranges',
+                            id: 'not-oranges',
                             label: 'Not oranges',
                             subcategories: []
+                          }
+                        ]  
+                    },
+                    {  
+                        id: 'epic-fruits',  
+                        label: 'Epic fruits',  
+                        subcategories: [
+                          {
+                            id: 'legendary-fruits',
+                            label: 'Legendary fruits',
+                            subcategories: []
+                          },
+                          {
+                            id: 'awesome-fruits',
+                            label: 'Awesome fruits',
+                            subcategories: [
+                              { id: 'sweet-melon', label: 'Sweet melon' }
+                            ]
                           }
                         ]  
                     }, 

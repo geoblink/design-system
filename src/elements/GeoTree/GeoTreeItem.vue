@@ -195,7 +195,8 @@ export default {
       if (this.isInputDisabled) return false
 
       const allAreChildrenSelected = category => {
-        return _.every(category[this.keyForSubcategory], subCategory => {
+        const selectableChildren = this.getSelectableChildrenForCategory(category)
+        return _.every(selectableChildren, subCategory => {
           if (_.size(subCategory[this.keyForSubcategory])) return allAreChildrenSelected(subCategory)
 
           return !!this.checkedItems[subCategory[this.keyForId]]
@@ -212,7 +213,7 @@ export default {
     },
     totalSelectableCategoryChildren () {
       const sumOfSelectableChildren = category => {
-        const selectableChildren = _.reject(category[this.keyForSubcategory], subCategory => subCategory[this.keyForSubcategory] && !_.size(subCategory[this.keyForSubcategory]))
+        const selectableChildren = this.getSelectableChildrenForCategory(category)
         return _.size(selectableChildren) + _.sumBy(category[this.keyForSubcategory], sumOfSelectableChildren)
       }
 
@@ -249,7 +250,7 @@ export default {
      * To check all items of a category
      */
     handleCheck (category, isChecked) {
-      if (_.size(category[this.keyForSubcategory])) {
+      if (category[this.keyForSubcategory]) {
         _.forEach(category[this.keyForSubcategory], (innerCategory) => {
           this.handleCheck(innerCategory, isChecked)
         })
@@ -259,6 +260,9 @@ export default {
     },
     toggleExpand (category) {
       this.$emit('toggleExpand', category)
+    },
+    getSelectableChildrenForCategory (category) {
+      return _.reject(category[this.keyForSubcategory], subCategory => subCategory[this.keyForSubcategory] && !_.size(subCategory[this.keyForSubcategory]))
     }
   }
 }
