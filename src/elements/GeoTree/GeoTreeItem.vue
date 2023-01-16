@@ -196,7 +196,7 @@ export default {
 
       const allAreChildrenSelected = category => {
         return _.every(category[this.keyForSubcategory], subCategory => {
-          if (subCategory[this.keyForSubcategory]) return allAreChildrenSelected(subCategory)
+          if (_.size(subCategory[this.keyForSubcategory])) return allAreChildrenSelected(subCategory)
 
           return !!this.checkedItems[subCategory[this.keyForId]]
         })
@@ -210,6 +210,14 @@ export default {
 
       return sumOfChildren(this.category)
     },
+    totalSelectableCategoryChildren () {
+      const sumOfSelectableChildren = category => {
+        const selectableChildren = _.reject(category[this.keyForSubcategory], subCategory => subCategory[this.keyForSubcategory] && !_.size(subCategory[this.keyForSubcategory]))
+        return _.size(selectableChildren) + _.sumBy(category[this.keyForSubcategory], sumOfSelectableChildren)
+      }
+
+      return sumOfSelectableChildren(this.category)
+    },
     isExpanded () {
       return !!this.expandedCategories[this.category[this.keyForId]]
     },
@@ -220,7 +228,7 @@ export default {
       return this.isExpanded && !this.expandedIcon
     },
     isInputDisabled () {
-      return !this.isSingleItem && this.totalCategoryChildren === 0
+      return !this.isSingleItem && this.totalSelectableCategoryChildren === 0
     }
   },
   methods: {
