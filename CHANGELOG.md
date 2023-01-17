@@ -1,5 +1,9 @@
 # Changelog
 
+## 32.0.2
+Fix:
+- `GeoTree` and `GeoTreeItem`: Fix empty folders input state
+
 ## 32.0.1
 New:
 - `GeoTree` and `GeoTreeItem`: Add support for empty folders
