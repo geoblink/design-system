@@ -267,7 +267,8 @@ export default {
 
       function getSelectableChildrenRecursively (currentCategory) {
         return _.reject(currentCategory[keyForSubcategory], subCategory => {
-          return subCategory[keyForSubcategory] && !_.size(getSelectableChildrenRecursively(subCategory))
+          return subCategory[keyForSubcategory] &&
+            (!_.size(subCategory[keyForSubcategory]) || !_.size(getSelectableChildrenRecursively(subCategory)))
         })
       }
     }
