@@ -10,7 +10,7 @@
       :icon="categoryIcon"
       @click="handleClick"
     >
-      <label>
+      <label class="geo-tree-item__label">
         <geo-highlighted-string
           :highlighted-chars="category.matches"
           :reference-string="category[keyForLabel]"
@@ -262,7 +262,15 @@ export default {
       this.$emit('toggleExpand', category)
     },
     getSelectableChildrenForCategory (category) {
-      return _.reject(category[this.keyForSubcategory], subCategory => subCategory[this.keyForSubcategory] && !_.size(subCategory[this.keyForSubcategory]))
+      const keyForSubcategory = this.keyForSubcategory
+      return getSelectableChildrenRecursively(category)
+
+      function getSelectableChildrenRecursively (currentCategory) {
+        return _.reject(currentCategory[keyForSubcategory], subCategory => {
+          return subCategory[keyForSubcategory] &&
+            (!_.size(subCategory[keyForSubcategory]) || !_.size(getSelectableChildrenRecursively(subCategory)))
+        })
+      }
     }
   }
 }

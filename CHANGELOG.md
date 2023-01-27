@@ -1,5 +1,9 @@
 # Changelog
 
+## 32.0.3
+Fix:
+- `GeoTree` and `GeoTreeItem`: Fix empty folders input state with nested subfolders and long names
+
 ## 32.0.2
 Fix:
 - `GeoTree` and `GeoTreeItem`: Fix empty folders input state
