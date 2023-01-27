@@ -10,7 +10,7 @@
       :icon="categoryIcon"
       @click="handleClick"
     >
-      <label>
+      <label class="geo-tree-item__label">
         <geo-highlighted-string
           :highlighted-chars="category.matches"
           :reference-string="category[keyForLabel]"
