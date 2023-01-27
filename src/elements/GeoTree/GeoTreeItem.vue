@@ -262,7 +262,14 @@ export default {
       this.$emit('toggleExpand', category)
     },
     getSelectableChildrenForCategory (category) {
-      return _.reject(category[this.keyForSubcategory], subCategory => subCategory[this.keyForSubcategory] && !_.size(subCategory[this.keyForSubcategory]))
+      const keyForSubcategory = this.keyForSubcategory
+      return getSelectableChildrenRecursively(category)
+
+      function getSelectableChildrenRecursively (currentCategory) {
+        return _.reject(currentCategory[keyForSubcategory], subCategory => {
+          return subCategory[keyForSubcategory] && !_.size(getSelectableChildrenRecursively(subCategory))
+        })
+      }
     }
   }
 }
