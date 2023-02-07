@@ -122,7 +122,7 @@ export default {
       default: 'subcategory'
     },
     /**
-    * Used determine if you can search or not
+    * Used to determine if you can search or not
     */
     searchable: {
       type: Boolean,
@@ -181,6 +181,21 @@ export default {
     expandedIcon: {
       type: Array,
       required: false
+    },
+    /**
+    * Optional array of properties to use for sorting categories
+    */
+    sortingProps: {
+      type: Array,
+      required: false
+    },
+    /**
+     * Optional direction to sort categories
+     */
+    sortingDirection: {
+      type: String,
+      required: false,
+      default: 'asc'
     }
   },
   data () {
@@ -242,14 +257,15 @@ export default {
       }
     },
     sortCategories (categories) {
-      return _.sortBy(
+      const sortingProps = this.sortingProps || [this.keyForLabel]
+      return _.orderBy(
         _.map(categories, category =>
           category[this.keyForSubcategory]
             ? _.assign({}, category, {
               [this.keyForSubcategory]: this.sortCategories(category[this.keyForSubcategory])
             })
             : category
-        ), this.keyForLabel)
+        ), sortingProps, this.sortingDirection)
     },
     handleToggleExpand (clickedCategory) {
       const isExpanded = !!this.expandedCategories[clickedCategory[this.keyForId]]
