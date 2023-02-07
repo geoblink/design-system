@@ -7,11 +7,9 @@
   cursor: pointer;
   display: flex;
   gap: 2px;
-  .highlighted-string__container {
-    flex-shrink: 1;
+  .geo-trimmed-content {
     min-width: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    width: auto;
   }
 }
 
