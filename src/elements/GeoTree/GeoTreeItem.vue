@@ -68,6 +68,7 @@
         :checked-items="checkedItems"
         :collapsed-icon="collapsedIcon"
         :expanded-icon="expandedIcon"
+        :description-icon="descriptionIcon"
         @check="handleCheckChild"
         @click="handleClick"
         @toggleExpand="toggleExpand"
