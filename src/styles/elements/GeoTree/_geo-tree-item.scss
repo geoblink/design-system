@@ -7,6 +7,13 @@
   cursor: pointer;
   display: flex;
   gap: 2px;
+  .geo-marquee {
+    min-width: 0;
+    width: auto;
+  }
+  .geo-marquee__text-content {
+    padding-right: 2px;
+  }
 }
 
 .geo-tree-item__list {
