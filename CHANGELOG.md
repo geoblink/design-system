@@ -2,7 +2,7 @@
 
 ## 32.0.4
 Fix:
-- `GeoTree` and `GeoTreeItem`: Fix description in subcategories, allow custom sorting and added trimmed content to items labels
+- `GeoTree` and `GeoTreeItem`: Fix description in subcategories, allow custom sorting and wrap text in overflowing labels
 ## 32.0.3
 Fix:
 - `GeoTree` and `GeoTreeItem`: Fix empty folders input state with nested subfolders and long names
