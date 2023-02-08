@@ -11,12 +11,12 @@
       @click="handleClick"
     >
       <label class="geo-tree-item__label">
-        <geo-trimmed-content>
+        <geo-marquee>
           <geo-highlighted-string
             :highlighted-chars="category.matches"
             :reference-string="category[keyForLabel]"
           />
-        </geo-trimmed-content>
+        </geo-marquee>
         <span
           v-if="!isSingleItem"
           class="geo-tree-item__total-items"
