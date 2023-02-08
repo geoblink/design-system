@@ -3,15 +3,8 @@
 }
 
 .geo-tree-item__label {
-  align-items: center;
-  cursor: pointer;
-  display: flex;
-  gap: 2px;
   .highlighted-string__container {
-    flex-shrink: 1;
-    min-width: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    white-space: normal;
   }
 }
 
