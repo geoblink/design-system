@@ -1,8 +1,12 @@
 # Changelog
 
 ## 33.0.0
+Breaking:
+- `GeoTree` and `GeoTreeItem`: Change `check` event for `check-item`
+
 New:
-- `GeoTree` and `GeoTreeItem`: Change event names and add support for folder events
+- `GeoTree` and `GeoTreeItem`: Add `check-folder` event
+
 ## 32.0.4
 Fix:
 - `GeoTree` and `GeoTreeItem`: Fix description in subcategories, allow custom sorting and wrap text in overflowing labels
