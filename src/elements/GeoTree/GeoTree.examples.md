@@ -1,4 +1,4 @@
-### Basic example
+### Basic example (item and folder events)
 
 ```vue live
 <template>
@@ -8,7 +8,7 @@
         key-for-label="label"
         :categories="categories"
         :checked-items="checkedCategories"
-        @check="handleCheck"
+        @check-item="handleCheckItem"
     ></geo-tree>  
 </template>
   
@@ -114,8 +114,11 @@ export default {
     }
   },
   methods: {
-    handleCheck (categoryId, isChecked) {
+    handleCheckItem (categoryId, isChecked, isDelegated) {
       this.$set(this.checkedCategories, categoryId, isChecked)
+    },
+    handleCheckFolder (categoryId, isChecked, isDelegated) {
+      // Use this event if you want to manually handle folders
     }
   }
 }
@@ -132,7 +135,7 @@ export default {
         keyForLabel="label"
         :categories="categories"
         :checked-items="checkedCategories"
-        @check="handleCheck"
+        @check-item="handleCheckItem"
     >
         <template
           slot="actionButton"
@@ -200,7 +203,7 @@ export default {
     }
   },
   methods: {
-    handleCheck (categoryId, isChecked) {
+    handleCheckItem (categoryId, isChecked) {
       this.$set(this.checkedCategories, categoryId, isChecked)
     },
 
@@ -224,7 +227,7 @@ export default {
         :checked-items="checkedCategories"
         :collapsed-icon="['fal', 'chevron-down']"
         :expanded-icon="['fal', 'chevron-up']"
-        @check="handleCheck"
+        @check-item="handleCheckItem"
     />
 </template>
   
@@ -280,7 +283,7 @@ export default {
     }
   },
   methods: {
-    handleCheck (categoryId, isChecked) {
+    handleCheckItem (categoryId, isChecked, isDelegated) {
         this.$set(this.checkedCategories, categoryId, isChecked)
     }
   }
@@ -299,7 +302,7 @@ export default {
         :categories="categories"
         :checked-items="checkedCategories"
         :description-icon="['far', 'lightbulb']"
-        @check="handleCheck"
+        @check-item="handleCheckItem"
     >
     </geo-tree>  
 </template>
@@ -325,7 +328,7 @@ export default {
     }
   },
   methods: {
-    handleCheck (categoryId, isChecked) {
+    handleCheckItem (categoryId, isChecked, isDelegated) {
         this.$set(this.checkedCategories, categoryId, isChecked)
     }
   }
@@ -346,7 +349,7 @@ export default {
         key-for-label="label"
         :categories="categories"
         :checked-items="checkedCategories"
-        @check="handleCheck"
+        @check-item="handleCheckItem"
     ></geo-tree>  
 </template>
   
@@ -421,7 +424,7 @@ export default {
     }
   },
   methods: {
-    handleCheck (categoryId, isChecked) {
+    handleCheckItem (categoryId, isChecked, isDelegated) {
         this.$set(this.checkedCategories, categoryId, isChecked)
     }
   }
@@ -440,7 +443,7 @@ export default {
         :categories="categories"
         :checked-items="checkedCategories"
         :dynamic-expanded-categories="dynamicExpandedCategories"
-        @check="handleCheck"
+        @check-item="handleCheckItem"
     ></geo-tree>
 </template>
   
@@ -519,7 +522,7 @@ export default {
     }
   },
   methods: {
-    handleCheck (categoryId, isChecked) {
+    handleCheckItem (categoryId, isChecked, isDelegated) {
         this.$set(this.checkedCategories, categoryId, isChecked)
     }
   }
