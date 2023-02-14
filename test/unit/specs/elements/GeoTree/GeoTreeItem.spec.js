@@ -3,6 +3,9 @@ import { shallowMount } from '@vue/test-utils'
 import GeoTreeItem from '@/elements/GeoTree/GeoTreeItem.vue'
 import GeoListItem from '@/elements/GeoList/GeoListItem.vue'
 
+const CHECK_ITEM_EVENT = 'check-item'
+const CHECK_FOLDER_EVENT = 'check-folder'
+
 const CATEGORY = {
   id: 'fruits',
   label: 'Fruits',
@@ -26,6 +29,14 @@ const CATEGORY = {
         {
           id: 'avocado',
           label: 'Avocado'
+        },
+        {
+          id: 'invented-fruits',
+          label: 'Invented fruits',
+          subcategories: [{
+            id: 'epic-tasty-invented-fruit',
+            label: 'Epic tasty invented fruit'
+          }]
         }
       ]
     }
@@ -59,7 +70,7 @@ describe('GeoTreeItem', () => {
     const wrapper = getWrapper()
 
     expect(wrapper.find('.geo-tree-item__total-items').exists()).toBe(true)
-    expect(wrapper.find('.geo-tree-item__total-items').text()).toBe(`(${5})`)
+    expect(wrapper.find('.geo-tree-item__total-items').text()).toBe(`(${7})`)
   })
 
   it('should render a list of subcategories on category click (it it has subcategories)', async () => {
@@ -121,24 +132,31 @@ describe('GeoTreeItem check behaviour', () => {
     itemToCheck.setChecked()
     await itemToCheck.trigger('input')
 
-    expect(wrapper.emitted().check.length).toBe(1)
-    expect(wrapper.emitted().check[0]).toEqual([{ id: 'avocado', label: 'Avocado' }, true])
+    expect(wrapper.emitted()[CHECK_ITEM_EVENT].length).toBe(1)
+    expect(wrapper.emitted()[CHECK_ITEM_EVENT][0]).toEqual([{ id: 'avocado', label: 'Avocado' }, true, false])
   })
 
-  it('should emit all children nodes as check when a category with children nodes is checked', async () => {
+  it('should emit category event all children nodes as check when a category with children nodes is checked', async () => {
     const wrapper = getWrapper()
 
     const itemToCheck = wrapper.find('#tropical-fruits')
     itemToCheck.setChecked()
     await itemToCheck.trigger('input')
 
-    expect(wrapper.emitted().check.length).toBe(4)
+    const tropicalFruits = _.find(CATEGORY.subcategories, { id: 'tropical-fruits' })
+    const subcategoryFolder = _.last(tropicalFruits.subcategories)
 
-    const subcategoriesToCheck = _.find(CATEGORY.subcategories, { id: 'tropical-fruits' })
+    expect(wrapper.emitted()[CHECK_FOLDER_EVENT].length).toBe(2)
+    expect(wrapper.emitted()[CHECK_FOLDER_EVENT][0]).toEqual([{ id: tropicalFruits.id, label: tropicalFruits.label }, true, false])
+    expect(wrapper.emitted()[CHECK_FOLDER_EVENT][1]).toEqual([{ id: subcategoryFolder.id, label: subcategoryFolder.label }, true, true])
+    expect(wrapper.emitted()[CHECK_ITEM_EVENT].length).toBe(5)
 
-    _.forEach(subcategoriesToCheck.subcategories, (subcategory, index) => {
-      expect(wrapper.emitted().check[index]).toEqual([{ id: subcategory.id, label: subcategory.label }, true])
+    const subcategoriesToCheck = _.slice(tropicalFruits.subcategories, 0, -1)
+
+    _.forEach(subcategoriesToCheck, (subcategory, index) => {
+      expect(wrapper.emitted()[CHECK_ITEM_EVENT][index]).toEqual([{ id: subcategory.id, label: subcategory.label }, true, true])
     })
+    expect(wrapper.emitted()[CHECK_ITEM_EVENT][4]).toEqual([{ id: 'epic-tasty-invented-fruit', label: 'Epic tasty invented fruit' }, true, true])
   })
 
   it('should mark as check all items passed in checkedItems prop', () => {
@@ -163,12 +181,12 @@ describe('GeoTreeItem check behaviour', () => {
     itemToCheck2.setChecked(false)
     await itemToCheck2.trigger('input')
 
-    expect(wrapper.emitted().check.length).toBe(2)
-    expect(wrapper.emitted().check[0]).toEqual([{ id: 'pineapple', label: 'Pineapple' }, false])
-    expect(wrapper.emitted().check[1]).toEqual([{ id: 'coconut', label: 'Coconut' }, false])
+    expect(wrapper.emitted()[CHECK_ITEM_EVENT].length).toBe(2)
+    expect(wrapper.emitted()[CHECK_ITEM_EVENT][0]).toEqual([{ id: 'pineapple', label: 'Pineapple' }, false, false])
+    expect(wrapper.emitted()[CHECK_ITEM_EVENT][1]).toEqual([{ id: 'coconut', label: 'Coconut' }, false, false])
   })
 
-  it('should emit as uncheck all pre checked items on parent node checking', async () => {
+  it('should emit as uncheck all pre checked items and parent on parent node checking', async () => {
     const wrapper = getWrapper({
       checkedItems: { pineapple: true, coconut: true, avocado: true, banana: true }
     })
@@ -177,9 +195,15 @@ describe('GeoTreeItem check behaviour', () => {
     itemToCheck.setChecked(false)
     await itemToCheck.trigger('input')
 
-    const subcategoriesToCheck = _.find(CATEGORY.subcategories, { id: 'tropical-fruits' })
-    _.forEach(subcategoriesToCheck.subcategories, (subcategory, index) => {
-      expect(wrapper.emitted().check[index]).toEqual([{ id: subcategory.id, label: subcategory.label }, false])
+    const tropicalFruits = _.find(CATEGORY.subcategories, { id: 'tropical-fruits' })
+    const subcategoryFolder = _.last(tropicalFruits.subcategories)
+    expect(wrapper.emitted()[CHECK_FOLDER_EVENT].length).toBe(2)
+    expect(wrapper.emitted()[CHECK_FOLDER_EVENT][0]).toEqual([{ id: tropicalFruits.id, label: tropicalFruits.label }, false, false])
+    expect(wrapper.emitted()[CHECK_FOLDER_EVENT][1]).toEqual([{ id: subcategoryFolder.id, label: subcategoryFolder.label }, false, true])
+
+    const subcategoriesToCheck = _.slice(tropicalFruits.subcategories, 0, -1)
+    _.forEach(subcategoriesToCheck, (subcategory, index) => {
+      expect(wrapper.emitted()[CHECK_ITEM_EVENT][index]).toEqual([{ id: subcategory.id, label: subcategory.label }, false, true])
     })
   })
 

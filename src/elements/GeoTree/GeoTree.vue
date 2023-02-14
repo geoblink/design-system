@@ -32,7 +32,8 @@
           :description-icon="descriptionIcon"
           :collapsed-icon="collapsedIcon"
           :expanded-icon="expandedIcon"
-          @check="handleCheckItem"
+          @check-item="handleCheckItem"
+          @check-folder="handleCheckFolder"
           @toggleExpand="handleToggleExpand"
         >
           <template
@@ -228,8 +229,11 @@ export default {
     }
   },
   methods: {
-    handleCheckItem (category, isChecked) {
-      this.$emit('check', category[this.keyForId], isChecked, category)
+    handleCheckItem (category, isChecked, isDelegated) {
+      this.$emit('check-item', category[this.keyForId], isChecked, category, isDelegated)
+    },
+    handleCheckFolder (category, isChecked, isDelegated) {
+      this.$emit('check-folder', category[this.keyForId], isChecked, category, isDelegated)
     },
     filterCategories (categories, query, isAnyAncestorMatching) {
       return _.reduce(categories, (carry, category) => {

@@ -69,7 +69,8 @@
         :collapsed-icon="collapsedIcon"
         :expanded-icon="expandedIcon"
         :description-icon="descriptionIcon"
-        @check="handleCheckChild"
+        @check-item="handleCheckChildItem"
+        @check-folder="handleCheckChildFolder"
         @click="handleClick"
         @toggleExpand="toggleExpand"
       >
@@ -244,19 +245,25 @@ export default {
         this.toggleExpand(this.category)
       }
     },
-    handleCheckChild (category, isChecked) {
-      this.$emit('check', category, isChecked)
+    handleCheckChildItem (category, isChecked, isDelegated) {
+      this.$emit('check-item', category, isChecked, isDelegated)
+    },
+    handleCheckChildFolder (category, isChecked, isDelegated) {
+      this.$emit('check-folder', category, isChecked, isDelegated)
     },
     /**
      * To check all items of a category
      */
-    handleCheck (category, isChecked) {
+    handleCheck (category, isChecked, isDelegated = false) {
       if (category[this.keyForSubcategory]) {
+        if (_.size(category[this.keyForSubcategory])) { // We don't want to emit event for empty folders
+          this.$emit('check-folder', _.omit(category, this.keyForSubcategory), isChecked, isDelegated)
+        }
         _.forEach(category[this.keyForSubcategory], (innerCategory) => {
-          this.handleCheck(innerCategory, isChecked)
+          this.handleCheck(innerCategory, isChecked, true)
         })
       } else {
-        this.$emit('check', category, isChecked)
+        this.$emit('check-item', category, isChecked, isDelegated)
       }
     },
     toggleExpand (category) {
