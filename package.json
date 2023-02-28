@@ -1,6 +1,6 @@
 {
   "name": "@geoblink/design-system",
-  "version": "33.1.0-beta.0",
+  "version": "33.1.0-beta.2",
   "description": "Geoblink Design System for Vue.js",
   "author": "Geoblink <contact@geoblink.com>",
   "main": "dist/system.js",
@@ -67,7 +67,7 @@
     "markdown-it": "^8.4.2",
     "vue": "^2.5.22",
     "vue-directive-tooltip": "^1.4.5",
-    "vuedraggable": "^2.24.3"
+    "vuedraggable": "2.23.2"
   },
   "devDependencies": {
     "@babel/cli": "^7.5.5",
@@ -168,7 +168,7 @@
     "vue-loader": "^15.7.1",
     "vue-style-loader": "^4.1.2",
     "vue-template-compiler": "^2.5.22",
-    "vuedraggable": "^2.24.3",
+    "vuedraggable": "2.23.2",
     "vuepress": "^1.9.7",
     "vuepress-plugin-live": "^1.4.0",
     "webfontloader": "^1.6.28",
