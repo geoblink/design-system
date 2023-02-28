@@ -186,7 +186,7 @@ export default {
     },
     /**
      * Group name in case you want to support drag elements
-     * 
+     *
      * See [vuedraggable](https://www.npmjs.com/package/vuedraggable)
      * for more info about this.
      */
