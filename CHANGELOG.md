@@ -1,5 +1,8 @@
 # Changelog
 
+## 33.1.0
+New:
+- `GeoTree` and `GeoTreeItem`: Add support for drag-start and drag-end events
 ## 33.0.0
 Breaking:
 - `GeoTree` and `GeoTreeItem`: Change `check` event for `check-item`

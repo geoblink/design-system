@@ -20,32 +20,44 @@
         v-else
         class="geo-tree__list"
       >
-        <geo-tree-item
-          v-for="category in filteredCategories"
-          :key="category[keyForId]"
-          :category="category"
-          :key-for-id="keyForId"
-          :key-for-label="keyForLabel"
-          :checked-items="checkedItems"
-          :expanded-categories="expandedCategories"
-          :key-for-subcategory="keyForSubcategory"
-          :description-icon="descriptionIcon"
-          :collapsed-icon="collapsedIcon"
-          :expanded-icon="expandedIcon"
-          @check-item="handleCheckItem"
-          @check-folder="handleCheckFolder"
-          @toggleExpand="handleToggleExpand"
+        <draggable
+          :list="filteredCategories"
+          :group="{ name: groupName, put: false, pull: 'clone' }"
+          :sort="false"
+          :disabled="!groupName"
+          @start="startDrag($event)"
+          @end="endDrag($event)"
         >
-          <template
-            slot="trailingAccessoryAction"
-            slot-scope="{ item }"
+          <geo-tree-item
+            v-for="category in filteredCategories"
+            :key="category[keyForId]"
+            :category="category"
+            :key-for-id="keyForId"
+            :key-for-label="keyForLabel"
+            :checked-items="checkedItems"
+            :expanded-categories="expandedCategories"
+            :key-for-subcategory="keyForSubcategory"
+            :description-icon="descriptionIcon"
+            :collapsed-icon="collapsedIcon"
+            :expanded-icon="expandedIcon"
+            :group-name="groupName"
+            @check-item="handleCheckItem"
+            @check-folder="handleCheckFolder"
+            @toggleExpand="handleToggleExpand"
+            @start-drag="startDrag($event)"
+            @end-drag="endDrag($event)"
           >
-            <slot
-              name="actionButton"
-              :item="item"
-            />
-          </template>
-        </geo-tree-item>
+            <template
+              slot="trailingAccessoryAction"
+              slot-scope="{ item }"
+            >
+              <slot
+                name="actionButton"
+                :item="item"
+              />
+            </template>
+          </geo-tree-item>
+        </draggable>
       </ul>
     </geo-scrollable-container>
   </div>
@@ -54,11 +66,15 @@
 <script>
 import _ from 'lodash'
 import fuzzAldrin from 'fuzzaldrin-plus'
+import Draggable from 'vuedraggable'
 
 export default {
   name: 'GeoTree',
   status: 'ready',
   release: '29.9.0',
+  components: {
+    Draggable
+  },
   props: {
     /**
     * Text to display as placeholder of the search input
@@ -197,6 +213,16 @@ export default {
       type: String,
       required: false,
       default: 'asc'
+    },
+    /**
+     * Group name in case you want to support drag elements
+     * 
+     * See [vuedraggable](https://www.npmjs.com/package/vuedraggable)
+     * for more info about this.
+     */
+    groupName: {
+      type: String,
+      required: false
     }
   },
   data () {
@@ -275,6 +301,12 @@ export default {
       const isExpanded = !!this.expandedCategories[clickedCategory[this.keyForId]]
 
       this.$set(this.expandedCategories, clickedCategory[this.keyForId], !isExpanded)
+    },
+    startDrag ($event) {
+      this.$emit('start-drag', $event)
+    },
+    endDrag ($event) {
+      this.$emit('end-drag', $event)
     }
   }
 }
