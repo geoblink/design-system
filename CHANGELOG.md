@@ -1,5 +1,10 @@
 # Changelog
 
+## 34.0.0
+Breaking:
+- Support up to nodejs 18
+- Earlier nodejs versions will still be supported for users of this package but for developing it we need to have nodejs 17 or newer. That's because we use vuepress 1.X which uses webpack 4 which doesn't work with nodejs 17 or newer without the `NODE_OPTIONS=--openssl-legacy-provider` flag. By adding this flag to our build scripts we limit the developers to use nodejs >= 17 since this flag was introduced in version 17.
+
 ## 33.0.0
 Breaking:
 - `GeoTree` and `GeoTreeItem`: Change `check` event for `check-item`
