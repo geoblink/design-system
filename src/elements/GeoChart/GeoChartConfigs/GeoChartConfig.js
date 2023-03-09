@@ -655,7 +655,7 @@ export const lineConfigSchema = {
     groupKey: {
       type: 'string'
     },
-    isInteractiveOnHover: {
+    isInteractive: {
       type: 'boolean'
     }
   }

@@ -2,7 +2,7 @@
 
 ## 33.0.1
 New:
-- `GeoLineChart`: Add isInteractiveOnHover property to chart config to allow to disable interactions with line groups
+- `GeoLineChart`: Add isInteractive property to chart config to allow to disable interactions with line groups
 ## 33.0.0
 Breaking:
 - `GeoTree` and `GeoTreeItem`: Change `check` event for `check-item`

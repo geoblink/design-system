@@ -10,6 +10,6 @@ declare namespace GeoChart {
     }
     cssClasses?: (defaultClasses: string[], item: object, index: number) => string[]
     groupKey?: string,
-    isInteractiveOnHover?: boolean
+    isInteractive?: boolean
   }
 }

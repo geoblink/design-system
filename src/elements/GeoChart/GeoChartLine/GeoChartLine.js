@@ -75,7 +75,7 @@ const FOCUS_GROUP_DEFAULT_CLASS = 'hover-overlay__focus'
 const DEFAULT_HOVER_CIRCLE_RADIUS = 4
 const DEFAULT_LINE_WIDTH = 2
 const DEFAULT_INTERPOLATION_FUNCTION = INTERPOLATION_TYPES.curveLinear
-const DEFAULT_INTERACTIVE_ON_HOVER = true
+const DEFAULT_INTERACTIVE = true
 /**
  * @template GElement
  * @template Datum
@@ -174,7 +174,7 @@ function renderSingleGroup (d3Instance, d3TipInstance, group, singleGroupOptions
     : invertFunctionFactory(axisForMainDimension)
 
   const focusGroup = d3Instance.selectAll(`g.${FOCUS_GROUP_DEFAULT_CLASS}`)
-  if (_.defaultTo(singleGroupOptions.isInteractiveOnHover, DEFAULT_INTERACTIVE_ON_HOVER)) {
+  if (_.defaultTo(singleGroupOptions.isInteractive, DEFAULT_INTERACTIVE)) {
     d3Instance
       .on('mouseover', () => focusGroup.classed('focus-group--hidden', false))
       .on('mouseout', () => focusGroup.classed('focus-group--hidden', true))
