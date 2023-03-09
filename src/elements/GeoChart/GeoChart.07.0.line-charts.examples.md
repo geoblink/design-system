@@ -34,6 +34,8 @@ interpolation of the segments connecting each one of your data points. Defaults
 to `d3.curveLinear`.
 - `trackByKey` - define this function to let D3 know which property of your data
 will be used to track changes in it.
+- `isInteractiveOnHover` - set this flag to false to disable interactions when
+hovering the mouse over a line group, defaults to true.
 
 ### Tooltips
 

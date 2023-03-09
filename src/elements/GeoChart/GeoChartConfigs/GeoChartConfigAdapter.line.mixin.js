@@ -26,6 +26,10 @@ export default {
           console.warn(`GeoChart [component] :: Attempted to use a non-function as line chart tooltip content (used «${singleLineGroupsConfig.tooltip}»)`)
         }
 
+        if (singleLineGroupsConfig.tooltip && !singleLineGroupsConfig.isInteractiveOnHover) {
+          console.warn('GeoChart [component] :: Attempted to use a tooltip on a non interactive line group')
+        }
+
         const tooltipConfig = singleLineGroupsConfig.tooltip
           ? {
             getContent: singleLineGroupsConfig.tooltip.content,
@@ -43,7 +47,8 @@ export default {
           mainDimension: singleLineGroupsConfig.mainDimension,
           tooltip: tooltipConfig,
           cssClasses: singleLineGroupsConfig.cssClasses,
-          groupKey: singleLineGroupsConfig.groupKey
+          groupKey: singleLineGroupsConfig.groupKey,
+          isInteractiveOnHover: singleLineGroupsConfig.isInteractiveOnHover
         }
       })
       ChartLine.render(this.d3Instance, this.d3TipInstance, lineGroupsConfig, { chart })
