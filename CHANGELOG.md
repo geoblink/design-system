@@ -1,8 +1,9 @@
 # Changelog
 
-## 33.1.0
+## 33.0.1
 New:
-- `GeoTree` and `GeoTreeItem`: Add support for drag-start and drag-end events
+- `GeoLineChart`: Add isInteractive property to chart config to allow to disable interactions with line groups
+
 ## 33.0.0
 Breaking:
 - `GeoTree` and `GeoTreeItem`: Change `check` event for `check-item`
