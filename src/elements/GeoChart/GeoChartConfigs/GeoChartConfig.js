@@ -654,6 +654,9 @@ export const lineConfigSchema = {
     // changes correctly
     groupKey: {
       type: 'string'
+    },
+    isInteractive: {
+      type: 'boolean'
     }
   }
 }
