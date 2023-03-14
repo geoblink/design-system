@@ -58,15 +58,20 @@
     >
       <draggable
         :list="category[keyForSubcategory]"
-        :group="{ name: groupName, put: false, pull: 'clone' }"
+        :group="group"
         :sort="false"
-        :disabled="!groupName"
+        :disabled="!group"
+        :filter="`.${dragClassToIgnore}`"
+        drag-class="geo-tree__dragger"
+        ghost-class="geo-tree__ghost"
         @start="startDrag($event)"
         @end="endDrag($event)"
+        @change="changeDrag($event, category[keyForSubcategory])"
       >
         <geo-tree-item
           v-for="subcategory in category[keyForSubcategory]"
           :key="subcategory[keyForId]"
+          :class="dragClassToIgnore"
           :data-test="`subcategory-${subcategory[keyForId]}`"
           :category="subcategory"
           :key-for-id="keyForId"
@@ -77,13 +82,14 @@
           :collapsed-icon="collapsedIcon"
           :expanded-icon="expandedIcon"
           :description-icon="descriptionIcon"
-          :group-name="groupName"
+          :group="group"
           @check-item="handleCheckChildItem"
           @check-folder="handleCheckChildFolder"
           @click="handleClick"
           @toggleExpand="toggleExpand"
           @start-drag="startDrag($event)"
           @end-drag="endDrag($event)"
+          @change-drag="emitChangeDrag($event)"
         >
           <template
             slot="trailingAccessoryAction"
@@ -104,6 +110,8 @@
 import _ from 'lodash'
 import Draggable from 'vuedraggable'
 
+import GeoTreeMixin from './GeoTreeMixin'
+
 export default {
   name: 'GeoTreeItem',
   status: 'ready',
@@ -111,6 +119,7 @@ export default {
   components: {
     Draggable
   },
+  mixins: [GeoTreeMixin],
   props: {
     category: {
       type: Object,
@@ -182,16 +191,6 @@ export default {
      */
     expandedIcon: {
       type: Array,
-      required: false
-    },
-    /**
-     * Group name in case you want to support drag elements
-     *
-     * See [vuedraggable](https://www.npmjs.com/package/vuedraggable)
-     * for more info about this.
-     */
-    groupName: {
-      type: String,
       required: false
     }
   },
@@ -305,12 +304,6 @@ export default {
             (!_.size(subCategory[keyForSubcategory]) || !_.size(getSelectableChildrenRecursively(subCategory)))
         })
       }
-    },
-    startDrag ($event) {
-      this.$emit('start-drag', $event)
-    },
-    endDrag ($event) {
-      this.$emit('end-drag', $event)
     }
   }
 }

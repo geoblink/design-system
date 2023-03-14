@@ -534,17 +534,32 @@ export default {
 
 ```vue live
 <template>
+<div>
     <geo-tree
-        key-for-id="id"
-        key-for-subcategory="subcategories"
-        key-for-label="label"
-        :categories="categories"
-        :checked-items="checkedCategories"
-        group-name="test-group"
-        @check-item="handleCheckItem"
-        @start-drag="logDrag($event)"
-        @end-drag="logDrag($event)"
-    ></geo-tree>  
+      key-for-id="id"
+      key-for-subcategory="subcategories"
+      key-for-label="label"
+      :categories="categories"
+      :checked-items="checkedCategories"
+      :group="{ name: 'test-group', put: false, pull: 'clone' }"
+      @check-item="handleCheckItem"
+      @start-drag="logDrag($event)"
+      @end-drag="logDrag($event)"
+      @change-drag="logDrag($event)"
+    ></geo-tree>
+    <geo-tree
+      key-for-id="id"
+      key-for-subcategory="subcategories"
+      key-for-label="label"
+      :categories="categories"
+      :checked-items="checkedCategories"
+      :group="{ name: 'test-group', put: true, pull: false }"
+      @check-item="handleCheckItem"
+      @start-drag="logDrag($event)"
+      @end-drag="logDrag($event)"
+      @change-drag="logDrag($event)"
+    ></geo-tree>
+</div>
 </template>
   
 <script>  

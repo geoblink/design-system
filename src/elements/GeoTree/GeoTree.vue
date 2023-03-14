@@ -22,15 +22,20 @@
       >
         <draggable
           :list="filteredCategories"
-          :group="{ name: groupName, put: false, pull: 'clone' }"
+          :group="group"
           :sort="false"
-          :disabled="!groupName"
+          :disabled="!group"
+          :filter="`.${dragClassToIgnore}`"
+          drag-class="geo-tree__dragger"
+          ghost-class="geo-tree__ghost"
           @start="startDrag($event)"
           @end="endDrag($event)"
+          @change="changeDrag($event, filteredCategories)"
         >
           <geo-tree-item
             v-for="category in filteredCategories"
             :key="category[keyForId]"
+            :class="dragClassToIgnore"
             :category="category"
             :key-for-id="keyForId"
             :key-for-label="keyForLabel"
@@ -40,12 +45,13 @@
             :description-icon="descriptionIcon"
             :collapsed-icon="collapsedIcon"
             :expanded-icon="expandedIcon"
-            :group-name="groupName"
+            :group="group"
             @check-item="handleCheckItem"
             @check-folder="handleCheckFolder"
             @toggleExpand="handleToggleExpand"
             @start-drag="startDrag($event)"
             @end-drag="endDrag($event)"
+            @change-drag="emitChangeDrag($event)"
           >
             <template
               slot="trailingAccessoryAction"
@@ -68,6 +74,8 @@ import _ from 'lodash'
 import fuzzAldrin from 'fuzzaldrin-plus'
 import Draggable from 'vuedraggable'
 
+import GeoTreeMixin from './GeoTreeMixin'
+
 export default {
   name: 'GeoTree',
   status: 'ready',
@@ -75,6 +83,7 @@ export default {
   components: {
     Draggable
   },
+  mixins: [GeoTreeMixin],
   props: {
     /**
     * Text to display as placeholder of the search input
@@ -213,16 +222,6 @@ export default {
       type: String,
       required: false,
       default: 'asc'
-    },
-    /**
-     * Group name in case you want to support drag elements
-     *
-     * See [vuedraggable](https://www.npmjs.com/package/vuedraggable)
-     * for more info about this.
-     */
-    groupName: {
-      type: String,
-      required: false
     }
   },
   data () {
@@ -301,12 +300,6 @@ export default {
       const isExpanded = !!this.expandedCategories[clickedCategory[this.keyForId]]
 
       this.$set(this.expandedCategories, clickedCategory[this.keyForId], !isExpanded)
-    },
-    startDrag ($event) {
-      this.$emit('start-drag', $event)
-    },
-    endDrag ($event) {
-      this.$emit('end-drag', $event)
     }
   }
 }
