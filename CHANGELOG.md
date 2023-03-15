@@ -1,7 +1,7 @@
 # Changelog
 ## 33.1.0
 New:
-- `GeoTree` and `GeoTreeItem`: Add support drag and drop behaviour. Added events for `drag-start`, `drag-end` and `change-drag` events when using `group` prop
+- `GeoTree` and `GeoTreeItem`: Add support drag and drop behaviour. Added events for `drag-start`, `drag-end` and `change-drag` events when using `draggableGroup` prop
 
 ## 33.0.1
 New:

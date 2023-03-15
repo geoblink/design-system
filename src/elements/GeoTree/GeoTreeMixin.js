@@ -4,12 +4,12 @@
 export default {
   props: {
     /**
-     * Group object in case you want to support drag elements
+     * Object needed in case you want to support drag elements
      *
-     * See [vuedraggable](https://www.npmjs.com/package/vuedraggable)
+     * You have to use the same format as group prop of [vuedraggable](https://www.npmjs.com/package/vuedraggable)
      * for more info about this.
      */
-    group: {
+    draggableGroup: {
       type: Object,
       required: false
     }

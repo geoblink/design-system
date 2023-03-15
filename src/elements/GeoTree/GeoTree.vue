@@ -22,9 +22,9 @@
       >
         <draggable
           :list="filteredCategories"
-          :group="group"
+          :group="draggableGroup"
           :sort="false"
-          :disabled="!group"
+          :disabled="!draggableGroup"
           :filter="`.${dragClassToIgnore}`"
           drag-class="geo-tree__dragger"
           ghost-class="geo-tree__ghost"
@@ -45,7 +45,7 @@
             :description-icon="descriptionIcon"
             :collapsed-icon="collapsedIcon"
             :expanded-icon="expandedIcon"
-            :group="group"
+            :draggable-group="draggableGroup"
             @check-item="handleCheckItem"
             @check-folder="handleCheckFolder"
             @toggleExpand="handleToggleExpand"
