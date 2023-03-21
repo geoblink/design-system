@@ -76,6 +76,16 @@ export default {
 ```vue live
 <template>
   <div class="element-demo">
+    <geo-input 
+      class="element-demo__block" 
+      v-model="durationMarquee"
+      type="number"
+      placeholder="7"
+      style="align-items: start; flex-direction: column; margin-bottom: 5px;"
+    >
+      <geo-input-label slot="label">Select speed of marquee</geo-input-label>
+    </geo-input>
+
     <div class="element-demo__block" style="margin: auto; width: 300px">
       <geo-multi-select
         :options="itemsLongList"
@@ -83,6 +93,7 @@ export default {
         :page-size="10"
         key-for-id="id"
         key-for-label="label"
+        :duration-of-marquee="durationMarquee"
         placeholder="Choose an option"
         v-model="selectedOptions"
       >
@@ -91,8 +102,7 @@ export default {
         <template slot="moreResultsTextContent">Load more results</template>
       </geo-multi-select>
     </div>
-
-    <div class="element-demo__block" style="margin-top: 10px;">
+    <div class="element-demo__block" style="margin-top: 10px; ">
       Model: {{ selectedOptions }}
     </div>
   </div>
@@ -102,6 +112,7 @@ export default {
 export default {
   data () {
     return {
+      durationMarquee:undefined,
       selectedOptions: undefined,
       itemsLongList: _.times(25, idx => ({
         label: `${idx} Item with long label that doesn't fit in the select ${idx}`,

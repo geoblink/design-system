@@ -128,7 +128,7 @@
                 name="groupTitle"
               >
                 <label class="geo-multi-select__label geo-multi-select__label-group">
-                  <geo-marquee>
+                  <geo-marquee :duration="durationOfMarquee">
                     <geo-highlighted-string
                       slot-scope="{}"
                       :highlighted-chars="option.matches"
@@ -161,7 +161,7 @@
                   :key="`${item[keyForLabel]}--${itemIndex}`"
                 >
                   <label class="geo-multi-select__label">
-                    <geo-marquee>
+                    <geo-marquee :duration="durationOfMarquee">
                       <geo-highlighted-string
                         slot-scope="{}"
                         :highlighted-chars="item.matches"
@@ -197,7 +197,7 @@
           >
             <geo-list-item :key="`${option[keyForLabel]}--${optionIndex}`">
               <label class="geo-multi-select__label">
-                <geo-marquee>
+                <geo-marquee :duration="durationOfMarquee">
                   <geo-highlighted-string
                     slot-scope="{}"
                     :highlighted-chars="option.matches"
@@ -292,6 +292,11 @@ export default {
     visibleSelectedOptionsLimit: {
       type: Number,
       default: 3
+    },
+
+    durationOfMarquee: {
+      type: Number,
+      default: 7
     }
   },
   data () {

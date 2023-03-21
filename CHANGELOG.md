@@ -1,5 +1,8 @@
 # Changelog
 
+## 33.0.2
+New:
+- `GeoMultiSelect`: Add durationOfMarquee property to set the speed of the sliding list items.
 ## 33.0.1
 New:
 - `GeoLineChart`: Add isInteractive property to chart config to allow to disable interactions with line groups
