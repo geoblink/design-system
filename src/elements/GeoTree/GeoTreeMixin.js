@@ -34,10 +34,10 @@ export default {
     emitChangeDrag ($event) {
       this.$emit('change-drag', $event)
     },
-    changeDrag ($event, targetList) {
+    changeDrag ($event, parentCategory) {
       this.emitChangeDrag({
         event: $event,
-        targetList
+        parentCategory
       })
     }
   }

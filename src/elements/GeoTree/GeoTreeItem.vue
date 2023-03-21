@@ -66,7 +66,7 @@
         ghost-class="geo-tree__ghost"
         @start="startDrag($event)"
         @end="endDrag($event)"
-        @change="changeDrag($event, category[keyForSubcategory])"
+        @change="changeDrag($event, category)"
       >
         <geo-tree-item
           v-for="subcategory in category[keyForSubcategory]"

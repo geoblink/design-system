@@ -30,7 +30,7 @@
           ghost-class="geo-tree__ghost"
           @start="startDrag($event)"
           @end="endDrag($event)"
-          @change="changeDrag($event, filteredCategories)"
+          @change="changeDrag($event, null)"
         >
           <geo-tree-item
             v-for="category in filteredCategories"
