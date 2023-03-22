@@ -20,32 +20,50 @@
         v-else
         class="geo-tree__list"
       >
-        <geo-tree-item
-          v-for="category in filteredCategories"
-          :key="category[keyForId]"
-          :category="category"
-          :key-for-id="keyForId"
-          :key-for-label="keyForLabel"
-          :checked-items="checkedItems"
-          :expanded-categories="expandedCategories"
-          :key-for-subcategory="keyForSubcategory"
-          :description-icon="descriptionIcon"
-          :collapsed-icon="collapsedIcon"
-          :expanded-icon="expandedIcon"
-          @check-item="handleCheckItem"
-          @check-folder="handleCheckFolder"
-          @toggleExpand="handleToggleExpand"
+        <draggable
+          :list="filteredCategories"
+          :group="draggableGroup"
+          :sort="false"
+          :disabled="!draggableGroup"
+          :filter="`.${dragClassToIgnore}`"
+          drag-class="geo-tree__dragger"
+          ghost-class="geo-tree__ghost"
+          @start="startDrag($event)"
+          @end="endDrag($event)"
+          @change="changeDrag($event, null)"
         >
-          <template
-            slot="trailingAccessoryAction"
-            slot-scope="{ item }"
+          <geo-tree-item
+            v-for="category in filteredCategories"
+            :key="category[keyForId]"
+            :class="dragClassToIgnore"
+            :category="category"
+            :key-for-id="keyForId"
+            :key-for-label="keyForLabel"
+            :checked-items="checkedItems"
+            :expanded-categories="expandedCategories"
+            :key-for-subcategory="keyForSubcategory"
+            :description-icon="descriptionIcon"
+            :collapsed-icon="collapsedIcon"
+            :expanded-icon="expandedIcon"
+            :draggable-group="draggableGroup"
+            @check-item="handleCheckItem"
+            @check-folder="handleCheckFolder"
+            @toggleExpand="handleToggleExpand"
+            @start-drag="startDrag($event)"
+            @end-drag="endDrag($event)"
+            @change-drag="emitChangeDrag($event)"
           >
-            <slot
-              name="actionButton"
-              :item="item"
-            />
-          </template>
-        </geo-tree-item>
+            <template
+              slot="trailingAccessoryAction"
+              slot-scope="{ item }"
+            >
+              <slot
+                name="actionButton"
+                :item="item"
+              />
+            </template>
+          </geo-tree-item>
+        </draggable>
       </ul>
     </geo-scrollable-container>
   </div>
@@ -54,11 +72,18 @@
 <script>
 import _ from 'lodash'
 import fuzzAldrin from 'fuzzaldrin-plus'
+import Draggable from 'vuedraggable'
+
+import GeoTreeMixin from './GeoTreeMixin'
 
 export default {
   name: 'GeoTree',
   status: 'ready',
   release: '29.9.0',
+  components: {
+    Draggable
+  },
+  mixins: [GeoTreeMixin],
   props: {
     /**
     * Text to display as placeholder of the search input

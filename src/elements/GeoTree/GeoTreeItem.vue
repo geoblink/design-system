@@ -56,45 +56,70 @@
       v-if="isExpanded"
       class="geo-tree-item__list"
     >
-      <geo-tree-item
-        v-for="subcategory in category[keyForSubcategory]"
-        :key="subcategory[keyForId]"
-        :data-test="`subcategory-${subcategory[keyForId]}`"
-        :category="subcategory"
-        :key-for-id="keyForId"
-        :key-for-label="keyForLabel"
-        :key-for-subcategory="keyForSubcategory"
-        :expanded-categories="expandedCategories"
-        :checked-items="checkedItems"
-        :collapsed-icon="collapsedIcon"
-        :expanded-icon="expandedIcon"
-        :description-icon="descriptionIcon"
-        @check-item="handleCheckChildItem"
-        @check-folder="handleCheckChildFolder"
-        @click="handleClick"
-        @toggleExpand="toggleExpand"
+      <draggable
+        :list="category[keyForSubcategory]"
+        :group="draggableGroup"
+        :sort="false"
+        :disabled="!draggableGroup"
+        :filter="`.${dragClassToIgnore}`"
+        drag-class="geo-tree__dragger"
+        ghost-class="geo-tree__ghost"
+        @start="startDrag($event)"
+        @end="endDrag($event)"
+        @change="changeDrag($event, category)"
       >
-        <template
-          slot="trailingAccessoryAction"
-          slot-scope="{ item }"
+        <geo-tree-item
+          v-for="subcategory in category[keyForSubcategory]"
+          :key="subcategory[keyForId]"
+          :class="dragClassToIgnore"
+          :data-test="`subcategory-${subcategory[keyForId]}`"
+          :category="subcategory"
+          :key-for-id="keyForId"
+          :key-for-label="keyForLabel"
+          :key-for-subcategory="keyForSubcategory"
+          :expanded-categories="expandedCategories"
+          :checked-items="checkedItems"
+          :collapsed-icon="collapsedIcon"
+          :expanded-icon="expandedIcon"
+          :description-icon="descriptionIcon"
+          :draggable-group="draggableGroup"
+          @check-item="handleCheckChildItem"
+          @check-folder="handleCheckChildFolder"
+          @click="handleClick"
+          @toggleExpand="toggleExpand"
+          @start-drag="startDrag($event)"
+          @end-drag="endDrag($event)"
+          @change-drag="emitChangeDrag($event)"
         >
-          <slot
-            name="trailingAccessoryAction"
-            :item="item"
-          />
-        </template>
-      </geo-tree-item>
+          <template
+            slot="trailingAccessoryAction"
+            slot-scope="{ item }"
+          >
+            <slot
+              name="trailingAccessoryAction"
+              :item="item"
+            />
+          </template>
+        </geo-tree-item>
+      </draggable>
     </ul>
   </li>
 </template>
 
 <script>
 import _ from 'lodash'
+import Draggable from 'vuedraggable'
+
+import GeoTreeMixin from './GeoTreeMixin'
 
 export default {
   name: 'GeoTreeItem',
   status: 'ready',
   release: '29.9.0',
+  components: {
+    Draggable
+  },
+  mixins: [GeoTreeMixin],
   props: {
     category: {
       type: Object,
