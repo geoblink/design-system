@@ -40,7 +40,7 @@ export default {
      */
     duration: {
       type: Number,
-      default: 3
+      default: 7
     }
   },
   data () {
