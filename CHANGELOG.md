@@ -1,6 +1,6 @@
 # Changelog
 
-## 33.1.0
+## 33.2.0
 Changed:
 - `GeoMarquee`: Set the default duration property as 7
 ## 33.0.1
