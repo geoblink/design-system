@@ -1,11 +1,13 @@
 # Changelog
+
+## 33.1.1
+Changed:
+- `GeoMarquee`: Set the default duration property as 7
+
 ## 33.1.0
 New:
 - `GeoTree` and `GeoTreeItem`: Add support drag and drop behaviour. Added events for `drag-start`, `drag-end` and `change-drag` events when using `draggableGroup` prop
 
-## 33.2.0
-Changed:
-- `GeoMarquee`: Set the default duration property as 7
 ## 33.0.1
 New:
 - `GeoLineChart`: Add isInteractive property to chart config to allow to disable interactions with line groups
