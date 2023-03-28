@@ -46,6 +46,7 @@
             :collapsed-icon="collapsedIcon"
             :expanded-icon="expandedIcon"
             :draggable-group="draggableGroup"
+            :is-single-select-mode="isSingleSelectMode"
             @check-item="handleCheckItem"
             @check-folder="handleCheckFolder"
             @toggleExpand="handleToggleExpand"
@@ -222,6 +223,13 @@ export default {
       type: String,
       required: false,
       default: 'asc'
+    },
+    /*
+    * True for using UX for only one element of the tree is selectable, false by default (take into account the logic remains on how to handle checked-items prop)
+    * */
+    isSingleSelectMode: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
