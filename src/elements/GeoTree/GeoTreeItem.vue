@@ -196,7 +196,7 @@ export default {
       required: false
     },
     /*
-    * True for using UX for only one element of the tree is selectable, false by default (take into account the logic remains on how to handle checked-items prop)
+    * True for using UX for only one element of the tree is selectable, false by default. When this is true the input will be radio instead of checkbox (take into account the logic remains on how to handle checked-items prop)
     * */
     isSingleSelectMode: {
       type: Boolean,

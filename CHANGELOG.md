@@ -2,7 +2,7 @@
 
 ## 33.2.0
 New:
-- `GeoTree` and `GeoTreeItem`: Add support for single select mode UX. Added prop `is-single-select-mode` to use it
+- `GeoTree` and `GeoTreeItem`: Add support for single select mode UX. Added prop `is-single-select-mode` to use it. When this is true the input will be radio instead of checkbox
 
 ## 33.1.1
 Changed:
