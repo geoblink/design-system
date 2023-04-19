@@ -42,11 +42,12 @@
           />
         </span>
         <input
+          v-if="!isSingleSelectMode || isSingleItem"
           :id="category[keyForId]"
           :checked="isChecked"
           :indeterminate.prop="isIndeterminate"
           :disabled="isInputDisabled"
-          type="checkbox"
+          :type="inputType"
           @click.stop
           @input="handleCheck(category, $event.target.checked)"
         >
@@ -83,6 +84,7 @@
           :expanded-icon="expandedIcon"
           :description-icon="descriptionIcon"
           :draggable-group="draggableGroup"
+          :is-single-select-mode="isSingleSelectMode"
           @check-item="handleCheckChildItem"
           @check-folder="handleCheckChildFolder"
           @click="handleClick"
@@ -192,6 +194,13 @@ export default {
     expandedIcon: {
       type: Array,
       required: false
+    },
+    /*
+    * True for using UX for only one element of the tree is selectable, false by default. When this is true the input will be radio instead of checkbox (take into account the logic remains on how to handle checked-items prop)
+    * */
+    isSingleSelectMode: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
@@ -257,6 +266,9 @@ export default {
     },
     isInputDisabled () {
       return !this.isSingleItem && this.totalSelectableCategoryChildren === 0
+    },
+    inputType () {
+      return this.isSingleSelectMode ? 'radio' : 'checkbox'
     }
   },
   methods: {

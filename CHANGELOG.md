@@ -1,12 +1,16 @@
 # Changelog
 
+## 33.2.0
+New:
+- `GeoTree` and `GeoTreeItem`: Add support for single select mode UX. Added prop `is-single-select-mode` to use it. When this is true the input will be radio instead of checkbox
+
 ## 33.1.1
 Changed:
 - `GeoMarquee`: Set the default duration property as 7
 
 ## 33.1.0
 New:
-- `GeoTree` and `GeoTreeItem`: Add support drag and drop behaviour. Added events for `drag-start`, `drag-end` and `change-drag` events when using `draggableGroup` prop
+- `GeoTree` and `GeoTreeItem`: Add support for drag and drop behaviour. Added events for `drag-start`, `drag-end` and `change-drag` events when using `draggableGroup` prop
 
 ## 33.0.1
 New:
