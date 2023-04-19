@@ -5,6 +5,22 @@ Breaking:
 - Support up to nodejs 18
 - Earlier nodejs versions will still be supported for users of this package but for developing it we need to have nodejs 17 or newer. That's because we use vuepress 1.X which uses webpack 4 which doesn't work with nodejs 17 or newer without the `NODE_OPTIONS=--openssl-legacy-provider` flag. By adding this flag to our build scripts we limit the developers to use nodejs >= 17 since this flag was introduced in version 17.
 
+## 33.2.0
+New:
+- `GeoTree` and `GeoTreeItem`: Add support for single select mode UX. Added prop `is-single-select-mode` to use it. When this is true the input will be radio instead of checkbox
+
+## 33.1.1
+Changed:
+- `GeoMarquee`: Set the default duration property as 7
+
+## 33.1.0
+New:
+- `GeoTree` and `GeoTreeItem`: Add support for drag and drop behaviour. Added events for `drag-start`, `drag-end` and `change-drag` events when using `draggableGroup` prop
+
+## 33.0.1
+New:
+- `GeoLineChart`: Add isInteractive property to chart config to allow to disable interactions with line groups
+
 ## 33.0.0
 Breaking:
 - `GeoTree` and `GeoTreeItem`: Change `check` event for `check-item`
