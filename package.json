@@ -1,6 +1,6 @@
 {
   "name": "@geoblink/design-system",
-  "version": "33.2.0",
+  "version": "34.0.0",
   "description": "Geoblink Design System for Vue.js",
   "author": "Geoblink <contact@geoblink.com>",
   "main": "dist/system.js",
@@ -12,11 +12,11 @@
   "scripts": {
     "start": "run-s docs:build:markdown docs:watch",
     "dev": "run-s start",
-    "docs": "vuepress dev --open",
-    "docs:dev": "vuepress dev",
+    "docs": "NODE_OPTIONS=--openssl-legacy-provider vuepress dev --open",
+    "docs:dev": "NODE_OPTIONS=--openssl-legacy-provider vuepress dev",
     "docs:watch": "run-p -l theo:watch docs:watch:markdown docs",
     "docs:build": "run-s theo:build:docs docs:build:markdown docs:build:vuepress",
-    "docs:build:vuepress": "vuepress build",
+    "docs:build:vuepress": "NODE_OPTIONS=--openssl-legacy-provider vuepress build",
     "docs:build:markdown": "node build/build-markdown-components.js",
     "docs:watch:markdown": "node build/watch-markdown-components.js",
     "docs:build:markdown:component": "HYGEN_OVERWRITE=1 hygen vuepress component > /dev/null",
@@ -27,7 +27,7 @@
     "lint:fix": "eslint '**/*.{js,vue}' --cache --fix",
     "build": "run-s build:docs",
     "build:system": "run-s theo:build:system build:system:node",
-    "build:system:node": "node ./build/build-system.js",
+    "build:system:node": "NODE_OPTIONS=--openssl-legacy-provider node ./build/build-system.js",
     "build:docs": "run-s docs:build",
     "theo:build": "run-p -l theo:build:*",
     "theo:build:docs": "theo ./src/tokens/tokens.yml --setup .theo.setup.js --transform web --format map.scss,scss,raw.json,json --dest ./.vuepress/public/tokens",
@@ -180,7 +180,7 @@
     "webpack-merge-and-include-globally": "^2.1.16"
   },
   "engines": {
-    "node": "^14.0.0",
+    "node": ">= 12.0.0",
     "npm": ">= 3.0.0"
   },
   "browserslist": [
