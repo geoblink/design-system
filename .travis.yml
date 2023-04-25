@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-  - 18
+  - 16
 
 branches:
   except:
@@ -29,7 +29,7 @@ jobs:
       script:
         - yarn test
     - stage: test
-      node_js: 18
+      node_js: 16
       script:
         - yarn test
 
