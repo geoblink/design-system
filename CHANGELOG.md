@@ -1,5 +1,9 @@
 # Changelog
 
+## 35.0.0
+Breaking:
+- Drop support for nodejs 18. The latest supported version is now 16.
+
 ## 34.0.0
 Breaking:
 - Support up to nodejs 18
