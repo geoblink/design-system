@@ -28,6 +28,10 @@ jobs:
       node_js: 14
       script:
         - yarn test
+    - stage: test
+      node_js: 16
+      script:
+        - yarn test
 
     - stage: build
       name: build docs and system
