@@ -2,7 +2,8 @@
   <section
     :class="{
       ['geo-collapsable-box']: true,
-      ['geo-collapsable-box--expanded']: isExpanded
+      ['geo-collapsable-box--expanded']: isExpanded,
+      ['geo-collapsable-box--disabled']: disabled
     }"
   >
     <header
@@ -21,7 +22,7 @@
         </div>
 
         <font-awesome-icon
-          :icon="toggleIcon"
+          :icon="defaultToggleIcon"
           class="geo-collapsable-box__toggle-icon"
           fixed-width
           aria-hidden
@@ -65,10 +66,15 @@ export default {
      * for more info about this.
      */
     toggleIcon: {
-      type: Array,
-      default: function () {
-        return ['fal', 'chevron-up']
-      }
+      type: Array
+    },
+
+    /**
+     * Whether this box is disabled and cannot be expanded
+     */
+    disabled: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
@@ -76,11 +82,22 @@ export default {
       isExpanded: true
     }
   },
+  computed: {
+    defaultToggleIcon () {
+      if (this.toggleIcon) return this.toggleIcon
+
+      return this.disabled
+        ? ['fal', 'lock']
+        : ['fal', 'chevron-up']
+    }
+  },
   beforeMount () {
-    this.isExpanded = !this.initiallyCollapsed
+    this.isExpanded = !this.initiallyCollapsed && !this.disabled
   },
   methods: {
     toggle () {
+      if (this.disabled) return
+
       this.isExpanded = !this.isExpanded
     }
   }

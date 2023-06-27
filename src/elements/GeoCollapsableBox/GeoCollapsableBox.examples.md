@@ -51,3 +51,15 @@ export default {
 
 </script>
 ```
+
+#### Disabled
+
+```jsx live
+<div class="element-demo">
+  <div class="element-demo__block">
+    <geo-collapsable-box disabled>
+      <template slot="header">This box cannot be expanded</template>
+    </geo-collapsable-box>
+  </div>
+</div>
+```
