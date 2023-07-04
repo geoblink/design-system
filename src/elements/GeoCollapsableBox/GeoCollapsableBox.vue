@@ -22,7 +22,7 @@
         </div>
 
         <font-awesome-icon
-          :icon="defaultToggleIcon"
+          :icon="toggleIconToUse"
           class="geo-collapsable-box__toggle-icon"
           fixed-width
           aria-hidden
@@ -83,7 +83,7 @@ export default {
     }
   },
   computed: {
-    defaultToggleIcon () {
+    toggleIconToUse () {
       if (this.toggleIcon) return this.toggleIcon
 
       return this.disabled
