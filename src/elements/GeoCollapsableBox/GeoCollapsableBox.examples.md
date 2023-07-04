@@ -57,7 +57,10 @@ export default {
 ```jsx live
 <div class="element-demo">
   <div class="element-demo__block">
-    <geo-collapsable-box disabled>
+    <geo-collapsable-box
+      initially-collapsed
+      disabled
+    >
       <template slot="header">This box cannot be expanded</template>
     </geo-collapsable-box>
   </div>
