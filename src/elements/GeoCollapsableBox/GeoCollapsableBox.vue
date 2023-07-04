@@ -92,7 +92,7 @@ export default {
     }
   },
   beforeMount () {
-    this.isExpanded = !this.initiallyCollapsed && !this.disabled
+    this.isExpanded = !this.initiallyCollapsed
   },
   methods: {
     toggle () {
