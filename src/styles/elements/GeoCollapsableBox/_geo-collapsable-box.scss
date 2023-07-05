@@ -47,3 +47,7 @@
     transform: rotate(180deg);
   }
 }
+
+.geo-collapsable-box--disabled, .geo-collapsable-box--disabled .geo-collapsable-box__header {
+  cursor: not-allowed;
+}
