@@ -1,5 +1,8 @@
 # Changelog
 
+## 35.0.1
+New:
+- Added `disable` property in `GeoCollapsableBox`
 ## 35.0.0
 Breaking:
 - Drop support for nodejs 18. The latest supported version is now 16.
