@@ -1,5 +1,8 @@
 # Changelog
 
+## 35.1.0
+Changed:
+- `GeoTree` and `GeoTreeItem`: In the `check-folder` event, we are now including the subcategories.
 ## 35.0.0
 Breaking:
 - Drop support for nodejs 18. The latest supported version is now 16.
