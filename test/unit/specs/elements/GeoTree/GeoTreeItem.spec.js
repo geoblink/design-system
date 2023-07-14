@@ -147,8 +147,8 @@ describe('GeoTreeItem check behaviour', () => {
     const subcategoryFolder = _.last(tropicalFruits.subcategories)
 
     expect(wrapper.emitted()[CHECK_FOLDER_EVENT].length).toBe(2)
-    expect(wrapper.emitted()[CHECK_FOLDER_EVENT][0]).toEqual([{ id: tropicalFruits.id, label: tropicalFruits.label }, true, false])
-    expect(wrapper.emitted()[CHECK_FOLDER_EVENT][1]).toEqual([{ id: subcategoryFolder.id, label: subcategoryFolder.label }, true, true])
+    expect(wrapper.emitted()[CHECK_FOLDER_EVENT][0]).toEqual([{ id: tropicalFruits.id, label: tropicalFruits.label, subcategories: tropicalFruits.subcategories }, true, false])
+    expect(wrapper.emitted()[CHECK_FOLDER_EVENT][1]).toEqual([{ id: subcategoryFolder.id, label: subcategoryFolder.label, subcategories: subcategoryFolder.subcategories }, true, true])
     expect(wrapper.emitted()[CHECK_ITEM_EVENT].length).toBe(5)
 
     const subcategoriesToCheck = _.slice(tropicalFruits.subcategories, 0, -1)
@@ -198,8 +198,8 @@ describe('GeoTreeItem check behaviour', () => {
     const tropicalFruits = _.find(CATEGORY.subcategories, { id: 'tropical-fruits' })
     const subcategoryFolder = _.last(tropicalFruits.subcategories)
     expect(wrapper.emitted()[CHECK_FOLDER_EVENT].length).toBe(2)
-    expect(wrapper.emitted()[CHECK_FOLDER_EVENT][0]).toEqual([{ id: tropicalFruits.id, label: tropicalFruits.label }, false, false])
-    expect(wrapper.emitted()[CHECK_FOLDER_EVENT][1]).toEqual([{ id: subcategoryFolder.id, label: subcategoryFolder.label }, false, true])
+    expect(wrapper.emitted()[CHECK_FOLDER_EVENT][0]).toEqual([{ id: tropicalFruits.id, label: tropicalFruits.label, subcategories: tropicalFruits.subcategories }, false, false])
+    expect(wrapper.emitted()[CHECK_FOLDER_EVENT][1]).toEqual([{ id: subcategoryFolder.id, label: subcategoryFolder.label, subcategories: subcategoryFolder.subcategories }, false, true])
 
     const subcategoriesToCheck = _.slice(tropicalFruits.subcategories, 0, -1)
     _.forEach(subcategoriesToCheck, (subcategory, index) => {

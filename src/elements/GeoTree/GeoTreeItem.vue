@@ -294,7 +294,7 @@ export default {
     handleCheck (category, isChecked, isDelegated = false) {
       if (category[this.keyForSubcategory]) {
         if (_.size(category[this.keyForSubcategory])) { // We don't want to emit event for empty folders
-          this.$emit('check-folder', _.omit(category, this.keyForSubcategory), isChecked, isDelegated)
+          this.$emit('check-folder', category, isChecked, isDelegated)
         }
         _.forEach(category[this.keyForSubcategory], (innerCategory) => {
           this.handleCheck(innerCategory, isChecked, true)

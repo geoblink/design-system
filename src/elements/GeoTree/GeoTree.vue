@@ -98,14 +98,14 @@ export default {
     */
     loadingLabel: {
       type: String,
-      require: false
+      required: false
     },
     /**
     * Text to display when no results found on searching
     */
     noResultsFoundLabel: {
       type: String,
-      require: false
+      required: false
     },
     /**
      * Categories to be displayed in the tree component
