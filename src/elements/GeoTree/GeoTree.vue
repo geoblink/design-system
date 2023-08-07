@@ -47,6 +47,8 @@
             :expanded-icon="expandedIcon"
             :draggable-group="draggableGroup"
             :is-single-select-mode="isSingleSelectMode"
+            :is-folder-select-hidden="!!maxCheckedItems"
+            :is-item-select-disabled="hasMaxCategoriesSelected"
             @check-item="handleCheckItem"
             @check-folder="handleCheckFolder"
             @toggleExpand="handleToggleExpand"
@@ -180,6 +182,13 @@ export default {
       default: () => ({})
     },
     /**
+    * Max number of checked items
+    */
+    maxCheckedItems: {
+      type: Number,
+      required: false
+    },
+    /**
      * Initial categories to be expanded, with truthy/falsy category ids, it's being watched to react to outside changes
      */
     dynamicExpandedCategories: {
@@ -235,7 +244,8 @@ export default {
   data () {
     return {
       searchQuery: '',
-      expandedCategories: {}
+      expandedCategories: {},
+      nSelectedCategories: 0
     }
   },
   computed: {
@@ -249,20 +259,32 @@ export default {
       return this.searchQuery
         ? this.filterCategories(this.sortedCategories, this.searchQuery)
         : this.sortedCategories
+    },
+    hasMaxCategoriesSelected () {
+      if (!this.maxCheckedItems) return false
+
+      return this.nSelectedCategories >= this.maxCheckedItems
     }
   },
   watch: {
     dynamicExpandedCategories (newExpandedCategories) {
       this.expandedCategories = newExpandedCategories || {}
+    },
+    checkedItems (newCheckedItems) {
+      this.nSelectedCategories = _.size(_.filter(newCheckedItems))
     }
   },
   mounted () {
     if (this.dynamicExpandedCategories) {
       this.expandedCategories = _.assign({}, this.expandedCategories, this.dynamicExpandedCategories)
     }
+    if (_.size(this.checkedItems)) {
+      this.nSelectedCategories = _.size(_.filter(this.checkedItems))
+    }
   },
   methods: {
     handleCheckItem (category, isChecked, isDelegated) {
+      isChecked ? this.nSelectedCategories++ : this.nSelectedCategories--
       this.$emit('check-item', category[this.keyForId], isChecked, category, isDelegated)
     },
     handleCheckFolder (category, isChecked, isDelegated) {
