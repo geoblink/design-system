@@ -244,8 +244,7 @@ export default {
   data () {
     return {
       searchQuery: '',
-      expandedCategories: {},
-      nSelectedCategories: 0
+      expandedCategories: {}
     }
   },
   computed: {
@@ -264,27 +263,23 @@ export default {
       if (!this.maxCheckedItems) return false
 
       return this.nSelectedCategories >= this.maxCheckedItems
+    },
+    nSelectedCategories () {
+      return _.size(_.filter(this.checkedItems))
     }
   },
   watch: {
     dynamicExpandedCategories (newExpandedCategories) {
       this.expandedCategories = newExpandedCategories || {}
-    },
-    checkedItems (newCheckedItems) {
-      this.nSelectedCategories = _.size(_.filter(newCheckedItems))
     }
   },
   mounted () {
     if (this.dynamicExpandedCategories) {
       this.expandedCategories = _.assign({}, this.expandedCategories, this.dynamicExpandedCategories)
     }
-    if (_.size(this.checkedItems)) {
-      this.nSelectedCategories = _.size(_.filter(this.checkedItems))
-    }
   },
   methods: {
     handleCheckItem (category, isChecked, isDelegated) {
-      isChecked ? this.nSelectedCategories++ : this.nSelectedCategories--
       this.$emit('check-item', category[this.keyForId], isChecked, category, isDelegated)
     },
     handleCheckFolder (category, isChecked, isDelegated) {
