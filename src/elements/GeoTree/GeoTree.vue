@@ -262,9 +262,9 @@ export default {
     hasMaxCategoriesSelected () {
       if (!this.maxCheckedItems) return false
 
-      return this.nSelectedCategories >= this.maxCheckedItems
+      return this.nSelectedItems >= this.maxCheckedItems
     },
-    nSelectedCategories () {
+    nSelectedItems () {
       return _.size(_.filter(this.checkedItems))
     }
   },
