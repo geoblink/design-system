@@ -48,7 +48,7 @@
             :draggable-group="draggableGroup"
             :is-single-select-mode="isSingleSelectMode"
             :is-folder-select-hidden="!!maxCheckedItems"
-            :is-item-select-disabled="hasMaxCategoriesSelected"
+            :is-item-select-disabled="hasMaxItemsSelected"
             @check-item="handleCheckItem"
             @check-folder="handleCheckFolder"
             @toggleExpand="handleToggleExpand"
@@ -259,7 +259,7 @@ export default {
         ? this.filterCategories(this.sortedCategories, this.searchQuery)
         : this.sortedCategories
     },
-    hasMaxCategoriesSelected () {
+    hasMaxItemsSelected () {
       if (!this.maxCheckedItems) return false
 
       return this.nSelectedItems >= this.maxCheckedItems
