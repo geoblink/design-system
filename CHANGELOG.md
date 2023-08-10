@@ -1,9 +1,13 @@
 # Changelog
 
-## 35.1.1
+## 35.2.1
 Changed:
 - `GeoTreeItem`: If `isSingleSelectMode` is true, we don't stop propagation to keep functionality of radio button inputs.
 
+## 35.2.0
+Changed:
+- `GeoTree`: Add support for max. number of items checked using the prop `max-checked-items`
+- `GeoTreeItem`: Add support for disabling item input and for hiding folder input using the following props: `is-item-select-disabled` and `is-folder-select-hidden`
 ## 35.1.0
 Changed:
 - `GeoTree` and `GeoTreeItem`: In the `check-folder` event, we are now including the subcategories.

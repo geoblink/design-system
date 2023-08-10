@@ -47,6 +47,8 @@
             :expanded-icon="expandedIcon"
             :draggable-group="draggableGroup"
             :is-single-select-mode="isSingleSelectMode"
+            :is-folder-select-hidden="!!maxCheckedItems"
+            :is-item-select-disabled="hasMaxItemsSelected"
             @check-item="handleCheckItem"
             @check-folder="handleCheckFolder"
             @toggleExpand="handleToggleExpand"
@@ -180,6 +182,13 @@ export default {
       default: () => ({})
     },
     /**
+    * Max number of checked items
+    */
+    maxCheckedItems: {
+      type: Number,
+      required: false
+    },
+    /**
      * Initial categories to be expanded, with truthy/falsy category ids, it's being watched to react to outside changes
      */
     dynamicExpandedCategories: {
@@ -249,6 +258,14 @@ export default {
       return this.searchQuery
         ? this.filterCategories(this.sortedCategories, this.searchQuery)
         : this.sortedCategories
+    },
+    hasMaxItemsSelected () {
+      if (!this.maxCheckedItems) return false
+
+      return this.nSelectedItems >= this.maxCheckedItems
+    },
+    nSelectedItems () {
+      return _.size(_.filter(this.checkedItems))
     }
   },
   watch: {

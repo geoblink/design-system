@@ -50,7 +50,7 @@
           @input="handleCheck(category, $event.target.checked)"
         >
         <input
-          v-else-if="!isSingleSelectMode || isSingleItem"
+          v-if="!isInputDisabled"
           :id="category[keyForId]"
           :checked="isChecked"
           :indeterminate.prop="isIndeterminate"
@@ -93,6 +93,8 @@
           :description-icon="descriptionIcon"
           :draggable-group="draggableGroup"
           :is-single-select-mode="isSingleSelectMode"
+          :is-folder-select-hidden="isFolderSelectHidden"
+          :is-item-select-disabled="isItemSelectDisabled"
           @check-item="handleCheckChildItem"
           @check-folder="handleCheckChildFolder"
           @click="handleClick"
@@ -167,6 +169,20 @@ export default {
       required: true
     },
     /**
+     * Boolean indicating if select folders is hidden
+     */
+    isFolderSelectHidden: {
+      type: Boolean,
+      default: false
+    },
+    /**
+     * Boolean indicating if select items is disabled
+     */
+    isItemSelectDisabled: {
+      type: Boolean,
+      default: false
+    },
+    /**
      * Icon used to alert about some extra info displayed in a popover
      */
     descriptionIcon: {
@@ -236,8 +252,6 @@ export default {
       return !this.isChecked && isSomeChildSelected(this.category)
     },
     isChecked () {
-      if (this.isInputDisabled) return false
-
       const allAreChildrenSelected = category => {
         const selectableChildren = this.getSelectableChildrenForCategory(category)
         return _.every(selectableChildren, subCategory => {
@@ -273,10 +287,17 @@ export default {
       return this.isExpanded && !this.expandedIcon
     },
     isInputDisabled () {
-      return !this.isSingleItem && this.totalSelectableCategoryChildren === 0
+      return this.isSingleItem
+        ? this.isItemSelectDisabled && !this.isChecked
+        : this.totalSelectableCategoryChildren === 0
     },
     inputType () {
       return this.isSingleSelectMode ? 'radio' : 'checkbox'
+    },
+    isItemInputHidden () {
+      if (this.isSingleItem) return false
+
+      return this.isSingleSelectMode || this.isFolderSelectHidden
     }
   },
   methods: {
@@ -285,6 +306,7 @@ export default {
      */
     handleClick () {
       if (this.isSingleItem) {
+        if (this.isInputDisabled) return
         this.handleCheck(this.category, !this.isChecked)
       } else {
         this.toggleExpand(this.category)
