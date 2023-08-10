@@ -42,13 +42,20 @@
           />
         </span>
         <input
-          v-if="!isSingleSelectMode || isSingleItem"
+          v-if="isSingleSelectMode && isSingleItem"
+          :id="category[keyForId]"
+          :checked="isChecked"
+          :disabled="isInputDisabled"
+          :type="inputType"
+          @input="handleCheck(category, $event.target.checked)"
+        >
+        <input
+          v-else-if="!isSingleSelectMode || isSingleItem"
           :id="category[keyForId]"
           :checked="isChecked"
           :indeterminate.prop="isIndeterminate"
           :disabled="isInputDisabled"
           :type="inputType"
-          @click.stop
           @input="handleCheck(category, $event.target.checked)"
         >
       </template>
