@@ -56,6 +56,7 @@
           :indeterminate.prop="isIndeterminate"
           :disabled="isInputDisabled"
           :type="inputType"
+          @click.stop
           @input="handleCheck(category, $event.target.checked)"
         >
       </template>
