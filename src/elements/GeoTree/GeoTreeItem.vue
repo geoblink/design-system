@@ -42,7 +42,7 @@
           />
         </span>
         <input
-          v-if="!isInputDisabled"
+          v-if="!isItemInputHidden"
           :id="category[keyForId]"
           :checked="isChecked"
           :indeterminate.prop="isIndeterminate"
