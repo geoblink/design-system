@@ -794,7 +794,7 @@ export default {
   methods: {
     handleCheckItem (categoryId, isChecked, isDelegated) {
       this.checkedCategories = {
-        [categoryId]: true
+        [categoryId]: isChecked
       }
     }
   }
