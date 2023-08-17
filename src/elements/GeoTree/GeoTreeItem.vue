@@ -48,7 +48,7 @@
           :indeterminate.prop="isIndeterminate"
           :disabled="isInputDisabled"
           :type="inputType"
-          @click.stop
+          @click="handleInputClick"
           @input="handleCheck(category, $event.target.checked)"
         >
       </template>
@@ -337,6 +337,11 @@ export default {
           return subCategory[keyForSubcategory] &&
             (!_.size(subCategory[keyForSubcategory]) || !_.size(getSelectableChildrenRecursively(subCategory)))
         })
+      }
+    },
+    handleInputClick ($event) {
+      if (!this.isSingleSelectMode) {
+        $event.stopPropagation()
       }
     }
   }

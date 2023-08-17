@@ -794,14 +794,13 @@ export default {
   methods: {
     handleCheckItem (categoryId, isChecked, isDelegated) {
       this.checkedCategories = {
-        [categoryId]: true
+        [categoryId]: isChecked
       }
     }
   }
 }
 </script>
 ```
-
 ### With max number of items checked
 
 ```vue live

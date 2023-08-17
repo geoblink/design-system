@@ -1,5 +1,9 @@
 # Changelog
 
+## 35.2.1
+Changed:
+- `GeoTreeItem`: If `isSingleSelectMode` is true, we don't stop propagation to keep functionality of radio button inputs.
+
 ## 35.2.0
 Changed:
 - `GeoTree`: Add support for max. number of items checked using the prop `max-checked-items`
