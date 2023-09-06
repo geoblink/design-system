@@ -1,6 +1,8 @@
 /**
  * @mixin
  */
+
+const _ = require('lodash')
 export default {
   props: {
     /**
@@ -22,6 +24,15 @@ export default {
       return !this.group.pull
         ? 'geo-tree__drag-disabled'
         : ''
+    },
+
+    hasMoreResultsToLoad () {
+      return this.pageSize * this.visiblePages < this.filteredCategories.length
+    },
+
+    visibleItems () {
+      if (this.hasMoreResultsToLoad) return _.slice(this.filteredCategories, 0, this.visiblePages * this.pageSize)
+      return this.filteredCategories
     }
   },
   methods: {
@@ -38,6 +49,12 @@ export default {
       this.emitChangeDrag({
         event: $event,
         parentCategory
+      })
+    },
+    loadNextPage (payload, pageObject = 'visiblePages') {
+      _.set(this, pageObject, _.get(this, pageObject) + 1)
+      this.$nextTick(function () {
+        payload.scrollToLastEntry()
       })
     }
   }

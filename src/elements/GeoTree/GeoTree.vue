@@ -5,7 +5,10 @@
       v-model="searchQuery"
       :placeholder="searchPlaceholder"
     />
-    <geo-scrollable-container>
+    <geo-scrollable-container
+      :show-more-results-button="hasMoreResultsToLoad"
+      @load-more-results="loadNextPage($event)"
+    >
       <div
         v-if="isLoading"
         class="geo-tree__loading"
@@ -33,7 +36,7 @@
           @change="changeDrag($event, null)"
         >
           <geo-tree-item
-            v-for="category in filteredCategories"
+            v-for="category in visibleItems"
             :key="category[keyForId]"
             :class="dragClassToIgnore"
             :category="category"
@@ -68,6 +71,9 @@
           </geo-tree-item>
         </draggable>
       </ul>
+      <template slot="moreResultsTextContent">
+        {{ moreResultsTextContent }}
+      </template>
     </geo-scrollable-container>
   </div>
 </template>
@@ -239,12 +245,30 @@ export default {
     isSingleSelectMode: {
       type: Boolean,
       default: false
+    },
+
+    hasLoadMoreButton: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
+
+    pageSize: {
+      type: Number,
+      required: false,
+      default: 10
+    },
+
+    moreResultsTextContent: {
+      type: String,
+      required: false
     }
   },
   data () {
     return {
       searchQuery: '',
-      expandedCategories: {}
+      expandedCategories: {},
+      visiblePages: 1
     }
   },
   computed: {
