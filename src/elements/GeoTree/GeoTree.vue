@@ -246,19 +246,25 @@ export default {
       type: Boolean,
       default: false
     },
-
+    /*
+    * Optional boolean to show load more button
+    * */
     hasLoadMoreButton: {
       type: Boolean,
       required: false,
       default: false
     },
-
+    /*
+    * Max number of items to be shown in one page if load more button is active
+    * */
     pageSize: {
       type: Number,
       required: false,
-      default: 10
+      default: 20
     },
-
+    /*
+    * The content to be shown in the load more button
+    * */
     moreResultsTextContent: {
       type: String,
       required: false
