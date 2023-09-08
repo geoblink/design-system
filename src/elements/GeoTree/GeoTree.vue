@@ -72,7 +72,7 @@
         </draggable>
       </ul>
       <template slot="moreResultsTextContent">
-        {{ moreResultsTextContent }}
+        <slot name="moreResultsTextContent" />
       </template>
     </geo-scrollable-container>
   </div>
@@ -261,13 +261,6 @@ export default {
       type: Number,
       required: false,
       default: 20
-    },
-    /*
-    * The content to be shown in the load more button
-    * */
-    moreResultsTextContent: {
-      type: String,
-      required: false
     }
   },
   data () {

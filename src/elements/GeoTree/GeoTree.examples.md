@@ -935,16 +935,19 @@ export default {
 ```vue live
 <template>
     <geo-tree
-        key-for-id="id"
-        key-for-subcategory="subcategories"
-        key-for-label="label"
-        :has-load-more-button="true"
-        :page-size="4"
-        more-results-text-content="Load more"
-        :categories="categories"
-        :checked-items="checkedCategories"
-        @check-item="handleCheckItem"
-    ></geo-tree>  
+      key-for-id="id"
+      key-for-subcategory="subcategories"
+      key-for-label="label"
+      :has-load-more-button="true"
+      :page-size="4"
+      :categories="categories"
+      :checked-items="checkedCategories"
+      @check-item="handleCheckItem"
+    >
+    <template slot="moreResultsTextContent">
+      Load more
+    </template>
+    </geo-tree>  
 </template>
   
 <script>  
