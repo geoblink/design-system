@@ -5,7 +5,10 @@
       v-model="searchQuery"
       :placeholder="searchPlaceholder"
     />
-    <geo-scrollable-container>
+    <geo-scrollable-container
+      :show-more-results-button="hasMoreResultsToLoad"
+      @load-more-results="loadNextPage($event)"
+    >
       <div
         v-if="isLoading"
         class="geo-tree__loading"
@@ -33,7 +36,7 @@
           @change="changeDrag($event, null)"
         >
           <geo-tree-item
-            v-for="category in filteredCategories"
+            v-for="category in visibleItems"
             :key="category[keyForId]"
             :class="dragClassToIgnore"
             :category="category"
@@ -68,6 +71,9 @@
           </geo-tree-item>
         </draggable>
       </ul>
+      <template slot="moreResultsTextContent">
+        <slot name="moreResultsTextContent" />
+      </template>
     </geo-scrollable-container>
   </div>
 </template>
@@ -239,33 +245,66 @@ export default {
     isSingleSelectMode: {
       type: Boolean,
       default: false
+    },
+    /*
+    * Optional boolean to show load more button
+    * */
+    hasLoadMoreButton: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
+    /*
+    * Max number of items to be shown in one page if load more button is active
+    * */
+    pageSize: {
+      type: Number,
+      required: false,
+      default: 20
     }
   },
   data () {
     return {
       searchQuery: '',
-      expandedCategories: {}
+      expandedCategories: {},
+      visiblePages: 1
     }
   },
   computed: {
     hasResults () {
       return !this.searchQuery || (this.searchQuery && !!_.size(this.filteredCategories))
     },
+
     sortedCategories () {
       return this.sortCategories(this.categories)
     },
+
     filteredCategories () {
       return this.searchQuery
         ? this.filterCategories(this.sortedCategories, this.searchQuery)
         : this.sortedCategories
     },
+
     hasMaxItemsSelected () {
       if (!this.maxCheckedItems) return false
 
       return this.nSelectedItems >= this.maxCheckedItems
     },
+
     nSelectedItems () {
       return _.size(_.filter(this.checkedItems))
+    },
+
+    hasMoreResultsToLoad () {
+      if (!this.hasLoadMoreButton) return false
+
+      return this.pageSize * this.visiblePages < this.filteredCategories.length
+    },
+
+    visibleItems () {
+      return this.hasLoadMoreButton
+        ? _.slice(this.filteredCategories, 0, this.visiblePages * this.pageSize)
+        : this.filteredCategories
     }
   },
   watch: {
@@ -282,9 +321,11 @@ export default {
     handleCheckItem (category, isChecked, isDelegated) {
       this.$emit('check-item', category[this.keyForId], isChecked, category, isDelegated)
     },
+
     handleCheckFolder (category, isChecked, isDelegated) {
       this.$emit('check-folder', category[this.keyForId], isChecked, category, isDelegated)
     },
+
     filterCategories (categories, query, isAnyAncestorMatching) {
       return _.reduce(categories, (carry, category) => {
         const isCategoryMatching = fuzzAldrin.score(category[this.keyForLabel], query) > 0
@@ -310,6 +351,7 @@ export default {
         return _.toLower(_.deburr(string))
       }
     },
+
     sortCategories (categories) {
       const sortingProps = this.sortingProps || [this.keyForLabel]
       return _.orderBy(
@@ -321,10 +363,18 @@ export default {
             : category
         ), sortingProps, this.sortingDirection)
     },
+
     handleToggleExpand (clickedCategory) {
       const isExpanded = !!this.expandedCategories[clickedCategory[this.keyForId]]
 
       this.$set(this.expandedCategories, clickedCategory[this.keyForId], !isExpanded)
+    },
+
+    loadNextPage (payload) {
+      this.visiblePages = this.visiblePages + 1
+      this.$nextTick(function () {
+        payload.scrollToLastEntry()
+      })
     }
   }
 }
