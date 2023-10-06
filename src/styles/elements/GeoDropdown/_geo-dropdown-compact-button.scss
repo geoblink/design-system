@@ -20,3 +20,14 @@
     color: $color-blue;
   }
 }
+
+.geo-dropdown__compact-button-container--disabled {
+  cursor: not-allowed;
+
+    .geo-dropdown__compact-button-container__icon {
+      color: $color-grey-light;
+    }
+    &:hover, &[hover]{
+      border: none;
+    }
+}
