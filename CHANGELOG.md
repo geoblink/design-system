@@ -1,6 +1,6 @@
 # Changelog
 
-## 35.4.1-beta.0
+## 35.4.1
 New:
 - `GeoDropdownCompactButton`: Disabled state is added to the button.
 ## 35.3.1

@@ -2,7 +2,7 @@
   <div
     class="geo-dropdown__compact-button-container"
     :class="{
-      ['geo-dropdown__compact-button-container--disabled']: disabled
+      'geo-dropdown__compact-button-container--disabled': disabled
     }"
     @click="emitClick($event)"
   >
