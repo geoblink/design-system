@@ -48,7 +48,7 @@ export default {
 
     disabled: {
       type: Boolean,
-      required: false
+      default: false
     },
     /**
      * Text to be displayed as label of the token element.
