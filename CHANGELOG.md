@@ -1,6 +1,6 @@
 # Changelog
 
-## 35.4.1
+## 35.4.0
 New:
 - `GeoDropdownCompactButton`: Disabled state is added to the button.
 - `GeoBorderedToken`: Disabled state is added to the token.

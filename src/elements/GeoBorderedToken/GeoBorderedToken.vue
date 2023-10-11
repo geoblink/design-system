@@ -40,12 +40,10 @@ export default {
       type: Array,
       required: false
     },
-
     /**
      * Boolean to disable the token
      *
      */
-
     disabled: {
       type: Boolean,
       default: false
