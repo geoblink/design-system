@@ -17,4 +17,9 @@
     color: $color-grey-darker;
     font-family: $font-family-text;
   }
+  
+  &--disabled {
+    background: $color-grey;
+    cursor: not-allowed;
+  }
 }

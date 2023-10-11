@@ -23,3 +23,16 @@
   </div>
 </div>
 ```
+
+### Disabled
+
+```jsx live
+<div class="element-demo">
+  <div class="element-demo__block" style="justify-content: space-around;">
+    <geo-bordered-token
+      disabled
+      label="Geoblink"
+    />
+  </div>
+</div>
+```
