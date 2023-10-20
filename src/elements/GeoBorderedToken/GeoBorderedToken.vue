@@ -1,5 +1,10 @@
 <template>
-  <div class="geo-bordered-token">
+  <div
+    class="geo-bordered-token"
+    :class="{
+      'geo-bordered-token--disabled': disabled
+    }"
+  >
     <font-awesome-icon
       v-if="icon"
       :icon="icon"
@@ -34,6 +39,14 @@ export default {
     icon: {
       type: Array,
       required: false
+    },
+    /**
+     * Boolean to disable the token
+     *
+     */
+    disabled: {
+      type: Boolean,
+      default: false
     },
     /**
      * Text to be displayed as label of the token element.

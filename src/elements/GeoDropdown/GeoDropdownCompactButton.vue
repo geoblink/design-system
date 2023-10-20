@@ -1,6 +1,9 @@
 <template>
   <div
     class="geo-dropdown__compact-button-container"
+    :class="{
+      'geo-dropdown__compact-button-container--disabled': disabled
+    }"
     @click="emitClick($event)"
   >
     <font-awesome-icon
@@ -42,10 +45,15 @@ export default {
       default: function () {
         return ['fal', 'ellipsis-v']
       }
+    },
+    disabled: {
+      type: Boolean,
+      default: false
     }
   },
   methods: {
     emitClick ($event) {
+      if (this.disabled) return
       /**
        * User clicked this button.
        *
