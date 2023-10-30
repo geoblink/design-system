@@ -1,5 +1,8 @@
 # Changelog
 
+## 35.5.0
+New:
+- Copy code button is added
 ## 35.4.0
 New:
 - `GeoDropdownCompactButton`: Disabled state is added to the button.
