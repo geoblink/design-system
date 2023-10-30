@@ -45,7 +45,8 @@ module.exports = {
     ['live', {
       // optional: use layout to customize how the live editor is going to look like
       layout: path.resolve(__dirname, "./components/ComponentDemo.vue")
-    }]
+    }],
+    ['vuepress-plugin-code-copy', true]
   ],
   configureWebpack: {
     resolve: {
