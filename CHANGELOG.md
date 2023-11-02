@@ -2,7 +2,7 @@
 
 ## 35.4.1
 New:
-- Copy code button is added
+- A button for copying the code is added to docs
 ## 35.4.0
 New:
 - `GeoDropdownCompactButton`: Disabled state is added to the button.
