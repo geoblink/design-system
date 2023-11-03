@@ -1,6 +1,6 @@
 {
   "name": "@geoblink/design-system",
-  "version": "35.4.0",
+  "version": "35.4.1",
   "description": "Geoblink Design System for Vue.js",
   "author": "Geoblink <contact@geoblink.com>",
   "main": "dist/system.js",
@@ -170,6 +170,7 @@
     "vue-template-compiler": "^2.5.22",
     "vuedraggable": "2.24.3",
     "vuepress": "^1.9.7",
+    "vuepress-plugin-code-copy": "^1.0.6",
     "vuepress-plugin-live": "^1.4.0",
     "webfontloader": "^1.6.28",
     "webpack": "^4.39.1",
