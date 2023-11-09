@@ -1,5 +1,9 @@
 # Changelog
 
+## 35.4.3
+New:
+- `GeoTreeItem`: Empty folders are unchecked and non clickable.
+
 ## 35.4.2
 Security:
 - Update packages to fix vulnerabilities
