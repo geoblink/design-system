@@ -8,7 +8,7 @@
         'geo-tree-item--single': isSingleItem
       }"
       :icon="categoryIcon"
-      @click="(isSingleItem || !isEmptyCategory)? handleClick($event):()=>{}"
+      @click="handleClick"
     >
       <label class="geo-tree-item__label">
         <geo-highlighted-string
@@ -247,7 +247,8 @@ export default {
 
     isChecked () {
       const allAreChildrenSelected = category => {
-        if (!_.isNil(category[this.keyForSubcategory]) && !_.size(category[this.keyForSubcategory])) return
+        if (!_.isNil(category[this.keyForSubcategory]) && !_.size(category[this.keyForSubcategory])) return false
+
         const selectableChildren = this.getSelectableChildrenForCategory(category)
         return _.every(selectableChildren, subCategory => {
           if (_.size(subCategory[this.keyForSubcategory])) return allAreChildrenSelected(subCategory)
@@ -312,6 +313,8 @@ export default {
      * On list item click
      */
     handleClick () {
+      if (!this.isSingleItem && this.isEmptyCategory) return
+
       if (this.isSingleItem) {
         if (this.isInputDisabled) return
         this.handleCheck(this.category, !this.isChecked)
