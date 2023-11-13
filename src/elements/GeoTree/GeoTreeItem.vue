@@ -247,7 +247,7 @@ export default {
 
     isChecked () {
       const allAreChildrenSelected = category => {
-        if (!_.isNil(category[this.keyForSubcategory]) && !_.size(category[this.keyForSubcategory])) return false
+        if (this.isEmptyCategory(category)) return false
 
         const selectableChildren = this.getSelectableChildrenForCategory(category)
         return _.every(selectableChildren, subCategory => {
@@ -259,10 +259,6 @@ export default {
       return !this.isSingleItem
         ? allAreChildrenSelected(this.category)
         : !!this.checkedItems[this.category[this.keyForId]]
-    },
-
-    isEmptyCategory () {
-      return !_.isNil(this.category[this.keyForSubcategory]) && !_.size(this.category[this.keyForSubcategory])
     },
 
     totalCategoryChildren () {
@@ -313,7 +309,7 @@ export default {
      * On list item click
      */
     handleClick () {
-      if (!this.isSingleItem && this.isEmptyCategory) return
+      if (!this.isSingleItem && this.isEmptyCategory(this.category)) return
 
       if (this.isSingleItem) {
         if (this.isInputDisabled) return
@@ -367,6 +363,10 @@ export default {
       if (!this.isSingleSelectMode) {
         $event.stopPropagation()
       }
+    },
+
+    isEmptyCategory (category) {
+      return !_.isNil(category[this.keyForSubcategory]) && !_.size(category[this.keyForSubcategory])
     }
   }
 }
