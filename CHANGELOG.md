@@ -1,7 +1,7 @@
 # Changelog
 
 ## 35.4.3
-Fixed:
+Fix:
 - `GeoTreeItem`: Empty folders are unchecked and non clickable.
 
 ## 35.4.2
