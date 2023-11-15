@@ -232,6 +232,7 @@ export default {
         ? this.expandedIcon || this.collapsedIcon
         : this.collapsedIcon
     },
+
     isIndeterminate () {
       const isSomeChildSelected = category => {
         return _.some(category[this.keyForSubcategory], subCategory => {
@@ -243,8 +244,11 @@ export default {
 
       return !this.isChecked && isSomeChildSelected(this.category)
     },
+
     isChecked () {
       const allAreChildrenSelected = category => {
+        if (this.isEmptyCategory(category)) return false
+
         const selectableChildren = this.getSelectableChildrenForCategory(category)
         return _.every(selectableChildren, subCategory => {
           if (_.size(subCategory[this.keyForSubcategory])) return allAreChildrenSelected(subCategory)
@@ -256,11 +260,13 @@ export default {
         ? allAreChildrenSelected(this.category)
         : !!this.checkedItems[this.category[this.keyForId]]
     },
+
     totalCategoryChildren () {
       const sumOfChildren = category => _.size(category[this.keyForSubcategory]) + _.sumBy(category[this.keyForSubcategory], sumOfChildren)
 
       return sumOfChildren(this.category)
     },
+
     totalSelectableCategoryChildren () {
       const sumOfSelectableChildren = category => {
         const selectableChildren = this.getSelectableChildrenForCategory(category)
@@ -269,23 +275,29 @@ export default {
 
       return sumOfSelectableChildren(this.category)
     },
+
     isExpanded () {
       return !!this.expandedCategories[this.category[this.keyForId]]
     },
+
     isSingleItem () {
       return _.isNil(this.category[this.keyForSubcategory])
     },
+
     hasToRotateIcon () {
       return this.isExpanded && !this.expandedIcon
     },
+
     isInputDisabled () {
       return this.isSingleItem
         ? this.isItemSelectDisabled && !this.isChecked
         : this.totalSelectableCategoryChildren === 0
     },
+
     inputType () {
       return this.isSingleSelectMode ? 'radio' : 'checkbox'
     },
+
     isItemInputHidden () {
       if (this.isSingleItem) return false
 
@@ -301,15 +313,19 @@ export default {
         if (this.isInputDisabled) return
         this.handleCheck(this.category, !this.isChecked)
       } else {
+        if (this.isEmptyCategory(this.category)) return
         this.toggleExpand(this.category)
       }
     },
+
     handleCheckChildItem (category, isChecked, isDelegated) {
       this.$emit('check-item', category, isChecked, isDelegated)
     },
+
     handleCheckChildFolder (category, isChecked, isDelegated) {
       this.$emit('check-folder', category, isChecked, isDelegated)
     },
+
     /**
      * To check all items of a category
      */
@@ -325,9 +341,11 @@ export default {
         this.$emit('check-item', category, isChecked, isDelegated)
       }
     },
+
     toggleExpand (category) {
       this.$emit('toggleExpand', category)
     },
+
     getSelectableChildrenForCategory (category) {
       const keyForSubcategory = this.keyForSubcategory
       return getSelectableChildrenRecursively(category)
@@ -339,10 +357,15 @@ export default {
         })
       }
     },
+
     handleInputClick ($event) {
       if (!this.isSingleSelectMode) {
         $event.stopPropagation()
       }
+    },
+
+    isEmptyCategory (category) {
+      return !_.isNil(category[this.keyForSubcategory]) && !_.size(category[this.keyForSubcategory])
     }
   }
 }
