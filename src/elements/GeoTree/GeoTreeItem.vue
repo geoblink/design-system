@@ -309,12 +309,11 @@ export default {
      * On list item click
      */
     handleClick () {
-      if (!this.isSingleItem && this.isEmptyCategory(this.category)) return
-
       if (this.isSingleItem) {
         if (this.isInputDisabled) return
         this.handleCheck(this.category, !this.isChecked)
       } else {
+        if (this.isEmptyCategory(this.category)) return
         this.toggleExpand(this.category)
       }
     },
