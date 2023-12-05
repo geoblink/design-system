@@ -1,5 +1,9 @@
 # Changelog
 
+## 35.5.0
+New:
+- `GeoTreeItem`: Load more results button is added for the sub tree items.
+
 ## 35.4.3
 Fix:
 - `GeoTreeItem`: Empty folders are unchecked and non clickable.

@@ -52,6 +52,8 @@
             :is-single-select-mode="isSingleSelectMode"
             :is-folder-select-hidden="!!maxCheckedItems"
             :is-item-select-disabled="hasMaxItemsSelected"
+            :has-load-more-button="hasLoadMoreButton"
+            :page-size="pageSize"
             @check-item="handleCheckItem"
             @check-folder="handleCheckFolder"
             @toggleExpand="handleToggleExpand"
@@ -67,6 +69,9 @@
                 name="actionButton"
                 :item="item"
               />
+            </template>
+            <template slot="moreItemResultsTextContent">
+              <slot name="moreResultsTextContent" />
             </template>
           </geo-tree-item>
         </draggable>

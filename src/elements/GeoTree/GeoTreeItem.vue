@@ -70,7 +70,7 @@
         @change="changeDrag($event, category)"
       >
         <geo-tree-item
-          v-for="subcategory in category[keyForSubcategory]"
+          v-for="subcategory in visibleItems"
           :key="subcategory[keyForId]"
           :class="dragClassToIgnore"
           :data-test="`subcategory-${subcategory[keyForId]}`"
@@ -105,6 +105,12 @@
             />
           </template>
         </geo-tree-item>
+        <geo-list-footer-button
+          v-if="hasMoreResultsToLoad"
+          @click="loadNextPage"
+        >
+          <slot name="moreItemResultsTextContent" />
+        </geo-list-footer-button>
       </draggable>
     </ul>
   </li>
@@ -217,11 +223,28 @@ export default {
     isSingleSelectMode: {
       type: Boolean,
       default: false
+    },
+    /*
+    * Optional boolean to show load more button
+    * */
+    hasLoadMoreButton: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
+    /*
+    * Max number of items to be shown in one page if load more button is active
+    * */
+    pageSize: {
+      type: Number,
+      required: false,
+      default: 20
     }
   },
   data () {
     return {
-      isShowActionButton: false
+      isShowActionButton: false,
+      visiblePages: 1
     }
   },
   computed: {
@@ -302,6 +325,18 @@ export default {
       if (this.isSingleItem) return false
 
       return this.isSingleSelectMode || this.isFolderSelectHidden
+    },
+
+    hasMoreResultsToLoad () {
+      if (!this.hasLoadMoreButton) return false
+
+      return this.pageSize * this.visiblePages < this.category[this.keyForSubcategory].length
+    },
+
+    visibleItems () {
+      return this.hasLoadMoreButton
+        ? _.slice(this.category[this.keyForSubcategory], 0, this.visiblePages * this.pageSize)
+        : this.category[this.keyForSubcategory]
     }
   },
   methods: {
@@ -366,6 +401,10 @@ export default {
 
     isEmptyCategory (category) {
       return !_.isNil(category[this.keyForSubcategory]) && !_.size(category[this.keyForSubcategory])
+    },
+
+    loadNextPage () {
+      this.visiblePages = this.visiblePages + 1
     }
   }
 }
