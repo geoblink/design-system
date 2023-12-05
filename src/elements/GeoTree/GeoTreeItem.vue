@@ -87,6 +87,8 @@
           :is-single-select-mode="isSingleSelectMode"
           :is-folder-select-hidden="isFolderSelectHidden"
           :is-item-select-disabled="isItemSelectDisabled"
+          :has-load-more-button="hasLoadMoreButton"
+          :page-size="pageSize"
           @check-item="handleCheckChildItem"
           @check-folder="handleCheckChildFolder"
           @click="handleClick"
@@ -330,7 +332,7 @@ export default {
     hasMoreResultsToLoad () {
       if (!this.hasLoadMoreButton) return false
 
-      return this.pageSize * this.visiblePages < this.category[this.keyForSubcategory].length
+      return this.pageSize * this.visiblePages < _.size(this.category[this.keyForSubcategory])
     },
 
     visibleItems () {

@@ -303,7 +303,7 @@ export default {
     hasMoreResultsToLoad () {
       if (!this.hasLoadMoreButton) return false
 
-      return this.pageSize * this.visiblePages < this.filteredCategories.length
+      return this.pageSize * this.visiblePages < _.size(this.filteredCategories)
     },
 
     visibleItems () {
