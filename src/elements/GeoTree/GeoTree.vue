@@ -71,7 +71,7 @@
               />
             </template>
             <template slot="moreItemResultsTextContent">
-              <slot name="moreResultsTextContent" />
+              <slot name="moreItemResultsTextContent" />
             </template>
           </geo-tree-item>
         </draggable>
