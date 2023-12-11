@@ -76,7 +76,7 @@
           </geo-tree-item>
         </draggable>
       </ul>
-      <template slot="moreCategoriesTextContent">
+      <template slot="moreResultsTextContent">
         <slot name="moreCategoriesTextContent" />
       </template>
     </geo-scrollable-container>
