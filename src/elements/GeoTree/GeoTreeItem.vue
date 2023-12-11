@@ -106,6 +106,9 @@
               :item="item"
             />
           </template>
+          <template slot="moreItemsTextContent">
+            <slot name="moreItemsTextContent" />
+          </template>
         </geo-tree-item>
         <geo-list-footer-button
           v-if="hasMoreResultsToLoad"
