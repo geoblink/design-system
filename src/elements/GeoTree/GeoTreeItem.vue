@@ -111,7 +111,7 @@
           v-if="hasMoreResultsToLoad"
           @click="loadNextPage"
         >
-          <slot name="moreItemResultsTextContent" />
+          <slot name="moreItemsTextContent" />
         </geo-list-footer-button>
       </draggable>
     </ul>

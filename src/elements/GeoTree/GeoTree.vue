@@ -70,14 +70,14 @@
                 :item="item"
               />
             </template>
-            <template slot="moreItemResultsTextContent">
-              <slot name="moreItemResultsTextContent" />
+            <template slot="moreItemsTextContent">
+              <slot name="moreItemsTextContent" />
             </template>
           </geo-tree-item>
         </draggable>
       </ul>
-      <template slot="moreResultsTextContent">
-        <slot name="moreResultsTextContent" />
+      <template slot="moreCategoriesTextContent">
+        <slot name="moreCategoriesTextContent" />
       </template>
     </geo-scrollable-container>
   </div>
