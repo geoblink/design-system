@@ -52,6 +52,8 @@
             :is-single-select-mode="isSingleSelectMode"
             :is-folder-select-hidden="!!maxCheckedItems"
             :is-item-select-disabled="hasMaxItemsSelected"
+            :has-load-more-button="hasLoadMoreButton"
+            :page-size="pageSize"
             @check-item="handleCheckItem"
             @check-folder="handleCheckFolder"
             @toggleExpand="handleToggleExpand"
@@ -68,11 +70,14 @@
                 :item="item"
               />
             </template>
+            <template slot="moreItemsTextContent">
+              <slot name="moreItemsTextContent" />
+            </template>
           </geo-tree-item>
         </draggable>
       </ul>
       <template slot="moreResultsTextContent">
-        <slot name="moreResultsTextContent" />
+        <slot name="moreCategoriesTextContent" />
       </template>
     </geo-scrollable-container>
   </div>
@@ -298,7 +303,7 @@ export default {
     hasMoreResultsToLoad () {
       if (!this.hasLoadMoreButton) return false
 
-      return this.pageSize * this.visiblePages < this.filteredCategories.length
+      return this.pageSize * this.visiblePages < _.size(this.filteredCategories)
     },
 
     visibleItems () {

@@ -944,7 +944,7 @@ export default {
       :checked-items="checkedCategories"
       @check-item="handleCheckItem"
     >
-    <template slot="moreResultsTextContent">
+    <template slot="moreCategoriesTextContent">
       Load more
     </template>
     </geo-tree>  
