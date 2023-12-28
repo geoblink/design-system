@@ -61,13 +61,13 @@ describe('GeoListGroup', () => {
       }
     })
 
-    expect(wrapper.find('.geo-list-group__header__trailing-accessory-items .my-demo-content').exists()).toBe(true)
+    expect(wrapper.find('.geo-list-group__header--trailing-accessory-items .my-demo-content').exists()).toBe(true)
   })
 
   it('Should not render trailing accessory items container if trailingAccessoryItem is empty', function () {
     const wrapper = mount(GeoListGroup, {})
 
-    expect(wrapper.find('.geo-list-group__header__trailing-accessory-items').exists()).toBe(false)
+    expect(wrapper.find('.geo-list-group__header--trailing-accessory-items').exists()).toBe(false)
   })
 
   it('Should render item slot in content', function () {
