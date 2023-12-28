@@ -1,5 +1,10 @@
 # Changelog
 
+## 36.0.0
+Changed:
+- `GeoTree`: `keyForSubcategory` is changed as 'subcategories'.
+- `GeoTreeItem`: `keyForSubcategory` is changed as 'subcategories'.
+
 ## 35.5.0
 New:
 - `GeoTreeItem`: Load more results button is added for the sub tree items.
