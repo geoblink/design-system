@@ -5,26 +5,26 @@
       class="geo-list-group__header"
       @click="emitClick($event)"
     >
-      <div class="geo-list-group__header__icon-and-label">
+      <div class="geo-list-group__header--icon-and-label">
         <div
           v-if="icon"
-          class="geo-list-group__header__icon-and-label__icon-container"
+          class="geo-list-group__header--icon-and-label__icon-container"
         >
           <font-awesome-icon
             :icon="icon"
-            class="geo-list-group__header__icon-and-label__icon-container__icon"
+            class="geo-list-group__header--icon-and-label__icon-container__icon"
             aria-hidden
             fixed-width
           />
         </div>
-        <div class="geo-list-group__header__icon-and-label__label">
+        <div class="geo-list-group__header--icon-and-label__label">
           <!-- @slot Use this slot to customize group's title -->
           <slot name="title" />
         </div>
       </div>
       <div
         v-if="hasTrailingAccessoryItems"
-        class="geo-list-group__header__trailing-accessory-items"
+        class="geo-list-group__header--trailing-accessory-items"
       >
         <!-- @slot Use this slot to add more items to the trailing edge of this group's header -->
         <slot name="trailingAccessoryItem" />
