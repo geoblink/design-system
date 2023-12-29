@@ -26,17 +26,17 @@
   white-space: nowrap;
 }
 
-.geo-list-group__header--icon-and-label {
+.geo-list-group__header-icon-and-label {
   align-items: center;
   display: flex;
   flex-direction: row;
 }
 
-.geo-list-group__header--icon-and-label__icon-container {
+.geo-list-group__header-icon-and-label__icon-container {
   margin-right: $space-small;
 }
 
-.geo-list-group__header--trailing-accessory-items {
+.geo-list-group__header-trailing-accessory-items {
   color: $color-grey-light;
   margin-left: $space-small;
 }
