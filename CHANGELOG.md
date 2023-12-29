@@ -2,8 +2,7 @@
 
 ## 36.0.0
 Changed:
-- `GeoTree`: `keyForSubcategory` is changed as 'subcategories'.
-- `GeoTreeItem`: `keyForSubcategory` is changed as 'subcategories'.
+- `GeoTree`, `GeoTreeItem`: Default value of `keyForSubcategory` is changed.
 
 ## 35.5.0
 New:
