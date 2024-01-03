@@ -21,7 +21,7 @@
             fixed-width
           />
         </div>
-        <div class="geo-list-item__icon-and-label__label">
+        <div class="geo-list-item__label">
           <!-- @slot Use this slot to customize rows's main content -->
           <slot />
         </div>

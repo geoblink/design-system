@@ -8,16 +8,16 @@
       <div class="geo-list-group__header-icon-and-label">
         <div
           v-if="icon"
-          class="geo-list-group__header-icon-and-label__icon-container"
+          class="geo-list-group__icon-container"
         >
           <font-awesome-icon
             :icon="icon"
-            class="geo-list-group__header-icon-and-label__icon-container__icon"
+            class="geo-list-group__icon"
             aria-hidden
             fixed-width
           />
         </div>
-        <div class="geo-list-group__header-icon-and-label__label">
+        <div class="geo-list-group__label">
           <!-- @slot Use this slot to customize group's title -->
           <slot name="title" />
         </div>
