@@ -162,7 +162,7 @@ export default {
     keyForSubcategory: {
       type: String,
       required: false,
-      default: 'subcategory'
+      default: 'subcategories'
     },
     /**
      * List of all the items checked, it's an object with truthy keys

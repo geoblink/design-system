@@ -159,7 +159,7 @@ export default {
     keyForSubcategory: {
       type: String,
       required: false,
-      default: 'subcategory'
+      default: 'subcategories'
     },
     /**
     * Used to determine if you can search or not
