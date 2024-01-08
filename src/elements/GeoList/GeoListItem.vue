@@ -12,7 +12,7 @@
       <div class="geo-list-item__icon-and-label">
         <div
           v-if="icon"
-          class="geo-list-item__icon-and-label__icon-container"
+          class="geo-list-item__icon-container"
         >
           <font-awesome-icon
             :icon="icon"
