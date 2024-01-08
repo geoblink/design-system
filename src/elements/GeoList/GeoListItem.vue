@@ -16,7 +16,7 @@
         >
           <font-awesome-icon
             :icon="icon"
-            class="geo-list-item__icon-and-label__icon-container__icon"
+            class="geo-list-item__icon"
             aria-hidden
             fixed-width
           />
@@ -36,7 +36,7 @@
         <font-awesome-icon
           v-if="trailingIcon"
           :icon="trailingIcon"
-          class="geo-list-item__icon-and-label__icon-container__icon"
+          class="geo-list-item__icon"
           aria-hidden
           fixed-width
         />

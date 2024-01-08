@@ -8,6 +8,7 @@ Changed:
 - `geo-list-group__header__trailing-accessory-items`: `geo-list-group-header__trailing-accessory-items`
 - `geo-list-group__header__icon-and-label__icon-container__icon`: `geo-list-group-header__icon`
 - `geo-list-group__header__icon-and-label__label`: `geo-list-group-header__label`
+- `geo-list-item__icon-and-label__icon-container__icon`: `geo-list-item__icon`
 ## 35.5.0
 New:
 - `GeoTreeItem`: Load more results button is added for the sub tree items.
