@@ -3,9 +3,11 @@
 ## 37.0.0
 Changed:
 - `GeoListGroup`: The classnames are renamed according to BEM notation:
-- `geo-list-group__header___icon-and-label`: `geo-list-group__header-icon-and-label`
-- `geo-list-group__header__icon-and-label__icon-container`: `geo-list-group__header-icon-and-label__icon-container`
-- `geo-list-group__header__trailing-accessory-items`: `geo-list-group___header-trailing-accessory-items`
+- `geo-list-group__header___icon-and-label`: `geo-list-group-header__icon-and-label`
+- `geo-list-group__header__icon-and-label__icon-container`: `geo-list-group-header__icon-container`
+- `geo-list-group__header__trailing-accessory-items`: `geo-list-group-header__trailing-accessory-items`
+- `geo-list-group__header__icon-and-label__icon-container__icon`: `geo-list-group-header__icon`
+- `geo-list-group__header__icon-and-label__label`: `geo-list-group-header__label`
 ## 35.5.0
 New:
 - `GeoTreeItem`: Load more results button is added for the sub tree items.

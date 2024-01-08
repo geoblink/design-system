@@ -26,10 +26,10 @@
     width: calc(100% - 10px - 0.875em);
   }
 
-  .geo-list-group__label,
+  .geo-list-group-header__label,
   .geo-list-item__icon-and-label,
   .geo-list-item__label,
-  .geo-list-group__header-icon-and-label{
+  .geo-list-group-header__icon-and-label{
     width: 100%;
 
     .geo-trimmed-content {
