@@ -1,6 +1,6 @@
 # Changelog
 
-## 37.0.0
+## 36.1.0
 Changed:
 - `GeoListGroup`: The classnames are renamed according to BEM notation:
 - `geo-list-group__header___icon-and-label`: `geo-list-group-header__icon-and-label`
