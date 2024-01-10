@@ -1,5 +1,15 @@
 # Changelog
 
+## 36.1.0
+Changed:
+- `GeoListGroup`: The classnames are renamed according to BEM notation:
+- `geo-list-group__header___icon-and-label`: `geo-list-group-header__icon-and-label`
+- `geo-list-group__header__icon-and-label__icon-container`: `geo-list-group-header__icon-container`
+- `geo-list-group__header__trailing-accessory-items`: `geo-list-group-header__trailing-accessory-items`
+- `geo-list-group__header__icon-and-label__icon-container__icon`: `geo-list-group-header__icon`
+- `geo-list-group__header__icon-and-label__label`: `geo-list-group-header__label`
+- `geo-list-item__icon-and-label__icon-container__icon`: `geo-list-item__icon`,
+- `geo-list-item__icon-and-label__icon-container`: `geo-list-item__icon-container`
 ## 36.0.0
 Changed:
 - `GeoTree`, `GeoTreeItem`: Default value of `keyForSubcategory` is changed from `subcategory` to `subcategories`.

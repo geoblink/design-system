@@ -14,13 +14,13 @@ describe('GeoListGroup', () => {
       }
     })
 
-    expect(wrapper.find('.geo-list-group__header .my-demo-content').exists()).toBe(true)
+    expect(wrapper.find('.geo-list-group-header .my-demo-content').exists()).toBe(true)
   })
 
   it('Should not render header if there is no title slot', function () {
     const wrapper = mount(GeoListGroup, {})
 
-    expect(wrapper.find('.geo-list-group__header').exists()).toBe(false)
+    expect(wrapper.find('.geo-list-group-header').exists()).toBe(false)
   })
 
   it('Should render icon in header', function () {
@@ -49,7 +49,7 @@ describe('GeoListGroup', () => {
       }
     })
 
-    wrapper.find('.geo-list-group__header').trigger('click')
+    wrapper.find('.geo-list-group-header').trigger('click')
     expect(wrapper.emitted().click).toBeTruthy()
   })
 
@@ -61,13 +61,13 @@ describe('GeoListGroup', () => {
       }
     })
 
-    expect(wrapper.find('.geo-list-group__header__trailing-accessory-items .my-demo-content').exists()).toBe(true)
+    expect(wrapper.find('.geo-list-group-header__trailing-accessory-items .my-demo-content').exists()).toBe(true)
   })
 
   it('Should not render trailing accessory items container if trailingAccessoryItem is empty', function () {
     const wrapper = mount(GeoListGroup, {})
 
-    expect(wrapper.find('.geo-list-group__header__trailing-accessory-items').exists()).toBe(false)
+    expect(wrapper.find('.geo-list-group-header__trailing-accessory-items').exists()).toBe(false)
   })
 
   it('Should render item slot in content', function () {

@@ -242,7 +242,7 @@ describe('GeoMultiSelect', () => {
     const changeModelSpy = jest.spyOn(wrapper.vm, 'changeModel')
     expect(wrapper.findAll('.geo-list-item').length).toBe(5)
     expect(wrapper.findAll('.geo-list-group').length).toBe(1)
-    wrapper.findAll('.geo-list-group').at(0).find('.geo-list-group__header .geo-multi-select_input').trigger('input')
+    wrapper.findAll('.geo-list-group').at(0).find('.geo-list-group-header .geo-multi-select_input').trigger('input')
     expect(changeModelSpy).toHaveBeenCalledWith(firstGroupItems)
   })
 
@@ -270,7 +270,7 @@ describe('GeoMultiSelect', () => {
     const changeModelSpy = jest.spyOn(wrapper.vm, 'changeModel')
     expect(wrapper.findAll('.geo-list-item').length).toBe(3)
     expect(wrapper.findAll('.geo-list-group').length).toBe(1)
-    wrapper.findAll('.geo-list-group').at(0).find('.geo-list-group__header .geo-multi-select_input').trigger('input')
+    wrapper.findAll('.geo-list-group').at(0).find('.geo-list-group-header .geo-multi-select_input').trigger('input')
     expect(changeModelSpy).toHaveBeenCalledWith(firstGroupItems)
   })
 })

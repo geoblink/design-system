@@ -13,12 +13,12 @@
   list-style: none;
 }
 
-.geo-tree-item .geo-list-item__icon-and-label__icon-container {
+.geo-tree-item .geo-list-item__icon-container {
   text-align: center;
   width: 14px;
 }
 
-.geo-tree-item .geo-list-item__icon-and-label__icon-container__icon {
+.geo-tree-item .geo-list-item__icon {
   color: $color-grey-backdrop;
   width: 5px;
 }
@@ -29,11 +29,11 @@
   font-style: italic;
 }
 
-.geo-tree-item .geo-list-item__icon-and-label__icon-container__icon {
+.geo-tree-item .geo-list-item__icon {
   transition: transform 0.25s;
 }
 
-.geo-tree-item--rotated-icon .geo-list-item__icon-and-label__icon-container__icon {
+.geo-tree-item--rotated-icon .geo-list-item__icon {
   transform: rotate(90deg);
 }
 

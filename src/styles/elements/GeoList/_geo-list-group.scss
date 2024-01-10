@@ -7,7 +7,7 @@
   }
 }
 
-.geo-list-group__header {
+.geo-list-group-header {
   align-items: center;
   background: $color-white;
   border-radius: $border-radius-default;
@@ -26,17 +26,17 @@
   white-space: nowrap;
 }
 
-.geo-list-group__header__icon-and-label {
+.geo-list-group-header__icon-and-label {
   align-items: center;
   display: flex;
   flex-direction: row;
 }
 
-.geo-list-group__header__icon-and-label__icon-container {
+.geo-list-group-header__icon-container {
   margin-right: $space-small;
 }
 
-.geo-list-group__header__trailing-accessory-items {
+.geo-list-group-header__trailing-accessory-items {
   color: $color-grey-light;
   margin-left: $space-small;
 }
