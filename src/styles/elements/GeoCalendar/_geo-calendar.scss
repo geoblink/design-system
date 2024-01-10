@@ -82,7 +82,7 @@
     height: $calendar-input-height;
   }
 
-  .geo-editable-input__form__input--geo-calendar {
+  .geo-editable-input-form__input--geo-calendar {
     @include font($body-small);
 
     height: calc(#{$calendar-input-height} - 2px); //2px of border in the inner input

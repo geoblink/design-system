@@ -26,7 +26,7 @@
   &:hover {
     background-color: $color-white-dark;
 
-    .geo-editable-input__form__input {
+    .geo-editable-input-form__input {
       border: 1px solid $color-grey;
     }
   }
@@ -35,7 +35,7 @@
 .geo-editable-input__container-table--edit {
   background-color: $color-white-dark;
 
-  .geo-editable-input__form__input {
+  .geo-editable-input-form__input {
     border: 1px solid $color-grey;
   }
 }
@@ -43,12 +43,12 @@
 .geo-editable-input__container--disabled:hover {
   background-color: $color-white;
 
-  .geo-editable-input__form__input {
+  .geo-editable-input-form__input {
     border: 1px solid transparent;
   }
 }
 
-.geo-editable-input__form__input {
+.geo-editable-input-form__input {
   border: 1px solid transparent;
   border-radius: $border-radius-default;
   box-sizing: border-box;
@@ -66,7 +66,7 @@
   }
 }
 
-.geo-editable-input__container__buttons {
+.geo-editable-input__buttons-container {
   display: flex;
   justify-content: flex-end;
 }
