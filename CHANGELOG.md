@@ -1,5 +1,10 @@
 # Changelog
 
+## 36.3.0
+Changed:
+- `GeoDropdownRegularButton`: The classnames are renamed according to BEM notation:
+- `geo-dropdown__regular-button-container`: `geo-dropdown-regular-button-container`
+- `geo-dropdown__regular-button-container__icon`: `geo-dropdown-regular-button-container__icon`
 ## 36.1.0
 Changed:
 - `GeoListGroup`: The classnames are renamed according to BEM notation:

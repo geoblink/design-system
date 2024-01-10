@@ -1,4 +1,4 @@
-.geo-dropdown__regular-button-container {
+.geo-dropdown-regular-button-container {
   align-items: center;
   background-color: $color-white;
   border: 1px solid $color-grey;
@@ -16,7 +16,7 @@
   &:hover, &[hover] {
     border-color: $color-blue;
 
-    .geo-dropdown__regular-button-container__icon {
+    .geo-dropdown-regular-button-container__icon {
       color: $color-blue;
     }
   }
@@ -27,7 +27,7 @@
   }
 }
 
-.geo-dropdown__regular-button-container__icon {
+.geo-dropdown-regular-button-container__icon {
   &--left {
     margin-right: 5px;
     order: 1;
@@ -43,30 +43,30 @@
   }
 }
 
-.geo-dropdown__regular-button-container__content {
+.geo-dropdown-regular-button-container__content {
   order: 1;
 }
 
-.geo-dropdown__regular-button-container--disabled {
+.geo-dropdown-regular-button-container--disabled {
   cursor: not-allowed;
 
   &, &:hover, &[hover] {
     background-color: $color-white-dark;
     border-color: $color-grey;
 
-    .geo-dropdown__regular-button-container__icon {
+    .geo-dropdown-regular-button-container__icon {
       color: $color-grey-light;
     }
   }
 }
 
-.geo-dropdown__regular-button-container--active {
+.geo-dropdown-regular-button-container--active {
   &, &:hover, &[hover] {
     background-color: $color-blue;
     border-color: $color-blue;
     color: $color-white;
 
-    strong, .geo-dropdown__regular-button-container__icon {
+    strong, .geo-dropdown-regular-button-container__icon {
       color: $color-yellow-light;
     }
   }
