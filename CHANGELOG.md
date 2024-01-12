@@ -4,6 +4,10 @@ Changed:
 - `GeoEditableInput`: The classnames are renamed according to BEM notation:
 - `geo-editable-input__form__input`: `geo-editable-input-form__input`
 - `geo-editable-input__container__buttons`: `geo-editable-input__buttons-container`
+`GeoDropdownRegularButton`: The classnames are renamed according to BEM notation:
+- `geo-dropdown__regular-button-container`: `geo-dropdown-regular-button-container`
+- `geo-dropdown__regular-button-container__icon`: `geo-dropdown-regular-button-container__icon`
+- `geo-calendar__input__date-feedback--error`: `geo-calendar-input__date-feedback--error`
 ## 36.1.0
 Changed:
 - `GeoListGroup`: The classnames are renamed according to BEM notation:
