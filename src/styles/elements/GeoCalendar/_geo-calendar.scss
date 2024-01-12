@@ -64,14 +64,8 @@
     justify-content: space-evenly;
     padding-bottom: $space-base;
   }
-
-  .geo-calendar__input {
-    align-items: flex-start;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .geo-calendar__input__date-feedback--error {
+  
+  .geo-calendar-input__date-feedback--error {
     @include font($label);
 
     color: $color-red;
