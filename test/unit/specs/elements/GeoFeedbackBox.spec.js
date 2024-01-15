@@ -45,7 +45,7 @@ describe('GeoFeedbackBox', () => {
       }
     })
     expect(wrapper.find('.geo-feedback-box').exists()).toBe(true)
-    expect(wrapper.find('.geo-feedback-box__content__close-icon').exists()).toBe(true)
+    expect(wrapper.find('.geo-feedback-box-content__close-icon').exists()).toBe(true)
     expect(wrapper.vm).toHaveProperty('shouldShowCloseButton', true)
   })
 
@@ -59,7 +59,7 @@ describe('GeoFeedbackBox', () => {
       }
     })
     expect(wrapper.find('.geo-feedback-box').exists()).toBe(true)
-    expect(wrapper.find('.geo-feedback-box__content__close-icon').exists()).toBe(false)
+    expect(wrapper.find('.geo-feedback-box-content__close-icon').exists()).toBe(false)
     expect(wrapper.vm).toHaveProperty('shouldShowCloseButton', false)
   })
 
@@ -76,7 +76,7 @@ describe('GeoFeedbackBox', () => {
         close: function () {}
       }
     })
-    wrapper.find('.geo-feedback-box__content__close-icon').trigger('click')
+    wrapper.find('.geo-feedback-box-content__close-icon').trigger('click')
     expect(wrapper.emitted().close).toBeTruthy()
   })
 
@@ -200,7 +200,7 @@ describe('GeoFeedbackBox Children', () => {
         }
       })
       expect(wrapper.find('.geo-feedback-box').exists()).toBe(true)
-      expect(wrapper.find('.geo-feedback-box__content__close-icon').exists()).toBe(true)
+      expect(wrapper.find('.geo-feedback-box-content__close-icon').exists()).toBe(true)
       expect(wrapper.vm).toHaveProperty('shouldShowCloseButton', true)
     })
 
@@ -217,7 +217,7 @@ describe('GeoFeedbackBox Children', () => {
       })
       expect(wrapper.find('.geo-feedback-box').exists()).toBe(true)
       expect(wrapper.vm).toHaveProperty('shouldShowCloseButton', false)
-      expect(wrapper.find('.geo-feedback-box__content__close-icon').exists()).toBe(false)
+      expect(wrapper.find('.geo-feedback-box-content__close-icon').exists()).toBe(false)
     })
 
     it('Should emit a close event when clicking on the close button', function () {
@@ -235,7 +235,7 @@ describe('GeoFeedbackBox Children', () => {
           close: closeStub
         }
       })
-      wrapper.find('.geo-feedback-box__content__close-icon').trigger('click')
+      wrapper.find('.geo-feedback-box-content__close-icon').trigger('click')
       expect(closeStub).toHaveProperty('calledOnce', true)
     })
 

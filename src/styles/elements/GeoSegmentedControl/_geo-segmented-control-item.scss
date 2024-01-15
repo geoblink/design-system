@@ -30,28 +30,28 @@
   }
 }
 
-.geo-segmented-control-item--info--active {
+.geo-segmented-control-item--info.active {
   &, &:hover {
     background: $color-blue;
     color: $color-white;
   }
 }
 
-.geo-segmented-control-item--success--active {
+.geo-segmented-control-item--success.active {
   &, &:hover {
     background: $color-green;
     color: $color-white;
   }
 }
 
-.geo-segmented-control-item--warning--active {
+.geo-segmented-control-item--warning.active {
   &, &:hover {
     background: $color-yellow;
     color: $color-white;
   }
 }
 
-.geo-segmented-control-item--danger--active {
+.geo-segmented-control-item--danger.active {
   &, &:hover {
     background: $color-red;
     color: $color-white;
@@ -59,7 +59,7 @@
 }
 
 .geo-segmented-control-item--disabled,
-.geo-segmented-control-item--active--disabled {
+.geo-segmented-control-item--disabled.active {
   &, &:hover {
     background: $color-grey;
     color: $color-grey-darker;
@@ -81,54 +81,54 @@
   }
 }
 
-.geo-segmented-control-item--info--outline--active {
+.geo-segmented-control-item--info-outline.active {
   &, &:hover {
     border-color: $color-blue;
     color: $color-blue;
   }
 }
 
-.geo-segmented-control-item--success--outline {
+.geo-segmented-control-item--success-outline {
   &:hover {
     color: $color-green;
   }
 }
 
-.geo-segmented-control-item--success--outline--active {
+.geo-segmented-control-item--success-outline.active {
   &, &:hover {
     border-color: $color-green;
     color: $color-green;
   }
 }
 
-.geo-segmented-control-item--warning--outline {
+.geo-segmented-control-item--warning-outline {
   &:hover {
     color: $color-yellow;
   }
 }
 
-.geo-segmented-control-item--warning--outline--active {
+.geo-segmented-control-item--warning-outline.active {
   &, &:hover {
     border-color: $color-yellow;
     color: $color-yellow;
   }
 }
 
-.geo-segmented-control-item--danger--outline {
+.geo-segmented-control-item--danger-outline {
   &:hover {
     color: $color-red;
   }
 }
 
-.geo-segmented-control-item--danger--outline--active {
+.geo-segmented-control-item--danger-outline.active {
   &, &:hover {
     border-color: $color-red;
     color: $color-red;
   }
 }
 
-.geo-segmented-control-item--outline--disabled,
-.geo-segmented-control-item--outline--active--disabled {
+.geo-segmented-control-item-outline--disabled,
+.geo-segmented-control-item-outline--disabled.active {
   &, &:hover {
     background: $color-grey;
     border-color: transparent;

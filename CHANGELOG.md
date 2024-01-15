@@ -4,10 +4,31 @@ Changed:
 - `GeoEditableInput`: The classnames are renamed according to BEM notation:
 - `geo-editable-input__form__input`: `geo-editable-input-form__input`
 - `geo-editable-input__container__buttons`: `geo-editable-input__buttons-container`
-`GeoDropdownRegularButton`: The classnames are renamed according to BEM notation:
+- `GeoDropdownRegularButton`: The classnames are renamed according to BEM notation:
 - `geo-dropdown__regular-button-container`: `geo-dropdown-regular-button-container`
 - `geo-dropdown__regular-button-container__icon`: `geo-dropdown-regular-button-container__icon`
+- `GeoCalendar`: The classnames are renamed according to BEM notation:
 - `geo-calendar__input__date-feedback--error`: `geo-calendar-input__date-feedback--error`
+- `GeoFeedbackBox`: The classnames are renamed according to BEM notation:
+- `geo-feedback-box__content`: `geo-feedback-box-content`
+- `geo-feedback-box__content__icon`: `geo-feedback-box__content__icon`
+- `geo-feedback-box__content__close-icon`: `geo-feedback-box__content__close-icon`
+- `geo-feedback-box__content__body`: `geo-feedback-box__content__body`
+- `geo-feedback-box__content__actions`: `geo-feedback-box__content__actions`
+- `geo-segmented-control-item--info--active`: `geo-segmented-control-item--info active`
+- `geo-segmented-control-item--success--active`: `geo-segmented-control-item--success active`
+- `geo-segmented-control-item--warning--active`: `geo-segmented-control-item--warning active`
+- `geo-segmented-control-item--danger--active`: `geo-segmented-control-item--danger active`
+- `geo-segmented-control-item--active--disabled`: `geo-segmented-control-item--disabled active`
+- `geo-segmented-control-item--info--outline--active`: `geo-segmented-control-item--info-outline active`
+- `geo-segmented-control-item--success--outline`: `geo-segmented-control-item--success-outline`
+- `geo-segmented-control-item--success--outline--active`: `geo-segmented-control-item--success-outline active`
+- `geo-segmented-control-item--warning--outline`: `geo-segmented-control-item--warning-outline`
+- `geo-segmented-control-item--warning--outline--active`: `geo-segmented-control-item--warning-outline active`
+- `geo-segmented-control-item--danger--outline`: `geo-segmented-control-item--danger-outline`
+- `geo-segmented-control-item--danger--outline--active`: `geo-segmented-control-item--danger-outline active`
+- `geo-segmented-control-item--outline--disabled`: `geo-segmented-control-item--outline-disabled`
+- `geo-segmented-control-item--outline--active--disabled`: `geo-segmented-control-item--outline-disabled active`
 ## 36.1.0
 Changed:
 - `GeoListGroup`: The classnames are renamed according to BEM notation:

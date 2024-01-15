@@ -1,12 +1,11 @@
 <template>
   <geo-trimmed-content
     :class="{
-      [`geo-segmented-control-item${outlineSuffix}`]: true,
-      [`geo-segmented-control-item--${variant}${outlineSuffix}`]: true,
-      [`geo-segmented-control-item${outlineSuffix}--active`]: active,
-      [`geo-segmented-control-item--${variant}${outlineSuffix}--active`]: active,
-      [`geo-segmented-control-item${outlineSuffix}--disabled`]: disabled,
-      [`geo-segmented-control-item--${variant}${outlineSuffix}--disabled`]: disabled
+      [`geo-segmented-control-item${outlineSuffix(true)}`]: true,
+      [`geo-segmented-control-item--${variant}${outlineSuffix()}`]: true,
+      ['active']: active,
+      [`geo-segmented-control-item--disabled${outlineSuffix()}`]: disabled,
+      [`geo-segmented-control-item--${variant}${outlineSuffix()}-disabled`]: disabled
     }"
     @click.native="handleClick($event)"
   >
@@ -62,14 +61,6 @@ export default {
       defaultValue: VARIANTS.info
     })
   },
-  computed: {
-    outlineSuffix () {
-      const isOutline = this.outline || this.$parent.outline
-      return isOutline
-        ? '--outline'
-        : ''
-    }
-  },
   methods: {
     handleClick ($event) {
       if (this.disabled) return
@@ -81,6 +72,12 @@ export default {
        * @type {MouseEvent}
        */
       this.$emit('click', $event)
+    },
+    outlineSuffix (withSuffix = false) {
+      const isOutline = this.outline || this.$parent.outline
+      return isOutline
+        ? withSuffix ? '--outline' : '-outline'
+        : ''
     }
   }
 }
