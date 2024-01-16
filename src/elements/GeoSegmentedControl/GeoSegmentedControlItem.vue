@@ -3,7 +3,7 @@
     :class="{
       [`geo-segmented-control-item${outlineSuffix(true)}`]: true,
       [`geo-segmented-control-item--${variant}${outlineSuffix()}`]: true,
-      ['active']: active,
+      ['geo-segmented-control-item--active']: active,
       [`geo-segmented-control-item--disabled${outlineSuffix()}`]: disabled,
       [`geo-segmented-control-item--${variant}${outlineSuffix()}-disabled`]: disabled
     }"

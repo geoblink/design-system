@@ -82,13 +82,13 @@ describe('GeoSegmentedControlItem', () => {
       }
     })
 
-    expect(wrapper.find('.geo-segmented-control-item.active').exists()).toBe(true)
+    expect(wrapper.find('.geo-segmented-control-item--active').exists()).toBe(true)
   })
 
   it('Should not add active class when it\'s not active', function () {
     const wrapper = shallowMount(GeoSegmentedControlItem)
 
-    expect(wrapper.find('.geo-segmented-control-item.active').exists()).toBe(false)
+    expect(wrapper.find('.geo-segmented-control-item--active').exists()).toBe(false)
   })
 
   it('Should add outline class when it\'s outlined', function () {
