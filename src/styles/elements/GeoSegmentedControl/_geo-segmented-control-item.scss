@@ -75,60 +75,60 @@
 
 }
 
-.geo-segmented-control-item--info--outline {
+.geo-segmented-control-item--info.geo-segmented-control-item--outline {
   &:hover {
     color: $color-blue;
   }
 }
 
-.geo-segmented-control-item--info-outline.geo-segmented-control-item--active {
+.geo-segmented-control-item--info.geo-segmented-control-item--outline.geo-segmented-control-item--active {
   &, &:hover {
     border-color: $color-blue;
     color: $color-blue;
   }
 }
 
-.geo-segmented-control-item--success-outline {
+.geo-segmented-control-item--success.geo-segmented-control-item--outline {
   &:hover {
     color: $color-green;
   }
 }
 
-.geo-segmented-control-item--success-outline.geo-segmented-control-item--active {
+.geo-segmented-control-item--success.geo-segmented-control-item--outline.geo-segmented-control-item--active {
   &, &:hover {
     border-color: $color-green;
     color: $color-green;
   }
 }
 
-.geo-segmented-control-item--warning-outline {
+.geo-segmented-control-item--warning.geo-segmented-control-item--outline {
   &:hover {
     color: $color-yellow;
   }
 }
 
-.geo-segmented-control-item--warning-outline.geo-segmented-control-item--active {
+.geo-segmented-control-item--warning.geo-segmented-control-item--outline.geo-segmented-control-item--active {
   &, &:hover {
     border-color: $color-yellow;
     color: $color-yellow;
   }
 }
 
-.geo-segmented-control-item--danger-outline {
+.geo-segmented-control-item--danger.geo-segmented-control-item--outline {
   &:hover {
     color: $color-red;
   }
 }
 
-.geo-segmented-control-item--danger-outline.geo-segmented-control-item--active {
+.geo-segmented-control-item--danger.geo-segmented-control-item--outline.geo-segmented-control-item--active {
   &, &:hover {
     border-color: $color-red;
     color: $color-red;
   }
 }
 
-.geo-segmented-control-item-outline--disabled,
-.geo-segmented-control-item-outline--disabled.geo-segmented-control-item--active {
+.geo-segmented-control-item--outline.geo-segmented-control-item--disabled,
+.geo-segmented-control-item--outline.geo-segmented-control-item--disabled.geo-segmented-control-item--active {
   &, &:hover {
     background: $color-grey;
     border-color: transparent;

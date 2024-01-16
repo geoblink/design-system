@@ -45,7 +45,7 @@
       border-bottom-right-radius: 0;
     }
 
-    &.geo-segmented-control-item--outline-disabled {
+    &.geo-segmented-control-item--outline.geo-segmented-control-item--disabled {
       background: $color-grey;
       z-index: 1;
     }
