@@ -40,7 +40,7 @@ describe('GeoEditableInput', () => {
       }
     })
 
-    expect(wrapper.find('.geo-editable-input__form__input').exists()).toBe(true)
+    expect(wrapper.find('.geo-editable-input-form__input').exists()).toBe(true)
   })
 
   it('Should emit an event on click', function (done) {
@@ -53,7 +53,7 @@ describe('GeoEditableInput', () => {
       }
     })
 
-    wrapper.find('.geo-editable-input__form__input').trigger('click')
+    wrapper.find('.geo-editable-input-form__input').trigger('click')
     setTimeout(function () {
       try {
         expect(wrapper.emitted().click).toBeTruthy()
@@ -111,7 +111,7 @@ describe('GeoEditableInput', () => {
       }
     })
 
-    wrapper.find('.geo-editable-input__form__input').trigger('click')
+    wrapper.find('.geo-editable-input-form__input').trigger('click')
     setTimeout(function () {
       try {
         expect(wrapper.emitted().click).toBeFalsy()

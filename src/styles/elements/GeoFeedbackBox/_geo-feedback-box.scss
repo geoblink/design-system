@@ -1,12 +1,12 @@
-@mixin _geo-feedback-box__content--variant (
+@mixin _geo-feedback-box-content--variant (
   $text-color,
   $tint-color
 ) {
   background: $tint-color;
   color: $text-color;
 
-  .geo-feedback-box__content__icon,
-  .geo-feedback-box__content__close-icon:hover {
+  .geo-feedback-box-content__icon,
+  .geo-feedback-box-content__close-icon:hover {
     color: brighten($tint-color, -40);
   }
 
@@ -38,40 +38,40 @@
   z-index: $z-index-sticky;
 }
 
-.geo-feedback-box__content--info {
-  @include _geo-feedback-box__content--variant(
+.geo-feedback-box-content--info {
+  @include _geo-feedback-box-content--variant(
     $color-white,
     $color-blue-light
   );
 }
 
-.geo-feedback-box__content--success {
-  @include _geo-feedback-box__content--variant(
+.geo-feedback-box-content--success {
+  @include _geo-feedback-box-content--variant(
     $color-white,
     $color-green
   );
 }
 
-.geo-feedback-box__content--warning {
-  @include _geo-feedback-box__content--variant(
+.geo-feedback-box-content--warning {
+  @include _geo-feedback-box-content--variant(
     $color-white,
     $color-yellow
   );
 }
 
-.geo-feedback-box__content--error {
-  @include _geo-feedback-box__content--variant(
+.geo-feedback-box-content--error {
+  @include _geo-feedback-box-content--variant(
     $color-white,
     $color-red
   );
 }
 
-.geo-feedback-box__content--progress {
+.geo-feedback-box-content--progress {
   background: $color-blue-dark;
   color: $color-white;
 
-  .geo-feedback-box__content__icon,
-  .geo-feedback-box__content__close-icon:hover {
+  .geo-feedback-box-content__icon,
+  .geo-feedback-box-content__close-icon:hover {
     color: $color-link;
   }
 
@@ -84,7 +84,7 @@
   }
 }
 
-.geo-feedback-box__content {
+.geo-feedback-box-content {
   align-items: center;
   border-radius: 3px;
   box-shadow: $box-shadow-regular;
@@ -95,15 +95,15 @@
   position: relative;
 }
 
-.geo-feedback-box__content__icon {
+.geo-feedback-box-content__icon {
   margin-right: 15px;
 }
 
-.geo-feedback-box__content__body {
+.geo-feedback-box-content__body {
   margin-right: 10px;
 }
 
-.geo-feedback-box__content__actions {
+.geo-feedback-box-content__actions {
   flex-shrink: 0;
   margin-right: 5px;
   text-transform: uppercase;
@@ -116,7 +116,7 @@
   }
 }
 
-.geo-feedback-box__content__close-icon {
+.geo-feedback-box-content__close-icon {
   cursor: pointer;
   margin: 0 10px 0 5px;
 }

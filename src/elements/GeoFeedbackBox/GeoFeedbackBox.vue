@@ -7,24 +7,24 @@
   >
     <div
       :class="{
-        ['geo-feedback-box__content']: true,
-        [`geo-feedback-box__content--${variant}`]: variant
+        ['geo-feedback-box-content']: true,
+        [`geo-feedback-box-content--${variant}`]: variant
       }"
     >
       <div
         v-if="hasLeadingAccessoryItem"
-        class="geo-feedback-box__content__icon"
+        class="geo-feedback-box-content__icon"
       >
         <!-- @slot Use this slot to customized displayed message -->
         <slot name="leadingAccessoryItem" />
       </div>
-      <div class="geo-feedback-box__content__body">
+      <div class="geo-feedback-box-content__body">
         <!-- @slot Use this slot to show the message -->
         <slot name="content" />
       </div>
       <div
         v-if="hasActions"
-        class="geo-feedback-box__content__actions"
+        class="geo-feedback-box-content__actions"
       >
         <!-- @slot Use this slot to show additional actions after message -->
         <slot name="actions" />
@@ -32,7 +32,7 @@
       <font-awesome-icon
         v-if="shouldShowCloseButton"
         :icon="closeIcon"
-        class="geo-feedback-box__content__close-icon"
+        class="geo-feedback-box-content__close-icon"
         aria-hidden
         fixed-width
         @click="close($event)"

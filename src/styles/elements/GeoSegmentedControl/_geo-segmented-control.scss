@@ -45,7 +45,7 @@
       border-bottom-right-radius: 0;
     }
 
-    &.geo-segmented-control-item--outline--disabled {
+    &.geo-segmented-control-item--outline.geo-segmented-control-item--disabled {
       background: $color-grey;
       z-index: 1;
     }
@@ -53,13 +53,13 @@
     // We don't to overlap the right border of the active item with the left
     // border of a non-active one
     & + .geo-segmented-control-item--outline:not(
-      .geo-segmented-control-item--outline--active
+      .geo-segmented-control-item--outline.geo-segmented-control-item--active
     ) {
       border-left-color: $color-grey;
     }
 
     // We don't want left border on the button after the currently active one
-    &.geo-segmented-control-item--outline--active +
+    &.geo-segmented-control-item--outline.geo-segmented-control-item--active +
     .geo-segmented-control-item--outline {
       border-left-color: transparent;
     }

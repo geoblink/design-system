@@ -1,23 +1,23 @@
 <template>
   <div
     :class="{
-      ['geo-dropdown__regular-button-container']: true,
-      ['geo-dropdown__regular-button-container--active']: active,
-      ['geo-dropdown__regular-button-container--disabled']: disabled
+      ['geo-dropdown-regular-button-container']: true,
+      ['geo-dropdown-regular-button-container--active']: active,
+      ['geo-dropdown-regular-button-container--disabled']: disabled
     }"
     @click="emitClick($event)"
   >
     <font-awesome-icon
       v-if="icon"
       :icon="icon"
-      class="geo-dropdown__regular-button-container__icon"
-      :class="`geo-dropdown__regular-button-container__icon--${iconPosition}`"
+      class="geo-dropdown-regular-button-container__icon"
+      :class="`geo-dropdown-regular-button-container__icon--${iconPosition}`"
       aria-hidden
       fixed-width
     />
     <div
       v-if="hasContent"
-      class="geo-dropdown__regular-button-container__content"
+      class="geo-dropdown-regular-button-container__content"
     >
       <!-- @slot Use this slot to customize button's content -->
       <slot />

@@ -2,11 +2,9 @@
   <geo-trimmed-content
     :class="{
       [`geo-segmented-control-item${outlineSuffix}`]: true,
-      [`geo-segmented-control-item--${variant}${outlineSuffix}`]: true,
-      [`geo-segmented-control-item${outlineSuffix}--active`]: active,
-      [`geo-segmented-control-item--${variant}${outlineSuffix}--active`]: active,
-      [`geo-segmented-control-item${outlineSuffix}--disabled`]: disabled,
-      [`geo-segmented-control-item--${variant}${outlineSuffix}--disabled`]: disabled
+      [`geo-segmented-control-item--${variant}`]: true,
+      ['geo-segmented-control-item--active']: active,
+      [`geo-segmented-control-item--disabled`]: disabled,
     }"
     @click.native="handleClick($event)"
   >
@@ -62,6 +60,7 @@ export default {
       defaultValue: VARIANTS.info
     })
   },
+
   computed: {
     outlineSuffix () {
       const isOutline = this.outline || this.$parent.outline

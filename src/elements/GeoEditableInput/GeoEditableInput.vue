@@ -26,7 +26,7 @@
           :placeholder="placeholder"
           :disabled="disabled"
           :type="type"
-          class="geo-editable-input__form__input"
+          class="geo-editable-input-form__input"
           v-bind="$attrs"
           @click="emitClick($event)"
           @input="onInput($event)"
@@ -37,7 +37,7 @@
       <div
         v-if="showButtons"
         slot="popupContent"
-        class="geo-editable-input__container__buttons"
+        class="geo-editable-input__buttons-container"
       >
         <geo-secondary-compact-button
           :icon="cancelIcon"

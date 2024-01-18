@@ -25,7 +25,7 @@ describe('GeoDropdownSelectButton', () => {
       }
     })
 
-    expect(wrapper.find('.geo-dropdown__regular-button-container__icon').exists()).toBe(true)
+    expect(wrapper.find('.geo-dropdown-regular-button-container__icon').exists()).toBe(true)
   })
 
   it('Should emit click event when clicked', function () {
@@ -63,8 +63,8 @@ describe('GeoDropdownSelectButton', () => {
       }
     })
 
-    expect(wrapper.find('.geo-dropdown__regular-button-container--active').exists()).toBe(true)
-    expect(wrapper.find('.geo-dropdown__regular-button-container--disabled').exists()).toBe(false)
+    expect(wrapper.find('.geo-dropdown-regular-button-container--active').exists()).toBe(true)
+    expect(wrapper.find('.geo-dropdown-regular-button-container--disabled').exists()).toBe(false)
   })
 
   it('Should apply proper class when disabled', function () {
@@ -77,8 +77,8 @@ describe('GeoDropdownSelectButton', () => {
       }
     })
 
-    expect(wrapper.find('.geo-dropdown__regular-button-container--active').exists()).toBe(false)
-    expect(wrapper.find('.geo-dropdown__regular-button-container--disabled').exists()).toBe(true)
+    expect(wrapper.find('.geo-dropdown-regular-button-container--active').exists()).toBe(false)
+    expect(wrapper.find('.geo-dropdown-regular-button-container--disabled').exists()).toBe(true)
   })
 
   it('Should apply proper class when active and disabled', function () {
@@ -92,8 +92,8 @@ describe('GeoDropdownSelectButton', () => {
       }
     })
 
-    expect(wrapper.find('.geo-dropdown__regular-button-container--active').exists()).toBe(true)
-    expect(wrapper.find('.geo-dropdown__regular-button-container--disabled').exists()).toBe(true)
+    expect(wrapper.find('.geo-dropdown-regular-button-container--active').exists()).toBe(true)
+    expect(wrapper.find('.geo-dropdown-regular-button-container--disabled').exists()).toBe(true)
   })
 
   it('Should apply proper class when icon position by default', function () {
@@ -103,7 +103,7 @@ describe('GeoDropdownSelectButton', () => {
       }
     })
 
-    expect(wrapper.find('.geo-dropdown__regular-button-container__icon--right').exists()).toBe(true)
+    expect(wrapper.find('.geo-dropdown-regular-button-container__icon--right').exists()).toBe(true)
   })
 
   it('Should apply proper class when icon position left', function () {
@@ -116,7 +116,7 @@ describe('GeoDropdownSelectButton', () => {
       }
     })
 
-    expect(wrapper.find('.geo-dropdown__regular-button-container__icon--left').exists()).toBe(true)
+    expect(wrapper.find('.geo-dropdown-regular-button-container__icon--left').exists()).toBe(true)
   })
 
   it('Should render default slot content when given', async function () {
@@ -130,7 +130,7 @@ describe('GeoDropdownSelectButton', () => {
     })
 
     await Vue.nextTick()
-    expect(wrapper.find('.geo-dropdown__regular-button-container__content .my-demo-content').exists()).toBe(true)
+    expect(wrapper.find('.geo-dropdown-regular-button-container__content .my-demo-content').exists()).toBe(true)
   })
 
   it('Should not render container if default slot if empty', async function () {
@@ -141,6 +141,6 @@ describe('GeoDropdownSelectButton', () => {
     })
 
     await Vue.nextTick()
-    expect(wrapper.find('.geo-dropdown__regular-button-container__content').exists()).toBe(false)
+    expect(wrapper.find('.geo-dropdown-regular-button-container__content').exists()).toBe(false)
   })
 })

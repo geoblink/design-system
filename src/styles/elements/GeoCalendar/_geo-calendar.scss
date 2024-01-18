@@ -65,13 +65,14 @@
     padding-bottom: $space-base;
   }
 
+
   .geo-calendar__input {
     align-items: flex-start;
     display: flex;
     flex-direction: column;
   }
-
-  .geo-calendar__input__date-feedback--error {
+  
+  .geo-calendar-input__date-feedback--error {
     @include font($label);
 
     color: $color-red;
@@ -82,7 +83,7 @@
     height: $calendar-input-height;
   }
 
-  .geo-editable-input__form__input--geo-calendar {
+  .geo-editable-input-form__input--geo-calendar {
     @include font($body-small);
 
     height: calc(#{$calendar-input-height} - 2px); //2px of border in the inner input
