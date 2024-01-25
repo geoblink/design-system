@@ -1,4 +1,7 @@
 # Changelog
+## 36.2.1
+Changed:
+- `GeoMultiSelect`: The max height and scroll is added to the pills container.
 ## 36.2.0
 Changed:
 - `GeoEditableInput`: The classnames are renamed according to BEM notation:
