@@ -5,6 +5,8 @@
     display: flex;
     flex-wrap: wrap;
     margin-bottom: -$space-x-small;
+    max-height: 128px;
+    overflow-y: auto;
   }
 
   .geo-multi-select__pill {
