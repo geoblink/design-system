@@ -79,6 +79,7 @@
 
 <script>
 import _ from 'lodash'
+import GeoGenericInputMixin from '../../mixins/GeoGenericInput.mixin'
 
 /**
  * `GeoInput` component works like a native input but can be customisable with a
@@ -89,6 +90,7 @@ export default {
   name: 'GeoInput',
   status: 'ready',
   release: '24.1.0',
+  mixins: [GeoGenericInputMixin],
   props: {
     /**
      * @model
