@@ -1,4 +1,12 @@
 # Changelog
+## 37.0.0
+Breaking change:
+- `GeoTree`: The `isSingleSelectMode` prop is replaced by `itemInputMode` prop.
+
+New:
+- `GeoTreeItem`: Add support for custom icons for single items adding the `itemIcon` property to the category object
+- `GeoTreeItem`: Add support for disabling single items adding the `disabledInfo` property to the category object
+
 ## 36.2.1
 Changed:
 - `GeoMultiSelect`: The max height and scroll is added to the pills container.

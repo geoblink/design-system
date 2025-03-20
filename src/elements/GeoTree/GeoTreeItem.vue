@@ -8,6 +8,7 @@
         'geo-tree-item--single': isSingleItem
       }"
       :icon="categoryIcon"
+      :disabled="isSingleItem && !!category.disabledInfo"
       @click="handleClick"
     >
       <label class="geo-tree-item__label">
@@ -44,6 +45,7 @@
         <input
           v-if="!isItemInputHidden"
           :id="category[keyForId]"
+          :data-test="`geo-tree-item__input-${category[keyForId]}`"
           :checked="isChecked"
           :indeterminate.prop="isIndeterminate"
           :disabled="isInputDisabled"
@@ -53,6 +55,13 @@
         >
       </template>
     </geo-list-item>
+    <geo-tooltip
+      v-if="isSingleItem && category.disabledInfo"
+      :alignment="tooltipAlignment"
+      :position="tooltipPosition"
+    >
+      {{ category.disabledInfo }}
+    </geo-tooltip>
     <ul
       v-if="isExpanded"
       class="geo-tree-item__list"
@@ -84,7 +93,7 @@
           :expanded-icon="expandedIcon"
           :description-icon="descriptionIcon"
           :draggable-group="draggableGroup"
-          :is-single-select-mode="isSingleSelectMode"
+          :item-input-mode="itemInputMode"
           :is-folder-select-hidden="isFolderSelectHidden"
           :is-item-select-disabled="isItemSelectDisabled"
           :has-load-more-button="hasLoadMoreButton"
@@ -125,17 +134,42 @@
 import _ from 'lodash'
 import Draggable from 'vuedraggable'
 
+import { enumPropertyFactory } from '../../utils/enumPropertyFactory'
 import GeoTreeMixin from './GeoTreeMixin'
+import { INPUT_MODES } from './GeoTree.constants'
+import { POSITIONS } from '../GeoTooltip/GeoTooltip.constants'
 
 export default {
   name: 'GeoTreeItem',
   status: 'ready',
   release: '29.9.0',
+  constants: {
+    INPUT_MODES
+  },
   components: {
     Draggable
   },
   mixins: [GeoTreeMixin],
   props: {
+    /**
+     * Category to be displayed
+     * Structure:
+     * {
+     *     id: String,
+     *     label: String,
+     *     itemIcon?: Array,
+     *     disabledInfo?: String,
+     *     subcategories?: [
+     *       {
+     *         id: String,
+     *         label: String,
+     *         itemIcon?: Array,
+     *         disabledInfo?: String,
+     *         subcategories?: Array
+     *       }
+     *     ]
+     * }
+     */
     category: {
       type: Object,
       required: true
@@ -222,13 +256,19 @@ export default {
       type: Array,
       required: false
     },
-    /*
-    * True for using UX for only one element of the tree is selectable, false by default. When this is true the input will be radio instead of checkbox (take into account the logic remains on how to handle checked-items prop)
-    * */
-    isSingleSelectMode: {
-      type: Boolean,
-      default: false
-    },
+    /**
+     * Mode of the input (take into account the logic still remains on how to handle checked-items prop)
+     *
+     * Supported `itemInputMode` values are exported under `INPUT_MODES` named export.
+     * See [Component Constants](/docs/components-constants.html) for more info on how
+     * to use those constants in your code.
+     */
+    itemInputMode: enumPropertyFactory({
+      componentName: 'GeoTreeItem',
+      propertyName: 'itemInputMode',
+      enumDictionary: INPUT_MODES,
+      defaultValue: INPUT_MODES.MULTIPLE
+    }),
     /*
     * Optional boolean to show load more button
     * */
@@ -254,7 +294,7 @@ export default {
   },
   computed: {
     categoryIcon () {
-      if (this.isSingleItem) return null
+      if (this.isSingleItem) return this.category.itemIcon || null
 
       return this.isExpanded
         ? this.expandedIcon || this.collapsedIcon
@@ -318,18 +358,27 @@ export default {
 
     isInputDisabled () {
       return this.isSingleItem
-        ? this.isItemSelectDisabled && !this.isChecked
+        ? !!this.category.disabledInfo || (this.isItemSelectDisabled && !this.isChecked)
         : this.totalSelectableCategoryChildren === 0
     },
 
     inputType () {
-      return this.isSingleSelectMode ? 'radio' : 'checkbox'
+      switch (this.itemInputMode) {
+        case INPUT_MODES.SINGLE:
+          return 'radio'
+        case INPUT_MODES.MULTIPLE:
+          return 'checkbox'
+        default:
+          return null
+      }
     },
 
     isItemInputHidden () {
-      if (this.isSingleItem) return false
+      if (this.isSingleItem) {
+        return this.itemInputMode === INPUT_MODES.HIDDEN
+      }
 
-      return this.isSingleSelectMode || this.isFolderSelectHidden
+      return this.itemInputMode !== INPUT_MODES.MULTIPLE || this.isFolderSelectHidden
     },
 
     hasMoreResultsToLoad () {
@@ -343,6 +392,9 @@ export default {
         ? _.slice(this.category[this.keyForSubcategory], 0, this.visiblePages * this.pageSize)
         : this.category[this.keyForSubcategory]
     }
+  },
+  beforeMount () {
+    this.tooltipPosition = POSITIONS.trailing
   },
   methods: {
     /**
@@ -399,7 +451,7 @@ export default {
     },
 
     handleInputClick ($event) {
-      if (!this.isSingleSelectMode) {
+      if (this.itemInputMode === INPUT_MODES.MULTIPLE) {
         $event.stopPropagation()
       }
     },
