@@ -759,7 +759,7 @@ export default {
         key-for-label="label"
         :categories="categories"
         :checked-items="checkedCategories"
-        item-input-mode="single"
+        input-type="single"
         @check-item="handleCheckItem"
     ></geo-tree>  
 </template>
@@ -886,7 +886,7 @@ export default {
         key-for-label="label"
         :categories="categories"
         :checked-items="checkedCategories"
-        item-input-mode="hidden"
+        input-type="hidden"
         @check-item="handleCheckItem"
     ></geo-tree>  
 </template>
@@ -1008,7 +1008,7 @@ export default {
         key-for-label="label"
         :categories="categories"
         :checked-items="checkedCategories"
-        item-input-mode="hidden"
+        input-type="hidden"
         @check-item="handleCheckItem"
     ></geo-tree>  
 </template>

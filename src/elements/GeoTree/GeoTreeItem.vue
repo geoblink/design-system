@@ -49,7 +49,7 @@
           :checked="isChecked"
           :indeterminate.prop="isIndeterminate"
           :disabled="isInputDisabled"
-          :type="inputType"
+          :type="itemInputType"
           @click="handleInputClick"
           @input="handleCheck(category, $event.target.checked)"
         >
@@ -93,7 +93,7 @@
           :expanded-icon="expandedIcon"
           :description-icon="descriptionIcon"
           :draggable-group="draggableGroup"
-          :item-input-mode="itemInputMode"
+          :input-type="inputType"
           :is-folder-select-hidden="isFolderSelectHidden"
           :is-item-select-disabled="isItemSelectDisabled"
           :has-load-more-button="hasLoadMoreButton"
@@ -259,13 +259,13 @@ export default {
     /**
      * Mode of the input (take into account the logic still remains on how to handle checked-items prop)
      *
-     * Supported `itemInputMode` values are exported under `INPUT_MODES` named export.
+     * Supported `inputType` values are exported under `INPUT_MODES` named export.
      * See [Component Constants](/docs/components-constants.html) for more info on how
      * to use those constants in your code.
      */
-    itemInputMode: enumPropertyFactory({
+    inputType: enumPropertyFactory({
       componentName: 'GeoTreeItem',
-      propertyName: 'itemInputMode',
+      propertyName: 'inputType',
       enumDictionary: INPUT_MODES,
       defaultValue: INPUT_MODES.MULTIPLE
     }),
@@ -363,8 +363,8 @@ export default {
         : this.totalSelectableCategoryChildren === 0
     },
 
-    inputType () {
-      switch (this.itemInputMode) {
+    itemInputType () {
+      switch (this.inputType) {
         case INPUT_MODES.SINGLE:
           return 'radio'
         case INPUT_MODES.MULTIPLE:
@@ -376,10 +376,10 @@ export default {
 
     isItemInputHidden () {
       if (this.isSingleItem) {
-        return this.itemInputMode === INPUT_MODES.HIDDEN
+        return this.inputType === INPUT_MODES.HIDDEN
       }
 
-      return this.itemInputMode !== INPUT_MODES.MULTIPLE || this.isFolderSelectHidden
+      return this.inputType !== INPUT_MODES.MULTIPLE || this.isFolderSelectHidden
     },
 
     hasMoreResultsToLoad () {
@@ -452,7 +452,7 @@ export default {
     },
 
     handleInputClick ($event) {
-      if (this.itemInputMode === INPUT_MODES.MULTIPLE) {
+      if (this.inputType === INPUT_MODES.MULTIPLE) {
         $event.stopPropagation()
       }
     },

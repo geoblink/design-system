@@ -49,7 +49,7 @@
             :collapsed-icon="collapsedIcon"
             :expanded-icon="expandedIcon"
             :draggable-group="draggableGroup"
-            :item-input-mode="itemInputMode"
+            :input-type="inputType"
             :is-folder-select-hidden="!!maxCheckedItems"
             :is-item-select-disabled="hasMaxItemsSelected"
             :has-load-more-button="hasLoadMoreButton"
@@ -260,13 +260,13 @@ export default {
     /**
      * Mode of the input (take into account the logic still remains on how to handle checked-items prop)
      *
-     * Supported `itemInputMode` values are exported under `INPUT_MODES` named export.
+     * Supported `inputType` values are exported under `INPUT_MODES` named export.
      * See [Component Constants](/docs/components-constants.html) for more info on how
      * to use those constants in your code.
      */
-    itemInputMode: enumPropertyFactory({
+    inputType: enumPropertyFactory({
       componentName: 'GeoTree',
-      propertyName: 'itemInputMode',
+      propertyName: 'inputType',
       enumDictionary: INPUT_MODES,
       defaultValue: INPUT_MODES.MULTIPLE
     }),

@@ -1,7 +1,7 @@
 # Changelog
 ## 37.0.0
 Breaking change:
-- `GeoTree`: The `isSingleSelectMode` prop is replaced by `itemInputMode` prop.
+- `GeoTree`: The `isSingleSelectMode` prop is replaced by `inputType` prop.
 
 New:
 - `GeoTreeItem`: Add support for custom icons for elements adding the `icon` property to the category object

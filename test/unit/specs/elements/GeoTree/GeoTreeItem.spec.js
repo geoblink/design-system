@@ -95,19 +95,19 @@ describe('GeoTreeItem', () => {
     expect(wrapper.find('.geo-tree-item__description').text()).toBe(CATEGORY.description)
   })
 
-  it('should not render input if itemInputMode is hidden and category has no subcategories', () => {
+  it('should not render input if inputType is hidden and category has no subcategories', () => {
     const wrapper = getWrapper({
       category: CATEGORY_WITHOUT_SUBCATEGORIES,
-      itemInputMode: GeoTreeItem.constants.INPUT_MODES.HIDDEN
+      inputType: GeoTreeItem.constants.INPUT_MODES.HIDDEN
     })
 
     expect(wrapper.find(`[data-test="geo-tree-item__input-${CATEGORY_WITHOUT_SUBCATEGORIES.id}"]`).exists()).toBe(false)
   })
 
-  it('should render input if itemInputMode is not hidden and category has no subcategories', () => {
+  it('should render input if inputType is not hidden and category has no subcategories', () => {
     const wrapper = getWrapper({
       category: CATEGORY_WITHOUT_SUBCATEGORIES,
-      itemInputMode: GeoTreeItem.constants.INPUT_MODES.MULTIPLE
+      inputType: GeoTreeItem.constants.INPUT_MODES.MULTIPLE
     })
 
     expect(wrapper.find(`[data-test="geo-tree-item__input-${CATEGORY_WITHOUT_SUBCATEGORIES.id}"]`).exists()).toBe(true)
