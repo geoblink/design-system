@@ -291,7 +291,7 @@ export default {
 </script>
 ```
 
-### Using custom icons for single items
+### Using custom icons
 
 ```vue live
 <template>
@@ -321,9 +321,9 @@ export default {
                 id: 'tropical-fruits',  
                 label: 'Tropical fruits',  
                 subcategories: [  
-                  { id: 'pineapple', label: 'Pineapple', itemIcon: ['fal', 'lightbulb'] },  
+                  { id: 'pineapple', label: 'Pineapple', icon: ['fal', 'lightbulb'] },  
                   { id: 'banana', label: 'Banana' },  
-                  { id: 'coconut',label: 'Coconut', itemIcon: ['fal', 'times']},  
+                  { id: 'coconut',label: 'Coconut', icon: ['fal', 'times']},  
                   { id: 'avocado', label: 'Avocado' }  
                 ]  
               },  
@@ -331,10 +331,10 @@ export default {
                 id: 'citrus-fruits',  
                 label: 'Citrus fruits',  
                 subcategories: [  
-                  { id: 'orange', label: 'Orange', itemIcon: ['fal', 'lightbulb'] },  
-                  { id: 'lime', label: 'Lime', itemIcon: ['fal', 'times']},  
+                  { id: 'orange', label: 'Orange', icon: ['fal', 'lightbulb'] },  
+                  { id: 'lime', label: 'Lime', icon: ['fal', 'times']},  
                   { id: 'grapefruit', label: 'GrapeFruit' },  
-                  { id: 'mandarin',label: 'Mandarin', itemIcon: ['fal', 'times']},  
+                  { id: 'mandarin',label: 'Mandarin', icon: ['fal', 'times']},  
                   { id: 'pomelo', label: 'Pomelo' }  
                 ]  
               },  
@@ -1029,17 +1029,17 @@ export default {
                         id: 'tropical-fruits',  
                         label: 'Tropical fruits',  
                         subcategories: [  
-                            { id: 'pineapple', label: 'Pineapple', disabledInfo: 'This is a disabled item' },  
-                            { id: 'banana', label: 'Banana', disabledInfo: 'This is a disabled item' },  
+                            { id: 'pineapple', label: 'Pineapple', disabledTooltipText: 'This is a disabled item' },  
+                            { id: 'banana', label: 'Banana', disabledTooltipText: 'This is a disabled item' },  
                             { id: 'coconut',label: 'Coconut' },  
-                            { id: 'avocado', label: 'Avocado', disabledInfo: 'This is a disabled item' }  
+                            { id: 'avocado', label: 'Avocado', disabledTooltipText: 'This is a disabled item' }  
                         ]  
                     },  
                     {  
                         id: 'citrus-fruits',  
                         label: 'Citrus fruits',  
                         subcategories: [  
-                            { id: 'orange', label: 'Orange', disabledInfo: 'This is a disabled item' },  
+                            { id: 'orange', label: 'Orange', disabledTooltipText: 'This is a disabled item' },  
                             { id: 'lime', label: 'Lime'},  
                             { id: 'grapefruit', label: 'GrapeFruit' },  
                             { id: 'mandarin',label: 'Mandarin'},  
@@ -1094,7 +1094,7 @@ export default {
                         id: 'vegetables-fruits',  
                         label: 'Fruits',  
                         subcategories: [  
-                            { id: 'eggplant',  label: 'Eggplant', disabledInfo: 'This is a disabled item' },  
+                            { id: 'eggplant',  label: 'Eggplant', disabledTooltipText: 'This is a disabled item' },  
                             { id: 'pepper',  label: 'Pepper' }  
                         ]  
                     },  
@@ -1102,7 +1102,7 @@ export default {
                         id: 'bulbs',  
                         label: 'Bulbs',  
                         subcategories: [  
-                            { id: 'onion',  label: 'Onion', disabledInfo: 'This is a disabled item' },  
+                            { id: 'onion',  label: 'Onion', disabledTooltipText: 'This is a disabled item' },  
                             { id: 'leek', label: 'Leek' }
                         ]  
                     },

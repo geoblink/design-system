@@ -113,6 +113,16 @@ describe('GeoTreeItem', () => {
     expect(wrapper.find(`[data-test="geo-tree-item__input-${CATEGORY_WITHOUT_SUBCATEGORIES.id}"]`).exists()).toBe(true)
   })
 
+  it('should render item as disabled if disabledTooltipText is set', () => {
+    const wrapper = getWrapper({
+      category: Object.assign({}, CATEGORY_WITHOUT_SUBCATEGORIES, {
+        disabledTooltipText: 'This is a disabled item'
+      })
+    })
+
+    expect(wrapper.find(`[data-test="geo-tree-item__input-${CATEGORY_WITHOUT_SUBCATEGORIES.id}"]`).exists()).toBe(true)
+  })
+
   it('should render subcategories list when categories are expanded', () => {
     const wrapper = getWrapper()
     wrapper.setProps({ expandedCategories: { 'tropical-fruits': true, fruits: true } })

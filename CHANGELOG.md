@@ -4,8 +4,8 @@ Breaking change:
 - `GeoTree`: The `isSingleSelectMode` prop is replaced by `itemInputMode` prop.
 
 New:
-- `GeoTreeItem`: Add support for custom icons for single items adding the `itemIcon` property to the category object
-- `GeoTreeItem`: Add support for disabling single items adding the `disabledInfo` property to the category object
+- `GeoTreeItem`: Add support for custom icons for elements adding the `icon` property to the category object
+- `GeoTreeItem`: Add support for disabling single items adding the `disabledTooltipText` property to the category object
 
 ## 36.2.1
 Changed:

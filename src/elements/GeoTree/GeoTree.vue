@@ -132,14 +132,14 @@ export default {
      *     {
      *         id: String,
      *         label: String,
-     *         itemIcon?: Array,
-     *         disabledInfo?: String,
+     *         icon?: Array,
+     *         disabledTooltipText?: String,
      *         subcategories?: [
      *           {
      *             id: String,
      *             label: String,
-     *             itemIcon?: Array,
-     *             disabledInfo?: String,
+     *             icon?: Array,
+     *             disabledTooltipText?: String,
      *             subcategories?: Array
      *           }
      *         ]

@@ -8,7 +8,7 @@
         'geo-tree-item--single': isSingleItem
       }"
       :icon="categoryIcon"
-      :disabled="isSingleItem && !!category.disabledInfo"
+      :disabled="isSingleItem && !!category.disabledTooltipText"
       @click="handleClick"
     >
       <label class="geo-tree-item__label">
@@ -56,11 +56,11 @@
       </template>
     </geo-list-item>
     <geo-tooltip
-      v-if="isSingleItem && category.disabledInfo"
+      v-if="isSingleItem && category.disabledTooltipText"
       :alignment="tooltipAlignment"
       :position="tooltipPosition"
     >
-      {{ category.disabledInfo }}
+      {{ category.disabledTooltipText }}
     </geo-tooltip>
     <ul
       v-if="isExpanded"
@@ -157,14 +157,14 @@ export default {
      * {
      *     id: String,
      *     label: String,
-     *     itemIcon?: Array,
-     *     disabledInfo?: String,
+     *     icon?: Array,
+     *     disabledTooltipText?: String,
      *     subcategories?: [
      *       {
      *         id: String,
      *         label: String,
-     *         itemIcon?: Array,
-     *         disabledInfo?: String,
+     *         icon?: Array,
+     *         disabledTooltipText?: String,
      *         subcategories?: Array
      *       }
      *     ]
@@ -294,7 +294,8 @@ export default {
   },
   computed: {
     categoryIcon () {
-      if (this.isSingleItem) return this.category.itemIcon || null
+      if (this.category.icon) return this.category.icon
+      if (this.isSingleItem) return null
 
       return this.isExpanded
         ? this.expandedIcon || this.collapsedIcon
@@ -358,7 +359,7 @@ export default {
 
     isInputDisabled () {
       return this.isSingleItem
-        ? !!this.category.disabledInfo || (this.isItemSelectDisabled && !this.isChecked)
+        ? !!this.category.disabledTooltipText || (this.isItemSelectDisabled && !this.isChecked)
         : this.totalSelectableCategoryChildren === 0
     },
 
