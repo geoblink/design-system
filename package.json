@@ -168,7 +168,7 @@
     "vue-style-loader": "^4.1.2",
     "vue-template-compiler": "^2.5.22",
     "vuedraggable": "2.24.3",
-    "vuepress": "^1.9.7",
+    "vuepress": "^1.9.10",
     "vuepress-plugin-code-copy": "^1.0.6",
     "vuepress-plugin-live": "^1.4.0",
     "webfontloader": "^1.6.28",
@@ -183,7 +183,7 @@
     "loader-utils": "^1.4.1"
   },
   "engines": {
-    "node": ">=12.0.0 <17.0.0",
+    "node": ">=20.0.0",
     "npm": ">= 3.0.0"
   },
   "browserslist": [
@@ -195,5 +195,8 @@
     "not BlackBerry > 0",
     "not OperaMini all",
     "not OperaMobile > 0"
-  ]
+  ],
+  "volta": {
+    "node": "20.19.0"
+  }
 }
