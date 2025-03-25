@@ -215,7 +215,7 @@ export default {
 </script>
 ```
 
-### Using custom icons
+### Using custom icons for collapsed and expanded elements
 
 ```vue live
 <template>
@@ -261,6 +261,80 @@ export default {
                   { id: 'lime', label: 'Lime'},  
                   { id: 'grapefruit', label: 'GrapeFruit' },  
                   { id: 'mandarin',label: 'Mandarin'},  
+                  { id: 'pomelo', label: 'Pomelo' }  
+                ]  
+              },  
+              {  
+                id: 'sweet-fruits',  
+                label: 'Sweet',  
+                subcategories: [  
+                  {id: 'pear',label: 'Pear'},  
+                  {id: 'apple',label: 'Apple'},  
+                  {id: 'redGrapes',label: 'Red Grapes'}  
+                ]  
+              }  
+            ]
+          },
+          {
+            id: 'vegetables',
+            label: 'Vegetables',
+          },      
+        ]
+    }
+  },
+  methods: {
+    handleCheckItem (categoryId, isChecked, isDelegated) {
+        this.$set(this.checkedCategories, categoryId, isChecked)
+    }
+  }
+}
+</script>
+```
+
+### Using custom icons
+
+```vue live
+<template>
+    <geo-tree
+        keyForId="id"
+        keyForSubcategory="subcategories"
+        keyForLabel="label"
+        :categories="categories"
+        :checked-items="checkedCategories"
+        @check-item="handleCheckItem"
+    />
+</template>
+  
+<script>  
+export default {
+  name: 'GeoTreeDemo',
+  data () {
+    return {
+      checkedCategories: {},
+      categories: 
+        [  
+          {
+            id: 'fruits',
+            label: 'Fruits',
+            subcategories: [  
+              {  
+                id: 'tropical-fruits',  
+                label: 'Tropical fruits',  
+                subcategories: [  
+                  { id: 'pineapple', label: 'Pineapple', icon: ['fal', 'lightbulb'] },  
+                  { id: 'banana', label: 'Banana' },  
+                  { id: 'coconut',label: 'Coconut', icon: ['fal', 'times']},  
+                  { id: 'avocado', label: 'Avocado' }  
+                ]  
+              },  
+              {  
+                id: 'citrus-fruits',  
+                label: 'Citrus fruits',  
+                subcategories: [  
+                  { id: 'orange', label: 'Orange', icon: ['fal', 'lightbulb'] },  
+                  { id: 'lime', label: 'Lime', icon: ['fal', 'times']},  
+                  { id: 'grapefruit', label: 'GrapeFruit' },  
+                  { id: 'mandarin',label: 'Mandarin', icon: ['fal', 'times']},  
                   { id: 'pomelo', label: 'Pomelo' }  
                 ]  
               },  
@@ -685,7 +759,7 @@ export default {
         key-for-label="label"
         :categories="categories"
         :checked-items="checkedCategories"
-        is-single-select-mode
+        input-type="single"
         @check-item="handleCheckItem"
     ></geo-tree>  
 </template>
@@ -801,6 +875,249 @@ export default {
 }
 </script>
 ```
+
+### Hidden inputs
+
+```vue live
+<template>
+    <geo-tree
+        key-for-id="id"
+        key-for-subcategory="subcategories"
+        key-for-label="label"
+        :categories="categories"
+        :checked-items="checkedCategories"
+        input-type="hidden"
+        @check-item="handleCheckItem"
+    ></geo-tree>  
+</template>
+  
+<script>  
+export default {
+  name: 'GeoTreeDemo',
+  data () {
+    return {
+      checkedCategories: {},
+      categories: 
+        [  
+            {  
+                id: 'fruits',  
+                label: 'Fruits',  
+                subcategories: [  
+                    {  
+                        id: 'tropical-fruits',  
+                        label: 'Tropical fruits',  
+                        subcategories: [  
+                            { id: 'pineapple', label: 'Pineapple' },  
+                            { id: 'banana', label: 'Banana' },  
+                            { id: 'coconut',label: 'Coconut'},  
+                            { id: 'avocado', label: 'Avocado' }  
+                        ]  
+                    },  
+                    {  
+                        id: 'citrus-fruits',  
+                        label: 'Citrus fruits',  
+                        subcategories: [  
+                            { id: 'orange', label: 'Orange' },  
+                            { id: 'lime', label: 'Lime'},  
+                            { id: 'grapefruit', label: 'GrapeFruit' },  
+                            { id: 'mandarin',label: 'Mandarin'},  
+                            { id: 'pomelo', label: 'Pomelo' }  
+                        ]  
+                    },
+                    {  
+                        id: 'invented-fruits',  
+                        label: 'Invented fruits',  
+                        subcategories: [
+                          {
+                            id: 'not-oranges',
+                            label: 'Not oranges',
+                            subcategories: []
+                          }
+                        ]  
+                    },
+                    {  
+                        id: 'epic-fruits',  
+                        label: 'Epic fruits',  
+                        subcategories: [
+                          {
+                            id: 'legendary-fruits',
+                            label: 'Legendary fruits',
+                            subcategories: []
+                          },
+                          {
+                            id: 'awesome-fruits',
+                            label: 'Awesome fruits',
+                            subcategories: [
+                              { id: 'sweet-melon', label: 'Sweet melon' }
+                            ]
+                          }
+                        ]  
+                    }, 
+                    {  
+                        id: 'sweet-fruits',  
+                        label: 'Sweet',  
+                        subcategories: [  
+                            {id: 'pear',label: 'Pear'},  
+                            {id: 'apple',label: 'Apple'},  
+                            {id: 'redGrapes',label: 'Red Grapes'}  
+                        ]  
+                    } 
+                ]  
+            },  
+            {  
+                id: 'vegetables',  
+                label: 'Vegetables',  
+                subcategories: [  
+                    {  
+                        id: 'vegetables-fruits',  
+                        label: 'Fruits',  
+                        subcategories: [  
+                            { id: 'eggplant',  label: 'Eggplant' },  
+                            { id: 'pepper',  label: 'Pepper' }  
+                        ]  
+                    },  
+                    {  
+                        id: 'bulbs',  
+                        label: 'Bulbs',  
+                        subcategories: [  
+                            { id: 'onion',  label: 'Onion' },  
+                            { id: 'leek', label: 'Leek' },  
+                            { 
+                                id: 'garlic', label: 'Garlic',
+                            }  
+                        ]  
+                    },
+                ]  
+            }  
+        ]
+    }
+  },
+  methods: {
+    handleCheckItem (categoryId, isChecked, isDelegated) {}
+  }
+}
+</script>
+```
+### Disabled items with tooltip
+
+```vue live
+<template>
+    <geo-tree
+        key-for-id="id"
+        key-for-subcategory="subcategories"
+        key-for-label="label"
+        :categories="categories"
+        :checked-items="checkedCategories"
+        input-type="hidden"
+        @check-item="handleCheckItem"
+    ></geo-tree>  
+</template>
+  
+<script>  
+export default {
+  name: 'GeoTreeDemo',
+  data () {
+    return {
+      checkedCategories: {},
+      categories: 
+        [  
+            {  
+                id: 'fruits',  
+                label: 'Fruits',  
+                subcategories: [  
+                    {  
+                        id: 'tropical-fruits',  
+                        label: 'Tropical fruits',  
+                        subcategories: [  
+                            { id: 'pineapple', label: 'Pineapple', disabledTooltipText: 'This is a disabled item' },  
+                            { id: 'banana', label: 'Banana', disabledTooltipText: 'This is a disabled item' },  
+                            { id: 'coconut',label: 'Coconut' },  
+                            { id: 'avocado', label: 'Avocado', disabledTooltipText: 'This is a disabled item' }  
+                        ]  
+                    },  
+                    {  
+                        id: 'citrus-fruits',  
+                        label: 'Citrus fruits',  
+                        subcategories: [  
+                            { id: 'orange', label: 'Orange', disabledTooltipText: 'This is a disabled item' },  
+                            { id: 'lime', label: 'Lime'},  
+                            { id: 'grapefruit', label: 'GrapeFruit' },  
+                            { id: 'mandarin',label: 'Mandarin'},  
+                            { id: 'pomelo', label: 'Pomelo' }  
+                        ]  
+                    },
+                    {  
+                        id: 'invented-fruits',  
+                        label: 'Invented fruits',  
+                        subcategories: [
+                          {
+                            id: 'not-oranges',
+                            label: 'Not oranges',
+                            subcategories: []
+                          }
+                        ]  
+                    },
+                    {  
+                        id: 'epic-fruits',  
+                        label: 'Epic fruits',  
+                        subcategories: [
+                          {
+                            id: 'legendary-fruits',
+                            label: 'Legendary fruits',
+                            subcategories: []
+                          },
+                          {
+                            id: 'awesome-fruits',
+                            label: 'Awesome fruits',
+                            subcategories: [
+                              { id: 'sweet-melon', label: 'Sweet melon' }
+                            ]
+                          }
+                        ]  
+                    }, 
+                    {  
+                        id: 'sweet-fruits',  
+                        label: 'Sweet',  
+                        subcategories: [  
+                            {id: 'pear',label: 'Pear'},  
+                            {id: 'apple',label: 'Apple'},  
+                            {id: 'redGrapes',label: 'Red Grapes'}  
+                        ]  
+                    } 
+                ]  
+            },  
+            {  
+                id: 'vegetables',  
+                label: 'Vegetables',  
+                subcategories: [  
+                    {  
+                        id: 'vegetables-fruits',  
+                        label: 'Fruits',  
+                        subcategories: [  
+                            { id: 'eggplant',  label: 'Eggplant', disabledTooltipText: 'This is a disabled item' },  
+                            { id: 'pepper',  label: 'Pepper' }  
+                        ]  
+                    },  
+                    {  
+                        id: 'bulbs',  
+                        label: 'Bulbs',  
+                        subcategories: [  
+                            { id: 'onion',  label: 'Onion', disabledTooltipText: 'This is a disabled item' },  
+                            { id: 'leek', label: 'Leek' }
+                        ]  
+                    },
+                ]  
+            }  
+        ]
+    }
+  },
+  methods: {
+    handleCheckItem (categoryId, isChecked, isDelegated) {}
+  }
+}
+</script>
+```
+
 ### With max number of items checked
 
 ```vue live

@@ -43,6 +43,11 @@ const CATEGORY = {
   ]
 }
 
+const CATEGORY_WITHOUT_SUBCATEGORIES = {
+  id: 'fruits',
+  label: 'Fruits'
+}
+
 describe('GeoTreeItem', () => {
   const getWrapper = props => shallowMount(GeoTreeItem, {
     propsData: _.assign(
@@ -88,6 +93,34 @@ describe('GeoTreeItem', () => {
 
     expect(wrapper.find('.geo-tree-item__description').exists()).toBe(true)
     expect(wrapper.find('.geo-tree-item__description').text()).toBe(CATEGORY.description)
+  })
+
+  it('should not render input if inputType is hidden and category has no subcategories', () => {
+    const wrapper = getWrapper({
+      category: CATEGORY_WITHOUT_SUBCATEGORIES,
+      inputType: GeoTreeItem.constants.INPUT_MODES.HIDDEN
+    })
+
+    expect(wrapper.find(`[data-test="geo-tree-item__input-${CATEGORY_WITHOUT_SUBCATEGORIES.id}"]`).exists()).toBe(false)
+  })
+
+  it('should render input if inputType is not hidden and category has no subcategories', () => {
+    const wrapper = getWrapper({
+      category: CATEGORY_WITHOUT_SUBCATEGORIES,
+      inputType: GeoTreeItem.constants.INPUT_MODES.MULTIPLE
+    })
+
+    expect(wrapper.find(`[data-test="geo-tree-item__input-${CATEGORY_WITHOUT_SUBCATEGORIES.id}"]`).exists()).toBe(true)
+  })
+
+  it('should render item as disabled if disabledTooltipText is set', () => {
+    const wrapper = getWrapper({
+      category: Object.assign({}, CATEGORY_WITHOUT_SUBCATEGORIES, {
+        disabledTooltipText: 'This is a disabled item'
+      })
+    })
+
+    expect(wrapper.find(`[data-test="geo-tree-item__input-${CATEGORY_WITHOUT_SUBCATEGORIES.id}"]`).exists()).toBe(true)
   })
 
   it('should render subcategories list when categories are expanded', () => {

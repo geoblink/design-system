@@ -49,7 +49,7 @@
             :collapsed-icon="collapsedIcon"
             :expanded-icon="expandedIcon"
             :draggable-group="draggableGroup"
-            :is-single-select-mode="isSingleSelectMode"
+            :input-type="inputType"
             :is-folder-select-hidden="!!maxCheckedItems"
             :is-item-select-disabled="hasMaxItemsSelected"
             :has-load-more-button="hasLoadMoreButton"
@@ -88,12 +88,17 @@ import _ from 'lodash'
 import fuzzAldrin from 'fuzzaldrin-plus'
 import Draggable from 'vuedraggable'
 
+import { enumPropertyFactory } from '../../utils/enumPropertyFactory'
 import GeoTreeMixin from './GeoTreeMixin'
+import { INPUT_MODES } from './GeoTree.constants'
 
 export default {
   name: 'GeoTree',
   status: 'ready',
   release: '29.9.0',
+  constants: {
+    INPUT_MODES
+  },
   components: {
     Draggable
   },
@@ -124,13 +129,21 @@ export default {
      * Categories to be displayed in the tree component
      * Structure:
      * [
-     *     id,
-     *     label,
-     *     children: [
-     *      id,
-     *      label,
-     *      children
-     *     ]
+     *     {
+     *         id: String,
+     *         label: String,
+     *         icon?: Array,
+     *         disabledTooltipText?: String,
+     *         subcategories?: [
+     *           {
+     *             id: String,
+     *             label: String,
+     *             icon?: Array,
+     *             disabledTooltipText?: String,
+     *             subcategories?: Array
+     *           }
+     *         ]
+     *     }
      * ]
      */
     categories: {
@@ -244,13 +257,19 @@ export default {
       required: false,
       default: 'asc'
     },
-    /*
-    * True for using UX for only one element of the tree is selectable, false by default. When this is true the input will be radio instead of checkbox (take into account the logic remains on how to handle checked-items prop)
-    * */
-    isSingleSelectMode: {
-      type: Boolean,
-      default: false
-    },
+    /**
+     * Mode of the input (take into account the logic still remains on how to handle checked-items prop)
+     *
+     * Supported `inputType` values are exported under `INPUT_MODES` named export.
+     * See [Component Constants](/docs/components-constants.html) for more info on how
+     * to use those constants in your code.
+     */
+    inputType: enumPropertyFactory({
+      componentName: 'GeoTree',
+      propertyName: 'inputType',
+      enumDictionary: INPUT_MODES,
+      defaultValue: INPUT_MODES.MULTIPLE
+    }),
     /*
     * Optional boolean to show load more button
     * */
