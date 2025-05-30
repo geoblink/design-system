@@ -530,4 +530,99 @@ describe('GeoTree searching functionality', () => {
     expect(wrapper.vm.filteredCategories).toEqual(expectedFilteredCategories)
     expect(wrapper.vm.expandedCategories).toEqual({ fruits: true, 'citrus-fruits': true, 'sweet-fruits': true, 'tropical-fruits': true, vegetables: true, 'vegetables-fruits': true })
   })
+
+  it('should display the right categories when searching for matches with accents', () => {
+    const wrapper = getWrapper({
+      searchable: true,
+      categories: [
+        {
+          id: 'fruits',
+          label: 'Fruits',
+          matches: [],
+          subcategories: [
+            {
+              id: 'citrus-fruits',
+              label: 'Cítrico',
+              matches: _.times(7),
+              subcategories: [
+                {
+                  id: 'grapefruit',
+                  label: 'GrapeFruit',
+                  matches: []
+                },
+                {
+                  id: 'lime',
+                  label: 'Lime',
+                  matches: []
+                },
+                {
+                  id: 'mandarin',
+                  label: 'Mandarin',
+                  matches: []
+                },
+                {
+                  id: 'citrico',
+                  label: 'Citrico',
+                  matches: _.times(7)
+                },
+                {
+                  id: 'pomelo',
+                  label: 'Pomelo',
+                  matches: []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    })
+
+    const expectedFilteredCategories = [
+      {
+        id: 'fruits',
+        label: 'Fruits',
+        matches: [],
+        subcategories: [
+          {
+            id: 'citrus-fruits',
+            label: 'Cítrico',
+            matches: _.times(7),
+            subcategories: [
+              {
+                id: 'citrico',
+                label: 'Citrico',
+                matches: _.times(7)
+              },
+              {
+                id: 'grapefruit',
+                label: 'GrapeFruit',
+                matches: []
+              },
+              {
+                id: 'lime',
+                label: 'Lime',
+                matches: []
+              },
+              {
+                id: 'mandarin',
+                label: 'Mandarin',
+                matches: []
+              },
+              {
+                id: 'pomelo',
+                label: 'Pomelo',
+                matches: []
+              }
+            ]
+          }
+        ]
+      }
+    ]
+
+    expect(wrapper.find('.geo-input').exists()).toBe(true)
+    wrapper.find('.geo-input input').setValue('cítrico')
+
+    expect(wrapper.vm.filteredCategories).toEqual(expectedFilteredCategories)
+    expect(wrapper.vm.expandedCategories).toEqual({ fruits: true, 'citrus-fruits': true })
+  })
 })
