@@ -352,7 +352,7 @@ export default {
 
     filterCategories (categories, query, isAnyAncestorMatching) {
       return _.reduce(categories, (carry, category) => {
-        const isCategoryMatching = fuzzAldrin.score(category[this.keyForLabel], query) > 0
+        const isCategoryMatching = fuzzAldrin.score(clearString(category[this.keyForLabel]), clearString(query)) > 0
         const matchingSubcategories = this.filterCategories(category[this.keyForSubcategory], query, isCategoryMatching || isAnyAncestorMatching)
 
         if (isCategoryMatching || isAnyAncestorMatching || _.size(matchingSubcategories)) {
