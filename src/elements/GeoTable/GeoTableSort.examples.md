@@ -65,22 +65,26 @@ to sort the data in each direction.
           style="visibility: visible"
           @sort="setSortingDirection($event)"
         >
-          <p slot="sortAscButton" slot-scope="{ isCurrentSortingDirection, action }">
-            <a v-if="!isCurrentSortingDirection" @click="action()">
-              Sort data ASC
-            </a>
-            <template v-else>
-              » Data is sorted ASC «
-            </template>
-          </p>
-          <p slot="sortDescButton" slot-scope="{ isCurrentSortingDirection, action }">
-            <a v-if="!isCurrentSortingDirection" @click="action()">
-              Sort data DESC
-            </a>
-            <template v-else>
-              » Data is sorted DESC «
-            </template>
-          </p>
+          <template #sortAscButton="{ isCurrentSortingDirection, action }">
+            <p>
+              <a v-if="!isCurrentSortingDirection" @click="action()">
+                Sort data ASC
+              </a>
+              <template v-else>
+                » Data is sorted ASC «
+              </template>
+            </p>
+          </template>
+          <template #sortDescButton="{ isCurrentSortingDirection, action }">
+            <p>
+              <a v-if="!isCurrentSortingDirection" @click="action()">
+                Sort data DESC
+              </a>
+              <template v-else>
+                » Data is sorted DESC «
+              </template>
+            </p>
+          </template>
         </geo-table-sort>
       </div>
 

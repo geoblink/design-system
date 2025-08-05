@@ -7,7 +7,7 @@
         @load-more-results="loadNextPage($event)"
       >
         <p v-for="(item, index) in chunkedList" :key="index">{{ item.label }}</p>
-        <template slot="moreResultsTextContent">Load more results</template>
+        <template #moreResultsTextContent>Load more results</template>
       </geo-scrollable-container>
     </div>
   </div>

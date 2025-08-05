@@ -4,10 +4,10 @@
     <div class="element-demo__block">
       <geo-vertical-layout>
         <geo-value
-          :data="datumData"
+          v-bind="valueData"
         />
         <geo-value
-          :data="datumData2"
+          v-bind="valueData2"
         />
       </geo-vertical-layout>
     </div>
@@ -67,11 +67,15 @@ export default {
 <div class="element-demo">
   <div class="element-demo__block" style="justify-content: space-around;">
     <geo-vertical-layout>
-      <h5 slot="header">Header</h5>
+      <template #header>
+        <h5>Header</h5>
+      </template>
       <geo-secondary-button>Element 1</geo-secondary-button>
       <geo-secondary-button>Element 2</geo-secondary-button>
       <geo-secondary-button>Element 3</geo-secondary-button>
-      <geo-primary-button slot="footer">Footer button</geo-primary-button>
+      <template #footer>
+        <geo-primary-button>Footer button</geo-primary-button>
+      </template>
     </geo-vertical-layout>
   </div>
 </div>

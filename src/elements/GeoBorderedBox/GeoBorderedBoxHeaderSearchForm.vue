@@ -11,25 +11,23 @@
       @input="searchPattern($event)"
       @delete-value="deleteValue($event)"
     >
-      <!-- @slot Use this slot to customize content displayed before the icon -->
-      <slot
-        slot="leadingAccessoryItem"
-        name="beforeSearchIconItem"
-      />
-      <font-awesome-icon
-        slot="leadingAccessoryItem"
-        :icon="searchIcon"
-      />
-      <!-- @slot Use this slot to customize content displayed after the icon, on the left of the input -->
-      <slot
-        slot="leadingAccessoryItem"
-        name="afterSearchIconItem"
-      />
+      <template #leadingAccessoryItem>
+        <!-- @slot Use this slot to customize content displayed before the icon -->
+        <slot
+          name="beforeSearchIconItem"
+        />
+        <font-awesome-icon
+          :icon="searchIcon"
+        />
+        <!-- @slot Use this slot to customize content displayed after the icon, on the left of the input -->
+        <slot
+          name="afterSearchIconItem"
+        />
+      </template>
       <!-- @slot Use this slot to customize content displayed on the right of the input -->
-      <slot
-        slot="trailingAccessoryItem"
-        name="trailingAccessoryItem"
-      />
+      <template #trailingAccessoryItem>
+        <slot name="trailingAccessoryItem" />
+      </template>
     </geo-input>
   </form>
 </template>

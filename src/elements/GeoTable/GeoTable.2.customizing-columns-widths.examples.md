@@ -20,24 +20,28 @@ To opt out of `GeoTable` automatic growing for some column, set property
     <div class="element-demo__block">
       <div class="element-demo__bordered-box" style="resize: both;">
         <geo-table :source-data="sourceData" :current-page="0">
-          <geo-table-header-row slot="header">
-            <geo-table-header-row-cell :column-min-width="200">Min width</geo-table-header-row-cell>
-            <geo-table-header-row-cell :column-max-width="150">Max width</geo-table-header-row-cell>
-            <geo-table-header-row-cell :column-width="100">Fixed size</geo-table-header-row-cell>
-            <geo-table-header-row-cell growing-disabled ignore-content-width>
-              <geo-trimmed-content>Not growing</geo-trimmed-content>
-            </geo-table-header-row-cell>
-            <geo-table-header-row-cell :ignore-content-width="ignoreContentWidth">
-              <geo-trimmed-content>
-                <label><input type="checkbox" v-model="ignoreContentWidth"> Ignore cell's width?</label>
-              </geo-trimmed-content>
-            </geo-table-header-row-cell>
-          </geo-table-header-row>
-          <geo-table-body-row slot="body" slot-scope="row">
-            <geo-table-body-row-cell v-for="(item, key) of row.item" :key="key">
-              {{ item }}
-            </geo-table-body-row-cell>
-          </geo-table-body-row>
+          <template #header>
+            <geo-table-header-row>
+              <geo-table-header-row-cell :column-min-width="200">Min width</geo-table-header-row-cell>
+              <geo-table-header-row-cell :column-max-width="150">Max width</geo-table-header-row-cell>
+              <geo-table-header-row-cell :column-width="100">Fixed size</geo-table-header-row-cell>
+              <geo-table-header-row-cell growing-disabled ignore-content-width>
+                <geo-trimmed-content>Not growing</geo-trimmed-content>
+              </geo-table-header-row-cell>
+              <geo-table-header-row-cell :ignore-content-width="ignoreContentWidth">
+                <geo-trimmed-content>
+                  <label><input type="checkbox" v-model="ignoreContentWidth"> Ignore cell's width?</label>
+                </geo-trimmed-content>
+              </geo-table-header-row-cell>
+            </geo-table-header-row>
+          </template>
+          <template #body="row">
+            <geo-table-body-row>
+              <geo-table-body-row-cell v-for="(item, key) of row.item" :key="key">
+                {{ item }}
+              </geo-table-body-row-cell>
+            </geo-table-body-row>
+          </template>
         </geo-table>
       </div>
 

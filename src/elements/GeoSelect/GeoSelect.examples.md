@@ -255,18 +255,18 @@ export default {
         key-for-label="label"
         placeholder="Choose an option"
       >
-        <geo-select-toggle-button
-          slot="toggleButton"
-          slot-scope="{ dropdownIcon, isEmpty, disabled, toggleSelect, label }"
-          :dropdown-icon="dropdownIcon"
-          :is-empty="isEmpty"
-          :disabled="disabled"
-          @click="toggleSelect"
-        >
-          (Custom) {{ label }}
-        </geo-select-toggle-button>
+        <template #toggleButton="{ dropdownIcon, isEmpty, disabled, toggleSelect, label }">
+          <geo-select-toggle-button
+            :dropdown-icon="dropdownIcon"
+            :is-empty="isEmpty"
+            :disabled="disabled"
+            @click="toggleSelect"
+          >
+            (Custom) {{ label }}
+          </geo-select-toggle-button>
+        </template>
 
-        <template slot-scope="{ item, suggestedKey, changeCurrentSelection }">
+        <template #default="{ item, suggestedKey, changeCurrentSelection }">
           <geo-list-item
             :key="suggestedKey"
             @click="changeCurrentSelection(item)"

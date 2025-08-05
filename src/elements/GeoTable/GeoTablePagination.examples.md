@@ -78,16 +78,16 @@ shortcut accordingly.
           :source-data-length="sourceDataLength"
           @go-to-page="goToPage($event)"
         >
-          <template slot="firstPageShortcut" slot-scope="{ action, isNotFirstPage }">
+          <template #firstPageShortcut="{ action, isNotFirstPage }">
             <a v-if="isNotFirstPage" @click="action">Go to first</a>
           </template>
-          <template slot="prevPageShortcut" slot-scope="{ action, hasPreviousPage }">
+          <template #prevPageShortcut="{ action, hasPreviousPage }">
             <a v-if="hasPreviousPage" @click="action" style="margin-left: 10px;">« Go to previous page</a>
           </template>
-          <template slot="nextPageShortcut" slot-scope="{ action, hasNextPage }">
+          <template #nextPageShortcut="{ action, hasNextPage }">
             <a v-if="hasNextPage" @click="action" style="margin-right: 10px;">Go to next page »</a>
           </template>
-          <template slot="lastPageShortcut" slot-scope="{ action, isNotLastPage }">
+          <template #lastPageShortcut="{ action, isNotLastPage }">
             <a v-if="isNotLastPage" @click="action">Go to last</a>
           </template>
         </geo-table-pagination>
@@ -157,7 +157,7 @@ shortcut accordingly.
           :source-data-length="sourceDataLength"
           @go-to-page="goToPage($event)"
         >
-          <template slot-scope="{ rangeStart, rangeEnd, sourceDataLength }">
+          <template #default="{ rangeStart, rangeEnd, sourceDataLength }">
             Displaying rows {{ rangeStart }} to {{ rangeEnd }} of {{ sourceDataLength }}
           </template>
         </geo-table-pagination>

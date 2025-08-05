@@ -140,8 +140,8 @@ export default {
     <geo-bordered-box>
       <geo-bordered-box-header>One group</geo-bordered-box-header>
       <geo-list-group>
-        <template slot="title">Single group</template>
-        <template slot="item">
+        <template #title>Single group</template>
+        <template #item>
           <geo-list-item>First option</geo-list-item>
           <geo-list-item>Second option</geo-list-item>
           <geo-list-item>Third option</geo-list-item>
@@ -152,16 +152,16 @@ export default {
     <geo-bordered-box>
       <geo-bordered-box-header>Several groups</geo-bordered-box-header>
       <geo-list-group>
-        <template slot="title">First group</template>
-        <template slot="item">
+        <template #title>First group</template>
+        <template #item>
           <geo-list-item>First option</geo-list-item>
           <geo-list-item>Second option</geo-list-item>
           <geo-list-item>Third option</geo-list-item>
         </template>
       </geo-list-group>
       <geo-list-group>
-        <template slot="title">Second group</template>
-        <template slot="item">
+        <template #title>Second group</template>
+        <template #item>
           <geo-list-item>First option</geo-list-item>
           <geo-list-item>Second option</geo-list-item>
           <geo-list-item>Third option</geo-list-item>
@@ -172,16 +172,16 @@ export default {
     <geo-bordered-box>
       <geo-bordered-box-header>Several groups and footer</geo-bordered-box-header>
       <geo-list-group>
-        <template slot="title">First group</template>
-        <template slot="item">
+        <template #title>First group</template>
+        <template #item>
           <geo-list-item>First option</geo-list-item>
           <geo-list-item>Second option</geo-list-item>
           <geo-list-item>Third option</geo-list-item>
         </template>
       </geo-list-group>
       <geo-list-group>
-        <template slot="title">Second group</template>
-        <template slot="item">
+        <template #title>Second group</template>
+        <template #item>
           <geo-list-item>First option</geo-list-item>
           <geo-list-item>Second option</geo-list-item>
           <geo-list-item>Third option</geo-list-item>

@@ -2,7 +2,7 @@
 <div class="element-demo">
   <div class="element-demo__block" style="justify-content: space-around;">
     <geo-sidebar-layout>
-      <template slot="header">
+      <template #header>
         <h6> Sidebar header </h6>
         <geo-primary-button> Sidebar header button </geo-primary-button>
       </template>
@@ -12,7 +12,7 @@
         <p>Sidebar step 3</p>
         <p>SIdebar step 4</p>
       </template>
-      <template slot="footer">
+      <template #footer>
         <geo-tertiary-button> Sidebar's footer </geo-tertiary-button>
       </template>
     </geo-sidebar-layout>

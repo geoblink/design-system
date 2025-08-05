@@ -6,78 +6,82 @@
     @click-outside="handleClickOutside"
   >
     <!-- @slot Use this slot to customize the button used to toggle the calendar -->
-    <slot
-      slot="toggleButton"
-      name="toggleButton"
-      :toggle-calendar-popup="toggleCalendarPopup"
-    />
-    <geo-bordered-box slot="popupContent">
-      <geo-bordered-box-header
-        :trailing-icon="closeCalendarIcon"
-        @click-trailing-icon="closeCalendar"
-      >
-        <!-- @slot Use this slot to customize the text displayed on the calendar's header -->
-        <slot name="calendarHeaderTitle" />
-      </geo-bordered-box-header>
-
-      <geo-scrollable-container>
-        <geo-calendar
-          ref="calendar"
-          :calendar-navigation-select-icon="calendarNavigationSelectIcon"
-          :earliest-date="earliestDate"
-          :default-from-date="defaultFromDate"
-          :default-to-date="defaultToDate"
-          :from-input-placeholder="fromInputPlaceholder"
-          :granularity-id="granularityId"
-          :initial-date-in-grid="initialDateInGrid"
-          :input-range-icon="inputRangeIcon"
-          :latest-date="latestDate"
-          :locale="locale"
-          :next-date-in-selected-granularity-icon="nextDateInSelectedGranularityIcon"
-          :picker-date-unit="pickerDateUnit"
-          :previous-date-in-selected-granularity-icon="previousDateInSelectedGranularityIcon"
-          :to-input-placeholder="toInputPlaceholder"
-          :is-from-date-disabled="isFromDateDisabled"
-          :is-to-date-disabled="isToDateDisabled"
-          @emit-from-date="emitFromDate"
-          @emit-to-date="emitToDate"
+    <template #toggleButton>
+      <slot
+        name="toggleButton"
+        :toggleCalendarPopup="toggleCalendarPopup"
+      />
+    </template>
+    <template #popupContent>
+      <geo-bordered-box>
+        <geo-bordered-box-header
+          :trailing-icon="closeCalendarIcon"
+          @click-trailing-icon="closeCalendar"
         >
-          <!-- @slot Use this slot to customize the sidebar with the different granularities handled by the calendar -->
-          <slot
-            slot="pickerGranularity"
-            name="pickerGranularity"
-          />
-          <!-- @slot Use this slot to customize the sidebar with the different granularities handled by the calendar -->
-          <slot
-            slot="pickerAliases"
-            name="pickerAliases"
-          />
-          <!-- @slot Use this slot to customize the message shown when there is an error in one of the selected dates -->
-          <slot
-            slot="formatError"
-            name="formatError"
-          />
-          <!-- @slot Use this slot to customize the text in the button used to apply your earliest available date in the fromDate input  -->
-          <slot
-            slot="earliestDatePlaceholder"
-            name="earliestDatePlaceholder"
-          />
-          <!-- @slot Use this slot to customize the text in the button used to apply your latest available date in the toDate input  -->
-          <slot
-            slot="latestDatePlaceholder"
-            name="latestDatePlaceholder"
-          />
-        </geo-calendar>
-      </geo-scrollable-container>
+          <!-- @slot Use this slot to customize the text displayed on the calendar's header -->
+          <slot name="calendarHeaderTitle" />
+        </geo-bordered-box-header>
 
-      <geo-bordered-box-footer>
-        <!-- @slot Use this slot to customize the footer of the calendar -->
-        <slot
-          name="calendarFooter"
-          :apply-range-selection="applyRangeSelection"
-        />
-      </geo-bordered-box-footer>
-    </geo-bordered-box>
+        <geo-scrollable-container>
+          <geo-calendar
+            ref="calendar"
+            :calendar-navigation-select-icon="calendarNavigationSelectIcon"
+            :earliest-date="earliestDate"
+            :default-from-date="defaultFromDate"
+            :default-to-date="defaultToDate"
+            :from-input-placeholder="fromInputPlaceholder"
+            :granularity-id="granularityId"
+            :initial-date-in-grid="initialDateInGrid"
+            :input-range-icon="inputRangeIcon"
+            :latest-date="latestDate"
+            :locale="locale"
+            :next-date-in-selected-granularity-icon="nextDateInSelectedGranularityIcon"
+            :picker-date-unit="pickerDateUnit"
+            :previous-date-in-selected-granularity-icon="previousDateInSelectedGranularityIcon"
+            :to-input-placeholder="toInputPlaceholder"
+            :is-from-date-disabled="isFromDateDisabled"
+            :is-to-date-disabled="isToDateDisabled"
+            @emit-from-date="emitFromDate"
+            @emit-to-date="emitToDate"
+          >
+            <!-- @slot Use this slot to customize the sidebar with the different granularities handled by the calendar -->
+            <template #pickerGranularity>
+              <slot
+                name="pickerGranularity"
+              />
+            </template>
+            <!-- @slot Use this slot to customize the sidebar with the different granularities handled by the calendar -->
+            <template #pickerAliases>
+              <slot
+                name="pickerAliases"
+              />
+            </template>
+            <!-- @slot Use this slot to customize the message shown when there is an error in one of the selected dates -->
+            <template #formatError>
+              <slot
+                name="formatError"
+              />
+            </template>
+            <!-- @slot Use this slot to customize the text in the button used to apply your earliest available date in the fromDate input  -->
+            <template #earliestDatePlaceholder>
+              <slot name="earliestDatePlaceholder" />
+            </template>
+            <!-- @slot Use this slot to customize the text in the button used to apply your latest available date in the toDate input  -->
+            <template #latestDatePlaceholder>
+              <slot name="latestDatePlaceholder" />
+            </template>
+          </geo-calendar>
+        </geo-scrollable-container>
+
+        <geo-bordered-box-footer>
+          <!-- @slot Use this slot to customize the footer of the calendar -->
+          <slot
+            name="calendarFooter"
+            :apply-range-selection="applyRangeSelection"
+          />
+        </geo-bordered-box-footer>
+      </geo-bordered-box>
+    </template>
   </geo-dropdown>
 </template>
 

@@ -203,13 +203,14 @@ export default {
           @click="enterEditMode()"
           @click-outside="hideButtons()"
         >
-          <font-awesome-icon
-            class="u-typestyle-body-disclaimer-small u-margin-right-small"
-            slot="trailingAccessoryItem"
-            :icon="['fas', 'exclamation-triangle']"
-            aria-hidden
-            fixed-width
-          />
+          <template #trailingAccessoryItem>
+            <font-awesome-icon
+              class="u-typestyle-body-disclaimer-small u-margin-right-small"
+              :icon="['fas', 'exclamation-triangle']"
+              aria-hidden
+              fixed-width
+            />
+          </template>
         </geo-editable-input>
       </div>
     </div>

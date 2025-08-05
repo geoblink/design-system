@@ -10,84 +10,85 @@
     @load-more-results="loadNextPage"
   >
     <!-- @slot _Optional_. Use this slot to customize toggle button. -->
-    <slot
-      slot="toggleButton"
-      name="toggleButton"
-      :dropdown-icon="dropdownIcon"
-      :is-empty="isEmpty"
-      :disabled="disabled"
-      :toggle-select="toggleSelect"
-      :visible-selected-options="visibleSelectedOptions"
-      :hidden-options-size="numberOfHiddenSelectedOptions"
-      :show-all="showAllSelectedOptions"
-      :toggle-list="toggleList"
-      :toggle-option="toggleOption"
-    >
-      <geo-select-toggle-button
+    <template #toggleButton>
+      <slot
+        name="toggleButton"
         :dropdown-icon="dropdownIcon"
         :is-empty="isEmpty"
         :disabled="disabled"
-        :variant="variant"
-        @click="toggleSelect"
+        :toggle-select="toggleSelect"
+        :visible-selected-options="visibleSelectedOptions"
+        :hidden-options-size="numberOfHiddenSelectedOptions"
+        :show-all="showAllSelectedOptions"
+        :toggle-list="toggleList"
+        :toggle-option="toggleOption"
       >
-        <template v-if="isEmpty">
-          {{ placeholder }}
-        </template>
-        <div
-          v-else
-          class="geo-multi-select__pills-container"
+        <geo-select-toggle-button
+          :dropdown-icon="dropdownIcon"
+          :is-empty="isEmpty"
+          :disabled="disabled"
+          :variant="variant"
+          @click="toggleSelect"
         >
-          <!-- @slot _Optional_. Use this slot to customize the content rendered inside the button. -->
-          <slot
-            name="buttonContent"
-            :visible-selected-options="visibleSelectedOptions"
-            :toggle-option="toggleOption"
+          <template v-if="isEmpty">
+            {{ placeholder }}
+          </template>
+          <div
+            v-else
+            class="geo-multi-select__pills-container"
           >
-            <geo-pill
-              v-for="(option, index) in visibleSelectedOptions"
-              :key="index"
-              class="geo-multi-select__pill"
-              :variant="geoPillVariant"
+            <!-- @slot _Optional_. Use this slot to customize the content rendered inside the button. -->
+            <slot
+              name="buttonContent"
+              :visible-selected-options="visibleSelectedOptions"
+              :toggle-option="toggleOption"
             >
-              <geo-trimmed-content>{{ option[keyForLabel] }}</geo-trimmed-content>
-              <font-awesome-icon
-                :icon="pillCloseIcon"
-                class="geo-multi-select__pill-remove"
-                fixed-width
-                @click.stop="toggleOption(option)"
-              />
-            </geo-pill>
-          </slot>
+              <geo-pill
+                v-for="(option, index) in visibleSelectedOptions"
+                :key="index"
+                class="geo-multi-select__pill"
+                :variant="geoPillVariant"
+              >
+                <geo-trimmed-content>{{ option[keyForLabel] }}</geo-trimmed-content>
+                <font-awesome-icon
+                  :icon="pillCloseIcon"
+                  class="geo-multi-select__pill-remove"
+                  fixed-width
+                  @click.stop="toggleOption(option)"
+                />
+              </geo-pill>
+            </slot>
 
-          <!-- @slot _Optional_. Use this slot to customize the buttons to show more/less pills. -->
-          <slot
-            name="toggleList"
-            :hidden-options-size="numberOfHiddenSelectedOptions"
-            :show-all="showAllSelectedOptions"
-            :toggle-list="toggleList"
-          >
-            <geo-link-button
-              v-if="hasMoreSelectedOptionsThanLimit"
-              @click.stop="toggleList()"
+            <!-- @slot _Optional_. Use this slot to customize the buttons to show more/less pills. -->
+            <slot
+              name="toggleList"
+              :hidden-options-size="numberOfHiddenSelectedOptions"
+              :show-all="showAllSelectedOptions"
+              :toggle-list="toggleList"
             >
-              <!-- @slot Use this slot to customize the text to show less pills. -->
-              <slot
-                v-if="showAllSelectedOptions"
-                name="showLessPills"
-              />
-              <!-- @slot Use this slot to customize the text to show more pills. -->
-              <slot
-                v-else
-                name="showMorePills"
-                :hidden-options-size="numberOfHiddenSelectedOptions"
-              />
-            </geo-link-button>
-          </slot>
-        </div>
-      </geo-select-toggle-button>
-    </slot>
+              <geo-link-button
+                v-if="hasMoreSelectedOptionsThanLimit"
+                @click.stop="toggleList()"
+              >
+                <!-- @slot Use this slot to customize the text to show less pills. -->
+                <slot
+                  v-if="showAllSelectedOptions"
+                  name="showLessPills"
+                />
+                <!-- @slot Use this slot to customize the text to show more pills. -->
+                <slot
+                  v-else
+                  name="showMorePills"
+                  :hidden-options-size="numberOfHiddenSelectedOptions"
+                />
+              </geo-link-button>
+            </slot>
+          </div>
+        </geo-select-toggle-button>
+      </slot>
+    </template>
 
-    <template slot="header">
+    <template #header>
       <!-- @slot _Optional_. Use this slot to add a custom header. -->
       <slot
         name="header"
@@ -122,62 +123,69 @@
           >
             <geo-list-group>
               <!-- @slot _optional_. Use this slot to customize titles of opt-groups -->
-              <slot
+              <template
                 v-if="option.isOptGroupHeader"
-                slot="title"
-                name="groupTitle"
+                #title
               >
-                <label class="geo-multi-select__label geo-multi-select__label-group">
-                  <geo-marquee>
-                    <geo-highlighted-string
-                      slot-scope="{}"
-                      :highlighted-chars="option.matches"
-                      :reference-string="option[keyForLabel]"
-                    />
-                  </geo-marquee>
-                  <input
-                    slot="trailingAccessoryItem"
-                    :checked="isGroupChecked(option)"
-                    :indeterminate.prop="isSomeGroupOptionChecked(option)"
-                    type="checkbox"
-                    class="geo-multi-select_input"
-                    @input="toggleGroup(option)"
-                  >
-                </label>
-              </slot>
-
-              <!-- @slot _optional_. Use this slot to customize items of opt-groups -->
-              <slot
-                v-for="(item, itemIndex) in option.items"
-                slot="item"
-                name="groupItem"
-                :suggested-key="`${item[keyForLabel]}--${itemIndex}`"
-                :option-index="itemIndex"
-                :option="item"
-                :selected-options="selectedOptions"
-                :toggle-option="toggleOption"
-              >
-                <geo-list-item
-                  :key="`${item[keyForLabel]}--${itemIndex}`"
+                <slot
+                  name="groupTitle"
                 >
-                  <label class="geo-multi-select__label">
+                  <label class="geo-multi-select__label geo-multi-select__label-group">
                     <geo-marquee>
                       <geo-highlighted-string
-                        slot-scope="{}"
-                        :highlighted-chars="item.matches"
-                        :reference-string="item[keyForLabel]"
+                        :highlighted-chars="option.matches"
+                        :reference-string="option[keyForLabel]"
                       />
                     </geo-marquee>
-                    <input
-                      slot="trailingAccessoryItem"
-                      :checked="selectedOptions[item.item[keyForId]]"
-                      type="checkbox"
-                      class="geo-multi-select_input"
-                      @input="toggleOption(item)"
-                    >
                   </label>
-                </geo-list-item>
-              </slot>
+                </slot>
+              </template>
+              <template
+                v-if="option.isOptGroupHeader"
+                #trailingAccessoryItem
+              >
+                <input
+                  :checked="isGroupChecked(option)"
+                  :indeterminate.prop="isSomeGroupOptionChecked(option)"
+                  type="checkbox"
+                  class="geo-multi-select_input"
+                  @input="toggleGroup(option)"
+                >
+              </template>
+
+              <!-- @slot _optional_. Use this slot to customize items of opt-groups -->
+              <template #item>
+                <slot
+                  v-for="(item, itemIndex) in option.items"
+                  name="groupItem"
+                  :suggested-key="`${item[keyForLabel]}--${itemIndex}`"
+                  :option-index="itemIndex"
+                  :option="item"
+                  :selected-options="selectedOptions"
+                  :toggle-option="toggleOption"
+                >
+                  <geo-list-item
+                    :key="`${item[keyForLabel]}--${itemIndex}`"
+                  >
+                    <label class="geo-multi-select__label">
+                      <geo-marquee>
+                        <geo-highlighted-string
+                          :highlighted-chars="item.matches"
+                          :reference-string="item[keyForLabel]"
+                        />
+                      </geo-marquee>
+                    </label>
+                    <template #trailingAccessoryItem>
+                      <input
+                        :checked="selectedOptions[item.item[keyForId]]"
+                        type="checkbox"
+                        class="geo-multi-select_input"
+                        @input="toggleOption(item)"
+                      >
+                    </template>
+                  </geo-list-item>
+                </slot>
+              </template>
             </geo-list-group>
           </slot>
         </template>
@@ -199,19 +207,19 @@
               <label class="geo-multi-select__label">
                 <geo-marquee>
                   <geo-highlighted-string
-                    slot-scope="{}"
                     :highlighted-chars="option.matches"
                     :reference-string="option[keyForLabel]"
                   />
                 </geo-marquee>
+              </label>
+              <template #trailingAccessoryItem>
                 <input
-                  slot="trailingAccessoryItem"
                   :checked="selectedOptions[option.item[keyForId]]"
                   type="checkbox"
                   class="geo-multi-select_input"
                   @input="toggleOption(option)"
                 >
-              </label>
+              </template>
             </geo-list-item>
           </slot>
         </template>
@@ -228,16 +236,18 @@
       @slot Use this slot to customize the label of the button allowing to
       display additional options when there are too many to be displayed at once
     -->
-    <slot
-      slot="moreResultsTextContent"
-      name="moreResultsTextContent"
-    />
+    <template #moreResultsTextContent>
+      <slot
+        name="moreResultsTextContent"
+      />
+    </template>
     <!-- @slot Use this slot to customize the footer of the selection popup -->
-    <slot
-      slot="footer"
-      name="footer"
-      :toggleSelect="toggleSelect"
-    />
+    <template #footer>
+      <slot
+        name="footer"
+        :toggleSelect="toggleSelect"
+      />
+    </template>
   </geo-select-base>
 </template>
 

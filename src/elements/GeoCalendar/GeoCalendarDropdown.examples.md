@@ -42,10 +42,7 @@
         @emit-to-date="setToDate"
         @apply-range-selection="applyDates"
       >
-        <template
-          slot-scope="{ toggleCalendarPopup }"
-          slot="toggleButton"
-        >
+        <template #toggleButton="{ toggleCalendarPopup }">
           <geo-dropdown-regular-button
             :icon="['fas', 'calendar']"
             @click="toggleCalendarPopup"
@@ -53,10 +50,10 @@
             Calendar:
           </geo-dropdown-regular-button>
         </template>
-        <template slot="calendarHeaderTitle">Calendar</template>
+        <template #calendarHeaderTitle>Calendar</template>
         <template
           v-if="hasGranularities"
-          slot="pickerGranularity"
+          #pickerGranularity
         >
           <h5 class="element-demo__header">
             Browse by
@@ -99,7 +96,7 @@
         </template>
         <template
           v-if="hasAliases"
-          slot="pickerAliases"
+          #pickerAliases
         >
           <h5 class="element-demo__header">
             Date ranges
@@ -127,22 +124,20 @@
           </geo-calendar-picker-granularity-base>
         </template>
         <!-- TODO: CORE-7312 This should be part of the DS when input results in error -->
-        <p
-          slot="formatError"
-          class="geo-calendar__input__date-feedback--error"
-        >
-          The inserted date is not valid
-        </p>
-        <template slot="earliestDatePlaceholder">
+        <template #formatError>
+          <p
+            class="geo-calendar__input__date-feedback--error"
+          >
+            The inserted date is not valid
+          </p>
+        </template>
+        <template #earliestDatePlaceholder>
           Set earliest date
         </template>
-        <template slot="latestDatePlaceholder">
+        <template #latestDatePlaceholder>
           Set latest date
         </template>
-        <template
-          slot-scope="{ applyRangeSelection }"
-          slot="calendarFooter"
-        >
+        <template #calendarFooter="{ applyRangeSelection }">
           <geo-primary-button
             :disabled="isDateRangeNotValid"
             @click="applyRangeSelection"

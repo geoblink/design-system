@@ -56,18 +56,30 @@ export default {
   <div class="element-demo">
     <div class="element-demo__block">
       <geo-input v-model="model" type="text" placeholder="Placeholder">
-        <geo-input-label slot="label">Base</geo-input-label>
-        <geo-input-message slot="message">This is the legend</geo-input-message>
+        <template #label>
+          <geo-input-label>Base</geo-input-label>
+        </template>
+        <template #message>
+          <geo-input-message>This is the legend</geo-input-message>
+        </template>
       </geo-input>
 
       <geo-input v-model="model" type="text" focus>
-        <geo-input-label slot="label">Base (focused)</geo-input-label>
-        <geo-input-message slot="message">This is the legend</geo-input-message>
+        <template #label>
+          <geo-input-label>Base (focused)</geo-input-label>
+        </template>
+        <template #message>
+          <geo-input-message>This is the legend</geo-input-message>
+        </template>
       </geo-input>
 
       <geo-input v-model="model" type="text" disabled>
-        <geo-input-label slot="label">Base (disabled)</geo-input-label>
-        <geo-input-message slot="message">This is the legend</geo-input-message>
+        <template #label>
+          <geo-input-label>Base (disabled)</geo-input-label>
+        </template>
+        <template #message>
+          <geo-input-message>This is the legend</geo-input-message>
+        </template>
       </geo-input>
     </div>
   </div>
@@ -90,18 +102,30 @@ export default {
   <div class="element-demo">
     <div class="element-demo__block">
       <geo-input v-model="model" type="text" success>
-        <geo-input-label slot="label">Success</geo-input-label>
-        <geo-input-message slot="message" variant="success">Success message</geo-input-message>
+        <template #label>
+          <geo-input-label>Success</geo-input-label>  
+        </template>
+        <template #message>
+          <geo-input-message variant="success">Success message</geo-input-message>
+        </template>
       </geo-input>
 
       <geo-input v-model="model" type="text" success focus>
-        <geo-input-label slot="label">Success (focused)</geo-input-label>
-        <geo-input-message slot="message" variant="success">Success message</geo-input-message>
+        <template #label>
+          <geo-input-label>Success (focused)</geo-input-label>
+        </template>
+        <template #message>
+          <geo-input-message variant="success">Success message</geo-input-message>
+        </template>
       </geo-input>
 
       <geo-input v-model="model" type="text" success disabled>
-        <geo-input-label slot="label">Success (disabled)</geo-input-label>
-        <geo-input-message slot="message" variant="success">Success message</geo-input-message>
+        <template #label>
+          <geo-input-label>Success (disabled)</geo-input-label>
+        </template>
+        <template #message>
+          <geo-input-message variant="success">Success message</geo-input-message>
+        </template>
       </geo-input>
     </div>
   </div>
@@ -124,18 +148,30 @@ export default {
   <div class="element-demo">
     <div class="element-demo__block">
       <geo-input v-model="model" type="text" error>
-        <geo-input-label slot="label">Error</geo-input-label>
-        <geo-input-message slot="message" variant="error">Error message</geo-input-message>
+        <template #label>
+          <geo-input-label>Error</geo-input-label>
+        </template>
+        <template #message>
+          <geo-input-message variant="error">Error message</geo-input-message>
+        </template>
       </geo-input>
 
       <geo-input v-model="model" type="text" error focus>
-        <geo-input-label slot="label">Error (focused)</geo-input-label>
-        <geo-input-message slot="message" variant="error">Error message</geo-input-message>
+        <template #label>
+          <geo-input-label>Error (focused)</geo-input-label>
+        </template>
+        <template #message>
+          <geo-input-message variant="error">Error message</geo-input-message>
+        </template>
       </geo-input>
 
       <geo-input v-model="model" type="text" error disabled>
-        <geo-input-label slot="label">Error (disabled)</geo-input-label>
-        <geo-input-message slot="message" variant="error">Error message</geo-input-message>
+        <template #label>
+          <geo-input-label>Error (disabled)</geo-input-label>
+        </template>
+        <template #message>
+          <geo-input-message variant="error">Error message</geo-input-message>
+        </template>
       </geo-input>
     </div>
   </div>
@@ -160,8 +196,12 @@ export default {
   <div class="element-demo">
     <div class="element-demo__block">
       <geo-input v-model="value" type="text" :disabled="true" :disabled-icon="['fas', 'lock']">
-        <geo-input-label slot="label">Input disabled</geo-input-label>
-        <geo-input-message slot="message">This is the legend</geo-input-message>
+        <template #label>
+          <geo-input-label>Input disabled</geo-input-label>
+        </template>
+        <template #label>
+          <geo-input-message>This is the legend</geo-input-message>
+        </template>
       </geo-input>
     </div>
   </div>
@@ -186,8 +226,12 @@ export default {
   <div class="element-demo">
     <div class="element-demo__block">
       <geo-input v-model="value" type="text" :read-only="true" :disabled-icon="['fas', 'lock']">
-        <geo-input-label slot="label">Input disabled</geo-input-label>
-        <geo-input-message slot="message">This is the legend</geo-input-message>
+        <template #label>
+          <geo-input-label>Input disabled</geo-input-label>
+        </template>
+        <template #label>
+          <geo-input-message>This is the legend</geo-input-message>
+        </template>
       </geo-input>
     </div>
   </div>
@@ -261,7 +305,9 @@ export default {
         @input="checkNumberInput(value)"
         @delete-value="resetValue"
       >
-        <geo-input-message v-if="hasError" slot="message" variant="error">Max number is 5</geo-input-message>
+        <template #message v-if="hasError">
+          <geo-input-message variant="error">Max number is 5</geo-input-message>
+        </template>
       </geo-input>
     </div>
     <span>Show error: {{ hasError }}, Model: {{ value }}</span>
@@ -300,12 +346,15 @@ export default {
   <div class="element-demo">
     <div class="element-demo__block">
       <geo-input v-model="value" type="text">
-        <geo-input-label slot="label">Search input</geo-input-label>
-        <font-awesome-icon
-          slot="leadingAccessoryItem"
-          :icon="['fas', 'search']"
-          fixed-with
-        />
+        <template #label>
+          <geo-input-label>Search input</geo-input-label>
+        </template>
+        <template #leadingAccessoryItem>
+          <font-awesome-icon
+            :icon="['fas', 'search']"
+            fixed-with
+          />
+        </template>
       </geo-input>
     </div>
   </div>
@@ -330,15 +379,21 @@ export default {
   <div class="element-demo">
     <div class="element-demo__block">
       <geo-input v-model="model[0]" type="text" placeholder="Placeholder">
-        <geo-primary-button slot="trailingAccessoryItem">Action!</geo-primary-button>
+        <template #trailingAccessoryItem>
+          <geo-primary-button>Action!</geo-primary-button>
+        </template>
       </geo-input>
 
       <geo-input v-model="model[1]" type="text" placeholder="Disabled" disabled>
-        <geo-primary-button slot="trailingAccessoryItem">Action!</geo-primary-button>
+        <template #trailingAccessoryItem>
+          <geo-primary-button>Action!</geo-primary-button>
+        </template>
       </geo-input>
 
       <geo-input v-model="model[2]" type="text" @delete-value="resetValue">
-        <geo-primary-button slot="trailingAccessoryItem">Action!</geo-primary-button>
+        <template #trailingAccessoryItem>
+          <geo-primary-button>Action!</geo-primary-button>
+        </template>
       </geo-input>
     </div>
   </div>
@@ -368,12 +423,14 @@ export default {
   <div class="element-demo">
     <div class="element-demo__block">
       <geo-input v-model="value">
-        <geo-input-prefix slot="leadingAccessoryItem">
-          <font-awesome-icon
-            :icon="['fas', 'euro-sign']"
-            fixed-width
-          />
-        </geo-input-prefix>
+        <template #leadingAccessoryItem>
+          <geo-input-prefix>
+            <font-awesome-icon
+              :icon="['fas', 'euro-sign']"
+              fixed-width
+            />
+          </geo-input-prefix>
+        </template>
       </geo-input>
     </div>
   </div>
@@ -398,9 +455,11 @@ export default {
   <div class="element-demo">
     <div class="element-demo__block">
       <geo-input v-model="value" @delete-value="resetValue">
-        <geo-input-suffix slot="trailingAccessoryItem">
-          euros
-        </geo-input-suffix>
+        <template #trailingAccessoryItem>
+          <geo-input-suffix>
+            euros
+          </geo-input-suffix>
+        </template>
       </geo-input>
     </div>
   </div>
@@ -433,9 +492,11 @@ export default {
         v-model="value"
         disabled
       >
-        <geo-input-suffix slot="trailingAccessoryItem">
-          euros
-        </geo-input-suffix>
+        <template #trailingAccessoryItem>
+          <geo-input-suffix>
+            euros
+          </geo-input-suffix>
+        </template>
       </geo-input>
     </div>
   </div>
@@ -462,13 +523,14 @@ export default {
       <geo-input
         v-model="value"
       >
-        <geo-primary-button
-          slot="trailingAccessoryItem"
-          class="geo-input-several-accessory-items--not-last"
-        >
-          Action
-        </geo-primary-button>
-        <geo-input-suffix slot="trailingAccessoryItem">euros</geo-input-suffix>
+        <template #trailingAccessoryItem>
+          <geo-primary-button
+            class="geo-input-several-accessory-items--not-last"
+          >
+            Action
+          </geo-primary-button>
+          <geo-input-suffix>euros</geo-input-suffix>
+        </template>
       </geo-input>
     </div>
   </div>
@@ -499,9 +561,11 @@ export default {
   <div class="element-demo">
     <div class="element-demo__block">
       <geo-input v-model="value" type="number" @delete-value="resetValue">
-        <geo-input-suffix slot="trailingAccessoryItem">
-          euros
-        </geo-input-suffix>
+        <template #trailingAccessoryItem>
+          <geo-input-suffix>
+            euros
+          </geo-input-suffix>
+        </template>
       </geo-input>
     </div>
   </div>
@@ -531,15 +595,16 @@ export default {
   <div class="element-demo">
     <div class="element-demo__block" style="justify-content: space-around;">
       <geo-input v-model="value">
-        <geo-select
-          slot="trailingAccessoryItem"
-          :options="distanceMeasures"
-          :dropdown-icon="['fas', 'chevron-down']"
-          :search-icon="['fas', 'search']"
-          :fixed-width="false"
-          variant="inputAccessorySuffix"
-          v-model="selectedDistanceMeasure"
-        />
+        <template #trailingAccessoryItem>
+          <geo-select
+            :options="distanceMeasures"
+            :dropdown-icon="['fas', 'chevron-down']"
+            :search-icon="['fas', 'search']"
+            :fixed-width="false"
+            variant="inputAccessorySuffix"
+            v-model="selectedDistanceMeasure"
+          />
+        </template>
       </geo-input>
     </div>
   </div>
@@ -567,18 +632,22 @@ export default {
   <div class="element-demo">
     <div class="element-demo__block">
       <geo-input v-model="value" @delete-value="resetValue">
-        <geo-input-prefix slot="leadingAccessoryItem">
-          <font-awesome-icon
-            :icon="['fas', 'bell']"
-            fixed-width
-          />
-        </geo-input-prefix>
-        <geo-input-suffix slot="trailingAccessoryItem">
-          <font-awesome-icon
-            :icon="['fas', 'bell']"
-            fixed-width
-          />
-        </geo-input-suffix>
+        <template #leadingAccessoryItem>
+          <geo-input-prefix>
+            <font-awesome-icon
+              :icon="['fas', 'bell']"
+              fixed-width
+            />
+          </geo-input-prefix>
+        </template>
+        <template #trailingAccessoryItem>
+          <geo-input-suffix>
+            <font-awesome-icon
+              :icon="['fas', 'bell']"
+              fixed-width
+            />
+          </geo-input-suffix>
+        </template>
       </geo-input>
     </div>
   </div>

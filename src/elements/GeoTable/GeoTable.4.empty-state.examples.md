@@ -8,7 +8,7 @@ can use that slot to easily show an empty state for any table.
   <div class="element-demo__block">
     <div class="element-demo__bordered-box geo-activity-indicator-demo-box">
       <geo-table :source-data="[]" :current-page="0">
-        <p slot="empty">Table is empty!</p>
+        <template #empty>Table is empty!</template>
       </geo-table>
     </div>
   </div>

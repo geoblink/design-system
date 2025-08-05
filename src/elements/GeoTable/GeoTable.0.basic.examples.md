@@ -9,14 +9,18 @@
           :source-data="sourceData"
           :current-page="0"
         >
-          <geo-table-header-row slot="header">
-            <geo-table-header-row-cell>Name</geo-table-header-row-cell>
-            <geo-table-header-row-cell>Allegiance</geo-table-header-row-cell>
-          </geo-table-header-row>
-          <geo-table-body-row slot="body" slot-scope="row">
-            <geo-table-body-row-cell>{{ row.item.name }}</geo-table-body-row-cell>
-            <geo-table-body-row-cell>{{ row.item.allegiance }}</geo-table-body-row-cell>
-          </geo-table-body-row>
+          <template #header>
+            <geo-table-header-row>
+              <geo-table-header-row-cell>Name</geo-table-header-row-cell>
+              <geo-table-header-row-cell>Allegiance</geo-table-header-row-cell>
+            </geo-table-header-row>
+          </template>
+          <template #body="row">
+            <geo-table-body-row>
+              <geo-table-body-row-cell>{{ row.item.name }}</geo-table-body-row-cell>
+              <geo-table-body-row-cell>{{ row.item.allegiance }}</geo-table-body-row-cell>
+            </geo-table-body-row>
+          </template>
         </geo-table>
       </div>
     </div>
@@ -55,19 +59,23 @@ export default {
           :current-page="currentPage"
           @go-to-page="goToPage($event)"
         >
-          <geo-table-header-row slot="header">
-            <geo-table-header-row-cell
-              v-for="singleHeader in headers"
-              :key="singleHeader"
-            >
-              {{ singleHeader }}
-            </geo-table-header-row-cell>
-          </geo-table-header-row>
-          <geo-table-body-row slot="body" slot-scope="row">
-            <geo-table-body-row-cell v-for="(singleHeader, key) in headers" :key="singleHeader">
-              {{ row.item[key] }}
-            </geo-table-body-row-cell>
-          </geo-table-body-row>
+          <template #header>
+            <geo-table-header-row>
+              <geo-table-header-row-cell
+                v-for="singleHeader in headers"
+                :key="singleHeader"
+              >
+                {{ singleHeader }}
+              </geo-table-header-row-cell>
+            </geo-table-header-row>
+          </template>
+          <template #body="row">
+            <geo-table-body-row>
+              <geo-table-body-row-cell v-for="(singleHeader, key) in headers" :key="singleHeader">
+                {{ row.item[key] }}
+              </geo-table-body-row-cell>
+            </geo-table-body-row>
+          </template>
         </geo-table>
       </div>
     </div>

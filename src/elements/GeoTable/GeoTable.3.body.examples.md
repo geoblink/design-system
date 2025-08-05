@@ -28,19 +28,23 @@ of the item in `sourceData`.
           :current-page="currentPage"
           @go-to-page="goToPage($event)"
         >
-          <geo-table-header-row slot="header">
-            <geo-table-header-row-cell
-              v-for="singleHeader in headers"
-              :key="singleHeader"
-            >
-              {{ singleHeader }}
-            </geo-table-header-row-cell>
-          </geo-table-header-row>
-          <geo-table-body-row slot="body" slot-scope="row">
-            <geo-table-body-row-cell v-for="(singleHeader, key) in headers" :key="singleHeader">
-              {{ row.item[key] }}
-            </geo-table-body-row-cell>
-          </geo-table-body-row>
+          <template #header>
+            <geo-table-header-row>
+              <geo-table-header-row-cell
+                v-for="singleHeader in headers"
+                :key="singleHeader"
+              >
+                {{ singleHeader }}
+              </geo-table-header-row-cell>
+            </geo-table-header-row>
+          </template>
+          <template #body="row">
+            <geo-table-body-row>
+              <geo-table-body-row-cell v-for="(singleHeader, key) in headers" :key="singleHeader">
+                {{ row.item[key] }}
+              </geo-table-body-row-cell>
+            </geo-table-body-row>
+          </template>
         </geo-table>
       </div>
 
@@ -93,22 +97,26 @@ export default {
           :current-page="currentPage"
           @go-to-page="goToPage($event)"
         >
-          <geo-table-header-row slot="header">
-            <geo-table-header-row-cell
-              v-for="singleHeader in narrowData.headers"
-              :key="singleHeader"
-            >
-              {{ singleHeader }}
-            </geo-table-header-row-cell>
-          </geo-table-header-row>
-          <geo-table-body-row slot="body" slot-scope="row">
-            <geo-table-body-row-cell
-              v-for="(singleHeader, key) in narrowData.headers"
-              :key="singleHeader"
-            >
-              {{ row.item[key] }}
-            </geo-table-body-row-cell>
-          </geo-table-body-row>
+          <template #header>
+            <geo-table-header-row>
+              <geo-table-header-row-cell
+                v-for="singleHeader in narrowData.headers"
+                :key="singleHeader"
+              >
+                {{ singleHeader }}
+              </geo-table-header-row-cell>
+            </geo-table-header-row>
+          </template>
+          <template #body="row">
+            <geo-table-body-row>
+              <geo-table-body-row-cell
+                v-for="(singleHeader, key) in narrowData.headers"
+                :key="singleHeader"
+              >
+                {{ row.item[key] }}
+              </geo-table-body-row-cell>
+            </geo-table-body-row>
+          </template>
         </geo-table>
       </div>
 
@@ -162,22 +170,26 @@ export default {
           :current-page="currentPage"
           @go-to-page="goToPage($event)"
         >
-          <geo-table-header-row slot="header">
-            <geo-table-header-row-cell
-              v-for="singleHeader in wideData.headers"
-              :key="singleHeader"
-            >
-              {{ singleHeader }}
-            </geo-table-header-row-cell>
-          </geo-table-header-row>
-          <geo-table-body-row slot="body" slot-scope="row">
-            <geo-table-body-row-cell
-              v-for="(singleHeader, key) in wideData.headers"
-              :key="singleHeader"
-            >
-              {{ row.item[key] }}
-            </geo-table-body-row-cell>
-          </geo-table-body-row>
+          <template #header>
+            <geo-table-header-row>
+              <geo-table-header-row-cell
+                v-for="singleHeader in wideData.headers"
+                :key="singleHeader"
+              >
+                {{ singleHeader }}
+              </geo-table-header-row-cell>
+            </geo-table-header-row>
+          </template>
+          <template #body="row">
+            <geo-table-body-row>
+              <geo-table-body-row-cell
+                v-for="(singleHeader, key) in wideData.headers"
+                :key="singleHeader"
+              >
+                {{ row.item[key] }}
+              </geo-table-body-row-cell>
+            </geo-table-body-row>
+          </template>
         </geo-table>
       </div>
 
@@ -231,22 +243,26 @@ export default {
           :current-page="currentPage"
           @go-to-page="goToPage($event)"
         >
-          <geo-table-header-row slot="header">
-            <geo-table-header-row-cell
-              v-for="singleHeader in mediumData.headers"
-              :key="singleHeader"
-            >
-              {{ singleHeader }}
-            </geo-table-header-row-cell>
-          </geo-table-header-row>
-          <geo-table-body-row slot="body" slot-scope="row">
-            <geo-table-body-row-cell
-              v-for="(singleHeader, key) in mediumData.headers"
-              :key="singleHeader"
-            >
-              {{ row.item[key] }}
-            </geo-table-body-row-cell>
-          </geo-table-body-row>
+          <template #header>
+            <geo-table-header-row>
+              <geo-table-header-row-cell
+                v-for="singleHeader in mediumData.headers"
+                :key="singleHeader"
+              >
+                {{ singleHeader }}
+              </geo-table-header-row-cell>
+            </geo-table-header-row>
+          </template>
+          <template #body="row">
+            <geo-table-body-row>
+              <geo-table-body-row-cell
+                v-for="(singleHeader, key) in mediumData.headers"
+                :key="singleHeader"
+              >
+                {{ row.item[key] }}
+              </geo-table-body-row-cell>
+            </geo-table-body-row>
+          </template>
         </geo-table>
       </div>
 

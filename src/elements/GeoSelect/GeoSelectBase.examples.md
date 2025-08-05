@@ -9,18 +9,19 @@
         :fixed-width="false"
         @click-outside="closeSelect()"
       >
-        <geo-select-toggle-button
-          slot="toggleButton"
-          :is-empty="!this.currentSelection"
-          @click="toggleSelect()"
-        >
-          <template v-if="currentSelection">
-            {{ currentSelection.label }}
-          </template>
-          <template v-else>
-            Choose an option
-          </template>
-        </geo-select-toggle-button>
+        <template #toggleButton>
+          <geo-select-toggle-button
+            :is-empty="!this.currentSelection"
+            @click="toggleSelect()"
+          >
+            <template v-if="currentSelection">
+              {{ currentSelection.label }}
+            </template>
+            <template v-else>
+              Choose an option
+            </template>
+          </geo-select-toggle-button>
+        </template>
         <geo-list-item
           v-for="(option, index) in itemsList"
           :key="index"
@@ -68,23 +69,25 @@ export default {
         :opened="isOpened"
         @click-outside="closeSelect()"
       >
-        <geo-select-toggle-button
-          slot="toggleButton"
-          :is-empty="!this.currentSelection"
-          @click="toggleSelect()"
-        >
-          <template v-if="currentSelection">
-            {{ currentSelection.label }}
-          </template>
-          <template v-else>
-            Choose an option
-          </template>
-        </geo-select-toggle-button>
-        <geo-bordered-box-header-search-form
-          slot="header"
-          v-model="searchPattern"
-          placeholder="Search..."
-        />
+        <template #toggleButton>
+          <geo-select-toggle-button
+            :is-empty="!this.currentSelection"
+            @click="toggleSelect()"
+          >
+            <template v-if="currentSelection">
+              {{ currentSelection.label }}
+            </template>
+            <template v-else>
+              Choose an option
+            </template>
+          </geo-select-toggle-button>
+        </template>
+        <template #header>
+          <geo-bordered-box-header-search-form
+            v-model="searchPattern"
+            placeholder="Search..."
+          />
+        </template>
         <template v-if="filteredItemsList.length">
           <geo-list-item
             v-for="(option, index) in filteredItemsList"
@@ -160,30 +163,32 @@ export default {
         :opened="isOpened"
         @click-outside="closeSelect()"
       >
-        <geo-select-toggle-button
-          slot="toggleButton"
-          :is-empty="!this.currentSelection"
-          @click="toggleSelect()"
-        >
-          <template v-if="currentSelection">
-            {{ currentSelection.label }}
-          </template>
-          <template v-else>
-            Choose an option
-          </template>
-        </geo-select-toggle-button>
-        <geo-bordered-box-header-search-form
-          slot="header"
-          v-model="searchPattern"
-          placeholder="Search..."
-        />
+        <template #toggleButton>
+          <geo-select-toggle-button
+            :is-empty="!this.currentSelection"
+            @click="toggleSelect()"
+          >
+            <template v-if="currentSelection">
+              {{ currentSelection.label }}
+            </template>
+            <template v-else>
+              Choose an option
+            </template>
+          </geo-select-toggle-button>
+        </template>
+        <template #header>
+          <geo-bordered-box-header-search-form
+            v-model="searchPattern"
+            placeholder="Search..."
+          />
+        </template>
         <template v-if="filteredOptGroupsItems.length">
           <geo-list-group
             v-for="(optGroup, index) in filteredOptGroupsItems"
             :key="index"
           >
             <template
-              slot="title"
+              #title
               v-if="optGroup.isOptGroup"
             >
               <geo-highlighted-string
@@ -192,17 +197,18 @@ export default {
                 :reference-string="optGroup.label"
               />
             </template>
-            <geo-list-item
-              slot="item"
-              v-for="(option, index) in optGroup.items"
-              :key="index"
-              @click="changeCurrentSelection(option)"
-            >
-              <geo-highlighted-string
-                :highlighted-chars="option.matches"
-                :reference-string="option.label"
-              />
-            </geo-list-item>
+            <template #item>
+              <geo-list-item
+                v-for="(option, index) in optGroup.items"
+                :key="index"
+                @click="changeCurrentSelection(option)"
+              >
+                <geo-highlighted-string
+                  :highlighted-chars="option.matches"
+                  :reference-string="option.label"
+                />
+              </geo-list-item>
+            </template>
           </geo-list-group>
         </template>
         <geo-list-clear-item v-else>
@@ -305,19 +311,20 @@ export default {
         @click-outside="closeSelect()"
         @load-more-results="loadNextPage($event)"
       >
-        <geo-select-toggle-button
-          slot="toggleButton"
-          :dropdown-icon="['fas', 'chevron-down']"
-          :is-empty="!this.currentSelection"
-          @click="toggleSelect()"
-        >
-          <template v-if="currentSelection">
-            {{ currentSelection.label }}
-          </template>
-          <template v-else>
-            Choose an option
-          </template>
-        </geo-select-toggle-button>
+        <template #toggleButton>
+          <geo-select-toggle-button
+            :dropdown-icon="['fas', 'chevron-down']"
+            :is-empty="!this.currentSelection"
+            @click="toggleSelect()"
+          >
+            <template v-if="currentSelection">
+              {{ currentSelection.label }}
+            </template>
+            <template v-else>
+              Choose an option
+            </template>
+          </geo-select-toggle-button>
+        </template>
         <geo-list-item
           v-for="(option, index) in chunkedLongList"
           :key="index"
@@ -325,7 +332,7 @@ export default {
         >
           {{option.label}}
         </geo-list-item>
-        <template slot="moreResultsTextContent">
+        <template #moreResultsTextContent>
           Load more results
         </template>
       </geo-select-base>

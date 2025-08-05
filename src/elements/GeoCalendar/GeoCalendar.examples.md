@@ -39,7 +39,7 @@
       >
         <template
           v-if="hasGranularities"
-          slot="pickerGranularity"
+          #pickerGranularity
         >
           <h5 class="element-demo__header">
             Browse by
@@ -82,7 +82,7 @@
         </template>
         <template
           v-if="hasAliases"
-          slot="pickerAliases"
+          #pickerAliases
         >
           <h5 class="element-demo__header">
             Date ranges
@@ -111,17 +111,17 @@
         </template>
 
         <p
-          slot="formatError"
+          #formatError
           class="geo-calendar__input__date-feedback--error"
         >
           The inserted date is not valid
         </p>
 
-        <template slot="earliestDatePlaceholder">
+        <template #earliestDatePlaceholder>
           Set earliest date
         </template>
 
-        <template slot="latestDatePlaceholder">
+        <template #latestDatePlaceholder>
           Set latest date
         </template>
       </geo-calendar>
