@@ -1,4 +1,8 @@
 # Changelog
+## 37.0.1
+Fix:
+- `GeoTree`: Fix issues with accents when using `searchable` mode.
+
 ## 37.0.0
 Breaking change:
 - `GeoTree`: The `isSingleSelectMode` prop is replaced by `inputType` prop.
