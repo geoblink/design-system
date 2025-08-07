@@ -128,7 +128,7 @@ export default {
         key-for-label="label"
         placeholder="Choose an option"
       >
-        <template slot="moreResultsTextContent">Load more results</template>
+        <template #moreResultsTextContent>Load more results</template>
       </geo-select>
     </div>
   </div>

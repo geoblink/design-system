@@ -4,8 +4,7 @@
   :icon="icon"
   @click="$emit('click', $event)"
 >
-  <slot
-    slot="loading"
-    name="loading"
-  />
+  <template #loading>
+    <slot name="loading" />
+  </template>
 </geo-compact-button>

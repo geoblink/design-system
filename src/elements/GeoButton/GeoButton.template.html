@@ -4,8 +4,7 @@
   @click="$emit('click', $event)"
 >
   <slot />
-  <slot
-    slot="loading"
-    name="loading"
-  />
+  <template #loading>
+    <slot name="loading" />
+  </template>
 </geo-button>

@@ -2,12 +2,10 @@
   v-bind="$props"
   :type="type"
 >
-  <slot
-    slot="warningTooltip"
-    name="warningTooltip"
-  />
-  <slot
-    slot="descriptionTooltip"
-    name="descriptionTooltip"
-  />
+  <template #warningTooltip>
+    <slot name="warningTooltip" />
+  </template>
+  <template #descriptionTooltip>
+    <slot name="descriptionTooltip" />
+  </template>
 </geo-value>
