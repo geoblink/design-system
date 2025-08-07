@@ -1,6 +1,6 @@
 # Changelog
 ## 37.0.1
-Fox:
+Fix:
 - `GeoTree`: Fix issues with accents when using `searchable` mode.
 
 ## 37.0.0
