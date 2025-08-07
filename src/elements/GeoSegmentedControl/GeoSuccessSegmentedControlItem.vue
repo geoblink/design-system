@@ -1,16 +1,12 @@
-<template functional>
+<template>
   <geo-segmented-control-item
-    :ref="data.ref"
-    v-bind="data.attrs"
-    :class="[
-      data.class,
-      data.staticClass
-    ]"
-    :disabled="props.disabled"
-    :outline="props.outline"
-    :active="props.active"
-    :variant="$options.helpers.variant"
-    v-on="listeners"
+    v-bind="$attrs"
+    :class="$attrs.class"
+    :disabled="disabled"
+    :outline="outline"
+    :active="active"
+    :variant="variant"
+    v-on="$listeners"
   >
     <!-- @slot Use this slot to customize item's content -->
     <slot />
@@ -29,8 +25,10 @@ export default {
   status: 'ready',
   release: '20.1.0',
   mixins: [geoSegmentedControlItemMixin],
-  helpers: {
-    variant: VARIANTS.success
+  data() {
+    return {
+      variant: VARIANTS.success
+    }
   }
 }
 </script>

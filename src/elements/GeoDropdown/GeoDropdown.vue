@@ -414,7 +414,7 @@ export default {
 
       // We finally update the toggle button width, only used when width is fixed to it
       this.toggleButtonWidth = _.sum(_.map(this.toggleButtonWrapper.children, (htmlElement) => {
-        return htmlElement?.getBoundingClientRect().width || 0
+        return htmlElement.getBoundingClientRect ? htmlElement.getBoundingClientRect().width : 0
       }))
     },
 

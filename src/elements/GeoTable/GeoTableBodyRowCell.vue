@@ -1,9 +1,8 @@
-<template functional>
+<template>
   <div
-    v-bind="data.attrs"
+    v-bind="$attrs"
     :class="[
-      data.class,
-      data.staticClass,
+      $attrs.class,
       'geo-table-body-row-cell'
     ]"
   >

@@ -1,13 +1,12 @@
-<template functional>
+<template>
   <div
-    v-bind="data.attrs"
+    v-bind="$attrs"
     :class="[
-      data.class,
-      data.staticClass,
+      $attrs.class,
       'geo-input-message',
-      `geo-input-message--${props.variant}`
+      `geo-input-message--${variant}`
     ]"
-    v-on="listeners"
+    v-on="$listeners"
   >
     <!-- @slot Use this slot to customize content displayed inside the message -->
     <slot />

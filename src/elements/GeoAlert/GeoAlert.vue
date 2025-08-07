@@ -1,16 +1,15 @@
-<template functional>
+<template>
   <div
-    v-bind="data.attrs"
+    v-bind="$attrs"
     :class="[
-      data.class,
-      data.staticClass,
+      $attrs.class,
       'geo-alert',
-      `geo-alert--${props.variant}`
+      `geo-alert--${variant}`
     ]"
-    v-on="listeners"
+    v-on="$listeners"
   >
     <font-awesome-icon
-      :icon="props.icon"
+      :icon="icon"
       class="geo-alert__icon"
       fixed-width
     />

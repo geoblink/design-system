@@ -1,12 +1,11 @@
-<template functional>
+<template>
   <div
-    v-bind="data.attrs"
+    v-bind="$attrs"
     :class="[
-      data.class,
-      data.staticClass,
+      $attrs.class,
       'geo-input-label'
     ]"
-    v-on="listeners"
+    v-on="$listeners"
   >
     <!-- @slot Use this slot to customize content displayed inside the label -->
     <slot />
