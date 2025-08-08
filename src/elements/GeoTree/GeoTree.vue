@@ -62,6 +62,15 @@
             @change-drag="emitChangeDrag($event)"
           >
             <template
+              slot="leadingAccessoryItem"
+              slot-scope="{ item }"
+            >
+              <slot
+                name="leadingAccessoryItem"
+                :item="item"
+              />
+            </template>
+            <template
               slot="trailingAccessoryAction"
               slot-scope="{ item }"
             >

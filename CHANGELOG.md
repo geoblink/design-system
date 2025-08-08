@@ -1,4 +1,8 @@
 # Changelog
+## 37.1.0
+New:
+- `GeoTree`: Add support for leading accessory item in `GeoTree` and `GeoTreeItem` components.
+
 ## 37.0.1
 Fix:
 - `GeoTree`: Fix issues with accents when using `searchable` mode.
