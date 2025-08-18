@@ -95,12 +95,12 @@ describe('GeoCalendar', () => {
       expect(wrapper.emitted()['emit-from-date'][0][0]).toEqual({ fromDate: selectedDay })
     })
 
-    it('selectDay with isFromDateDisabled prop set', () => {
+    it('selectDay with isFromDateDisabled prop set', async () => {
       const wrapper = getWrappedComponent()
-      wrapper.setProps({ isFromDateDisabled: true })
+      await wrapper.setProps({ isFromDateDisabled: true })
       const calendarPicker = wrapper.vm.$refs.calendarPicker
       const selectedDay = addDays(today, 4)
-      const geoFromInput = wrapper.findAll(GeoInput).at(0)
+      const geoFromInput = wrapper.findAllComponents(GeoInput).at(0)
       expect(geoFromInput.props('disabled')).toBe(true)
       calendarPicker.$emit('select-day', selectedDay)
       expect(wrapper.vm.toRawDate).toEqual(selectedDay)
@@ -109,12 +109,12 @@ describe('GeoCalendar', () => {
       expect(wrapper.emitted()['emit-to-date'][0][0]).toEqual({ toDate: selectedDay })
     })
 
-    it('selectDay with isToDateDisabled prop set', () => {
+    it('selectDay with isToDateDisabled prop set', async () => {
       const wrapper = getWrappedComponent()
-      wrapper.setProps({ isToDateDisabled: true })
+      await wrapper.setProps({ isToDateDisabled: true })
       const calendarPicker = wrapper.vm.$refs.calendarPicker
       const selectedDay = addDays(today, 4)
-      const geoToInput = wrapper.findAll(GeoInput).at(1)
+      const geoToInput = wrapper.findAllComponents(GeoInput).at(1)
       expect(geoToInput.props('disabled')).toBe(true)
       calendarPicker.$emit('select-day', selectedDay)
       expect(wrapper.vm.fromRawDate).toEqual(selectedDay)
@@ -124,9 +124,9 @@ describe('GeoCalendar', () => {
     })
 
     describe('selectMonth', () => {
-      it('Sets first day of month in from input', () => {
+      it('Sets first day of month in from input', async () => {
         const wrapper = getWrappedComponent()
-        wrapper.setData({
+        await wrapper.setData({
           currentYear: getYear(today)
         })
         const calendarPicker = wrapper.vm.$refs.calendarPicker
@@ -139,12 +139,12 @@ describe('GeoCalendar', () => {
         expect(wrapper.emitted()['emit-from-date'][0][0]).toEqual({ fromDate: currentDate })
       })
 
-      it('Sets first day of month in to input when isFromDateDisabled prop set', () => {
+      it('Sets first day of month in to input when isFromDateDisabled prop set', async () => {
         const wrapper = getWrappedComponent()
-        wrapper.setData({
+        await wrapper.setData({
           currentYear: getYear(today)
         })
-        wrapper.setProps({ isFromDateDisabled: true })
+        await wrapper.setProps({ isFromDateDisabled: true })
         const calendarPicker = wrapper.vm.$refs.calendarPicker
         calendarPicker.$emit('select-month', 8)
         expect(wrapper.vm.currentMonth).toBe(8)
@@ -156,12 +156,12 @@ describe('GeoCalendar', () => {
         expect(wrapper.emitted()['emit-to-date'][0][0]).toEqual({ toDate: validatedUtcRange.end })
       })
 
-      it('Sets last day of month in to input', () => {
+      it('Sets last day of month in to input', async () => {
         const wrapper = getWrappedComponent()
-        wrapper.setData({
+        await wrapper.setData({
           currentYear: getYear(today)
         })
-        wrapper.setData({
+        await wrapper.setData({
           lastInputFieldFocused: FOCUSABLE_INPUT_FIELDS.FROM_DATE
         })
         const calendarPicker = wrapper.vm.$refs.calendarPicker
@@ -176,11 +176,11 @@ describe('GeoCalendar', () => {
         expect(wrapper.emitted()['emit-to-date'][1][0]).toEqual({ toDate: validatedUtcRange.end })
       })
 
-      it('Sets earliestDate if first day of month is before earliestDate', () => {
+      it('Sets earliestDate if first day of month is before earliestDate', async () => {
         const earliestDate = new Date(2019, 8, 21)
         const wrapper = getWrappedComponent()
-        wrapper.setProps({ earliestDate })
-        wrapper.setData({
+        await wrapper.setProps({ earliestDate })
+        await wrapper.setData({
           currentYear: getYear(today)
         })
         const calendarPicker = wrapper.vm.$refs.calendarPicker
@@ -193,14 +193,14 @@ describe('GeoCalendar', () => {
         expect(wrapper.emitted()['emit-from-date'][0][0]).toEqual({ fromDate: validatedUtcRange.start })
       })
 
-      it('Sets latestDate if last day of month is after latestDate', () => {
+      it('Sets latestDate if last day of month is after latestDate', async () => {
         const latestDate = new Date(2019, 8, 21)
         const wrapper = getWrappedComponent()
-        wrapper.setProps({ latestDate })
-        wrapper.setData({
+        await wrapper.setProps({ latestDate })
+        await wrapper.setData({
           currentYear: getYear(today)
         })
-        wrapper.setData({
+        await wrapper.setData({
           lastInputFieldFocused: FOCUSABLE_INPUT_FIELDS.FROM_DATE
         })
         const calendarPicker = wrapper.vm.$refs.calendarPicker
@@ -214,15 +214,15 @@ describe('GeoCalendar', () => {
         expect(wrapper.emitted()['emit-to-date'][1][0]).toEqual({ toDate: validatedUtcRange.end })
       })
 
-      it('Sets same date for start and last day if earliestDate is last day of month', () => {
+      it('Sets same date for start and last day if earliestDate is last day of month', async () => {
         const earliestDate = new Date(2019, 8, 30)
         const latestDate = new Date(2019, 9, 21)
         const wrapper = getWrappedComponent()
-        wrapper.setProps({ earliestDate, latestDate })
-        wrapper.setData({
+        await wrapper.setProps({ earliestDate, latestDate })
+        await wrapper.setData({
           currentYear: getYear(today)
         })
-        wrapper.setData({
+        await wrapper.setData({
           lastInputFieldFocused: FOCUSABLE_INPUT_FIELDS.FROM_DATE
         })
         const calendarPicker = wrapper.vm.$refs.calendarPicker
@@ -242,9 +242,9 @@ describe('GeoCalendar', () => {
     })
 
     describe('selectQuarter', () => {
-      it('Sets first day of quarter in from input', () => {
+      it('Sets first day of quarter in from input', async () => {
         const wrapper = getWrappedComponent()
-        wrapper.setData({
+        await wrapper.setData({
           currentYear: getYear(today)
         })
         const calendarPicker = wrapper.vm.$refs.calendarPicker
@@ -257,12 +257,12 @@ describe('GeoCalendar', () => {
         expect(wrapper.emitted()['emit-from-date'][0][0]).toEqual({ fromDate: validatedUtcRange.start })
       })
 
-      it('Sets first day of quarter in to input when isFromDateDisabled prop set', () => {
+      it('Sets first day of quarter in to input when isFromDateDisabled prop set', async () => {
         const wrapper = getWrappedComponent()
-        wrapper.setData({
+        await wrapper.setData({
           currentYear: getYear(today)
         })
-        wrapper.setProps({ isFromDateDisabled: true })
+        await wrapper.setProps({ isFromDateDisabled: true })
         const calendarPicker = wrapper.vm.$refs.calendarPicker
         calendarPicker.$emit('select-quarter', 3)
         const toDate = endOfQuarter(new Date(wrapper.vm.currentYear, 3))
@@ -273,9 +273,9 @@ describe('GeoCalendar', () => {
         expect(wrapper.emitted()['emit-to-date'][0][0]).toEqual({ toDate: validatedUtcRange.end })
       })
 
-      it('Sets last day of quarter in to input', () => {
+      it('Sets last day of quarter in to input', async () => {
         const wrapper = getWrappedComponent()
-        wrapper.setData({
+        await wrapper.setData({
           currentYear: getYear(today)
         })
         const calendarPicker = wrapper.vm.$refs.calendarPicker
@@ -289,9 +289,9 @@ describe('GeoCalendar', () => {
         expect(wrapper.emitted()['emit-to-date'][1][0]).toEqual({ toDate: validatedUtcRange.end })
       })
 
-      it('Sets last day of another quarter in to input', () => {
+      it('Sets last day of another quarter in to input', async () => {
         const wrapper = getWrappedComponent()
-        wrapper.setData({
+        await wrapper.setData({
           currentYear: getYear(today)
         })
         const calendarPicker = wrapper.vm.$refs.calendarPicker
@@ -305,11 +305,11 @@ describe('GeoCalendar', () => {
         expect(wrapper.emitted()['emit-to-date'][1][0]).toEqual({ toDate: validatedUtcRange.end })
       })
 
-      it('Sets earliestDate if first day of quarter is before earliestDate', () => {
+      it('Sets earliestDate if first day of quarter is before earliestDate', async () => {
         const earliestDate = new Date(2019, 4, 21)
         const wrapper = getWrappedComponent()
-        wrapper.setProps({ earliestDate })
-        wrapper.setData({
+        await wrapper.setProps({ earliestDate })
+        await wrapper.setData({
           currentYear: getYear(today)
         })
         const calendarPicker = wrapper.vm.$refs.calendarPicker
@@ -321,11 +321,11 @@ describe('GeoCalendar', () => {
         expect(wrapper.emitted()['emit-from-date'][0][0]).toEqual({ fromDate: validatedUtcRange.start })
       })
 
-      it('Sets latestDate if last day of quarter is after latestDate', () => {
+      it('Sets latestDate if last day of quarter is after latestDate', async () => {
         const latestDate = new Date(2019, 8, 21)
         const wrapper = getWrappedComponent()
-        wrapper.setProps({ latestDate })
-        wrapper.setData({
+        await wrapper.setProps({ latestDate })
+        await wrapper.setData({
           currentYear: getYear(today)
         })
         const calendarPicker = wrapper.vm.$refs.calendarPicker
@@ -356,9 +356,9 @@ describe('GeoCalendar', () => {
         expect(wrapper.emitted()['emit-from-date'][0][0]).toEqual({ fromDate: validatedUtcRange.start })
       })
 
-      it('Sets last day of week in to input when isFromDateDisabled prop set', () => {
+      it('Sets last day of week in to input when isFromDateDisabled prop set', async () => {
         const wrapper = getWrappedComponent()
-        wrapper.setProps({ isFromDateDisabled: true })
+        await wrapper.setProps({ isFromDateDisabled: true })
         const calendarPicker = wrapper.vm.$refs.calendarPicker
         const weekStart = startOfWeek(today)
         const weekEnd = endOfWeek(today)
@@ -373,10 +373,10 @@ describe('GeoCalendar', () => {
         expect(wrapper.emitted()['emit-to-date'][0][0]).toEqual({ toDate: validatedUtcRange.end })
       })
 
-      it('Sets earliestDate if first day of week is before earliestDate', () => {
+      it('Sets earliestDate if first day of week is before earliestDate', async () => {
         const earliestDate = new Date(2019, 6, 30)
         const wrapper = getWrappedComponent()
-        wrapper.setProps({ earliestDate })
+        await wrapper.setProps({ earliestDate })
         const calendarPicker = wrapper.vm.$refs.calendarPicker
         const weekStart = startOfWeek(today)
         const weekEnd = endOfWeek(today)
@@ -391,7 +391,7 @@ describe('GeoCalendar', () => {
         expect(wrapper.emitted()['emit-from-date'][0][0]).toEqual({ fromDate: validatedUtcRange.start })
       })
 
-      it('Sets last day of week in to input', () => {
+      it('Sets last day of week in to input', async () => {
         const wrapper = getWrappedComponent()
         const calendarPicker = wrapper.vm.$refs.calendarPicker
         const weekStart = startOfWeek(today)
@@ -443,10 +443,10 @@ describe('GeoCalendar', () => {
         expect(wrapper.emitted()['emit-to-date'][1][0]).toEqual({ toDate: validatedUtcRange.end })
       })
 
-      it('Sets latestDate if last day of week is after latestDate', () => {
+      it('Sets latestDate if last day of week is after latestDate', async () => {
         const latestDate = new Date(2019, 7, 1)
         const wrapper = getWrappedComponent()
-        wrapper.setProps({ latestDate })
+        await wrapper.setProps({ latestDate })
         const calendarPicker = wrapper.vm.$refs.calendarPicker
         const weekStart = startOfWeek(today)
         const weekEnd = endOfWeek(today)
@@ -483,12 +483,12 @@ describe('GeoCalendar', () => {
         expect(wrapper.emitted()['emit-from-date'][0][0]).toEqual({ fromDate: startUTCValidatedRange.start })
       })
 
-      it('Sets last day of year in to input when isFromDateDisabled prop set', () => {
+      it('Sets last day of year in to input when isFromDateDisabled prop set', async () => {
         const wrapper = getWrappedComponent()
-        wrapper.setData({
+        await wrapper.setData({
           lastInputFieldFocused: FOCUSABLE_INPUT_FIELDS.FROM_DATE
         })
-        wrapper.setProps({ isFromDateDisabled: true })
+        await wrapper.setProps({ isFromDateDisabled: true })
         const calendarPicker = wrapper.vm.$refs.calendarPicker
         calendarPicker.$emit('select-year', 2020)
         expect(wrapper.vm.currentYear).toBe(2020)
@@ -499,9 +499,9 @@ describe('GeoCalendar', () => {
         expect(wrapper.emitted()['emit-to-date'][0][0]).toEqual({ toDate: endUTCValidatedRange.end })
       })
 
-      it('Sets last day of year in to input', () => {
+      it('Sets last day of year in to input', async () => {
         const wrapper = getWrappedComponent()
-        wrapper.setData({
+        await wrapper.setData({
           lastInputFieldFocused: FOCUSABLE_INPUT_FIELDS.FROM_DATE
         })
         const calendarPicker = wrapper.vm.$refs.calendarPicker
@@ -515,10 +515,10 @@ describe('GeoCalendar', () => {
         expect(wrapper.emitted()['emit-to-date'][1][0]).toEqual({ toDate: endUTCValidatedRange.end })
       })
 
-      it('Sets earliestDate if first day of year is before earliestDate', () => {
+      it('Sets earliestDate if first day of year is before earliestDate', async () => {
         const earliestDate = new Date(2020, 4, 21)
         const wrapper = getWrappedComponent()
-        wrapper.setProps({ earliestDate })
+        await wrapper.setProps({ earliestDate })
         const calendarPicker = wrapper.vm.$refs.calendarPicker
         calendarPicker.$emit('select-year', 2020)
         const validatedUtcRange = wrapper.vm.getUTCValidatedRange({ start: earliestDate })
@@ -529,11 +529,11 @@ describe('GeoCalendar', () => {
         expect(wrapper.emitted()['emit-from-date'][0][0]).toEqual({ fromDate: validatedUtcRange.start })
       })
 
-      it('Sets latestDate if last day of year is after latestDate', () => {
+      it('Sets latestDate if last day of year is after latestDate', async () => {
         const latestDate = new Date(2020, 8, 21)
         const wrapper = getWrappedComponent()
-        wrapper.setProps({ latestDate })
-        wrapper.setData({
+        await wrapper.setProps({ latestDate })
+        await wrapper.setData({
           lastInputFieldFocused: FOCUSABLE_INPUT_FIELDS.FROM_DATE
         })
         const calendarPicker = wrapper.vm.$refs.calendarPicker
@@ -556,7 +556,7 @@ describe('GeoCalendar', () => {
         const initialDate = today
         const endDate = addDays(today, 4)
         const invalidFromDateRange = addDays(endDate, 5)
-        const geoFromInput = wrapper.findAll(GeoInput).at(0)
+        const geoFromInput = wrapper.findAllComponents(GeoInput).at(0)
 
         wrapper.vm.selectDay(initialDate)
         wrapper.vm.selectDay(endDate)
@@ -581,20 +581,20 @@ describe('GeoCalendar', () => {
     })
 
     describe('selectMonth', () => {
-      it('Should swap months when range is invalid', () => {
+      it('Should swap months when range is invalid', async () => {
         const wrapper = getWrappedComponent()
         const initialMonth = getMonth(today)
         const endDate = addMonths(today, 4)
         const invalidFromDateRange = addMonths(endDate, 5)
-        const geoFromInput = wrapper.findAll(GeoInput).at(0)
+        const geoFromInput = wrapper.findAllComponents(GeoInput).at(0)
 
-        wrapper.setData({
+        await wrapper.setData({
           currentYear: getYear(today)
         })
         wrapper.vm.selectMonth(initialMonth)
         wrapper.vm.selectMonth(getMonth(endDate))
         geoFromInput.vm.$emit('focus')
-        wrapper.setData({
+        await wrapper.setData({
           currentYear: getYear(invalidFromDateRange)
         })
 
@@ -612,18 +612,18 @@ describe('GeoCalendar', () => {
     })
 
     describe('selectYear', () => {
-      it('Should swap years when range is invalid', () => {
+      it('Should swap years when range is invalid', async () => {
         const wrapper = getWrappedComponent()
         const initialYear = getYear(today)
         const endDate = addYears(today, 4)
         const invalidFromDateRange = addYears(endDate, 5)
-        const geoFromInput = wrapper.findAll(GeoInput).at(0)
+        const geoFromInput = wrapper.findAllComponents(GeoInput).at(0)
 
         wrapper.vm.selectYear(initialYear)
         wrapper.vm.selectYear(getYear(endDate))
         geoFromInput.vm.$emit('focus')
 
-        wrapper.setData({
+        await wrapper.setData({
           currentYear: getYear(invalidFromDateRange)
         })
 
@@ -643,12 +643,12 @@ describe('GeoCalendar', () => {
 
   describe('Date inputs', () => {
     describe('From date input', () => {
-      it('Sets input', () => {
+      it('Sets input', async () => {
         const wrapper = getWrappedComponent()
 
-        const geoFromInput = wrapper.findAll(GeoInput).at(0)
+        const geoFromInput = wrapper.findAllComponents(GeoInput).at(0)
         geoFromInput.vm.$emit('focus')
-        wrapper.setData({
+        await wrapper.setData({
           fromFormattedDate: '30/07/2019'
         })
         geoFromInput.vm.$emit('blur')
@@ -658,11 +658,11 @@ describe('GeoCalendar', () => {
         expect(wrapper.emitted()['emit-from-date'][0][0]).toEqual({ fromDate: today })
       })
 
-      it('Sets wrong date', () => {
+      it('Sets wrong date', async () => {
         const wrapper = getWrappedComponent()
-        const geoFromInput = wrapper.findAll(GeoInput).at(0)
+        const geoFromInput = wrapper.findAllComponents(GeoInput).at(0)
         geoFromInput.vm.$emit('focus')
-        wrapper.setData({
+        await wrapper.setData({
           fromFormattedDate: 'rrr'
         })
         geoFromInput.vm.$emit('blur')
@@ -672,7 +672,7 @@ describe('GeoCalendar', () => {
         expect(wrapper.emitted()['emit-from-date']).toBeDefined()
         expect(wrapper.emitted()['emit-from-date'][0][0]).toEqual({ fromDate: null })
 
-        wrapper.setData({
+        await wrapper.setData({
           fromFormattedDate: ''
         })
         geoFromInput.vm.$emit('blur')
@@ -685,11 +685,11 @@ describe('GeoCalendar', () => {
     })
 
     describe('To date input', () => {
-      it('Sets input', () => {
+      it('Sets input', async () => {
         const wrapper = getWrappedComponent()
-        const geoToInput = wrapper.findAll(GeoInput).at(1)
+        const geoToInput = wrapper.findAllComponents(GeoInput).at(1)
         geoToInput.vm.$emit('focus')
-        wrapper.setData({
+        await wrapper.setData({
           toFormattedDate: '30/07/2019'
         })
         geoToInput.vm.$emit('blur')
@@ -699,11 +699,11 @@ describe('GeoCalendar', () => {
         expect(wrapper.emitted()['emit-to-date'][0][0]).toEqual({ toDate: today })
       })
 
-      it('Sets wrong date', () => {
+      it('Sets wrong date', async () => {
         const wrapper = getWrappedComponent()
-        const geoToInput = wrapper.findAll(GeoInput).at(1)
+        const geoToInput = wrapper.findAllComponents(GeoInput).at(1)
         geoToInput.vm.$emit('focus')
-        wrapper.setData({
+        await wrapper.setData({
           toFormattedDate: 'rrr'
         })
         geoToInput.vm.$emit('blur')
@@ -713,7 +713,7 @@ describe('GeoCalendar', () => {
         expect(wrapper.emitted()['emit-to-date']).toBeDefined()
         expect(wrapper.emitted()['emit-to-date'][0][0]).toEqual({ toDate: null })
 
-        wrapper.setData({
+        await wrapper.setData({
           toFormattedDate: ''
         })
 
@@ -745,18 +745,18 @@ describe('GeoCalendar', () => {
         expect(wrapper.emitted()['emit-to-date'][1][0]).toEqual({ toDate: endDate })
       })
 
-      it('Should swap dates if fromDate is after toDate or viceversa', () => {
+      it('Should swap dates if fromDate is after toDate or viceversa', async () => {
         const wrapper = getWrappedComponent()
-        const geoFromInput = wrapper.findAll(GeoInput).at(0)
-        const geoToInput = wrapper.findAll(GeoInput).at(1)
+        const geoFromInput = wrapper.findAllComponents(GeoInput).at(0)
+        const geoToInput = wrapper.findAllComponents(GeoInput).at(1)
 
         geoFromInput.vm.$emit('focus')
-        wrapper.setData({
+        await wrapper.setData({
           fromFormattedDate: '10/04/2019'
         })
         geoFromInput.vm.$emit('blur')
         geoToInput.vm.$emit('focus')
-        wrapper.setData({
+        await wrapper.setData({
           toFormattedDate: '05/04/2019'
         })
         geoToInput.vm.$emit('blur')
@@ -764,21 +764,21 @@ describe('GeoCalendar', () => {
         expect(wrapper.vm.fromFormattedDate).toBe('05/04/2019')
         expect(wrapper.vm.toFormattedDate).toBe('10/04/2019')
 
-        wrapper.setData({
+        await wrapper.setData({
           fromFormattedDate: '',
           toFormattedDate: ''
         })
         geoFromInput.vm.$emit('blur')
         geoToInput.vm.$emit('blur')
 
-        wrapper.setData({
+        await wrapper.setData({
           toFormattedDate: '05/04/2019'
         })
         geoToInput.vm.$emit('blur')
 
         expect(wrapper.vm.toFormattedDate).toBe('05/04/2019')
 
-        wrapper.setData({
+        await wrapper.setData({
           fromFormattedDate: '10/04/2019'
         })
         geoFromInput.vm.$emit('blur')
@@ -814,9 +814,9 @@ describe('GeoCalendar', () => {
     })
 
     describe('Calendar with date constraints', () => {
-      it('Should render the buttons', () => {
+      it('Should render the buttons', async () => {
         const wrapper = getWrappedComponent()
-        wrapper.setProps({
+        await wrapper.setProps({
           earliestDate: subYears(today, 1),
           latestDate: addYears(today, 1)
         })
@@ -825,21 +825,21 @@ describe('GeoCalendar', () => {
         expect(wrapper.findAll('.geo-button--link').at(1).text()).toBe('Latest date')
       })
 
-      it('Pressing the buttons should set the according dates', () => {
+      it('Pressing the buttons should set the according dates', async () => {
         const wrapper = getWrappedComponent()
         const earliestDate = subYears(today, 1)
         const latestDate = addYears(today, 1)
-        wrapper.setProps({
+        await wrapper.setProps({
           earliestDate: earliestDate,
           latestDate: latestDate
         })
-        wrapper.findAll(GeoLinkButton).at(0).trigger('click')
+        wrapper.findAllComponents(GeoLinkButton).at(0).trigger('click')
         expect(wrapper.vm.fromRawDate).toEqual(earliestDate)
         expect(wrapper.vm.fromFormattedDate).toEqual('30/07/2018')
         expect(wrapper.emitted()['emit-from-date']).toBeDefined()
         expect(wrapper.emitted()['emit-from-date'][0][0]).toEqual({ fromDate: earliestDate })
 
-        wrapper.findAll(GeoLinkButton).at(1).trigger('click')
+        wrapper.findAllComponents(GeoLinkButton).at(1).trigger('click')
         expect(wrapper.vm.toRawDate).toEqual(latestDate)
         expect(wrapper.vm.toFormattedDate).toEqual('30/07/2020')
         expect(wrapper.emitted()['emit-to-date']).toBeDefined()
@@ -897,9 +897,9 @@ describe('GeoCalendar', () => {
   })
 
   describe('Watchers', () => {
-    it('Should set to null both dates if changing granularity', () => {
+    it('Should set to null both dates if changing granularity', async () => {
       const wrapper = getWrappedComponent()
-      wrapper.setData({
+      await wrapper.setData({
         fromRawDate: today,
         toRawDate: addDays(today, 4)
       })
@@ -907,7 +907,7 @@ describe('GeoCalendar', () => {
       expect(wrapper.vm.fromRawDate).toBe(today)
       expect(wrapper.vm.toRawDate).toEqual(addDays(today, 4))
 
-      wrapper.setProps({
+      await wrapper.setProps({
         granularityId: GRANULARITY_IDS.month
       })
 
@@ -918,11 +918,11 @@ describe('GeoCalendar', () => {
 
   describe('Calendar Flows', () => {
     describe('Explicitly focused inputs', () => {
-      it('Sets from input if it is explicitly focused', () => {
+      it('Sets from input if it is explicitly focused', async () => {
         const wrapper = getWrappedComponent()
-        const geoFromInput = wrapper.findAll(GeoInput).at(0)
+        const geoFromInput = wrapper.findAllComponents(GeoInput).at(0)
 
-        wrapper.setData({
+        await wrapper.setData({
           fromRawDate: today,
           fromFormattedDate: '30/07/2019'
         })
@@ -939,7 +939,7 @@ describe('GeoCalendar', () => {
 
       it('Sets to input if it is explicitly focused', () => {
         const wrapper = getWrappedComponent()
-        const geoToInput = wrapper.findAll(GeoInput).at(1)
+        const geoToInput = wrapper.findAllComponents(GeoInput).at(1)
 
         expect(wrapper.vm.fromRawDate).toBe(null)
         expect(wrapper.vm.toRawDate).toBe(null)
@@ -1047,7 +1047,7 @@ describe('GeoCalendar', () => {
       describe('Day picker', () => {
         it('Should highlight fromDate input', () => {
           const wrapper = getWrappedComponent()
-          const geoCalendarPickerWrapper = wrapper.find(GeoCalendarPicker)
+          const geoCalendarPickerWrapper = wrapper.findComponent(GeoCalendarPicker)
 
           geoCalendarPickerWrapper.vm.$emit('day-unit-mouseover', today)
           expect(wrapper.vm.lastInputFieldFocused).toBe(FOCUSABLE_INPUT_FIELDS.FROM_DATE)
@@ -1059,7 +1059,7 @@ describe('GeoCalendar', () => {
 
         it('Should highlight toDate input', () => {
           const wrapper = getWrappedComponent()
-          const geoCalendarPickerWrapper = wrapper.find(GeoCalendarPicker)
+          const geoCalendarPickerWrapper = wrapper.findComponent(GeoCalendarPicker)
 
           wrapper.vm.selectDay(today)
           geoCalendarPickerWrapper.vm.$emit('day-unit-mouseover', addDays(today, 2))
@@ -1072,7 +1072,7 @@ describe('GeoCalendar', () => {
 
         it('Should not highlight anything if there is a field explicitly focused', () => {
           const wrapper = getWrappedComponent()
-          const geoCalendarPickerWrapper = wrapper.find(GeoCalendarPicker)
+          const geoCalendarPickerWrapper = wrapper.findComponent(GeoCalendarPicker)
 
           wrapper.vm.selectDay(today)
           geoCalendarPickerWrapper.vm.$emit('day-unit-mouseover', addDays(today, 2))
@@ -1085,10 +1085,10 @@ describe('GeoCalendar', () => {
           expect(wrapper.vm.lastInputFieldFocused).toBe(null)
         })
 
-        it('Should highlight fromDate input if isToDateDisabled prop is set', () => {
+        it('Should highlight fromDate input if isToDateDisabled prop is set', async () => {
           const wrapper = getWrappedComponent()
-          wrapper.setProps({ isToDateDisabled: true })
-          const geoCalendarPickerWrapper = wrapper.find(GeoCalendarPicker)
+          await wrapper.setProps({ isToDateDisabled: true })
+          const geoCalendarPickerWrapper = wrapper.findComponent(GeoCalendarPicker)
 
           wrapper.vm.selectDay(today)
           geoCalendarPickerWrapper.vm.$emit('day-unit-mouseover', addDays(today, 2))
@@ -1099,10 +1099,10 @@ describe('GeoCalendar', () => {
           expect(wrapper.vm.lastInputFieldFocused).toBe(FOCUSABLE_INPUT_FIELDS.FROM_DATE)
         })
 
-        it('Should highlight toDate input if isFromDateDisabled prop is set', () => {
+        it('Should highlight toDate input if isFromDateDisabled prop is set', async () => {
           const wrapper = getWrappedComponent()
-          wrapper.setProps({ isFromDateDisabled: true })
-          const geoCalendarPickerWrapper = wrapper.find(GeoCalendarPicker)
+          await wrapper.setProps({ isFromDateDisabled: true })
+          const geoCalendarPickerWrapper = wrapper.findComponent(GeoCalendarPicker)
 
           geoCalendarPickerWrapper.vm.$emit('day-unit-mouseover', today)
           expect(wrapper.vm.lastInputFieldFocused).toBe(FOCUSABLE_INPUT_FIELDS.TO_DATE)
@@ -1116,7 +1116,7 @@ describe('GeoCalendar', () => {
       describe('Month picker', () => {
         it('Should highlight fromDate input', () => {
           const wrapper = getWrappedComponent()
-          const geoCalendarPickerWrapper = wrapper.find(GeoCalendarPicker)
+          const geoCalendarPickerWrapper = wrapper.findComponent(GeoCalendarPicker)
 
           geoCalendarPickerWrapper.vm.$emit('month-unit-mouseover', 2)
           expect(wrapper.vm.lastInputFieldFocused).toBe(FOCUSABLE_INPUT_FIELDS.FROM_DATE)
@@ -1128,7 +1128,7 @@ describe('GeoCalendar', () => {
 
         it('Should highlight toDate input', () => {
           const wrapper = getWrappedComponent()
-          const geoCalendarPickerWrapper = wrapper.find(GeoCalendarPicker)
+          const geoCalendarPickerWrapper = wrapper.findComponent(GeoCalendarPicker)
 
           wrapper.vm.selectMonth(2)
           geoCalendarPickerWrapper.vm.$emit('month-unit-mouseover', 4)
@@ -1141,7 +1141,7 @@ describe('GeoCalendar', () => {
 
         it('Should not highlight anything if there is a field explicitly focused', () => {
           const wrapper = getWrappedComponent()
-          const geoCalendarPickerWrapper = wrapper.find(GeoCalendarPicker)
+          const geoCalendarPickerWrapper = wrapper.findComponent(GeoCalendarPicker)
 
           wrapper.vm.selectMonth(2)
           geoCalendarPickerWrapper.vm.$emit('month-unit-mouseover', 4)
@@ -1154,10 +1154,10 @@ describe('GeoCalendar', () => {
           expect(wrapper.vm.lastInputFieldFocused).toBe(null)
         })
 
-        it('Should highlight fromDate input if isToDateDisabled prop is set', () => {
+        it('Should highlight fromDate input if isToDateDisabled prop is set', async () => {
           const wrapper = getWrappedComponent()
-          wrapper.setProps({ isToDateDisabled: true })
-          const geoCalendarPickerWrapper = wrapper.find(GeoCalendarPicker)
+          await wrapper.setProps({ isToDateDisabled: true })
+          const geoCalendarPickerWrapper = wrapper.findComponent(GeoCalendarPicker)
 
           wrapper.vm.selectMonth(2)
           geoCalendarPickerWrapper.vm.$emit('month-unit-mouseover', 4)
@@ -1168,10 +1168,10 @@ describe('GeoCalendar', () => {
           expect(wrapper.vm.lastInputFieldFocused).toBe(FOCUSABLE_INPUT_FIELDS.FROM_DATE)
         })
 
-        it('Should highlight toDate input if isFromDateDisabled prop is set', () => {
+        it('Should highlight toDate input if isFromDateDisabled prop is set', async () => {
           const wrapper = getWrappedComponent()
-          wrapper.setProps({ isFromDateDisabled: true })
-          const geoCalendarPickerWrapper = wrapper.find(GeoCalendarPicker)
+          await wrapper.setProps({ isFromDateDisabled: true })
+          const geoCalendarPickerWrapper = wrapper.findComponent(GeoCalendarPicker)
 
           geoCalendarPickerWrapper.vm.$emit('month-unit-mouseover', 2)
           expect(wrapper.vm.lastInputFieldFocused).toBe(FOCUSABLE_INPUT_FIELDS.TO_DATE)
@@ -1185,7 +1185,7 @@ describe('GeoCalendar', () => {
       describe('Year picker', () => {
         it('Should highlight fromDate input', () => {
           const wrapper = getWrappedComponent()
-          const geoCalendarPickerWrapper = wrapper.find(GeoCalendarPicker)
+          const geoCalendarPickerWrapper = wrapper.findComponent(GeoCalendarPicker)
 
           geoCalendarPickerWrapper.vm.$emit('year-unit-mouseover', today)
           expect(wrapper.vm.lastInputFieldFocused).toBe(FOCUSABLE_INPUT_FIELDS.FROM_DATE)
@@ -1197,7 +1197,7 @@ describe('GeoCalendar', () => {
 
         it('Should highlight toDate input', () => {
           const wrapper = getWrappedComponent()
-          const geoCalendarPickerWrapper = wrapper.find(GeoCalendarPicker)
+          const geoCalendarPickerWrapper = wrapper.findComponent(GeoCalendarPicker)
 
           wrapper.vm.selectYear(2012)
           geoCalendarPickerWrapper.vm.$emit('year-unit-mouseover', 2015)
@@ -1210,7 +1210,7 @@ describe('GeoCalendar', () => {
 
         it('Should not highlight anything if there is a field explicitly focused', () => {
           const wrapper = getWrappedComponent()
-          const geoCalendarPickerWrapper = wrapper.find(GeoCalendarPicker)
+          const geoCalendarPickerWrapper = wrapper.findComponent(GeoCalendarPicker)
 
           wrapper.vm.selectYear(2012)
           geoCalendarPickerWrapper.vm.$emit('year-unit-mouseover', 2015)
@@ -1223,10 +1223,10 @@ describe('GeoCalendar', () => {
           expect(wrapper.vm.lastInputFieldFocused).toBe(null)
         })
 
-        it('Should highlight fromDate input if isToDateDisabled prop is set', () => {
+        it('Should highlight fromDate input if isToDateDisabled prop is set', async () => {
           const wrapper = getWrappedComponent()
-          wrapper.setProps({ isToDateDisabled: true })
-          const geoCalendarPickerWrapper = wrapper.find(GeoCalendarPicker)
+          await wrapper.setProps({ isToDateDisabled: true })
+          const geoCalendarPickerWrapper = wrapper.findComponent(GeoCalendarPicker)
 
           wrapper.vm.selectYear(2012)
           geoCalendarPickerWrapper.vm.$emit('year-unit-mouseover', 2015)
@@ -1237,10 +1237,10 @@ describe('GeoCalendar', () => {
           expect(wrapper.vm.lastInputFieldFocused).toBe(FOCUSABLE_INPUT_FIELDS.FROM_DATE)
         })
 
-        it('Should highlight toDate input if isFromDateDisabled prop is set', () => {
+        it('Should highlight toDate input if isFromDateDisabled prop is set', async () => {
           const wrapper = getWrappedComponent()
-          wrapper.setProps({ isFromDateDisabled: true })
-          const geoCalendarPickerWrapper = wrapper.find(GeoCalendarPicker)
+          await wrapper.setProps({ isFromDateDisabled: true })
+          const geoCalendarPickerWrapper = wrapper.findComponent(GeoCalendarPicker)
 
           geoCalendarPickerWrapper.vm.$emit('year-unit-mouseover', today)
           expect(wrapper.vm.lastInputFieldFocused).toBe(FOCUSABLE_INPUT_FIELDS.TO_DATE)
@@ -1256,23 +1256,25 @@ describe('GeoCalendar', () => {
 
 function getWrappedComponent () {
   return mount(GeoCalendar, {
-    stubs: {
-      GeoInput,
-      GeoCalendarPicker,
-      GeoLinkButton,
-      GeoButton,
-      'font-awesome-icon': true,
-      'geo-calendar-navigation': true,
-      'geo-calendar-grid': true,
-      'geo-dropdown': true,
-      'geo-input-message': true
+    global: {
+      stubs: {
+        GeoInput,
+        GeoCalendarPicker,
+        GeoLinkButton,
+        GeoButton,
+        'font-awesome-icon': true,
+        'geo-calendar-navigation': true,
+        'geo-calendar-grid': true,
+        'geo-dropdown': true,
+        'geo-input-message': true
+      }
     },
     slots: {
       earliestDatePlaceholder: 'Earliest date',
       latestDatePlaceholder: 'Latest date',
       pickerGranularity: '<div> Granularity Selectors </div>'
     },
-    propsData: {
+    props: {
       calendarNavigationSelectIcon: ['fas', 'arrow-left'],
       nextDateInSelectedGranularityIcon: ['fas', 'arrow-left'],
       previousDateInSelectedGranularityIcon: ['fas', 'arrow-left'],

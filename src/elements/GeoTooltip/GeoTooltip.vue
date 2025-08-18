@@ -203,7 +203,7 @@ export default {
     this.repositionTooltip()
     this.checkSeveralTooltips()
   },
-  beforeDestroy () {
+  beforeUnmount () {
     this.$el.remove()
 
     if (this.static) {

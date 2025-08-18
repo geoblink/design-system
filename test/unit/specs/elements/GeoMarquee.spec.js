@@ -1,15 +1,22 @@
-import { createLocalVue, mount } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import GeoMarquee from '@/elements/GeoMarquee/GeoMarquee'
 
-// create an extended `Vue` constructor
-const localVue = createLocalVue()
-localVue.component('geo-marquee', GeoMarquee)
+// Helper function to create wrapper with registered components
+function createWrapper (component, options = {}) {
+  return mount(component, Object.assign({
+    global: {
+      components: {
+        'geo-marquee': GeoMarquee
+      }
+    }
+  }, options))
+}
 
 describe('GeoMarquee', () => {
   it('Should render marquee\'s content', function () {
-    const wrapper = mount(GeoMarquee, {
-      scopedSlots: {
-        default: '<div slot-scope="{}">Marquee content</div>'
+    const wrapper = createWrapper(GeoMarquee, {
+      slots: {
+        default: '<div>Marquee content</div>'
       }
     })
     const marquee = wrapper.find('.geo-marquee')
@@ -18,9 +25,9 @@ describe('GeoMarquee', () => {
   })
 
   it('Should have moved when hovering on the marquee', function () {
-    const wrapper = mount(GeoMarquee, {
-      scopedSlots: {
-        default: '<div slot-scope="{}">Marquee content</div>'
+    const wrapper = createWrapper(GeoMarquee, {
+      slots: {
+        default: '<div>Marquee content</div>'
       }
     })
     wrapper.trigger('mouseenter')
@@ -30,9 +37,9 @@ describe('GeoMarquee', () => {
   })
 
   it('Shouldn\'t have animation params when the content is smaller than the container', function () {
-    const wrapper = mount(GeoMarquee, {
-      scopedSlots: {
-        default: '<div slot-scope="{}">Marquee content</div>'
+    const wrapper = createWrapper(GeoMarquee, {
+      slots: {
+        default: '<div>Marquee content</div>'
       }
     })
     wrapper.trigger('mouseenter')
@@ -42,9 +49,9 @@ describe('GeoMarquee', () => {
   })
 
   it('Should have animation params when the content is bigger than the container', async function () {
-    const wrapper = mount(GeoMarquee, {
-      scopedSlots: {
-        default: '<div slot-scope="{}">Marquee content</div>'
+    const wrapper = createWrapper(GeoMarquee, {
+      slots: {
+        default: '<div>Marquee content</div>'
       }
     })
 

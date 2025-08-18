@@ -15,20 +15,22 @@
       <slot name="toggleButton" />
     </div>
 
-    <div
-      :ref="POPUP_REF_NAME"
-      :class="[popupClass, {
-        ['geo-dropdown__popup']: true,
-        ['geo-dropdown__popup--is-open']: isOpened
-      }]"
-      :style="popupStyle"
-    >
-      <!-- @slot Use this slot to customize popup's content -->
-      <slot
-        v-if="isOpened"
-        name="popupContent"
-      />
-    </div>
+    <teleport to="body">
+      <div
+        :ref="POPUP_REF_NAME"
+        :class="[popupClass, {
+          ['geo-dropdown__popup']: true,
+          ['geo-dropdown__popup--is-open']: isOpened
+        }]"
+        :style="popupStyle"
+      >
+        <!-- @slot Use this slot to customize popup's content -->
+        <slot
+          v-if="isOpened"
+          name="popupContent"
+        />
+      </div>
+    </teleport>
   </div>
 </template>
 
@@ -250,32 +252,12 @@ export default {
   created () {
     this.POPUP_REF_NAME = 'popup'
   },
-  mounted () {
-    this.reattachPopupToDocumentBody()
-  },
   updated () {
     if (!this.repositionOnUpdate) return
     this.repositionPopup()
     this.$nextTick(this.repositionPopup.bind(this))
   },
-  beforeDestroy () {
-    this.removePopupFromDOM()
-  },
   methods: {
-    removePopupFromDOM () {
-      const popupElement = this.$refs.popup
-      if (popupElement.parentNode) {
-        popupElement.parentNode.removeChild(popupElement)
-      }
-    },
-
-    reattachPopupToDocumentBody () {
-      const popupElement = this.$refs.popup
-      this.removePopupFromDOM()
-      document.body.appendChild(popupElement)
-      this.repositionPopup()
-    },
-
     repositionPopup () {
       if (!this.isOpened) return
       // Positioning algorithm requires a real DOM

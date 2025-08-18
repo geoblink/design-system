@@ -16,7 +16,7 @@
       fixed-width
     />
     <div
-      v-if="hasContent"
+      v-if="$slots.default"
       class="geo-dropdown-regular-button-container__content"
     >
       <!-- @slot Use this slot to customize button's content -->
@@ -89,16 +89,6 @@ export default {
       type: Boolean,
       default: false
     }
-  },
-  data () {
-    return {
-      hasContent: false
-    }
-  },
-  mounted () {
-    this.$nextTick().then(() => {
-      this.hasContent = this.$slots && this.$slots.default && this.$slots.default.length
-    })
   },
   methods: {
     emitClick ($event) {

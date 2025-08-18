@@ -1,17 +1,26 @@
 import { mount } from '@vue/test-utils'
 import GeoSidebarLayout from '@/elements/GeoSidebarLayout/GeoSidebarLayout.vue'
+import GeoVerticalLayout from '@/elements/GeoVerticalLayout/GeoVerticalLayout.vue'
 
 describe('GeoSidebarLayout', function () {
   it('Should render GeoSidebarLayout component', function () {
     const wrapper = mount(GeoSidebarLayout, {
-      stubs: ['geo-vertical-layout']
+      global: {
+        stubs: {
+          GeoVerticalLayout
+        }
+      }
     })
     expect(wrapper.find('.geo-sidebar-layout').exists()).toBe(true)
   })
 
   it('Should render default slot', function () {
     const wrapper = mount(GeoSidebarLayout, {
-      stubs: ['geo-vertical-layout'],
+      global: {
+        stubs: {
+          GeoVerticalLayout
+        }
+      },
       slots: {
         default: ['<span class="my-demo-content">Just some unique demo content</span>']
       }
@@ -21,7 +30,11 @@ describe('GeoSidebarLayout', function () {
 
   it('Should render header and footer slots', function () {
     const wrapper = mount(GeoSidebarLayout, {
-      stubs: ['geo-vertical-layout'],
+      global: {
+        stubs: {
+          GeoVerticalLayout
+        }
+      },
       slots: {
         default: ['<span class="my-demo-content">Just some unique demo content</span>'],
         header: ['<span class="my-header-demo-content">Just some unique header demo content</span>'],

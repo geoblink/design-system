@@ -12,6 +12,15 @@ export default {
     draggableGroup: {
       type: Object,
       required: false
+    },
+
+    /**
+     * Draggable group configuration for vuedraggable
+     */
+    group: {
+      type: [String, Object],
+      required: false,
+      default: null
     }
   },
   computed: {

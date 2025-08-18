@@ -1,13 +1,20 @@
-import { createLocalVue, mount } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import GeoTabBar from '@/elements/GeoTabBar/GeoTabBar.vue'
 
-// create an extended `Vue` constructor
-const localVue = createLocalVue()
-localVue.component('geo-tab-bar', GeoTabBar)
+// Helper function to create wrapper with registered components
+function createWrapper (component, options = {}) {
+  return mount(component, Object.assign({
+    global: {
+      components: {
+        'geo-tab-bar': GeoTabBar
+      }
+    }
+  }, options))
+}
 
 describe('GeoTabBar', () => {
   it('Should render tabBar\'s content', function () {
-    const wrapper = mount(GeoTabBar, {
+    const wrapper = createWrapper(GeoTabBar, {
       slots: {
         default: '<span>Some content</span>'
       }
@@ -18,8 +25,8 @@ describe('GeoTabBar', () => {
   })
 
   it('Should add CSS varian when given', function () {
-    const wrapper = mount(GeoTabBar, {
-      propsData: {
+    const wrapper = createWrapper(GeoTabBar, {
+      props: {
         variant: 'modal'
       }
     })

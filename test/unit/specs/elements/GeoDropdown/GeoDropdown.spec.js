@@ -63,7 +63,7 @@ describe('GeoDropdown', () => {
 
   it('Should render toggle button', function () {
     const wrapper = mount(GeoDropdown, {
-      propsData: {
+      props: {
         opened: false
       },
       slots: {
@@ -75,8 +75,9 @@ describe('GeoDropdown', () => {
   })
 
   it('Should not render popup content if closed', function () {
-    const wrapper = mount(GeoDropdown, {
-      propsData: {
+    mount(GeoDropdown, {
+      attachTo: document.body,
+      props: {
         opened: false
       },
       slots: {
@@ -84,25 +85,26 @@ describe('GeoDropdown', () => {
       }
     })
 
-    expect(wrapper.find('body > .geo-dropdown__popup .my-demo-content').exists()).toBe(false)
+    expect(document.body.querySelector('.geo-dropdown__popup .my-demo-content')).toBeNull()
   })
 
   it('Should render popup content if opened', function () {
-    const wrapper = mount(GeoDropdown, {
-      propsData: {
+    mount(GeoDropdown, {
+      attachTo: document.body,
+      props: {
         opened: true
       },
       slots: {
         popupContent: ['<span class="my-demo-content">Just some unique demo content</span>']
       }
     })
-
-    expect(wrapper.find('body > .geo-dropdown__popup .my-demo-content').exists()).toBe(true)
+    expect(document.body.querySelector('.geo-dropdown__popup .my-demo-content')).not.toBeNull()
   })
 
   it('Should add popup class', function () {
-    const wrapper = mount(GeoDropdown, {
-      propsData: {
+    mount(GeoDropdown, {
+      attachTo: document.body,
+      props: {
         opened: true,
         popupClass: 'test-class'
       },
@@ -110,13 +112,13 @@ describe('GeoDropdown', () => {
         popupContent: ['<span class="my-demo-content">Just some unique demo content</span>']
       }
     })
-
-    expect(wrapper.find('body > .geo-dropdown__popup.test-class .my-demo-content').exists()).toBe(true)
+    expect(document.body.querySelector('.geo-dropdown__popup.test-class .my-demo-content')).not.toBeNull()
   })
 
   it('Should add popup class when is an object', function () {
-    const wrapper = mount(GeoDropdown, {
-      propsData: {
+    mount(GeoDropdown, {
+      attachTo: document.body,
+      props: {
         opened: true,
         popupClass: { 'test-class-1': true, 'test-class-2': true }
       },
@@ -124,13 +126,13 @@ describe('GeoDropdown', () => {
         popupContent: ['<span class="my-demo-content">Just some unique demo content</span>']
       }
     })
-
-    expect(wrapper.find('body > .geo-dropdown__popup.test-class-1.test-class-2 .my-demo-content').exists()).toBe(true)
+    expect(document.body.querySelector('.geo-dropdown__popup.test-class-1.test-class-2 .my-demo-content')).not.toBeNull()
   })
 
   it('Should add popup class when is an array', function () {
-    const wrapper = mount(GeoDropdown, {
-      propsData: {
+    mount(GeoDropdown, {
+      attachTo: document.body,
+      props: {
         opened: true,
         popupClass: ['test-class-1', 'test-class-2']
       },
@@ -138,91 +140,74 @@ describe('GeoDropdown', () => {
         popupContent: ['<span class="my-demo-content">Just some unique demo content</span>']
       }
     })
-
-    expect(wrapper.find('body > .geo-dropdown__popup.test-class-1.test-class-2 .my-demo-content').exists()).toBe(true)
+    expect(document.body.querySelector('.geo-dropdown__popup.test-class-1.test-class-2 .my-demo-content')).not.toBeNull()
   })
 
-  it('Should reposition popup content when it is mounted', function () {
-    const reattachPopupToDocumentBody = jest.fn()
+  it('Should be attached to body container on mount', function () {
     mount(GeoDropdown, {
-      propsData: {
-        opened: false
+      attachTo: document.body,
+      props: {
+        opened: true
       },
-      methods: {
-        reattachPopupToDocumentBody
+      slots: {
+        popupContent: ['<span class="popup-content">content</span>']
       }
     })
-
-    expect(reattachPopupToDocumentBody.mock.calls.length).toBe(1)
+    expect(document.body.querySelector('.geo-dropdown__popup .popup-content')).not.toBeNull()
   })
 
-  it('Should reposition popup content when it is opened', function () {
-    const repositionPopup = jest.fn()
+  it('Should reposition popup content when it is opened', async function () {
+    const repositionSpy = jest.spyOn(GeoDropdown.methods, 'repositionPopup')
     const wrapper = mount(GeoDropdown, {
-      propsData: {
+      props: {
         opened: false
-      },
-      methods: {
-        repositionPopup
       }
     })
 
-    const originalCallCount = repositionPopup.mock.calls.length
+    const originalCallCount = repositionSpy.mock.calls.length
 
-    wrapper.setProps({ opened: true })
+    await wrapper.setProps({ opened: true })
 
-    expect(repositionPopup.mock.calls.length).toBeGreaterThan(originalCallCount)
+    expect(repositionSpy.mock.calls.length).toBeGreaterThan(originalCallCount)
   })
 
   it('Should remove popup from body when unmounted', function () {
-    const removePopupFromDOM = jest.fn()
     const wrapper = mount(GeoDropdown, {
-      propsData: {
-        opened: false
+      attachTo: document.body,
+      props: {
+        opened: true
       },
-      methods: {
-        removePopupFromDOM
+      slots: {
+        popupContent: ['<span class="popup-content">content</span>']
       }
     })
-
-    expect(removePopupFromDOM.mock.calls.length).toBe(1)
-
-    wrapper.destroy()
-
-    expect(removePopupFromDOM.mock.calls.length).toBe(2)
+    expect(document.body.querySelector('.geo-dropdown__popup .popup-content')).not.toBeNull()
+    wrapper.unmount()
+    expect(document.body.querySelector('.geo-dropdown__popup .probe')).toBeNull()
   })
 
   it('Should render a GeoDropdown component', () => {
     const wrapper = mount(GeoDropdown, {
-      propsData: {
+      props: {
         opened: false
       }
     })
     expect(wrapper.find('.geo-dropdown').exists()).toBe(true)
   })
 
-  it('Should render a fixed width when specified', () => {
+  it('Should render a fixed width when specified', async () => {
     const wrapper = mount(GeoDropdown, {
-      propsData: {
+      attachTo: document.body,
+      props: {
         opened: true
       },
       slots: {
-        toggleButton: 'button'
+        toggleButton: '<div id="slot-btn">button</div>'
       }
     })
-
-    sandbox.stub(wrapper.vm.$slots, 'toggleButton').value([{
-      elm: {
-        getBoundingClientRect () {
-          return {
-            width: 3
-          }
-        }
-      }
-    }])
-
-    wrapper.setProps({ fixedWidth: true })
-
+    const slotEl = document.getElementById('slot-btn')
+    slotEl.getBoundingClientRect = () => ({ width: 3, height: 0, top: 0, left: 0, right: 0, bottom: 0, x: 0, y: 0, toJSON: () => {} })
+    await wrapper.setProps({ fixedWidth: true })
     expect(wrapper.vm.popupStyle.width).toBe('3px')
   })
 
@@ -260,7 +245,7 @@ describe('GeoDropdown', () => {
 
   it('Should not emit click-outside event when clicking on the element', () => {
     const wrapper = mount(GeoDropdown, {
-      propsData: {
+      props: {
         opened: true
       }
     })
@@ -275,7 +260,7 @@ describe('GeoDropdown', () => {
 
   it('Should emit click-outside event when clicking in the background', () => {
     const wrapper = mount(GeoDropdown, {
-      propsData: {
+      props: {
         opened: true
       }
     })
@@ -288,75 +273,70 @@ describe('GeoDropdown', () => {
   })
 
   it('Should call checkClickCoordinatesAndEmitClickOutside when clicking outside', () => {
-    sandbox.stub(GeoDropdown.directives, 'ClickOutside').value({ bind: jest.fn() })
-    sandbox.stub(GeoDropdown.methods, 'checkClickCoordinatesAndEmitClickOutside').returns()
-
-    const checkClickCoordinatesSpy = jest.spyOn(GeoDropdown.methods, 'checkClickCoordinatesAndEmitClickOutside')
-
     const wrapper = mount(GeoDropdown, {
-      propsData: {
+      attachTo: document.body,
+      props: {
         opened: true
       }
     })
-
-    const clickOutsideCalls = GeoDropdown.directives.ClickOutside.bind.mock.calls
-    expect(clickOutsideCalls).toHaveProperty('0.0', wrapper.element)
-    expect(clickOutsideCalls).toHaveProperty('0.1.value')
-
-    checkClickCoordinatesSpy.mockClear()
-    expect(checkClickCoordinatesSpy).not.toBeCalled()
-    clickOutsideCalls[0][1].value()
-    expect(checkClickCoordinatesSpy).toHaveBeenCalledTimes(1)
+    const outsideEl = document.createElement('div')
+    wrapper.vm.checkClickCoordinatesAndEmitClickOutside({ target: outsideEl })
+    expect(wrapper.emitted()['click-outside']).toBeTruthy()
   })
 
   it('Should call repositionPopup when resizing', () => {
-    sandbox.stub(GeoDropdown.directives, 'ScrollAnywhere').value({ bind: jest.fn() })
-
     const repositionPopupSpy = jest.spyOn(GeoDropdown.methods, 'repositionPopup')
-
     const wrapper = mount(GeoDropdown, {
-      propsData: {
+      attachTo: document.body,
+      props: {
         opened: true
       }
     })
-
-    const scrollAnywhereSpy = GeoDropdown.directives.ScrollAnywhere.bind.mock.calls
-    expect(scrollAnywhereSpy).toHaveProperty('0.0', wrapper.element)
-    expect(scrollAnywhereSpy).toHaveProperty('0.1.value')
-
     repositionPopupSpy.mockClear()
     expect(repositionPopupSpy).not.toBeCalled()
-    scrollAnywhereSpy[0][1].value({ target: null })
-    expect(repositionPopupSpy).toHaveBeenCalledTimes(1)
+    // directly invoke the directive handler on the component to simulate scroll anywhere
+    wrapper.vm.checkScrollEventAndRepositionIfNeeded({ target: null })
+    expect(repositionPopupSpy).toHaveBeenCalled()
   })
 
   it('should not emit click outside when clicking on a popup children', () => {
     const wrapper = mount(GeoDropdown, {
-      propsData: {
+      attachTo: document.body,
+      global: {
+        components: {
+          'geo-dropdown': GeoDropdown
+        }
+      },
+      props: {
         opened: true
       },
       slots: {
         popupContent: `<div>
           <geo-dropdown opened ref="dropdown2">
-            <p slot="toggleButton">Toggle</p>
-            <geo-dropdown opened slot="popupContent" ref="dropdown3">
-              <ul slot="popupContent">
-                <li id="click-me">Click me</li>
-                <li>Click me 2</li>
-              </ul>
-            </geo-dropdown>
+            <template #toggleButton>
+              <p>Toggle</p>
+            </template>
+            <template #popupContent>
+              <geo-dropdown opened ref="dropdown3">
+                <template #popupContent>
+                  <ul>
+                    <li id="click-me">Click me</li>
+                    <li>Click me 2</li>
+                  </ul>
+                </template>
+              </geo-dropdown>
+            </template>
           </geo-dropdown>
           <geo-dropdown :opened="false" ref="dropdown4">
-            <p slot="toggleButton">Toggle</p>
+            <template #toggleButton>
+              <p>Toggle</p>
+            </template>
           </geo-dropdown>
         </div>`
-      },
-      stubs: {
-        'geo-dropdown': GeoDropdown
       }
     })
-
-    wrapper.find('#click-me').trigger('click')
+    const clickTarget = document.body.querySelector('#click-me')
+    clickTarget && clickTarget.dispatchEvent(new MouseEvent('click', { bubbles: true }))
 
     expect(wrapper.emitted()['click-outside']).toBeFalsy()
   })

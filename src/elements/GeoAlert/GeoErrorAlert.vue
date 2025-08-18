@@ -4,7 +4,6 @@
     :class="$attrs.class"
     :icon="['fal', 'exclamation-triangle']"
     :variant="VARIANTS.error"
-    v-on="$listeners"
   >
     <!-- @slot Use this slot to customize alert's content -->
     <slot />

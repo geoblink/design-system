@@ -1,15 +1,22 @@
-import { createLocalVue, mount } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import GeoValue from '@/elements/GeoValue/GeoValue.vue'
 import GeoPositiveValue from '@/elements/GeoValue/GeoPositiveValue.vue'
 import GeoNeutralValue from '@/elements/GeoValue/GeoNeutralValue.vue'
 import GeoNegativeValue from '@/elements/GeoValue/GeoNegativeValue.vue'
 
-// create an extended `Vue` constructor
-const localVue = createLocalVue()
-localVue.component('geo-value', GeoValue)
-localVue.component('geo-positive-value', GeoPositiveValue)
-localVue.component('geo-neutral-value', GeoNeutralValue)
-localVue.component('geo-negative-value', GeoNegativeValue)
+// Helper function to create wrapper with registered components
+function createWrapper (component, options = {}) {
+  return mount(component, Object.assign({
+    global: {
+      components: {
+        'geo-value': GeoValue,
+        'geo-positive-value': GeoPositiveValue,
+        'geo-neutral-value': GeoNeutralValue,
+        'geo-negative-value': GeoNegativeValue
+      }
+    }
+  }, options))
+}
 
 describe('GeoValue', () => {
   it('Should display GeoValue primary value', () => {
@@ -17,8 +24,8 @@ describe('GeoValue', () => {
       value: 'Mocked value',
       isPrimary: true
     }
-    const wrapper = mount(GeoValue, {
-      propsData: props
+    const wrapper = createWrapper(GeoValue, {
+      props: props
     })
     expect(wrapper.find('.geo-value--primary').exists()).toBe(true)
     expect(wrapper.find('.geo-value--primary .geo-value__value').text()).toBe(props.value)
@@ -29,8 +36,8 @@ describe('GeoValue', () => {
       value: 'Mocked value',
       isPrimary: false
     }
-    const wrapper = mount(GeoValue, {
-      propsData: props
+    const wrapper = createWrapper(GeoValue, {
+      props: props
     })
     expect(wrapper.find('.geo-value--secondary').exists()).toBe(true)
     expect(wrapper.find('.geo-value--secondary .geo-value__value').text()).toBe(props.value)
@@ -42,8 +49,8 @@ describe('GeoValue', () => {
       isPrimary: false,
       unit: '€'
     }
-    const wrapper = mount(GeoValue, {
-      propsData: props
+    const wrapper = createWrapper(GeoValue, {
+      props: props
     })
     expect(wrapper.find('.geo-value__unit').exists()).toBe(true)
     expect(wrapper.find('.geo-value__unit').text()).toBe(props.unit)
@@ -55,8 +62,8 @@ describe('GeoValue', () => {
       isPrimary: false,
       description: 'Mocked description'
     }
-    const wrapper = mount(GeoValue, {
-      propsData: props
+    const wrapper = createWrapper(GeoValue, {
+      props: props
     })
     expect(wrapper.find('.geo-value__description').exists()).toBe(true)
     expect(wrapper.find('.geo-value__description').text()).toBe(props.description)
@@ -68,8 +75,8 @@ describe('GeoValue', () => {
       isPrimary: true,
       type: 'negative'
     }
-    const wrapper = mount(GeoValue, {
-      propsData: props
+    const wrapper = createWrapper(GeoValue, {
+      props: props
     })
     expect(wrapper.find('.geo-value--negative').exists()).toBe(true)
   })
@@ -79,9 +86,8 @@ describe('GeoValue', () => {
       value: 'Mocked value',
       isPrimary: true
     }
-    const wrapper = mount(GeoNegativeValue, {
-      localVue,
-      propsData: props
+    const wrapper = createWrapper(GeoNegativeValue, {
+      props: props
     })
     expect(wrapper.find('.geo-value--negative').exists()).toBe(true)
   })
@@ -91,9 +97,8 @@ describe('GeoValue', () => {
       value: 'Mocked value',
       isPrimary: true
     }
-    const wrapper = mount(GeoNeutralValue, {
-      localVue,
-      propsData: props
+    const wrapper = createWrapper(GeoNeutralValue, {
+      props: props
     })
     expect(wrapper.find('.geo-value--neutral').exists()).toBe(true)
   })
@@ -103,9 +108,8 @@ describe('GeoValue', () => {
       value: 'Mocked value',
       isPrimary: true
     }
-    const wrapper = mount(GeoPositiveValue, {
-      localVue,
-      propsData: props
+    const wrapper = createWrapper(GeoPositiveValue, {
+      props: props
     })
     expect(wrapper.find('.geo-value--positive').exists()).toBe(true)
   })

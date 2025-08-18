@@ -1,21 +1,18 @@
 import { stubLodashThrottleFactory } from './GeoTable.spec-utils'
 import _ from 'lodash'
-import { createLocalVue, mount } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import GeoTable from '@/elements/GeoTable/GeoTable'
 import GeoTableHeaderRow from '@/elements/GeoTable/GeoTableHeaderRow'
 import GeoTableHeaderRowCell from '@/elements/GeoTable/GeoTableHeaderRowCell'
 import GeoTableBodyRow from '@/elements/GeoTable/GeoTableBodyRow'
 import GeoTableBodyRowCell from '@/elements/GeoTable/GeoTableBodyRowCell'
 import GeoTablePagination from '@/elements/GeoTable/GeoTablePagination'
+import { FontAwesomeIconMock } from 'test/unit/utils/FontAwesomeIconMock'
 
 import {
   DATA_KEYS as INFER_PAGE_SIZE_DATA_KEYS,
   INFERRED_PAGE_SIZE_CHANGED_EVENT_NAME
 } from '@/mixins/inferPageSizeMixin'
-
-// create an extended `Vue` constructor
-const localVue = createLocalVue()
-localVue.component('geo-table', GeoTable)
 
 describe('GeoTable', () => {
   const stubLodashThrottle = stubLodashThrottleFactory()
@@ -38,7 +35,7 @@ describe('GeoTable', () => {
 
   it('Should render component', function () {
     const wrapper = mount(GeoTable, {
-      propsData: {
+      props: {
         sourceData: [{}],
         currentPage: 0
       }
@@ -51,11 +48,11 @@ describe('GeoTable', () => {
   describe('When table is empty', function () {
     it('Should render empty slot', function () {
       const wrapper = mount(GeoTable, {
-        propsData: {
+        props: {
           sourceData: [],
           currentPage: 0
         },
-        scopedSlots: {
+        slots: {
           empty: '<p>Some data when empty</p>'
         }
       })
@@ -67,7 +64,7 @@ describe('GeoTable', () => {
 
     it('Should render header slot', function () {
       const wrapper = mount(GeoTable, {
-        propsData: {
+        props: {
           sourceData: [],
           currentPage: 0
         },
@@ -83,7 +80,7 @@ describe('GeoTable', () => {
 
     it('Should not render body slot', function () {
       const wrapper = mount(GeoTable, {
-        propsData: {
+        props: {
           sourceData: [],
           currentPage: 0
         },
@@ -100,7 +97,7 @@ describe('GeoTable', () => {
     describe('When footer slot is provided', function () {
       it('Should render footer slot', function () {
         const wrapper = mount(GeoTable, {
-          propsData: {
+          props: {
             sourceData: [],
             currentPage: 0
           },
@@ -118,7 +115,7 @@ describe('GeoTable', () => {
     describe('When footer slot is nont provided', function () {
       it('Should not render footer slot', function () {
         const wrapper = mount(GeoTable, {
-          propsData: {
+          props: {
             sourceData: [],
             currentPage: 0
           }
@@ -134,11 +131,11 @@ describe('GeoTable', () => {
   describe('When there is content', function () {
     it('Should not render empty slot', function () {
       const wrapper = mount(GeoTable, {
-        propsData: {
+        props: {
           sourceData: [{}],
           currentPage: 0
         },
-        scopedSlots: {
+        slots: {
           empty: '<p>Some data when empty</p>'
         }
       })
@@ -150,7 +147,7 @@ describe('GeoTable', () => {
 
     it('Should render header slot', function () {
       const wrapper = mount(GeoTable, {
-        propsData: {
+        props: {
           sourceData: [],
           currentPage: 0
         },
@@ -166,21 +163,21 @@ describe('GeoTable', () => {
 
     it('Should render body', function () {
       const wrapper = mount(GeoTable, {
-        stubs: {
-          GeoTableHeaderRow,
-          GeoTableHeaderRowCell,
-          GeoTableBodyRow,
-          GeoTableBodyRowCell
+        global: {
+          stubs: {
+            GeoTableHeaderRow,
+            GeoTableHeaderRowCell,
+            GeoTableBodyRow,
+            GeoTableBodyRowCell
+          }
         },
-        propsData: {
+        props: {
           sourceData: [{ value: 'Body row cell content' }],
           currentPage: 0
         },
         slots: {
-          header: '<GeoTableHeaderRow><GeoTableHeaderRowCell>My header</GeoTableHeaderRowCell></GeoTableHeaderRow>'
-        },
-        scopedSlots: {
-          body: '<GeoTableBodyRow slot-scope="row"><GeoTableBodyRowCell>{{ row.item.value }}</GeoTableBodyRowCell></GeoTableBodyRow>'
+          header: '<GeoTableHeaderRow><GeoTableHeaderRowCell>My header</GeoTableHeaderRowCell></GeoTableHeaderRow>',
+          body: '<template #body="row"><GeoTableBodyRow><GeoTableBodyRowCell>{{ row.item.value }}</GeoTableBodyRowCell></GeoTableBodyRow></template>'
         }
       })
 
@@ -195,17 +192,19 @@ describe('GeoTable', () => {
       let slotScope
       const item = { value: 'Body row cell content' }
       const wrapper = mount(GeoTable, {
-        stubs: {
-          GeoTableHeaderRow,
-          GeoTableHeaderRowCell,
-          GeoTableBodyRow,
-          GeoTableBodyRowCell
+        global: {
+          stubs: {
+            GeoTableHeaderRow,
+            GeoTableHeaderRowCell,
+            GeoTableBodyRow,
+            GeoTableBodyRowCell
+          }
         },
-        propsData: {
+        props: {
           sourceData: [item],
           currentPage: 0
         },
-        scopedSlots: {
+        slots: {
           body (params) {
             slotScope = params
           }
@@ -223,21 +222,22 @@ describe('GeoTable', () => {
       const consoleWarnSpy = jest.spyOn(global.console, 'warn').mockImplementation(() => { })
 
       const wrapper = mount(GeoTable, {
-        stubs: {
-          GeoTableHeaderRow,
-          GeoTableHeaderRowCell,
-          GeoTableBodyRow,
-          GeoTableBodyRowCell
+        global: {
+          stubs: {
+            GeoTableHeaderRow,
+            GeoTableHeaderRowCell,
+            GeoTableBodyRow,
+            GeoTableBodyRowCell,
+            GeoTablePagination
+          }
         },
-        propsData: {
+        props: {
           sourceData: [{ value: 'Body row cell content' }],
           currentPage: 0
         },
         slots: {
-          header: '<geo-table-header-row><geo-table-header-row-cell>My header</geo-table-header-row-cell></geo-table-header-row>'
-        },
-        scopedSlots: {
-          body: '<geo-table-body-row slot-scope="row"><geo-table-body-row-cell>{{ row.item.value }}</geo-table-body-row-cell></geo-table-body-row>'
+          header: '<geo-table-header-row><geo-table-header-row-cell>My header</geo-table-header-row-cell></geo-table-header-row>',
+          body: '<template #body="row"><geo-table-body-row><geo-table-body-row-cell>{{ row.item.value }}</geo-table-body-row-cell></geo-table-body-row></template>'
         }
       })
 
@@ -271,21 +271,21 @@ describe('GeoTable', () => {
       const consoleWarnSpy = jest.spyOn(global.console, 'warn').mockImplementation(() => { })
 
       const wrapper = mount(GeoTable, {
-        stubs: {
-          GeoTableHeaderRow,
-          GeoTableHeaderRowCell,
-          GeoTableBodyRow,
-          GeoTableBodyRowCell
+        global: {
+          stubs: {
+            GeoTableHeaderRow,
+            GeoTableHeaderRowCell,
+            GeoTableBodyRow,
+            GeoTableBodyRowCell
+          }
         },
-        propsData: {
+        props: {
           sourceData: [{ value: 'Body row cell content' }],
           currentPage: 0
         },
         slots: {
-          header: '<geo-table-header-row><geo-table-header-row-cell :column-width="100">My first row header</geo-table-header-row-cell></geo-table-header-row><geo-table-header-row><geo-table-header-row-cell :column-width="200">My second row header</geo-table-header-row-cell></geo-table-header-row>'
-        },
-        scopedSlots: {
-          body: '<geo-table-body-row slot-scope="row"><geo-table-body-row-cell>{{ row.item.value }}</geo-table-body-row-cell></geo-table-body-row>'
+          header: '<geo-table-header-row><geo-table-header-row-cell :column-width="100">My first row header</geo-table-header-row-cell></geo-table-header-row><geo-table-header-row><geo-table-header-row-cell :column-width="200">My second row header</geo-table-header-row-cell></geo-table-header-row>',
+          body: '<template #body="row"><geo-table-body-row><geo-table-body-row-cell>{{ row.item.value }}</geo-table-body-row-cell></geo-table-body-row></template>'
         }
       })
 
@@ -314,21 +314,21 @@ describe('GeoTable', () => {
 
     it('Should relayout on scroll', async function () {
       const wrapper = mount(GeoTable, {
-        stubs: {
-          GeoTableHeaderRow,
-          GeoTableHeaderRowCell,
-          GeoTableBodyRow,
-          GeoTableBodyRowCell
+        global: {
+          stubs: {
+            GeoTableHeaderRow,
+            GeoTableHeaderRowCell,
+            GeoTableBodyRow,
+            GeoTableBodyRowCell
+          }
         },
-        propsData: {
+        props: {
           sourceData: [{ value: 'Body row cell content' }],
           currentPage: 0
         },
         slots: {
-          header: '<GeoTableHeaderRow><GeoTableHeaderRowCell>My header</GeoTableHeaderRowCell></GeoTableHeaderRow>'
-        },
-        scopedSlots: {
-          body: '<GeoTableBodyRow slot-scope="row"><GeoTableBodyRowCell>{{ row.item.value }}</GeoTableBodyRowCell></GeoTableBodyRow>'
+          header: '<GeoTableHeaderRow><GeoTableHeaderRowCell>My header</GeoTableHeaderRowCell></GeoTableHeaderRow>',
+          body: '<template #body="row"><GeoTableBodyRow><GeoTableBodyRowCell>{{ row.item.value }}</GeoTableBodyRowCell></GeoTableBodyRow></template>'
         }
       })
 
@@ -346,24 +346,24 @@ describe('GeoTable', () => {
     it('Should emit `@infer-page-size` event after inferring page size', async function () {
       const numRows = 10
       const wrapper = mount(GeoTable, {
-        stubs: {
-          GeoTableHeaderRow,
-          GeoTableHeaderRowCell,
-          GeoTableBodyRow,
-          GeoTableBodyRowCell,
-          GeoTablePagination,
-          FontAwesomeIcon: true
+        global: {
+          stubs: {
+            GeoTableHeaderRow,
+            GeoTableHeaderRowCell,
+            GeoTableBodyRow,
+            GeoTableBodyRowCell,
+            GeoTablePagination,
+            'font-awesome-icon': FontAwesomeIconMock
+          }
         },
-        propsData: {
+        props: {
           sourceData: _.times(numRows, (i) => { return { value: `Body row cell content: ${i}` } }),
           currentPage: 0,
           automaticPageSize: true
         },
         slots: {
-          header: '<GeoTableHeaderRow><GeoTableHeaderRowCell>My header</GeoTableHeaderRowCell></GeoTableHeaderRow>'
-        },
-        scopedSlots: {
-          body: '<GeoTableBodyRow slot-scope="row"><GeoTableBodyRowCell>{{ row.item.value }}</GeoTableBodyRowCell></GeoTableBodyRow>'
+          header: '<GeoTableHeaderRow><GeoTableHeaderRowCell>My header</GeoTableHeaderRowCell></GeoTableHeaderRow>',
+          body: '<template #body="row"><GeoTableBodyRow><GeoTableBodyRowCell>{{ row.item.value }}</GeoTableBodyRowCell></GeoTableBodyRow></template>'
         }
       })
 
@@ -377,8 +377,8 @@ describe('GeoTable', () => {
       }
 
       expect(wrapper.vm[INFER_PAGE_SIZE_DATA_KEYS.isInferringPageSize]).toBe(false)
-      expect(wrapper.find('.geo-table').emitted(INFERRED_PAGE_SIZE_CHANGED_EVENT_NAME)).toHaveLength(1)
-      expect(wrapper.find('.geo-table').emitted(INFERRED_PAGE_SIZE_CHANGED_EVENT_NAME)[0]).toEqual([numRows])
+      expect(wrapper.emitted(INFERRED_PAGE_SIZE_CHANGED_EVENT_NAME)).toHaveLength(1)
+      expect(wrapper.emitted(INFERRED_PAGE_SIZE_CHANGED_EVENT_NAME)[0]).toEqual([numRows])
     })
 
     describe('When there is no forced page size', function () {
@@ -389,15 +389,17 @@ describe('GeoTable', () => {
           i => { return { value: `Body row cell ${i}` } }
         )
         const wrapper = mount(GeoTable, {
-          stubs: {
-            GeoTablePagination,
-            FontAwesomeIcon: true
+          global: {
+            stubs: {
+              GeoTablePagination,
+              'font-awesome-icon': FontAwesomeIconMock
+            }
           },
-          propsData: {
+          props: {
             sourceData: items,
             currentPage: 0
           },
-          scopedSlots: {
+          slots: {
             body: stubBodyRowConstructor
           }
         })
@@ -414,11 +416,13 @@ describe('GeoTable', () => {
           i => { return { value: `Body row cell ${i}` } }
         )
         const wrapper = mount(GeoTable, {
-          stubs: {
-            GeoTablePagination,
-            FontAwesomeIcon: true
+          global: {
+            stubs: {
+              GeoTablePagination,
+              'font-awesome-icon': FontAwesomeIconMock
+            }
           },
-          propsData: {
+          props: {
             sourceData: items,
             currentPage: 0
           }
@@ -436,11 +440,13 @@ describe('GeoTable', () => {
           i => { return { value: `Body row cell ${i}` } }
         )
         const wrapper = mount(GeoTable, {
-          stubs: {
-            GeoTablePagination,
-            FontAwesomeIcon: true
+          global: {
+            stubs: {
+              GeoTablePagination,
+              'font-awesome-icon': FontAwesomeIconMock
+            }
           },
-          propsData: {
+          props: {
             sourceData: items,
             currentPage: 0
           }
@@ -449,9 +455,9 @@ describe('GeoTable', () => {
         const instance = wrapper.find('.geo-table')
         expect(instance.exists()).toBe(true)
 
-        instance.find('.geo-table-pagination').vm.$emit('go-to-page', 2)
+        instance.findComponent(GeoTablePagination).vm.$emit('go-to-page', 2)
 
-        expect(instance.find('.geo-table-pagination').emitted('go-to-page')).toEqual([[2]])
+        expect(wrapper.emitted('go-to-page')).toEqual([[2]])
       })
 
       it('Should only render current page items', function () {
@@ -461,15 +467,17 @@ describe('GeoTable', () => {
           i => { return { value: `Body row cell ${i}` } }
         )
         const wrapper = mount(GeoTable, {
-          stubs: {
-            FontAwesomeIcon: true,
-            GeoTablePagination
+          global: {
+            stubs: {
+              'font-awesome-icon': FontAwesomeIconMock,
+              GeoTablePagination
+            }
           },
-          propsData: {
+          props: {
             sourceData: items,
             currentPage: 0
           },
-          scopedSlots: {
+          slots: {
             body (params) {
               slotScopes.push(params)
             }
@@ -495,15 +503,17 @@ describe('GeoTable', () => {
           i => { return { value: `Body row cell ${i}` } }
         )
         const wrapper = mount(GeoTable, {
-          stubs: {
-            FontAwesomeIcon: true,
-            GeoTablePagination
+          global: {
+            stubs: {
+              'font-awesome-icon': FontAwesomeIconMock,
+              GeoTablePagination
+            }
           },
-          propsData: {
+          props: {
             sourceData: items,
             currentPage: 1
           },
-          scopedSlots: {
+          slots: {
             body (params) {
               slotScopes.push(params)
             }
@@ -529,15 +539,17 @@ describe('GeoTable', () => {
           i => { return { value: `Body row cell ${i}` } }
         )
         const wrapper = mount(GeoTable, {
-          stubs: {
-            FontAwesomeIcon: true,
-            GeoTablePagination
+          global: {
+            stubs: {
+              'font-awesome-icon': FontAwesomeIconMock,
+              GeoTablePagination
+            }
           },
-          propsData: {
+          props: {
             sourceData: items,
             currentPage: 2
           },
-          scopedSlots: {
+          slots: {
             body (params) {
               slotScopes.push(params)
             }
@@ -565,16 +577,18 @@ describe('GeoTable', () => {
           i => { return { value: `Body row cell ${i}` } }
         )
         const wrapper = mount(GeoTable, {
-          stubs: {
-            GeoTablePagination,
-            FontAwesomeIcon: true
+          global: {
+            stubs: {
+              GeoTablePagination,
+              'font-awesome-icon': FontAwesomeIconMock
+            }
           },
-          propsData: {
+          props: {
             sourceData: items,
             forcedPageSize: 2 * GeoTable.constants.DEFAULT_PAGESIZE,
             currentPage: 0
           },
-          scopedSlots: {
+          slots: {
             body: stubBodyRowConstructor
           }
         })
@@ -591,11 +605,13 @@ describe('GeoTable', () => {
           i => { return { value: `Body row cell ${i}` } }
         )
         const wrapper = mount(GeoTable, {
-          stubs: {
-            GeoTablePagination,
-            FontAwesomeIcon: true
+          global: {
+            stubs: {
+              GeoTablePagination,
+              'font-awesome-icon': FontAwesomeIconMock
+            }
           },
-          propsData: {
+          props: {
             sourceData: items,
             forcedPageSize: 2 * GeoTable.constants.DEFAULT_PAGESIZE,
             currentPage: 0
@@ -614,11 +630,13 @@ describe('GeoTable', () => {
           i => { return { value: `Body row cell ${i}` } }
         )
         const wrapper = mount(GeoTable, {
-          stubs: {
-            GeoTablePagination,
-            FontAwesomeIcon: true
+          global: {
+            stubs: {
+              GeoTablePagination,
+              'font-awesome-icon': FontAwesomeIconMock
+            }
           },
-          propsData: {
+          props: {
             sourceData: items,
             forcedPageSize: 2 * GeoTable.constants.DEFAULT_PAGESIZE,
             currentPage: 0
@@ -628,9 +646,9 @@ describe('GeoTable', () => {
         const instance = wrapper.find('.geo-table')
         expect(instance.exists()).toBe(true)
 
-        instance.find('.geo-table-pagination').vm.$emit('go-to-page', 2)
+        instance.findComponent(GeoTablePagination).vm.$emit('go-to-page', 2)
 
-        expect(instance.find('.geo-table-pagination').emitted('go-to-page')).toEqual([[2]])
+        expect(wrapper.emitted('go-to-page')).toEqual([[2]])
       })
 
       it('Should only render current page items', function () {
@@ -640,16 +658,18 @@ describe('GeoTable', () => {
           i => { return { value: `Body row cell ${i}` } }
         )
         const wrapper = mount(GeoTable, {
-          stubs: {
-            FontAwesomeIcon: true,
-            GeoTablePagination
+          global: {
+            stubs: {
+              'font-awesome-icon': FontAwesomeIconMock,
+              GeoTablePagination
+            }
           },
-          propsData: {
+          props: {
             sourceData: items,
             forcedPageSize: 2,
             currentPage: 0
           },
-          scopedSlots: {
+          slots: {
             body (params) {
               slotScopes.push(params)
             }
@@ -675,16 +695,18 @@ describe('GeoTable', () => {
           i => { return { value: `Body row cell ${i}` } }
         )
         const wrapper = mount(GeoTable, {
-          stubs: {
-            FontAwesomeIcon: true,
-            GeoTablePagination
+          global: {
+            stubs: {
+              'font-awesome-icon': FontAwesomeIconMock,
+              GeoTablePagination
+            }
           },
-          propsData: {
+          props: {
             sourceData: items,
             forcedPageSize: 2,
             currentPage: 1
           },
-          scopedSlots: {
+          slots: {
             body (params) {
               slotScopes.push(params)
             }
@@ -710,16 +732,18 @@ describe('GeoTable', () => {
           i => { return { value: `Body row cell ${i}` } }
         )
         const wrapper = mount(GeoTable, {
-          stubs: {
-            FontAwesomeIcon: true,
-            GeoTablePagination
+          global: {
+            stubs: {
+              'font-awesome-icon': FontAwesomeIconMock,
+              GeoTablePagination
+            }
           },
-          propsData: {
+          props: {
             sourceData: items,
             forcedPageSize: 2,
             currentPage: 2
           },
-          scopedSlots: {
+          slots: {
             body (params) {
               slotScopes.push(params)
             }

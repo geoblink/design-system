@@ -81,7 +81,7 @@ export default {
   },
   computed: {
     isTrailingIconVisible () {
-      return this.$listeners && this.$listeners['click-trailing-icon'] && this.hasTrailingIcon
+      return this.$attrs && this.$attrs.onClickTrailingIcon && this.hasTrailingIcon
     },
 
     hasTrailingIcon () {

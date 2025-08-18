@@ -17,6 +17,7 @@ import OnResize from '../../directives/GeoOnResize'
 import * as ChartAxis from './GeoChartAxis/GeoChartAxis'
 import * as ChartConfig from './GeoChartConfigs/GeoChartConfig'
 import * as ChartScale from './GeoChartScale/GeoChartScale'
+import * as ChartBars from './GeoChartBars/GeoChartBars'
 
 import * as axisUtils from './GeoChartUtils/axisUtils'
 import * as sizingUtils from './GeoChartUtils/GeoChartSizing'
@@ -130,17 +131,13 @@ const chartConfigValidator = (function () {
  * global settings.
  * :::
  */
-export default {
+const GeoChart = {
   name: 'GeoChart',
   status: 'ready',
   release: '9.4.0',
   directives: {
     OnResize
   },
-  constants: _.assign({}, CONSTANTS, {
-    INTERPOLATION_TYPES,
-    getTriangleShapePath
-  }),
   mixins: [configAdapterMixin],
   props: {
     /**
@@ -312,7 +309,7 @@ export default {
   mounted () {
     this.reloadSize()
   },
-  beforeDestroy () {
+  beforeUnmount () {
     this.cleanupData()
   },
   methods: {
@@ -357,4 +354,14 @@ export default {
     }
   }
 }
+
+GeoChart.constants = _.assign({}, CONSTANTS, {
+  INTERPOLATION_TYPES,
+  getTriangleShapePath,
+  SCALE_TYPES: ChartScale.SCALE_TYPES,
+  POSITIONS: ChartAxis.POSITIONS,
+  BARS_DIMENSIONS: ChartBars.DIMENSIONS
+})
+
+export default GeoChart
 </script>

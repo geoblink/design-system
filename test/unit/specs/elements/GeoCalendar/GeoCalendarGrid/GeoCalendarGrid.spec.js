@@ -43,29 +43,31 @@ describe('GeoCalendarGrid', () => {
   const currentYear = getYear(today)
 
   const wrapper = mount(GeoCalendarGrid, {
-    stubs: {
-      GeoCalendarDayGrid,
-      GeoCalendarMonthGrid,
-      GeoCalendarYearGrid,
-      GeoCalendarDayGridWeekUnit: true,
-      GeoCalendarDayGridDayUnit: true,
-      GeoCalendarMonthGridQuarterUnit: true,
-      GeoCalendarMonthGridMonthUnit: true
-    },
-    propsData: {
+    props: {
       currentInitialYearInRange: 2015,
       currentEndYearInRange: 2030,
       currentMonth,
       currentYear,
       pickerDateUnit: PICKER_DATE_UNITS.day,
       granularityId: GRANULARITY_IDS.day
+    },
+    global: {
+      stubs: {
+        GeoCalendarDayGrid,
+        GeoCalendarMonthGrid,
+        GeoCalendarYearGrid,
+        GeoCalendarDayGridWeekUnit: true,
+        GeoCalendarDayGridDayUnit: true,
+        GeoCalendarMonthGridQuarterUnit: true,
+        GeoCalendarMonthGridMonthUnit: true
+      }
     }
   })
 
   for (const pickerDateUnit in PICKER_DATE_UNITS) {
     describe('Correct component rendering', () => {
-      it(`Should render proper ${pickerDateUnit} grid`, function () {
-        wrapper.setProps({
+      it(`Should render proper ${pickerDateUnit} grid`, async function () {
+        await wrapper.setProps({
           pickerDateUnit
         })
         expect(wrapper.find('.geo-calendar-grid').exists()).toBe(true)
@@ -75,80 +77,88 @@ describe('GeoCalendarGrid', () => {
   }
 
   describe('Highlight dates mouseover', function () {
-    wrapper.setProps({
-      pickerDateUnit: PICKER_DATE_UNITS.day
+    it('Day emits', async () => {
+      await wrapper.setProps({
+        pickerDateUnit: PICKER_DATE_UNITS.day
+      })
+
+      const geoCalendarDayGridWrapper = wrapper.findComponent(GeoCalendarDayGrid)
+      geoCalendarDayGridWrapper.vm.$emit('day-unit-mouseover', today)
+
+      expect(wrapper.emitted()['day-unit-mouseover']).toBeDefined()
+      expect(wrapper.emitted()['day-unit-mouseover'][0][0]).toBe(today)
     })
 
-    const geoCalendarDayGridWrapper = wrapper.find(GeoCalendarDayGrid)
-    geoCalendarDayGridWrapper.vm.$emit('day-unit-mouseover', today)
+    it('Month emits', async () => {
+      await wrapper.setProps({
+        pickerDateUnit: PICKER_DATE_UNITS.month
+      })
 
-    expect(wrapper.emitted()['day-unit-mouseover']).toBeDefined()
-    expect(wrapper.emitted()['day-unit-mouseover'][0][0]).toBe(today)
+      const geoCalendarMonthGridWrapper = wrapper.findComponent(GeoCalendarMonthGrid)
+      geoCalendarMonthGridWrapper.vm.$emit('month-unit-mouseover', 5)
 
-    wrapper.setProps({
-      pickerDateUnit: PICKER_DATE_UNITS.month
+      expect(wrapper.emitted()['month-unit-mouseover']).toBeDefined()
+      expect(wrapper.emitted()['month-unit-mouseover'][0][0]).toBe(5)
     })
 
-    const geoCalendarMonthGridWrapper = wrapper.find(GeoCalendarMonthGrid)
-    geoCalendarMonthGridWrapper.vm.$emit('month-unit-mouseover', 5)
+    it('Year emits', async () => {
+      await wrapper.setProps({
+        pickerDateUnit: PICKER_DATE_UNITS.year
+      })
 
-    expect(wrapper.emitted()['month-unit-mouseover']).toBeDefined()
-    expect(wrapper.emitted()['month-unit-mouseover'][0][0]).toBe(5)
+      const geoCalendarYearGridWrapper = wrapper.findComponent(GeoCalendarYearGrid)
+      geoCalendarYearGridWrapper.vm.$emit('year-unit-mouseover', 2020)
 
-    wrapper.setProps({
-      pickerDateUnit: PICKER_DATE_UNITS.year
+      expect(wrapper.emitted()['year-unit-mouseover']).toBeDefined()
+      expect(wrapper.emitted()['year-unit-mouseover'][0][0]).toBe(2020)
     })
-
-    const geoCalendarYearGridWrapper = wrapper.find(GeoCalendarYearGrid)
-    geoCalendarYearGridWrapper.vm.$emit('year-unit-mouseover', 2020)
-
-    expect(wrapper.emitted()['year-unit-mouseover']).toBeDefined()
-    expect(wrapper.emitted()['year-unit-mouseover'][0][0]).toBe(2020)
   })
 
   describe('Select granularity events', () => {
     const wrapper = mount(GeoCalendarGrid, {
-      stubs: {
-        GeoCalendarDayGrid,
-        GeoCalendarMonthGrid,
-        GeoCalendarYearGrid,
-        GeoCalendarDayGridWeekUnit: true,
-        GeoCalendarDayGridDayUnit: true,
-        GeoCalendarMonthGridQuarterUnit: true,
-        GeoCalendarMonthGridMonthUnit: true
-      },
-      propsData: {
+      props: {
         currentInitialYearInRange: 2015,
         currentEndYearInRange: 2030,
         currentMonth,
         currentYear,
         pickerDateUnit: PICKER_DATE_UNITS.day,
         granularityId: GRANULARITY_IDS.day
+      },
+      global: {
+        stubs: {
+          GeoCalendarDayGrid,
+          GeoCalendarMonthGrid,
+          GeoCalendarYearGrid,
+          GeoCalendarDayGridWeekUnit: true,
+          GeoCalendarDayGridDayUnit: true,
+          GeoCalendarMonthGridQuarterUnit: true,
+          GeoCalendarMonthGridMonthUnit: true
+        }
       }
     })
 
     describe('DAY datePickerUnit', () => {
       const today = new Date(2019, 6, 30) // Fixed date to avoid future errors with random dates
 
-      it('Selects a day', () => {
-        wrapper.setProps({
+      it('Selects a day', async () => {
+        await wrapper.setProps({
           pickerDateUnit: PICKER_DATE_UNITS.day,
           granularityId: GRANULARITY_IDS.day,
           selectedFromDay: today,
           selectedToDay: addDays(today, 10)
         })
-        const geoCalendarDayGridWrapper = wrapper.find(GeoCalendarDayGrid)
+        const geoCalendarDayGridWrapper = wrapper.findComponent(GeoCalendarDayGrid)
         geoCalendarDayGridWrapper.vm.$emit('select-day', today)
         expect(wrapper.emitted()['select-day']).toBeDefined()
         expect(wrapper.emitted()['select-day'][0][0]).toBe(today)
       })
 
-      it('Selects a week', () => {
-        wrapper.setProps({
+      it('Selects a week', async () => {
+        await wrapper.setProps({
           pickerDateUnit: PICKER_DATE_UNITS.day,
           granularityId: GRANULARITY_IDS.week
         })
-        const geoCalendarDayGridWrapper = wrapper.find(GeoCalendarDayGrid)
+        const geoCalendarDayGridWrapper = wrapper.findComponent(GeoCalendarDayGrid)
         const weekStart = startOfWeek(today, { weekStartsOn: 1 })
         const weekEnd = startOfDay(endOfWeek(today, { weekStartsOn: 1 }))
 
@@ -166,24 +176,24 @@ describe('GeoCalendarGrid', () => {
     })
 
     describe('MONTH datePickerUnit', () => {
-      it('Selects a month', () => {
-        wrapper.setProps({
+      it('Selects a month', async () => {
+        await wrapper.setProps({
           pickerDateUnit: PICKER_DATE_UNITS.month,
           granularityId: GRANULARITY_IDS.month
         })
-        const geoCalendarMonthGridWrapper = wrapper.find(GeoCalendarMonthGrid)
+        const geoCalendarMonthGridWrapper = wrapper.findComponent(GeoCalendarMonthGrid)
 
         geoCalendarMonthGridWrapper.vm.$emit('select-month', 6)
         expect(wrapper.emitted()['select-month']).toBeDefined()
         expect(wrapper.emitted()['select-month'][0][0]).toBe(6)
       })
 
-      it('Selects a quarter', () => {
-        wrapper.setProps({
+      it('Selects a quarter', async () => {
+        await wrapper.setProps({
           pickerDateUnit: PICKER_DATE_UNITS.month,
           granularityId: GRANULARITY_IDS.quarter
         })
-        const geoCalendarMonthGridWrapper = wrapper.find(GeoCalendarMonthGrid)
+        const geoCalendarMonthGridWrapper = wrapper.findComponent(GeoCalendarMonthGrid)
 
         geoCalendarMonthGridWrapper.vm.$emit('select-quarter', 6)
         expect(wrapper.emitted()['select-quarter']).toBeDefined()
@@ -192,12 +202,12 @@ describe('GeoCalendarGrid', () => {
     })
 
     describe('YEAR datePickerUnit', () => {
-      it('Selects a year', () => {
-        wrapper.setProps({
+      it('Selects a year', async () => {
+        await wrapper.setProps({
           pickerDateUnit: PICKER_DATE_UNITS.year,
           granularityId: GRANULARITY_IDS.year
         })
-        const geoCalendarYearGridWrapper = wrapper.find(GeoCalendarYearGrid)
+        const geoCalendarYearGridWrapper = wrapper.findComponent(GeoCalendarYearGrid)
 
         geoCalendarYearGridWrapper.vm.$emit('select-year', 2021)
         expect(wrapper.emitted()['select-year']).toBeDefined()

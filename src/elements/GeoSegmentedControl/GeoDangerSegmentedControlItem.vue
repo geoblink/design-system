@@ -6,7 +6,6 @@
     :outline="outline"
     :active="active"
     :variant="variant"
-    v-on="$listeners"
   >
     <!-- @slot Use this slot to customize item's content -->
     <slot />

@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import { mount } from '@vue/test-utils'
 import { GRANULARITY_IDS, PICKER_DATE_UNITS } from '@/elements/GeoCalendar/GeoCalendar.utils.js'
 import GeoCalendarPicker from '@/elements/GeoCalendar/GeoCalendarPicker.vue'
@@ -24,8 +25,8 @@ describe('GeoCalendarPicker', () => {
   })
 
   describe('Select dates events', () => {
-    const geoCalendarGridWrapper = wrapper.find(GeoCalendarGrid)
-    const geoCalendarNavigationWrapper = wrapper.find(GeoCalendarNavigation)
+    const geoCalendarGridWrapper = wrapper.findComponent(GeoCalendarGrid)
+    const geoCalendarNavigationWrapper = wrapper.findComponent(GeoCalendarNavigation)
 
     it('goToMonth', () => {
       geoCalendarNavigationWrapper.vm.$emit('go-to-month', 5)
@@ -87,42 +88,42 @@ describe('GeoCalendarPicker', () => {
 
   describe('Navigate backwards/forward', () => {
     describe('DAYS granularity', () => {
-      it('Goes backwards', () => {
+      it('Goes backwards', async () => {
         const wrapper = getWrappedComponent()
-        const geoCalendarNavigationWrapper = wrapper.find(GeoCalendarNavigation)
-        wrapper.setProps({
+        const geoCalendarNavigationWrapper = wrapper.findComponent(GeoCalendarNavigation)
+        await wrapper.setProps({
           granularityId: GRANULARITY_IDS.day,
           pickerDateUnit: PICKER_DATE_UNITS.day
         })
         geoCalendarNavigationWrapper.vm.$emit('go-to-previous-picker-date')
         expect(wrapper.emitted()['go-to-month']).toBeDefined()
-        wrapper.setProps({
+        await wrapper.setProps({
           currentMonth: 0
         })
         geoCalendarNavigationWrapper.vm.$emit('go-to-previous-picker-date')
         expect(wrapper.emitted()['go-to-year']).toBeDefined()
       })
 
-      it('Goes forward', () => {
+      it('Goes forward', async () => {
         const wrapper = getWrappedComponent()
-        const geoCalendarNavigationWrapper = wrapper.find(GeoCalendarNavigation)
-        wrapper.setProps({
+        const geoCalendarNavigationWrapper = wrapper.findComponent(GeoCalendarNavigation)
+        await wrapper.setProps({
           granularityId: GRANULARITY_IDS.day,
           pickerDateUnit: PICKER_DATE_UNITS.day
         })
         geoCalendarNavigationWrapper.vm.$emit('go-to-next-picker-date')
         expect(wrapper.emitted()['go-to-month']).toBeDefined()
-        wrapper.setProps({
+        await wrapper.setProps({
           currentMonth: 11
         })
         geoCalendarNavigationWrapper.vm.$emit('go-to-next-picker-date')
         expect(wrapper.emitted()['go-to-year']).toBeDefined()
       })
 
-      it('Cannot navigate any further', () => {
+      it('Cannot navigate any further', async () => {
         const wrapper = getWrappedComponent()
-        const geoCalendarNavigationWrapper = wrapper.find(GeoCalendarNavigation)
-        wrapper.setProps({
+        const geoCalendarNavigationWrapper = wrapper.findComponent(GeoCalendarNavigation)
+        await wrapper.setProps({
           earliestDate: startOfMonth(today),
           latestDate: endOfMonth(today),
           currentYear: getYear(today),
@@ -137,23 +138,23 @@ describe('GeoCalendarPicker', () => {
 
     describe('MONTHS granularity', () => {
       const wrapper = getWrappedComponent()
-      const geoCalendarNavigationWrapper = wrapper.find(GeoCalendarNavigation)
+      const geoCalendarNavigationWrapper = wrapper.findComponent(GeoCalendarNavigation)
       wrapper.setProps({
         granularityId: GRANULARITY_IDS.month,
         pickerDateUnit: PICKER_DATE_UNITS.month
       })
-      it('Goes backwards', () => {
+      it('Goes backwards', async () => {
         geoCalendarNavigationWrapper.vm.$emit('go-to-previous-picker-date')
         expect(wrapper.emitted()['go-to-year']).toBeDefined()
       })
 
-      it('Goes forward', () => {
+      it('Goes forward', async () => {
         geoCalendarNavigationWrapper.vm.$emit('go-to-next-picker-date')
         expect(wrapper.emitted()['go-to-year']).toBeDefined()
       })
 
-      it('Cannot navigate any further', () => {
-        wrapper.setProps({
+      it('Cannot navigate any further', async () => {
+        await wrapper.setProps({
           earliestDate: startOfMonth(today),
           latestDate: endOfMonth(today),
           currentYear: getYear(today),
@@ -168,23 +169,23 @@ describe('GeoCalendarPicker', () => {
 
     describe('YEARS granularity', () => {
       const wrapper = getWrappedComponent()
-      const geoCalendarNavigationWrapper = wrapper.find(GeoCalendarNavigation)
+      const geoCalendarNavigationWrapper = wrapper.findComponent(GeoCalendarNavigation)
       wrapper.setProps({
         granularityId: GRANULARITY_IDS.year,
         pickerDateUnit: PICKER_DATE_UNITS.year
       })
-      it('Goes backwards', () => {
+      it('Goes backwards', async () => {
         geoCalendarNavigationWrapper.vm.$emit('go-to-previous-picker-date')
         expect(wrapper.emitted()['go-to-year-range']).toBeDefined()
       })
 
-      it('Goes forward', () => {
+      it('Goes forward', async () => {
         geoCalendarNavigationWrapper.vm.$emit('go-to-next-picker-date')
         expect(wrapper.emitted()['go-to-year-range']).toBeDefined()
       })
 
-      it('Cannot navigate any further', () => {
-        wrapper.setProps({
+      it('Cannot navigate any further', async () => {
+        await wrapper.setProps({
           earliestDate: subDays(today, 5),
           latestDate: addDays(today, 5),
           currentYear: getYear(today),
@@ -195,7 +196,7 @@ describe('GeoCalendarPicker', () => {
         geoCalendarNavigationWrapper.vm.$emit('go-to-next-picker-date')
         expect(wrapper.emitted()['go-to-year-range'][3]).toBeUndefined()
 
-        wrapper.setProps({
+        await wrapper.setProps({
           currentInitialYearInRange: 2040,
           currentEndYearInRange: 2000,
           latestDate: addYears(today, 15),
@@ -208,27 +209,17 @@ describe('GeoCalendarPicker', () => {
       })
     })
     describe('Wrong pickerDateUnit', () => {
-      it('Should throw error if provided wrong pickerDateUnit prop', () => {
+      it('Should throw error if provided wrong pickerDateUnit prop', async () => {
         const consoleWarnSpy = jest.spyOn(global.console, 'warn').mockImplementation(() => { })
-        const consoleErrorSpy = jest.spyOn(global.console, 'error').mockImplementation(() => { })
         const wrapper = getWrappedComponent()
-        wrapper.setProps({
-          pickerDateUnit: 'wrong picker date unit',
+        await expect(wrapper.setProps({
+          // Ensure computed getters run and reach the default case
           earliestDate: startOfMonth(today),
-          latestDate: endOfMonth(today)
-        })
+          latestDate: endOfMonth(today),
+          pickerDateUnit: 'wrong picker date unit'
+        })).rejects.toThrow(/Unknown pickerDateUnit/)
         expect(consoleWarnSpy).toHaveBeenCalled()
-        expect(consoleErrorSpy).toHaveBeenCalled()
-        expect(function () {
-          return wrapper.vm.canSelectNextDates
-        }).toThrowError()
-
-        expect(function () {
-          return wrapper.vm.canSelectPastDates
-        }).toThrowError()
-
         consoleWarnSpy.mockRestore()
-        consoleErrorSpy.mockRestore()
       })
     })
   })
@@ -260,7 +251,7 @@ describe('GeoCalendarPicker', () => {
 
   describe('Highlight dates mouseover', function () {
     const wrapper = getWrappedComponent()
-    const geoCalendarGridWrapper = wrapper.find(GeoCalendarGrid)
+    const geoCalendarGridWrapper = wrapper.findComponent(GeoCalendarGrid)
 
     geoCalendarGridWrapper.vm.$emit('day-unit-mouseover', today)
     geoCalendarGridWrapper.vm.$emit('month-unit-mouseover', 5)
@@ -275,23 +266,28 @@ describe('GeoCalendarPicker', () => {
   })
 })
 
-function getWrappedComponent () {
+function getWrappedComponent (options = {}) {
   const currentMonth = getMonth(today)
   const currentYear = getYear(today)
 
-  return mount(GeoCalendarPicker, {
-    stubs: {
-      GeoCalendarNavigation,
-      GeoCalendarGrid,
-      'geo-calendar-day-grid': true,
-      'geo-calendar-month-grid': true,
-      'geo-calendar-year-grid': true,
-      'geo-list-item': true,
-      'geo-select-base': true,
-      'geo-link-button': true,
-      'font-awesome-icon': true
+  return mount(GeoCalendarPicker, _.merge({
+    global: {
+      components: {
+        GeoCalendarNavigation,
+        GeoCalendarGrid
+      },
+      stubs: {
+        'geo-calendar-grid': true,
+        'geo-calendar-day-grid': true,
+        'geo-calendar-month-grid': true,
+        'geo-calendar-year-grid': true,
+        'geo-list-item': true,
+        'geo-select-base': true,
+        'geo-link-button': true,
+        'font-awesome-icon': true
+      }
     },
-    propsData: {
+    props: {
       currentMonth,
       currentYear,
       granularityId: GRANULARITY_IDS.day,
@@ -302,5 +298,5 @@ function getWrappedComponent () {
       nextDateInSelectedGranularityIcon: ['fas', 'arrow-right'],
       previousDateInSelectedGranularityIcon: ['fas', 'arrow-right']
     }
-  })
+  }, options))
 }

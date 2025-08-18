@@ -9,10 +9,8 @@ describe('GeoInputMessage', () => {
 
   it('Should render with variant', function () {
     const wrapper = mount(GeoInputMessage, {
-      context: {
-        props: {
-          variant: 'error'
-        }
+      props: {
+        variant: 'error'
       }
     })
 

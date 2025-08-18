@@ -25,6 +25,7 @@
       >
         <draggable
           :list="filteredCategories"
+          :item-key="keyForId"
           :group="draggableGroup"
           :sort="false"
           :disabled="!draggableGroup"
@@ -359,7 +360,7 @@ export default {
 
           if (_.size(category[this.keyForSubcategory])) {
             basicCategory[this.keyForSubcategory] = matchingSubcategories
-            this.$set(this.expandedCategories, basicCategory[this.keyForId], true)
+            this.expandedCategories[basicCategory[this.keyForId]] = true
           }
 
           return [...carry, basicCategory]
@@ -388,7 +389,7 @@ export default {
     handleToggleExpand (clickedCategory) {
       const isExpanded = !!this.expandedCategories[clickedCategory[this.keyForId]]
 
-      this.$set(this.expandedCategories, clickedCategory[this.keyForId], !isExpanded)
+      this.expandedCategories[clickedCategory[this.keyForId]] = !isExpanded
     },
 
     loadNextPage (payload) {

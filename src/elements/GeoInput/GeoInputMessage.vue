@@ -6,7 +6,6 @@
       'geo-input-message',
       `geo-input-message--${variant}`
     ]"
-    v-on="$listeners"
   >
     <!-- @slot Use this slot to customize content displayed inside the message -->
     <slot />

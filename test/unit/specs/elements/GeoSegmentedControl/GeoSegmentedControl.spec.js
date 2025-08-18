@@ -1,18 +1,25 @@
-import { createLocalVue, mount } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import GeoSegmentedControl from '@/elements/GeoSegmentedControl/GeoSegmentedControl.vue'
 
-// create an extended `Vue` constructor
-const localVue = createLocalVue()
-localVue.component('geo-segmented-control', GeoSegmentedControl)
+// Helper function to create wrapper with registered components
+function createWrapper (component, options = {}) {
+  return mount(component, Object.assign({
+    global: {
+      components: {
+        'geo-segmented-control': GeoSegmentedControl
+      }
+    }
+  }, options))
+}
 
 describe('GeoSegmentedControlItem', () => {
   it('Should render GeoSegmentedControl component', function () {
-    const wrapper = mount(GeoSegmentedControl)
+    const wrapper = createWrapper(GeoSegmentedControl)
     expect(wrapper.find('.geo-segmented-control').exists()).toBe(true)
   })
 
   it('Should display default slot', function () {
-    const wrapper = mount(GeoSegmentedControl, {
+    const wrapper = createWrapper(GeoSegmentedControl, {
       slots: {
         default: 'test'
       }
@@ -21,8 +28,8 @@ describe('GeoSegmentedControlItem', () => {
   })
 
   it('Should apply an outline style when specified', function () {
-    const wrapper = mount(GeoSegmentedControl, {
-      propsData: {
+    const wrapper = createWrapper(GeoSegmentedControl, {
+      props: {
         outline: true
       }
     })

@@ -1,5 +1,4 @@
 import { mount } from '@vue/test-utils'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import GeoSelectBase from '@/elements/GeoSelect/GeoSelectBase.vue'
 import GeoSelectToggleButton from '@/elements/GeoSelect/GeoSelectToggleButton.vue'
 import GeoListFooterButton from '@/elements/GeoList/GeoListFooterButton.vue'
@@ -11,20 +10,23 @@ import GeoScrollableContainer from '@/elements/GeoScrollableContainer/GeoScrolla
 import { Y_AXIS_POSITION } from '@/elements/GeoDropdown/GeoDropdown.constants'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fas } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIconMock } from 'test/unit/utils/FontAwesomeIconMock'
 library.add(fas)
 
 describe('GeoSelectBase', () => {
   it('Should render element toggle button', () => {
     const wrapper = mount(GeoSelectBase, {
-      stubs: {
-        GeoDropdown,
-        GeoBorderedBox,
-        GeoScrollableContainer,
-        GeoSelectToggleButton,
-        GeoListFooterButton,
-        'font-awesome-icon': FontAwesomeIcon
+      global: {
+        stubs: {
+          GeoDropdown,
+          GeoBorderedBox,
+          GeoScrollableContainer,
+          GeoSelectToggleButton,
+          GeoListFooterButton,
+          'font-awesome-icon': FontAwesomeIconMock
+        }
       },
-      propsData: {
+      props: {
         opened: false,
         hasMoreResults: true,
         forceYAxisPosition: Y_AXIS_POSITION.top
@@ -43,15 +45,18 @@ describe('GeoSelectBase', () => {
 
   it('Should not render element popup if not opened', () => {
     const wrapper = mount(GeoSelectBase, {
-      stubs: {
-        GeoDropdown,
-        GeoBorderedBox,
-        GeoScrollableContainer,
-        GeoSelectToggleButton,
-        GeoListFooterButton,
-        'font-awesome-icon': FontAwesomeIcon
+      global: {
+        stubs: {
+          GeoDropdown,
+          GeoBorderedBox,
+          GeoScrollableContainer,
+          GeoSelectToggleButton,
+          GeoListFooterButton,
+          'font-awesome-icon': FontAwesomeIconMock,
+          teleport: true
+        }
       },
-      propsData: {
+      props: {
         opened: false,
         hasMoreResults: true,
         forceYAxisPosition: Y_AXIS_POSITION.top
@@ -71,16 +76,19 @@ describe('GeoSelectBase', () => {
 
   it('Should render element popup if opened', () => {
     const wrapper = mount(GeoSelectBase, {
-      stubs: {
-        GeoDropdown,
-        GeoBorderedBox,
-        GeoScrollableContainer,
-        GeoSelectToggleButton,
-        GeoListFooterButton,
-        'geo-tertiary-button': true,
-        'font-awesome-icon': FontAwesomeIcon
+      global: {
+        stubs: {
+          GeoDropdown,
+          GeoBorderedBox,
+          GeoScrollableContainer,
+          GeoSelectToggleButton,
+          GeoListFooterButton,
+          'geo-tertiary-button': true,
+          'font-awesome-icon': FontAwesomeIconMock,
+          teleport: true
+        }
       },
-      propsData: {
+      props: {
         opened: true,
         hasMoreResults: true,
         forceYAxisPosition: Y_AXIS_POSITION.top
@@ -98,19 +106,22 @@ describe('GeoSelectBase', () => {
     expect(wrapper.find('.geo-list-footer-button').exists()).toBe(true)
   })
 
-  it('Should emit load more results event', () => {
+  it('Should emit load more results event', async () => {
     const wrapper = mount(GeoSelectBase, {
-      stubs: {
-        GeoDropdown,
-        GeoBorderedBox,
-        GeoScrollableContainer,
-        GeoSelectToggleButton,
-        GeoListFooterButton,
-        GeoTertiaryButton,
-        GeoButton,
-        'font-awesome-icon': FontAwesomeIcon
+      global: {
+        stubs: {
+          GeoDropdown,
+          GeoBorderedBox,
+          GeoScrollableContainer,
+          GeoSelectToggleButton,
+          GeoListFooterButton,
+          GeoTertiaryButton,
+          GeoButton,
+          'font-awesome-icon': FontAwesomeIconMock,
+          teleport: true
+        }
       },
-      propsData: {
+      props: {
         opened: true,
         hasMoreResults: true
       },
@@ -123,23 +134,25 @@ describe('GeoSelectBase', () => {
           </geo-select-toggle-button>`
       }
     })
-    wrapper.find(GeoTertiaryButton).trigger('click')
+    await wrapper.findComponent(GeoTertiaryButton).trigger('click')
     expect(wrapper.emitted()['load-more-results']).toBeTruthy()
     expect(wrapper.emitted()['load-more-results'][0][0].scrollToLastEntry).toBeInstanceOf(Function)
   })
 
   it('Should emit click outside event', () => {
     const wrapper = mount(GeoSelectBase, {
-      stubs: {
-        GeoDropdown,
-        GeoBorderedBox,
-        GeoScrollableContainer,
-        GeoSelectToggleButton,
-        GeoListFooterButton,
-        'geo-tertiary-button': true,
-        'font-awesome-icon': FontAwesomeIcon
+      global: {
+        stubs: {
+          GeoDropdown,
+          GeoBorderedBox,
+          GeoScrollableContainer,
+          GeoSelectToggleButton,
+          GeoListFooterButton,
+          'geo-tertiary-button': true,
+          'font-awesome-icon': FontAwesomeIconMock
+        }
       },
-      propsData: {
+      props: {
         opened: true,
         hasMoreResults: true
       },

@@ -8,7 +8,12 @@
     @click="emitClick($event)"
   >
     <!-- @slot Use this slot to customize button's content -->
-    <slot />
+    <template
+      v-if="$slots.default"
+      #default
+    >
+      <slot />
+    </template>
   </geo-dropdown-regular-button>
 </template>
 

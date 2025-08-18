@@ -4,11 +4,11 @@
     @submit.prevent
   >
     <geo-input
-      :value="value"
+      :value="modelValue"
       :placeholder="placeholder"
       v-bind="$attrs"
       type="text"
-      @input="searchPattern($event)"
+      @update:modelValue="searchPattern($event)"
       @delete-value="deleteValue($event)"
     >
       <template #leadingAccessoryItem>
@@ -75,7 +75,7 @@ export default {
      * @model
      * Current search pattern used for filtering available options
      */
-    value: {
+    modelValue: {
       type: String,
       required: false,
       validator (value) {
@@ -92,7 +92,7 @@ export default {
          * @event input
          * @type {string}
          */
-        this.$emit('input', value)
+        this.$emit('update:modelValue', value)
       })
     }
   },

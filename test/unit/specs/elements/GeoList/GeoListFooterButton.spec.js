@@ -28,24 +28,28 @@ describe('GeoListFooterButton', () => {
 
   it('Should emit an event when clicking on load more results button', () => {
     const wrapper = mount(GeoListFooterButton, {
+      global: {
+        stubs: {
+          GeoTertiaryButton,
+          GeoButton
+        }
+      },
       slots: {
         default: ['<span class="more-results-footer-button-content">Load more results demo content</span>']
-      },
-      stubs: {
-        GeoTertiaryButton,
-        GeoButton
       }
     })
-    wrapper.find(GeoTertiaryButton).trigger('click')
+    wrapper.findComponent(GeoTertiaryButton).trigger('click')
     expect(wrapper.emitted().click).toBeTruthy()
   })
 
   it('Should render a tertiary button inside it', () => {
     const wrapper = mount(GeoListFooterButton, {
-      stubs: {
-        'geo-tertiary-button': true
+      global: {
+        stubs: {
+          GeoTertiaryButton
+        }
       }
     })
-    expect(wrapper.find('geo-tertiary-button-stub').exists()).toBe(true)
+    expect(wrapper.findComponent(GeoTertiaryButton).exists()).toBe(true)
   })
 })

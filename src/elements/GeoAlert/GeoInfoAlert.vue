@@ -4,7 +4,6 @@
     :class="$attrs.class"
     :icon="['fal', 'lightbulb']"
     :variant="VARIANTS.info"
-    v-on="$listeners"
   >
     <!-- @slot Use this slot to customize alert's content -->
     <slot />

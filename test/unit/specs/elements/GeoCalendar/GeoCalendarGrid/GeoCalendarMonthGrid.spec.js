@@ -5,11 +5,15 @@ import { GRANULARITY_IDS } from '@/elements/GeoCalendar/GeoCalendar.utils.js'
 
 describe('GeoCalendarMonthGrid', () => {
   const wrapper = mount(GeoCalendarMonthGrid, {
-    stubs: {
-      GeoCalendarMonthGridQuarterUnit,
-      GeoCalendarMonthGridMonthUnit: true
+    global: {
+      components: {
+        GeoCalendarMonthGridQuarterUnit
+      },
+      stubs: {
+        GeoCalendarMonthGridMonthUnit: true
+      }
     },
-    propsData: {
+    props: {
       currentMonth: 6,
       currentYear: 2019,
       granularityId: GRANULARITY_IDS.month
@@ -22,7 +26,7 @@ describe('GeoCalendarMonthGrid', () => {
   })
 
   describe('Events (month/quarter/mouseover)', () => {
-    const childMonth = wrapper.find(GeoCalendarMonthGridQuarterUnit)
+    const childMonth = wrapper.findComponent(GeoCalendarMonthGridQuarterUnit)
     it('Emits select-month event when clicking on a month', () => {
       childMonth.vm.$emit('select-month', 8)
       expect(wrapper.emitted()['select-month']).toBeDefined()

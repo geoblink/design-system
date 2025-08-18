@@ -1,8 +1,9 @@
 import _ from 'lodash'
-import { shallowMount } from '@vue/test-utils'
+import { shallowMount, mount } from '@vue/test-utils'
 import GeoTree from '@/elements/GeoTree/GeoTree.vue'
 import GeoBorderedBoxHeaderSearchForm from '@/elements/GeoBorderedBox/GeoBorderedBoxHeaderSearchForm.vue'
 import GeoInput from '@/elements/GeoInput/GeoInput.vue'
+import GeoScrollableContainer from '@/elements/GeoScrollableContainer/GeoScrollableContainer.vue'
 
 const CATEGORIES = [
   {
@@ -119,7 +120,7 @@ const CATEGORIES = [
 
 describe('GeoTree basic behaviour', () => {
   const getWrapper = (props = {}) => shallowMount(GeoTree, {
-    propsData: _.assign(
+    props: _.assign(
       {},
       {
         keyForLabel: 'label',
@@ -129,12 +130,14 @@ describe('GeoTree basic behaviour', () => {
       },
       props
     ),
-    stubs: {
-      'geo-bordered-box-header-search-form': true,
-      'geo-input': true,
-      'geo-tree-item': true,
-      'font-awesome-icon': true,
-      'geo-scrollable-container': true
+    global: {
+      stubs: {
+        'geo-bordered-box-header-search-form': true,
+        'geo-input': true,
+        'geo-tree-item': true,
+        'font-awesome-icon': true,
+        GeoScrollableContainer
+      }
     }
   })
 
@@ -273,8 +276,8 @@ describe('GeoTree basic behaviour', () => {
 })
 
 describe('GeoTree searching functionality', () => {
-  const getWrapper = props => shallowMount(GeoTree, {
-    propsData: _.assign(
+  const getWrapper = props => mount(GeoTree, {
+    props: _.assign(
       {},
       {
         keyForLabel: 'label',
@@ -285,31 +288,38 @@ describe('GeoTree searching functionality', () => {
       },
       props
     ),
-    stubs: {
-      'geo-bordered-box-header-search-form': GeoBorderedBoxHeaderSearchForm,
-      'geo-input': GeoInput,
-      'geo-tree-item': true,
-      'font-awesome-icon': true,
-      'geo-scrollable-container': true
+    global: {
+      components: {
+        GeoBorderedBoxHeaderSearchForm,
+        GeoInput
+      },
+      stubs: {
+        GeoScrollableContainer,
+        'geo-list-footer-button': true,
+        'geo-tree-item': true,
+        'font-awesome-icon': true,
+        'geo-scrollable-container': true,
+        draggable: true
+      }
     }
   })
 
-  it('should display a no results found label when nothing matches with searched text', () => {
+  it('should display a no results found label when nothing matches with searched text', async () => {
     const noResultsLabel = 'Fake no results label'
     const wrapper = getWrapper({
       noResultsFoundLabel: noResultsLabel
     })
 
     expect(wrapper.find('.geo-input input').exists()).toBe(true)
-    wrapper.find('.geo-input input').setValue('bevhjehvjfew')
-    wrapper.find('.geo-input input').trigger('input')
+    await wrapper.find('.geo-input input').setValue('bevhjehvjfew')
+    await wrapper.find('.geo-input input').trigger('input')
 
     expect(wrapper.vm.filteredCategories.length).toBe(0)
     expect(wrapper.find('.geo-tree__no-results-found').exists()).toBeTruthy()
     expect(wrapper.find('.geo-tree__no-results-found').text()).toEqual(noResultsLabel)
   })
 
-  it('should display the right categories when searching for a grandchild node without matches in ancestors', () => {
+  it('should display the right categories when searching for a grandchild node without matches in ancestors', async () => {
     const wrapper = getWrapper({
       searchable: true
     })
@@ -336,13 +346,13 @@ describe('GeoTree searching functionality', () => {
     ]
 
     expect(wrapper.find('.geo-input').exists()).toBe(true)
-    wrapper.find('.geo-input input').setValue('banana')
+    await wrapper.find('.geo-input input').setValue('banana')
 
     expect(wrapper.vm.filteredCategories).toEqual(expectedFilteredCategories)
     expect(wrapper.vm.expandedCategories).toEqual({ fruits: true, 'tropical-fruits': true })
   })
 
-  it('should display the right categories when searching for matches in parent and child node', () => {
+  it('should display the right categories when searching for matches in parent and child node', async () => {
     const wrapper = getWrapper({
       searchable: true
     })
@@ -397,7 +407,7 @@ describe('GeoTree searching functionality', () => {
     ]
 
     expect(wrapper.find('.geo-input').exists()).toBe(true)
-    wrapper.find('.geo-input input').setValue('getab')
+    await wrapper.find('.geo-input input').setValue('getab')
 
     expect(wrapper.vm.filteredCategories).toEqual(expectedFilteredCategories)
     expect(wrapper.vm.expandedCategories).toEqual({ bulbs: true, vegetables: true, 'vegetables-fruits': true })

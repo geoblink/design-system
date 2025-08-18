@@ -1,8 +1,8 @@
 import { mount } from '@vue/test-utils'
 import GeoListGroup from '@/elements/GeoList/GeoListGroup.vue'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fas } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIconMock, expectFontAwesomeIconProp } from 'test/unit/utils/FontAwesomeIconMock'
 
 library.add(fas)
 
@@ -25,10 +25,12 @@ describe('GeoListGroup', () => {
 
   it('Should render icon in header', function () {
     const wrapper = mount(GeoListGroup, {
-      stubs: {
-        'font-awesome-icon': FontAwesomeIcon
+      global: {
+        stubs: {
+          'font-awesome-icon': FontAwesomeIconMock
+        }
       },
-      propsData: {
+      props: {
         icon: ['fas', 'user']
       },
       slots: {
@@ -36,13 +38,15 @@ describe('GeoListGroup', () => {
       }
     })
 
-    expect(wrapper.find('svg[data-prefix="fas"][data-icon="user"]').exists()).toBe(true)
+    expectFontAwesomeIconProp(wrapper.findComponent(FontAwesomeIconMock), ['fas', 'user'])
   })
 
   it('Should trigger click event when clicking on header', function () {
     const wrapper = mount(GeoListGroup, {
-      stubs: {
-        'font-awesome-icon': FontAwesomeIcon
+      global: {
+        stubs: {
+          'font-awesome-icon': FontAwesomeIconMock
+        }
       },
       slots: {
         title: ['<span class="my-demo-content">Just some unique demo content</span>']

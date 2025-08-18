@@ -1,65 +1,66 @@
 import { mount } from '@vue/test-utils'
 import GeoCollapsableBox from '@/elements/GeoCollapsableBox/GeoCollapsableBox.vue'
+import { FontAwesomeIconMock } from 'test/unit/utils/FontAwesomeIconMock'
 
 describe('GeoCollapsableBox', function () {
   describe('When it is collapsed', function () {
-    it('Should not render', function () {
-      const wrapper = getCollapsedWrappedComponent()
+    it('Should not render', async function () {
+      const wrapper = await getCollapsedWrappedComponent()
 
       expect(wrapper.find('.geo-collapsable-box__body').exists()).toBe(false)
     })
 
-    it('Should expand when clicking header', function () {
-      const wrapper = getCollapsedWrappedComponent()
+    it('Should expand when clicking header', async function () {
+      const wrapper = await getCollapsedWrappedComponent()
 
-      wrapper.find('.geo-collapsable-box__header').trigger('click')
+      await wrapper.find('.geo-collapsable-box__header').trigger('click')
 
       expect(wrapper.find('.geo-collapsable-box__body').exists()).toBe(true)
     })
 
-    it('Should collapse when clicking header twice', function () {
-      const wrapper = getCollapsedWrappedComponent()
+    it('Should collapse when clicking header twice', async function () {
+      const wrapper = await getCollapsedWrappedComponent()
 
-      wrapper.find('.geo-collapsable-box__header').trigger('click')
-      wrapper.find('.geo-collapsable-box__header').trigger('click')
+      await wrapper.find('.geo-collapsable-box__header').trigger('click')
+      await wrapper.find('.geo-collapsable-box__header').trigger('click')
 
       expect(wrapper.find('.geo-collapsable-box__body').exists()).toBe(false)
     })
 
-    function getCollapsedWrappedComponent () {
+    async function getCollapsedWrappedComponent () {
       const wrapper = getWrappedComponent()
-      wrapper.setData({ isExpanded: false })
+      await wrapper.setData({ isExpanded: false })
       return wrapper
     }
   })
 
   describe('When it is expanded', function () {
-    it('Should render body', function () {
-      const wrapper = getExpandedWrappedComponent()
+    it('Should render body', async function () {
+      const wrapper = await getExpandedWrappedComponent()
 
       expect(wrapper.find('.geo-collapsable-box__body').exists()).toBe(true)
     })
 
-    it('Should expand when clicking header', function () {
-      const wrapper = getExpandedWrappedComponent()
+    it('Should expand when clicking header', async function () {
+      const wrapper = await getExpandedWrappedComponent()
 
-      wrapper.find('.geo-collapsable-box__header').trigger('click')
+      await wrapper.find('.geo-collapsable-box__header').trigger('click')
 
       expect(wrapper.find('.geo-collapsable-box__body').exists()).toBe(false)
     })
 
-    it('Should collapse when clicking header twice', function () {
-      const wrapper = getExpandedWrappedComponent()
+    it('Should collapse when clicking header twice', async function () {
+      const wrapper = await getExpandedWrappedComponent()
 
-      wrapper.find('.geo-collapsable-box__header').trigger('click')
-      wrapper.find('.geo-collapsable-box__header').trigger('click')
+      await wrapper.find('.geo-collapsable-box__header').trigger('click')
+      await wrapper.find('.geo-collapsable-box__header').trigger('click')
 
       expect(wrapper.find('.geo-collapsable-box__body').exists()).toBe(true)
     })
 
-    function getExpandedWrappedComponent () {
+    async function getExpandedWrappedComponent () {
       const wrapper = getWrappedComponent()
-      wrapper.setData({ isExpanded: true })
+      await wrapper.setData({ isExpanded: true })
       return wrapper
     }
   })
@@ -96,9 +97,11 @@ describe('GeoCollapsableBox', function () {
  */
 function getWrappedComponent (propsData = {}) {
   return mount(GeoCollapsableBox, {
-    propsData,
-    stubs: {
-      'font-awesome-icon': true
+    props: propsData,
+    global: {
+      stubs: {
+        'font-awesome-icon': FontAwesomeIconMock
+      }
     }
   })
 }

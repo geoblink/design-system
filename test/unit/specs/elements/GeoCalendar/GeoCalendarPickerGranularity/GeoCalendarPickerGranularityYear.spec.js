@@ -6,14 +6,16 @@ import { PICKER_DATE_UNITS, GRANULARITY_IDS } from '@/elements/GeoCalendar/GeoCa
 describe('GeoCalendarPickerGranularityYear', () => {
   it('Should render', function () {
     const wrapper = mount(GeoCalendarPickerGranularityYear, {
-      stubs: {
-        GeoCalendarPickerGranularityBase,
-        FontAwesomeIcon: true
+      global: {
+        stubs: {
+          GeoCalendarPickerGranularityBase,
+          FontAwesomeIcon: true
+        }
       },
       slots: {
         default: ['<p class="year-granularity-selector">Year Granularity</p>']
       },
-      propsData: {
+      props: {
         isActive: false,
         pickerDateUnit: PICKER_DATE_UNITS.year,
         granularityId: GRANULARITY_IDS.year,
@@ -26,14 +28,16 @@ describe('GeoCalendarPickerGranularityYear', () => {
 
   it('Should trigger click event when clicked on it', () => {
     const wrapper = mount(GeoCalendarPickerGranularityYear, {
-      stubs: [
-        'geo-calendar-picker-granularity-base',
-        'font-awesome-icon'
-      ],
+      global: {
+        stubs: {
+          GeoCalendarPickerGranularityBase,
+          FontAwesomeIcon: true
+        }
+      },
       slots: {
         default: ['<p class="year-granularity-selector">Year Granularity</p>']
       },
-      propsData: {
+      props: {
         isActive: false,
         pickerDateUnit: PICKER_DATE_UNITS.year,
         granularityId: GRANULARITY_IDS.year,

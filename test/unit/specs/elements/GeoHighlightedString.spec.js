@@ -1,155 +1,162 @@
-import { createLocalVue, mount } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import GeoHighlightedString from '@/elements/GeoHighlightedString/GeoHighlightedString.vue'
 
-import chai from 'chai'
-import chaiThings from 'chai-things'
-
-chai.use(chaiThings)
-
-const { expect: chaiExpect } = chai
-
-// create an extended `Vue` constructor
-const localVue = createLocalVue()
-localVue.component('geo-highlighted-string', GeoHighlightedString)
+// Helper function to create wrapper with registered components
+function createWrapper (component, options = {}) {
+  return mount(component, Object.assign({
+    global: {
+      components: {
+        'geo-highlighted-string': GeoHighlightedString
+      }
+    }
+  }, options))
+}
 
 describe('highlighted-string-component.vue', function () {
   describe('#groups', function () {
     it('Should return an empty array when there are no matches', function () {
-      const wrapper = mount(GeoHighlightedString, {
-        propsData: {
+      const wrapper = createWrapper(GeoHighlightedString, {
+        props: {
           referenceString: 'Accommodation',
           highlightedChars: []
         }
       })
 
-      chaiExpect(wrapper.vm.groups).to.be.an('array').that.has.lengthOf(1)
-      chaiExpect(wrapper.vm.groups).to.have.property(0).that.has.property('substring', 'Accommodation')
-      chaiExpect(wrapper.vm.groups).to.have.property(0).that.has.property('isHighlighted', false)
+      expect(wrapper.vm.groups).toBeInstanceOf(Array)
+      expect(wrapper.vm.groups).toHaveLength(1)
+      expect(wrapper.vm.groups[0]).toHaveProperty('substring', 'Accommodation')
+      expect(wrapper.vm.groups[0]).toHaveProperty('isHighlighted', false)
     })
 
     it('Should return an array when there is a single group match', function () {
-      const wrapper = mount(GeoHighlightedString, {
-        propsData: {
+      const wrapper = createWrapper(GeoHighlightedString, {
+        props: {
           referenceString: 'Accommodation',
           highlightedChars: [5, 6, 7, 8] // moda :: -> accom moda tion
         }
       })
 
-      chaiExpect(wrapper.vm.groups).to.be.an('array').that.has.lengthOf(3)
-      chaiExpect(wrapper.vm.groups).all.to.have.property('substring')
-      chaiExpect(wrapper.vm.groups).all.to.have.property('isHighlighted')
+      expect(wrapper.vm.groups).toBeInstanceOf(Array)
+      expect(wrapper.vm.groups).toHaveLength(3)
+      wrapper.vm.groups.forEach(group => {
+        expect(group).toHaveProperty('substring')
+        expect(group).toHaveProperty('isHighlighted')
+      })
 
       // accom {substring:'acco', isHighlighted: false}
-      chaiExpect(wrapper.vm.groups).to.have.property(0).that.has.property('substring', 'Accom')
-      chaiExpect(wrapper.vm.groups).to.have.property(0).that.has.property('isHighlighted', false)
-      // TODO: Check if these triplets could be replaced with:
-      // expect(wrapper.vm.groups).to.have.property(0).that.is.deep.equal({
-      //  substring: 'accom', isHighlighted: false
-      // })
+      expect(wrapper.vm.groups[0]).toHaveProperty('substring', 'Accom')
+      expect(wrapper.vm.groups[0]).toHaveProperty('isHighlighted', false)
 
       // moda {substring: 'moda', isHighlighted: true}
-      chaiExpect(wrapper.vm.groups).to.have.property(1).that.has.property('substring', 'moda')
-      chaiExpect(wrapper.vm.groups).to.have.property(1).that.has.property('isHighlighted', true)
+      expect(wrapper.vm.groups[1]).toHaveProperty('substring', 'moda')
+      expect(wrapper.vm.groups[1]).toHaveProperty('isHighlighted', true)
 
       // tion {substring: 'tion', isHighlighted: false}
-      chaiExpect(wrapper.vm.groups).to.have.property(2).that.has.property('substring', 'tion')
-      chaiExpect(wrapper.vm.groups).to.have.property(2).that.has.property('isHighlighted', false)
+      expect(wrapper.vm.groups[2]).toHaveProperty('substring', 'tion')
+      expect(wrapper.vm.groups[2]).toHaveProperty('isHighlighted', false)
     })
 
     it('Should return an array when the string finishes with a match', function () {
-      const wrapper = mount(GeoHighlightedString, {
-        propsData: {
+      const wrapper = createWrapper(GeoHighlightedString, {
+        props: {
           referenceString: 'Accommodation',
           highlightedChars: [1, 3, 7, 12] // codn :: -> a c c o mmo d atio n
         }
       })
 
-      chaiExpect(wrapper.vm.groups).to.be.an('array').that.has.lengthOf(8)
-      chaiExpect(wrapper.vm.groups).all.to.have.property('substring')
-      chaiExpect(wrapper.vm.groups).all.to.have.property('isHighlighted')
+      expect(wrapper.vm.groups).toBeInstanceOf(Array)
+      expect(wrapper.vm.groups).toHaveLength(8)
+      wrapper.vm.groups.forEach(group => {
+        expect(group).toHaveProperty('substring')
+        expect(group).toHaveProperty('isHighlighted')
+      })
 
       // a {substring: 'a', isHighlighted: false}
-      chaiExpect(wrapper.vm.groups).to.have.property(0).that.has.property('substring', 'A')
-      chaiExpect(wrapper.vm.groups).to.have.property(0).that.has.property('isHighlighted', false)
+      expect(wrapper.vm.groups[0]).toHaveProperty('substring', 'A')
+      expect(wrapper.vm.groups[0]).toHaveProperty('isHighlighted', false)
 
       // c {substring: 'c', isHighlighted: true}
-      chaiExpect(wrapper.vm.groups).to.have.property(1).that.has.property('substring', 'c')
-      chaiExpect(wrapper.vm.groups).to.have.property(1).that.has.property('isHighlighted', true)
+      expect(wrapper.vm.groups[1]).toHaveProperty('substring', 'c')
+      expect(wrapper.vm.groups[1]).toHaveProperty('isHighlighted', true)
 
       // c {substring: 'c', isHighlighted: false}
-      chaiExpect(wrapper.vm.groups).to.have.property(2).that.has.property('substring', 'c')
-      chaiExpect(wrapper.vm.groups).to.have.property(2).that.has.property('isHighlighted', false)
+      expect(wrapper.vm.groups[2]).toHaveProperty('substring', 'c')
+      expect(wrapper.vm.groups[2]).toHaveProperty('isHighlighted', false)
 
       // o {substring: 'o', isHighlighted: true}
-      chaiExpect(wrapper.vm.groups).to.have.property(3).that.has.property('substring', 'o')
-      chaiExpect(wrapper.vm.groups).to.have.property(3).that.has.property('isHighlighted', true)
+      expect(wrapper.vm.groups[3]).toHaveProperty('substring', 'o')
+      expect(wrapper.vm.groups[3]).toHaveProperty('isHighlighted', true)
 
       // mmo {substring: 'mmo', isHighlighted: false}
-      chaiExpect(wrapper.vm.groups).to.have.property(4).that.has.property('substring', 'mmo')
-      chaiExpect(wrapper.vm.groups).to.have.property(4).that.has.property('isHighlighted', false)
+      expect(wrapper.vm.groups[4]).toHaveProperty('substring', 'mmo')
+      expect(wrapper.vm.groups[4]).toHaveProperty('isHighlighted', false)
 
       // d {substring: 'd', isHighlighted: true}
-      chaiExpect(wrapper.vm.groups).to.have.property(5).that.has.property('substring', 'd')
-      chaiExpect(wrapper.vm.groups).to.have.property(5).that.has.property('isHighlighted', true)
+      expect(wrapper.vm.groups[5]).toHaveProperty('substring', 'd')
+      expect(wrapper.vm.groups[5]).toHaveProperty('isHighlighted', true)
 
       // atio {substring: 'atio', isHighlighted: false}
-      chaiExpect(wrapper.vm.groups).to.have.property(6).that.has.property('substring', 'atio')
-      chaiExpect(wrapper.vm.groups).to.have.property(6).that.has.property('isHighlighted', false)
+      expect(wrapper.vm.groups[6]).toHaveProperty('substring', 'atio')
+      expect(wrapper.vm.groups[6]).toHaveProperty('isHighlighted', false)
 
       // n {substring: 'n', isHighlighted: true}
-      chaiExpect(wrapper.vm.groups).to.have.property(7).that.has.property('substring', 'n')
-      chaiExpect(wrapper.vm.groups).to.have.property(7).that.has.property('isHighlighted', true)
+      expect(wrapper.vm.groups[7]).toHaveProperty('substring', 'n')
+      expect(wrapper.vm.groups[7]).toHaveProperty('isHighlighted', true)
     })
 
     it('Should return an array when the string begins with a match', function () {
-      const wrapper = mount(GeoHighlightedString, {
-        propsData: {
+      const wrapper = createWrapper(GeoHighlightedString, {
+        props: {
           referenceString: 'Accommodation',
           highlightedChars: [0, 3, 7, 12] // aodn :: -> a cc o mmo d atio n
         }
       })
 
-      chaiExpect(wrapper.vm.groups).to.be.an('array').that.has.lengthOf(7)
-      chaiExpect(wrapper.vm.groups).all.to.have.property('substring')
-      chaiExpect(wrapper.vm.groups).all.to.have.property('isHighlighted')
+      expect(wrapper.vm.groups).toBeInstanceOf(Array)
+      expect(wrapper.vm.groups).toHaveLength(7)
+      wrapper.vm.groups.forEach(group => {
+        expect(group).toHaveProperty('substring')
+        expect(group).toHaveProperty('isHighlighted')
+      })
 
       // a {substring: 'a', isHighlighted: false}
-      chaiExpect(wrapper.vm.groups).to.have.property(0).that.has.property('substring', 'A')
-      chaiExpect(wrapper.vm.groups).to.have.property(0).that.has.property('isHighlighted', true)
+      expect(wrapper.vm.groups[0]).toHaveProperty('substring', 'A')
+      expect(wrapper.vm.groups[0]).toHaveProperty('isHighlighted', true)
 
       // c {substring: 'cc', isHighlighted: true}
-      chaiExpect(wrapper.vm.groups).to.have.property(1).that.has.property('substring', 'cc')
-      chaiExpect(wrapper.vm.groups).to.have.property(1).that.has.property('isHighlighted', false)
+      expect(wrapper.vm.groups[1]).toHaveProperty('substring', 'cc')
+      expect(wrapper.vm.groups[1]).toHaveProperty('isHighlighted', false)
 
       // o {substring: 'o', isHighlighted: true}
-      chaiExpect(wrapper.vm.groups).to.have.property(2).that.has.property('substring', 'o')
-      chaiExpect(wrapper.vm.groups).to.have.property(2).that.has.property('isHighlighted', true)
+      expect(wrapper.vm.groups[2]).toHaveProperty('substring', 'o')
+      expect(wrapper.vm.groups[2]).toHaveProperty('isHighlighted', true)
 
       // mmo {substring: 'mmo', isHighlighted: false}
-      chaiExpect(wrapper.vm.groups).to.have.property(3).that.has.property('substring', 'mmo')
-      chaiExpect(wrapper.vm.groups).to.have.property(3).that.has.property('isHighlighted', false)
+      expect(wrapper.vm.groups[3]).toHaveProperty('substring', 'mmo')
+      expect(wrapper.vm.groups[3]).toHaveProperty('isHighlighted', false)
 
       // d {substring: 'd', isHighlighted: true}
-      chaiExpect(wrapper.vm.groups).to.have.property(4).that.has.property('substring', 'd')
-      chaiExpect(wrapper.vm.groups).to.have.property(4).that.has.property('isHighlighted', true)
+      expect(wrapper.vm.groups[4]).toHaveProperty('substring', 'd')
+      expect(wrapper.vm.groups[4]).toHaveProperty('isHighlighted', true)
 
       // atio {substring: 'atio', isHighlighted: false}
-      chaiExpect(wrapper.vm.groups).to.have.property(5).that.has.property('substring', 'atio')
-      chaiExpect(wrapper.vm.groups).to.have.property(5).that.has.property('isHighlighted', false)
+      expect(wrapper.vm.groups[5]).toHaveProperty('substring', 'atio')
+      expect(wrapper.vm.groups[5]).toHaveProperty('isHighlighted', false)
 
       // n {substring: 'n', isHighlighted: true}
-      chaiExpect(wrapper.vm.groups).to.have.property(6).that.has.property('substring', 'n')
-      chaiExpect(wrapper.vm.groups).to.have.property(6).that.has.property('isHighlighted', true)
+      expect(wrapper.vm.groups[6]).toHaveProperty('substring', 'n')
+      expect(wrapper.vm.groups[6]).toHaveProperty('isHighlighted', true)
     })
 
     it('Should not shift the original matched data', function () {
-      const wrapper = mount(GeoHighlightedString, {
-        propsData: {
+      const wrapper = createWrapper(GeoHighlightedString, {
+        props: {
           referenceString: 'Accommodation',
           highlightedChars: [0, 3, 7, 12] // aodn :: -> a cc o mmo d atio n
         }
       })
-      chaiExpect(wrapper.vm.highlightedChars).to.be.an('array').that.has.lengthOf(4)
+      expect(wrapper.vm.highlightedChars).toBeInstanceOf(Array)
+      expect(wrapper.vm.highlightedChars).toHaveLength(4)
     })
   })
 })
