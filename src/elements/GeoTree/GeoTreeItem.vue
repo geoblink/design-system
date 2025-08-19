@@ -84,7 +84,7 @@
       >
         <geo-tree-item
           v-for="subcategory in visibleItems"
-          :key="`${subcategory[keyForId]}-${nSelectedItems}`"
+          :key="subcategory[keyForId]"
           :class="dragClassToIgnore"
           :data-test="`subcategory-${subcategory[keyForId]}`"
           :category="subcategory"
