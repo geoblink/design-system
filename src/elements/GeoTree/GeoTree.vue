@@ -37,7 +37,7 @@
         >
           <geo-tree-item
             v-for="category in visibleItems"
-            :key="category[keyForId]"
+            :key="`${category[keyForId]}-${nSelectedItems}`"
             :class="dragClassToIgnore"
             :category="category"
             :key-for-id="keyForId"
@@ -61,6 +61,15 @@
             @end-drag="endDrag($event)"
             @change-drag="emitChangeDrag($event)"
           >
+            <template
+              slot="leadingAccessoryItem"
+              slot-scope="{ item }"
+            >
+              <slot
+                name="leadingAccessoryItem"
+                :item="item"
+              />
+            </template>
             <template
               slot="trailingAccessoryAction"
               slot-scope="{ item }"
