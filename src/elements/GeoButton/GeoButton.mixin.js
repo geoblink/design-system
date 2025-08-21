@@ -5,7 +5,6 @@ const TYPES = {
   secondary: 'secondary',
   tertiary: 'tertiary',
   danger: 'danger',
-  link: 'link',
   dangerLink: 'dangerLink',
   tooltip: 'tooltip'
 }
@@ -46,15 +45,13 @@ export default {
     activityIndicatorVariant () {
       switch (this.type) {
         case TYPES.primary:
-          return GeoAlertVariants.primary
+          return GeoAlertVariants['dark-transparent']
         case TYPES.secondary:
           return GeoAlertVariants.primary
         case TYPES.tertiary:
           return GeoAlertVariants.primary
         case TYPES.danger:
           return GeoAlertVariants.error
-        case TYPES.link:
-          return GeoAlertVariants.primary
         case TYPES.dangerLink:
           return GeoAlertVariants.error
         case TYPES.tooltip:

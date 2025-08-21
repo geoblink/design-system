@@ -1,50 +1,50 @@
 $fontMap: (
   display_large: (
-    color: $color-grey-darker,
-    font-family: $font-family-heading,
+    color: $color-text-primary,
+    font-family: $font-family-text,
     font-size: $font-size-xlarge,
     font-weight: $font-weight-semi-bold,
     line-height: 38px
   ),
   display_medium: (
-    color: $color-grey-darker,
-    font-family: $font-family-heading,
+    color: $color-text-primary,
+    font-family: $font-family-text,
     font-size: $font-size-large,
     font-weight: $font-weight-semi-bold,
     line-height: 32px
   ),
   display_small: (
-    color: $color-grey-darker,
-    font-family: $font-family-heading,
+    color: $color-text-primary,
+    font-family: $font-family-text,
     font-size: $font-size-medium,
     font-weight: $font-weight-semi-bold,
     line-height: 26px
   ),
 
   heading: (
-    color: $color-grey-darker,
-    font-family: $font-family-heading,
+    color: $color-text-primary,
+    font-family: $font-family-text,
     font-size: $font-size-regular,
     font-weight: $font-weight-semi-bold,
     line-height: 20px
   ),
   heading_light: (
-    color: $color-grey-darker,
-    font-family: $font-family-heading,
+    color: $color-text-primary,
+    font-family: $font-family-text,
     font-size: $font-size-regular,
     font-weight: $font-weight-medium,
     line-height: 20px
   ),
   heading_small: (
-    color: $color-grey-darker,
-    font-family: $font-family-heading,
+    color: $color-text-primary,
+    font-family: $font-family-text,
     font-size: $font-size-small,
     font-weight: $font-weight-semi-bold,
     line-height: 18px
   ),
   heading_xsmall: (
-    color: $color-grey-light,
-    font-family: $font-family-heading,
+    color: $color-text-secondary,
+    font-family: $font-family-text,
     font-size: $font-size-xsmall,
     font-weight: $font-weight-medium,
     line-height: 15px,
@@ -53,21 +53,21 @@ $fontMap: (
   ),
 
   body: (
-    color: $color-grey-darker,
+    color: $color-text-primary,
     font-family: $font-family-text,
     font-size: $font-size-regular,
     font-weight: $font-weight-regular,
     line-height: 20px,
   ),
   body_small: (
-    color: $color-grey-darker,
+    color: $color-text-primary,
     font-family: $font-family-text,
     font-size: $font-size-small,
     font-weight: $font-weight-regular,
     line-height: 18px,
   ),
   body_xsmall: (
-    color: $color-grey-darker,
+    color: $color-text-primary,
     font-family: $font-family-text,
     font-size: $font-size-xsmall,
     font-weight: $font-weight-regular,
@@ -75,50 +75,64 @@ $fontMap: (
   ),
 
   highlight: (
-    color: $color-blue,
+    color: $color-link,
     font-family: $font-family-text,
     font-size: $font-size-regular,
     font-weight: $font-weight-bold,
     line-height: 20px,
   ),
   highlight_small: (
-    color: $color-blue,
+    color: $color-link,
     font-family: $font-family-text,
     font-size: $font-size-small,
     font-weight: $font-weight-bold,
     line-height: 18px,
   ),
+  highlight_xsmall: (
+    color: $color-link,
+    font-family: $font-family-text,
+    font-size: $font-size-xsmall,
+    font-weight: $font-weight-bold,
+    line-height: 18px,
+  ),
+  highlight_extra_xsmall: (
+    color: $color-link,
+    font-family: $font-family-text,
+    font-size: $font-size-xsmall,
+    font-weight: $font-weight-bold,
+    line-height: 18px,
+  ),
 
   label: (
-    color: $color-blue,
-    font-family: $font-family-heading,
+    color: $color-link,
+    font-family: $font-family-text,
     font-size: $font-size-small,
     font-weight: $font-weight-medium,
     line-height: 15px,
   ),
   label_big: (
-    color: $color-blue,
-    font-family: $font-family-heading,
+    color: $color-link,
+    font-family: $font-family-text,
     font-size: $font-size-small,
     font-weight: $font-weight-semi-bold,
     line-height: 15px,
   ),
   label_optional: (
-    color: $color-grey-light,
-    font-family: $font-family-heading,
+    color: $color-text-secondary,
+    font-family: $font-family-text,
     font-size: $font-size-small,
     font-weight: $font-weight-medium,
     line-height: 15px,
   ),
   table_title: (
-    color: $color-grey-darker,
-    font-family: $font-family-heading,
+    color: $color-text-primary,
+    font-family: $font-family-text,
     font-size: $font-size-small,
     font-weight: $font-weight-semi-bold,
-    line-height: 15px,
+    line-height: 16px,
   ),
   table_value: (
-    color: $color-grey-darker,
+    color: $color-text-primary,
     font-family: $font-family-text,
     font-size: $font-size-small,
     font-weight: $font-weight-regular,
