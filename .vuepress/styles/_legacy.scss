@@ -7,7 +7,7 @@
 .element-demo__header {
   align-items: center;
   display: flex;
-  font-family: $font-family-heading;
+  font-family: $font-family-text;
   justify-content: space-between;
 }
 
@@ -28,12 +28,12 @@
   &:last-child {
     margin-right: 0;
   }
-}
+} 
 
 .element-demo__block__config {
   display: flex;
   flex-direction: column;
-  font-family: $font-family-heading;
+  font-family: $font-family-text;
   font-weight: $font-weight-bold;
   margin-left: auto;
 

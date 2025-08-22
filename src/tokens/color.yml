@@ -8,6 +8,44 @@
 #
 
 aliases:
+  purple:
+    value: "#6C49FB"
+  purple_dark:
+    value: "#5E36FE"
+  purple_light:
+    value: "#A893FF"
+  flamingo:
+    value: "#EF4242"
+  flamingo_light:
+    value: "#E85A5A"
+  aquamarine:
+    value: "#009E74"
+  sunshine:
+    value: "#FBCE38"
+  sky:
+    value: "#73B3EC"
+  salmon:
+    value: "#FF7E66"
+  salmon_dark:
+    value: "#F96146"
+
+  white:
+    value: "#FFFFFF"
+  pearl:
+    value: "#FCFCFC"
+  grey:
+    value: "#D8D8D8"
+  grey_light:
+    value: "#9B9B9B"
+  graphite:
+    value: "#1F1F1F"
+  graphite_light:
+    value: "#5D5D5D"
+  graphite_lighter:
+    value: "#8C8C8C"
+
+
+ # deprecated
   blue:
     value: "#1464A5"
   blue_dark:
@@ -18,8 +56,6 @@ aliases:
     value: "#E7EFF6"
   blue_readable_border:
     value: "#BCD3E5"
-  link:
-    value: "#4A90E2"
   red:
     value: "#FF594F"
   red_readable_background:
@@ -46,8 +82,6 @@ aliases:
     value: "#FFDB7C"
   yellow_highlight:
     value: "yellow"
-  white:
-    value: "#FFFFFF"
   white_dark:
     value: "#F4F4F4"
   white_darker:
@@ -56,10 +90,6 @@ aliases:
     value: "rgba(210, 210, 210, .4)"
   grey_backdrop:
     value: "rgba(74, 74, 74, .4)"
-  grey_light:
-    value: "#9B9B9B"
-  grey:
-    value: "#D8D8D8"
   grey_dark:
     value: "#4F4F4F"
   grey_darker:
@@ -73,125 +103,571 @@ aliases:
 
 
 props:
+  # Globals
+  # Core color tokens are global colors that are used across components.
+  # They are named and grouped by the common UI element that they are applied to.
 
+  # Color Palette Tokens
+  #
+  # These tokens represent the raw brand palette (base values).
+  # They should NOT be used directly in components or UI styles.
+  # Instead, they serve as building blocks for semantic tokens
+  # (e.g. color-primary, color-background-brand, color-link).
+  #
+  # Use these only in open-ended contexts where a full spectrum
+  # of colors is needed (e.g. charts, tags, avatars, marketing).
+  color_palette_purple:
+    value: "{!purple}"
+    category: palette
+    scope: global
+  color_palette_purple_light:
+    value: "{!purple_light}"
+    category: palette
+    scope: global
+  color_palette_purple_dark:
+    value: "{!purple_dark}"
+    category: palette
+    scope: global
+  color_palette_flamingo:
+    value: "{!flamingo}"
+    category: palette
+    scope: global
+  color_palette_flamingo_light:
+    value: "{!flamingo_light}"
+    category: palette
+    scope: global
+  color_palette_salmon:
+    value: "{!salmon}"
+    category: palette
+    scope: global
+  color_palette_salmon_dark:
+    value: "{!salmon_dark}"
+    category: palette
+    scope: global
+  color_palette_aquamarine:
+    value: "{!aquamarine}"
+    category: palette
+    scope: global
+  color_palette_sunshine:
+    value: "{!sunshine}"
+    category: palette
+    scope: global
+  color_palette_sky:
+    value: "{!sky}"
+    category: palette
+    scope: global
+  color_palette_blue:
+    value: "#0C689C"
+    category: palette
+    scope: global
+  color_palette_light_blue:
+    value: "#188CCE"
+    category: palette
+    scope: global
+  color_palette_lighter_blue:
+    value: "#45B2F0"
+    category: palette
+    scope: global
+  color_palette_orange:
+    value: "#E44B10"
+    category: palette
+    scope: global
+  color_palette_yellow:
+    value: "#FCC95A"
+    category: palette
+    scope: global
+  color_palette_dark_yellow:
+    value: "#FDBD33"
+    category: palette
+    scope: global
+  color_palette_red:
+    value: "#E02628"
+    category: palette
+    scope: global
+  color_palette_green:
+    value: "#1BA3A0"
+    category: palette
+    scope: global
+  color_palette_burgundy:
+    value: "#A02C75"
+    category: palette
+    scope: global
+  color_palette_pink:
+    value: "#FC7474"
+    category: palette
+    scope: global
+  color_palette_brown:
+    value: "#93080A"
+    category: palette
+    scope: global
+  color_palette_white:
+    value: "{!white}"
+    category: palette
+    scope: global
+  color_palette_pearl:
+    value: "{!pearl}"
+    category: palette
+    scope: global
+  color_palette_grey:
+    value: "{!grey}"
+    category: palette
+    scope: global
+  color_palette_grey_light:
+    value: "{!grey_light}"
+    category: palette
+    scope: global
+  color_palette_graphite:
+    value: "{!graphite}"
+    category: palette
+    scope: global
+  color_palette_graphite_light:
+    value: "{!graphite_light}"
+    category: palette
+    scope: global
+  color_palette_graphite_lighter:
+    value: "{!graphite_lighter}"
+    category: palette
+    scope: global
+
+  # Background
+  color_background_primary:
+    value: "{!pearl}"
+    category: background
+    scope: global
+  color_background_secondary:
+    value: "{!white}"
+    category: background
+    scope: global
+  color_background_brand:
+    value: "{!purple}"
+    category: background
+    scope: global
+
+  # Border
+  color_border_primary:
+    value: "{!grey}"
+    category: border
+    scope: global
+
+  # Text
+  color_text_primary:
+    value: "{!graphite}"
+    category: text
+    scope: global
+  color_text_secondary:
+    value: "{!graphite_light}"
+    category: text
+    scope: global
+  color_text_placeholder:
+    value: "{!grey_light}"
+    category: text
+    scope: global
+  color_text_on_color:
+    value: "{!white}"
+    category: text
+    scope: global
+  color_text_error:
+    value: "{!flamingo}"
+    category: text
+    scope: global
+  color_text_disabled:
+    value: "{!grey_light}"
+    category: text
+    scope: global
+
+  # Link
+  color_link:
+    value: "{!purple}"
+    category: link
+    scope: global
+  color_link_disabled:
+    value: "{!graphite_light}"
+    category: link
+    scope: global
+  color_link_hover:
+    value: "{!purple_dark}"
+    category: link
+    scope: global
+
+  # Icon
+  color_icon_primary:
+    value: "{!graphite}"
+    category: icon
+    scope: global
+  color_icon_secondary:
+    value: "{!graphite_lighter}"
+    category: icon
+    scope: global
+  color_icon_on_color:
+    value: "{!white}"
+    category: icon
+    scope: global
+  color_icon_interactive:
+    value: "{!purple}"
+    category: icon
+    scope: global
+  color_icon_disabled:
+    value: "{!pearl}"
+    category: icon
+    scope: global
+
+  # Support
+  color_support_error:
+    value: "{!flamingo}"
+    category: support
+    scope: global
+  color_support_success:
+    value: "{!aquamarine}"
+    category: support
+    scope: global
+  color_support_warning:
+    value: "{!sunshine}"
+    category: support
+    scope: global
+  color_support_info:
+    value: "{!sky}"
+    category: support
+    scope: global
+  
+
+  # Components
+  # Some components have their own specific color tokens, known as component tokens.
+  # They represent the properties associated with a particular component.
+  # They are not global tokens like the core tokens and should never be used for anything
+  # other than their own component.
+
+  # Button
+  color_button_primary_background:
+    value: "{!purple}"
+    category: button
+    scope: component
+  color_button_primary_background_disabled:
+    value: "{!purple_light}"
+    category: button
+    scope: component
+  color_button_primary_text:
+    value: "{!white}"
+    category: button
+    scope: component
+  color_button_primary_text_disabled:
+    value: "{!white}"
+    category: button
+    scope: component
+  color_button_primary_border:
+    value: "{!purple}"
+    category: button
+    scope: component
+  color_button_primary_border_disabled:
+    value: "{!purple_light}"
+    category: button
+    scope: component
+  color_button_primary_hover:
+    value: "{!purple_dark}"
+    category: button
+    scope: component
+  color_button_secondary_background:
+    value: "{!white}"
+    category: button
+    scope: component
+  color_button_secondary_background_disabled:
+    value: "{!pearl}"
+    category: button
+    scope: component
+  color_button_secondary_text:
+    value: "{!purple}"
+    category: button
+    scope: component
+  color_button_secondary_text_disabled:
+    value: "{!grey_light}"
+    category: button
+    scope: component
+  color_button_secondary_border:
+    value: "{!purple}"
+    category: button
+    scope: component
+  color_button_secondary_border_disabled:
+    value: "{!grey_light}"
+    category: button
+    scope: component
+  color_button_secondary_hover:
+    value: "{!pearl}"
+    category: button
+    scope: component
+  color_button_tertiary_background:
+    value: "transparent"
+    category: button
+    scope: component
+  color_button_tertiary_background_disabled:
+    value: "transparent"
+    category: button
+    scope: component
+  color_button_tertiary_text:
+    value: "{!purple}"
+    category: button
+    scope: component
+  color_button_tertiary_text_disabled:
+    value: "{!grey_light}"
+    category: button
+    scope: component
+  color_button_tertiary_border:
+    value: "transparent"
+    category: button
+    scope: component
+  color_button_tertiary_border_disabled:
+    value: "transparent"
+    category: button
+    scope: component
+  color_button_tertiary_hover:
+    value: "transparent"
+    category: button
+    scope: component
+  color_button_danger_background:
+    value: "{!flamingo_light}"
+    category: button
+    scope: component
+  color_button_danger_background_disabled:
+    value: "{!pearl}"
+    category: button
+    scope: component
+  color_button_danger_text:
+    value: "{!white}"
+    category: button
+    scope: component
+  color_button_danger_text_disabled:
+    value: "{!grey_light}"
+    category: button
+    scope: component
+  color_button_danger_border:
+    value: "{!flamingo_light}"
+    category: button
+    scope: component
+  color_button_danger_border_disabled:
+    value: "{!pearl}"
+    category: button
+    scope: component
+  color_button_danger_hover:
+    value: "{!flamingo}"
+    category: button
+    scope: component
+
+  #Tag
+  color_tag_light_text:
+    value: "{!graphite}"
+    category: tag
+    scope: component
+  color_tag_light_background:
+    value: "{!white}"
+    category: tag
+    scope: component
+  color_tag_light_border:
+    value: "{!grey_light}"
+    category: tag
+    scope: component
+  color_tag_light_hover:
+    value: "{!grey}"
+    category: tag
+    scope: component
+  color_tag_dark_text:
+    value: "{!graphite}"
+    category: tag
+    scope: component
+  color_tag_dark_background:
+    value: "{!grey}"
+    category: tag
+    scope: component
+  color_tag_dark_border:
+    value: "{!grey_light}"
+    category: tag
+    scope: component
+  color_tag_dark_hover:
+    value: "{!graphite_light}"
+    category: tag
+    scope: component
+  color_tag_opaque_text:
+    value: "{!white}"
+    category: tag
+    scope: component
+  color_tag_opaque_background:
+    value: "{!salmon}"
+    category: tag
+    scope: component
+  color_tag_opaque_border:
+    value: "{!salmon}"
+    category: tag
+    scope: component
+  color_tag_opaque_hover:
+    value: "{!salmon_dark}"
+    category: tag
+    scope: component
+  color_tag_outline_text:
+    value: "{!salmon}"
+    category: tag
+    scope: component
+  color_tag_outline_background:
+    value: "{!white}"
+    category: tag
+    scope: component
+  color_tag_outline_border:
+    value: "{!salmon}"
+    category: tag
+    scope: component
+  color_tag_outline_hover:
+    value: "{!salmon_dark}"
+    category: tag
+    scope: component
+
+
+  # Deprecated
   color_blue:
     value: "{!blue}"
     category: color_group_1
+    deprecated: true
   color_blue_dark:
     value: "{!blue_dark}"
     category: color_group_1
+    deprecated: true
   color_blue_light:
     value: "{!blue_light}"
     category: color_group_1
+    deprecated: true
 
   color_blue_readable_background:
     value: "{!blue_readable_background}"
     category: color_group_1
+    deprecated: true
   color_blue_readable_border:
     value: "{!blue_readable_border}"
     category: color_group_1
-
-  color_link:
-    value: "{!link}"
-    category: color_group_1
+    deprecated: true
 
   color_red:
     value: "{!red}"
     category: color_group_3
+    deprecated: true
   color_red_dark:
     value: "brightness({!red}, -10)"
     category: color_group_3
+    deprecated: true
   color_red_darker:
     value: "brightness({!red}, -40)"
     category: color_group_3
+    deprecated: true
 
   color_red_readable_background:
     value: "{!red_readable_background}"
     category: color_group_3
+    deprecated: true
   color_red_readable_border:
     value: "{!red_readable_border}"
     category: color_group_3
+    deprecated: true
 
   color_yellow_light:
     value: "{!yellow_light}"
     category: color_group_4
+    deprecated: true
   color_yellow:
     value: "{!yellow}"
     category: color_group_4
+    deprecated: true
   color_yellow_dark:
     value: "brightness({!yellow}, -10)"
     category: color_group_4
+    deprecated: true
   color_yellow_darker:
     value: "brightness({!yellow}, -40)"
     category: color_group_4
+    deprecated: true
   color_yellow_readable_background:
     value: "{!yellow_readable_background}"
     category: color_group_4
+    deprecated: true
   color_yellow_readable_border:
     value: "{!yellow_readable_border}"
     category: color_group_4
+    deprecated: true
   color_yellow_highlight:
     value: "{!yellow_highlight}"
     category: color_group_4
+    deprecated: true
 
   color_green_light:
     value: "{!green_light}"
     category: color_group_5
+    deprecated: true
   color_green:
     value: "{!green}"
     category: color_group_5
+    deprecated: true
   color_green_dark:
     value: "brightness({!green}, -10)"
     category: color_group_5
+    deprecated: true
   color_green_darker:
     value: "brightness({!green}, -40)"
     category: color_group_5
+    deprecated: true
   color_green_readable_background:
     value: "{!green_readable_background}"
     category: color_group_5
+    deprecated: true
   color_green_readable_border:
     value: "{!green_readable_border}"
     category: color_group_5
+    deprecated: true
   color_green_notification:
     value: "{!green_notification}"
     category: color_group_5
+    deprecated: true
 
   color_white:
     value: "{!white}"
     category: color_group_6
+    deprecated: true
   color_white_dark:
     value: "{!white_dark}"
     category: color_group_6
+    deprecated: true
   color_white_darker:
     value: "{!white_darker}"
     category: color_group_6
+    deprecated: true
   color_white_disabled:
     value: "{!white_disabled}"
     category: color_group_6
+    deprecated: true
   color_grey_backdrop:
     value: "{!grey_backdrop}"
     category: color_group_6
+    deprecated: true
   color_grey_light:
     value: "{!grey_light}"
     category: color_group_6
+    deprecated: true
   color_grey:
     value: "{!grey}"
     category: color_group_6
+    deprecated: true
   color_grey_dark:
     value: "{!grey_dark}"
     category: color_group_6
+    deprecated: true
   color_grey_darker:
     value: "{!grey_darker}"
     category: color_group_6
+    deprecated: true
   color_dark:
     value: "{!dark}"
     category: color_group_6
+    deprecated: true
   color_black:
     value: "{!black}"
     category: color_group_6
+    deprecated: true
   color_dark_overlay:
     value: "{!black_80}"
     category: color_group_6
+    deprecated: true
 
 global:
   type: color

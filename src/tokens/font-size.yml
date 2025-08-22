@@ -5,19 +5,19 @@
 
 props:
   font_size_xlarge:
-    value: "28px"
+    value: "32px"
   font_size_large:
     value: "24px"
   font_size_medium:
-    value: "18px"
+    value: "20px"
   font_size_regular:
-    value: "14px"
+    value: "16px"
   font_size_small:
-    value: "12px"
+    value: "14px"
   font_size_xsmall:
-    value: "10px"
+    value: "12px"
   font_size_xxsmall:
-    value: "8px"
+    value: "11px"
 global:
   type: number
   category: font-size

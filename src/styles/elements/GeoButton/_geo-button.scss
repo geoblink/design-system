@@ -197,11 +197,13 @@
   $hoverYOffset: -1px;
 
   @include geo-button-make-scheme((
-    normal-background-color: $color-blue,
-    normal-text-color: $color-white,
-    disabled-background-color: $color-grey,
-    disabled-text-color: $color-grey-light,
-    hover-and-disabled-background-color: $color-grey,
+    normal-background-color: $color-button-primary-background,
+    normal-text-color: $color-button-primary-text,
+    normal-border-color: $color-button-primary-border,
+    disabled-background-color: $color-button-primary-background-disabled,
+    disabled-text-color: $color-button-primary-text-disabled,
+    disabled-border-color: $color-button-primary-border-disabled,
+    hover-background-color: $color-button-primary-hover,
     hover-shadow: $box-shadow-button-hover,
     hover-transform: translateY($hoverYOffset)
   ));
@@ -214,12 +216,13 @@
   $hoverYOffset: -1px;
 
   @include geo-button-make-scheme((
-    normal-background-color: $color-white,
-    normal-text-color: $color-blue,
-    normal-border-color: $color-blue,
-    disabled-background-color: $color-white-disabled,
-    disabled-text-color: $color-grey-light,
-    disabled-border-color: $color-grey,
+    normal-background-color: $color-button-secondary-background,
+    normal-text-color: $color-button-secondary-text,
+    normal-border-color: $color-button-secondary-border,
+    disabled-background-color: $color-button-secondary-background-disabled,
+    disabled-text-color: $color-button-secondary-text-disabled,
+    disabled-border-color: $color-button-secondary-border-disabled,
+    hover-background-color: $color-button-secondary-hover,
     hover-shadow: $box-shadow-button-hover,
     hover-transform: translateY($hoverYOffset)
   ));
@@ -230,10 +233,13 @@
 
 .geo-button--tertiary {
   @include geo-button-make-scheme((
-    normal-background-color: transparent,
-    normal-text-color: $color-blue,
-    normal-border-color: transparent,
-    disabled-text-color: $color-grey-light,
+    normal-background-color: $color-button-tertiary-background,
+    normal-text-color: $color-button-tertiary-text,
+    normal-border-color: $color-button-tertiary-border,
+    disabled-background-color: $color-button-tertiary-background-disabled,
+    disabled-text-color: $color-button-tertiary-text-disabled,
+    disabled-border-color: $color-button-tertiary-border-disabled,
+    hover-background-color: $color-button-tertiary-hover,
     hover-decoration: underline
   ));
 
@@ -250,11 +256,12 @@
   $hoverYOffset: -1px;
 
   @include geo-button-make-scheme((
-    normal-background-color: $color-red,
-    normal-text-color: $color-white,
-    disabled-background-color: $color-white-disabled,
-    disabled-text-color: $color-grey-light,
-    disabled-border-color: $color-grey,
+    normal-background-color: $color-button-danger-background,
+    normal-text-color: $color-button-danger-text,
+    disabled-background-color: $color-button-danger-background-disabled,
+    disabled-text-color: $color-button-danger-text-disabled,
+    disabled-border-color: $color-button-danger-border-disabled,
+    hover-background-color: $color-button-danger-hover,
     hover-shadow: $box-shadow-button-hover,
     hover-transform: translateY($hoverYOffset)
   ));
@@ -263,35 +270,12 @@
   transition-property: background-color, border-color, color;
 }
 
-.geo-button--link {
-  @include geo-button-make-scheme((
-    normal-background-color: transparent,
-    normal-text-color: $color-blue,
-    normal-border-color: transparent,
-    disabled-text-color: $color-grey-light,
-    hover-decoration: underline
-  ));
-
-  display: inline-flex;
-  font-style: italic;
-  font-weight: $font-weight-regular;
-  font-size: $font-size-regular;
-  justify-content: flex-start;
-  letter-spacing: initial;
-  text-transform: initial;
-  transition: color $duration-quickly $easing-base;
-
-  .geo-button__label {
-    padding: 0;
-  }
-}
-
 .geo-button--dangerLink {
   @include geo-button-make-scheme((
     normal-background-color: transparent,
-    normal-text-color: $color-red,
+    normal-text-color: $color-button-danger-background,
     normal-border-color: transparent,
-    disabled-text-color: $color-grey-light,
+    disabled-text-color: $color-button-danger-text-disabled,
     hover-decoration: underline
   ));
 

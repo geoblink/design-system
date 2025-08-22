@@ -24,4 +24,11 @@
   .c-design-tokens-list-all-tokens-token-item-row__example--color {
     box-shadow: none;
   }
+
+  .c-design-tokens-list-all-tokens-token-item-row__deprecated-badge {
+    @include reset;
+    @include font($label-optional);
+
+    color: $color-palette-dark-yellow;
+  }
 }

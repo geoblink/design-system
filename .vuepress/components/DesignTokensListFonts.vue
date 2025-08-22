@@ -27,7 +27,7 @@
         :key="index"
         :class="{
           ['c-design-tokens-list-fonts__table-body-row']: true,
-          ['c-design-tokens-list-fonts__table-body-row--grey-bg']: font.fontFamily.includes('Lato')
+          ['c-design-tokens-list-fonts__table-body-row--grey-bg']: font.fontFamily.includes('Inter')
         }"
         @click="copyVariableName(font.variableName)"
       >
@@ -58,7 +58,7 @@
           {{ font.styles.letterSpacing }}
         </div>
         <div
-          v-if="index === firstMontserratFontIndex || index === firstLatoFontIndex"
+          v-if="index === firstInterFontIndex"
           :class="{
             ['c-design-tokens-list-fonts__table-font-family-header']: true,
             [`c-design-tokens-list-fonts__table-font-family-header--${font.fontFamily.toLowerCase()}`]: true
@@ -89,9 +89,7 @@ export default {
     styledTokens () {
       return _.map(this.fontTokens, (obj, index) => {
         const styles = this.styles[index] || {}
-        const fontFamily = _.includes(styles.fontFamily, 'Lato')
-          ? 'Lato'
-          : 'Montserrat'
+        const fontFamily = 'Inter'
         const order = `${fontFamily}-${styles.fontSize}-${styles.fontWeight}`
 
         return _.assign({}, obj, { styles, fontFamily, order })
@@ -106,12 +104,8 @@ export default {
       })
     },
 
-    firstMontserratFontIndex () {
-      return _.findIndex(this.sortedTokens, { fontFamily: 'Montserrat' })
-    },
-
-    firstLatoFontIndex () {
-      return _.findIndex(this.sortedTokens, { fontFamily: 'Lato' })
+    firstInterFontIndex () {
+      return _.findIndex(this.sortedTokens, { fontFamily: 'Inter' })
     }
   },
   mounted () {

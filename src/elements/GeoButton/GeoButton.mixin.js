@@ -1,11 +1,10 @@
-import { VARIANTS as GeoAlertVariants } from '../GeoActivityIndicator/GeoActivityIndicator'
+import { VARIANTS as GeoActivityIndicatorVariants } from '../GeoActivityIndicator/GeoActivityIndicator'
 
 const TYPES = {
   primary: 'primary',
   secondary: 'secondary',
   tertiary: 'tertiary',
   danger: 'danger',
-  link: 'link',
   dangerLink: 'dangerLink',
   tooltip: 'tooltip'
 }
@@ -46,19 +45,17 @@ export default {
     activityIndicatorVariant () {
       switch (this.type) {
         case TYPES.primary:
-          return GeoAlertVariants.primary
+          return GeoActivityIndicatorVariants['dark-transparent']
         case TYPES.secondary:
-          return GeoAlertVariants.primary
+          return GeoActivityIndicatorVariants.primary
         case TYPES.tertiary:
-          return GeoAlertVariants.primary
+          return GeoActivityIndicatorVariants.primary
         case TYPES.danger:
-          return GeoAlertVariants.error
-        case TYPES.link:
-          return GeoAlertVariants.primary
+          return GeoActivityIndicatorVariants.error
         case TYPES.dangerLink:
-          return GeoAlertVariants.error
+          return GeoActivityIndicatorVariants.error
         case TYPES.tooltip:
-          return GeoAlertVariants.warn
+          return GeoActivityIndicatorVariants.warn
       }
     }
   },

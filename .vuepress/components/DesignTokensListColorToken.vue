@@ -12,7 +12,10 @@
     />
 
     <div class="c-design-tokens-list-color-token__description">
-      <h3 class="c-design-tokens-list-color-token__name">{{ colorName }}</h3>
+      <h3 class="c-design-tokens-list-color-token__name">
+        {{ colorName }}
+        <span v-if="deprecated" class="c-design-tokens-list-color-token__deprecated-badge">Deprecated</span>
+      </h3>
       <p class="c-design-tokens-list-color-token__code"><strong>RGB:</strong> {{ rgbColor }}</p>
       <p class="c-design-tokens-list-color-token__variable"><strong>SCSS:</strong> ${{ scssVariable }}</p>
     </div>
@@ -41,6 +44,10 @@ export default {
 
     scssVariable () {
       return this.color.name.replace(/_/g, '-')
+    },
+
+    deprecated () {
+      return this.color.deprecated
     }
   },
   methods: {
