@@ -28,7 +28,7 @@ export default {
   mixins: [TokensMixin],
   computed: {
     orderedTokens () {
-      return _.orderBy(this.allTokensProps, ['category', 'name'], ['asc', 'asc'])
+      return _.orderBy(this.allTokensProps, ['deprecated', 'scope', 'category', 'name'], ['desc', 'desc', 'asc', 'asc'])
     }
   }
 }
