@@ -124,7 +124,7 @@
     "eslint-plugin-standard": "^4.0.1",
     "eslint-plugin-vue": "^6.0.1",
     "execa": "^3.4.0",
-    "file-loader": "^5.0.2",
+    "file-loader": "^6.0.0",
     "friendly-errors-webpack-plugin": "^1.7.0",
     "fs-extra": "^8.1.0",
     "fuzzaldrin-plus": "^0.6.0",
