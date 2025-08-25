@@ -155,7 +155,7 @@
     "sass-resources-loader": "^2.2.4",
     "semver": "^7.1.1",
     "shelljs": "^0.8.2",
-    "sinon": "^7.4.1",
+    "sinon": "^8.0.0",
     "style-loader": "^1.0.0",
     "tinycolor2": "^1.4.1",
     "uglifyjs-webpack-plugin": "^2.2.0",
