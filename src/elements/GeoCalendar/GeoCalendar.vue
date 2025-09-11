@@ -35,7 +35,7 @@
           >
             <slot name="formatError" />
           </geo-input-message>
-          <geo-link-button
+          <geo-tertiary-button
             v-if="showSetEarliestDateButton"
             @click="setEarliestDate"
           >
@@ -43,7 +43,7 @@
             <slot
               name="earliestDatePlaceholder"
             />
-          </geo-link-button>
+          </geo-tertiary-button>
         </div>
         <font-awesome-icon
           :icon="inputRangeIcon"
@@ -74,7 +74,7 @@
           >
             <slot name="formatError" />
           </geo-input-message>
-          <geo-link-button
+          <geo-tertiary-button
             v-if="showSetLatestDateButton"
             @click="setLatestDate"
           >
@@ -82,7 +82,7 @@
             <slot
               name="latestDatePlaceholder"
             />
-          </geo-link-button>
+          </geo-tertiary-button>
         </div>
       </div>
       <geo-calendar-picker

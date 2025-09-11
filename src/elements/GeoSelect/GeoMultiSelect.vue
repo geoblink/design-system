@@ -66,7 +66,7 @@
             :show-all="showAllSelectedOptions"
             :toggle-list="toggleList"
           >
-            <geo-link-button
+            <geo-tertiary-button
               v-if="hasMoreSelectedOptionsThanLimit"
               @click.stop="toggleList()"
             >
@@ -81,7 +81,7 @@
                 name="showMorePills"
                 :hidden-options-size="numberOfHiddenSelectedOptions"
               />
-            </geo-link-button>
+            </geo-tertiary-button>
           </slot>
         </div>
       </geo-select-toggle-button>

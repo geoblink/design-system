@@ -13,7 +13,7 @@ describe('GeoCalendarNavigation', () => {
       FontAwesomeIcon,
       'geo-calendar-navigation-day': true,
       'geo-select-base': true,
-      'geo-link-button': true,
+      'geo-tertiary-button': true,
       'geo-list-item': true
     },
     propsData: {

@@ -1,7 +1,7 @@
 import { mount } from '@vue/test-utils'
 import GeoCalendarNavigationYear from '@/elements/GeoCalendar/GeoCalendarNavigation/GeoCalendarNavigationYear.vue'
 import GeoListItem from '@/elements/GeoList/GeoListItem'
-import GeoLinkButton from '@/elements/GeoButton/GeoLinkButton'
+import GeoTertiaryButton from '@/elements/GeoButton/GeoTertiaryButton'
 import GeoButton from '@/elements/GeoButton/GeoButton'
 import { YEAR_GRID_CONSTANTS } from '@/elements/GeoCalendar/GeoCalendar.utils.js'
 import subYears from 'date-fns/subYears'
@@ -80,7 +80,7 @@ function getWrappedComponent () {
       'font-awesome-icon': true,
       'geo-select-base': true,
       GeoButton,
-      GeoLinkButton,
+      GeoTertiaryButton,
       GeoListItem,
       'geo-dropdown': true,
       'geo-bordered-box': true,

@@ -58,7 +58,7 @@ export default {
      * |--------------|--------------------|--------------------------|
      * | `primary`    | [GeoPrimaryButton](./GeoPrimaryButton)       | Main action (saving changes) |
      * | `secondary`  | [GeoSecondaryButton](./GeoSecondaryButton)   | Auxiliar action (showing an options menu) |
-     * | `link`       | [GeoLinkButton](./GeoLinkButton)             | Alternative action to the main one (dismissing a form without saving changes) |
+     * | `tertiary`   | [GeoTertiaryButton](./GeoTertiaryButton)     | Alternative action to the main one (dismissing a form without saving changes) |
      * | `dangerLink` | [GeoDangerLinkButton](./GeoDangerLinkButton) | Potentially wrong actions (choosing potentially wrong option) |
      * | `danger`     | [GeoDangerButton](./GeoDangerButton)         | Dangerous actions (deleting data) |
      * | `tooltip`    | [GeoTooltipButton](./GeoTooltipButton)       | Tooltips action button (Generally accepting some warning or closing it) |
