@@ -2,7 +2,6 @@
   @include font($body);
   align-items: center;
   border-radius: 50vh;
-  border: 1px solid $color-grey;
   box-sizing: border-box;
   display: flex;
   flex-direction: row;
@@ -13,7 +12,9 @@
 
 .geo-pill--default,
 .geo-pill--light {
-  background: $color-white;
+  background: $color-tag-light-background; 
+  border: 1px solid $color-tag-light-border;
+  color: $color-tag-light-text;
   font-size: $font-size-xxsmall;
   font-weight: $font-weight-bold;
   height: $space-base;
@@ -21,23 +22,24 @@
 }
 
 .geo-pill--dark {
-  background: $color-white-dark;
-  color: $color-grey-darker;
+  background: $color-tag-dark-background; 
+  border: 1px solid $color-tag-dark-border;
+  color: $color-tag-dark-text;
   min-height: $space-large;
 }
 
 .geo-pill--opaque {
-  background: $color-yellow-light;
-  border: none;
-  color: $color-grey-darker;
+  background: $color-tag-opaque-background;
+  border: 1px solid $color-tag-opaque-border;
+  color: $color-tag-opaque-text;
   font-size: $font-size-small;
   height: $space-large;
 }
 
 .geo-pill--outline {
-  background: $color-white;
-  border: 1px solid $color-yellow-light;
-  color: $color-grey-darker;
+  background: $color-tag-outline-background;
+  border: 1px solid $color-tag-outline-border;
+  color: $color-tag-outline-text;
   font-size: $font-size-small;
   height: $space-large;
 }

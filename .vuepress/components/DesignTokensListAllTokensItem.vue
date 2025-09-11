@@ -1,7 +1,18 @@
 <template>
   <tr class="c-design-tokens-list-all-tokens-token-item-row">
     <td v-if="token.name">
-      <code>{{ tokenName }}</code>
+      <code>
+        {{ tokenName }}
+        <span v-if="token.deprecated">
+          <font-awesome-icon
+            class="c-design-tokens-list-all-tokens-token-item-row__deprecated-badge"
+            :icon="['fas', 'exclamation-triangle']"
+          />
+          <geo-tooltip>
+            This token is deprecated.
+          </geo-tooltip>
+        </span>
+      </code>
     </td>
     <td v-else>
       N/A

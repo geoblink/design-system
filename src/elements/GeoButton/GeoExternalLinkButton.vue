@@ -69,7 +69,7 @@ export default {
   },
   computed: {
     type () {
-      return TYPES.link
+      return TYPES.tertiary
     },
 
     propsForButton () {

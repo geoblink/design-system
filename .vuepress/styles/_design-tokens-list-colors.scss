@@ -42,3 +42,13 @@
 .c-design-tokens-list-color-token__code {
   padding-bottom: $space-small;
 }
+
+.c-design-tokens-list-color-token__deprecated-badge {
+  @include reset;
+  @include font($label-optional);
+
+  color: $color-palette-white;
+  background-color: $color-palette-dark-yellow;
+  padding: 2px $space-x-small;
+  border-radius: $border-radius-default;
+}

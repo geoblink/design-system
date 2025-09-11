@@ -7,8 +7,7 @@ import WebFont from 'webfontloader'
 WebFont.load({
   google: {
     families: [
-      'Montserrat:300,400,400i,600,700',
-      'Lato:300,400,400i,600,700'
+      'Inter:300,400,400i,600,700'
     ]
   }
 })
