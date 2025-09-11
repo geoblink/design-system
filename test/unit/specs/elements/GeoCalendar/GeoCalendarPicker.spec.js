@@ -288,7 +288,7 @@ function getWrappedComponent () {
       'geo-calendar-year-grid': true,
       'geo-list-item': true,
       'geo-select-base': true,
-      'geo-link-button': true,
+      'geo-tertiary-button': true,
       'font-awesome-icon': true
     },
     propsData: {

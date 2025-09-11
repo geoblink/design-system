@@ -7,7 +7,6 @@ import GeoActivityIndicator from '@/elements/GeoActivityIndicator/GeoActivityInd
 import GeoButton from '@/elements/GeoButton/GeoButton.vue'
 import GeoDangerButton from '@/elements/GeoButton/GeoDangerButton.vue'
 import GeoTertiaryButton from '@/elements/GeoButton/GeoTertiaryButton.vue'
-import GeoLinkButton from '@/elements/GeoButton/GeoLinkButton.vue'
 import GeoDangerLinkButton from '@/elements/GeoButton/GeoDangerLinkButton.vue'
 import GeoExternalLinkButton from '@/elements/GeoButton/GeoExternalLinkButton.vue'
 import GeoPrimaryButton from '@/elements/GeoButton/GeoPrimaryButton.vue'
@@ -31,7 +30,6 @@ localVue.component('geo-activity-indicator', GeoActivityIndicator)
 localVue.component('geo-button', GeoButton)
 localVue.component('geo-danger-button', GeoDangerButton)
 localVue.component('geo-tertiary-button', GeoTertiaryButton)
-localVue.component('geo-link-button', GeoLinkButton)
 localVue.component('geo-danger-link-button', GeoDangerLinkButton)
 localVue.component('geo-external-link-button', GeoExternalLinkButton)
 localVue.component('geo-primary-button', GeoPrimaryButton)
@@ -102,8 +100,8 @@ describe('GeoButton', () => {
       },
       stubs: { GeoActivityIndicator }
     })
-    expect(primaryWrapper.vm.activityIndicatorVariant).toBe('primary')
-    expect(primaryWrapper.find('.geo-activity-indicator--primary').exists()).toBe(true)
+    expect(primaryWrapper.vm.activityIndicatorVariant).toBe('dark-transparent')
+    expect(primaryWrapper.find('.geo-activity-indicator--dark-transparent').exists()).toBe(true)
 
     const secondaryWrapper = mount(GeoButton, {
       propsData: {
@@ -135,16 +133,6 @@ describe('GeoButton', () => {
     expect(dangerWrapper.vm.activityIndicatorVariant).toBe('error')
     expect(dangerWrapper.find('.geo-activity-indicator--error').exists()).toBe(true)
 
-    const linkWrapper = mount(GeoButton, {
-      propsData: {
-        type: 'link',
-        loading: true
-      },
-      stubs: { GeoActivityIndicator }
-    })
-    expect(linkWrapper.vm.activityIndicatorVariant).toBe('primary')
-    expect(linkWrapper.find('.geo-activity-indicator').exists()).toBe(true)
-
     const dangerLinkWrapper = mount(GeoButton, {
       propsData: {
         type: 'dangerLink',
@@ -162,7 +150,6 @@ const taxonomyButtons = [
   GeoPrimaryButton,
   GeoSecondaryButton,
   GeoTertiaryButton,
-  GeoLinkButton,
   GeoDangerLinkButton,
   GeoExternalLinkButton
 ]

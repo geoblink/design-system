@@ -8,7 +8,7 @@
       data-ut="year-select"
       @click-outside="closeYearSelection"
     >
-      <geo-link-button
+      <geo-tertiary-button
         slot="toggleButton"
         @click="toggleYearSelection"
       >
@@ -19,7 +19,7 @@
           fixed-width
           :icon="calendarNavigationSelectIcon"
         />
-      </geo-link-button>
+      </geo-tertiary-button>
       <div>
         <geo-list-item
           v-for="year in yearsList"

@@ -2,7 +2,7 @@ import { mount, shallowMount } from '@vue/test-utils'
 import { PICKER_DATE_UNITS, GRANULARITY_IDS, FOCUSABLE_INPUT_FIELDS } from '@/elements/GeoCalendar/GeoCalendar.utils.js'
 import GeoCalendar from '@/elements/GeoCalendar/GeoCalendar.vue'
 import GeoInput from '@/elements/GeoInput/GeoInput.vue'
-import GeoLinkButton from '@/elements/GeoButton/GeoLinkButton.vue'
+import GeoTertiaryButton from '@/elements/GeoButton/GeoTertiaryButton.vue'
 import GeoButton from '@/elements/GeoButton/GeoButton.vue'
 import GeoCalendarPicker from '@/elements/GeoCalendar/GeoCalendarPicker.vue'
 import GeoCalendarGranularityIdMixin from '@/elements/GeoCalendar/GeoCalendarGranularityId.mixin'
@@ -793,7 +793,7 @@ describe('GeoCalendar', () => {
     describe('Calendar with no date constraints', () => {
       it('Should not render the buttons', () => {
         const wrapper = getWrappedComponent()
-        expect(wrapper.find('.geo-button--link').exists()).toBe(false)
+        expect(wrapper.find('.geo-button--tertiary').exists()).toBe(false)
       })
 
       it('Should not do anything if executing the method', () => {
@@ -801,7 +801,7 @@ describe('GeoCalendar', () => {
         wrapper.vm.selectDay(today)
         wrapper.vm.selectDay(addDays(today, 15))
 
-        expect(wrapper.find('.geo-button--link').exists()).toBe(false)
+        expect(wrapper.find('.geo-button--tertiary').exists()).toBe(false)
         expect(wrapper.vm.fromRawDate).toEqual(today)
         expect(wrapper.vm.toRawDate).toEqual(addDays(today, 15))
 
@@ -820,9 +820,9 @@ describe('GeoCalendar', () => {
           earliestDate: subYears(today, 1),
           latestDate: addYears(today, 1)
         })
-        expect(wrapper.find('.geo-button--link').exists()).toBe(true)
-        expect(wrapper.findAll('.geo-button--link').at(0).text()).toBe('Earliest date')
-        expect(wrapper.findAll('.geo-button--link').at(1).text()).toBe('Latest date')
+        expect(wrapper.find('.geo-button--tertiary').exists()).toBe(true)
+        expect(wrapper.findAll('.geo-button--tertiary').at(0).text()).toBe('Earliest date')
+        expect(wrapper.findAll('.geo-button--tertiary').at(1).text()).toBe('Latest date')
       })
 
       it('Pressing the buttons should set the according dates', () => {
@@ -833,13 +833,13 @@ describe('GeoCalendar', () => {
           earliestDate: earliestDate,
           latestDate: latestDate
         })
-        wrapper.findAll(GeoLinkButton).at(0).trigger('click')
+        wrapper.findAll(GeoTertiaryButton).at(0).trigger('click')
         expect(wrapper.vm.fromRawDate).toEqual(earliestDate)
         expect(wrapper.vm.fromFormattedDate).toEqual('30/07/2018')
         expect(wrapper.emitted()['emit-from-date']).toBeDefined()
         expect(wrapper.emitted()['emit-from-date'][0][0]).toEqual({ fromDate: earliestDate })
 
-        wrapper.findAll(GeoLinkButton).at(1).trigger('click')
+        wrapper.findAll(GeoTertiaryButton).at(1).trigger('click')
         expect(wrapper.vm.toRawDate).toEqual(latestDate)
         expect(wrapper.vm.toFormattedDate).toEqual('30/07/2020')
         expect(wrapper.emitted()['emit-to-date']).toBeDefined()
@@ -1259,7 +1259,7 @@ function getWrappedComponent () {
     stubs: {
       GeoInput,
       GeoCalendarPicker,
-      GeoLinkButton,
+      GeoTertiaryButton,
       GeoButton,
       'font-awesome-icon': true,
       'geo-calendar-navigation': true,

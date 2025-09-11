@@ -2,7 +2,7 @@
 ## 38.0.0
 Breaking change:
 - Changing tokens values and updating them in the following components:
-  - `GeoButton`: also removing Link variant, Tertiary variant and previous Link variant are now the same.
+  - `GeoButton`: also removing Link variant and GeoLinkButton component, Tertiary variant and previous Link variant are now the same.
   - `GeoPill`: updated variants styles with updated tokens
 
 ## 37.1.0
