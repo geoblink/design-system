@@ -17,7 +17,7 @@ yarn docs:build:markdown
 Will generate a static Markdown file for each component.
 This file will include the component's documentation as well as its examples.
 
-A _constants_ component will be created in `.vuepress/components/constants` folder.
+A _constants_ component will be created in `.vitepress/components/constants` folder.
 This special component will render a table displaying all constants exported by the component.
 
 ### `docs:watch:markdown`

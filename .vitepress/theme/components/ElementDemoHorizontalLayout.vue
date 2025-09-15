@@ -1,4 +1,4 @@
-<template functional>
+<template>
   <div class="c-element-demo-horizontal-layout">
     <slot />
   </div>

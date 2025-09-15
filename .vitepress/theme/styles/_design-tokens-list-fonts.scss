@@ -1,6 +1,6 @@
-@import "../public/tokens/tokens.scss";
-@import "../../src/styles/fontsMaps.scss";
-@import "../../src/styles/mixins.scss";
+@import "../../docs/tokens/tokens.scss";
+@import "../../../src/styles/fontsMaps.scss";
+@import "../../../src/styles/mixins.scss";
 
 @each $font-mixin-name, $value in $fontMap {
   .font-#{$font-mixin-name} {

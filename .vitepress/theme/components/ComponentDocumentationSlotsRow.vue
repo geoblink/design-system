@@ -27,7 +27,7 @@ export default {
   },
   computed: {
     markdownDescription () {
-      return unescapeJSONString(this.description)
+      return unescapeJSONString(this.description || '')
     },
 
     markdownDescriptionFeatures () {

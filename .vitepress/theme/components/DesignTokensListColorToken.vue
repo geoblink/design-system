@@ -20,7 +20,7 @@
 </template>
 
 <script>
-const copy = require('copy-to-clipboard')
+import copy from 'copy-to-clipboard'
 
 export default {
   name: 'DesignTokensListColorToken',

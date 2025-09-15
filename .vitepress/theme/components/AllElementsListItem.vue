@@ -27,6 +27,7 @@
 
 <script>
 import _ from 'lodash'
+import { useData } from 'vitepress'
 
 export default {
   name: 'DesignTokensListAllElementsItem',
@@ -36,13 +37,16 @@ export default {
       required: true
     }
   },
+  setup() {
+    const { theme } = useData()
+    return { theme }
+  },
   computed: {
     componentNavigationItem () {
-      const nav = this.$site.themeConfig.nav
+      const nav = this.theme.nav
 
       const elementsLink = _.find(nav, {
-        text: 'Elements',
-        type: 'links'
+        text: 'Elements'
       })
 
       const items = _.flatMap(_.filter(elementsLink.items, 'items'), 'items')

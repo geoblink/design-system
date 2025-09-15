@@ -11,7 +11,7 @@
         v-for="slotMetadata in componentSlots"
         :key="slotMetadata.name"
         :name="slotMetadata.name"
-        :description="slotMetadata.description"
+        :description="slotMetadata.description || ''"
       />
     </tbody>
   </table>
