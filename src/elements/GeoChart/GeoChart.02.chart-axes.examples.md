@@ -20,7 +20,7 @@ stored.
 - `position` - the position of the axis. Should be a value of `AXIS.POSITIONS`
 named export or a **relative position object** if you want an **anchored axis**.
 - `scale` - the config object of the scale to be used by this axis. See
-[scales](./#/Elements/Charts?id=scales) for more info.
+[scales](#chart-scales) for more info.
 
 #### Anchored axis
 

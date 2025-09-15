@@ -22,8 +22,7 @@
 
 <script>
 import _ from 'lodash'
-import format from 'date-fns/format'
-import getMonth from 'date-fns/getMonth'
+import { format, getMonth } from 'date-fns'
 import GeoCalendarDateIndicatorsMixin from '../GeoCalendarDateIndicators.mixin'
 import GeoCalendarGranularityIdMixin from '../GeoCalendarGranularityId.mixin'
 import GeoCalendarGridMixin from './GeoCalendarGrid.mixin'

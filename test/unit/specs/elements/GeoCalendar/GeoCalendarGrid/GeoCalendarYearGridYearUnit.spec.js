@@ -1,9 +1,6 @@
 import { mount } from '@vue/test-utils'
 import GeoCalendarYearGridYearUnit from '@/elements/GeoCalendar/GeoCalendarGrid/GeoCalendarYearGridYearUnit.vue'
-import subYears from 'date-fns/subYears'
-import addYears from 'date-fns/addYears'
-import getYear from 'date-fns/getYear'
-import getMonth from 'date-fns/getMonth'
+import { getYear, addYears, subYears, getMonth } from 'date-fns'
 
 describe('GeoCalendarYearGridYearUnit', () => {
   const today = new Date(2019, 6, 30) // Fixed date to avoid future errors with random dates

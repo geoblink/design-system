@@ -11,18 +11,11 @@
 
 <script>
 import { filter, map, reduce, assign } from 'lodash'
+import MarkdownIt from 'markdown-it'
 
 import GeoMarkdownContentNode from './GeoMarkdownContentNode.vue'
 
 import { getMarkdownNodes, MarkdownParserFeatures } from './GeoMarkdownParser'
-
-const MarkdownIt = (function () {
-  try {
-    return require('markdown-it')
-  } catch (error) {
-    return null
-  }
-})()
 
 /**
  * `GeoMarkdownContent` is a component designed to render Markdown strings in a

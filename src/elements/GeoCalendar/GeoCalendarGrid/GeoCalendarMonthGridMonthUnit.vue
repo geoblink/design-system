@@ -22,11 +22,7 @@
 </template>
 
 <script>
-import addMonths from 'date-fns/addMonths'
-import getMonth from 'date-fns/getMonth'
-import getYear from 'date-fns/getYear'
-import startOfDay from 'date-fns/startOfDay'
-import startOfMonth from 'date-fns/startOfMonth'
+import { addMonths, getMonth, getYear, startOfDay, startOfMonth } from 'date-fns'
 import GeoCalendarGridMixin from './GeoCalendarGrid.mixin'
 import GeoCalendarGranularityIdMixin from '../GeoCalendarGranularityId.mixin'
 import GeoCalendarDateIndicatorsMixin from '../GeoCalendarDateIndicators.mixin'

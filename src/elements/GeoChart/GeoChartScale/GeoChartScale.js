@@ -1,6 +1,7 @@
 /// <reference types="d3" />
 
 import _ from 'lodash'
+import * as d3 from 'd3'
 
 import * as dimensionUtils from '../GeoChartUtils/dimensionUtils'
 import * as scaleUtils from '../GeoChartUtils/scaleUtils'
@@ -8,14 +9,6 @@ import * as scaleUtils from '../GeoChartUtils/scaleUtils'
 /**
  * @typedef {import('d3').ScaleBand} d3.ScaleBand
  */
-
-const d3 = (function () {
-  try {
-    return require('d3')
-  } catch (error) {
-    return null
-  }
-})()
 
 export const DEFAULT_LOGARITHMIC_SCALE_BASE = 10
 

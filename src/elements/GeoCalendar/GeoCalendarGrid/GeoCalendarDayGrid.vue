@@ -32,16 +32,7 @@
 
 <script>
 import _ from 'lodash'
-import addDays from 'date-fns/addDays'
-import eachDayOfInterval from 'date-fns/eachDayOfInterval'
-import endOfWeek from 'date-fns/endOfWeek'
-import endOfMonth from 'date-fns/endOfMonth'
-import format from 'date-fns/format'
-import getDay from 'date-fns/getDay'
-import startOfMonth from 'date-fns/startOfMonth'
-import startOfWeek from 'date-fns/startOfWeek'
-import subDays from 'date-fns/subDays'
-import isValid from 'date-fns/isValid'
+import { addDays, eachDayOfInterval, endOfWeek, endOfMonth, format, getDay, startOfMonth, startOfWeek, subDays, isValid } from 'date-fns'
 import { DAY_GRID_CONSTANTS } from '../GeoCalendar.utils'
 import GeoCalendarDateIndicatorsMixin from '../GeoCalendarDateIndicators.mixin'
 import GeoCalendarGranularityIdMixin from '../GeoCalendarGranularityId.mixin'

@@ -114,7 +114,7 @@ const chartConfigValidator = (function () {
  * Check out the documentation of each specific data representation for more info.
  *
  * ::: tip NOTE
- * `GeoChart` API is different from [D3's]() so you need no knowledge of
+ * `GeoChart` API is different from [D3's](https://d3js.org/) so you need no knowledge of
  * [D3](https://d3js.org/) to use it.
  * :::
  *

@@ -22,6 +22,8 @@
 </template>
 
 <script>
+import _ from 'lodash'
+
 export default {
   data () {
     return {
@@ -60,6 +62,8 @@ export default {
 </template>
 
 <script>
+import _ from 'lodash'
+
 export default {
   data () {
     return {
@@ -99,6 +103,8 @@ export default {
 </template>
 
 <script>
+import _ from 'lodash'
+
 export default {
   data () {
     return {
@@ -142,6 +148,8 @@ export default {
 </template>
 
 <script>
+import _ from 'lodash'
+
 export default {
   name: 'GeoMultiSelectDemo',
   data () {

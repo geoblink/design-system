@@ -6,9 +6,7 @@ import GeoButton from '@/elements/GeoButton/GeoButton'
 import GeoSelectBase from '@/elements/GeoSelect/GeoSelectBase.vue'
 import GeoDropdown from '@/elements/GeoDropdown/GeoDropdown.vue'
 import { YEAR_GRID_CONSTANTS } from '@/elements/GeoCalendar/GeoCalendar.utils.js'
-import subYears from 'date-fns/subYears'
-import addYears from 'date-fns/addYears'
-import getYear from 'date-fns/getYear'
+import { subYears, addYears, getYear } from 'date-fns'
 
 describe('GeoCalendarNavigationYear', () => {
   it('Should render', function () {

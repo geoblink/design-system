@@ -1,17 +1,18 @@
 // We import in this way because we also import this way in `GeoChart`
 import _ from 'lodash'
 import * as sinon from 'sinon'
+import * as d3 from 'd3'
+import d3Tip from 'd3-tip'
 
 // To mock d3 timers we have to hijack requestAnimationFrame before d3 picks it
 const stubRequestAnimationFrame = stubRequestAnimationFrameFactory()
 stubRequestAnimationFrame.setup()
 
-const d3 = require('d3')
-
 // These utils require faking timers
 jest.useFakeTimers()
 
-require('d3-tip').default = require('d3-tip')
+// Set up d3-tip default export
+d3Tip.default = d3Tip
 
 export function stubLodashDebounceFactory () {
   const sandbox = sinon.createSandbox()

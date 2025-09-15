@@ -42,7 +42,7 @@ import throttle from '../../utils/throttle'
  *
  * ::: warning NOTE
  * This component is **not responsible** of filtering displayed elements. You
- * might want to use a [GeoSelect](../GeoSelect) for that.
+ * might want to use a [GeoSelect](/components/GeoSelect/GeoSelect) for that.
  * :::
  */
 export default {

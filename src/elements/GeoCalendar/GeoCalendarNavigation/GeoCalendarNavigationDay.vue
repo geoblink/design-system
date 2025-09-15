@@ -66,8 +66,7 @@
 
 <script>
 import _ from 'lodash'
-import format from 'date-fns/format'
-import getMonth from 'date-fns/getMonth'
+import { format, getMonth } from 'date-fns'
 import GeoCalendarDateIndicators from '../GeoCalendarDateIndicators.mixin'
 import GeoCalendarNavigationYearMixin from './GeoCalendarNavigationYear.mixin'
 import { MONTH_GRID_CONSTANTS } from '../GeoCalendar.utils'
