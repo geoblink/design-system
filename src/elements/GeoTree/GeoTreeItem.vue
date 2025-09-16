@@ -11,6 +11,10 @@
       :disabled="isSingleItem && !!category.disabledTooltipText"
       @click="handleClick"
     >
+      <slot
+        name="leadingAccessoryItem"
+        :item="category"
+      />
       <label class="geo-tree-item__label">
         <geo-highlighted-string
           :highlighted-chars="category.matches"
@@ -106,6 +110,15 @@
           @end-drag="endDrag($event)"
           @change-drag="emitChangeDrag($event)"
         >
+          <template
+            slot="leadingAccessoryItem"
+            slot-scope="{ item }"
+          >
+            <slot
+              name="leadingAccessoryItem"
+              :item="item"
+            />
+          </template>
           <template
             slot="trailingAccessoryAction"
             slot-scope="{ item }"

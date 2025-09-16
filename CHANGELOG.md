@@ -1,7 +1,13 @@
 # Changelog
-## 37.0.2
+## 37.1.1
 Fix:
 - `GeoSelect`: Fix issues when filtering everything on geo select with groups when using `searchable` mode with pagination.
+
+## 37.1.0
+New:
+- `GeoTree`: Add support for leading accessory item in `GeoTree` and `GeoTreeItem` components.
+Fix:
+- `GeoTree`: Fix issues with reactivity when using `searchable` mode.
 
 ## 37.0.1
 Fix:
