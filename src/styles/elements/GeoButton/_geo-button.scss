@@ -167,7 +167,7 @@
   user-select: none;
 
   .geo-button__label {
-    padding: 0 .83em;
+    padding: 0 $space-small;
     transition: all $duration-noticeable $easing-base;
     transition-property: transform, opacity;
   }
