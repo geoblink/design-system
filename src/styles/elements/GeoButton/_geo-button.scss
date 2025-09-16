@@ -162,13 +162,12 @@
   font-weight: $font-weight-bold;
   height: 30px;
   letter-spacing: 1px;
-  line-height: 1.25em;
   position: relative;
   text-transform: uppercase;
   user-select: none;
 
   .geo-button__label {
-    padding: .58em .83em .67em .83em;
+    padding: 0 .83em;
     transition: all $duration-noticeable $easing-base;
     transition-property: transform, opacity;
   }
