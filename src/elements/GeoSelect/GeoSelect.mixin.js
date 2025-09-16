@@ -347,8 +347,11 @@ export default {
       if (this.hasToCalculatePaginatedGroupItems) {
         const visibleGroups = _.cloneDeep(_.slice(this.filteredOptions, this.visibleChunkRange.start, this.visibleChunkRange.endGroup))
         const lastGroup = _.last(visibleGroups)
-        lastGroup.items = _.slice(lastGroup.items, this.visibleChunkRange.start, this.visibleChunkRange.end)
-        return visibleGroups
+        if (lastGroup) {
+          lastGroup.items = _.slice(lastGroup.items, this.visibleChunkRange.start, this.visibleChunkRange.end)
+        }
+
+        return visibleGroups || []
       } else {
         return _.slice(this.filteredOptions, this.visibleChunkRange.start, this.visibleChunkRange.end)
       }

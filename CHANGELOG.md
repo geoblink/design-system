@@ -1,4 +1,8 @@
 # Changelog
+## 37.0.2
+Fix:
+- `GeoSelect`: Fix issues when filtering everything on geo select with groups when using `searchable` mode with pagination.
+
 ## 37.0.1
 Fix:
 - `GeoTree`: Fix issues with accents when using `searchable` mode.

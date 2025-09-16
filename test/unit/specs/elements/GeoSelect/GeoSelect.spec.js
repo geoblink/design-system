@@ -49,6 +49,7 @@ const stubs = {
   GeoInput,
   GeoTooltip,
   'geo-list-footer-button': true,
+  'geo-list-clear-item': true,
   'font-awesome-icon': FontAwesomeIcon
 }
 
@@ -206,6 +207,27 @@ describe('GeoSelect', () => {
     expect(wrapper.find('.geo-list-item').text()).toEqual('Item 1')
   })
 
+  it('Should filter all the select options when typing on the search box', () => {
+    const wrapper = mount(GeoSelect, {
+      stubs,
+      propsData: _.assign({}, defaultProps, {
+        options: _.times(4, idx => { return { label: `Item ${idx}` } }),
+        searchIcon: ['fas', 'search'],
+        searchable: true
+      }),
+      data () {
+        return {
+          isOpened: true
+        }
+      }
+    })
+
+    expect(wrapper.findAll('.geo-list-item').length).toBe(4)
+    wrapper.find('.geo-input__input').element.value = 'Item not found'
+    wrapper.find('.geo-input__input').trigger('input')
+    expect(wrapper.findAll('.geo-list-item').length).toBe(0)
+  })
+
   it('Should filter options in an opt-group select', () => {
     const wrapper = mount(GeoSelect, {
       stubs,
@@ -238,6 +260,40 @@ describe('GeoSelect', () => {
     wrapper.find('.geo-input__input').element.value = 'Second Group'
     wrapper.find('.geo-input__input').trigger('input')
     expect(wrapper.findAll('.geo-list-item').length).toBe(4)
+  })
+
+  it('Should filter all the options in an opt-group select', () => {
+    const wrapper = mount(GeoSelect, {
+      stubs,
+      propsData: _.assign({}, defaultProps, {
+        options: [
+          {
+            isOptGroup: true,
+            label: 'First Group',
+            items: _.times(4, idx => { return { label: `Item ${idx}` } })
+          },
+          {
+            isOptGroup: true,
+            label: 'Second Group',
+            items: _.times(4, idx => { return { label: `Item ${idx}` } })
+          }
+        ],
+        pageSize: 10,
+        searchIcon: ['fas', 'search'],
+        searchable: true,
+        grouped: true
+      }),
+      data () {
+        return {
+          isOpened: true
+        }
+      }
+    })
+
+    expect(wrapper.findAll('.geo-list-item').length).toBe(8)
+    wrapper.find('.geo-input__input').element.value = 'Not found Group'
+    wrapper.find('.geo-input__input').trigger('input')
+    expect(wrapper.findAll('.geo-list-item').length).toBe(0)
   })
 
   describe('When disabled', () => {
