@@ -2,7 +2,6 @@
   <div
     v-bind="$attrs"
     :class="[
-      $attrs.class,
       'geo-alert',
       `geo-alert--${variant}`
     ]"
