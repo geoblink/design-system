@@ -127,7 +127,7 @@ describe('GeoChartScatterPlot', function () {
       wrapper.unmount()
     })
 
-    // TODO: fix update props not triggering d3 re-render
+    // TODO: WEB-2073 fix update props not triggering d3 re-render
     xit('Should update data', async () => {
       const wrapper = mount(GeoChart, {
         props: {

@@ -18,6 +18,7 @@ describe('GeoCalendarNavigationYear', () => {
   })
 
   describe('Year range selection', () => {
+    // TODO: WEB-2073 fix test issue with click events being emitted twice
     xit('Should toggle the dropdown when clicked', async () => {
       const wrapper = getWrappedComponent()
       await wrapper.findComponent(GeoLinkButton).trigger('click')
@@ -29,6 +30,7 @@ describe('GeoCalendarNavigationYear', () => {
       expect(wrapper.vm.isYearRangeSelectionOpened).toBe(false)
     })
 
+    // TODO: WEB-2073 fix test issue with click events being emitted twice
     xit('Should emit an event when clicking on one of the year ranges', async () => {
       const wrapper = getWrappedComponent()
       const yearRange = wrapper.findAll('[data-ut="year-range-select"] .geo-list-item')[5].text()
@@ -52,6 +54,7 @@ describe('GeoCalendarNavigationYear', () => {
       expect(wrapper.vm.displayedEndYearInRange).toEqual(1986)
     })
 
+    // TODO: WEB-2073 fix test
     xdescribe('Year range selection constraints', () => {
       it(`No constraints - Should have as many ranges as there can be between ${YEAR_GRID_CONSTANTS.MIN_YEAR} and ${YEAR_GRID_CONSTANTS.MAX_YEAR}`, () => {
         const wrapper = getWrappedComponent()

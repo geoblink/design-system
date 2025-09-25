@@ -342,7 +342,7 @@ describe('GeoChartLine', () => {
         wrapper.unmount()
       })
 
-      // TODO: fix update data not triggering re-render in GeoChart
+      // TODO: WEB-2073 fix update data not triggering re-render in GeoChart
       xit('Should update data', async () => {
         const wrapper = mount(GeoChart, {
           props: {
@@ -414,7 +414,7 @@ describe('GeoChartLine', () => {
           wrapper.unmount()
         })
 
-        // TODO: fix mouseover trigger not working as expected in test
+        // TODO: WEB-2073 fix mouseover trigger not working as expected in test
         xit('Should display the focus group with line and one circle per line group', async () => {
           sandbox.stub(d3, 'mouse').callsFake(function () {
             return [10, 50]
@@ -435,7 +435,7 @@ describe('GeoChartLine', () => {
           wrapper.unmount()
         })
 
-        // TODO: fix mouseover trigger not working as expected in test
+        // TODO: WEB-2073 fix mouseover trigger not working as expected in test
         xit('Should display the focus group with a circle only if the hovered point has data', async () => {
           const originChartCoords = 0
           const middleChartCoords = 150

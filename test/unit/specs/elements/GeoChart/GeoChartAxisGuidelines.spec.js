@@ -348,7 +348,7 @@ describe('GeoChartAxisGuidelines', function () {
         expect(wrapper.find(`.geo-chart-guidelines-${newAxis.id}`).exists()).toBe(true)
       })
 
-      // TODO: fix update props not triggering d3 re-render
+      // TODO: WEB-2073 fix update props not triggering d3 re-render
       xit('Should update existing guidelines', async function () {
         const initialAxis = _.merge({}, linearAxisConfig, {
           ticks: {

@@ -248,7 +248,7 @@ describe('GeoModal', () => {
     expect(wrapper.vm).toHaveProperty('containerScrollOffset.top', 4)
   })
 
-  // TODO: Fix this test, scroll directive may need migration
+  // TODO: WEB-2073 Fix this test, scroll directive may need migration
   xit('Should call repositionModal after scrolling the page', () => {
     sandbox.stub(GeoModal.directives, 'ScrollAnywhere').value({ bind: jest.fn() })
 
@@ -273,7 +273,7 @@ describe('GeoModal', () => {
     expect(repositionModalSpy).toHaveBeenCalledTimes(1)
   })
 
-  // TODO: Fix this test, scroll directive may need migration
+  // TODO: WEB-2073 Fix this test, scroll directive may need migration
   xit('Should call repositionModal after resizing the page', () => {
     sandbox.stub(GeoModal.directives, 'OnResize').value({ bind: jest.fn() })
 

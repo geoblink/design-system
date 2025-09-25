@@ -200,7 +200,7 @@ describe('GeoChartLineSegments', function () {
         wrapper.unmount()
       })
 
-      // TODO: fix update data not triggering re-render in GeoChart
+      // TODO: WEB-2073 fix update data not triggering re-render in GeoChart
       xit('Should update data', async () => {
         const wrapper = mount(GeoChart, {
           props: {

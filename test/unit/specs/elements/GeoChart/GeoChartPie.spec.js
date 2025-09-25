@@ -101,6 +101,7 @@ describe('GeoChartPie', function () {
     wrapper.unmount()
   })
 
+  // TODO: WEB-2073 fix update data not triggering d3 rerender
   xit('Should re-render the chart with the new data', async function () {
     const wrapper = mount(GeoChart, {
       props: {
@@ -195,6 +196,7 @@ describe('GeoChartPie', function () {
     wrapper.unmount()
   })
 
+  // TODO: WEB-2073 fix test
   xit('Should display tooltip on hover', async function () {
     const tooltipText = (d, i) => d.value.toString()
     const wrapper = mount(GeoChart, {

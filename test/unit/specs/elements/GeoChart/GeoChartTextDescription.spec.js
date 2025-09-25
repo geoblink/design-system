@@ -135,6 +135,7 @@ describe('GeoChartTextDescription.js', () => {
     expect(wrapper.find('.geo-chart-text-descriptions text.my-text-class').exists()).toBe(true)
   })
 
+  // TODO: WEB-2073 fix test
   xit('Should translate group to textOrigin', function () {
     expect(wrapper.find('.geo-chart').exists()).toBe(true)
     setupTextDescriptions([settings], wrapper.vm.d3Instance, { chart })
@@ -224,6 +225,7 @@ describe('GeoChartTextDescription.js', () => {
     }
   })
 
+  // TODO: WEB-2073 fix test
   xit('Should position the text in the mid point of bbox height', function () {
     const newSettings = _.assign({}, settings, {
       data: [
@@ -243,6 +245,7 @@ describe('GeoChartTextDescription.js', () => {
     }
   })
 
+  // TODO: WEB-2073 fix test
   xit('Should not render second text if positions overlap using withoutReadjustment algorithm', function () {
     const newSettings = _.assign({}, settings, {
       data: [

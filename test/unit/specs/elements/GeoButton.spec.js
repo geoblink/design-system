@@ -47,7 +47,7 @@ describe('GeoButton', () => {
     expect(wrapper.emitted().click).toBeTruthy()
   })
 
-  // TODO: fix emitting check: when using emit('click') on a component, the test check fails
+  // TODO: WEB-2073 fix emitting check: when using emit('click') on a component, the test check fails
   // because wrapper.emitted returns both the native click and the component custom click
   xit('Should not emit an event when it\'s disabled', async function () {
     const wrapper = getWrapper(GeoButton, {
@@ -192,7 +192,7 @@ describe('GeoButton Children', () => {
         expect(wrapper.emitted().click).toBeTruthy()
       })
 
-      // TODO: fix emitting check: when using emit('click') on a component, the test check fails
+      // TODO: WEB-2073 fix emitting check: when using emit('click') on a component, the test check fails
       // because wrapper.emitted returns both the native click and the component custom click
       xit('Should not emit an event when it\'s disabled', async function () {
         const wrapper = getWrapper(taxonomyButton, {

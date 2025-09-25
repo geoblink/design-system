@@ -134,7 +134,7 @@ describe('GeoSelectToggleButton', () => {
       expect(wrapper.find('.geo-select-toggle-button--disabled').exists()).toBe(true)
     })
 
-    // TODO: fix, custom click event is not triggered but native click is
+    // TODO: WEB-2073 fix, custom click event is not triggered but native click is
     xit('Should disable user interaction', () => {
       const wrapper = mount(GeoSelectToggleButton, {
         global: {

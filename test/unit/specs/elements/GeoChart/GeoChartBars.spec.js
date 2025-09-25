@@ -414,6 +414,7 @@ describe('GeoChartBars', function () {
           expect(wrapper.findAll('.geo-chart .geo-chart-bars-group .geo-chart-bar')).toHaveLength(categories.length - 1)
         })
 
+        // TODO: WEB-2073 fix update props not triggering d3 re-render
         xit('Should set proper width in dimension to bars', function () {
           const wrapper = mount(GeoChart, {
             props: {
@@ -815,6 +816,7 @@ describe('GeoChartBars', function () {
             expect(wrapper.findAll('.geo-chart-bars-group')).toHaveLength(2)
           })
 
+          // TODO: WEB-2073 fix update props not triggering d3 re-render
           xit('Should update series', async function () {
             const secondData = _.dropRight(firstBarGroupData)
             const wrapper = mount(GeoChart, {
@@ -854,6 +856,7 @@ describe('GeoChartBars', function () {
             expect(wrapper.findAll('.geo-chart-bars-group .geo-chart-bar')).toHaveLength(secondData.length)
           })
 
+          // TODO: WEB-2073 fix update props not triggering d3 re-render
           xit('Should remove series', async function () {
             const secondData = _.dropRight(firstBarGroupData)
             const wrapper = mount(GeoChart, {
