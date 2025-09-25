@@ -8,6 +8,13 @@
     }"
   >
     <!-- @slot Use this slot to customize the button used to toggle the popup -->
+    <!--
+      This wrapper div is necessary for Vue 2.7/Vue 3 compatibility.
+      $slots behavior differs between versions, making it unreliable to calculate
+      toggleButtonWidth directly from slot content. This wrapper provides a stable
+      ref (toggleButtonWrapper) for width calculations while maintaining layout
+      integrity through CSS display: contents.
+    -->
     <div
       ref="toggleButtonWrapper"
       class="geo-dropdown__toggle-button-wrapper"
