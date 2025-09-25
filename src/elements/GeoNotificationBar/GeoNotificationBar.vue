@@ -62,7 +62,7 @@ export default {
   },
   computed: {
     isCloseButtonVisible () {
-      return this.$attrs && this.$attrs.close
+      return this.$attrs && this.$attrs.onClose
     }
   },
   methods: {

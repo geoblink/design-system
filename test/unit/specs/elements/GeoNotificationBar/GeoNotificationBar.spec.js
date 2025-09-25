@@ -52,7 +52,7 @@ describe('GeoNotificationBar', () => {
         }
       },
       attrs: {
-        close () { }
+        onClose () { }
       }
     })
     const fontAwesomeIconElem = wrapper.findComponent(FontAwesomeIconMock)
