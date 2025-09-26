@@ -110,7 +110,7 @@ describe('GeoSelect', () => {
     expect(wrapper.find('.test-popup-class').exists()).toBe(true)
   })
 
-  // TODO: fix click triggering toggle several times
+  // TODO: WEB-2073 fix click triggering toggle several times
   xit('Should show element popup on click on toggle button', async () => {
     const wrapper = mount(GeoSelect, {
       global: {
@@ -151,7 +151,7 @@ describe('GeoSelect', () => {
     expect(consoleWarnSpy).toHaveBeenCalledTimes(1)
   })
 
-  // TODO: fix click triggering toggle several times
+  // TODO: WEB-2073 fix click triggering toggle several times
   xit('Should change selection when selecting one of the options', async () => {
     const wrapper = mount(GeoSelect, {
       global: {

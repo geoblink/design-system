@@ -84,11 +84,13 @@ describe('GeoListItem', () => {
       })
     })
 
+    // TODO: WEB-2073 Fix check, native click event is still triggered even if custom click event is not emitted
     xit('Should emit click event', async function () {
       await Parent.findComponent(GeoListItem).trigger('click')
       expect(clickSpy).toHaveBeenCalledTimes(1)
     })
 
+    // TODO: WEB-2073 Fix check, native click event is still triggered even if custom click event is not emitted
     xit('Should not emit click event when is disabled', async function () {
       Parent.setProps({ disabled: true })
       await Parent.findComponent(GeoListItem).trigger('click')

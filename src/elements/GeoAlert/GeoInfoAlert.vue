@@ -1,7 +1,6 @@
 <template>
   <geo-alert
     v-bind="$attrs"
-    :class="$attrs.class"
     :icon="['fal', 'lightbulb']"
     :variant="VARIANTS.info"
   >

@@ -30,7 +30,7 @@ describe('GeoDropdownSelectButton', () => {
     expect(wrapper.emitted().click).toBeTruthy()
   })
 
-  // TODO: fix check, native click event is still being triggered when disabled
+  // TODO: WEB-2073 fix check, native click event is still being triggered when disabled
   xit('Should not emit click event when disabled', function () {
     const wrapper = mount(GeoDropdownSelectButton, {
       global: {

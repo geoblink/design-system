@@ -92,6 +92,7 @@ describe('GeoCalendarNavigationMonth', () => {
       })
     }
 
+    // TODO: WEB-2073 fix click event being emitted twice
     xit('Should toggle the dropdown when clicked', async () => {
       const wrapper = getWrapper()
       await wrapper.find('[data-ut="year-select"] .geo-button').trigger('click')

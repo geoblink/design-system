@@ -53,6 +53,7 @@ describe('GeoSegmentedControlItem', () => {
     })
   })
 
+  // TODO: WEB-2073 Fix check, native click event is still triggered even if custom click event is not emitted
   xit('Should not emit an event when it\'s disabled', function () {
     const wrapper = getWrapper(GeoSegmentedControlItem, {
       props: {
@@ -159,6 +160,7 @@ describe('GeoSegmentedControlItem Children', () => {
         })
       })
 
+      // TODO: WEB-2073 Fix check, native click event is still triggered even if custom click event is not emitted
       xit('Should not emit an event when it\'s disabled', function () {
         const wrapper = getWrapper(taxonomySegmentedControlItem, {
           props: {

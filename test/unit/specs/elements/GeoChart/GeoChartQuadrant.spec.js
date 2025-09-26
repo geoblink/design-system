@@ -179,6 +179,7 @@ describe('GeoChartQuadrant', function () {
         wrapper.unmount()
       })
 
+      // TODO: WEB-2073 fix update data not triggering d3 rerender
       xit('Should update data', async function () {
         const wrapper = mount(GeoChart, {
           props: {

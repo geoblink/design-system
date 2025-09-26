@@ -9,7 +9,7 @@
     <template #toggleButton>
       <slot
         name="toggleButton"
-        :toggleCalendarPopup="toggleCalendarPopup"
+        :toggle-calendar-popup="toggleCalendarPopup"
       />
     </template>
     <template #popupContent>

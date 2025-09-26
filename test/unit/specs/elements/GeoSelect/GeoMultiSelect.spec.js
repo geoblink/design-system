@@ -114,7 +114,7 @@ describe('GeoMultiSelect', () => {
     expect(wrapper.find('.test-popup-class').exists()).toBe(true)
   })
 
-  // TODO: fix click triggering toggle event more than once
+  // TODO: WEB-2073 fix click triggering toggle event more than once
   xit('Should show popup on click toggle button', async () => {
     const wrapper = mount(GeoMultiSelect, {
       global: {
@@ -144,7 +144,7 @@ describe('GeoMultiSelect', () => {
     expect(mockScrollToLastEntry).toHaveBeenCalled()
   })
 
-  // TODO: fix click triggering toggle event more than once
+  // TODO: WEB-2073 fix click triggering toggle event more than once
   xit('Should change model when selecting one of the options', async () => {
     const wrapper = mount(GeoMultiSelect, {
       global: {
@@ -161,7 +161,7 @@ describe('GeoMultiSelect', () => {
     expect(wrapper.emitted().input[0][0]).toEqual([{ label: 'Item 0', id: 0 }])
   })
 
-  // TODO: migrate component to emit update-model:input instead of input
+  // TODO: WEB-2073 migrate component to emit update-model:input instead of input
   xit('Should change model with multiple options', async () => {
     const wrapper = mount(GeoMultiSelect, {
       global: {

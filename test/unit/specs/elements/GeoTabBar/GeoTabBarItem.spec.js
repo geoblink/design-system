@@ -30,7 +30,7 @@ describe('GeoTabBarItem', () => {
     expect(wrapper.emitted().click).toBeTruthy()
   })
 
-  // TODO: Fix check, native click event is still triggered even if custom click event is not emitted
+  // TODO: WEB-2073 Fix check, native click event is still triggered even if custom click event is not emitted
   xit('Should not emit an event when it\'s disabled', async function () {
     const wrapper = getWrapper(GeoTabBarItem, {
       props: {

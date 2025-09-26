@@ -84,7 +84,7 @@ describe('GeoTreeItem', () => {
     expect(wrapper.find('.geo-tree-item__total-items').text()).toBe(`(${7})`)
   })
 
-  // TODO: fix vuedraggable migration issues in tests
+  // TODO: WEB-2073 fix vuedraggable migration issues in tests
   xit('should render a list of subcategories on category click (if it has subcategories)', async () => {
     const wrapper = getWrapper()
 
@@ -94,7 +94,7 @@ describe('GeoTreeItem', () => {
     expect(wrapper.find('[data-test="subcategory-tropical-fruits"]').exists()).toBe(true)
   })
 
-  // TODO: fix vuedraggable migration issues in tests
+  // TODO: WEB-2073 fix vuedraggable migration issues in tests
   xit('should render a icon next to the category if the category has a description', () => {
     CATEGORY.description = 'Description to show'
     const wrapper = getWrapper()
@@ -131,7 +131,7 @@ describe('GeoTreeItem', () => {
     expect(wrapper.find(`[data-test="geo-tree-item__input-${CATEGORY_WITHOUT_SUBCATEGORIES.id}"]`).exists()).toBe(true)
   })
 
-  // TODO: fix vuedraggable migration issues in tests
+  // TODO: WEB-2073 fix vuedraggable migration issues in tests
   xit('should render subcategories list when categories are expanded', async () => {
     const wrapper = getWrapper()
     await wrapper.setProps({ expandedCategories: { 'tropical-fruits': true, fruits: true } })
@@ -144,7 +144,7 @@ describe('GeoTreeItem', () => {
   })
 })
 
-// TODO: fix vuedraggable migration issues in tests
+// TODO: WEB-2073 fix vuedraggable migration issues in tests
 xdescribe('GeoTreeItem check behaviour', () => {
   function getWrapper (props) {
     return mount(GeoTreeItem, {

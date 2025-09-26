@@ -104,7 +104,7 @@ describe('GeoCalendarNavigationDay', () => {
       })
     })
 
-    // TODO: fix, click native event triggers toggle twice for some reason
+    // TODO: WEB-2073 fix, click native event triggers toggle twice for some reason
     xit('Should toggle the dropdown when clicked', async () => {
       await wrapper.find('[data-ut="month-select"] .geo-button').trigger('click')
       expect(wrapper.vm.isMonthSelectionOpened).toBe(false)
@@ -158,7 +158,7 @@ describe('GeoCalendarNavigationDay', () => {
       wrapper.unmount()
     })
 
-    // TODO: fix, click native event triggers toggle twice for some reason
+    // TODO: WEB-2073 fix, click native event triggers toggle twice for some reason
     xit('Should toggle the dropdown when clicked', async () => {
       await wrapper.find('[data-ut="year-select"] .geo-button').trigger('click')
       expect(wrapper.vm.isYearSelectionOpened).toBe(false)

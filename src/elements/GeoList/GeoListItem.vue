@@ -42,7 +42,7 @@
       </div>
     </div>
     <div
-      v-if="$slots.description"
+      v-if="!!$slots.description"
       :class="{
         'geo-list-item__description': true,
         'geo-list-item__description--spaced': !!icon

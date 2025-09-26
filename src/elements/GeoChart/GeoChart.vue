@@ -17,7 +17,6 @@ import OnResize from '../../directives/GeoOnResize'
 import * as ChartAxis from './GeoChartAxis/GeoChartAxis'
 import * as ChartConfig from './GeoChartConfigs/GeoChartConfig'
 import * as ChartScale from './GeoChartScale/GeoChartScale'
-import * as ChartBars from './GeoChartBars/GeoChartBars'
 
 import * as axisUtils from './GeoChartUtils/axisUtils'
 import * as sizingUtils from './GeoChartUtils/GeoChartSizing'
@@ -357,10 +356,7 @@ const GeoChart = {
 
 GeoChart.constants = _.assign({}, CONSTANTS, {
   INTERPOLATION_TYPES,
-  getTriangleShapePath,
-  SCALE_TYPES: ChartScale.SCALE_TYPES,
-  POSITIONS: ChartAxis.POSITIONS,
-  BARS_DIMENSIONS: ChartBars.DIMENSIONS
+  getTriangleShapePath
 })
 
 export default GeoChart

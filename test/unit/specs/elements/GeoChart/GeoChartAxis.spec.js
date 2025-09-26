@@ -466,6 +466,7 @@ describe('GeoChartAxis', function () {
           expect(wrapper.findAll('.geo-chart-axis .tick')).toHaveLength(tickCount)
         })
 
+        // TODO: WEB-2073 fix test
         xit('Should consider margins', function () {
           const wrapper = mount(GeoChart, {
             props: {
@@ -705,6 +706,7 @@ describe('GeoChartAxis', function () {
           expect(axes.at(1).attributes()).toHaveProperty('transform', '') // No transform needed for (0, 0)
         })
 
+        // TODO: WEB-2073 fix test
         xit('Should position axis anchored to trailing value', function () {
           const wrapper = mount(GeoChart, {
             props: {
@@ -729,6 +731,7 @@ describe('GeoChartAxis', function () {
           expect(axes.at(1).attributes()).toHaveProperty('transform', `translate(${xSpan || 0}, ${ySpan || 0})`)
         })
 
+        // TODO: WEB-2073 fix test
         xit('Should position axis anchored to median', function () {
           const wrapper = mount(GeoChart, {
             props: {
@@ -753,6 +756,7 @@ describe('GeoChartAxis', function () {
           expect(axes.at(1).attributes()).toHaveProperty('transform', `translate(${(xSpan || 0) / 2}, ${(ySpan || 0) / 2})`)
         })
 
+        // TODO: WEB-2073 fix test
         xit('Should position axis anchored to arbitrary value in first half', function () {
           const wrapper = mount(GeoChart, {
             props: {
@@ -777,6 +781,7 @@ describe('GeoChartAxis', function () {
           expect(axes.at(1).attributes()).toHaveProperty('transform', `translate(${(xSpan || 0) / 4}, ${(ySpan || 0) / 4})`)
         })
 
+        // TODO: WEB-2073 fix test
         xit('Should position axis anchored to arbitrary value in second half', function () {
           const wrapper = mount(GeoChart, {
             props: {
@@ -801,6 +806,7 @@ describe('GeoChartAxis', function () {
           expect(axes.at(1).attributes()).toHaveProperty('transform', `translate(${(xSpan || 0) / 4 * 3}, ${(ySpan || 0) / 4 * 3})`)
         })
 
+        // TODO: WEB-2073 fix test
         xit('Should consider margins', function () {
           const wrapper = mount(GeoChart, {
             props: {
@@ -946,6 +952,7 @@ describe('GeoChartAxis', function () {
         expect(wrapper.find(`.geo-chart-axis-${newAxis.id}`).exists()).toBe(true)
       })
 
+      // TODO: WEB-2073 fix test
       xit('Should update existing axis', async function () {
         const initialAxis = _.merge({}, linearAxisConfig, {
           ticks: {
@@ -986,6 +993,7 @@ describe('GeoChartAxis', function () {
         expect(wrapper.findAll('.geo-chart-axis .tick')).toHaveLength(updatedAxis.ticks.count)
       })
 
+      // TODO: WEB-2073 fix test
       xit('Should remove axis', async function () {
         const firstAxis = _.merge({}, linearAxisConfig, {
           id: 'fist-axis',
