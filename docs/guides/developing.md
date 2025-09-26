@@ -37,7 +37,7 @@ You'll probably want to run `docs:build:markdown` before since `docs:watch:markd
 yarn docs:dev
 ```
 
-Start [Vuepress](https://vuepress.vuejs.org/) and serves generated documentation.
+Start [Vitepress](https://vitepress.dev/) and serves generated documentation.
 
 Pages will reload after any static Markdown file or _constants_ component is modified but not after any component or example is modified so you'll probably want to run `docs:watch:markdown` while you are running `docs:dev`.
 
