@@ -16,7 +16,7 @@
       fixed-width
     />
     <div
-      v-if="$slots.default"
+      v-if="!!$slots.default"
       class="geo-dropdown-regular-button-container__content"
     >
       <!-- @slot Use this slot to customize button's content -->
