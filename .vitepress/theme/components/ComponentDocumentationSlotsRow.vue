@@ -11,6 +11,7 @@
 </template>
 
 <script>
+import _ from 'lodash'
 import { AllMarkdownParserFeatures } from '@/elements/GeoMarkdownContent/GeoMarkdownParser'
 
 export default {

@@ -36,32 +36,41 @@
 </div>
 </template>
 
-<script setup>
-import { ref, onMounted, nextTick } from 'vue'
+<script>
 import { VueLivePreview, VueLiveEditor } from 'vue-live'
 import lodash from 'lodash'
 import "prismjs/themes/prism-tomorrow.css";
 
-const props = defineProps({
-  code: {
-    type: String,
-    required: true
+export default {
+  name: 'LiveCode',
+  components: {
+    VueLivePreview,
+    VueLiveEditor
+  },
+  props: {
+    code: {
+      type: String,
+      required: true
+    }
+  },
+  data() {
+    return {
+      preRequiredObjects: {
+        lodash
+      },
+      showCode: false,
+      codeContent: this.code,
+      error: null
+    }
+  },
+  methods: {
+    async toggleCode() {
+      this.showCode = !this.showCode
+    },
+    updateCode(newCode) {
+      this.codeContent = newCode
+    }
   }
-})
-
-const preRequiredObjects = ref({
-  lodash
-})
-
-const showCode = ref(false)
-const codeContent = ref(props.code)
-
-const toggleCode = async () => {
-  showCode.value = !showCode.value
-}
-
-const updateCode = (newCode) => {
-  codeContent.value = newCode
 }
 </script>
 
