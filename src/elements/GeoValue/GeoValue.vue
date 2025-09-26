@@ -3,7 +3,7 @@
     :class="valueCssClasses"
   >
     <div
-      v-if="$slots.warningTooltip"
+      v-if="!!$slots.warningTooltip"
       class="geo-value__column"
     >
       <slot name="warningTooltip" />
@@ -33,7 +33,7 @@
           {{ description }}
         </span>
         <slot
-          v-if="$slots.descriptionTooltip"
+          v-if="!!$slots.descriptionTooltip"
           name="descriptionTooltip"
         />
       </div>

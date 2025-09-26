@@ -9,7 +9,7 @@
   >
     <!-- @slot Use this slot to customize button's content -->
     <template
-      v-if="$slots.default"
+      v-if="!!$slots.default"
       #default
     >
       <slot />

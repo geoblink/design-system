@@ -5,7 +5,7 @@
     <geo-vertical-layout class="geo-wizard-layout__content-container">
       <template #header>
         <header
-          v-if="$slots.header"
+          v-if="!!$slots.header"
           class="geo-wizard-layout__header"
         >
           <!-- @slot Use this slot to set the content that will be displayed in the top of the wizard layout -->
@@ -14,7 +14,7 @@
       </template>
       <!-- @slot The content that is not assigned to a slot will be rendered here, being the main content of the wizard -->
       <section
-        v-if="$slots.default"
+        v-if="!!$slots.default"
         class="geo-wizard-layout__body"
       >
         <!-- @slot Use this slot to customize wizard body -->
