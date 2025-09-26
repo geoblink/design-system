@@ -44,7 +44,5 @@ export default {
     // Register external components
     app.component('VueLive', VueLive)
     app.component('FontAwesomeIcon', FontAwesomeIcon)
-
-
   }
 } 

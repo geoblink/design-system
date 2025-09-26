@@ -200,7 +200,7 @@ module.exports = {
     getComponentSlotsJSON (jsonDocumentation) {
       const documentation = JSON.parse(jsonDocumentation)
 
-      const json = _.map(documentation.slots, function (slotMetadata, slotName) {
+      const json = _.map(documentation.slots, function (slotMetadata) {
         return {
           name: slotMetadata.name,
           description: slotMetadata.description
@@ -227,7 +227,10 @@ module.exports = {
      */
     generateExamplesFromFile (exampleMarkdownPath, componentName, existingContent = '') {
       const content = fs.readFileSync(exampleMarkdownPath).toString()
-      const exampleNamePrefix = exampleMarkdownPath.split('/').pop().split('.').slice(0, -1).join('.')
+      const fileName = exampleMarkdownPath.split('/').pop()
+      const fileNameParts = fileName.split('.')
+      const fileNameWithoutExtension = fileNameParts.slice(0, -1)
+      const exampleNamePrefix = fileNameWithoutExtension.join('.')
       // Extract the actual component name from the path (e.g., "GeoSwitch" from "GeoSwitch/GeoSwitch.vue")
       const actualComponentName = componentName.split('/')[0]
       const examplesDir = `.vitepress/docs/components/${actualComponentName}/examples`

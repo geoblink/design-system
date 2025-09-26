@@ -26,6 +26,9 @@ webpack.stats.*
 # Ignore automatically generated Markdown files
 docs/components
 
+# Explicitly include docs/public, otherwise it's
+# ignored due to the rules below
+!.vitepress/docs/public/
 # Ignore automatically generated Vue components
 .vitepress/cache/
 .vitepress/docs/components/
@@ -35,5 +38,4 @@ docs/components
 .vitepress/docs/elements.md
 .vitepress/docs/changelog.md
 .vitepress/docs/index.md
-!.vitepress/docs/public/
 .vitepress/theme/components/constants/
