@@ -145,6 +145,8 @@ export default {
 }
 
 function unescapeJSONString (s) {
+  if (_.isNil(s)) return ''
+
   return s
     .replace(/&#39;/gi, `'`)
     .replace(/&#96;/gi, '`')

@@ -27,7 +27,7 @@ export default {
   },
   computed: {
     markdownDescription () {
-      return unescapeJSONString(this.description || '')
+      return unescapeJSONString(this.description)
     },
 
     markdownDescriptionFeatures () {
@@ -37,6 +37,8 @@ export default {
 }
 
 function unescapeJSONString (s) {
+  if (_.isNil(s)) return ''
+
   return s
     .replace(/&#39;/gi, `'`)
     .replace(/&#96;/gi, '`')
