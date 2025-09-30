@@ -61,22 +61,19 @@
             @end-drag="endDrag($event)"
             @change-drag="emitChangeDrag($event)"
           >
-            <template
-              slot="trailingAccessoryAction"
-              slot-scope="{ item }"
-            >
+            <template #trailingAccessoryAction="{ item }">
               <slot
                 name="actionButton"
                 :item="item"
               />
             </template>
-            <template slot="moreItemsTextContent">
+            <template #moreItemsTextContent>
               <slot name="moreItemsTextContent" />
             </template>
           </geo-tree-item>
         </draggable>
       </ul>
-      <template slot="moreResultsTextContent">
+      <template #moreResultsTextContent>
         <slot name="moreCategoriesTextContent" />
       </template>
     </geo-scrollable-container>

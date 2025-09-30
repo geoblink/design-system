@@ -8,8 +8,8 @@
         :status="status"
         @pick-file="pickFile($event)"
       >
-        <template slot="title">{{ pickerTitle }}</template>
-        <template slot="help">{{ pickerHelp }}</template>
+        <template #title>{{ pickerTitle }}</template>
+        <template #help>{{ pickerHelp }}</template>
       </geo-file-upload>
     </div>
   </div>
@@ -82,8 +82,8 @@ export default {
       status="initial"
       :upload-icon="['fas', 'upload']"
     >
-      <template slot="title">Drag a file from your computer</template>
-      <template slot="help">Only single files supported</template>
+      <template #title>Drag a file from your computer</template>
+      <template #help>Only single files supported</template>
     </geo-file-upload>
   </div>
 </div>
@@ -99,8 +99,8 @@ export default {
         status="initial"
         ref="focusedFileUpload"
       >
-        <template slot="title">Drop the file here</template>
-        <template slot="help">Only single files supported</template>
+        <template #title>Drop the file here</template>
+        <template #help>Only single files supported</template>
       </geo-file-upload>
     </div>
   </div>
@@ -121,8 +121,8 @@ export default {
 <div class="element-demo">
   <div class="element-demo__block" style="justify-content: space-around;">
     <geo-file-upload status="success">
-      <template slot="title">my-file.txt</template>
-      <template slot="help">Everything is in place!</template>
+      <template #title>my-file.txt</template>
+      <template #help>Everything is in place!</template>
     </geo-file-upload>
   </div>
 </div>
@@ -134,8 +134,8 @@ export default {
 <div class="element-demo">
   <div class="element-demo__block" style="justify-content: space-around;">
     <geo-file-upload status="error">
-      <template slot="title">my-file.exe</template>
-      <template slot="help">The file is not valid!</template>
+      <template #title>my-file.exe</template>
+      <template #help>The file is not valid!</template>
     </geo-file-upload>
   </div>
 </div>
@@ -150,8 +150,8 @@ export default {
       status="warning"
       :has-file="true"
     >
-      <template slot="title">my-file.xlsx</template>
-      <template slot="help">Something didn't work as expected</template>
+      <template #title>my-file.xlsx</template>
+      <template #help>Something didn't work as expected</template>
     </geo-file-upload>
   </div>
 </div>
@@ -163,8 +163,8 @@ export default {
 <div class="element-demo">
   <div class="element-demo__block" style="justify-content: space-around;">
     <geo-file-upload status="loading">
-      <template slot="title">my-file.xlsx</template>
-      <template slot="help">Loading...</template>
+      <template #title>my-file.xlsx</template>
+      <template #help>Loading...</template>
     </geo-file-upload>
   </div>
 </div>

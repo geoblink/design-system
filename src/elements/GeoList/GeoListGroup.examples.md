@@ -3,104 +3,121 @@
   <div class="element-demo__block" style="justify-content: space-around;">
     <div>
       <geo-list-group>
-        <template slot="title">Group title</template>
+        <template #title>Group title</template>
       </geo-list-group>
     </div>
 
     <div>
       <geo-list-group>
-        <template slot="title">Exclusive options</template>
-        <geo-list-item slot="item">
-          First
+        <template #title>Exclusive options</template>
+        <template #item>
+          <geo-list-item>
+            First
 
-          <input
-            slot="trailingAccessoryItem"
-            type="radio"
-            name="demo"
-          >
-        </geo-list-item>
-        <geo-list-item slot="item">
-          Second
+            <template #trailingAccessoryItem>
+              <input
+                type="radio"
+                name="demo"
+              >
+            </template>
+          </geo-list-item>
+          <geo-list-item>
+            Second
 
-          <input
-            slot="trailingAccessoryItem"
-            type="radio"
-            name="demo"
-          >
-        </geo-list-item>
-        <geo-list-item slot="item">
-          Third
+            <template #trailingAccessoryItem>
+              <input
+                type="radio"
+                name="demo"
+              >
+            </template>
+          </geo-list-item>
+          <geo-list-item>
+            Third
 
-          <input
-            slot="trailingAccessoryItem"
-            type="radio"
-            name="demo"
-          >
-        </geo-list-item>
+            <template #trailingAccessoryItem>
+              <input
+                type="radio"
+                name="demo"
+              >
+            </template>
+          </geo-list-item>
+        </template>
       </geo-list-group>
     </div>
 
     <div>
       <geo-list-group :icon="['far', 'user']">
-        <template slot="title">Inclusive options</template>
-        <input
-          slot="trailingAccessoryItem"
-          type="checkbox"
-        >
-        <geo-list-item slot="item">
-          First
-
+        <template #title>Inclusive options</template>
+        <template #trailingAccessoryItem>
           <input
-            slot="trailingAccessoryItem"
             type="checkbox"
           >
-        </geo-list-item>
-        <geo-list-item slot="item">
-          Second
+        </template>
+        <template #item>
+          <geo-list-item>
+            First
 
-          <input
-            slot="trailingAccessoryItem"
-            type="checkbox"
-          >
-        </geo-list-item>
-        <geo-list-item slot="item">
-          Third
+            <template #trailingAccessoryItem>
+              <input
+                type="checkbox"
+              >
+            </template>
+          </geo-list-item>
+          <geo-list-item>
+            Second
 
-          <input
-            slot="trailingAccessoryItem"
-            type="checkbox"
-          >
-        </geo-list-item>
+            <template #trailingAccessoryItem>
+              <input
+                type="checkbox"
+              >
+            </template>
+          </geo-list-item>
+          <geo-list-item>
+            Third
+
+            <template #trailingAccessoryItem>
+              <input
+                type="checkbox"
+              >
+            </template>
+          </geo-list-item>
+        </template>
       </geo-list-group>
     </div>
 
     <div>
       <geo-list-group :icon="['far', 'bell']">
-        <template slot="title">Notifications</template>
-        <font-awesome-icon
-          slot="trailingAccessoryItem"
-          :icon="['fas', 'chevron-right']"
-          aria-hidden
-          fixed-width
-        />
-        <geo-list-item slot="item">One</geo-list-item>
-        <geo-list-item slot="item">Two</geo-list-item>
+        <template #title>Notifications</template>
+        <template #trailingAccessoryItem>
+          <font-awesome-icon
+            :icon="['fas', 'chevron-right']"
+            aria-hidden
+            fixed-width
+          />
+        </template>
+        <template #item>
+          <geo-list-item>One</geo-list-item>
+          <geo-list-item>Two</geo-list-item>
+        </template>
       </geo-list-group>
     </div>
 
     <div>
       <geo-list-group>
-        <template slot="title">First group</template>
-        <geo-list-item slot="item">One</geo-list-item>
-        <geo-list-item slot="item">Two</geo-list-item>
+        <template #title>First group</template>
+        <template #item>
+          <geo-list-item>One</geo-list-item>
+          <geo-list-item>Two</geo-list-item>
+        </template>
       </geo-list-group>
 
       <geo-list-group>
-        <template slot="title">Second group</template>
-        <geo-list-item slot="item">One</geo-list-item>
-        <geo-list-item slot="item">Two</geo-list-item>
+        <template #title>Second group</template>
+        <template #item>
+          <geo-list-item>One</geo-list-item>
+          <geo-list-item>Two</geo-list-item>
+        </template>
       </geo-list-group>
     </div>
   </div>
 </div>
-```

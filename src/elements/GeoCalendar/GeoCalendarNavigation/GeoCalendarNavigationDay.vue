@@ -8,17 +8,18 @@
       data-ut="month-select"
       @click-outside="closeMonthSelection"
     >
-      <geo-link-button
-        slot="toggleButton"
-        @click="toggleMonthSelection"
-      >
-        {{ currentSelectedMonth }}
-        <font-awesome-icon
-          class="geo-calendar-navigation-toggle-button-icon"
-          fixed-width
-          :icon="calendarNavigationSelectIcon"
-        />
-      </geo-link-button>
+      <template #toggleButton>
+        <geo-link-button
+          @click="toggleMonthSelection"
+        >
+          {{ currentSelectedMonth }}
+          <font-awesome-icon
+            class="geo-calendar-navigation-toggle-button-icon"
+            fixed-width
+            :icon="calendarNavigationSelectIcon"
+          />
+        </geo-link-button>
+      </template>
       <div>
         <geo-list-item
           v-for="monthObject in monthsInYear"
@@ -37,18 +38,19 @@
       data-ut="year-select"
       @click-outside="closeYearSelection"
     >
-      <geo-link-button
-        slot="toggleButton"
-        @click="toggleYearSelection"
-      >
-        {{ currentYear }}
-        <font-awesome-icon
-          v-if="numYearsWithData"
-          class="geo-calendar-navigation-toggle-button-icon"
-          fixed-width
-          :icon="calendarNavigationSelectIcon"
-        />
-      </geo-link-button>
+      <template #toggleButton>
+        <geo-link-button
+          @click="toggleYearSelection"
+        >
+          {{ currentYear }}
+          <font-awesome-icon
+            v-if="numYearsWithData"
+            class="geo-calendar-navigation-toggle-button-icon"
+            fixed-width
+            :icon="calendarNavigationSelectIcon"
+          />
+        </geo-link-button>
+      </template>
       <div>
         <geo-list-item
           v-for="year in yearsList"

@@ -10,8 +10,8 @@
         placeholder="Choose an option"
         v-model="selectedOptions"
       >
-        <div slot="showMorePills" slot-scope="{ hiddenOptionsSize }">Show {{ hiddenOptionsSize }} more</div>
-        <div slot="showLessPills">Show less</div>
+        <template #showMorePills="{ hiddenOptionsSize }">Show {{ hiddenOptionsSize }} more</template>
+        <template #showLessPills>Show less</template>
       </geo-multi-select>
     </div>
 
@@ -48,8 +48,8 @@ export default {
         search-input-placeholder="Search for an option"
         v-model="selectedOptions"
       >
-        <div slot="showMorePills" slot-scope="{ hiddenOptionsSize }">Show {{ hiddenOptionsSize }} more</div>
-        <div slot="showLessPills">Show less</div>
+        <template #showMorePills="{ hiddenOptionsSize }">Show {{ hiddenOptionsSize }} more</template>
+        <template #showLessPills>Show less</template>
       </geo-multi-select>
     </div>
 
@@ -86,9 +86,9 @@ export default {
         placeholder="Choose an option"
         v-model="selectedOptions"
       >
-        <div slot="showMorePills" slot-scope="{ hiddenOptionsSize }">Show {{ hiddenOptionsSize }} more</div>
-        <div slot="showLessPills">Show less</div>
-        <template slot="moreResultsTextContent">Load more results</template>
+        <template #showMorePills="{ hiddenOptionsSize }">Show {{ hiddenOptionsSize }} more</template>
+        <template #showLessPills>Show less</template>
+        <template #moreResultsTextContent>Load more results</template>
       </geo-multi-select>
     </div>
 
@@ -129,9 +129,9 @@ export default {
         search-input-placeholder="Search for an option"
         v-model="selectedOptions"
       >
-        <template slot="noResults">No Results found</template>
-        <div slot="showMorePills" slot-scope="{ hiddenOptionsSize }">Show {{ hiddenOptionsSize }} more</div>
-        <div slot="showLessPills">Show less</div>
+        <template #noResults>No Results found</template>
+        <template #showMorePills="{ hiddenOptionsSize }">Show {{ hiddenOptionsSize }} more</template>
+        <template #showLessPills>Show less</template>
       </geo-multi-select>
     </div>
 

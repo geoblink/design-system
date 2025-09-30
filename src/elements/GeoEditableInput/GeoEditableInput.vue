@@ -15,30 +15,31 @@
       preferred-x-axis-position="right"
       @click-outside="handleClickOutside($event)"
     >
-      <form
-        slot="toggleButton"
-        class="geo-editable-input__form"
-        @submit.prevent="emitSave($event)"
-      >
-        <slot name="leadingAccessoryItem" />
-        <input
-          :value="value"
-          :placeholder="placeholder"
-          :disabled="disabled"
-          :type="type"
-          class="geo-editable-input-form__input"
-          v-bind="$attrs"
-          @click="emitClick($event)"
-          @input="onInput($event)"
+      <template #toggleButton>
+        <form
+          class="geo-editable-input__form"
+          @submit.prevent="emitSave($event)"
         >
-        <slot name="trailingAccessoryItem" />
-      </form>
+          <slot name="leadingAccessoryItem" />
+          <input
+            :value="value"
+            :placeholder="placeholder"
+            :disabled="disabled"
+            :type="type"
+            class="geo-editable-input-form__input"
+            v-bind="$attrs"
+            @click="emitClick($event)"
+            @input="onInput($event)"
+          >
+          <slot name="trailingAccessoryItem" />
+        </form>
+      </template>
 
-      <div
-        v-if="showButtons"
-        slot="popupContent"
-        class="geo-editable-input__buttons-container"
-      >
+      <template #popupContent>
+        <div
+          v-if="showButtons"
+          class="geo-editable-input__buttons-container"
+        >
         <geo-secondary-compact-button
           :icon="cancelIcon"
           @click="emitCancel($event)"
@@ -50,6 +51,7 @@
           @click="emitSave($event)"
         />
       </div>
+    </template>
     </geo-dropdown>
   </div>
 </template>

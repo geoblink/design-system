@@ -348,19 +348,20 @@ export default {
         :opened="isOpened"
         @click-outside="closeMenu()"
       >
-        <geo-dropdown-compact-button
-          slot="toggleButton"
-          data-tooltip-id="demo6"
-          @click="toggleMenu()"/>
-        <geo-tooltip
-          slot="toggleButton"
-          :forced-trigger-target="geoDropdownCompactButtonElement"
-        >
-          GeoDropdownCompactButton Tooltip
-        </geo-tooltip>
-        <geo-bordered-box slot="popupContent">
-          Dropdown popup content
-        </geo-bordered-box>
+        <template #toggleButton>
+          <geo-dropdown-compact-button
+            data-tooltip-id="demo6"
+            @click="toggleMenu()"/>
+              <geo-tooltip :forced-trigger-target="geoDropdownCompactButtonElement">
+                GeoDropdownCompactButton Tooltip
+              </geo-tooltip>
+            </geo-dropdown-compact-button>
+        </template>
+        <template #popupContent>
+          <geo-bordered-box>
+            Dropdown popup content
+          </geo-bordered-box>
+        </template>
       </geo-dropdown>
     </div>
   </div>

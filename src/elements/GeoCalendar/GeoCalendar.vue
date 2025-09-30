@@ -30,7 +30,6 @@
           <!-- @slot Use this slot to customize the message shown when there is an error in one of the selected dates -->
           <geo-input-message
             v-if="showFromFormatError"
-            slot="message"
             variant="error"
           >
             <slot name="formatError" />
@@ -69,7 +68,6 @@
           <!-- @slot Use this slot to customize the message shown when there is an error in one of the selected dates -->
           <geo-input-message
             v-if="showToFormatError"
-            slot="message"
             variant="error"
           >
             <slot name="formatError" />

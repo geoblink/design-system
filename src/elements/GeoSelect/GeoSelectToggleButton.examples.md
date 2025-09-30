@@ -99,13 +99,14 @@
   <div class="element-demo">
     <div class="element-demo__block" style="justify-content: space-around;">
       <geo-input v-model="value">
-        <geo-select-toggle-button
-          slot="leadingAccessoryItem"
-          variant="inputAccessoryPrefix"
-          :is-empty="false"
-        >
-          meters
-        </geo-select-toggle-button>
+        <template #leadingAccessoryItem>
+          <geo-select-toggle-button
+            variant="inputAccessoryPrefix"
+            :is-empty="false"
+          >
+            meters
+          </geo-select-toggle-button>
+        </template>
       </geo-input>
     </div>
   </div>
@@ -178,13 +179,14 @@ export default {
   <div class="element-demo">
     <div class="element-demo__block" style="justify-content: space-around;">
       <geo-input v-model="value">
-        <geo-select-toggle-button
-          slot="trailingAccessoryItem"
-          variant="inputAccessorySuffix"
-          :is-empty="false"
-        >
-          meters
-        </geo-select-toggle-button>
+        <template #trailingAccessoryItem>
+          <geo-select-toggle-button
+            variant="inputAccessorySuffix"
+            :is-empty="false"
+          >
+            meters
+          </geo-select-toggle-button>
+        </template>
       </geo-input>
     </div>
   </div>

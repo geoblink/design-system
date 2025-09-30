@@ -8,7 +8,19 @@
     }"
   >
     <!-- @slot Use this slot to customize the button used to toggle the popup -->
-    <slot name="toggleButton" />
+    <!--
+      This wrapper div is necessary for Vue 2.7/Vue 3 compatibility.
+      $slots behavior differs between versions, making it unreliable to calculate
+      toggleButtonWidth directly from slot content. This wrapper provides a stable
+      ref (toggleButtonWrapper) for width calculations while maintaining layout
+      integrity through CSS display: contents.
+    -->
+    <div
+      ref="toggleButtonWrapper"
+      class="geo-dropdown__toggle-button-wrapper"
+    >
+      <slot name="toggleButton" />
+    </div>
 
     <div
       :ref="POPUP_REF_NAME"
@@ -170,6 +182,10 @@ export default {
   computed: {
     isOpened () {
       return this.opened
+    },
+
+    toggleButtonWrapper () {
+      return this.$refs.toggleButtonWrapper
     },
 
     popupAnchor () {
@@ -404,9 +420,8 @@ export default {
       }
 
       // We finally update the toggle button width, only used when width is fixed to it
-
-      this.toggleButtonWidth = _.sum(_.map(_.get(this.$slots, 'toggleButton'), function (vNode) {
-        return (vNode.elm && vNode.elm.getBoundingClientRect().width) || 0
+      this.toggleButtonWidth = _.sum(_.map(this.toggleButtonWrapper.children, (htmlElement) => {
+        return htmlElement.getBoundingClientRect ? htmlElement.getBoundingClientRect().width : 0
       }))
     },
 

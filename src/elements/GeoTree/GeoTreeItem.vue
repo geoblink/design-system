@@ -35,7 +35,7 @@
           </geo-tooltip>
         </span>
       </label>
-      <template slot="trailingAccessoryItem">
+      <template #trailingAccessoryItem>
         <span>
           <slot
             name="trailingAccessoryAction"
@@ -106,16 +106,13 @@
           @end-drag="endDrag($event)"
           @change-drag="emitChangeDrag($event)"
         >
-          <template
-            slot="trailingAccessoryAction"
-            slot-scope="{ item }"
-          >
+          <template #trailingAccessoryAction="{ item }">
             <slot
               name="trailingAccessoryAction"
               :item="item"
             />
           </template>
-          <template slot="moreItemsTextContent">
+          <template #moreItemsTextContent>
             <slot name="moreItemsTextContent" />
           </template>
         </geo-tree-item>
@@ -137,7 +134,7 @@ import Draggable from 'vuedraggable'
 import { enumPropertyFactory } from '../../utils/enumPropertyFactory'
 import GeoTreeMixin from './GeoTreeMixin'
 import { INPUT_MODES } from './GeoTree.constants'
-import { POSITIONS } from '../GeoTooltip/GeoTooltip.constants'
+import { POSITIONS, ALIGNMENTS } from '../GeoTooltip/GeoTooltip.constants'
 
 export default {
   name: 'GeoTreeItem',
@@ -395,6 +392,7 @@ export default {
     }
   },
   beforeMount () {
+    this.tooltipAlignment = ALIGNMENTS.start
     this.tooltipPosition = POSITIONS.trailing
   },
   methods: {

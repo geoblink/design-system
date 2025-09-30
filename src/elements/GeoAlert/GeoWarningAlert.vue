@@ -1,13 +1,9 @@
-<template functional>
+<template>
   <geo-alert
-    v-bind="data.attrs"
-    :class="[
-      data.class,
-      data.staticClass
-    ]"
+    v-bind="$attrs"
     :icon="['fal', 'exclamation-triangle']"
-    :variant="$options.helpers.VARIANTS.warning"
-    v-on="listeners"
+    :variant="VARIANTS.warning"
+    v-on="$listeners"
   >
     <!-- @slot Use this slot to customize alert's content -->
     <slot />
@@ -31,8 +27,10 @@ export default {
   name: 'GeoWarningAlert',
   status: 'ready',
   release: '22.0.0',
-  helpers: {
-    VARIANTS
+  data() {
+    return {
+      VARIANTS
+    }
   }
 }
 </script>

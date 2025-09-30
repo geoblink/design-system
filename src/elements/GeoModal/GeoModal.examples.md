@@ -56,15 +56,15 @@ export default {
         @close="closeModal()"
         @click-backdrop="closeModal()"
       >
-        <div slot="header">
+        <template #header>
           My Title
-        </div>
-        <div slot="body">
+        </template>
+        <template #body>
           My modal content
-        </div>
-        <div slot="footer">
+        </template>
+        <template #footer>
           <geo-primary-button>Button</geo-primary-button>
-        </div>
+        </template>
       </geo-modal>
     </div>
   </div>
@@ -106,7 +106,7 @@ export default {
         @close="closeModal()"
         @click-backdrop="closeModal()"
       >
-        <div slot="header">
+        <template #header>
           <geo-tab-bar variant="modal">
             <geo-tab-bar-item
               v-for="tab in tabs"
@@ -118,9 +118,9 @@ export default {
               {{ tab }}
             </geo-tab-bar-item>
           </geo-tab-bar>
-        </div>
+        </template>
 
-        <div slot="body">
+        <template #body>
           <template v-if="activeTab === tabs[0]">
             First tab
           </template>
@@ -130,11 +130,11 @@ export default {
           <template v-else>
             Third tab
           </template>
-        </div>
+        </template>
 
-        <div slot="footer">
+        <template #footer>
           <geo-primary-button>Button</geo-primary-button>
-        </div>
+        </template>
       </geo-modal>
     </div>
 

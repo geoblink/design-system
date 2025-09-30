@@ -34,7 +34,9 @@ export default {
 
     <geo-list-item>
       Enable option
-      <input slot="trailingAccessoryItem" type="checkbox">
+      <template #trailingAccessoryItem>
+        <input type="checkbox">
+      </template>
     </geo-list-item>
 
     <geo-list-item :icon="['far', 'user']">
@@ -43,12 +45,13 @@ export default {
 
     <geo-list-item :icon="['far', 'bell']">
       Notifications
-      <font-awesome-icon
-        slot="trailingAccessoryItem"
-        :icon="['fas', 'chevron-right']"
-        aria-hidden
-        fixed-width
-      />
+      <template #trailingAccessoryItem>
+        <font-awesome-icon
+          :icon="['fas', 'chevron-right']"
+          aria-hidden
+          fixed-width
+        />
+      </template>
     </geo-list-item>
   </div>
 </div>
@@ -65,7 +68,9 @@ export default {
 
     <geo-list-item disabled>
       Enable option
-      <input slot="trailingAccessoryItem" type="checkbox">
+      <template #trailingAccessoryItem>
+        <input type="checkbox">
+      </template>
     </geo-list-item>
 
     <geo-list-item
@@ -80,12 +85,13 @@ export default {
       disabled
     >
       Notifications
-      <font-awesome-icon
-        slot="trailingAccessoryItem"
-        :icon="['fas', 'chevron-right']"
-        aria-hidden
-        fixed-width
-      />
+      <template #trailingAccessoryItem>
+        <font-awesome-icon
+          :icon="['fas', 'chevron-right']"
+          aria-hidden
+          fixed-width
+        />
+      </template>
     </geo-list-item>
   </div>
 </div>
@@ -99,24 +105,27 @@ export default {
     <geo-bordered-box>
       <geo-list-item>
         My button
-        <template slot="description">
+        <template #description>
           My button description. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.
         </template>
       </geo-list-item>
       <geo-list-item>
         Enable option
-        <input slot="trailingAccessoryItem" type="checkbox">
+        <template #trailingAccessoryItem>
+          <input type="checkbox">
+        </template>
       </geo-list-item>
       <geo-list-item :icon="['far', 'user']">My profile</geo-list-item>
       <geo-list-item :icon="['far', 'bell']">
         Notifications
-        <font-awesome-icon
-          slot="trailingAccessoryItem"
-          :icon="['fas', 'chevron-right']"
-          aria-hidden
-          fixed-width
-        />
-        <template slot="description">Item description</template>
+        <template #trailingAccessoryItem>
+          <font-awesome-icon
+            :icon="['fas', 'chevron-right']"
+            aria-hidden
+            fixed-width
+          />
+        </template>
+        <template #description>Item description</template>
       </geo-list-item>
     </geo-bordered-box>
   </div>

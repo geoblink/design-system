@@ -13,35 +13,36 @@
     @load-more-results="loadNextPage"
   >
     <!-- @slot _Optional_. Use this slot to customize toggle button. -->
-    <slot
-      slot="toggleButton"
-      name="toggleButton"
-      :dropdown-icon="dropdownIcon"
-      :delete-icon="deleteIcon"
-      :is-empty="!value"
-      :is-value-deletable="isValueDeletable"
-      :disabled="disabled"
-      :toggle-select="toggleSelect"
-      :delete-value="deleteValue"
-      :label="toggleButtonLabel"
-    >
-      <geo-select-toggle-button
+    <template #toggleButton>
+      <slot
+        name="toggleButton"
         :dropdown-icon="dropdownIcon"
         :delete-icon="deleteIcon"
         :is-empty="!value"
         :is-value-deletable="isValueDeletable"
         :disabled="disabled"
-        :variant="variant"
-        @click="toggleSelect"
-        @delete-value="deleteValue"
+        :toggle-select="toggleSelect"
+        :delete-value="deleteValue"
+        :label="toggleButtonLabel"
       >
-        <geo-trimmed-content>
-          {{ toggleButtonLabel }}
-        </geo-trimmed-content>
-      </geo-select-toggle-button>
-    </slot>
+        <geo-select-toggle-button
+          :dropdown-icon="dropdownIcon"
+          :delete-icon="deleteIcon"
+          :is-empty="!value"
+          :is-value-deletable="isValueDeletable"
+          :disabled="disabled"
+          :variant="variant"
+          @click="toggleSelect"
+          @delete-value="deleteValue"
+        >
+          <geo-trimmed-content>
+            {{ toggleButtonLabel }}
+          </geo-trimmed-content>
+        </geo-select-toggle-button>
+      </slot>
+    </template>
 
-    <template slot="header">
+    <template #header>
       <!-- @slot _Optional_. Use this slot to add a custom header. -->
       <slot
         name="header"
@@ -54,7 +55,6 @@
       >
         <geo-bordered-box-header-search-form
           v-if="searchable"
-          slot="header"
           v-model="searchPattern"
           :search-icon="searchIcon"
           :placeholder="searchInputPlaceholder"
@@ -76,42 +76,42 @@
             :suggested-key="`${option[keyForLabel]}--${index}`"
           >
             <geo-list-group>
-              <slot
-                v-if="option.isOptGroupHeader"
-                slot="title"
-                name="group-title"
-              >
-                <geo-marquee>
-                  <geo-highlighted-string
-                    slot-scope="{}"
-                    :highlighted-chars="option.matches"
-                    :reference-string="option[keyForLabel]"
-                  />
-                </geo-marquee>
-              </slot>
-
-              <slot
-                v-for="(item, itemIndex) in option.items"
-                slot="item"
-                name="group-item"
-                :suggested-key="`${item[keyForLabel]}--${itemIndex}`"
-                :item-index="itemIndex"
-                :item="item"
-                :change-current-selection="changeCurrentSelection"
-              >
-                <geo-list-item
-                  :key="`${item[keyForLabel]}--${itemIndex}`"
-                  @click="changeCurrentSelection(item)"
+              <template #title>
+                <slot
+                  v-if="option.isOptGroupHeader"
+                  name="group-title"
                 >
                   <geo-marquee>
                     <geo-highlighted-string
-                      slot-scope="{}"
-                      :highlighted-chars="item.matches"
-                      :reference-string="item[keyForLabel]"
+                      :highlighted-chars="option.matches"
+                      :reference-string="option[keyForLabel]"
                     />
                   </geo-marquee>
-                </geo-list-item>
-              </slot>
+                </slot>
+              </template>
+
+              <template #item>
+                <slot
+                  v-for="(item, itemIndex) in option.items"
+                  name="group-item"
+                  :suggested-key="`${item[keyForLabel]}--${itemIndex}`"
+                  :item-index="itemIndex"
+                  :item="item"
+                  :change-current-selection="changeCurrentSelection"
+                >
+                  <geo-list-item
+                    :key="`${item[keyForLabel]}--${itemIndex}`"
+                    @click="changeCurrentSelection(item)"
+                  >
+                    <geo-marquee>
+                      <geo-highlighted-string
+                        :highlighted-chars="item.matches"
+                        :reference-string="item[keyForLabel]"
+                      />
+                    </geo-marquee>
+                  </geo-list-item>
+                </slot>
+              </template>
             </geo-list-group>
           </slot>
         </template>
@@ -134,7 +134,6 @@
             >
               <geo-marquee>
                 <geo-highlighted-string
-                  slot-scope="{}"
                   :highlighted-chars="option.matches"
                   :reference-string="option[keyForLabel]"
                 />
@@ -155,16 +154,18 @@
       @slot Use this slot to customize the label of the button allowing to
       display additional options when there are too many to be displayed at once
     -->
-    <slot
-      slot="moreResultsTextContent"
-      name="moreResultsTextContent"
-    />
+    <template #moreResultsTextContent>
+      <slot
+        name="moreResultsTextContent"
+      />
+    </template>
     <!-- @slot Use this slot to customize the footer of the selection popup -->
-    <slot
-      slot="footer"
-      name="footer"
-      :toggleSelect="toggleSelect"
-    />
+    <template #footer>
+      <slot
+        name="footer"
+        :toggleSelect="toggleSelect"
+      />
+    </template>
   </geo-select-base>
 </template>
 

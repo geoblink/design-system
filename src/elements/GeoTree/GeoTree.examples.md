@@ -137,10 +137,7 @@ export default {
         :checked-items="checkedCategories"
         @check-item="handleCheckItem"
     >
-        <template
-          slot="actionButton"
-          slot-scope="{ item }"
-        >
+        <template #actionButton="{ item }">
             <font-awesome-icon
               :icon="['far', 'lightbulb']"
               aria-hidden
@@ -1261,7 +1258,7 @@ export default {
       :checked-items="checkedCategories"
       @check-item="handleCheckItem"
     >
-    <template slot="moreCategoriesTextContent">
+    <template #moreCategoriesTextContent>
       Load more
     </template>
     </geo-tree>  

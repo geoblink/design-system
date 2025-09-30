@@ -23,10 +23,9 @@
       aria-hidden
     />
 
-    <slot
-      slot="loading"
-      name="loading"
-    />
+    <template #loading>
+      <slot name="loading" />
+    </template>
   </geo-button>
 </template>
 

@@ -4,12 +4,12 @@
     <template v-for="(entry, index) in groups">
       <div
         v-if="entry.isHighlighted"
-        :key="index"
+        :key="`highlighted-${index}`"
         class="highlighted-string--highlighted"
       >{{ entry.substring }}</div>
       <div
         v-else
-        :key="index"
+        :key="`normal-${index}`"
         class="highlighted-string--normal"
       >{{ entry.substring }}</div>
     </template>

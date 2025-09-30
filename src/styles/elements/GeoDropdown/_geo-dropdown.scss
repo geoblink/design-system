@@ -5,6 +5,10 @@
   user-select: none;
 }
 
+.geo-dropdown__toggle-button-wrapper {
+  display: contents;
+}
+
 .geo-dropdown__popup {
   // Use this variable to customize the space between toggle button popup
   --spacing-to-toggle-button: 5;

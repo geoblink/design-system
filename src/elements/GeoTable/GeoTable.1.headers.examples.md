@@ -18,18 +18,22 @@ It is possible to show multiple header rows in a single table.
           :source-data="sourceData"
           :current-page="0"
         >
-          <geo-table-header-row slot="header">
-            <geo-table-header-row-cell>Name</geo-table-header-row-cell>
-            <geo-table-header-row-cell>Allegiance</geo-table-header-row-cell>
-          </geo-table-header-row>
-          <geo-table-header-row slot="header" variant="aux">
-            <geo-table-header-row-cell>Copy column</geo-table-header-row-cell>
-            <geo-table-header-row-cell>Group by this column</geo-table-header-row-cell>
-          </geo-table-header-row>
-          <geo-table-body-row slot="body" slot-scope="row">
-            <geo-table-body-row-cell>{{ row.item.name }}</geo-table-body-row-cell>
-            <geo-table-body-row-cell>{{ row.item.allegiance }}</geo-table-body-row-cell>
-          </geo-table-body-row>
+          <template #header>
+            <geo-table-header-row>
+              <geo-table-header-row-cell>Name</geo-table-header-row-cell>
+              <geo-table-header-row-cell>Allegiance</geo-table-header-row-cell>
+            </geo-table-header-row>
+            <geo-table-header-row variant="aux">
+              <geo-table-header-row-cell>Copy column</geo-table-header-row-cell>
+              <geo-table-header-row-cell>Group by this column</geo-table-header-row-cell>
+            </geo-table-header-row>
+          </template>
+          <template #body="row">
+            <geo-table-body-row>
+              <geo-table-body-row-cell>{{ row.item.name }}</geo-table-body-row-cell>
+              <geo-table-body-row-cell>{{ row.item.allegiance }}</geo-table-body-row-cell>
+            </geo-table-body-row>
+          </template>
         </geo-table>
       </div>
     </div>

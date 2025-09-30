@@ -28,7 +28,9 @@
         @close=""
       >
         Notification message about something important.
-        <geo-primary-button slot="actions">Button</geo-primary-button>
+        <template #actions>
+          <geo-primary-button>Button</geo-primary-button>
+        </template>
       </geo-notification-bar>
     </div>
   </div>

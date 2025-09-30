@@ -4,7 +4,7 @@
 <div class="element-demo">
   <div class="element-demo__block">
     <geo-collapsable-box>
-      <template slot="header">The header</template>
+      <template #header>The header</template>
 
       This content can be toggled in and out.
     </geo-collapsable-box>
@@ -19,14 +19,15 @@
   <div class="element-demo">
     <div class="element-demo__block">
       <geo-collapsable-box initially-collapsed>
-        <template slot="header">{{ headerText }}</template>
+        <template #header>{{ headerText }}</template>
 
-        <font-awesome-icon
-          slot="trailingItems"
-          :icon="['fas', 'pencil-alt']"
-          style="margin-right: 5px;"
-          @click="changeHeader()"
-        />
+        <template #trailingItems>
+          <font-awesome-icon
+            :icon="['fas', 'pencil-alt']"
+            style="margin-right: 5px;"
+            @click="changeHeader()"
+          />
+        </template>
         This content can be toggled in and out.
       </geo-collapsable-box>
     </div>
@@ -61,7 +62,7 @@ export default {
       initially-collapsed
       disabled
     >
-      <template slot="header">This box cannot be expanded</template>
+      <template #header>This box cannot be expanded</template>
     </geo-collapsable-box>
   </div>
 </div>

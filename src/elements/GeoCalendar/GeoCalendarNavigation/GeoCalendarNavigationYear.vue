@@ -8,18 +8,19 @@
       data-ut="year-range-select"
       @click-outside="closeYearRangeSelection"
     >
-      <geo-link-button
-        slot="toggleButton"
-        @click="toggleYearRangeSelection"
-      >
-        {{ displayedInitialYearInRange }} - {{ displayedEndYearInRange }}
-        <font-awesome-icon
-          v-if="!isDisabled"
-          class="geo-calendar-navigation-toggle-button-icon"
-          fixed-width
-          :icon="calendarNavigationSelectIcon"
-        />
-      </geo-link-button>
+      <template #toggleButton>
+        <geo-link-button
+          @click="toggleYearRangeSelection"
+        >
+          {{ displayedInitialYearInRange }} - {{ displayedEndYearInRange }}
+          <font-awesome-icon
+            v-if="!isDisabled"
+            class="geo-calendar-navigation-toggle-button-icon"
+            fixed-width
+            :icon="calendarNavigationSelectIcon"
+          />
+        </geo-link-button>
+      </template>
       <div>
         <geo-list-item
           v-for="yearRange in yearsInRanges"
