@@ -10,10 +10,12 @@ describe('GeoCalendarYearGrid', () => {
   const currentYear = getYear(today)
 
   const wrapper = mount(GeoCalendarYearGrid, {
-    stubs: {
-      GeoCalendarYearGridYearUnit
+    global: {
+      stubs: {
+        GeoCalendarYearGridYearUnit
+      }
     },
-    propsData: {
+    props: {
       currentInitialYearInRange: 2015,
       currentEndYearInRange: 2030,
       currentMonth,
@@ -27,14 +29,14 @@ describe('GeoCalendarYearGrid', () => {
   })
 
   it('Should emit event when receiving a year', () => {
-    const childYear = wrapper.find(GeoCalendarYearGridYearUnit)
+    const childYear = wrapper.findComponent(GeoCalendarYearGridYearUnit)
     childYear.vm.$emit('select-year-unit', 2020)
     expect(wrapper.emitted()['select-year']).toBeDefined()
     expect(wrapper.emitted()['select-year'][0][0]).toBe(2020)
   })
 
   it('Should emit hovering event when received from child component', () => {
-    const childYear = wrapper.find(GeoCalendarYearGridYearUnit)
+    const childYear = wrapper.findComponent(GeoCalendarYearGridYearUnit)
     childYear.vm.$emit('year-unit-mouseover', 2020)
     expect(wrapper.emitted()['year-unit-mouseover']).toBeDefined()
     expect(wrapper.emitted()['year-unit-mouseover'][0][0]).toBe(2020)

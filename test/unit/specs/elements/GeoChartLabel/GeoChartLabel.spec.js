@@ -8,11 +8,8 @@ import {
   stubCreateSVGPointFactory,
   stubGetComputedTextLengthFactory
 } from '../GeoChart/GeoChart.spec-utils' // This has to be imported before D3
-import { createLocalVue, mount } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import GeoChart from '@/elements/GeoChart/GeoChart.vue'
-
-const localVue = createLocalVue()
-localVue.component('geo-chart', GeoChart)
 
 const categoricalAxisValues = _.times(3, i => `Bucket ${i}`)
 const linearAxisValues = [10, 15, 20]
@@ -145,7 +142,7 @@ describe('GeoChartLabels', function () {
       }
       it('Should render the labels with correct values', () => {
         const wrapper = mount(GeoChart, {
-          propsData: {
+          props: {
             config: barConfig
           }
         })
@@ -190,7 +187,7 @@ describe('GeoChartLabels', function () {
         }
         const barConfigForMultipleLabels = _.assign({}, barConfig, { labelGroups: [multipleLabelsGroup] })
         const wrapper = mount(GeoChart, {
-          propsData: {
+          props: {
             config: barConfigForMultipleLabels
           }
         })
@@ -207,7 +204,7 @@ describe('GeoChartLabels', function () {
           expect(singleLabelGroups.at(1).text()).toEqual(_.toString(category))
         })
 
-        wrapper.destroy()
+        wrapper.unmount()
       })
     })
     describe('horizontal bar chart with positioned labels', () => {
@@ -254,7 +251,7 @@ describe('GeoChartLabels', function () {
       }
       it('Should render the labels with correct values', () => {
         const wrapper = mount(GeoChart, {
-          propsData: {
+          props: {
             config: barConfig
           }
         })
@@ -265,11 +262,11 @@ describe('GeoChartLabels', function () {
         _.forEach(linearAxisValues, (value, index) => {
           expect(wrapper.find(`.geo-chart-label-group--${index} text`).text()).toEqual(_.toString(value))
         })
-        wrapper.destroy()
+        wrapper.unmount()
       })
       it('Should render the labels with correct classes', () => {
         let wrapper = mount(GeoChart, {
-          propsData: {
+          props: {
             config: barConfig
           }
         })
@@ -281,11 +278,11 @@ describe('GeoChartLabels', function () {
           // since there is no comparison, should be wide bar charts
           expect(singleLabelGroup.attributes().class).toContain('geo-chart-value-label--medium')
         })
-        wrapper.destroy()
+        wrapper.unmount()
         labelGroup.nComparisons = 2
         barConfig.labelGroups = [labelGroup]
         wrapper = mount(GeoChart, {
-          propsData: {
+          props: {
             config: barConfig
           }
         })
@@ -296,7 +293,7 @@ describe('GeoChartLabels', function () {
           // since there is no comparison, should be small bar charts
           expect(singleLabelGroup.attributes().class).toContain('geo-chart-value-label--small')
         })
-        wrapper.destroy()
+        wrapper.unmount()
       })
       it('Should render the labels with multiple texts', () => {
         const multipleLabelsGroup = {
@@ -332,7 +329,7 @@ describe('GeoChartLabels', function () {
         }
         const barConfigForMultipleLabels = _.assign({}, barConfig, { labelGroups: [multipleLabelsGroup] })
         const wrapper = mount(GeoChart, {
-          propsData: {
+          props: {
             config: barConfigForMultipleLabels
           }
         })
@@ -349,7 +346,7 @@ describe('GeoChartLabels', function () {
           expect(singleLabelGroups.at(1).text()).toEqual(_.toString(category))
         })
 
-        wrapper.destroy()
+        wrapper.unmount()
       })
     })
   }
@@ -398,7 +395,7 @@ describe('GeoChartLabels', function () {
       }
       it('Should render the labels with correct values', () => {
         const wrapper = mount(GeoChart, {
-          propsData: {
+          props: {
             config: barConfig
           }
         })
@@ -407,12 +404,12 @@ describe('GeoChartLabels', function () {
         _.forEach(linearAxisValues, (value, index) => {
           expect(wrapper.find(`.geo-chart-label-group--${index} text`).text()).toEqual(_.toString(value))
         })
-        wrapper.destroy()
+        wrapper.unmount()
       })
 
       it('Should render the labels with correct classes', () => {
         let wrapper = mount(GeoChart, {
-          propsData: {
+          props: {
             config: barConfig
           }
         })
@@ -424,11 +421,11 @@ describe('GeoChartLabels', function () {
           // since there is no comparison, should be wide bar charts
           expect(singleLabelGroup.attributes().class).toContain('geo-chart-value-label--medium')
         })
-        wrapper.destroy()
+        wrapper.unmount()
         labelGroup.nComparisons = 2
         barConfig.labelGroups = [labelGroup]
         wrapper = mount(GeoChart, {
-          propsData: {
+          props: {
             config: barConfig
           }
         })
@@ -475,7 +472,7 @@ describe('GeoChartLabels', function () {
         }
         const barConfigForMultipleLabels = _.assign({}, barConfig, { labelGroups: [multipleLabelsGroup] })
         const wrapper = mount(GeoChart, {
-          propsData: {
+          props: {
             config: barConfigForMultipleLabels
           }
         })
@@ -492,7 +489,7 @@ describe('GeoChartLabels', function () {
           expect(singleLabelGroups.at(1).text()).toEqual(_.toString(category))
         })
 
-        wrapper.destroy()
+        wrapper.unmount()
       })
     })
   }

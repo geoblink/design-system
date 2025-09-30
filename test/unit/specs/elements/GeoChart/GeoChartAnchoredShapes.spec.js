@@ -7,13 +7,11 @@ import {
   stubLodashDebounceFactory,
   stubCreateSVGPointFactory
 } from './GeoChart.spec-utils' // This has to be imported before D3
-import { createLocalVue, mount } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import GeoChart from '@/elements/GeoChart/GeoChart.vue'
 
 import * as GeoChartAnchoredShapes from '@/elements/GeoChart/GeoChartAnchoredShapes/GeoChartAnchoredShapes'
 
-const localVue = createLocalVue()
-localVue.component('geo-chart', GeoChart)
 
 describe('GeoChartAnchoredShapes', function () {
   const axisDimensions = {
@@ -177,7 +175,7 @@ describe('GeoChartAnchoredShapes', function () {
         expect(wrapper.findAll('.geo-chart-anchored-shapes-group__shape-text-element')).toHaveLength(shapeData.length)
         expect(wrapper.findAll('.geo-chart-anchored-shapes__shape-element')).toHaveLength(shapeData.length)
         expect(wrapper.findAll('.geo-chart-anchored-shapes__text-element')).toHaveLength(shapeData.length)
-        wrapper.destroy()
+        wrapper.unmount()
       })
     })
 
@@ -198,7 +196,7 @@ describe('GeoChartAnchoredShapes', function () {
         expect(wrapper.findAll('.geo-chart-anchored-shapes-group__shape-text-element')).toHaveLength(shapeData.length)
         expect(wrapper.findAll('.geo-chart-anchored-shapes__shape-element')).toHaveLength(shapeData.length)
         expect(wrapper.find('.geo-chart-anchored-shapes__text-element').exists()).toBe(false)
-        wrapper.destroy()
+        wrapper.unmount()
       })
     })
 
@@ -230,7 +228,7 @@ describe('GeoChartAnchoredShapes', function () {
         expect(wrapper.findAll('.geo-chart-anchored-shapes__text-element')).toHaveLength(shapeData.length)
         expect(wrapper.findAll('.geo-chart-anchored-shapes-group__shape-text-element--leading')).toHaveLength(leadingElements)
         expect(wrapper.findAll('.geo-chart-anchored-shapes-group__shape-text-element--trailing')).toHaveLength(trailingElements)
-        wrapper.destroy()
+        wrapper.unmount()
       })
 
       it('Should update data', () => {
@@ -330,7 +328,7 @@ describe('GeoChartAnchoredShapes', function () {
         expect(wrapper.findAll('.geo-chart-anchored-shapes-group__shape-text-element--leading')).toHaveLength(leadingElements3)
         expect(wrapper.findAll('.geo-chart-anchored-shapes-group__shape-text-element--trailing')).toHaveLength(trailingElements3)
 
-        wrapper.destroy()
+        wrapper.unmount()
       })
     })
   }

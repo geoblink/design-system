@@ -3,7 +3,6 @@
     v-bind="$attrs"
     :icon="['fal', 'exclamation-triangle']"
     :variant="VARIANTS.warning"
-    v-on="$listeners"
   >
     <!-- @slot Use this slot to customize alert's content -->
     <slot />

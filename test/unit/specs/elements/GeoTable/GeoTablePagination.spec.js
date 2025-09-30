@@ -1,7 +1,8 @@
 import _ from 'lodash'
-import { createLocalVue, mount } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import GeoTablePagination from '@/elements/GeoTable/GeoTablePagination'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { FontAwesomeIconMock } from 'test/unit/utils/FontAwesomeIconMock.js'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fab } from '@fortawesome/free-brands-svg-icons'
 import { fas } from '@fortawesome/free-solid-svg-icons'
@@ -21,20 +22,23 @@ const mockedFalIcons = _.mapValues(_.pick(fas, iconsToMock), function (original)
 
 library.add(fab, fas, far, mockedFalIcons)
 
-// create an extended `Vue` constructor
-const localVue = createLocalVue()
-localVue.component('geo-table-pagination', GeoTablePagination)
+function createWrapper (component, options = {}) {
+  return mount(component, Object.assign({
+    global: {
+      stubs: {
+        'font-awesome-icon': FontAwesomeIconMock
+      }
+    }
+  }, options))
+}
 
 describe('GeoTablePagination', () => {
   it('Should render pagination if there are multiple pages', function () {
-    const wrapper = mount(GeoTablePagination, {
-      propsData: {
+    const wrapper = createWrapper(GeoTablePagination, {
+      props: {
         pageSize: 10,
         currentPage: 0,
         sourceDataLength: 20
-      },
-      stubs: {
-        'font-awesome-icon': FontAwesomeIcon
       }
     })
     const instance = wrapper.find('.geo-table-pagination')
@@ -42,14 +46,11 @@ describe('GeoTablePagination', () => {
   })
 
   it('Should render nothing if there\'s only one page', function () {
-    const wrapper = mount(GeoTablePagination, {
-      propsData: {
+    const wrapper = createWrapper(GeoTablePagination, {
+      props: {
         pageSize: 10,
         currentPage: 0,
         sourceDataLength: 10
-      },
-      stubs: {
-        'font-awesome-icon': FontAwesomeIcon
       }
     })
     const instance = wrapper.find('.geo-table-pagination')
@@ -57,14 +58,11 @@ describe('GeoTablePagination', () => {
   })
 
   it('Should render go-to-first-page button if page displayed is not the first one', function () {
-    const wrapper = mount(GeoTablePagination, {
-      propsData: {
+    const wrapper = createWrapper(GeoTablePagination, {
+      props: {
         pageSize: 10,
         currentPage: 1,
         sourceDataLength: 30
-      },
-      stubs: {
-        'font-awesome-icon': FontAwesomeIcon
       }
     })
     const button = wrapper.find('.geo-table-pagination__action-first')
@@ -72,14 +70,11 @@ describe('GeoTablePagination', () => {
   })
 
   it('Should render disabled go-to-first-page button if page displayed is the first one', function () {
-    const wrapper = mount(GeoTablePagination, {
-      propsData: {
+    const wrapper = createWrapper(GeoTablePagination, {
+      props: {
         pageSize: 10,
         currentPage: 0,
         sourceDataLength: 30
-      },
-      stubs: {
-        'font-awesome-icon': FontAwesomeIcon
       }
     })
     const disabledButton = wrapper.find('.geo-table-pagination__action-first--disabled')
@@ -90,14 +85,11 @@ describe('GeoTablePagination', () => {
   })
 
   it('Should emit go-to-page event when clicking on go-to-first page button', function () {
-    const wrapper = mount(GeoTablePagination, {
-      propsData: {
+    const wrapper = createWrapper(GeoTablePagination, {
+      props: {
         pageSize: 10,
         currentPage: 2,
         sourceDataLength: 30
-      },
-      stubs: {
-        'font-awesome-icon': FontAwesomeIcon
       }
     })
     const button = wrapper.find('.geo-table-pagination__action-first')
@@ -111,35 +103,27 @@ describe('GeoTablePagination', () => {
   })
 
   it('Should render go-to-first-page button if page displayed is not the first one', function () {
-    const wrapper = mount(GeoTablePagination, {
-      propsData: {
+    const wrapper = createWrapper(GeoTablePagination, {
+      props: {
         pageSize: 10,
         currentPage: 1,
         sourceDataLength: 30
-      },
-      stubs: {
-        'font-awesome-icon': FontAwesomeIcon
       }
     })
     const button = wrapper.find('.geo-table-pagination__action-first')
     expect(button.exists()).toBe(true)
   })
 
-  it('Should allow customizing go-to-first-page button', function () {
+  it('Should allow customizing go-to-first-page button', async function () {
     let slotScope
-    const wrapper = mount(GeoTablePagination, {
-      propsData: {
+    const wrapper = createWrapper(GeoTablePagination, {
+      props: {
         pageSize: 10,
         currentPage: 1,
         sourceDataLength: 30
       },
-      stubs: {
-        'font-awesome-icon': FontAwesomeIcon
-      },
-      scopedSlots: {
-        firstPageShortcut (params) {
-          slotScope = params
-        }
+      slots: {
+        firstPageShortcut: (params) => { slotScope = params; return '' }
       }
     })
 
@@ -152,7 +136,7 @@ describe('GeoTablePagination', () => {
     expect(wrapper.emitted()['go-to-page']).toHaveLength(1)
     expect(wrapper.emitted()['go-to-page']).toEqual([[0]])
 
-    wrapper.setProps({
+    await wrapper.setProps({
       pageSize: 10,
       currentPage: 2,
       sourceDataLength: 30
@@ -161,7 +145,7 @@ describe('GeoTablePagination', () => {
     expect(slotScope).toHaveProperty('hasPreviousPage', true)
     expect(slotScope).toHaveProperty('hasNextPage', false)
 
-    wrapper.setProps({
+    await wrapper.setProps({
       pageSize: 10,
       currentPage: 0,
       sourceDataLength: 30
@@ -172,14 +156,11 @@ describe('GeoTablePagination', () => {
   })
 
   it('Should render go-to-previous-page button if page displayed is not the first one', function () {
-    const wrapper = mount(GeoTablePagination, {
-      propsData: {
+    const wrapper = createWrapper(GeoTablePagination, {
+      props: {
         pageSize: 10,
         currentPage: 1,
         sourceDataLength: 30
-      },
-      stubs: {
-        'font-awesome-icon': FontAwesomeIcon
       }
     })
     const button = wrapper.find('.geo-table-pagination__action-prev')
@@ -187,14 +168,11 @@ describe('GeoTablePagination', () => {
   })
 
   it('Should render disabled go-to-previous-page button if page displayed is the first one', function () {
-    const wrapper = mount(GeoTablePagination, {
-      propsData: {
+    const wrapper = createWrapper(GeoTablePagination, {
+      props: {
         pageSize: 10,
         currentPage: 0,
         sourceDataLength: 30
-      },
-      stubs: {
-        'font-awesome-icon': FontAwesomeIcon
       }
     })
     const disabledButton = wrapper.find('.geo-table-pagination__action-prev--disabled')
@@ -205,14 +183,11 @@ describe('GeoTablePagination', () => {
   })
 
   it('Should emit go-to-page event when clicking on go-to-previous page button', function () {
-    const wrapper = mount(GeoTablePagination, {
-      propsData: {
+    const wrapper = createWrapper(GeoTablePagination, {
+      props: {
         pageSize: 10,
         currentPage: 2,
         sourceDataLength: 30
-      },
-      stubs: {
-        'font-awesome-icon': FontAwesomeIcon
       }
     })
     const button = wrapper.find('.geo-table-pagination__action-prev')
@@ -226,35 +201,27 @@ describe('GeoTablePagination', () => {
   })
 
   it('Should render go-to-previous-page button if page displayed is not the first one', function () {
-    const wrapper = mount(GeoTablePagination, {
-      propsData: {
+    const wrapper = createWrapper(GeoTablePagination, {
+      props: {
         pageSize: 10,
         currentPage: 1,
         sourceDataLength: 30
-      },
-      stubs: {
-        'font-awesome-icon': FontAwesomeIcon
       }
     })
     const button = wrapper.find('.geo-table-pagination__action-prev')
     expect(button.exists()).toBe(true)
   })
 
-  it('Should allow customizing go-to-previous-page button', function () {
+  it('Should allow customizing go-to-previous-page button', async function () {
     let slotScope
-    const wrapper = mount(GeoTablePagination, {
-      propsData: {
+    const wrapper = createWrapper(GeoTablePagination, {
+      props: {
         pageSize: 10,
         currentPage: 2,
         sourceDataLength: 30
       },
-      stubs: {
-        'font-awesome-icon': FontAwesomeIcon
-      },
-      scopedSlots: {
-        prevPageShortcut (params) {
-          slotScope = params
-        }
+      slots: {
+        prevPageShortcut: (params) => { slotScope = params; return '' }
       }
     })
 
@@ -267,7 +234,7 @@ describe('GeoTablePagination', () => {
     expect(wrapper.emitted()['go-to-page']).toHaveLength(1)
     expect(wrapper.emitted()['go-to-page']).toEqual([[1]])
 
-    wrapper.setProps({
+    await wrapper.setProps({
       pageSize: 10,
       currentPage: 1,
       sourceDataLength: 30
@@ -276,7 +243,7 @@ describe('GeoTablePagination', () => {
     expect(slotScope).toHaveProperty('hasPreviousPage', true)
     expect(slotScope).toHaveProperty('hasNextPage', true)
 
-    wrapper.setProps({
+    await wrapper.setProps({
       pageSize: 10,
       currentPage: 0,
       sourceDataLength: 30
@@ -287,14 +254,11 @@ describe('GeoTablePagination', () => {
   })
 
   it('Should render go-to-next-page button if page displayed is not the last one', function () {
-    const wrapper = mount(GeoTablePagination, {
-      propsData: {
+    const wrapper = createWrapper(GeoTablePagination, {
+      props: {
         pageSize: 10,
         currentPage: 1,
         sourceDataLength: 30
-      },
-      stubs: {
-        'font-awesome-icon': FontAwesomeIcon
       }
     })
     const button = wrapper.find('.geo-table-pagination__action-next')
@@ -302,14 +266,11 @@ describe('GeoTablePagination', () => {
   })
 
   it('Should render disabled go-to-next-page button if page displayed is the last one', function () {
-    const wrapper = mount(GeoTablePagination, {
-      propsData: {
+    const wrapper = createWrapper(GeoTablePagination, {
+      props: {
         pageSize: 10,
         currentPage: 2,
         sourceDataLength: 30
-      },
-      stubs: {
-        'font-awesome-icon': FontAwesomeIcon
       }
     })
     const disabledButton = wrapper.find('.geo-table-pagination__action-next--disabled')
@@ -320,14 +281,11 @@ describe('GeoTablePagination', () => {
   })
 
   it('Should emit go-to-page event when clicking on go-to-next page button', function () {
-    const wrapper = mount(GeoTablePagination, {
-      propsData: {
+    const wrapper = createWrapper(GeoTablePagination, {
+      props: {
         pageSize: 10,
         currentPage: 0,
         sourceDataLength: 30
-      },
-      stubs: {
-        'font-awesome-icon': FontAwesomeIcon
       }
     })
     const button = wrapper.find('.geo-table-pagination__action-next')
@@ -341,35 +299,27 @@ describe('GeoTablePagination', () => {
   })
 
   it('Should render go-to-next-page button if page displayed is not the last one', function () {
-    const wrapper = mount(GeoTablePagination, {
-      propsData: {
+    const wrapper = createWrapper(GeoTablePagination, {
+      props: {
         pageSize: 10,
         currentPage: 1,
         sourceDataLength: 30
-      },
-      stubs: {
-        'font-awesome-icon': FontAwesomeIcon
       }
     })
     const button = wrapper.find('.geo-table-pagination__action-next')
     expect(button.exists()).toBe(true)
   })
 
-  it('Should allow customizing go-to-next-page button', function () {
+  it('Should allow customizing go-to-next-page button', async function () {
     let slotScope
-    const wrapper = mount(GeoTablePagination, {
-      propsData: {
+    const wrapper = createWrapper(GeoTablePagination, {
+      props: {
         pageSize: 10,
         currentPage: 1,
         sourceDataLength: 30
       },
-      stubs: {
-        'font-awesome-icon': FontAwesomeIcon
-      },
-      scopedSlots: {
-        nextPageShortcut (params) {
-          slotScope = params
-        }
+      slots: {
+        nextPageShortcut: (params) => { slotScope = params; return '' }
       }
     })
 
@@ -382,7 +332,7 @@ describe('GeoTablePagination', () => {
     expect(wrapper.emitted()['go-to-page']).toHaveLength(1)
     expect(wrapper.emitted()['go-to-page']).toEqual([[2]])
 
-    wrapper.setProps({
+    await wrapper.setProps({
       pageSize: 10,
       currentPage: 2,
       sourceDataLength: 30
@@ -391,7 +341,7 @@ describe('GeoTablePagination', () => {
     expect(slotScope).toHaveProperty('hasPreviousPage', true)
     expect(slotScope).toHaveProperty('hasNextPage', false)
 
-    wrapper.setProps({
+    await wrapper.setProps({
       pageSize: 10,
       currentPage: 0,
       sourceDataLength: 30
@@ -402,14 +352,11 @@ describe('GeoTablePagination', () => {
   })
 
   it('Should render go-to-last-page button if page displayed is not the last one', function () {
-    const wrapper = mount(GeoTablePagination, {
-      propsData: {
+    const wrapper = createWrapper(GeoTablePagination, {
+      props: {
         pageSize: 10,
         currentPage: 1,
         sourceDataLength: 30
-      },
-      stubs: {
-        'font-awesome-icon': FontAwesomeIcon
       }
     })
     const button = wrapper.find('.geo-table-pagination__action-last')
@@ -417,14 +364,11 @@ describe('GeoTablePagination', () => {
   })
 
   it('Should render disabled go-to-last-page button if page displayed is the last one', function () {
-    const wrapper = mount(GeoTablePagination, {
-      propsData: {
+    const wrapper = createWrapper(GeoTablePagination, {
+      props: {
         pageSize: 10,
         currentPage: 2,
         sourceDataLength: 30
-      },
-      stubs: {
-        'font-awesome-icon': FontAwesomeIcon
       }
     })
     const disabledButton = wrapper.find('.geo-table-pagination__action-last--disabled')
@@ -435,14 +379,11 @@ describe('GeoTablePagination', () => {
   })
 
   it('Should emit go-to-page event when clicking on go-to-last page button', function () {
-    const wrapper = mount(GeoTablePagination, {
-      propsData: {
+    const wrapper = createWrapper(GeoTablePagination, {
+      props: {
         pageSize: 10,
         currentPage: 0,
         sourceDataLength: 30
-      },
-      stubs: {
-        'font-awesome-icon': FontAwesomeIcon
       }
     })
     const button = wrapper.find('.geo-table-pagination__action-last')
@@ -456,35 +397,27 @@ describe('GeoTablePagination', () => {
   })
 
   it('Should render go-to-last-page button if page displayed is not the last one', function () {
-    const wrapper = mount(GeoTablePagination, {
-      propsData: {
+    const wrapper = createWrapper(GeoTablePagination, {
+      props: {
         pageSize: 10,
         currentPage: 1,
         sourceDataLength: 30
-      },
-      stubs: {
-        'font-awesome-icon': FontAwesomeIcon
       }
     })
     const button = wrapper.find('.geo-table-pagination__action-last')
     expect(button.exists()).toBe(true)
   })
 
-  it('Should allow customizing go-to-last-page button', function () {
+  it('Should allow customizing go-to-last-page button', async function () {
     let slotScope
-    const wrapper = mount(GeoTablePagination, {
-      propsData: {
+    const wrapper = createWrapper(GeoTablePagination, {
+      props: {
         pageSize: 10,
         currentPage: 0,
         sourceDataLength: 30
       },
-      stubs: {
-        'font-awesome-icon': FontAwesomeIcon
-      },
-      scopedSlots: {
-        lastPageShortcut (params) {
-          slotScope = params
-        }
+      slots: {
+        lastPageShortcut: (params) => { slotScope = params; return '' }
       }
     })
 
@@ -497,7 +430,7 @@ describe('GeoTablePagination', () => {
     expect(wrapper.emitted()['go-to-page']).toHaveLength(1)
     expect(wrapper.emitted()['go-to-page']).toEqual([[2]])
 
-    wrapper.setProps({
+    await wrapper.setProps({
       pageSize: 10,
       currentPage: 2,
       sourceDataLength: 30
@@ -506,7 +439,7 @@ describe('GeoTablePagination', () => {
     expect(slotScope).toHaveProperty('hasPreviousPage', true)
     expect(slotScope).toHaveProperty('hasNextPage', false)
 
-    wrapper.setProps({
+    await wrapper.setProps({
       pageSize: 10,
       currentPage: 1,
       sourceDataLength: 30

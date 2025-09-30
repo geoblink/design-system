@@ -7,11 +7,8 @@ import {
   stubLodashDebounceFactory,
   stubCreateSVGPointFactory
 } from './GeoChart.spec-utils' // This has to be imported before D3
-import { createLocalVue, mount } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import GeoChart from '@/elements/GeoChart/GeoChart.vue'
-
-const localVue = createLocalVue()
-localVue.component('geo-chart', GeoChart)
 
 const mockDomain = _.times(5, i => `Category ${i}`)
 
@@ -167,7 +164,7 @@ describe('GeoChartStackedBars', function () {
       }
       it('Should render the StackedBars', () => {
         const wrapper = mount(GeoChart, {
-          propsData: {
+          props: {
             config: stackedBarsConfig
           }
         })
@@ -185,11 +182,11 @@ describe('GeoChartStackedBars', function () {
         expect(wrapper.find('.geo-chart .geo-chart-stacked-bars__segment').exists()).toBe(true)
         expect(wrapper.findAll('.geo-chart .geo-chart-stacked-bars__segment')).toHaveLength(segmentLength)
 
-        wrapper.destroy()
+        wrapper.unmount()
       })
-      it('Should update data', () => {
+      it('Should update data', async () => {
         const wrapper = mount(GeoChart, {
-          propsData: {
+          props: {
             config: stackedBarsConfig
           }
         })
@@ -214,7 +211,7 @@ describe('GeoChartStackedBars', function () {
         const stackedBarsConfig2 = _.assign({}, stackedBarsConfig)
         stackedBarsConfig2.stackedBarGroups[0].data = barsData2
 
-        wrapper.setProps({
+        await wrapper.setProps({
           config: stackedBarsConfig2
         })
         flushD3Transitions()
@@ -229,7 +226,7 @@ describe('GeoChartStackedBars', function () {
         expect(wrapper.findAll('.geo-chart .geo-chart-stacked-bars-group__single-group')).toHaveLength(mockDomain.length)
         expect(wrapper.find('.geo-chart .geo-chart-stacked-bars__segment').exists()).toBe(true)
         expect(wrapper.findAll('.geo-chart .geo-chart-stacked-bars__segment')).toHaveLength(segmentLength)
-        wrapper.destroy()
+        wrapper.unmount()
       })
     })
   }

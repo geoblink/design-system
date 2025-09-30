@@ -1,18 +1,16 @@
-import { createLocalVue, mount } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import GeoTableHeaderRow from '@/elements/GeoTable/GeoTableHeaderRow'
 
-// create an extended `Vue` constructor
-const localVue = createLocalVue()
-localVue.component('geo-table-header-row', GeoTableHeaderRow)
+function createWrapper (component, options = {}) {
+  return mount(component, Object.assign({}, options))
+}
 
 describe('GeoTableHeaderRow', () => {
   it('Should render component', function () {
     let slotScope
-    const wrapper = mount(GeoTableHeaderRow, {
-      scopedSlots: {
-        default (params) {
-          slotScope = params
-        }
+    const wrapper = createWrapper(GeoTableHeaderRow, {
+      slots: {
+        default: (params) => { slotScope = params; return '' }
       }
     })
 
@@ -23,8 +21,8 @@ describe('GeoTableHeaderRow', () => {
   })
 
   it('Should render `aux` variant', function () {
-    const wrapper = mount(GeoTableHeaderRow, {
-      propsData: {
+    const wrapper = createWrapper(GeoTableHeaderRow, {
+      props: {
         variant: GeoTableHeaderRow.constants.VARIANTS.aux
       }
     })
@@ -34,8 +32,8 @@ describe('GeoTableHeaderRow', () => {
   })
 
   it('Should render `main` variant', function () {
-    const wrapper = mount(GeoTableHeaderRow, {
-      propsData: {
+    const wrapper = createWrapper(GeoTableHeaderRow, {
+      props: {
         variant: GeoTableHeaderRow.constants.VARIANTS.main
       }
     })
@@ -45,8 +43,8 @@ describe('GeoTableHeaderRow', () => {
   })
 
   it('Should render `single` variant', function () {
-    const wrapper = mount(GeoTableHeaderRow, {
-      propsData: {
+    const wrapper = createWrapper(GeoTableHeaderRow, {
+      props: {
         variant: GeoTableHeaderRow.constants.VARIANTS.single
       }
     })
@@ -56,25 +54,22 @@ describe('GeoTableHeaderRow', () => {
   })
 
   it('Should complain when using unknown variant', function () {
-    const consoleErrorSpy = jest.spyOn(global.console, 'error').mockImplementation(() => { })
     const consoleWarnSpy = jest.spyOn(global.console, 'warn').mockImplementation(() => { })
 
-    mount(GeoTableHeaderRow, {
-      propsData: {
+    createWrapper(GeoTableHeaderRow, {
+      props: {
         variant: 'unknown-variant-for-tests'
       }
     })
 
-    expect(consoleErrorSpy).toHaveBeenCalled()
     expect(consoleWarnSpy).toHaveBeenCalled()
 
-    consoleErrorSpy.mockRestore()
     consoleWarnSpy.mockRestore()
   })
 
   it('Should render content', function () {
-    const wrapper = mount(GeoTableHeaderRow, {
-      scopedSlots: {
+    const wrapper = createWrapper(GeoTableHeaderRow, {
+      slots: {
         default: '<p>Demo content</p>'
       }
     })

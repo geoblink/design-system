@@ -40,18 +40,18 @@
           v-if="showButtons"
           class="geo-editable-input__buttons-container"
         >
-        <geo-secondary-compact-button
-          :icon="cancelIcon"
-          @click="emitCancel($event)"
-        />
+          <geo-secondary-compact-button
+            :icon="cancelIcon"
+            @click="emitCancel($event)"
+          />
 
-        <geo-primary-compact-button
-          :icon="saveIcon"
-          :loading="loading"
-          @click="emitSave($event)"
-        />
-      </div>
-    </template>
+          <geo-primary-compact-button
+            :icon="saveIcon"
+            :loading="loading"
+            @click="emitSave($event)"
+          />
+        </div>
+      </template>
     </geo-dropdown>
   </div>
 </template>

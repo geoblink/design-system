@@ -1,4 +1,26 @@
-<template src="./GeoFeedbackBox.template.html" />
+<template>
+  <geo-feedback-box
+    v-bind="$props"
+    :variant="variant"
+    @close="$attrs.onClose"
+  >
+    <template #leadingAccessoryItem>
+      <font-awesome-icon
+        :icon="icon"
+        aria-hidden
+        fixed-width
+      />
+    </template>
+    <!-- @slot Use this slot to customized displayed message -->
+    <template #content>
+      <slot name="content" />
+    </template>
+    <!-- @slot Use this slot to show additional actions after message -->
+    <template #actions>
+      <slot name="actions" />
+    </template>
+  </geo-feedback-box>
+</template>
 
 <script>
 import mixin, { VARIANTS } from './GeoFeedbackBox.mixin'

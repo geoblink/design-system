@@ -2,7 +2,7 @@
   <geo-feedback-box
     v-bind="$props"
     :variant="variant"
-    v-on="$listeners"
+    @close="$attrs.onClose"
   >
     <template #leadingAccessoryItem>
       <font-awesome-icon

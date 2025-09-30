@@ -23,22 +23,29 @@ describe('GeoCalendarDayGridWeekUnit', () => {
   })
 
   describe('Week granularity', () => {
-    const wrapper = getWrappedComponent()
-    wrapper.setProps({
-      earliestDate: addMonths(today, 3),
-      latestDate: addMonths(today, 5),
-      granularityId: GRANULARITY_IDS.week
+    let wrapper, dayChild
+
+    beforeEach(async () => {
+      wrapper = getWrappedComponent()
+      await wrapper.setProps({
+        earliestDate: addMonths(today, 3),
+        latestDate: addMonths(today, 5),
+        granularityId: GRANULARITY_IDS.week
+      })
+      dayChild = wrapper.findComponent(GeoCalendarDayGridDayUnit)
     })
 
-    const dayChild = wrapper.find(GeoCalendarDayGridDayUnit)
+    afterEach(() => {
+      wrapper.unmount()
+    })
 
     it('Should add proper classes', () => {
       expect(wrapper.find('.geo-calendar-grid__week-unit--is-week-granularity').exists()).toBe(true)
       expect(wrapper.find('.geo-calendar-grid__week-unit--unavailable').exists()).toBe(true)
     })
 
-    it('Should select week if there is data', () => {
-      wrapper.setProps({
+    it('Should select week if there is data', async () => {
+      await wrapper.setProps({
         earliestDate: subMonths(today, 3),
         latestDate: addMonths(today, 5)
       })
@@ -56,7 +63,7 @@ describe('GeoCalendarDayGridWeekUnit', () => {
 
   describe('Day granularity', () => {
     const wrapper = getWrappedComponent()
-    const dayChild = wrapper.find(GeoCalendarDayGridDayUnit)
+    const dayChild = wrapper.findComponent(GeoCalendarDayGridDayUnit)
 
     wrapper.setProps({
       earliestDate: subDays(today, 5),
@@ -77,7 +84,7 @@ describe('GeoCalendarDayGridWeekUnit', () => {
 
     it('Should emit mouseover event if received from child component', () => {
       const wrapper = getWrappedComponent()
-      const geoCalendarDayGridDayUnitWrapper = wrapper.find(GeoCalendarDayGridDayUnit)
+      const geoCalendarDayGridDayUnitWrapper = wrapper.findComponent(GeoCalendarDayGridDayUnit)
 
       geoCalendarDayGridDayUnitWrapper.vm.$emit('day-unit-mouseover', today)
       expect(wrapper.emitted()['day-unit-mouseover']).toBeDefined()
@@ -98,10 +105,12 @@ function getWrappedComponent (granularityId) {
   }), 7)
 
   return mount(GeoCalendarDayGridWeekUnit, {
-    stubs: {
-      GeoCalendarDayGridDayUnit
+    global: {
+      components: {
+        GeoCalendarDayGridDayUnit
+      }
     },
-    propsData: {
+    props: {
       currentDate: today,
       week,
       fullMonthCalendar,

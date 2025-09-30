@@ -5,7 +5,6 @@
       $attrs.class,
       'geo-input-label'
     ]"
-    v-on="$listeners"
   >
     <!-- @slot Use this slot to customize content displayed inside the label -->
     <slot />

@@ -22,7 +22,7 @@
         </div>
 
         <div
-          v-if="hasTrailingAccessoryItems"
+          v-if="!!$slots.trailingAccessoryItem"
           class="geo-list-actionable-item__trailing-accessory-items"
         >
           <slot name="trailingAccessoryItem" />
@@ -35,7 +35,7 @@
       </div>
 
       <div
-        v-if="hasActions"
+        v-if="!!$slots.actions"
         class="geo-list-actionable-item__actions"
       >
         <!-- @slot Use this slot to add more items at the bottom of the item -->
@@ -75,14 +75,6 @@ export default {
     active: {
       type: Boolean,
       default: false
-    }
-  },
-  computed: {
-    hasTrailingAccessoryItems () {
-      return !!(this.$slots.trailingAccessoryItem && this.$slots.trailingAccessoryItem.length)
-    },
-    hasActions () {
-      return !!(this.$slots.actions && this.$slots.actions.length)
     }
   }
 }

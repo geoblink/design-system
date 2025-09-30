@@ -1,15 +1,15 @@
-import { createLocalVue, mount } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import GeoTableBodyRow from '@/elements/GeoTable/GeoTableBodyRow'
 
-// create an extended `Vue` constructor
-const localVue = createLocalVue()
-localVue.component('geo-table-body-row', GeoTableBodyRow)
+function getWrapper (component, options = {}) {
+  return mount(component, Object.assign({}, options))
+}
 
 describe('GeoTableBodyRow', () => {
   it('Should render component', function () {
-    const wrapper = mount(GeoTableBodyRow, {
-      scopedSlots: {
-        default () { }
+    const wrapper = getWrapper(GeoTableBodyRow, {
+      slots: {
+        default: () => ''
       }
     })
 
@@ -18,8 +18,8 @@ describe('GeoTableBodyRow', () => {
   })
 
   it('Should render content', function () {
-    const wrapper = mount(GeoTableBodyRow, {
-      scopedSlots: {
+    const wrapper = getWrapper(GeoTableBodyRow, {
+      slots: {
         default: '<p>Demo content</p>'
       }
     })
@@ -30,8 +30,8 @@ describe('GeoTableBodyRow', () => {
   })
 
   it('Should apply variant when provided', function () {
-    const wrapper = mount(GeoTableBodyRow, {
-      propsData: {
+    const wrapper = getWrapper(GeoTableBodyRow, {
+      props: {
         variant: 'highlighted'
       }
     })
@@ -41,16 +41,16 @@ describe('GeoTableBodyRow', () => {
   })
 
   it('Should complain when using unknown variant', function () {
-    const consoleErrorSpy = jest.spyOn(global.console, 'error').mockImplementation(() => { })
+    const consoleWarnSpy = jest.spyOn(global.console, 'warn').mockImplementation(() => { })
 
-    mount(GeoTableBodyRow, {
-      propsData: {
+    getWrapper(GeoTableBodyRow, {
+      props: {
         variant: 'unknown-variant-for-tests'
       }
     })
 
-    expect(consoleErrorSpy).toHaveBeenCalled()
+    expect(consoleWarnSpy).toHaveBeenCalled()
 
-    consoleErrorSpy.mockRestore()
+    consoleWarnSpy.mockRestore()
   })
 })

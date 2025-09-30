@@ -15,17 +15,17 @@ describe('GeoCalendarMonthGridQuarterUnit', () => {
 
   describe('Month granularity', () => {
     const wrapper = getWrappedComponent(GRANULARITY_IDS.month)
-    const childMonth = wrapper.find(GeoCalendarMonthGridMonthUnit)
-    it('Does not emit any event if the received month has no data', () => {
-      wrapper.setProps({
+    const childMonth = wrapper.findComponent(GeoCalendarMonthGridMonthUnit)
+    it('Does not emit any event if the received month has no data', async () => {
+      await wrapper.setProps({
         earliestDate: addMonths(today, 1)
       })
       childMonth.vm.$emit('select-month-unit', 6)
       expect(wrapper.emitted('select-month')).toBeUndefined()
     })
 
-    it('Emits event when the received month has data', () => {
-      wrapper.setProps({
+    it('Emits event when the received month has data', async () => {
+      await wrapper.setProps({
         earliestDate: subMonths(today, 1)
       })
       childMonth.vm.$emit('select-month-unit', 6)
@@ -35,7 +35,7 @@ describe('GeoCalendarMonthGridQuarterUnit', () => {
 
     it('Emits mouseover event if received from child component', () => {
       const wrapper = getWrappedComponent(GRANULARITY_IDS.month)
-      const geoCalendarMonthGridMonthUnitWrapper = wrapper.find(GeoCalendarMonthGridMonthUnit)
+      const geoCalendarMonthGridMonthUnitWrapper = wrapper.findComponent(GeoCalendarMonthGridMonthUnit)
 
       geoCalendarMonthGridMonthUnitWrapper.vm.$emit('month-unit-mouseover', 6)
       expect(wrapper.emitted()['month-unit-mouseover']).toBeDefined()
@@ -45,15 +45,15 @@ describe('GeoCalendarMonthGridQuarterUnit', () => {
 
   describe('Quarter granularity', () => {
     const wrapper = getWrappedComponent(GRANULARITY_IDS.quarter)
-    const childMonth = wrapper.find(GeoCalendarMonthGridMonthUnit)
+    const childMonth = wrapper.findComponent(GeoCalendarMonthGridMonthUnit)
 
     it('Adds proper classes', () => {
       expect(wrapper.find('.geo-calendar-grid__quarter-unit--actionable').exists()).toBe(true)
       expect(wrapper.vm.canQuarterBeHighlighted).toBe(true)
     })
 
-    it('isSomeMonthInQuarterUnavailable', () => {
-      wrapper.setProps({
+    it('isSomeMonthInQuarterUnavailable', async () => {
+      await wrapper.setProps({
         earliestDate: subMonths(today, 5),
         latestDate: subMonths(today, 4)
       })
@@ -66,8 +66,8 @@ describe('GeoCalendarMonthGridQuarterUnit', () => {
       expect(wrapper.emitted()['select-quarter']).toBeUndefined()
     })
 
-    it('Emits event when the received month has data', () => {
-      wrapper.setProps({
+    it('Emits event when the received month has data', async () => {
+      await wrapper.setProps({
         earliestDate: subMonths(today, 2),
         latestDate: addMonths(today, 3)
       })
@@ -80,10 +80,12 @@ describe('GeoCalendarMonthGridQuarterUnit', () => {
 
 function getWrappedComponent (granularityId) {
   return mount(GeoCalendarMonthGridQuarterUnit, {
-    stubs: {
-      GeoCalendarMonthGridMonthUnit
+    global: {
+      components: {
+        GeoCalendarMonthGridMonthUnit
+      }
     },
-    propsData: {
+    props: {
       quarter: [
         { index: 6, name: 'July' },
         { index: 7, name: 'August' },

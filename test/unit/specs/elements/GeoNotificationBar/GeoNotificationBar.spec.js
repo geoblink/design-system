@@ -1,8 +1,7 @@
 import _ from 'lodash'
-import { createLocalVue, mount } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import GeoNotificationBar from '@/elements/GeoNotificationBar/GeoNotificationBar.vue'
 import { FontAwesomeIconMock, expectFontAwesomeIconProp } from 'test/unit/utils/FontAwesomeIconMock.js'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fas } from '@fortawesome/free-solid-svg-icons'
 
@@ -18,45 +17,56 @@ const mockedFalIcons = _.mapValues(_.pick(fas, iconsToMock), (original) => {
 })
 library.add(mockedFalIcons)
 
-// create an extended `Vue` constructor
-const localVue = createLocalVue()
-localVue.component('geo-notification-bar', GeoNotificationBar)
-
 describe('GeoNotificationBar', () => {
   it('Should render GeoNotificationBar component', () => {
-    const wrapper = mount(GeoNotificationBar, {})
+    const wrapper = mount(GeoNotificationBar, {
+      global: {
+        stubs: {
+          'font-awesome-icon': FontAwesomeIconMock
+        }
+      }
+    })
     expect(wrapper.find('.geo-notification-bar').exists()).toBe(true)
   })
 
   it('Should display bell icon', () => {
     const wrapper = mount(GeoNotificationBar, {
-      propsData: {
+      props: {
         icon: ['fas', 'bell']
       },
-      stubs: {
-        'font-awesome-icon': FontAwesomeIconMock
+      global: {
+        stubs: {
+          'font-awesome-icon': FontAwesomeIconMock
+        }
       }
     })
-    const fontAwesomeIconElem = wrapper.find(FontAwesomeIconMock)
+    const fontAwesomeIconElem = wrapper.findComponent(FontAwesomeIconMock)
     expectFontAwesomeIconProp(fontAwesomeIconElem, ['fas', 'bell'])
   })
 
   it('Should display default close icon when listener is provided', () => {
     const wrapper = mount(GeoNotificationBar, {
-      stubs: {
-        'font-awesome-icon': FontAwesomeIconMock
+      global: {
+        stubs: {
+          'font-awesome-icon': FontAwesomeIconMock
+        }
       },
-      listeners: {
-        close () { }
+      attrs: {
+        onClose () { }
       }
     })
-    const fontAwesomeIconElem = wrapper.find(FontAwesomeIconMock)
+    const fontAwesomeIconElem = wrapper.findComponent(FontAwesomeIconMock)
     expectFontAwesomeIconProp(fontAwesomeIconElem, ['fal', 'times'])
     expect(wrapper.find('.geo-notification-bar__close-icon').exists()).toBe(true)
   })
 
   it('Should display actions slot', () => {
     const wrapper = mount(GeoNotificationBar, {
+      global: {
+        stubs: {
+          'font-awesome-icon': FontAwesomeIconMock
+        }
+      },
       slots: {
         actions: ['<button class="some-action">A button</button>']
       }
@@ -66,6 +76,11 @@ describe('GeoNotificationBar', () => {
 
   it('Should display default slot', () => {
     const wrapper = mount(GeoNotificationBar, {
+      global: {
+        stubs: {
+          'font-awesome-icon': FontAwesomeIconMock
+        }
+      },
       slots: {
         default: 'notification'
       }
@@ -75,14 +90,16 @@ describe('GeoNotificationBar', () => {
 
   it('Should trigger close event when clicking on close icon', () => {
     const wrapper = mount(GeoNotificationBar, {
-      stubs: {
-        'font-awesome-icon': FontAwesomeIcon
+      global: {
+        stubs: {
+          'font-awesome-icon': FontAwesomeIconMock
+        }
       },
-      listeners: {
+      attrs: {
         close () { }
       }
     })
-    wrapper.find(FontAwesomeIcon).trigger('click')
+    wrapper.findComponent(FontAwesomeIconMock).trigger('click')
     expect(wrapper.emitted().close).toBeTruthy()
   })
 })

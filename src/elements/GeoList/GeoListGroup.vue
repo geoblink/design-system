@@ -63,11 +63,11 @@ export default {
   },
   computed: {
     hasTitle () {
-      return !!(this.$slots.title && this.$slots.title.length)
+      return !!this.$slots.title
     },
 
     hasTrailingAccessoryItems () {
-      return !!(this.$slots.trailingAccessoryItem && this.$slots.trailingAccessoryItem.length)
+      return !!this.$slots.trailingAccessoryItem
     }
   },
   methods: {

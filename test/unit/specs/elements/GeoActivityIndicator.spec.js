@@ -1,14 +1,21 @@
-import { createLocalVue, mount } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import GeoActivityIndicator from '@/elements/GeoActivityIndicator/GeoActivityIndicator.vue'
 
-// create an extended `Vue` constructor
-const localVue = createLocalVue()
-localVue.component('geo-activity-indicator', GeoActivityIndicator)
+// Helper function to create wrapper with registered components
+function createWrapper (component, options = {}) {
+  return mount(component, Object.assign({
+    global: {
+      components: {
+        'geo-activity-indicator': GeoActivityIndicator
+      }
+    }
+  }, options))
+}
 
 describe('GeoActivityIndicator', () => {
   it('Should render activity indicator', function () {
-    const wrapper = mount(GeoActivityIndicator, {
-      propsData: {
+    const wrapper = createWrapper(GeoActivityIndicator, {
+      props: {
         variant: 'primary'
       }
     })
@@ -17,8 +24,8 @@ describe('GeoActivityIndicator', () => {
   })
 
   it('Should render given completed percentage', function () {
-    const wrapper = mount(GeoActivityIndicator, {
-      propsData: {
+    const wrapper = createWrapper(GeoActivityIndicator, {
+      props: {
         percentage: 0.75
       }
     })
@@ -28,8 +35,8 @@ describe('GeoActivityIndicator', () => {
   })
 
   it('Should render given completed percentage', function () {
-    const wrapper = mount(GeoActivityIndicator, {
-      propsData: {
+    const wrapper = createWrapper(GeoActivityIndicator, {
+      props: {
         percentage: 0.75
       }
     })
@@ -39,14 +46,14 @@ describe('GeoActivityIndicator', () => {
   })
 
   it('Should be indeterminate and animated by default', function () {
-    const wrapper = mount(GeoActivityIndicator)
+    const wrapper = createWrapper(GeoActivityIndicator)
     expect(wrapper.vm.isIndeterminate).toBe(true)
     expect(wrapper.vm.isAnimated).toBe(true)
   })
 
   it('Shouldn\'t animate when completion percentage is given', function () {
-    const wrapper = mount(GeoActivityIndicator, {
-      propsData: {
+    const wrapper = createWrapper(GeoActivityIndicator, {
+      props: {
         percentage: 0.75
       }
     })
@@ -55,8 +62,8 @@ describe('GeoActivityIndicator', () => {
   })
 
   it('Should animate when animated flag is passed', function () {
-    const wrapper = mount(GeoActivityIndicator, {
-      propsData: {
+    const wrapper = createWrapper(GeoActivityIndicator, {
+      props: {
         animated: true,
         percentage: 0.75
       }
@@ -66,8 +73,8 @@ describe('GeoActivityIndicator', () => {
   })
 
   it('Should animate when indeterminate flag is passed', function () {
-    const wrapper = mount(GeoActivityIndicator, {
-      propsData: {
+    const wrapper = createWrapper(GeoActivityIndicator, {
+      props: {
         indeterminate: true
       }
     })

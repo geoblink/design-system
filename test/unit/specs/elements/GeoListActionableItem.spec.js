@@ -1,8 +1,8 @@
 import { mount } from '@vue/test-utils'
 import GeoListActionableItem from '@/elements/GeoList/GeoListActionableItem.vue'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fas } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIconMock, expectFontAwesomeIconProp } from 'test/unit/utils/FontAwesomeIconMock'
 
 library.add(fas)
 
@@ -41,14 +41,17 @@ describe('GeoListActionableItem', () => {
 
   it('Should render icon', function () {
     const wrapper = mount(GeoListActionableItem, {
-      stubs: {
-        'font-awesome-icon': FontAwesomeIcon
+      global: {
+        stubs: {
+          'font-awesome-icon': FontAwesomeIconMock
+        }
       },
-      propsData: {
+      props: {
         icon: ['fas', 'times']
       }
     })
 
-    expect(wrapper.find('svg[data-prefix="fas"][data-icon="times"]').exists()).toBe(true)
+    const fontAwesomeIcon = wrapper.findComponent(FontAwesomeIconMock)
+    expectFontAwesomeIconProp(fontAwesomeIcon, ['fas', 'times'])
   })
 })

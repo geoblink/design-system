@@ -1,14 +1,21 @@
-import { createLocalVue, mount } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import GeoPill from '@/elements/GeoPill/GeoPill.vue'
 
-// create an extended `Vue` constructor
-const localVue = createLocalVue()
-localVue.component('geo-pill', GeoPill)
+// Helper function to create wrapper with registered components
+function createWrapper (component, options = {}) {
+  return mount(component, Object.assign({
+    global: {
+      components: {
+        'geo-pill': GeoPill
+      }
+    }
+  }, options))
+}
 
 describe('GeoPill', () => {
   it('Should render content', function () {
     const pillTextContent = 'Pill content'
-    const wrapper = mount(GeoPill, {
+    const wrapper = createWrapper(GeoPill, {
       slots: {
         default: `<span>${pillTextContent}</span>`
       }
@@ -21,11 +28,11 @@ describe('GeoPill', () => {
 
   it('Should consider variant', function () {
     const pillTextContent = 'Pill content'
-    const wrapper = mount(GeoPill, {
+    const wrapper = createWrapper(GeoPill, {
       slots: {
         default: `<span>${pillTextContent}</span>`
       },
-      propsData: {
+      props: {
         variant: 'light'
       }
     })
@@ -36,16 +43,16 @@ describe('GeoPill', () => {
   })
 
   it('Should complain when using unknown variant', function () {
-    const consoleErrorSpy = jest.spyOn(global.console, 'error').mockImplementation(() => { })
+    const consoleWarnSpy = jest.spyOn(global.console, 'warn').mockImplementation(() => { })
 
-    mount(GeoPill, {
-      propsData: {
+    createWrapper(GeoPill, {
+      props: {
         variant: 'unknown-variant-for-tests'
       }
     })
 
-    expect(consoleErrorSpy).toHaveBeenCalled()
+    expect(consoleWarnSpy).toHaveBeenCalled()
 
-    consoleErrorSpy.mockRestore()
+    consoleWarnSpy.mockRestore()
   })
 })

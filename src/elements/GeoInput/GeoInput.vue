@@ -26,11 +26,10 @@
 
         <input
           ref="input"
-          :value="value"
+          :value="modelValue"
           :disabled="disabled || readOnly"
           class="geo-input__input"
           v-bind="$attrs"
-          v-on="listeners"
           @input="onInput($event)"
         >
 
@@ -94,7 +93,7 @@ export default {
      * @model
      * Current value shown in the input.
      */
-    value: {
+    modelValue: {
       type: [Number, String]
     },
 
@@ -174,11 +173,11 @@ export default {
     },
 
     hasDeleteIcon () {
-      return !this.disabled && !!this.$listeners['delete-value']
+      return !this.disabled && !!this.$attrs['delete-value']
     },
 
     isDeleteIconVisible () {
-      return this.hasDeleteIcon && !!this.value
+      return this.hasDeleteIcon && !!this.modelValue
     },
 
     deleteIconClass () {
@@ -216,7 +215,7 @@ export default {
        * @event input
        * @type {KeyboardEvent}
        */
-      this.$emit('input', $event.target.value)
+      this.$emit('update:modelValue', $event.target.value)
     },
 
     deleteValue () {

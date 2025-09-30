@@ -1,18 +1,12 @@
-import { createLocalVue, mount } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import GeoTableHeaderRowCell from '@/elements/GeoTable/GeoTableHeaderRowCell'
-
-// create an extended `Vue` constructor
-const localVue = createLocalVue()
-localVue.component('geo-table-header-row-cell', GeoTableHeaderRowCell)
 
 describe('GeoTableHeaderRowCell', () => {
   it('Should render component', function () {
     let slotScope
-    const wrapper = mount(GeoTableHeaderRowCell, {
-      scopedSlots: {
-        default (params) {
-          slotScope = params
-        }
+    const wrapper = createWrapper({
+      slots: {
+        default: (params) => { slotScope = params; return '' }
       }
     })
 
@@ -23,8 +17,8 @@ describe('GeoTableHeaderRowCell', () => {
   })
 
   it('Should render `aux` variant', function () {
-    const wrapper = mount(GeoTableHeaderRowCell, {
-      propsData: {
+    const wrapper = createWrapper({
+      props: {
         variant: GeoTableHeaderRowCell.constants.VARIANTS.aux
       }
     })
@@ -34,8 +28,8 @@ describe('GeoTableHeaderRowCell', () => {
   })
 
   it('Should render `main` variant', function () {
-    const wrapper = mount(GeoTableHeaderRowCell, {
-      propsData: {
+    const wrapper = createWrapper({
+      props: {
         variant: GeoTableHeaderRowCell.constants.VARIANTS.main
       }
     })
@@ -45,8 +39,8 @@ describe('GeoTableHeaderRowCell', () => {
   })
 
   it('Should render `single` variant', function () {
-    const wrapper = mount(GeoTableHeaderRowCell, {
-      propsData: {
+    const wrapper = createWrapper({
+      props: {
         variant: GeoTableHeaderRowCell.constants.VARIANTS.single
       }
     })
@@ -56,25 +50,22 @@ describe('GeoTableHeaderRowCell', () => {
   })
 
   it('Should complain when using unknown variant', function () {
-    const consoleErrorSpy = jest.spyOn(global.console, 'error').mockImplementation(() => { })
     const consoleWarnSpy = jest.spyOn(global.console, 'warn').mockImplementation(() => { })
 
-    mount(GeoTableHeaderRowCell, {
-      propsData: {
+    createWrapper({
+      props: {
         variant: 'unknown-variant-for-tests'
       }
     })
 
-    expect(consoleErrorSpy).toHaveBeenCalled()
     expect(consoleWarnSpy).toHaveBeenCalled()
 
-    consoleErrorSpy.mockRestore()
     consoleWarnSpy.mockRestore()
   })
 
   it('Should render content', function () {
-    const wrapper = mount(GeoTableHeaderRowCell, {
-      scopedSlots: {
+    const wrapper = createWrapper({
+      slots: {
         default: '<p>Demo content</p>'
       }
     })
@@ -84,3 +75,7 @@ describe('GeoTableHeaderRowCell', () => {
     expect(instance.text()).toEqual('Demo content')
   })
 })
+
+function createWrapper (options = {}) {
+  return mount(GeoTableHeaderRowCell, Object.assign({}, options))
+}

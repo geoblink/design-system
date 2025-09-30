@@ -27,7 +27,7 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.vue', '.json'],
     alias: {
-      vue$: 'vue/dist/vue.esm.js',
+      vue$: '@vue/compat',
       '@': resolve('src')
     }
   },
@@ -43,6 +43,11 @@ module.exports = {
             source: 'src',
             img: 'src',
             image: 'xlink:href'
+          },
+          compilerOptions: {
+            compatConfig: {
+              MODE: 2
+            }
           }
         }
       },

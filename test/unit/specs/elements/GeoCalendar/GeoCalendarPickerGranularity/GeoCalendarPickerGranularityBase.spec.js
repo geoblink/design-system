@@ -14,7 +14,7 @@ describe('GeoCalendarPickerGranularityBase', () => {
     expect(wrapper.find('.geo-calendar-picker-granularity-unit__selector-icon').exists()).toBe(true)
   })
 
-  it('Should toggle isActive prop classes', () => {
+  it('Should toggle isActive prop classes', async () => {
     const wrapper = mount(GeoCalendarPickerGranularityBase, {
       stubs: ['font-awesome-icon'],
       propsData: {
@@ -23,11 +23,11 @@ describe('GeoCalendarPickerGranularityBase', () => {
       }
     })
     expect(wrapper.find('.geo-calendar-picker-granularity-unit--active').exists()).toBe(false)
-    wrapper.setProps({ isActive: true })
+    await wrapper.setProps({ isActive: true })
     expect(wrapper.find('.geo-calendar-picker-granularity-unit--active').exists()).toBe(true)
   })
 
-  it('Should emit click event', () => {
+  it('Should emit click event', async () => {
     const wrapper = mount(GeoCalendarPickerGranularityBase, {
       stubs: ['font-awesome-icon'],
       propsData: {
@@ -36,7 +36,7 @@ describe('GeoCalendarPickerGranularityBase', () => {
       }
     })
 
-    wrapper.find('.geo-calendar-picker-granularity-unit').trigger('click')
+    await wrapper.find('.geo-calendar-picker-granularity-unit').trigger('click')
     expect(wrapper.emitted().click).toBeTruthy()
   })
 })

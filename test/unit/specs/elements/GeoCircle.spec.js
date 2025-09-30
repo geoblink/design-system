@@ -9,7 +9,7 @@ describe('GeoCircle', () => {
 
   it('Should use proper variant', function () {
     const wrapper = mount(GeoCircle, {
-      propsData: {
+      props: {
         variant: 'primary'
       }
     })

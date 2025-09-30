@@ -130,17 +130,13 @@ const chartConfigValidator = (function () {
  * global settings.
  * :::
  */
-export default {
+const GeoChart = {
   name: 'GeoChart',
   status: 'ready',
   release: '9.4.0',
   directives: {
     OnResize
   },
-  constants: _.assign({}, CONSTANTS, {
-    INTERPOLATION_TYPES,
-    getTriangleShapePath
-  }),
   mixins: [configAdapterMixin],
   props: {
     /**
@@ -312,7 +308,7 @@ export default {
   mounted () {
     this.reloadSize()
   },
-  beforeDestroy () {
+  beforeUnmount () {
     this.cleanupData()
   },
   methods: {
@@ -357,4 +353,11 @@ export default {
     }
   }
 }
+
+GeoChart.constants = _.assign({}, CONSTANTS, {
+  INTERPOLATION_TYPES,
+  getTriangleShapePath
+})
+
+export default GeoChart
 </script>

@@ -5,7 +5,6 @@
       'geo-alert',
       `geo-alert--${variant}`
     ]"
-    v-on="$listeners"
   >
     <font-awesome-icon
       :icon="icon"

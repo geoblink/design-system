@@ -6,14 +6,16 @@ import { PICKER_DATE_UNITS, GRANULARITY_IDS } from '@/elements/GeoCalendar/GeoCa
 describe('GeoCalendarPickerGranularityWeek', () => {
   it('Should render', function () {
     const wrapper = mount(GeoCalendarPickerGranularityWeek, {
-      stubs: {
-        GeoCalendarPickerGranularityBase,
-        FontAwesomeIcon: true
+      global: {
+        stubs: {
+          GeoCalendarPickerGranularityBase,
+          FontAwesomeIcon: true
+        }
       },
       slots: {
         default: ['<p class="week-granularity-selector">Week Granularity</p>']
       },
-      propsData: {
+      props: {
         isActive: false,
         pickerDateUnit: PICKER_DATE_UNITS.day,
         granularityId: GRANULARITY_IDS.week,
@@ -26,14 +28,16 @@ describe('GeoCalendarPickerGranularityWeek', () => {
 
   it('Should trigger click event when clicked on it', () => {
     const wrapper = mount(GeoCalendarPickerGranularityWeek, {
-      stubs: [
-        'geo-calendar-picker-granularity-base',
-        'font-awesome-icon'
-      ],
+      global: {
+        stubs: {
+          GeoCalendarPickerGranularityBase,
+          FontAwesomeIcon: true
+        }
+      },
       slots: {
         default: ['<p class="week-granularity-selector">Week Granularity</p>']
       },
-      propsData: {
+      props: {
         isActive: false,
         pickerDateUnit: PICKER_DATE_UNITS.day,
         granularityId: GRANULARITY_IDS.day,

@@ -1,15 +1,15 @@
-import { createLocalVue, mount } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import GeoTableBodyRowCell from '@/elements/GeoTable/GeoTableBodyRowCell'
 
-// create an extended `Vue` constructor
-const localVue = createLocalVue()
-localVue.component('geo-table-body-row-cell', GeoTableBodyRowCell)
+function createWrapper (component, options = {}) {
+  return mount(component, Object.assign({}, options))
+}
 
 describe('GeoTableBodyRowCell', () => {
   it('Should render component', function () {
-    const wrapper = mount(GeoTableBodyRowCell, {
-      scopedSlots: {
-        default () { }
+    const wrapper = createWrapper(GeoTableBodyRowCell, {
+      slots: {
+        default: () => ''
       }
     })
 
@@ -18,7 +18,7 @@ describe('GeoTableBodyRowCell', () => {
   })
 
   it('Should render content', function () {
-    const wrapper = mount(GeoTableBodyRowCell, {
+    const wrapper = createWrapper(GeoTableBodyRowCell, {
       slots: {
         default: '<p>Demo content</p>'
       }

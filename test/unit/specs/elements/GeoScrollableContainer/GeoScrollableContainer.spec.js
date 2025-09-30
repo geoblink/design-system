@@ -1,19 +1,31 @@
-import { createLocalVue, mount } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import GeoScrollableContainer from '@/elements/GeoScrollableContainer/GeoScrollableContainer.vue'
 import GeoListFooterButton from '@/elements/GeoList/GeoListFooterButton.vue'
+import GeoTertiaryButton from '@/elements/GeoButton/GeoTertiaryButton.vue'
 
-// create an extended `Vue` constructor
-const localVue = createLocalVue()
-localVue.component('geo-scrollable-container', GeoScrollableContainer)
+// Helper function to create wrapper with registered components
+function createWrapper (component, options = {}) {
+  return mount(component, Object.assign({
+    global: {
+      components: {
+        'geo-scrollable-container': GeoScrollableContainer
+      },
+      stubs: {
+        'geo-list-footer-button': GeoListFooterButton,
+        'geo-tertiary-button': GeoTertiaryButton
+      }
+    }
+  }, options))
+}
 
 describe('GeoScrollableContainer', () => {
   it('Should render GeoScrollableContainer component', () => {
-    const wrapper = mount(GeoScrollableContainer)
+    const wrapper = createWrapper(GeoScrollableContainer)
     expect(wrapper.find('.geo-scrollable-container').exists()).toBe(true)
   })
 
   it('Should display default slot', () => {
-    const wrapper = mount(GeoScrollableContainer, {
+    const wrapper = createWrapper(GeoScrollableContainer, {
       slots: {
         default: 'test'
       }
@@ -22,39 +34,29 @@ describe('GeoScrollableContainer', () => {
   })
 
   it('Should display ShowMoreResults button when is set to true', () => {
-    const wrapper = mount(GeoScrollableContainer, {
-      propsData: {
+    const wrapper = createWrapper(GeoScrollableContainer, {
+      props: {
         showMoreResultsButton: true
-      },
-      stubs: {
-        'geo-list-footer-button': GeoListFooterButton,
-        'geo-tertiary-button': true
       }
     })
-    expect(wrapper.find(GeoListFooterButton).exists()).toBe(true)
+
+    console.log(wrapper.html())
+    expect(wrapper.findComponent(GeoListFooterButton).exists()).toBe(true)
   })
 
   it('Should not display ShowMoreResults button when is set to false', () => {
-    const wrapper = mount(GeoScrollableContainer, {
-      propsData: {
+    const wrapper = createWrapper(GeoScrollableContainer, {
+      props: {
         showMoreResultsButton: false
-      },
-      stubs: {
-        'geo-list-footer-button': GeoListFooterButton,
-        'geo-tertiary-button': true
       }
     })
-    expect(wrapper.find(GeoListFooterButton).exists()).toBe(false)
+    expect(wrapper.findComponent(GeoListFooterButton).exists()).toBe(false)
   })
 
   it('Should customize ShowMoreResults button', () => {
-    const wrapper = mount(GeoScrollableContainer, {
-      propsData: {
+    const wrapper = createWrapper(GeoScrollableContainer, {
+      props: {
         showMoreResultsButton: true
-      },
-      stubs: {
-        'geo-list-footer-button': GeoListFooterButton,
-        'geo-tertiary-button': true
       },
       slots: {
         moreResultsTextContent: '<span class="customized-class">Load more results</span>'
@@ -64,25 +66,35 @@ describe('GeoScrollableContainer', () => {
   })
 
   it('Should emit load-more-results event when clicking on ShowMoreResults button', () => {
-    const wrapper = mount(GeoScrollableContainer, {
-      propsData: {
+    const wrapper = createWrapper(GeoScrollableContainer, {
+      props: {
         showMoreResultsButton: true
       },
-      stubs: {
-        'geo-list-footer-button': true
+      global: {
+        components: {
+          'geo-scrollable-container': GeoScrollableContainer
+        },
+        stubs: {
+          'geo-list-footer-button': true
+        }
       }
     })
-    wrapper.find('geo-list-footer-button-stub').vm.$emit('click')
+    wrapper.findComponent({ name: 'geo-list-footer-button' }).vm.$emit('click')
     expect(wrapper.emitted()['load-more-results']).toBeTruthy()
   })
 
   it('Should scroll after calling callback from load-more-results event ', () => {
-    const wrapper = mount(GeoScrollableContainer, {
-      propsData: {
+    const wrapper = createWrapper(GeoScrollableContainer, {
+      props: {
         showMoreResultsButton: true
       },
-      stubs: {
-        'geo-list-footer-button': true
+      global: {
+        components: {
+          'geo-scrollable-container': GeoScrollableContainer
+        },
+        stubs: {
+          'geo-list-footer-button': true
+        }
       }
     })
 
@@ -91,8 +103,13 @@ describe('GeoScrollableContainer', () => {
       scrollHeight: 3
     }
 
-    wrapper.vm.$refs.scrollableContainer = scrollableContainerMock
-    wrapper.find('geo-list-footer-button-stub').vm.$emit('click')
+    // In Vue 3, we need to use a different approach for mocking $refs
+    Object.defineProperty(wrapper.vm.$refs, 'scrollableContainer', {
+      value: scrollableContainerMock,
+      writable: true
+    })
+
+    wrapper.findComponent({ name: 'geo-list-footer-button' }).vm.$emit('click')
     const scrollToLastEntry = wrapper.emitted()['load-more-results'][0][0].scrollToLastEntry
     expect(scrollableContainerMock.scrollTop).toBe(2)
     scrollToLastEntry()

@@ -1,37 +1,24 @@
 import _ from 'lodash'
-import { createLocalVue, mount } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import GeoTableSort from '@/elements/GeoTable/GeoTableSort'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { fab } from '@fortawesome/free-brands-svg-icons'
-import { fas } from '@fortawesome/free-solid-svg-icons'
-import { far } from '@fortawesome/free-regular-svg-icons'
+import { FontAwesomeIconMock, expectFontAwesomeIconProp } from 'test/unit/utils/FontAwesomeIconMock'
 
-const iconsToMock = [
-  'faCaretUp',
-  'faCaretDown'
-]
-const mockedFalIcons = _.mapValues(_.pick(fas, iconsToMock), function (original) {
-  return _.assign({}, original, {
-    prefix: 'fal'
-  })
-})
-
-library.add(fab, fas, far, mockedFalIcons)
-
-// create an extended `Vue` constructor
-const localVue = createLocalVue()
-localVue.component('geo-table-sort', GeoTableSort)
+function getWrapper (component, options = {}) {
+  return mount(component, _.merge({
+    global: {
+      stubs: {
+        'font-awesome-icon': FontAwesomeIconMock
+      }
+    }
+  }, options))
+}
 
 describe('GeoTableSort', () => {
   it('Should render content', function () {
-    const wrapper = mount(GeoTableSort, {
-      propsData: {
+    const wrapper = getWrapper(GeoTableSort, {
+      props: {
         currentSortingDirection: GeoTableSort.constants.SORTING_DIRECTIONS.asc,
         currentlySortingTable: false
-      },
-      stubs: {
-        'font-awesome-icon': FontAwesomeIcon
       }
     })
     const instance = wrapper.find('.geo-table-sort')
@@ -39,31 +26,25 @@ describe('GeoTableSort', () => {
   })
 
   it('Should complain when using unknown sorting direction', function () {
-    const consoleErrorSpy = jest.spyOn(global.console, 'error').mockImplementation(() => { })
     const consoleWarnSpy = jest.spyOn(global.console, 'warn').mockImplementation(() => { })
 
-    mount(GeoTableSort, {
-      propsData: {
+    getWrapper(GeoTableSort, {
+      props: {
         currentSortingDirection: 'unknown-sorting-direction-for-tests',
         currentlySortingTable: false
       }
     })
 
-    expect(consoleErrorSpy).toHaveBeenCalled()
     expect(consoleWarnSpy).toHaveBeenCalled()
 
-    consoleErrorSpy.mockRestore()
     consoleWarnSpy.mockRestore()
   })
 
   it('Should emit sort event when clicking on sort asc button', function () {
-    const wrapper = mount(GeoTableSort, {
-      propsData: {
+    const wrapper = getWrapper(GeoTableSort, {
+      props: {
         currentSortingDirection: GeoTableSort.constants.SORTING_DIRECTIONS.asc,
         currentlySortingTable: false
-      },
-      stubs: {
-        'font-awesome-icon': FontAwesomeIcon
       }
     })
     const instance = wrapper.find('.geo-table-sort')
@@ -77,13 +58,10 @@ describe('GeoTableSort', () => {
   })
 
   it('Should emit sort event when clicking on sort desc button', function () {
-    const wrapper = mount(GeoTableSort, {
-      propsData: {
+    const wrapper = getWrapper(GeoTableSort, {
+      props: {
         currentSortingDirection: GeoTableSort.constants.SORTING_DIRECTIONS.asc,
         currentlySortingTable: false
-      },
-      stubs: {
-        'font-awesome-icon': FontAwesomeIcon
       }
     })
     const instance = wrapper.find('.geo-table-sort')
@@ -96,20 +74,15 @@ describe('GeoTableSort', () => {
     expect(wrapper.emitted().sort).toEqual([[GeoTableSort.constants.SORTING_DIRECTIONS.desc]])
   })
 
-  it('Should allow customizing sort asc button', function () {
+  it('Should allow customizing sort asc button', async function () {
     let slotScope
-    const wrapper = mount(GeoTableSort, {
-      propsData: {
+    const wrapper = getWrapper(GeoTableSort, {
+      props: {
         currentSortingDirection: GeoTableSort.constants.SORTING_DIRECTIONS.asc,
         currentlySortingTable: false
       },
-      scopedSlots: {
-        sortAscButton (params) {
-          slotScope = params
-        }
-      },
-      stubs: {
-        'font-awesome-icon': FontAwesomeIcon
+      slots: {
+        sortAscButton: (params) => { slotScope = params; return '' }
       }
     })
 
@@ -123,14 +96,14 @@ describe('GeoTableSort', () => {
     expect(wrapper.emitted().sort).toHaveLength(1)
     expect(wrapper.emitted().sort).toEqual([[GeoTableSort.constants.SORTING_DIRECTIONS.asc]])
 
-    wrapper.setProps({
+    await wrapper.setProps({
       currentSortingDirection: GeoTableSort.constants.SORTING_DIRECTIONS.asc,
       currentlySortingTable: true
     })
 
     expect(slotScope).toHaveProperty('isCurrentSortingDirection', true)
 
-    wrapper.setProps({
+    await wrapper.setProps({
       currentSortingDirection: GeoTableSort.constants.SORTING_DIRECTIONS.desc,
       currentlySortingTable: true
     })
@@ -138,20 +111,15 @@ describe('GeoTableSort', () => {
     expect(slotScope).toHaveProperty('isCurrentSortingDirection', false)
   })
 
-  it('Should allow customizing sort desc button', function () {
+  it('Should allow customizing sort desc button', async function () {
     let slotScope
-    const wrapper = mount(GeoTableSort, {
-      propsData: {
+    const wrapper = getWrapper(GeoTableSort, {
+      props: {
         currentSortingDirection: GeoTableSort.constants.SORTING_DIRECTIONS.asc,
         currentlySortingTable: false
       },
-      scopedSlots: {
-        sortDescButton (params) {
-          slotScope = params
-        }
-      },
-      stubs: {
-        'font-awesome-icon': FontAwesomeIcon
+      slots: {
+        sortDescButton: (params) => { slotScope = params; return '' }
       }
     })
 
@@ -165,14 +133,14 @@ describe('GeoTableSort', () => {
     expect(wrapper.emitted().sort).toHaveLength(1)
     expect(wrapper.emitted().sort).toEqual([[GeoTableSort.constants.SORTING_DIRECTIONS.desc]])
 
-    wrapper.setProps({
+    await wrapper.setProps({
       currentSortingDirection: GeoTableSort.constants.SORTING_DIRECTIONS.asc,
       currentlySortingTable: true
     })
 
     expect(slotScope).toHaveProperty('isCurrentSortingDirection', false)
 
-    wrapper.setProps({
+    await wrapper.setProps({
       currentSortingDirection: GeoTableSort.constants.SORTING_DIRECTIONS.desc,
       currentlySortingTable: true
     })

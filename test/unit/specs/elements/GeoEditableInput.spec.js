@@ -1,12 +1,11 @@
 import _ from 'lodash'
-import { createLocalVue, mount } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import GeoActivityIndicator from '@/elements/GeoActivityIndicator/GeoActivityIndicator.vue'
 import GeoDropdown from '@/elements/GeoDropdown/GeoDropdown.vue'
 import GeoEditableInput from '@/elements/GeoEditableInput/GeoEditableInput.vue'
 import GeoCompactButton from 'src/elements/GeoCompactButton/GeoCompactButton.vue'
 import GeoPrimaryCompactButton from 'src/elements/GeoCompactButton/GeoPrimaryCompactButton.vue'
 import GeoSecondaryCompactButton from 'src/elements/GeoCompactButton/GeoSecondaryCompactButton.vue'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fas } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIconMock, expectFontAwesomeIconProp } from 'test/unit/utils/FontAwesomeIconMock'
@@ -23,114 +22,113 @@ const mockedFalIcons = _.mapValues(_.pick(fas, iconsToMock), (original) => {
 })
 library.add(mockedFalIcons)
 
-// create an extended `Vue` constructor
-const localVue = createLocalVue()
-localVue.component('geo-activity-indicator', GeoActivityIndicator)
-localVue.component('geo-dropdown', GeoDropdown)
-localVue.component('geo-editable-input', GeoEditableInput)
-
-describe('GeoEditableInput', () => {
-  it('Should render input component', function () {
-    const wrapper = mount(GeoEditableInput, {
-      propsData: {
-        showButtons: false
+// Helper function to create wrapper with registered components
+function createWrapper (component, options = {}) {
+  return mount(component, Object.assign({
+    global: {
+      components: {
+        'geo-activity-indicator': GeoActivityIndicator,
+        'geo-dropdown': GeoDropdown,
+        'geo-editable-input': GeoEditableInput,
+        'geo-secondary-compact-button': GeoSecondaryCompactButton,
+        'geo-primary-compact-button': GeoPrimaryCompactButton,
+        'geo-compact-button': GeoCompactButton,
+        'font-awesome-icon': FontAwesomeIconMock
       },
       stubs: {
         GeoDropdown
+      }
+    }
+  }, options))
+}
+
+describe('GeoEditableInput', () => {
+  it('Should render input component', function () {
+    const wrapper = createWrapper(GeoEditableInput, {
+      props: {
+        showButtons: false
       }
     })
 
     expect(wrapper.find('.geo-editable-input-form__input').exists()).toBe(true)
   })
 
-  it('Should emit an event on click', function (done) {
-    const wrapper = mount(GeoEditableInput, {
-      propsData: {
+  it('Should emit an event on click', function () {
+    const wrapper = createWrapper(GeoEditableInput, {
+      props: {
         showButtons: false
-      },
-      stubs: {
-        GeoDropdown
       }
     })
 
     wrapper.find('.geo-editable-input-form__input').trigger('click')
-    setTimeout(function () {
-      try {
-        expect(wrapper.emitted().click).toBeTruthy()
-        done()
-      } catch (error) {
-        done(error)
-      }
-    })
+    expect(wrapper.emitted().click).toBeTruthy()
   })
 
   it('Should render correct icon for saveIcon when provided', function () {
-    const wrapper = mount(GeoEditableInput, {
-      propsData: {
+    const wrapper = createWrapper(GeoEditableInput, {
+      props: {
         showButtons: true,
         saveIcon: ['fas', 'thumbs-up']
       },
-      stubs: {
-        GeoDropdown,
-        GeoCompactButton,
-        GeoPrimaryCompactButton,
-        GeoSecondaryCompactButton,
-        'font-awesome-icon': FontAwesomeIconMock
+      global: {
+        stubs: {
+          GeoDropdown,
+          GeoCompactButton,
+          GeoPrimaryCompactButton,
+          GeoSecondaryCompactButton,
+          'font-awesome-icon': FontAwesomeIconMock,
+          teleport: true
+        }
       }
     })
-    const fontAwesomeIconElem = wrapper.find('.geo-compact-button--primary').find(FontAwesomeIconMock)
+    const fontAwesomeIconElem = wrapper.find('.geo-compact-button--primary').findComponent(FontAwesomeIconMock)
     expectFontAwesomeIconProp(fontAwesomeIconElem, ['fas', 'thumbs-up'])
   })
 
   it('Should render correct icon for cancelIcon when provided', function () {
-    const wrapper = mount(GeoEditableInput, {
-      propsData: {
+    const wrapper = createWrapper(GeoEditableInput, {
+      props: {
         showButtons: true,
         cancelIcon: ['fas', 'thumbs-up']
       },
-      stubs: {
-        GeoDropdown,
-        GeoCompactButton,
-        GeoPrimaryCompactButton,
-        GeoSecondaryCompactButton,
-        'font-awesome-icon': FontAwesomeIconMock
+      global: {
+        stubs: {
+          GeoDropdown,
+          GeoCompactButton,
+          GeoPrimaryCompactButton,
+          GeoSecondaryCompactButton,
+          'font-awesome-icon': FontAwesomeIconMock,
+          teleport: true
+        }
       }
     })
-    const fontAwesomeIconElem = wrapper.find('.geo-compact-button--secondary').find(FontAwesomeIconMock)
+    const fontAwesomeIconElem = wrapper.find('.geo-compact-button--secondary').findComponent(FontAwesomeIconMock)
     expectFontAwesomeIconProp(fontAwesomeIconElem, ['fas', 'thumbs-up'])
   })
 
-  it('Should not emit the event on click when disabled', function (done) {
-    const wrapper = mount(GeoEditableInput, {
-      propsData: {
+  it('Should not emit the event on click when disabled', async function () {
+    const wrapper = createWrapper(GeoEditableInput, {
+      props: {
         showButtons: false,
         disabled: true
-      },
-      stubs: {
-        GeoDropdown
       }
     })
 
-    wrapper.find('.geo-editable-input-form__input').trigger('click')
-    setTimeout(function () {
-      try {
-        expect(wrapper.emitted().click).toBeFalsy()
-        done()
-      } catch (error) {
-        done(error)
-      }
-    })
+    await wrapper.find('.geo-editable-input-form__input').trigger('click')
+    expect(wrapper.emitted().click).toBeFalsy()
   })
 
   it('Should not render buttons if they are hidden', function () {
-    const wrapper = mount(GeoEditableInput, {
-      propsData: {
+    const wrapper = createWrapper(GeoEditableInput, {
+      props: {
         showButtons: false
       },
-      stubs: {
-        GeoDropdown,
-        GeoPrimaryCompactButton,
-        GeoSecondaryCompactButton
+      global: {
+        stubs: {
+          GeoDropdown,
+          GeoPrimaryCompactButton,
+          GeoSecondaryCompactButton
+        }
       }
     })
 
@@ -139,107 +137,97 @@ describe('GeoEditableInput', () => {
   })
 
   it('Should render with popup class', function () {
-    const wrapper = mount(GeoEditableInput, {
-      propsData: {
+    const wrapper = createWrapper(GeoEditableInput, {
+      props: {
         showButtons: true,
         popupClass: 'popup-class'
       },
-      stubs: {
-        GeoDropdown,
-        'geo-compact-button': true,
-        'geo-primary-compact-button': true,
-        'geo-secondary-compact-button': true
+      global: {
+        stubs: {
+          GeoDropdown,
+          GeoCompactButton,
+          GeoPrimaryCompactButton,
+          GeoSecondaryCompactButton,
+          teleport: true
+        }
       }
     })
 
     expect(wrapper.find('.popup-class').exists()).toBe(true)
   })
 
-  it('Should emit an event on click save button', function (done) {
-    const wrapper = mount(GeoEditableInput, {
-      propsData: {
+  it('Should emit an event on click save button', async function () {
+    const wrapper = createWrapper(GeoEditableInput, {
+      props: {
         showButtons: true
       },
-      stubs: {
-        GeoDropdown,
-        'font-awesome-icon': FontAwesomeIcon,
-        GeoCompactButton,
-        GeoPrimaryCompactButton,
-        GeoSecondaryCompactButton
+      global: {
+        stubs: {
+          GeoDropdown,
+          'font-awesome-icon': FontAwesomeIconMock,
+          GeoCompactButton,
+          GeoPrimaryCompactButton,
+          GeoSecondaryCompactButton
+        }
       }
     })
 
-    wrapper.find(GeoPrimaryCompactButton).trigger('click')
-    setTimeout(function () {
-      try {
-        expect(wrapper.emitted().save).toBeTruthy()
-        done()
-      } catch (error) {
-        done(error)
-      }
-    })
+    await wrapper.findComponent(GeoPrimaryCompactButton).trigger('click')
+    expect(wrapper.emitted().save).toBeTruthy()
   })
 
-  it('Should emit an event on click cancel button', function (done) {
-    const wrapper = mount(GeoEditableInput, {
-      propsData: {
+  it('Should emit an event on click cancel button', async function () {
+    const wrapper = createWrapper(GeoEditableInput, {
+      props: {
         showButtons: true
       },
-      stubs: {
-        GeoDropdown,
-        'font-awesome-icon': FontAwesomeIcon,
-        GeoCompactButton,
-        GeoPrimaryCompactButton,
-        GeoSecondaryCompactButton
+      global: {
+        stubs: {
+          GeoDropdown,
+          'font-awesome-icon': FontAwesomeIconMock,
+          GeoCompactButton,
+          GeoPrimaryCompactButton,
+          GeoSecondaryCompactButton
+        }
       }
     })
 
-    wrapper.find(GeoSecondaryCompactButton).trigger('click')
-    setTimeout(function () {
-      try {
-        expect(wrapper.emitted().cancel).toBeTruthy()
-        done()
-      } catch (error) {
-        done(error)
-      }
-    })
+    await wrapper.findComponent(GeoSecondaryCompactButton).trigger('click')
+    expect(wrapper.emitted().cancel).toBeTruthy()
   })
 
-  it('Should emit input event when added a value', function (done) {
-    const wrapper = mount(GeoEditableInput, {
-      propsData: {
+  it('Should emit input event when added a value', async function () {
+    const wrapper = createWrapper(GeoEditableInput, {
+      props: {
         showButtons: false
       },
-      stubs: {
-        GeoDropdown,
-        GeoPrimaryCompactButton,
-        GeoSecondaryCompactButton
+      global: {
+        stubs: {
+          GeoDropdown,
+          GeoPrimaryCompactButton,
+          GeoSecondaryCompactButton
+        }
       }
     })
 
     const textInput = wrapper.find('input[type="text"]')
-    textInput.setValue('some value')
+    await textInput.setValue('some value')
 
-    setTimeout(function () {
-      try {
-        expect(wrapper.emitted().input).toBeTruthy()
-        done()
-      } catch (error) {
-        done(error)
-      }
-    })
+    expect(wrapper.emitted().input).toBeTruthy()
   })
 
   it('Should create input type number when prop passed', function () {
-    const wrapper = mount(GeoEditableInput, {
-      propsData: {
+    const wrapper = createWrapper(GeoEditableInput, {
+      props: {
         showButtons: false,
         type: 'number'
       },
-      stubs: {
-        GeoDropdown,
-        GeoPrimaryCompactButton,
-        GeoSecondaryCompactButton
+      global: {
+        stubs: {
+          GeoDropdown,
+          GeoPrimaryCompactButton,
+          GeoSecondaryCompactButton
+        }
       }
     })
 

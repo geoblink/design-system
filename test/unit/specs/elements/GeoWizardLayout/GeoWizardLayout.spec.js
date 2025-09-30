@@ -1,13 +1,17 @@
 import { mount } from '@vue/test-utils'
 import GeoWizardLayout from '@/elements/GeoWizardLayout/GeoWizardLayout.vue'
+import GeoHorizontalLayout from '@/elements/GeoHorizontalLayout/GeoHorizontalLayout.vue'
+import GeoVerticalLayout from '@/elements/GeoVerticalLayout/GeoVerticalLayout.vue'
 
 describe('GeoWizardLayout', function () {
   it('Should render GeoWizardLayout component', function () {
     const wrapper = mount(GeoWizardLayout, {
-      stubs: [
-        'geo-horizontal-layout',
-        'geo-vertical-layout'
-      ]
+      global: {
+        stubs: {
+          GeoHorizontalLayout,
+          GeoVerticalLayout
+        }
+      }
     })
     expect(wrapper.find('.geo-wizard-layout').exists()).toBe(true)
     expect(wrapper.find('.geo-wizard-layout__content-container').exists()).toBe(true)
@@ -15,10 +19,12 @@ describe('GeoWizardLayout', function () {
 
   it('Should render default slot', function () {
     const wrapper = mount(GeoWizardLayout, {
-      stubs: [
-        'geo-horizontal-layout',
-        'geo-vertical-layout'
-      ],
+      global: {
+        stubs: {
+          GeoHorizontalLayout,
+          GeoVerticalLayout
+        }
+      },
       slots: {
         default: ['<span class="my-demo-content">Just some unique demo content</span>']
       }
@@ -28,10 +34,12 @@ describe('GeoWizardLayout', function () {
 
   it('Should render header and footer slots', function () {
     const wrapper = mount(GeoWizardLayout, {
-      stubs: [
-        'geo-horizontal-layout',
-        'geo-vertical-layout'
-      ],
+      global: {
+        stubs: {
+          GeoHorizontalLayout,
+          GeoVerticalLayout
+        }
+      },
       slots: {
         default: ['<span class="my-demo-content">Just some unique demo content</span>'],
         header: ['<span class="my-header-demo-content">Just some unique header demo content</span>'],
@@ -44,10 +52,12 @@ describe('GeoWizardLayout', function () {
 
   it('Should render with sidebar', function () {
     const wrapper = mount(GeoWizardLayout, {
-      stubs: [
-        'geo-horizontal-layout',
-        'geo-vertical-layout'
-      ],
+      global: {
+        stubs: {
+          GeoHorizontalLayout,
+          GeoVerticalLayout
+        }
+      },
       slots: {
         sidebar: ['<span class="my-sidebar-content">Just some unique demo content</span>']
       }

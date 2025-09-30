@@ -1,19 +1,26 @@
-import { createLocalVue, mount } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import GeoTrimmedContent from '@/elements/GeoTrimmedContent/GeoTrimmedContent.vue'
 import GeoTooltip from '@/elements/GeoTooltip/GeoTooltip.vue'
 
-// create an extended `Vue` constructor
-const localVue = createLocalVue()
-localVue.component('geo-trimmed-content', GeoTrimmedContent)
-
-describe('GeoTrimmedContent', () => {
-  it('Should render content', function () {
-    const wrapper = mount(GeoTrimmedContent, {
-      slots: {
-        default: '<div class="my-content">Custom content</div>'
+// Helper function to create wrapper with registered components
+function createWrapper (component, options = {}) {
+  return mount(component, Object.assign({
+    global: {
+      components: {
+        'geo-trimmed-content': GeoTrimmedContent
       },
       stubs: {
         GeoTooltip
+      }
+    }
+  }, options))
+}
+
+describe('GeoTrimmedContent', () => {
+  it('Should render content', function () {
+    const wrapper = createWrapper(GeoTrimmedContent, {
+      slots: {
+        default: '<div class="my-content">Custom content</div>'
       }
     })
     const trimmedContent = wrapper.find('.geo-trimmed-content')
@@ -24,43 +31,33 @@ describe('GeoTrimmedContent', () => {
 
   it('Should complain if tooltipPosition is invalid', function () {
     const consoleWarnSpy = jest.spyOn(global.console, 'warn').mockImplementation(() => { })
-    const consoleErrorSpy = jest.spyOn(global.console, 'error').mockImplementation(() => { })
 
-    const wrapper = mount(GeoTrimmedContent, {
-      propsData: {
+    const wrapper = createWrapper(GeoTrimmedContent, {
+      props: {
         tooltipPosition: 'invalid position'
       },
       slots: {
         default: '<div class="my-content">Custom content</div>'
-      },
-      stubs: {
-        GeoTooltip
       }
     })
     const trimmedContent = wrapper.find('.geo-trimmed-content')
     expect(trimmedContent.exists()).toBe(true)
-    expect(consoleErrorSpy).toHaveBeenCalled()
     expect(consoleWarnSpy).toHaveBeenCalled()
   })
 
   it('Should complain if tooltipAlignment is invalid', function () {
     const consoleWarnSpy = jest.spyOn(global.console, 'warn').mockImplementation(() => { })
-    const consoleErrorSpy = jest.spyOn(global.console, 'error').mockImplementation(() => { })
 
-    const wrapper = mount(GeoTrimmedContent, {
-      propsData: {
+    const wrapper = createWrapper(GeoTrimmedContent, {
+      props: {
         tooltipAlignment: 'invalid alignment'
       },
       slots: {
         default: '<div class="my-content">Custom content</div>'
-      },
-      stubs: {
-        GeoTooltip
       }
     })
     const trimmedContent = wrapper.find('.geo-trimmed-content')
     expect(trimmedContent.exists()).toBe(true)
-    expect(consoleErrorSpy).toHaveBeenCalled()
     expect(consoleWarnSpy).toHaveBeenCalled()
   })
 })

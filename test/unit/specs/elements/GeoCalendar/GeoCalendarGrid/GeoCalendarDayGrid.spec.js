@@ -17,25 +17,25 @@ describe('GeoCalendarDayGrid', () => {
   })
 
   describe('Edge months', () => {
-    it('Should render (1st day of month is Sunday)', function () {
+    it('Should render (1st day of month is Sunday)', async function () {
       const wrapper = getWrappedComponent()
-      wrapper.setProps({
+      await wrapper.setProps({
         currentMonth: 11
       })
 
-      expect(wrapper.findAll('.geo-calendar-grid__week-unit .geo-calendar-grid__date-picker-unit__placeholder').at(6).text()).toBe('1')
+      expect(wrapper.findAll('.geo-calendar-grid__week-unit .geo-calendar-grid__date-picker-unit__placeholder')[6].text()).toBe('1')
       expect(wrapper.find('.geo-calendar-grid').exists()).toBe(true)
       expect(wrapper.find('.geo-calendar-grid__weekdays-row-container').exists()).toBe(true)
       expect(wrapper.find('.geo-calendar-grid__day-container').exists()).toBe(true)
       expect(wrapper.findAll('.geo-calendar-weekdays-row__weekday-name').length).toBe(7)
     })
 
-    it('Should render (1st day of month is saturday)', function () {
+    it('Should render (1st day of month is saturday)', async function () {
       const wrapper = getWrappedComponent()
-      wrapper.setProps({
+      await wrapper.setProps({
         currentMonth: 5
       })
-      expect(wrapper.findAll('.geo-calendar-grid__week-unit .geo-calendar-grid__date-picker-unit__placeholder').at(5).text()).toBe('1')
+      expect(wrapper.findAll('.geo-calendar-grid__week-unit .geo-calendar-grid__date-picker-unit__placeholder')[5].text()).toBe('1')
       expect(wrapper.find('.geo-calendar-grid').exists()).toBe(true)
       expect(wrapper.find('.geo-calendar-grid__weekdays-row-container').exists()).toBe(true)
       expect(wrapper.find('.geo-calendar-grid__day-container').exists()).toBe(true)
@@ -47,7 +47,7 @@ describe('GeoCalendarDayGrid', () => {
     const today = new Date(2019, 6, 30) // Fixed date to avoid future errors with random dates
     it('Emits select-day event when clicked on a day', () => {
       const wrapper = getWrappedComponent()
-      const childWeek = wrapper.find(GeoCalendarDayGridWeekUnit)
+      const childWeek = wrapper.findComponent(GeoCalendarDayGridWeekUnit)
       childWeek.vm.$emit('select-day', today)
       expect(wrapper.emitted()['select-day']).toBeDefined()
       expect(wrapper.emitted()['select-day'][0][0]).toBe(today)
@@ -55,7 +55,7 @@ describe('GeoCalendarDayGrid', () => {
 
     it('Emits select-week event when clicked on a week', () => {
       const wrapper = getWrappedComponent()
-      const childWeek = wrapper.find(GeoCalendarDayGridWeekUnit)
+      const childWeek = wrapper.findComponent(GeoCalendarDayGridWeekUnit)
       const weekStart = startOfWeek(today, { weekStartsOn: 1 })
       const weekEnd = startOfDay(endOfWeek(today, { weekStartsOn: 1 }))
 
@@ -72,7 +72,7 @@ describe('GeoCalendarDayGrid', () => {
 
     it('Emits mouseover event if received from child component', () => {
       const wrapper = getWrappedComponent()
-      const geoCalendarDayGridDayUnitWrapper = wrapper.find(GeoCalendarDayGridDayUnit)
+      const geoCalendarDayGridDayUnitWrapper = wrapper.findComponent(GeoCalendarDayGridDayUnit)
 
       geoCalendarDayGridDayUnitWrapper.vm.$emit('day-unit-mouseover', today)
       expect(wrapper.emitted()['day-unit-mouseover']).toBeDefined()
@@ -83,11 +83,13 @@ describe('GeoCalendarDayGrid', () => {
 
 function getWrappedComponent () {
   return mount(GeoCalendarDayGrid, {
-    stubs: {
-      GeoCalendarDayGridWeekUnit,
-      GeoCalendarDayGridDayUnit
+    global: {
+      stubs: {
+        GeoCalendarDayGridWeekUnit,
+        GeoCalendarDayGridDayUnit
+      }
     },
-    propsData: {
+    props: {
       currentMonth: 6,
       currentYear: 2019,
       granularityId: GRANULARITY_IDS.day

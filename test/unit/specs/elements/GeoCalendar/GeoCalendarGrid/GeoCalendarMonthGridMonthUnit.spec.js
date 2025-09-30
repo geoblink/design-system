@@ -16,7 +16,7 @@ describe('GeoCalendarMonthGridMonthUnit', () => {
 
   it('Should render', function () {
     const wrapper = mount(GeoCalendarMonthGridMonthUnit, {
-      propsData: {
+      props: {
         monthName,
         monthIndex,
         currentMonth,
@@ -33,7 +33,7 @@ describe('GeoCalendarMonthGridMonthUnit', () => {
 
   describe('Computed properties', () => {
     const wrapper = mount(GeoCalendarMonthGridMonthUnit, {
-      propsData: {
+      props: {
         monthName,
         monthIndex,
         currentMonth,
@@ -42,14 +42,14 @@ describe('GeoCalendarMonthGridMonthUnit', () => {
       }
     })
 
-    it('isDateInMonth', () => {
-      wrapper.setProps({
+    it('isDateInMonth', async () => {
+      await wrapper.setProps({
         selectedFromDay: subDays(today, 5)
       })
       expect(wrapper.find('.geo-calendar-grid__date-picker-unit--selected').exists()).toBe(true)
       expect(wrapper.vm.isDateInMonth).toBe(true)
 
-      wrapper.setProps({
+      await wrapper.setProps({
         selectedFromDay: subMonths(today, 2),
         selectedToDay: addMonths(today, 2)
       })
@@ -57,15 +57,15 @@ describe('GeoCalendarMonthGridMonthUnit', () => {
       expect(wrapper.vm.isDateInMonth).toBe(false)
     })
 
-    it('isDateWithinSelectedMonths', () => {
-      wrapper.setProps({
+    it('isDateWithinSelectedMonths', async () => {
+      await wrapper.setProps({
         selectedFromDay: subMonths(today, 2),
         selectedToDay: addMonths(today, 1)
       })
       expect(wrapper.find('.geo-calendar-grid__date-picker-unit--within-range').exists()).toBe(true)
       expect(wrapper.vm.isDateWithinSelectedMonths).toBe(true)
 
-      wrapper.setProps({
+      await wrapper.setProps({
         selectedFromDay: addMonths(today, 1),
         selectedToDay: addMonths(today, 2)
       })
@@ -73,14 +73,14 @@ describe('GeoCalendarMonthGridMonthUnit', () => {
       expect(wrapper.vm.isDateWithinSelectedMonths).toBe(false)
     })
 
-    it('isMonthUnavailable', () => {
-      wrapper.setProps({
+    it('isMonthUnavailable', async () => {
+      await wrapper.setProps({
         earliestDate: addMonths(today, 3)
       })
       expect(wrapper.find('.geo-calendar-grid__date-picker-unit--unavailable').exists()).toBe(true)
       expect(wrapper.vm.isMonthUnavailable).toBe(true)
 
-      wrapper.setProps({
+      await wrapper.setProps({
         earliestDate: subMonths(today, 3),
         latestDate: addMonths(today, 1)
       })
@@ -88,28 +88,28 @@ describe('GeoCalendarMonthGridMonthUnit', () => {
       expect(wrapper.vm.isMonthUnavailable).toBe(false)
     })
 
-    it('isMonthWithinFromMonth', () => {
-      wrapper.setProps({
+    it('isMonthWithinFromMonth', async () => {
+      await wrapper.setProps({
         selectedFromDay: today
       })
       expect(wrapper.find('.geo-calendar-grid__date-picker-unit--from-date').exists()).toBe(true)
       expect(wrapper.vm.isDayWithinFromMonth).toBe(true)
 
-      wrapper.setProps({
+      await wrapper.setProps({
         selectedFromDay: addMonths(today, 1)
       })
       expect(wrapper.find('.geo-calendar-grid__date-picker-unit--from-date').exists()).toBe(false)
       expect(wrapper.vm.isDayWithinFromMonth).toBe(false)
     })
 
-    it('isMonthWithinToMonth', () => {
-      wrapper.setProps({
+    it('isMonthWithinToMonth', async () => {
+      await wrapper.setProps({
         selectedToDay: today
       })
       expect(wrapper.find('.geo-calendar-grid__date-picker-unit--to-date').exists()).toBe(true)
       expect(wrapper.vm.isDayWithinToMonth).toBe(true)
 
-      wrapper.setProps({
+      await wrapper.setProps({
         selectedToDay: subMonths(today, 1)
       })
       expect(wrapper.find('.geo-calendar-grid__date-picker-unit--to-date').exists()).toBe(false)
@@ -120,7 +120,7 @@ describe('GeoCalendarMonthGridMonthUnit', () => {
   describe('Click month event', () => {
     it('Emits event when clicking on month', () => {
       const wrapper = mount(GeoCalendarMonthGridMonthUnit, {
-        propsData: {
+        props: {
           monthName,
           monthIndex,
           currentMonth,
@@ -135,7 +135,7 @@ describe('GeoCalendarMonthGridMonthUnit', () => {
 
     it('Emits event when hovering on month', () => {
       const wrapper = mount(GeoCalendarMonthGridMonthUnit, {
-        propsData: {
+        props: {
           monthName,
           monthIndex,
           currentMonth,

@@ -34,15 +34,15 @@ export default {
   },
   computed: {
     hasLeadingAccessoryItem () {
-      return !!(this.$slots.leadingAccessoryItem || []).length
+      return !!this.$slots.leadingAccessoryItem
     },
 
     hasActions () {
-      return !!(this.$slots.actions || []).length
+      return !!this.$slots.actions
     },
 
     shouldShowCloseButton () {
-      return !!this.$listeners.close
+      return !!this.$attrs.onClose
     }
   },
   methods: {

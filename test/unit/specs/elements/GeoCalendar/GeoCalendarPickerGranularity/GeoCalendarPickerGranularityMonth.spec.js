@@ -6,14 +6,16 @@ import { PICKER_DATE_UNITS, GRANULARITY_IDS } from '@/elements/GeoCalendar/GeoCa
 describe('GeoCalendarPickerGranularityMonth', () => {
   it('Should render', function () {
     const wrapper = mount(GeoCalendarPickerGranularityMonth, {
-      stubs: {
-        GeoCalendarPickerGranularityBase,
-        FontAwesomeIcon: true
+      global: {
+        stubs: {
+          GeoCalendarPickerGranularityBase,
+          FontAwesomeIcon: true
+        }
       },
       slots: {
         default: ['<p class="month-granularity-selector">Month Granularity</p>']
       },
-      propsData: {
+      props: {
         isActive: false,
         pickerDateUnit: PICKER_DATE_UNITS.month,
         granularityId: GRANULARITY_IDS.month
@@ -23,23 +25,25 @@ describe('GeoCalendarPickerGranularityMonth', () => {
     expect(wrapper.find('.geo-calendar-picker-granularity-unit .month-granularity-selector').exists()).toBe(true)
   })
 
-  it('Should trigger click event when clicked on it', () => {
+  it('Should trigger click event when clicked on it', async () => {
     const wrapper = mount(GeoCalendarPickerGranularityMonth, {
-      stubs: [
-        'geo-calendar-picker-granularity-base',
-        'font-awesome-icon'
-      ],
+      global: {
+        stubs: {
+          GeoCalendarPickerGranularityBase,
+          FontAwesomeIcon: true
+        }
+      },
       slots: {
         default: ['<p class="month-granularity-selector">Month Granularity</p>']
       },
-      propsData: {
+      props: {
         isActive: false,
         pickerDateUnit: PICKER_DATE_UNITS.month,
         granularityId: GRANULARITY_IDS.month,
         pickerGranularityIcon: ['fas', 'arrow-right']
       }
     })
-    wrapper.trigger('click')
+    await wrapper.trigger('click')
     expect(wrapper.emitted().click).toBeDefined()
     expect(wrapper.emitted().click[0][0].pickerDateUnit).toBe(PICKER_DATE_UNITS.month)
     expect(wrapper.emitted().click[0][0].granularityId).toBe(GRANULARITY_IDS.month)

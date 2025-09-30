@@ -1,12 +1,8 @@
 import { mount } from '@vue/test-utils'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { fas } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIconMock } from 'test/unit/utils/FontAwesomeIconMock'
 import GeoInput from '@/elements/GeoInput/GeoInput.vue'
 import GeoInputPrefix from '@/elements/GeoInput/GeoInputPrefix.vue'
 import GeoInputSuffix from '@/elements/GeoInput/GeoInputSuffix.vue'
-
-library.add(fas)
 
 describe('GeoInput', () => {
   it('Should render', function () {
@@ -19,7 +15,7 @@ describe('GeoInput', () => {
 
   it('Should render as error', function () {
     const wrapper = mount(GeoInput, {
-      propsData: {
+      props: {
         error: true
       }
     })
@@ -32,7 +28,7 @@ describe('GeoInput', () => {
 
   it('Should render as success', function () {
     const wrapper = mount(GeoInput, {
-      propsData: {
+      props: {
         success: true
       }
     })
@@ -45,12 +41,14 @@ describe('GeoInput', () => {
 
   it('Should render as disabled', function () {
     const wrapper = mount(GeoInput, {
-      propsData: {
+      props: {
         disabled: true,
         disabledIcon: ['fas', 'lock']
       },
-      stubs: {
-        'font-awesome-icon': FontAwesomeIcon
+      global: {
+        stubs: {
+          'font-awesome-icon': FontAwesomeIconMock
+        }
       }
     })
 
@@ -67,8 +65,10 @@ describe('GeoInput', () => {
       slots: {
         leadingAccessoryItem: '<font-awesome-icon :icon="[\'fas\', \'search\']" />'
       },
-      stubs: {
-        'font-awesome-icon': FontAwesomeIcon
+      global: {
+        stubs: {
+          'font-awesome-icon': FontAwesomeIconMock
+        }
       }
     })
 
@@ -78,7 +78,7 @@ describe('GeoInput', () => {
     expect(wrapper.find('.geo-input--disabled').exists()).toBe(false)
     expect(wrapper.find('.geo-input__accessory-items').exists()).toBe(true)
     expect(wrapper.find('.geo-input__accessory-items--leading').exists()).toBe(true)
-    expect(wrapper.find(FontAwesomeIcon).exists()).toBe(true)
+    expect(wrapper.findComponent(FontAwesomeIconMock).exists()).toBe(true)
   })
 
   it('Should emit input', function () {
@@ -87,8 +87,8 @@ describe('GeoInput', () => {
     const input = wrapper.find('input')
     input.setValue('some value')
 
-    expect(wrapper.emitted().input).toBeTruthy()
-    expect(wrapper.emitted().input[0][0]).toEqual('some value')
+    expect(wrapper.emitted()['update:modelValue']).toBeTruthy()
+    expect(wrapper.emitted()['update:modelValue'][0][0]).toEqual('some value')
   })
 
   it('Should render accessory items when provided', function () {
@@ -105,8 +105,10 @@ describe('GeoInput', () => {
       slots: {
         leadingAccessoryItem: '<geo-input-prefix> A prefix </geo-input-prefix>'
       },
-      stubs: {
-        GeoInputPrefix
+      global: {
+        stubs: {
+          GeoInputPrefix
+        }
       }
     })
     expect(wrapper.find('.geo-input__accessory-items').exists()).toBe(true)
@@ -118,8 +120,10 @@ describe('GeoInput', () => {
       slots: {
         trailingAccessoryItem: '<geo-input-suffix> A suffix </geo-input-suffix>'
       },
-      stubs: {
-        GeoInputSuffix
+      global: {
+        stubs: {
+          GeoInputSuffix
+        }
       }
     })
     expect(wrapper.find('.geo-input__accessory-items').exists()).toBe(true)

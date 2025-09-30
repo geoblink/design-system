@@ -10,7 +10,7 @@ describe('GeoCalendarYearGridYearUnit', () => {
   const currentYear = getYear(today)
   const currentMonth = getMonth(today)
   const wrapper = mount(GeoCalendarYearGridYearUnit, {
-    propsData: {
+    props: {
       currentMonth,
       currentYear,
       year: 2019
@@ -24,14 +24,14 @@ describe('GeoCalendarYearGridYearUnit', () => {
   })
 
   describe('Computed properties', () => {
-    it('isDateInYear', () => {
-      wrapper.setProps({
+    it('isDateInYear', async () => {
+      await wrapper.setProps({
         selectedFromDay: today
       })
       expect(wrapper.find('.geo-calendar-grid__date-picker-unit--selected').exists()).toBe(true)
       expect(wrapper.vm.isDateInYear).toBe(true)
 
-      wrapper.setProps({
+      await wrapper.setProps({
         selectedFromDay: subYears(today, 1),
         selectedToDay: addYears(today, 1)
       })
@@ -39,8 +39,8 @@ describe('GeoCalendarYearGridYearUnit', () => {
       expect(wrapper.vm.isDateInYear).toBe(false)
     })
 
-    it('isDateWithinSelectedYears', () => {
-      wrapper.setProps({
+    it('isDateWithinSelectedYears', async () => {
+      await wrapper.setProps({
         selectedFromDay: subYears(today, 1),
         selectedToDay: addYears(today, 2)
       })
@@ -48,7 +48,7 @@ describe('GeoCalendarYearGridYearUnit', () => {
       expect(wrapper.find('.geo-calendar-grid__date-picker-unit--within-range').exists()).toBe(true)
       expect(wrapper.vm.isDateWithinSelectedYears).toBe(true)
 
-      wrapper.setProps({
+      await wrapper.setProps({
         selectedFromDay: addYears(today, 1),
         selectedToDay: addYears(today, 2)
       })
@@ -57,8 +57,8 @@ describe('GeoCalendarYearGridYearUnit', () => {
       expect(wrapper.vm.isDateWithinSelectedYears).toBe(false)
     })
 
-    it('isYearUnavailable', () => {
-      wrapper.setProps({
+    it('isYearUnavailable', async () => {
+      await wrapper.setProps({
         earliestDate: subYears(today, 1),
         latestDate: addYears(today, 1)
       })
@@ -66,7 +66,7 @@ describe('GeoCalendarYearGridYearUnit', () => {
       expect(wrapper.find('.geo-calendar-grid__date-picker-unit--unavailable').exists()).toBe(false)
       expect(wrapper.vm.isYearUnavailable).toBe(false)
 
-      wrapper.setProps({
+      await wrapper.setProps({
         earliestDate: addYears(today, 1),
         latestDate: addYears(today, 2)
       })
@@ -75,8 +75,8 @@ describe('GeoCalendarYearGridYearUnit', () => {
       expect(wrapper.vm.isYearUnavailable).toBe(true)
     })
 
-    it('isDayWithinFromYear', () => {
-      wrapper.setProps({
+    it('isDayWithinFromYear', async () => {
+      await wrapper.setProps({
         selectedFromDay: today
       })
 
@@ -84,8 +84,8 @@ describe('GeoCalendarYearGridYearUnit', () => {
       expect(wrapper.vm.isDayWithinFromYear).toBe(true)
     })
 
-    it('isDayWithinToYear', () => {
-      wrapper.setProps({
+    it('isDayWithinToYear', async () => {
+      await wrapper.setProps({
         selectedToDay: today
       })
 
@@ -95,8 +95,8 @@ describe('GeoCalendarYearGridYearUnit', () => {
   })
 
   describe('Select year', () => {
-    it('Should not emit event if the passed year does not have data', () => {
-      wrapper.setProps({
+    it('Should not emit event if the passed year does not have data', async () => {
+      await wrapper.setProps({
         earliestDate: addYears(today, 1),
         latestDate: addYears(today, 2)
       })
@@ -105,8 +105,8 @@ describe('GeoCalendarYearGridYearUnit', () => {
       expect(wrapper.emitted()['select-year-unit']).toBeUndefined()
     })
 
-    it('Should emit an event when the passed year does have data', () => {
-      wrapper.setProps({
+    it('Should emit an event when the passed year does have data', async () => {
+      await wrapper.setProps({
         earliestDate: subYears(today, 1)
       })
 
@@ -115,7 +115,7 @@ describe('GeoCalendarYearGridYearUnit', () => {
       expect(wrapper.emitted()['select-year-unit'][0][0]).toBe(currentYear)
     })
 
-    it('Emits event when hovering on year', () => {
+    it('Emits event when hovering on year', async () => {
       wrapper.find('.geo-calendar-grid__date-picker-unit').trigger('mouseover')
       expect(wrapper.emitted()['year-unit-mouseover']).toBeDefined()
       expect(wrapper.emitted()['year-unit-mouseover'][0][0]).toBe(currentYear)

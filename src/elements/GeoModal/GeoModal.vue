@@ -136,15 +136,15 @@ export default {
     },
 
     hasHeader () {
-      return !!(this.$slots.header && this.$slots.header.length)
+      return !!this.$slots.header
     },
 
     hasBody () {
-      return !!(this.$slots.body && this.$slots.body.length)
+      return !!this.$slots.body
     },
 
     hasFooter () {
-      return !!(this.$slots.footer && this.$slots.footer.length)
+      return !!this.$slots.footer
     }
   },
   watch: {

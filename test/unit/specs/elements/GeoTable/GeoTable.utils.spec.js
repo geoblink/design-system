@@ -1,4 +1,4 @@
-import { createLocalVue, mount } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 
 import {
   getColumnSizeRequirements,
@@ -12,10 +12,6 @@ import {
 } from '@/elements/GeoTable/GeoTable.utils'
 
 import GeoTableHeaderRowCell from '@/elements/GeoTable/GeoTableHeaderRowCell'
-
-// create an extended `Vue` constructor
-const localVue = createLocalVue()
-localVue.component('geo-table-header-row-cell', GeoTableHeaderRowCell)
 
 describe('GeoTable utils', function () {
   describe('#getColumnSizeRequirements', function () {
@@ -811,19 +807,16 @@ describe('GeoTable utils', function () {
     it('Should return default if no props are set', function () {
       const wrapper = mount(GeoTableHeaderRowCell)
 
-      const instance = wrapper.find('.geo-table-header-row-cell--main')
-      expect(instance.exists()).toBe(true)
-
       const columnSizingSettings = getVueComponentColumnSizingSettings(
-        instance.vm.$vnode.componentInstance,
-        instance.vm.$el
+        wrapper.vm,
+        wrapper.vm.$el
       )
       expect(columnSizingSettings).toHaveProperty('ignoreContentWidth', false)
       expect(columnSizingSettings).toHaveProperty('growingDisabled', false)
       expect(columnSizingSettings).toHaveProperty('columnMinWidth', undefined)
       expect(columnSizingSettings).toHaveProperty('columnMaxWidth', undefined)
       expect(columnSizingSettings).toHaveProperty('columnWidth', undefined)
-      expect(columnSizingSettings).toHaveProperty('element', instance.element)
+      expect(columnSizingSettings).toHaveProperty('element', wrapper.vm.$el)
     })
 
     describe('`ignoreContentWidth`', function () {
@@ -834,46 +827,37 @@ describe('GeoTable utils', function () {
           }
         })
 
-        const instance = wrapper.find('.geo-table-header-row-cell--main')
-        expect(instance.exists()).toBe(true)
-
         const columnSizingSettings = getVueComponentColumnSizingSettings(
-          instance.vm.$vnode.componentInstance,
-          instance.vm.$el
+          wrapper.vm,
+          wrapper.vm.$el
         )
         expect(columnSizingSettings).toHaveProperty('ignoreContentWidth', false)
       })
 
       it('Should return `ignoreContentWidth` if set to `true`', function () {
         const wrapper = mount(GeoTableHeaderRowCell, {
-          propsData: {
+          props: {
             ignoreContentWidth: true
           }
         })
 
-        const instance = wrapper.find('.geo-table-header-row-cell--main')
-        expect(instance.exists()).toBe(true)
-
         const columnSizingSettings = getVueComponentColumnSizingSettings(
-          instance.vm.$vnode.componentInstance,
-          instance.vm.$el
+          wrapper.vm,
+          wrapper.vm.$el
         )
         expect(columnSizingSettings).toHaveProperty('ignoreContentWidth', true)
       })
 
       it('Should return overriden `ignoreContentWidth` if set to `false`', function () {
         const wrapper = mount(GeoTableHeaderRowCell, {
-          propsData: {
+          props: {
             ignoreContentWidth: true
           }
         })
 
-        const instance = wrapper.find('.geo-table-header-row-cell--main')
-        expect(instance.exists()).toBe(true)
-
         const columnSizingSettings = getVueComponentColumnSizingSettings(
-          instance.vm.$vnode.componentInstance,
-          instance.vm.$el,
+          wrapper.vm,
+          wrapper.vm.$el,
           { overridenIgnoreContentWidth: false }
         )
         expect(columnSizingSettings).toHaveProperty('ignoreContentWidth', false)
@@ -881,17 +865,14 @@ describe('GeoTable utils', function () {
 
       it('Should return overriden `ignoreContentWidth` if set to `true`', function () {
         const wrapper = mount(GeoTableHeaderRowCell, {
-          propsData: {
+          props: {
             ignoreContentWidth: false
           }
         })
 
-        const instance = wrapper.find('.geo-table-header-row-cell--main')
-        expect(instance.exists()).toBe(true)
-
         const columnSizingSettings = getVueComponentColumnSizingSettings(
-          instance.vm.$vnode.componentInstance,
-          instance.vm.$el,
+          wrapper.vm,
+          wrapper.vm.$el,
           { overridenIgnoreContentWidth: true }
         )
         expect(columnSizingSettings).toHaveProperty('ignoreContentWidth', true)
@@ -901,51 +882,42 @@ describe('GeoTable utils', function () {
     describe('`growingDisabled`', function () {
       it('Should return `growingDisabled` if set to `false`', function () {
         const wrapper = mount(GeoTableHeaderRowCell, {
-          propsData: {
+          props: {
             growingDisabled: false
           }
         })
 
-        const instance = wrapper.find('.geo-table-header-row-cell--main')
-        expect(instance.exists()).toBe(true)
-
         const columnSizingSettings = getVueComponentColumnSizingSettings(
-          instance.vm.$vnode.componentInstance,
-          instance.vm.$el
+          wrapper.vm,
+          wrapper.vm.$el
         )
         expect(columnSizingSettings).toHaveProperty('growingDisabled', false)
       })
 
       it('Should return `growingDisabled` if set to `true`', function () {
         const wrapper = mount(GeoTableHeaderRowCell, {
-          propsData: {
+          props: {
             growingDisabled: true
           }
         })
 
-        const instance = wrapper.find('.geo-table-header-row-cell--main')
-        expect(instance.exists()).toBe(true)
-
         const columnSizingSettings = getVueComponentColumnSizingSettings(
-          instance.vm.$vnode.componentInstance,
-          instance.vm.$el
+          wrapper.vm,
+          wrapper.vm.$el
         )
         expect(columnSizingSettings).toHaveProperty('growingDisabled', true)
       })
 
       it('Should return overriden `growingDisabled` if set to `false`', function () {
         const wrapper = mount(GeoTableHeaderRowCell, {
-          propsData: {
+          props: {
             growingDisabled: true
           }
         })
 
-        const instance = wrapper.find('.geo-table-header-row-cell--main')
-        expect(instance.exists()).toBe(true)
-
         const columnSizingSettings = getVueComponentColumnSizingSettings(
-          instance.vm.$vnode.componentInstance,
-          instance.vm.$el,
+          wrapper.vm,
+          wrapper.vm.$el,
           { overridenGrowingDisabled: false }
         )
         expect(columnSizingSettings).toHaveProperty('growingDisabled', false)
@@ -953,17 +925,14 @@ describe('GeoTable utils', function () {
 
       it('Should return overriden `growingDisabled` if set to `true`', function () {
         const wrapper = mount(GeoTableHeaderRowCell, {
-          propsData: {
+          props: {
             growingDisabled: false
           }
         })
 
-        const instance = wrapper.find('.geo-table-header-row-cell--main')
-        expect(instance.exists()).toBe(true)
-
         const columnSizingSettings = getVueComponentColumnSizingSettings(
-          instance.vm.$vnode.componentInstance,
-          instance.vm.$el,
+          wrapper.vm,
+          wrapper.vm.$el,
           { overridenGrowingDisabled: true }
         )
         expect(columnSizingSettings).toHaveProperty('growingDisabled', true)
@@ -972,51 +941,42 @@ describe('GeoTable utils', function () {
 
     it('Should return `columnMinWidth` if set', function () {
       const wrapper = mount(GeoTableHeaderRowCell, {
-        propsData: {
+        props: {
           columnMinWidth: 10
         }
       })
 
-      const instance = wrapper.find('.geo-table-header-row-cell--main')
-      expect(instance.exists()).toBe(true)
-
       const columnSizingSettings = getVueComponentColumnSizingSettings(
-        instance.vm.$vnode.componentInstance,
-        instance.vm.$el
+        wrapper.vm,
+        wrapper.vm.$el
       )
       expect(columnSizingSettings).toHaveProperty('columnMinWidth', 10)
     })
 
     it('Should return `columnMaxWidth` if set', function () {
       const wrapper = mount(GeoTableHeaderRowCell, {
-        propsData: {
+        props: {
           columnMaxWidth: 10
         }
       })
 
-      const instance = wrapper.find('.geo-table-header-row-cell--main')
-      expect(instance.exists()).toBe(true)
-
       const columnSizingSettings = getVueComponentColumnSizingSettings(
-        instance.vm.$vnode.componentInstance,
-        instance.vm.$el
+        wrapper.vm,
+        wrapper.vm.$el
       )
       expect(columnSizingSettings).toHaveProperty('columnMaxWidth', 10)
     })
 
     it('Should return `columnWidth` if set', function () {
       const wrapper = mount(GeoTableHeaderRowCell, {
-        propsData: {
+        props: {
           columnWidth: 10
         }
       })
 
-      const instance = wrapper.find('.geo-table-header-row-cell--main')
-      expect(instance.exists()).toBe(true)
-
       const columnSizingSettings = getVueComponentColumnSizingSettings(
-        instance.vm.$vnode.componentInstance,
-        instance.vm.$el
+        wrapper.vm,
+        wrapper.vm.$el
       )
       expect(columnSizingSettings).toHaveProperty('columnWidth', 10)
     })

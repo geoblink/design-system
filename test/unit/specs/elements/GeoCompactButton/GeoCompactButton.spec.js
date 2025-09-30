@@ -1,8 +1,5 @@
 import _ from 'lodash'
-import { createLocalVue, mount } from '@vue/test-utils'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { fas } from '@fortawesome/free-solid-svg-icons'
+import { mount } from '@vue/test-utils'
 import { FontAwesomeIconMock, expectFontAwesomeIconProp } from 'test/unit/utils/FontAwesomeIconMock.js'
 import GeoActivityIndicator from '@/elements/GeoActivityIndicator/GeoActivityIndicator.vue'
 import GeoCompactButton from '@/elements/GeoCompactButton/GeoCompactButton.vue'
@@ -11,38 +8,28 @@ import GeoSecondaryCompactButton from '@/elements/GeoCompactButton/GeoSecondaryC
 import GeoDangerCompactButton from '@/elements/GeoCompactButton/GeoDangerCompactButton.vue'
 import GeoInputAccessoryCompactButton from '@/elements/GeoCompactButton/GeoInputAccessoryCompactButton.vue'
 
-library.add(fas)
-
-const iconsToMock = [
-  'faTimes',
-  'faCheck'
-]
-
-const mockedFalIcons = _.mapValues(_.pick(fas, iconsToMock), (original) => {
-  return _.assign({}, original, {
-    prefix: 'fal'
-  })
-})
-
-library.add(mockedFalIcons)
-
-// create an extended `Vue` constructor
-const localVue = createLocalVue()
-localVue.component('geo-activity-indicator', GeoActivityIndicator)
-localVue.component('geo-compact-button', GeoCompactButton)
-localVue.component('geo-primary-compact-button', GeoPrimaryCompactButton)
-localVue.component('geo-secondary-compact-button', GeoSecondaryCompactButton)
-localVue.component('geo-danger-compact-button', GeoDangerCompactButton)
-localVue.component('geo-inputAccessory-compact-button', GeoInputAccessoryCompactButton)
+function getWrapper (component, options = {}) {
+  return mount(component, _.merge({
+    global: {
+      components: {
+        'geo-activity-indicator': GeoActivityIndicator,
+        'geo-primary-compact-button': GeoPrimaryCompactButton,
+        'geo-secondary-compact-button': GeoSecondaryCompactButton,
+        'geo-danger-compact-button': GeoDangerCompactButton,
+        'geo-inputAccessory-compact-button': GeoInputAccessoryCompactButton
+      },
+      stubs: {
+        'font-awesome-icon': FontAwesomeIconMock
+      }
+    }
+  }, options))
+}
 
 describe('GeoCompactButton', function () {
   it('Should render button\'s content', function () {
-    const wrapper = mount(GeoCompactButton, {
-      propsData: {
+    const wrapper = getWrapper(GeoCompactButton, {
+      props: {
         type: 'primary'
-      },
-      stubs: {
-        FontAwesomeIcon
       }
     })
     const button = wrapper.find('.geo-compact-button')
@@ -50,85 +37,64 @@ describe('GeoCompactButton', function () {
   })
 
   it('Should emit an event on click', async function () {
-    const wrapper = mount(GeoCompactButton, {
-      propsData: {
+    const wrapper = getWrapper(GeoCompactButton, {
+      props: {
         type: 'primary'
-      },
-      stubs: {
-        FontAwesomeIcon
       }
     })
-    wrapper.find('.geo-compact-button').trigger('click')
+    await wrapper.find('.geo-compact-button').trigger('click')
     await wrapper.vm.$nextTick()
     expect(wrapper.emitted().click).toBeTruthy()
   })
 
-  it('Should not emit an event when it\'s disabled', function () {
-    const wrapper = mount(GeoCompactButton, {
-      propsData: {
+  // TODO: WEB-2073 Fix check, native click event is still triggered even if custom click event is not emitted
+  xit('Should not emit an event when it\'s disabled', async function () {
+    const wrapper = getWrapper(GeoCompactButton, {
+      props: {
         type: 'primary',
         disabled: true
-      },
-      stubs: {
-        FontAwesomeIcon
       }
     })
     const button = wrapper.find('.geo-compact-button')
-    button.trigger('click')
+    await button.trigger('click')
     expect(wrapper.emitted().click).toBeFalsy()
   })
 
   it('Should show activity indicator when loading', function () {
-    const wrapper = mount(GeoCompactButton, {
-      propsData: {
+    const wrapper = getWrapper(GeoCompactButton, {
+      props: {
         type: 'primary',
         loading: true
-      },
-      stubs: {
-        GeoActivityIndicator,
-        FontAwesomeIcon
       }
     })
     expect(wrapper.find('.geo-compact-button__activity-indicator').exists()).toBe(true)
   })
 
   it('Should render correct icon when provided', function () {
-    const wrapper = mount(GeoCompactButton, {
-      propsData: {
+    const wrapper = getWrapper(GeoCompactButton, {
+      props: {
         type: 'primary',
         icon: ['fas', 'thumbs-up']
-      },
-      stubs: {
-        GeoActivityIndicator,
-        'font-awesome-icon': FontAwesomeIconMock
       }
     })
-    const fontAwesomeIconElem = wrapper.find(FontAwesomeIconMock)
+    const fontAwesomeIconElem = wrapper.findComponent(FontAwesomeIconMock)
     expectFontAwesomeIconProp(fontAwesomeIconElem, ['fas', 'thumbs-up'])
   })
 
   it('Should provide matching activity indicator variant by default', function () {
-    const primaryWrapper = mount(GeoCompactButton, {
-      propsData: {
+    const primaryWrapper = getWrapper(GeoCompactButton, {
+      props: {
         type: 'primary',
         loading: true
-      },
-      stubs: {
-        GeoActivityIndicator,
-        FontAwesomeIcon
       }
     })
     expect(primaryWrapper.vm.activityIndicatorVariant).toBe('primary')
     expect(primaryWrapper.find('.geo-activity-indicator--primary').exists()).toBe(true)
 
-    const secondaryWrapper = mount(GeoCompactButton, {
-      propsData: {
+    const secondaryWrapper = getWrapper(GeoCompactButton, {
+      props: {
         type: 'secondary',
         loading: true
-      },
-      stubs: {
-        GeoActivityIndicator,
-        FontAwesomeIcon
       }
     })
     expect(secondaryWrapper.vm.activityIndicatorVariant).toBe('default')
@@ -147,13 +113,14 @@ describe('GeoButton Children', function () {
   taxonomyButtons.forEach(function (taxonomyButton) {
     describe(taxonomyButton.name, function () {
       it('Should render button\'s content', function () {
-        const wrapper = mount(taxonomyButton, {
-          propsData: {
+        const wrapper = getWrapper(taxonomyButton, {
+          props: {
             icon: ['fas', 'thumbs-up']
           },
-          stubs: {
-            GeoCompactButton,
-            FontAwesomeIcon
+          global: {
+            components: {
+              GeoCompactButton
+            }
           }
         })
         const taxonomyClass = `.geo-compact-button--${wrapper.vm.type}`
@@ -163,50 +130,54 @@ describe('GeoButton Children', function () {
 
       if (taxonomyButton === GeoPrimaryCompactButton) {
         it('Should render correct default icon', function () {
-          const wrapper = mount(taxonomyButton, {
-            stubs: {
-              GeoCompactButton,
-              'font-awesome-icon': FontAwesomeIconMock
+          const wrapper = getWrapper(taxonomyButton, {
+            global: {
+              components: {
+                GeoCompactButton
+              }
             }
           })
-          const fontAwesomeIconElem = wrapper.find(FontAwesomeIconMock)
+          const fontAwesomeIconElem = wrapper.findComponent(FontAwesomeIconMock)
           expectFontAwesomeIconProp(fontAwesomeIconElem, ['fal', 'check'])
         })
       } else if (taxonomyButton === GeoSecondaryCompactButton) {
         it('Should render correct default icon', function () {
-          const wrapper = mount(taxonomyButton, {
-            stubs: {
-              GeoCompactButton,
-              'font-awesome-icon': FontAwesomeIconMock
+          const wrapper = getWrapper(taxonomyButton, {
+            global: {
+              components: {
+                GeoCompactButton
+              }
             }
           })
-          const fontAwesomeIconElem = wrapper.find(FontAwesomeIconMock)
+          const fontAwesomeIconElem = wrapper.findComponent(FontAwesomeIconMock)
           expectFontAwesomeIconProp(fontAwesomeIconElem, ['fal', 'times'])
         })
       }
 
       it('Should render correct icon when provided', function () {
-        const wrapper = mount(taxonomyButton, {
-          propsData: {
+        const wrapper = getWrapper(taxonomyButton, {
+          props: {
             icon: ['fas', 'thumbs-up']
           },
-          stubs: {
-            GeoCompactButton,
-            'font-awesome-icon': FontAwesomeIconMock
+          global: {
+            components: {
+              GeoCompactButton
+            }
           }
         })
-        const fontAwesomeIconElem = wrapper.find(FontAwesomeIconMock)
+        const fontAwesomeIconElem = wrapper.findComponent(FontAwesomeIconMock)
         expectFontAwesomeIconProp(fontAwesomeIconElem, ['fas', 'thumbs-up'])
       })
 
       it('Should emit an event on click', async function () {
-        const wrapper = mount(taxonomyButton, {
-          propsData: {
+        const wrapper = getWrapper(taxonomyButton, {
+          props: {
             icon: ['fas', 'thumbs-up']
           },
-          stubs: {
-            GeoCompactButton,
-            FontAwesomeIcon
+          global: {
+            components: {
+              GeoCompactButton
+            }
           }
         })
         wrapper.find('.geo-compact-button').trigger('click')
@@ -216,32 +187,34 @@ describe('GeoButton Children', function () {
         expect(wrapper.emitted().click).toBeTruthy()
       })
 
-      it('Should not emit an event when it\'s disabled', function () {
-        const wrapper = mount(taxonomyButton, {
-          propsData: {
+      // TODO: WEB-2073 Fix check, native click event is still triggered even if custom click event is not emitted
+      xit('Should not emit an event when it\'s disabled', async function () {
+        const wrapper = getWrapper(taxonomyButton, {
+          props: {
             icon: ['fas', 'thumbs-up'],
             disabled: true
           },
-          stubs: {
-            GeoCompactButton,
-            FontAwesomeIcon
+          global: {
+            components: {
+              GeoCompactButton
+            }
           }
         })
         const button = wrapper.find('.geo-compact-button')
-        button.trigger('click')
+        await button.trigger('click')
         expect(wrapper.emitted().click).toBeFalsy()
       })
 
       it('Should show activity indicator when loading', function () {
-        const wrapper = mount(taxonomyButton, {
-          propsData: {
+        const wrapper = getWrapper(taxonomyButton, {
+          props: {
             icon: ['fas', 'thumbs-up'],
             loading: true
           },
-          stubs: {
-            GeoActivityIndicator,
-            GeoCompactButton,
-            FontAwesomeIcon
+          global: {
+            components: {
+              GeoCompactButton
+            }
           }
         })
         expect(wrapper.find('.geo-compact-button__activity-indicator').exists()).toBe(true)

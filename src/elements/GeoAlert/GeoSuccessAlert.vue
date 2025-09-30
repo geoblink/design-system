@@ -3,7 +3,6 @@
     v-bind="$attrs"
     :icon="['fal', 'thumbs-up']"
     :variant="VARIANTS.success"
-    v-on="$listeners"
   >
     <!-- @slot Use this slot to customize alert's content -->
     <slot />

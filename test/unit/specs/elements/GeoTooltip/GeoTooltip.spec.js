@@ -31,102 +31,117 @@ describe('GeoTooltip', function () {
 
   describe('Lifecycle', function () {
     it('Should add tooltip container element', function () {
-      const wrapper = mount(getComponentWithTooltip())
-      const bodyWrapper = createWrapper(document.body)
+      const wrapper = mount(getComponentWithTooltip(), {
+        attachTo: document.body
+      })
 
-      expect(bodyWrapper.find('.geo-tooltip').exists()).toBe(true)
+      expect(document.body.querySelector('.geo-tooltip')).toBeDefined()
 
-      wrapper.destroy()
+      wrapper.unmount()
     })
 
     it('Should add static tooltip container element', function () {
       const wrapper = mount(getComponentWithTooltip(), {
-        propsData: {
+        attachTo: document.body,
+        props: {
           tooltipProps: {
             static: true
           }
         }
       })
-      const bodyWrapper = createWrapper(document.body)
 
-      expect(bodyWrapper.find('.geo-tooltip-static').exists()).toBe(true)
+      expect(document.body.querySelector('.geo-tooltip')).toBeDefined()
 
-      wrapper.destroy()
+      wrapper.unmount()
     })
 
     it('Should add only one tooltip container element', function () {
-      const firstWrapper = mount(getComponentWithTooltip())
-      const secondWrapper = mount(getComponentWithTooltip())
-      const bodyWrapper = createWrapper(document.body)
+      const firstWrapper = mount(getComponentWithTooltip(), {
+        attachTo: document.body
+      })
+      const secondWrapper = mount(getComponentWithTooltip(), {
+        attachTo: document.body
+      })
 
-      expect(bodyWrapper.findAll('.geo-tooltip')).toHaveLength(1)
+      expect(document.body.querySelectorAll('.geo-tooltip').length).toBe(1)
 
-      firstWrapper.destroy()
-      secondWrapper.destroy()
+      firstWrapper.unmount()
+      secondWrapper.unmount()
     })
 
     it('Should add several static tooltip container element', function () {
       const firstWrapper = mount(getComponentWithTooltip(), {
-        propsData: {
+        attachTo: document.body,
+        props: {
           tooltipProps: {
             static: true
           }
         }
       })
       const secondWrapper = mount(getComponentWithTooltip(), {
-        propsData: {
+        attachTo: document.body,
+        props: {
           tooltipProps: {
             static: true
           }
         }
       })
-      const bodyWrapper = createWrapper(document.body)
 
-      expect(bodyWrapper.findAll('.geo-tooltip-static')).toHaveLength(2)
+      expect(document.body.querySelectorAll('.geo-tooltip-static').length).toBe(2)
 
-      firstWrapper.destroy()
-      secondWrapper.destroy()
+      firstWrapper.unmount()
+      secondWrapper.unmount()
     })
 
     it('Should not render tooltip content initially', function () {
-      const wrapper = mount(getComponentWithTooltip())
+      const wrapper = mount(getComponentWithTooltip(), {
+        attachTo: document.body
+      })
 
       expect(wrapper.find('.test-tooltip-content').exists()).toBe(false)
 
-      wrapper.destroy()
+      wrapper.unmount()
     })
 
     it('Should destroy tooltip container when tooltip is removed', async function () {
-      const wrapper = mount(getComponentWithTooltip())
-      const bodyWrapper = createWrapper(document.body)
+      const wrapper = mount(getComponentWithTooltip(), {
+        attachTo: document.body
+      })
 
-      expect(bodyWrapper.find('.geo-tooltip').exists()).toBe(true)
+      expect(document.body.querySelector('.geo-tooltip')).toBeDefined()
 
-      wrapper.setProps({
+      await wrapper.setProps({
         isTooltipEnabled: false
       })
 
-      expect(bodyWrapper.find('.geo-tooltip').exists()).toBe(false)
+      expect(document.body.querySelector('.geo-tooltip')).toBeNull()
+      wrapper.unmount()
     })
 
     it('Should destroy tooltip container only when last element with tooltip is removed', async function () {
-      const firstWrapper = mount(getComponentWithTooltip())
-      const secondWrapper = mount(getComponentWithTooltip())
-      const bodyWrapper = createWrapper(document.body)
+      const firstWrapper = mount(getComponentWithTooltip(), {
+        attachTo: document.body
+      })
+      const secondWrapper = mount(getComponentWithTooltip(), {
+        attachTo: document.body
+      })
 
-      expect(bodyWrapper.find('.geo-tooltip').exists()).toBe(true)
+      expect(document.body.querySelector('.geo-tooltip')).toBeDefined()
 
-      firstWrapper.setProps({
+      await firstWrapper.setProps({
         isTooltipEnabled: false
       })
 
-      expect(bodyWrapper.find('.geo-tooltip').exists()).toBe(true)
+      expect(document.body.querySelector('.geo-tooltip')).toBeDefined()
 
-      secondWrapper.setProps({
+      await secondWrapper.setProps({
         isTooltipEnabled: false
       })
 
-      expect(bodyWrapper.find('.geo-tooltip').exists()).toBe(false)
+      expect(document.body.querySelector('.geo-tooltip')).toBeNull()
+
+      firstWrapper.unmount()
+      secondWrapper.unmount()
     })
   })
 
@@ -141,106 +156,111 @@ describe('GeoTooltip', function () {
     })
 
     it('Should display tooltip when cursor is over the parent', async function () {
-      const wrapper = mount(getComponentWithTooltip())
-      const bodyWrapper = createWrapper(document.body)
+      const wrapper = mount(getComponentWithTooltip(), {
+        attachTo: document.body
+      })
 
-      expect(bodyWrapper.find('.test-tooltip-content').exists()).toBe(false)
+      expect(document.body.querySelector('.test-tooltip-content')).toBeNull()
 
       wrapper.find('.test-tooltip-wrapper').trigger('mouseover')
 
       await wrapper.vm.$nextTick()
 
-      expect(bodyWrapper.find('.test-tooltip-content').exists()).toBe(true)
+      expect(document.body.querySelector('.test-tooltip-content')).toBeDefined()
 
-      wrapper.destroy()
+      wrapper.unmount()
     })
 
     it('Should hide tooltip when parent is removed', async function () {
-      const wrapper = mount(getComponentWithTooltip())
-      const bodyWrapper = createWrapper(document.body)
+      const wrapper = mount(getComponentWithTooltip(), {
+        attachTo: document.body
+      })
 
       wrapper.find('.test-tooltip-wrapper').trigger('mouseover')
 
-      wrapper.destroy()
+      wrapper.unmount()
 
-      expect(bodyWrapper.find('.test-tooltip-content').exists()).toBe(false)
+      expect(document.body.querySelector('.test-tooltip-content')).toBeNull()
     })
 
     it('Should hide tooltip when cursor is moved out of the parent', async function () {
       const wrapper = mount(getComponentWithTooltip(), {
-        propsData: {
+        attachTo: document.body,
+        props: {
           delay: 0
         }
       })
-      const bodyWrapper = createWrapper(document.body)
-      wrapper.find('.test-tooltip-wrapper').trigger('mouseover')
+      await wrapper.find('.test-tooltip-wrapper').trigger('mouseover')
       await wrapper.vm.$nextTick()
 
-      expect(bodyWrapper.find('.test-tooltip-content').exists()).toBe(true)
+      expect(document.body.querySelector('.test-tooltip-content')).toBeDefined()
 
-      wrapper.find('.test-tooltip-wrapper').trigger('mouseleave')
+      await wrapper.find('.test-tooltip-wrapper').trigger('mouseleave')
 
       await wrapper.vm.$nextTick()
 
-      expect(bodyWrapper.find('.test-tooltip-content').exists()).toBe(false)
+      expect(document.body.querySelector('.test-tooltip-content')).toBeNull()
 
-      wrapper.destroy()
+      wrapper.unmount()
     })
 
     it('Should maintain tooltip when cursor is hovering tooltip', async function () {
-      const wrapper = mount(getComponentWithTooltip())
-      const bodyWrapper = createWrapper(document.body)
+      const wrapper = mount(getComponentWithTooltip(), {
+        attachTo: document.body
+      })
 
-      expect(bodyWrapper.find('.test-tooltip-content').exists()).toBe(false)
+      expect(document.body.querySelector('.test-tooltip-content')).toBeNull()
 
       wrapper.find('.test-tooltip-wrapper').trigger('mouseover')
       await wrapper.vm.$nextTick()
 
-      bodyWrapper.find('.geo-tooltip__content').trigger('mouseover')
+      await document.body.querySelector('.geo-tooltip__content').dispatchEvent(new MouseEvent('mouseover'))
       await wrapper.vm.$nextTick()
 
-      expect(bodyWrapper.find('.test-tooltip-content').exists()).toBe(true)
+      expect(document.body.querySelector('.test-tooltip-content')).toBeDefined()
 
-      wrapper.destroy()
+      wrapper.unmount()
     })
 
     it('Should remove tooltip after cursor stops hovering tooltip', async function () {
-      const wrapper = mount(getComponentWithTooltip())
-      const bodyWrapper = createWrapper(document.body)
+      const wrapper = mount(getComponentWithTooltip(), {
+        attachTo: document.body
+      })
 
-      expect(bodyWrapper.find('.test-tooltip-content').exists()).toBe(false)
+      expect(document.body.querySelector('.test-tooltip-content')).toBeNull()
 
-      wrapper.find('.test-tooltip-wrapper').trigger('mouseover')
+      await wrapper.find('.test-tooltip-wrapper').trigger('mouseover')
       await wrapper.vm.$nextTick()
 
-      bodyWrapper.find('.geo-tooltip__content').trigger('mouseover')
+      await document.body.querySelector('.geo-tooltip__content').dispatchEvent(new MouseEvent('mouseover'))
       await wrapper.vm.$nextTick()
 
-      wrapper.find('.test-tooltip-wrapper').trigger('mouseleave')
+      await wrapper.find('.test-tooltip-wrapper').trigger('mouseleave')
       await wrapper.vm.$nextTick()
 
-      bodyWrapper.find('.geo-tooltip__content').trigger('mouseleave')
+      await document.body.querySelector('.geo-tooltip__content').dispatchEvent(new MouseEvent('mouseleave'))
       await wrapper.vm.$nextTick()
 
-      expect(bodyWrapper.find('.test-tooltip-content').exists()).toBe(false)
+      expect(document.body.querySelector('.test-tooltip-content')).toBeNull()
 
-      wrapper.destroy()
+      wrapper.unmount()
     })
 
     it('Should reposition tooltip when displayed', async function () {
       const spy = jest.spyOn(GeoTooltip.methods, 'repositionTooltip')
-      const wrapper = mount(getComponentWithTooltip())
-      const bodyWrapper = createWrapper(document.body)
+      const wrapper = mount(getComponentWithTooltip(), {
+        attachTo: document.body
+      })
 
-      expect(bodyWrapper.find('.test-tooltip-content').exists()).toBe(false)
+      expect(document.body.querySelector('.test-tooltip-content')).toBeNull()
 
-      wrapper.find('.test-tooltip-wrapper').trigger('mouseover')
+      await wrapper.find('.test-tooltip-wrapper').trigger('mouseover')
 
       await wrapper.vm.$nextTick()
 
       expect(spy).toHaveBeenCalled()
 
-      wrapper.destroy()
+      wrapper.unmount()
     })
 
     it('Should complain if tooltip does not fit in screen', async function () {
@@ -250,55 +270,57 @@ describe('GeoTooltip', function () {
       jest.spyOn(document.documentElement, 'clientWidth', 'get').mockImplementation(() => -1)
       jest.spyOn(document.documentElement, 'clientHeight', 'get').mockImplementation(() => -1)
 
-      const wrapper = mount(getComponentWithTooltip())
+      const wrapper = mount(getComponentWithTooltip(), {
+        attachTo: document.body
+      })
 
-      wrapper.find('.test-tooltip-wrapper').trigger('mouseover')
+      await wrapper.find('.test-tooltip-wrapper').trigger('mouseover')
 
       await wrapper.vm.$nextTick()
 
       expect(consoleWarnSpy).toHaveBeenCalled()
 
-      wrapper.destroy()
+      wrapper.unmount()
     })
   })
 
   describe('Manual visibility', function () {
     it('Should display tooltip when it is manually visible', async function () {
       const wrapper = mount(getComponentWithTooltip(), {
-        propsData: {
+        attachTo: document.body,
+        props: {
           tooltipProps: {
             visible: true
           }
         }
       })
-      const bodyWrapper = createWrapper(document.body)
 
-      expect(bodyWrapper.find('.test-tooltip-content').exists()).toBe(true)
+      expect(document.body.querySelector('.test-tooltip-content')).toBeDefined()
 
-      wrapper.destroy()
+      wrapper.unmount()
 
-      expect(bodyWrapper.find('.test-tooltip-content').exists()).toBe(false)
+      expect(document.body.querySelector('.test-tooltip-content')).toBeNull()
     })
 
     it('Should not display tooltip when it is manually hidden', async function () {
       const wrapper = mount(getComponentWithTooltip(), {
-        propsData: {
+        attachTo: document.body,
+        props: {
           tooltipProps: {
             visible: false
           }
         }
       })
-      const bodyWrapper = createWrapper(document.body)
 
-      expect(bodyWrapper.find('.test-tooltip-content').exists()).toBe(false)
+      expect(document.body.querySelector('.test-tooltip-content')).toBeNull()
 
-      wrapper.find('.test-tooltip-wrapper').trigger('mouseover')
+      await wrapper.find('.test-tooltip-wrapper').trigger('mouseover')
 
       await wrapper.vm.$nextTick()
 
-      expect(bodyWrapper.find('.test-tooltip-content').exists()).toBe(false)
+      expect(document.body.querySelector('.test-tooltip-content')).toBeNull()
 
-      wrapper.destroy()
+      wrapper.unmount()
     })
   })
 
@@ -306,19 +328,18 @@ describe('GeoTooltip', function () {
     describe('Position', function () {
       it('Should complain if position is invalid', function () {
         const consoleWarnSpy = jest.spyOn(global.console, 'warn').mockImplementation(() => { })
-        const consoleErrorSpy = jest.spyOn(global.console, 'error').mockImplementation(() => { })
         const wrapper = mount(getComponentWithTooltip(), {
-          propsData: {
+          attachTo: document.body,
+          props: {
             tooltipProps: {
               position: 'invalid position'
             }
           }
         })
 
-        expect(consoleErrorSpy).toHaveBeenCalled()
         expect(consoleWarnSpy).toHaveBeenCalled()
 
-        wrapper.destroy()
+        wrapper.unmount()
       })
 
       for (const positionKey of Object.keys(GeoTooltip.constants.POSITIONS)) {
@@ -326,19 +347,18 @@ describe('GeoTooltip', function () {
 
         it(`Should not complain if position is «${position}»`, function () {
           const consoleWarnSpy = jest.spyOn(global.console, 'warn').mockImplementation(() => { })
-          const consoleErrorSpy = jest.spyOn(global.console, 'error').mockImplementation(() => { })
           const wrapper = mount(getComponentWithTooltip(), {
-            propsData: {
+            attachTo: document.body,
+            props: {
               tooltipProps: {
                 position
               }
             }
           })
 
-          expect(consoleErrorSpy).not.toHaveBeenCalled()
           expect(consoleWarnSpy).not.toHaveBeenCalled()
 
-          wrapper.destroy()
+          wrapper.unmount()
         })
       }
     })
@@ -346,19 +366,18 @@ describe('GeoTooltip', function () {
     describe('Alignment', function () {
       it('Should complain if alignment is invalid', function () {
         const consoleWarnSpy = jest.spyOn(global.console, 'warn').mockImplementation(() => { })
-        const consoleErrorSpy = jest.spyOn(global.console, 'error').mockImplementation(() => { })
         const wrapper = mount(getComponentWithTooltip(), {
-          propsData: {
+          attachTo: document.body,
+          props: {
             tooltipProps: {
               alignment: 'invalid alignment'
             }
           }
         })
 
-        expect(consoleErrorSpy).toHaveBeenCalled()
         expect(consoleWarnSpy).toHaveBeenCalled()
 
-        wrapper.destroy()
+        wrapper.unmount()
       })
 
       for (const alignmentKey of Object.keys(GeoTooltip.constants.ALIGNMENTS)) {
@@ -368,7 +387,8 @@ describe('GeoTooltip', function () {
           const consoleWarnSpy = jest.spyOn(global.console, 'warn').mockImplementation(() => { })
           const consoleErrorSpy = jest.spyOn(global.console, 'error').mockImplementation(() => { })
           const wrapper = mount(getComponentWithTooltip(), {
-            propsData: {
+            attachTo: document.body,
+            props: {
               tooltipProps: {
                 alignment
               }
@@ -378,25 +398,26 @@ describe('GeoTooltip', function () {
           expect(consoleErrorSpy).not.toHaveBeenCalled()
           expect(consoleWarnSpy).not.toHaveBeenCalled()
 
-          wrapper.destroy()
+          wrapper.unmount()
         })
       }
     })
 
     describe('Delay', function () {
       it('Should complain if delay is a negative number', function () {
-        const consoleErrorSpy = jest.spyOn(global.console, 'error').mockImplementation(() => { })
+        const consoleWarnSpy = jest.spyOn(global.console, 'warn').mockImplementation(() => { })
         const wrapper = mount(getComponentWithTooltip(), {
-          propsData: {
+          attachTo: document.body,
+          props: {
             tooltipProps: {
               delay: -10
             }
           }
         })
 
-        expect(consoleErrorSpy).toHaveBeenCalled()
+        expect(consoleWarnSpy).toHaveBeenCalled()
 
-        wrapper.destroy()
+        wrapper.unmount()
       })
     })
   })

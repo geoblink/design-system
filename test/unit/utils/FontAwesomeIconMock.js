@@ -1,4 +1,5 @@
 export const FontAwesomeIconMock = {
+  name: 'font-awesome-icon',
   props: ['icon'],
   template: '<div></div>'
 }

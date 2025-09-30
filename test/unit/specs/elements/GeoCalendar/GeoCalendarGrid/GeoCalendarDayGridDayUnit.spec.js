@@ -13,7 +13,7 @@ describe('GeoCalendarDayGridDayUnit', () => {
 
   it('Should render', function () {
     const wrapper = mount(GeoCalendarDayGridDayUnit, {
-      propsData: {
+      props: {
         currentDate: today,
         day: addDays(today, 5)
       }
@@ -25,7 +25,7 @@ describe('GeoCalendarDayGridDayUnit', () => {
 
   it('Should print the correct day number', () => {
     const wrapper = mount(GeoCalendarDayGridDayUnit, {
-      propsData: {
+      props: {
         currentDate: today,
         day: addDays(today, 5)
       }
@@ -36,7 +36,7 @@ describe('GeoCalendarDayGridDayUnit', () => {
 
   it('Emits event when clicking on one day', () => {
     const wrapper = mount(GeoCalendarDayGridDayUnit, {
-      propsData: {
+      props: {
         currentDate: today,
         day: today
       }
@@ -47,7 +47,7 @@ describe('GeoCalendarDayGridDayUnit', () => {
 
   it('Emits event when hovering on day unit', () => {
     const wrapper = mount(GeoCalendarDayGridDayUnit, {
-      propsData: {
+      props: {
         currentDate: today,
         day: today
       }
@@ -58,17 +58,17 @@ describe('GeoCalendarDayGridDayUnit', () => {
 
   describe('Test computed properties', () => {
     const wrapper = mount(GeoCalendarDayGridDayUnit, {
-      propsData: {
+      props: {
         currentDate: today,
         day: today
       }
     })
 
-    it('isToday', () => {
+  it('isToday', async () => {
       expect(wrapper.find('.geo-calendar-grid__date-picker-unit--today').exists()).toBe(true)
       expect(wrapper.vm.isToday).toBe(true)
 
-      wrapper.setProps({
+      await wrapper.setProps({
         day: addDays(today, 1)
       })
 
@@ -76,59 +76,59 @@ describe('GeoCalendarDayGridDayUnit', () => {
       expect(wrapper.vm.isToday).toBe(false)
     })
 
-    it('isDayOutOfBoundaries', () => {
-      wrapper.setProps({
+  it('isDayOutOfBoundaries', async () => {
+      await wrapper.setProps({
         day: subMonths(today, 1)
       })
       expect(wrapper.find('.geo-calendar-grid__date-picker-unit--out-of-boundaries').exists()).toBe(true)
       expect(wrapper.vm.isDayOutOfBoundaries).toBe(true)
 
-      wrapper.setProps({
+      await wrapper.setProps({
         day: today
       })
       expect(wrapper.find('.geo-calendar-grid__date-picker-unit--out-of-boundaries').exists()).toBe(false)
       expect(wrapper.vm.isDayOutOfBoundaries).toBe(false)
     })
 
-    it('isDayUnavailable', () => {
-      wrapper.setProps({
+  it('isDayUnavailable', async () => {
+      await wrapper.setProps({
         earliestDate: subDays(today, 2),
         day: subDays(today, 3)
       })
       expect(wrapper.find('.geo-calendar-grid__date-picker-unit--unavailable').exists()).toBe(true)
       expect(wrapper.vm.isDayUnavailable).toBe(true)
 
-      wrapper.setProps({
+      await wrapper.setProps({
         day: today
       })
       expect(wrapper.find('.geo-calendar-grid__date-picker-unit--unavailable').exists()).toBe(false)
       expect(wrapper.vm.isDayUnavailable).toBe(false)
     })
 
-    it('isSelectedDay', () => {
-      wrapper.setProps({
+  it('isSelectedDay', async () => {
+      await wrapper.setProps({
         day: subDays(today, 4),
         selectedFromDay: subDays(today, 4)
       })
       expect(wrapper.find('.geo-calendar-grid__date-picker-unit--selected').exists()).toBe(true)
       expect(wrapper.vm.isSelectedDay).toBe(true)
 
-      wrapper.setProps({
+      await wrapper.setProps({
         day: today,
         selectedToDay: today
       })
       expect(wrapper.find('.geo-calendar-grid__date-picker-unit--selected').exists()).toBe(true)
       expect(wrapper.vm.isSelectedDay).toBe(true)
 
-      wrapper.setProps({
+      await wrapper.setProps({
         day: subDays(today, 1)
       })
       expect(wrapper.find('.geo-calendar-grid__date-picker-unit--selected').exists()).toBe(false)
       expect(wrapper.vm.isSelectedDay).toBe(false)
     })
 
-    it('selectedFromDay', () => {
-      wrapper.setProps({
+    it('selectedFromDay', async () => {
+      await wrapper.setProps({
         day: today,
         selectedFromDay: today
       })
@@ -136,8 +136,8 @@ describe('GeoCalendarDayGridDayUnit', () => {
       expect(isEqual(wrapper.vm.day, wrapper.vm.selectedFromDay)).toBe(true)
     })
 
-    it('selectedToDay', () => {
-      wrapper.setProps({
+    it('selectedToDay', async () => {
+      await wrapper.setProps({
         day: addDays(today, 4),
         selectedFromDay: null,
         selectedToDay: addDays(today, 4)
@@ -146,8 +146,8 @@ describe('GeoCalendarDayGridDayUnit', () => {
       expect(isEqual(wrapper.vm.day, wrapper.vm.selectedToDay)).toBe(true)
     })
 
-    it('isDayWithinRanges', () => {
-      wrapper.setProps({
+    it('isDayWithinRanges', async () => {
+      await wrapper.setProps({
         day: today,
         selectedFromDay: subDays(today, 10),
         selectedToDay: addDays(today, 10)
@@ -155,7 +155,7 @@ describe('GeoCalendarDayGridDayUnit', () => {
       expect(wrapper.find('.geo-calendar-grid__date-picker-unit--within-range').exists()).toBe(true)
       expect(wrapper.vm.isDayWithinRanges).toBe(true)
 
-      wrapper.setProps({
+      await wrapper.setProps({
         selectedFromDay: addDays(today, 10),
         selectedToDay: addDays(today, 20)
       })
