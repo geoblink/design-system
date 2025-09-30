@@ -35,7 +35,7 @@ of this function should be valid as input for `svg` polygon data.
 
 ::: warning NOTE
 `idHorizontalAxis` and `idVerticalAxis` must be IDs of registered axes.
-See [Axes](./#/Elements/Charts?id=axes) for more info.
+See [Axes](#chart-axes) for more info.
 :::
 
 ### Optional properties

@@ -23,10 +23,15 @@
 
 .c-design-tokens-list-color-token__description {
   padding: $space-base $space-small;
+
+  .c-design-tokens-list-color-token__name,
+  .c-design-tokens-list-color-token__code,
+  .c-design-tokens-list-color-token__variable {
+    @include reset;
+  }
 }
 
 .c-design-tokens-list-color-token__name {
-  @include reset;
   @include font($heading);
 
   text-transform: capitalize;
@@ -35,7 +40,6 @@
 
 .c-design-tokens-list-color-token__code,
 .c-design-tokens-list-color-token__variable {
-  @include reset;
   @include font($label-optional);
 }
 

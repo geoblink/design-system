@@ -5,12 +5,7 @@ import GeoCalendarDayGrid from '@/elements/GeoCalendar/GeoCalendarGrid/GeoCalend
 import GeoCalendarMonthGrid from '@/elements/GeoCalendar/GeoCalendarGrid/GeoCalendarMonthGrid.vue'
 import GeoCalendarYearGrid from '@/elements/GeoCalendar/GeoCalendarGrid/GeoCalendarYearGrid.vue'
 import GeoCalendarGridMixin from '@/elements/GeoCalendar/GeoCalendarGrid/GeoCalendarGrid.mixin'
-import getMonth from 'date-fns/getMonth'
-import getYear from 'date-fns/getYear'
-import startOfWeek from 'date-fns/startOfWeek'
-import startOfDay from 'date-fns/startOfDay'
-import endOfWeek from 'date-fns/endOfWeek'
-import addDays from 'date-fns/addDays'
+import { getMonth, getYear, startOfWeek, startOfDay, endOfWeek, addDays } from 'date-fns'
 
 describe('Mixins', () => {
   describe('GeoCalendarGrid.mixin', () => {

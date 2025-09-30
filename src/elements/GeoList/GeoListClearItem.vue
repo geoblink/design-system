@@ -8,7 +8,7 @@
 <script>
 /**
  * `GeoListClearItem` is a component designed to be used as a non-interactible,
- * read only row-like item next to [GeoListItem](/#/Elements/GeoListItem).
+ * read only row-like item next to [GeoListItem](/components/GeoList/GeoListItem).
  *
  * It's specially designed to be used to display special messages like
  * _No results found_.

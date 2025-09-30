@@ -23,16 +23,16 @@
         </code>
       </td>
       <td>
-        <code title="Property value type">{{ type }}</code>
+        <code title="Property value type">{{ markdownType }}</code>
       </td>
       <td>
         <template v-if="defaultValue">
           <pre
             v-if="isDefaultValueAFunction"
             title="Default value is the result of running this function"
-          ><code>{{ defaultValue }}</code></pre>
+          ><code>{{ markdownDefaultValue }}</code></pre>
           <code v-else>
-            {{ defaultValue }}
+            {{ markdownDefaultValue }}
           </code>
         </template>
       </td>
@@ -71,6 +71,7 @@
 </template>
 
 <script>
+import _ from 'lodash'
 import { AllMarkdownParserFeatures } from '@/elements/GeoMarkdownContent/GeoMarkdownParser'
 
 export default {
@@ -117,6 +118,14 @@ export default {
     }
   },
   computed: {
+    markdownType () {
+      return unescapeJSONString(this.type)
+    },
+
+    markdownDefaultValue () {
+      return unescapeJSONString(this.defaultValue)
+    },
+
     markdownDescription () {
       return unescapeJSONString(this.description)
     },
@@ -137,6 +146,8 @@ export default {
 }
 
 function unescapeJSONString (s) {
+  if (_.isNil(s)) return ''
+
   return s
     .replace(/&#39;/gi, `'`)
     .replace(/&#96;/gi, '`')

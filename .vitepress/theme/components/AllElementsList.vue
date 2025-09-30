@@ -22,7 +22,7 @@
 <script>
 import _ from 'lodash'
 
-import { components } from '../../src/system'
+import { components } from '../../../src/system'
 
 export default {
   name: 'AllElementsList',

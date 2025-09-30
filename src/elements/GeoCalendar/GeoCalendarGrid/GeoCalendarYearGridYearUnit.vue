@@ -25,8 +25,7 @@
 import GeoCalendarGridMixin from './GeoCalendarGrid.mixin'
 import GeoCalendarDateIndicatorsMixin from '../GeoCalendarDateIndicators.mixin'
 import { isBefore, isAfter } from '../GeoCalendar.utils'
-import getYear from 'date-fns/getYear'
-import addYears from 'date-fns/addYears'
+import { getYear, addYears } from 'date-fns'
 
 export default {
   name: 'GeoCalendarYearGridYearUnit',

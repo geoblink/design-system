@@ -1,0 +1,9 @@
+.c-badge {
+  @include font($body-small);
+  border-radius: $border-radius-default;
+  color: $color-white;
+  display: inline-block;
+  height: $space-base;
+  padding: 0 $space-x-small;
+  vertical-align: top;
+}

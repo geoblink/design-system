@@ -1,5 +1,5 @@
 ---
-to: .vuepress/components/constants/<%= h.withoutExtension(path) %>Constants.vue
+to: .vitepress/theme/components/constants/<%= h.withoutExtension(path) %>Constants.vue
 ---
 
 <template>
@@ -14,23 +14,17 @@ to: .vuepress/components/constants/<%= h.withoutExtension(path) %>Constants.vue
   />
 </template>
 
-<script>
+<script setup>
+import { computed } from 'vue'
 import _ from 'lodash'
 import { AllMarkdownParserFeatures } from '@/elements/GeoMarkdownContent/GeoMarkdownParser'
 import <%= h.basename(h.withoutExtension(path)) %> from '@/elements/<%= (path) %>'
 
-export default {
-  name: '<%= h.basename(h.withoutExtension(path)) %>Constants',
-  computed: {
-    constants () {
-      return _.map(<%= h.basename(h.withoutExtension(path)) %>.constants, function (definition, name) {
-        return { name, definition }
-      })
-    },
+const constants = computed(() => {
+  return _.map(<%= h.basename(h.withoutExtension(path)) %>.constants, function (definition, name) {
+    return { name, definition }
+  })
+})
 
-    features () {
-      return AllMarkdownParserFeatures
-    }
-  }
-}
+const features = computed(() => AllMarkdownParserFeatures)
 </script>

@@ -9,7 +9,7 @@ const Listr = require('listr')
 
 const pathToRootFolder = path.resolve(__dirname, '..')
 const pathToResultingMarkdownDocumentation = path.resolve(pathToRootFolder, './docs/components')
-const pathToResultingConstantsComponents = path.resolve(pathToRootFolder, '.vuepress/components/constants')
+const pathToResultingConstantsComponents = path.resolve(pathToRootFolder, '.vitepress/components/constants')
 const pathToVueComponents = path.resolve(pathToRootFolder, './src/elements')
 
 /**
@@ -70,7 +70,7 @@ function generateDocumentationOfComponent (componentRelativePath) {
   }
 
   async function task () {
-    const documentation = vueDocs.parse(path.resolve(pathToVueComponents, componentRelativePath), {
+    const documentation = await vueDocs.parse(path.resolve(pathToVueComponents, componentRelativePath), {
       addScriptHandlers: [
         extractRelease,
         extractStatus

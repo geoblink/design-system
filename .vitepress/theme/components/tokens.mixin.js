@@ -1,4 +1,5 @@
-import * as tokens from './../public/tokens/tokens.raw.json'
+import * as tokens from '../../docs/tokens/tokens.raw.json'
+import _ from 'lodash'
 
 export default {
   computed: {

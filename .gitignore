@@ -18,7 +18,6 @@ yarn-error.log*
 *.sln
 
 # Ignore compiled tokens
-.vuepress/public/tokens/
 src/assets/tokens/
 
 # Ignore webpack stats
@@ -26,5 +25,17 @@ webpack.stats.*
 
 # Ignore automatically generated Markdown files
 docs/components
+
+# Explicitly include docs/public, otherwise it's
+# ignored due to the rules below
+!.vitepress/docs/public/
 # Ignore automatically generated Vue components
-.vuepress/components/constants
+.vitepress/cache/
+.vitepress/docs/components/
+.vitepress/docs/tokens/
+.vitepress/docs/guides/
+.vitepress/docs/design-tokens.md
+.vitepress/docs/elements.md
+.vitepress/docs/changelog.md
+.vitepress/docs/index.md
+.vitepress/theme/components/constants/

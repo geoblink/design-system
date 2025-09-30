@@ -1,6 +1,7 @@
 /// <reference path="../GeoChart.d.ts" />
 
 import _ from 'lodash'
+import * as d3 from 'd3'
 
 import * as axisUtils from '../GeoChartUtils/axisUtils'
 import * as barsUtils from '../GeoChartUtils/barsUtils'
@@ -8,14 +9,6 @@ import * as dimensionUtils from '../GeoChartUtils/dimensionUtils'
 
 import '../GeoChartAxis/GeoChartAxis'
 import { setupTooltipEventListeners } from '../GeoChartUtils/GeoChartTooltip'
-
-const d3 = (function () {
-  try {
-    return require('d3')
-  } catch (error) {
-    return null
-  }
-})()
 
 /**
  * @template GElement

@@ -1,17 +1,10 @@
 /// <reference path="../GeoChart.d.ts" />
 
 import _ from 'lodash'
+import * as d3 from 'd3'
 
 import * as axisUtils from '../GeoChartUtils/axisUtils'
 import * as dimensionUtils from '../GeoChartUtils/dimensionUtils'
-
-const d3 = (function () {
-  try {
-    return require('d3')
-  } catch (error) {
-    return null
-  }
-})()
 
 /**
  * @template GElement

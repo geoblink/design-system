@@ -74,8 +74,7 @@
 <script>
 import _ from 'lodash'
 import TokensMixin from './tokens.mixin'
-
-const copy = require('copy-to-clipboard')
+import copy from 'copy-to-clipboard'
 
 export default {
   name: 'DesignTokensListFonts',

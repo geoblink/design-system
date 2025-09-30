@@ -1,17 +1,10 @@
 /// <reference types="d3" />
 
 import _ from 'lodash'
+import * as d3 from 'd3'
 import { setupTooltipEventListeners } from '../GeoChartUtils/GeoChartTooltip'
 import { setupTextDescriptions } from '../GeoChartUtils/GeoChartTextDescription'
 import * as textDescriptionUtils from '../GeoChartUtils/textDescriptionUtils'
-
-const d3 = (function () {
-  try {
-    return require('d3')
-  } catch (error) {
-    return null
-  }
-})()
 
 /**
  * @template GElement

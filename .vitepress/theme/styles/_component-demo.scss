@@ -50,6 +50,12 @@
       border-radius: 0;
       margin: 0 -1px; // This is to avoid orange border around code editor
     }
+
+    .prism-editor-wrapper {
+      background-color: rgb(34,34,34);
+      color: $color-white;
+      padding: $space-small $space-base;
+    }
   }
 
   .c-component-demo__pre-code-actions,

@@ -80,6 +80,10 @@ module.exports = {
         .replace(/&#96;/gi, '`')
         .replace(/&#62;/gi, '>')
         .replace(/\\n/gi, '\\\\n')
+        .replace(/&amp;/gi, '&')
+        .replace(/&lt;/gi, '<')
+        .replace(/&gt;/gi, '>')
+        .replace(/&quot;/gi, '"')
     },
 
     /**
@@ -157,7 +161,14 @@ module.exports = {
           isDefaultValueAFunction: _.get(defaultValueMetadata, 'isFunction'),
           defaultValue: _.get(defaultValueMetadata, 'value'),
           required: !!prop.required,
-          description: prop.description
+          description: (prop.description || '')
+            .replace(/&#39;/gi, "'")
+            .replace(/&#96;/gi, '`')
+            .replace(/&#62;/gi, '>')
+            .replace(/&amp;/gi, '&')
+            .replace(/&lt;/gi, '<')
+            .replace(/&gt;/gi, '>')
+            .replace(/&quot;/gi, '"')
         }
       })
 
@@ -171,9 +182,9 @@ module.exports = {
     getComponentEventsJSON (jsonDocumentation) {
       const documentation = JSON.parse(jsonDocumentation)
 
-      const json = _.map(documentation.events, function (eventMetadata, eventName) {
+      const json = _.map(documentation.events, function (eventMetadata) {
         return {
-          name: eventName,
+          name: eventMetadata.name,
           types: _.get(eventMetadata.type, 'names'),
           description: eventMetadata.description
         }
@@ -189,9 +200,9 @@ module.exports = {
     getComponentSlotsJSON (jsonDocumentation) {
       const documentation = JSON.parse(jsonDocumentation)
 
-      const json = _.map(documentation.slots, function (slotMetadata, slotName) {
+      const json = _.map(documentation.slots, function (slotMetadata) {
         return {
-          name: slotName,
+          name: slotMetadata.name,
           description: slotMetadata.description
         }
       })
@@ -205,6 +216,105 @@ module.exports = {
      */
     renderFileContent (filePath) {
       return fs.readFileSync(filePath).toString()
+    },
+
+    /**
+     * Generates example files and documentation with ?raw imports
+     * @param {string} exampleMarkdownPath - Path to the examples markdown file
+     * @param {string} componentName - Component name for folder structure
+     * @param {string} existingContent - Existing content of the target file
+     * @returns {string} - Generated documentation with example imports
+     */
+    generateExamplesFromFile (exampleMarkdownPath, componentName, existingContent = '') {
+      const content = fs.readFileSync(exampleMarkdownPath).toString()
+      const fileName = exampleMarkdownPath.split('/').pop()
+      const fileNameParts = fileName.split('.')
+      const fileNameWithoutExtension = fileNameParts.slice(0, -1)
+      const exampleNamePrefix = fileNameWithoutExtension.join('.')
+      // Extract the actual component name from the path (e.g., "GeoSwitch" from "GeoSwitch/GeoSwitch.vue")
+      const actualComponentName = componentName.split('/')[0]
+      const examplesDir = `.vitepress/docs/components/${actualComponentName}/examples`
+      
+      // Create examples directory if it doesn't exist
+      if (!fs.existsSync(examplesDir)) {
+        fs.mkdirSync(examplesDir, { recursive: true })
+      }
+      
+      let exampleCounter = 0
+      let transformedContent = content
+      const imports = []
+      
+      // Transform jsx live blocks
+      transformedContent = transformedContent.replace(
+        /```jsx live\n([\s\S]*?)```/g,
+        (match, code) => {
+          exampleCounter++
+          const fileName = `${exampleNamePrefix}-${exampleCounter}.jsx`
+          const filePath = `${examplesDir}/${fileName}`
+          
+          // Write the example code to a separate file
+          fs.writeFileSync(filePath, code.trim())
+          
+          // Add to imports array
+          imports.push(`import example${exampleCounter}Code from './examples/${fileName}?raw'`)
+          
+          return `<live-code :code="example${exampleCounter}Code" />`
+        }
+      )
+      
+      // Transform vue live blocks
+      transformedContent = transformedContent.replace(
+        /```vue live\n([\s\S]*?)```/g,
+        (match, code) => {
+          exampleCounter++
+          const fileName = `${exampleNamePrefix}-${exampleCounter}.vue`
+          const filePath = `${examplesDir}/${fileName}`
+          
+          // Write the example code to a separate file
+          fs.writeFileSync(filePath, code.trim())
+          
+          // Add to imports array
+          const importVariableName = fileName.replace(/[\.-]/g, '')
+          imports.push(`import ${importVariableName}Code from './examples/${fileName}?raw'`)
+          
+          return `<live-code :code="${importVariableName}Code" />`
+        }
+      )
+      
+      // Generate the script setup section with imports
+      if (imports.length > 0) {
+        // Check if there's already a script setup tag in the existing content
+        const existingScriptMatch = existingContent.match(/<script\s+setup[^>]*>([\s\S]*?)<\/script>/i)
+        
+        if (existingScriptMatch) {
+          // Merge imports into existing script tag
+          const existingScriptContent = existingScriptMatch[1].trim()
+          const newScriptContent = existingScriptContent + '\n\n' + imports.join('\n')
+          
+          // Replace the script tag in the existing content
+          const updatedExistingContent = existingContent.replace(
+            /<script\s+setup[^>]*>[\s\S]*?<\/script>/i,
+            `<script setup>\n${newScriptContent}\n</script>`
+          )
+          
+          // Return the complete updated file content
+          return updatedExistingContent + '\n\n' + transformedContent
+        } else {
+          // Add new script setup section to the transformed content
+          const scriptSection = `
+            <script setup>
+            ${imports.join('\n')}
+            </script>
+          `
+          transformedContent = scriptSection + transformedContent
+          
+          // Return the complete file content
+          return existingContent + '\n\n' + transformedContent
+        }
+      }
+      
+      // If no imports, just append the transformed content to existing content
+      return existingContent + '\n\n' + transformedContent
     }
   }
 }

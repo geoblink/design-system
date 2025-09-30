@@ -11,6 +11,7 @@
 </template>
 
 <script>
+import _ from 'lodash'
 import { AllMarkdownParserFeatures } from '@/elements/GeoMarkdownContent/GeoMarkdownParser'
 
 export default {
@@ -37,6 +38,8 @@ export default {
 }
 
 function unescapeJSONString (s) {
+  if (_.isNil(s)) return ''
+
   return s
     .replace(/&#39;/gi, `'`)
     .replace(/&#96;/gi, '`')

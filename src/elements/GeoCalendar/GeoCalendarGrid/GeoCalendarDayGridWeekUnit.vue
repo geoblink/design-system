@@ -22,9 +22,7 @@
 </template>
 
 <script>
-import startOfWeek from 'date-fns/startOfWeek'
-import startOfDay from 'date-fns/startOfDay'
-import endOfWeek from 'date-fns/endOfWeek'
+import { startOfWeek, startOfDay, endOfWeek } from 'date-fns'
 import _ from 'lodash'
 import { GRANULARITY_IDS, isDayUnavailable } from '../GeoCalendar.utils'
 import GeoCalendarGranularityIdMixin from '../GeoCalendarGranularityId.mixin'

@@ -17,7 +17,7 @@ yarn docs:build:markdown
 Will generate a static Markdown file for each component.
 This file will include the component's documentation as well as its examples.
 
-A _constants_ component will be created in `.vuepress/components/constants` folder.
+A _constants_ component will be created in `.vitepress/components/constants` folder.
 This special component will render a table displaying all constants exported by the component.
 
 ### `docs:watch:markdown`
@@ -37,7 +37,7 @@ You'll probably want to run `docs:build:markdown` before since `docs:watch:markd
 yarn docs:dev
 ```
 
-Start [Vuepress](https://vuepress.vuejs.org/) and serves generated documentation.
+Start [Vitepress](https://vitepress.dev/) and serves generated documentation.
 
 Pages will reload after any static Markdown file or _constants_ component is modified but not after any component or example is modified so you'll probably want to run `docs:watch:markdown` while you are running `docs:dev`.
 

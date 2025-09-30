@@ -8,9 +8,8 @@ import GeoDropdown from '@/elements/GeoDropdown/GeoDropdown.vue'
 import GeoScrollableContainer from '@/elements/GeoScrollableContainer/GeoScrollableContainer.vue'
 import GeoBorderedBox from '@/elements/GeoBorderedBox/GeoBorderedBox.vue'
 import { YEAR_GRID_CONSTANTS } from '@/elements/GeoCalendar/GeoCalendar.utils.js'
-import getYear from 'date-fns/getYear'
-import subYears from 'date-fns/subYears'
-import addYears from 'date-fns/addYears'
+import { getYear, subYears, addYears } from 'date-fns'
+
 import { FontAwesomeIconMock } from 'test/unit/utils/FontAwesomeIconMock'
 
 const today = new Date(2019, 6, 30) // Fixed date to avoid future errors with random dates
