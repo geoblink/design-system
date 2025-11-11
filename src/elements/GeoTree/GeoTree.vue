@@ -37,7 +37,7 @@
         >
           <geo-tree-item
             v-for="category in visibleItems"
-            :key="`${category[keyForId]}-${nSelectedItems}`"
+            :key="category[keyForId]"
             :class="dragClassToIgnore"
             :category="category"
             :key-for-id="keyForId"
