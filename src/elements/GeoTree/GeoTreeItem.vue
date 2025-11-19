@@ -84,7 +84,7 @@
       >
         <geo-tree-item
           v-for="subcategory in visibleItems"
-          :key="subcategory[keyForId]"
+          :key="`${subcategory[keyForId]}-${searchQuery}`"
           :class="dragClassToIgnore"
           :data-test="`subcategory-${subcategory[keyForId]}`"
           :category="subcategory"
@@ -102,6 +102,7 @@
           :is-item-select-disabled="isItemSelectDisabled"
           :has-load-more-button="hasLoadMoreButton"
           :page-size="pageSize"
+          :search-query="searchQuery"
           @check-item="handleCheckChildItem"
           @check-folder="handleCheckChildFolder"
           @click="handleClick"
@@ -297,6 +298,14 @@ export default {
       type: Number,
       required: false,
       default: 20
+    },
+    /**
+     * Current search query for filtering categories
+     */
+    searchQuery: {
+      type: String,
+      required: false,
+      default: ''
     }
   },
   data () {

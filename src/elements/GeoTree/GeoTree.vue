@@ -37,7 +37,7 @@
         >
           <geo-tree-item
             v-for="category in visibleItems"
-            :key="`${category[keyForId]}-${nSelectedItems}`"
+            :key="`${category[keyForId]}-${searchQuery}`"
             :class="dragClassToIgnore"
             :category="category"
             :key-for-id="keyForId"
@@ -54,6 +54,7 @@
             :is-item-select-disabled="hasMaxItemsSelected"
             :has-load-more-button="hasLoadMoreButton"
             :page-size="pageSize"
+            :search-query="searchQuery"
             @check-item="handleCheckItem"
             @check-folder="handleCheckFolder"
             @toggleExpand="handleToggleExpand"

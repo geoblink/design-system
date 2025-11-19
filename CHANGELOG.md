@@ -1,4 +1,8 @@
 # Changelog
+## 37.1.2
+Fix:
+- `GeoTree`: Fix issues with reactivity when using pagination.
+
 ## 37.1.1
 Fix:
 - `GeoSelect`: Fix issues when filtering everything on geo select with groups when using `searchable` mode with pagination.
