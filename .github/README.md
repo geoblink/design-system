@@ -80,4 +80,15 @@ export default {
 
 ## Documentation
 
-Documentation for latest stable version is available at [https://design-system.geoblink.com/](https://design-system.geoblink.com/).
+Component documentation lives in the [`docs/`](https://github.com/geoblink/design-system/tree/master/docs)
+directory of this repository. It is generated from the component sources, so it always matches the
+code it ships with.
+
+To browse it as a searchable site, run the documentation server locally:
+
+```sh
+yarn install
+yarn docs:dev
+```
+
+Then open [http://localhost:8080/](http://localhost:8080/).
