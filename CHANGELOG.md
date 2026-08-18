@@ -1,5 +1,5 @@
 # Changelog
-## Unreleased
+## 37.1.3
 Changed:
 - Developing this package now requires nodejs 18 or newer. We use vuepress 1.X, which uses webpack 4, whose default `md4` hashing is unavailable from nodejs 17 onwards because it ships OpenSSL 3. The build scripts therefore pass `--openssl-legacy-provider`, and that flag was only introduced in nodejs 17, which is what sets the floor. Before this change the build failed on any nodejs newer than 16.
 - Users of this package are unaffected: `engines.node` still allows nodejs 12 and newer. The published package ships pre-built assets and never runs these scripts.
